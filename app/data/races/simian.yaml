@@ -1,0 +1,59 @@
+name: Simian
+alignment: independent
+description: >-
+  <p>Simians live in the rain forests where neither Orcs nor elves or even Sylvans normally venture. Until recently, their only contact has been with the Beastfolks.</p>
+  <p>During the rainy season, the Simians take shelter in the thickets and hunker down behind strong barricades to keep the rain and unwanted visitors away.</p>
+home_land_type: forest
+playable: 1
+
+attacking: 3
+exploring : 3
+converting: 2
+
+perks:
+  spy_strength: 10
+  wizard_strength: -10
+  construction_cost: -10
+  extra_barren_max_population: 15
+  cannot_train_archmages: 1
+  invest_bonus: -10
+  lumber_improvement_points: 
+units:
+  - name: Chimpanzee
+    cost:
+      platinum: 200
+      ore: 0
+    power:
+      offense: 3
+      defense: 0
+    perks:
+      fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
+  - name: Bonobo
+    cost:
+      platinum: 200
+      ore: 0
+    power:
+      offense: 0
+      defense: 3
+    perks:
+      fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
+  - name: Orangutan
+    cost:
+      platinum: 1100
+      ore: 0
+    power:
+      offense: 4
+      defense: 7
+    perks:
+      fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
+      fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
+  - name: Gorilla
+    cost:
+      platinum: 1100
+      ore: 0
+    power:
+      offense: 7
+      defense: 4
+    perks:
+      fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
+      fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
