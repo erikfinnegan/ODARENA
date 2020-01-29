@@ -245,6 +245,7 @@ class MilitaryCalculator
         Dominion $target = null,
         float $landRatio = null,
         array $units = null,
+        float $multiplierReduction = 0,
         bool $ignoreDraftees = false,
         bool $isAmbush = false
     ): float
@@ -374,6 +375,9 @@ class MilitaryCalculator
         {
           $multiplier += 0.2 * ($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion));
         }
+
+        // Multiplier reduction when we want to factor in temples from another dominion
+        $multiplier = max(($multiplier - $multiplierReduction), 0);
 
         return (1 + $multiplier);
     }
