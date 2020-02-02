@@ -231,7 +231,7 @@ class InvadeActionService
             #{
             # No in-realm invasions
               if ($dominion->realm->id === $target->realm->id) {
-                  throw new GameException('You may not invade other dominions of the Commonwealth.');
+                  throw new GameException('You may not invade other dominions of the same realm.');
               }
             #}
 
@@ -250,7 +250,7 @@ class InvadeActionService
             }
 
             if (!$this->allUnitsHaveOP($dominion, $units)) {
-                throw new GameException('You cannot send units that have no OP');
+                throw new GameException('You cannot send units that have no offensive power');
             }
 
             if (!$this->hasEnoughUnitsAtHome($dominion, $units)) {
@@ -262,7 +262,7 @@ class InvadeActionService
             }
 
             if ($dominion->morale < static::MIN_MORALE) {
-                throw new GameException('You do not have enough morale to invade others');
+                throw new GameException('You do not have enough morale to invade.');
             }
 
             if (!$this->passes33PercentRule($dominion, $target, $units)) {
@@ -351,6 +351,9 @@ class InvadeActionService
             $this->handleResearchPoints($dominion, $target, $units);
 
             $this->handleInvasionSpells($dominion, $target);
+            $this->handleSoulCollection($dominion, $target);
+            $this->handleChampionCreation($dominion, $target, $units);
+            $this->handleUnitDiesInto($dominion, $target, $units);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -1313,39 +1316,6 @@ class InvadeActionService
                 ]
             );
         }
-        // Norse champion
-        if ($dominion->race->name == 'Norse')
-        {
-          if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75)
-          {
-            $champions = $units['attackerUnitsDiedInBattleSlot1'];
-            $this->invasionResult['attacker']['champion']['champions'] = $champions;
-
-            $this->queueService->queueResources(
-                'invasion',
-                $dominion,
-                [
-                    'resource_champion' => $champions,
-                ]
-            );
-
-          }
-        }
-
-        // Demon soul collection (only from non-Demon races)
-        if ($dominion->race->name == 'Demon' and $target->race->name !== 'Demon')
-        {
-          $souls = (int)floor($totalDefensiveCasualties);
-          $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
-
-          $this->queueService->queueResources(
-              'invasion',
-              $dominion,
-              [
-                  'resource_soul' => $souls,
-              ]
-          );
-        }
 
     }
 
@@ -1652,11 +1622,96 @@ class InvadeActionService
           # If all checks are True, cast the spell.
           if($spellTypeCheck == True and $invasionMustBeSuccessfulCheck == True and $opDpRatioCheck == True)
           {
-            $this->spellActionService->castSpell($defender, $attackerSpell['key'], $attacker, $isInvasionSpell);
+            $this->spellActionService->castSpell($defender, $defenderSpell['key'], $attacker, $isInvasionSpell);
           }
 
         }
 
+    }
+
+    /**
+     * Handles the collection of souls for Demons.
+     *
+     * @param Dominion $attacker
+     * @param Dominion $defender
+     */
+    protected function handleSoulCollection(Dominion $attacker, Dominion $defender): void
+    {
+        $souls = 0;
+        if($attacker->race->name == 'Demon' or $defender->race->name == 'Demon')
+        {
+          # Demon attacking non-Demon
+          if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
+          {
+            foreach($this->invasionResult['defender']['unitsLost'] as $casualties)
+            {
+              $souls += $casualties;
+            }
+            $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
+            $this->queueService->queueResources(
+                'invasion',
+                $attacker,
+                [
+                    'resource_soul' => $souls,
+                ]
+            );
+          }
+          # Demon defending against non-Demon
+          elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
+          {
+            foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
+            {
+              $souls += $casualties;
+            }
+            $this->invasionResult['defender']['soul_collection']['souls'] = $souls;
+            $defender->resource_soul += $souls;
+          }
+        }
+    }
+
+    /**
+     * Handles the creation of champions for Norse.
+     *
+     * @param Dominion $attacker
+     * @param Dominion $defender
+     */
+    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units): void
+    {
+        $champions = 0;
+        if ($attacker->race->name == 'Norse')
+        {
+          if($this->rangeCalculator->getDominionRange($attacker, $defender) >= 75)
+          {
+            $champions = $units['attackerUnitsDiedInBattleSlot1'];
+            $this->invasionResult['attacker']['champion']['champions'] = $champions;
+
+            $this->queueService->queueResources(
+                'invasion',
+                $attacker,
+                [
+                    'resource_champion' => $champions,
+                ]
+            );
+
+          }
+        }
+    }
+
+    /**
+     * Handles the dies into unit perk.
+     *
+     * @param Dominion $attacker
+     * @param Dominion $defender
+     */
+
+    protected function handleUnitDiesInto(Dominion $attacker, Dominion $defender, array $units): void
+    {
+
+        foreach($this->invasionResult['defender']['unitsLost'] as $casualties)
+        {
+          # Do nothing.
+          $casualties = 1;
+        }
     }
 
     /**
@@ -1934,4 +1989,5 @@ class InvadeActionService
 
         return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
     }
+
 }
