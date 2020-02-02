@@ -359,6 +359,8 @@ class ProductionCalculator
             $multiplier *= 1.10;
         }
 
+        $multiplier = max(-1, $multiplier);
+
         // Unit Perk: food_consumption
         $extraFoodEaten = 0;
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
