@@ -354,7 +354,7 @@ class ProductionCalculator
         $multiplier = $dominion->race->getPerkMultiplier('food_consumption');
 
         // Invasion Spell: Unhealing Wounds (+15% consumption)
-        if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
+        if ($multiplier !== -1 and $this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
         {
             $multiplier += 0.10;
         }
@@ -374,7 +374,7 @@ class ProductionCalculator
         $consumption += $extraFoodEaten;
 
         # Add multiplier.
-        $consumption *= (1+ $multiplier);
+        $consumption *= (1 + $multiplier);
 
         return $consumption;
     }
