@@ -664,7 +664,7 @@ class TickService
         $maxStorage['lumber'] = max($acres * 100, $maxStorageTicks * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production')));
         $maxStorage['ore'] = max($acres * 100, $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production')));
         $maxStorage['gems'] = max($acres * 50, $maxStorageTicks * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production')));
-        if($domiinon->race->name == 'Myconid')
+        if($dominion->race->name == 'Myconid')
         {
           $maxStorage['gems'] += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
         }
