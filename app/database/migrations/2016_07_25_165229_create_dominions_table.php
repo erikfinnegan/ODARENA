@@ -44,6 +44,7 @@ class CreateDominionsTable extends Migration
             $table->integer('resource_boats')->unsigned();
             $table->integer('resource_champion')->unsigned();
             $table->integer('resource_soul')->unsigned();
+            $table->integer('resource_wild_yeti')->unsigned();
 
             #$table->integer('improvement_science')->unsigned();
             $table->integer('improvement_markets')->unsigned();
