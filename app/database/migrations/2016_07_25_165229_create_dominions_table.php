@@ -106,6 +106,8 @@ class CreateDominionsTable extends Migration
             $table->integer('building_ziggurat')->unsigned();
             $table->integer('building_mycelia')->unsigned();
             $table->integer('building_tissue')->unsigned();
+            
+            $table->integer('npc_modifier')->unsigned();
 
             $table->timestamps();
 
