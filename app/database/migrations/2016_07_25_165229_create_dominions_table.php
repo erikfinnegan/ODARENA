@@ -103,6 +103,10 @@ class CreateDominionsTable extends Migration
             $table->integer('building_barracks')->unsigned();
             $table->integer('building_dock')->unsigned();
 
+            $table->integer('building_ziggurat')->unsigned();
+            $table->integer('building_mycelia')->unsigned();
+            $table->integer('building_tissue')->unsigned();
+
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
