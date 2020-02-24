@@ -717,7 +717,7 @@ class SpellActionService
                     // Cap the damage multiplier at -1
                     $damageMultiplier = max(-1, $damageMultiplier);
 
-                    $damage = $damage * (1-$damageMultiplier);
+                    $damage = $damage * (1 + $damageMultiplier);
 
                     $totalDamage += round($damage);
                     $target->{$attr} -= round($damage);
