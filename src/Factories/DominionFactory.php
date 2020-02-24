@@ -397,7 +397,7 @@ class DominionFactory
             'building_ziggurat' => $startingBuildings['ziggurat'],
             'building_tissue' => $startingBuildings['tissue'],
             'building_mycelia' => $startingBuildings['mycelia'],
-            'building_tunnels' => $startingBuildings['tunnels'],
+            #'building_tunnels' => $startingBuildings['tunnels'],
 
             'npc_modifier' => $startingResources['npc_modifier'],
 
