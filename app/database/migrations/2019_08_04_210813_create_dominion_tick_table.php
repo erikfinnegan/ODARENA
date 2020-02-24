@@ -86,6 +86,7 @@ class CreateDominionTickTable extends Migration
             $table->text('starvation_casualties')->nullable();
             $table->text('pestilence_units')->nullable();
             $table->integer('protection_ticks')->default(0);
+            $table->integer('peasants_sacrificed')->default(0);
 
             $table->timestamp('updated_at')->nullable();
         });
