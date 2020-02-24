@@ -186,7 +186,7 @@ class TickService
                         'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
-                        'dominions.building_tunnels' => DB::raw('dominions.building_tunnels + dominion_tick.building_tunnels'),
+                        #'dominions.building_tunnels' => DB::raw('dominions.building_tunnels + dominion_tick.building_tunnels'),
 
                         'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
                         #'dominions.stat_total_platinum_production' => 0,
