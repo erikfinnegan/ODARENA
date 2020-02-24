@@ -79,7 +79,7 @@ class TickActionService
                 DB::table('info_ops')->where('source_dominion_id', '=', $dominion->id)->delete();
                 DB::table('info_ops')->where('target_dominion_id', '=', $dominion->id)->delete();
 
-                DB::table('dominions')->where('id', '=', 100)->delete();
+                DB::table('dominions')->where('id', '=', $dominion->id)->delete();
 
                 throw new GameException('Your dominion has been deleted.');
             }
