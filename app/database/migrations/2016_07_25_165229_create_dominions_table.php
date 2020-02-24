@@ -62,7 +62,7 @@ class CreateDominionsTable extends Migration
             $table->integer('improvement_forestry')->unsigned()->default(0);
             $table->integer('improvement_refinery')->unsigned()->default(0);
             $table->integer('improvement_granaries')->unsigned()->default(0);
-            $table->integer('improvement_tissue')->unsigned();->default(0)
+            $table->integer('improvement_tissue')->unsigned()->default(0);
 
             $table->integer('military_draftees')->unsigned();
             $table->integer('military_unit1')->unsigned();
