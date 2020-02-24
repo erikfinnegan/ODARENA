@@ -287,10 +287,10 @@
                       <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
                       @csrf
                       <button type="submit"
-                              class="btn btn-info"
+                              class="btn btn-danger"
                               {{ $selectedDominion->isLocked() ? 'disabled' : null }}
                               id="tick-button">
-                          <i class="ra ra-shield"></i>
+                          <i class="ra ra-cracked-shield"></i>
                           Destroy Dominion
                       </button>
                     </form>
