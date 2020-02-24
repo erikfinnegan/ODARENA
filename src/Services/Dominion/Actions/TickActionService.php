@@ -52,7 +52,7 @@ class TickActionService
     {
         $this->guardLockedDominion($dominion);
 
-        DB::transaction(function () use ($dominion) {
+        #DB::transaction(function () use ($dominion) {
             // Checks
             if($dominion->user_id !== Auth::user()->id)
             {
@@ -84,7 +84,7 @@ class TickActionService
                 throw new GameException('Your dominion has been deleted.');
             }
 
-        });
+        #});
 
         # Run the tick.
         $this->tickService->tickManually($dominion);
