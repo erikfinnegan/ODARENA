@@ -884,7 +884,8 @@ class EspionageActionService
             throw new GameException("Your spy force is too weak to cast {$operationInfo['name']}. Please train some more spies.");
         }
 
-        if ($targetSpa !== 0.0) {
+        if ($targetSpa !== 0.0)
+        {
             $successRate = $this->opsHelper->operationSuccessChance(
                 $selfSpa,
                 $targetSpa,
@@ -925,7 +926,7 @@ class EspionageActionService
                         $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
                         $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
                       }
-                      
+
                         if ($unitKilled > 0) {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
@@ -967,27 +968,23 @@ class EspionageActionService
         $baseDamage = (isset($operationInfo['percentage']) ? $operationInfo['percentage'] : 1) / 100;
 
         # Calculate ratio differential.
-        $baseDamageMultiplier = (1 + ($selfSpa - $targetSpa) / 10);
-
+        $baseDamageMultiplier = $this->getOpBaseDamageMultiplier($dominion, $target);
         $baseDamage *= $baseDamageMultiplier;
 
         if (isset($operationInfo['decreases']))
         {
-            foreach ($operationInfo['decreases'] as $attr) {
-                $damage = $target->{$attr} * $baseDamage;
+            foreach ($operationInfo['decreases'] as $attr)
+            {
 
+                $damageReduction = 0;
                 // Damage reduction from Docks / Harbor
                 if ($attr == 'resource_boats')
                 {
-                    $boatsProtected = $this->militaryCalculator->getBoatsProtected($target);
-                    $damage = ($target->{$attr} - $boatsProtected) * $baseDamage;
+                    $damageReduction -= $boatsProtected $this->militaryCalculator->getBoatsProtected($target);
                 }
 
-                // Check for immortal wizards
-                if ($dominion->race->getPerkValue('immortal_wizards') != 0 && $attr == 'military_wizards')
-                {
-                    $damage = 0;
-                }
+                $damageMultiplier = $this->getSpellDamageMultiplier($dominion, $target, $operationInfo, $attr);
+                $damage = ($target->{$attr} - $damageReduction) * $baseDamage;
 
                 $target->{$attr} -= round($damage);
                 $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
@@ -1090,4 +1087,52 @@ class EspionageActionService
       return $spiesKilledMultiplier;
 
     }
+
+
+    /**
+     * Returns the base damage multiplier, which is dependent on WPA difference.
+     *
+     * @param Dominion $caster
+     * @param Dominion $target
+     * @param string $spell
+     * @param string $attribute
+     * @return float|null
+     */
+    public function getOpBaseDamageMultiplier(Dominion $performer, Dominion $target): float
+    {
+        $casterWpa = $this->militaryCalculator->getSpyRatio($caster, 'offense');
+        $targetWpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
+        return ($casterWpa - $targetWpa) / 10;
+    }
+
+    /**
+     * Returns the damage done by a spell.
+     *
+     * @param Dominion $caster
+     * @param Dominion $target
+     * @param string $spell
+     * @param string $attribute
+     * @return float|null
+     */
+    public function getOpDamageMultiplier(Dominion $performer, Dominion $target, array $operationInfo, string $attribute): float
+    {
+
+        $damageMultiplier = 0;
+
+        // Check for immortal wizards
+        if($operationInfo['key'] == 'assassinate_wizards')
+        {
+            if ($target->race->getPerkValue('immortal_wizards') != 0)
+            {
+                $damageMultiplier = -1;
+            }
+        }
+
+        // Cap at -1.
+        $damageMultiplier = max(-1, $damageMultiplier);
+
+        return $damageMultiplier;
+
+    }
+
   }

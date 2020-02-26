@@ -899,14 +899,16 @@ class InvadeActionService
             $target->discounted_land += $buildingsToDestroy;
 
             // Destroy buildings
-            foreach ($buildingsLostForLandType as $buildingType => $buildingsLost) {
+            foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
+            {
                 $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
                 $resourceName = "building_{$buildingType}";
                 $target->$resourceName -= $builtBuildingsToDestroy;
 
                 $buildingsInQueueToRemove = $buildingsLost['buildingsInQueueToRemove'];
 
-                if ($buildingsInQueueToRemove !== 0) {
+                if ($buildingsInQueueToRemove !== 0)
+                {
                     $this->queueService->dequeueResource('construction', $target, $resourceName, $buildingsInQueueToRemove);
                 }
             }
@@ -915,7 +917,7 @@ class InvadeActionService
             $landGenerated = (int)round($landConquered * ($bonusLandRatio - 1));
             $landGained = ($landConquered + $landGenerated);
 
-            $landGeneratedMultiplier = 1;
+            $landGeneratedMultiplier = 0;
 
             // Add 20% to generated if Nomad spell Campaign is enabled.
             if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
@@ -926,7 +928,10 @@ class InvadeActionService
             // Improvement: Cartography
             $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
-            $landGenerated = $landGenerated * $landGeneratedMultiplier;
+            // Resource: XP
+            $landGeneratedMultiplier += $dominion->resource_tech / 1000000;
+
+            $landGenerated = $landGenerated * (1 + $landGeneratedMultiplier);
 
             # No generated acres for in-realm invasions.
             if($dominion->realm->id == $target->realm->id)
@@ -959,8 +964,9 @@ class InvadeActionService
 
         $queueData = $landGainedPerLandType;
 
-        // Only gain discounted acres at or above prestige range
-        if ($range >= 75) {
+        // Only gain discounted acres when hitting over 75%.
+        if ($range >= 75)
+        {
             $queueData += [
                 'discounted_land' => array_sum($landGainedPerLandType)
             ];
@@ -1909,7 +1915,8 @@ class InvadeActionService
                 continue;
             }
 
-            if ($unit->power_offense === 0.0) {
+            if ($unit->power_offense === 0.0 and $unit->getPerkValue('sendable_with_zero_op') != 1)
+            {
                 return false;
             }
         }

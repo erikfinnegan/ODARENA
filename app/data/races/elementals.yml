@@ -13,7 +13,8 @@ converting: 3
 
 perks:
   all_units_trained_in_9hrs: 1
-  max_population: 10
+  max_population: 15
+  extra_barren_housing: 25
   cannot_train_wizards: 1
   cannot_train_spies: 1
   cannot_train_archmages: 1
@@ -22,46 +23,46 @@ units:
   - name: Fire
     need_boat: true
     cost:
-      platinum: 1100
+      platinum: 950
       mana: 5
     power:
       offense: 5
       defense: 5
     perks:
-      burns_peasants_on_attack: 0.15
-      counts_as_wizard_offense: 0.15
+      burns_peasants_on_attack: 0.25
+      counts_as_wizard_offense: 0.25
       immortal_wizard: 1
   - name: Water
     need_boat: false
     cost:
-      platinum: 1100
+      platinum: 950
       mana: 5
     power:
       offense: 5
       defense: 5
     perks:
       offense_from_land: water,10,1 # land type, ratio%, max
-      counts_as_spy_defense: 0.15
+      counts_as_spy_defense: 0.25
   - name: Earth
     need_boat: true
     cost:
-      platinum: 1100
+      platinum: 950
       mana: 5
     power:
       offense: 5
       defense: 5
     perks:
       offense_vs_barren_land: 10,1 # ratio%, max
-      counts_as_wizard_defense: 0.15
+      counts_as_wizard_defense: 0.25
   - name: Air
     need_boat: false
     cost:
-      platinum: 1100
+      platinum: 950
       mana: 5
     power:
       offense: 5
       defense: 5
     perks:
       reduce_combat_losses: 1
-      counts_as_spy_offense: 0.15
+      counts_as_spy_offense: 0.25
       immortal_spy: 1

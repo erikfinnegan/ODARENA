@@ -580,7 +580,7 @@ class SpellHelper
         $spells = collect([
             [
                 'name' => 'Lightning Bolt',
-                'description' => 'Destroy the target\'s improvements (0.33% base damage).',
+                'description' => 'Destroy the target\'s improvements (0.20% base damage).',
                 'key' => 'lightning_bolt',
                 'mana_cost' => 1,
                 'decreases' => [
@@ -601,25 +601,24 @@ class SpellHelper
                     'improvement_granaries',
                     'improvement_tissue',
                 ],
-                'percentage' => 0.33,
+                'percentage' => 0.20,
                 'max_damage_per_wizard' => 10,
             ],
             [
                 'name' => 'Fireball',
-                'description' => 'Burn target\'s peasants and food (0.33% base damage).',
+                'description' => 'Burn target\'s peasants and food (0.50% base damage).',
                 'key' => 'fireball',
                 'mana_cost' => 1,
                 'decreases' => ['peasants', 'resource_food'],
-                'percentage' => 0.33,
+                'percentage' => 0.50,
                 'max_damage_per_wizard' => 10,
             ],
             [
                 'name' => 'Disband Spies',
-                'description' => 'Turns spies into draftees (1% base damage).',
+                'description' => 'Disband target\'s spies (1% base damage).',
                 'key' => 'disband_spies',
                 'mana_cost' => 1,
                 'decreases' => ['military_spies'],
-                'increases' => ['military_draftees'],
                 'percentage' => 1,
             ],
         ]);

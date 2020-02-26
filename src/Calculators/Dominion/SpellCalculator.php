@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Models\Dominion;
 
-// todo: rename params $spell to $spellKey for clarity. Also use $spellInfo for just info. Spell instances should be $spell
+
 class SpellCalculator
 {
     /** @var LandCalculator */
@@ -26,7 +26,9 @@ class SpellCalculator
      * @param LandCalculator $landCalculator
      * @param SpellHelper $spellHelper
      */
-    public function __construct(LandCalculator $landCalculator, SpellHelper $spellHelper)
+    public function __construct(
+          LandCalculator $landCalculator,
+          SpellHelper $spellHelper)
     {
         $this->landCalculator = $landCalculator;
         $this->spellHelper = $spellHelper;
@@ -206,31 +208,5 @@ class SpellCalculator
         return $spell->duration;
     }
 
-    /**
-     * Returns the multiplier bonus when one or more spells are active for a
-     * Dominion.
-     *
-     * Returns the first active spell it finds. Multiple active spells do not
-     * stack.
-     *
-     * @param Dominion $dominion
-     * @param string|array $spell
-     * @param float|null $bonusPercentage
-     * @return float
-     */
-    public function getActiveSpellMultiplierBonus(Dominion $dominion, $spell, float $bonusPercentage = null): float
-    {
-        if (!is_array($spell)) {
-            $spell = [$spell => $bonusPercentage];
-        }
 
-        // todo: check this foreach
-        foreach ($spell as $spellName => $bonusPercentage) {
-            if ($this->isSpellActive($dominion, $spellName)) {
-                return ($bonusPercentage / 100);
-            }
-        }
-
-        return 0;
-    }
 }

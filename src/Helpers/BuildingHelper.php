@@ -262,7 +262,7 @@ class BuildingHelper
             'alchemy' => 'Produces 45 platinum per tick.',
             'farm' => 'Produces 80 bushels of food per tick.<br><br>Each person eats 0.25 of a bushel of food per tick.',
             'smithy' => 'Reduces military unit training platinum and ore costs.<br><br>Training cost reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned. Does not affect Gnome or Imperial Gnome ore costs.',
-            'masonry' => 'Increases castle bonuses and reduces damage done to castle.<br><br>Bonuses increased by 2.75% per 1% owned.<br>Damage reduced by 0.75% per 1% owned, up to a maximum of 25% at 33.3% owned.',
+            'masonry' => 'Increases castle bonuses and reduces damage done to castle.<br><br>Bonuses increased by 2.75% per 1% owned.<br>Damage reduced by 0.75% per 1% owned.',
             'ore_mine' => 'Produces 60 ore per tick.',
             'gryphon_nest' => 'Increases offensive power.<br><br>Power increased by +2% per 1% owned, up to a maximum of +40% at 20% owned.',
             'tower' => 'Produces 25 mana per tick.',
@@ -271,13 +271,12 @@ class BuildingHelper
             'diamond_mine' => 'Produces 15 gems per tick.',
             #'school' => 'Produces 1 experience point per tick.',
             'lumberyard' => 'Produces 50 lumber per tick.',
-            'forest_haven' => 'Increases peasant defense, reduces losses on failed spy ops, reduces incoming Fireball damage and reduces platinum theft.<br><br>Each Forest Haven gives 20 peasants 0.75 defense each.<br>Failed spy ops losses reduced by 3% per 1% owned, up to a maximum of 30% at 10% owned.<br>Fireball damage and platinum theft reduced by 8% per 1% owned, up to a maximum of 80% at 10% owned.',
+            'forest_haven' => 'Increases peasant defense, reduces losses on failed spy ops, reduces incoming Fireball damage and reduces platinum theft.<br><br>Each Forest Haven gives 20 peasants 0.75 defense each.<br>Failed spy ops losses reduced by 3% per 1% owned, up to a maximum of 30% at 10% owned.<br>Fireball damage and platinum theft reduced by 8% per 1% owned.',
             'factory' => 'Reduces construction and land rezoning costs.<br><br>Construction costs reduced by 4% per 1% owned, up to a maximum of 75% at 18.75% owned.<br>Rezoning costs reduced by 3% per 1% owned, up to a maximum of 75% at 25% owned.',
             'guard_tower' => 'Increases defensive power.<br><br>Power increased by +2% per 1% owned, up to a maximum of +40% at 20% owned.',
             'shrine' => 'Reduces offensive casualties.<br><br>Casualties reduced by -5.5% per 1% owned, up to a maximum of -80% at 14.55% owned.', // todo: hero level gain and hero bonuses
             'barracks' => 'Houses 36 trained or training military units.<br><br>Does not increase in capacity for population bonuses.',
             'dock' => 'Produces 1 boat every 20 ticks on average, produces 35 bushels of food per tick and each dock prevents 2.5 of your boats from being sunk.',
-
             'ziggurat' => 'Houses 20 people or units, produces 1 mana/tick, and provides 4 raw DP.',
             'tissue' => 'Houses 120 cells, amoeba, or units. Produces 4 food/tick.',
             'mycelia' => 'House 10 people or units. Produces 4 food/tick.',

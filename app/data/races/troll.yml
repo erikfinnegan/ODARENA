@@ -41,15 +41,16 @@ units:
     perks:
       only_dies_vs_raw_power: 3 # >=
   - name: Ironskin
-    type: hybrid_elite
+    type: equipment_elite
+    need_boat: false
     cost:
       lumber: 200
       ore: 200
     power:
-      offense: 1
+      offense: 0
       defense: 0
     perks:
-      pairing_limit: 4,1 # Unit slot, amount (max 1 of this unit per each Unit 4)
+      sendable_with_zero_op: 1
       does_not_count_as_population: 1
       no_draftee: 1
   - name: Mountain Troll

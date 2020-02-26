@@ -25,15 +25,11 @@ converting: 1
 
 perks:
   extra_barren_max_population: 25
-  #cannot_construct: 1
-  can_only_build_tunnels: 1
-  construction_cost_only_platinum: 1
-  cannot_build_homes: 1
+  cannot_construct: 1
   food_consumption: -50
   immortal_spies: 1
   immortal_wizards: 1
   damage_from_lightning_bolts: -100
-  damage_from_fireballs: -50
   damage_from_insect_swarm: -100
   draftee_dp: 0
   draftee_mana_production: 1
@@ -55,8 +51,7 @@ units:
       offense: 0
       defense: 4
     perks:
-      true_immortal: 1
-      gem_production: 0.75
+      gem_production: 0.5
   - name: Arachnid
     need_boat: false
     cost:
@@ -75,5 +70,5 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_vs_barren_land: 5,2 # ratio%, max
+      offense_vs_barren_land: 6.5,1.5 # ratio%, max
       fewer_casualties_defense: 80

@@ -1,8 +1,9 @@
 name: Kobold
 alignment: independent
 description: >-
-  <p>Aggressive, beast-like and intensely xenophobic, Kobolds are almost universally reviled wherever they trespass. Kobolds are only interested in two things: eating, and... well let's just say they think "monogamy" is a dirty word.</p>
-  <p>As a result, Kobolds are usually treated with extreme hostility due to their uncontrollable population growth. If not discovered and dealt with early, a Kobold nest can quickly become a swarm and overwhelm even a well-fortified dominion with sheer numbers alone.</p>
+  <p>Kobold are small in stature but great in number. They fight harder when they perceive a numeric advantage.</p>
+  <p>Despite their small size, their thick leathery hide provide a natural armour and the fur keeps them warm in the hilltops at winter where they hunt. Although sometimes dismissed as vermin, they have more in common with lizards. Although no reliable sources exist, Kobolds like to tell legends about how they are distant cousins to the dragons.</p>
+
 home_land_type: hill
 playable: 1
 
@@ -12,42 +13,46 @@ converting: 2
 
 perks:
   max_population: 50
-  extra_barren_max_population: 5
   population_growth: 20
-  food_consumption: -30
+  food_consumption: -25
   spy_strength: -10
   wizard_strength: -10
   boat_capacity: 10
 units:
   - name: Grunt
     cost:
-      platinum: 235
-      ore: 15
+      platinum: 200
+      ore: 20
     power:
       offense: 2
       defense: 0
+    perks:
+      offense_from_pairing: 4,0.5,1 # slot, amount, num required
   - name: Underling
     cost:
-      platinum: 245
+      platinum: 200
       ore: 20
     power:
       offense: 0
       defense: 2
+    perks:
+      defense_from_pairing: 3,0.5,1 # slot, amount, num required
   - name: Beast
     cost:
-      platinum: 975
-      ore: 0
+      platinum: 600
+      ore: 80
     power:
       offense: 0
-      defense: 3
+      defense: 5
     perks:
-      defense_from_pairing: 4,2,1 # slot, amount, num required
+      mob_on_defense: 1 # +1 DP when they outnumber attacker's units
   - name: Overlord
     cost:
-      platinum: 875
-      ore: 55
+      platinum: 800
+      ore: 100
     power:
-      offense: 3
+      offense: 5
       defense: 2
     perks:
-      offense_from_pairing: 1,2,1 # slot, amount, num required
+      mob_on_offense: 1 # +1 OP when they outnumber the defender's units
+      mob_on_defense: 1 # +1 DP when they outnumber attacker's units
