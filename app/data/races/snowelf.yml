@@ -35,7 +35,7 @@ units:
   - name: Ice Boulder
     need_boat: false
     cost:
-      platinum: 800
+      platinum: 775
       mana: 110
     power:
       offense: 1
@@ -43,15 +43,15 @@ units:
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
-      offense_from_pairing: 3,24 # slot, amount
+      offense_from_pairing: 3,25 # slot, amount
       fixed_casualties: 100
   - name: Trebuchet
     need_boat: false
     cost:
-      platinum: 1800
+      platinum: 1700
       lumber: 150
     power:
-      offense: 1
+      offense: 2
       defense: 0
     perks:
       no_draftee: 1

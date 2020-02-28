@@ -1850,7 +1850,7 @@ class InvadeActionService
     {
         $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
-        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target);
+        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units);
         $this->invasionResult['attacker']['op'] = $attackingForceOP;
         $this->invasionResult['defender']['dp'] = $targetDP;
         $this->invasionResult['result']['success'] = ($attackingForceOP > $targetDP);
@@ -2078,7 +2078,7 @@ class InvadeActionService
         return $hours;
     }
 
-    protected function getDefensivePowerWithTemples(Dominion $dominion, Dominion $target): float
+    protected function getDefensivePowerWithTemples(Dominion $dominion, Dominion $target, array $units): float
     {
         // Values (percentages)
         $dpReductionPerTemple = 2;
@@ -2112,7 +2112,9 @@ class InvadeActionService
           $isAmbush = false;
         }
 
-        return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
+        
+
+        return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush, $invadingUnits);
     }
 
 }

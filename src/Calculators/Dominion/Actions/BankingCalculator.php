@@ -14,6 +14,13 @@ class BankingCalculator
      */
     public function getResources(Dominion $dominion): array
     {
+
+        $foodSell = 0;
+        if($dominion->race->getPerkMultiplier('can_sell_food'))
+        {
+          $foodSell = 0.50;
+        }
+
         $resources = [
             'resource_platinum' => [
                 'label' => 'Platinum',
@@ -42,7 +49,7 @@ class BankingCalculator
             'resource_food' => [
                 'label' => 'Food',
                 'buy' => 0.5,
-                'sell' => 0.0,
+                'sell' => $foodSell,
                 'max' => $dominion->resource_food,
             ],
         ];

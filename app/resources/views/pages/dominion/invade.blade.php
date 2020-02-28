@@ -98,6 +98,7 @@
                                         $offenseVsPrestige = [];
                                         $offenseVsBarren = [];
                                         $offenseVsResource = [];
+                                        $offenseVsOpposingUnits = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
@@ -115,7 +116,7 @@
                                             $defensivePower = $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unit, 'defense');
 
                                             $hasDynamicOffensivePower = $unit->perks->filter(static function ($perk) {
-                                                return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_']);
+                                                return starts_with($perk->key, ['offense_from_', 'offense_staggered_', 'offense_vs_', 'offense_m']);
                                             })->count() > 0;
                                             if ($hasDynamicOffensivePower)
                                             {
@@ -143,6 +144,12 @@
                                                 if ($offenseVsResourcePerk) {
                                                     $offenseVsResource = explode(',', $offenseVsResourcePerk)[0];
                                                 }
+
+                                                $offenseMobPerk = $unit->getPerkValue('offense_mob');
+                                                if ($offenseMobPerk) {
+                                                    $mobOffense = explode(',', $offenseMobPerk)[0];
+                                                }
+
 
                                             }
                                             $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {
@@ -262,6 +269,22 @@
                                             <td>
                                                 <input type="number"
                                                        name="calc[{{ $offenseVsResource }}]"
+                                                       class="form-control text-center"
+                                                       min="0"
+                                                       placeholder="0"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    @endif
+                                    @if(isset($mobOffense))
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <b>Enter amounts of units defending against your units:</b>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       name="calc['opposing_units']"
                                                        class="form-control text-center"
                                                        min="0"
                                                        placeholder="0"

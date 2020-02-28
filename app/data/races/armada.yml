@@ -16,6 +16,7 @@ converting: 3
 
 perks:
   exchange_bonus: 25
+  can_sell_food: 1
 units:
   - name: Ensign
     need_boat: true

@@ -324,6 +324,11 @@ class RaceHelper
                 $description = 'Mana drain';
                 $booleanValue = false;
                 break;
+            case 'can_sell_food':
+                $negativeBenefit = false;
+                $description = 'Can exchange food';
+                $booleanValue = true;
+                break;
             default:
                 return null;
         }
