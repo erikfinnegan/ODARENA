@@ -51,8 +51,8 @@ units:
   - name: War Mammoth
     need_boat: true
     cost:
-      ore: 800
-      gem: 1000
+      ore: 600
+      gem: 1200
       unit1: 4
       unit2: 4
       unit3: 1

@@ -34,6 +34,15 @@
                         You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not invade during that time.
                     </div>
                 </div>
+          @elseif (!$selectedDominion->round->hasStarted())
+              <div class="box box-primary">
+                  <div class="box-header with-border">
+                      <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
+                  </div>
+                  <div class="box-body">
+                      You cannot invade until the round has started.
+                  </div>
+              </div>
             @elseif ($selectedDominion->morale < 50)
                 <div class="box box-primary">
                     <div class="box-header with-border">

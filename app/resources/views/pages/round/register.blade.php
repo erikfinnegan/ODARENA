@@ -339,7 +339,8 @@
                         @endif
 
                       @endif
-                      </p>
+                      <p>Head over to the <a href="https://sim.odarena.com/" target="_blank">ODARENA Simulator</a> if you want to sim protection. Click <a href="https://lounge.odarena.com/2020/02/24/odarena-sim/" target="_blank">here</a> to read about how the sim works.</p>
+
                     </div>
                 </div>
 

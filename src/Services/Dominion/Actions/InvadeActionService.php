@@ -317,6 +317,12 @@ class InvadeActionService
                 }
             }
 
+            // Cannot invade until round has started.
+            if(!$dominion->round->hasStarted())
+            {
+              throw new GameException('You cannot invade until the round has started.');
+            }
+
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
@@ -2112,7 +2118,7 @@ class InvadeActionService
           $isAmbush = false;
         }
 
-        
+
 
         return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush, $invadingUnits);
     }

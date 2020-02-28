@@ -18,6 +18,6 @@
 
     </div>
 
-    <i class="fa fa-file-text-o"></i> <a href="{{ route('legal.privacypolicy') }}">Privacy Policy</a> | <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a>
+    <i class="ra ra-campfire"></i> <a href="https://lounge.odarena.com/" target="_blank">Lounge</a> | <i class="fa fa-file-text-o"></i> <a href="{{ route('legal.privacypolicy') }}">Privacy Policy</a> / <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a>
 
 </footer>
