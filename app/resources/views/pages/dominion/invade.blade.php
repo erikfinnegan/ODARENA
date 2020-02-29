@@ -286,22 +286,6 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     @endif
-                                    @if(isset($mobOffense))
-                                        <tr>
-                                            <td colspan="3" class="text-right">
-                                                <b>Enter amounts of units defending against your units:</b>
-                                            </td>
-                                            <td>
-                                                <input type="number"
-                                                       name="calc['opposing_units']"
-                                                       class="form-control text-center"
-                                                       min="0"
-                                                       placeholder="0"
-                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                            </td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                    @endif
                                 </tbody>
                             </table>
                         </div>
