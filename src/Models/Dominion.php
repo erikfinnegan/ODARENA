@@ -274,21 +274,19 @@ class Dominion extends AbstractModel
     {
         $recordChanges = isset($options['event']);
 
-        if ($recordChanges) {
+        // Verify tick hasn't happened during this request
+        if ($this->exists && $this->last_tick_at != $this->fresh()->last_tick_at) {
+            throw new GameException('The tax man is collecting taxes. Your request cannot be fulfilled right now. Try again in a few seconds.');
+        }
+
+        $saved = parent::save($options);
+
+        if ($saved && $recordChanges) {
             $dominionHistoryService = app(HistoryService::class);
             $deltaAttributes = $dominionHistoryService->getDeltaAttributes($this);
             if (isset($options['action'])) {
                 $deltaAttributes['action'] = $options['action'];
             }
-        }
-
-        // Verify tick hasn't happened during this request
-        if ($this->exists && $this->last_tick_at != $this->fresh()->last_tick_at) {
-            throw new GameException('The tax man is collecting taxes. Your request cannot be fulfilled right now. Try again in a few seconds.');
-        }
-        $saved = parent::save($options);
-
-        if ($saved && $recordChanges) {
             /** @noinspection PhpUndefinedVariableInspection */
             $dominionHistoryService->record($this, $deltaAttributes, $options['event']);
         }
@@ -298,6 +296,25 @@ class Dominion extends AbstractModel
         $tickService->precalculateTick($this);
 
         return $saved;
+    }
+
+    public function getDirty()
+    {
+        $dirty = parent::getDirty();
+
+        $query = $this->newModelQuery();
+
+        $dominionHistoryService = app(HistoryService::class);
+        $deltaAttributes = $dominionHistoryService->getDeltaAttributes($this);
+
+        foreach ($deltaAttributes as $attr => $value) {
+            if (gettype($this->getAttribute($attr)) != 'boolean') {
+                $wrapped = $query->toBase()->grammar->wrap($attr);
+                $dirty[$attr] = $query->toBase()->raw("$wrapped + $value");
+            }
+        }
+
+        return $dirty;
     }
 
     /**
