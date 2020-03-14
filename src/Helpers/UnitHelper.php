@@ -180,29 +180,31 @@ class UnitHelper
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',
 
-            # Round 17
             'kills_peasants' => 'Eats %s peasants per tick.',
             'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul each.',
+
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
-            'dies_into' => 'Upon death, returns as a %s.',
+            'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
+
+            'dies_into' => 'Upon death, returns as %s.',
+            'wins_into' => 'Upon victory, returns as %s.',
 
             'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
             'eats_draftees_on_attack' => 'Eats %s draftees on successful invasion.',
 
-            # Round 18
-            'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
-            'defense_mob' => 'Defense increased by +%1$s if you outnumber the invading military.',
-            'offense_mob' => 'Offense increased by +%1$s if you outnumber the defending military.',
+            'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
+            'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
+            'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio (on offense) to train.',
 
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'upgrade_survivors' => 'Survivors return as %s after succesful invasions.',
 
         ];
 
         // Get unit - same logic as military page
-        if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4'])) {
+        if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+        {
             $unit = $race->units->filter(function ($unit) use ($unitType) {
                 return ($unit->slot == (int)str_replace('unit', '', $unitType));
             })->first();
@@ -217,8 +219,10 @@ class UnitHelper
             # ODA: Show base OP and DP in unitHelperString
             $helpStrings[$unitType] .= '<li>OP: '. $unit->power_offense . ' / DP: ' . $unit->power_defense . '</li>';
 
-            foreach ($unit->perks as $perk) {
-                if (!array_key_exists($perk->key, $perkTypeStrings)) {
+            foreach ($unit->perks as $perk)
+            {
+                if (!array_key_exists($perk->key, $perkTypeStrings))
+                {
                     //\Debugbar::warning("Missing perk help text for unit perk '{$perk->key}'' on unit '{$unit->name}''.");
                     continue;
                 }
@@ -260,22 +264,10 @@ class UnitHelper
                         $perkValue[2] = 1;
                     }
                 }
-                  // Special case for unit_production
-                  if ($perk->key === 'unit_production') {
-                      $slot = (int)$perkValue[0];
-                      $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
-                          return ($unit->slot === $slot);
-                      })->first();
 
-                      $perkValue[0] = $pairedUnit->name;
-                      if (isset($perkValue[2]) && $perkValue[2] > 1) {
-                          $perkValue[0] = str_plural($perkValue[0]);
-                      } else {
-                          $perkValue[2] = 1;
-                      }
-                  }
-                // Special case for conversions and dies_into
-                if ($perk->key === 'conversion') {
+                // Special case for conversions
+                if ($perk->key === 'conversion')
+                {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
 
@@ -310,20 +302,21 @@ class UnitHelper
                     }
                 }
 
-                // Special case for dies_into
-                if ($perk->key === 'dies_into')
+                // Special case for dies_into and wins_into ("change_into")
+                if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
                 {
-                        $unitSlotsToDieInto = array_map('intval', str_split($perkValue));
-                        $unitNamesToDieInto = [];
+                    $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
+                    $unitNamesToConvertTo = [];
 
-                        foreach ($unitSlotsToDieInto as $slot)
-                        {
-                            $unitToDieInto = $race->units->filter(static function ($unit) use ($slot) {
-                                return ($unit->slot === $slot);
-                            })->first();
+                    foreach ($unitSlotsToConvertTo as $slot) {
+                        $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
+                            return ($unit->slot === $slot);
+                        })->first();
 
-                            $unitNamesToDieInto[] = $unitToDieInto->name;
-                        }
+                        $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
+                    }
+
+                    $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
 
 

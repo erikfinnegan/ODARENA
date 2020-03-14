@@ -12,14 +12,11 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use Throwable;
 
-// ODA: For Armada and Imperial Gnomes
+// ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
-
-// ODA: For Lux and Legion
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-
-// ODA: For Legion
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 
 class TrainActionService
 {
@@ -44,13 +41,17 @@ class TrainActionService
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
+    /** @var LandCalculator */
+    protected $landCalculator;
+
     /**
      * TrainActionService constructor.
      */
     public function __construct(
         ImprovementCalculator $improvementCalculator,
         SpellCalculator $spellCalculator,
-        MilitaryCalculator $militaryCalculator
+        MilitaryCalculator $militaryCalculator,
+        LandCalculator $landCalculator
         )
     {
         $this->queueService = app(QueueService::class);
@@ -60,6 +61,7 @@ class TrainActionService
         $this->improvementCalculator = $improvementCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->militaryCalculator = $militaryCalculator;
+        $this->landCalculator = $landCalculator;
     }
 
     /**
@@ -238,7 +240,6 @@ class TrainActionService
               throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. $landLimit[0] .'s.');
             }
           }
-
           # Land limit check complete.
           # Check for amount limit.
           $amountLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'amount_limit');
@@ -257,6 +258,19 @@ class TrainActionService
               throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
             }
           }
+
+
+          # Amount limit check complete.
+          # Chcek for minimum WPA to train.
+          $minimumWpaToTrain = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'minimum_wpa_to_train');
+          if($minimumWpaToTrain)
+          {
+              if($this->militaryCalculator->getWizardRatio($dominion, 'offense') < $minimumWpaToTrain)
+              {
+                throw new GameException('You need at least ' . $minimumWpaToTrain . ' wizard ratio (on offense) to train this unit. You only have ' . $this->militaryCalculator->getWizardRatio($dominion) . '.');
+              }
+          }
+
 
         }
 
@@ -440,8 +454,8 @@ class TrainActionService
               // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
               {
-                $timeReductionSpecs += 2;
-                $timeReductionElites += 2;
+                $timeReductionSpecs += 4;
+                $timeReductionElites += 4;
               }
               // Legion: Spell (reduce training times by 4 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
@@ -449,7 +463,13 @@ class TrainActionService
                 $timeReductionSpecs += min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
                 $timeReductionElites += min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
               }
-              // Legion: all units train in 9 hours.
+              // Spell: Spawning Pool (increase units trained, for free)
+              if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unit == 'military_unit1')
+              {
+                $amountToTrainMultiplier = ($dominion->land_swamp / $this->landCalculator->getTotalLand($dominion)) / 2;
+                $amountToTrain = round($amountToTrain * (1 + $amountToTrainMultiplier));
+              }
+              // Legion and Elementals: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
               {
                 $timeReductionElites += 3;
@@ -460,7 +480,6 @@ class TrainActionService
                 $timeReductionSpecs += min($fasterTraining, $hoursSpecs-2);
                 $timeReductionElites += min($fasterTraining, $hoursElites-2);
               }
-
               // Look for reduced training times.
               if($timeReductionSpecs > 0)
               {
@@ -470,7 +489,6 @@ class TrainActionService
               {
                 $hoursElites -= $timeReductionElites;
               }
-
               // Look for instant training.
               if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'instant_training') and $amountToTrain > 0)
               {

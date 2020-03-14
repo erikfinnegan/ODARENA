@@ -1,0 +1,67 @@
+name: Marshling
+alignment: independent
+description: >-
+  <p>Bubbling and oozing from the deepest, dankest swamps, Marshlings live a cyclical life. They start their lives as bogpoles, which when fed a diet of food and lumber can, with the touch of magic, turn into spawns.</p>
+  <p>If sent out to attack others and conquer land, Spawn can grow into Slime, which can grow into Goo, which can grow into Ooze, which upon death comes back as a Spawn.</p>
+home_land_type: swamp
+playable: 1
+
+attacking: 1
+exploring : 1
+converting: 1
+
+perks:
+  cannot_build_barracks: 1
+  construction_cost: 25
+  draftees_cannot_be_abducted: 1
+  peasants_cannot_be_abducted: 1
+  platinum_production: -50
+units:
+  - name: Spawn
+    need_boat: true
+    static_networth: 3
+    cost:
+      food: 80
+      lumber: 50
+      mana: 10
+    power:
+      offense: 2
+      defense: 2
+    perks:
+      minimum_wpa_to_train: 0.50
+      wins_into: 2
+  - name: Slime
+    need_boat: true
+    static_networth: 5
+    cost:
+      platinum: 0
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      cannot_be_trained: 1
+      wins_into: 3
+      dies_into: 1
+  - name: Goo
+    need_boat: true
+    static_networth: 7
+    cost:
+      platinum: 0
+    power:
+      offense: 5
+      defense: 8
+    perks:
+      cannot_be_trained: 1
+      wins_into: 4
+      dies_into: 2
+  - name: Ooze
+    need_boat: true
+    static_networth: 8
+    cost:
+      platinum: 0
+    power:
+      offense: 9
+      defense: 4
+    perks:
+      cannot_be_trained: 1
+      dies_into: 1

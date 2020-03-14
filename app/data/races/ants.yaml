@@ -22,6 +22,8 @@ perks:
   explore_cost: 25
   reduce_conversions: 25
   draftee_dp: 0.1
+  draftees_cannot_be_abducted: 1
+  peasants_cannot_be_abducted: 1
 units:
   - name: Soldier Ant
     need_boat: true

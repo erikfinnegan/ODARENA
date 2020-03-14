@@ -331,10 +331,12 @@ class CasualtiesCalculator
               $multiplier += 0.50;
             }
 
-
             # Land-based reductions
             $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'defense');
             #$multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'defense'); -- Doesn't make sense in this context (attacker has no defensive casualties).
+
+            # Shrines
+            $multiplier -= $this->getDefensiveCasualtiesReductionFromShrines($dominion);
 
             // Techs
             $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_defense');
@@ -397,8 +399,8 @@ class CasualtiesCalculator
     public function getOffensiveCasualtiesReductionFromShrines(Dominion $dominion): float
     {
         // Values (percentage)
-        $casualtyReductionPerShrine = 5.5;
-        $maxCasualtyReductionFromShrines = 80;
+        $casualtyReductionPerShrine = 5;
+        $maxCasualtyReductionFromShrines = 75;
 
         return min(
             (($casualtyReductionPerShrine * $dominion->building_shrine) / $this->landCalculator->getTotalLand($dominion)),
@@ -406,6 +408,26 @@ class CasualtiesCalculator
         );
     }
 
+    /**
+     * Returns the Dominion's defensive casualties reduction from shrines.
+     *
+     * This number is in the 0 - 0.8 range, where 0 is no casualty reduction
+     * (0%) and 0.8 is full (-80%). Used additive in a multiplier formula.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getDefensiveCasualtiesReductionFromShrines(Dominion $dominion): float
+    {
+        // Values (percentage)
+        $casualtyReductionPerShrine = 1;
+        $maxCasualtyReductionFromShrines = 15;
+
+        return min(
+            (($casualtyReductionPerShrine * $dominion->building_shrine) / $this->landCalculator->getTotalLand($dominion)),
+            ($maxCasualtyReductionFromShrines / 100)
+        );
+    }
 
     /**
      * Returns the Dominion's casualties by unit type.

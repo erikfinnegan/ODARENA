@@ -18,7 +18,7 @@ perks:
   food_consumption: 25
   invest_bonus: -25
   gem_production: 10
-  castle_max: 50
+  improvements_max: 50
   cannot_tech: 1
 units:
   - name: Clubber

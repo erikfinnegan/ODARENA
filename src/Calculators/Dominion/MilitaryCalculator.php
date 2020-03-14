@@ -327,8 +327,10 @@ class MilitaryCalculator
             ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
         ); // todo: recheck this
 
-        // Void: Ziggurat
-        $dp += $dominion->building_ziggurat * 4;
+        if($dominion->race->getPerkValue('defense_per_ziggurat'))
+        {
+            $dp += $dominion->building_ziggurat * $dominion->race->getPerkValue('defense_per_ziggurat');
+        }
 
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
         if($isAmbush)
@@ -1042,6 +1044,8 @@ class MilitaryCalculator
 
           if (!empty($calc))
           {
+              return 0;
+              /*
               # Override resource amount for invasion calculator
               if (isset($calc['opposing_units']))
               {
@@ -1051,6 +1055,7 @@ class MilitaryCalculator
                     $powerFromPerk = $mobPerk[0];
                   }
               }
+              */
           }
           elseif ($target !== null)
           {
@@ -1538,7 +1543,7 @@ class MilitaryCalculator
         // Spell: Icekin Blizzard (+5% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'blizzard'))
         {
-          $multiplier += 0.5;
+          $multiplier += 0.05;
         }
 
         // Spell: Halfling Defensive Frenzy (+20% DP)

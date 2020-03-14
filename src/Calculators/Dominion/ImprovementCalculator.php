@@ -106,11 +106,11 @@ class ImprovementCalculator
             'tissue' => 20, # Increases max population (Growth)
         ];
 
-        if($dominion->race->getPerkMultiplier('castle_max'))
+        if($dominion->race->getPerkMultiplier('improvements_max'))
         {
           foreach($maximumPercentages as $type => $max)
           {
-            $maximumPercentages[$type] = $max * (1 + $dominion->race->getPerkMultiplier('castle_max'));
+            $maximumPercentages[$type] = $max * (1 + $dominion->race->getPerkMultiplier('improvements_max'));
           }
         }
 

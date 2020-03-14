@@ -23,6 +23,7 @@ use Throwable;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Helpers\ImprovementHelper;
 
 class TickService
 {
@@ -59,6 +60,9 @@ class TickService
     /** @var RangeCalculator */
     protected $rangeCalculator;
 
+    /** @var ImprovementHelper */
+    protected $improvementHelper;
+
     /**
      * TickService constructor.
      */
@@ -76,6 +80,7 @@ class TickService
 
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
+        $this->improvementHelper = app(ImprovementHelper::class);
 
         /* These calculators need to ignore queued resources for the following tick */
         $this->populationCalculator->setForTick(true);
@@ -125,7 +130,7 @@ class TickService
                     ->where('dominions.protection_ticks', '=', 0)
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
-                        'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants'),
+                        'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants + dominion_tick.peasants_sacrificed'),
                         'dominions.peasants_last_hour' => DB::raw('dominion_tick.peasants'),
                         'dominions.morale' => DB::raw('dominions.morale + dominion_tick.morale'),
                         'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
@@ -139,6 +144,24 @@ class TickService
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                         'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
+
+                        # Improvements
+                        'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
+                        'dominions.improvement_keep' => DB::raw('dominions.improvement_keep + dominion_tick.improvement_keep'),
+                        'dominions.improvement_forges' => DB::raw('dominions.improvement_forges + dominion_tick.improvement_forges'),
+                        'dominions.improvement_walls' => DB::raw('dominions.improvement_walls + dominion_tick.improvement_walls'),
+                        'dominions.improvement_armory' => DB::raw('dominions.improvement_armory + dominion_tick.improvement_armory'),
+                        'dominions.improvement_infirmary' => DB::raw('dominions.improvement_infirmary + dominion_tick.improvement_infirmary'),
+                        'dominions.improvement_workshops' => DB::raw('dominions.improvement_workshops + dominion_tick.improvement_workshops'),
+                        'dominions.improvement_observatory' => DB::raw('dominions.improvement_observatory + dominion_tick.improvement_observatory'),
+                        'dominions.improvement_cartography' => DB::raw('dominions.improvement_cartography + dominion_tick.improvement_cartography'),
+                        'dominions.improvement_towers' => DB::raw('dominions.improvement_towers + dominion_tick.improvement_towers'),
+                        'dominions.improvement_hideouts' => DB::raw('dominions.improvement_hideouts + dominion_tick.improvement_hideouts'),
+                        'dominions.improvement_granaries' => DB::raw('dominions.improvement_granaries + dominion_tick.improvement_granaries'),
+                        'dominions.improvement_harbor' => DB::raw('dominions.improvement_harbor + dominion_tick.improvement_harbor'),
+                        'dominions.improvement_forestry' => DB::raw('dominions.improvement_forestry + dominion_tick.improvement_forestry'),
+                        'dominions.improvement_refinery' => DB::raw('dominions.improvement_refinery + dominion_tick.improvement_refinery'),
+                        'dominions.improvement_tissue' => DB::raw('dominions.improvement_tissue + dominion_tick.improvement_tissue'),
 
                         # ODA resources
                         'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
@@ -186,12 +209,9 @@ class TickService
                         'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
-                        #'dominions.building_tunnels' => DB::raw('dominions.building_tunnels + dominion_tick.building_tunnels'),
 
                         'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
-                        #'dominions.stat_total_platinum_production' => 0,
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
-                        #'dominions.stat_total_food_production' => 0,
                         'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
                         'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
                         'dominions.stat_total_wild_yeti_production' => DB::raw('dominions.stat_total_wild_yeti_production + dominion_tick.resource_wild_yeti_production'),
@@ -258,29 +278,26 @@ class TickService
                   $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
                   if ($caster)
                   {
-                      echo print_r($dominion->tick->pestilence_units);
                       $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
                   }
                 }
 
-                  DB::transaction(function () use ($dominion) {
-                      if (!empty($dominion->tick->starvation_casualties)) {
-                          $this->notificationService->queueNotification(
-                              'starvation_occurred',
-                              $dominion->tick->starvation_casualties
-                          );
-                      }
+                DB::transaction(function () use ($dominion) {
+                    if (!empty($dominion->tick->starvation_casualties)) {
+                        $this->notificationService->queueNotification(
+                            'starvation_occurred',
+                            $dominion->tick->starvation_casualties
+                        );
+                    }
 
-                      $this->cleanupActiveSpells($dominion);
-                      $this->cleanupQueues($dominion);
+                    $this->cleanupActiveSpells($dominion);
+                    $this->cleanupQueues($dominion);
 
-                      $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
+                    $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
 
+                    $this->precalculateTick($dominion, true);
 
-
-                        $this->precalculateTick($dominion, true);
-
-                  }, 5);
+                }, 5);
 
             }
 
@@ -436,11 +453,7 @@ class TickService
             elseif (in_array($attr, ['starvation_casualties', 'pestilence_units'], true))
             {
                 $tick->{$attr} = [];
-            }/*
-            elseif ($attr === 'starvation_casualties' or $attr === 'pestilence_units')
-            {
-                $tick->{$attr} = [];
-            }*/
+            }
           }
 
         // Hacky refresh for dominion
@@ -476,8 +489,9 @@ class TickService
 
           if($invade)
           {
-            # Grow by 4-12% (random).
-            $landGainRatio = max(400,rand(300,1200))/10000;
+            # Grow by 5-10% (random), skewed to lower.
+            $landGainRatio = max(500,rand(400,1000))/10000;
+            $landGainRatio *= $dominion->npc_modifier / 1000;
 
             # Calculate the amount of acres to grow.
             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $landGainRatio;
@@ -525,19 +539,19 @@ class TickService
                );
             }
 
-           # Queue the incoming land.
-           foreach($landGained as $type => $amount)
-           {
-             $data = [$type => $amount];
-             $this->queueService->queueResources(
-                 'invasion',
-                 $dominion,
-                 $data
-             );
+            # Queue the incoming land.
+            foreach($landGained as $type => $amount)
+            {
+               $data = [$type => $amount];
+               $this->queueService->queueResources(
+                   'invasion',
+                   $dominion,
+                   $data
+               );
 
-             $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
+               $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
 
-           }
+            }
          }
         }
 
@@ -565,7 +579,7 @@ class TickService
            $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()); # Borrowed from Void OP from MilitaryCalculator
 
            # Linear hourly
-           $dpa = $constant + ($hours * 0.35 * 1.02); # Down from 0.50.
+           $dpa = $constant + ($hours * 0.35 * 1.12);
            $dpa *= ($dominion->npc_modifier / 1000);
            $dpa = intval($dpa);
            $opa = intval($dpa * 0.75);
@@ -665,6 +679,16 @@ class TickService
         $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
+        // Void: Improvements Decay - Lower all improvements by improvements_decay%.
+        if($dominion->race->getPerkValue('improvements_decay'))
+        {
+            foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
+            {
+                $percentageDecayed = $dominion->race->getPerkValue('improvements_decay') / 100;
+                $tick->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * $percentageDecayed;
+            }
+        }
+
         // Resources
 
         # Max storage
@@ -741,7 +765,8 @@ class TickService
         }
 
         // Morale
-        if ($isStarving) {
+        if ($isStarving)
+        {
             # Lower morale by 10.
             $starvationMoraleChange = -10;
             if(($dominion->morale + $starvationMoraleChange) < 0)
@@ -752,7 +777,9 @@ class TickService
             {
               $tick->morale = $starvationMoraleChange;
             }
-        } else {
+        }
+        else
+        {
             if ($dominion->morale < 35)
             {
               $tick->morale = 7;
@@ -800,11 +827,6 @@ class TickService
 
         $slot = 1;
         $acresToExplore = 0;
-        #$tick->generated_unit1 = 0;
-        #$tick->generated_unit2 = 0;
-        #$tick->generated_unit3 = 0;
-        #$tick->generated_unit4 = 0;
-
         $tick->generated_land = 0;
 
         while($slot <= 4)
@@ -813,14 +835,6 @@ class TickService
           if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
           {
             $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
-            #$landPerTick = $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
-            #$acresToExplore += intval($landPerTick) + (rand(0,1) < fmod($landPerTick, 1) ? 1 : 0);
-          }
-
-          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
-          {
-            $unitGeneration = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production');
-            $unitsToGenerate[$unitGeneration[0]] = intval($dominion->{"military_unit".$slot} * $unitGeneration[1]);
           }
 
           $slot++;
@@ -831,36 +845,13 @@ class TickService
           $hours = 12;
           $homeLandType = 'land_' . $dominion->race->home_land_type;
           $data = array($homeLandType => $acresToExplore);
-
-          #$this->queueService->queueResources('exploration', $dominion, $data, $hours);
           $tick->generated_land = $acresToExplore;
 
           unset($data);
         }
 
-        if(isset($unitsToGenerate))
+        foreach ($incomingQueue as $row)
         {
-          if(isset($unitsToGenerate[1]))
-          {
-            $tick->generated_unit1 = $unitsToGenerate[1];
-          }
-          if(isset($unitsToGenerate[2]))
-          {
-            $tick->generated_unit2 = $unitsToGenerate[2];
-          }
-          if(isset($unitsToGenerate[3]))
-          {
-            $tick->generated_unit3 = $unitsToGenerate[3];
-          }
-          if(isset($unitsToGenerate[4]))
-          {
-            $tick->generated_unit4 = $unitsToGenerate[4];
-          }
-
-          unset($unitsToGenerate);
-        }
-
-        foreach ($incomingQueue as $row) {
             // Reset current resources in case object is saved later
             $dominion->{$row->resource} -= $row->amount;
         }
@@ -1002,6 +993,24 @@ class TickService
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                         'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
+
+                        # Improvements
+                        'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
+                        'dominions.improvement_keep' => DB::raw('dominions.improvement_keep + dominion_tick.improvement_keep'),
+                        'dominions.improvement_forges' => DB::raw('dominions.improvement_forges + dominion_tick.improvement_forges'),
+                        'dominions.improvement_walls' => DB::raw('dominions.improvement_walls + dominion_tick.improvement_walls'),
+                        'dominions.improvement_armory' => DB::raw('dominions.improvement_armory + dominion_tick.improvement_armory'),
+                        'dominions.improvement_infirmary' => DB::raw('dominions.improvement_infirmary + dominion_tick.improvement_infirmary'),
+                        'dominions.improvement_workshops' => DB::raw('dominions.improvement_workshops + dominion_tick.improvement_workshops'),
+                        'dominions.improvement_observatory' => DB::raw('dominions.improvement_observatory + dominion_tick.improvement_observatory'),
+                        'dominions.improvement_cartography' => DB::raw('dominions.improvement_cartography + dominion_tick.improvement_cartography'),
+                        'dominions.improvement_towers' => DB::raw('dominions.improvement_towers + dominion_tick.improvement_towers'),
+                        'dominions.improvement_hideouts' => DB::raw('dominions.improvement_hideouts + dominion_tick.improvement_hideouts'),
+                        'dominions.improvement_granaries' => DB::raw('dominions.improvement_granaries + dominion_tick.improvement_granaries'),
+                        'dominions.improvement_harbor' => DB::raw('dominions.improvement_harbor + dominion_tick.improvement_harbor'),
+                        'dominions.improvement_forestry' => DB::raw('dominions.improvement_forestry + dominion_tick.improvement_forestry'),
+                        'dominions.improvement_refinery' => DB::raw('dominions.improvement_refinery + dominion_tick.improvement_refinery'),
+                        'dominions.improvement_tissue' => DB::raw('dominions.improvement_tissue + dominion_tick.improvement_tissue'),
 
                         # ODA resources
                         'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),

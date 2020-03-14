@@ -195,6 +195,27 @@ class EspionageActionService
           }
         #}
 
+        # Special case for draftee and peasant abduction.
+        if($operationKey == 'abduct_draftees' or $operationKey == 'abduct_peasants')
+        {
+          # These factions can only abduct from themselves.
+          if(
+              ($dominion->race->getPerkValue('draftees_cannot_be_abducted') or $dominion->race->getPerkValue('peasants_cannot_be_abducted')) and
+              $dominion->race->name !== $target->race->name
+              )
+          {
+            throw new GameException('You cannot only abduct draftees or peasants from other ' . $target->race->name . ' dominions.');
+          }
+          # Otherwise, can't steal from them.
+          elseif($target->race->getPerkValue('draftees_cannot_be_abducted') or $target->race->getPerkValue('peasants_cannot_be_abducted'))
+          {
+            throw new GameException('You cannot abduct draftees or peasants from ' . $target->race->name . '. They are not compatible with your population.');
+          }
+
+        }
+
+
+
         $result = null;
 
         DB::transaction(function () use ($dominion, $target, $operationKey, &$result) {
@@ -965,11 +986,12 @@ class EspionageActionService
         }
 
         $damageDealt = [];
-        $baseDamage = (isset($operationInfo['percentage']) ? $operationInfo['percentage'] : 1) / 100;
+        #$baseDamage = (isset($operationInfo['percentage']) ? $operationInfo['percentage'] : 1) / 100;
+
+        $baseDamage = $operationInfo['percentage'] / 100 / 2;
 
         # Calculate ratio differential.
         $baseDamageMultiplier = $this->getOpBaseDamageMultiplier($dominion, $target);
-        $baseDamage *= $baseDamageMultiplier;
 
         if (isset($operationInfo['decreases']))
         {
@@ -983,8 +1005,8 @@ class EspionageActionService
                     $damageReduction -= $this->militaryCalculator->getBoatsProtected($target);
                 }
 
-                $damageMultiplier = $this->getSpellDamageMultiplier($dominion, $target, $operationInfo, $attr);
-                $damage = ($target->{$attr} - $damageReduction) * $baseDamage;
+                $damageMultiplier = $this->getOpDamageMultiplier($dominion, $target, $operationInfo, $attr);
+                $damage = ($target->{$attr} - $damageReduction) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
 
                 $target->{$attr} -= round($damage);
                 $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
@@ -1100,9 +1122,9 @@ class EspionageActionService
      */
     public function getOpBaseDamageMultiplier(Dominion $performer, Dominion $target): float
     {
-        $casterWpa = $this->militaryCalculator->getSpyRatio($caster, 'offense');
-        $targetWpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
-        return ($casterWpa - $targetWpa) / 10;
+        $performerSpa = $this->militaryCalculator->getSpyRatio($performer, 'offense');
+        $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
+        return ($performerSpa - $targetSpa) / 10;
     }
 
     /**

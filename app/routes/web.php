@@ -71,6 +71,9 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('status')->uses('Dominion\StatusController@getStatus')->name('status');
             $router->post('status')->uses('Dominion\StatusController@postTick');
 
+            // History
+            $router->get('history')->uses('Dominion\HistoryController@getHistory')->name('history');
+
             // Advisors
             $router->get('advisors')->uses('Dominion\AdvisorsController@getAdvisors')->name('advisors');
             $router->get('advisors/production')->uses('Dominion\AdvisorsController@getAdvisorsProduction')->name('advisors.production');

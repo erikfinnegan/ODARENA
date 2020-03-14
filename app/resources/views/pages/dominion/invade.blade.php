@@ -4,56 +4,13 @@
 
 @section('content')
 
-@if ((bool)$selectedDominion->race->getPerkValue('cannot_invade'))
-    <div class="row">
-        <div class="col-sm-12 col-md-9">
-            <div class="box box-primary">
-                <p>Your race is not able to obtain land by invasion.</p>
-            </div>
-        </div>
-    </div>
-@elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
-    <div class="row">
-        <div class="col-sm-12 col-md-9">
-            <div class="box box-primary">
-                <p>You cannot invade during the Rainy Season.</p>
-            </div>
-        </div>
-    </div>
-@elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
+
+
 
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
-            @if ($protectionService->isUnderProtection($selectedDominion))
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
-                    </div>
-                    <div class="box-body">
-                        You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not invade during that time.
-                    </div>
-                </div>
-          @elseif (!$selectedDominion->round->hasStarted())
-              <div class="box box-primary">
-                  <div class="box-header with-border">
-                      <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
-                  </div>
-                  <div class="box-body">
-                      You cannot invade until the round has started.
-                  </div>
-              </div>
-            @elseif ($selectedDominion->morale < 50)
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-crossed-swords"></i> Invade</h3>
-                    </div>
-                    <div class="box-body">
-                        Your military needs at least 50% morale to invade others. Your military currently has {{ $selectedDominion->morale }}% morale.
-                    </div>
-                </div>
-            @else
-                <form action="{{ route('dominion.invade') }}" method="post" role="form" id="invade_form">
+            <form action="{{ route('dominion.invade') }}" method="post" role="form" id="invade_form">
                     @csrf
 
                     <div class="box box-primary">
@@ -342,33 +299,52 @@
                                     </table>
                                 </div>
                                 <div class="box-footer">
-                                  @if($selectedDominion->race->name == 'Dimensionalists')
 
-                                    @if($spellCalculator->isSpellActive($selectedDominion, 'portal'))
-                                    <button type="submit"
-                                            class="btn btn-danger"
-                                            {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                                            id="invade-button">
-                                        <i class="ra ra-player-teleport"></i>
-                                        Teleport units to battle
-                                    </button>
-                                    @else
+                                  @if ((bool)$selectedDominion->race->getPerkValue('cannot_invade'))
+                                    <p><strong><em>Your faction is not able to invade other dominions.</em></strong></p>
 
-                                    <strong><em>You must open a portal before you can send your units to invade.</em></strong>
+                                  @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
+                                    <p><strong><em>You cannot invade during the Rainy Season.</em></strong></p>
 
-                                    @endif
+                                  @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
+                                      <p><strong><em>Due to starvation, you cannot invade until you have more food.</em></strong></p>
+                                      <p><strong><em>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</em></strong></p>
+
+                                  @elseif ($protectionService->isUnderProtection($selectedDominion))
+                                  <p><strong><em>You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not invade during that time.</em></strong></p>
+
+                                  @elseif (!$selectedDominion->round->hasStarted())
+                                  <p><strong><em>You cannot invade until the round has started.</em></strong></p>
+
+                                  @elseif ($selectedDominion->morale < 50)
+                                  <p><strong><em>Your military needs at least 50% morale to invade others. Your military currently has {{ $selectedDominion->morale }}% morale..</em></strong></p>
 
                                   @else
-                                    <button type="submit"
-                                            class="btn btn-danger"
-                                            {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                                            id="invade-button">
-                                        <i class="ra ra-crossed-swords"></i>
-                                        Invade
-                                    </button>
+                                    @if($selectedDominion->race->name == 'Dimensionalists')
+
+                                      @if($spellCalculator->isSpellActive($selectedDominion, 'portal'))
+                                      <button type="submit"
+                                              class="btn btn-danger"
+                                              {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                                              id="invade-button">
+                                          <i class="ra ra-player-teleport"></i>
+                                          Teleport units to battle
+                                      </button>
+                                      @else
+                                        <p><strong><em>You must open a portal before you can send your units to invade.</em></strong></p>
+                                      @endif
+
+                                    @else
+                                      <button type="submit"
+                                              class="btn btn-danger"
+                                              {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                                              id="invade-button">
+                                          <i class="ra ra-crossed-swords"></i>
+                                          Invade
+                                      </button>
+                                    @endif
                                   @endif
                                 </div>
-
 
                                 <p><em style="color:#888; margin-left: 10px;">Note that minimum raw DP is 10 DP per acre.</em></p>
 
@@ -431,7 +407,6 @@
                     </div>
 
                 </form>
-            @endif
         </div>
 
         <div class="col-sm-12 col-md-3">
@@ -456,17 +431,6 @@
         </div>
 
     </div>
-
-    @else
-        <div class="row">
-            <div class="col-sm-12 col-md-9">
-                <div class="box box-primary">
-                    <p>Due to starvation, you cannot invade until you have more food.</p>
-                    <p>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</p>
-                </div>
-            </div>
-        </div>
-    @endif
 
 @endsection
 

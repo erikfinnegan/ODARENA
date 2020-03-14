@@ -29,7 +29,6 @@ class RaceHelper
             case 'extra_barren_max_population':
                 $negativeBenefit = false;
                 $description = 'Population from barren land';
-                $valueType = '';
                 break;
             case 'food_consumption':
                 $negativeBenefit = true;
@@ -218,9 +217,15 @@ class RaceHelper
                 $description = 'Cannot build barracks';
                 $booleanValue = true;
                 break;
-            case 'castle_max':
+            case 'improvements_max':
                 $negativeBenefit = false;
                 $description = 'Improvement bonuses max';
+                break;
+            case 'improvements_decay':
+                $negativeBenefit = true;
+                $description = 'Improvements decay';
+                $valueType = ' % per tick';
+                $booleanValue = 'static';
                 break;
             case 'tech_costs':
                 $negativeBenefit = true;
@@ -277,15 +282,21 @@ class RaceHelper
                 $description = 'Effect from Insect Swarm';
                 $booleanValue = false;
                 break;
-            case 'construction_material':
-                $negativeBenefit = false;
-                $description = 'Buildings only cost';
-                $booleanValue = 'static';
-                break;
             case 'can_only_build_ziggurat':
                 $negativeBenefit = false;
                 $description = 'Can only build Ziggurats';
                 $booleanValue = true;
+                break;
+            case 'defense_per_ziggurat':
+                $negativeBenefit = false;
+                $description = 'Raw defensive power per Ziggurat';
+                $booleanValue = 'static';
+                break;
+            case 'mana_per_ziggurat':
+                $negativeBenefit = false;
+                $description = 'Ziggurat mana production';
+                $valueType = ' mana/tick';
+                $booleanValue = 'static';
                 break;
             case 'can_only_build_tissue':
                 $negativeBenefit = false;
@@ -328,6 +339,26 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Can exchange food';
                 $booleanValue = true;
+                break;
+            case 'can_sell_mana':
+                $negativeBenefit = false;
+                $description = 'Can exchange mana';
+                $booleanValue = true;
+                break;
+            case 'draftees_cannot_be_abducted':
+                $negativeBenefit = false;
+                $description = 'Draftees cannot be abducted';
+                $booleanValue = true;
+                break;
+            case 'peasants_cannot_be_abducted':
+                $negativeBenefit = false;
+                $description = 'Peasants cannot be abducted';
+                $booleanValue = true;
+                break;
+            case 'population_from_alchemy':
+                $negativeBenefit = false;
+                $description = 'Extra population per 1% Alchemies';
+                $booleanValue = false;
                 break;
             default:
                 return null;

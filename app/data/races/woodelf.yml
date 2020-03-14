@@ -14,7 +14,7 @@ perks:
   wizard_strength: 20
   spy_strength: 20
   lumber_production: 20
-  castle_max: 50
+  improvements_max: 50
   tech_production: 100
 units:
   - name: Ranger

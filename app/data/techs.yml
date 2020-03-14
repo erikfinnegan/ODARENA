@@ -891,48 +891,48 @@ population_level6:
 # <Ladder: Prestige>
 
 prestige_level1:
-  name: Prestige (1/6)
+  name: Honour (1/6)
   cost_multiplier: 0
   perks:
-    prestige_gains: 2.5
+    prestige_gains: 5
 
 prestige_level2:
-  name: Prestige (2/6)
+  name: Honour (2/6)
   cost_multiplier: 10
   perks:
-    prestige_gains: 5
+    prestige_gains: 10
   requires:
     - prestige_level1
 
 prestige_level3:
-  name: Prestige (3/6)
+  name: Honour (3/6)
   cost_multiplier: 20
   perks:
-    prestige_gains: 7.5
+    prestige_gains: 15
   requires:
     - prestige_level2
 
 prestige_level4:
-  name: Prestige (4/6)
+  name: Honour (4/6)
   cost_multiplier: 30
   perks:
-    prestige_gains: 10
+    prestige_gains: 20
   requires:
     - prestige_level3
 
 prestige_level5:
-  name: Prestige (5/6)
+  name: Honour (5/6)
   cost_multiplier: 40
   perks:
-    prestige_gains: 12.5
+    prestige_gains: 25
   requires:
     - prestige_level4
 
 prestige_level6:
-  name: Prestige (6/6)
+  name: Honour (6/6)
   cost_multiplier: 50
   perks:
-    prestige_gains: 15
+    prestige_gains: 30
   requires:
     - prestige_level5
 
@@ -1301,13 +1301,13 @@ commerce_level1:
   name: Commerce (1/6)
   cost_multiplier: 0
   perks:
-    exchange_rate: 2.5
+    exchange_rate: 5
 
 commerce_level2:
   name: Commerce (2/6)
   cost_multiplier: 10
   perks:
-    exchange_rate: 5
+    exchange_rate: 10
   requires:
     - commerce_level1
 
@@ -1315,7 +1315,7 @@ commerce_level3:
   name: Commerce (3/6)
   cost_multiplier: 20
   perks:
-    exchange_rate: 7.5
+    exchange_rate: 15
   requires:
     - commerce_level2
 
@@ -1323,7 +1323,7 @@ commerce_level4:
   name: Commerce (4/6)
   cost_multiplier: 30
   perks:
-    exchange_rate: 10
+    exchange_rate: 20
   requires:
     - commerce_level3
 
@@ -1331,7 +1331,7 @@ commerce_level5:
   name: Commerce (5/6)
   cost_multiplier: 40
   perks:
-    exchange_rate: 12.5
+    exchange_rate: 25
   requires:
     - commerce_level4
 
@@ -1339,7 +1339,7 @@ commerce_level6:
   name: Commerce (6/6)
   cost_multiplier: 50
   perks:
-    exchange_rate: 15
+    exchange_rate: 30
   requires:
     - commerce_level5
 

@@ -164,10 +164,6 @@ class PopulationCalculator
                     $housing = 0;
                     break;
 
-                case 'ziggurat':
-                    $housing = 20;
-                    break;
-
                 case 'tissue':
                     $housing = 160;
                     break;
@@ -225,7 +221,12 @@ class PopulationCalculator
         // Beastfolk: Forest increases population
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
+            $multiplier += ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
+        }
+
+        if($dominion->race->getPerkValue('population_from_alchemy'))
+        {
+            $multiplier += $dominion->building_alchemy * ($dominion->race->getPerkValue('population_from_alchemy') / 100);
         }
 
         // Prestige Bonus

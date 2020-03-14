@@ -91,9 +91,8 @@ class ExplorationCalculator
             $multiplier += 0.25;
         }
 
-
         # Cap explore plat reduction to 50%.
-        $multiplier = min($multiplier,0.50);
+        $multiplier = min($multiplier, -0.50);
 
         return (1 + $multiplier);
 

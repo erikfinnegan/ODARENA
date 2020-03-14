@@ -31,6 +31,8 @@ perks:
   cannot_build_homes: 1
   cannot_join_guards: 1
   peasants_produce_food: 2
+  draftees_cannot_be_abducted: 1
+  peasants_cannot_be_abducted: 1
 units:
   - name: Mushroom
     need_boat: false
@@ -62,7 +64,6 @@ units:
     perks:
       no_draftee: 1
       #dies_into: 1
-      #unit_production: 1,0.0005 # Unit Type, Amount
       #land_per_tick: 0.0003
       mana_production: 1
       tech_production: 0.05
@@ -78,7 +79,6 @@ units:
     perks:
       no_draftee: 1
       #dies_into: 1
-      #unit_production: 1,0.001 # Unit Type, Amount
       land_per_tick: 0.00025
       counts_as_spy_offense: 0.1111
       counts_as_spy_defense: 0.1111

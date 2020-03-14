@@ -104,6 +104,7 @@
                 <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="ra ra-circle-of-circles ra-fw"></i> <span>The World</span></a></li>
                 <li class="{{ Route::is('dominion.town-crier') ? 'active' : null }}"><a href="{{ route('dominion.town-crier') }}"><i class="fa fa-newspaper-o ra-fw"></i> <span>World News</span></a></li>
                 <li class="{{ Route::is('dominion.rankings') ? 'active' : null }}"><a href="{{ route('dominion.rankings') }}"><i class="fa fa-trophy ra-fw"></i> <span>Rankings</span></a></li>
+                <li class="{{ Route::is('dominion.history') ? 'active' : null }}"><a href="{{ route('dominion.history') }}"><i class="ra ra ra-book ra-fw"></i> <span>History</span></a></li>
 
                 {{--<li class="header">MISC</li>--}}
 

@@ -226,16 +226,10 @@ class InvadeActionService
                 throw new GameException('Nice try, but you cannot invade cross-round');
             }
 
-            // Commonwealth (good) cannot invade in-realm
-            #if($dominion->realm->alignment == 'good' and $dominion->realm->alignment == $target->realm->alignment)
-            #{
-            # No in-realm invasions
-              if ($dominion->realm->id === $target->realm->id) {
-                  throw new GameException('You may not invade other dominions of the same realm.');
-              }
-            #}
+            if ($dominion->realm->id === $target->realm->id) {
+                throw new GameException('You may not invade other dominions of the same realm.');
+            }
 
-            // Cannot invade yourself
             if ($dominion->id == $target->id)
             {
               throw new GameException('You cannot invade yourself.');
@@ -246,19 +240,19 @@ class InvadeActionService
             $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
 
             if (!$this->hasAnyOP($dominion, $units)) {
-                throw new GameException('You need to send at least some units');
+                throw new GameException('You need to send at least some units.');
             }
 
             if (!$this->allUnitsHaveOP($dominion, $units)) {
-                throw new GameException('You cannot send units that have no offensive power');
+                throw new GameException('You cannot send units that have no offensive power.');
             }
 
             if (!$this->hasEnoughUnitsAtHome($dominion, $units)) {
-                throw new GameException('You don\'t have enough units at home to send this many units');
+                throw new GameException('You don\'t have enough units at home to send this many units.');
             }
 
             if (!$this->hasEnoughBoats($dominion, $units)) {
-                throw new GameException('You do not have enough boats to send this many units');
+                throw new GameException('You do not have enough boats to send this many units.');
             }
 
             if ($dominion->morale < static::MIN_MORALE) {
@@ -266,11 +260,11 @@ class InvadeActionService
             }
 
             if (!$this->passes33PercentRule($dominion, $target, $units)) {
-                throw new GameException('You need to leave more DP units at home, based on the OP you\'re sending out (33% rule)');
+                throw new GameException('You need to leave at least 1/3 of your total defensive power at home (33% rule).');
             }
 
             if (!$this->passes54RatioRule($dominion, $target, $landRatio, $units)) {
-                throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule)');
+                throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
             }
 
             foreach($units as $amount)
@@ -280,7 +274,7 @@ class InvadeActionService
                }
              }
 
-            if ($dominion->race->getPerkValue('cannot_invade ') == 1)
+            if ($dominion->race->getPerkValue('cannot_invade') == 1)
             {
                 throw new GameException('Your faction is unable to invade.');
             }
@@ -296,7 +290,7 @@ class InvadeActionService
             // Spell: Rainy Season (cannot invade)
             if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
             {
-                throw new GameException('You cannot invade during Rainy Season.');
+                throw new GameException('You cannot invade during the Rainy Season.');
             }
 
             // Imperial Gnome: check Factories cover Unit4
@@ -885,12 +879,15 @@ class InvadeActionService
         $landAndBuildingsLostPerLandType = $this->landCalculator->getLandLostByLandType($target, $landLossRatio);
 
         $landGainedPerLandType = [];
-        foreach ($landAndBuildingsLostPerLandType as $landType => $landAndBuildingsLost) {
-            if (!isset($this->invasionResult['attacker']['landConquered'][$landType])) {
+        foreach ($landAndBuildingsLostPerLandType as $landType => $landAndBuildingsLost)
+        {
+            if (!isset($this->invasionResult['attacker']['landConquered'][$landType]))
+            {
                 $this->invasionResult['attacker']['landConquered'][$landType] = 0;
             }
 
-            if (!isset($this->invasionResult['attacker']['landGenerated'][$landType])) {
+            if (!isset($this->invasionResult['attacker']['landGenerated'][$landType]))
+            {
                 $this->invasionResult['attacker']['landGenerated'][$landType] = 0;
             }
 
@@ -923,22 +920,6 @@ class InvadeActionService
             $landGenerated = (int)round($landConquered * ($bonusLandRatio - 1));
             $landGained = ($landConquered + $landGenerated);
 
-            $landGeneratedMultiplier = 0;
-
-            // Add 20% to generated if Nomad spell Campaign is enabled.
-            if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
-            {
-                $landGeneratedMultiplier += 0.25;
-            }
-
-            // Improvement: Cartography
-            $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
-
-            // Resource: XP
-            $landGeneratedMultiplier += $dominion->resource_tech / 1000000;
-
-            $landGenerated = $landGenerated * (1 + $landGeneratedMultiplier);
-
             # No generated acres for in-realm invasions.
             if($dominion->realm->id == $target->realm->id)
             {
@@ -964,6 +945,45 @@ class InvadeActionService
 
             $this->invasionResult['attacker']['landConquered'][$landType] += $landConquered;
             $this->invasionResult['attacker']['landGenerated'][$landType] += $landGenerated;
+        }
+
+
+        // Calculate extra generated land (becomes home land type).
+        $landGeneratedMultiplier = 0;
+        $homeLandType = 'land_' . $dominion->race->home_land_type;
+
+        // Add 20% to generated if Nomad spell Campaign is enabled.
+        if ($this->spellCalculator->isSpellActive($dominion, 'campaign'))
+        {
+            $landGeneratedMultiplier += 0.25;
+        }
+
+        // Improvement: Cartography
+        $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
+
+        // Resource: XP
+        $landGeneratedMultiplier += $dominion->resource_tech / 1000000;
+
+        $extraLandGenerated = round($acresLost * $landGeneratedMultiplier);
+
+        #$this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] += $extraLandGenerated;
+
+        if(isset($this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type]))
+        {
+          $this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] += $extraLandGenerated;
+        }
+        else
+        {
+          $this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] = $extraLandGenerated;
+        }
+
+        if(isset($landGainedPerLandType[$homeLandType]))
+        {
+          $landGainedPerLandType[$homeLandType] += $extraLandGenerated;
+        }
+        else
+        {
+          $landGainedPerLandType[$homeLandType] = $extraLandGenerated;
         }
 
         $this->landLost = $acresLost;
@@ -1490,8 +1510,21 @@ class InvadeActionService
 
         for ($i = 1; $i <= 4; $i++)
         {
+
             $unitKey = "military_unit{$i}";
+            $returningUnitKey = $unitKey;
             $returningAmount = 0;
+
+            # See if slot $i has wins_into perk.
+            if($this->invasionResult['result']['success'])
+            {
+                if($dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into'))
+                {
+                    $returnsAsSlot = $dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into');
+                    $returningUnitKey = 'military_unit' . $returnsAsSlot;
+                }
+            }
+
 
             if (array_key_exists($i, $units))
             {
@@ -1504,7 +1537,7 @@ class InvadeActionService
                 $returningAmount += $convertedUnits[$i];
             }
 
-            $returningUnits[$unitKey] = $returningAmount;
+            $returningUnits[$returningUnitKey] += $returningAmount;
         }
 
         # Look for dies_into amongst the dead.
@@ -1520,6 +1553,9 @@ class InvadeActionService
             $returningUnits[$newUnitKey] += $casualties;
           }
         }
+
+
+
         /*
         $this->queueService->queueResources(
             'invasion',
@@ -2120,7 +2156,7 @@ class InvadeActionService
 
 
 
-        return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush, $invadingUnits);
+        return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
     }
 
 }

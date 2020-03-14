@@ -16,9 +16,14 @@ class BankingCalculator
     {
 
         $foodSell = 0;
+        $manaSell = 0;
         if($dominion->race->getPerkMultiplier('can_sell_food'))
         {
           $foodSell = 0.50;
+        }
+        if($dominion->race->getPerkMultiplier('can_sell_mana'))
+        {
+          $manaSell = 0.05;
         }
 
         $resources = [
@@ -52,6 +57,12 @@ class BankingCalculator
                 'sell' => $foodSell,
                 'max' => $dominion->resource_food,
             ],
+            'resource_mana' => [
+                'label' => 'Mana',
+                'buy' => 0,
+                'sell' => $manaSell,
+                'max' => $dominion->resource_mana,
+            ],
         ];
 
           // Get racial bonus
@@ -65,6 +76,7 @@ class BankingCalculator
           $resources['resource_ore']['sell'] *= (1 + $bonus);
           $resources['resource_gems']['sell'] *= (1 + $bonus);
           $resources['resource_food']['sell'] *= (1 + $bonus);
+          $resources['resource_mana']['sell'] *= (1 + $bonus);
 
         return $resources;
     }

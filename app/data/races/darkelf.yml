@@ -15,10 +15,10 @@ perks:
 units:
   - name: Swordsman
     cost:
-      platinum: 325
-      ore: 25
+      platinum: 365
+      ore: 30
     power:
-      offense: 4
+      offense: 4.5
       defense: 0
   - name: Gargoyle
     cost:

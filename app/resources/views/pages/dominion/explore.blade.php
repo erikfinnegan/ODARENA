@@ -4,24 +4,6 @@
 
 @section('content')
 
-@if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
-    <div class="row">
-        <div class="col-sm-12 col-md-9">
-            <div class="box box-primary">
-                <p>Your race is not able to obtain land by exploring.</p>
-            </div>
-        </div>
-    </div>
-@elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
-<div class="row">
-    <div class="col-sm-12 col-md-9">
-        <div class="box box-primary">
-            <p>You cannot explore during the Rainy Season.</p>
-        </div>
-    </div>
-</div>
-
-@elseif ($selectedDominion->resource_food > 0 or $selectedDominion->race->getPerkMultiplier('food_consumption') == -1)
     <div class="row">
 
       <div class="row">
@@ -101,9 +83,14 @@
                     </div>
                     <div class="box-footer">
                       @if(!$selectedDominion->round->isExploringAllowed())
-                        <p><i>Exploring has been disabled for this round.</i></p>
-                      @elseif($protectionService->isUnderProtection($selectedDominion))
-                        <p><i>Exploring is not possible during protection.</i></p>
+                        <p><strong>Exploring has been disabled for this round.</strong></p>
+                      @elseif ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
+                        <p><strong>Your faction is not able to explore.</strong></p>
+                      @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
+                        <p><strong>Your cannot explore during the Rainy Season.</strong></p>
+                      @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
+                      <p><strong>Due to starvation, you cannot explore until you have more food.</strong></p>
+                      <p><strong>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</strong></p>
                       @else
                         <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
                       @endif
@@ -151,14 +138,4 @@
             </div>
         </div>
     </div>
-@else
-    <div class="row">
-        <div class="col-sm-12 col-md-9">
-            <div class="box box-primary">
-                <p>Due to starvation, you cannot explore until you have more food.</p>
-                <p>Go to the <a href="{{ route('dominion.bank') }}">National Bank</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</p>
-            </div>
-        </div>
-    </div>
-@endif
 @endsection

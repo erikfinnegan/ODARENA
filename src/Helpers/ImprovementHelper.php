@@ -58,7 +58,7 @@ class ImprovementHelper
             'infirmary' => '-%s%% casualties in battle',
             'workshops' => '-%s%% construction and rezoning costs',
             'observatory' => '+%1$s%% experience points gained through invasions, exploration, and production',
-            'cartography' => '+%1$s%% land discovered during invasions, -%1$s%% cost of exploring',
+            'cartography' => '+%1$s%% land discovered during invasions, -%1$s%% cost of exploring (max -50% total reduction)',
             'hideouts' => '+%1$s%% spy power, -%1$s%% spy losses',
             'forestry' => '+%s%% lumber production',
             'refinery' => '+%s%% ore production',

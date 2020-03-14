@@ -383,7 +383,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Aurora',
-                'description' => 'Reduces unit training times by 2 ticks.',
+                'description' => 'Reduces unit training times by 4 ticks.',
                 'key' => 'aurora',
                 'mana_cost' => 6,
                 'duration' => 6*4, # Half a day
@@ -463,6 +463,14 @@ class SpellHelper
                 'mana_cost' => 6,
                 'duration' => 12*4, # Six hours
                 'races' => collect(['Elementals']),
+            ],
+            [
+                'name' => 'Spawning Pool',
+                'description' => 'For every 1% swamp lands you have, you gain 1% additional Spawns trained.',
+                'key' => 'spawning_pool',
+                'mana_cost' => 6,
+                'duration' => 12*4, # Six hours
+                'races' => collect(['Marshling']),
             ],
         ]);
     }
