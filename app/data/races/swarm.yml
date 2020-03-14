@@ -7,15 +7,6 @@ description: >-
   <p>Living entirely underground, the Swarm are a civilisation of intelligent and mostly benevolent being that take up dwelling in vast tunnels.</p>
   <p>Every swarmling is born as a larva ("peasant"), which can be turned into cocoon ("draftee") and then into Scarabs, Burrowers, Arachnids, and the fierce Naga.</p>
   <p>They dig tunnels underground and attack from below, preferring to assault barren land or unfinished buildings.</p>
-  <hr>
-  <ul>
-  <li><strong>Tunnels</strong> (plains): every tunnel allows 1,000 units to return from battle two ticks faster. No housing.</li>
-  <li><strong>Roots</strong> (forest): increases population growth rate and max population by 1% per 1% (no max), houses 15.</li>
-  <li><strong>Caverns</strong> (mountains): produces 20 gems per tick.</li>
-  <li><strong>Den</strong> (hills): Houses 60 people.</li>
-  <li><strong>Marsh</strong> (swamps): Houses 72 military units.</li>
-  <li><strong>Wells</strong> (water): increases food production %, houses 15</li>
-  </ul>
 home_land_type: plain
 playable: 1
 
@@ -34,6 +25,7 @@ perks:
   draftee_dp: 0
   draftee_mana_production: 1
   peasants_produce_food: 0.5
+  unemployed_peasants_produce_platinum: 2.7
   draftees_cannot_be_abducted: 1
   peasants_cannot_be_abducted: 1
 units:

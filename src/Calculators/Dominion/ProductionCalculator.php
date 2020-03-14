@@ -101,10 +101,10 @@ class ProductionCalculator
         $peasantTax = 2.7;
         $platinumPerAlchemy = 45;
 
-        // Race specialty: Void peasants
-        if($dominion->race->name === 'Void' or $dominion->race->name === 'Swarm')
+        // Race specialty: Swarm peasants
+        if($dominion->race->getPerkValue('unemployed_peasants_produce_platinum'))
         {
-            $platinum += $dominion->peasants * $peasantTax;
+            $platinum += $dominion->peasants * $dominion->race->getPerkValue('unemployed_peasants_produce_platinum');
         }
         // Myconid: no plat from peasants
         elseif($dominion->race->name == 'Myconid')
@@ -604,7 +604,7 @@ class ProductionCalculator
         // Building: Ziggurat
         if($dominion->race->getPerkValue('mana_per_ziggurat'))
         {
-            $mana += $dominion->building_ziggurat * $dominion->race->getPerkValue('mana_per_ziggurat');          
+            $mana += $dominion->building_ziggurat * $dominion->race->getPerkValue('mana_per_ziggurat');
         }
 
         // Unit Perk Production Bonus
