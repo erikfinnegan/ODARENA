@@ -434,7 +434,7 @@ class DominionFactory
      */
     protected function guardAgainstMismatchedAlignments(Race $race, Realm $realm, Round $round): void
     {
-        if (!$round->mixed_alignment && $race->alignment !== $realm->alignment and $race->alignment !== 'independent')
+        if (!$round->mixed_alignment && $race->alignment !== $realm->alignment /*and $race->alignment !== 'independent'*/)
         {
             throw new GameException('Race and realm alignment do not match');
         }
