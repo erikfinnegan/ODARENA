@@ -631,20 +631,23 @@ class SpellHelper
             ],
         ]);
 
-        if(in_array($dominion->race->name, ['Human', 'Sacred Order', 'Dwarf']))
+        if(isset($dominion))
         {
-            $spells = $spells->concat([
-                [
-                    'name' => 'Purification',
-                    'description' => 'Eradicates Abominations. Only effective against the Afflicted.',
-                    'key' => 'purification',
-                    'mana_cost' => 3,
-                    'decreases' => [
-                        'military_unit1',
+            if(in_array($dominion->race->name, ['Human', 'Sacred Order', 'Dwarf']))
+            {
+                $spells = $spells->concat([
+                    [
+                        'name' => 'Purification',
+                        'description' => 'Eradicates Abominations. Only effective against the Afflicted.',
+                        'key' => 'purification',
+                        'mana_cost' => 3,
+                        'decreases' => [
+                            'military_unit1',
+                        ],
+                        'percentage' => 1
                     ],
-                    'percentage' => 1
-                ],
-            ]);
+                ]);
+            }
         }
 
 
