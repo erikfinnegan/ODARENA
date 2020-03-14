@@ -469,7 +469,7 @@ class SpellHelper
                 'description' => 'For every 1% swamp lands you have, you gain 1% additional Spawns trained.',
                 'key' => 'spawning_pool',
                 'mana_cost' => 6,
-                'duration' => 12*4, # Six hours
+                'duration' => 12*2, # Six hours
                 'races' => collect(['Marshling']),
             ],
         ]);
