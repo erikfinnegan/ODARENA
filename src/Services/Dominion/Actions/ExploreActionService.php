@@ -85,10 +85,10 @@ class ExploreActionService
             throw new GameException('Exploration has been disabled for this round.');
         }
 
-        if ($this->protectionService->isUnderProtection($dominion))
-        {
-            throw new GameException('You cannot explore while under protection.');
-        }
+        #if ($this->protectionService->isUnderProtection($dominion))
+        #{
+        #    throw new GameException('You cannot explore while under protection.');
+        #}
 
         if($dominion->round->hasOffensiveActionsDisabled())
         {
