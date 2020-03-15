@@ -1535,10 +1535,10 @@ class MilitaryCalculator
       elseif($power == 'defense')
       {
         // Spell: Howling (+10% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
-        {
-          $multiplier += 0.10;
-        }
+        #if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
+        #{
+        #  $multiplier += 0.10;
+        #}
 
         // Spell: Icekin Blizzard (+5% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'blizzard'))

@@ -253,7 +253,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Howling',
-                'description' => '+10% offensive strength, +10% defensive strength',
+                'description' => '+10% offensive strength',
                 'key' => 'howling',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -469,7 +469,7 @@ class SpellHelper
                 'description' => 'For every 1% swamp lands you have, you gain 1% additional Spawns trained.',
                 'key' => 'spawning_pool',
                 'mana_cost' => 10,
-                'duration' => 12*2, # Six hours 
+                'duration' => 12*2, # Six hours
                 'races' => collect(['Marshling']),
             ],
         ]);

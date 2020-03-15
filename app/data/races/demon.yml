@@ -5,7 +5,7 @@ description: >-
   <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
   <p>The soul of every enemy unit slain in battle is collected.</p>
   <hr />
-  <p>Starts with 3,000 Souls and 1 Archdemon.</p>
+  <p>Starts with 2,000 Souls and 1 Archdemon.</p>
 home_land_type: mountain
 playable: 1
 
@@ -55,7 +55,7 @@ units:
       platinum: 1000000
       mana: 100000
       soul: 10000
-      archmage: 100
+      archmage: 1000
     power:
       offense: 1
       defense: 0
