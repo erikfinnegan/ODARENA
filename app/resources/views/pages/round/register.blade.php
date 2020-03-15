@@ -159,6 +159,13 @@
                                     <div class="col-xs-11">
                                       <h2>Independent</h2>
                                       <p>Unaffected or unaffiliated, or even unaware, these are the factions which do not align with Empire or the Commonwealth. Preferring to be left alone, they have been forced to band together as a tattered band of forces dedicated to maintaining their independence.</p>
+                                      <p>So far,
+                                      @if(isset($countAlignment['independent']))
+                                        {{ number_format($countAlignment['independent']) }}
+                                      @else
+                                        no
+                                      @endif
+                                       dominions have joined the Independents this round.</p>
                                     </div>
                                   </div>
                                 <div class="row">
