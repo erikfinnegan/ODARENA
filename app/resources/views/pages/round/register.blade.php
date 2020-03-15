@@ -153,13 +153,13 @@
 
                                 <div class="col-xs-12">
                                   <div class="row">
-                                      <div class="col-xs-1">
-                                        <h1><i class="ra ra-perspective-dice-random"></i></h1>
-                                      </div>
-                                      <div class="col-xs-11">
-                                        <h2>Independent</h2>
-                                        <p>Unaffected or unaffiliated, or even unaware, these are the factions which do not align with Empire or the Commonwealth. Preferring to be left alone, they have been forced to band together as a tattered band of forces dedicated to maintaining their independence.</p>
-                                      </div>
+                                    <div class="col-xs-1">
+                                      <img src="{{ asset('assets/app/images/independent.svg') }}" class="img-responsive" alt="Independent">
+                                    </div>
+                                    <div class="col-xs-11">
+                                      <h2>Independent</h2>
+                                      <p>Unaffected or unaffiliated, or even unaware, these are the factions which do not align with Empire or the Commonwealth. Preferring to be left alone, they have been forced to band together as a tattered band of forces dedicated to maintaining their independence.</p>
+                                    </div>
                                   </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
