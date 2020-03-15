@@ -116,6 +116,7 @@ class Dominion extends AbstractModel
         'morale' => 'integer',
         'spy_strength' => 'float',
         'wizard_strength' => 'float',
+
         'resource_platinum' => 'integer',
         'resource_food' => 'integer',
         'resource_lumber' => 'integer',
@@ -124,11 +125,10 @@ class Dominion extends AbstractModel
         'resource_gems' => 'integer',
         'resource_tech' => 'integer',
         'resource_boats' => 'float',
-        # New resources
         'resource_champion' => 'integer',
         'resource_soul' => 'integer',
-        # End new resources
-        #'improvement_science' => 'integer',
+        'resource_wild_yeti' => 'integer',
+
         'improvement_markets' => 'integer',
         'improvement_keep' => 'integer',
         'improvement_towers' => 'integer',
@@ -153,6 +153,7 @@ class Dominion extends AbstractModel
         'military_spies' => 'integer',
         'military_wizards' => 'integer',
         'military_archmages' => 'integer',
+
         'land_plain' => 'integer',
         'land_mountain' => 'integer',
         'land_swamp' => 'integer',
@@ -160,6 +161,7 @@ class Dominion extends AbstractModel
         'land_forest' => 'integer',
         'land_hill' => 'integer',
         'land_water' => 'integer',
+
         'building_home' => 'integer',
         'building_alchemy' => 'integer',
         'building_farm' => 'integer',
@@ -179,13 +181,19 @@ class Dominion extends AbstractModel
         'building_shrine' => 'integer',
         'building_barracks' => 'integer',
         'building_dock' => 'integer',
+
         'daily_platinum' => 'boolean',
         'daily_land' => 'boolean',
+
         'royal_guard_active_at' => 'datetime',
         'eltie_guard_active_at' => 'datetime',
+
         'is_locked' => 'boolean',
+
         'most_recent_improvement_resource' => 'string',
+
         'npc_modifier' => 'integer',
+
         'protection_ticks' => 'integer',
     ];
 
