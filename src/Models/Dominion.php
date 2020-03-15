@@ -184,6 +184,9 @@ class Dominion extends AbstractModel
         'royal_guard_active_at' => 'datetime',
         'eltie_guard_active_at' => 'datetime',
         'is_locked' => 'boolean',
+        'most_recent_improvement_resource' => 'string',
+        'npc_modifier' => 'integer',
+        'protection_ticks' => 'integer',
     ];
 
     // Relations
