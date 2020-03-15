@@ -159,6 +159,7 @@ class HistoryService
                 'elite_guard_active_at',
                 'last_tick_at',
                 'monarch_dominion_id',
+                'most_recent_improvement_resource',
             ])->keys()->toArray();
     }
 }
