@@ -319,7 +319,7 @@ class Dominion extends AbstractModel
         $deltaAttributes = $dominionHistoryService->getDeltaAttributes($this);
 
         foreach ($deltaAttributes as $attr => $value) {
-            if (gettype($this->getAttribute($attr)) != 'boolean') {
+            if (gettype($this->getAttribute($attr)) != 'boolean' and gettype($this->getAttribute($attr)) != 'string') {
                 $wrapped = $query->toBase()->grammar->wrap($attr);
                 $dirty[$attr] = $query->toBase()->raw("$wrapped + $value");
             }
