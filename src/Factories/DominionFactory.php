@@ -344,7 +344,7 @@ class DominionFactory
             'resource_wild_yeti' => intval($startingResources['wild_yeti'] * $startingResourcesMultiplier),
             # End new resources
 
-            'improvement_science' => 0,
+            #'improvement_science' => 0,
             'improvement_keep' => 0,
             'improvement_towers' => 0,
             'improvement_forges' => 0,

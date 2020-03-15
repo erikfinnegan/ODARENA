@@ -52,7 +52,7 @@ class TickActionService
     {
         $this->guardLockedDominion($dominion);
 
-        DB::transaction(function () use ($dominion) {
+        #DB::transaction(function () use ($dominion) {
             // Checks
             if($dominion->user_id !== Auth::user()->id)
             {
@@ -61,10 +61,30 @@ class TickActionService
 
             if($dominion->protection_ticks <= 0)
             {
-                throw new GameException('You do not have any protection ticks left.');
+                # Destroy the dominion.
+                DB::table('active_spells')->where('dominion_id', '=', $dominion->id)->delete();
+                DB::table('active_spells')->where('cast_by_dominion_id', '=', $dominion->id)->delete();
+
+                DB::table('council_posts')->where('dominion_id', '=', $dominion->id)->delete();
+                DB::table('council_threads')->where('dominion_id', '=', $dominion->id)->delete();
+                DB::table('daily_rankings')->where('dominion_id', '=', $dominion->id)->delete();
+                DB::table('dominion_history')->where('dominion_id', '=', $dominion->id)->delete();
+                DB::table('dominion_queue')->where('dominion_id', '=', $dominion->id)->delete();
+                DB::table('dominion_techs')->where('dominion_id', '=', $dominion->id)->delete();
+                DB::table('dominion_tick')->where('dominion_id', '=', $dominion->id)->delete();
+
+                DB::table('game_events')->where('source_id', '=', $dominion->id)->delete();
+                DB::table('game_events')->where('target_id', '=', $dominion->id)->delete();
+
+                DB::table('info_ops')->where('source_dominion_id', '=', $dominion->id)->delete();
+                DB::table('info_ops')->where('target_dominion_id', '=', $dominion->id)->delete();
+
+                DB::table('dominions')->where('id', '=', $dominion->id)->delete();
+
+                throw new GameException('Your dominion has been deleted.');
             }
 
-        });
+        #});
 
         # Run the tick.
         $this->tickService->tickManually($dominion);

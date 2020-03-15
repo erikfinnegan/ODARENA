@@ -120,6 +120,14 @@ class Tick extends AbstractModel
         'resource_champion' => 'integer',
         'resource_soul' => 'integer',
 
+
+        'building_tissue' => 'integer',
+        'building_mycelia' => 'integer',
+        'building_ziggurat' => 'integer',
+
+        'peasants_sacrificed' => 'integer',
+        'protection_ticks' => 'integer',
+
         'starvation_casualties' => 'array',
         'pestilence_units' => 'array',
     ];
