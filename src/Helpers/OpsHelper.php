@@ -4,7 +4,6 @@ namespace OpenDominion\Helpers;
 
 class OpsHelper
 {
-
     /*
     public function operationSuccessChance(float $selfRatio, float $targetRatio, float $multiplier, bool $isInvasionSpell = false): float
     {
