@@ -8,7 +8,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-bar-chart"></i> The dominion of {{ $selectedDominion->name }}</h3>
+                    <h3 class="box-title"><i class="fa fa-bar-chart"></i> The Dominion of {{ $selectedDominion->name }}</h3>
                 </div>
                 <div class="box-body no-padding">
                     <div class="row">
@@ -249,7 +249,6 @@
         @endif
 
         @if ($dominionProtectionService->isUnderProtection($selectedDominion))
-
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -273,31 +272,6 @@
                   </div>
             </div>
         </div>
-
-        @else
-
-        <div class="col-sm-12 col-md-9">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-cracked-shield text-red"></i> Protection Over</h3>
-                </div>
-                  <div class="box-body">
-                      <p>Protection is over.</p>
-                      <p>To simulate again, click the button below to delete your dominion and then register a new dominion.</p>
-                      <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
-                      @csrf
-                      <button type="submit"
-                              class="btn btn-danger"
-                              {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                              id="tick-button">
-                          <i class="ra ra-cracked-shield"></i>
-                          Destroy Dominion
-                      </button>
-                    </form>
-                  </div>
-            </div>
-        </div>
-
         @endif
 
         <div class="col-sm-12 col-md-9">
