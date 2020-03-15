@@ -907,7 +907,7 @@ class EspionageActionService
 
         if ($targetSpa !== 0.0)
         {
-            $successRate = $this->opsHelper->operationSuccessChance(
+            $successRate = $this->opsHelper->blackOperationSuccessChance(
                 $selfSpa,
                 $targetSpa,
                 static::HOSTILE_MULTIPLIER_SUCCESS_RATE
