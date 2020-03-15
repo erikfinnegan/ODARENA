@@ -71,6 +71,10 @@ class CreateDominionTickTable extends Migration
             $table->integer('building_dock')->default(0);
 
             #ODA
+            $table->integer('building_mycelia')->default(0);
+            $table->integer('building_tissue')->default(0);
+            $table->integer('building_ziggurat')->default(0);
+
             $table->integer('generated_land')->default(0);
             $table->integer('generated_unit1')->default(0);
             $table->integer('generated_unit2')->default(0);
@@ -81,6 +85,9 @@ class CreateDominionTickTable extends Migration
 
             $table->text('starvation_casualties')->nullable();
             $table->text('pestilence_units')->nullable();
+            $table->integer('protection_ticks')->default(0);
+            $table->integer('peasants_sacrificed')->default(0);
+
             $table->timestamp('updated_at')->nullable();
         });
 
