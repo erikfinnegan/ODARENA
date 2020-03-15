@@ -68,16 +68,13 @@ class DominionFactory
 
         # Late-joiner bonus:
         # Give +1.5% starting resources per hour late, max +150% (at 100 hours, mid-day 4).
+        $hoursSinceRoundStarted = 0;
         if($realm->round->hasStarted())
         {
           $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
         }
-        else
-        {
-          $hoursSinceRoundStarted = 0;
-        }
 
-        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.015);
+        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.010);
 
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
@@ -226,7 +223,7 @@ class DominionFactory
           $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
-          $startingResources['food'] = $acresBase * 400.0;
+          $startingResources['food'] = $acresBase * 400;
           $startingResources['draft_rate'] = 100;
         }
 
@@ -235,7 +232,7 @@ class DominionFactory
         {
           $startingResources['platinum'] = 0;
           $startingResources['lumber'] = 0;
-          $startingResources['food'] = $acresBase * 40.0;
+          $startingResources['food'] = $acresBase * 40;
         }
 
         // Demon: extra morale.
@@ -248,8 +245,8 @@ class DominionFactory
         // Void: gets half of plat for troops as mana, gets lumber as mana (then lumber to 0).
         if($race->name == 'Void')
         {
-          $startingResources['mana'] = 100.0 * $acresBase;
-          $startingResources['platinum'] = 100.0 * $acresBase;
+          $startingResources['mana'] = 175 * $acresBase;
+          $startingResources['platinum'] = 0;
           $startingResources['mana'] += $startingResources['lumber'];
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
@@ -261,7 +258,7 @@ class DominionFactory
           $startingResources['mana'] *= 2;
         }
 
-        // Dimensionalists: starts with 33 Summoners and double mana.
+        // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
         if($race->name == 'Dimensionalists')
         {
           $startingResources['unit1'] = 33;
@@ -271,7 +268,7 @@ class DominionFactory
         // Snow Elf: starting yetis.
         if($race->name == 'Snow Elf')
         {
-          $startingResources['wild_yeti'] = 150.0;
+          $startingResources['wild_yeti'] = 150;
         }
 
         if($race->alignment == 'npc')
@@ -293,7 +290,7 @@ class DominionFactory
             $startingResources['boats'] = 0;
 
             # Starting units for Barbarians
-            $dpaTarget = 20;
+            $dpaTarget = 25;
             $dpaTargetSpecsRatio = rand(50,100)/100;
             $dpaTargetElitesRatio = 1-$dpaTargetSpecsRatio;
             $dpRequired = $acresBase * $dpaTarget;
@@ -434,7 +431,7 @@ class DominionFactory
      */
     protected function guardAgainstMismatchedAlignments(Race $race, Realm $realm, Round $round): void
     {
-        if (!$round->mixed_alignment && $race->alignment !== $realm->alignment and $race->alignment !== 'independent')
+        if (!$round->mixed_alignment && $race->alignment !== $realm->alignment /*and $race->alignment !== 'independent'*/)
         {
             throw new GameException('Race and realm alignment do not match');
         }

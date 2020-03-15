@@ -130,6 +130,8 @@
                             <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
                             @elseif($realm->alignment == 'evil')
                             <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
+                            @elseif($realm->alignment == 'independent')
+                            <img src="{{ asset('assets/app/images/independent.svg') }}" class="img-responsive" alt="Independent Dominions">
                             @elseif($realm->alignment == 'npc')
                             <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" alt="The Barbarian Horde">
                             @endif
@@ -140,6 +142,8 @@
                             Commonwealth Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
                             @elseif($realm->alignment == 'evil')
                             Imperial Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
+                            @elseif($realm->alignment == 'independent')
+                            Independent Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
                             @elseif($realm->alignment == 'npc')
                             <strong>Barbarian Horde</strong>.</p>
                             @endif

@@ -314,6 +314,12 @@ class RaceHelper
                 $valueType = ' food/tick';
                 $booleanValue = false;
                 break;
+            case 'unemployed_peasants_produce_platinum':
+                $negativeBenefit = true;
+                $description = 'Unemployed peasants produce platinum';
+                $valueType = ' platinum/tick';
+                $booleanValue = false;
+                break;
             case 'draftee_mana_production':
                 $negativeBenefit = false;
                 $description = 'Draftees produce mana';
