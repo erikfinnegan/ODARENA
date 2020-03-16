@@ -244,6 +244,8 @@ class PopulationCalculator
     public function getMaxPopulationMilitaryBonus(Dominion $dominion): float
     {
 
+        $troopsPerBarracks = 36;
+
         // Race
         if($dominion->race->getPerkValue('extra_barracks_housing'))
         {
@@ -258,7 +260,7 @@ class PopulationCalculator
 
         return min(
             ($this->getPopulationMilitary($dominion) - $dominion->military_draftees),
-            ($dominion->building_barracks * 36)
+            ($dominion->building_barracks * $troopsPerBarracks)
         );
     }
 
