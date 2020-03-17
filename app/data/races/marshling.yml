@@ -21,9 +21,9 @@ units:
     need_boat: true
     static_networth: 3
     cost:
-      food: 80
-      lumber: 50
-      mana: 10
+      food: 100
+      lumber: 75
+      mana: 25
     power:
       offense: 2
       defense: 2
@@ -36,8 +36,8 @@ units:
     cost:
       platinum: 0
     power:
-      offense: 4
-      defense: 4
+      offense: 3
+      defense: 3
     perks:
       cannot_be_trained: 1
       wins_into: 3
@@ -48,8 +48,8 @@ units:
     cost:
       platinum: 0
     power:
-      offense: 5
-      defense: 8
+      offense: 4
+      defense: 5
     perks:
       cannot_be_trained: 1
       wins_into: 4
@@ -60,8 +60,8 @@ units:
     cost:
       platinum: 0
     power:
-      offense: 9
-      defense: 4
+      offense: 5
+      defense: 2.5
     perks:
       cannot_be_trained: 1
       dies_into: 1
