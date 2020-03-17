@@ -76,13 +76,13 @@ class ExplorationCalculator
       {
         $multiplier = 0;
 
-        // Techs
-        $multiplier = $dominion->getTechPerkMultiplier('explore_platinum_cost');
+        // Techs (returns negative value)
+        $multiplier += $dominion->getTechPerkMultiplier('explore_platinum_cost');
 
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('explore_cost');
 
-        // Improvement: Cartography
+        // Improvement: Cartography (returns positive value)
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
         // Elite Guard Tax
@@ -92,7 +92,7 @@ class ExplorationCalculator
         }
 
         # Cap explore plat reduction to 50%.
-        $multiplier = min($multiplier, -0.50);
+        $multiplier = max($multiplier, -0.50);
 
         return (1 + $multiplier);
 
