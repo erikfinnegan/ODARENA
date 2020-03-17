@@ -363,7 +363,7 @@ class RaceHelper
                 break;
             case 'population_from_alchemy':
                 $negativeBenefit = false;
-                $description = 'Extra population per 1% Alchemies';
+                $description = 'Extra population per 1% Alchemies (max +20%)';
                 $booleanValue = false;
                 break;
             default:
