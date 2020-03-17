@@ -227,7 +227,7 @@
                             </div>
                         @elseif (!$canJoinGuards)
                             <div class="col-sm-12 text-center">
-                                <p class="text-red">You cannot join the Royal Guard for the day of the round.</p>
+                                <p class="text-red">You cannot join the Royal Guard for the first day of the round.</p>
                             </div>
                         @else
                         <div class="col-sm-6 text-center">
