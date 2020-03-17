@@ -224,9 +224,11 @@ class PopulationCalculator
             $multiplier += ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
         }
 
+        $multiplierFromAlchemies = 0;
         if($dominion->race->getPerkValue('population_from_alchemy'))
         {
-            $multiplier += max(0.20, (($dominion->building_alchemy / $this->landCalculator->getTotalLand($dominion)) * $dominion->race->getPerkValue('population_from_alchemy'))/100);
+            $multiplierFromAlchemies = ($dominion->building_alchemy / $this->landCalculator->getTotalLand($dominion)) * $dominion->race->getPerkValue('population_from_alchemy')/100;
+            $multiplier += min(0.20, $multiplierFromAlchemies);
         }
 
         // Prestige Bonus
