@@ -51,6 +51,10 @@ class GovernmentActionService
         if ($dominion->realm != $monarch->realm) {
             throw new RuntimeException('You cannot vote for a monarch outside of your realm.');
         }
+        if ($monarch->is_locked)
+        {
+            throw new RuntimeException('You cannot vote for a locked dominion to be your monarch.');
+        }
 
         $dominion->monarchy_vote_for_dominion_id = $monarch->id;
         $dominion->save();
@@ -73,12 +77,12 @@ class GovernmentActionService
             throw new GameException('Only the monarch can make changes to their realm.');
         }
 
-        if ($motd && strlen($motd) > 256) {
-            throw new GameException('Realm messages are limited to 256 characters.');
+        if ($motd && strlen($motd) > 400) {
+            throw new GameException('Realm messages are limited to 400 characters.');
         }
 
-        if ($name && strlen($name) > 64) {
-            throw new GameException('Realm names are limited to 64 characters.');
+        if ($name && strlen($name) > 100) {
+            throw new GameException('Realm names are limited to 100 characters.');
         }
 
         if ($motd) {
