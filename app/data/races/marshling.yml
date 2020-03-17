@@ -22,8 +22,8 @@ units:
     static_networth: 3
     cost:
       food: 100
-      lumber: 75
-      mana: 25
+      lumber: 60
+      mana: 15
     power:
       offense: 2
       defense: 2
