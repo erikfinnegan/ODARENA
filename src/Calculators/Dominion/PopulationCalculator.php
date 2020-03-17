@@ -227,7 +227,7 @@ class PopulationCalculator
         $multiplierFromAlchemies = 0;
         if($dominion->race->getPerkValue('population_from_alchemy'))
         {
-            $multiplierFromAlchemies = ($dominion->building_alchemy / $this->landCalculator->getTotalLand($dominion)) * $dominion->race->getPerkValue('population_from_alchemy')/100;
+            $multiplierFromAlchemies = ($dominion->building_alchemy / $this->landCalculator->getTotalLand($dominion)) * $dominion->race->getPerkValue('population_from_alchemy');
             $multiplier += min(0.20, $multiplierFromAlchemies);
         }
 
