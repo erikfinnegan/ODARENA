@@ -4,6 +4,10 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use LogicException;
 
+# ODA
+use DB;
+use Auth;
+
 // misc functions, probably could use a refactor later
 class MiscController extends AbstractDominionController
 {
