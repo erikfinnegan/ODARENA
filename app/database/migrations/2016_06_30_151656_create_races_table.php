@@ -19,7 +19,7 @@ class CreateRacesTable extends Migration
             $table->enum('home_land_type', ['plain', 'mountain', 'swamp',/* 'cavern', */'forest', 'hill', 'water']);
 
             # ODA
-            $table->integer('playable');
+            #$table->integer('playable');
             $table->integer('attacking');
             $table->integer('exploring');
             $table->integer('converting');

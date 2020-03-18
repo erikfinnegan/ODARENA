@@ -66,14 +66,11 @@ class OpsHelper
 
     public function blackOperationSuccessChance(float $selfRatio, float $targetRatio, bool $isInvasionSpell = false): float
     {
-        if($isInvasionSpell)
+        if ($isInvasionSpell)
         {
-          $ratioRelative = $selfRatio / 0.001;
+            return 1;
         }
-        else
-        {
-          $ratioRelative = $selfRatio / $targetRatio;
-        }
+        
         $ratioDifference = $selfRatio - $targetRatio;
         $steepness = 1 / 2.5;
         $shift = 0;
