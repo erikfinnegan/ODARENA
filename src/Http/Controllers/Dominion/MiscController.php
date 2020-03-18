@@ -32,6 +32,16 @@ class MiscController extends AbstractDominionController
     public function postDeleteDominion()
     {
 
+        if($dominion->user_id !== Auth::user()->id)
+        {
+            throw new GameException('You cannot delete other dominions than your own.');
+        }
+
+        if($dominion->protection_ticks <= 0)
+        {
+            throw new GameException('You cannot delete your dominion after protection is ended.');
+        }
+
         # Destroy the dominion.
         DB::table('active_spells')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('active_spells')->where('cast_by_dominion_id', '=', $dominion->id)->delete();
@@ -51,8 +61,6 @@ class MiscController extends AbstractDominionController
         DB::table('info_ops')->where('target_dominion_id', '=', $dominion->id)->delete();
 
         DB::table('dominions')->where('id', '=', $dominion->id)->delete();
-
-        throw new GameException('Your dominion has been deleted.');
 
         return redirect()->back();
     }
