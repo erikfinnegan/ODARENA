@@ -64,7 +64,7 @@ class OpsHelper
         return clamp($successRate, 0, 1);
     }
 
-    public function blackOperationSuccessChance(float $selfRatio, float $targetRatio): float
+    public function blackOperationSuccessChance(float $selfRatio, float $targetRatio, bool $isInvasionSpell = false): float
     {
         $ratioRelative = $selfRatio / $targetRatio;
         $ratioDifference = $selfRatio - $targetRatio;
