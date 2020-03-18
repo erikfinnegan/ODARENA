@@ -269,6 +269,19 @@
                           Proceed to next tick
                       </button>
                     </form>
+
+                        <p>Made a mistake? You can restart your dominion before the first tick.</p>
+                        <form id="restart-dominion" class="form-inline" action="{{ route('dominion.misc.restart') }}" method="post">
+                            @csrf
+                            <div class="form-group">
+                                <select class="form-control">
+                                    <option value="0">Restart?</option>
+                                    <option value="1">Confirm Restart</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary" disabled>Submit</button>
+                            </div>
+                        </form>
+                        
                   </div>
             </div>
         </div>

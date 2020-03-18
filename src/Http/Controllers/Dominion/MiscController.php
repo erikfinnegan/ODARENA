@@ -28,4 +28,22 @@ class MiscController extends AbstractDominionController
 
         return redirect()->back();
     }
+
+    public function postRestartDominion()
+    {
+        $dominion = $this->getSelectedDominion();
+
+        $dominionFactory = app(DominionFactory::class);
+        $protectionService = app(ProtectionService::class);
+
+        // Can only restart a dominion with more than 71 hours of proteciton left
+        if ($protectionService->getUnderProtectionHoursLeft($dominion) < 71) {
+            throw new LogicException('You can only restart your dominion before the first tick.');
+        }
+
+        $dominionFactory->restart($dominion);
+
+        return redirect()->back();
+    }
+
 }

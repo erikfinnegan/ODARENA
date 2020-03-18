@@ -405,6 +405,62 @@ class DominionFactory
     }
 
     /**
+         * Resets a Dominion to an equivalent state as a new registration.
+         *
+         * @param  Dominion $dominion
+         * @throws GameException
+         */
+        public function restart(Dominion $dominion): void
+        {
+            // Reset Queues
+            DB::table('dominion_queue')
+                ->where('dominion_id', $dominion->id)
+                ->delete();
+
+            // Reset Spells
+            DB::table('active_spells')
+                ->where('dominion_id', $dominion->id)
+                ->delete();
+
+            // Reset starting buildings
+            $startingBuildings = $this->getStartingBuildings($dominion);
+            foreach ($startingBuildings as $building_type => $value) {
+                $dominion->{$building_type} = $value;
+            }
+
+            // Reset starting land
+            $startingLand = $this->getStartingLand($dominion->race, $this->getStartingBarrenLand($dominion), $startingBuildings);
+            foreach ($startingLand as $land_type => $value) {
+                $dominion->{$land_type} = $value;
+            }
+
+            // Reset other starting attributes
+            $startingAttributes = $this->getStartingAttributes($dominion->round);
+            foreach ($startingAttributes as $attribute => $value) {
+                $dominion->{$attribute} = $value;
+            }
+
+            // Reset statistics
+            $modelAttributes = $dominion->getAttributes();
+            foreach ($modelAttributes as $attr => $value) {
+                if (substr_compare($attr, 'stat_', 0, 5) === 0) {
+                    $dominion->{$attr} = 0;
+                }
+            }
+
+            $dominion->created_at = now();
+            $dominion->save([
+                'event' => \OpenDominion\Services\Dominion\HistoryService::EVENT_ACTION_RESTART
+            ]);
+
+            // Reset Queues - duplicate to prevent race condition
+            DB::table('dominion_queue')
+                ->where('dominion_id', $dominion->id)
+                ->delete();
+        }
+
+
+    /**
      * @param User $user
      * @param Round $round
      * @throws GameException
@@ -647,4 +703,7 @@ class DominionFactory
 
         return $startingLand;
     }
+
+
+
 }
