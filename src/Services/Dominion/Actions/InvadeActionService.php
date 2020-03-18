@@ -471,23 +471,9 @@ class InvadeActionService
         }
         elseif ($isInvasionSuccessful && ($range >= 75))
         {
-#            $attackerPrestigeChange = (int)round(min(
-#                (($target->prestige * (static::PRESTIGE_CHANGE_PERCENTAGE / 100)) + static::PRESTIGE_CHANGE_ADD), // Gained through invading
-#                (($dominion->prestige * (static::PRESTIGE_CAP_PERCENTAGE / 100)) + static::PRESTIGE_CHANGE_ADD) // But capped by depending on your current prestige
-#            ));
             $targetPrestigeChange = (int)round(($target->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 400)));
-
             $attackerPrestigeChange = (int)round(static::PRESTIGE_CHANGE_ADD + ($target->prestige * (($range / 100) / 10)));
-            #$attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
 
-            // War Bonus
-            /*
-            if ($this->governmentService->isAtMutualWarWithRealm($dominion->realm, $target->realm)) {
-                $attackerPrestigeChange *= 1.25;
-            } elseif ($this->governmentService->isAtWarWithRealm($dominion->realm, $target->realm)) {
-                $attackerPrestigeChange *= 1.15;
-            }
-            */
         }
 
         // Reduce attacker prestige gain if the target was hit recently
@@ -498,13 +484,16 @@ class InvadeActionService
             if ($recentlyInvadedCount === 1)
             {
                 $attackerPrestigeChange *= 0.9;
-            } elseif ($recentlyInvadedCount === 2)
+            }
+            elseif ($recentlyInvadedCount === 2)
             {
                 $attackerPrestigeChange *= 0.6;
-            } elseif ($recentlyInvadedCount === 3)
+            }
+            elseif ($recentlyInvadedCount === 3)
             {
                 $attackerPrestigeChange *= 0.3;
-            } elseif ($recentlyInvadedCount >= 4)
+            }
+            elseif ($recentlyInvadedCount >= 4)
             {
                 $attackerPrestigeChange *= 0.1;
             }
