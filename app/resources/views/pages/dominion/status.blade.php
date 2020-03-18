@@ -286,7 +286,8 @@
                                   <option value="0">Delete?</option>
                                   <option value="1">Confirm Delete</option>
                               </select>
-                              <button type="submit" class="btn btn-sm btn-danger" disabled>Delete My Dominion</button>
+                              <br>
+                              <button type="submit" class="btn btn-sm btn-danger" disabled>Delete my dominion</button>
                           </div>
                       </form>
                   </div>
