@@ -7,6 +7,7 @@ use LogicException;
 # ODA
 use DB;
 use Auth;
+use Log;
 
 // misc functions, probably could use a refactor later
 class MiscController extends AbstractDominionController
@@ -36,16 +37,25 @@ class MiscController extends AbstractDominionController
     public function postDeleteDominion()
     {
 
+        /*
+        *   Conditions for allowing deleting:
+        *   - The dominion belongs to the logged in user.
+        *   - If the round has started, only allow deleting if protection ticks > 0.
+        *   - If the round hasn't started, always allow.
+        */
+
         $dominion = $this->getSelectedDominion();
 
+        # Can only delete your own dominion.
         if($dominion->user_id !== Auth::user()->id)
         {
             throw new GameException('You cannot delete other dominions than your own.');
         }
 
-        if($dominion->protection_ticks <= 0)
+        # If the round has started, can only delete if protection ticks > 0.
+        if($dominion->round->hasStarted() and $dominion->protection_ticks <= 0)
         {
-            throw new GameException('You cannot delete your dominion after protection is ended.');
+            throw new GameException('You cannot delete your dominion because the round has already started.');
         }
 
         # Destroy the dominion.
@@ -68,7 +78,16 @@ class MiscController extends AbstractDominionController
 
         DB::table('dominions')->where('id', '=', $dominion->id)->delete();
 
+        Log::info(sprintf(
+            'The dominion %s (ID %s) was deleted by user %s (ID %s).',
+            $dominion->name,
+            $dominion->id,
+            Auth::user()->display_name,
+            Auth::user()->id
+        ));
+
         return redirect()->back();
     }
+
 
 }
