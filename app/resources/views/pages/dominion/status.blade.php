@@ -248,7 +248,7 @@
             </div>
         @endif
 
-        @if ($dominionProtectionService->isUnderProtection($selectedDominion))
+        @if ($dominionProtectionService->canTick($selectedDominion))
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -271,7 +271,8 @@
                     </form>
                   </div>
             </div>
-
+            @endif
+            @if ($dominionProtectionService->canDelete($selectedDominion))
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="ra ra-broken-shield text-red"></i> Delete Dominion</h3>
@@ -286,8 +287,9 @@
                                   <option value="0">Delete?</option>
                                   <option value="1">Confirm Delete</option>
                               </select>
-                              <br>
-                              <button type="submit" class="btn btn-sm btn-danger" disabled>Delete my dominion</button>
+                              <p>
+                                <button type="submit" class="btn btn-sm btn-danger" disabled>Delete my dominion</button>
+                              </p>
                           </div>
                       </form>
                   </div>
