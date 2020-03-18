@@ -32,6 +32,8 @@ class MiscController extends AbstractDominionController
     public function postDeleteDominion()
     {
 
+        $dominion = $this->getSelectedDominion();
+
         if($dominion->user_id !== Auth::user()->id)
         {
             throw new GameException('You cannot delete other dominions than your own.');

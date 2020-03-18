@@ -269,7 +269,7 @@
                           Proceed to next tick
                       </button>
                     </form>
-                    
+
                         <p>You can delete your dominion and create a new one.</p>
                         <form id="delete-dominion" class="form-inline" action="{{ route('dominion.misc.delete') }}" method="post">
                             @csrf
@@ -278,7 +278,7 @@
                                     <option value="0">Delete?</option>
                                     <option value="1">Confirm Delete</option>
                                 </select>
-                                <button type="submit" class="btn btn-sm btn-primary" disabled>Delete My Dominion</button>
+                                <button type="submit" class="btn btn-sm btn-warning" disabled>Delete My Dominion</button>
                             </div>
                         </form>
 
