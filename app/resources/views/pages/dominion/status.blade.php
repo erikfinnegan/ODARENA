@@ -281,7 +281,7 @@
                                 <button type="submit" class="btn btn-sm btn-primary" disabled>Submit</button>
                             </div>
                         </form>
-                        
+
                   </div>
             </div>
         </div>
@@ -385,3 +385,17 @@
 
     </div>
 @endsection
+@push('inline-scripts')
+     <script type="text/javascript">
+         (function ($) {
+             $('#restart-dominion select').change(function() {
+                 var confirm = $(this).val();
+                 if (confirm == "1") {
+                     $('#restart-dominion button').prop('disabled', false);
+                 } else {
+                     $('#restart-dominion button').prop('disabled', true);
+                 }
+             });
+         })(jQuery);
+     </script>
+ @endpush

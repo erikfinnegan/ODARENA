@@ -29,7 +29,7 @@ class MiscController extends AbstractDominionController
         return redirect()->back();
     }
 
-    public function postRestartDominion()
+    public function postDeleteDominion()
     {
         $dominion = $this->getSelectedDominion();
 
