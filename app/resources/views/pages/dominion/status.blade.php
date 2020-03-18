@@ -249,7 +249,6 @@
         @endif
 
         @if ($dominionProtectionService->isUnderProtection($selectedDominion))
-
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -259,7 +258,7 @@
                       <p>You are under a magical state of protection. You have <b>{{ $selectedDominion->protection_ticks }}</b> protection {{ str_plural('tick', $selectedDominion->protection_ticks) }} left.</p>
                       <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
                       <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
-                      <p>Click the button below to proceed to the next tick.</p>
+                      <p>Click the button below to proceed to the next tick. <em>There is no undo option so make sure you are ready to proceed.</em> </p>
                       <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
                       @csrf
                       <button type="submit"
@@ -272,32 +271,28 @@
                     </form>
                   </div>
             </div>
-        </div>
 
-        @else
-
-        <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-cracked-shield text-red"></i> Protection Over</h3>
+                    <h3 class="box-title"><i class="ra ra-broken-shield text-red"></i> Delete Dominion</h3>
                 </div>
                   <div class="box-body">
-                      <p>Protection is over.</p>
-                      <p>To simulate again, click the button below to delete your dominion and then register a new dominion.</p>
-                      <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
-                      @csrf
-                      <button type="submit"
-                              class="btn btn-danger"
-                              {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                              id="tick-button">
-                          <i class="ra ra-cracked-shield"></i>
-                          Destroy Dominion
-                      </button>
-                    </form>
+                      <p>You can delete your dominion and create a new one.</p>
+                      <p><strong>There is no way to undo this action.</strong></p>
+                      <form id="delete-dominion" class="form-inline" action="{{ route('dominion.misc.delete') }}" method="post">
+                          @csrf
+                          <div class="form-group">
+                              <select class="form-control">
+                                  <option value="0">Delete?</option>
+                                  <option value="1">Confirm Delete</option>
+                              </select>
+                              <br>
+                              <button type="submit" class="btn btn-sm btn-danger" disabled>Delete my dominion</button>
+                          </div>
+                      </form>
                   </div>
             </div>
         </div>
-
         @endif
 
         <div class="col-sm-12 col-md-9">
@@ -398,3 +393,17 @@
 
     </div>
 @endsection
+@push('inline-scripts')
+     <script type="text/javascript">
+         (function ($) {
+             $('#delete-dominion select').change(function() {
+                 var confirm = $(this).val();
+                 if (confirm == "1") {
+                     $('#delete-dominion button').prop('disabled', false);
+                 } else {
+                     $('#delete-dominion button').prop('disabled', true);
+                 }
+             });
+         })(jQuery);
+     </script>
+ @endpush
