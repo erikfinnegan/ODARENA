@@ -269,19 +269,26 @@
                           Proceed to next tick
                       </button>
                     </form>
+                  </div>
+            </div>
 
-                        <p>You can delete your dominion and create a new one.</p>
-                        <form id="delete-dominion" class="form-inline" action="{{ route('dominion.misc.delete') }}" method="post">
-                            @csrf
-                            <div class="form-group">
-                                <select class="form-control">
-                                    <option value="0">Delete?</option>
-                                    <option value="1">Confirm Delete</option>
-                                </select>
-                                <button type="submit" class="btn btn-sm btn-warning" disabled>Delete My Dominion</button>
-                            </div>
-                        </form>
-
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="ra ra-broken-shield text-red"></i> Delete Dominion</h3>
+                </div>
+                  <div class="box-body">
+                      <p>You can delete your dominion and create a new one.</p>
+                      <p><strong>There is no way to undo this action.</strong></p>
+                      <form id="delete-dominion" class="form-inline" action="{{ route('dominion.misc.delete') }}" method="post">
+                          @csrf
+                          <div class="form-group">
+                              <select class="form-control">
+                                  <option value="0">Delete?</option>
+                                  <option value="1">Confirm Delete</option>
+                              </select>
+                              <button type="submit" class="btn btn-sm btn-danger" disabled>Delete My Dominion</button>
+                          </div>
+                      </form>
                   </div>
             </div>
         </div>
