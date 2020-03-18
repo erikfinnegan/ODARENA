@@ -61,7 +61,7 @@ class TickActionService
 
             if($dominion->protection_ticks <= 0)
             {
-                throw new GameException('You have no protection ticks left. To sim again, please delete your dominion.');
+                throw new GameException('You do not have any protection ticks left.');
             }
 
         #});
