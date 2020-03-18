@@ -258,7 +258,7 @@
                       <p>You are under a magical state of protection. You have <b>{{ $selectedDominion->protection_ticks }}</b> protection {{ str_plural('tick', $selectedDominion->protection_ticks) }} left.</p>
                       <p>During protection you cannot be attacked or attack other dominions. You can neither cast any offensive spells or engage in espionage.</p>
                       <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
-                      <p>Click the button below to proceed to the next tick.</p>
+                      <p>Click the button below to proceed to the next tick. <em>There is no undo option so make sure you are ready to proceed.</em> </p>
                       <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
                       @csrf
                       <button type="submit"
@@ -269,16 +269,16 @@
                           Proceed to next tick
                       </button>
                     </form>
-
-                        <p>Made a mistake? You can restart your dominion before the first tick.</p>
-                        <form id="restart-dominion" class="form-inline" action="{{ route('dominion.misc.restart') }}" method="post">
+                    
+                        <p>You can delete your dominion and create a new one.</p>
+                        <form id="delete-dominion" class="form-inline" action="{{ route('dominion.misc.delete') }}" method="post">
                             @csrf
                             <div class="form-group">
                                 <select class="form-control">
-                                    <option value="0">Restart?</option>
-                                    <option value="1">Confirm Restart</option>
+                                    <option value="0">Delete?</option>
+                                    <option value="1">Confirm Delete</option>
                                 </select>
-                                <button type="submit" class="btn btn-sm btn-primary" disabled>Submit</button>
+                                <button type="submit" class="btn btn-sm btn-primary" disabled>Delete My Dominion</button>
                             </div>
                         </form>
 
@@ -388,12 +388,12 @@
 @push('inline-scripts')
      <script type="text/javascript">
          (function ($) {
-             $('#restart-dominion select').change(function() {
+             $('#delete-dominion select').change(function() {
                  var confirm = $(this).val();
                  if (confirm == "1") {
-                     $('#restart-dominion button').prop('disabled', false);
+                     $('#delete-dominion button').prop('disabled', false);
                  } else {
-                     $('#restart-dominion button').prop('disabled', true);
+                     $('#delete-dominion button').prop('disabled', true);
                  }
              });
          })(jQuery);
