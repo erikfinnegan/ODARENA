@@ -27,7 +27,7 @@ class ProtectionService
      */
     public function canTick(Dominion $dominion)
     {
-        return isUnderProtection($dominion);
+        return $this->isUnderProtection($dominion);
     }
 
     /**
