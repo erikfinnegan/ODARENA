@@ -335,7 +335,7 @@ class DominionFactory
             'resource_mana' => intval($startingResources['mana'] * $startingResourcesMultiplier),
             'resource_ore' => intval($startingResources['ore'] * $startingResourcesMultiplier),
             'resource_gems' => intval($startingResources['gems'] * $startingResourcesMultiplier),
-            'resource_tech' => intval(0 * $startingResourcesMultiplier),
+            'resource_tech' => intval(400 * $hoursSinceRoundStarted),
             'resource_boats' => intval($startingResources['boats'] * $startingResourcesMultiplier),
 
             # New resources
