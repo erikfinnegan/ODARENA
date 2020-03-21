@@ -15,6 +15,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\NetworthCalculator;
 
 class InvasionController extends AbstractDominionController
 {
@@ -30,6 +31,7 @@ class InvasionController extends AbstractDominionController
 
             # ODA
             'spellCalculator' => app(SpellCalculator::class),
+            'networthCalculator' => app(NetworthCalculator::class),
         ]);
     }
 

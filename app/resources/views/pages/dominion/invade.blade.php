@@ -25,6 +25,7 @@
                                     @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
                                         <option value="{{ $dominion->id }}"
                                                 data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
+                                                data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
                                                 data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
                                                 data-war="{{ $governmentService->isAtWarWithRealm($selectedDominion->realm, $dominion->realm) ? 1 : 0 }}">
                                             {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
