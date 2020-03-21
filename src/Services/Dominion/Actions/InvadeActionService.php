@@ -363,26 +363,26 @@ class InvadeActionService
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
-
             // Stat changes
-            // todo: move to own method
             if ($this->invasionResult['result']['success'])
             {
                 $dominion->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
                 $dominion->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landGenerated']);
                 $dominion->stat_attacking_success += $countsAsVictory;
 
-                $dominion->realm->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
-                $dominion->realm->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landGenerated']);
-                $dominion->realm->stat_attacking_success += $countsAsVictory;
+                #$dominion->realm->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
+                #$dominion->realm->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landGenerated']);
+                #$dominion->realm->stat_attacking_success += $countsAsVictory;
+
+                $target->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
+                #$target->realm->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
             }
             else
             {
+                #$dominion->stat_attacking_failure += $countsAsVictory;
+                #$dominion->realm->stat_attacking_failure += $countsAsVictory;
                 $target->stat_defending_success += 1;
-                $target->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
-
                 $target->realm->stat_defending_success += 1;
-                $target->realm->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
             }
 
             // todo: move to GameEventService
