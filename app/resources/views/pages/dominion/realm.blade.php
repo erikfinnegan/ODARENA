@@ -159,23 +159,23 @@
                             <table>
                               <tr>
                                 <td>Victories:</td>
-                                <td>{{ realmDominionsStats['victories'] }}</td>
+                                <td>{{ $realmDominionsStats['victories'] }}</td>
                               </tr>
                                 <tr>
                                   <td>Prestige:</td>
-                                  <td>{{ realmDominionsStats['prestige'] }}</td>
+                                  <td>{{ $realmDominionsStats['prestige'] }}</td>
                                 </tr>
                               <tr>
                                 <td>Land conquered:</td>
-                                <td>{{ realmDominionsStats['total_land_conquered'] }} acre</td>
+                                <td>{{ $realmDominionsStats['total_land_conquered'] }} acre</td>
                               </tr>
                               <tr>
                                 <td>Land explored:</td>
-                                <td>{{ realmDominionsStats['total_land_explored'] }} acres</td>
+                                <td>{{ $realmDominionsStats['total_land_explored'] }} acres</td>
                               </tr>
                               <tr>
                                 <td>Land lost:</td>
-                                <td>{{ realmDominionsStats['total_land_lost'] }} acres</td>
+                                <td>{{ $realmDominionsStats['total_land_lost'] }} acres</td>
                               </tr>
 
                             </table>
