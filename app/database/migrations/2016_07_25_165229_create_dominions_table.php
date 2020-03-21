@@ -107,6 +107,8 @@ class CreateDominionsTable extends Migration
 
             $table->integer('npc_modifier')->unsigned();
             $table->integer('protection_ticks')->unsigned();
+            $table->integer('most_recent_improvement_resource')->string(0);
+            $table->integer('stat_total_land_lost')->integer(0);
 
             $table->timestamps();
 

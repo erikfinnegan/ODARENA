@@ -82,6 +82,23 @@ class RealmController extends AbstractDominionController
             })
             ->flatten();
 
+        $realmDominionsStats = [
+            'victories' => 0,
+            'total_land_conquered' => 0,
+            'total_land_explored' => 0,
+            'total_land_lost' => 0,
+            'prestige' => 0,
+          ];
+
+        foreach($dominions as $dominion)
+        {
+          $realmDominionsStats['victories'] += $dominion->stat_attacking_success;
+          $realmDominionsStats['total_land_conquered'] += $dominion->stat_total_land_conquered;
+          $realmDominionsStats['total_land_explored'] += $dominion->stat_total_platinum_stolen;
+          $realmDominionsStats['total_land_lost'] += $dominion->stat_total_land_lost;
+          $realmDominionsStats['prestige'] += $dominion->prestige;
+        }
+
         // Todo: refactor this hacky hacky navigation stuff
         $prevRealm = DB::table('realms')
             ->where('round_id', $round->id)
@@ -115,7 +132,8 @@ class RealmController extends AbstractDominionController
             'realmCount',
 
             # ODA
-            'spellCalculator'
+            'spellCalculator',
+            'realmDominionsStats'
         ));
     }
 

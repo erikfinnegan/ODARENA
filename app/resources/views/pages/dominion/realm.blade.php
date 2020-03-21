@@ -156,6 +156,30 @@
                               with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
                             </p>
 
+                            <table>
+                              <tr>
+                                <td>Victories:</td>
+                                <td>{{ realmDominionsStats['victories'] }}</td>
+                              </tr>
+                                <tr>
+                                  <td>Prestige:</td>
+                                  <td>{{ realmDominionsStats['prestige'] }}</td>
+                                </tr>
+                              <tr>
+                                <td>Land conquered:</td>
+                                <td>{{ realmDominionsStats['total_land_conquered'] }} acre</td>
+                              </tr>
+                              <tr>
+                                <td>Land explored:</td>
+                                <td>{{ realmDominionsStats['total_land_explored'] }} acres</td>
+                              </tr>
+                              <tr>
+                                <td>Land lost:</td>
+                                <td>{{ realmDominionsStats['total_land_lost'] }} acres</td>
+                              </tr>
+
+                            </table>
+
                             <p><a href="{{ route('dominion.town-crier', [$realm->number]) }}">View the realm's News</a></p>
                           </div>
                       </div>
