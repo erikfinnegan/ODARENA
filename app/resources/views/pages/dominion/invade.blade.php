@@ -595,6 +595,7 @@
 
             const land = state.element.dataset.land;
             const percentage = state.element.dataset.percentage;
+            const networth = state.element.dataset.networth;
             const war = state.element.dataset.war;
             let difficultyClass;
 
@@ -616,7 +617,7 @@
             return $(`
                 <div class="pull-left">${state.text}</div>
                 ${warStatus}
-                <div class="pull-right">${land} land <span class="${difficultyClass}">(${percentage}%)</span></div>
+                <div class="pull-right">${land} acres <span class="${difficultyClass}">(${percentage}%)</span>, ${networth} networth</div>
                 <div style="clear: both;"></div>
             `);
         }
