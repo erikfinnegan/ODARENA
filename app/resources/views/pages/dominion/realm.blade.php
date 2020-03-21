@@ -164,23 +164,23 @@
                                   </colgroup>
                                   <tr>
                                     <td>Victories:</td>
-                                    <td>{{ $realmDominionsStats['victories'] }}</td>
+                                    <td>{{ number_format($realmDominionsStats['victories']) }}</td>
                                   </tr>
                                     <tr>
                                       <td>Prestige:</td>
-                                      <td>{{ $realmDominionsStats['prestige'] }}</td>
+                                      <td>{{ number_format($realmDominionsStats['prestige']) }}</td>
                                     </tr>
                                   <tr>
                                     <td>Land conquered:</td>
-                                    <td>{{ $realmDominionsStats['total_land_conquered'] }} acre</td>
+                                    <td>{{ number_format($realmDominionsStats['total_land_conquered']) }} acres</td>
                                   </tr>
                                   <tr>
                                     <td>Land explored:</td>
-                                    <td>{{ $realmDominionsStats['total_land_explored'] }} acres</td>
+                                    <td>{{ number_format($realmDominionsStats['total_land_explored']) }} acres</td>
                                   </tr>
                                   <tr>
                                     <td>Land lost:</td>
-                                    <td>{{ $realmDominionsStats['total_land_lost'] }} acres</td>
+                                    <td>{{ number_format($realmDominionsStats['total_land_lost']) }} acres</td>
                                   </tr>
 
                               </table>
