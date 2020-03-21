@@ -156,6 +156,7 @@
                               with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
                             </p>
 
+
                             <div class="box-body table-responsive no-padding">
                               <table class="table">
                                   <colgroup>

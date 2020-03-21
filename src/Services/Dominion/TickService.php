@@ -504,6 +504,9 @@ class TickService
             $landGained['land_hill'] = intval($totalLandToGain/6);
             $landGained['land_water'] = intval($totalLandToGain/6);
 
+            # Add the land gained to the $dominion.
+            $dominion->total_land_conquered = $totalLandToGain;
+
             # Send out 80-100% of all units. Rand over 100 but capped at 100
             # to make it more likely 100% are sent.
             $sentRatio = 1 - $landGainRatio;
