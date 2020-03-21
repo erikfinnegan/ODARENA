@@ -506,6 +506,7 @@ class TickService
 
             # Add the land gained to the $dominion.
             $dominion->total_land_conquered = $totalLandToGain;
+            $dominion->stat_attacking_success += 1;
 
             # Send out 80-100% of all units. Rand over 100 but capped at 100
             # to make it more likely 100% are sent.
