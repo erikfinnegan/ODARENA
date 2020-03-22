@@ -334,25 +334,25 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Earthquake Hours:</td>
+                                        <td>Earthquake Ticks:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_earthquake_hours) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Great Flood Hours:</td>
+                                        <td>Great Flood Ticks:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_great_flood_hours) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Insect Swarm Hours:</td>
+                                        <td>Insect Swarm Ticks:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_insect_swarm_hours) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Plague Hours:</td>
+                                        <td>Plague Ticks:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_plague_hours) }}</strong>
                                         </td>

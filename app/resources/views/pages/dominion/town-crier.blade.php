@@ -120,7 +120,7 @@
                             <option value="">All Realms</option>
                             @for ($i=1; $i<$realmCount; $i++)
                                 <option value="{{ $i }}" {{ $realm && $realm->number == $i ? 'selected' : null }}>
-                                    #{{ $i }} {{ $selectedDominion->realm->number == $i ? '(My Realm)' : null }}
+                                    {{ $i }} {{ $selectedDominion->realm->number == $i ? '(My Realm)' : null }}
                                 </option>
                             @endfor
                         </select>

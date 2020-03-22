@@ -124,7 +124,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Fool\'s Gold',
-                'description' => 'Platinum theft protection for 10 hours, 22 hour recharge',
+                'description' => 'Platinum theft protection for 40 ticks, 22 hour recharge',
                 'key' => 'fools_gold',
                 'mana_cost' => 5,
                 'duration' => 10*4,
@@ -648,6 +648,23 @@ class SpellHelper
                     ],
                 ]);
             }
+
+            if(in_array($dominion->race->name, ['Lux']))
+            {
+                $spells = $spells->concat([
+                    [
+                        'name' => 'Solar Flare',
+                        'description' => 'Eradicates Imps. Only effective against the Nox.',
+                        'key' => 'solar_flare',
+                        'mana_cost' => 3,
+                        'decreases' => [
+                            'military_unit1',
+                        ],
+                        'percentage' => 5
+                    ],
+                ]);
+            }
+
         }
 
 

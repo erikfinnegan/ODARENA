@@ -563,6 +563,10 @@ class NotificationHelper
                         $resultString = "{$data['damageString']} die from Purification.";
                         break;
 
+                    case 'solar_flare':
+                        $resultString = "{$data['damageString']} vanish under Solar Flares.";
+                        break;
+
                     default:
                         throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
                 }
