@@ -151,18 +151,16 @@
                       </div>
                       <div class="row">
                           <div class="col-xs-12">
-                            <p>It contains <strong>{{ $dominions->count() }}</strong> {{ str_plural('dominion', $dominions->count()) }} and
-                              is <strong>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</strong> acres large
-                              with a networth of <strong>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</strong>.
-                            </p>
-
-
                             <div class="box-body table-responsive no-padding">
                               <table class="table">
                                   <colgroup>
                                       <col width="50%">
                                       <col width="50%">
                                   </colgroup>
+                                  <tr>
+                                    <td>Dominions:</td>
+                                    <td>{{ number_format($dominions->count()) }}</td>
+                                  </tr>
                                   <tr>
                                     <td>Victories:</td>
                                     <td>{{ number_format($realmDominionsStats['victories']) }}</td>
@@ -172,6 +170,10 @@
                                       <td>{{ number_format($realmDominionsStats['prestige']) }}</td>
                                     </tr>
                                   <tr>
+                                  <tr>
+                                    <td>Current land:</td>
+                                    <td>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }} acres</td>
+                                  </tr>
                                     <td>Land conquered:</td>
                                     <td>{{ number_format($realmDominionsStats['total_land_conquered']) }} acres</td>
                                   </tr>
@@ -183,7 +185,10 @@
                                     <td>Land lost:</td>
                                     <td>{{ number_format($realmDominionsStats['total_land_lost']) }} acres</td>
                                   </tr>
-
+                                  <tr>
+                                    <td>Networth:</td>
+                                    <td>{{ number_format($networthCalculator->getRealmNetworth($realm) }}</td>
+                                  </tr>
                               </table>
                             </div>
 
