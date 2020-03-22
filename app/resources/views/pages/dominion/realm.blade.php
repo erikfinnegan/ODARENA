@@ -187,7 +187,7 @@
                                   </tr>
                                   <tr>
                                     <td>Networth:</td>
-                                    <td>{{ number_format($networthCalculator->getRealmNetworth($realm) }}</td>
+                                    <td>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</td>
                                   </tr>
                               </table>
                             </div>
