@@ -374,7 +374,7 @@
 
             return $(`
                 <div class="pull-left">${state.text}</div>
-                <div class="pull-right">${land} land <span class="${difficultyClass}">(${percentage}%)</span> - ${networth} networth</div>
+                <div class="pull-right">${land} acres <span class="${difficultyClass}">(${percentage}%)</span> - ${networth} networth</div>
                 <div style="clear: both;"></div>
             `);
         }

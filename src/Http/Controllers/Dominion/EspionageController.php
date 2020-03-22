@@ -16,6 +16,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\NetworthCalculator;
 
 class EspionageController extends AbstractDominionController
 {
@@ -28,6 +29,9 @@ class EspionageController extends AbstractDominionController
             'protectionService' => app(ProtectionService::class),
             'rangeCalculator' => app(RangeCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
+
+            #ODA
+            'networthCalculator' => app(NetworthCalculator::class),
         ]);
     }
 

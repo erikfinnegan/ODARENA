@@ -30,6 +30,7 @@
                                             @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
                                                 <option value="{{ $dominion->id }}"
                                                         data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
+                                                        data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
                                                         data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
                                                         data-war="{{ ($selectedDominion->realm->war_realm_id == $dominion->realm->id || $dominion->realm->war_realm_id == $selectedDominion->realm->id) ? 1 : 0 }}">
                                                     {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
@@ -198,6 +199,7 @@
 
             const land = state.element.dataset.land;
             const percentage = state.element.dataset.percentage;
+            const networth = state.element.dataset.networth;
             const war = state.element.dataset.war;
             let difficultyClass;
 
@@ -219,7 +221,7 @@
             return $(`
                 <div class="pull-left">${state.text}</div>
                 ${warStatus}
-                <div class="pull-right">${land} land <span class="${difficultyClass}">(${percentage}%)</span></div>
+                <div class="pull-right">${land} acres <span class="${difficultyClass}">(${percentage}%)</span> - ${networth} networth</div>
                 <div style="clear: both;"></div>
             `);
         }
