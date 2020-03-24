@@ -17,7 +17,7 @@ class CreateBuildingsTable extends Migration
             $table->increments('id');
             $table->string('key');
             $table->string('name');
-            $table->text('excluded_races');
+            $table->text('excluded_races')->nullable();
             $table->text('exclusive_races')->nullable();
             $table->enum('land_type', ['plain', 'mountain', 'swamp', 'forest', 'hill', 'water']);
             $table->timestamps();
