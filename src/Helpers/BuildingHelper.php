@@ -291,4 +291,31 @@ class BuildingHelper
         return $helpStrings[$buildingType] ?: null;
     }
 
+    public function getTechDescription(Tech $tech): string
+    {
+        $perkTypeStrings = [
+            # Housing
+            'housing' => 'Houses %s people.',
+            'military_housing' => 'Houses %s military units',
+
+            # Production
+
+        ];
+
+        $perkStrings = [];
+        foreach ($tech->perks as $perk) {
+            if (isset($perkTypeStrings[$perk->key])) {
+                $perkValue = (float)$perk->pivot->value;
+                if ($perkValue < 0) {
+                    $perkStrings[] = vsprintf($perkTypeStrings[$perk->key], $perkValue);
+                } else {
+                    $perkStrings[] = vsprintf($perkTypeStrings[$perk->key], '+' . $perkValue);
+                }
+            }
+        }
+
+        return implode($perkStrings, ', ');
+    }
+
+
 }

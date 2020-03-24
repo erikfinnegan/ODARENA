@@ -223,7 +223,6 @@ class DataSyncCommand extends Command implements CommandInterface
                     'prerequisites' => object_get($techData, 'requires', []),
                     'cost_multiplier' => $techData->cost_multiplier,
                     'enabled' => (int)object_get($techData, 'enabled', 1),
-                    #'enabled' => $techData->enabled,
                 ]);
 
             if (!$tech->exists) {
@@ -268,4 +267,69 @@ class DataSyncCommand extends Command implements CommandInterface
             $tech->perks()->sync($techPerksToSync);
         }
     }
+
+
+        /**
+         * Syncs building and perk data from .yml file to the database.
+         */
+        protected function syncBuildings()
+        {
+            $fileContents = $this->filesystem->get(base_path('app/data/buildings.yml'));
+
+            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+            foreach ($data as $buildingKey => $buildingData) {
+                // Building
+                $building = Building::firstOrNew(['key' => $buildingKey])
+                    ->fill([
+                        'name' => $buildingData->name,
+                        'excluded_races' => object_get($buildingData, 'excluded_races', []),
+                        'exclusive_races' => object_get($buildingData, 'exclusive_races', []),
+                        'land_type' => object_get($buildingData, 'land_type'),
+                    ]);
+
+                if (!$building->exists) {
+                    $this->info("Adding building {$buildingData->name}");
+                } else {
+                    $this->info("Processing building {$buildingData->name}");
+
+                    $newValues = $building->getDirty();
+
+                    foreach ($newValues as $key => $newValue) {
+                        $originalValue = $building->getOriginal($key);
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                }
+
+                $building->save();
+                $building->refresh();
+
+                // Building Perks
+                $buildingPerksToSync = [];
+
+                foreach (object_get($buildingData, 'perks', []) as $perk => $value)
+                {
+                    $value = (float)$value;
+
+                    $buildingPerkType = BuildingPerkType::firstOrCreate(['key' => $perk]);
+
+                    $buildingPerksToSync[$buildingPerkType->id] = ['value' => $value];
+
+                    $buildingPerk = BuildingPerk::query()
+                        ->where('building_id', $building->id)
+                        ->where('building_perk_type_id', $buildingPerkType->id)
+                        ->first();
+
+                    if ($buildingPerk === null) {
+                        $this->info("[Add Building Perk] {$perk}: {$value}");
+                    } elseif ($buildingPerk->value != $value) {
+                        $this->info("[Change Building Perk] {$perk}: {$buildingPerk->value} -> {$value}");
+                    }
+                }
+
+                $building->perks()->sync($buildingPerksToSync);
+            }
+        }
+
 }
