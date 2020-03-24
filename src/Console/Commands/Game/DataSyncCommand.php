@@ -15,6 +15,9 @@ use OpenDominion\Models\TechPerkType;
 use OpenDominion\Models\Unit;
 use OpenDominion\Models\UnitPerk;
 use OpenDominion\Models\UnitPerkType;
+use OpenDominion\Models\Building;
+use OpenDominion\Models\BuildingPerk;
+use OpenDominion\Models\BuildingPerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
