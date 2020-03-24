@@ -154,21 +154,6 @@ offensive_power_level6:
 
 # </Ladder: Offensive Power>
 
-## Master Tech: Military Master
-
-master_military:
-  name: Master of Military
-  cost_multiplier: 100
-  perks:
-    offense: 20
-    military_cost: -20
-    fewer_casualties_offense: 50
-    fewer_casualties_defense: 50
-  requires:
-    - offensive_power_level6
-    - training_costs_level6
-    - casualties_level6
-
 # <Ladder: Architecture>
 
 construction_rezoning_level1:
@@ -1359,3 +1344,19 @@ commerce_level6:
     - commerce_level5
 
 # </Ladder: Commerce>
+
+
+## Master Tech: Military Master
+
+master_military:
+  name: Paragon of Military
+  cost_multiplier: 100
+  perks:
+    offense: 20
+    military_cost: -20
+    fewer_casualties_offense: 50
+    fewer_casualties_defense: 50
+  requires:
+    - offensive_power_level6
+    - training_costs_level6
+    - casualties_level6

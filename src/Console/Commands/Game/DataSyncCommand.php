@@ -52,7 +52,7 @@ class DataSyncCommand extends Command implements CommandInterface
         DB::transaction(function () {
             $this->syncRaces();
             $this->syncTechs();
-            #$this->syncBuildings();
+            $this->syncBuildings();
         });
     }
 
