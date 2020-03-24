@@ -4,14 +4,14 @@
 
 home:
   name: Home
-  excluded_races:
-    - growth
-    - myconid
-    - void
-    - swarm
   land_type: home
   perks:
     housing: 30
+  excluded_races:
+    - Growth
+    - Myconid
+    - Void
+    - Swarm
 
 barracks:
   name: Barracks

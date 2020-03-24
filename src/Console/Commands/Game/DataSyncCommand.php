@@ -287,9 +287,9 @@ class DataSyncCommand extends Command implements CommandInterface
                 $building = Building::firstOrNew(['key' => $buildingKey])
                     ->fill([
                         'name' => $buildingData->name,
+                        'land_type' => object_get($buildingData, 'land_type'),
                         'excluded_races' => object_get($buildingData, 'excluded_races', []),
                         'exclusive_races' => object_get($buildingData, 'exclusive_races', []),
-                        'land_type' => object_get($buildingData, 'land_type'),
                     ]);
 
                 if (!$building->exists) {
