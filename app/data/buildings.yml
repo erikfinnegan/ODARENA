@@ -4,6 +4,7 @@
 
 home:
   name: Home
+  exclusive_races: null
   excluded_races:
     - Growth
     - Myconid
@@ -15,6 +16,7 @@ home:
 
 barracks:
   name: Barracks
+  exclusive_races: null
   excluded_races:
     - Growth
     - Myconid
