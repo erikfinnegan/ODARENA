@@ -19,6 +19,11 @@ class Building extends AbstractModel
 {
     protected $table = 'buildings';
 
+    protected $casts = [
+        'excluded_races' => 'array',
+        'exclusive_races' => 'array',
+    ];
+
     public function perks()
     {
         return $this->belongsToMany(
