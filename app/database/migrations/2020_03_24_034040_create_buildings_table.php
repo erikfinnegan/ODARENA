@@ -19,7 +19,7 @@ class CreateBuildingsTable extends Migration
             $table->string('name');
             $table->text('excluded_races')->nullable();
             $table->text('exclusive_races')->nullable();
-            $table->enum('land_type', ['plain', 'mountain', 'swamp', 'forest', 'hill', 'water']);
+            $table->enum('land_type', ['plain', 'mountain', 'swamp', 'forest', 'hill', 'water', 'home']); # Home - home land type
             $table->timestamps();
         });
     }
