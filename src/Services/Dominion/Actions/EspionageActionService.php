@@ -1014,14 +1014,6 @@ class EspionageActionService
                 }
             }
         }
-        if (isset($operationInfo['increases']))
-        {
-            foreach ($operationInfo['increases'] as $attr)
-            {
-                $damage = $target->{$attr} * $baseDamage;
-                $target->{$attr} += round($damage);
-            }
-        }
 
         $target->save([
             'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,

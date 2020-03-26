@@ -334,26 +334,64 @@ class BuildingHelper
 
         ];
 
-        $perkStrings = [];
-        foreach ($building->perks as $perk) {
-            if (isset($perkTypeStrings[$perk->key])) {
-                $perkValue = (float)$perk->pivot->value;
-                if ($perkValue < 0) {
-                    $perkStrings[] = vsprintf($perkTypeStrings[$perk->key], $perkValue);
-                } else {
-                    $perkStrings[] = vsprintf($perkTypeStrings[$perk->key], '+' . $perkValue);
+        foreach ($building->perks as $perk)
+        {
+            if (!array_key_exists($perk->key, $perkTypeStrings))
+            {
+                //\Debugbar::warning("Missing perk help text for unit perk '{$perk->key}'' on unit '{$unit->name}''.");
+                continue;
+            }
+
+            $perkValue = $perk->pivot->value;
+
+            // Handle array-based perks
+            $nestedArrays = false;
+            // todo: refactor all of this
+            // partially copied from Race::getUnitPerkValueForUnitSlot
+            if (str_contains($perkValue, ','))
+            {
+                $perkValue = explode(',', $perkValue);
+
+                foreach ($perkValue as $key => $value)
+                {
+                    if (!str_contains($value, ';'))
+                    {
+                        continue;
+                    }
+
+                    $nestedArrays = true;
+                    $perkValue[$key] = explode(';', $value);
                 }
+            }
+
+            if (is_array($perkValue))
+            {
+                if ($nestedArrays)
+                {
+                    foreach ($perkValue as $nestedKey => $nestedValue)
+                    {
+                        $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
+                    }
+                }
+                else
+                {
+                    $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                }
+            }
+            else
+            {
+                $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
             }
         }
 
-        return implode($perkStrings, ', ');
+        return '<ul>' . $helpStrings[$unitType] . '</ul>';
     }
 
     public function getBuildings(?Race $race)
     {
       # ???
 
-      
+
 
     }
 
