@@ -907,11 +907,7 @@ class EspionageActionService
 
         if ($targetSpa !== 0.0)
         {
-            $successRate = $this->opsHelper->blackOperationSuccessChance(
-                $selfSpa,
-                $targetSpa,
-                static::HOSTILE_MULTIPLIER_SUCCESS_RATE
-            );
+        $successRate = $this->opsHelper->blackOperationSuccessChance($selfSpa, $targetSpa, false/*static::HOSTILE_MULTIPLIER_SUCCESS_RATE*/);
 
             if (!random_chance($successRate)) {
                 // Values (percentage)
