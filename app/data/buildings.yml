@@ -237,7 +237,7 @@ tissue:
     food_production: 4
 
 mycelia:
-  name: Ziggurat
+  name: Mycelia
   exclusive_races:
     - Myconid
   land_type: forest
