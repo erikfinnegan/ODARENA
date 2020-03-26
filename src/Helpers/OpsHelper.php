@@ -68,7 +68,6 @@ class OpsHelper
     {
         if ($isInvasionSpell)
         {
-            dd($isInvasionSpell);
             return 1;
         }
 
@@ -76,7 +75,7 @@ class OpsHelper
         $steepness = 1 / 2.5;
         $shift = 0;
 
-        $successRate = ($this->erf(($ratioRelative - $shift) * $steepness) + 1) / 2;
+        $successRate = ($this->erf(($ratioDifference - $shift) * $steepness) + 1) / 2;
 
         return clamp($successRate, 0, 1);
     }
