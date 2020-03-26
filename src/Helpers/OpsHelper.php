@@ -68,9 +68,10 @@ class OpsHelper
     {
         if ($isInvasionSpell)
         {
+            dd($isInvasionSpell);
             return 1;
         }
-        
+
         $ratioDifference = $selfRatio - $targetRatio;
         $steepness = 1 / 2.5;
         $shift = 0;
