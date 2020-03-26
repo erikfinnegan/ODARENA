@@ -4,53 +4,62 @@
 
 @section('content')
 
-{{ dd($buildings) }}
-
 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
     <div class="row">
-        <div class="col-sm-12 col-md-9">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-home"></i> Buildings</h3>
-                </div>
-                <form action="{{ route('dominion.construct') }}" method="post" role="form">
-                    @csrf
-                    <div class="box-body no-padding">
-                        <div class="row">
+      <div class="col-sm-12 col-md-9">
+          <div class="box box-primary">
+              <div class="box-header with-border">
+                  <h3 class="box-title"><i class="fa fa-home"></i> Buildings</h3>
+              </div>
+              <form action="{{ route('dominion.buildings') }}" method="post" role="form">
+                  @csrf
+                  <div class="box-body table-responsive no-padding">
+                      <table class="table">
+                          <colgroup>
+                              <col width="50">
+                              <col width="200">
+                              <col>
+                              <col width="150">
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>Land</th>
+                                  <th>Building</th>
+                                  <th>Owned</th>
+                                  <th>Construct</th>
+                                  <th>Description</th>
+                              </tr>
+                          </thead>
+                          @foreach ($buildings as $building)
+                              @if(count(array_diff($buildings->excluded_races, $selectedDominion->race)) == 0)
+                                  <tr class="text-normal">
+                                      <td>
+                                          {{ $building->land_type }}
+                                      </td>
+                                      <td>
+                                          {{ $building->name }}
+                                      </td>
+                                      <td>
+                                          0
+                                      </td>
+                                      <td>
+                                          [input]
+                                      </td>
+                                      <td>
+                                          desc
+                                      </td>
 
-                            <div class="col-md-12 col-lg-6">
-                                @php
-                                    /** @var \Illuminate\Support\Collection $buildingTypesLeft */
-                                    $landTypesBuildingTypes = collect($buildingHelper->getBuildingTypesByRace($selectedDominion))->filter(function ($buildingTypes, $landType) {
-                                        return in_array($landType, ['plain', 'mountain', 'swamp'], true);
-                                    });
-                                @endphp
-
-                                @include('partials.dominion.construction.table')
-                            </div>
-
-                            <div class="col-md-12 col-lg-6">
-                                @php
-                                    /** @var \Illuminate\Support\Collection $buildingTypesLeft */
-                                    $landTypesBuildingTypes = collect($buildingHelper->getBuildingTypesByRace($selectedDominion))->filter(function ($buildingTypes, $landType) {
-                                        return in_array($landType, ['cavern', 'forest', 'hill', 'water'], true);
-                                    });
-                                @endphp
-
-                                @include('partials.dominion.construction.table')
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="box-footer">
-                            <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Build</button>
-                        <div class="pull-right">
-                            You have {{ number_format($landCalculator->getTotalLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalLand($selectedDominion)) }} of land.
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+                                  </tr>
+                              @endif
+                          @endforeach
+                      </table>
+                  </div>
+                  <div class="box-footer">
+                      <button type="submit" class="btn btn-primary">Build</button>
+                  </div>
+              </form>
+          </div>
+      </div>
 
         <div class="col-sm-12 col-md-3">
             <div class="box">
