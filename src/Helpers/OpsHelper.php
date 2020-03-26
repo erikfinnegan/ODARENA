@@ -69,7 +69,6 @@ class OpsHelper
         if ($isInvasionSpell)
         {
             return 1;
-            dd($isInvasionSpell);
         }
 
         $ratioDifference = $selfRatio - $targetRatio;
