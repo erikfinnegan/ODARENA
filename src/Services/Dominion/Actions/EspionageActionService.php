@@ -991,10 +991,10 @@ class EspionageActionService
 
         if (isset($operationInfo['decreases']))
         {
-            $damageMultiplier = $this->getOpDamageMultiplier($dominion, $target, $operationInfo, $attr);
 
             foreach ($operationInfo['decreases'] as $attr)
             {
+                $damageMultiplier = $this->getOpDamageMultiplier($dominion, $target, $operationInfo, $attr);
                 if($attr == 'wizard_strength')
                 {
                     $damage = $baseDamage * (1 + $baseDamageMultiplier) * (1 + $baseDamageMultiplier);
@@ -1012,7 +1012,7 @@ class EspionageActionService
 
                     $damage = ($target->{$attr} - $damageReduction) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
                     $damage = min($target->{$attr}, $damage);
-                    
+
                     $target->{$attr} -= round($damage);
                 }
 
