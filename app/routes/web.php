@@ -99,6 +99,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('destroy')->uses('Dominion\ConstructionController@getDestroy')->name('destroy');
             $router->post('destroy')->uses('Dominion\ConstructionController@postDestroy');
 
+            # Buildings
+            $router->get('buildings')->uses('Dominion\BuildingController@getConstruction')->name('buildings');
+            $router->post('buildings')->uses('Dominion\BuildingController@postConstruction');
+
             // Rezoning
             $router->get('rezone')->uses('Dominion\RezoneController@getRezone')->name('rezone');
             $router->post('rezone')->uses('Dominion\RezoneController@postRezone');
