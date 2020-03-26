@@ -997,6 +997,7 @@ class EspionageActionService
                 $damageMultiplier = $this->getOpDamageMultiplier($dominion, $target, $operationInfo, $attr);
                 if($attr == 'wizard_strength')
                 {
+                    dd($baseDamage);
                     #$damage = $baseDamage * (1 + $baseDamageMultiplier) * (1 + $baseDamageMultiplier);
                     #$damage = min($target->{$attr}, $damage);
                     $damage = $baseDamage;
