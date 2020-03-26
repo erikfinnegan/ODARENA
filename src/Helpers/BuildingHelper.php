@@ -5,6 +5,8 @@ namespace OpenDominion\Helpers;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Dominion;
 
+use OpenDominion\Models\Building;
+
 class BuildingHelper
 {
 
@@ -291,19 +293,49 @@ class BuildingHelper
         return $helpStrings[$buildingType] ?: null;
     }
 
-    public function getTechDescription(Tech $tech): string
+    public function getBuildingDescription(Building $building): string
     {
         $perkTypeStrings = [
             # Housing
             'housing' => 'Houses %s people.',
-            'military_housing' => 'Houses %s military units',
+            'military_housing' => 'Houses %s military units.',
 
             # Production
+            'platinum_production' => 'Produces %s platinum per tick.',
+            'food_production' => 'Produces %s food per tick.',
+            'lumber_production' => 'Produces %s lumber per tick.',
+            'ore_production' => 'Produces %s ore per tick.',
+            'gem_production' => 'Produces %s gems per tick.',
+            'mana_production' => 'Produces %s mana per tick.',
+            'boat_production' => 'Produces %s boats per tick.',
+
+            # Mods
+            'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',
+            'offensive_power' => 'Offenive power increased by %2$s%% for every %1$s%% (max +%3$s%% OP)',
+            'defensive_power' => 'Defensive power increased by %2$s%% for every %1$s%% (max +%3$s%% DP).',
+            'defensive_modifier_reduction' => 'Reduces target\'s defensive modifiers by by %2$s%% for every %1$s%% (max %3$s%% reduction or 0%% defensive modifiers).',
+            'offensive_casualties' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'unit_cost' => 'Unit platinum and ore costs %2$s%% for every %1$s%% (max %3$s%% reduction). No ore cost reduction for Gnome or Imperial Gnome.',
+            'construction_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'rezone_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+
+            # Other
+            'boat_protection' => 'Protects %s boats from sabotage.',
+            'raw_defense' => 'Provides %s raw defensive power.',
+
+            # Espionage and Wizardry
+            'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'fireball_damage' => 'Damage from fireballs reduced by %2$s%% for every %1$s%%.',
+            'lightning_bolt_damage' => 'Damage from lightning bolts reduced by %2$s%% for every %1$s%%.',
+            'platinum_theft_reduction' => 'Platinum stolen from you reduced by %2$s%% for every %1$s%%.',
+            'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
         ];
 
         $perkStrings = [];
-        foreach ($tech->perks as $perk) {
+        foreach ($building->perks as $perk) {
             if (isset($perkTypeStrings[$perk->key])) {
                 $perkValue = (float)$perk->pivot->value;
                 if ($perkValue < 0) {
