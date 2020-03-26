@@ -4,7 +4,7 @@
 
 @section('content')
 
-@php dd($buildings)
+{{ dd($buildings) }}
 
 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
     <div class="row">
