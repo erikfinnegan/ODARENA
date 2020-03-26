@@ -68,7 +68,6 @@ class OpsHelper
     {
         if ($isInvasionSpell)
         {
-            dd($isInvasionSpell);
             return 1;
         }
 
