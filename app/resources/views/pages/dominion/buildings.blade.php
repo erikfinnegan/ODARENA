@@ -16,10 +16,10 @@
                   <div class="box-body table-responsive no-padding">
                       <table class="table">
                           <colgroup>
-                              <col width="50">
-                              <col width="200">
+                              <col width="100">
+                              <col width="100">
+                              <col width="100">
                               <col>
-                              <col width="150">
                           </colgroup>
                           <thead>
                               <tr>
