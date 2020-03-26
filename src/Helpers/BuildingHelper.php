@@ -349,5 +349,12 @@ class BuildingHelper
         return implode($perkStrings, ', ');
     }
 
+    public function getBuildings(?Race $race)
+    {
+      # ???
+
+      
+
+    }
 
 }

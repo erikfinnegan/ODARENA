@@ -3,6 +3,9 @@
 @section('page-header', 'Buildings')
 
 @section('content')
+
+dd($buildings)
+
 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
     <div class="row">
         <div class="col-sm-12 col-md-9">

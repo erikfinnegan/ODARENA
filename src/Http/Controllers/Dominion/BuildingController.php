@@ -17,9 +17,10 @@ use OpenDominion\Services\Dominion\QueueService;
 
 class BuildingController extends AbstractDominionController
 {
-    public function getConstruction()
+    public function getBuildings()
     {
         return view('pages.dominion.buildings', [
+            'buildings' => Building::all()->keyBy('key'),
             'buildingCalculator' => app(BuildingCalculator::class),
             'buildingHelper' => app(BuildingHelper::class),
             'constructionCalculator' => app(ConstructionCalculator::class),
@@ -28,7 +29,7 @@ class BuildingController extends AbstractDominionController
         ]);
     }
 
-    public function postConstruction(ConstructActionRequest $request)
+    public function postBuildings(ConstructActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
         $constructionActionService = app(ConstructActionService::class);
