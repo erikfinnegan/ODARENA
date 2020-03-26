@@ -15,7 +15,7 @@ use OpenDominion\Services\Dominion\Actions\ConstructActionService;
 use OpenDominion\Services\Dominion\Actions\DestroyActionService;
 use OpenDominion\Services\Dominion\QueueService;
 
-class ConstructionController extends AbstractDominionController
+class BuildingController extends AbstractDominionController
 {
     public function getConstruction()
     {
