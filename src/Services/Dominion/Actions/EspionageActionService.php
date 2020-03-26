@@ -984,27 +984,38 @@ class EspionageActionService
         $damageDealt = [];
         #$baseDamage = (isset($operationInfo['percentage']) ? $operationInfo['percentage'] : 1) / 100;
 
-        $baseDamage = $operationInfo['percentage'] / 100 / 2;
+        $baseDamage = $operationInfo['percentage'] / 100;
 
         # Calculate ratio differential.
         $baseDamageMultiplier = $this->getOpBaseDamageMultiplier($dominion, $target);
 
         if (isset($operationInfo['decreases']))
         {
+
             foreach ($operationInfo['decreases'] as $attr)
             {
-
-                $damageReduction = 0;
-                // Damage reduction from Docks / Harbor
-                if ($attr == 'resource_boats')
+                $damageMultiplier = $this->getOpDamageMultiplier($dominion, $target, $operationInfo, $attr);
+                if($attr == 'wizard_strength')
                 {
-                    $damageReduction -= $this->militaryCalculator->getBoatsProtected($target);
+                    $damage = $baseDamage * (1 + $baseDamageMultiplier) * (1 + $baseDamageMultiplier);
+                    $damage = min($target->{$attr}, $damage);
+                    $target->{$attr} -= round($damage);
+                }
+                else
+                {
+                    $damageReduction = 0;
+                    // Damage reduction from Docks / Harbor
+                    if ($attr == 'resource_boats')
+                    {
+                        $damageReduction -= $this->militaryCalculator->getBoatsProtected($target);
+                    }
+
+                    $damage = ($target->{$attr} - $damageReduction) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
+                    $damage = min($target->{$attr}, $damage);
+
+                    $target->{$attr} -= round($damage);
                 }
 
-                $damageMultiplier = $this->getOpDamageMultiplier($dominion, $target, $operationInfo, $attr);
-                $damage = ($target->{$attr} - $damageReduction) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
-
-                $target->{$attr} -= round($damage);
                 $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
 
                 // Update statistics
