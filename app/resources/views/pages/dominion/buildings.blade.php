@@ -31,7 +31,7 @@
                               </tr>
                           </thead>
                           @foreach ($buildings as $building)
-                              @if(count(array_diff($building->excluded_races, $selectedDominion->race->name)) == 0)
+                              @if(count(array_diff($building->excluded_races, [$selectedDominion->race->name])) == 0)
                                   <tr class="text-normal">
                                       <td>
                                           {{ $building->land_type }}
