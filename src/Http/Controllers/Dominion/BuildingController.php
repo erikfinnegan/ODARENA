@@ -22,11 +22,8 @@ class BuildingController extends AbstractDominionController
 {
     public function getBuildings()
     {
-        $buildings = Building::all()->keyBy('key');
-        $buildings = sort($buildings);
-
         return view('pages.dominion.buildings', [
-            'buildings' => $buildings,
+            'buildings' => Building::all()->keyBy('key'),
             'buildingCalculator' => app(BuildingCalculator::class),
             'buildingHelper' => app(BuildingHelper::class),
             'constructionCalculator' => app(ConstructionCalculator::class),
