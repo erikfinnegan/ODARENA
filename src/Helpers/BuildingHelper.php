@@ -293,7 +293,7 @@ class BuildingHelper
         return $helpStrings[$buildingType] ?: null;
     }
 
-    public function getBuildingDescription(Building $building): array
+    public function getBuildingDescription(Building $building): string
     {
         $perkTypeStrings = [
             # Housing
@@ -387,8 +387,14 @@ class BuildingHelper
             }
         }
 
-        #return '<ul>' . $buildingDescription . '</ul>';
-        return $perks;
+        $perkString = '<ul>';
+        foreach($perks as $perk)
+        {
+          $perkString .= $perk;
+        }
+        $perkString .= '</ul>'
+
+        return $perkString;
     }
 
     public function getBuildings(?Race $race)
