@@ -318,7 +318,7 @@ class BuildingHelper
             'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'unit_cost' => 'Unit platinum and ore costs %2$s%% for every %1$s%% (max %3$s%% reduction). No ore cost reduction for Gnome or Imperial Gnome.',
             'construction_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'rezone_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'rezone_cost' => 'Rezoning costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
             # Other
             'boat_protection' => 'Protects %s boats from sabotage.',
