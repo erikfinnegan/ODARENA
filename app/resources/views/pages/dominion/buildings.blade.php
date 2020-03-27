@@ -46,7 +46,7 @@
                                           [input]
                                       </td>
                                       <td>
-                                          {{ $buildingHelper->getBuildingDescription($building) }}
+                                          {{ print_r($buildingHelper->getBuildingDescription($building)) }}
                                       </td>
 
                                   </tr>

@@ -364,6 +364,8 @@ class BuildingHelper
                 }
             }
 
+            $perks[$perkTypeStrings[$perk->key]] = $perkValue;
+/*
             if (is_array($perkValue))
             {
                 $buildingDescription .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
@@ -372,9 +374,11 @@ class BuildingHelper
             {
                 $buildingDescription .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
             }
+            */
         }
 
-        return '<ul>' . $buildingDescription . '</ul>';
+        #return '<ul>' . $buildingDescription . '</ul>';
+        return $perks;
     }
 
     public function getBuildings(?Race $race)
