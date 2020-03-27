@@ -359,7 +359,6 @@ class BuildingHelper
                     {
                         continue;
                     }
-
                     $nestedArrays = true;
                     $perkValue[$key] = explode(';', $value);
                 }
@@ -378,7 +377,7 @@ class BuildingHelper
                 else
                 {
                     #$helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
-                    $perks[] = ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
+                    $perks[] = ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
             }
             else
