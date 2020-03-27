@@ -293,7 +293,7 @@ class BuildingHelper
         return $helpStrings[$buildingType] ?: null;
     }
 
-    public function getBuildingDescription(Building $building): string
+    public function getBuildingDescription(Building $building): ?string
     {
         $perkTypeStrings = [
             # Housing
@@ -390,7 +390,7 @@ class BuildingHelper
 
         $buildingPerkString .= '</ul>';
 
-        return $buildingPerkString;
+        return $buildingPerkString ?: null;
     }
 
     public function getBuildings(?Race $race)
