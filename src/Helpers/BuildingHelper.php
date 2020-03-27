@@ -388,16 +388,16 @@ class BuildingHelper
             }
         }
 
-        if(strlen($helpStrings[$unitType]) == 0)
+        if(strlen($helpStrings[$building->name]) == 0)
         {
-          $helpStrings[$unitType] = '<i>No special abilities</i>';
+          $helpStrings[$building->name] = '<i>No special abilities</i>';
         }
         else
         {
-          $helpStrings[$unitType] = '<ul>' . $helpStrings[$unitType] . '</ul>';
+          $helpStrings[$building->name] = '<ul>' . $helpStrings[$building->name] . '</ul>';
         }
 
-        return $helpStrings[$unitType] ?: null;
+        return $helpStrings[$building->name] ?: null;
     }
 
     public function getBuildings(?Race $race)
