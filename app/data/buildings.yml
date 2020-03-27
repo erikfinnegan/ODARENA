@@ -116,7 +116,7 @@ masonry:
     - Beastfolk
   land_type: plain
   perks:
-    improvements: 1,3 # Every 1% gives 2.75% higher imps
+    improvements: 1,2.75 # Every 1% gives 2.75% higher imps
     lightning_bolt_damage: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
 
 military_academy:
