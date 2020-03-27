@@ -41,8 +41,11 @@
                                       </td>
                                       <td>
                                           0
-                                          <small>(0%)</small> <br>
-                                          {{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }}
+                                          <small>(0%)</small>
+                                          <br>
+                                          @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) > 0)
+                                          ({{$queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))}})
+                                          @endif
                                       </td>
                                       <td>
                                           <input type="number" name="construct[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('construct.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
