@@ -186,7 +186,8 @@ class DataSyncCommand extends Command implements CommandInterface
                 // Unit perks
                 $unitPerksToSync = [];
 
-                foreach (object_get($unitData, 'perks', []) as $perk => $value) {
+                foreach (object_get($unitData, 'perks', []) as $perk => $value)
+                {
                     $value = (string)$value; // Can have multiple values for a perk, comma separated. todo: Probably needs a refactor later to JSON
 
                     $unitPerkType = UnitPerkType::firstOrCreate(['key' => $perk]);
@@ -198,9 +199,12 @@ class DataSyncCommand extends Command implements CommandInterface
                         ->where('unit_perk_type_id', $unitPerkType->id)
                         ->first();
 
-                    if ($unitPerk === null) {
+                    if ($unitPerk === null)
+                    {
                         $this->info("[Add Unit Perk] {$perk}: {$value}");
-                    } elseif ($unitPerk->value != $value) {
+                    }
+                    elseif ($unitPerk->value != $value)
+                    {
                         $this->info("[Change Unit Perk] {$perk}: {$unitPerk->value} -> {$value}");
                     }
                 }
@@ -314,7 +318,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 foreach (object_get($buildingData, 'perks', []) as $perk => $value)
                 {
-                    $value = (float)$value;
+                    $value = (string)$value;
 
                     $buildingPerkType = BuildingPerkType::firstOrCreate(['key' => $perk]);
 
@@ -325,9 +329,12 @@ class DataSyncCommand extends Command implements CommandInterface
                         ->where('building_perk_type_id', $buildingPerkType->id)
                         ->first();
 
-                    if ($buildingPerk === null) {
+                    if ($buildingPerk === null)
+                    {
                         $this->info("[Add Building Perk] {$perk}: {$value}");
-                    } elseif ($buildingPerk->value != $value) {
+                    }
+                    elseif ($buildingPerk->value != $value)
+                    {
                         $this->info("[Change Building Perk] {$perk}: {$buildingPerk->value} -> {$value}");
                     }
                 }
