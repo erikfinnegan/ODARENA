@@ -45,7 +45,7 @@
                                           (0)
                                       </td>
                                       <td>
-                                          [input]
+                                          <input type="number" name="construct[building_{{ $buildingType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('construct.' . $buildingType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                       </td>
                                       <td>
                                           {!! $buildingHelper->getBuildingDescription($building) !!}
