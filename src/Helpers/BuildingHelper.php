@@ -405,7 +405,7 @@ class BuildingHelper
       $buildings = [];
       foreach($allBuildings as $building)
       {
-        if(!in_array($race->name, $building->excluded_races) or in_array($race->name, $buidings->exclusive_races))
+        if(!in_array($race->name, $building->excluded_races) or in_array($race->name, $building->exclusive_races))
         {
           $buildings[] = $building;
         }
