@@ -366,25 +366,15 @@ class BuildingHelper
 
             if (is_array($perkValue))
             {
-                if ($nestedArrays)
-                {
-                    foreach ($perkValue as $nestedKey => $nestedValue)
-                    {
-                        $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
-                    }
-                }
-                else
-                {
-                    $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
-                }
+                $buildingDescription .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
             }
             else
             {
-                $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                $buildingDescription .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
             }
         }
 
-        return '<ul>' . $helpStrings[$unitType] . '</ul>';
+        return '<ul>' . $buildingDescription . '</ul>';
     }
 
     public function getBuildings(?Race $race)
