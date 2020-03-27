@@ -23,7 +23,6 @@ class BuildingController extends AbstractDominionController
     public function getBuildings()
     {
         return view('pages.dominion.buildings', [
-            'buildings' => Building::all()->keyBy('key'),
             'buildingCalculator' => app(BuildingCalculator::class),
             'buildingHelper' => app(BuildingHelper::class),
             'constructionCalculator' => app(ConstructionCalculator::class),

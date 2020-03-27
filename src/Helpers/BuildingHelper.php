@@ -395,4 +395,20 @@ class BuildingHelper
         return $helpStrings[$building->name] ?: null;
     }
 
+    public function getBuildingsByRace(Race $race): array
+    {
+      $allBuildings = Building::all()->keyBy('key');
+
+      $buildings = [];
+      foreach($allBuildings as $building)
+      {
+        if(count(array_diff($building->excluded_races, $race->name)) !== 0 or count(array_diff($building->exclusive_races, $race->name)) == 0)
+        {
+          $buildings[] = $building;
+        }
+      }
+
+      return $buildings;
+    }
+
 }

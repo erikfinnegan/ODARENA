@@ -30,7 +30,7 @@
                                   <th>Description</th>
                               </tr>
                           </thead>
-                          @foreach ($buildings as $building)
+                          @foreach ($buildingHelper->getBuildingsByRace($selectedDominion->race) as $building)
                               @if(count(array_diff($building->excluded_races, [$selectedDominion->race->name])) !== 0 or count(array_diff($building->exclusive_races, [$selectedDominion->race->name])) == 0)
                                   <tr class="text-normal">
                                       <td>
