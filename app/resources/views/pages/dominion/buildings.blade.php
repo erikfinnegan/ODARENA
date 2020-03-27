@@ -43,7 +43,7 @@
                                           0
                                           <small>(0%)</small>
                                           <br>
-                                          @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) > 0)
+                                          @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
                                           ({{$queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")}})
                                           @endif
                                       </td>
