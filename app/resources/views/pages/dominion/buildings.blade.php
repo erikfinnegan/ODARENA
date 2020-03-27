@@ -34,7 +34,7 @@
                               @if(count(array_diff($building->excluded_races, [$selectedDominion->race->name])) !== 0 or count(array_diff($building->exclusive_races, [$selectedDominion->race->name])) == 0)
                                   <tr class="text-normal">
                                       <td>
-                                          {{ ucword($building->land_type) }}
+                                          {{ ucwords($building->land_type) }}
                                       </td>
                                       <td>
                                           {{ $building->name }}
