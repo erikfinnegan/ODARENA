@@ -392,7 +392,7 @@ class BuildingHelper
         {
           $perkString .= $perk;
         }
-        $perkString .= '</ul>'
+        $perkString .= '</ul>';
 
         return $perkString;
     }
@@ -400,8 +400,6 @@ class BuildingHelper
     public function getBuildings(?Race $race)
     {
       # ???
-
-
 
     }
 
