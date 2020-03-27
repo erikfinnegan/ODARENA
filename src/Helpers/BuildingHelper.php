@@ -364,7 +364,7 @@ class BuildingHelper
                 }
             }
 
-            $perks[$perkTypeStrings[$perk->key]] = $perkValue;
+            $perks[] = vsprintf($perkTypeStrings[$perk->key], $perkValue);
 /*
             if (is_array($perkValue))
             {
