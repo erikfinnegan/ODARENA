@@ -48,7 +48,7 @@
                                           [input]
                                       </td>
                                       <td>
-                                          {{ $buildingHelper->getBuildingDescription($building) }}
+                                          {!! $buildingHelper->getBuildingDescription($building) !!}
                                       </td>
 
                                   </tr>
