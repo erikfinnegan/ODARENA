@@ -1009,10 +1009,10 @@ class EspionageActionService
                     // Damage reduction from Docks / Harbor
                     if ($attr == 'resource_boats')
                     {
-                        $damageReduction -= $this->militaryCalculator->getBoatsProtected($target);
+                        $damageReduction = $this->militaryCalculator->getBoatsProtected($target);
                     }
 
-                    $damage = ($target->{$attr} - $damageReduction) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
+                    $damage = max($target->{$attr} - $damageReduction, 0) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
                     $damage = min($target->{$attr}, $damage);
 
                     $target->{$attr} -= round($damage);
