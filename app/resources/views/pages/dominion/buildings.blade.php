@@ -31,31 +31,29 @@
                               </tr>
                           </thead>
                           @foreach ($buildingHelper->getBuildingsByRace($selectedDominion->race) as $building)
-                              @if(count(array_diff($building->excluded_races, [$selectedDominion->race->name])) !== 0 or count(array_diff($building->exclusive_races, [$selectedDominion->race->name])) == 0)
-                                  <tr class="text-normal">
-                                      <td>
-                                          {{ ucwords($building->land_type) }}
-                                      </td>
-                                      <td>
-                                          {{ $building->name }}
-                                      </td>
-                                      <td>
-                                          0
-                                          <small>(0%)</small>
-                                          <br>
-                                          @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                          ({{$queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")}})
-                                          @endif
-                                      </td>
-                                      <td>
-                                          <input type="number" name="construct[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('construct.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                      </td>
-                                      <td>
-                                          {!! $buildingHelper->getBuildingDescription($building) !!}
-                                      </td>
+                              <tr class="text-normal">
+                                  <td>
+                                      {{ ucwords($building->land_type) }}
+                                  </td>
+                                  <td>
+                                      {{ $building->name }}
+                                  </td>
+                                  <td>
+                                      0
+                                      <small>(0%)</small>
+                                      <br>
+                                      @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
+                                      ({{$queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")}})
+                                      @endif
+                                  </td>
+                                  <td>
+                                      <input type="number" name="construct[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('construct.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                  </td>
+                                  <td>
+                                      {!! $buildingHelper->getBuildingDescription($building) !!}
+                                  </td>
 
-                                  </tr>
-                              @endif
+                              </tr>
                           @endforeach
                       </table>
                   </div>
