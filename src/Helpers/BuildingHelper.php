@@ -364,17 +364,16 @@ class BuildingHelper
                 }
             }
 
-            $perks[] = vsprintf($perkTypeStrings[$perk->key], $perkValue);
-/*
+            # = vsprintf($perkTypeStrings[$perk->key], $perkValue);
+
             if (is_array($perkValue))
             {
-                $buildingDescription .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                $perks[] = ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
             }
             else
             {
-                $buildingDescription .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                $perks[] = ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
             }
-            */
         }
 
         #return '<ul>' . $buildingDescription . '</ul>';
