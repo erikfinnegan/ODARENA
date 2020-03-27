@@ -41,6 +41,8 @@
                                       </td>
                                       <td>
                                           0
+                                          <small>(0%)</small> <br>
+                                          (0)
                                       </td>
                                       <td>
                                           [input]
