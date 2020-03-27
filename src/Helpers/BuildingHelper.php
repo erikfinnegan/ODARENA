@@ -364,7 +364,7 @@ class BuildingHelper
                 }
             }
 
-            $helpStrings = [];
+            $helpStrings[$building->name] = '';
             if (is_array($perkValue))
             {
                 if ($nestedArrays)
