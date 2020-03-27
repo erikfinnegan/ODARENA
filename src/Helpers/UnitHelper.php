@@ -352,8 +352,6 @@ class UnitHelper
           $helpStrings[$unitType] = '<ul>' . $helpStrings[$unitType] . '</ul>';
         }
 
-
-
         return $helpStrings[$unitType] ?: null;
     }
 

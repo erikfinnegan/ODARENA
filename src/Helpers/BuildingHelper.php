@@ -364,6 +364,7 @@ class BuildingHelper
                 }
             }
 
+            $buildingPerkString = '<ul>';
             if (is_array($perkValue))
             {
                 if ($nestedArrays)
@@ -371,30 +372,25 @@ class BuildingHelper
                     foreach ($perkValue as $nestedKey => $nestedValue)
                     {
                         #$helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
-                        $perks[] = ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
+                        $buildingPerkString .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
                     }
                 }
                 else
                 {
                     #$helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
-                    $perks[] = ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                    $buildingPerkString .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
             }
             else
             {
                 #$helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
-                $perks[] = ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                $buildingPerkString .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
             }
         }
 
-        $perkString = '<ul>';
-        foreach($perks as $perk)
-        {
-          $perkString .= $perk;
-        }
-        $perkString .= '</ul>';
+        $buildingPerkString .= '</ul>';
 
-        return $perkString;
+        return $buildingPerkString;
     }
 
     public function getBuildings(?Race $race)
