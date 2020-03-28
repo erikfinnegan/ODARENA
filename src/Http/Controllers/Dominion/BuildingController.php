@@ -35,7 +35,7 @@ class BuildingController extends AbstractDominionController
     public function postBuildings(ConstructActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
-        $constructionActionService = app(ConstructActionService::class);
+        $buildActionService = app(BuildActionService::class);
 
         try {
             $result = $buildActionService->construct($dominion, $request->get('construct'));
