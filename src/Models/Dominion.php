@@ -253,6 +253,19 @@ class Dominion extends AbstractModel
         );
     }
 
+
+    public function techs()
+    {
+        return $this->hasManyThrough(
+            Building::class,
+            DominionBuilding::class,
+            'dominion_id',
+            'id',
+            'id',
+            'building_id'
+        );
+    }
+
     public function queues()
     {
         return $this->hasMany(Dominion\Queue::class);
