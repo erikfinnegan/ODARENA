@@ -17,6 +17,7 @@ use OpenDominion\Services\Dominion\QueueService;
 
 
 use OpenDominion\Models\Building;
+use OpenDominion\Services\Dominion\Actions\BuildActionService;
 
 class BuildingController extends AbstractDominionController
 {
@@ -37,7 +38,7 @@ class BuildingController extends AbstractDominionController
         $constructionActionService = app(ConstructActionService::class);
 
         try {
-            $result = $constructionActionService->construct($dominion, $request->get('construct'));
+            $result = $buildActionService->construct($dominion, $request->get('construct'));
 
         } catch (GameException $e) {
             return redirect()->back()
