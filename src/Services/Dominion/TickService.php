@@ -480,7 +480,7 @@ class TickService
              )
           {
             $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-            $chanceOneIn = 32 - (14 - min($currentDay, 14));
+            $chanceOneIn = 30 - (14 - min($currentDay, 14));
             if(rand(1,$chanceOneIn) == 1)
             {
               $invade = true;
@@ -489,8 +489,8 @@ class TickService
 
           if($invade)
           {
-            # Grow by 5-10% (random), skewed to lower.
-            $landGainRatio = max(500,rand(400,1000))/10000;
+            # Grow by 5-12% (random), skewed to lower.
+            $landGainRatio = rand(500,1200)/10000;
             $landGainRatio *= $dominion->npc_modifier / 1000;
 
             # Calculate the amount of acres to grow.
