@@ -254,7 +254,7 @@ class Dominion extends AbstractModel
     }
 
 
-    public function techs()
+    public function buildings()
     {
         return $this->hasManyThrough(
             Building::class,
