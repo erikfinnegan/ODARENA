@@ -5,7 +5,7 @@ namespace OpenDominion\Http\Requests\Dominion\Actions;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Http\Requests\Dominion\AbstractDominionRequest;
 
-class BuildActionRequest extends AbstractDominionRequest
+class ConstructActionRequest extends AbstractDominionRequest
 {
     /** @var BuildingHelper */
     protected $buildingHelper;
@@ -23,11 +23,14 @@ class BuildActionRequest extends AbstractDominionRequest
     /**
      * {@inheritdoc}
      */
-    public function rules(): array
+    public function rules()
     {
-        return [
-            'key' => 'required',
-            'amount' => 'required'
-        ];
+        $rules = [];
+
+        foreach ($this->buildingHelper->getBuildingTypes() as $buildingType) {
+            $rules['construct.' . $buildingType] = 'integer|nullable|min:0';
+        }
+
+        return $rules;
     }
 }
