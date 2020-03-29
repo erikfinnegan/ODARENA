@@ -52,10 +52,10 @@ class BuildActionService
      * @return array
      * @throws GameException
      */
-    public function construct(Dominion $dominion, array $data): array
+    public function construct(Dominion $dominion, string $key, int $amountToBuild): array
     {
         $this->guardLockedDominion($dominion);
-
+/*
         $data = array_only($data, array_map(function ($value) {
             return "building_{$value}";
         }, $this->buildingHelper->getBuildingTypes($dominion)));
@@ -63,7 +63,7 @@ class BuildActionService
         $data = array_map('\intval', $data);
 
         $totalBuildingsToConstruct = array_sum($data);
-
+*/
         if ($totalBuildingsToConstruct <= 0)
         {
             throw new GameException('Construction was not started due to bad input.');
