@@ -7,6 +7,9 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
+# ODA
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+
 class RangeCalculator
 {
     public const MINIMUM_RANGE = 0.4;
@@ -20,6 +23,9 @@ class RangeCalculator
     /** @var GuardMembershipService */
     protected $guardMembershipService;
 
+    /** @var MilitaryCalculator */
+    protected $militaryCalculator;
+
     /**
      * RangeCalculator constructor.
      *
@@ -30,11 +36,13 @@ class RangeCalculator
     public function __construct(
         LandCalculator $landCalculator,
         ProtectionService $protectionService,
-        GuardMembershipService $guardMembershipService
+        GuardMembershipService $guardMembershipService,
+        MilitaryCalculator $militaryCalculator
     ) {
         $this->landCalculator = $landCalculator;
         $this->protectionService = $protectionService;
         $this->guardMembershipService = $guardMembershipService;
+        $this->militaryCalculator = $militaryCalculator;
     }
 
     /**
@@ -53,10 +61,14 @@ class RangeCalculator
         $targetModifier = $this->getRangeModifier($target);
 
         return (
+          (
             ($targetLand >= ($selfLand * $selfModifier)) &&
             ($targetLand <= ($selfLand / $selfModifier)) &&
             ($selfLand >= ($targetLand * $targetModifier)) &&
             ($selfLand <= ($targetLand / $targetModifier))
+          )
+
+            or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target)
         );
     }
 
