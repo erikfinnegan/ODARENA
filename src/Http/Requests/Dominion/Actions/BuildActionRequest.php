@@ -5,7 +5,7 @@ namespace OpenDominion\Http\Requests\Dominion\Actions;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Http\Requests\Dominion\AbstractDominionRequest;
 
-class ConstructActionRequest extends AbstractDominionRequest
+class BuildActionRequest extends AbstractDominionRequest
 {
     /** @var BuildingHelper */
     protected $buildingHelper;
