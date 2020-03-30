@@ -51,7 +51,6 @@ units:
   - name: Ice Elemental
     cost:
       platinum: 1100
-      ore: 50
       mana: 15
     power:
       offense: 4

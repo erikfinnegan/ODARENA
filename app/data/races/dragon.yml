@@ -1,7 +1,7 @@
 name: Dragon
 alignment: evil
 description: >-
-  <p>Dragons enslave small mountain villages. There is an uneasy coexistence between the servant villagers and their dragon masters, continioned on hard labour by the villagers to provide the dragons with food which to eat and gems upon which to slumber.</p>
+  <p>Dragons enslave small mountain villages. There is an uneasy coexistence between the servant villagers and their dragon masters, conditioned on hard labour by the villagers to provide the dragons with food which to eat and gems upon which to slumber.</p>
   <p>To keep themselves safe from fortune-seeking would-be dragonslayers and Commonwealth harrassment, the villagers have formed a tattered army of peasants armed with scythes, sickles, and rudimentary bows. They complement this with for-hire Mercenaries to provide basic protection from those seeking to take their lands.</p>
   <p>Solitary beings, the dragons require vast distance between each other. They will however band together to protect their mountain ranges and its villages. And, of course, to take over new lands.</p>
   <hr />
@@ -60,5 +60,4 @@ units:
       no_draftee: 1
       fewer_casualties_offense: 90
       fewer_casualties_defense: 50
-      land_limit: mountain,6 # Max 1 unit per 300 acres of Mountain
       food_consumption: 55
