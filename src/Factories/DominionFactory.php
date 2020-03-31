@@ -48,7 +48,7 @@ class DominionFactory
         {
           # NPC modifier is a number from 500 to 1000 (skewed toward smaller).
           # It is to be used as a multiplier but stored as an int in database.
-          $startingResources['npc_modifier'] = max(rand(300,1000), 500);
+          $startingResources['npc_modifier'] = max(rand(400,1000), 500);
 
           # For usage in this function, divide npc_modifier by 1000 to create a multiplier.
           $npcModifier = $startingResources['npc_modifier'] / 1000;
@@ -278,7 +278,7 @@ class DominionFactory
             $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
             $startingResources['draftees'] = 0;
 
-            $startingResources['prestige'] = intval($acresBase * 0.25);
+            $startingResources['prestige'] = intval($acresBase / 4);
             $startingResources['draft_rate'] = 0;
             $startingResources['peasants'] = 0;
             $startingResources['platinum'] = 0;

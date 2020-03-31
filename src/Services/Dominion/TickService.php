@@ -489,9 +489,8 @@ class TickService
 
           if($invade)
           {
-            # Grow by 5-10% (random), skewed to lower.
-            $landGainRatio = max(500,rand(400,1000))/10000;
-            $landGainRatio *= $dominion->npc_modifier / 1000;
+            # Grow by 5-12.5% (random), skewed to lower.
+            $landGainRatio = max(500,rand(400,1250))/10000;
 
             # Calculate the amount of acres to grow.
             $totalLandToGain = $this->landCalculator->getTotalLand($dominion) * $landGainRatio;
@@ -577,13 +576,13 @@ class TickService
               Invade = send out between 80% and 100% of the OP and queue land.
            */
 
-           // Calculate DPA required
-           $constant = 20;
+           // Calculate DPA required / target DPA
+           $constant = 25;
            #$day = $this->now->diffInDays($dominion->round->start_date);
            $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()); # Borrowed from Void OP from MilitaryCalculator
 
            # Linear hourly
-           $dpa = $constant + ($hours * 0.35 * 1.12);
+           $dpa = $constant + ($hours * 0.40);
            $dpa *= ($dominion->npc_modifier / 1000);
            $dpa = intval($dpa);
            $opa = intval($dpa * 0.75);
