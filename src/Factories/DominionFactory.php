@@ -247,7 +247,7 @@ class DominionFactory
         {
           $startingResources['mana'] = 175 * $acresBase;
           $startingResources['platinum'] = 0;
-          $startingResources['mana'] = $acresBase * 4000;
+          $startingResources['mana'] = $acresBase * 3500;
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
         }
