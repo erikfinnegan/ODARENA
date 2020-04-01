@@ -248,9 +248,9 @@
             </div>
         @endif
 
-        @if ($dominionProtectionService->canTick($selectedDominion) or ($dominionProtectionService->canDelete($selectedDominion))
+        @if ($dominionProtectionService->canTick($selectedDominion) or $dominionProtectionService->canDelete($selectedDominion))
         <div class="col-sm-12 col-md-9">
-            @if ($dominionProtectionService->canTick($selectedDominion)
+            @if ($dominionProtectionService->canTick($selectedDominion))
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="ra ra-shield text-aqua"></i> Protection</h3>
