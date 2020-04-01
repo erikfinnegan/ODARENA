@@ -242,12 +242,12 @@ class DominionFactory
           $startingResources['unit4'] = 1;
         }
 
-        // Void: gets half of plat for troops as mana, gets lumber as mana (then lumber to 0).
+        // Void: gets acres * 4000 mana (as of round 20)
         if($race->name == 'Void')
         {
           $startingResources['mana'] = 175 * $acresBase;
           $startingResources['platinum'] = 0;
-          $startingResources['mana'] += $startingResources['lumber'];
+          $startingResources['mana'] = $acresBase * 4000;
           $startingResources['lumber'] = 0;
           $startingResources['gems'] = 0;
         }

@@ -200,7 +200,7 @@ class RoundController extends AbstractController
         } catch (QueryException $e) {
 
             # Useful for debugging.
-            die($e->getMessage());
+            #die($e->getMessage());
 
             return redirect()->back()
                 ->withInput($request->all())

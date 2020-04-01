@@ -27,7 +27,7 @@ perks:
   construction_cost_only_mana: 1
   can_only_build_ziggurat: 1
   defense_per_ziggurat: 4
-  mana_per_ziggurat: 50
+  mana_per_ziggurat: 120
   cannot_build_homes: 1
   can_sell_mana: 1
 units:
