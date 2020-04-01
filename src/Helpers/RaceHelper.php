@@ -29,6 +29,7 @@ class RaceHelper
             case 'extra_barren_max_population':
                 $negativeBenefit = false;
                 $description = 'Population from barren land';
+                $valueType = '';
                 break;
             case 'food_consumption':
                 $negativeBenefit = true;

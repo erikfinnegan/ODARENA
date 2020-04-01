@@ -39,8 +39,8 @@ units:
       fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
   - name: Orangutan
     cost:
-      platinum: 1200
-      ore: 0
+      platinum: 1100
+      lumber: 50
     power:
       offense: 4
       defense: 7
@@ -49,8 +49,8 @@ units:
       fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
   - name: Gorilla
     cost:
-      platinum: 1200
-      ore: 0
+      platinum: 1100
+      lumber: 50
     power:
       offense: 7
       defense: 4

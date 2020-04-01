@@ -50,6 +50,6 @@ units:
       offense: 5
       defense: 3
     perks:
-      faster_return: 3
+      kills_immortal: 1
       counts_as_wizard_offense: 0.1
       offense_staggered_land_range: 75;1,85;1.5,100;2
