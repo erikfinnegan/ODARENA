@@ -14,9 +14,6 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Services\Dominion\QueueService;
 
-# ODA
-use OpenDominion\Calculators\Dominion\LandCalculator;
-
 class AdvisorsController extends AbstractDominionController
 {
     public function getAdvisors()
