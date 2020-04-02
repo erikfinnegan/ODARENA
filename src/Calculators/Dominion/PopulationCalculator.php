@@ -286,6 +286,7 @@ class PopulationCalculator
      */
     public function getPopulationBirthRaw(Dominion $dominion): float
     {
+        $growthFactor = 0;
         // Growth only if food > 0 or race doesn't eat food.
         if($dominion->resource_food > 0 or $dominion->race->getPerkMultiplier('food_consumption') == -1)
         {
