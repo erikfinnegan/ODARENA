@@ -276,7 +276,7 @@
                           <td>{{ number_format($productionCalculator->getFoodProduction($selectedDominion)) }}</td>
                           <td>{{ number_format($productionCalculator->getFoodProductionRaw($selectedDominion)) }}</td>
                           <td>{{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                          <td><span class="text-red">{{ number_format($productionCalculator->getFoodDecay($selectedDominion)) }}</span></td>
+                          <td><span data-toggle="tooltip" data-placement="top" title="Food decay plus food consumption" class="text-red">-{{ number_format($productionCalculator->getFoodDecay($selectedDominion) + $productionCalculator->getFoodConsumption($selectedDominion)) }}</span></td>
                           <td>{{ number_format($productionCalculator->getFoodNetChange($selectedDominion)) }}</td>
                           <td>{{ number_format($selectedDominion->resource_food) }}</td>
                           <td>&mdash;</td>
@@ -289,7 +289,7 @@
                           <td>{{ number_format($productionCalculator->getLumberProduction($selectedDominion)) }}</td>
                           <td>{{ number_format($productionCalculator->getLumberProductionRaw($selectedDominion)) }}</td>
                           <td>{{ number_format(($productionCalculator->getLumberProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                          <td><span class="text-red">{{ number_format($productionCalculator->getLumberDecay($selectedDominion)) }}</span></td>
+                          <td><span data-toggle="tooltip" data-placement="top" title="Lumber rot" class="text-red">-{{ number_format($productionCalculator->getLumberDecay($selectedDominion)) }}</span></td>
                           <td>{{ number_format($productionCalculator->getLumberNetChange($selectedDominion)) }}</td>
                           <td>{{ number_format($selectedDominion->resource_lumber) }}</td>
                           <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'lumber')) }}</td>
@@ -302,7 +302,7 @@
                           <td>{{ number_format($productionCalculator->getManaProduction($selectedDominion)) }}</td>
                           <td>{{ number_format($productionCalculator->getManaProductionRaw($selectedDominion)) }}</td>
                           <td>{{ number_format(($productionCalculator->getManaProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                          <td><span class="text-red">{{ number_format($productionCalculator->getManaDecay($selectedDominion)) }}</span></td>
+                          <td><span data-toggle="tooltip" data-placement="top" title="Lumber drain"  class="text-red">-{{ number_format($productionCalculator->getManaDecay($selectedDominion)) }}</span></td>
                           <td>{{ number_format($productionCalculator->getManaNetChange($selectedDominion)) }}</td>
                           <td>{{ number_format($selectedDominion->resource_mana) }}</td>
                           <td>&mdash;</td>
