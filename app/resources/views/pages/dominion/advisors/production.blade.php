@@ -37,7 +37,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <small class="text-muted">({{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            <small class="text-muted">{{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1) * 100,2) }}%</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -50,7 +50,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <small class="text-muted">({{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            <small class="text-muted">{{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1) * 100,2) }}%</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -63,7 +63,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <small class="text-muted">({{ number_format(($productionCalculator->getLumberProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            <small class="text-muted">{{ number_format(($productionCalculator->getLumberProductionMultiplier($selectedDominion)-1) * 100,2) }}%</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -76,7 +76,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <small class="text-muted">({{ number_format(($productionCalculator->getManaProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            <small class="text-muted">{{ number_format(($productionCalculator->getManaProductionMultiplier($selectedDominion)-1) * 100,2) }}%</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -89,7 +89,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <small class="text-muted">({{ number_format(($productionCalculator->getOreProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            <small class="text-muted">{{ number_format(($productionCalculator->getOreProductionMultiplier($selectedDominion)-1) * 100,2) }}%</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -102,7 +102,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <small class="text-muted">({{ number_format(($productionCalculator->getGemProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            <small class="text-muted">{{ number_format(($productionCalculator->getGemProductionMultiplier($selectedDominion)-1) * 100,2) }}%</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -115,7 +115,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <small class="text-muted">({{ number_format(($productionCalculator->getTechProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            <small class="text-muted">{{ number_format(($productionCalculator->getTechProductionMultiplier($selectedDominion)-1) * 100,2) }}%</span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -128,7 +128,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <small class="text-muted">({{ number_format(($productionCalculator->getBoatProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            <small class="text-muted">{{ number_format(($productionCalculator->getBoatProductionMultiplier($selectedDominion)-1) * 100,2) }}%</span>
                                         </td>
                                     </tr>
                                 </tbody>
