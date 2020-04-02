@@ -266,10 +266,10 @@
                           <td>{{ $productionCalculator->getPlatinumProductionRaw($selectedDominion) }}</td>
                           <td>{{ $productionCalculator->getPlatinumProductionMultiplier($selectedDominion) }}</td>
                           <td>&mdash;</td>
-                          <td>{{ $selectedDominion->resource_platinum }}</td>
-                          <td>{{ number_format($landCalculator->getTotalLand($selectedDominion) * 5000)) }}</td>
-                          <td>{{ $selectedDominion->stat_total_platinum_production }}</td>
-                          <td>{{ $selectedDominion->stat_total_platinum_stolen }}</td>
+                          <td>{{ number_format($selectedDominion->resource_platinum) }}</td>
+                          <td>{{ number_format($landCalculator->getTotalLand($selectedDominion) * 5000) }}</td>
+                          <td>{{ number_format($selectedDominion->stat_total_platinum_production) }}</td>
+                          <td>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</td>
                       </tr>
                 </tbody>
             </table>
