@@ -37,7 +37,7 @@
                                             @endif
 
                                             @if ($platinumProductionMultiplier = $productionCalculator->getPlatinumProductionMultiplier($selectedDominion))
-                                                <small class="text-muted">{{ number_format($platinumProductionMultiplier * 100,2) }}%</span>
+                                                <small class="text-muted">({{ number_format(($platinumProductionMultiplier-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
                                     </tr>
