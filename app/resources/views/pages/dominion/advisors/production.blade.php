@@ -52,8 +52,8 @@
                                             @endif
                                         </td>
                                         <td>
-                                            @if ($productionCalculator->getPlatinumProductionMultiplier($selectedDominion) !== 1)
-                                                <small class="text-muted">({{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                            @if ($productionCalculator->getFoodProductionMultiplier($selectedDominion) !== 1)
+                                                <small class="text-muted">({{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
                                     </tr>
