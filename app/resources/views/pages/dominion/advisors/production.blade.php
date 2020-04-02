@@ -240,7 +240,7 @@
 <div class="box-body no-padding">
     <div class="row">
 
-        <div class="col-xs-12 col-sm-4">
+        <div class="col-xs-12 col-sm-12">
             <table class="table">
                 <thead>
                       <tr>
