@@ -234,6 +234,159 @@
 
                     </div>
                 </div>
+
+<!-- NEW -->
+
+<div class="box-body no-padding">
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-4">
+            <table class="table">
+                <colgroup>
+                    <col width="50%">
+                    <col width="50%">
+                </colgroup>
+                <thead>
+                      <tr>
+                          <th>Resource</th>
+                          <th>Production/tick</th>
+                          <th>Raw/tick</th>
+                          <th>Modifier</th>
+                          <th>Loss/tick</th>
+                          <th>Current</th>
+                          <th>Max Storage</th>
+                          <th>Total Produced</th>
+                          <th>Total Stolen</th>
+                      </tr>
+                </thead>
+                <tbody>
+                      <tr>
+                          <td>Platinum</td>
+                          <td>{{ $productionCalculator->getPlatinumProduction($selectedDominion) }}</td>
+                          <td>{{ $productionCalculator->getPlatinumProductionRaw($selectedDominion) }}</td>
+                          <td>{{ $productionCalculator->getPlatinumProductionMultiplier($selectedDominion) }}</td>
+                          <td>&mdash;</td>
+                          <td>{{ $selectedDominion->resource_platinum }}</td>
+                          <td>{{ number_format($landCalculator->getTotalLand($selectedDominion) * 5000)) }}</td>
+                          <td>{{ $selectedDominion->stat_total_platinum_production }}</td>
+                          <td>{{ $selectedDominion->stat_total_platinum_stolen }}</td>
+                      </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-xs-12 col-sm-4">
+            <table class="table">
+                <colgroup>
+                    <col width="50%">
+                    <col width="50%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th colspan="2">Consumption /hr</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Food Eaten:</td>
+                        <td>
+                            @if ($foodConsumption = $productionCalculator->getFoodConsumption($selectedDominion))
+                                <span class="text-red">-{{ number_format($foodConsumption) }}</span>
+                            @else
+                                <span class="text-green">+0</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Food Decayed:</td>
+                        <td>
+                            @if ($foodDecay = $productionCalculator->getFoodDecay($selectedDominion))
+                                <span class="text-red">-{{ number_format($foodDecay) }}</span>
+                            @else
+                                <span class="text-green">+0</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lumber Rotted:</td>
+                        <td>
+                            @if ($lumberDecay = $productionCalculator->getLumberDecay($selectedDominion))
+                                <span class="text-red">-{{ number_format($lumberDecay) }}</span>
+                            @else
+                                <span class="text-green">+0</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mana Drain:</td>
+                        <td>
+                            @if ($manaDecay = $productionCalculator->getManaDecay($selectedDominion))
+                                <span class="text-red">-{{ number_format($manaDecay) }}</span>
+                            @else
+                                <span class="text-green">+0</span>
+                            @endif
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-xs-12 col-sm-4">
+            <table class="table">
+                <colgroup>
+                    <col width="50%">
+                    <col width="50%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th colspan="2">Net Change /hr</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="hidden-xs">
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Food:</td>
+                        <td>
+                            @if (($foodNetChange = $productionCalculator->getFoodNetChange($selectedDominion)) < 0)
+                                <span class="text-red">{{ number_format($foodNetChange) }}</span>
+                            @else
+                                <span class="text-green">+{{ number_format($foodNetChange) }}</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lumber:</td>
+                        <td>
+                            @if (($lumberNetChange = $productionCalculator->getLumberNetChange($selectedDominion)) < 0)
+                                <span class="text-red">{{ number_format($lumberNetChange) }}</span>
+                            @else
+                                <span class="text-green">+{{ number_format($lumberNetChange) }}</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mana:</td>
+                        <td>
+                            @if (($manaNetChange = $productionCalculator->getManaNetChange($selectedDominion)) < 0)
+                                <span class="text-red">{{ number_format($manaNetChange) }}</span>
+                            @else
+                                <span class="text-green">+{{ number_format($manaNetChange) }}</span>
+                            @endif
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- /NEW -->
+
+
+
             </div>
         </div>
 
