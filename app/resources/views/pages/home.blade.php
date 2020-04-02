@@ -169,7 +169,7 @@
                         <p>To start simming, first <a href="{{ route('auth.register') }}">Register An Account</a>.</p>
                         <p>If you already have an account, <a href="{{ route('auth.login') }}">Login To Your Account</a>.</p>
                     @else
-                        <p>OD Arena is a persistent browser-based fantasy game where you control a dominion and is charged with defending its lands and competing with other players to become the largest in the current round.</p>
+                        <p><strong>ODARENA</strong> is a persistent browser-based fantasy game where you control a dominion and is charged with defending its lands and competing with other players to become the largest in the current round.</p>
 
                         <p>To start playing, first <a href="{{ route('auth.register') }}">Register An Account</a>.</p>
                         <p>If you already have an account, <a href="{{ route('auth.login') }}">Login To Your Account</a>.</p>
