@@ -242,10 +242,6 @@
 
         <div class="col-xs-12 col-sm-4">
             <table class="table">
-                <colgroup>
-                    <col width="50%">
-                    <col width="50%">
-                </colgroup>
                 <thead>
                       <tr>
                           <th>Resource</th>
@@ -262,14 +258,25 @@
                 <tbody>
                       <tr>
                           <td>Platinum</td>
-                          <td>{{ $productionCalculator->getPlatinumProduction($selectedDominion) }}</td>
-                          <td>{{ $productionCalculator->getPlatinumProductionRaw($selectedDominion) }}</td>
+                          <td>{{ number_format($productionCalculator->getPlatinumProduction($selectedDominion)) }}</td>
+                          <td>{{ number_format($productionCalculator->getPlatinumProductionRaw($selectedDominion)) }}</td>
                           <td>{{ $productionCalculator->getPlatinumProductionMultiplier($selectedDominion) }}</td>
                           <td>&mdash;</td>
                           <td>{{ number_format($selectedDominion->resource_platinum) }}</td>
                           <td>{{ number_format($landCalculator->getTotalLand($selectedDominion) * 5000) }}</td>
                           <td>{{ number_format($selectedDominion->stat_total_platinum_production) }}</td>
                           <td>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</td>
+                      </tr>
+                      <tr>
+                          <td>Food</td>
+                          <td>{{ number_format($productionCalculator->getFoodProduction($selectedDominion)) }}</td>
+                          <td>{{ number_format($productionCalculator->getFoodProductionRaw($selectedDominion)) }}</td>
+                          <td>{{ $productionCalculator->getFoodProductionMultiplier($selectedDominion) }}</td>
+                          <td>{{ number_format($productionCalculator->getFoodDecay($selectedDominion)) }}</td>
+                          <td>{{ number_format($selectedDominion->resource_food) }}</td>
+                          <td>&mdash;</td>
+                          <td>{{ number_format($selectedDominion->stat_total_food_production) }}</td>
+                          <td>{{ number_format($selectedDominion->stat_total_food_stolen) }}</td>
                       </tr>
                 </tbody>
             </table>
