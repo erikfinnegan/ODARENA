@@ -265,7 +265,7 @@
                           <td>&mdash;</td>
                           <td>{{ number_format($selectedDominion->resource_platinum) }}</td>
                           <td>{{ number_format($landCalculator->getTotalLand($selectedDominion) * 5000) }}</td>
-                          <td>{{ number_format(($selectedDominion->resource_platinum/$landCalculator->getTotalLand($selectedDominion) * 5000) * 100, 2) }}%</td>
+                          <td>{{ number_format(($selectedDominion->resource_platinum/($landCalculator->getTotalLand($selectedDominion) * 5000)) * 100, 2) }}%</td>
                           <td>{{ number_format($selectedDominion->stat_total_platinum_production) }}</td>
                           <td>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</td>
                       </tr>
