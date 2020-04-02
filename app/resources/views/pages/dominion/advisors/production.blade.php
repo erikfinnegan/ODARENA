@@ -36,7 +36,7 @@
                                                 0
                                             @endif
 
-                                            @if ($productionCalculator->getPlatinumProductionMultiplier($selectedDominion) !== 0)
+                                            @if ($productionCalculator->getPlatinumProductionMultiplier($selectedDominion) !== 1)
                                                 <small class="text-muted">({{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
@@ -50,7 +50,7 @@
                                                 0
                                             @endif
 
-                                            @if ($productionCalculator->getFoodProductionMultiplier($selectedDominion) !== 0)
+                                            @if ($productionCalculator->getFoodProductionMultiplier($selectedDominion) !== 1)
                                                 <small class="text-muted">({{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
@@ -64,7 +64,7 @@
                                                 0
                                             @endif
 
-                                            @if ($productionCalculator->getLumberProductionMultiplier($selectedDominion) !== 0)
+                                            @if ($productionCalculator->getLumberProductionMultiplier($selectedDominion) !== 1)
                                                 <small class="text-muted">({{ number_format(($productionCalculator->getLumberProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
@@ -78,7 +78,7 @@
                                                 0
                                             @endif
 
-                                            @if ($productionCalculator->getManaProductionMultiplier($selectedDominion) !== 0)
+                                            @if ($productionCalculator->getManaProductionMultiplier($selectedDominion) !== 1)
                                                 <small class="text-muted">({{ number_format(($productionCalculator->getManaProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
@@ -92,7 +92,7 @@
                                                 0
                                             @endif
 
-                                            @if ($productionCalculator->getOreProductionMultiplier($selectedDominion) !== 0)
+                                            @if ($productionCalculator->getOreProductionMultiplier($selectedDominion) !== 1)
                                                 <small class="text-muted">({{ number_format(($productionCalculator->getOreProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
@@ -106,7 +106,7 @@
                                                 0
                                             @endif
 
-                                            @if ($productionCalculator->getGemProductionMultiplier($selectedDominion) !== 0)
+                                            @if ($productionCalculator->getGemProductionMultiplier($selectedDominion) !== 1)
                                                 <small class="text-muted">({{ number_format(($productionCalculator->getGemProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
@@ -120,7 +120,7 @@
                                                 0
                                             @endif
 
-                                            @if ($productionCalculator->getTechProductionMultiplier($selectedDominion) !== 0)
+                                            @if ($productionCalculator->getTechProductionMultiplier($selectedDominion) !== 1)
                                                 <small class="text-muted">({{ number_format(($productionCalculator->getTechProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
@@ -134,7 +134,7 @@
                                                 0
                                             @endif
 
-                                            @if ($productionCalculator->getBoatProductionMultiplier($selectedDominion) !== 0)
+                                            @if ($productionCalculator->getBoatProductionMultiplier($selectedDominion) !== 1)
                                                 <small class="text-muted">({{ number_format(($productionCalculator->getBoatProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                             @endif
                                         </td>
