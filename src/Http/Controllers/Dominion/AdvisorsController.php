@@ -14,6 +14,9 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Services\Dominion\QueueService;
 
+# ODA
+use OpenDominion\Calculators\Dominion\LandCalculator;
+
 class AdvisorsController extends AbstractDominionController
 {
     public function getAdvisors()
@@ -26,6 +29,7 @@ class AdvisorsController extends AbstractDominionController
         return view('pages.dominion.advisors.production', [
             'populationCalculator' => app(PopulationCalculator::class),
             'productionCalculator' => app(ProductionCalculator::class),
+            'landCalculator' => app(LandCalculator::class),
         ]);
     }
 
