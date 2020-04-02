@@ -251,6 +251,7 @@
                           <th>Loss/tick</th>
                           <th>Current</th>
                           <th>Max Storage</th>
+                          <th>Storage %</th>
                           <th>Total Produced</th>
                           <th>Total Stolen</th>
                       </tr>
@@ -260,10 +261,11 @@
                           <td>Platinum</td>
                           <td>{{ number_format($productionCalculator->getPlatinumProduction($selectedDominion)) }}</td>
                           <td>{{ number_format($productionCalculator->getPlatinumProductionRaw($selectedDominion)) }}</td>
-                          <td>{{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1)*100, 2) }}</td>
+                          <td>{{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1)*100, 2)% }}</td>
                           <td>&mdash;</td>
                           <td>{{ number_format($selectedDominion->resource_platinum) }}</td>
                           <td>{{ number_format($landCalculator->getTotalLand($selectedDominion) * 5000) }}</td>
+                          <td>{{ number_format(($selectedDominion->resource_platinum/$landCalculator->getTotalLand($selectedDominion) * 5000) * 100, 2) }}%</td>
                           <td>{{ number_format($selectedDominion->stat_total_platinum_production) }}</td>
                           <td>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</td>
                       </tr>
@@ -271,9 +273,10 @@
                           <td>Food</td>
                           <td>{{ number_format($productionCalculator->getFoodProduction($selectedDominion)) }}</td>
                           <td>{{ number_format($productionCalculator->getFoodProductionRaw($selectedDominion)) }}</td>
-                          <td>{{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1)*100, 2) }}</td>
+                          <td>{{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1)*100, 2)% }}</td>
                           <td>{{ number_format($productionCalculator->getFoodDecay($selectedDominion)) }}</td>
                           <td>{{ number_format($selectedDominion->resource_food) }}</td>
+                          <td>&mdash;</td>
                           <td>&mdash;</td>
                           <td>{{ number_format($selectedDominion->stat_total_food_production) }}</td>
                           <td>{{ number_format($selectedDominion->stat_total_food_stolen) }}</td>
