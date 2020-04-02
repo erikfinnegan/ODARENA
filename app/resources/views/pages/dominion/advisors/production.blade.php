@@ -260,7 +260,7 @@
                           <td>Platinum</td>
                           <td>{{ number_format($productionCalculator->getPlatinumProduction($selectedDominion)) }}</td>
                           <td>{{ number_format($productionCalculator->getPlatinumProductionRaw($selectedDominion)) }}</td>
-                          <td>{{ $productionCalculator->getPlatinumProductionMultiplier($selectedDominion) }}</td>
+                          <td>{{ number_format($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1)*100, 2) }}</td>
                           <td>&mdash;</td>
                           <td>{{ number_format($selectedDominion->resource_platinum) }}</td>
                           <td>{{ number_format($landCalculator->getTotalLand($selectedDominion) * 5000) }}</td>
@@ -271,7 +271,7 @@
                           <td>Food</td>
                           <td>{{ number_format($productionCalculator->getFoodProduction($selectedDominion)) }}</td>
                           <td>{{ number_format($productionCalculator->getFoodProductionRaw($selectedDominion)) }}</td>
-                          <td>{{ $productionCalculator->getFoodProductionMultiplier($selectedDominion) }}</td>
+                          <td>{{ number_format($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1)*100, 2) }}</td>
                           <td>{{ number_format($productionCalculator->getFoodDecay($selectedDominion)) }}</td>
                           <td>{{ number_format($selectedDominion->resource_food) }}</td>
                           <td>&mdash;</td>
