@@ -281,7 +281,7 @@
                               @if($productionCalculator->getFoodNetChange($selectedDominion) > 0)
                                   <span class="text-green">
                               @else
-                                  <span class="text-red">-
+                                  <span class="text-red">
                               @endif
                               {{ number_format($productionCalculator->getFoodNetChange($selectedDominion)) }}
                               </span>
@@ -302,7 +302,7 @@
                               @if($productionCalculator->getLumberNetChange($selectedDominion) > 0)
                                   <span class="text-green">
                               @else
-                                  <span class="text-red">-
+                                  <span class="text-red">
                               @endif
                               {{ number_format($productionCalculator->getLumberNetChange($selectedDominion)) }}
                               </span>
@@ -323,7 +323,7 @@
                               @if($productionCalculator->getManaNetChange($selectedDominion) > 0)
                                   <span class="text-green">
                               @else
-                                  <span class="text-red">-
+                                  <span class="text-red">
                               @endif
                               {{ number_format($productionCalculator->getManaNetChange($selectedDominion)) }}
                               </span>
