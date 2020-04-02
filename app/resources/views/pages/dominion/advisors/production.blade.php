@@ -245,16 +245,16 @@
                 <thead>
                       <tr>
                           <th>Resource</th>
-                          <th>Production/tick</th>
-                          <th>Raw/tick</th>
-                          <th>Modifier</th>
-                          <th>Loss/tick</th>
-                          <th>Net/tick</th>
-                          <th>Current</th>
-                          <th>Max Storage</th>
-                          <th>Storage %</th>
-                          <th>Total Produced</th>
-                          <th>Total Stolen</th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="Production per tick including modifiers">Production/tick</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="Raw production per tick (not including modifiers)">Raw/tick</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="Modifier for production of this resource (includes morale modifier)">Modifier</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much (if any) is lost of this resource per tick in upkeep">Loss/tick</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="Net change per tick">Net/tick</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much you currently have">Current</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="The maximum amount of the resource you can have stored">Max Storage</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much of max storage you are currently using">Storage %</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much you have produced this round">Total Produced</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="Ho wmuch you have stolen this round">Total Stolen</span></th>
                       </tr>
                 </thead>
                 <tbody>
