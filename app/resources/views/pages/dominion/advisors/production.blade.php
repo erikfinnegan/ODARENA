@@ -264,8 +264,8 @@
                           <td>{{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
                           <td>&mdash;</td>
                           <td>{{ number_format($selectedDominion->resource_platinum) }}</td>
-                          <td>{{ number_format($landCalculator->getTotalLand($selectedDominion) * 5000) }}</td>
-                          <td>{{ number_format(($selectedDominion->resource_platinum/($landCalculator->getTotalLand($selectedDominion) * 5000)) * 100, 2) }}%</td>
+                          <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'platinum')) }}</td>
+                          <td>{{ number_format(($selectedDominion->resource_platinum/$productionCalculator->getMaxStorage($selectedDominion, 'platinum')) * 100, 2) }}%</td>
                           <td>{{ number_format($selectedDominion->stat_total_platinum_production) }}</td>
                           <td>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</td>
                       </tr>
@@ -280,6 +280,77 @@
                           <td>&mdash;</td>
                           <td>{{ number_format($selectedDominion->stat_total_food_production) }}</td>
                           <td>{{ number_format($selectedDominion->stat_total_food_stolen) }}</td>
+                      </tr>
+                      <tr>
+                          <td>Lumber</td>
+                          <td>{{ number_format($productionCalculator->getLumberProduction($selectedDominion)) }}</td>
+                          <td>{{ number_format($productionCalculator->getLumberProductionRaw($selectedDominion)) }}</td>
+                          <td>{{ number_format(($productionCalculator->getLumberProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
+                          <td>{{ number_format($productionCalculator->getLumberDecay($selectedDominion)) }}</td>
+                          <td>{{ number_format($selectedDominion->resource_lumber) }}</td>
+                          <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'lumber')) }}</td>
+                          <td>{{ number_format(($selectedDominion->resource_lumber/$productionCalculator->getMaxStorage($selectedDominion, 'lumber')) * 100, 2) }}%</td>
+                          <td>{{ number_format($selectedDominion->stat_total_lumber_production) }}</td>
+                          <td>{{ number_format($selectedDominion->stat_total_lumber_stolen) }}</td>
+                      </tr>
+                      <tr>
+                          <td>Mana</td>
+                          <td>{{ number_format($productionCalculator->getManaProduction($selectedDominion)) }}</td>
+                          <td>{{ number_format($productionCalculator->getManaProductionRaw($selectedDominion)) }}</td>
+                          <td>{{ number_format(($productionCalculator->getManaProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
+                          <td>{{ number_format($productionCalculator->getManaDecay($selectedDominion)) }}</td>
+                          <td>{{ number_format($selectedDominion->resource_mana) }}</td>
+                          <td>&mdash;</td>
+                          <td>&mdash;</td>
+                          <td>{{ number_format($selectedDominion->stat_total_mana_production) }}</td>
+                          <td>{{ number_format($selectedDominion->stat_total_mana_stolen) }}</td>
+                      </tr>
+                          <td>Ore</td>
+                          <td>{{ number_format($productionCalculator->getOreProduction($selectedDominion)) }}</td>
+                          <td>{{ number_format($productionCalculator->getOreProductionRaw($selectedDominion)) }}</td>
+                          <td>{{ number_format(($productionCalculator->getOreProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
+                          <td>&mdash;</td>
+                          <td>{{ number_format($selectedDominion->resource_ore) }}</td>
+                          <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'ore')) }}</td>
+                          <td>{{ number_format(($selectedDominion->resource_ore/$productionCalculator->getMaxStorage($selectedDominion, 'ore')) * 100, 2) }}%</td>
+                          <td>{{ number_format($selectedDominion->stat_total_ore_production) }}</td>
+                          <td>{{ number_format($selectedDominion->stat_total_ore_stolen) }}</td>
+                      </tr>
+                      </tr>
+                          <td>Gems</td>
+                          <td>{{ number_format($productionCalculator->getGemProduction($selectedDominion)) }}</td>
+                          <td>{{ number_format($productionCalculator->getGemProductionRaw($selectedDominion)) }}</td>
+                          <td>{{ number_format(($productionCalculator->getGemProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
+                          <td>&mdash;</td>
+                          <td>{{ number_format($selectedDominion->resource_gem) }}</td>
+                          <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'gem')) }}</td>
+                          <td>{{ number_format(($selectedDominion->resource_gem/$productionCalculator->getMaxStorage($selectedDominion, 'gem')) * 100, 2) }}%</td>
+                          <td>{{ number_format($selectedDominion->stat_total_gem_production) }}</td>
+                          <td>{{ number_format($selectedDominion->stat_total_gem_stolen) }}</td>
+                      </tr>
+                      </tr>
+                          <td>XP</td>
+                          <td>{{ number_format($productionCalculator->getTechProduction($selectedDominion)) }}</td>
+                          <td>{{ number_format($productionCalculator->getTechProductionRaw($selectedDominion)) }}</td>
+                          <td>{{ number_format(($productionCalculator->getTechProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
+                          <td>&mdash;</td>
+                          <td>{{ number_format($selectedDominion->resource_tech) }}</td>
+                          <td>&mdash;</td>
+                          <td>&mdash;</td>
+                          <td>{{ number_format($selectedDominion->stat_total_tech_production) }}</td>
+                          <td>&mdash;</td>
+                      </tr>
+                      </tr>
+                          <td>Boats</td>
+                          <td>{{ number_format($productionCalculator->getBoatProduction($selectedDominion)) }}</td>
+                          <td>{{ number_format($productionCalculator->getBoatProductionRaw($selectedDominion)) }}</td>
+                          <td>{{ number_format(($productionCalculator->getBoatProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
+                          <td>&mdash;</td>
+                          <td>{{ number_format($selectedDominion->resource_boats) }}</td>
+                          <td>&mdash;</td>
+                          <td>&mdash;</td>
+                          <td>{{ number_format($selectedDominion->stat_total_boat_production) }}</td>
+                          <td>&mdash;</td>
                       </tr>
                 </tbody>
             </table>

@@ -1108,4 +1108,50 @@ class ProductionCalculator
             return $this->populationCalculator->getPeasantsSacrificed($dominion);
         }
 
+        /**
+         * Returns the Dominion's max storage for a specific resource.
+         *
+         * @param Dominion $dominion
+         * @return int
+         */
+        public function getMaxStorage(Dominion $dominion, string $resource): int
+        {
+            $max = 0;
+            $land = $this->landCalculator->getTotalLand($dominion);
+
+            if($resource == 'platinum')
+            {
+                $max = $land * 5000;
+            }
+            elseif($resource == 'lumber')
+            {
+                $max = 96 * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
+                $max = max($max, $land * 100);
+            }
+            elseif($resource == 'ore')
+            {
+                $max = 96 * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
+                $max = max($max, $land * 100);
+            }
+            elseif($resource == 'gems' or $resource == 'gem')
+            {
+                $max = 96 * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
+                if($dominion->race->name == 'Myconid')
+                {
+                  $max += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
+                }
+                $max = max($max, $land * 50);
+
+            }
+            else
+            {
+              $max = 0;
+            }
+
+            return $max;
+
+        }
+
+
+
 }
