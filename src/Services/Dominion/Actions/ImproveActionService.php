@@ -82,6 +82,11 @@ class ImproveActionService
         $dominion->most_recent_improvement_resource = (string)$resource;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
+        $resourceForStats = $resource;
+        if($resourceForStats == 'gems')
+        {
+          $resourceForStats = 'gem';
+        }
         $dominion->{'stat_total_' . $resource . '_spent_improving'} += $amount;
 
         return [
