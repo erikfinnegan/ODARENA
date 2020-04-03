@@ -286,12 +286,12 @@
                                   </colgroup>
                                 <tbody>
                                   </tr>
-                                    <td>Max:</td>
+                                    <td>Population max:</td>
                                     <td>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                                   </tr>
                                   <tr>
-                                    <td>Current:</td>
-                                    <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} ({{ number_format(($populationCalculator->getPopulation($selectedDominion)/$populationCalculator->getMaxPopulation($selectedDominion))*100,2)}}% capacity)</td>
+                                    <td>Population current:</td>
+                                    <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }}</td>
                                   </tr>
                                   <tr>
                                     <td>Peasants max:</td>
@@ -302,7 +302,7 @@
                                     <td>{{ number_format($selectedDominion->peasants) }}</td>
                                   </tr>
                                   <tr>
-                                    <td>Change:</td>
+                                    <td>Peasants change:</td>
                                     <td>
                                         @if ($selectedDominion->peasants_last_hour < 0)
                                             <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick)</span>
@@ -313,8 +313,38 @@
                                   </tr>
                                   <tr>
                                     <td>Military:</td>
-                                    <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }} ({{ number_format($populationCalculator->getPopulationMilitaryPercentage($selectedDominion), 2) }}%)</td>
+                                    <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
                                   </tr>
+                                </tbody>
+                              </table>
+
+                              <b>Jobs</b>
+                              <table class="table">
+                                  <colgroup>
+                                      <col width="50%">
+                                      <col width="50%">
+                                  </colgroup>
+                                <tbody>
+                                  </tr>
+                                    <td>Jobs:</td>
+                                    <td>{{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Filled:</td>
+                                    <td>{{ number_format($populationCalculator->getPopulationEmployed($selectedDominion)) }}</td>
+                                  </tr>
+                                  @php($jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion)))
+                                  @if ($jobsNeeded < 0)
+                                  <tr>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="How many new jobs need to be created to provide employment for all currently unemployed peasants">Jobs available:</span></td>
+                                    <td>{{ number_format(abs($jobsNeeded)) }}</td>
+                                  </tr>
+                                  @else
+                                  <tr>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="How many peasants you need to fill all available jobs">Peasants needed:</span></td>
+                                    <td>{{ number_format(abs($jobsNeeded)) }}</td>
+                                  </tr>
+                                  @endif
                                 </tbody>
                               </table>
 
