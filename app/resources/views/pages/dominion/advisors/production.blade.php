@@ -255,6 +255,13 @@
                           <th><span data-toggle="tooltip" data-placement="top" title="How much of max storage you are currently using">Storage %</span></th>
                           <th><span data-toggle="tooltip" data-placement="top" title="How much you have produced this round">Total Produced</span></th>
                           <th><span data-toggle="tooltip" data-placement="top" title="How much you have stolen this round">Total Stolen</span></th>
+
+
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on training military units">Spent on Training</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on buildings">Spent on Buildings</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on exploring">Spent on Exploring</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on rezoning">Spent on Rezoning</span></th>
+                          <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on improvements">Spent on Improvements</span></th>
                       </tr>
                 </thead>
                 <tbody>

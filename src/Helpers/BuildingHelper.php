@@ -286,7 +286,7 @@ class BuildingHelper
             'dock' => 'Produces 1 boat every 20 ticks on average, produces 35 bushels of food per tick and each dock prevents 2.5 of your boats from being sunk.',
             'ziggurat' => 'Produces 60 mana/tick.',
             'tissue' => 'Houses 160 cells, amoeba, or units. Produces 4 food/tick.',
-            'mycelia' => 'House 10 people or units. Produces 4 food/tick.',
+            'mycelia' => 'House 30 people or units. Produces 4 food/tick.',
             'tunnels' => 'Dig, dig, dig.'
         ];
 
