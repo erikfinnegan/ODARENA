@@ -291,7 +291,7 @@
                                   </tr>
                                   <tr>
                                     <td>Current:</td>
-                                    <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} ({{ number_format(($populationCalculator->getPopulation($selectedDominion)/$populationCalculator->getMaxPopulation($selectedDominion))*100,2)}}%)</td>
+                                    <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} ({{ number_format(($populationCalculator->getPopulation($selectedDominion)/$populationCalculator->getMaxPopulation($selectedDominion))*100,2)}}% capacity)</td>
                                   </tr>
                                   <tr>
                                     <td>Peasants max:</td>
@@ -299,7 +299,7 @@
                                   </tr>
                                   <tr>
                                     <td>Peasants current:</td>
-                                    <td>{{ number_format($selectedDominion->peasants) }} ({{ number_format(($selectedDominion->peasants/($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)))*100,2) }}%)</td>
+                                    <td>{{ number_format($selectedDominion->peasants) }}</td>
                                   </tr>
                                   <tr>
                                     <td>Change:</td>
