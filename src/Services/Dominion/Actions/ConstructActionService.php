@@ -133,6 +133,32 @@ class ConstructActionService
                 'resource_mana' => ($dominion->resource_mana - $manaCost),
                 'resource_food' => ($dominion->resource_food - $foodCost),
                 'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
+
+                'stat_total_platinum_spent_building' => ($dominion->stat_total_platinum_spent_building + $platinumCost),
+
+                            # Update spending statistics.
+                            $dominion->stat_total_platinum_spent_building += $platinumCost;
+                            $dominion->stat_total_food_spent_building += $foodCost;
+                            $dominion->stat_total_lumber_spent_building += $lumberCost;
+                            $dominion->stat_total_mana_spent_building += $manaCost;
+
+                            $dominion->stat_total_ore_spent_building += 0;
+                            $dominion->stat_total_gem_spent_building += 0;
+                            #$dominion->stat_total_unit1_spent_building += 0;
+                            #$dominion->stat_total_unit2_spent_building += 0;
+                            #$dominion->stat_total_unit3_spent_building += 0;
+                            #$dominion->stat_total_unit4_spent_building += 0;
+                            #$dominion->stat_total_spies_spent_building += 0;
+                            #$dominion->stat_total_wizards_spent_building += 0;
+                            #$dominion->stat_total_wizards_spent_building += 0;
+                            #$dominion->stat_total_archmages_spent_building += 0;
+                            #$dominion->stat_total_wild_yeti_spent_building += 0;
+                            #$dominion->stat_total_soul_spent_building += 0;
+                            #$dominion->stat_total_champion_spent_building += 0;
+
+
+
+
             ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
         });
 
