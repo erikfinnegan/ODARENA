@@ -80,7 +80,6 @@ class ImproveActionService
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
         $dominion->most_recent_improvement_resource = (string)$resource;
-        $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
         $resourceForStats = $resource;
         if($resourceForStats == 'gems')
@@ -88,6 +87,9 @@ class ImproveActionService
           $resourceForStats = 'gem';
         }
         $dominion->{'stat_total_' . $resourceForStats . '_spent_improving'} += $totalResourcesToInvest;
+
+        $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
+
 
         return [
             'message' => $this->getReturnMessageString($resource, $data, $totalResourcesToInvest, $dominion),
