@@ -278,7 +278,7 @@
                             @endif
 
                           @else
-                              <b>Population</b>
+                              <b>Population and Jobs</b>
                               <table class="table">
                                   <colgroup>
                                       <col width="50%">
@@ -315,16 +315,7 @@
                                     <td>Military:</td>
                                     <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
                                   </tr>
-                                </tbody>
-                              </table>
 
-                              <b>Jobs</b>
-                              <table class="table">
-                                  <colgroup>
-                                      <col width="50%">
-                                      <col width="50%">
-                                  </colgroup>
-                                <tbody>
                                   </tr>
                                     <td>Jobs:</td>
                                     <td>{{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}</td>
