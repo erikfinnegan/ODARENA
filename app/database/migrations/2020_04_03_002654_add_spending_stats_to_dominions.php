@@ -47,7 +47,7 @@ class AddSpendingStatsToDominions extends Migration
             $table->unsignedInteger('stat_total_ore_spent_training')->after('stat_total_mana_spent_improving')->default(0);
             $table->unsignedInteger('stat_total_ore_spent_building')->after('stat_total_ore_spent_training')->default(0);
             $table->unsignedInteger('stat_total_ore_spent_rezoning')->after('stat_total_ore_spent_building')->default(0);
-            $table->unsignedInteger('stat_total_ore_spent_exploring')->after('stat_total_orespent_rezoning')->default(0);
+            $table->unsignedInteger('stat_total_ore_spent_exploring')->after('stat_total_ore_spent_rezoning')->default(0);
             $table->unsignedInteger('stat_total_ore_spent_improving')->after('stat_total_ore_spent_exploring')->default(0);
 
             # Gem
