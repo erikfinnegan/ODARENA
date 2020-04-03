@@ -82,6 +82,8 @@ class ImproveActionService
         $dominion->most_recent_improvement_resource = (string)$resource;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
+        $dominion->{'stat_total_' . $resource . '_spent_improving'} += $amount;
+
         return [
             'message' => $this->getReturnMessageString($resource, $data, $totalResourcesToInvest, $dominion),
             'data' => [
