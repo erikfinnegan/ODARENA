@@ -245,6 +245,7 @@
                         <h3 class="box-title">Information</h3>
                     </div>
                     <div class="box-body">
+                        <p>The production advisor tells you about your resource production, population and jobs.</p>
                         <p>
                           @if ($selectedDominion->race->name == 'Growth')
                             <b>Growth</b><br>
@@ -335,12 +336,12 @@
                                   @php($jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion)))
                                   @if ($jobsNeeded < 0)
                                   <tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="How many peasants you need in order to fill all available jobs.">Jobs available:</span></td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="How many peasants you need in order to fill all available jobs">Jobs available:</span></td>
                                     <td>{{ number_format(abs($jobsNeeded)) }}</td>
                                   </tr>
                                   @else
                                   <tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="How many new jobs need to be created to provide employment for all currently unemployed peasants.<br>Peasants - Jobs = Jobs Needed">Jobs needed:</span></td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="How many new jobs need to be created to provide employment for all currently unemployed peasants<br>Peasants - Jobs = Jobs Needed">Jobs needed:</span></td>
                                     <td>{{ number_format(abs($jobsNeeded)) }}</td>
                                   </tr>
                                   @endif
