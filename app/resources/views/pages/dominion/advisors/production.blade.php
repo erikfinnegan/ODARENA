@@ -237,11 +237,120 @@
                 </div>
             </div>
 
-<!-- NEW -->
+            <!-- Information Box: Production Summary -->
+
+            <div class="col-md-12 col-md-3">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Information: Production Summary</h3>
+                    </div>
+                    <div class="box-body">
+                        <p>The production advisor tells you about your resource production, population and jobs.</p>
+                        <p>
+                          @if ($selectedDominion->race->name == 'Growth')
+                            <b>Growth</b><br>
+                            Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
+                            Cells: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                            @if ($selectedDominion->peasants_last_hour < 0)
+                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                            @elseif ($selectedDominion->peasants_last_hour > 0)
+                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                            @endif
+
+                          @elseif ($selectedDominion->race->name == 'Myconid')
+                            <b>Network</b><br>
+                            Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
+                            Spores: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                            @if ($selectedDominion->peasants_last_hour < 0)
+                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                            @elseif ($selectedDominion->peasants_last_hour > 0)
+                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                            @endif
+
+                          @elseif ($selectedDominion->race->name == 'Swarm')
+                            <b>Swarm</b><br>
+                            Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
+                            Larvae: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                            @if ($selectedDominion->peasants_last_hour < 0)
+                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                            @elseif ($selectedDominion->peasants_last_hour > 0)
+                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                            @endif
+
+                          @else
+                              <b>Population</b>
+                              <table>
+                                </tr>
+                                  <td>Max:<td>
+                                  <td>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Current:</td>
+                                  <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} ({{ number_format(($populationCalculator->getPopulation($selectedDominion)/$populationCalculator->getMaxPopulation($selectedDominion))*100,2)}}  %)</td>
+                                </tr>
+                                <tr>
+                                  <td>Max peasants:</td>
+                                  <td>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Current peasants:</td>
+                                  <td>{{ number_format($selectedDominion->peasants) }}</td>
+                                </tr>
+                                <tr>
+                                  <td>Peasants last tick:</td>
+                                  <td>
+                                      @if ($selectedDominion->peasants_last_hour < 0)
+                                          <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                      @elseif ($selectedDominion->peasants_last_hour > 0)
+                                          <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                      @endif
+                                  </td>
+                                </tr>
+                              </table>
+
+                              <br>
+
+
+                              Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
+                              Peasants: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                              @if ($selectedDominion->peasants_last_hour < 0)
+                                  <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                              @elseif ($selectedDominion->peasants_last_hour > 0)
+                                  <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                              @endif
+                              <br>
+                              Military: {{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}<br>
+                              <br>
+                              <b>Jobs</b><br>
+                              Fulfilled: {{ number_format($populationCalculator->getPopulationEmployed($selectedDominion)) }} / {{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}<br>
+                              @php($jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion)))
+                              @if ($jobsNeeded < 0)
+                                  Available: {{ number_format(abs($jobsNeeded)) }}<br>
+                                  Opportunity cost of job overrun: <b>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</b><br>
+                                  <br>
+                                  <i>"You should acquire additional peasants, since you have idle jobs.<br><br>Employed peasants pay their income tax in platinum to the dominion." -Production Advisor</i>
+                              @elseif ($jobsNeeded === 0)
+                                  Available: 0<br>
+                                  No opportunity cost
+                              @else
+                                  Needed: {{ number_format($jobsNeeded) }}<br>
+                                  Opportunity cost of job underrun: <b>{{ number_format(2.7 * $jobsNeeded * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</b><br>
+                                  <br>
+                                  <i>"You should construct additional job buildings, since you have idle peasants.<br><br>Only employed peasants pay their income tax in platinum to the dominion." -Production Advisor</i>
+                              @endif
+                            @endif
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /Information Box: Production Summary -->
+
+<!-- PRODUCTION DETAILS -->
 <div class="col-md-12 col-md-9">
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-industry"></i> Production Summary</h3>
+            <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Production Details</h3>
         </div>
 
             <div class="box-body no-padding">
@@ -411,78 +520,6 @@
 
         <!-- /NEW -->
 
-        <div class="col-md-12 col-md-3">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Information</h3>
-                </div>
-                <div class="box-body">
-                    <p>The production advisor tells you about your resource production, population and jobs.</p>
-                    <p>
-                      @if ($selectedDominion->race->name == 'Growth')
-                        <b>Growth</b><br>
-                        Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
-                        Cells: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
-                        @if ($selectedDominion->peasants_last_hour < 0)
-                            <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
-                        @elseif ($selectedDominion->peasants_last_hour > 0)
-                            <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
-                        @endif
-
-                      @elseif ($selectedDominion->race->name == 'Myconid')
-                        <b>Network</b><br>
-                        Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
-                        Spores: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
-                        @if ($selectedDominion->peasants_last_hour < 0)
-                            <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
-                        @elseif ($selectedDominion->peasants_last_hour > 0)
-                            <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
-                        @endif
-
-                      @elseif ($selectedDominion->race->name == 'Swarm')
-                        <b>Swarm</b><br>
-                        Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
-                        Larvae: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
-                        @if ($selectedDominion->peasants_last_hour < 0)
-                            <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
-                        @elseif ($selectedDominion->peasants_last_hour > 0)
-                            <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
-                        @endif
-
-                      @else
-                          <b>Population</b><br>
-                          Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
-                          Peasants: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
-                          @if ($selectedDominion->peasants_last_hour < 0)
-                              <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
-                          @elseif ($selectedDominion->peasants_last_hour > 0)
-                              <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
-                          @endif
-                          <br>
-                          Military: {{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}<br>
-                          <br>
-                          <b>Jobs</b><br>
-                          Fulfilled: {{ number_format($populationCalculator->getPopulationEmployed($selectedDominion)) }} / {{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}<br>
-                          @php($jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion)))
-                          @if ($jobsNeeded < 0)
-                              Available: {{ number_format(abs($jobsNeeded)) }}<br>
-                              Opportunity cost of job overrun: <b>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</b><br>
-                              <br>
-                              <i>"You should acquire additional peasants, since you have idle jobs.<br><br>Employed peasants pay their income tax in platinum to the dominion." -Production Advisor</i>
-                          @elseif ($jobsNeeded === 0)
-                              Available: 0<br>
-                              No opportunity cost
-                          @else
-                              Needed: {{ number_format($jobsNeeded) }}<br>
-                              Opportunity cost of job underrun: <b>{{ number_format(2.7 * $jobsNeeded * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</b><br>
-                              <br>
-                              <i>"You should construct additional job buildings, since you have idle peasants.<br><br>Only employed peasants pay their income tax in platinum to the dominion." -Production Advisor</i>
-                          @endif
-                        @endif
-                    </p>
-                </div>
-            </div>
-        </div>
 
     </div>
 
