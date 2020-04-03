@@ -330,10 +330,18 @@
                                     <td><span data-toggle="tooltip" data-placement="top" title="How many peasants you need in order to fill all available jobs">Jobs available:</span></td>
                                     <td>{{ number_format(abs($jobsNeeded)) }}</td>
                                   </tr>
+                                  <tr>
+                                    <td>Lost income:</td>
+                                    <td>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</td>
+                                  </tr>
                                   @else
                                   <tr>
                                     <td><span data-toggle="tooltip" data-placement="top" title="How many new jobs need to be created to provide employment for all currently unemployed peasants<br>Peasants - Jobs = Jobs Needed">Jobs needed:</span></td>
                                     <td>{{ number_format(abs($jobsNeeded)) }}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Lost income:</td>
+                                    <td>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</td>
                                   </tr>
                                   @endif
                                 </tbody>
@@ -352,7 +360,7 @@
             <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Production Details</h3>
         </div>
 
-            <div class="box-body no-padding">
+            <div class="box-body table-responsive no-padding">
                 <div class="row">
 
                     <div class="col-xs-12 col-sm-12">
@@ -370,13 +378,6 @@
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much of max storage you are currently using">Storage %</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have produced this round">Total Produced</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have stolen this round">Total Stolen</span></th>
-
-
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on training military units">Spent on Training</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on buildings">Spent on Buildings</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on exploring">Spent on Exploring</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on rezoning">Spent on Rezoning</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent on improvements">Spent on Improvements</span></th>
                                   </tr>
                             </thead>
                             <tbody>
@@ -510,16 +511,93 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
-            </div>
+    </div>
+</div>
+<!-- /PRODUCTION DETAILS -->
+
+
+<!-- SPENDING DETAILS -->
+<div class="col-md-12 col-md-9">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="ra ra-book"></i> Spending Details</h3>
         </div>
 
+            <div class="box-body table-responsive no-padding">
+                <div class="row">
 
-        <!-- /NEW -->
-
-
+                    <div class="col-xs-12 col-sm-12">
+                        <table class="table">
+                            <thead>
+                                  <tr>
+                                      <th>Resource</th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on training units (including spies, wizards, and arch mages)">Training</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on buildings">Building</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on rezoning land">Rezoning</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on exploring land">Exploring</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on improvements">Improvements</span></th>
+                                  </tr>
+                            </thead>
+                            <tbody>
+                                  <tr>
+                                      <td>Platinum</td>
+                                      <td>{{ number_format($dominion->stat_total_platinum_spent_training, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_platinum_spent_building, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_platinum_spent_rezoning, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_platinum_spent_exploring, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_platinum_spent_improving, 2) }}</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Food</td>
+                                      <td>{{ number_format($dominion->stat_total_food_spent_training, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_food_spent_building, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_food_spent_rezoning, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_food_spent_exploring, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_food_spent_improving, 2) }}</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Lumber</td>
+                                      <td>{{ number_format($dominion->stat_total_lumber_spent_training, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_lumber_spent_building, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_lumber_spent_rezoning, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_lumber_spent_exploring, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_lumber_spent_improving, 2) }}</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Mana</td>
+                                      <td>{{ number_format($dominion->stat_total_mana_spent_training, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_mana_spent_building, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_mana_spent_rezoning, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_mana_spent_exploring, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_mana_spent_improving, 2) }}</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Ore</td>
+                                      <td>{{ number_format($dominion->stat_total_ore_spent_training, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_ore_spent_building, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_ore_spent_rezoning, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_ore_spent_exploring, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_ore_spent_improving, 2) }}</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Gems</td>
+                                      <td>{{ number_format($dominion->stat_total_gem_spent_training, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_gem_spent_building, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_gem_spent_rezoning, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_gem_spent_exploring, 2) }}</td>
+                                      <td>{{ number_format($dominion->stat_total_gem_spent_improving, 2) }}</td>
+                                  </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
     </div>
+</div>
+<!-- /SPENDING DETAILS -->
+
+
 
 @endsection
