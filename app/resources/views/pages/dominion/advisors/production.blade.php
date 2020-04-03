@@ -281,28 +281,31 @@
                               <b>Population</b>
                               <table>
                                 </tr>
-                                  <td>Max:<td>
+                                  <td>Max:</td>
                                   <td>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                                 </tr>
                                 <tr>
                                   <td>Current:</td>
-                                  <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} ({{ number_format(($populationCalculator->getPopulation($selectedDominion)/$populationCalculator->getMaxPopulation($selectedDominion))*100,2)}}  %)</td>
+                                  <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} ({{ number_format(($populationCalculator->getPopulation($selectedDominion)/$populationCalculator->getMaxPopulation($selectedDominion))*100,2)}}%)</td>
                                 </tr>
+                              </table>
+                              <b>Peasants</b>
+                              <table>
                                 <tr>
-                                  <td>Max peasants:</td>
+                                  <td>Max:</td>
                                   <td>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
                                 </tr>
                                 <tr>
-                                  <td>Current peasants:</td>
-                                  <td>{{ number_format($selectedDominion->peasants) }}</td>
+                                  <td>Current:</td>
+                                  <td>{{ number_format($selectedDominion->peasants) }} ({{ number_format(($selectedDominion->peasants/($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)))*100,2) }}%)</td>
                                 </tr>
                                 <tr>
-                                  <td>Peasants last tick:</td>
+                                  <td>Change:</td>
                                   <td>
                                       @if ($selectedDominion->peasants_last_hour < 0)
-                                          <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                          <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick)</span>
                                       @elseif ($selectedDominion->peasants_last_hour > 0)
-                                          <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                          <span class="text-green">+{{ number_format($selectedDominion->peasants_last_hour) }} last tick)</span>
                                       @endif
                                   </td>
                                 </tr>
