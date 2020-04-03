@@ -245,7 +245,6 @@
                         <h3 class="box-title">Information</h3>
                     </div>
                     <div class="box-body">
-                        <p>The production advisor tells you about your resource production, population and jobs.</p>
                         <p>
                           @if ($selectedDominion->race->name == 'Growth')
                             <b>Growth</b><br>
