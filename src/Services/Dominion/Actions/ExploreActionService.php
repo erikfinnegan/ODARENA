@@ -173,7 +173,7 @@ class ExploreActionService
         $researchPointsPerAcre *= (1 + $researchPointsPerAcreMultiplier);
         $researchPointsGained = $researchPointsPerAcre * $totalLandToExplore;
 
-        DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore, $researchPointsGained) {
+        DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore, $researchPointsGained, $platinumCost) {
             $this->queueService->queueResources('exploration', $dominion, $data);
             $this->queueService->queueResources('exploration',$dominion,['resource_tech' => $researchPointsGained]);
 
@@ -185,9 +185,9 @@ class ExploreActionService
                 'military_draftees' => $newDraftees,
 
                 'stat_total_platinum_spent_exploring' => ($dominion->stat_total_platinum_spent_exploring + $platinumCost),
-                'stat_total_food_spent_exploring' => ($dominion->stat_total_food_spent_exploring + $foodCost),
-                'stat_total_lumber_spent_exploring' => ($dominion->stat_total_lumber_spent_exploring + $lumberCost),
-                'stat_total_mana_spent_exploring' => ($dominion->stat_total_mana_spent_exploring + $manaCost),
+                'stat_total_food_spent_exploring' => ($dominion->stat_total_food_spent_exploring + 0),
+                'stat_total_lumber_spent_exploring' => ($dominion->stat_total_lumber_spent_exploring + 0),
+                'stat_total_mana_spent_exploring' => ($dominion->stat_total_mana_spent_exploring + 0),
 
                 'stat_total_ore_spent_exploring' => ($dominion->stat_total_ore_spent_exploring + 0),
                 'stat_total_gem_spent_exploring' => ($dominion->stat_total_gem_spent_exploring + 0),
