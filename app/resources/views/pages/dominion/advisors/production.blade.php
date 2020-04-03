@@ -23,7 +23,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Production /hr</th>
+                                        <th colspan="2">Production /tick</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -135,7 +135,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Consumption /hr</th>
+                                        <th colspan="2">Consumption /tick</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -191,7 +191,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Net Change /hr</th>
+                                        <th colspan="2">Net Change /tick</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -362,17 +362,16 @@
 
             <div class="box-body table-responsive no-padding">
                 <div class="row">
-
                     <div class="col-xs-12 col-sm-12">
                         <table class="table">
                             <thead>
                                   <tr>
                                       <th>Resource</th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="Production per tick including modifiers">Production/tick</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="Raw production per tick (not including modifiers)">Raw/tick</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="Production per tick including modifiers">Production</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="Raw production per tick (not including modifiers)">Raw</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="Modifier for production of this resource (includes morale modifier)">Modifier</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much (if any) is lost of this resource per tick in upkeep">Loss/tick</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="Net change per tick">Net/tick</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much (if any) is lost of this resource per tick in upkeep">Loss</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="Net change per tick">Net</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you currently have">Current</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="The maximum amount of the resource you can have stored">Max Storage</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much of max storage you are currently using">Storage %</span></th>
