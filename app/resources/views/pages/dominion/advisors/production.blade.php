@@ -242,7 +242,7 @@
             <div class="col-md-12 col-md-3">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Information: Production Summary</h3>
+                        <h3 class="box-title">Information</h3>
                     </div>
                     <div class="box-body">
                         <p>The production advisor tells you about your resource production, population and jobs.</p>
@@ -293,21 +293,12 @@
                                     <td>Current:</td>
                                     <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} ({{ number_format(($populationCalculator->getPopulation($selectedDominion)/$populationCalculator->getMaxPopulation($selectedDominion))*100,2)}}%)</td>
                                   </tr>
-                                </tbody>
-                              </table>
-                              <b>Peasants</b>
-                              <table class="table">
-                                  <colgroup>
-                                      <col width="50%">
-                                      <col width="50%">
-                                  </colgroup>
-                                <tbody>
                                   <tr>
-                                    <td>Max:</td>
+                                    <td>Peasants max:</td>
                                     <td>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
                                   </tr>
                                   <tr>
-                                    <td>Current:</td>
+                                    <td>Peasants current:</td>
                                     <td>{{ number_format($selectedDominion->peasants) }} ({{ number_format(($selectedDominion->peasants/($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)))*100,2) }}%)</td>
                                   </tr>
                                   <tr>
@@ -316,11 +307,15 @@
                                         @if ($selectedDominion->peasants_last_hour < 0)
                                             <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick)</span>
                                         @elseif ($selectedDominion->peasants_last_hour > 0)
-                                            <span class="text-green">+{{ number_format($selectedDominion->peasants_last_hour) }} last tick)</span>
+                                            <span class="text-green">+{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
                                         @endif
                                     </td>
                                   </tr>
-                              </tbody>
+                                  <tr>
+                                    <td>Military:</td>
+                                    <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }} ({{ number_format($populationCalculator->getPopulationMilitaryPercentage($selectedDominion), 2) }}%)</td>
+                                  </tr>
+                                </tbody>
                               </table>
 
                               <br>
