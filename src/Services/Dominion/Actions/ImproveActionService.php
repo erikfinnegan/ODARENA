@@ -87,7 +87,7 @@ class ImproveActionService
         {
           $resourceForStats = 'gem';
         }
-        $dominion->{'stat_total_' . $resource . '_spent_improving'} += $amount;
+        $dominion->{'stat_total_' . $resourceForStats . '_spent_improving'} += $amount;
 
         return [
             'message' => $this->getReturnMessageString($resource, $data, $totalResourcesToInvest, $dominion),
