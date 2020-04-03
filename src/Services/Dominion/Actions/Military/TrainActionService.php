@@ -437,6 +437,25 @@ class TrainActionService
             $dominion->military_wizards -= $totalCosts['wizard'];
             $dominion->military_archmages -= $totalCosts['archmage'];
 
+            # Update spending statistics.
+            $dominion->stat_total_platinum_spent_training += $totalCosts['platinum'];
+            $dominion->stat_total_food_spent_training += $totalCosts['food'];
+            $dominion->stat_total_lumber_spent_training += $totalCosts['lumber'];
+            $dominion->stat_total_mana_spent_training += $totalCosts['mana'];
+            $dominion->stat_total_ore_spent_training += $totalCosts['ore'];
+            $dominion->stat_total_gem_spent_training += $totalCosts['gem'];
+            $dominion->stat_total_unit1_spent_training += $totalCosts['unit1'];
+            $dominion->stat_total_unit2_spent_training += $totalCosts['unit2'];
+            $dominion->stat_total_unit3_spent_training += $totalCosts['unit3'];
+            $dominion->stat_total_unit4_spent_training += $totalCosts['unit4'];
+            $dominion->stat_total_spies_spent_training += $totalCosts['spy'];
+            $dominion->stat_total_wizards_spent_training += $totalCosts['wizard'];
+            $dominion->stat_total_wizards_spent_training += $totalCosts['wizards'];
+            $dominion->stat_total_archmages_spent_training += $totalCosts['archmage'];
+            $dominion->stat_total_wild_yeti_spent_training += $totalCosts['wild_yeti'];
+            $dominion->stat_total_soul_spent_training += $totalCosts['soul'];
+            $dominion->stat_total_champion_spent_training += $totalCosts['champion'];
+
             // $data:
             # unit1 => int
             # unit2 => int

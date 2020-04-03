@@ -100,6 +100,27 @@ class RezoneActionService
         $dominion->resource_food -= $foodCost;
         $dominion->resource_mana -= $manaCost;
 
+        # Update spending statistics.
+        $dominion->stat_total_platinum_spent_rezoning += $platinumCost;
+        $dominion->stat_total_food_spent_rezoning += $foodCost;
+        $dominion->stat_total_mana_spent_rezoning += $manaCost;
+
+
+        $dominion->stat_total_lumber_spent_rezoning += 0;
+        $dominion->stat_total_ore_spent_rezoning += 0;
+        $dominion->stat_total_gem_spent_rezoning += 0;
+        $dominion->stat_total_unit1_spent_rezoning += 0;
+        $dominion->stat_total_unit2_spent_rezoning += 0;
+        $dominion->stat_total_unit3_spent_rezoning += 0;
+        $dominion->stat_total_unit4_spent_rezoning += 0;
+        $dominion->stat_total_spies_spent_rezoning += 0;
+        $dominion->stat_total_wizards_spent_rezoning += 0;
+        $dominion->stat_total_wizards_spent_rezoning += 0;
+        $dominion->stat_total_archmages_spent_rezoning += 0;
+        $dominion->stat_total_wild_yeti_spent_rezoning += 0;
+        $dominion->stat_total_soul_spent_rezoning += 0;
+        $dominion->stat_total_champion_spent_rezoning += 0;
+
         foreach ($remove as $landType => $amount) {
             $dominion->{'land_' . $landType} -= $amount;
         }
