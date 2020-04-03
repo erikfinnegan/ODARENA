@@ -543,51 +543,51 @@
                             <tbody>
                                   <tr>
                                       <td>Platinum</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_training, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_building, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_rezoning, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_exploring, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_improving, 2) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_training) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_building) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_rezoning) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_exploring) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_improving) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Food</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_training, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_building, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_rezoning, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_exploring, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_improving, 2) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_training) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_building) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_rezoning) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_exploring) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_improving) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Lumber</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_training, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_building, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_rezoning, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_exploring, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_improving, 2) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_training) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_building) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_rezoning) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_exploring) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_improving) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Mana</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_training, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_building, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_rezoning, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_exploring, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_improving, 2) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_training) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_building) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_rezoning) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_exploring) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_improving) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Ore</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_training, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_building, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_rezoning, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_exploring, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_improving, 2) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_training) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_building) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_rezoning) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_exploring) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_improving) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Gems</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_training, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_building, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_rezoning, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_exploring, 2) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_improving, 2) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_training) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_building) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_rezoning) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_exploring) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_improving) }}</td>
                                   </tr>
                             </tbody>
                         </table>
