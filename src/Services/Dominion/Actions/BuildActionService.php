@@ -138,17 +138,17 @@ class BuildActionService
 
             $dominion->stat_total_ore_spent_building += 0;
             $dominion->stat_total_gem_spent_building += 0;
-            $dominion->stat_total_unit1_spent_building += 0;
-            $dominion->stat_total_unit2_spent_building += 0;
-            $dominion->stat_total_unit3_spent_building += 0;
-            $dominion->stat_total_unit4_spent_building += 0;
-            $dominion->stat_total_spies_spent_building += 0;
-            $dominion->stat_total_wizards_spent_building += 0;
-            $dominion->stat_total_wizards_spent_building += 0;
-            $dominion->stat_total_archmages_spent_building += 0;
-            $dominion->stat_total_wild_yeti_spent_building += 0;
-            $dominion->stat_total_soul_spent_building += 0;
-            $dominion->stat_total_champion_spent_building += 0;
+            #$dominion->stat_total_unit1_spent_building += 0;
+            #$dominion->stat_total_unit2_spent_building += 0;
+            #$dominion->stat_total_unit3_spent_building += 0;
+            #$dominion->stat_total_unit4_spent_building += 0;
+            #$dominion->stat_total_spies_spent_building += 0;
+            #$dominion->stat_total_wizards_spent_building += 0;
+            #$dominion->stat_total_wizards_spent_building += 0;
+            #$dominion->stat_total_archmages_spent_building += 0;
+            #$dominion->stat_total_wild_yeti_spent_building += 0;
+            #$dominion->stat_total_soul_spent_building += 0;
+            #$dominion->stat_total_champion_spent_building += 0;
 
             $hours = 12;
             # Gnome: increased construction speed
