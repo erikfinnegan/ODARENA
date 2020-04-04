@@ -805,8 +805,10 @@ class EspionageActionService
         Dominion $target,
         string $resource,
         array $constraints
-    ): int {
-        if (($resource === 'platinum') && $this->spellCalculator->isSpellActive($target, 'fools_gold')) {
+    ): int
+    {
+        if (($resource === 'platinum') && $this->spellCalculator->isSpellActive($target, 'fools_gold'))
+        {
             return 0;
         }
 

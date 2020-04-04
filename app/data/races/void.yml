@@ -6,9 +6,7 @@ description: >-
   <p>After their mighty ziggurats came into physical existence, the Void have ended their loyalty to the empire and will now join either side of the conflict.</p>
   <hr />
   <ul>
-  <li>All peasants (including unemployed) produce 2.7 plat/hr raw.</li>
-  <li>Unique building: Ziggurat - houses 20, produces 10 mana/tick, and provides 4 raw DP.</li>
-  <li>Starts with 500 Ziggurats.</li>
+  <li>Unique building: Ziggurat. Can only build Ziggurat.</li>
   </ul>
 home_land_type: mountain
 playable: 1
