@@ -6,7 +6,8 @@ description: >-
   <p>After their mighty ziggurats came into physical existence, the Void have ended their loyalty to the empire and will now join either side of the conflict.</p>
   <hr />
   <ul>
-  <li>Unique building: Ziggurat. Can only build Ziggurat.</li>
+  <li>Unique building: Ziggurat.</li>
+  <li>Can only build Ziggurat.</li>
   </ul>
 home_land_type: mountain
 playable: 1
