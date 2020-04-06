@@ -121,5 +121,6 @@ class NetworthCalculator
                  + $unit->cost_wild_yeti*30
              )/100;
           }
+
       }
 }

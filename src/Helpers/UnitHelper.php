@@ -52,7 +52,6 @@ class UnitHelper
             'archmages' => 'Used for casting offensive spells. Twice as strong as regular wizards.',
         ];
 
-        // todo: refactor this. very inefficient
         $perkTypeStrings = [
             // Conversions
             'conversion' => 'Converts some enemy casualties into %s.',
