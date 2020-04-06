@@ -606,5 +606,63 @@
 <!-- /SPENDING DETAILS -->
 
 
+<!-- MAINTENANCE DETAILS -->
+<div class="col-md-12 col-md-9">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="ra ra-book"></i> Additional Details</h3>
+        </div>
+
+            <div class="box-body table-responsive no-padding">
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-12">
+                        <table class="table">
+                            <colgroup>
+                                <col>
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="15%">
+                            </colgroup>
+                            <thead>
+                                  <tr>
+                                      <th>Resource</th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much food has decayed, lumber has rot, and mana has been drained">Decay, Rot, or Drain</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much food your population has consumed">Consumed</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much mana you have spent on casting spells">Cast</span></th>
+                                  </tr>
+                            </thead>
+                            <tbody>
+                                  <tr>
+                                      <td>Food</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_decayed) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_consumed) }}</td>
+                                      <td>&mdash;</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Lumber</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_lumber_rotted) }}</td>
+                                      <td>&mdash;</td>
+                                      <td>&mdash;</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Mana</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_mana_drained) }}</td>
+                                      <td>&mdash;</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_mana_cast) }}</td>
+                                  </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<!-- /MAINTENANCE DETAILS -->
+
+
+
 
 @endsection
