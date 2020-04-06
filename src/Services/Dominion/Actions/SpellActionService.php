@@ -180,6 +180,8 @@ class SpellActionService
                 throw new LogicException("Unknown type for spell {$spellKey}");
             }
 
+            $dominion->stat_total_mana_cast += $manaCost;
+
             if(!$isInvasionSpell)
             {
               $dominion->resource_mana -= $manaCost;
@@ -200,7 +202,7 @@ class SpellActionService
                   $dominion->stat_spell_success += 1;
               }
 
-              $dominion->stat_total_mana_cast += $manaCost;
+
             }
 
             $dominion->save([

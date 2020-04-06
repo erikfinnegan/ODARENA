@@ -1084,7 +1084,7 @@ class TickService
                         'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
 
                         'dominions.stat_total_food_decayed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_decay'),
-                        'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_consumption'),
+                        'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_consumed + dominion_tick.resource_food_consumption'),
                         'dominions.stat_total_lumber_rotted' => DB::raw('dominions.stat_total_lumber_rotted + dominion_tick.resource_lumber_rot'),
                         'dominions.stat_total_mana_drained' => DB::raw('dominions.stat_total_mana_drained + dominion_tick.resource_mana_drain'),
 
