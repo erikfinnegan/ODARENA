@@ -220,6 +220,11 @@ class TickService
                         'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
                         'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
 
+                        'dominions.stat_total_food_decayed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_decay'),
+                        'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_consumption'),
+                        'dominions.stat_total_lumber_rotted' => DB::raw('dominions.stat_total_lumber_rotted + dominion_tick.resource_boats'),
+                        'dominions.stat_total_mana_drained' => DB::raw('dominions.stat_total_mana_drained + dominion_tick.resource_boats'),
+
                         'dominions.protection_ticks' => DB::raw('dominions.protection_ticks + dominion_tick.protection_ticks'),
 
                         'dominions.last_tick_at' => DB::raw('now()')
@@ -736,7 +741,11 @@ class TickService
         #$tick->resource_soul_production += $this->productionCalculator->getSoulProduction($dominion);
         $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
 
-        $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
+        # Decay, rot, drain
+        $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
+        $tick->resource_food_decay += $this->productionCalculator->getFoodDecay($dominion);
+        $tick->resource_lumber_rot += $this->productionCalculator->getLumberDecay($dominion);
+        $tick->resource_mana_drain += $this->productionCalculator->getManaDecay($dominion);
 
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
@@ -1073,6 +1082,11 @@ class TickService
                         'dominions.stat_total_gem_production' => DB::raw('dominions.stat_total_gem_production + dominion_tick.resource_gems'),
                         'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
                         'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
+
+                        'dominions.stat_total_food_decayed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_decay'),
+                        'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_consumption'),
+                        'dominions.stat_total_lumber_rotted' => DB::raw('dominions.stat_total_lumber_rotted + dominion_tick.resource_boats'),
+                        'dominions.stat_total_mana_drained' => DB::raw('dominions.stat_total_mana_drained + dominion_tick.resource_boats'),
 
                         'dominions.protection_ticks' => DB::raw('dominions.protection_ticks + dominion_tick.protection_ticks'),
 
