@@ -84,15 +84,15 @@ class ReleaseActionService
           4 => $data['unit4']
         ];
 
-        $rawDpRelease = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $units, true);
+        $rawDpRelease = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $units, 0, true, false);
 
         # Special considerations for releasing military units.
         if($rawDpRelease > 0)
         {
             # Must have at least 1% morale to release.
-            if ($dominion->morale < 1)
+            if ($dominion->morale < 50)
             {
-                throw new GameException('You must have at least 1% morale to release units with defensive power.');
+                throw new GameException('You must have at least 50% morale to release units with defensive power.');
             }
 
             # Cannot release if recently invaded.
