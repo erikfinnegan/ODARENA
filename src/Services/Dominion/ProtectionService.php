@@ -44,6 +44,11 @@ class ProtectionService
             $canDelete = true;
         }
 
+        if(request()->getHost() == 'sim.odarena.com')
+        {
+          $canDelete = true;
+        }
+
         return $canDelete;
     }
 
