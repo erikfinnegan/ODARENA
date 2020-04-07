@@ -252,9 +252,9 @@
                             Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
                             Cells: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                             @if ($selectedDominion->peasants_last_hour < 0)
-                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
                             @elseif ($selectedDominion->peasants_last_hour > 0)
-                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
                             @endif
 
                           @elseif ($selectedDominion->race->name == 'Myconid')
@@ -262,9 +262,9 @@
                             Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
                             Spores: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                             @if ($selectedDominion->peasants_last_hour < 0)
-                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
                             @elseif ($selectedDominion->peasants_last_hour > 0)
-                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
                             @endif
 
                           @elseif ($selectedDominion->race->name == 'Swarm')
@@ -272,9 +272,9 @@
                             Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
                             Larvae: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                             @if ($selectedDominion->peasants_last_hour < 0)
-                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
                             @elseif ($selectedDominion->peasants_last_hour > 0)
-                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick)</span>
+                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
                             @endif
 
                           @else
@@ -305,7 +305,7 @@
                                     <td>Peasants change:</td>
                                     <td>
                                         @if ($selectedDominion->peasants_last_hour < 0)
-                                            <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick)</span>
+                                            <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
                                         @elseif ($selectedDominion->peasants_last_hour > 0)
                                             <span class="text-green">+{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
                                         @endif
