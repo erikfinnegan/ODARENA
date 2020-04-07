@@ -13,7 +13,7 @@ class DailyBonusesController extends AbstractDominionController
     {
         return view('pages.dominion.bonuses');
     }
-
+/*
     public function postBonusesPlatinum(DailyBonusesPlatinumActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
@@ -30,7 +30,7 @@ class DailyBonusesController extends AbstractDominionController
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.bonuses');
     }
-
+*/
     public function postBonusesLand(DailyBonusesLandActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
