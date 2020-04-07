@@ -17,6 +17,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
 class TrainActionService
 {
@@ -44,6 +45,9 @@ class TrainActionService
     /** @var LandCalculator */
     protected $landCalculator;
 
+    /** @var PopulationCalculator */
+    protected $populationCalculator;
+
     /**
      * TrainActionService constructor.
      */
@@ -51,7 +55,8 @@ class TrainActionService
         ImprovementCalculator $improvementCalculator,
         SpellCalculator $spellCalculator,
         MilitaryCalculator $militaryCalculator,
-        LandCalculator $landCalculator
+        LandCalculator $landCalculator,
+        PopulationCalculator $populationCalculator
         )
     {
         $this->queueService = app(QueueService::class);
@@ -62,6 +67,7 @@ class TrainActionService
         $this->spellCalculator = $spellCalculator;
         $this->militaryCalculator = $militaryCalculator;
         $this->landCalculator = $landCalculator;
+        $this->populationCalculator = $populationCalculator;
     }
 
     /**
@@ -334,15 +340,25 @@ class TrainActionService
         }
         if($totalCosts['spy'] > $dominion->military_spies)
         {
-          throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
+          throw new GameException('Training failed due to insufficient spies.');
         }
-        if($totalCosts['wizard'] > $dominion->military_wizards)
+        if($totalCosts['wizard'] > $dominion->military_wizards or $totalCosts['wizards'] > $dominion->military_wizards)
         {
-          throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
+          throw new GameException('Training failed due to insufficient wizards.');
         }
         if($totalCosts['archmage'] > $dominion->military_archmages)
         {
-          throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
+          throw new GameException('Training failed due to insufficient Arch Mages.');
+        }
+
+
+        if ($totalCosts['draftees'] > $dominion->military_draftees) {
+            throw new GameException('Training aborted due to lack of draftees');
+        }
+
+        if ((array_sum($unitsToTrain) + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
+        {
+            throw new GameException('Training failed as training would exceed your max population');
         }
 
         # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
@@ -402,13 +418,6 @@ class TrainActionService
         }
 
 
-        if ($totalCosts['draftees'] > $dominion->military_draftees) {
-            throw new GameException('Training aborted due to lack of draftees');
-        }
-
-        if ($totalCosts['wizards'] > $dominion->military_wizards) {
-            throw new GameException('Training aborted due to lack of wizards');
-        }
 
         DB::transaction(function () use ($dominion, $data, $totalCosts) {
             $dominion->resource_platinum -= $totalCosts['platinum'];
