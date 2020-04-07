@@ -359,7 +359,7 @@ class TrainActionService
         $unitsToTrainNeedingHousing = 0;
         foreach($unitsToTrain as $unitSlot => $unitAmountToTrain)
         {
-            $unitSlot = intval(str_replace('unit','',$unitSlot))
+            $unitSlot = intval(str_replace('unit','',$unitSlot));
             if (!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population'))
             {
               $unitsToTrainNeedingHousing += $unitAmountToTrain;
