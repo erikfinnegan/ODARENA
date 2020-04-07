@@ -41,11 +41,6 @@ class DailyBonusesActionService
             throw new GameException('You already claimed your land bonus for today.');
         }
 
-        if($dominion->protection_ticks > 0)
-        {
-          throw new GameException('You cannot claim daily bonus during protection.');
-        }
-
         if($dominion->protection_ticks > 0 or !$dominion->round->hasStarted())
         {
           throw new GameException('You cannot claim daily bonus during protection or before the round has started.');

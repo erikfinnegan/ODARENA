@@ -15,7 +15,7 @@
                         <div class="col-xs-6 text-center">
                             <form action="{{ route('dominion.bonuses.land') }}" method="post" role="form">
                                 @csrf
-                                <button type="submit" name="land" class="btn btn-primary btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_land ? 'disabled' : null }}>
+                                <button type="submit" name="land" class="btn btn-primary btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_land || $selectedDominion->protection_ticks > 0 || !$selectedDominion->round->hasStarted() ? 'disabled' : null }}>
                                     <i class="ra scroll-unfurled ra-lg"></i>
                                     Claim Daily Land Bonus
                                 </button>
