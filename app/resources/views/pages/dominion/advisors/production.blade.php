@@ -341,7 +341,7 @@
                                   </tr>
                                   <tr>
                                     <td>Per peasant:</td>
-                                    <td>{{ number_format((2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) / max(1, abs($jobsNeeded)),3) }} platinum</td>
+                                    <td>{{ number_format((2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) / max(1, abs($jobsNeeded)), 3) }} platinum</td>
                                   </tr>
                                 </tbody>
                               </table>
