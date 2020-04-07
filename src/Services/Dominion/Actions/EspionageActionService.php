@@ -204,7 +204,7 @@ class EspionageActionService
               $dominion->race->name !== $target->race->name
               )
           {
-            throw new GameException('You cannot abduct draftees or peasants from other ' . $dominion->race->name . ' dominions.');
+            throw new GameException('You can only abduct draftees or peasants from other ' . $dominion->race->name . ' dominions.');
           }
           # Otherwise, can't steal from them.
           elseif($target->race->getPerkValue('draftees_cannot_be_abducted') or $target->race->getPerkValue('peasants_cannot_be_abducted'))
