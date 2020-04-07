@@ -356,7 +356,16 @@ class TrainActionService
             throw new GameException('Training aborted due to lack of draftees');
         }
 
-        if ((array_sum($unitsToTrain) + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
+        $unitsToTrainNeedingHousing = 0;
+        foreach($unitsToTrain as $unitSlot => $unitAmountToTrain)
+        {
+            if (!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population'))
+            {
+              $unitsToTrainNeedingHousing += $unitAmountToTrain;
+            }
+        }
+
+        if ((array_sum($unitsToTrainNeedingHousing) + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
         {
             throw new GameException('Training failed as training would exceed your max population');
         }
