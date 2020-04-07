@@ -26,7 +26,7 @@
                         <i class="fa fa-plus fa-fw"></i>
                         <span>Daily Bonus</span>
                         <span class="pull-right-container">
-                            @if (!$selectedDominion->daily_land and $selectedDominion->protection_ticks == 0 and $selectedDominion->round->hasStarted()))
+                            @if (!$selectedDominion->daily_land and $selectedDominion->protection_ticks == 0 and $selectedDominion->round->hasStarted())
                                 <span class="label label-primary pull-right">L</span>
                             @endif
                         </span>

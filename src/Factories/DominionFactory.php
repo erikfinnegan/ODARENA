@@ -69,7 +69,7 @@ class DominionFactory
         # Late-joiner bonus:
         # Give +1.5% starting resources per hour late, max +150% (at 100 hours, mid-day 4).
         $hoursSinceRoundStarted = 0;
-        if($realm->round->hasStarted())
+        if($realm->round->hasStarted() and request()->getHost() !== 'sim.odarena.com')
         {
           $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
         }
