@@ -366,7 +366,7 @@ class TrainActionService
             }
         }
 
-        if ((array_sum($unitsToTrainNeedingHousing) + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
+        if (($unitsToTrainNeedingHousing + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
         {
             throw new GameException('Training failed as training would exceed your max population');
         }
