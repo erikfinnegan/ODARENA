@@ -200,14 +200,26 @@
                         <tr>
                           <td>Gems</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('gems', $selectedDominion) }}</td>
-                          <td>{{ $improvementCalculator->getResourceWorthMultipler('gems', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('gems', $selectedDominion)*100 }}%</td>
                           <td>{{ $improvementCalculator->getResourceWorth('gems', $selectedDominion) }}</td>
                         </tr>
                         <tr>
                           <td>Lumber</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('lumber', $selectedDominion) }}</td>
-                          <td>{{ $improvementCalculator->getResourceWorthMultipler('lumber', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('lumber', $selectedDominion)*100 }}%</td>
                           <td>{{ $improvementCalculator->getResourceWorth('lumber', $selectedDominion) }}</td>
+                        </tr>
+                        <tr>
+                          <td>Ore</td>
+                          <td>{{ $improvementCalculator->getResourceWorthRaw('ore', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('ore', $selectedDominion)*100 }}%</td>
+                          <td>{{ $improvementCalculator->getResourceWorth('ore', $selectedDominion) }}</td>
+                        </tr>
+                        <tr>
+                          <td>Platinum</td>
+                          <td>{{ $improvementCalculator->getResourceWorthRaw('platinum', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('platinum', $selectedDominion)*100 }}%</td>
+                          <td>{{ $improvementCalculator->getResourceWorth('platinum', $selectedDominion) }}</td>
                         </tr>
                       </tbody>
                     </table>

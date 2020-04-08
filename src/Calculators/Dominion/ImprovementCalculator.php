@@ -201,19 +201,19 @@ class ImprovementCalculator
             $multiplier = 0;
 
             ## Extra Ore imp points
-            if($resource = 'ore' and $dominion->race->getPerkValue('ore_improvement_points'))
+            if($resource == 'ore' and $dominion->race->getPerkValue('ore_improvement_points'))
             {
               $multiplier += $dominion->race->getPerkValue('ore_improvement_points') / 100;
             }
 
             ## Extra Lumber imp points
-            if($resource = 'lumber' and $dominion->race->getPerkValue('lumber_improvement_points'))
+            if($resource == 'lumber' and $dominion->race->getPerkValue('lumber_improvement_points'))
             {
               $multiplier += $dominion->race->getPerkValue('lumber_improvement_points') / 100;
             }
 
             ## Extra gem imp points (from Gemcutting)
-            if($resource = 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
+            if($resource == 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
             {
               $multiplier += $dominion->getTechPerkMultiplier('gemcutting');
             }
