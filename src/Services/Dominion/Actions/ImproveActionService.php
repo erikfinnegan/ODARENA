@@ -31,8 +31,6 @@ class ImproveActionService
 
         $data = array_map('\intval', $data);
 
-        dd($data);
-
         $totalResourcesToInvest = array_sum($data);
 
         if ($totalResourcesToInvest < 0)
@@ -79,7 +77,9 @@ class ImproveActionService
                 throw new GameException('Investment aborted due to bad input.');
             }
 
-            $points = floor($amount * $worth);
+            $points = $amount * $worth;
+
+            dd($points);
 
             $dominion->{'improvement_' . $improvementType} += $points;
         }
