@@ -79,12 +79,13 @@ class ImproveActionService
 
             $points = $amount * $worth;
 
-            if($points >= 12000 and ($amount / $dominion->{'resource_'.$resource}) >= 0.5)
-            {
-              $points = ceil($points);
-            }
-
+            var_dump($points);
+            var_dump($dominion->{'improvement_' . $improvementType});
             $dominion->{'improvement_' . $improvementType} += $points;
+            var_dump($dominion->{'improvement_' . $improvementType});
+            var_dump($points);
+            die();
+
         }
 
 
