@@ -59,7 +59,7 @@ class RaceHelper
                 break;
             case 'invest_bonus':
                 $negativeBenefit = false;
-                $description = 'Improvement bonuses';
+                $description = 'Improvement points';
                 break;
             case 'lumber_production':
                 $negativeBenefit = false;
