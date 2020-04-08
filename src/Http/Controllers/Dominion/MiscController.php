@@ -8,6 +8,7 @@ use LogicException;
 use DB;
 use Auth;
 use Log;
+use OpenDominion\Services\Dominion\ProtectionService;
 
 // misc functions, probably could use a refactor later
 class MiscController extends AbstractDominionController
@@ -58,25 +59,36 @@ class MiscController extends AbstractDominionController
             throw new GameException('You cannot delete your dominion because the round has already started.');
         }
 
-        # Destroy the dominion.
-        DB::table('active_spells')->where('dominion_id', '=', $dominion->id)->delete();
-        DB::table('active_spells')->where('cast_by_dominion_id', '=', $dominion->id)->delete();
+        try
+        {
+            $result = [];
+            # Destroy the dominion.
+            DB::table('active_spells')->where('dominion_id', '=', $dominion->id)->delete();
+            DB::table('active_spells')->where('cast_by_dominion_id', '=', $dominion->id)->delete();
 
-        DB::table('council_posts')->where('dominion_id', '=', $dominion->id)->delete();
-        DB::table('council_threads')->where('dominion_id', '=', $dominion->id)->delete();
-        DB::table('daily_rankings')->where('dominion_id', '=', $dominion->id)->delete();
-        DB::table('dominion_history')->where('dominion_id', '=', $dominion->id)->delete();
-        DB::table('dominion_queue')->where('dominion_id', '=', $dominion->id)->delete();
-        DB::table('dominion_techs')->where('dominion_id', '=', $dominion->id)->delete();
-        DB::table('dominion_tick')->where('dominion_id', '=', $dominion->id)->delete();
+            DB::table('council_posts')->where('dominion_id', '=', $dominion->id)->delete();
+            DB::table('council_threads')->where('dominion_id', '=', $dominion->id)->delete();
+            DB::table('daily_rankings')->where('dominion_id', '=', $dominion->id)->delete();
+            DB::table('dominion_history')->where('dominion_id', '=', $dominion->id)->delete();
+            DB::table('dominion_queue')->where('dominion_id', '=', $dominion->id)->delete();
+            DB::table('dominion_techs')->where('dominion_id', '=', $dominion->id)->delete();
+            DB::table('dominion_tick')->where('dominion_id', '=', $dominion->id)->delete();
 
-        DB::table('game_events')->where('source_id', '=', $dominion->id)->delete();
-        DB::table('game_events')->where('target_id', '=', $dominion->id)->delete();
+            DB::table('game_events')->where('source_id', '=', $dominion->id)->delete();
+            DB::table('game_events')->where('target_id', '=', $dominion->id)->delete();
 
-        DB::table('info_ops')->where('source_dominion_id', '=', $dominion->id)->delete();
-        DB::table('info_ops')->where('target_dominion_id', '=', $dominion->id)->delete();
+            DB::table('info_ops')->where('source_dominion_id', '=', $dominion->id)->delete();
+            DB::table('info_ops')->where('target_dominion_id', '=', $dominion->id)->delete();
 
-        DB::table('dominions')->where('id', '=', $dominion->id)->delete();
+            DB::table('dominions')->where('id', '=', $dominion->id)->delete();
+
+        }
+        catch (GameException $e)
+        {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
 
         Log::info(sprintf(
             'The dominion %s (ID %s) was deleted by user %s (ID %s).',
@@ -86,7 +98,8 @@ class MiscController extends AbstractDominionController
             Auth::user()->id
         ));
 
-        return redirect()->back();
+        $request->session()->flash('alert-success'), 'Your dominion has been deleted.');
+        return redirect()->to(route('dominion'));
     }
 
 
