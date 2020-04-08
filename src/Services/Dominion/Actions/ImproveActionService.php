@@ -8,20 +8,20 @@ use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
 // ODA
-use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 class ImproveActionService
 {
     use DominionGuardsTrait;
 
     // ODA
-    /** @var SpellCalculator */
-    protected $spellCalculator;
+    /** @var ImprovementCalculator */
+    protected $improvementCalculator;
 
     public function __construct(
-        SpellCalculator $spellCalculator
+        ImprovementCalculator $improvementCalculator
     ) {
-        $this->spellCalculator = $spellCalculator;
+        $this->improvementCalculator = $improvementCalculator;
     }
 
 
@@ -50,30 +50,21 @@ class ImproveActionService
             throw new GameException("You do not have enough {$resource} to invest.");
         }
 
-        $worth = $this->getImprovementWorth($dominion);
+        $worth = $this->improvementCalculator->getResourceWorth($resource, $dominion);
 
         foreach ($data as $improvementType => $amount)
         {
-            if ($amount === 0) {
+            if ($amount === 0)
+            {
                 continue;
             }
 
-            if ($amount < 0) {
+            if ($amount < 0)
+            {
                 throw new GameException('Investment aborted due to bad input.');
             }
 
-            $multiplier = 0;
-
-            // Racial bonus multiplier
-            $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
-
-            // Imperial Gnome: Spell (increase imp points by 10%)
-            if ($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
-            {
-                $multiplier += 0.10;
-            }
-
-            $points = (($amount * $worth[$resource]) * (1 + $multiplier));
+            $points = $amount * $worth;
 
             $dominion->{'improvement_' . $improvementType} += $points;
         }
@@ -110,7 +101,8 @@ class ImproveActionService
      */
     protected function getReturnMessageString(string $resource, array $data, int $totalResourcesToInvest, Dominion $dominion): string
     {
-        $worth = $this->getImprovementWorth($dominion);
+        #$worth = $this->getImprovementWorth($dominion);
+        $worth = $this->getResourceWorth->($resource, $dominion);
 
         $investmentStringParts = [];
 
@@ -119,7 +111,7 @@ class ImproveActionService
                 continue;
             }
 
-            $points = ($amount * $worth[$resource]);
+            $points = ($amount * $worth);
             $investmentStringParts[] = (number_format($points) . ' ' . $improvementType);
         }
 

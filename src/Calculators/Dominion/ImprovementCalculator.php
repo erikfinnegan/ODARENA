@@ -4,18 +4,27 @@ namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Models\Dominion;
 
+# ODA
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class ImprovementCalculator
 {
     /** @var LandCalculator */
     protected $landCalculator;
+
+    /** @var SpellCalculator */
+    protected $spellCalculator;
 
     /**
      * ImprovementCalculator constructor.
      *
      * @param LandCalculator $landCalculator
      */
-    public function __construct(LandCalculator $landCalculator)
+    public function __construct(
+        SpellCalculator $spellCalculator,
+        LandCalculator $landCalculator)
     {
+        $this->spellCalculator = $spellCalculator;
         $this->landCalculator = $landCalculator;
     }
 
@@ -147,5 +156,76 @@ class ImprovementCalculator
         ];
 
         return ($coefficients[$improvementType] ?: null);
+    }
+
+
+    protected function getResourceWorth(string $resource, ?Dominion $dominion): float
+    {
+        # Standard values
+        $worth = [
+                    'platinum' => 1,
+                    'lumber' => 2,
+                    'ore' => 2,
+                    'gems' => 12,
+                ];
+
+        if(!isset($dominion))
+        {
+          return $worth[$resource];
+        }
+        else
+        {
+            # Insert any racial specialities
+            if($dominion->race->getPerkValue('can_invest_mana'))
+            {
+              unset($worth);
+              $worth['mana'] = 5;
+            }
+            if($dominion->race->getPerkValue('tissue_improvement'))
+            {
+              unset($worth);
+              $worth['food'] = 1;
+            }
+            if($dominion->race->getPerkValue('can_invest_soul'))
+            {
+              $worth['soul'] = 100;
+            }
+
+            # Check for multipliers
+            $multiplier = 0;
+
+            ## Extra Ore imp points
+            if($resource = 'ore' and $dominion->race->getPerkValue('ore_improvement_points'))
+            {
+              $multiplier += $dominion->race->getPerkValue('ore_improvement_points') / 100;
+            }
+
+            ## Extra Lumber imp points
+            if(($resource = 'lumber' and $dominion->race->getPerkValue('lumber_improvement_points'))
+            {
+              $multiplier += $dominion->race->getPerkValue('lumber_improvement_points') / 100;
+            }
+
+            ## Extra gem imp points (from Gemcutting)
+            if(($resource = 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
+            {
+              $multiplier += $dominion->getTechPerkMultiplier('gemcutting');
+            }
+
+            ## Extra imp points from racial improvements bonus
+            if(($dominion->race->getPerkMultiplier('invest_bonus'))
+            {
+              $multiplier += $dominion->getTechPerkMultiplier('invest_bonus');
+            }
+
+            # Imperial Gnome: Spell (increase imp points by 10%)
+            if ($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
+            {
+                $multiplier += 0.10;
+            }
+
+            return ($worth[$resource] * (1 + $multiplier));
+        }
+
     }
 }
