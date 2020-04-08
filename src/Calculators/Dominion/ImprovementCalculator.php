@@ -222,7 +222,6 @@ class ImprovementCalculator
             if($dominion->race->getPerkMultiplier('invest_bonus'))
             {
               $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
-              dd($dominion->race->getPerkMultiplier('invest_bonus'));
             }
 
             # Imperial Gnome: Spell (increase imp points by 10%)
