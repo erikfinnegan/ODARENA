@@ -64,7 +64,7 @@ class ImproveActionService
         }
 
         $worth = $this->improvementCalculator->getResourceWorth($resource, $dominion);
-/*
+
         foreach ($data as $improvementType => $amount)
         {
             if ($amount === 0)
@@ -82,8 +82,9 @@ class ImproveActionService
             $dominion->{'improvement_' . $improvementType} += $points;
             #dd($dominion->{'improvement_' . $improvementType});
         }
-*/
 
+
+/*
         if(!isset($data['tissue']))
         {
           $data['tissue'] = 0;
@@ -106,6 +107,7 @@ class ImproveActionService
             'improvement_granaries' => ($dominion->improvement_granaries + ($data['granaries'] * $worth)),
             'improvement_tissue' => ($dominion->improvement_tissue + ($data['tissue'] * $worth)),
         ])->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
+*/
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
         $dominion->most_recent_improvement_resource = $resource;
@@ -117,7 +119,7 @@ class ImproveActionService
         }
         $dominion->{'stat_total_' . $resourceNameForStats . '_spent_improving'} += $totalResourcesToInvest;
 
-        #$dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
+        $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
 
         return [

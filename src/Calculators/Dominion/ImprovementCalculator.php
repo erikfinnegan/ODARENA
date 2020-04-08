@@ -219,9 +219,9 @@ class ImprovementCalculator
             }
 
             ## Extra imp points from racial improvements bonus
-            if($dominion->race->getPerkMultiplier('invest_bonus'))
+            if($dominion->race->getPerkValue('invest_bonus'))
             {
-              $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
+              $multiplier += $dominion->race->getPerkValue('invest_bonus') / 100;
             }
 
             # Imperial Gnome: Spell (increase imp points by 10%)
