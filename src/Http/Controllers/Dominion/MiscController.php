@@ -61,7 +61,7 @@ class MiscController extends AbstractDominionController
 
         $result = [];
         # Destroy the dominion.
-        /*
+
         DB::table('active_spells')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('active_spells')->where('cast_by_dominion_id', '=', $dominion->id)->delete();
 
@@ -89,13 +89,12 @@ class MiscController extends AbstractDominionController
             Auth::user()->display_name,
             Auth::user()->id
         ));
-        */
-        
+
         return redirect()
             ->to(route('dashboard'))
             ->with(
                 'alert-success',
-                'Your dominion has been destroyed.'
+                'Your dominion has been deleted.'
             );
     }
 
