@@ -169,13 +169,17 @@
                     </p>
                     @endif
 
-                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
-                    <p>Each mana is worth 5 investment points.</p>
-                    <p>You have {{ number_format($selectedDominion->resource_mana) }} mana.</p>
-                    @else
-                    <p>Resources are converted to points. Each gem is worth {{ $improvementCalculator->getResourceWorth('gems', $selectedDominion) }} points, lumber and ore are worth 2 points and platinum is worth 1 point.</p>
-                    <p>You have {{ number_format($selectedDominion->resource_platinum) }} platinum, {{ number_format($selectedDominion->resource_lumber) }} lumber, {{ number_format($selectedDominion->resource_ore) }} ore and {{ number_format($selectedDominion->resource_gems) }} {{ str_plural('gem', $selectedDominion->resource_gems) }}.</p>
-                    @endif
+                    <p>Resources are converted to points.</p>
+                    <ul>
+                        @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
+                        <li>Each mana is worth {{ $improvementCalculator->getResourceWorth('mana', $selectedDominion) }} points</li>
+                        @else
+                        <li>Gems: {{ $improvementCalculator->getResourceWorth('gems', $selectedDominion) }} points</li>
+                        <li>Lumber: {{ $improvementCalculator->getResourceWorth('lumber', $selectedDominion) }} points</li>
+                        <li>Ore: {{ $improvementCalculator->getResourceWorth('ore', $selectedDominion) }} points</li>
+                        <li>Platinum: {{ $improvementCalculator->getResourceWorth('platinum', $selectedDominion) }} points</li>
+                        @endif
+                    </ul>
 
                 </div>
             </div>
