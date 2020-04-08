@@ -171,7 +171,7 @@ class ImprovementCalculator
 
         if(!isset($dominion))
         {
-          return $worth[$resource];
+            return $worth[$resource];
         }
         else
         {
@@ -201,7 +201,7 @@ class ImprovementCalculator
             }
 
             ## Extra Lumber imp points
-            if(($resource = 'lumber' and $dominion->race->getPerkValue('lumber_improvement_points'))
+            if($resource = 'lumber' and $dominion->race->getPerkValue('lumber_improvement_points'))
             {
               $multiplier += $dominion->race->getPerkValue('lumber_improvement_points') / 100;
             }
