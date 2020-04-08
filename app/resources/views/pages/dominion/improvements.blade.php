@@ -193,7 +193,15 @@
                           <td>{{ $improvementCalculator->getResourceWorthRaw('mana', $selectedDominion) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('mana', $selectedDominion)*100 }}%</td>
                         </tr>
-                      @else
+                      @endif
+                      @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
+                        <tr>
+                          <td>Souls</td>
+                          <td>{{ $improvementCalculator->getResourceWorth('soul', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthRaw('soul', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('soul', $selectedDominion)*100 }}%</td>
+                        </tr>
+                      @endif
                         <tr>
                           <td>Gems</td>
                           <td>{{ $improvementCalculator->getResourceWorth('gems', $selectedDominion) }}</td>
@@ -218,7 +226,6 @@
                           <td>{{ $improvementCalculator->getResourceWorthRaw('platinum', $selectedDominion) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('platinum', $selectedDominion)*100 }}%</td>
                         </tr>
-                      @endif
                       </tbody>
                     </table>
 
