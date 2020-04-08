@@ -80,6 +80,7 @@ class ImproveActionService
             $points = $amount * $worth; # OK
 
             var_dump($dominion->{'improvement_' . $improvementType});
+            var_dump($points);
             $dominion->{'improvement_' . $improvementType} += $points;
             dd($dominion->{'improvement_' . $improvementType});
         }
