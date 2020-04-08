@@ -9,10 +9,24 @@ use DB;
 use Auth;
 use Log;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\SelectorService;
 
 // misc functions, probably could use a refactor later
 class MiscController extends AbstractDominionController
 {
+    /** @var SelectorService */
+    protected $dominionSelectorService;
+
+    /**
+     * MiscController constructor.
+     *
+     * @param SelectorService $dominionSelectorService
+     */
+    public function __construct(SelectorService $dominionSelectorService)
+    {
+        $this->dominionSelectorService = $dominionSelectorService;
+    }
+
     public function postClearNotifications()
     {
         $this->getSelectedDominion()->notifications->markAsRead();
@@ -81,6 +95,7 @@ class MiscController extends AbstractDominionController
 
         DB::table('dominions')->where('id', '=', $dominion->id)->delete();
 
+        $this->dominionSelectorService->unsetUserSelectedDominion();
 
         Log::info(sprintf(
             'The dominion %s (ID %s) was deleted by user %s (ID %s).',
