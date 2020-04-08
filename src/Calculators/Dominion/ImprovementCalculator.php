@@ -183,7 +183,7 @@ class ImprovementCalculator
         # Demon: can also invest souls (unused?)
         if($dominion->race->getPerkValue('can_invest_soul'))
         {
-          $worth['soul'] = 100;
+          $worth['soul'] = 1200;
         }
 
         return $worth[$resource];
