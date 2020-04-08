@@ -77,7 +77,7 @@ class ImproveActionService
                 throw new GameException('Investment aborted due to bad input.');
             }
 
-            $points = $amount * $worth;
+            $points = $amount * $worth; # OK
 
             var_dump($dominion->{'improvement_' . $improvementType});
             $dominion->{'improvement_' . $improvementType} += $points;
