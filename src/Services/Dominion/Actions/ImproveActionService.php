@@ -79,9 +79,9 @@ class ImproveActionService
 
             $points = $amount * $worth;
 
-            dd($points);
-
+            var_dump($dominion->{'improvement_' . $improvementType});
             $dominion->{'improvement_' . $improvementType} += $points;
+            dd($dominion->{'improvement_' . $improvementType});
         }
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
