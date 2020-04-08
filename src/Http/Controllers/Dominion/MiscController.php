@@ -99,7 +99,7 @@ class MiscController extends AbstractDominionController
         ));
 
         session()->flash('alert-success', 'Your dominion has been deleted.');
-        return redirect()->to(route('dominion'));
+        return redirect()->to(route('dashboard'));
     }
 
 
