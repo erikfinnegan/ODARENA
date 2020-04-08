@@ -31,6 +31,8 @@ class ImproveActionService
 
         $data = array_map('\intval', $data);
 
+        dd($data);
+
         $totalResourcesToInvest = array_sum($data);
 
         if ($totalResourcesToInvest < 0)
@@ -43,9 +45,19 @@ class ImproveActionService
             throw new GameException('Investment aborted due to bad resource type.');
         }
 
+        if($resource == 'mana' and !$dominion->race->getPerkValue('can_invest_mana'))
+        {
+            throw new GameException('You cannot use mana for improvements.');
+        }
+
+        if($resource == 'food' and !$dominion->race->getPerkValue('tissue_improvement'))
+        {
+            throw new GameException('You cannot use food for improvements.');
+        }
+
         if ($dominion->race->getPerkValue('cannot_improve_castle') == 1)
         {
-            throw new GameException('Your faction is unable to use castle improvements.');
+            throw new GameException('Your faction is unable to use improvements.');
         }
 
         if ($totalResourcesToInvest > $dominion->{'resource_' . $resource})
@@ -73,7 +85,7 @@ class ImproveActionService
         }
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
-        $dominion->most_recent_improvement_resource = (string)$resource;
+        $dominion->most_recent_improvement_resource = $resource;
 
         $resourceNameForStats = $resource;
         if($resourceNameForStats == 'gems')
