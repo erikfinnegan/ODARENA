@@ -53,7 +53,7 @@ class MiscController extends AbstractDominionController
         }
 
         # If the round has started, can only delete if protection ticks > 0.
-        if($dominion->round->hasStarted() and $dominion->protection_ticks <= 0)
+        if($dominion->round->hasStarted() and $dominion->protection_ticks <= 0 and request()->getHost() !== 'sim.odarena.com')
         {
             throw new GameException('You cannot delete your dominion because the round has already started.');
         }
