@@ -153,7 +153,7 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>Invest resources in your castle to improve certain parts of your dominion. Improving processes <b>instantly</b>.</p>
+                    <p>Invest resources in your castle to improve certain parts of your dominion. Improvements take effect immediately.</p>
 
                     @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 or $improvementCalculator->getTechBonus($selectedDominion) > 0)
                     <p>
@@ -169,7 +169,7 @@
                     </p>
                     @endif
 
-                    <p>Resources are converted to points.</p>
+                    <p>Resources invested are converted to points.</p>
                     <ul>
                         @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                         <li>Each mana is worth {{ $improvementCalculator->getResourceWorth('mana', $selectedDominion) }} points</li>
@@ -197,6 +197,14 @@
                           </tr>
                         </thead>
                       <tbody>
+                      @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
+                        <tr>
+                          <td>Mana</td>
+                          <td>{{ $improvementCalculator->getResourceWorthRaw('mana', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('mana', $selectedDominion)*100 }}%</td>
+                          <td>{{ $improvementCalculator->getResourceWorth('mana', $selectedDominion) }}</td>
+                        </tr>
+                      @else
                         <tr>
                           <td>Gems</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('gems', $selectedDominion) }}</td>
@@ -221,6 +229,7 @@
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('platinum', $selectedDominion)*100 }}%</td>
                           <td>{{ $improvementCalculator->getResourceWorth('platinum', $selectedDominion) }}</td>
                         </tr>
+                      @endif
                       </tbody>
                     </table>
 
