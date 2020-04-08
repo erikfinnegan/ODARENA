@@ -98,7 +98,7 @@ class MiscController extends AbstractDominionController
             Auth::user()->id
         ));
 
-        $request->session()->flash('alert-success', 'Your dominion has been deleted.');
+        session()->flash('alert-success', 'Your dominion has been deleted.');
         return redirect()->to(route('dominion'));
     }
 
