@@ -237,9 +237,9 @@ class ImprovementCalculator
     public function getResourceWorth(string $resource, ?Dominion $dominion): float
     {
         $resourceWorthRaw = $this->getResourceWorthRaw($resource, $dominion);
-        $resurceWorthMultiplier = $this->getResourceWorthMultipler($resource, $dominion);
+        $resourceWorthMultiplier = $this->getResourceWorthMultipler($resource, $dominion);
 
-        return $resourceWorthRaw * (1 + $resurceWorthMultiplier);
+        return $resourceWorthRaw * (1 + $resourceWorthMultiplier);
 
     }
 }
