@@ -33,11 +33,13 @@ class ImproveActionService
 
         $totalResourcesToInvest = array_sum($data);
 
-        if ($totalResourcesToInvest < 0) {
+        if ($totalResourcesToInvest < 0)
+        {
             throw new GameException('Investment aborted due to bad input.');
         }
 
-        if (!\in_array($resource, ['platinum','lumber','ore', 'gems','mana','food','soul'], true)) {
+        if (!\in_array($resource, ['platinum','lumber','ore', 'gems','mana','food','soul'], true))
+        {
             throw new GameException('Investment aborted due to bad resource type.');
         }
 
@@ -46,7 +48,8 @@ class ImproveActionService
             throw new GameException('Your faction is unable to use castle improvements.');
         }
 
-        if ($totalResourcesToInvest > $dominion->{'resource_' . $resource}) {
+        if ($totalResourcesToInvest > $dominion->{'resource_' . $resource})
+        {
             throw new GameException("You do not have enough {$resource} to invest.");
         }
 
@@ -72,12 +75,12 @@ class ImproveActionService
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
         $dominion->most_recent_improvement_resource = (string)$resource;
 
-        $resourceForStats = $resource;
-        if($resourceForStats == 'gems')
+        $resourceNameForStats = $resource;
+        if($resourceNameForStats == 'gems')
         {
-          $resourceForStats = 'gem';
+          $resourceNameForStats = 'gem';
         }
-        $dominion->{'stat_total_' . $resourceForStats . '_spent_improving'} += $totalResourcesToInvest;
+        $dominion->{'stat_total_' . $resourceNameForStats . '_spent_improving'} += $totalResourcesToInvest;
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
