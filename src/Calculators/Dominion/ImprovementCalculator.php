@@ -158,7 +158,7 @@ class ImprovementCalculator
         return ($coefficients[$improvementType] ?: null);
     }
 
-    private function getResourceWorthRaw(string $resource, ?Dominion $dominion): int
+    public function getResourceWorthRaw(string $resource, ?Dominion $dominion): int
     {
         # Standard values;
         $worth = [
@@ -190,7 +190,7 @@ class ImprovementCalculator
 
     }
 
-    private function getResourceWorthMultipler(string $resource, ?Dominion $dominion): float
+    public function getResourceWorthMultipler(string $resource, ?Dominion $dominion): float
     {
         if(!isset($dominion))
         {
