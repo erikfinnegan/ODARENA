@@ -77,10 +77,14 @@ class ImproveActionService
                 throw new GameException('Investment aborted due to bad input.');
             }
 
-            $points = ceil($amount * $worth); # OK
+            $points = $amount * $worth;
+
+            if($points >= 12000 and ($amount / $dominion->{'resource_'.$resource}) >= 0.5)
+            {
+              $points = ceil($points);
+            }
 
             $dominion->{'improvement_' . $improvementType} += $points;
-            #dd($dominion->{'improvement_' . $improvementType});
         }
 
 
