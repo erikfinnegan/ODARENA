@@ -207,19 +207,19 @@ class ImprovementCalculator
             }
 
             ## Extra gem imp points (from Gemcutting)
-            if(($resource = 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
+            if($resource = 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
             {
               $multiplier += $dominion->getTechPerkMultiplier('gemcutting');
             }
 
             ## Extra imp points from racial improvements bonus
-            if(($dominion->race->getPerkMultiplier('invest_bonus'))
+            if($dominion->race->getPerkMultiplier('invest_bonus'))
             {
               $multiplier += $dominion->getTechPerkMultiplier('invest_bonus');
             }
 
             # Imperial Gnome: Spell (increase imp points by 10%)
-            if ($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
+            if($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
             {
                 $multiplier += 0.10;
             }
