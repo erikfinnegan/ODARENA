@@ -101,8 +101,7 @@ class ImproveActionService
      */
     protected function getReturnMessageString(string $resource, array $data, int $totalResourcesToInvest, Dominion $dominion): string
     {
-        #$worth = $this->getImprovementWorth($dominion);
-        $worth = $this->getResourceWorth->($resource, $dominion);
+        $worth = $this->improvementCalculator->getResourceWorth($resource, $dominion);
 
         $investmentStringParts = [];
 
@@ -123,41 +122,5 @@ class ImproveActionService
             ($resource === 'gems') ? str_plural('gem', $totalResourcesToInvest) : $resource,
             $investmentString
         );
-    }
-
-    /**
-     * Returns the amount of points per resource type invested.
-     *
-     * @return array
-     */
-    public function getImprovementWorth(Dominion $dominion = NULL): array
-    {
-
-        $worth = [
-            'platinum' => 1,
-            'lumber' => 2,
-            'ore' => 2,
-            'mana' => 5,
-            'gems' => 12,
-            'food' => 1,
-            'soul' => 6,
-        ];
-
-        if(isset($dominion) and $dominion->race->getPerkValue('ore_improvement_points'))
-        {
-          $worth['ore'] *= (1 + $dominion->race->getPerkValue('ore_improvement_points') / 100);
-        }
-
-        if(isset($dominion) and $dominion->race->getPerkValue('lumber_improvement_points'))
-        {
-          $worth['lumber'] *= (1 + $dominion->race->getPerkValue('lumber_improvement_points') / 100);
-        }
-
-        if(isset($dominion) and $dominion->getTechPerkMultiplier('gemcutting'))
-        {
-          $worth['gems'] *= (1 + $dominion->getTechPerkMultiplier('gemcutting'));
-        }
-
-        return $worth;
     }
 }

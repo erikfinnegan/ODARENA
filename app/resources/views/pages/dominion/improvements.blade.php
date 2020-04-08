@@ -170,17 +170,6 @@
                     @endif
 
                     <p>Resources invested are converted to points.</p>
-                    <ul>
-                        @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
-                        <li>Each mana is worth {{ $improvementCalculator->getResourceWorth('mana', $selectedDominion) }} points</li>
-                        @else
-                        <li>Gems: {{ $improvementCalculator->getResourceWorth('gems', $selectedDominion) }} points</li>
-                        <li>Lumber: {{ $improvementCalculator->getResourceWorth('lumber', $selectedDominion) }} points</li>
-                        <li>Ore: {{ $improvementCalculator->getResourceWorth('ore', $selectedDominion) }} points</li>
-                        <li>Platinum: {{ $improvementCalculator->getResourceWorth('platinum', $selectedDominion) }} points</li>
-                        @endif
-                    </ul>
-
                     <table class="table">
                         <colgroup>
                             <col width="25%">
