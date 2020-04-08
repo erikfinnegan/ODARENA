@@ -159,7 +159,7 @@ class ImprovementCalculator
     }
 
 
-    protected function getResourceWorth(string $resource, ?Dominion $dominion): float
+    public function getResourceWorth(string $resource, ?Dominion $dominion): float
     {
         # Standard values
         $worth = [
