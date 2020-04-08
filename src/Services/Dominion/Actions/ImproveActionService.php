@@ -84,7 +84,10 @@ class ImproveActionService
         }
 */
 
-
+        if(!isset($data['tissue']))
+        {
+          $data['tissue'] = 0;
+        }
         $dominion->fill([
             'improvement_markets' => ($dominion->improvement_markets + ($data['markets'] * $worth)),
             'improvement_keep' => ($dominion->improvement_keep + ($data['keep'] * $worth)),
