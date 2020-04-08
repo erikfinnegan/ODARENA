@@ -64,7 +64,7 @@ class ImproveActionService
         }
 
         $worth = $this->improvementCalculator->getResourceWorth($resource, $dominion);
-
+/*
         foreach ($data as $improvementType => $amount)
         {
             if ($amount === 0)
@@ -79,11 +79,30 @@ class ImproveActionService
 
             $points = $amount * $worth; # OK
 
-            var_dump($dominion->{'improvement_' . $improvementType});
-            var_dump($points);
             $dominion->{'improvement_' . $improvementType} += $points;
-            dd($dominion->{'improvement_' . $improvementType});
+            #dd($dominion->{'improvement_' . $improvementType});
         }
+*/
+
+
+        $dominion->fill([
+            'improvement_markets' => ($dominion->improvement_markets + ($data['markets'] * $worth)),
+            'improvement_keep' => ($dominion->improvement_keep + ($data['keep'] * $worth)),
+            'improvement_towers' => ($dominion->improvement_towers + ($data['towers'] * $worth)),
+            'improvement_forges' => ($dominion->improvement_forges + ($data['forges'] * $worth)),
+            'improvement_walls' => ($dominion->improvement_walls + ($data['walls'] * $worth)),
+            'improvement_harbor' => ($dominion->improvement_harbor + ($data['harbor'] * $worth)),
+            'improvement_armory' => ($dominion->improvement_armory + ($data['armory'] * $worth)),
+            'improvement_infirmary' => ($dominion->improvement_infirmary + ($data['infirmary'] * $worth)),
+            'improvement_workshops' => ($dominion->improvement_workshops + ($data['workshops'] * $worth)),
+            'improvement_observatory' => ($dominion->improvement_observatory + ($data['observatory'] * $worth)),
+            'improvement_cartography' => ($dominion->improvement_cartography + ($data['cartography'] * $worth)),
+            'improvement_hideouts' => ($dominion->improvement_hideouts + ($data['hideouts'] * $worth)),
+            'improvement_forestry' => ($dominion->improvement_forestry + ($data['forestry'] * $worth)),
+            'improvement_refinery' => ($dominion->improvement_refinery + ($data['refinery'] * $worth)),
+            'improvement_granaries' => ($dominion->improvement_granaries + ($data['granaries'] * $worth)),
+            'improvement_tissue' => ($dominion->improvement_tissue + ($data['tissue'] * $worth)),
+        ])->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
         $dominion->most_recent_improvement_resource = $resource;
@@ -95,7 +114,7 @@ class ImproveActionService
         }
         $dominion->{'stat_total_' . $resourceNameForStats . '_spent_improving'} += $totalResourcesToInvest;
 
-        $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
+        #$dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
 
         return [
