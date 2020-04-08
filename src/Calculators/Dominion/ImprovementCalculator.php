@@ -158,10 +158,9 @@ class ImprovementCalculator
         return ($coefficients[$improvementType] ?: null);
     }
 
-
-    public function getResourceWorth(string $resource, ?Dominion $dominion): float
+    private function getResourceWorthRaw(string $resource, ?Dominion $dominion): int
     {
-        # Standard values
+        # Standard values;
         $worth = [
                     'platinum' => 1,
                     'lumber' => 2,
@@ -169,29 +168,36 @@ class ImprovementCalculator
                     'gems' => 12,
                 ];
 
+        # Void: only sees mana
+        if($dominion->race->getPerkValue('can_invest_mana'))
+        {
+          unset($worth);
+          $worth['mana'] = 5;
+        }
+        # Growth: only sees food
+        if($dominion->race->getPerkValue('tissue_improvement'))
+        {
+          unset($worth);
+          $worth['food'] = 1;
+        }
+        # Demon: can also invest souls (unused?)
+        if($dominion->race->getPerkValue('can_invest_soul'))
+        {
+          $worth['soul'] = 100;
+        }
+
+        return $worth[$resource];
+
+    }
+
+    private function getResourceWorthMultipler(string $resource, ?Dominion $dominion): float
+    {
         if(!isset($dominion))
         {
-            return $worth[$resource];
+            return 0;
         }
         else
         {
-            # Insert any racial specialities
-            if($dominion->race->getPerkValue('can_invest_mana'))
-            {
-              unset($worth);
-              $worth['mana'] = 5;
-            }
-            if($dominion->race->getPerkValue('tissue_improvement'))
-            {
-              unset($worth);
-              $worth['food'] = 1;
-            }
-            if($dominion->race->getPerkValue('can_invest_soul'))
-            {
-              $worth['soul'] = 100;
-            }
-
-            # Check for multipliers
             $multiplier = 0;
 
             ## Extra Ore imp points
@@ -224,8 +230,16 @@ class ImprovementCalculator
                 $multiplier += 0.10;
             }
 
-            return ($worth[$resource] * (1 + $multiplier));
+            return $multiplier;
         }
+    }
+
+    public function getResourceWorth(string $resource, ?Dominion $dominion): float
+    {
+        $resourceWorthRaw = $this->getResourceWorthRaw($resource, $dominion);
+        $resurceWorthMultiplier = $this->getResourceWorthMultipler($resource, $dominion);
+
+        return $resourceWorthRaw * (1 + $resurceWorthMultiplier);
 
     }
 }

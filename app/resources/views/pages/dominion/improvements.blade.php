@@ -181,6 +181,37 @@
                         @endif
                     </ul>
 
+                    <table class="table">
+                        <colgroup>
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                            <col width="25%">
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th>Resource</th>
+                            <th>Points each</th>
+                            <th>Multiplier</th>
+                            <th>Total each</th>
+                          </tr>
+                        </thead>
+                      <tbody>
+                        <tr>
+                          <td>Gems</td>
+                          <td>{{ $improvementCalculator->getResourceWorthRaw('gems', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('gems', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorth('gems', $selectedDominion) }}</td>
+                        </tr>
+                        <tr>
+                          <td>Lumber</td>
+                          <td>{{ $improvementCalculator->getResourceWorthRaw('lumber', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('lumber', $selectedDominion) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorth('lumber', $selectedDominion) }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
                 </div>
             </div>
         </div>
