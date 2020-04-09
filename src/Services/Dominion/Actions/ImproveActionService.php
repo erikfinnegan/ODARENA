@@ -33,6 +33,8 @@ class ImproveActionService
 
         $totalResourcesToInvest = array_sum($data);
 
+        $worth = $this->improvementCalculator->getResourceWorth($resource, $dominion);
+
         if ($totalResourcesToInvest < 0)
         {
             throw new GameException('Investment aborted due to bad input.');
@@ -63,8 +65,6 @@ class ImproveActionService
             throw new GameException("You do not have enough {$resource} to invest.");
         }
 
-        $worth = $this->improvementCalculator->getResourceWorth($resource, $dominion);
-
         foreach ($data as $improvementType => $amount)
         {
             if ($amount === 0)
@@ -79,17 +79,15 @@ class ImproveActionService
 
             $points = $amount * $worth;
 
-            var_dump($points);
-            var_dump($dominion->{'improvement_' . $improvementType});
-            $dominion->{'improvement_' . $improvementType} += $points;
-            var_dump($dominion->{'improvement_' . $improvementType});
-            var_dump($points);
-            die();
+            #var_dump($points);
+            #var_dump($dominion->{'improvement_' . $improvementType});
+            #$dominion->{'improvement_' . $improvementType} += $points;
+            #var_dump($dominion->{'improvement_' . $improvementType});
+            #var_dump($points);
+            #die();
 
         }
 
-
-/*
         if(!isset($data['tissue']))
         {
           $data['tissue'] = 0;
@@ -112,7 +110,7 @@ class ImproveActionService
             'improvement_granaries' => ($dominion->improvement_granaries + ($data['granaries'] * $worth)),
             'improvement_tissue' => ($dominion->improvement_tissue + ($data['tissue'] * $worth)),
         ])->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
-*/
+
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
         $dominion->most_recent_improvement_resource = $resource;
