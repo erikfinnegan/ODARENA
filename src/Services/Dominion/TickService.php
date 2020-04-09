@@ -181,7 +181,7 @@ class TickService
                         'dominions.land_mountain' => DB::raw('dominions.land_mountain + dominion_tick.land_mountain'),
                         'dominions.land_swamp' => DB::raw('dominions.land_swamp + dominion_tick.land_swamp'),
                         'dominions.land_cavern' => DB::raw('dominions.land_cavern + dominion_tick.land_cavern'),
-                        'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest + dominion_tick.generated_land'),
+                        'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest'),
                         'dominions.land_hill' => DB::raw('dominions.land_hill + dominion_tick.land_hill'),
                         'dominions.land_water' => DB::raw('dominions.land_water + dominion_tick.land_water'),
 
@@ -278,13 +278,22 @@ class TickService
 
             foreach ($dominions as $dominion)
             {
+
+                // Afflicted: Abomination generation
                 if(!empty($dominion->tick->pestilence_units))
                 {
-                  $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
-                  if ($caster)
-                  {
-                      $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
-                  }
+                    $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
+                    if ($caster)
+                    {
+                        $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
+                    }
+                }
+
+                // Myconid: Land generation
+                if(!empty($dominion->tick->generated_land))
+                {
+                    $homeLandType = 'land_' . $dominion->race->home_land_type;
+                    $this->queueService->queueResources('exploration', $dominion, [$homeLandType => $dominion->tick->generated_land], 12);
                 }
 
                 DB::transaction(function () use ($dominion) {
@@ -451,11 +460,11 @@ class TickService
         // Reset tick values
         foreach ($tick->getAttributes() as $attr => $value)
         {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'pestilence_units'], true))
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'pestilence_units', 'generated_land'], true))
             {
                   $tick->{$attr} = 0;
             }
-            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units'], true))
+            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land'], true))
             {
                 $tick->{$attr} = [];
             }
@@ -835,31 +844,24 @@ class TickService
             $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
         }
 
-        // Mycelia: Spore training and Land generation
-
-        $slot = 1;
+        // Myconid: Land generation
         $acresToExplore = 0;
-        $tick->generated_land = 0;
 
-        while($slot <= 4)
+        for ($slot = 1; $slot <= 4; $slot++)
         {
-
-          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
-          {
-            $acresToExplore += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
-          }
-
-          $slot++;
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
+            {
+                $tick->generated_land += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
+            }
         }
 
         if($acresToExplore > 0)
         {
-          $hours = 12;
-          $homeLandType = 'land_' . $dominion->race->home_land_type;
-          $data = array($homeLandType => $acresToExplore);
-          $tick->generated_land = $acresToExplore;
-
-          unset($data);
+            $hours = 12;
+            $homeLandType = 'land_' . $dominion->race->home_land_type;
+            $data = array($homeLandType => $acresToExplore);
+            $tick->generated_land = $acresToExplore;
+            unset($data);
         }
 
         foreach ($incomingQueue as $row)
@@ -1042,7 +1044,7 @@ class TickService
                         'dominions.land_mountain' => DB::raw('dominions.land_mountain + dominion_tick.land_mountain'),
                         'dominions.land_swamp' => DB::raw('dominions.land_swamp + dominion_tick.land_swamp'),
                         'dominions.land_cavern' => DB::raw('dominions.land_cavern + dominion_tick.land_cavern'),
-                        'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest + dominion_tick.generated_land'),
+                        'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest'),
                         'dominions.land_hill' => DB::raw('dominions.land_hill + dominion_tick.land_hill'),
                         'dominions.land_water' => DB::raw('dominions.land_water + dominion_tick.land_water'),
 
