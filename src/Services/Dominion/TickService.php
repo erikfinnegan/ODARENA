@@ -460,11 +460,11 @@ class TickService
         // Reset tick values
         foreach ($tick->getAttributes() as $attr => $value)
         {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'pestilence_units', 'generated_land'], true))
+            if (!in_array($attr, ['id', 'dominion_id', 'updated_at', 'starvation_casualties', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
             {
                   $tick->{$attr} = 0;
             }
-            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land'], true))
+            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
             {
                 $tick->{$attr} = [];
             }
@@ -845,24 +845,15 @@ class TickService
         }
 
         // Myconid: Land generation
-        $acresToExplore = 0;
-
+        $generatedLand = 0;
         for ($slot = 1; $slot <= 4; $slot++)
         {
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
             {
-                $tick->generated_land += intval($dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'));
+                $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
             }
         }
-
-        if($acresToExplore > 0)
-        {
-            $hours = 12;
-            $homeLandType = 'land_' . $dominion->race->home_land_type;
-            $data = array($homeLandType => $acresToExplore);
-            $tick->generated_land = $acresToExplore;
-            unset($data);
-        }
+        $tick->generated_land += intval($generatedLand) + (rand(0,1) < fmod($generatedLand, 1) ? 1 : 0);
 
         foreach ($incomingQueue as $row)
         {
