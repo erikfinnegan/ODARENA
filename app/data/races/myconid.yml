@@ -33,6 +33,7 @@ perks:
   peasants_produce_food: 2
   draftees_cannot_be_abducted: 1
   peasants_cannot_be_abducted: 1
+  food_decay: -100
 units:
   - name: Mushroom
     need_boat: false

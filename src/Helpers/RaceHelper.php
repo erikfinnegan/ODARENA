@@ -39,6 +39,10 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Food production';
                 break;
+            case 'food_decay':
+                $negativeBenefit = true;
+                $description = 'Food decay';
+                break;
             case 'gem_production':
                 $negativeBenefit = false;
                 $description = 'Gem production';
