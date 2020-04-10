@@ -16,11 +16,8 @@ exploring : 0
 converting: 0
 
 perks:
-#  max_population: 300
   population_growth: 200
-#  cannot_improve_castle: 1
   food_consumption: -100
-#  cannot_construct: 1
   construction_cost_only_food: 1
   can_only_build_tissue: 1
   cannot_build_homes: 1
@@ -34,6 +31,7 @@ perks:
   peasants_produce_food: 0.5
   draftees_cannot_be_abducted: 1
   peasants_cannot_be_abducted: 1
+  food_decay: -100
 units:
   - name: Abscess
     need_boat: false

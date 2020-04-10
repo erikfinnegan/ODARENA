@@ -400,13 +400,15 @@ class ProductionCalculator
         # Check for decay protection
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            $decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection');
-            $amountPerUnit = $decayProtectionPerk[0];
-            $resource = $decayProtectionPerk[1];
-
-            if($decayProtectionPerk and $resource == 'food' and $amountPerUnit > 0)
+            if($decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection'))
             {
-                $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
+                $amountPerUnit = $decayProtectionPerk[0];
+                $resource = $decayProtectionPerk[1];
+
+                if($resource == 'food' and $amountPerUnit > 0)
+                {
+                    $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
+                }
             }
         }
 
@@ -421,7 +423,7 @@ class ProductionCalculator
           $multiplier += $dominion->race->getPerkMultiplier('food_decay');
         }
 
-        $multiplier = max(0, $multiplier);
+        $multiplier = min(0, $multiplier);
 
         $foodDecay *= (1 + $multiplier);
 
@@ -545,13 +547,15 @@ class ProductionCalculator
         # Check for decay protection
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            $decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection');
-            $amountPerUnit = $decayProtectionPerk[0];
-            $resource = $decayProtectionPerk[1];
-
-            if($decayProtectionPerk and $resource == 'lumber' and $amountPerUnit > 0)
+            if($decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection'))
             {
-                $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
+                $amountPerUnit = $decayProtectionPerk[0];
+                $resource = $decayProtectionPerk[1];
+
+                if($resource == 'lumber' and $amountPerUnit > 0)
+                {
+                    $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
+                }
             }
         }
 
@@ -685,15 +689,18 @@ class ProductionCalculator
         # Check for decay protection
         for ($slot = 1; $slot <= 4; $slot++)
         {
-          $decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection');
-          $amountPerUnit = $decayProtectionPerk[0];
-          $resource = $decayProtectionPerk[1];
+            if($decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection'))
+            {
+                $amountPerUnit = $decayProtectionPerk[0];
+                $resource = $decayProtectionPerk[1];
 
-          if($decayProtectionPerk and $resource == 'mana' and $amountPerUnit > 0)
-          {
-            $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
-          }
+                if($resource == 'mana' and $amountPerUnit > 0)
+                {
+                    $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
+                }
+            }
         }
+
 
         $mana = max(0, $mana - $decayProtection);
 
