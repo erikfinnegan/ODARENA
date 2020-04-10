@@ -290,7 +290,7 @@ class TickService
                 }
 
                 // Myconid: Land generation
-                if(!empty($dominion->tick->generated_land))
+                if(!empty($dominion->tick->generated_land) and $dominion->protection_ticks == 0)
                 {
                     $homeLandType = 'land_' . $dominion->race->home_land_type;
                     $this->queueService->queueResources('exploration', $dominion, [$homeLandType => $dominion->tick->generated_land], 12);
@@ -1065,9 +1065,7 @@ class TickService
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
 
                         'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
-                        #'dominions.stat_total_platinum_production' => 0,
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
-                        #'dominions.stat_total_food_production' => 0,
                         'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
                         'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
                         'dominions.stat_total_wild_yeti_production' => DB::raw('dominions.stat_total_wild_yeti_production + dominion_tick.resource_wild_yeti_production'),
@@ -1105,9 +1103,6 @@ class TickService
                       ]);
 
 
-
-                // Update queues
-
             }, 10);
 
             Log::info(sprintf(
@@ -1136,6 +1131,13 @@ class TickService
             $this->precalculateTick($dominion, true);
 
             }, 5);
+
+            // Myconid: Land generation
+            if(!empty($dominion->tick->generated_land) and $dominion->protection_ticks > 0)
+            {
+                $homeLandType = 'land_' . $dominion->race->home_land_type;
+                $this->queueService->queueResources('exploration', $dominion, [$homeLandType => $dominion->tick->generated_land], 12);
+            }
 
 
             Log::info(sprintf(
