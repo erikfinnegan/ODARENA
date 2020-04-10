@@ -19,7 +19,7 @@ converting: 2
 perks:
   food_consumption: -100
   can_invest_mana: 1
-  improvements_max: 100
+  improvements_max: 90
   improvements_decay: 0.5
   population_growth: 40
   reduce_conversions: 100

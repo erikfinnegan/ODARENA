@@ -97,22 +97,22 @@ class ImprovementCalculator
     protected function getImprovementMaximum(string $improvementType, Dominion $dominion): float
     {
         $maximumPercentages = [
-            'markets' => 20, # Increases platinum production
-            'keep' => 15, # Increases max population
-            'towers' => 40, # Increases wizard strength, mana production, and reduces damage form black-ops
-            'forges' => 20, # Increases OP
-            'walls' => 20, # Increases DP
-            'harbor' => 40, # Increase food and boat production
-            'armory' => 20, # Reduces training costs
-            'infirmary' => 20, # Reduces casualties
-            'workshops' => 20, # Reduces construction and rezoning costs
-            'observatory' => 20, # Increases RP gains and reduces tech costs
-            'cartography' => 30, # Increases land explored and lower cost of exploring
-            'hideouts' => 40, # Increases spy strength and reduces spy losses
-            'forestry' => 20, # Increases lumber production
-            'refinery' => 20, # Increases ore production
-            'granaries' => 80, # Reduces food and lumber rot
-            'tissue' => 20, # Increases max population (Growth)
+            'markets' => 25, # Increases platinum production
+            'keep' => 20, # Increases max population
+            'towers' => 45, # Increases wizard strength, mana production, and reduces damage form black-ops
+            'forges' => 25, # Increases OP
+            'walls' => 25, # Increases DP
+            'harbor' => 45, # Increase food and boat production
+            'armory' => 25, # Reduces training costs
+            'infirmary' => 25, # Reduces casualties
+            'workshops' => 25, # Reduces construction and rezoning costs
+            'observatory' => 25, # Increases RP gains and reduces tech costs
+            'cartography' => 35, # Increases land explored and lower cost of exploring
+            'hideouts' => 45, # Increases spy strength and reduces spy losses
+            'forestry' => 25, # Increases lumber production
+            'refinery' => 25, # Increases ore production
+            'granaries' => 85, # Reduces food and lumber rot
+            'tissue' => 25, # Increases max population (Growth)
         ];
 
         if($dominion->race->getPerkMultiplier('improvements_max'))
