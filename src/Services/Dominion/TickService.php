@@ -853,7 +853,7 @@ class TickService
                 $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
             }
         }
-        $tick->generated_land += intval($generatedLand) + (rand(0,1) < fmod($generatedLand, 1) ? 1 : 0);
+        $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
 
         foreach ($incomingQueue as $row)
         {
