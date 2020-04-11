@@ -12,15 +12,12 @@ converting: 1
 perks:
   food_consumption: 20
   lumber_production: 50
-  prestige_gains: 100
-  max_population: 10
   extra_barracks_housing: 18
-  tech_costs: 20
 units:
   - name: Impaler
     cost:
       platinum: 500
-      ore: 25
+      ore: 50
     power:
       offense: 3
       defense: 0
@@ -28,8 +25,8 @@ units:
       offense_from_pairing: 4,2,0.1 # slot, amount, num required
   - name: Shieldbearer
     cost:
-      platinum: 400
-      ore: 20
+      platinum: 500
+      ore: 50
     power:
       offense: 0
       defense: 3
@@ -44,8 +41,8 @@ units:
       offense: 0
       defense: 2
     perks:
-      defense_from_prestige: 500,8 # amount, max
-      mana_production: 0.5
+      defense_from_prestige: 250,8 # amount, max
+      mana_production: 0.2
       counts_as_wizard_offense: 0.20
       counts_as_wizard_defense: 0.10
   - name: Warboss

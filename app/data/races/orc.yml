@@ -14,8 +14,6 @@ converting: 1
 perks:
   food_consumption: 20
   lumber_production: 50
-  prestige_gains: 100
-  tech_costs: 20
 units:
   - name: Savage
     cost:
@@ -37,9 +35,9 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 4
+      defense: 3
     perks:
-      defense_from_prestige: 500,4 # amount, max
+      defense_from_prestige: 250,4 # amount, max
   - name: Bone Breaker
     cost:
       platinum: 900
