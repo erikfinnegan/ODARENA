@@ -18,7 +18,7 @@ perks:
   food_consumption: -50
   boat_capacity: 70
   platinum_production: -15
-  population_growth: 100
+#  population_growth: 100
   explore_cost: 25
   reduce_conversions: 25
   draftee_dp: 0.1
@@ -58,6 +58,6 @@ units:
       ore: 0
     power:
       offense: 2
-      defense: 2
+      defense: 1.5
     perks:
       offense_from_building: forest_haven,10,1 # building type, ratio%, max

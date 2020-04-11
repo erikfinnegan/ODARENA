@@ -44,7 +44,7 @@ units:
       offense: 0
       defense: 2
     perks:
-      defense_from_prestige: 500,10 # amount, max
+      defense_from_prestige: 500,8 # amount, max
       mana_production: 0.5
       counts_as_wizard_offense: 0.20
       counts_as_wizard_defense: 0.10
