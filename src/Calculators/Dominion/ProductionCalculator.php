@@ -912,12 +912,10 @@ class ProductionCalculator
      */
     public function getTechProductionRaw(Dominion $dominion): float
     {
-        $tech = 0;
-
         $tech = max(0, $dominion->prestige);
 
         // Unit Perk Production Bonus (Sacred Order: Monk)
-        if($dominion->race->name !== 'Myconid')
+        if($dominion->race->name !== 'Myconid' or $this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
         {
           $tech += $dominion->getUnitPerkProductionBonus('tech_production');
         }
