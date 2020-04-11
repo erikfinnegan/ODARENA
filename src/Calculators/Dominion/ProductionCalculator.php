@@ -910,25 +910,30 @@ class ProductionCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getTechProductionRaw(Dominion $dominion): float
-    {
-        $tech = max(0, $dominion->prestige);
+     public function getTechProductionRaw(Dominion $dominion): float
+     {
+         $tech = 0;
 
-        // Unit Perk Production Bonus (Sacred Order: Monk)
-        if($dominion->race->name !== 'Myconid' or $this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
-        {
-          $tech += $dominion->getUnitPerkProductionBonus('tech_production');
-        }
+         $tech = max(0, $dominion->prestige);
 
-        // Myconid spell: if Underground Caves is cast, the tech_production
-        // bonus on Psilocybe becomes a gem production bonus.
-        if (!$this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
-        {
-            $tech += $dominion->getUnitPerkProductionBonus('tech_production');
-        }
+         if($dominion->race->name == 'Myconid')
+         {
+             if($this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
+             {
+                 $tech = 0;
+             }
+             else
+             {
+                 $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+             }
+         }
+         else
+         {
+             $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+         }
 
-        return max(0,$tech);
-    }
+         return max(0,$tech);
+     }
 
     /**
      * Returns the Dominion's experience point production multiplier.
