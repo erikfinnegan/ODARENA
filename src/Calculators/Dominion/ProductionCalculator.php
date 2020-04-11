@@ -940,7 +940,10 @@ class ProductionCalculator
         $tech = max(0, $dominion->prestige);
 
         // Unit Perk Production Bonus (Sacred Order: Monk)
-        $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+        if($dominion->race->name !== 'Myconid')
+        {
+          $tech += $dominion->getUnitPerkProductionBonus('tech_production');          
+        }
 
         // Myconid spell: if Underground Caves is cast, the tech_production
         // bonus on Psilocybe becomes a gem production bonus.

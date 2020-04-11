@@ -20,7 +20,7 @@ perks:
   food_consumption: -100
   can_invest_mana: 1
   improvements_max: 90
-  improvements_decay: 0.5
+  improvements_decay: 0.33
   population_growth: 40
   reduce_conversions: 100
   construction_cost_only_mana: 1

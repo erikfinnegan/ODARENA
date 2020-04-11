@@ -25,8 +25,8 @@ units:
       offense_from_pairing: 4,2,0.1 # slot, amount, num required
   - name: Shieldbearer
     cost:
-      platinum: 500
-      ore: 50
+      platinum: 400
+      ore: 40
     power:
       offense: 0
       defense: 3
@@ -34,8 +34,8 @@ units:
       defense_from_pairing: 4,2,0.1 # slot, amount
   - name: Warlock
     cost:
-      platinum: 700
-      lumber: 20
+      platinum: 800
+      lumber: 40
       gem: 1
     power:
       offense: 0

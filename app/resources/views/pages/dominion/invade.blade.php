@@ -445,6 +445,14 @@
 
 @push('inline-scripts')
     <script type="text/javascript">
+
+    $(document).keypress(
+      function(event){
+        if (event.which == '13') {
+          event.preventDefault();
+        }
+    });
+
         (function ($) {
             var invasionForceOPElement = $('#invasion-force-op');
             var invasionForceDPElement = $('#invasion-force-dp');

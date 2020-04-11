@@ -1521,13 +1521,13 @@ class MilitaryCalculator
             }
         }
 
-        // Spell: Retribution (+10% OP)
+        // Spell: Retribution (+20% OP)
         # Condition: target must have invaded $dominion's realm in the last six hours.
         if ($this->spellCalculator->isSpellActive($dominion, 'retribution'))
         {
           if($this->recentlyInvadedAttackersRealm($dominion, $target))
           {
-            $multiplier += 0.10;
+            $multiplier += 0.20;
           }
         }
 

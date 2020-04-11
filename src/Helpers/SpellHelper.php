@@ -368,7 +368,7 @@ class SpellHelper
             [
                 'name' => 'Desecration',
                 'description' => 'Triples enemy draftees casualties.',
-                'key' => 'Desecration',
+                'key' => 'desecration',
                 'mana_cost' => 8,
                 'duration' => 12*4,
                 'races' => collect(['Undead']),
@@ -450,10 +450,10 @@ class SpellHelper
             ],
             [
                 'name' => 'Retribution',
-                'description' => '+10% offensive power if target has recently invaded your realm (in the last six hours).',
+                'description' => '+20% offensive power if target has recently invaded your realm (in the last six hours).',
                 'key' => 'retribution',
-                'mana_cost' => 6,
-                'duration' => 6*4, # Six hours
+                'mana_cost' => 4,
+                'duration' => 1, # One tick
                 'races' => collect(['Jagunii']),
             ],
             [
@@ -466,7 +466,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Spawning Pool',
-                'description' => 'For every 1% swamp lands you have, you gain 1% additional Spawns trained.',
+                'description' => 'For every 1% swamp lands you have, you gain 0.50% additional Spawns trained.',
                 'key' => 'spawning_pool',
                 'mana_cost' => 10,
                 'duration' => 12*2, # Six hours
