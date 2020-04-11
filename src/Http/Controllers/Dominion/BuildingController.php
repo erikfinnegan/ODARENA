@@ -18,6 +18,7 @@ use OpenDominion\Services\Dominion\QueueService;
 
 use OpenDominion\Models\Building;
 use OpenDominion\Services\Dominion\Actions\BuildActionService;
+use OpenDominion\Http\Requests\Dominion\Actions\BuildActionRequest;
 
 class BuildingController extends AbstractDominionController
 {

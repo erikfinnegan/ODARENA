@@ -352,8 +352,8 @@ class InvadeActionService
             $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
             $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $units);
 
-            $this->handleMoraleChanges($dominion, $target);
-            $this->handleLandGrabs($dominion, $target);
+            $this->handleMoraleChanges($dominion, $target, $landRatio);
+            $this->handleLandGrabs($dominion, $target, $landRatio);
             $this->handleResearchPoints($dominion, $target, $units);
 
             $this->handleInvasionSpells($dominion, $target);
@@ -467,23 +467,22 @@ class InvadeActionService
      * @param Dominion $target
      * @param array $units
      */
-    protected function handlePrestigeChanges(Dominion $dominion, Dominion $target, array $units): void
+    protected function handlePrestigeChanges(Dominion $dominion, Dominion $target, array $units, float $landRatio): void
     {
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
-        $range = $this->rangeCalculator->getDominionRange($dominion, $target);
 
         $attackerPrestigeChange = 0;
         $targetPrestigeChange = 0;
 
-        if ($isOverwhelmed or (!$isInvasionSuccessful && $range < 50))
+        if ($isOverwhelmed or (!$isInvasionSuccessful && $landRatio < 50))
         {
             $attackerPrestigeChange = ($dominion->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 100));
         }
-        elseif ($isInvasionSuccessful && ($range >= 75))
+        elseif ($isInvasionSuccessful && ($landRatio >= 75))
         {
             $targetPrestigeChange = (int)round(($target->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 400)));
-            $attackerPrestigeChange = (int)round(static::PRESTIGE_CHANGE_ADD + ($target->prestige * (($range / 100) / 10)));
+            $attackerPrestigeChange = (int)round(static::PRESTIGE_CHANGE_ADD + ($target->prestige * (($landRatio / 100) / 10)));
 
         }
 
@@ -537,9 +536,9 @@ class InvadeActionService
             }
 
         }
-        elseif ($isInvasionSuccessful && ($range < 60))
+        elseif ($isInvasionSuccessful && ($landRatio < 60))
         {
-          $attackerPrestigeChange = $dominion->prestige * (0 + ($this->militaryCalculator->getRecentlyInvadedCount($target) / 100) +  ((100 - $range) / 100 / 100));
+          $attackerPrestigeChange = $dominion->prestige * (0 + ($this->militaryCalculator->getRecentlyInvadedCount($target) / 100) +  ((100 - $landRatio) / 100 / 100));
           $attackerPrestigeChange = $attackerPrestigeChange * -1;
         }
 
@@ -762,11 +761,12 @@ class InvadeActionService
 
         $defensiveUnitsLost = [];
 
+        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
+
         // Demon: racial spell Infernal Fury increases defensive casualties by 20%.
         $casualtiesMultiplier = 1;
-        $range = $this->rangeCalculator->getDominionRange($dominion, $target);
 
-        if ($this->spellCalculator->isSpellActive($dominion, 'infernal_fury') and $range > 75 and $this->invasionResult['result']['success'])
+        if ($this->spellCalculator->isSpellActive($dominion, 'infernal_fury') and $landRatio > 75 and $this->invasionResult['result']['success'])
         {
             $casualtiesMultiplier += 0.2;
         }
@@ -776,12 +776,8 @@ class InvadeActionService
         {
             $drafteesLost = 0;
         }
-        else
-        {
-            $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
-        }
 
-        // Undead: Desecration - Trips draftee casualties (capped by target's number of draftees)
+        // Undead: Desecration - Triples draftee casualties (capped by target's number of draftees)
         if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
         {
             $drafteesLost = min($target->military_draftees, $drafteesLost * 3);
@@ -795,8 +791,10 @@ class InvadeActionService
         }
 
         // Non-draftees
-        foreach ($target->race->units as $unit) {
-            if ($unit->power_defense === 0.0) {
+        foreach ($target->race->units as $unit)
+        {
+            if ($unit->power_defense === 0.0)
+            {
                 continue;
             }
 
@@ -809,7 +807,24 @@ class InvadeActionService
             }
         }
 
-        foreach ($defensiveUnitsLost as $slot => $amount) {
+        # Look for dies_into amongst the dead.
+        /*
+        foreach($defensiveUnitsLost[$unit->slot] as $slot => $casualties)
+        {
+            $unitKey = "military_unit{$slot}";
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+            {
+                # Which unit do they die into?
+                $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
+                $newUnitKey = "military_unit{$newUnitSlot}";
+                $target->{$newUnitKey} += $casualties;
+            }
+        }
+        */
+
+
+        foreach ($defensiveUnitsLost as $slot => $amount)
+        {
             $target->{"military_unit{$slot}"} -= $amount;
 
             $this->invasionResult['defender']['unitsLost'][$slot] = $amount;
@@ -826,7 +841,7 @@ class InvadeActionService
      * @param Dominion $dominion
      * @param Dominion $target
      */
-    protected function handleLandGrabs(Dominion $dominion, Dominion $target): void
+    protected function handleLandGrabs(Dominion $dominion, Dominion $target, float $landRatio): void
     {
         $this->invasionResult['attacker']['landSize'] = $this->landCalculator->getTotalLand($dominion);
         $this->invasionResult['defender']['landSize'] = $this->landCalculator->getTotalLand($target);
@@ -846,8 +861,8 @@ class InvadeActionService
             $this->invasionResult['attacker']['landGenerated'] = [];
         }
 
-        $range = $this->rangeCalculator->getDominionRange($dominion, $target);
-        $rangeMultiplier = ($range / 100);
+        #$range = $this->rangeCalculator->getDominionRange($dominion, $target);
+        $rangeMultiplier = ($landRatio / 100);
 
         $landGrabRatio = 1;
         $bonusLandRatio = 2;
@@ -863,9 +878,9 @@ class InvadeActionService
 
         $attackerLandWithRatioModifier = ($this->landCalculator->getTotalLand($dominion) * $landGrabRatio);
 
-        if ($range < 55) {
+        if ($landRatio < 55) {
             $acresLost = (0.304 * ($rangeMultiplier ** 2) - 0.227 * $rangeMultiplier + 0.048) * $attackerLandWithRatioModifier;
-        } elseif ($range < 75) {
+        } elseif ($landRatio < 75) {
             $acresLost = (0.154 * $rangeMultiplier - 0.069) * $attackerLandWithRatioModifier;
         } else {
             $acresLost = (0.129 * $rangeMultiplier - 0.048) * $attackerLandWithRatioModifier;
@@ -991,7 +1006,7 @@ class InvadeActionService
         $queueData = $landGainedPerLandType;
 
         // Only gain discounted acres when hitting over 75%.
-        if ($range >= 75)
+        if ($landRatio >= 75)
         {
             $queueData += [
                 'discounted_land' => array_sum($landGainedPerLandType)
@@ -1014,30 +1029,29 @@ class InvadeActionService
      * @param Dominion $dominion
      * @param Dominion $target
      */
-    protected function handleMoraleChanges(Dominion $dominion, Dominion $target): void
+    protected function handleMoraleChanges(Dominion $dominion, Dominion $target, float $landRatio): void
     {
-        $range = $this->rangeCalculator->getDominionRange($dominion, $target);
 
         # For successful invasions...
         if($this->invasionResult['result']['success'])
         {
           # Drop 10% morale for hits under 60%.
-          if($range < 60)
+          if($landRatio < 60)
           {
             $attackerMoraleChange = -15;
           }
           # No change for hits in lower RG (60-75).
-          elseif($range < 75)
+          elseif($landRatio < 75)
           {
             $attackerMoraleChange = 0;
           }
           # Increase 15% for hits 75-85%.
-          elseif($range < 85)
+          elseif($landRatio < 85)
           {
             $attackerMoraleChange = 15;
           }
           # Increase 20% for hits 85-100%
-          elseif($range < 100)
+          elseif($landRatio < 100)
           {
             $attackerMoraleChange = 20;
           }
@@ -1112,7 +1126,7 @@ class InvadeActionService
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $convertedUnits = array_fill(1, 4, 0);
 
-        // Racial: Apply reduce_conversions
+        // Racial: Apply reduce_conversions$
         $totalDefensiveCasualties = $totalDefensiveCasualties * (1 - ($reduceConversions / 100));
 
         if (
@@ -1128,12 +1142,12 @@ class InvadeActionService
         $conversionMultiplier = 0;
 
         // Calculate conversion bonuses
-        // Parasitic Hunger
+        # Spell: Parasitic Hunger
         if ($this->spellCalculator->isSpellActive($dominion, 'parasitic_hunger'))
         {
           $conversionMultiplier += 0.50;
         }
-        // Tech (up to +15%)
+        # Tech: up to +15%
         if($dominion->getTechPerkMultiplier('conversions'))
         {
           $conversionMultiplier += $dominion->getTechPerkMultiplier('conversions');
@@ -1553,8 +1567,6 @@ class InvadeActionService
             $returningUnits[$newUnitKey] += $casualties;
           }
         }
-
-
 
         /*
         $this->queueService->queueResources(

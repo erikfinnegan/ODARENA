@@ -185,7 +185,7 @@ class UnitHelper
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
             'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
 
-            'dies_into' => 'Upon death, returns as %s.',
+            'dies_into' => 'Upon death, returns as %s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
             'wins_into' => 'Upon victory, returns as %s.',
 
             'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
@@ -198,6 +198,7 @@ class UnitHelper
 
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
+            'decreases_info_ops_accuracy' => 'Decreases accuracy of spells and espionage ops performed on the dominion. The more of this unit, the less accurate.',
 
         ];
 
@@ -321,6 +322,24 @@ class UnitHelper
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
 
+                // Special case for dies_into and wins_into ("change_into")
+                if ($perk->key === 'unit_production')
+                {
+                    $unitSlotToGenerate = intval($perkValue[0]);
+                    $unitsGeneratedPerUnit = $perkValue[1];
+
+                    $unitToProduce = $race->units->filter(static function ($unit) use ($unitSlotToGenerate)
+                        {
+                            return ($unit->slot === $unitSlotToGenerate);
+                        })->first();
+
+
+                    $unitNamesToProduce[] = $unitsGeneratedPerUnit;
+                                        $unitNamesToProduce[] = str_plural($unitToProduce->name);
+
+                    $perkValue = generate_sentence_from_array($unitNamesToProduce);
+                }
+
 
                 if (is_array($perkValue)) {
                     if ($nestedArrays) {
@@ -331,6 +350,10 @@ class UnitHelper
                         $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                     }
                 } else {
+                    #if($unitType == 'unit3')
+                    #{
+                    #  dd($perkValue);
+                    #}
                     $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
             }
