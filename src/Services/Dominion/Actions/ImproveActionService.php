@@ -88,28 +88,33 @@ class ImproveActionService
 
         }
 
-        if(!isset($data['tissue']))
+        if($dominion->race->getPerkValue('tissue_improvement'))
         {
-          $data['tissue'] = 0;
+            $dominion->fill([
+              'improvement_tissue' => ($dominion->improvement_markets + ($data['tissue'] * $worth)),
+            ])->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
         }
-        $dominion->fill([
-            'improvement_markets' => ($dominion->improvement_markets + ($data['markets'] * $worth)),
-            'improvement_keep' => ($dominion->improvement_keep + ($data['keep'] * $worth)),
-            'improvement_towers' => ($dominion->improvement_towers + ($data['towers'] * $worth)),
-            'improvement_forges' => ($dominion->improvement_forges + ($data['forges'] * $worth)),
-            'improvement_walls' => ($dominion->improvement_walls + ($data['walls'] * $worth)),
-            'improvement_harbor' => ($dominion->improvement_harbor + ($data['harbor'] * $worth)),
-            'improvement_armory' => ($dominion->improvement_armory + ($data['armory'] * $worth)),
-            'improvement_infirmary' => ($dominion->improvement_infirmary + ($data['infirmary'] * $worth)),
-            'improvement_workshops' => ($dominion->improvement_workshops + ($data['workshops'] * $worth)),
-            'improvement_observatory' => ($dominion->improvement_observatory + ($data['observatory'] * $worth)),
-            'improvement_cartography' => ($dominion->improvement_cartography + ($data['cartography'] * $worth)),
-            'improvement_hideouts' => ($dominion->improvement_hideouts + ($data['hideouts'] * $worth)),
-            'improvement_forestry' => ($dominion->improvement_forestry + ($data['forestry'] * $worth)),
-            'improvement_refinery' => ($dominion->improvement_refinery + ($data['refinery'] * $worth)),
-            'improvement_granaries' => ($dominion->improvement_granaries + ($data['granaries'] * $worth)),
-            'improvement_tissue' => ($dominion->improvement_tissue + ($data['tissue'] * $worth)),
-        ])->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
+        else
+        {
+            $dominion->fill([
+              'improvement_markets' => ($dominion->improvement_markets + ($data['markets'] * $worth)),
+              'improvement_keep' => ($dominion->improvement_keep + ($data['keep'] * $worth)),
+              'improvement_towers' => ($dominion->improvement_towers + ($data['towers'] * $worth)),
+              'improvement_forges' => ($dominion->improvement_forges + ($data['forges'] * $worth)),
+              'improvement_walls' => ($dominion->improvement_walls + ($data['walls'] * $worth)),
+              'improvement_harbor' => ($dominion->improvement_harbor + ($data['harbor'] * $worth)),
+              'improvement_armory' => ($dominion->improvement_armory + ($data['armory'] * $worth)),
+              'improvement_infirmary' => ($dominion->improvement_infirmary + ($data['infirmary'] * $worth)),
+              'improvement_workshops' => ($dominion->improvement_workshops + ($data['workshops'] * $worth)),
+              'improvement_observatory' => ($dominion->improvement_observatory + ($data['observatory'] * $worth)),
+              'improvement_cartography' => ($dominion->improvement_cartography + ($data['cartography'] * $worth)),
+              'improvement_hideouts' => ($dominion->improvement_hideouts + ($data['hideouts'] * $worth)),
+              'improvement_forestry' => ($dominion->improvement_forestry + ($data['forestry'] * $worth)),
+              'improvement_refinery' => ($dominion->improvement_refinery + ($data['refinery'] * $worth)),
+              'improvement_granaries' => ($dominion->improvement_granaries + ($data['granaries'] * $worth)),
+            ])->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
+        }
+
 
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
