@@ -933,30 +933,24 @@ class ProductionCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getTechProductionRaw(Dominion $dominion): float
-    {
-        $tech = 0;
+     public function getTechProductionRaw(Dominion $dominion): float
+     {
+         $tech = max(0, $dominion->prestige);
 
-        $tech = max(0, $dominion->prestige);
+         if($dominion->race->name == 'Myconid')
+         {
+             if(!$this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
+             {
+                 $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+             }
+         }
+         else
+         {
+             $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+         }
 
-        if($dominion->race->name == 'Myconid')
-        {
-            if($this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
-            {
-                $tech = 0;
-            }
-            else
-            {
-                $tech += $dominion->getUnitPerkProductionBonus('tech_production');
-            }
-        }
-        else
-        {
-            $tech += $dominion->getUnitPerkProductionBonus('tech_production');
-        }
-
-        return max(0,$tech);
-    }
+         return max(0,$tech);
+     }
 
     /**
      * Returns the Dominion's experience point production multiplier.
