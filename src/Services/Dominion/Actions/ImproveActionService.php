@@ -91,7 +91,7 @@ class ImproveActionService
         if($dominion->race->getPerkValue('tissue_improvement'))
         {
             $dominion->fill([
-              'improvement_tissue' => ($dominion->improvement_markets + ($data['tissue'] * $worth)),
+              'improvement_tissue' => ($dominion->improvement_tissue + ($data['tissue'] * $worth)),
             ])->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
         }
         else
