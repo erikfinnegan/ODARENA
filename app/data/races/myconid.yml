@@ -6,7 +6,7 @@ alignment: independent
 description: >-
   <p>The Myconids are network of semi-independent but fully sentient beings. They are one, and they are many.</p>
   <p>Whether they cannot or simply do not want to, Myconids do not invade other dominions nor do their stationary disposition allow them to explore. They only gain land by spreading their underground network through the Amanita.</p>
-  <hr />
+  <p>The mysterious Psilocybe creates a fog of war, obscuring the true magnitude of the Myconid network.</p>
   <hr />
   <ul>
   <li>Unique building: Mycelia - houses 30 and produces 4 food/tick.</li>
@@ -25,7 +25,6 @@ perks:
   cannot_train_archmages: 1
   cannot_invade: 1
   cannot_explore: 1
-  #cannot_construct: 1
   construction_cost_only_food: 1
   can_only_build_mycelia: 1
   cannot_build_homes: 1
@@ -35,18 +34,18 @@ perks:
   peasants_cannot_be_abducted: 1
   food_decay: -100
 units:
-  - name: Mushroom
+  - name: Fruitbody
     need_boat: false
     cost:
-      food: 100
+      food: 25
     power:
       offense: 0
       defense: 1
     perks:
       faster_training: 6
-  - name: Mold
+  - name: Mushroom
     cost:
-      food: 25
+      food: 100
       unit1: 1
     power:
       offense: 0
@@ -54,22 +53,22 @@ units:
     perks:
       faster_training: 3
       no_draftee: 1
-      #dies_into: 1
+      dies_into: 1
   - name: Psilocybe
     cost:
       food: 1000
       unit2: 1
     power:
       offense: 0
-      defense: 9
+      defense: 6
     perks:
       no_draftee: 1
-      #dies_into: 1
-      #land_per_tick: 0.0003
-      mana_production: 1
-      tech_production: 0.05
-      counts_as_wizard_offense: 0.1111
-      counts_as_wizard_defense: 0.1111
+      dies_into: 1
+      mana_production: 0.5
+      counts_as_wizard_offense: 0.16666
+      counts_as_wizard_defense: 0.16666
+      unit_production: 1,0.0001
+      decreases_info_ops_accuracy: 1
   - name: Amanita
     cost:
       food: 1250
@@ -79,7 +78,8 @@ units:
       defense: 9
     perks:
       no_draftee: 1
-      #dies_into: 1
-      land_per_tick: 0.00025
+      dies_into: 1
+      land_per_tick: 0.0002
       counts_as_spy_offense: 0.1111
       counts_as_spy_defense: 0.1111
+      unit_production: 1,0.0001
