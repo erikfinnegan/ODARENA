@@ -56,7 +56,7 @@ units:
       dies_into: 1
   - name: Psilocybe
     cost:
-      food: 1000
+      food: 875
       unit2: 1
     power:
       offense: 0
