@@ -640,6 +640,7 @@ class EspionageActionService
             }
         }
 
+        # Spy carries - spy carry
         switch ($operationKey) {
             case 'steal_platinum':
                 $resource = 'platinum';

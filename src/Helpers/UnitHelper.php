@@ -323,7 +323,7 @@ class UnitHelper
                 }
 
                 // Special case for dies_into and wins_into ("change_into")
-                if ($perk->key === 'unit_production')
+                if ($perk->key === 'unit_productionX')
                 {
                     $unitSlotToGenerate = intval($perkValue[0]);
                     $unitsGeneratedPerUnit = $perkValue[1];

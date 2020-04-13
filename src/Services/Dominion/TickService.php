@@ -169,10 +169,10 @@ class TickService
                         'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
 
                         'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
-                        'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1 + dominion_tick.generated_unit1'),
-                        'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2 + dominion_tick.generated_unit2'),
-                        'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3 + dominion_tick.generated_unit3'),
-                        'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4 + dominion_tick.generated_unit4'),
+                        'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1'),
+                        'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2'),
+                        'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3'),
+                        'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4'),
                         'dominions.military_spies' => DB::raw('dominions.military_spies + dominion_tick.military_spies'),
                         'dominions.military_wizards' => DB::raw('dominions.military_wizards + dominion_tick.military_wizards'),
                         'dominions.military_archmages' => DB::raw('dominions.military_archmages + dominion_tick.military_archmages'),
@@ -294,6 +294,24 @@ class TickService
                 {
                     $homeLandType = 'land_' . $dominion->race->home_land_type;
                     $this->queueService->queueResources('exploration', $dominion, [$homeLandType => $dominion->tick->generated_land], 12);
+                }
+
+                // Myconid: Unit generation
+                if(!empty($dominion->tick->generated_unit1) and $dominion->protection_ticks == 0)
+                {
+                    $this->queueService->queueResources('training', $dominion, ['military_unit1' => $dominion->tick->generated_unit1], 12);
+                }
+                if(!empty($dominion->tick->generated_unit2) and $dominion->protection_ticks == 0)
+                {
+                    $this->queueService->queueResources('training', $dominion, ['military_unit2' => $dominion->tick->generated_unit2], 12);
+                }
+                if(!empty($dominion->tick->generated_unit3) and $dominion->protection_ticks == 0)
+                {
+                    $this->queueService->queueResources('training', $dominion, ['military_unit3' => $dominion->tick->generated_unit3], 12);
+                }
+                if(!empty($dominion->tick->generated_unit4) and $dominion->protection_ticks == 0)
+                {
+                    $this->queueService->queueResources('training', $dominion, ['military_unit4' => $dominion->tick->generated_unit4], 12);
                 }
 
                 DB::transaction(function () use ($dominion) {
@@ -844,16 +862,54 @@ class TickService
             $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
         }
 
-        // Myconid: Land generation
+
         $generatedLand = 0;
+        $generatedUnit1 = 0;
+        $generatedUnit2 = 0;
+        $generatedUnit3 = 0;
+        $generatedUnit4 = 0;
         for ($slot = 1; $slot <= 4; $slot++)
         {
+            // Myconid: Land generation
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
             {
                 $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
             }
+
+            // Myconid: Unit generation
+            if($unitGenerationPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
+            {
+                $unitToGenerateSlot = $unitGenerationPerk[0];
+                $unitAmountToGeneratePerGeneratingUnit = $unitGenerationPerk[1];
+                $unitAmountToGenerate = $dominion->{'military_unit'.$slot} * $unitAmountToGeneratePerGeneratingUnit;
+
+                if($unitToGenerateSlot == 1)
+                {
+                  $generatedUnit1 += $unitAmountToGenerate;
+                }
+                elseif($unitToGenerateSlot == 2)
+                {
+                  $generatedUnit2 += $unitAmountToGenerate;
+                }
+                elseif($unitToGenerateSlot == 3)
+                {
+                  $generatedUnit3 += $unitAmountToGenerate;
+                }
+                elseif($unitToGenerateSlot == 4)
+                {
+                  $generatedUnit4 += $unitAmountToGenerate;
+                }
+            }
         }
         $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
+
+        $tick->generated_unit1 += intval($generatedUnit1) + (rand()/getrandmax() < fmod($generatedUnit1, 1) ? 1 : 0);
+        $tick->generated_unit2 += intval($generatedUnit2) + (rand()/getrandmax() < fmod($generatedUnit2, 1) ? 1 : 0);
+        $tick->generated_unit3 += intval($generatedUnit3) + (rand()/getrandmax() < fmod($generatedUnit3, 1) ? 1 : 0);
+        $tick->generated_unit4 += intval($generatedUnit4) + (rand()/getrandmax() < fmod($generatedUnit4, 1) ? 1 : 0);
+
+
+
 
         foreach ($incomingQueue as $row)
         {
@@ -1023,10 +1079,10 @@ class TickService
                         'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
 
                         'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
-                        'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1 + dominion_tick.generated_unit1'),
-                        'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2 + dominion_tick.generated_unit2'),
-                        'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3 + dominion_tick.generated_unit3'),
-                        'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4 + dominion_tick.generated_unit4'),
+                        'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1'),
+                        'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2'),
+                        'dominions.military_unit3' => DB::raw('dominions.military_unit3 + dominion_tick.military_unit3'),
+                        'dominions.military_unit4' => DB::raw('dominions.military_unit4 + dominion_tick.military_unit4'),
                         'dominions.military_spies' => DB::raw('dominions.military_spies + dominion_tick.military_spies'),
                         'dominions.military_wizards' => DB::raw('dominions.military_wizards + dominion_tick.military_wizards'),
                         'dominions.military_archmages' => DB::raw('dominions.military_archmages + dominion_tick.military_archmages'),
@@ -1137,6 +1193,24 @@ class TickService
             {
                 $homeLandType = 'land_' . $dominion->race->home_land_type;
                 $this->queueService->queueResources('exploration', $dominion, [$homeLandType => $dominion->tick->generated_land], 12);
+            }
+
+            // Myconid: Unit generation
+            if(!empty($dominion->tick->generated_unit1) and $dominion->protection_ticks > 0)
+            {
+                $this->queueService->queueResources('training', $dominion, ['military_unit1' => $dominion->tick->generated_unit1], 12);
+            }
+            if(!empty($dominion->tick->generated_unit2) and $dominion->protection_ticks > 0)
+            {
+                $this->queueService->queueResources('training', $dominion, ['military_unit2' => $dominion->tick->generated_unit2], 12);
+            }
+            if(!empty($dominion->tick->generated_unit3) and $dominion->protection_ticks > 0)
+            {
+                $this->queueService->queueResources('training', $dominion, ['military_unit3' => $dominion->tick->generated_unit3], 12);
+            }
+            if(!empty($dominion->tick->generated_unit4) and $dominion->protection_ticks > 0)
+            {
+                $this->queueService->queueResources('training', $dominion, ['military_unit4' => $dominion->tick->generated_unit4], 12);
             }
 
 

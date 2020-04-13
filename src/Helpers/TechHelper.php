@@ -23,11 +23,11 @@ class TechHelper
             'fewer_casualties_offense' => '%s%% fewer casualties on offense',
 
             // Logistics
-            'construction_cost' => '%s%% construction platinum cost',
+            'construction_cost' => '%s%% construction costs',
             'explore_draftee_cost' => '%s draftee per acre explore cost (min 3)',
             'explore_platinum_cost' => '%s%% exploring platinum cost',
             'max_population' => '%s%% maximum population',
-            'rezone_cost' => '%s%% rezoning platinum cost',
+            'rezone_cost' => '%s%% rezoning costs',
 
             // Spy related
             'spy_cost' => '%s%% cost of spies',
