@@ -259,7 +259,7 @@
 
                     @elseif ($selectedDominion->race->name == 'Myconid')
                     <p>Here you can grow your sporelings into Fruitbodies, which can then be grown into Mushrooms. The Mushrooms can be further trained into the mystical Psilocybe or the mighty Amanita.</p>
-                    <p>It takes three ticks to grow Mycelia, six ticks to grow Mold, nine ticks to grow a Psilocybe, and 12 ticks to grow an Amanita.</p>
+                    <p>It takes three ticks to grow Fruitbodies, six ticks to grow Mushrooms, nine ticks to grow a Psilocybe, and 12 ticks to grow an Amanita.</p>
                     <p>You have {{ number_format($selectedDominion->military_draftees) }} sporelings.</p>
 
                     @elseif ($selectedDominion->race->name == 'Swarm')
