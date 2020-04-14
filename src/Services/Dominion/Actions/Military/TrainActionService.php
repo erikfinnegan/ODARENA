@@ -97,15 +97,15 @@ class TrainActionService
         # Poorly tested.
         if ($dominion->race->getPerkValue('cannot_train_spies') == 1 and isset($data['spies']) and $data['spies'] > 0)
         {
-            throw new GameException('Your faction is unable to train spies.');
+            throw new GameException($dominion->race->name . ' cannot train spies.');
         }
         if ($dominion->race->getPerkValue('cannot_train_wizards') == 1 and isset($data['wizards']) and $data['wizards'] > 0)
         {
-            throw new GameException('Your faction is unable to train wizards.');
+            throw new GameException($dominion->race->name . ' cannot train wizards.');
         }
         if ($dominion->race->getPerkValue('cannot_train_archmages') == 1 and isset($data['archmages']) and $data['archmages'] > 0)
         {
-            throw new GameException('Your faction is unable to train Arch Mages.');
+            throw new GameException($dominion->race->name . ' cannot train Arch Mages.');
         }
 
         $totalCosts = [
@@ -352,21 +352,30 @@ class TrainActionService
         }
 
 
-        if ($totalCosts['draftees'] > $dominion->military_draftees) {
-            throw new GameException('Training aborted due to lack of draftees');
+        if ($totalCosts['draftees'] > $dominion->military_draftees)
+        {
+            throw new GameException('Training aborted due to lack of draftees.');
         }
 
-        $unitsToTrainNeedingHousingWithoutDraftees = 0;
+        $newDraftelessUnitsToHouse = 0;
         foreach($unitsToTrain as $unitSlot => $unitAmountToTrain)
         {
             $unitSlot = intval(str_replace('unit','',$unitSlot));
-            if (!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population') and $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'no_draftee'))
+            # If a unit counts towards population, add to $unitsToTrainNeedingHousingWithoutDraftees
+            if (
+                  !$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population') and
+                  $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'no_draftee')
+              )
             {
-              $unitsToTrainNeedingHousingWithoutDraftees += $unitAmountToTrain;
+              $newDraftelessUnitsToHouse += $unitAmountToTrain;
             }
+
+          #dd($newDraftelessUnitsToHouse);
+
+
         }
 
-        if (($unitsToTrainNeedingHousingWithoutDraftees + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
+        if ($newDraftelessUnitsToHouse > 0 and ($newDraftelessUnitsToHouse + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
         {
             throw new GameException('Training failed as training would exceed your max population');
         }
