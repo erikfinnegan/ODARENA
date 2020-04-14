@@ -370,9 +370,6 @@ class TrainActionService
               $newDraftelessUnitsToHouse += $unitAmountToTrain;
             }
 
-          #dd($newDraftelessUnitsToHouse);
-
-
         }
 
         if ($newDraftelessUnitsToHouse > 0 and ($newDraftelessUnitsToHouse + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
