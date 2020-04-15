@@ -807,20 +807,21 @@ class InvadeActionService
             }
         }
 
-        # Look for dies_into amongst the dead.
-        /*
+        # Look for dies_into amongst the dead defenders.
+
         foreach($defensiveUnitsLost[$unit->slot] as $slot => $casualties)
         {
-            $unitKey = "military_unit{$slot}";
+            #$unitKey = "military_unit{$slot}";
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
             {
                 # Which unit do they die into?
                 $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
                 $newUnitKey = "military_unit{$newUnitSlot}";
+
+                # Add the unit (immediately)
                 $target->{$newUnitKey} += $casualties;
             }
         }
-        */
 
 
         foreach ($defensiveUnitsLost as $slot => $amount)
@@ -1554,7 +1555,7 @@ class InvadeActionService
             $returningUnits[$returningUnitKey] += $returningAmount;
         }
 
-        # Look for dies_into amongst the dead.
+        # Look for dies_into amongst the dead attacking units.
         foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
         {
           $unitKey = "military_unit{$slot}";
@@ -1851,47 +1852,6 @@ class InvadeActionService
           }
         }
     }
-
-    /**
-     * Handles the dies into unit perk.
-     *
-     * @param Dominion $attacker
-     * @param Dominion $defender
-     */
-/*
-    protected function handleUnitDiesInto(Dominion $attacker, Dominion $defender, array $units): void
-    {
-        # Check attacker's units.
-        foreach($this->invasionResult['attacker']['unitsLost'] as $unitSlot => $casualties)
-        {
-          if ($attacker->race->getUnitPerkValueForUnitSlot(intval($unitSlot), 'dies_into'))
-          {
-            $unitToDieInto = $attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into');
-            $unitToDieInto = 'military_unit' . $unitToDieInto;
-
-            $this->invasionResult['attacker']['dies_into']['champions'] = $champions;
-
-            $this->queueService->queueResources(
-                'invasion',
-                $attacker,
-                [
-                    '$unitToDieInto' => $casualties,
-                ]
-            );
-          }
-        }
-
-        # Check defender's units.
-        foreach($this->invasionResult['defender']['unitsLost'] as $unitSlot => $casualties)
-        {
-          if ($defender->race->getUnitPerkValueForUnitSlot(intval($unitSlot), 'dies_into'))
-          {
-            $unitToDieInto = $defender->race->getUnitPerkValueForUnitSlot($unitSlot, 'dies_into');
-            $defender->{'military_unit'.$unitToDieInto} += $casualties;
-          }
-        }
-    }
-*/
     /**
      * Check whether the invasion is successful.
      *

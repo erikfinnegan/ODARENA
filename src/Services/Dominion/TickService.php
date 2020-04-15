@@ -908,6 +908,7 @@ class TickService
         $tick->generated_unit3 += intval($generatedUnit3) + (rand()/getrandmax() < fmod($generatedUnit3, 1) ? 1 : 0);
         $tick->generated_unit4 += intval($generatedUnit4) + (rand()/getrandmax() < fmod($generatedUnit4, 1) ? 1 : 0);
 
+        #$capGeneratedUnitsMilitary = $this->populationCalculator->getMaxPopulation($dominion);
 
 
 
