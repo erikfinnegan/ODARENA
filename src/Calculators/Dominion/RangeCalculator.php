@@ -68,7 +68,7 @@ class RangeCalculator
             ($selfLand <= ($targetLand / $targetModifier))
           )
 
-            or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target)
+            #or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target)
         );
     }
 
