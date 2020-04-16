@@ -68,6 +68,7 @@ class RangeCalculator
             ($selfLand <= ($targetLand / $targetModifier))
           )
 
+            # Or was recently invaded by the target in the last three hours.
             or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target, 3)
         );
     }
