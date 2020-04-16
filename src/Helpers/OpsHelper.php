@@ -114,11 +114,10 @@ class OpsHelper
 
           if($opsInaccuracy = $this->getInfoOpsInaccuracy($dominion))
           {
-              return (rand(100 * (1-$opsInaccuracy), 100 / (1-$opsInaccuracy)))/100;
+              return (rand(1000 * (1-$opsInaccuracy), 1000 / (1-$opsInaccuracy)))/1000;
           }
 
           return 1;
-
       }
 
 }
