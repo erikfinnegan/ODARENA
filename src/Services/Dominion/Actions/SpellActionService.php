@@ -352,28 +352,39 @@ class SpellActionService
 
         switch ($spellKey) {
             case 'clear_sight':
+
+                $opsInaccuracy = $this->opsHelper->getInfoOpsInaccuracy($target);
+                if($opsInaccuracy)
+                {
+                    $accuracyModifier = 0; # Solve this
+                }
+                else
+                {
+                    $accuracyModifier = 1;
+                }
+
                 $infoOp->data = [
 
                     'ruler_name' => $target->ruler_name,
                     'race_id' => $target->race->id,
                     'land' => $this->landCalculator->getTotalLand($target),
-                    'peasants' => $target->peasants,
+                    'peasants' => $target->peasants * $accuracyModifier,
                     'employment' => $this->populationCalculator->getEmploymentPercentage($target),
                     'networth' => $this->networthCalculator->getDominionNetworth($target),
                     'prestige' => $target->prestige,
                     'victories' => $target->stat_attacking_success,
 
-                    'resource_platinum' => $target->resource_platinum,
-                    'resource_food' => $target->resource_food,
-                    'resource_lumber' => $target->resource_lumber,
-                    'resource_mana' => $target->resource_mana,
-                    'resource_ore' => $target->resource_ore,
-                    'resource_gems' => $target->resource_gems,
-                    'resource_tech' => $target->resource_tech,
+                    'resource_platinum' => $target->resource_platinum * $accuracyModifier,
+                    'resource_food' => $target->resource_food * $accuracyModifier,
+                    'resource_lumber' => $target->resource_lumber * $accuracyModifier,
+                    'resource_mana' => $target->resource_mana * $accuracyModifier,
+                    'resource_ore' => $target->resource_ore * $accuracyModifier,
+                    'resource_gems' => $target->resource_gems * $accuracyModifier,
+                    'resource_tech' => $target->resource_tech * $accuracyModifier,
                     'resource_boats' => $target->resource_boats + $this->queueService->getInvasionQueueTotalByResource(
                             $target,
                             'resource_boats'
-                        ),
+                        ) * $accuracyModifier,
 
 
                     'resource_champion' => $target->resource_champion,
@@ -381,17 +392,18 @@ class SpellActionService
                     'resource_wild_yeti' => $target->resource_wild_yeti,
 
                     'morale' => $target->morale,
-                    'military_draftees' => $target->military_draftees,
-                    'military_unit1' => $this->militaryCalculator->getTotalUnitsForSlot($target, 1),
-                    'military_unit2' => $this->militaryCalculator->getTotalUnitsForSlot($target, 2),
-                    'military_unit3' => $this->militaryCalculator->getTotalUnitsForSlot($target, 3),
-                    'military_unit4' => $this->militaryCalculator->getTotalUnitsForSlot($target, 4),
-                    'military_spies' => $target->military_spies,
-                    'military_wizards' => $target->military_wizards,
-                    'military_archmages' => $target->military_archmages,
+                    'military_draftees' => $target->military_draftees * $accuracyModifier,
+                    'military_unit1' => $this->militaryCalculator->getTotalUnitsForSlot($target, 1) * $accuracyModifier,
+                    'military_unit2' => $this->militaryCalculator->getTotalUnitsForSlot($target, 2) * $accuracyModifier,
+                    'military_unit3' => $this->militaryCalculator->getTotalUnitsForSlot($target, 3) * $accuracyModifier,
+                    'military_unit4' => $this->militaryCalculator->getTotalUnitsForSlot($target, 4) * $accuracyModifier,
+                    'military_spies' => $target->military_spies * $accuracyModifier,
+                    'military_wizards' => $target->military_wizards * $accuracyModifier,
+                    'military_archmages' => $target->military_archmages * $accuracyModifier,
 
                     'recently_invaded_count' => $this->militaryCalculator->getRecentlyInvadedCount($target),
 
+                    'accuracy' => $accuracyModifier,
                 ];
                 break;
 

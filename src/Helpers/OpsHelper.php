@@ -83,5 +83,27 @@ class OpsHelper
             return clamp($successRate, 0, 1);
         }
 
+      public function getInfoOpsInaccuracy(Dominion $dominion): float
+      {
+
+          $obfuscatingUnits = 0;
+          $totalUnitsAtHome = $dominion->military_unit1 + $dominion->military_unit2 + $dominion->military_unit3 + $dominion->military_unit4;
+          $inaccuracy = 0;
+
+          for ($slot = 1; $slot <= 4; $slot++)
+          {
+              if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'decreases_info_ops_accuracy'))
+              {
+                  $obfuscatingUnits += $dominion->{'military_unit'.$slxot};
+              }
+          }
+
+          if($obfuscatingUnits !== 0)
+          {
+              $inaccuracy = ($obfuscatingUnits / $totalUnitsAtHome)/2;
+          }
+
+          return $inaccuracy;
+      }
 
 }

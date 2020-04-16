@@ -342,10 +342,10 @@ class InvadeActionService
             $this->rangeCalculator->checkGuardApplications($dominion, $target);
 
             $this->handleBoats($dominion, $target, $units);
-            $this->handlePrestigeChanges($dominion, $target, $units);
+            $this->handlePrestigeChanges($dominion, $target, $units, $landRatio);
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
-            $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units);
+            $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio);
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
             $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
 
@@ -469,6 +469,7 @@ class InvadeActionService
      */
     protected function handlePrestigeChanges(Dominion $dominion, Dominion $target, array $units, float $landRatio): void
     {
+        $landRatio = $landRatio * 100;
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
 
@@ -584,11 +585,11 @@ class InvadeActionService
      * @param array $units
      * @return array All the units that survived and will return home
      */
-    protected function handleOffensiveCasualties(Dominion $dominion, Dominion $target, array $units): array
+    protected function handleOffensiveCasualties(Dominion $dominion, Dominion $target, array $units, float $landRatio): array
     {
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
-        $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+        #$landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
         $attackingForceOP = $this->invasionResult['attacker']['op'];
         $targetDP = $this->invasionResult['defender']['dp'];
         $offensiveCasualtiesPercentage = (static::CASUALTIES_OFFENSIVE_BASE_PERCENTAGE / 100);
@@ -761,8 +762,6 @@ class InvadeActionService
 
         $defensiveUnitsLost = [];
 
-        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
-
         // Demon: racial spell Infernal Fury increases defensive casualties by 20%.
         $casualtiesMultiplier = 1;
 
@@ -776,6 +775,8 @@ class InvadeActionService
         {
             $drafteesLost = 0;
         }
+
+        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
 
         // Undead: Desecration - Triples draftee casualties (capped by target's number of draftees)
         if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
@@ -808,18 +809,12 @@ class InvadeActionService
         }
 
         # Look for dies_into amongst the dead defenders.
-
-        foreach($defensiveUnitsLost[$unit->slot] as $slot => $casualties)
+        foreach($defensiveUnitsLost as $slot => $casualties)
         {
-            #$unitKey = "military_unit{$slot}";
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+            if($newUnitSlot = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
             {
-                # Which unit do they die into?
-                $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
-                $newUnitKey = "military_unit{$newUnitSlot}";
-
                 # Add the unit (immediately)
-                $target->{$newUnitKey} += $casualties;
+                $target->{'military_unit' . $newUnitSlot} += $casualties;
             }
         }
 
@@ -844,6 +839,7 @@ class InvadeActionService
      */
     protected function handleLandGrabs(Dominion $dominion, Dominion $target, float $landRatio): void
     {
+        $landRatio = $landRatio * 100;
         $this->invasionResult['attacker']['landSize'] = $this->landCalculator->getTotalLand($dominion);
         $this->invasionResult['defender']['landSize'] = $this->landCalculator->getTotalLand($target);
 
@@ -1033,6 +1029,7 @@ class InvadeActionService
     protected function handleMoraleChanges(Dominion $dominion, Dominion $target, float $landRatio): void
     {
 
+        $landRatio = $landRatio * 100;
         # For successful invasions...
         if($this->invasionResult['result']['success'])
         {
@@ -1124,6 +1121,7 @@ class InvadeActionService
         int $totalDefensiveCasualties,
         int $reduceConversions
     ): array {
+        $landRatio = $landRatio * 100;
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $convertedUnits = array_fill(1, 4, 0);
 

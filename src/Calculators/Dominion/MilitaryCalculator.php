@@ -628,7 +628,7 @@ class MilitaryCalculator
             $range = ((int)$rangePerk[0]) / 100;
             $power = (float)$rangePerk[1];
 
-            if ($range > $landRatio) { // TODO: Check this, might be a bug here
+            if ($range > $landRatio) {
                 continue;
             }
 
