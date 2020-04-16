@@ -2,6 +2,9 @@
 
 namespace OpenDominion\Helpers;
 
+# ODA
+use OpenDominion\Models\Dominion;
+
 class OpsHelper
 {
     /*
@@ -94,7 +97,7 @@ class OpsHelper
           {
               if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'decreases_info_ops_accuracy'))
               {
-                  $obfuscatingUnits += $dominion->{'military_unit'.$slxot};
+                  $obfuscatingUnits += $dominion->{'military_unit'.$slot};
               }
           }
 
