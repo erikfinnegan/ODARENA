@@ -109,4 +109,16 @@ class OpsHelper
           return $inaccuracy;
       }
 
+      public function getInfoOpsAccuracyModifier(Dominion $dominion): float
+      {
+
+          if($opsInaccuracy = $this->getInfoOpsInaccuracy($dominion))
+          {
+              return (rand(100 * (1-$opsInaccuracy), 100 / (1-$opsInaccuracy)))/100;
+          }
+
+          return 1;
+
+      }
+
 }
