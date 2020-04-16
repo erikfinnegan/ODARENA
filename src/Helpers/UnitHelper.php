@@ -198,7 +198,7 @@ class UnitHelper
 
             # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'decreases_info_ops_accuracy' => 'Decreases accuracy of spells and espionage ops performed on the dominion. The more of this unit, the less accurate.',
+            'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion. The more of this unit, the less accurate.',
 
         ];
 
