@@ -128,6 +128,12 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Land lost:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_land_lost) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Land explored:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_total_land_explored) }}</strong>
