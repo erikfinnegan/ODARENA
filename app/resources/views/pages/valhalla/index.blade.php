@@ -22,8 +22,8 @@
                 <thead>
                     <tr>
                         <th class="text-center">Round</th>
-                        <th>Name</th>
-                        <th class="text-center">League</th>
+                        <th>Chapter</th>
+                        <th class="text-center">Era</th>
                         <th class="text-center">Date</th>
                     </tr>
                 </thead>

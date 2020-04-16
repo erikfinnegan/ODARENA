@@ -131,6 +131,7 @@
                                 <tr>
                                     <th class="text-center">Round</th>
                                     <th>Chapter</th>
+                                    <th>Era</th>
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Register</th>
                                 </tr>
@@ -156,7 +157,9 @@
                                         <td class="text-center">{{ $round->number }}</td>
                                         <td>
                                             {{ $round->name }}
-                                            <span class="text-muted">({{ $round->league->description }})</span>
+                                        </td>
+                                        <td>
+                                          {{ $round->league->description }}
                                         </td>
                                         <td class="text-center">
                                             @if ($round->hasEnded())
