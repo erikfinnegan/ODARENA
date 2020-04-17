@@ -44,10 +44,12 @@ class StatusController extends AbstractDominionController
         $dominion = $this->getSelectedDominion();
         $tickActionService = app(TickActionService::class);
 
-        try {
+        try
+        {
             $result = $tickActionService->tickDominion($dominion);
-
-        } catch (GameException $e) {
+        }
+        catch (GameException $e)
+        {
             return redirect()->back()
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);

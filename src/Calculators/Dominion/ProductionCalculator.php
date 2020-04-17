@@ -429,6 +429,8 @@ class ProductionCalculator
 
         $decay += $food * $foodDecay;
 
+        $decay = max(0, $decay);
+
         return $decay;
     }
 
