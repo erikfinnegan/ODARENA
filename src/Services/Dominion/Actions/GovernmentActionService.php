@@ -11,6 +11,7 @@ use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\Realm\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use RuntimeException;
+use GameException;
 
 class GovernmentActionService
 {
@@ -57,7 +58,7 @@ class GovernmentActionService
         }
         if(request()->getHost() == 'sim.odarena.com')
         {
-            continue;
+            throw new GameException('Voting is disabled in the sim.');
         }
 
         $dominion->monarchy_vote_for_dominion_id = $monarch->id;
