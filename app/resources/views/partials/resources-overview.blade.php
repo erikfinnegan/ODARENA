@@ -83,7 +83,7 @@
                             {{ $selectedDominion->isLocked() ? 'disabled' : null }}
                             id="tick-button">
                         <i class="ra ra-shield"></i>
-                        Proceed to next tick
+                        Proceed to next tick ({{ $selectedDominion->protection_ticks }} {{ str_plural('tick', $selectedDominion->protection_ticks) }} left)
                     </button>
                   </form>
                 </div>
