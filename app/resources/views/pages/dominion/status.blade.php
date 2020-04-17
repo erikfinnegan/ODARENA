@@ -262,6 +262,7 @@
                           <p>Click the button below to proceed to the next tick. <em>There is no undo option so make sure you are ready to proceed.</em> </p>
                           <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
                           @csrf
+                          <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
                           <button type="submit"
                                   class="btn btn-info"
                                   {{ $selectedDominion->isLocked() ? 'disabled' : null }}

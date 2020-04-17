@@ -13,6 +13,7 @@ use OpenDominion\Services\Dominion\SelectorService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Services\Dominion\ProtectionService;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
@@ -74,8 +75,10 @@ class ComposerServiceProvider extends AbstractServiceProvider
         });
 
         // todo: do we need this here in this class?
-        view()->composer('partials.resources-overview', function (View $view) {
+        view()->composer('partials.resources-overview', function (View $view)
+        {
             $view->with('networthCalculator', app(NetworthCalculator::class));
+            $view->with('dominionProtectionService', app(ProtectionService::class));
         });
     }
 }

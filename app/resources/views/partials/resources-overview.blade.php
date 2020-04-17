@@ -71,6 +71,27 @@
                 </div>
             </div>
 
+
+            @if ($dominionProtectionService->canTick($selectedDominion))
+            <div class="row">
+                <div class="col-xs-12">
+                    <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
+                    @csrf
+                    <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
+                    <button type="submit"
+                            class="btn btn-info"
+                            {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                            id="tick-button">
+                        <i class="ra ra-shield"></i>
+                        Proceed to next tick
+                    </button>
+                  </form>
+                </div>
+            </div>
+            @endif
+
         </div>
     </div>
+
+
 @endif

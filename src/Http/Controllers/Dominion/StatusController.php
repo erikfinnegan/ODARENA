@@ -39,6 +39,8 @@ class StatusController extends AbstractDominionController
 
     public function postTick(TickActionRequest $request)
     {
+        #var_dump($request->returnTo);
+        #dd($request);
         $dominion = $this->getSelectedDominion();
         $tickActionService = app(TickActionService::class);
 
@@ -52,7 +54,7 @@ class StatusController extends AbstractDominionController
         }
 
         $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
-        return redirect()->to($result['redirect'] ?? route('dominion.status'));
+        return redirect()->to(route($request->returnTo));
 
     }
 
