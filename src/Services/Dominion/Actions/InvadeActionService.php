@@ -317,8 +317,8 @@ class InvadeActionService
                 throw new GameException('You cannot invade until the round has started.');
             }
 
-            // Cannot invade until round has started.
-            if($dominion->race->name == 'Dimensionalists' and !$this->spellCalculator->isSpellActive($dominion, 'portals'))
+            // Dimensionalists: must have Portals open.
+            if($dominion->race->name == 'Dimensionalists' and !$this->spellCalculator->isSpellActive($dominion, 'portal'))
             {
                 throw new GameException('You cannot attack unless a portal is open.');
             }
