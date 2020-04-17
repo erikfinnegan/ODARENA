@@ -57,7 +57,7 @@ class GovernmentActionService
         }
         if(request()->getHost() == 'sim.odarena.com')
         {
-            throw new RuntimeException('Voting is diabled in the sim.');
+            throw new GameException('Voting is disabled in the sim.');
         }
 
         $dominion->monarchy_vote_for_dominion_id = $monarch->id;
