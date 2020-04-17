@@ -11,7 +11,6 @@ use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\Realm\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use RuntimeException;
-use GameException;
 
 class GovernmentActionService
 {
