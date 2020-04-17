@@ -55,6 +55,10 @@ class GovernmentActionService
         {
             throw new RuntimeException('You cannot vote for a locked dominion to be your monarch.');
         }
+        if(request()->getHost() == 'sim.odarena.com')
+        {
+            throw new RuntimeException('Voting is diabled in the sim.');
+        }
 
         $dominion->monarchy_vote_for_dominion_id = $monarch->id;
         $dominion->save();
