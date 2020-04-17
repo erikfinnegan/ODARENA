@@ -314,7 +314,13 @@ class InvadeActionService
             // Cannot invade until round has started.
             if(!$dominion->round->hasStarted())
             {
-              throw new GameException('You cannot invade until the round has started.');
+                throw new GameException('You cannot invade until the round has started.');
+            }
+
+            // Cannot invade until round has started.
+            if($dominion->race->name == 'Dimensionalists' and !$this->spellCalculator->isSpellActive($dominion, 'portals'))
+            {
+                throw new GameException('You cannot attack unless a portal is open.');
             }
 
             // Handle invasion results
@@ -1784,19 +1790,18 @@ class InvadeActionService
     {
         $souls = 0;
 
-        $reduction = (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
-
         if($attacker->race->name == 'Demon' or $defender->race->name == 'Demon')
         {
           # Demon attacking non-Demon
           if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
           {
+
             foreach($this->invasionResult['defender']['unitsLost'] as $casualties)
             {
               $souls += $casualties;
             }
 
-            $souls *= $reduction;
+            $souls *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
 
             $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
             $this->queueService->queueResources(
@@ -1815,7 +1820,7 @@ class InvadeActionService
               $souls += $casualties;
             }
 
-            $souls *= $reduction;
+            $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
 
             $this->invasionResult['defender']['soul_collection']['souls'] = $souls;
             $defender->resource_soul += $souls;

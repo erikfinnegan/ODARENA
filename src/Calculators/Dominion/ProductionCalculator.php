@@ -357,7 +357,7 @@ class ProductionCalculator
         // Invasion Spell: Unhealing Wounds (+10% consumption)
         if ($multiplier !== -1 and $this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
         {
-            $multiplier += 0.10;
+            $multiplier *= 0.10;
         }
 
         // Unit Perk: food_consumption
