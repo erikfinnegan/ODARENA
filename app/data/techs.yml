@@ -1351,6 +1351,7 @@ commerce_level6:
 master_military:
   name: Paragon of Military
   cost_multiplier: 100
+  enabled: 0
   perks:
     offense: 20
     military_cost: -20
