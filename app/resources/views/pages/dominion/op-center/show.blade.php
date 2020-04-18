@@ -20,6 +20,8 @@
                     @slot('tableResponsive', false)
                     @slot('noPadding', true)
 
+                    {{ dd($infoOp) }}
+
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
                             <table class="table">
@@ -246,6 +248,8 @@
                             <span class="label label-danger">Invalid</span>
                         @elseif ($infoOp->isStale())
                             <span class="label label-warning">Stale</span>
+                        @elseif ($infoOp->isInaccurate())
+                            <span class="label label-info" data-toggle="tooltip" data-placement="top" title="The information is distorted by magic, consult the Scribes">Inaccurate</span>
                         @endif
                     @endif
 
@@ -348,6 +352,8 @@
                             <span class="label label-danger">Invalid</span>
                         @elseif ($infoOp->isStale())
                             <span class="label label-warning">Stale</span>
+                        @elseif ($infoOp->isInaccurate())
+                            <span class="label label-info" data-toggle="tooltip" data-placement="top" title="The information is distorted by magic, consult the Scribes">Inaccurate</span>
                         @endif
                     @endif
 
@@ -424,6 +430,8 @@
                             <span class="label label-danger">Invalid</span>
                         @elseif ($infoOp->isStale())
                             <span class="label label-warning">Stale</span>
+                        @elseif ($infoOp->isInaccurate())
+                            <span class="label label-info" data-toggle="tooltip" data-placement="top" title="The information is distorted by magic, consult the Scribes">Inaccurate</span>
                         @endif
                     @endif
 
@@ -536,6 +544,8 @@
                             <span class="label label-danger">Invalid</span>
                         @elseif ($infoOp->isStale())
                             <span class="label label-warning">Stale</span>
+                        @elseif ($infoOp->isInaccurate())
+                            <span class="label label-info" data-toggle="tooltip" data-placement="top" title="The information is distorted by magic, consult the Scribes">Inaccurate</span>
                         @endif
                     @endif
 
@@ -685,6 +695,8 @@
                             <span class="label label-danger">Invalid</span>
                         @elseif ($infoOp->isStale())
                             <span class="label label-warning">Stale</span>
+                        @elseif ($infoOp->isInaccurate())
+                            <span class="label label-info" data-toggle="tooltip" data-placement="top" title="The information is distorted by magic, consult the Scribes">Inaccurate</span>
                         @endif
                     @endif
 
@@ -826,6 +838,8 @@
                             <span class="label label-danger">Invalid</span>
                         @elseif ($infoOp->isStale())
                             <span class="label label-warning">Stale</span>
+                        @elseif ($infoOp->isInaccurate())
+                            <span class="label label-info" data-toggle="tooltip" data-placement="top" title="The information is distorted by magic, consult the Scribes">Inaccurate</span>
                         @endif
                     @endif
 
@@ -966,6 +980,8 @@
                             <span class="label label-danger">Invalid</span>
                         @elseif ($infoOp->isStale())
                             <span class="label label-warning">Stale</span>
+                        @elseif ($infoOp->isInaccurate())
+                            <span class="label label-info" data-toggle="tooltip" data-placement="top" title="The information is distorted by magic, consult the Scribes">Inaccurate</span>
                         @endif
                     @endif
 

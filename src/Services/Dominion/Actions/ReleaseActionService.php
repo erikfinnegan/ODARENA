@@ -84,7 +84,8 @@ class ReleaseActionService
           4 => $data['unit4']
         ];
 
-        $rawDpRelease = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $units, 0, true, false);
+        $rawDpRelease = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $units, 0, true, false, true);
+
 
         # Special considerations for releasing military units.
         if($rawDpRelease > 0)

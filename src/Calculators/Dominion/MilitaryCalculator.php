@@ -225,7 +225,7 @@ class MilitaryCalculator
         bool $isAmbush = false
     ): float
     {
-        $dp = $this->getDefensivePowerRaw($dominion, $target, $landRatio, $units, $ignoreDraftees, $isAmbush);
+        $dp = $this->getDefensivePowerRaw($dominion, $target, $landRatio, $units, $ignoreDraftees, $isAmbush, false);
         $dp *= $this->getDefensivePowerMultiplier($dominion, $multiplierReduction);
 
         return ($dp * $this->getMoraleMultiplier($dominion));
@@ -249,7 +249,8 @@ class MilitaryCalculator
         array $units = null,
         float $multiplierReduction = 0,
         bool $ignoreDraftees = false,
-        bool $isAmbush = false
+        bool $isAmbush = false,
+        bool $ignoreRawDpFromBuildings = false
     ): float
     {
         $dp = 0;
@@ -259,31 +260,31 @@ class MilitaryCalculator
         $forestHavenDpPerPeasant = 0.75;
         $peasantsPerForestHaven = 20;
 
-        # Some draftees are weaker (Ants, Growth), and some draftees
-        # count as no DP. If no DP, draftees do not participate in battle.
-        if($dominion->race->getPerkValue('draftee_dp') !== NULL)
+        # If draftees are ignored, we lower DP per draftee to 0.
+        if($ignoreDraftees)
         {
-          if($dominion->race->getPerkValue('draftee_dp') == 0)
-          {
-            // EXCEPTION CHECK: Swarm Spell: Chitin (+1 DP per Draftee)
-            if ($this->spellCalculator->isSpellActive($dominion, 'chitin'))
-            {
-              $dpPerDraftee = 1;
-            }
-            else
-            {
-              $dpPerDraftee = 0;
-              $ignoreDraftees = True;
-            }
-          }
-          elseif($dominion->race->getPerkValue('draftee_dp') !== 0)
-          {
-            $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
-          }
+            $dpPerDraftee = 0;
         }
         else
         {
-          $dpPerDraftee = 1;
+            $dpPerDraftee = 1;
+
+            # Some draftees are weaker (Ants, Growth), and some draftees
+            # count as no DP. If no DP, draftees do not participate in battle.
+            if($dominion->race->getPerkValue('draftee_dp'))
+            {
+                $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
+                if($dominion->race->name == 'Swarm' and $this->spellCalculator->isSpellActive($dominion, 'chitin'))
+                {
+                    $dpPerDraftee = 1;
+                }
+            }
+        }
+
+        # If DP per draftee is 0, ignore them (no casualties).
+        if($dpPerDraftee == 0)
+        {
+          $ignoreDraftees = True;
         }
 
         // Military
@@ -314,22 +315,28 @@ class MilitaryCalculator
         // Draftees
         if (!$ignoreDraftees)
         {
-            if ($units !== null && isset($units[0])) {
+            if ($units !== null && isset($units[0]))
+            {
                 $dp += ((int)$units[0] * $dpPerDraftee);
-            } else {
+            }
+            else
+            {
                 $dp += ($dominion->military_draftees * $dpPerDraftee);
             }
         }
 
-        // Building: Forest Havens
-        $dp += min(
-            ($dominion->peasants * $forestHavenDpPerPeasant),
-            ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
-        ); // todo: recheck this
-
-        if($dominion->race->getPerkValue('defense_per_ziggurat'))
+        if (!$ignoreRawDpFromBuildings)
         {
-            $dp += $dominion->building_ziggurat * $dominion->race->getPerkValue('defense_per_ziggurat');
+            // Building: Forest Havens
+            $dp += min(
+                ($dominion->peasants * $forestHavenDpPerPeasant),
+                ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
+            );
+
+            if($dominion->race->getPerkValue('defense_per_ziggurat'))
+            {
+                $dp += $dominion->building_ziggurat * $dominion->race->getPerkValue('defense_per_ziggurat');
+            }
         }
 
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)

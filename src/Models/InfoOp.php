@@ -72,6 +72,12 @@ class InfoOp extends AbstractModel
 
     public function isInvalid(): bool
     {
-        return ($this->created_at < new Carbon('-12 hours'));
+        return ($this->created_at < new Carbon('-3 hours'));
+    }
+
+
+    public function isInaccurate(): bool
+    {
+        return ($this->data['accuracy']);
     }
 }
