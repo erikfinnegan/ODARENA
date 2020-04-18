@@ -99,7 +99,8 @@ class TickService
         $activeRounds = Round::active()->get();
 
         foreach ($activeRounds as $round) {
-            // Precalculate all dominion ticks on hour 0
+            // Precalculate all dominion ticks on hour 0'd
+            /*
             if ($this->now->diffInHours($round->start_date) === 0)
             {
                 $dominions = $round->activeDominions()
@@ -118,6 +119,7 @@ class TickService
 
                 continue;
             }
+            */
 
             DB::transaction(function () use ($round)
             {

@@ -1127,7 +1127,7 @@ class InvadeActionService
         int $totalDefensiveCasualties,
         int $reduceConversions
     ): array {
-        $landRatio = $landRatio * 100;
+        #$landRatio = $landRatio * 100;
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $convertedUnits = array_fill(1, 4, 0);
 
