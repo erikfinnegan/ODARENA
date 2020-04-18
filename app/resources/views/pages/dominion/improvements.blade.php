@@ -229,6 +229,10 @@
                       </tbody>
                     </table>
 
+                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
+                    <p>You currently have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls.</p>
+                    @endif
+
                 </div>
             </div>
         </div>

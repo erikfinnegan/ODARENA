@@ -86,25 +86,25 @@ class ImprovementHelper
     {
         $helpStrings = [
             #'science' => 'Improvements to science increase your platinum production.<br><br>Max +20% platinum production.',
-            'markets' => 'Markets increase your platinum production.<br><br>Max +' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'keep' => 'Keep increases population housing of barren land and all buildings except for Barracks.<br><br>Max +' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'towers' => 'Towers increase your wizard power, mana production, and reduce damage from offensive spells.<br><br>Max +' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'forges' => 'Forges increase your offensive power.<br><br>Max +' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'walls' => 'Walls increase your defensive power.<br><br>Max +' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'harbor' => 'Harbor increases your food and boat production and protects boats from sinking.<br><br>Max +' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'armory' => 'Armory decreases your unit platinum and ore training costs.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'infirmary' => 'Infirmary reduces casualties suffered in battle (offensive and defensive).<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'workshops' => 'Workshop reduces construction and rezoning costs.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'observatory' => 'Observatory increases experience points gained through invasions, exploration, and production.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'cartography' => 'Cartography increases land discovered on attacks and reduces platinum cost of exploring.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'hideouts' => 'Hidehouts increase your spy power and reduces spy losses.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'forestry' => 'Forestry increases your lumber production.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'refinery' => 'Refinery increases your ore production.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'granaries' => 'Granaries reduce food and lumber rot.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
-            'tissue' => 'Feed the tissue to grow and feed more cells.<br><br>Max ' . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%',
+            'markets' => 'Markets increase your platinum production.<br><br>Max +',
+            'keep' => 'Keep increases population housing of barren land and all buildings except for Barracks.<br><br>Max +',
+            'towers' => 'Towers increase your wizard power, mana production, and reduce damage from offensive spells.<br><br>Max +',
+            'forges' => 'Forges increase your offensive power.<br><br>Max +',
+            'walls' => 'Walls increase your defensive power.<br><br>Max +',
+            'harbor' => 'Harbor increases your food and boat production and protects boats from sinking.<br><br>Max +',
+            'armory' => 'Armory decreases your unit platinum and ore training costs.<br><br>Max ',
+            'infirmary' => 'Infirmary reduces casualties suffered in battle (offensive and defensive).<br><br>Max ',
+            'workshops' => 'Workshop reduces construction and rezoning costs.<br><br>Max ',
+            'observatory' => 'Observatory increases experience points gained through invasions, exploration, and production.<br><br>Max ',
+            'cartography' => 'Cartography increases land discovered on attacks and reduces platinum cost of exploring.<br><br>Max ',
+            'hideouts' => 'Hidehouts increase your spy power and reduces spy losses.<br><br>Max ',
+            'forestry' => 'Forestry increases your lumber production.<br><br>Max ',
+            'refinery' => 'Refinery increases your ore production.<br><br>Max ',
+            'granaries' => 'Granaries reduce food and lumber rot.<br><br>Max ',
+            'tissue' => 'Feed the tissue to grow and feed more cells.<br><br>Max ',
         ];
 
-        return $helpStrings[$improvementType] ?: null;
+        return ($helpStrings[$improvementType] . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%') ?: null;
     }
 
     // temp
