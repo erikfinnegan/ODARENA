@@ -78,6 +78,6 @@ class InfoOp extends AbstractModel
 
     public function isInaccurate(): bool
     {
-        return 1;
+        return 0;
     }
 }
