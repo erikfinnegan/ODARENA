@@ -94,7 +94,7 @@ class ImprovementCalculator
      * @param string $improvementType
      * @return float
      */
-    protected function getImprovementMaximum(string $improvementType, Dominion $dominion): float
+    public function getImprovementMaximum(string $improvementType, Dominion $dominion): float
     {
         $maximumPercentages = [
             'markets' => 25, # Increases platinum production
