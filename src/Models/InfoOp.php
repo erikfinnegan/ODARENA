@@ -78,6 +78,6 @@ class InfoOp extends AbstractModel
 
     public function isInaccurate(): bool
     {
-        return ($this->data['accuracy']);
+        return 1;
     }
 }
