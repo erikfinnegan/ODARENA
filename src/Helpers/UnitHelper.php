@@ -522,7 +522,7 @@ class UnitHelper
 
       if($demonicCollection['souls'] > 0 or $demonicCollection['blood'] > 0 or $demonicCollection['food'] > 0)
       {
-          $result = 'Ripping and tearing apart the dead, the Demonic units collect ' . number_format($demonicCollection['souls']) . ' souls and ' . number_format($demonicCollection['blood']) . ' gallons of blood, and use the carcasses to create ' . number_format($demonicCollection['food']) . ' bushels of food.';
+          $result = 'Ripping and tearing the dead apart, the Demonic units collect ' . number_format($demonicCollection['souls']) . ' souls and ' . number_format($demonicCollection['blood']) . ' gallons of blood, and use the carcasses to create ' . number_format($demonicCollection['food']) . ' bushels of food.';
       }
 
         return $result;

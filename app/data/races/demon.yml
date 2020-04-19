@@ -1,5 +1,3 @@
-# Average human male as 5.6 liters of blood
-
 name: Demon
 alignment: evil
 description: >-
@@ -26,6 +24,7 @@ units:
     need_boat: true
     cost:
       platinum: 450
+      mana: 10
       blood: 6
     power:
       offense: 4
@@ -37,7 +36,8 @@ units:
     type: hybrid_specialist
     need_boat: true
     cost:
-      platinum: 900
+      platinum: 800
+      mana: 20
       blood: 12
     power:
       offense: 2
