@@ -37,6 +37,7 @@ use OpenDominion\Services\Dominion\SelectorService;
  * @property float $resource_boats
  * @property int $resource_champion
  * @property int $resource_soul
+ * @property int $resource_blood
  * @property int $improvement_science
  * @property int $improvement_keep
  * @property int $improvement_towers
@@ -127,6 +128,7 @@ class Dominion extends AbstractModel
         'resource_boats' => 'float',
         'resource_champion' => 'integer',
         'resource_soul' => 'integer',
+        'resource_blood' => 'integer',
         'resource_wild_yeti' => 'integer',
 
         'improvement_markets' => 'integer',
@@ -195,6 +197,8 @@ class Dominion extends AbstractModel
         'npc_modifier' => 'integer',
 
         'protection_ticks' => 'integer',
+
+        'notes' => 'text',
     ];
 
     // Relations
