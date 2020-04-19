@@ -25,6 +25,7 @@ class HistoryHelper
           'tech' => 'fa fa-flask fa-fw',
           'tick' => 'ra ra-hourglass ra-fw',
           'train' => 'ra ra-sword ra-fw',
+          'update notes' => 'ra ra-sword ra-quill-ink',
         ];
 
         return $icons[$event];
@@ -48,6 +49,7 @@ class HistoryHelper
           'tech' => 'Advancement',
           'tick' => 'Tick',
           'train' => 'Training',
+          'update notes' => 'Notes',
         ];
 
         return $name[$event];
