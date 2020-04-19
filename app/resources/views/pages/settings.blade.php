@@ -14,6 +14,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#account" data-toggle="tab">Account</a></li>
                 <li><a href="#notifications" data-toggle="tab">Notifications</a></li>
+                <li><a href="#settings" data-toggle="tab">Settings</a></li>
                 {{--<li><a href="#security" data-toggle="tab">Security</a></li>--}}
             </ul>
             <div class="tab-content">
@@ -180,6 +181,43 @@
                         </div>--}}
 
                     </div>
+                </div>
+
+                <div class="tab-pane" id="settings">
+                    <div class="row">
+                        <div class="col-sm-6">
+
+                            <h2 class="page-header">Settings</h2>
+
+                            <table class="table table-striped table-hover">
+                                <colgroup>
+                                    <col>
+                                    <col width="100">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>Setting</th>
+                                        <th class="text-center">Email</th>
+                                        <th class="text-center">Ingame</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Display spells in Overview screen</td>
+                                        <td class="text-center">
+                                            <input type="checkbox">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Allow in-realm info-ops</td>
+                                        <td class="text-center">
+                                            <input type="checkbox">
+                                        </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                            </div>
+                      </div>
                 </div>
 
                 {{--<div class="tab-pane" id="security">
