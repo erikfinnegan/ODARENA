@@ -24,12 +24,12 @@
             <i class="ra ra-burning-embers"></i> Magic
         </a>
 
-        {{--<a href="{{ route('dominion.advisors.rankings', 'land') }}" class="btn btn-app">
-            <i class="fa fa-trophy"></i> Rankings
-        </a>--}}
-
         <a href="{{ route('dominion.advisors.statistics') }}" class="btn btn-app">
             <i class="fa fa-bar-chart"></i> Statistics
+        </a>
+
+        <a href="{{ route('dominion.advisors.history') }}" class="btn btn-app">
+            <i class="fa fa-book"></i> History
         </a>
 
     </div>
