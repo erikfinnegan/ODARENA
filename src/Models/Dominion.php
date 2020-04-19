@@ -197,6 +197,8 @@ class Dominion extends AbstractModel
         'npc_modifier' => 'integer',
 
         'protection_ticks' => 'integer',
+
+        'notes' => 'text',
     ];
 
     // Relations
