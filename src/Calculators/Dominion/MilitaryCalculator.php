@@ -260,8 +260,9 @@ class MilitaryCalculator
         $forestHavenDpPerPeasant = 0.75;
         $peasantsPerForestHaven = 20;
 
+
         # If draftees are ignored, we lower DP per draftee to 0.
-        if($ignoreDraftees == true and !isset($units['draftees']))
+        if($ignoreDraftees)
         {
             $dpPerDraftee = 0;
         }
@@ -313,11 +314,16 @@ class MilitaryCalculator
         }
 
         // Draftees
-        if (!$ignoreDraftees)
+        if (!$ignoreDraftees or isset($units['draftees']))
         {
+
             if ($units !== null && isset($units[0]))
             {
                 $dp += ((int)$units[0] * $dpPerDraftee);
+            }
+            elseif ($units !== null && isset($units['draftees']))
+            {
+                $dp += ((int)$units['draftees'] * $dpPerDraftee);
             }
             else
             {

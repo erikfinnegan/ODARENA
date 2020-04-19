@@ -1802,11 +1802,6 @@ class InvadeActionService
                 $unitsKilled = $this->invasionResult['defender']['unitsLost'];
                 $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, false, true);
 
-                echo '<pre>';
-                var_dump($unitsKilled);
-                var_dump(array_sum($unitsKilled));
-                dd($dpFromKilledUnits);
-
                 $blood += $dpFromKilledUnits * 1/6;
                 $food += $dpFromKilledUnits * 4;
 
