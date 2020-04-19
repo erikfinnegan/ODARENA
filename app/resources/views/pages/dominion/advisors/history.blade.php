@@ -3,6 +3,8 @@
 @section('page-header', 'History')
 
 @section('content')
+    @include('partials.dominion.advisor-selector')
+
 <div class="row">
   <div class="col-sm-12 col-md-9">
       <div class="box box-primary">

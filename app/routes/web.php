@@ -71,8 +71,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('status')->uses('Dominion\StatusController@getStatus')->name('status');
             $router->post('status')->uses('Dominion\StatusController@postTick');
 
-            // History
-            $router->get('history')->uses('Dominion\HistoryController@getHistory')->name('history');
+
 
             // Advisors
             $router->get('advisors')->uses('Dominion\AdvisorsController@getAdvisors')->name('advisors');
@@ -83,6 +82,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('advisors/magic')->uses('Dominion\AdvisorsController@getAdvisorsMagic')->name('advisors.magic');
 //            $router->get('advisors/rankings')->uses('Dominion\AdvisorsController@getAdvisorsRankings')->name('advisors.rankings');
             $router->get('advisors/statistics')->uses('Dominion\AdvisorsController@getAdvisorsStatistics')->name('advisors.statistics');
+            $router->get('advisors/history')->uses('Dominion\AdvisorsController@getHistory')->name('advisors.history');
 
             // Daily
             $router->get('bonuses')->uses('Dominion\DailyBonusesController@getBonuses')->name('bonuses');

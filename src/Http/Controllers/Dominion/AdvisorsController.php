@@ -14,6 +14,10 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Services\Dominion\QueueService;
 
+# ODA
+use DB;
+use OpenDominion\Helpers\HistoryHelper;
+
 class AdvisorsController extends AbstractDominionController
 {
     public function getAdvisors()
@@ -65,11 +69,6 @@ class AdvisorsController extends AbstractDominionController
         ]);
     }
 
-    public function getAdvisorsRankings()
-    {
-        // todo
-    }
-
     public function getAdvisorsStatistics()
     {
         return view('pages.dominion.advisors.statistics', [
@@ -78,4 +77,21 @@ class AdvisorsController extends AbstractDominionController
             'populationCalculator' => app(PopulationCalculator::class),
         ]);
     }
+
+    public function getHistory()
+    {
+        $resultsPerPage = 25;
+        $selectedDominion = $this->getSelectedDominion();
+
+        $history = DB::table('dominion_history')
+                            ->where('dominion_history.dominion_id', '=', $selectedDominion->id)
+                            ->orderBy('dominion_history.created_at', 'desc')
+                            ->get();
+
+        return view('pages.dominion.advisors.history', [
+            'historyHelper' => app(HistoryHelper::class),
+            'history' => $history
+        ]);
+    }
+
 }
