@@ -24,6 +24,8 @@ $factory->define(\OpenDominion\Models\Dominion::class, function (Faker $faker) {
         # New resources
         'resource_champion' => 0,
         'resource_soul' => 0,
+        'resource_wild_yeti' => 0,
+        'resource_blood' => 0,
         # End new resources
         #'improvement_science' => 0,
         'improvement_markets' => 0,

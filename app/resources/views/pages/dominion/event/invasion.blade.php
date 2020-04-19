@@ -235,9 +235,9 @@
                                 </p>
                             @endif
 
-                            @if (isset($event->data['attacker']['soul_collection']) && $event->source->id === $selectedDominion->id)
+                            @if ((isset($event->data['attacker']['demonic_collection']) or isset($event->data['defender']['demonic_collection'])))
                                 <p class="text-center text-green">
-                                  {{ $unitHelper->getSoulCollectionString($event->data['attacker']['soul_collection']['souls']) }}
+                                  {{ $unitHelper->getDemonicCollectionString($event->data['attacker']['demonic_collection']) }}
                                 </p>
                             @endif
 

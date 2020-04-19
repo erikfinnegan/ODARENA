@@ -153,6 +153,10 @@
                                                             $labelParts[] =  number_format($value) . ' ' . str_plural('Soul', $value);
                                                             break;
 
+                                                        case 'blood':
+                                                            $labelParts[] =  number_format($value) . ' blood';
+                                                            break;
+
                                                         case 'unit1':
                                                         case 'unit2':
                                                         case 'unit3':
@@ -228,7 +232,7 @@
                           @endif
 
                           @if ($selectedDominion->race->name == 'Demon')
-                          <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls collected.
+                          <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls and <strong>{{ number_format($selectedDominion->resource_blood) }}</strong> gallons of blood.
                           @endif
 
                           @if ($selectedDominion->race->name == 'Norse')

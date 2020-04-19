@@ -379,6 +379,7 @@ class SpellActionService
 
                     'resource_champion' => $target->resource_champion,
                     'resource_soul' => $target->resource_soul,
+                    'resource_blood' => $target->resource_blood,
                     'resource_wild_yeti' => $target->resource_wild_yeti,
 
                     'morale' => $target->morale,

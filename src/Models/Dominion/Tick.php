@@ -119,6 +119,7 @@ class Tick extends AbstractModel
         'generated_unit4' => 'integer',
         'resource_champion' => 'integer',
         'resource_soul' => 'integer',
+        'resource_blood' => 'integer',
 
 
         'building_tissue' => 'integer',

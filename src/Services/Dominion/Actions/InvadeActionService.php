@@ -337,14 +337,6 @@ class InvadeActionService
               $countsAsVictory = 0;
             }
 
-            #if(!$this->passesOpAtLeast50percentOfDpRule()) {
-            #    throw new GameException('You are not sending enough OP to be even close to breaking the target (50% rule)');
-            #}
-
-            #if(!$this->passesOpAtlEastLandDp()) {
-            #    throw new GameException("Your offensive power is less than the target's minimum possible OP. Check your calculations and input again before sending.");
-            #}
-
             $this->rangeCalculator->checkGuardApplications($dominion, $target);
 
             $this->handleBoats($dominion, $target, $units);
@@ -363,9 +355,12 @@ class InvadeActionService
             $this->handleResearchPoints($dominion, $target, $units);
 
             $this->handleInvasionSpells($dominion, $target);
-            $this->handleSoulCollection($dominion, $target);
+
+            # Demon
+            $this->handleSoulBloodFoodCollection($dominion, $target, $landRatio);
+
+            # Norse
             $this->handleChampionCreation($dominion, $target, $units, $landRatio);
-            #$this->handleUnitDiesInto($dominion, $target, $units);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -604,6 +599,12 @@ class InvadeActionService
         if ($this->spellCalculator->isSpellActive($target, 'charybdis_gape'))
         {
             $offensiveCasualtiesPercentage *= 1.50;
+        }
+
+        # Demon: Infernal Fury - increase offensive casualties by 20% if target has this spell on.
+        if ($this->spellCalculator->isSpellActive($target, 'infernal_fury'))
+        {
+            $offensiveCasualtiesPercentage *= 1.20;
         }
 
         $offensiveUnitsLost = [];
@@ -1786,45 +1787,67 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
-    protected function handleSoulCollection(Dominion $attacker, Dominion $defender): void
+    protected function handleSoulBloodFoodCollection(Dominion $attacker, Dominion $defender, float $landRatio): void
     {
         $souls = 0;
+        $blood = 0;
+        $food = 0;
 
         if($attacker->race->name == 'Demon' or $defender->race->name == 'Demon')
         {
-          # Demon attacking non-Demon
-          if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
-          {
-
-            foreach($this->invasionResult['defender']['unitsLost'] as $casualties)
+            # Demon attacking non-Demon
+            if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
             {
-              $souls += $casualties;
+
+                $unitsKilled = $this->invasionResult['defender']['unitsLost'];
+                $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, false, true);
+
+                echo '<pre>';
+                var_dump($unitsKilled);
+                var_dump(array_sum($unitsKilled));
+                dd($dpFromKilledUnits);
+
+                $blood += $dpFromKilledUnits * 1/6;
+                $food += $dpFromKilledUnits * 4;
+
+                $souls += array_sum($this->invasionResult['defender']['unitsLost']);
+                $souls *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
+
+                $this->invasionResult['attacker']['demonic_collection']['souls'] = $souls;
+                $this->invasionResult['attacker']['demonic_collection']['blood'] = $blood;
+                $this->invasionResult['attacker']['demonic_collection']['food'] = $food;
+
+                $this->queueService->queueResources(
+                    'invasion',
+                    $attacker,
+                    [
+                        'resource_soul' => $souls,
+                        'resource_blood' => $blood,
+                        'resource_food' => $food,
+                    ]
+                );
             }
-
-            $souls *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
-
-            $this->invasionResult['attacker']['soul_collection']['souls'] = $souls;
-            $this->queueService->queueResources(
-                'invasion',
-                $attacker,
-                [
-                    'resource_soul' => $souls,
-                ]
-            );
-          }
-          # Demon defending against non-Demon
-          elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
-          {
-            foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
+            # Demon defending against non-Demon
+            elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
             {
-              $souls += $casualties;
+                $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['defender']['unitsLost'], false, false, true);
+
+
+                foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
+                {
+                  $souls += $casualties;
+                  $blood += $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['attacker']['unitsLost']) * 1/6;
+                  $food += $casualties * 2;
+                }
+
+                $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
+
+                $this->invasionResult['defender']['demonic_collection']['souls'] = $souls;
+                $this->invasionResult['defender']['demonic_collection']['blood'] = $blood;
+                $this->invasionResult['defender']['demonic_collection']['food'] = $food;
+
+                $defender->resource_soul += $souls;
             }
-
-            $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
-
-            $this->invasionResult['defender']['soul_collection']['souls'] = $souls;
-            $defender->resource_soul += $souls;
-          }
         }
     }
 
@@ -2114,6 +2137,7 @@ class InvadeActionService
         }
 
         // Dark Elf: Unholy Ghost (ignore draftees)
+        // Dragon: Dragon's Roar (alias of Unholy Ghost)
         if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost'))
         {
           $ignoreDraftees = true;
@@ -2128,8 +2152,6 @@ class InvadeActionService
         {
           $isAmbush = false;
         }
-
-
 
         return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
     }

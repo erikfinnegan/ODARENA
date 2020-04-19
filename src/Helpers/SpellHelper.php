@@ -375,7 +375,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Infernal Fury',
-                'description' => 'Increases enemy casualties by 20% on successful invasions over 75%.',
+                'description' => 'Increases enemy casualties by 20% on successful invasions over 75% and against all invading dominions.',
                 'key' => 'infernal_fury',
                 'mana_cost' => 6,
                 'duration' => 6*4,

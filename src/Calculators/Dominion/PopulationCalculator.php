@@ -336,6 +336,15 @@ class PopulationCalculator
         // Temples
         $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * 6);
 
+        # Look for population_growth in units
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'population_growth'))
+            {
+                $multiplier += ($dominion->{"military_unit".$slot} / $this->getMaxPopulation($dominion)) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'population_growth');
+            }
+        }
+
         # SPELLS
 
         // Spell: Harmony (+50%)
@@ -375,6 +384,9 @@ class PopulationCalculator
      */
     public function getPopulationPeasantGrowth(Dominion $dominion): int
     {
+
+
+
 
         $maximumPeasantDeath = ((-0.05 * $dominion->peasants) - $this->getPopulationDrafteeGrowth($dominion));
 

@@ -1,11 +1,15 @@
+# Average human male as 5.6 liters of blood
+
 name: Demon
 alignment: evil
 description: >-
   <p>The Empress has struck a deal with an ancient evil and allied the Empire with Demonic beasts.</p>
-  <p>Demonic loyalty is always capricious, but as long as there are souls to collect, the Demons will follow the Empress.</p>
-  <p>The soul of every enemy unit slain in battle is collected.</p>
+  <p>Demonic loyalty is always capricious, but as long as there are souls to collect and blood to bathe in, the Demons will follow the Empress.</p>
+  <p>The soul of every enemy unit slain and all blood spilled in battle is collected.</p>
   <hr />
-  <p>Starts with 2,000 Souls and 1 Archdemon.</p>
+  <p>Blood collected is equal to 1/6 gallons per 1 raw military power of each unit slain, or 1/6 gallon per peasant sacrificed.</p>
+  <p>Blood and soul collection only occurs against living beings. Inanimate units yield no blood or souls.</p>
+  <p>Starts with 1 Archdemon and 120,000 gallons of blood.</p>
 home_land_type: mountain
 playable: 1
 
@@ -14,45 +18,50 @@ exploring : 1
 converting: 1
 
 perks:
-  mana_production: 15
-  population_growth: 15
+  population_growth: 50
+  max_population: 30
   can_invest_soul: 1
 units:
-  - name: Fiend
+  - name: Hellhound
     need_boat: true
     cost:
-      platinum: 300
-      mana: 10
+      platinum: 450
+      blood: 6
     power:
-      offense: 3
+      offense: 4
       defense: 0
-  - name: Succubus
+    perks:
+      faster_return: 6
+      faster_training: 3
+  - name: Subjugator
     type: hybrid_specialist
     need_boat: true
     cost:
-      platinum: 300
-      mana: 20
+      platinum: 900
+      blood: 12
     power:
-      offense: 0
-      defense: 3
-  - name: Devil
+      offense: 2
+      defense: 6
+    perks:
+      counts_as_wizard_offense: 0.1666
+      immortal_wizard: 1
+  - name: Succubus
     type: hybrid_elite
     need_boat: true
     cost:
-      platinum: 1000
-      mana: 100
-      soul: 1
+      blood: 6
     power:
-      offense: 6
-      defense: 6
+      offense: 0
+      defense: 2
     perks:
-      fewer_casualties: 50
-      sacrifices_peasants: 0.05 # 1/0.05=Every 50 Devils sacrifice one Peasant per tick
+      immortal: 1
+      sacrifices_peasants: 0.01 # 1/0.01=Every 100 Succubus sacrifice one Peasant per tick
+      population_growth: 2.5 # Population growth increased by 5% for every 1% of population made up of Succubus.
   - name: Archdemon
     type: hybrid_elite
     need_boat: false
     cost:
-      platinum: 1000000
+      blood: 60000
       mana: 100000
       soul: 10000
       archmage: 1000

@@ -134,6 +134,10 @@
                                         $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Soul');
                                     }
 
+                                    if ($unit->cost_blood > 0) {
+                                        $unitCostString .= (', ' . number_format($unit->cost_blood) . ' blood');
+                                    }
+
                                     if ($unit->cost_unit1 > 0) {
                                         $unitCostString .= (', ' . number_format($unit->cost_unit1) . ' ' . $unitHelper->getUnitName('unit1', $race));
                                     }

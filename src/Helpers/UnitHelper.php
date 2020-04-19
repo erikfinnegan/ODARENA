@@ -180,7 +180,7 @@ class UnitHelper
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',
 
             'kills_peasants' => 'Eats %s peasants per tick.',
-            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul each.',
+            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, two barrels of blood, and 1/4 bushel of food per peasant.',
 
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
             'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
@@ -195,10 +195,11 @@ class UnitHelper
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
             'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio (on offense) to train.',
-
-            # TBD
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion. The more of this unit, the less accurate.',
+
+            # TBD
+            'is_inanimate' => 'Inanimate.',
 
         ];
 
@@ -516,19 +517,15 @@ class UnitHelper
     }
 
     # Demon Soul collection
-    public function getSoulCollectionString(int $souls): string
+    public function getDemonicCollectionString(array $demonicCollection): string
     {
-      if ($souls > 0)
+
+      if($demonicCollection['souls'] > 0 or $demonicCollection['blood'] > 0 or $demonicCollection['food'] > 0)
       {
-        $result = 'By slaying enemy soldiers, you collect ' . number_format($souls) . ' souls.';
-      }
-      else
-      {
-        $result = 'You do not collect any souls.';
+          $result = 'Ripping and tearing apart the dead, the Demonic units collect ' . number_format($demonicCollection['souls']) . ' souls and gather ' . number_format($demonicCollection['blood']) . ' gallons of blood, and use the carcasses to create ' . number_format($demonicCollection['food']) . ' bushels of food.';
       }
 
         return $result;
     }
-
 
 }

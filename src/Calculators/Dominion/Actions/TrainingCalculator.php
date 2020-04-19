@@ -91,6 +91,7 @@ class TrainingCalculator
                     $soul = $units[$unitSlot]->cost_soul;
                     $morale = $units[$unitSlot]->cost_morale;
                     $wild_yeti = $units[$unitSlot]->cost_wild_yeti;
+                    $blood = $units[$unitSlot]->cost_blood;
 
                     $unit1 = $units[$unitSlot]->cost_unit1;
                     $unit2 = $units[$unitSlot]->cost_unit2;
@@ -152,6 +153,12 @@ class TrainingCalculator
                     if ($soul > 0) {
                         $cost['soul'] = $soul;
                         $cost['soul'] = (int)ceil($soul * $this->getSpecialistEliteCostMultiplier($dominion, 'soul'));
+                    }
+
+                    // BLOOD cost for units
+                    if ($blood > 0) {
+                        $cost['blood'] = $blood;
+                        $cost['blood'] = (int)ceil($blood * $this->getSpecialistEliteCostMultiplier($dominion, 'blood'));
                     }
 
                     // UNIT1 cost for units
@@ -254,6 +261,7 @@ class TrainingCalculator
             'soul' => 'resource_soul',
             'morale' => 'morale',
             'wild_yeti' => 'resource_wild_yeti',
+            'blood' => 'resource_blood',
 
             'unit1' => 'military_unit1',
             'unit2' => 'military_unit2',

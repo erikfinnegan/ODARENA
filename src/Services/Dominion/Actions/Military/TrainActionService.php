@@ -124,6 +124,7 @@ class TrainActionService
             'champion' => 0,
             'soul' => 0,
             'wild_yeti' => 0,
+            'blood' => 0,
             'morale' => 0,
             'unit1' => 0,
             'unit2' => 0,
@@ -324,6 +325,10 @@ class TrainActionService
         {
           throw new GameException('You do not have enough wild yetis.');
         }
+        if($totalCosts['blood'] > $dominion->resource_blood)
+        {
+          throw new GameException('Insufficient blood. Collect more blood.');
+        }
         if($totalCosts['morale'] > $dominion->morale)
         {
           # This is fine. We just have to make sure that morale doesn't dip below 0.
@@ -451,6 +456,7 @@ class TrainActionService
             $dominion->resource_champion -= $totalCosts['champion'];
             $dominion->resource_soul -= $totalCosts['soul'];
             $dominion->resource_wild_yeti -= $totalCosts['wild_yeti'];
+            $dominion->resource_blood -= $totalCosts['blood'];
             $dominion->morale = max(0, ($dominion->morale - $totalCosts['morale']));
 
             $dominion->military_unit1 -= $totalCosts['unit1'];
@@ -479,6 +485,7 @@ class TrainActionService
             $dominion->stat_total_archmages_spent_training += $totalCosts['archmage'];
             $dominion->stat_total_wild_yeti_spent_training += $totalCosts['wild_yeti'];
             $dominion->stat_total_soul_spent_training += $totalCosts['soul'];
+            $dominion->stat_total_blood_spent_training += $totalCosts['blood'];
             $dominion->stat_total_champion_spent_training += $totalCosts['champion'];
 
             // $data:
@@ -649,7 +656,7 @@ class TrainActionService
 
             $costType = str_singular($costType);
 #            if (!\in_array($costType, ['platinum', 'ore'], true)) {
-            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'morale'], true))
+            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'blood', 'morale'], true))
             {
                 $costType = str_plural($costType, $cost);
             }

@@ -169,6 +169,7 @@ class TickService
                         'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
                         'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
                         'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
+                        'dominions.resource_blood' => DB::raw('dominions.resource_blood + dominion_tick.resource_blood'),
 
                         'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
                         'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1'),
@@ -769,6 +770,7 @@ class TickService
 
         #$tick->resource_soul_production += $this->productionCalculator->getSoulProduction($dominion);
         $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
+        $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
 
         # Decay, rot, drain
         $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
@@ -1080,6 +1082,7 @@ class TickService
                         'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
                         'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
                         'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
+                        'dominions.resource_blood' => DB::raw('dominions.resource_blood + dominion_tick.resource_blood'),
 
                         'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
                         'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1'),

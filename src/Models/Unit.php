@@ -48,6 +48,8 @@ class Unit extends AbstractModel
         'cost_champion' => 'integer',
         // Unit soul cost
         'cost_soul' => 'integer',
+        // Unit soul cost
+        'cost_blood' => 'integer',
         // Unit unit 1 cost
         'cost_unit1' => 'integer',
         // Unit unit 2 cost

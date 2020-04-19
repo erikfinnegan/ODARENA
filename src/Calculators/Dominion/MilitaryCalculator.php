@@ -216,13 +216,13 @@ class MilitaryCalculator
      * @return float
      */
     public function getDefensivePower(
-        Dominion $dominion,
-        Dominion $target = null,
-        float $landRatio = null,
-        array $units = null,
-        float $multiplierReduction = 0,
-        bool $ignoreDraftees = false,
-        bool $isAmbush = false
+        Dominion $dominion,               # 1
+        Dominion $target = null,          # 2
+        float $landRatio = null,          # 3
+        array $units = null,              # 4
+        float $multiplierReduction = 0,   # 5
+        bool $ignoreDraftees = false,     # 6
+        bool $isAmbush = false            # 7
     ): float
     {
         $dp = $this->getDefensivePowerRaw($dominion, $target, $landRatio, $units, $ignoreDraftees, $isAmbush, false);
@@ -261,7 +261,7 @@ class MilitaryCalculator
         $peasantsPerForestHaven = 20;
 
         # If draftees are ignored, we lower DP per draftee to 0.
-        if($ignoreDraftees)
+        if($ignoreDraftees == true and !isset($units['draftees']))
         {
             $dpPerDraftee = 0;
         }

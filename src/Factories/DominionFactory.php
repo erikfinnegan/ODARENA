@@ -69,7 +69,7 @@ class DominionFactory
         # Late-joiner bonus:
         # Give +1.5% starting resources per hour late, max +150% (at 100 hours, mid-day 4).
         $hoursSinceRoundStarted = 0;
-        if($realm->round->hasStarted() and request()->getHost() !== 'sim.odarena.com')
+        if($realm->round->hasStarted() and request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
         {
           $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
         }
@@ -136,7 +136,7 @@ class DominionFactory
         $startingResources['boats'] = 100;
 
         $startingResources['soul'] = 0;
-
+        $startingResources['blood'] = 0;
         $startingResources['wild_yeti'] = 0;
 
         $startingResources['morale'] = 100;
@@ -238,7 +238,7 @@ class DominionFactory
         // Demon: extra morale.
         if($race->name == 'Demon')
         {
-          $startingResources['soul'] = 2000;
+          $startingResources['blood'] = 120000;
           $startingResources['unit4'] = 1;
         }
 
@@ -342,6 +342,7 @@ class DominionFactory
             'resource_champion' => 0,
             'resource_soul' => intval($startingResources['soul'] * $startingResourcesMultiplier),
             'resource_wild_yeti' => intval($startingResources['wild_yeti'] * $startingResourcesMultiplier),
+            'resource_blood' => intval($startingResources['blood'] * $startingResourcesMultiplier),
             # End new resources
 
             #'improvement_science' => 0,

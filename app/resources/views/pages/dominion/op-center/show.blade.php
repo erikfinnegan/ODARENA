@@ -132,11 +132,19 @@
                                         <td>Champions:</td>
                                         <td>{{ number_format($infoOp->data['resource_champion']) }}</td>
                                     </tr>
-                                    @elseif ($dominion->race->name == 'Demon' and isset($infoOp->data['resource_soul']))
-                                    <tr>
-                                        <td>Souls:</td>
-                                        <td>{{ number_format($infoOp->data['resource_soul']) }}</td>
-                                    </tr>
+                                    @elseif ($dominion->race->name == 'Demon')
+                                        @if(isset($infoOp->data['resource_soul']))
+                                        <tr>
+                                            <td>Souls:</td>
+                                            <td>{{ number_format($infoOp->data['resource_soul']) }}</td>
+                                        </tr>
+                                        @endif
+                                        @if(isset($infoOp->data['resource_blood']))
+                                        <tr>
+                                            <td>Blood:</td>
+                                            <td>{{ number_format($infoOp->data['resource_blood']) }}</td>
+                                        </tr>
+                                        @endif
                                     @elseif ($dominion->race->name == 'Snow Elf' and isset($infoOp->data['resource_wild_yeti']))
                                     <tr>
                                         <td>Wild yetis:</td>
