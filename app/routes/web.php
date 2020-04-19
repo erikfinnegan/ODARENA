@@ -181,6 +181,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Town Crier
             $router->get('town-crier/{realmNumber?}')->uses('Dominion\TownCrierController@getIndex')->name('town-crier');
 
+            // Notes
+            $router->get('notes')->uses('Dominion\NotesController@getNotes')->name('notes');
+            $router->post('notes')->uses('Dominion\NotesController@postNotes');
+
             // Misc
             $router->post('misc/clear-notifications')->uses('Dominion\MiscController@postClearNotifications')->name('misc.clear-notifications');
             $router->post('misc/close-pack')->uses('Dominion\MiscController@postClosePack')->name('misc.close-pack');
