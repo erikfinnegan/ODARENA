@@ -1445,7 +1445,7 @@ class InvadeActionService
 
 
             # Calculate target's total imp points, where imp points > 0.
-            foreach ($this->improvementHelper->getImprovementTypes($target->race->name) as $type)
+            foreach ($this->improvementHelper->getImprovementTypes($target) as $type)
             {
               if($target->{'improvement_' . $type} > 0)
               {

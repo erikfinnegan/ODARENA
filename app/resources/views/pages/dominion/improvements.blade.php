@@ -27,12 +27,11 @@
                             <col width="100">
                         </colgroup>
                         <tbody>
-                          @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
+                          @foreach ($improvementHelper->getImprovementTypes($selectedDominion) as $improvementType)
                               <tr>
                                   <td>
                                       <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType, $selectedDominion) }}"></i>
                                       {{ ucfirst($improvementType) }}
-                                      {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                   </td>
                                   <td class="text-center">
                                       <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:5em;" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
@@ -98,12 +97,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($improvementHelper->getImprovementTypes($selectedDominion->race->name) as $improvementType)
+                                @foreach ($improvementHelper->getImprovementTypes($selectedDominion) as $improvementType)
                                     <tr>
                                         <td>
                                             <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType, $selectedDominion) }}"></i>
                                             {{ ucfirst($improvementType) }}
-                                            {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                         </td>
                                         <td class="text-center">
                                             <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:5em;" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>

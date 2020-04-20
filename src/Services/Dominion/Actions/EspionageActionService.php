@@ -447,7 +447,7 @@ class EspionageActionService
             case 'castle_spy':
                 $data = [];
 
-                foreach ($this->improvementHelper->getImprovementTypes($target->race->name) as $type) {
+                foreach ($this->improvementHelper->getImprovementTypes($target) as $type) {
                     array_set($data, "{$type}.points", $target->{'improvement_' . $type});
                     array_set($data, "{$type}.rating",
                         $this->improvementCalculator->getImprovementMultiplierBonus($target, $type));

@@ -353,12 +353,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($improvementHelper->getImprovementTypes($dominion->race->name) as $improvementType)
+                                @foreach ($improvementHelper->getImprovementTypes($dominion) as $improvementType)
                                     <tr>
                                         <td>
                                           <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType, $selectedDominion) }}"></i>
                                             {{ ucfirst($improvementType) }}
-                                            {!! $improvementHelper->getImprovementImplementedString($improvementType) !!}
                                         </td>
                                         <td>
                                             {{ sprintf(

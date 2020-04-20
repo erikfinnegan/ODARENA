@@ -18,39 +18,41 @@ class ImprovementHelper
         $this->improvementCalculator = $improvementCalculator;
     }
 
-    public function getImprovementTypes(string $race): array
+    public function getImprovementTypes(?Dominion $dominion): array
     {
 
-      if($race == 'Growth')
+      $improvementTypes = [
+          'markets',
+          'keep',
+          'forges',
+          'walls',
+          'armory',
+          'infirmary',
+          'workshops',
+          'observatory',
+          'cartography',
+          'towers',
+          'hideouts',
+          'granaries',
+          'harbor',
+          'forestry',
+          'refinery',
+        ];
+
+      if($dominion)
       {
-        $improvementTypes[] = 'tissue';
+          if($dominion->race->getPerkValue('tissue_improvement'))
+          {
+              return ['tissue'];
+          }
+          else
+          {
+              return $improvementTypes;
+          }
       }
       else
       {
-        $improvementTypes = array(
-            #'science',
-            'markets',
-            'keep',
-            'forges',
-            'walls',
-            'armory',
-            'infirmary',
-            'workshops',
-            'observatory',
-            'cartography',
-            'towers',
-            'hideouts',
-            'granaries',
-            'harbor',
-            'forestry',
-            'refinery',
-          );
-      }
-
-      // For rules in ImproveActionRequest (???)
-      if($race == 'any_race')
-      {
-        $improvementTypes[] = 'tissue';
+          $improvementTypes[] = 'tissue';
       }
 
       return $improvementTypes;
@@ -105,16 +107,6 @@ class ImprovementHelper
         ];
 
         return ($helpStrings[$improvementType] . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%') ?: null;
-    }
-
-    // temp
-    public function getImprovementImplementedString(string $improvementType): ?string
-    {
-        if ($improvementType === 'towers') {
-            return '<abbr title="Partially implemented" class="label label-warning">PI</abbr>';
-        }
-
-        return null;
     }
 
     public function getImprovementIcon(string $improvement): string
