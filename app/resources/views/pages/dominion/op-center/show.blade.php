@@ -285,17 +285,8 @@
                 <div class="box-body">
                     <p>This page contains the data that your realmies have gathered about dominion <b>{{ $dominion->name }}</b> from realm {{ $dominion->realm->name }} (#{{ $dominion->realm->number }}).</p>
 
-                    <p>Sections marked as <span class="label label-warning">stale</span> contain data from the previous hour (or earlier) and should be considered inaccurate. Sections marked as <span class="label label-danger">invalid</span> are more than 12 hours old. Recast your info ops before performing any offensive operations during this hour.</p>
+                    @include('partials.dominion.op-center.labels-explainer')
 
-                    {{--<p>Estimated stats:</p>
-                    <p>
-                        OP: ??? <abbr title="Not yet implemented" class="label label-danger">NYI</abbr><br>
-                        DP: ??? <abbr title="Not yet implemented" class="label label-danger">NYI</abbr><br>
-                        Land: {{ $infoOpService->getLandString($latestInfoOps) }}<br>
-                        Networth: {{ $infoOpService->getNetworthString($latestInfoOps) }}<br>
-                    </p>--}}
-
-                    {{-- todo: invade button --}}
                 </div>
             </div>
         </div>

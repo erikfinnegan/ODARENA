@@ -31,7 +31,7 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                <p>Sections marked as <span class="label label-warning">stale</span> contain data from the previous hour (or earlier) and should be considered inaccurate. Sections marked as <span class="label label-danger">invalid</span> are more than 12 hours old. Recast your info ops before performing any offensive operations during this hour.</p>
+                @include('partials.dominion.op-center.labels-explainer')
                 </div>
             </div>
         </div>

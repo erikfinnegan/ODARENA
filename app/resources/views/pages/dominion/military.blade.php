@@ -289,23 +289,6 @@
                     <table class="table">
                         <tbody>
                             <tr>
-                              <td class="text">
-                                  @if ($selectedDominion->race->name == 'Growth')
-                                    Cells
-                                  @elseif ($selectedDominion->race->name == 'Myconid')
-                                    Spores
-                                  @elseif ($selectedDominion->race->name == 'Swarm')
-                                    Larvae
-                                  @else
-                                    Peasants
-                                  @endif
-                              </td>
-                                <td class="text">
-                                    {{ number_format($selectedDominion->peasants) }}
-                                    ({{ number_format($populationCalculator->getPopulationPeasantPercentage($selectedDominion), 2) }}%)
-                                </td>
-                            </tr>
-                            <tr>
                                 <td class="text">Military</td>
                                 <td class="text">
                                     {{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}
@@ -323,8 +306,7 @@
                                     <input type="number" name="draft_rate" class="form-control text-center"
                                            style="display: inline-block; width: 4em;" placeholder="0" min="0"
                                            max="100"
-                                           value="{{ $selectedDominion->draft_rate }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                    %
+                                           value="{{ $selectedDominion->draft_rate }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>&nbsp;%
                                 </td>
                             </tr>
                             @endif
