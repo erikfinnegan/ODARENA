@@ -430,7 +430,7 @@
                 </div>
             </div>
 
-            @include('partials.dominion.military-modifiers')
+            @include('partials.dominion.military-power-modifiers')
         </div>
 
 

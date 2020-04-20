@@ -1,6 +1,6 @@
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title"><i class="ra ra-axe"></i> Military Modifiers</h3>
+        <h3 class="box-title"><i class="ra ra-axe"></i> Military Power Modifiers</h3>
     </div>
         <div class="box-body table-responsive no-padding">
             <table class="table">
