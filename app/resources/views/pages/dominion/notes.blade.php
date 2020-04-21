@@ -15,7 +15,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-lg-12">
-                              <textarea id="notes" name="notes" rows=20 style="width:100%;" name="body" id="body" class="form-control" required {{ $selectedDominion->isLocked() ? 'disabled' : null }}>{{ $notes }}</textarea>
+                              <textarea id="notes" name="notes" rows=20 style="width:100%; font-family:monospace;" name="body" id="body" class="form-control" required {{ $selectedDominion->isLocked() ? 'disabled' : null }}>{{ $notes }}</textarea>
                           </div>
                         </div>
                     </div>
@@ -41,3 +41,26 @@
 
     </div>
 @endsection
+
+@push('inline-scripts')
+    <script type="text/javascript">
+    $(document).delegate('#notes', 'keydown', function(e) {
+      var keyCode = e.keyCode || e.which;
+
+      if (keyCode == 9) {
+        e.preventDefault();
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+
+        // set textarea value to: text before caret + tab + text after caret
+        $(this).val($(this).val().substring(0, start)
+                    + "\t"
+                    + $(this).val().substring(end));
+
+        // put caret at right position again
+        this.selectionStart =
+        this.selectionEnd = start + 1;
+      }
+    });
+    </script>
+@endpush
