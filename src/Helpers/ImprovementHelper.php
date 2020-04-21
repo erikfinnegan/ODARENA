@@ -122,7 +122,7 @@ class ImprovementHelper
             'infirmary' => 'health',
             'workshops' => 'nails',
             'observatory' => 'telescope',
-            'cartography' => 'scroll-unfurled',
+            'cartography' => 'compass',
             'hideouts' => 'hood',
             'forestry' => 'pine-tree',
             'refinery' => 'large-hammer',

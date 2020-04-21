@@ -16,7 +16,7 @@
                             <form action="{{ route('dominion.bonuses.land') }}" method="post" role="form">
                                 @csrf
                                 <button type="submit" name="land" class="btn btn-primary btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_land || $selectedDominion->protection_ticks > 0 || !$selectedDominion->round->hasStarted() ? 'disabled' : null }}>
-                                    <i class="ra scroll-unfurled ra-lg"></i>
+                                    <i class="ra ra-scroll-unfurled ra-fw"></i>
                                     Claim Daily Land Bonus
                                 </button>
                             </form>
@@ -43,19 +43,13 @@
                             </div>
                         @endif
 
-                        <div class="col-md-4 text-center">
-                            <h4>Rate on PBBG.com</h4>
-                            <p><a href="https://pbbg.com" target="_blank">PBBG.com</a> is a directory listing of Persistent Browser-Based Games (PBBG) such as OD Arena.</p>
-                            <p>Consider <a href="https://pbbg.com/games/odarena" target="_blank">rating the project on PBBG.com</a> and share your experience with it, to help new players find the game!</p>
-                        </div>
-
                         @if ($patreonPledgeLink = config('app.patreon_pledge_link'))
                             <div class="col-md-4 text-center">
                                 <h4>Become a Patron</h4>
                                 <p>
                                     <a href="{{ $patreonPledgeLink }}" data-patreon-widget-type="become-patron-button">Become a Patron!</a>
                                 </p>
-                                <p>OpenDominion is (and always will be) fully free to play, with no advertisements, micro-transactions, lootboxes, premium currencies, or paid DLCs.</p>
+                                <p>ODARENA is (and always will be) fully free to play, with no advertisements, micro-transactions, lootboxes, premium currencies, or paid DLCs.</p>
                                 <p>I've put in a lot of effort into OpenDominion over the past six years, and I've been paying everything I needed to help me build and run OD out of my own pocket. Financial support through Patreon (even a single dollar) is therefore most welcome!</p>
                                 <p>(Because of my strict 'no-P2W'-policy, no in-game benefits will be given to donators over regular players. You will get a spiffy color in the Discord, though!)</p>
                             </div>
