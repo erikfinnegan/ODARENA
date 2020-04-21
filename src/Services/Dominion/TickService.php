@@ -748,16 +748,13 @@ class TickService
         $tick->resource_platinum += min($this->productionCalculator->getPlatinumProduction($dominion), max(0, ($maxStorage['platinum'] - $dominion->resource_platinum)));
 
         $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
-        #$tick->resource_lumber += $this->productionCalculator->getLumberNetChange($dominion);
         $tick->resource_lumber += min($this->productionCalculator->getLumberNetChange($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
 
         $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
         $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
 
-        #$tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
         $tick->resource_ore += min($this->productionCalculator->getOreProduction($dominion), max(0, ($maxStorage['ore'] - $dominion->resource_ore)));
 
-        #$tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
         $tick->resource_gems += min($this->productionCalculator->getGemProduction($dominion), max(0, ($maxStorage['gems'] - $dominion->resource_gems)));
 
         $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
@@ -778,6 +775,8 @@ class TickService
 
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
+
+        $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
 
         // Starvation casualties
         if (($dominion->resource_food + $foodNetChange) < 0)
