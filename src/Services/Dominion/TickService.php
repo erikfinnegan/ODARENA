@@ -864,7 +864,6 @@ class TickService
             $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
         }
 
-
         $generatedLand = 0;
         $generatedUnit1 = 0;
         $generatedUnit2 = 0;
