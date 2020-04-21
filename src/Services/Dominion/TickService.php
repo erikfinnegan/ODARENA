@@ -912,8 +912,6 @@ class TickService
 
         #$capGeneratedUnitsMilitary = $this->populationCalculator->getMaxPopulation($dominion);
 
-
-
         foreach ($incomingQueue as $row)
         {
             // Reset current resources in case object is saved later
