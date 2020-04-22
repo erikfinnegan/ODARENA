@@ -110,7 +110,7 @@ class NetworthCalculator
                  + $unit->cost_lumber*2
                  + $unit->cost_food*2
                  + $unit->cost_mana*5
-                 + $unit->cost_gem*5
+                 + $unit->cost_gem*7.5
                  + $unit->cost_soul*10
                  + $unit->cost_blood*3
                  + $unit->cost_unit1*10
