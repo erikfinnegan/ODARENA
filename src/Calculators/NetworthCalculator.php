@@ -106,20 +106,20 @@ class NetworthCalculator
         else
         {
          return ($unit->cost_platinum
-                 + $unit->cost_ore
-                 + $unit->cost_lumber
-                 + $unit->cost_food
-                 + $unit->cost_mana*2.5
+                 + $unit->cost_ore*2
+                 + $unit->cost_lumber*2
+                 + $unit->cost_food*2
+                 + $unit->cost_mana*5
                  + $unit->cost_gem*5
-                 + $unit->cost_soul*7.5
-                 + $unit->cost_blood
+                 + $unit->cost_soul*10
+                 + $unit->cost_blood*3
                  + $unit->cost_unit1*10
                  + $unit->cost_unit2*10
                  + $unit->cost_unit3*20
                  + $unit->cost_unit4*20
                  + $unit->cost_morale*10
                  + $unit->cost_prestige*10
-                 + $unit->cost_wild_yeti*30
+                 + $unit->cost_wild_yeti*20
              )/100;
           }
 

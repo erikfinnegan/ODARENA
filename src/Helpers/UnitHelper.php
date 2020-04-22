@@ -64,6 +64,9 @@ class UnitHelper
             'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
+            'offense_vs_land' => 'Offense increased by 1 against every %2$s%% %1$ss of target (max +%3$s).',
+            'defense_vs_land' => 'Defense increased by 1 for every %2$s%% %1$ss of attacker (max +%3$s).',
+
             'defense_from_pairing' => 'Defense increased by %2$s when paired with %3$s %1$s at home.',
             'offense_from_pairing' => 'Offense increased by %2$s when paired with %3$s %1$s on attack.',
 
@@ -76,13 +79,6 @@ class UnitHelper
             'defense_vs_building' => 'Defense increased by 1 against every %2$s%% %1$ss of attacker (max +%3$s).',
             'offense_vs_building' => 'Offense increased by 1 against every %2$s%% %1$ss of target (max +%3$s).',
 
-            'defense_vs_goblin' => 'Defense increased by %s against goblins.',
-            'offense_vs_goblin' => 'Offense increased by %s against goblins.',
-            'defense_vs_kobold' => 'Defense increased by %s against kobolds.',
-            'offense_vs_kobold' => 'Offense increased by %s against kobolds.',
-            'defense_vs_wood_elf' => 'Defense increased by %s against wood elves.',
-            'offense_vs_wood_elf' => 'Offense increased by %s against wood elves.',
-
             'offense_staggered_land_range' => 'Offense increased by %2$s against dominions %1$s%%+ of your size.',
 
             'offense_raw_wizard_ratio' => 'Offense increased by %1$s * Raw Wizard Ratio (max +%2$s).',
@@ -91,82 +87,11 @@ class UnitHelper
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
             'offense_spy_ratio' => 'Offense increased by %1$s * Spy Ratio (max +%2$s).',
 
-            // Spy related
-            'counts_as_spy_defense' => 'Each unit counts as %s of a spy on defense.',
-            'counts_as_spy_offense' => 'Each unit counts as %s of a spy on offense.',
-
-            // Wizard related
-            'counts_as_wizard_defense' => 'Each unit counts as %s of a wizard on defense.',
-            'counts_as_wizard_offense' => 'Each unit counts as %s of a wizard on offense.',
-
-            // Casualties related
-            'fewer_casualties' => '%s%% fewer casualties.',
-            'fewer_casualties_defense' => '%s%% fewer casualties on defense.',
-            'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
-            'fixed_casualties' => 'ALWAYS suffers %s%% casualties.',
-
-            'immortal' => 'Almost never dies.',
-            'immortal_except_vs' => 'Almost never dies, except vs %s.',
-            'immortal_vs_land_range' => 'Almost never dies when attacking dominions %s%%+ of your size.',
-
-            'reduce_combat_losses' => 'Reduces combat losses.',
-
-            'fewer_casualties_defense_from_land' => 'Casualties on defense reduced by 1%% for every %2$s%% %1$ss (max %3$s%% reduction).',
-            'fewer_casualties_offense_from_land' => 'Casualties on offense reduced by 1% for every %2$s%% %1$ss (max %3$s%% reduction).',
-
-            'fewer_casualties_defense_vs_land' => 'Casualties on defense reduced by 1%% against every %2$s%% %1$ss of attacker (max %3$s%% reduction).',
-            'fewer_casualties_offense_vs_land' => 'Casualties on offense reduced by 1%% against every %2$s%% %1$ss of target (max %3$s%% reduction).',
-
-            // Resource related
-            'ore_production' => 'Each unit produces %s units of ore per tick.',
-            'plunders_resources_on_attack' => 'Plunders resources on attack.',
-            'sink_boats_defense' => 'Sinks boats when defending.',
-            'sink_boats_offense' => 'Sinks boats when attacking.',
-
-            // Misc
-            'faster_return' => 'Returns %s ticks faster from battle.',
-
-            // ODA
-            'mana_production' => 'Each unit generates %s mana per tick.',
-            'lumber_production' => 'Each unit collects %s lumber per tick.',
-            'food_production' => 'Each unit produces %s food per tick.',
-            'gem_production' => 'Each unit mines %s gems per tick.',
-            'tech_production' => 'Each unit produces %s experience points per tick.',
-            'decay_protection' => 'Each units protects %1$s %2$s per tick from decay.',
-
-            'mana_drain' => 'Each unit drains %s mana per tick.',
-            'platinum_upkeep' => 'Costs %s platinum per tick.',
-            'food_consumption' => 'Eats %s bushels of food extra.',
-
-            'cannot_be_trained' => 'Unit cannot be trained.',
-            'instant_training' => 'Summoned immediately.',
-            'faster_training' => 'Trains %s ticks faster (minimum two ticks).',
-
-            'true_immortal' => 'Immortal. Only dies when overwhelmed.',
-            'afterlife_norse' => 'Upon honourable death (successful invasions over 75%%), becomes a legendary champion and can be recalled into services as an Einherjar.',
-            'does_not_kill' => 'Does not kill other units.',
-            'no_draftee' => 'No draftee required to train.',
-
-            'offense_vs_land' => 'Offense increased by 1 against every %2$s%% %1$ss of target (max +%3$s).',
-            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
-            'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
-            'amount_limit' => 'You can at most have %1$s of this unit.',
-
-            'does_not_count_as_population' => 'Does not count towards population. No housing required.',
-
-            'immortal_wizard' => 'Immortal wizard (cannot be killed when casting spells).',
-            'immortal_spy' => 'Immortal spy (cannot be killed when conducting espionage).',
-
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours).',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours).',
 
             'offense_per_hour' => 'Offense increased by %1$s for every hour of the round (max +%2$s).',
             'defense_per_hour' => 'Defense increased by %1$s for every hour of the round (max +%2$s).',
-
-            'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
-            'damages_improvements_on_attack' => 'Damages target\'s castle: %s improvement points, spread proportionally across all invested improvements.',
-
-            'land_per_tick' => 'Explores %1$s acres of home land per tick.',
 
             'offense_vs_barren_land' => 'Offense increased by 1 against every %1$s%% barren land of target (max +%2$s). Unfinished buildings count as barren land. Does not count against Barbarians.',
 
@@ -179,28 +104,103 @@ class UnitHelper
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',
 
-            'kills_peasants' => 'Eats %s peasants per tick.',
-            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, two barrels of blood, and 1/4 bushel of food per peasant.',
+            'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
+            'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
+
+            // Spy related
+            'counts_as_spy_defense' => 'Each unit counts as %s of a spy on defense.',
+            'counts_as_spy_offense' => 'Each unit counts as %s of a spy on offense.',
+            'immortal_spy' => 'Immortal spy (cannot be killed when conducting espionage).',
+            'minimum_spa_to_train' => 'Must have at least %s Spy Ratio (on offense) to train.',
+
+            // Wizard related
+            'counts_as_wizard_defense' => 'Each unit counts as %s of a wizard on defense.',
+            'counts_as_wizard_offense' => 'Each unit counts as %s of a wizard on offense.',
+            'immortal_wizard' => 'Immortal wizard (cannot be killed when casting spells).',
+            'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio (on offense) to train.',
+
+            // Casualties and death related
+            'fewer_casualties' => '%s%% fewer casualties.',
+            'fewer_casualties_defense' => '%s%% fewer casualties on defense.',
+            'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
+            'fixed_casualties' => 'Always suffers %s%% casualties.',
+
+            'immortal' => 'Almost never dies.',
+            'immortal_except_vs' => 'Almost never dies, except vs %s.',
+            'immortal_vs_land_range' => 'Almost never dies when attacking dominions %s%%+ of your size.',
+            'true_immortal' => 'Immortal. Only dies when overwhelmed.',
+
+            'reduce_combat_losses' => 'Reduces combat losses.',
+
+            'fewer_casualties_defense_from_land' => 'Casualties on defense reduced by 1%% for every %2$s%% %1$ss (max %3$s%% reduction).',
+            'fewer_casualties_offense_from_land' => 'Casualties on offense reduced by 1% for every %2$s%% %1$ss (max %3$s%% reduction).',
+
+            'fewer_casualties_defense_vs_land' => 'Casualties on defense reduced by 1%% against every %2$s%% %1$ss of attacker (max %3$s%% reduction).',
+            'fewer_casualties_offense_vs_land' => 'Casualties on offense reduced by 1%% against every %2$s%% %1$ss of target (max %3$s%% reduction).',
 
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
-            'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
 
             'dies_into' => 'Upon death, returns as %s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
             'wins_into' => 'Upon victory, returns as %s.',
 
+            // Resource related
+            'ore_production' => 'Each unit produces %s units of ore per tick.',
+            'mana_production' => 'Each unit generates %s mana per tick.',
+            'lumber_production' => 'Each unit collects %s lumber per tick.',
+            'food_production' => 'Each unit produces %s food per tick.',
+            'gem_production' => 'Each unit mines %s gems per tick.',
+            'tech_production' => 'Each unit produces %s experience points per tick.',
+
+            'food_consumption' => 'Eats %s bushels of food extra.',
+
+            'decay_protection' => 'Each units protects %1$s %2$s per tick from decay.',
+
+            'plunders_resources_on_attack' => 'Plunders resources on attack.',
+            'sink_boats_defense' => 'Sinks boats when defending.',
+            'sink_boats_offense' => 'Sinks boats when attacking.',
+
+            'mana_drain' => 'Each unit drains %s mana per tick.',
+            'platinum_upkeep' => 'Costs %s platinum per tick.',
+
+            // Misc
+            'faster_return' => 'Returns %s ticks faster from battle.',
+            'land_per_tick' => 'Explores %1$s acres of home land per tick.',
+            'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
+
+            // Training
+            'cannot_be_trained' => 'Unit cannot be trained.',
+            'instant_training' => 'Summoned immediately.',
+            'faster_training' => 'Trains %s ticks faster (minimum two ticks).',
+
+            'afterlife_norse' => 'Upon honourable death (successful invasions over 75%%), becomes a legendary champion and can be recalled into services as an Einherjar.',
+            'does_not_kill' => 'Does not kill other units.',
+            'no_draftee' => 'No draftee required to train.',
+
+            // Limits
+            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
+            'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
+
+            // Population
+            'amount_limit' => 'You can at most have %1$s of this unit.',
+            'does_not_count_as_population' => 'Does not count towards population. No housing required.',
+            'population_growth' => 'Increases population growth by s%% for every 1%% of population.',
+
+            // Damage
+            'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
+            'damages_improvements_on_attack' => 'Damages target\'s castle: %s improvement points, spread proportionally across all invested improvements.',
             'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
             'eats_draftees_on_attack' => 'Eats %s draftees on successful invasion.',
 
-            'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
-            'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
+            // Demonic
+            'kills_peasants' => 'Eats %s peasants per tick.',
+            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, two barrels of blood, and 1/4 bushel of food per peasant.',
 
-            'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio (on offense) to train.',
+            // Myconid
             'unit_production' => 'Produces %2$s %1$s per tick.',
             'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion. The more of this unit, the less accurate.',
 
             # TBD
             'is_inanimate' => 'Inanimate.',
-
         ];
 
         // Get unit - same logic as military page

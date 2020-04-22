@@ -49,6 +49,9 @@
                                         @elseif ($lastInfoOp->isStale())
                                             <span class="label label-warning">Stale</span>
                                         @endif
+                                        @if ($lastInfoOp->isInaccurate())
+                                            <span class="label label-info">Inaccurate</span>
+                                        @endif
                                     </td>
                                     <td class="text-center" data-search="" data-order="{{ $lastInfoOp->targetDominion->race->name }}">
                                         {{ $lastInfoOp->targetDominion->race->name }}
