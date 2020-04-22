@@ -193,7 +193,7 @@ class UnitHelper
 
             // Demonic
             'kills_peasants' => 'Eats %s peasants per tick.',
-            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, two barrels of blood, and 1/4 bushel of food per peasant.',
+            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, two gallons of blood, and 1/4 bushel of food per peasant.',
 
             // Myconid
             'unit_production' => 'Produces %2$s %1$s per tick.',
