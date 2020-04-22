@@ -563,7 +563,7 @@ class ProductionCalculator
 
         $lumber = max(0, $lumber - $decayProtection);
 
-        // Improvement: Granaries (max -100% decay)
+        // Improvement: Granaries
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
 
         // Perk: decay reduction
@@ -572,11 +572,13 @@ class ProductionCalculator
           $multiplier += $dominion->race->getPerkMultiplier('lumber_decay');
         }
 
-        $multiplier = max(0, $multiplier);
+        $multiplier = min(0, $multiplier);
 
         $lumberDecay *= (1 + $multiplier);
 
-        $decay += ($lumber * $lumberDecay);
+        $decay += $lumber * $lumberDecay;
+
+        $decay = max(0, $decay);
 
         return $decay;
     }
