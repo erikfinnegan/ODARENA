@@ -575,11 +575,13 @@ class ProductionCalculator
           $multiplier += $dominion->race->getPerkMultiplier('lumber_decay');
         }
 
-        $multiplier = max(0, $multiplier);
+        $multiplier = min(0, $multiplier);
 
         $lumberDecay *= (1 + $multiplier);
 
-        $decay += ($lumber * $lumberDecay);
+        $decay += $lumber * $lumberDecay;
+
+        $decay = max(0, $decay);
 
         return $decay;
     }
