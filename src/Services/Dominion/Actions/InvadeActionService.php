@@ -778,7 +778,6 @@ class InvadeActionService
 
         $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
 
-
         // Dark Elf: Draftees - Unholy Ghost
         if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost'))
         {
