@@ -2101,6 +2101,7 @@ class InvadeActionService
         $dpReductionPerTemple = 2;
         $templeMaxDpReduction = 40;
         $ignoreDraftees = false;
+        $isAmbush = false;
 
         $dpMultiplierReduction = min(
             (($dpReductionPerTemple * $dominion->building_temple) / $this->landCalculator->getTotalLand($dominion)),
