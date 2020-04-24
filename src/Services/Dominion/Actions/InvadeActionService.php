@@ -776,13 +776,14 @@ class InvadeActionService
             $casualtiesMultiplier += 0.2;
         }
 
+        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
+
+
         // Dark Elf: Draftees - Unholy Ghost
         if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost'))
         {
             $drafteesLost = 0;
         }
-
-        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
 
         // Undead: Desecration - Triples draftee casualties (capped by target's number of draftees)
         if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
@@ -2124,12 +2125,6 @@ class InvadeActionService
         {
           $isAmbush = true;
         }
-        else
-        {
-          $isAmbush = false;
-        }
-
-
 
         return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
     }
