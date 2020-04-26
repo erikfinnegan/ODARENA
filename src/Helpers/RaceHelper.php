@@ -371,6 +371,18 @@ class RaceHelper
                 $description = 'Extra population per 1% Alchemies (max +20%)';
                 $booleanValue = false;
                 break;
+            case 'defense_from_forest':
+                $negativeBenefit = false;
+                $description = 'Defensive modifier per 1% Forest';
+                $booleanValue = false;
+                break;
+            case 'forest_construction_cost':
+                $negativeBenefit = true;
+                $description = 'Forest construction cost';
+                break;
+
+
+
             default:
                 return null;
         }

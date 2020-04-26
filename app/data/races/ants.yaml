@@ -2,7 +2,7 @@ name: Ants
 alignment: good
 description: >-
   <p>After the disappearance of some magic crystals deep in the forest long ago, giant swarms of ants have been seen forming enormous colonies and growing in size.</p>
-  <p>Their units are weak, but they are both numerous and belligerent.</p>
+  <p>Their units are weak, but they are belligerent and numerous.</p>
 home_land_type: forest
 playable: 1
 
@@ -24,6 +24,7 @@ perks:
   draftee_dp: 0.1
   draftees_cannot_be_abducted: 1
   peasants_cannot_be_abducted: 1
+  gem_production: -10
 units:
   - name: Soldier Ant
     need_boat: true
@@ -40,7 +41,7 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 2
+      defense: 1.5
     perks:
       lumber_production: 0.5
   - name: Giant Ant

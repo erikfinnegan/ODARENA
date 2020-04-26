@@ -180,7 +180,7 @@ class UnitHelper
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
-            'building_limit' => 'You can at most have 1 of this unit per %2$s %1$s.',
+            'building_limit' => 'You can at most have 1 of this unit per %2$s %1$s. Increasable by %3$s improvements.',
 
             // Population
             'amount_limit' => 'You can at most have %1$s of this unit.',

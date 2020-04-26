@@ -25,6 +25,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Services\Dominion\Actions\SpellActionService;
+use OpenDominion\Helpers\UnitHelper;
 
 
 
@@ -119,6 +120,9 @@ class InvadeActionService
     /** @var SpellActionService */
     protected $spellActionService;
 
+    /** @var UnitHelper */
+    protected $unitHelper;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -172,7 +176,8 @@ class InvadeActionService
         ImprovementCalculator $improvementCalculator,
         ImprovementHelper $improvementHelper,
         SpellHelper $spellHelper,
-        SpellActionService $spellActionService
+        SpellActionService $spellActionService,
+        UnitHelper $unitHelper
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -188,6 +193,7 @@ class InvadeActionService
         $this->improvementHelper = $improvementHelper;
         $this->spellHelper = $spellHelper;
         $this->spellActionService = $spellActionService;
+        $this->unitHelper = $unitHelper;
     }
 
     /**
@@ -293,21 +299,27 @@ class InvadeActionService
                 throw new GameException('You cannot invade during the Rainy Season.');
             }
 
-            // Imperial Gnome: check Factories cover Unit4
-            if($dominion->race->name == 'Imperial Gnome' and isset($units['4']))
+            // Check building_limit
+            foreach($units as $unitSlot => $amount)
             {
-                if($units['4'] > $dominion->building_factory * 2)
+                $buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit');
+                if($buildingLimit)
                 {
-                  throw new GameException('You do not have enough Factories to control that many machines on the battlefield. You must have at least one Factory for every two Airships sent on invasion (modified by Workshops improvements).');
-                }
-            }
+                    // We have building limit for this unit.
+                    $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
+                    $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
+                    $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
 
-            // Armada: check Docks cover Unit4
-            if($dominion->race->name == 'Armada' and isset($units['4']))
-            {
-                if($units['4'] > $dominion->building_dock * 2)
-                {
-                  throw new GameException('You do not have enough Docks to control that many ships on the battlefield. You must have at least one Dock for every two Siege Ships sent on invasion (modified by Harbor improvements).');
+                    $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+
+                    $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
+
+                    $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
+
+                    if($amount > $upperLimit)
+                    {
+                        throw new GameException('You can at most send ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To send more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your ' . ucwords(str_plural($buildingLimit[2], 3)) . '.');
+                    }
                 }
             }
 

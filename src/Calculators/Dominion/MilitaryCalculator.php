@@ -395,7 +395,13 @@ class MilitaryCalculator
         // Beastfolk: Plains increases DP
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 0.2 * ($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion));
+            $multiplier += 0.2 * ($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion));
+        }
+
+        // Simian: defense_from_forest
+        if($dominion->race->getPerkValue('defense_from_forest'))
+        {
+            $multiplier += $dominion->race->getPerkValue('defense_from_forest') * ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
         }
 
         // Multiplier reduction when we want to factor in temples from another dominion

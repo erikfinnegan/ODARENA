@@ -244,7 +244,7 @@ class TrainActionService
                 $upperLimit
               )
             {
-              throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. $landLimit[0] .'s.');
+              throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. ucwords(str_plural($buildingLimit[0], 2)) .'s.');
             }
           }
           # Land limit check complete.
@@ -268,16 +268,19 @@ class TrainActionService
 
           # Amount limit check complete.
           # Check for building limit.
-          $landLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit');
+          $buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit');
           if($buildingLimit)
           {
-            // We have land limit for this unit.
-            $buildingLimitedTo = 'building_'.$landLimit[0]; # Land type
-            $unitsPerBuilding = (float)$landLimit[1]; # Units per building
+            // We have building limit for this unit.
+            $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
+            $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
+            $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
+
+            $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
 
             $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
 
-            $max = intval($amountOfLimitingBuilding / $unitsPerBuilding);
+            $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
 
             if( # Units trained + Units in Training + Units in Queue + Units to Train
                 (($dominion->{'military_unit' . $unitSlot} +
@@ -288,7 +291,7 @@ class TrainActionService
                 $upperLimit
               )
             {
-              throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more '. $landLimit[0] .'s.');
+              throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your ' . ucwords(str_plural($buildingLimit[2], 3)) . '.');
             }
           }
           # Building limit check complete.
@@ -301,9 +304,7 @@ class TrainActionService
                 throw new GameException('You need at least ' . $minimumWpaToTrain . ' wizard ratio (on offense) to train this unit. You only have ' . $this->militaryCalculator->getWizardRatio($dominion) . '.');
               }
           }
-
-
-
+          # Minimum WPA check complete.
         }
 
         if($totalCosts['platinum'] > $dominion->resource_platinum)
@@ -406,7 +407,7 @@ class TrainActionService
         {
             throw new GameException('Training failed as training would exceed your max population');
         }
-
+/*
         # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
         if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
         {
@@ -462,7 +463,7 @@ class TrainActionService
             throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by improvements into Workshops.');
           }
         }
-
+*/
 
 
         DB::transaction(function () use ($dominion, $data, $totalCosts) {

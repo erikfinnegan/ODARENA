@@ -4,9 +4,6 @@ description: >-
   <p>The Commonwealth Armada traces its origin to Human naval forces aimed at taking care of increasing piracy and worrying signs of an Imperial navy.</p>
   <p>They were given a great deal of autonomy in order to face challenges in a manner and with an efficiency normal human bureaucracy would not permit.</p>
   <p>With increased self-governance, the Armada gradually grow into its own faction of the Commonwealth and now controls its own seafaring dominions.</p>
-  <hr />
-  <p>You can have at most two of the elite units per Dock. For example, if you have two Oreclads and want to train one Siege Ship, you must have two Docks.</p>
-  <p>The restriction is increased by Harbor improvements. With 20% Harbor, 10 Docks can house 24 instead of 20 Oreclads/Siege Ships.</p>
 home_land_type: water
 playable: 1
 
@@ -52,6 +49,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       houses_military_units: 8
+      building_limit: dock,2,harbor # building, amount, improvement to raise
   - name: Battleship
     need_boat: false
     cost:
@@ -67,3 +65,4 @@ units:
       does_not_count_as_population: 1
       houses_military_units: 300
       offense_from_pairing: 1,300,300 # slot, amount, num required
+      building_limit: dock,2,harbor
