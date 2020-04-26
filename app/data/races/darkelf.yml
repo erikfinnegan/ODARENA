@@ -12,21 +12,23 @@ converting: 1
 
 perks:
   gem_production: 10
+  food_consumption: -20
 units:
-  - name: Swordsman
+  - name: Gargoyle
+    need_boat: false
     cost:
-      platinum: 365
+      platinum: 350
       ore: 30
     power:
-      offense: 4.5
+      offense: 4
       defense: 0
-  - name: Gargoyle
+  - name: Swordsman
     cost:
       platinum: 320
-      ore: 0
+      ore: 30
     power:
       offense: 0
-      defense: 3
+      defense: 4
   - name: Adept
     type: hybrid_elite
     cost:
@@ -40,14 +42,15 @@ units:
       counts_as_wizard_defense: 0.333
       offense_from_building: wizard_guild,10,5 # building type, ratio%, max
       defense_from_building: wizard_guild,10,5 # building type, ratio%, max
+      tech_production: 0.025
   - name: Spirit Warrior
+    need_boat: false
     cost:
-      platinum: 1200
-      mana: 15
+      platinum: 1000
+      mana: 25
     power:
       offense: 7
       defense: 0
     perks:
       immortal_vs_land_range: 75
-      offense_staggered_land_range: 75;0.5,95;1
-    need_boat: false
+      offense_staggered_land_range: 75;1,100;1.5

@@ -17,29 +17,32 @@ converting: 3
 perks:
   exchange_bonus: 25
   can_sell_food: 1
+  cannot_build_barracks: 1
+  cannot_build_homes: 1
 units:
   - name: Ensign
     need_boat: true
     cost:
-      platinum: 350
+      platinum: 300
       ore: 10
     power:
       offense: 3
-      defense: 3
+      defense: 1.5
+    perks:
+      fewer_casualties_offense: 50
   - name: Commodore
     need_boat: true
     cost:
       platinum: 800
       ore: 25
     power:
-      offense: 5
-      defense: 4
-  - name: Oreclad
+      offense: 4
+      defense: 5
+  - name: Frigate
     need_boat: false
     cost:
-      platinum: 15000
-      ore: 10000
-      boat: 1
+      platinum: 12500
+      ore: 2500
       lumber: 5000
     power:
       offense: 0
@@ -48,17 +51,19 @@ units:
       fewer_casualties: 50
       no_draftee: 1
       does_not_count_as_population: 1
-  - name: Siege Ship
+      houses_military_units: 8
+  - name: Battleship
     need_boat: false
     cost:
-      platinum: 45000
-      ore: 11000
-      boat: 1
-      lumber: 32500
+      platinum: 60000
+      ore: 15000
+      lumber: 35000
     power:
-      offense: 320
+      offense: 40
       defense: 40
     perks:
       fewer_casualties: 75
       no_draftee: 1
       does_not_count_as_population: 1
+      houses_military_units: 300
+      offense_from_pairing: 1,300,300 # slot, amount, num required

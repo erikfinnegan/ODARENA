@@ -33,12 +33,11 @@ units:
       lumber: 100
     power:
       offense: 1
-      defense: 0
+      defense: 4
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
       true_immortal: 1
-      pairing_limit: 1,25
       faster_return: 11
   - name: Cannonball
     type: machinery_elite

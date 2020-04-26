@@ -131,6 +131,7 @@ class UnitHelper
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
 
             'reduce_combat_losses' => 'Reduces combat losses.',
+            'increases_casualties' => 'Increases enemy casualties.',
 
             'fewer_casualties_defense_from_land' => 'Casualties on defense reduced by 1%% for every %2$s%% %1$ss (max %3$s%% reduction).',
             'fewer_casualties_offense_from_land' => 'Casualties on offense reduced by 1% for every %2$s%% %1$ss (max %3$s%% reduction).',
@@ -179,11 +180,15 @@ class UnitHelper
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
+            'building_limit' => 'You can at most have 1 of this unit per %2$s %1$s.',
 
             // Population
             'amount_limit' => 'You can at most have %1$s of this unit.',
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
             'population_growth' => 'Increases population growth by s%% for every 1%% of population.',
+
+            'houses_military_units' => 'Houses %1$s military units.',
+            'houses_people' => 'Houses %1$s people.',
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',

@@ -52,7 +52,7 @@ units:
       offense_from_building: temple,5,2 # building type, ratio%, max
       defense_from_building: temple,5,2 # building type, ratio%, max
       conversion: 1
-  - name: Holy Warrior
+  - name: Paladin
     cost:
       platinum: 1400
       ore: 80

@@ -24,7 +24,7 @@ units:
     need_boat: true
     cost:
       platinum: 450
-      mana: 10
+      mana: 8
       blood: 6
     power:
       offense: 4
@@ -37,7 +37,7 @@ units:
     need_boat: true
     cost:
       platinum: 800
-      mana: 20
+      mana: 16
       blood: 12
     power:
       offense: 2
