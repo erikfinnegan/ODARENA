@@ -208,7 +208,7 @@ class CasualtiesCalculator
                 }
                 $unitsSentPerSlot[$slot] = $units[$slot];
 
-                if ($unit->getPerkValue('reduce_combat_losses') !== 0) {
+                if ($unit->getPerkValue('reduces_casualties') !== 0) {
                     $unitsSentRCLSlot = $slot;
                 }
             }
@@ -359,7 +359,7 @@ class CasualtiesCalculator
 
                 $unitsAtHomePerSlot[$slot] = $dominion->$unitKey;
 
-                if ($unit->getPerkValue('reduce_combat_losses') !== 0) {
+                if ($unit->getPerkValue('reduces_casualties') !== 0) {
                     $unitsAtHomeRCLSlot = $slot;
                 }
             }
@@ -604,11 +604,6 @@ class CasualtiesCalculator
         return $powerFromPerk;
       }
 
-      /**
-       * @param Dominion $dominion
-       * @param Unit $unit
-       * @return float
-       */
       protected function getCasualtiesReductionVersusLand(Dominion $dominion, Dominion $target, int $slot = NULL, string $powerType): float
       {
         if ($target === null or $slot == NULL)
@@ -636,5 +631,39 @@ class CasualtiesCalculator
 
         return $powerFromPerk;
       }
+
+      /**
+      *   Calculates reduces_casualties or increases_casualties.
+      *   reduces_casualties: lowers casualties of all friendly units participating in the battle. ([Perk Units]/[All Units])/2
+      *   increases_casualties: increases casualties of enemy units participating in the battle. ([Perk Units]/[All Units])/4
+      **/
+      protected function getUnitCasualtiesPerk(Dominion $attacker, Dominion $defender, string $powerType, array $units): float
+      {
+        if ($attacker === null or $defender == NULL)
+        {
+            return 0;
+        }
+
+        $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_vs_land", null);
+
+        if(!$versusLandPerkData)
+        {
+            return 0;
+        }
+
+        $landType = $versusLandPerkData[0];
+        $ratio = (float)$versusLandPerkData[1];
+        $max = (float)$versusLandPerkData[2];
+
+        $totalLand = $this->landCalculator->getTotalLand($target);
+        $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
+
+        $powerFromLand = $landPercentage / $ratio;
+
+        $powerFromPerk = min($powerFromLand, $max)/100;
+
+        return $powerFromPerk;
+      }
+
 
 }

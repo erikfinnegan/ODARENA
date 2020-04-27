@@ -31,7 +31,7 @@ units:
       offense: 0
       defense: 2
     perks:
-      reduce_combat_losses: 1
+      reduces_casualties: 1
       mana_production: 0.05
       faster_training: 3
   - name: Pikeman

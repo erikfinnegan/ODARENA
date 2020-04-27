@@ -64,6 +64,6 @@ units:
       offense: 5
       defense: 5
     perks:
-      reduce_combat_losses: 1
+      reduces_casualties: 1
       counts_as_spy_offense: 0.25
       immortal_spy: 1

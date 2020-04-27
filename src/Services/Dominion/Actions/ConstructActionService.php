@@ -69,16 +69,14 @@ class ConstructActionService
             throw new GameException('Construction was not started due to bad input.');
         }
 
-
         if ($dominion->race->getPerkValue('cannot_build') == 1)
         {
             throw new GameException('Your faction is unable to construct buildings.');
         }
 
-        $maxAfford = $this->constructionCalculator->getMaxAfford($dominion);
-
-        if ($totalBuildingsToConstruct > $maxAfford) {
-            throw new GameException("You do not have enough platinum and/or lumber to construct {$totalBuildingsToConstruct} buildings.");
+        if ($totalBuildingsToConstruct > $this->constructionCalculator->getMaxAfford($dominion))
+        {
+            throw new GameException('You do not have enough resources to construct ' . number_format($totalBuildingsToConstruct) . '  buildings.');
         }
 
         $buildingsByLandType = [];
@@ -104,18 +102,30 @@ class ConstructActionService
             $buildingsByLandType[$landType] += $amount;
         }
 
-        foreach ($buildingsByLandType as $landType => $amount) {
+        $platinumCost = $this->constructionCalculator->getTotalPlatinumCost($dominion, $totalBuildingsToConstruct);
+        $lumberCost = $this->constructionCalculator->getTotalLumberCost($dominion, $totalBuildingsToConstruct);
+        $manaCost = $this->constructionCalculator->getTotalManaCost($dominion, $totalBuildingsToConstruct);
+        $foodCost = $this->constructionCalculator->getTotalFoodCost($dominion, $totalBuildingsToConstruct);
+
+        foreach ($buildingsByLandType as $landType => $amount)
+        {
             if ($amount > $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType))
             {
                 throw new GameException("You do not have enough barren land to construct {$totalBuildingsToConstruct} buildings.");
             }
         }
 
+        # Look for forest_construction_cost
+        foreach ($buildingsByLandType as $landType => $amount)
+        {
 
-        $platinumCost = $this->constructionCalculator->getTotalPlatinumCost($dominion, $totalBuildingsToConstruct);
-        $lumberCost = $this->constructionCalculator->getTotalLumberCost($dominion, $totalBuildingsToConstruct);
-        $manaCost = $this->constructionCalculator->getTotalManaCost($dominion, $totalBuildingsToConstruct);
-        $foodCost = $this->constructionCalculator->getTotalFoodCost($dominion, $totalBuildingsToConstruct);
+            if($forestConstructionCostPerk = $dominion->race->getPerkMultiplier('forest_construction_cost') and $landType == 'forest')
+            {
+                $platinumCost += $this->constructionCalculator->getTotalPlatinumCost($dominion, $amount) * $forestConstructionCostPerk;
+                $lumberCost += $this->constructionCalculator->getTotalLumberCost($dominion, $amount) * $forestConstructionCostPerk;
+            }
+
+        }
 
         DB::transaction(function () use ($dominion, $data, $platinumCost, $lumberCost, $manaCost, $foodCost, $totalBuildingsToConstruct) {
             $hours = 12;
@@ -194,6 +204,20 @@ class ConstructActionService
                   'platinumCost' => $foodCost
               ],
           ];
+        }
+        elseif($platinumCost == 0 and $lumberCost == 0)
+        {
+            $return = [
+                'message' => sprintf(
+                    'Construction started at a cost of %s platinum and %s lumber.',
+                    number_format($platinumCost),
+                    number_format($lumberCost)
+                ),
+                'data' => [
+                    'platinumCost' => $platinumCost,
+                    'lumberCost' => $lumberCost,
+                ],
+            ];
         }
         return $return;
     }

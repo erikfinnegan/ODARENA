@@ -7,6 +7,9 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 
+# ODA
+use OpenDominion\Helpers\LandHelper;
+
 class ConstructionCalculator
 {
     /** @var BuildingCalculator */
@@ -18,6 +21,9 @@ class ConstructionCalculator
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
+    /** @var LandHelper */
+    protected $landHelper;
+
     /**
      * ConstructionCalculator constructor.
      *
@@ -27,11 +33,13 @@ class ConstructionCalculator
     public function __construct(
         BuildingCalculator $buildingCalculator,
         LandCalculator $landCalculator,
-        ImprovementCalculator $improvementCalculator)
+        ImprovementCalculator $improvementCalculator,
+        LandHelper $landHelper)
     {
         $this->buildingCalculator = $buildingCalculator;
         $this->landCalculator = $landCalculator;
         $this->improvementCalculator = $improvementCalculator;
+        $this->landHelper = $landHelper;
     }
 
     /**
@@ -44,13 +52,12 @@ class ConstructionCalculator
     {
         if($dominion->race->getPerkMultiplier('construction_cost_only_mana') or $dominion->race->getPerkMultiplier('construction_cost_only_food'))
         {
-          return 0;
+            return 0;
         }
         else
         {
-          return ($this->getPlatinumCostRaw($dominion) * $this->getCostMultiplier($dominion));
+            return ($this->getPlatinumCostRaw($dominion) * $this->getCostMultiplier($dominion));
         }
-
     }
 
     /**
@@ -415,6 +422,14 @@ class ConstructionCalculator
                   floor($foodToSpend / $foodCost),
                   ($barrenLand - $discountedBuildings)
               );
+        }
+        elseif($dominion->race->name == 'Simian')
+        {
+          return max($this->landCalculator->getTotalBarrenLandByLandType($dominion, 'forest'), $discountedBuildings + min(
+                  floor($platinumToSpend / $platinumCost),
+                  floor($lumberToSpend / $lumberCost),
+                  ($barrenLand - $discountedBuildings)
+              ));
         }
         else
         {

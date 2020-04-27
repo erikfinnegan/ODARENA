@@ -40,7 +40,7 @@ units:
       offense: 4
       defense: 6
     perks:
-      reduce_combat_losses: 1
+      reduces_casualties: 1
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
   - name: Warrior

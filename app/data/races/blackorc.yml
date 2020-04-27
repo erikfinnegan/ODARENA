@@ -55,4 +55,4 @@ units:
       defense: 3
     perks:
       offense_from_pairing: 1,2,10 # slot, amount, num required
-      reduce_combat_losses: 1
+      reduces_casualties: 1

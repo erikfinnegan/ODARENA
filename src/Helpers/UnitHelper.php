@@ -130,7 +130,7 @@ class UnitHelper
             'immortal_vs_land_range' => 'Almost never dies when attacking dominions %s%%+ of your size.',
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
 
-            'reduce_combat_losses' => 'Reduces combat losses.',
+            'reduces_casualties' => 'Reduces combat losses.',
             'increases_casualties' => 'Increases enemy casualties.',
 
             'fewer_casualties_defense_from_land' => 'Casualties on defense reduced by 1%% for every %2$s%% %1$ss (max %3$s%% reduction).',

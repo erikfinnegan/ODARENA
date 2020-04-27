@@ -36,7 +36,7 @@ units:
       offense: 0
       defense: 1
     perks:
-        reduce_combat_losses: 1
+        reduces_casualties: 1
         tech_production: 0.03
         faster_training: 7
   - name: Fanatic
