@@ -194,34 +194,19 @@ class CasualtiesCalculator
             # Unit Perk: Fewer Casualties
             $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
 
-            # Unit Perk: Reduce Combat Losses
-            $unitsSentPerSlot = [];
-            $unitsSentRCLSlot = null;
-            $reducedCombatLossesMultiplierAddition = 0;
+            # Unit Perk: Reduces or increases casualties.
+            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($dominion, $target, $units, $landRatio);
 
-            // todo: inefficient to do run this code per slot. needs refactoring
-            foreach ($dominion->race->units as $unit) {
-                $slot = $unit->slot;
+            #echo '<pre>';
+            #echo "Offensive multiplier:\n";
+            #var_dump($multiplier);
 
-                if (!isset($units[$slot])) {
-                    continue;
-                }
-                $unitsSentPerSlot[$slot] = $units[$slot];
+            $multiplier += $unitCasualtiesPerk['defender']['increases_casualties_on_defense'];
+            $multiplier -= $unitCasualtiesPerk['attacker']['reduces_casualties'];
 
-                if ($unit->getPerkValue('reduces_casualties') !== 0) {
-                    $unitsSentRCLSlot = $slot;
-                }
-            }
-
-            // We have a unit with RCL!
-            if ($unitsSentRCLSlot !== null) {
-                $totalUnitsSent = array_sum($unitsSentPerSlot);
-
-                $reducedCombatLossesMultiplierAddition += (($unitsSentPerSlot[$unitsSentRCLSlot] / $totalUnitsSent) / 2);
-            }
-
-            # Apply RCL do uBM.
-            $multiplier -= $reducedCombatLossesMultiplierAddition;
+            #var_dump($multiplier);
+            #echo '</pre>';
+            #dd($unitCasualtiesPerk);
 
             // Absolute cap at 90% reduction.
             $multiplier = max(0.10, $multiplier);
@@ -347,39 +332,26 @@ class CasualtiesCalculator
                 $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_defense']) / 100);
             }
 
-            // Unit Perk: Reduce Combat Losses
-            $unitsAtHomePerSlot = [];
-            $unitsAtHomeRCLSlot = null;
-            $reducedCombatLosses = 0;
+            # Unit Perk: Reduces or increases casualties.
+            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($attacker, $dominion, $units, $landRatio);
 
-            // todo: inefficient to do run this code per slot. needs refactoring
-            foreach ($dominion->race->units as $unit) {
-                $slot = $unit->slot;
-                $unitKey = "military_unit{$slot}";
+            #echo '<pre>';
+            #echo "Defensive multiplier:\n";
+            #var_dump($multiplier);
 
-                $unitsAtHomePerSlot[$slot] = $dominion->$unitKey;
+            $multiplier += $unitCasualtiesPerk['attacker']['increases_casualties_on_offense'];
+            $multiplier -= $unitCasualtiesPerk['defender']['reduces_casualties'];
 
-                if ($unit->getPerkValue('reduces_casualties') !== 0) {
-                    $unitsAtHomeRCLSlot = $slot;
-                }
-            }
+            #var_dump($multiplier);
+            #echo '</pre>';
 
-            // We have a unit with RCL!
-            if ($unitsAtHomeRCLSlot !== null) {
-                $totalUnitsAtHome = array_sum($unitsAtHomePerSlot);
-
-                if ($totalUnitsAtHome > 0) {
-                    $reducedCombatLosses += (($unitsAtHomePerSlot[$unitsAtHomeRCLSlot] / $totalUnitsAtHome) / 2);
-                }
-            }
-
+            #dd($unitCasualtiesPerk);
             # Apply RCL do uBM.
             $multiplier -= $reducedCombatLosses;
 
             // Absolute cap at 90% reduction.
             $multiplier = max(0.10, $multiplier);
         }
-
         return $multiplier;
     }
 
@@ -637,32 +609,56 @@ class CasualtiesCalculator
       *   reduces_casualties: lowers casualties of all friendly units participating in the battle. ([Perk Units]/[All Units])/2
       *   increases_casualties: increases casualties of enemy units participating in the battle. ([Perk Units]/[All Units])/4
       **/
-      protected function getUnitCasualtiesPerk(Dominion $attacker, Dominion $defender, string $powerType, array $units): float
+      protected function getUnitCasualtiesPerk(Dominion $attacker, Dominion $defender, array $units, float $landRatio): array
       {
-        if ($attacker === null or $defender == NULL)
-        {
-            return 0;
-        }
 
-        $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_vs_land", null);
+          $rawOpFromSentUnits = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $units, []);
+          $rawDpFromHomeUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio);
+          $defenderUnitsHome = ($defender->military_unit1 + $defender->military_unit2 + $defender->military_unit3 + $defender->military_unit4);
 
-        if(!$versusLandPerkData)
-        {
-            return 0;
-        }
+          $unitCasualtiesPerk['attacker']['increases_casualties_on_offense'] = 0;
+          $unitCasualtiesPerk['attacker']['reduces_casualties'] = 0;
 
-        $landType = $versusLandPerkData[0];
-        $ratio = (float)$versusLandPerkData[1];
-        $max = (float)$versusLandPerkData[2];
+          $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] = 0;
+          $unitCasualtiesPerk['defender']['reduces_casualties'] = 0;
 
-        $totalLand = $this->landCalculator->getTotalLand($target);
-        $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
+          # Check if attacker has increases_casualties or reduces_casualties
+          foreach($units as $slot => $amount)
+          {
+              if($increasesCasualties = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_offense'))
+              {
+                  $unitCasualtiesPerk['attacker']['increases_casualties_on_offense'] += $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount], []) / $rawOpFromSentUnits;
+              }
+              if($decreasesCasualties = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties'))
+              {
+                  $unitCasualtiesPerk['attacker']['reduces_casualties'] += $amount / array_sum($units);
+              }
+          }
 
-        $powerFromLand = $landPercentage / $ratio;
+          # Check if defender has increases_casualties or reduces_casualties
+          for ($slot = 1; $slot <= 4; $slot++)
+          {
+              if($increasesCasualties = $defender->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_defense'))
+              {
+                  $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] += $this->militaryCalculator->getDefensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]) / $rawDpFromHomeUnits;
+              }
+              if($decreasesCasualties = $defender->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties'))
+              {
+                  $unitCasualtiesPerk['defender']['reduces_casualties'] += $amount / $defenderUnitsHome;
+              }
+          }
 
-        $powerFromPerk = min($powerFromLand, $max)/100;
+          $unitCasualtiesPerk['attacker']['increases_casualties_on_offense'] /= 2;
+          $unitCasualtiesPerk['attacker']['reduces_casualties'] /= 2;
 
-        return $powerFromPerk;
+          $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] /= 2;
+          $unitCasualtiesPerk['defender']['reduces_casualties'] /= 2;
+
+
+          #dd($units, $unitCasualtiesPerk['attacker'], $rawOpFromSentUnits, $rawDpFromHomeUnits);
+
+          return $unitCasualtiesPerk;
+
       }
 
 

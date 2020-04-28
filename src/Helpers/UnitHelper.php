@@ -87,8 +87,8 @@ class UnitHelper
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
             'offense_spy_ratio' => 'Offense increased by %1$s * Spy Ratio (max +%2$s).',
 
-            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours).',
-            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours).',
+            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
+            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
 
             'offense_per_hour' => 'Offense increased by %1$s for every hour of the round (max +%2$s).',
             'defense_per_hour' => 'Defense increased by %1$s for every hour of the round (max +%2$s).',
@@ -202,7 +202,7 @@ class UnitHelper
 
             // Myconid
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion. The more of this unit, the less accurate.',
+            'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion by 0.50% for every 1% of total population made up of this unit.',
 
             # TBD
             'is_inanimate' => 'Inanimate.',
