@@ -162,11 +162,13 @@ class DominionFactory
         # RACE/FACTION SPECIFIC RESOURCES
 
         // Gnome and Imperial Gnome: triple the ore and remove 1/4 of platinum
+/*
         if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
         {
           $startingResources['ore'] = intval($startingResources['ore'] * 3);
           $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/4));
         }
+*/
 
         // Ore-free races: no ore
         $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Marshling','Simian','Void');
