@@ -19,10 +19,10 @@ units:
   - name: Arquebusier
     need_boat: true
     cost:
-      platinum: 300
+      platinum: 320
       ore: 60
     power:
-      offense: 3
+      offense: 3.5
       defense: 0
     perks:
       increases_casualties_on_offense: 1
@@ -36,7 +36,7 @@ units:
       offense: 1
       defense: 5
     perks:
-      does_not_count_as_population: 1
+      offense_from_pairing: 1,1
   - name: Catapult
     cost:
       platinum: 55000

@@ -474,9 +474,9 @@
                                       <td>{{ number_format(($productionCalculator->getGemProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getGemProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($selectedDominion->resource_gem) }}</td>
+                                      <td>{{ number_format($selectedDominion->resource_gems) }}</td>
                                       <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'gem')) }}</td>
-                                      <td>{{ number_format(($selectedDominion->resource_gem/$productionCalculator->getMaxStorage($selectedDominion, 'gem')) * 100, 2) }}%</td>
+                                      <td>{{ number_format(($selectedDominion->resource_gems/$productionCalculator->getMaxStorage($selectedDominion, 'gem')) * 100, 2) }}%</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gem_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gem_stolen) }}</td>
                                   </tr>
