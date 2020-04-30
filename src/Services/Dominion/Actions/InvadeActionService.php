@@ -357,9 +357,10 @@ class InvadeActionService
 
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio);
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
-            $convertedUnits = $this->handleConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
+            $offensiveConversions = $this->handleOffensiveConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
+            $defensiveConversions = $this->handleDefensiveConversions($target, $landRatio, $units, $dominion->race->getPerkValue('reduce_conversions'));
 
-            $this->handleReturningUnits($dominion, $survivingUnits, $convertedUnits);
+            $this->handleReturningUnits($dominion, $survivingUnits, $offensiveConversions);
             $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $units);
 
             $this->handleMoraleChanges($dominion, $target, $landRatio);
@@ -1127,31 +1128,32 @@ class InvadeActionService
     }
 
     /**
-     * @param Dominion $dominion
+     * @param Dominion $dominion -- DEFENDER
      * @param float $landRatio
      * @param array $units
      * @param int $totalDefensiveCasualties
      * @return array
      */
-    protected function handleConversions(
+    protected function handleOffensiveConversions(
         Dominion $dominion,
         float $landRatio,
         array $units,
         int $totalDefensiveCasualties,
         int $reduceConversions
     ): array {
-        #$landRatio = $landRatio * 100;
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $convertedUnits = array_fill(1, 4, 0);
 
-        // Racial: Apply reduce_conversions$
+        // Racial: Apply reduce_conversions
         $totalDefensiveCasualties = $totalDefensiveCasualties * (1 - ($reduceConversions / 100));
 
-        if (
-            !$isInvasionSuccessful ||
-            ($totalDefensiveCasualties === 0) ||
-            !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted','Legion II','Demon'], true) // todo: might want to check for conversion unit perks here, instead of hardcoded race names
-        )
+        # Conversions only for non-overwhelmed invasions with casualties where the attacker is one of these factions
+        if
+          (
+              $this->invasionResult['result']['overwhelmed'] or
+              $totalDefensiveCasualties === 0 or
+              !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted','Legion II','Demon'], true)
+          )
         {
             return $convertedUnits;
         }
@@ -1188,10 +1190,13 @@ class InvadeActionService
                 $unit->slot,
                 'staggered_conversion');
 
-            if ($staggeredConversionPerk) {
-                foreach ($staggeredConversionPerk as $rangeConversionPerk) {
+            if ($staggeredConversionPerk)
+            {
+                foreach ($staggeredConversionPerk as $rangeConversionPerk)
+                {
                     $range = ((int)$rangeConversionPerk[0]) / 100;
-                    if ($range <= $landRatio) {
+                    if ($range <= $landRatio)
+                    {
                         return true;
                     }
                 }
@@ -1202,7 +1207,8 @@ class InvadeActionService
             return $unit->getPerkValue('conversion');
         });
 
-        foreach ($unitsWithConversionPerk as $unit) {
+        foreach ($unitsWithConversionPerk as $unit)
+        {
             $totalConvertingUnits += $units[$unit->slot];
         }
 
@@ -1212,6 +1218,141 @@ class InvadeActionService
         {
             $conversionPerk = $unit->getPerkValue('conversion');
             $convertingUnitsForSlot = $units[$unit->slot];
+            $convertingUnitsRatio = $convertingUnitsForSlot / $totalConvertingUnits;
+            $totalConversionsForUnit = floor($totalConverts * $convertingUnitsRatio);
+
+            if (!$conversionPerk)
+            {
+                $staggeredConversionPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+                    $unit->slot,
+                    'staggered_conversion'
+                );
+
+                foreach ($staggeredConversionPerk as $rangeConversionPerk)
+                {
+                    $range = ((int)$rangeConversionPerk[0]) / 100;
+                    $slots = $rangeConversionPerk[1];
+
+                    if ($range > $landRatio) {
+                        continue;
+                    }
+
+                    $conversionPerk = $slots;
+                }
+            }
+
+            $slotsToConvertTo = strlen($conversionPerk);
+            $totalConvertsForSlot = floor($totalConversionsForUnit / $slotsToConvertTo);
+
+            foreach (str_split($conversionPerk) as $slot) {
+                $convertedUnits[(int)$slot] += (int)$totalConvertsForSlot;
+            }
+        }
+
+        if (!isset($this->invasionResult['attacker']['conversion']) && array_sum($convertedUnits) > 0)
+        {
+            $this->invasionResult['attacker']['conversion'] = $convertedUnits;
+        }
+
+        return $convertedUnits;
+    }
+
+    /**
+     * @param Dominion $dominion
+     * @param float $landRatio
+     * @param array $units
+     * @param int $totalDefensiveCasualties
+     * @return array
+     */
+    protected function handleDefensiveConversions(
+        Dominion $dominion,
+        float $landRatio,
+        array $units,
+        int $reduceConversions
+    ): void {
+
+        # Invert the land ratio.
+        $landRatio = 1/$landRatio;
+
+        $convertedUnits = array_fill(1, 4, 0);
+        $totalOffensiveCasualties = array_sum($this->invasionResult['attacker']['unitsLost']);
+
+        // Racial: Apply reduce_conversions
+        $totalOffensiveCasualties = $totalOffensiveCasualties * (1 - ($reduceConversions / 100));
+
+        # Conversions only for non-overwhelmed invasions with casualties where the attacker is one of these factions
+        if
+          (
+              $this->invasionResult['result']['overwhelmed'] or
+              $totalOffensiveCasualties === 0 or
+              !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted','Legion II','Demon'], true)
+          )
+        {
+            return;
+        }
+
+        $conversionBaseMultiplier = 0.06;
+        $conversionMultiplier = 0;
+
+        // Calculate conversion bonuses
+        # Spell: Parasitic Hunger
+        if ($this->spellCalculator->isSpellActive($dominion, 'parasitic_hunger'))
+        {
+          $conversionMultiplier += 0.50;
+        }
+        # Tech: up to +15%
+        if($dominion->getTechPerkMultiplier('conversions'))
+        {
+          $conversionMultiplier += $dominion->getTechPerkMultiplier('conversions');
+        }
+
+        $conversionBaseMultiplier *= (1 + $conversionMultiplier);
+
+        # Calculate converting units
+        $totalConvertingUnits = 0;
+
+        $unitsWithConversionPerk = $dominion->race->units->filter(static function (Unit $unit) use (
+            $landRatio,
+            $dominion
+        ) {
+            if (($dominion->{'military_unit'.$unit->slot} === 0))
+            {
+                return false;
+            }
+
+            $staggeredConversionPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+                $unit->slot,
+                'staggered_conversion');
+
+            if ($staggeredConversionPerk)
+            {
+                foreach ($staggeredConversionPerk as $rangeConversionPerk)
+                {
+                    $range = ((int)$rangeConversionPerk[0]) / 100;
+                    if ($range <= $landRatio)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            return $unit->getPerkValue('conversion');
+        });
+
+        foreach ($unitsWithConversionPerk as $unit)
+        {
+            $totalConvertingUnits += $dominion->{'military_unit'.$unit->slot};
+        }
+
+        $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalOffensiveCasualties * 1.75) * $landRatio;
+        $totalConverts /= 2;
+
+        foreach ($unitsWithConversionPerk as $unit)
+        {
+            $conversionPerk = $unit->getPerkValue('conversion');
+            $convertingUnitsForSlot = $dominion->{'military_unit'.$unit->slot};
             $convertingUnitsRatio = $convertingUnitsForSlot / $totalConvertingUnits;
             $totalConversionsForUnit = floor($totalConverts * $convertingUnitsRatio);
 
@@ -1241,12 +1382,25 @@ class InvadeActionService
             }
         }
 
-        if (!isset($this->invasionResult['attacker']['conversion']) && array_sum($convertedUnits) > 0) {
-            $this->invasionResult['attacker']['conversion'] = $convertedUnits;
+        if (!isset($this->invasionResult['defender']['conversion']) && array_sum($convertedUnits) > 0) {
+            $this->invasionResult['defender']['conversion'] = $convertedUnits;
         }
 
-        return $convertedUnits;
+        #return $convertedUnits;
+
+        # Defensive conversions take 6 ticks to activate
+        foreach($convertedUnits as $slot => $amount)
+        {
+            $unitKey = 'military_unit'.$slot;
+            $this->queueService->queueResources(
+                'training',
+                $dominion,
+                [$unitKey => $amount],
+                6
+            );
+        }
     }
+
 
     /**
      * Handles experience point (research point) generation for attacker.
@@ -1257,8 +1411,8 @@ class InvadeActionService
     protected function handleResearchPoints(Dominion $dominion, Dominion $target, array $units): void
     {
 
-        # No RP for non-tech races and in-realm invasions.
-        if($dominion->race->getPerkValue('cannot_tech') or $dominion->realm->id == $target->realm->id)
+        # No RP for in-realm invasions.
+        if($dominion->realm->id == $target->realm->id)
         {
           $researchPointsPerAcre = 0;
         }

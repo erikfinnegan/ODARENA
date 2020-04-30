@@ -61,4 +61,5 @@ units:
       fewer_casualties_offense: 90
       fewer_casualties_defense: 50
       food_consumption: 55
-      burns_peasants_on_attack: 30
+      burns_peasants_on_attack: 20
+      

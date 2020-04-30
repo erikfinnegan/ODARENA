@@ -474,9 +474,17 @@ class UnitHelper
         return "<i class=\"$iconClass $colorClass\"></i>";
     }
 
-    public function getConvertedUnitsString(array $convertedUnits, Race $race): string
+    public function getConvertedUnitsString(array $convertedUnits, Race $race, string $type): string
     {
-        $result = 'In addition, your army converts some of the enemy casualties into ';
+        if($type == 'offensive')
+        {
+            $result = 'In addition, your army converts some of the killed enemy soldiers into ';
+        }
+        elseif($type == 'defensive')
+        {
+            $result = 'However, your army converts some of the killed invading soldiers into ';
+        }
+
         $convertedUnitsFiltered = array_filter($convertedUnits, function ($item) {
             return $item > 0;
         });

@@ -5,9 +5,8 @@ description: >-
   <p>Demonic loyalty is always capricious, but as long as there are souls to collect and blood to bathe in, the Demons will follow the Empress.</p>
   <p>The soul of every enemy unit slain and all blood spilled in battle is collected.</p>
   <hr />
-  <p>Blood collected is equal to 1/6 gallons per 1 raw military power of each unit slain, or 1/6 gallon per peasant sacrificed.</p>
-  <p>Blood and soul collection only occurs against living beings. Inanimate units yield no blood or souls.</p>
-  <p>Starts with 1 Archdemon and 120,000 gallons of blood.</p>
+  <p>Blood collected is equal to 1/3 gallons per 1 raw military power of each unit slain, or 1/3 gallon per peasant sacrificed.</p>
+  <p>Starts with 1 Archdemon and 140,000 gallons of blood.</p>
 home_land_type: mountain
 playable: 1
 

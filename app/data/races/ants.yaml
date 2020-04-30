@@ -11,7 +11,7 @@ exploring : 3
 converting: 3
 
 perks:
-  max_population: 160
+  max_population: 140
   construction_cost: -25
   spy_strength: -20
   wizard_strength: -20

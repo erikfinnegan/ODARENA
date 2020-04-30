@@ -159,14 +159,7 @@ class ExploreActionService
         $drafteeCost = ($this->explorationCalculator->getDrafteeCost($dominion) * $totalLandToExplore);
         $newDraftees = ($dominion->military_draftees - $drafteeCost);
 
-        if($dominion->race->getPerkValue('cannot_tech'))
-        {
-          $researchPointsPerAcre = 0;
-        }
-        else
-        {
-          $researchPointsPerAcre = 10;
-        }
+        $researchPointsPerAcre = 10;
 
         # Observatory
         $researchPointsPerAcreMultiplier = $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');

@@ -5,8 +5,8 @@ description: >-
   <p>Some believe they are elves which transcended. Others say they are not of this world at all.</p>
   <hr />
   <p>Essences are trained from draftees.</p>
-  <p>Hex and Vex are trained from Essences and cost no draftees. They both take 12 ticks to train.</p>
-  <p>Pax is trained by combining one Hex and one Vex. No draftee required.</p>
+  <p>Hex and Vex are trained from Essences and cost no draftees. They both take 9 ticks to train.</p>
+  <p>Pax is trained by combining one Hex and one Vex and takes 12 ticks to train.</p>
 home_land_type: water
 playable: 1
 
@@ -58,6 +58,7 @@ units:
       offense: 4
       defense: 0
     perks:
+      faster_training: 3
       no_draftee: 1
       fewer_casualties: 50
       counts_as_spy_offense: 0.05

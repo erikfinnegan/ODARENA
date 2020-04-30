@@ -347,7 +347,7 @@ class CasualtiesCalculator
 
             #dd($unitCasualtiesPerk);
             # Apply RCL do uBM.
-            $multiplier -= $reducedCombatLosses;
+            #$multiplier -= $reducedCombatLosses;
 
             // Absolute cap at 90% reduction.
             $multiplier = max(0.10, $multiplier);

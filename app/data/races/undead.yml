@@ -24,6 +24,7 @@ units:
       defense: 0
     perks:
       immortal: 1
+      increases_casualties_on_offense: 1
   - name: Ghoul
     cost:
       platinum: 225

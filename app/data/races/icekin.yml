@@ -50,7 +50,7 @@ units:
       counts_as_wizard_defense: 0.25
   - name: Ice Elemental
     cost:
-      platinum: 1100
+      platinum: 1000
       mana: 15
     power:
       offense: 4

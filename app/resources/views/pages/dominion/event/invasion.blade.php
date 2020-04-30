@@ -231,7 +231,12 @@
                             @endif
                             @if (isset($event->data['attacker']['conversion']) && $event->source->id === $selectedDominion->id)
                                 <p class="text-center text-green">
-                                    {{ $unitHelper->getConvertedUnitsString($event->data['attacker']['conversion'], $selectedDominion->race) }}
+                                    {{ $unitHelper->getConvertedUnitsString($event->data['attacker']['conversion'], $selectedDominion->race, 'offensive') }}
+                                </p>
+                            @endif
+                            @if (isset($event->data['defender']['conversion']) && $event->target->id === $selectedDominion->id)
+                                <p class="text-center text-green">
+                                    {{ $unitHelper->getConvertedUnitsString($event->data['defender']['conversion'], $selectedDominion->race, 'defensive') }}
                                 </p>
                             @endif
 
