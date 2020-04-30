@@ -239,7 +239,7 @@ class ProductionCalculator
         $food += $dominion->getUnitPerkProductionBonus('food_production');
 
         // Unit Perk: sacrified peasants
-        $food += $this->populationCalculator->getPeasantsSacrificed($dominion) * (1/2);
+        $food += $this->populationCalculator->getPeasantsSacrificed($dominion) * 2;
 
         // Racial Perk: peasants_produce_food
         if($dominion->race->getPerkValue('peasants_produce_food'))
@@ -1135,7 +1135,7 @@ class ProductionCalculator
          */
         public function getSoulProduction(Dominion $dominion): float
         {
-            return $this->populationCalculator->getPeasantsSacrificed($dominion) * 2;
+            return $this->populationCalculator->getPeasantsSacrificed($dominion) * 1;
         }
 
         /**
@@ -1146,7 +1146,7 @@ class ProductionCalculator
          */
         public function getBloodProduction(Dominion $dominion): float
         {
-            return $this->populationCalculator->getPeasantsSacrificed($dominion) * (1/3);
+            return $this->populationCalculator->getPeasantsSacrificed($dominion) * 1.5;
         }
 
         /**

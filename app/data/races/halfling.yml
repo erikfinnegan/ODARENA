@@ -44,5 +44,4 @@ units:
       offense: 5
       defense: 3
     perks:
-      fewer_casualties: 50
       offense_spy_ratio: 1,3 # ratio%, max

@@ -240,7 +240,7 @@ class DominionFactory
         // Demon: extra morale.
         if($race->name == 'Demon')
         {
-          $startingResources['blood'] = 120000;
+          $startingResources['blood'] = 140000;
           $startingResources['unit4'] = 1;
         }
 

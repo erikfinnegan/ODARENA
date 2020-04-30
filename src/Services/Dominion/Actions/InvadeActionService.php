@@ -1277,10 +1277,16 @@ class InvadeActionService
         $convertedUnits = array_fill(1, 4, 0);
         $totalOffensiveCasualties = array_sum($this->invasionResult['attacker']['unitsLost']);
 
+        # Remove units with fixed casualties greater than 50%.
+        foreach($this->invasionResult['attacker']['unitsLost'] as $unit => $lost)
+        {
+           
+        }
+
         // Racial: Apply reduce_conversions
         $totalOffensiveCasualties = $totalOffensiveCasualties * (1 - ($reduceConversions / 100));
 
-        # Conversions only for non-overwhelmed invasions with casualties where the attacker is one of these factions
+        # Conversions only for non-overwhelmed invasions with casualties and where the attacker is one of these factions
         if
           (
               $this->invasionResult['result']['overwhelmed'] or
@@ -1997,7 +2003,7 @@ class InvadeActionService
                 foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
                 {
                   $souls += $casualties;
-                  $blood += $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['attacker']['unitsLost']) * 1/6;
+                  $blood += $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['attacker']['unitsLost']) * 1/3;
                   $food += $casualties * 2;
                 }
 
@@ -2023,20 +2029,19 @@ class InvadeActionService
         $champions = 0;
         if ($attacker->race->name == 'Norse')
         {
-          if($landRatio >= 0.75)
-          {
-            $champions = $this->invasionResult['attacker']['unitsLost']['1'];
-            $this->invasionResult['attacker']['champion']['champions'] = $champions;
+            if($landRatio >= 0.75)
+            {
+                $champions = $this->invasionResult['attacker']['unitsLost']['1'];
+                $this->invasionResult['attacker']['champion']['champions'] = $champions;
 
-            $this->queueService->queueResources(
-                'invasion',
-                $attacker,
-                [
-                    'resource_champion' => $champions,
-                ]
-            );
-
-          }
+                $this->queueService->queueResources(
+                    'invasion',
+                    $attacker,
+                    [
+                        'resource_champion' => $champions,
+                    ]
+                );
+            }
         }
     }
     /**
