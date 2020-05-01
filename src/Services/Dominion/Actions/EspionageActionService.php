@@ -316,7 +316,6 @@ class EspionageActionService
                 $spyLossSpaRatio = ($targetSpa / $selfSpa);
                 $spiesKilledPercentage = clamp($spiesKilledBasePercentage * $spyLossSpaRatio, 0.25, 1);
 
-
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
@@ -326,11 +325,13 @@ class EspionageActionService
                   $spiesKilled = 0;
                 }
 
-                if ($spiesKilled > 0) {
+                if ($spiesKilled > 0)
+                {
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
                 }
 
+                $potentialSouls = 0;
                 foreach ($dominion->race->units as $unit) {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
@@ -348,8 +349,14 @@ class EspionageActionService
                         {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                            $potentialSouls += $unitKilled;
                         }
                     }
+                }
+
+                if($target->dominion->race == 'Demon')
+                {
+                    $target->resource_soul += ($spiesKilled + $potentialSouls);
                 }
 
                 $unitsKilledStringParts = [];
@@ -589,6 +596,7 @@ class EspionageActionService
                     $dominion->military_spies -= $spiesKilled;
                 }
 
+                $potentialSouls = 0;
                 foreach ($dominion->race->units as $unit) {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
@@ -606,8 +614,14 @@ class EspionageActionService
                         if ($unitKilled > 0) {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                            $potentialSouls += $unitKilled;
                         }
                     }
+                }
+
+                if($target->dominion->race == 'Demon')
+                {
+                    $target->resource_soul += ($spiesKilled + $potentialSouls);
                 }
 
                 $unitsKilledStringParts = [];
@@ -934,6 +948,7 @@ class EspionageActionService
                   $spiesKilled = 0;
                 }
 
+                $potentialSouls = 0;
                 foreach ($dominion->race->units as $unit) {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
@@ -950,8 +965,14 @@ class EspionageActionService
                         if ($unitKilled > 0) {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                            $potentialSouls += $unitKilled;
                         }
                     }
+                }
+
+                if($target->dominion->race == 'Demon')
+                {
+                    $target->resource_soul += ($spiesKilled + $potentialSouls);
                 }
 
                 $unitsKilledStringParts = [];

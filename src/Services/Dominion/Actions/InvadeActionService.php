@@ -358,7 +358,7 @@ class InvadeActionService
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio);
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
             $offensiveConversions = $this->handleOffensiveConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
-            $defensiveConversions = $this->handleDefensiveConversions($target, $landRatio, $units, $dominion->race->getPerkValue('reduce_conversions'));
+            $defensiveConversions = $this->handleDefensiveConversions($target, $landRatio, $units, $dominion);
 
             $this->handleReturningUnits($dominion, $survivingUnits, $offensiveConversions);
             $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $units);
@@ -1268,7 +1268,8 @@ class InvadeActionService
         Dominion $dominion,
         float $landRatio,
         array $units,
-        int $reduceConversions
+        #int $reduceConversions,
+        Dominion $attacker
     ): void {
 
         # Invert the land ratio.
@@ -1280,11 +1281,15 @@ class InvadeActionService
         # Remove units with fixed casualties greater than 50%.
         foreach($this->invasionResult['attacker']['unitsLost'] as $unit => $lost)
         {
-           
+            #dd($unit, $lost, $attacker->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties"));
+           if($attacker->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties") >= 50)
+           {
+              $totalOffensiveCasualties -= $lost;
+           }
         }
 
         // Racial: Apply reduce_conversions
-        $totalOffensiveCasualties = $totalOffensiveCasualties * (1 - ($reduceConversions / 100));
+        $totalOffensiveCasualties = $totalOffensiveCasualties * (1 - ($attacker->race->getPerkMultiplier('reduce_conversions')));
 
         # Conversions only for non-overwhelmed invasions with casualties and where the attacker is one of these factions
         if

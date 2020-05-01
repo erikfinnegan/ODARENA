@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-header', "Register to Round {$round->number} of OD Arena")
+@section('page-header', "Register to Round {$round->number} of ODARENA")
 
 @section('content')
 

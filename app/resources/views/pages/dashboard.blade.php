@@ -6,10 +6,10 @@
     <div class="box">
         <div class="box-body">
             @if ($dominions->isEmpty())
-                <p>Welcome to OD Arena!</p>
+                <p>Welcome to ODARENA!</p>
                 <p>To start playing, please register in a round below.</p>
             @else
-                <p>Welcome back to the Arena, {{ Auth::user()->display_name }}!</p>
+                <p>Welcome back to ODARENA, {{ Auth::user()->display_name }}!</p>
                 <p>Select a dominion below to go to its status screen.</p>
             @endif
         </div>

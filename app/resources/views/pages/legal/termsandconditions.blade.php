@@ -42,7 +42,7 @@ ol.tc li:before
       <ol class="tc">
         <li>Source Code
           <ol class="tc">
-            <li>The OD Arena source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</li>
+            <li>The ODARENA source code is freely available and subject to GNU Affero General Public License v3.0, which can be found at the following URL: https://www.gnu.org/licenses/agpl-3.0.en.html</li>
             <li>Nothing in these Terms and Conditions shall be construed to impose any restriction on the aforementioned GNU Affero General Public License v3.0 to the source code.</li>
           </ol>
         </li>

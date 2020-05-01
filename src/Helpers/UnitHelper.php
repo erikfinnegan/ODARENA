@@ -185,7 +185,7 @@ class UnitHelper
             // Population
             'amount_limit' => 'You can at most have %1$s of this unit.',
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
-            'population_growth' => 'Increases population growth by s%% for every 1%% of population.',
+            'population_growth' => 'Increases population growth by 2%% for every 1%% of population.',
 
             'houses_military_units' => 'Houses %1$s military units.',
             'houses_people' => 'Houses %1$s people.',

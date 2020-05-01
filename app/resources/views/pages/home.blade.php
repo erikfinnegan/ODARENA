@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
             <div style="margin-bottom: 20px;">
-                <img src="{{ asset('assets/app/images/odarena.png') }}" class="img-responsive" alt="OD Arena">
+                <img src="{{ asset('assets/app/images/odarena.png') }}" class="img-responsive" alt="ODARENA">
             </div>
         </div>
     </div>
@@ -147,7 +147,7 @@
         <div class="col-sm-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Welcome to OD Arena!</h3>
+                    <h3 class="box-title">Welcome to ODARENA!</h3>
                 </div>
                 <div class="box-body">
                     @if(request()->getHost() == 'sim.odarena.com')
@@ -194,9 +194,9 @@
                     @endif
                 </div>
                 <div class="box-body">
-                    <p>OD Arena is based on <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, created by WaveHack.</p>
+                    <p>ODARENA is based on <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, created by WaveHack.</p>
 
-                    <p>Just like OpenDominion, OD Arena is open source software and can be found on <a href="https://github.com/Dr-Eki/OpenDominion" target="_blank">GitHub <i class="fa fa-external-link"></i></a>.</p>
+                    <p>Just like OpenDominion, ODARENA is open source software and can be found on <a href="https://github.com/Dr-Eki/OpenDominion" target="_blank">GitHub <i class="fa fa-external-link"></i></a>.</p>
                 </div>
 
             </div>
