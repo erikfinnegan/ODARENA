@@ -733,7 +733,7 @@ class TickService
 
         $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
         $acres = $this->landCalculator->getTotalLand($dominion);
-        $maxPlatinumPerAcre = 5000;
+        $maxPlatinumPerAcre = 10000;
 
         $maxStorage = [];
         $maxStorage['platinum'] = $acres * $maxPlatinumPerAcre;
