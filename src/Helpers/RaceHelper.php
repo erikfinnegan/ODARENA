@@ -229,7 +229,7 @@ class RaceHelper
             case 'improvements_decay':
                 $negativeBenefit = true;
                 $description = 'Improvements decay';
-                $valueType = ' % per tick';
+                $valueType = '% per tick';
                 $booleanValue = 'static';
                 break;
             case 'tech_costs':
@@ -397,10 +397,11 @@ class RaceHelper
             {
                 $valueString = 'No';
             }
+            else
 
             if($booleanValue == 'static')
             {
-              $valueString = $perkType->pivot->value;;
+              $valueString = $perkType->pivot->value . $valueType;
             }
 
             if ($negativeBenefit === true)
@@ -426,7 +427,7 @@ class RaceHelper
             }
             elseif($booleanValue == 'static')
             {
-              $valueString = $perkType->pivot->value;
+              $valueString = $perkType->pivot->value . $valueType;
               $prefix = '';
             }
 
