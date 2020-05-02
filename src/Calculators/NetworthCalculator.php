@@ -84,6 +84,9 @@ class NetworthCalculator
         $networth += ($this->landCalculator->getTotalLand($dominion) * $networthPerLand);
         $networth += ($this->buildingCalculator->getTotalBuildings($dominion) * $networthPerBuilding);
 
+
+        $networth += ($dominion->resource_soul);
+
         // todo: Certain units have conditional bonus DP/OP. Do we need to calculate those too?
         // racial networth bonuses (wood elf, dryad, sylvan, rockapult, gnome, adept, dark elf, frost mage, ice elemental, icekin)
 
