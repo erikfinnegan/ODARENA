@@ -294,8 +294,9 @@ class RaceHelper
                 break;
             case 'defense_per_ziggurat':
                 $negativeBenefit = false;
-                $description = 'Raw defensive power per Ziggurat';
+                $description = 'Raw DP per Ziggurat';
                 $booleanValue = 'static';
+                $valueType = '';
                 break;
             case 'mana_per_ziggurat':
                 $negativeBenefit = false;
