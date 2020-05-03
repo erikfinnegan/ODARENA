@@ -118,7 +118,7 @@
                         <label for="realm-select">To see older news, select a realm below.</label>
                         <select id="realm-select" class="form-control">
                             <option value="">All Realms</option>
-                            @for ($i=1; $i<$realmCount; $i++)
+                            @for ($i=1; $i<=$realmCount; $i++)
                                 <option value="{{ $i }}" {{ $realm && $realm->number == $i ? 'selected' : null }}>
                                     {{ $i }} {{ $selectedDominion->realm->number == $i ? '(My Realm)' : null }}
                                 </option>

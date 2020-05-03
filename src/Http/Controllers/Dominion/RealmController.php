@@ -118,8 +118,6 @@ class RealmController extends AbstractDominionController
             ->where('round_id', $round->id)
             ->count();
 
-        $realmCount++;
-
         return view('pages.dominion.realm', compact(
             'landCalculator',
             'networthCalculator',
