@@ -275,27 +275,56 @@ class TrainingCalculator
 
         $costsPerUnit = $this->getTrainingCostsPerUnit($dominion);
 
-        foreach ($costsPerUnit as $unitType => $costs) {
+        foreach ($costsPerUnit as $unitType => $costs)
+        {
             $trainableByCost = [];
 
-            foreach ($costs as $type => $value) {
-
-                if($type == 'draftees' and $value == 0)
-                {
-                  # Do nothing?
-                  #$value = 1; # Ugly, causes display bug
-                  #$trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
-                }
-                else
+            foreach ($costs as $type => $value)
+            {
+                if($value !== 0)
                 {
                   $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
                 }
-
             }
 
             $trainable[$unitType] = min($trainableByCost);
-        }
 
+
+            $slot = intval(str_replace('unit','',$unitType));
+            # Look for building_limit
+            if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'building_limit'))
+            {
+              // We have building limit for this unit.
+              $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
+              $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
+              $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
+
+              $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+
+              $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
+
+              $buildingTrainingLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $dominion->{'military_unit'.$slot};
+
+              $trainable[$unitType] = min($trainableByCost, $buildingTrainingLimit);
+            }
+
+            # Look for pairing_limit
+            if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'pairing_limit'))
+            {
+
+              // We have pairing limit for this unit.
+              $pairingLimitedBy = intval($pairingLimit[0]);
+              $pairingLimitedTo = $pairingLimit[1];
+
+              $pairingLimitedByTrained = $dominion->{'military_unit'.$pairingLimitedBy};
+
+              $pairingTrainingLimit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $dominion->{'military_unit'.$slot};
+
+              $trainable[$unitType] = min($trainableByCost, $pairingTrainingLimit);
+            }
+
+
+        }
         return $trainable;
     }
 

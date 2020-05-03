@@ -65,7 +65,7 @@
                                             @endif
 
                                             @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))
-                                                <i class="ra ra-droplet ra-lg text-blue" title="Rainy Season"></i>
+                                                <i class="fa fa-cloud-showers-heavy fa-lg text-blue" title="Rainy Season"></i>
                                             @endif
 
                                             @if ($dominion->isMonarch())

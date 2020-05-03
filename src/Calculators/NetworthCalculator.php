@@ -115,6 +115,7 @@ class NetworthCalculator
                   + $unit->cost_mana*2.5
                   + $unit->cost_gem*5
                   + $unit->cost_soul*7.5
+                  + $unit->cost_champion*1.25
                   + $unit->cost_blood
                   + $unit->cost_unit1*10
                   + $unit->cost_unit2*10

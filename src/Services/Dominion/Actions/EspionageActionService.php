@@ -214,8 +214,6 @@ class EspionageActionService
 
         }
 
-
-
         $result = null;
 
         DB::transaction(function () use ($dominion, $target, $operationKey, &$result) {
@@ -244,13 +242,11 @@ class EspionageActionService
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
 
-
-
             # XP Gained.
             if(isset($result['damage']))
             {
-              $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
-              $dominion->resource_tech += $xpGained;
+                $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
+                $dominion->resource_tech += $xpGained;
             }
 
             $dominion->stat_espionage_success += 1;
