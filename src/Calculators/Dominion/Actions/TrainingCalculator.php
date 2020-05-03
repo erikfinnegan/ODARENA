@@ -289,12 +289,10 @@ class TrainingCalculator
 
             $trainable[$unitType] = min($trainableByCost);
 
-
             $slot = intval(str_replace('unit','',$unitType));
             # Look for building_limit
             if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'building_limit'))
             {
-              // We have building limit for this unit.
               $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
               $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
               $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
@@ -303,25 +301,25 @@ class TrainingCalculator
 
               $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
 
-              $buildingTrainingLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $dominion->{'military_unit'.$slot};
+              $maxAdditionalPermittedOfThisUnit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $dominion->{'military_unit'.$slot};
 
-              $trainable[$unitType] = min($trainableByCost, $buildingTrainingLimit);
+              $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
 
             # Look for pairing_limit
             if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'pairing_limit'))
             {
-
-              // We have pairing limit for this unit.
               $pairingLimitedBy = intval($pairingLimit[0]);
               $pairingLimitedTo = $pairingLimit[1];
 
               $pairingLimitedByTrained = $dominion->{'military_unit'.$pairingLimitedBy};
 
-              $pairingTrainingLimit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $dominion->{'military_unit'.$slot};
+              $maxAdditionalPermittedOfThisUnit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $dominion->{'military_unit'.$slot};
 
-              $trainable[$unitType] = min($trainableByCost, $pairingTrainingLimit);
+              $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
+
+            $trainable[$unitType] = max(0, $trainable[$unitType]);
 
 
         }
