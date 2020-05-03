@@ -849,6 +849,7 @@ class MilitaryCalculator
 
     protected function getUnitPowerFromHoursPerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
+
         $hoursPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_hour", null);
 
         if (!$hoursPerkData or !$dominion->round->hasStarted())

@@ -205,7 +205,7 @@
                                 </div>
                             </div>
 
-                            @if(stristr(Auth::user()->email, '@lykanthropos.com') or stristr(Auth::user()->email, '@odarena.local'))
+                            @if(stristr(Auth::user()->email, '@lykanthropos.com') or stristr(Auth::user()->email, '@odarena.local') or stristr(Auth::user()->email, '@odarena.com') or stristr(Auth::user()->email, '@odarena.com'))
                             <div class="col-xs-12">
 
                                 <div class="col-xs-12">

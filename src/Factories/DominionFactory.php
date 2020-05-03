@@ -64,8 +64,6 @@ class DominionFactory
             $startingBuildings
         );
 
-
-
         # Late-joiner bonus:
         # Give +1.5% starting resources per hour late, max +150% (at 100 hours, mid-day 4).
         $hoursSinceRoundStarted = 0;
@@ -275,41 +273,41 @@ class DominionFactory
 
         if($race->alignment == 'npc')
         {
-          if($race->name == 'Barbarian')
-          {
-            $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
-            $startingResources['draftees'] = 0;
+            if($race->name == 'Barbarian')
+            {
+                $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
+                $startingResources['draftees'] = 0;
 
-            $startingResources['prestige'] = intval($acresBase / 4);
-            $startingResources['draft_rate'] = 0;
-            $startingResources['peasants'] = 0;
-            $startingResources['platinum'] = 0;
-            $startingResources['ore'] = 0;
-            $startingResources['gems'] = 0;
-            $startingResources['lumber'] = 0;
-            $startingResources['food'] = 0;
-            $startingResources['mana'] = 0;
-            $startingResources['boats'] = 0;
+                $startingResources['prestige'] = intval($acresBase / 4);
+                $startingResources['draft_rate'] = 0;
+                $startingResources['peasants'] = 0;
+                $startingResources['platinum'] = 0;
+                $startingResources['ore'] = 0;
+                $startingResources['gems'] = 0;
+                $startingResources['lumber'] = 0;
+                $startingResources['food'] = 0;
+                $startingResources['mana'] = 0;
+                $startingResources['boats'] = 0;
 
-            # Starting units for Barbarians
-            $dpaTarget = 25;
-            $dpaTargetSpecsRatio = rand(50,100)/100;
-            $dpaTargetElitesRatio = 1-$dpaTargetSpecsRatio;
-            $dpRequired = $acresBase * $dpaTarget;
+                # Starting units for Barbarians
+                $dpaTarget = 25;
+                $dpaTargetSpecsRatio = rand(50,100)/100;
+                $dpaTargetElitesRatio = 1-$dpaTargetSpecsRatio;
+                $dpRequired = $acresBase * $dpaTarget;
 
-            $opaTarget = $dpaTarget * 0.75;
-            $opaTargetSpecsRatio = rand(50,100)/100;
-            $opaTargetElitesRatio = 1-$opaTargetSpecsRatio;
-            $opRequired = $acresBase * $opaTarget;
+                $opaTarget = $dpaTarget * 0.75;
+                $opaTargetSpecsRatio = rand(50,100)/100;
+                $opaTargetElitesRatio = 1-$opaTargetSpecsRatio;
+                $opRequired = $acresBase * $opaTarget;
 
-            $startingResources['unit1'] = floor(($opRequired * $opaTargetSpecsRatio)/3);
-            $startingResources['unit2'] = floor(($dpRequired * $dpaTargetSpecsRatio)/3);
-            $startingResources['unit3'] = floor(($dpRequired * $dpaTargetElitesRatio)/5);
-            $startingResources['unit4'] = floor(($opRequired * $opaTargetElitesRatio)/5);
+                $startingResources['unit1'] = floor(($opRequired * $opaTargetSpecsRatio)/3);
+                $startingResources['unit2'] = floor(($dpRequired * $dpaTargetSpecsRatio)/3);
+                $startingResources['unit3'] = floor(($dpRequired * $dpaTargetElitesRatio)/5);
+                $startingResources['unit4'] = floor(($opRequired * $opaTargetElitesRatio)/5);
 
-            $startingResources['protection_ticks'] = 0;
-            $startingResources['royal_guard_active_at'] = now();
-          }
+                $startingResources['protection_ticks'] = 0;
+                $startingResources['royal_guard_active_at'] = now();
+            }
         }
 
         return Dominion::create([
