@@ -192,7 +192,7 @@ class TrainActionService
             // Evaluate the limit.
 
             # How many of the limiting unit does the dominion have?
-            $pairingLimitedByTrained = $dominion->{'military_unit'. $pairingLimitedBy);
+            $pairingLimitedByTrained = $dominion->{'military_unit'. $pairingLimitedBy};
 
             if( # Units trained + Units in Training + Units in Queue + Units to Train
                 (($dominion->{'military_unit' . $unitSlot} +
