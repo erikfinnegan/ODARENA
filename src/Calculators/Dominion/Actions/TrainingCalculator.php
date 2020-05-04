@@ -7,6 +7,10 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
+# ODA
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Services\Dominion\QueueService;
+
 class TrainingCalculator
 {
     /** @var LandCalculator */
@@ -18,17 +22,31 @@ class TrainingCalculator
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
+    /** @var MilitaryCalculator */
+    protected $militaryCalculator;
+
+    /** @var QueueService */
+    protected $queueService;
+
     /**
      * TrainingCalculator constructor.
      *
      * @param LandCalculator $landCalculator
      * @param UnitHelper $unitHelper
      */
-    public function __construct(LandCalculator $landCalculator, UnitHelper $unitHelper, ImprovementCalculator $improvementCalculator)
+    public function __construct(
+          LandCalculator $landCalculator,
+          UnitHelper $unitHelper,
+          ImprovementCalculator $improvementCalculator,
+          MilitaryCalculator $militaryCalculator,
+          QueueService $queueService
+          )
     {
         $this->landCalculator = $landCalculator;
         $this->unitHelper = $unitHelper;
         $this->improvementCalculator = $improvementCalculator;
+        $this->militaryCalculator = $militaryCalculator;
+        $this->queueService = $queueService;
     }
 
     /**
@@ -301,7 +319,7 @@ class TrainingCalculator
 
               $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
 
-              $maxAdditionalPermittedOfThisUnit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $dominion->{'military_unit'.$slot};
+              $maxAdditionalPermittedOfThisUnit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
               $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
@@ -314,7 +332,7 @@ class TrainingCalculator
 
               $pairingLimitedByTrained = $dominion->{'military_unit'.$pairingLimitedBy};
 
-              $maxAdditionalPermittedOfThisUnit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $dominion->{'military_unit'.$slot};
+              $maxAdditionalPermittedOfThisUnit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
               $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
