@@ -195,7 +195,7 @@ class CasualtiesCalculator
             $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
 
             # Unit Perk: Reduces or increases casualties.
-            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($dominion, $target, $units, $landRatio);
+            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($dominion, $target, $units, $landRatio, 'offensive');
 
             #echo '<pre>';
             #echo "Offensive multiplier:\n";
@@ -333,7 +333,7 @@ class CasualtiesCalculator
             }
 
             # Unit Perk: Reduces or increases casualties.
-            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($attacker, $dominion, $units, $landRatio);
+            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($attacker, $dominion, $units, $landRatio, 'defensive');
 
             #echo '<pre>';
             #echo "Defensive multiplier:\n";
@@ -608,9 +608,15 @@ class CasualtiesCalculator
       *   Calculates reduces_casualties or increases_casualties.
       *   reduces_casualties: lowers casualties of all friendly units participating in the battle. ([Perk Units]/[All Units])/2
       *   increases_casualties: increases casualties of enemy units participating in the battle. ([Perk Units]/[All Units])/4
+      *   $mode is either OFFENSIVE or DEFENSIVE
       **/
-      protected function getUnitCasualtiesPerk(Dominion $attacker, Dominion $defender, array $units, float $landRatio): array
+      protected function getUnitCasualtiesPerk(Dominion $attacker, Dominion $defender, array $units, float $landRatio, string $mode): array
       {
+
+          #echo '<pre>';
+          #echo "\nDefender == " . $defender->name;
+          #echo "\nAttacker == " . $attacker->name;
+          #echo '</pre>';
 
           $rawOpFromSentUnits = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $units, []);
           $rawDpFromHomeUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio);
@@ -644,7 +650,7 @@ class CasualtiesCalculator
               }
               if($decreasesCasualties = $defender->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties'))
               {
-                  $unitCasualtiesPerk['defender']['reduces_casualties'] += $amount / $defenderUnitsHome;
+                  $unitCasualtiesPerk['defender']['reduces_casualties'] += $defender->{'military_unit'.$slot} / $defenderUnitsHome;
               }
           }
 
@@ -653,7 +659,6 @@ class CasualtiesCalculator
 
           $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] /= 2;
           $unitCasualtiesPerk['defender']['reduces_casualties'] /= 2;
-
 
           #dd($units, $unitCasualtiesPerk['attacker'], $rawOpFromSentUnits, $rawDpFromHomeUnits);
 
