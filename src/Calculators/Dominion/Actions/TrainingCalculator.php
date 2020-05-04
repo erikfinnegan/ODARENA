@@ -319,7 +319,7 @@ class TrainingCalculator
 
               $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
 
-              $maxAdditionalPermittedOfThisUnit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
+              $maxAdditionalPermittedOfThisUnit = intval($buildingLimitedTo * $unitsPerBuilding) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
               $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
