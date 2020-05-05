@@ -99,8 +99,8 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>The council is where you can communicate with the rest of your realm. Only you and other dominions inside your realm can view and post in here.</p>
-                    {{--<p>Your realm monarch is X and has the power to moderate the council board.</p>--}}
+                    <p>This is where you can communicate with the rest of your realm. Only you and other dominions inside your realm can view and post in here.</p>
+                    <p>The Governor of the Realm has the power to delete posts.</p>
                     <p>There {{ ($councilThreads->count() === 1) ? 'is' : 'are' }} {{ number_format($councilThreads->count()) }} {{ str_plural('thread', $councilThreads->count()) }} {{--and {{ number_format($councilThreads->posts->count()) }} {{ str_plural('post', $councilThreads->posts->count()) }} --}}in the council.</p>
                 </div>
             </div>

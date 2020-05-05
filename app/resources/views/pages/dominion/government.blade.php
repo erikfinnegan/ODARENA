@@ -7,7 +7,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-queen-crown"></i> Monarchy</h3>
+                    <h3 class="box-title"><i class="fa fa-gavel"></i> Governor</h3>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -49,7 +49,7 @@
                         <div class="col-md-12">
                             <form action="{{ route('dominion.government.monarch') }}" method="post" role="form">
                                 @csrf
-                                <label for="monarch">Vote for monarch</label>
+                                <label for="monarch">Vote for governor</label>
                                 <div class="row">
                                     <div class="col-sm-8 col-lg-10">
                                         <div class="form-group">
@@ -108,8 +108,8 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>Here you can vote for the monarch of your realm. You can change your vote at any time.</p>
-                    <p>The monarch has the power to declare war and peace as well as moderate the council.</p>
+                    <p>Here you can vote for the governor of your realm. You can change your vote at any time.</p>
+                    <p>The governor has the power to declare war and peace as well as moderate the council.</p>
                 </div>
             </div>
         </div>
