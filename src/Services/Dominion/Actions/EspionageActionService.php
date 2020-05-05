@@ -615,7 +615,7 @@ class EspionageActionService
                     }
                 }
 
-                if($target->dominion->race == 'Demon')
+                if($target->race == 'Demon')
                 {
                     $target->resource_soul += ($spiesKilled + $potentialSouls);
                 }
@@ -966,7 +966,7 @@ class EspionageActionService
                     }
                 }
 
-                if($target->dominion->race == 'Demon')
+                if($target->race == 'Demon')
                 {
                     $target->resource_soul += ($spiesKilled + $potentialSouls);
                 }
