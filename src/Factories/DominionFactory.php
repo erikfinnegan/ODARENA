@@ -40,7 +40,6 @@ class DominionFactory
         $this->guardAgainstMultipleDominionsInARound($user, $realm->round);
         $this->guardAgainstMismatchedAlignments($race, $realm, $realm->round);
 
-
         // Starting resources are based on this.
         $acresBase = 1000;
         $startingResources['npc_modifier'] = 0;

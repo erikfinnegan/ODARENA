@@ -8,7 +8,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-group"></i> {{ $realm->name }} (#{{ number_format($realm->number) }})</h3>
+                    <h3 class="box-title"><i class="fa fa-group"></i> {{ $councilName }} of {{ $realm->name }} (#{{ number_format($realm->number) }})</h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-hover">
@@ -37,7 +37,7 @@
                                         <td>
                                             <a href="{{ route('dominion.council.thread', $thread) }}"><b>{{ $thread->title }}</b></a><br>
                                             <small class="text-muted">
-                                                Created {{ $thread->created_at }} by 
+                                                Created {{ $thread->created_at }} by
                                                 @if ($thread->dominion->isMonarch())
                                                     <i class="ra ra-queen-crown text-red"></i>
                                                 @endif
@@ -46,7 +46,7 @@
                                                     ({{ $thread->dominion->ruler_name }})
                                                 @endif
                                             </small>
-                                            @if ($selectedDominion->isMonarch()) 
+                                            @if ($selectedDominion->isMonarch())
                                                 <a href="{{ route('dominion.council.delete.thread', $thread) }}"><i class="fa fa-trash text-red"></i></a>
                                             @endif
                                         </td>

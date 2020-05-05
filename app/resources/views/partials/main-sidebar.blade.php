@@ -101,7 +101,18 @@
                 <!--
                 <li class="header">COMMS</li>
                 -->
-                <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fa fa-group ra-fw"></i> <span>Council</span> {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
+                <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fa fa-group ra-fw"></i>
+                  <span>
+                    @if($selectedDominion->realm->alignment == 'evil')
+                      Senate
+                    @elseif($selectedDominion->realm->alignment == 'good')
+                      Parliament
+                    @elseif($selectedDominion->realm->alignment == 'independent')
+                      Assembly
+                    @else
+                      Council
+                    @endif
+                </span> {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
                 <li class="{{ Route::is('dominion.op-center*') ? 'active' : null }}"><a href="{{ route('dominion.op-center') }}"><i class="fa fa-bullseye ra-fw"></i> <span>Op Center</span></a></li>
                 <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
 
