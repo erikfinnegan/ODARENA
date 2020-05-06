@@ -202,7 +202,7 @@ class UnitHelper
 
             // Myconid
             'unit_production' => 'Produces %2$s %1$s per tick.',
-            'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion by 0.50% for every 1% of total population made up of this unit.',
+            'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion by 0.50%% for every 1%% of total population made up of this unit.',
 
             # TBD
             'is_inanimate' => 'Inanimate.',
