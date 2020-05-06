@@ -673,7 +673,7 @@ class EspionageActionService
             case 'steal_lumber':
                 $resource = 'lumber';
                 $constraints = [
-                    'target_amount' => 5,
+                    'target_amount' => 5/4,
                     'self_production' => 0,
                     'spy_carries' => 50/4,
                 ];
