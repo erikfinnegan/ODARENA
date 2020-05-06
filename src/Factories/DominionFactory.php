@@ -37,6 +37,7 @@ class DominionFactory
         string $dominionName,
         ?Pack $pack = null
     ): Dominion {
+        $this->guardAgainstCrossRoundRegistration($user, $realm->round);
         $this->guardAgainstMultipleDominionsInARound($user, $realm->round);
         $this->guardAgainstMismatchedAlignments($race, $realm, $realm->round);
 
@@ -402,6 +403,19 @@ class DominionFactory
 
             'royal_guard_active_at' => $startingResources['royal_guard_active_at'],
         ]);
+    }
+
+    /**
+     * @param User $user
+     * @param Round $round
+     * @throws GameException
+     */
+    protected function guardAgainstCrossRoundRegistration(User $user, Round $round): void
+    {
+        if($round->hasEnded)
+        {
+            throw new GameException('You cannot register for a round that has ended.');
+        }
     }
 
     /**
