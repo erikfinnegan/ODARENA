@@ -2036,9 +2036,10 @@ class InvadeActionService
         $champions = 0;
         if ($attacker->race->name == 'Norse')
         {
-            if($landRatio >= 0.75)
+            if($landRatio >= 0.75 and !$this->invasionResult['result']['overwhelmed'])
             {
                 $champions = $this->invasionResult['attacker']['unitsLost']['1'];
+
                 $this->invasionResult['attacker']['champion']['champions'] = $champions;
 
                 $this->queueService->queueResources(
@@ -2081,7 +2082,8 @@ class InvadeActionService
         // Never overwhelm on successful invasions
         $this->invasionResult['result']['overwhelmed'] = false;
 
-        if ($this->invasionResult['result']['success']) {
+        if ($this->invasionResult['result']['success'])
+        {
             return;
         }
 
