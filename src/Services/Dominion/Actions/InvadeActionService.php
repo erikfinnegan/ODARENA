@@ -1216,6 +1216,12 @@ class InvadeActionService
 
         $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalDefensiveCasualties * 1.75) * $landRatio;
 
+        if(!$isInvasionSuccessful)
+        {
+            $totalConverts = min($totalDefensiveCasualties, $totalConverts);
+            $totalConverts /= 3;
+        }
+
         foreach ($unitsWithConversionPerk as $unit)
         {
             $conversionPerk = $unit->getPerkValue('conversion');
