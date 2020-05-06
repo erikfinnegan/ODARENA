@@ -412,7 +412,7 @@ class DominionFactory
      */
     protected function guardAgainstCrossRoundRegistration(User $user, Round $round): void
     {
-        if($round->hasEnded)
+        if($round->hasEnded())
         {
             throw new GameException('You cannot register for a round that has ended.');
         }
