@@ -79,12 +79,6 @@ class ExploreActionService
     {
         $this->guardLockedDominion($dominion);
 
-
-        if(!$dominion->round->isExploringAllowed())
-        {
-            throw new GameException('Exploration has been disabled for this round.');
-        }
-
         #if ($this->protectionService->isUnderProtection($dominion))
         #{
         #    throw new GameException('You cannot explore while under protection.');

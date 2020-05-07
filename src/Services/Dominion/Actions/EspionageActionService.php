@@ -305,7 +305,7 @@ class EspionageActionService
 
             if (!random_chance($successRate)) {
                 // Values (percentage)
-                $spiesKilledBasePercentage = 0.25; // TODO: Higher for black ops.
+                $spiesKilledBasePercentage = 0.25;
 
                 $spiesKilledMultiplier = $this->getSpyLossesReductionMultiplier($dominion);
 
@@ -1121,7 +1121,7 @@ class EspionageActionService
       # Forest Havens
       $spiesKilledMultiplier -= ($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * 3;
       # Techs
-      $spiesKilledMultiplier -= $dominion->getTechPerkMultiplier('spy_losses');
+      $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
       # Hideouts
       $spiesKilledMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
       # Cap at 0% losses
