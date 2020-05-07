@@ -22,6 +22,7 @@ perks:
   food_consumption: -25
   boat_capacity: 10
   cannot_train_archmages: 1
+  salvaging: 25
 units:
   - name: Reanimated
     type: hybrid_specialist

@@ -367,6 +367,11 @@ class RaceHelper
                 $description = 'Peasants cannot be abducted';
                 $booleanValue = true;
                 break;
+            case 'can_only_abduct_own':
+                $negativeBenefit = false;
+                $description = 'Cannot abduct peasants or draftees or be abducted';
+                $booleanValue = true;
+                break;
             case 'population_from_alchemy':
                 $negativeBenefit = false;
                 $description = 'Extra population per 1% Alchemies (max +20%)';
@@ -380,6 +385,10 @@ class RaceHelper
             case 'forest_construction_cost':
                 $negativeBenefit = true;
                 $description = 'Forest construction cost';
+                break;
+            case 'salvaging':
+                $negativeBenefit = true;
+                $description = 'Salvages resources';
                 break;
 
 

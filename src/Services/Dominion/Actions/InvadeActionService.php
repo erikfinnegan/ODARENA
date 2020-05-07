@@ -375,6 +375,9 @@ class InvadeActionService
             # Norse
             $this->handleChampionCreation($dominion, $target, $units, $landRatio);
 
+            $this->handlesalvaging($dominion, $target);
+
+
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
             // Stat changes
@@ -384,17 +387,10 @@ class InvadeActionService
                 $dominion->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landGenerated']);
                 $dominion->stat_attacking_success += $countsAsVictory;
 
-                #$dominion->realm->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
-                #$dominion->realm->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landGenerated']);
-                #$dominion->realm->stat_attacking_success += $countsAsVictory;
-
                 $target->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
-                #$target->realm->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
             }
             else
             {
-                #$dominion->stat_attacking_failure += $countsAsVictory;
-                #$dominion->realm->stat_attacking_failure += $countsAsVictory;
                 $target->stat_defending_success += 1;
                 $target->realm->stat_defending_success += 1;
             }

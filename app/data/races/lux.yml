@@ -23,6 +23,7 @@ perks:
   cannot_train_archmages: 1
   invest_bonus: -10
   platinum_production: -15
+  can_only_abduct_own: 1
 units:
   - name: Essence
     static_networth: 5

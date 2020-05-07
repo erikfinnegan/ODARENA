@@ -29,9 +29,8 @@ perks:
   tissue_improvement: 1
   draftee_dp: 0.01
   peasants_produce_food: 0.5
-  draftees_cannot_be_abducted: 1
-  peasants_cannot_be_abducted: 1
   food_decay: -100
+  can_only_abduct_own: 1
 units:
   - name: Abscess
     need_boat: false

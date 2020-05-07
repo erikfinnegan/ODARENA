@@ -17,6 +17,7 @@ perks:
   cannot_build_homes: 1
   gem_production: 30
   cannot_build_barracks: 1
+  salvaging: 25
 units:
   - name: Javelineer
     need_boat: true

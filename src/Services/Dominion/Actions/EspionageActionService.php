@@ -170,7 +170,7 @@ class EspionageActionService
         {
             if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START)
             {
-                throw new GameException('You cannot perform resource theft for the first day of the round');
+                throw new GameException('You cannot perform resource theft during gthe first day of the round');
             }
             #if ($this->rangeCalculator->getDominionRange($dominion, $target) < 100) {
             if (!$this->rangeCalculator->isInRange($dominion, $target))
@@ -179,7 +179,7 @@ class EspionageActionService
             }
         } elseif ($this->espionageHelper->isHostileOperation($operationKey)) {
             if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START) {
-                throw new GameException('You cannot perform black ops for the first day of the round');
+                throw new GameException('You cannot perform black ops during the first day of the round');
             }
         }
 
@@ -195,23 +195,15 @@ class EspionageActionService
           }
         #}
 
-        # Special case for draftee and peasant abduction.
         if($operationKey == 'abduct_draftees' or $operationKey == 'abduct_peasants')
         {
-          # These factions can only abduct from themselves.
-          if(
-              ($dominion->race->getPerkValue('draftees_cannot_be_abducted') or $dominion->race->getPerkValue('peasants_cannot_be_abducted')) and
-              $dominion->race->name !== $target->race->name
-              )
-          {
-            throw new GameException('You can only abduct draftees or peasants from other ' . $dominion->race->name . ' dominions.');
-          }
-          # Otherwise, can't steal from them.
-          elseif($target->race->getPerkValue('draftees_cannot_be_abducted') or $target->race->getPerkValue('peasants_cannot_be_abducted'))
-          {
-            throw new GameException('You cannot abduct draftees or peasants from ' . $target->race->name . '. They are not compatible with your population.');
-          }
-
+            if($dominion->race->getPerkValue('can_only_abduct_own') or $target->race->getPerkValue('can_only_abduct_own'))
+            {
+                if($dominion->race->name !== $target->race->name)
+                {
+                    throw new GameException('Abduction not possible. ' . $dominion->race->name . ' and ' . $target->race->name . ' are not compatible enough.');
+                }
+            }
         }
 
         $result = null;

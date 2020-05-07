@@ -13,10 +13,9 @@ converting: 1
 perks:
   cannot_build_barracks: 1
   construction_cost: 25
-  draftees_cannot_be_abducted: 1
-  peasants_cannot_be_abducted: 1
   platinum_production: -50
   max_population: 15
+  can_only_abduct_own: 1
 units:
   - name: Spawn
     need_boat: true

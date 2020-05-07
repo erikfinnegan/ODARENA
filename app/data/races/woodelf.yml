@@ -16,6 +16,7 @@ perks:
   lumber_production: 20
   improvements_max: 50
   tech_production: 100
+  salvaging: 35
 units:
   - name: Ranger
     cost:

@@ -16,6 +16,7 @@ perks:
   can_sell_food: 1
   cannot_build_barracks: 1
   cannot_build_homes: 1
+  salvaging: 50
 units:
   - name: Ensign
     need_boat: true

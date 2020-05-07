@@ -16,6 +16,7 @@ perks:
   food_production: 5
   max_population: 5
   prestige_gains: 10
+  salvaging: 15
 units:
   - name: Martyr
     cost:

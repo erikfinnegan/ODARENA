@@ -16,6 +16,7 @@ converting: 3
 perks:
   max_population: -20
   cannot_build_homes: 1
+  salvaging: 25
 units:
   - name: Bombardier
     type: defensive_elite

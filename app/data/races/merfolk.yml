@@ -21,6 +21,7 @@ perks:
   construction_cost_only_platinum: 1
   damage_from_fireballs: -100
   damage_from_lightning_bolts: -50
+  can_only_abduct_own: 1
 units:
   - name: Merman
     cost:

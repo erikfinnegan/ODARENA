@@ -18,6 +18,8 @@ perks:
   spy_strength: -10
   wizard_strength: -10
   boat_capacity: 10
+  can_only_abduct_own: 1
+  salvaging: 10
 units:
   - name: Grunt
     cost:

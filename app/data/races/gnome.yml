@@ -17,6 +17,7 @@ perks:
   food_consumption: -25
   gem_production: 10
   increased_construction_speed: 3
+  salvaging: 50
 units:
   - name: Suicide Squad
     cost:

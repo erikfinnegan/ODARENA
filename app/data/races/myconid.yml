@@ -30,9 +30,8 @@ perks:
   cannot_build_homes: 1
   cannot_join_guards: 1
   peasants_produce_food: 2
-  draftees_cannot_be_abducted: 1
-  peasants_cannot_be_abducted: 1
   food_decay: -100
+  can_only_abduct_own: 1
 units:
   - name: Fruitbody
     need_boat: false

@@ -15,6 +15,7 @@ perks:
   gem_production: 10
   guard_tax_exemption: 1
   extra_barren_max_population: 5
+  salvaging: 75
 units:
   - name: Arquebusier
     need_boat: true

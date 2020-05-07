@@ -26,8 +26,7 @@ perks:
   draftee_mana_production: 1
   peasants_produce_food: 0.5
   unemployed_peasants_produce_platinum: 2.7
-  draftees_cannot_be_abducted: 1
-  peasants_cannot_be_abducted: 1
+  can_only_abduct_own: 1
 units:
   - name: Scarab
     need_boat: false

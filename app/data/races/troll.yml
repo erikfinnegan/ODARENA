@@ -20,6 +20,7 @@ perks:
   gem_production: 10
   improvements_max: 50
   cannot_tech: 1
+  salvaging: 20
 units:
   - name: Clubber
     cost:
