@@ -2000,9 +2000,10 @@ class InvadeActionService
             $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($attacker);
             foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amountLost)
             {
-                $unitOreCost = $unitCosts[$slot]['ore'];
-                $unitLumberCost = $unitCosts[$slot]['lumber'];
-                $unitGemCost = $unitCosts[$slot]['gems'];
+                $unitType = 'unit'.$slot;
+                $unitOreCost = $unitCosts[$unitType]['ore'];
+                $unitLumberCost = $unitCosts[$unitType]['lumber'];
+                $unitGemCost = $unitCosts[$unitType]['gems'];
 
                 $result['attacker']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                 $result['attacker']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
@@ -2016,9 +2017,10 @@ class InvadeActionService
             $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($defender);
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountLost)
             {
-                $unitOreCost = $unitCosts[$slot]['ore'];
-                $unitLumberCost = $unitCosts[$slot]['lumber'];
-                $unitGemCost = $unitCosts[$slot]['gems'];
+                $unitType = 'unit'.$slot;
+                $unitOreCost = $unitCosts[$unitType]['ore'];
+                $unitLumberCost = $unitCosts[$unitType]['lumber'];
+                $unitGemCost = $unitCosts[$unitType]['gems'];
 
                 $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                 $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
