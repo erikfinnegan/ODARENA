@@ -387,8 +387,19 @@ class RaceHelper
                 $description = 'Forest construction cost';
                 break;
             case 'salvaging':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'Salvages resources';
+                break;
+            case 'cannot_rezone':
+                $negativeBenefit = true;
+                $description = 'Cannot rezone';
+                $booleanValue = true;
+                break;
+            case 'max_per_round':
+                $negativeBenefit = true;
+                $description = 'Max dominions per round';
+                $valueType = '';
+                $booleanValue = 'static';
                 break;
 
 

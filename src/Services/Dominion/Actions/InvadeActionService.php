@@ -26,6 +26,7 @@ use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 
 
 
@@ -123,6 +124,9 @@ class InvadeActionService
     /** @var UnitHelper */
     protected $unitHelper;
 
+    /** @var TrainingCalculator */
+    protected $trainingCalculator;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -177,7 +181,8 @@ class InvadeActionService
         ImprovementHelper $improvementHelper,
         SpellHelper $spellHelper,
         SpellActionService $spellActionService,
-        UnitHelper $unitHelper
+        UnitHelper $unitHelper,
+        TrainingCalculator $trainingCalculator
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -194,6 +199,7 @@ class InvadeActionService
         $this->spellHelper = $spellHelper;
         $this->spellActionService = $spellActionService;
         $this->unitHelper = $unitHelper;
+        $this->trainingCalculator = $trainingCalculator;
     }
 
     /**
@@ -361,7 +367,6 @@ class InvadeActionService
             $defensiveConversions = $this->handleDefensiveConversions($target, $landRatio, $units, $dominion);
 
             $this->handleReturningUnits($dominion, $survivingUnits, $offensiveConversions);
-            $this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $units);
 
             $this->handleMoraleChanges($dominion, $target, $landRatio);
             $this->handleLandGrabs($dominion, $target, $landRatio);
@@ -371,12 +376,12 @@ class InvadeActionService
 
             # Demon
             $this->handleSoulBloodFoodCollection($dominion, $target, $landRatio);
-
             # Norse
             $this->handleChampionCreation($dominion, $target, $units, $landRatio);
 
-            $this->handlesalvaging($dominion, $target);
-
+            #$this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $units);
+            # Salvage and Plunder
+            $this->handleSalvagingAndPlundering($dominion, $target, $survivingUnits);
 
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
@@ -1472,102 +1477,6 @@ class InvadeActionService
     }
 
     /**
-     * Handles perks that trigger on invasion.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target
-     * @param array $units
-     */
-    protected function handleAfterInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units, int $totalDefensiveCasualties): void
-    {
-        // todo: just hobgoblin plunder atm, need a refactor later to take into
-        //       account more post-combat unit-perk-related stuff
-
-        $isInvasionSuccessful = $this->invasionResult['result']['success'];
-
-        if (!$isInvasionSuccessful) {
-            return; // nothing to plunder on unsuccessful invasions
-        }
-
-        $attackingForceOP = $this->invasionResult['attacker']['op'];
-        $targetDP = $this->invasionResult['defender']['dp'];
-
-        // todo: refactor this hardcoded hacky mess
-        // Check if we sent hobbos out
-        if (($dominion->race->name === 'Goblin') && isset($units[3]) && ($units[3] > 0))
-        {
-            $hobbos = $units[3];
-            $totalUnitsSent = array_sum($units);
-
-            $hobbosPercentage = $hobbos / $totalUnitsSent;
-
-            $averageOPPerUnitSent = ($attackingForceOP / $totalUnitsSent);
-            $OPNeededToBreakTarget = ($targetDP + 1);
-            $unitsNeededToBreakTarget = round($OPNeededToBreakTarget / $averageOPPerUnitSent);
-
-            $hobbosToPlunderWith = (int)ceil($unitsNeededToBreakTarget * $hobbosPercentage);
-
-            $plunderPlatinum = min($hobbosToPlunderWith * 50, (int)floor($target->resource_platinum * 0.2));
-            $plunderGems = min($hobbosToPlunderWith * 20, (int)floor($target->resource_gems * 0.2));
-
-            $target->resource_platinum -= $plunderPlatinum;
-            $target->resource_gems -= $plunderGems;
-
-            if (!isset($this->invasionResult['attacker']['plunder'])) {
-                $this->invasionResult['attacker']['plunder'] = [
-                    'platinum' => $plunderPlatinum,
-                    'gems' => $plunderGems,
-                ];
-            }
-
-            $this->queueService->queueResources(
-                'invasion',
-                $dominion,
-                [
-                    'resource_platinum' => $plunderPlatinum,
-                    'resource_gems' => $plunderGems,
-                ]
-            );
-        }
-        if (($dominion->race->name === 'Legion') && isset($units[1]) && ($units[1] > 0))
-        {
-            $hobbos = $units[1];
-            $totalUnitsSent = array_sum($units);
-
-            $hobbosPercentage = $hobbos / $totalUnitsSent;
-
-            $averageOPPerUnitSent = ($attackingForceOP / $totalUnitsSent);
-            $OPNeededToBreakTarget = ($targetDP + 1);
-            $unitsNeededToBreakTarget = round($OPNeededToBreakTarget / $averageOPPerUnitSent);
-
-            $hobbosToPlunderWith = (int)ceil($unitsNeededToBreakTarget * $hobbosPercentage);
-
-            $plunderPlatinum = min($hobbosToPlunderWith * 50, (int)floor($target->resource_platinum * 0.2));
-            $plunderGems = min($hobbosToPlunderWith * 20, (int)floor($target->resource_gems * 0.2));
-
-            $target->resource_platinum -= $plunderPlatinum;
-            $target->resource_gems -= $plunderGems;
-
-            if (!isset($this->invasionResult['attacker']['plunder'])) {
-                $this->invasionResult['attacker']['plunder'] = [
-                    'platinum' => $plunderPlatinum,
-                    'gems' => $plunderGems,
-                ];
-            }
-
-            $this->queueService->queueResources(
-                'invasion',
-                $dominion,
-                [
-                    'resource_platinum' => $plunderPlatinum,
-                    'resource_gems' => $plunderGems,
-                ]
-            );
-        }
-
-    }
-
-    /**
      *  Handles perks that trigger DURING the battle (before casualties).
      *
      *  Go through every unit slot and look for post-invasion perks:
@@ -2054,6 +1963,125 @@ class InvadeActionService
             }
         }
     }
+
+    /**
+     * Handles the salvaging of lumber, ore, and gem costs of units.
+     * Also handles plunders unit perk. Because both use the same queue value.
+     *
+     * @param Dominion $attacker
+     * @param Dominion $defender
+     */
+    protected function handleSalvagingAndPlundering(Dominion $attacker, Dominion $defender, array $survivingUnits): void
+    {
+
+        $result['attacker']['plunder']['platinum'] = 0;
+        $result['attacker']['plunder']['mana'] = 0;
+        $result['attacker']['plunder']['food'] = 0;
+        $result['attacker']['plunder']['ore'] = 0;
+        $result['attacker']['plunder']['lumber'] = 0;
+        $result['attacker']['plunder']['gems'] = 0;
+
+        $result['attacker']['salvage']['ore'] = 0;
+        $result['attacker']['salvage']['lumber'] = 0;
+        $result['attacker']['salvage']['gems'] = 0;
+
+        $result['defender']['salvage']['ore'] = 0;
+        $result['defender']['salvage']['lumber'] = 0;
+        $result['defender']['salvage']['gems'] = 0;
+
+        if(!$this->invasionResult['result']['success'])
+        {
+            return;
+        }
+
+        # Attacker: Salvaging
+        if($salvaging = $attacker->race->getPerkValue('salvaging'))
+        {
+            $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($attacker);
+            foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amountLost)
+            {
+                $unitOreCost = $unitCosts[$slot]['ore'];
+                $unitLumberCost = $unitCosts[$slot]['lumber'];
+                $unitGemCost = $unitCosts[$slot]['gems'];
+
+                $result['attacker']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
+                $result['attacker']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
+                $result['attacker']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
+            }
+        }
+
+        # Defender: Salvaging
+        if($salvaging = $defender->race->getPerkValue('salvaging'))
+        {
+            $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($defender);
+            foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountLost)
+            {
+                $unitOreCost = $unitCosts[$slot]['ore'];
+                $unitLumberCost = $unitCosts[$slot]['lumber'];
+                $unitGemCost = $unitCosts[$slot]['gems'];
+
+                $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
+                $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
+                $result['defender']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
+            }
+        }
+
+        # Attacker: Plundering
+        foreach($survivingUnits as $slot => $amount)
+        {
+            if($plunderPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot,'plunders'))
+            {
+                echo '<pre>';
+                foreach($plunderPerk as $plunder)
+                {
+                    $resourceToPlunder = $plunder[0];
+                    $amountPlunderedPerUnit = intval($plunder[1]);
+                    $amountToPlunder = min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit);
+
+                    $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
+                }
+
+                echo '</pre>';
+            }
+        }
+
+        # Remove plundered resources from defender.
+        foreach($result['attacker']['plunder'] as $resource => $amount)
+        {
+            $defender->{'resource_'.$resource} -= $amount;
+        }
+
+        # Add salvaged resources to defender.
+        foreach($result['defender']['salvage'] as $resource => $amount)
+        {
+            $defender->{'resource_'.$resource} += $amount;
+        }
+
+        # Queue plundered and salvaged resources to attacker.
+        foreach($result['attacker']['plunder'] as $resource => $amount)
+        {
+            # If the resource is ore, lumber, or gems, also check for salvaged resources.
+            if(in_array($resource, ['ore', 'lumber', 'gems']))
+            {
+                $amount += $result['attacker']['salvage'][$resource];
+            }
+
+            $this->queueService->queueResources(
+                'invasion',
+                $attacker,
+                [
+                    'resource_'.$resource => $amount
+                ]
+            );
+        }
+
+        $this->invasionResult['attacker']['salvage'] = $result['attacker']['salvage'];
+        $this->invasionResult['attacker']['plunder'] = $result['attacker']['plunder'];
+        $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
+
+    }
+
+
     /**
      * Check whether the invasion is successful.
      *

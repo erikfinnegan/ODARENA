@@ -49,3 +49,4 @@ units:
     perks:
       faster_return: 3
       fewer_casualties: 50
+      plunders: platinum;100,gems;30,ore;20

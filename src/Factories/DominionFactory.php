@@ -157,6 +157,14 @@ class DominionFactory
         $startingResources['wizards'] = 0;
         $startingResources['archmages'] = 0;
 
+        $startingResources['improvement_markets'] = 0;
+        $startingResources['improvement_keep'] = 0;
+        $startingResources['improvement_forges'] = 0;
+        $startingResources['improvement_walls'] = 0;
+        $startingResources['improvement_armory'] = 0;
+        $startingResources['improvement_observatory'] = 0;
+        $startingResources['improvement_harbor'] = 0;
+
         # RACE/FACTION SPECIFIC RESOURCES
 
         // Gnome and Imperial Gnome: triple the ore and remove 1/4 of platinum
@@ -271,6 +279,17 @@ class DominionFactory
           $startingResources['wild_yeti'] = 150;
         }
 
+        if($race->name == 'Kerranad')
+        {
+            $startingResources['improvement_markets'] = 422500;
+            $startingResources['improvement_keep'] = 535000;
+            $startingResources['improvement_forges'] = 791000;
+            $startingResources['improvement_walls'] = 791000;
+            $startingResources['improvement_armory'] = 895000;
+            $startingResources['improvement_observatory'] = 528000;
+            $startingResources['improvement_harbor'] = 591000;
+        }
+
         if($race->alignment == 'npc')
         {
             if($race->name == 'Barbarian')
@@ -345,14 +364,21 @@ class DominionFactory
             'resource_blood' => intval($startingResources['blood'] * $startingResourcesMultiplier),
             # End new resources
 
-            #'improvement_science' => 0,
-            'improvement_keep' => 0,
-            'improvement_towers' => 0,
-            'improvement_forges' => 0,
-            'improvement_walls' => 0,
-            'improvement_harbor' => 0,
-            'improvement_armory' => 0,
+            'improvement_markets' => $startingResources['improvement_markets'],
+            'improvement_keep' => $startingResources['improvement_keep'],
+            'improvement_forges' => $startingResources['improvement_forges'],
+            'improvement_walls' => $startingResources['improvement_walls'],
+            'improvement_armory' => $startingResources['improvement_armory'],
             'improvement_infirmary' => 0,
+            'improvement_workshops' => 0,
+            'improvement_observatory' => $startingResources['improvement_observatory'],
+            'improvement_cartography' => 0,
+            'improvement_towers' => 0,
+            'improvement_hideouts' => 0,
+            'improvement_granaries' => 0,
+            'improvement_harbor' => $startingResources['improvement_harbor'],
+            'improvement_forestry' => 0,
+            'improvement_refinery' => 0,
             'improvement_tissue' => 0,
 
             'military_draftees' => intval($startingResources['draftees'] * $startingResourcesMultiplier),
@@ -372,25 +398,25 @@ class DominionFactory
             'land_hill' => $startingLand['hill'],
             'land_water' => $startingLand['water'],
 
-            'building_home' => 0,
+            'building_home' => $startingBuildings['home'],
             'building_alchemy' => 0,
             'building_farm' => $startingBuildings['farm'],
-            'building_smithy' => 0,
+            'building_smithy' => $startingBuildings['smithy'],
             'building_masonry' => 0,
-            'building_ore_mine' => 0,
+            'building_ore_mine' => $startingBuildings['ore_mine'],
             'building_gryphon_nest' => 0,
             'building_tower' => $startingBuildings['tower'],
-            'building_wizard_guild' => 0,
-            'building_temple' => 0,
-            'building_diamond_mine' => 0,
+            'building_wizard_guild' => $startingBuildings['wizard_guild'],
+            'building_temple' => $startingBuildings['temple'],
+            'building_diamond_mine' => $startingBuildings['diamond_mine'],
             'building_school' => 0,
             'building_lumberyard' => $startingBuildings['lumberyard'],
-            'building_forest_haven' => 0,
+            'building_forest_haven' => $startingBuildings['forest_haven'],
             'building_factory' => 0,
             'building_guard_tower' => 0,
             'building_shrine' => 0,
-            'building_barracks' => 0,
-            'building_dock' => 0,
+            'building_barracks' => $startingBuildings['barracks'],
+            'building_dock' => $startingBuildings['dock'],
 
             'building_ziggurat' => $startingBuildings['ziggurat'],
             'building_tissue' => $startingBuildings['tissue'],
@@ -520,6 +546,18 @@ class DominionFactory
               'water' => 0,
           ];
         }
+        elseif($race->name == 'Kerranad')
+        {
+          return [
+              'plain' => 0,
+              'mountain' => 0,
+              'swamp' => 0,
+              'cavern' => 0,
+              'forest' => 0,
+              'hill' => 0,
+              'water' => 0,
+          ];
+        }
         else
         {
             return [
@@ -552,6 +590,15 @@ class DominionFactory
                 'tissue' => 0,
                 'mycelia' => 0,
                 'tunnels' => 0,
+                'smithy' => 0,
+                'home' => 0,
+                'forest_haven' => 0,
+                'ore_mine' => 0,
+                'diamond_mine' => 0,
+                'barracks' => 0,
+                'wizard_guild' => 0,
+                'temple' => 0,
+                'dock' => 0,
             ];
         }
         # Void
@@ -565,6 +612,15 @@ class DominionFactory
               'tissue' => 0,
               'mycelia' => 0,
               'tunnels' => 0,
+              'smithy' => 0,
+              'home' => 0,
+              'forest_haven' => 0,
+              'ore_mine' => 0,
+              'diamond_mine' => 0,
+              'barracks' => 0,
+              'wizard_guild' => 0,
+              'temple' => 0,
+              'dock' => 0,
           ];
         }
         # Growth
@@ -578,6 +634,15 @@ class DominionFactory
               'tissue' => $acresBase,
               'mycelia' => 0,
               'tunnels' => 0,
+              'smithy' => 0,
+              'home' => 0,
+              'forest_haven' => 0,
+              'ore_mine' => 0,
+              'diamond_mine' => 0,
+              'barracks' => 0,
+              'wizard_guild' => 0,
+              'temple' => 0,
+              'dock' => 0,
           ];
         }
         # Myconid
@@ -591,6 +656,15 @@ class DominionFactory
               'tissue' => 0,
               'mycelia' => $acresBase,
               'tunnels' => 0,
+              'smithy' => 0,
+              'home' => 0,
+              'forest_haven' => 0,
+              'ore_mine' => 0,
+              'diamond_mine' => 0,
+              'barracks' => 0,
+              'wizard_guild' => 0,
+              'temple' => 0,
+              'dock' => 0,
           ];
         }
         # Merfolk
@@ -604,19 +678,43 @@ class DominionFactory
               'tissue' => 0,
               'mycelia' => 0,
               'tunnels' => 0,
+              'smithy' => 0,
+              'home' => 0,
+              'forest_haven' => 0,
+              'ore_mine' => 0,
+              'diamond_mine' => 0,
+              'barracks' => 0,
+              'wizard_guild' => 0,
+              'temple' => 0,
+              'dock' => 0,
           ];
         }
-        # Myconid
-        elseif($race->getPerkValue('can_only_build_tunnels'))
+        # Kerranad
+        elseif($race->name == 'Kerranad')
         {
           $startingBuildings = [
-              'tower' => 0,
-              'farm' => 0,
-              'lumberyard' => 0,
+              'farm' => 50,
+              'smithy' => 200,
+              'home' => 100,
+
+              'lumberyard' => 50,
+              'forest_haven' => 25,
+
+              'ore_mine' => 100,
+              'diamond_mine' => 300,
+
+              'barracks' => 0,
+
+              'tower' => 50,
+              'wizard_guild' => 25,
+              'temple' => 50,
+
+              'dock' => 50,
+
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => 0,
-              'tunnels' => $acresBase,
+              'tunnels' => 0,
           ];
         }
         # Default
@@ -630,6 +728,14 @@ class DominionFactory
               'tissue' => 0,
               'mycelia' => 0,
               'tunnels' => 0,
+              'smithy' => 0,
+              'home' => 0,
+              'forest_haven' => 0,
+              'ore_mine' => 0,
+              'diamond_mine' => 0,
+              'barracks' => 0,
+              'wizard_guild' => 0,
+              'dock' => 0,
           ];
         }
 
@@ -648,16 +754,16 @@ class DominionFactory
     protected function getStartingLand(Race $race, array $startingBarrenLand, array $startingBuildings): array
     {
         $startingLand = [
-            'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'],
-            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ziggurat'],
-            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['tissue'],
+            'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'] + $startingBuildings['smithy'],
+            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ziggurat'] + $startingBuildings['ore_mine'] + $startingBuildings['diamond_mine'],
+            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'] + $startingBuildings['tissue'],
             'cavern' => $startingBarrenLand['cavern'],
-            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['mycelia'],
-            'hill' => $startingBarrenLand['hill'],
-            'water' => $startingBarrenLand['water'],
+            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['forest_haven'] + $startingBuildings['mycelia'],
+            'hill' => $startingBarrenLand['hill'] + $startingBuildings['barracks'],
+            'water' => $startingBarrenLand['water'] + $startingBuildings['dock'],
         ];
 
-        #$startingLand[$race->home_land_type] += $startingBuildings['home'];
+        $startingLand[$race->home_land_type] += $startingBuildings['home'];
 
         return $startingLand;
     }

@@ -220,13 +220,18 @@
                                     </p>
                                 @endif
                             @endif
-                            @if (isset($event->data['attacker']['plunder']))
+                            @if (isset($event->data['attacker']['plunder'])  and array_sum($event->data['attacker']['plunder']) > 0)
                                 @if ($event->source->id === $selectedDominion->id)
                                     <p class="text-center text-green">
                                 @else
                                     <p class="text-center text-red">
                                 @endif
-                                    {{ number_format($event->data['attacker']['plunder']['platinum']) }} platinum and {{ number_format($event->data['attacker']['plunder']['gems']) }} gems were plundered.
+                                    {{ $unitHelper->getPlunderString($event->data['attacker']['plunder']) }}
+                                    </p>
+                            @endif
+                            @if (isset($event->data['attacker']['salvage']) and array_sum($event->data['attacker']['salvage']) > 0 and $event->source->id === $selectedDominion->id)
+                                    <p class="text-center text-green">
+                                    {{ $unitHelper->getSalvageString($event->data['attacker']['salvage']) }}
                                     </p>
                             @endif
                             @if (isset($event->data['attacker']['conversion']) && $event->source->id === $selectedDominion->id)

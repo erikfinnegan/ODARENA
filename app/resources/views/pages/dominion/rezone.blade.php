@@ -3,7 +3,7 @@
 @section('page-header', 'Rezone Land')
 
 @section('content')
-@if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
+@if (!(bool)$selectedDominion->race->getPerkValue('cannot_rezone'))
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -110,7 +110,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
-            <p>Your faction is not able to rezone land.</p>
+            <p>{{ $selectedDominion->race->name }} cannot rezone land.</p>
         </div>
     </div>
 </div>

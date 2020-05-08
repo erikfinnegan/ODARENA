@@ -1,0 +1,95 @@
+name: Kerranad
+alignment: independent
+description: >-
+  <p>Historically a place of peace and prosperity where arms were deposited with the Immortal Guard before entering the gates, the City-state of Kerranad has been a safe haven for travellers, warriors, wizards, merchants, and artists seeking respite from the ravages of war.</p>
+  <p>Kerranad is perched atop a large peninsula surrounded by the cold, deep, dark oceans and a well-defended isthumus bridging it to the mainland. Beneath the great city lie some of the most generous mines of ore and gem.</p>
+  <p>War has now reached the gates of the City-state, yet the mayor and his advisers have rejected offers and threats from the Empire and the Commonwealth. Its independence is respected but questioned and tested.</p>
+  <p>Assassins are spies trained in the art of hand to hand combat and Battlemages are wizards who pursue the path of war to defend the City-state.</p>
+  <p>The Immortals are Guards and elite Knights are the envy of all armies.</p>
+  <hr />
+  <p>The City-state of Kerranad starts with different land and buildings:</p>
+  <ul>
+  <li>Plains: 50 farms, 200 smithies</li>
+  <li>Forest: 50 lumberyards, 25 forest havens</li>
+  <li>Mountain: 100 ore mines, 300 diamond mines</li>
+  <li>Hill: 100 homes</li>
+  <li>Swamp: 50 towers, 50 temples, 25 wizard guilds</li>
+  <li>Water: 50 docks</li>
+  </ul>
+  <p>It also starts with improvements:</p>
+  <ul>
+  <li>Markets: 2.5%</li>
+  <li>Keep: 2.5%</li>
+  <li>Forges: 2.5%</li>
+  <li>Walls: 2.5%</li>
+  <li>Armory: 2.5%</li>
+  <li>Observatory: 2.5%</li>
+  <li>Harbor: 5%</li>
+  </ul>
+  <p><em>There can only be one Citystate of Kerranad per round.</em></p>
+home_land_type: hill
+playable: 1
+
+attacking: 3
+exploring : 3
+converting: 3
+
+perks:
+  platinum_production: 10
+  ore_production: 50
+  gem_production: 50
+  cannot_rezone: 1
+  can_sell_food: 1
+  salvaging: 95
+  max_per_round: 1
+units:
+  - name: Assassin
+    cost:
+      platinum: 100
+      ore: 100
+      spy: 1
+    power:
+      offense: 4
+      defense: 0
+    perks:
+      counts_as_spy_offense: 1
+      counts_as_spy_defense: 1
+      increases_defensive_casualties: 1
+      fewer_casualties: 50
+      no_draftee: 1
+  - name: Immortal Guard
+    cost:
+      platinum: 400
+      ore: 200
+      gem: 10
+    power:
+      offense: 0
+      defense: 4
+    perks:
+      increases_morale: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
+  - name: Battlemage
+    cost:
+      platinum: 750
+      ore: 75
+      wizard: 1
+    power:
+      offense: 6
+      defense: 6
+    perks:
+      counts_as_wizard_offense: 1
+      counts_as_wizard_defense: 1
+      immortal_wizard: 1
+      no_draftee: 1
+  - name: Immortal Knight
+    cost:
+      platinum: 800
+      ore: 120
+      gem: 25
+      unit2: 1
+    power:
+      offense: 9
+      defense: 4
+    perks:
+      increases_morale: 2 # Morale increased by 2% for every 1% of population made up of Immortal Guards.
+      increases_prestige_gains: 1
+      no_draftee: 1

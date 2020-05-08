@@ -44,6 +44,11 @@ class RezoneActionService
     {
         $this->guardLockedDominion($dominion);
 
+        if ($dominion->race->getPerkValue('cannot_rezone'))
+        {
+            throw new GameException('Your faction is unable to rezone land.');
+        }
+
         // Level out rezoning going to the same type.
         foreach (array_intersect_key($remove, $add) as $key => $value) {
             $sub = min($value, $add[$key]);

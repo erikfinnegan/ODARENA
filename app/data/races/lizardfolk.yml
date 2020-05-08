@@ -14,12 +14,12 @@ perks:
   food_consumption: -25
 units:
   - name: Reptile
+    need_boat: false
     cost:
       platinum: 250
     power:
       offense: 3
       defense: 0
-    need_boat: false
   - name: Serpent
     cost:
       platinum: 250
@@ -40,6 +40,7 @@ units:
       sink_boats_defense: 1
     need_boat: false
   - name: Archaesaur
+    need_boat: false
     cost:
       platinum: 2800
     power:
@@ -51,4 +52,3 @@ units:
       food_consumption: 0.75
       reduces_casualties: 1
       pairing_limit: 3,1 # Unit slot, amount (max 1 of this unit per each Unit 3)
-    need_boat: false

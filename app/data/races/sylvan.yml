@@ -15,6 +15,7 @@ converting: 1
 perks:
   food_consumption: -25
   lumber_production: 25
+  salvaging: 65
 units:
   - name: Leshy
     cost:

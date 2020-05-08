@@ -54,7 +54,10 @@
                   @endif
                 @endif
 
+                <!-- Hide Construct Buildings from cannot_construct races -->
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_rezone') and !(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
                 <li class="{{ Route::is('dominion.rezone') ? 'active' : null }}"><a href="{{ route('dominion.rezone') }}"><i class="fa fa-refresh fa-fw"></i> <span>Re-zone</span></a></li>
+                @endif
 
                 <!-- Hide Castle from cannot_improve_castle races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))

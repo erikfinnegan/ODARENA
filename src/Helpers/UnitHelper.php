@@ -156,7 +156,8 @@ class UnitHelper
 
             'decay_protection' => 'Each units protects %1$s %2$s per tick from decay.',
 
-            'plunders_resources_on_attack' => 'Plunders resources on attack.',
+            'plunders' => 'Plunders up to %2$s %1$s on attack.',
+
             'sink_boats_defense' => 'Sinks boats when defending.',
             'sink_boats_offense' => 'Sinks boats when attacking.',
 
@@ -189,6 +190,10 @@ class UnitHelper
 
             'houses_military_units' => 'Houses %1$s military units.',
             'houses_people' => 'Houses %1$s people.',
+
+            // Other
+            'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
+            'increases_prestige_gains' => 'Increases prestige gains on successful invasions.',
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
@@ -290,8 +295,7 @@ class UnitHelper
 
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
-                elseif
-                ($perk->key === 'staggered_conversion')
+                elseif($perk->key === 'staggered_conversion')
                 {
                     foreach ($perkValue as $index => $conversion) {
                         [$convertAboveLandRatio, $slots] = $conversion;
@@ -308,6 +312,16 @@ class UnitHelper
                         }
 
                         $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
+                    }
+                }
+
+
+                if($perk->key === 'plunders')
+                {
+                    foreach ($perkValue as $index => $plunder) {
+                        [$resource, $amount] = $plunder;
+
+                        $perkValue[$index][1] = generate_sentence_from_array([$amount]);
                     }
                 }
 
@@ -539,6 +553,63 @@ class UnitHelper
       }
 
         return $result;
+    }
+
+
+    public function getPlunderString(array $resources): string
+    {
+        $plunder = array_filter($plunder);
+        $count = count($plunder);
+        $string = '';
+
+        $i = 0;
+        foreach($plunder as $resource => $amount)
+        {
+            $i++;
+            $remainingResources = $count - $i;
+            $string .= number_format($amount) . ' ' . $resource;
+
+            if($remainingResources > 1)
+            {
+                $string .= ', ';
+            }
+            elseif($remainingResources == 1)
+            {
+                $string .= ' and ';
+            }
+        }
+
+        $string .= ' were plundered.';
+
+        return $string;
+    }
+
+    public function getSalvageString(array $salvage): string
+    {
+        $plunder = array_filter($plunder);
+        $count = count($plunder);
+        $string = 'You salvage ';
+
+        $i = 0;
+        foreach($plunder as $resource => $amount)
+        {
+            $i++;
+            $remainingResources = $count - $i;
+            $string .= number_format($amount) . ' ' . $resource;
+
+            if($remainingResources > 1)
+            {
+                $string .= ', ';
+            }
+            elseif($remainingResources == 1)
+            {
+                $string .= ' and ';
+            }
+        }
+
+        $string .= '.';
+
+        return $string;
     }
 
 }

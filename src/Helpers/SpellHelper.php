@@ -454,7 +454,7 @@ class SpellHelper
                 'key' => 'retribution',
                 'mana_cost' => 4,
                 'duration' => 1, # One tick
-                'races' => collect(['Jagunii']),
+                'races' => collect(['Jagunii','Kerranad']),
             ],
             [
                 'name' => 'Aether',

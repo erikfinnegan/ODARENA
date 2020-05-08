@@ -67,3 +67,4 @@ units:
       houses_military_units: 300
       offense_from_pairing: 1,300,300 # slot, amount, num required
       building_limit: dock,2,harbor
+      plunder: platinum;10000,gems;1000

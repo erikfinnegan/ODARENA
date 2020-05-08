@@ -47,3 +47,4 @@ units:
       defense: 3
     perks:
       faster_return: 3
+      plunders: platinum,200;gem,20

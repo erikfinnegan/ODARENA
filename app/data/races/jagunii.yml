@@ -67,3 +67,4 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       food_consumption: 2
+      plunders: gem;100,food;100
