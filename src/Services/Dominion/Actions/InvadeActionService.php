@@ -1995,15 +1995,16 @@ class InvadeActionService
         }
 
         # Attacker: Salvaging
-        if($salvaging = $attacker->race->getPerkValue('salvaging'))
+        if($salvaging = $attacker->race->getPerkMultiplier('salvaging'))
         {
             $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($attacker);
+            #dd($unitCosts);
             foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amountLost)
             {
                 $unitType = 'unit'.$slot;
                 $unitOreCost = $unitCosts[$unitType]['ore'];
                 $unitLumberCost = $unitCosts[$unitType]['lumber'];
-                $unitGemCost = $unitCosts[$unitType]['gems'];
+                $unitGemCost = $unitCosts[$unitType]['gem'];
 
                 $result['attacker']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                 $result['attacker']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
@@ -2012,7 +2013,7 @@ class InvadeActionService
         }
 
         # Defender: Salvaging
-        if($salvaging = $defender->race->getPerkValue('salvaging'))
+        if($salvaging = $defender->race->getPerkMultiplier('salvaging'))
         {
             $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($defender);
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountLost)
@@ -2020,7 +2021,7 @@ class InvadeActionService
                 $unitType = 'unit'.$slot;
                 $unitOreCost = $unitCosts[$unitType]['ore'];
                 $unitLumberCost = $unitCosts[$unitType]['lumber'];
-                $unitGemCost = $unitCosts[$unitType]['gems'];
+                $unitGemCost = $unitCosts[$unitType]['gem'];
 
                 $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                 $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;

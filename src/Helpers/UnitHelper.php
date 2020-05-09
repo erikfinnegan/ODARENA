@@ -586,12 +586,12 @@ class UnitHelper
 
     public function getSalvageString(array $salvage): string
     {
-        $plunder = array_filter($plunder);
-        $count = count($plunder);
+        $salvage = array_filter($salvage);
+        $count = count($salvage);
         $string = 'You salvage ';
 
         $i = 0;
-        foreach($plunder as $resource => $amount)
+        foreach($salvage as $resource => $amount)
         {
             $i++;
             $remainingResources = $count - $i;

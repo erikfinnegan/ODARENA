@@ -120,58 +120,58 @@ class TrainingCalculator
                     $wizard = $units[$unitSlot]->cost_wizard;
                     $archmage = $units[$unitSlot]->cost_archmage;
 
-                    if ($platinum > 0) {
+                    #if ($platinum > 0) {
                         $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion, 'platinum'));
-                    }
+                    #}
 
-                    if ($ore > 0) {
+                    #if ($ore > 0) {
                         $cost['ore'] = $ore;
                         $cost['ore'] = (int)ceil($ore * $this->getSpecialistEliteCostMultiplier($dominion, 'ore'));
-                    }
+                    #}
 
                     // FOOD cost for units
-                    if ($food > 0) {
+                    #if ($food > 0) {
                         $cost['food'] = $food;
                         $cost['food'] = (int)ceil($food * $this->getSpecialistEliteCostMultiplier($dominion, 'food'));
-                    }
+                    #}
                     // MANA cost for units
-                    if ($mana > 0) {
+                    #if ($mana > 0) {
                         $cost['mana'] = $mana;
                         $cost['mana'] = (int)ceil($mana * $this->getSpecialistEliteCostMultiplier($dominion, 'mana'));
-                    }
+                    #}
                     // GEM cost for units
-                    if ($gem > 0) {
+                    #if ($gem > 0) {
                         $cost['gem'] = $gem;
                         $cost['gem'] = (int)ceil($gem * $this->getSpecialistEliteCostMultiplier($dominion, 'gem'));
-                    }
+                    #}
                     // LUMBER cost for units
-                    if ($lumber > 0) {
+                    #if ($lumber > 0) {
                         $cost['lumber'] = $lumber;
                         $cost['lumber'] = (int)ceil($lumber * $this->getSpecialistEliteCostMultiplier($dominion, 'lumber'));
-                    }
+                    #}
                     // PRESTIGE cost for units
-                    if ($prestige > 0) {
+                    #if ($prestige > 0) {
                         $cost['prestige'] = $prestige;
                         $cost['prestige'] = (int)ceil($prestige * $this->getSpecialistEliteCostMultiplier($dominion, 'prestige'));
-                    }
+                    #}
 
                     // BOAT cost for units
-                    if ($boat > 0) {
+                    #if ($boat > 0) {
                         $cost['boat'] = $boat;
                         $cost['boat'] = (int)ceil($boat * $this->getSpecialistEliteCostMultiplier($dominion, 'boat'));
-                    }
+                    #}
 
                     // CHAMPION cost for units
-                    if ($champion > 0) {
+                    #if ($champion > 0) {
                         $cost['champion'] = $champion;
                         $cost['champion'] = (int)ceil($champion * $this->getSpecialistEliteCostMultiplier($dominion, 'champion'));
-                    }
+                    #}
 
                     // SOUL cost for units
-                    if ($soul > 0) {
+                    #if ($soul > 0) {
                         $cost['soul'] = $soul;
                         $cost['soul'] = (int)ceil($soul * $this->getSpecialistEliteCostMultiplier($dominion, 'soul'));
-                    }
+                    #}
 
                     // BLOOD cost for units
                     if ($blood > 0) {
@@ -180,58 +180,58 @@ class TrainingCalculator
                     }
 
                     // UNIT1 cost for units
-                    if ($unit1 > 0) {
+                    #if ($unit1 > 0) {
                         $cost['unit1'] = $unit1;
                         $cost['unit1'] = (int)ceil($unit1 * $this->getSpecialistEliteCostMultiplier($dominion, 'unit1'));
-                    }
+                    #}
 
                     // UNIT2 cost for units
-                    if ($unit2 > 0) {
+                    #if ($unit2 > 0) {
                         $cost['unit2'] = $unit2;
                         $cost['unit2'] = (int)ceil($unit2 * $this->getSpecialistEliteCostMultiplier($dominion, 'unit2'));
-                    }
+                    #}
 
                     // UNIT3 cost for units
-                    if ($unit3 > 0) {
+                    #if ($unit3 > 0) {
                         $cost['unit3'] = $unit3;
                         $cost['unit3'] = (int)ceil($unit3 * $this->getSpecialistEliteCostMultiplier($dominion, 'unit3'));
-                    }
+                    #}
 
                     // UNIT4 cost for units
-                    if ($unit4 > 0) {
+                    #if ($unit4 > 0) {
                         $cost['unit4'] = $unit4;
                         $cost['unit4'] = (int)ceil($unit4 * $this->getSpecialistEliteCostMultiplier($dominion, 'unit4'));
-                    }
+                    #}
 
                     // MORALE cost for units
-                    if ($morale > 0) {
+                    #if ($morale > 0) {
                         $cost['morale'] = $morale;
                         $cost['morale'] = (int)ceil($morale * $this->getSpecialistEliteCostMultiplier($dominion, 'morale'));
-                    }
+                    #}
 
                     // WILD YETI cost for units
-                    if ($wild_yeti > 0) {
+                    #if ($wild_yeti > 0) {
                         $cost['wild_yeti'] = $wild_yeti;
                         $cost['wild_yeti'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'wild_yeti'));
-                    }
+                    #}
 
                     // SPY cost for units
-                    if ($spy > 0) {
+                    #if ($spy > 0) {
                         $cost['spy'] = $spy;
                         $cost['spy'] = (int)ceil($spy * $this->getSpecialistEliteCostMultiplier($dominion, 'spy'));
-                    }
+                    #}
 
                     // WIZARD cost for units
-                    if ($wizard > 0) {
+                    #if ($wizard > 0) {
                         $cost['wizard'] = $wizard;
                         $cost['wizard'] = (int)ceil($wizard * $this->getSpecialistEliteCostMultiplier($dominion, 'wizard'));
-                    }
+                    #}
 
                     // ARCHMAGE cost for units
-                    if ($archmage > 0) {
+                    #if ($archmage > 0) {
                         $cost['archmage'] = $archmage;
                         $cost['archmage'] = (int)ceil($archmage * $this->getSpecialistEliteCostMultiplier($dominion, 'archmage'));
-                    }
+                    #}
 
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
                     {
@@ -318,7 +318,7 @@ class TrainingCalculator
               $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
 
               $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
-              
+
               $maxAdditionalPermittedOfThisUnit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
               $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
