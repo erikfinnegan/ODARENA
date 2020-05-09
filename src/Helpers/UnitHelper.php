@@ -131,7 +131,9 @@ class UnitHelper
             'true_immortal' => 'Immortal. Only dies when overwhelmed.',
 
             'reduces_casualties' => 'Reduces combat losses.',
-            'increases_casualties' => 'Increases enemy casualties.',
+            'increases_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',
+            'increases_casualties_on_defense' => 'Increases enemy casualties on defense (attacker suffers more casualties).',
+
 
             'fewer_casualties_defense_from_land' => 'Casualties on defense reduced by 1%% for every %2$s%% %1$ss (max %3$s%% reduction).',
             'fewer_casualties_offense_from_land' => 'Casualties on offense reduced by 1% for every %2$s%% %1$ss (max %3$s%% reduction).',
