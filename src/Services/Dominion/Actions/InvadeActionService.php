@@ -28,8 +28,6 @@ use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 
-
-
 class InvadeActionService
 {
     use DominionGuardsTrait;
@@ -532,6 +530,12 @@ class InvadeActionService
             if($dominion->race->getPerkMultiplier('prestige_gains'))
             {
               $attackerPrestigeChangeMultiplier += $dominion->race->getPerkMultiplier('prestige_gains');
+            }
+
+            // Unit perk
+            if($dominion->getTechPerkMultiplier('prestige_gains'))
+            {
+              $attackerPrestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($dominion, $units);
             }
 
             // Tech

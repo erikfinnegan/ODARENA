@@ -806,6 +806,16 @@ class TickService
         }
 
         // Morale
+
+        $baseMorale = 100;
+        $baseMoraleModifier = $this->militaryCalculator->getBaseMoraleModifier($dominion, $this->populationCalculator->getPopulation($dominion));
+        $baseMorale *= (1 + $baseMoraleModifier);
+        $baseMorale = intval($baseMorale);
+        #if($baseMoraleModifier)
+        #{
+        #    dd($baseMoraleModifier, $baseMorale);
+        #}
+
         if ($isStarving)
         {
             # Lower morale by 10.
@@ -829,13 +839,13 @@ class TickService
             {
                 $tick->morale = 6;
             }
-            elseif ($dominion->morale < 100)
+            elseif ($dominion->morale < $baseMorale)
             {
-                $tick->morale = min(3, 100 - $dominion->morale);
+                $tick->morale = min(3, $baseMorale - $dominion->morale);
             }
-            elseif($dominion->morale > 100)
+            elseif($dominion->morale > $baseMorale)
             {
-              $tick->morale -= min(2, $dominion->morale - 100);
+              $tick->morale -= min(2, $dominion->morale - $baseMorale);
             }
         }
 
