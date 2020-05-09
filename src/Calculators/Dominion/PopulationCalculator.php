@@ -269,7 +269,7 @@ class PopulationCalculator
         {
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units'))
             {
-                $housingFromUnits += $dominion->{'military_unit'.$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units');
+                $housingFromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units');
             }
         }
 
