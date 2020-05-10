@@ -3,7 +3,7 @@
 namespace OpenDominion\Models;
 
 /**
- * OpenDominion\Models\Race
+ * OpenDominion\Models\Title
  *
  * @property int $id
  * @property string $name
@@ -13,11 +13,11 @@ namespace OpenDominion\Models;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\Dominion[] $dominions
- * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\RacePerkType[] $perks
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\TitlePerkType[] $perks
  * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\Unit[] $units
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\Race newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\Race newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\Race query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\Title newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\Title newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\Title query()
  * @mixin \Eloquent
  */
 class Title extends AbstractModel
@@ -52,8 +52,8 @@ class Title extends AbstractModel
      */
     public function getPerkValue(string $key): float
     {
-        $perks = $this->perks->filter(function (RacePerkType $racePerkType) use ($key) {
-            return ($racePerkType->key === $key);
+        $perks = $this->perks->filter(function (TitlePerkType $titlePerkType) use ($key) {
+            return ($titlePerkType->key === $key);
         });
 
         if ($perks->isEmpty()) {

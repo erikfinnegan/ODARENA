@@ -3,19 +3,19 @@
 namespace OpenDominion\Models;
 
 /**
- * OpenDominion\Models\RacePerk
+ * OpenDominion\Models\TitlePerk
  *
  * @property int $id
- * @property int $race_id
- * @property int $race_perk_type_id
+ * @property int $title_id
+ * @property int $title_perk_type_id
  * @property float $value
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \OpenDominion\Models\Race $race
- * @property-read \OpenDominion\Models\RacePerkType $type
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\RacePerk newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\RacePerk newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\RacePerk query()
+ * @property-read \OpenDominion\Models\Title $title
+ * @property-read \OpenDominion\Models\TitlePerkType $type
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\TitlePerk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\TitlePerk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\TitlePerk query()
  * @mixin \Eloquent
  */
 class TitlePerk extends AbstractModel

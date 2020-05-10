@@ -3,21 +3,21 @@
 namespace OpenDominion\Models;
 
 /**
- * OpenDominion\Models\RacePerkType
+ * OpenDominion\Models\TitlePerkType
  *
  * @property int $id
  * @property string $key
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\Race[] $races
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\RacePerkType newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\RacePerkType newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\RacePerkType query()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\Title[] $titles
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\TitlePerkType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\TitlePerkType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\OpenDominion\Models\TitlePerkType query()
  * @mixin \Eloquent
  */
 class TitlePerkType extends AbstractModel
 {
-    public function races()
+    public function titles()
     {
         return $this->belongsToMany(
             Title::class,

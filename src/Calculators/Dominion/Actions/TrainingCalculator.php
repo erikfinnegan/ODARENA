@@ -373,6 +373,7 @@ class TrainingCalculator
         $discountableResourceTypesBySmithies = ['platinum', 'ore'];
         $discountableResourceTypesByArmory = ['platinum', 'ore'];
         $discountableResourceTypesByTech = ['platinum', 'ore', 'lumber'];
+        $discountableResourceTypesByTitle = ['platinum', 'ore', 'lumber', 'mana', 'food'];
 
         $discountableResourceTypesByTechFood = ['food'];
         $discountableResourceTypesByTechMana = ['mana'];
@@ -409,6 +410,12 @@ class TrainingCalculator
         if(in_array($resourceType,$discountableResourceTypesByTech))
         {
           $multiplier += $dominion->getTechPerkMultiplier('military_cost');
+        }
+
+        // Title
+        if(in_array($resourceType,$discountableResourceTypesByTitle))
+        {
+          $multiplier += $dominion->title->getPerkMultiplier('military_cost');
         }
 
         if(in_array($resourceType,$discountableResourceTypesByTechFood))

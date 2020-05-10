@@ -63,7 +63,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Ruler:</td>
-                                            <td>{{ $infoOp->data['ruler_name'] }}</td>
+                                            <td><em>{{ $infoOp->data['title'] }}</em> {{ $infoOp->data['ruler_name'] }}</td>
                                         </tr>
                                         <tr>
                                             <td>Faction:</td>

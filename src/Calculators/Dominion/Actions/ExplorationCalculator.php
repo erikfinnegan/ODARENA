@@ -79,6 +79,9 @@ class ExplorationCalculator
         // Techs (returns negative value)
         $multiplier += $dominion->getTechPerkMultiplier('explore_platinum_cost');
 
+        // Title (returns negative value)
+        $multiplier += $dominion->title->getPerkMultiplier('explore_cost');
+
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('explore_cost');
 

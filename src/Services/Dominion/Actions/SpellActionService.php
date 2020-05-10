@@ -355,6 +355,7 @@ class SpellActionService
 
                 $infoOp->data = [
 
+                    'title' => $target->title->name,
                     'ruler_name' => $target->ruler_name,
                     'race_id' => $target->race->id,
                     'land' => $this->landCalculator->getTotalLand($target),

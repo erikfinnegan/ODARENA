@@ -11,8 +11,10 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Factories\DominionFactory;
 use OpenDominion\Factories\RealmFactory;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Title;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\User;
@@ -21,6 +23,8 @@ use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\SelectorService;
 use OpenDominion\Services\PackService;
 use OpenDominion\Services\RealmFinderService;
+
+
 
 class RoundController extends AbstractController
 {
@@ -74,9 +78,15 @@ class RoundController extends AbstractController
                             ->groupBy('races.name')
                             ->pluck('dominions', 'race')->all();
 
-        $titles = DB::table('titles')
-                            ->select('id', 'name', 'description')
-                            ->get();
+        $roundsPlayed = DB::table('dominions')
+                            ->where('dominions.user_id', '=', Auth::user()->id)
+                            ->where('dominions.protection_ticks', '=', 0)
+                            ->count();
+
+        $titles = Title::query()
+            ->with(['perks'])
+            ->orderBy('name')
+            ->get();
 
         $races = Race::query()
             ->with(['perks'])
@@ -85,11 +95,13 @@ class RoundController extends AbstractController
 
         return view('pages.round.register', [
             'raceHelper' => app(RaceHelper::class),
+            'titleHelper' => app(TitleHelper::class),
             'round' => $round,
             'races' => $races,
             'countAlignment' => $countAlignment,
             'countRaces' => $countRaces,
             'titles' => $titles,
+            'roundsPlayed' => $roundsPlayed,
             #'countEmpire' => $countEmpire,
             #'countCommonwealth' => $countCommonwealth,
             #'alignmentCounter' => $alignmentCounter,
@@ -136,7 +148,7 @@ class RoundController extends AbstractController
                 /** @var User $user */
                 $user = Auth::user();
                 $race = Race::findOrFail($request->get('race'));
-                $title = $request->get('title');
+                $title = Title::findOrFail($request->get('title'));
                 $pack = null;
 
                 if (!$race->playable and $race->alignment !== 'npc')
@@ -183,6 +195,7 @@ class RoundController extends AbstractController
                     $user,
                     $realm,
                     $race,
+                    $title,
                     ($request->get('ruler_name') ?: $user->display_name),
                     $dominionName,
                     $pack,
@@ -208,7 +221,7 @@ class RoundController extends AbstractController
         } catch (QueryException $e) {
 
             # Useful for debugging.
-            #die($e->getMessage());
+            dd($e->getMessage());
 
             return redirect()->back()
                 ->withInput($request->all())

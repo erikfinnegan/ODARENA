@@ -789,6 +789,9 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('ore_production');
 
+        // Title
+        $multiplier += $dominion->title->getPerkMultiplier('ore_production');
+
         // Improvement: Refinery
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
 
@@ -891,6 +894,9 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('gem_production');
 
+        // Title
+        $multiplier += $dominion->title->getPerkMultiplier('gem_production');
+
         # SPELLS
         // Spell: Miner's Sight (+5%)
         if ($this->spellCalculator->isSpellActive($dominion, 'miners_sight'))
@@ -974,6 +980,9 @@ class ProductionCalculator
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('tech_production');
+
+        // Title
+        $multiplier += $dominion->title->getMultiplier('tech_production');
 
         # Observatory
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');

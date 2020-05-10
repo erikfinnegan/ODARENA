@@ -1215,7 +1215,7 @@ class InvadeActionService
         if(!$isInvasionSuccessful)
         {
             $totalConverts = min($totalDefensiveCasualties, $totalConverts);
-            $totalConverts /= 3;
+            $totalConverts /= 12;
         }
 
         foreach ($unitsWithConversionPerk as $unit)
@@ -1362,7 +1362,13 @@ class InvadeActionService
         }
 
         $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalOffensiveCasualties * 1.75) * $landRatio;
-        $totalConverts /= 2;
+        $totalConverts = min($totalOffensiveCasualties, $totalConverts);
+
+        if($isInvasionSuccessful)
+        {
+            $totalConverts /= 12;
+        }
+
 
         foreach ($unitsWithConversionPerk as $unit)
         {
@@ -1942,7 +1948,7 @@ class InvadeActionService
         $champions = 0;
         if ($attacker->race->name == 'Norse')
         {
-            if($landRatio >= 0.75 and !$this->invasionResult['result']['overwhelmed'])
+            if($landRatio >= 0.75 and $isInvasionSuccessful)
             {
                 $champions = $this->invasionResult['attacker']['unitsLost']['1'];
 

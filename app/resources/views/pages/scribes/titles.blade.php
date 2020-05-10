@@ -9,10 +9,9 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-12 col-md-12">
-                    <p>Buildings are the backbone of your dominion and provide you with production and various bonuses.</p>
-                    <p>They can only be constructed on acres of barren land.</p>
+                    <p>Every Dominion Ruler must select a Ruler Title, which comes with perks.</p>
                     <em>
-                        <p>More information can be found on the <a href="https://odarena.miraheze.org/wiki/Buildings">wiki</a>.</p>
+                        <p>More information can be found on the <a href="https://odarena.miraheze.org/wiki/Titles">wiki</a>.</p>
                     </em>
                 </div>
             </div>

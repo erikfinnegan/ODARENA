@@ -235,6 +235,11 @@ class Dominion extends AbstractModel
         return $this->belongsTo(Race::class);
     }
 
+    public function title()
+    {
+        return $this->belongsTo(Title::class);
+    }
+
     public function realm()
     {
         return $this->belongsTo(Realm::class);
@@ -266,18 +271,6 @@ class Dominion extends AbstractModel
             'id',
             'id',
             'building_id'
-        );
-    }
-
-    public function title()
-    {
-        return $this->hasOne(
-            Title::class,
-            DominionTitle::class,
-            'dominion_id',
-            'id',
-            'id',
-            'title_id'
         );
     }
 

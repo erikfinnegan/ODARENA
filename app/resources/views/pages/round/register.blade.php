@@ -24,13 +24,20 @@
 
                 <!-- Title -->
                 <div class="form-group">
-                    <label for="ruler_name" class="col-sm-3 control-label">Title</label>
+                    <label for="ruler_name" class="col-sm-3 control-label">Ruler Title</label>
                     <div class="col-sm-9">
-                        <select name="title" id="title" class="form-control">
+                        <select name="title" id="title" class="form-control" required>
+                        <option disabled selected>-- Select Ruler Title --</option>
                         @foreach ($titles as $title)
 
                         <option value="{{ $title->id }}">
-                            {{ $title->name }}: {{ $title->description }}
+                              {{ $title->name }}:
+                              @foreach ($title->perks as $perk)
+                                  @php
+                                      $perkDescription = $titleHelper->getPerkDescriptionHtmlWithValue($perk);
+                                  @endphp
+                                      {!! $perkDescription['description'] !!} {!! $perkDescription['value']  !!}
+                              @endforeach
                         </option>
 
                         @endforeach
@@ -44,7 +51,7 @@
                     <label for="ruler_name" class="col-sm-3 control-label">Ruler Name</label>
                     <div class="col-sm-9">
                         <input type="text" name="ruler_name" id="ruler_name" class="form-control" placeholder="{{ Auth::user()->display_name }}" value="{{ old('ruler_name') }}">
-                        <p class="help-block">This is your personal alias in the round which will be shown to your realmies. Defaults to your display name '{{ Auth::user()->display_name }}' if omitted.</p>
+                        <p class="help-block">If you leave it as default ({{ Auth::user()->display_name }}), you get 100 extra pretige for playing under your real display name.</p>
                     </div>
                 </div>
 

@@ -70,5 +70,5 @@ units:
       defense: 0
     perks:
       immortal: 1
-      offense_from_resource: soul,10,0 # +1 OP per 10 souls, no max
+      offense_from_resource: soul,2,0 # +1 OP per 2 souls, no max
       amount_limit: 1

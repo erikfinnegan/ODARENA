@@ -55,6 +55,7 @@ class SpellCalculator
         $wizardGuildRatio = ($dominion->building_wizard_guild / $totalLand);
         $spellCostMultiplier = (1 - clamp(2 * $wizardGuildRatio, 0, 0.4));
         $spellCostMultiplier += $dominion->getTechPerkMultiplier('spell_cost');
+        $spellCostMultiplier += $dominion->title->getPerkMultiplier('spell_cost');
 
         return round($spellInfo['mana_cost'] * $totalLand * $spellCostMultiplier);
     }

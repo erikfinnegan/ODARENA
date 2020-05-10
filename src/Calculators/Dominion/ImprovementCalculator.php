@@ -183,7 +183,7 @@ class ImprovementCalculator
         # Demon: can also invest souls (unused?)
         if($dominion->race->getPerkValue('can_invest_soul'))
         {
-          $worth['soul'] = 1200;
+          $worth['soul'] = 400;
         }
 
         return $worth[$resource];
@@ -222,6 +222,12 @@ class ImprovementCalculator
             if($dominion->race->getPerkMultiplier('invest_bonus'))
             {
               $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
+            }
+
+            # Title: improvements (Engineer)
+            if($dominion->title->getPerkMultiplier('improvements'))
+            {
+              $multiplier += $dominion->title->getPerkMultiplier('improvements');
             }
 
             # Imperial Gnome: Spell (increase imp points by 10%)

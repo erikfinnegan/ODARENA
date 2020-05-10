@@ -4,10 +4,12 @@
 
 namespace OpenDominion\Factories;
 
+use Auth;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Pack;
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Title;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\User;
@@ -23,6 +25,7 @@ class DominionFactory
      * @param User $user
      * @param Realm $realm
      * @param Race $race
+     * @param Title $title
      * @param string $rulerName
      * @param string $dominionName
      * @param Pack|null $pack
@@ -33,6 +36,7 @@ class DominionFactory
         User $user,
         Realm $realm,
         Race $race,
+        Title $title,
         string $rulerName,
         string $dominionName,
         ?Pack $pack = null
@@ -140,6 +144,11 @@ class DominionFactory
         $startingResources['morale'] = 100;
 
         $startingResources['prestige'] = intval($acresBase/2);
+
+        if(Auth::user()->display_name == $rulerName)
+        {
+            $startingResources['prestige'] += 100;
+        }
 
         $startingResources['royal_guard_active_at'] = NULL;
 
@@ -334,6 +343,7 @@ class DominionFactory
             'round_id' => $realm->round->id,
             'realm_id' => $realm->id,
             'race_id' => $race->id,
+            'title_id' => $title->id,
             'pack_id' => $pack->id ?? null,
 
             'ruler_name' => $rulerName,

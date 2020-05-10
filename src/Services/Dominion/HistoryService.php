@@ -149,6 +149,7 @@ class HistoryService
                 'round_id',
                 'realm_id',
                 'race_id',
+                'title_id',
                 'name',
                 'ruler_name',
                 'peasants_last_hour',

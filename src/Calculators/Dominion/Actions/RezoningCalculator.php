@@ -187,6 +187,9 @@ class RezoningCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('rezone_cost');
 
+        // Techs
+        $multiplier += $dominion->title->getPerkMultiplier('rezone_cost');
+
         $multiplier = max($multiplier, $maxReduction);
 
         return (1 + $multiplier);

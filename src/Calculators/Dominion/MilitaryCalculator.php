@@ -1187,6 +1187,9 @@ class MilitaryCalculator
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('spy_strength');
 
+        // Title
+        $multiplier += $dominion->title->getPerkMultiplier('spy_strength');
+
         // Beastfolk: Cavern increases Spy Strength
         if($dominion->race->name == 'Beastfolk')
         {

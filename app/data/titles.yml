@@ -38,9 +38,9 @@ excavator:
 researcher:
   name: Researcher
   perks:
-    tech_production: 1.5
+    tech_production: 1.25
 
 healer:
   name: Healer
   perks:
-    casualties: -5
+    casualties: -2.5
