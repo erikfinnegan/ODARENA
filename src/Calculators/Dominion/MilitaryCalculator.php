@@ -1653,7 +1653,7 @@ class MilitaryCalculator
     }
 
     /**
-     * Get the dominion's base morale modifier.
+     * Get the dominion's prestige gain perk.
      *
      * @param Dominion $dominion
      * @return float

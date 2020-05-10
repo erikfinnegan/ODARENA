@@ -735,6 +735,7 @@ class DominionFactory
               'diamond_mine' => 0,
               'barracks' => 0,
               'wizard_guild' => 0,
+              'temple' => 0,
               'dock' => 0,
           ];
         }

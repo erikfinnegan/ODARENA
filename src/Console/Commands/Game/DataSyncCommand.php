@@ -21,6 +21,11 @@ use OpenDominion\Models\BuildingPerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
+
+use OpenDominion\Models\Title;
+use OpenDominion\Models\TitlePerk;
+use OpenDominion\Models\TitlePerkType;
+
 class DataSyncCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
@@ -53,6 +58,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncRaces();
             $this->syncTechs();
             $this->syncBuildings();
+            $this->syncTitles();
         });
     }
 
@@ -343,5 +349,69 @@ class DataSyncCommand extends Command implements CommandInterface
                 $building->perks()->sync($buildingPerksToSync);
             }
         }
+
+        /**
+         * Syncs titles and perk data from .yml file to the database.
+         */
+        protected function syncTitles()
+        {
+            $fileContents = $this->filesystem->get(base_path('app/data/titles.yml'));
+
+            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+            foreach ($data as $titleKey => $titleData) {
+                // Title
+                $title = Title::firstOrNew(['key' => $titleKey])
+                    ->fill([
+                        'name' => $titleData->name
+                    ]);
+
+                if (!$title->exists) {
+                    $this->info("Adding title {$titleData->name}");
+                } else {
+                    $this->info("Processing title {$titleData->name}");
+
+                    $newValues = $title->getDirty();
+
+                    foreach ($newValues as $key => $newValue) {
+                        $originalValue = $title->getOriginal($key);
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                }
+
+                $title->save();
+                $title->refresh();
+
+                // Title Perks
+                $titlePerksToSync = [];
+
+                foreach (object_get($titleData, 'perks', []) as $perk => $value)
+                {
+                    $value = (string)$value;
+
+                    $titlePerkType = TitlePerkType::firstOrCreate(['key' => $perk]);
+
+                    $titlePerksToSync[$titlePerkType->id] = ['value' => $value];
+
+                    $titlePerk = TitlePerk::query()
+                        ->where('title_id', $title->id)
+                        ->where('title_perk_type_id', $titlePerkType->id)
+                        ->first();
+
+                    if ($titlePerk === null)
+                    {
+                        $this->info("[Add Title Perk] {$perk}: {$value}");
+                    }
+                    elseif ($titlePerk->value != $value)
+                    {
+                        $this->info("[Change Title Perk] {$perk}: {$titlePerk->value} -> {$value}");
+                    }
+                }
+
+                $title->perks()->sync($titlePerksToSync);
+            }
+        }
+
 
 }

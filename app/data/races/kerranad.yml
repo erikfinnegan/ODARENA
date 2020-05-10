@@ -26,7 +26,7 @@ description: >-
   <li>Observatory: 2.5%</li>
   <li>Harbor: 5%</li>
   </ul>
-  <p><em>There can only be one Citystate of Kerranad per round.</em></p>
+  <p>There can only be one Citystate of Kerranad per round. A player must have played at least four rounds to be eligible to play Kerranad.</p>
 home_land_type: hill
 playable: 1
 
@@ -92,5 +92,5 @@ units:
       defense: 4
     perks:
       increases_morale: 2 # Morale increased by 2% for every 1% of population made up of Immortal Guards.
-      increases_prestige_gains: 1
+      increases_prestige_gains: 0.50
       no_draftee: 1

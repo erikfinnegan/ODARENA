@@ -10,14 +10,15 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Title;
+use OpenDominion\Helpers\TitleHelper;
 
 class ScribesController extends AbstractController
 {
     public function getRaces()
     {
-
         $races = collect(Race::orderBy('name')->get())->groupBy('alignment')->toArray();
-        return view('pages.scribes.races', [
+        return view('pages.scribes.factions', [
             'goodRaces' => $races['good'],
             'evilRaces' => $races['evil'],
             'npcRaces' => $races['npc'],
@@ -29,10 +30,9 @@ class ScribesController extends AbstractController
     {
         $raceName = ucwords(str_replace('-', ' ', $raceName));
 
-        $race = Race::where('name', $raceName)
-            ->firstOrFail();
+        $race = Race::where('name', $raceName)->firstOrFail();
 
-        return view('pages.scribes.race', [
+        return view('pages.scribes.faction', [
             'landHelper' => app(LandHelper::class),
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
@@ -83,4 +83,14 @@ class ScribesController extends AbstractController
             'spellHelper' => app(SpellHelper::class)
         ]);
     }
+
+    public function getTitles()
+    {
+        $titles = collect(Title::orderBy('name')->get());
+        return view('pages.scribes.titles', [
+            'titles' => $titles,
+            'titleHelper' => app(TitleHelper::class),
+        ]);
+    }
+
 }

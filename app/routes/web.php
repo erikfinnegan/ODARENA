@@ -219,11 +219,12 @@ $router->group(['prefix' => 'about', 'as' => 'about.'], static function (Router 
 
 // Scribes
 $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Router $router) {
-    $router->get('races')->uses('ScribesController@getRaces')->name('races');
+    $router->get('factions')->uses('ScribesController@getRaces')->name('factions');
     $router->get('construction')->uses('ScribesController@getConstruction')->name('construction');
     $router->get('espionage')->uses('ScribesController@getEspionage')->name('espionage');
     $router->get('magic')->uses('ScribesController@getMagic')->name('magic');
-    $router->get('{race}')->uses('ScribesController@getRace')->name('race');
+    $router->get('titles')->uses('ScribesController@getTitles')->name('titles');
+    $router->get('{race}')->uses('ScribesController@getRace')->name('faction');
 });
 
 // Valhalla

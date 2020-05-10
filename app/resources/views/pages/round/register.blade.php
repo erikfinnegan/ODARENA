@@ -22,6 +22,23 @@
                     </div>
                 </div>
 
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="ruler_name" class="col-sm-3 control-label">Title</label>
+                    <div class="col-sm-9">
+                        <select name="title" id="title" class="form-control">
+                        @foreach ($titles as $title)
+
+                        <option value="{{ $title->id }}">
+                            {{ $title->name }}: {{ $title->description }}
+                        </option>
+
+                        @endforeach
+                      </select>
+                        <p class="help-block">This is the title you will go by. Select one that complements your intended strategy.</p>
+                    </div>
+                </div>
+
                 <!-- Ruler Name -->
                 <div class="form-group">
                     <label for="ruler_name" class="col-sm-3 control-label">Ruler Name</label>
@@ -64,7 +81,7 @@
                                                             <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                             <strong>{{ $race->name }}</strong>
                                                             &nbsp;&mdash;&nbsp;
-                                                        <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
+                                                        <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
                                                         </p>
                                                         <p>
                                                         Currently:&nbsp;
@@ -122,7 +139,7 @@
                                                         <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                         <strong>{{ $race->name }}</strong>
                                                         &nbsp;&mdash;&nbsp;
-                                                    <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
+                                                    <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
                                                     </p>
                                                     <p>
                                                     Currently:&nbsp;
@@ -178,7 +195,7 @@
                                                         <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                         <strong>{{ $race->name }}</strong>
                                                         &nbsp;&mdash;&nbsp;
-                                                    <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
+                                                    <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
                                                     </p>
                                                     <p>
                                                     Currently:&nbsp;
@@ -229,7 +246,7 @@
                                                         <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                         <strong>{{ $race->name }}</strong>
                                                         &nbsp;&mdash;&nbsp;
-                                                    <a href="{{ route('scribes.race', $race->name) }}">Scribes</a>
+                                                    <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
                                                     </p>
                                                     <p>
                                                     Currently:&nbsp;

@@ -257,7 +257,6 @@ class Dominion extends AbstractModel
         );
     }
 
-
     public function buildings()
     {
         return $this->hasManyThrough(
@@ -267,6 +266,18 @@ class Dominion extends AbstractModel
             'id',
             'id',
             'building_id'
+        );
+    }
+
+    public function title()
+    {
+        return $this->hasOne(
+            Title::class,
+            DominionTitle::class,
+            'dominion_id',
+            'id',
+            'id',
+            'title_id'
         );
     }
 

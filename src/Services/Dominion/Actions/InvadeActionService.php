@@ -527,22 +527,13 @@ class InvadeActionService
             $attackerPrestigeChangeMultiplier = 0;
 
             // Racial perk
-            if($dominion->race->getPerkMultiplier('prestige_gains'))
-            {
-              $attackerPrestigeChangeMultiplier += $dominion->race->getPerkMultiplier('prestige_gains');
-            }
+            $attackerPrestigeChangeMultiplier += $dominion->race->getPerkMultiplier('prestige_gains');
 
             // Unit perk
-            if($dominion->getTechPerkMultiplier('prestige_gains'))
-            {
-              $attackerPrestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($dominion, $units);
-            }
+            $attackerPrestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($dominion, $units);
 
             // Tech
-            if($dominion->getTechPerkMultiplier('prestige_gains'))
-            {
-              $attackerPrestigeChangeMultiplier += $dominion->getTechPerkMultiplier('prestige_gains');
-            }
+            $attackerPrestigeChangeMultiplier += $dominion->getTechPerkMultiplier('prestige_gains');
 
             $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
 
@@ -583,9 +574,9 @@ class InvadeActionService
             $this->invasionResult['attacker']['prestigeChange'] = $attackerPrestigeChange;
         }
 
-        if ($targetPrestigeChange !== 0) {
+        if ($targetPrestigeChange !== 0)
+        {
             $target->prestige += $targetPrestigeChange;
-
             $this->invasionResult['defender']['prestigeChange'] = $targetPrestigeChange;
         }
     }

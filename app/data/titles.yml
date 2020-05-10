@@ -1,0 +1,46 @@
+commander:
+  name: Commander
+  perks:
+    military_cost: -1
+
+conjurer:
+  name: Conjurer
+  perks:
+    spell_cost: -5
+
+surveyor:
+  name: Surveyor
+  perks:
+    construction_cost: -5
+    rezone_cost: -5
+
+engineer:
+  name: Engineer
+  perks:
+    improvements: 5
+
+investigator:
+  name: Investigator
+  perks:
+    spy_strength: 5
+
+pathfinder:
+  name: Pathfinder
+  perks:
+    explore_cost: -5
+
+excavator:
+  name: Excavator
+  perks:
+    ore_production: 2.5
+    gem_production: 2.5
+
+researcher:
+  name: Researcher
+  perks:
+    tech_production: 1.5
+
+healer:
+  name: Healer
+  perks:
+    casualties: -5

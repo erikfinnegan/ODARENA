@@ -74,6 +74,10 @@ class RoundController extends AbstractController
                             ->groupBy('races.name')
                             ->pluck('dominions', 'race')->all();
 
+        $titles = DB::table('titles')
+                            ->select('id', 'name', 'description')
+                            ->get();
+
         $races = Race::query()
             ->with(['perks'])
             ->orderBy('name')
@@ -85,6 +89,7 @@ class RoundController extends AbstractController
             'races' => $races,
             'countAlignment' => $countAlignment,
             'countRaces' => $countRaces,
+            'titles' => $titles,
             #'countEmpire' => $countEmpire,
             #'countCommonwealth' => $countCommonwealth,
             #'alignmentCounter' => $alignmentCounter,
@@ -107,6 +112,7 @@ class RoundController extends AbstractController
             'dominion_name' => 'required|string|min:3|max:50',
             'ruler_name' => 'nullable|string|max:50',
             'race' => 'required|exists:races,id',
+            'title' => 'required|exists:titles,id',
             'realm_type' => 'in:random,join_pack,create_pack',
             'pack_name' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
             'pack_password' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
@@ -130,6 +136,7 @@ class RoundController extends AbstractController
                 /** @var User $user */
                 $user = Auth::user();
                 $race = Race::findOrFail($request->get('race'));
+                $title = $request->get('title');
                 $pack = null;
 
                 if (!$race->playable and $race->alignment !== 'npc')
@@ -178,7 +185,8 @@ class RoundController extends AbstractController
                     $race,
                     ($request->get('ruler_name') ?: $user->display_name),
                     $dominionName,
-                    $pack
+                    $pack,
+                    $title
                 );
 
                 if ($request->get('realm_type') === 'create_pack') {

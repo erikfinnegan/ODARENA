@@ -194,7 +194,7 @@ class UnitHelper
 
             // Other
             'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
-            'increases_prestige_gains' => 'Increases prestige gains on successful invasions.',
+            'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',

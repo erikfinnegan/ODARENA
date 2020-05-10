@@ -30,7 +30,7 @@
                             @if($race['playable'] == 1)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('scribes.race', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
+                                        <a href="{{ route('scribes.faction', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
                                     </td>
                                 </tr>
                             @endif
@@ -48,7 +48,7 @@
                             @if($race['playable'] == 1)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('scribes.race', $race['name']) }}">{{ $race['name'] }}</a>
+                                        <a href="{{ route('scribes.faction', $race['name']) }}">{{ $race['name'] }}</a>
                                     </td>
                                 </tr>
                             @endif
@@ -69,7 +69,7 @@
                               @if($race['playable'] == 1)
                                   <tr>
                                       <td>
-                                          <a href="{{ route('scribes.race', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
+                                          <a href="{{ route('scribes.faction', str_slug($race['name'])) }}">{{ $race['name'] }}</a>
                                       </td>
                                   </tr>
                               @endif
@@ -86,7 +86,7 @@
                               @foreach ($npcRaces as $race)
                                   <tr>
                                       <td>
-                                          <a href="{{ route('scribes.race', $race['name']) }}">{{ $race['name'] }}</a>
+                                          <a href="{{ route('scribes.faction', $race['name']) }}">{{ $race['name'] }}</a>
                                       </td>
                                   </tr>
                               @endforeach
