@@ -346,11 +346,25 @@ class InvadeActionService
             # Only count successful, non-in-realm hits over 75% as victories.
             if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
             {
-              $countsAsVictory = 1;
+                $countsAsVictory = 1;
+                $countsAsFailure = 0;
+                $countsAsRaze = 0;
             }
             else
             {
-              $countsAsVictory = 0;
+                $countsAsVictory = 0;
+
+                # For non-overwhelmed bounces, count it as a raze.
+                if(!$this->invasionResult['result']['overwhelmed'])
+                {
+                    $countsAsRaze = 1;
+                    $countsAsFailure = 0;
+                }
+                else
+                {
+                    $countsAsRaze = 0;
+                    $countsAsFailure = 1;
+                }
             }
 
             $this->rangeCalculator->checkGuardApplications($dominion, $target);
@@ -389,6 +403,8 @@ class InvadeActionService
                 $dominion->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
                 $dominion->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landGenerated']);
                 $dominion->stat_attacking_success += $countsAsVictory;
+                $dominion->stat_attacking_razes += $countsAsRaze;
+                $dominion->stat_attacking_failures += $countsAsFailure;
 
                 $target->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
             }

@@ -982,7 +982,7 @@ class ProductionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('tech_production');
 
         // Title
-        $multiplier += $dominion->title->getMultiplier('tech_production');
+        $multiplier += $dominion->title->getPerkMultiplier('tech_production');
 
         # Observatory
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
