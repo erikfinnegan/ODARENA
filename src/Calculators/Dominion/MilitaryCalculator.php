@@ -392,10 +392,10 @@ class MilitaryCalculator
         // Spell
         $multiplier += $this->getSpellMultiplier($dominion, null, 'defense');
 
-        // Beastfolk: Plains increases DP
+        // Beastfolk: Hill increases DP
         if($dominion->race->name == 'Beastfolk')
         {
-            $multiplier += 0.2 * ($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion));
+            $multiplier += 1 * ($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion));
         }
 
         // Simian: defense_from_forest
