@@ -34,7 +34,7 @@ units:
       platinum: 800
       ore: 25
     power:
-      offense: 4
+      offense: 0
       defense: 5
   - name: Frigate
     need_boat: false

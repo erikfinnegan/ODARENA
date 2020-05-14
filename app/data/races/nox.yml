@@ -56,3 +56,4 @@ units:
     perks:
       fewer_casualties: 80
       counts_as_wizard_offense: 0.1
+      plunders: mana;5,gem;2

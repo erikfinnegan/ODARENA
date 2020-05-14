@@ -1382,7 +1382,7 @@ class InvadeActionService
 
         if($isInvasionSuccessful)
         {
-            $totalConverts /= 12;
+            $totalConverts /= 3;
         }
 
 
