@@ -12,7 +12,7 @@ converting: 1
 
 perks:
   cannot_build_barracks: 1
-  construction_cost: 25
+  construction_cost: 10
   platinum_production: -50
   max_population: 20
   can_only_abduct_own: 1
