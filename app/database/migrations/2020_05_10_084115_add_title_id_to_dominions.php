@@ -14,7 +14,7 @@ class AddTitleIdToDominions extends Migration
     public function up()
     {
         Schema::table('dominions', function (Blueprint $table) {
-            $table->unsignedInteger('title_id');
+            $table->unsignedInteger('title_id')->nullable()->default(null);
 
             $table->foreign('title_id')->references('id')->on('titles');
         });
