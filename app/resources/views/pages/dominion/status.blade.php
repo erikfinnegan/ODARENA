@@ -28,7 +28,7 @@
                                     <tr>
                                         <td>Ruler:</td>
                                         <td><em>
-                                          @if($selectedDominion->title->name)
+                                          @if($selectedDominion->title_id !== 0)
                                             {{ $selectedDominion->title->name }}
                                           @endif</em> {{ $selectedDominion->ruler_name }}</td>
                                     </tr>
