@@ -27,7 +27,10 @@
                                 <tbody>
                                     <tr>
                                         <td>Ruler:</td>
-                                        <td><em>{{ $selectedDominion->title->name }}</em> {{ $selectedDominion->ruler_name }}</td>
+                                        <td><em>
+                                          @if($selectedDominion->title->name)
+                                            {{ $selectedDominion->title->name }}
+                                          @endif</em> {{ $selectedDominion->ruler_name }}</td>
                                     </tr>
                                     <tr>
                                         <td>Faction:</td>
