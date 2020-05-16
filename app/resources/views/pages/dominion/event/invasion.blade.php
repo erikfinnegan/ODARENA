@@ -246,6 +246,12 @@
                                 </p>
                             @endif
 
+                            @if (isset($event->data['defender']['demonic_collection']) && $event->target->id === $selectedDominion->id)
+                                <p class="text-center text-green">
+                                  {{ $unitHelper->getDemonicCollectionString($event->data['attacker']['demonic_collection']) }}
+                                </p>
+                            @endif
+
                             @if (isset($event->data['attacker']['champion']) && $event->source->id === $selectedDominion->id)
                                 <p class="text-center text-green">
                                   {{ $unitHelper->getChampionsString($event->data['attacker']['champion']['champions']) }}
