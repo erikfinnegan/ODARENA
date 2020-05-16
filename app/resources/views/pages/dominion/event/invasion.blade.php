@@ -240,9 +240,15 @@
                                 </p>
                             @endif
 
-                            @if ((isset($event->data['attacker']['demonic_collection']) or isset($event->data['defender']['demonic_collection'])))
+                            @if ((isset($event->data['attacker']['demonic_collection']))
                                 <p class="text-center text-green">
                                   {{ $unitHelper->getDemonicCollectionString($event->data['attacker']['demonic_collection']) }}
+                                </p>
+                            @endif
+
+                            @if ((isset($event->data['defender']['demonic_collection']))
+                                <p class="text-center text-green">
+                                  {{ $unitHelper->getDemonicCollectionString($event->data['defender']['demonic_collection']) }}
                                 </p>
                             @endif
 
