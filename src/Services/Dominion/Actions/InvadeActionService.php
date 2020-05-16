@@ -2010,7 +2010,7 @@ class InvadeActionService
             # Demon defending against non-Demon
             elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
             {
-                $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['defender']['unitsLost'], false, false, true);
+                $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['defender']['unitsLost'], [], false, true);
 
 
                 foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
