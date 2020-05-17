@@ -57,10 +57,10 @@ class RoundOpenCommand extends Command implements CommandInterface
         $open = $this->option('open');
         $days = $this->option('days');
         $league = $this->option('league');
-        $realmSize = $this->option('realm-size');
-        $packSize = $this->option('pack-size');
-        $playersPerRace = $this->option('playersPerRace');
-        $mixedAlignments = $this->option('mixedAlignment');
+        $realmSize = 100; #$this->option('realm-size');
+        $packSize = 100;#$this->option('pack-size');
+        $playersPerRace = 0; #$this->option('playersPerRace');
+        $mixedAlignments = false; #$this->option('mixedAlignment');
 
         if ($now && (app()->environment() === 'production')) {
             throw new RuntimeException('Option --now may not be used on production');
@@ -119,8 +119,15 @@ class RoundOpenCommand extends Command implements CommandInterface
             $mixedAlignments
         );
 
-        $this->info("Round {$round->number} created in {$roundLeague->key} league, starting at {$round->start_date}. With a realm size of {$round->realm_size} and a pack size of {$round->pack_size}");
+        $this->info("Round {$round->number} created in Era {$roundLeague->key}. The round starts at {$round->start_date} and ends at {$round->end_date}.");
 
+        // Prepopulate round with #1 Barbarian, #2 Commonwealth, #3 Empire, #4 Independent
+        $this->realmFactory->create($round, 'npc');
+        $this->realmFactory->create($round, 'good');
+        $this->realmFactory->create($round, 'evil');
+        $this->realmFactory->create($round, 'independent');
+
+        /*
         if ($round->mixed_alignment) {
             // Prepopulate round with 20 mixed realms
             for ($i = 1; $i <= 20; $i++) {
@@ -137,5 +144,6 @@ class RoundOpenCommand extends Command implements CommandInterface
                 $this->info("Realm {$realm->name} (#{$realm->number}) created in Round {$round->number} with an alignment of {$realm->alignment}");
             }
         }
+        */
     }
 }

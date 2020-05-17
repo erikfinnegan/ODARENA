@@ -31,44 +31,21 @@ class RoundFactory
     ): Round {
         $number = ($this->getLastRoundNumber($league) + 1);
         $endDate = (clone $startDate)->addDays(static::ROUND_DURATION_IN_DAYS);
+        if($number % 2 == 0)
+        {
+            $startDate = (clone $startDate)->addHours(12);
+            $endDate = (clone $endDate)->addHours(12);
+        }
+        
+        # End offensive actions between 0 and 240 minutes before round end (skewed towards 240).
+        $minutesBeforeRoundEnd = min(240,rand(0,300));
 
-        $invasionEndHours = [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            12,
-            12,
-            13,
-            13,
-            13,
-            14,
-            14,
-            14,
-            15,
-            15,
-            15,
-            16,
-            16,
-            16,
-        ];
-
-        $hoursBeforeRoundEnd = array_random($invasionEndHours);
-
-        $offensiveActionsEndDate = (clone $endDate)->addHours(-$hoursBeforeRoundEnd);
+        $offensiveActionsEndDate = (clone $endDate)->subMinutes($minutesBeforeRoundEnd);
 
         return Round::create([
             'round_league_id' => $league->id,
             'number' => $number,
-            'name' => "Round {$number}", // todo
+            'name' => 'Round ' . $number,
             'start_date' => $startDate,
             'end_date' => $endDate,
             'offensive_actions_prohibited_at' => $offensiveActionsEndDate,

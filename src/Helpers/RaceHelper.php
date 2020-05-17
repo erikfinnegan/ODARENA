@@ -382,6 +382,11 @@ class RaceHelper
                 $description = 'Defensive modifier per 1% Forest';
                 $booleanValue = false;
                 break;
+            case 'offense_from_barren':
+                $negativeBenefit = false;
+                $description = 'Offensive modifier per 1% barren';
+                $booleanValue = false;
+                break;
             case 'forest_construction_cost':
                 $negativeBenefit = true;
                 $description = 'Forest construction cost';

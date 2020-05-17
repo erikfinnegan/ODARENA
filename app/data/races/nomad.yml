@@ -1,8 +1,10 @@
 name: Nomad
 alignment: evil
 description: >-
-  <p>Forever wandering the plains, Nomads are Humans who have rejected sedentary culture.</p>
-  <p>Very similar to the Human armies they have since long rejected, except for the masterful Horse Archers.</p>
+  <p>Forever wandering the lands, Nomads are originally humans who rejected settled culture.</p>
+  <p>The Nomadic infantry consist of Light Cavalry and Horse Archers, while the lands are kept safe by Halberders and
+  <p>Nomads live in tents which are raised wherever there is barren land, removing the need for tedious construction of homes and barracks.</p>
+  <p>The Nomadic army grows stronger the more free land it has to train combat on horseback.</p>
 home_land_type: plain
 playable: 1
 
@@ -12,41 +14,49 @@ converting: 3
 
 perks:
   food_consumption: -15
-  extra_barren_max_population: 5
-  construction_cost: -25
+  extra_barren_max_population: 25
+  construction_cost: 15
+  increased_construction_speed: 2
   salvaging: 65
+  offense_from_barren: 1 # Gets 1% OP bonus from every 1% barren
+  cannot_build_homes: 1
+  cannot_build_barracks: 1
 units:
-  - name: Fighter
+  - name: Light Cavalry
     cost:
-      platinum: 280
-      ore: 25
+      platinum: 300
+      ore: 15
     power:
       offense: 3
       defense: 0
-  - name: Kharash
+    perks:
+      faster_return: 3
+      fewer_casualties: 25
+      plunders: platinum;10,gems;5,ore;5
+  - name: Sabrer
     cost:
-      platinum: 280
-      ore: 15
+      platinum: 275
+      ore: 35
     power:
       offense: 0
       defense: 3
-    perks:
-      reduces_casualties: 1
-  - name: Kheshig
+  - name: Halberder
     cost:
-      platinum: 1050
-      ore: 75
+      platinum: 1000
+      ore: 100
     power:
-      offense: 3
+      offense: 0
       defense: 7
+    perks:
+      increases_offensive_casualties: 1
   - name: Horse Archer
     cost:
-      platinum: 1275
-      ore: 100
+      platinum: 1200
+      ore: 50
     power:
       offense: 8
       defense: 3
     perks:
       faster_return: 3
-      fewer_casualties: 50
+      fewer_casualties_offense: 50
       plunders: platinum;100,gems;30,ore;20

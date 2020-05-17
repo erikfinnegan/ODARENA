@@ -58,10 +58,14 @@ class RealmFactory
             throw new LogicException("Invalid realm alignment.");
         }
 
-        $realmName = ucwords(Haikunator::haikunate([
-            'tokenLength' => 0,
-            'delimiter' => ' '
-        ]));
+        $defaultRealmName = [
+            'npc' => 'The Barbarian Horde',
+            'good' => 'The Commonwealth',
+            'evil' => 'The Empire',
+            'independent' => 'The Independent',
+        ];
+
+        $realmName = $defaultRealmName[$alignment];
 
         $realm = Realm::create([
             'round_id' => $round->id,

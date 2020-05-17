@@ -15,7 +15,7 @@ perks:
   wizard_strength: -10
   construction_cost: -20
   forest_construction_cost: -100
-  defense_from_forest: 0.25 # Gets 0.25% DP bonus from every 1% foreest
+  defense_from_forest: 0.25 # Gets 0.25% DP bonus from every 1% forest
   extra_barren_max_population: 15
   cannot_train_archmages: 1
   tech_costs: 10

@@ -14,7 +14,7 @@ perks:
   cannot_build_barracks: 1
   construction_cost: 10
   platinum_production: -50
-  max_population: 20
+  max_population: 25
   can_only_abduct_own: 1
 units:
   - name: Spawn
