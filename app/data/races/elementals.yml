@@ -14,7 +14,7 @@ converting: 3
 perks:
   all_units_trained_in_9hrs: 1
   max_population: 15
-  extra_barren_housing: 25
+  extra_barren_max_population: 25
   cannot_train_wizards: 1
   cannot_train_spies: 1
   cannot_train_archmages: 1
