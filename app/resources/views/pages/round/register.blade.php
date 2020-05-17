@@ -4,8 +4,6 @@
 
 @section('content')
 
-  <p>You have played {{ $roundsPlayed }} rounds.</p>
-
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Round #{{ $round->number }} &mdash; <strong>{{ $round->name }}</strong></h3>
