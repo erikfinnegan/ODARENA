@@ -44,7 +44,7 @@ units:
       offense: 4
       defense: 2
     perks:
-      plunders: platinum;50,gems;20
+      plunders: platinum;1,gems;0.35
       offense_vs_resource: gems,20000,3 # +1 OP per 20,000 gems, max +3
   - name: Wolf Rider
     type: offensive_elite

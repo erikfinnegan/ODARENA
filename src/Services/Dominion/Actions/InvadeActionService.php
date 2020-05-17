@@ -847,7 +847,7 @@ class InvadeActionService
         {
             if($newUnitSlot = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
             {
-                # Add the unit (immediately)
+                # Add the unit to queue.
                 $target->{'military_unit' . $newUnitSlot} += $casualties;
             }
         }
@@ -1166,7 +1166,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalDefensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted','Legion II','Demon'], true)
+              !in_array($dominion->race->name, ['Lycanthrope','Spirit','Undead','Sacred Order','Afflicted','Legion II'], true)
           )
         {
             return $convertedUnits;
@@ -1448,14 +1448,11 @@ class InvadeActionService
     protected function handleResearchPoints(Dominion $dominion, Dominion $target, array $units): void
     {
 
+        $researchPointsPerAcre = 0;
         # No RP for in-realm invasions.
-        if($dominion->realm->id == $target->realm->id)
+        if($dominion->realm->id !== $target->realm->id)
         {
-          $researchPointsPerAcre = 0;
-        }
-        else
-        {
-          $researchPointsPerAcre = 25;
+            $researchPointsPerAcre = 25;
         }
 
         $researchPointsPerAcreMultiplier = 1;
@@ -1463,19 +1460,20 @@ class InvadeActionService
         # Increase RP per acre
         if($dominion->race->getPerkMultiplier('research_points_per_acre'))
         {
-          $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
+            $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
         }
 
         $researchPointsPerAcreMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
-        if ($isInvasionSuccessful) {
+        if ($isInvasionSuccessful)
+        {
             $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
 
             $researchPointsForGeneratedAcres = 1;
             if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) == 0)
             {
-              $researchPointsForGeneratedAcres = 2;
+                $researchPointsForGeneratedAcres = 2;
             }
 
 

@@ -4,6 +4,8 @@
 
 @section('content')
 
+  <p>You have played {{ $roundsPlayed }} rounds.</p>
+
     <div class="box box-primary">
         <div class="box-header with-border">
             <h3 class="box-title">Round #{{ $round->number }} &mdash; <strong>{{ $round->name }}</strong></h3>
@@ -194,11 +196,13 @@
                                   </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
+                                    @if($race->getPerkValue('min_rounds_played') !== 0 and $race->getPerkValue('min_rounds_played') <= $roundsPlayed)
                                     <div class="col-xs-12">
                                         <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
                                             <div class="row text-left">
                                                 <div class="col-lg-4">
                                                     <p>
+
                                                         <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
                                                         <strong>{{ $race->name }}</strong>
                                                         &nbsp;&mdash;&nbsp;
@@ -210,6 +214,9 @@
                                                       {{ number_format($countRaces[$race->name]) }}
                                                     @else
                                                     0
+                                                    @endif
+                                                    @if($race->getPerkValue('max_per_round'))
+                                                      Max {{ $race->getPerkValue('max_per_round') }} per round
                                                     @endif
                                                   </p>
                                                 </div>
@@ -225,6 +232,9 @@
                                             </div>
                                         </label>
                                     </div>
+                                    @else
+                                        You must have played at least {{ $race->getPerkValue('min_rounds_played') }} to play {{ $race->name }}.
+                                    @endif
                                     @endforeach
                                 </div>
                             </div>

@@ -30,7 +30,7 @@ units:
       defense: 0
     perks:
       offense_from_pairing: 4,0.5,1 # slot, amount, num required
-      plunders: platinum;5,gem;1
+      plunders: platinum;0.1,gem;0.01
   - name: Underling
     cost:
       platinum: 200

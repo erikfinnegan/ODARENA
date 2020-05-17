@@ -31,7 +31,8 @@ units:
     power:
       defense: 6.5
     perks:
-      true_immortal: 1
+      immortal_on_successful_defense: 1
+      dies_into: 3
   - name: Magma Giant
     cost:
       platinum: 1100

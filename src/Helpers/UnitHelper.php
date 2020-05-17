@@ -125,10 +125,11 @@ class UnitHelper
             'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
 
-            'immortal' => 'Almost never dies.',
-            'immortal_except_vs' => 'Almost never dies, except vs %s.',
-            'immortal_vs_land_range' => 'Almost never dies when attacking dominions %s%%+ of your size.',
-            'true_immortal' => 'Immortal. Only dies when overwhelmed.',
+            'immortal' => 'Near immortal. Only dies when overwhelmed on attack.',
+            'immortal_except_vs' => 'Near immortal, except vs % or when overwhelmed on attack..',
+            'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
+            'true_immortal_defense' => 'Near immortal. Only dies when overwhelmed on defense.',
+            'true_immortal' => 'Immortal. Only dies when overwhelmed on attack.',
 
             'reduces_casualties' => 'Reduces combat losses.',
             'increases_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',

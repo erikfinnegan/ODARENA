@@ -32,7 +32,7 @@ units:
     perks:
       faster_return: 3
       fewer_casualties: 25
-      plunders: platinum;10,gems;5,ore;5
+      plunders: platinum;2,gems;0.1
   - name: Sabrer
     cost:
       platinum: 275
@@ -48,7 +48,7 @@ units:
       offense: 0
       defense: 7
     perks:
-      increases_offensive_casualties: 1
+      increases_casualties_on_defense: 1
   - name: Horse Archer
     cost:
       platinum: 1200
@@ -59,4 +59,4 @@ units:
     perks:
       faster_return: 3
       fewer_casualties_offense: 50
-      plunders: platinum;100,gems;30,ore;20
+      plunders: platinum;1,gems;0.25,ore;0.5

@@ -82,4 +82,4 @@ units:
       counts_as_wizard_defense: 0.08
       counts_as_spy_offense: 0.12
       counts_as_spy_defense: 0.08
-      plunders: mana;100,gem;20
+      plunders: mana;1,gem;0.2

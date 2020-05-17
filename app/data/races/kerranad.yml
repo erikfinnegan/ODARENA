@@ -47,7 +47,7 @@ perks:
 units:
   - name: Assassin
     cost:
-      platinum: 100
+      platinum: 200
       ore: 100
       spy: 1
     power:
@@ -71,7 +71,7 @@ units:
       increases_morale: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
   - name: Battlemage
     cost:
-      platinum: 750
+      platinum: 1200
       ore: 75
       wizard: 1
     power:
