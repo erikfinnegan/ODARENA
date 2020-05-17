@@ -394,6 +394,8 @@ class RaceHelper
             case 'salvaging':
                 $negativeBenefit = false;
                 $description = 'Salvages resources';
+                $valueType = '%';
+                $booleanValue = 'static';
                 break;
             case 'cannot_rezone':
                 $negativeBenefit = true;
@@ -402,8 +404,14 @@ class RaceHelper
                 break;
             case 'max_per_round':
                 $negativeBenefit = true;
-                $description = 'Max dominions per round';
+                $description = 'Max dominions of this faction per round';
                 $valueType = '';
+                $booleanValue = 'static';
+                break;
+            case 'min_rounds_played':
+                $negativeBenefit = true;
+                $description = 'Mininum number of rounds played to play this faction';
+                $valueType = ' rounds';
                 $booleanValue = 'static';
                 break;
 

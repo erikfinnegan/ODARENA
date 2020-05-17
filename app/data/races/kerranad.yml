@@ -42,7 +42,7 @@ perks:
   can_sell_food: 1
   salvaging: 95
   max_per_round: 1
-  min_rounds_played: 4
+  min_rounds_played: 6
   cannot_train_archmages: 1
 units:
   - name: Assassin
