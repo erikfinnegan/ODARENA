@@ -72,6 +72,6 @@ class TechHelper
             }
         }
 
-        return implode($perkStrings, ', ');
+        return implode( ', ', $perkStrings);
     }
 }
