@@ -12,8 +12,8 @@ home_land_type: mountain
 playable: 1
 
 attacking: 3
-exploring : 1
-converting: 1
+exploring : 3
+converting: 2
 
 perks:
   population_growth: 50

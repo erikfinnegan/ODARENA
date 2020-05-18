@@ -31,13 +31,13 @@
                         @foreach ($titles as $title)
 
                         <option value="{{ $title->id }}">
-                              {{ $title->name }}:
-                              @foreach ($title->perks as $perk)
+                              {{ $title->name }}
+                              (@foreach ($title->perks as $perk)
                                   @php
                                       $perkDescription = $titleHelper->getPerkDescriptionHtmlWithValue($perk);
                                   @endphp
                                       {!! $perkDescription['description'] !!} {!! $perkDescription['value']  !!}
-                              @endforeach
+                              @endforeach)
                         </option>
 
                         @endforeach
@@ -61,6 +61,7 @@
                     <div class="col-sm-9">
                         <div class="row">
 
+                            <!-- Commonwealth -->
                             <div class="col-xs-12">
                               <div class="row">
                                   <div class="col-xs-1">
@@ -80,45 +81,14 @@
                                   </div>
 
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
-                                        <div class="col-xs-12">
-                                            <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
-                                                <div class="row text-left">
-                                                    <div class="col-lg-4">
-                                                        <p>
-                                                            <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
-                                                            <strong>{{ $race->name }}</strong>
-                                                            &nbsp;&mdash;&nbsp;
-                                                        <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
-                                                        </p>
-                                                        <p>
-                                                        Currently:&nbsp;
-                                                        @if(isset($countRaces[$race->name]))
-                                                          {{ number_format($countRaces[$race->name]) }}
-                                                        @else
-                                                        0
-                                                        @endif
-                                                      </p>
-                                                    </div>
-
-                                                    <div class="col-sm-4">
-                                                      <ul>
-                                                        <li>Attacking: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->attacking)))) }}</li>
-                                                        <li>Converting: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->converting)))) }}</li>
-                                                        <li>Exploring: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->exploring)))) }}</li>
-                                                      </ul>
-                                                    </div>
-
-                                                </div>
-                                            </label>
-                                        </div>
+                                        @include('partials.register-faction')
                                     @endforeach
                                 </div>
                             </div>
 
+                            <!-- Empire -->
                             <div class="col-xs-12">
-
-                                <div class="col-xs-12">
-                                  <div class="row">
+                                <div class="row">
                                       <div class="col-xs-1">
                                         <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
                                       </div>
@@ -133,49 +103,18 @@
                                         @endif
                                          dominions have joined the Empire this round.</p>
                                       </div>
-                                  </div>
+                                </div>
 
                                 <div class="row">
 
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
-                                    <div class="col-xs-12">
-                                        <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
-                                            <div class="row text-left">
-                                                <div class="col-lg-4">
-                                                    <p>
-                                                        <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
-                                                        <strong>{{ $race->name }}</strong>
-                                                        &nbsp;&mdash;&nbsp;
-                                                    <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
-                                                    </p>
-                                                    <p>
-                                                    Currently:&nbsp;
-                                                    @if(isset($countRaces[$race->name]))
-                                                      {{ number_format($countRaces[$race->name]) }}
-                                                    @else
-                                                    0
-                                                    @endif
-                                                  </p>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                  <ul>
-                                                    <li>Attacking: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->attacking)))) }}</li>
-                                                    <li>Converting: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->converting)))) }}</li>
-                                                    <li>Exploring: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->exploring)))) }}</li>
-                                                  </ul>
-                                                </div>
-
-                                            </div>
-                                        </label>
-                                    </div>
+                                        @include('partials.register-faction')
                                     @endforeach
                                 </div>
                             </div>
 
+                            <!-- Independent -->
                             <div class="col-xs-12">
-
-                                <div class="col-xs-12">
                                   <div class="row">
                                     <div class="col-xs-1">
                                       <img src="{{ asset('assets/app/images/independent.svg') }}" class="img-responsive" alt="Independent">
@@ -194,45 +133,7 @@
                                   </div>
                                 <div class="row">
                                     @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
-                                    @if($race->getPerkValue('min_rounds_played') !== 0 and $race->getPerkValue('min_rounds_played') <= $roundsPlayed)
-                                    <div class="col-xs-12">
-                                        <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
-                                            <div class="row text-left">
-                                                <div class="col-lg-4">
-                                                    <p>
-
-                                                        <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
-                                                        <strong>{{ $race->name }}</strong>
-                                                        &nbsp;&mdash;&nbsp;
-                                                    <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
-                                                    </p>
-                                                    <p>
-                                                    Currently:&nbsp;
-                                                    @if(isset($countRaces[$race->name]))
-                                                      {{ number_format($countRaces[$race->name]) }}
-                                                    @else
-                                                    0
-                                                    @endif
-                                                    @if($race->getPerkValue('max_per_round'))
-                                                      Max {{ $race->getPerkValue('max_per_round') }} per round
-                                                    @endif
-                                                  </p>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                  <ul>
-                                                    <li>Attacking: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->attacking)))) }}</li>
-                                                    <li>Converting: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->converting)))) }}</li>
-                                                    <li>Exploring: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->exploring)))) }}</li>
-                                                  </ul>
-                                                </div>
-
-                                            </div>
-                                        </label>
-                                    </div>
-                                    @else
-                                        You must have played at least {{ $race->getPerkValue('min_rounds_played') }} to play {{ $race->name }}.
-                                    @endif
+                                        @include('partials.register-faction')
                                     @endforeach
                                 </div>
                             </div>

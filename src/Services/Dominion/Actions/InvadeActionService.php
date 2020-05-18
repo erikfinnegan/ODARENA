@@ -1186,6 +1186,11 @@ class InvadeActionService
         {
           $conversionMultiplier += $dominion->getTechPerkMultiplier('conversions');
         }
+        # Title: Embalmer
+        if($dominion->title->getPerkMultiplier('conversions'))
+        {
+          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions');
+        }
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);
 
@@ -1335,6 +1340,11 @@ class InvadeActionService
         if($dominion->getTechPerkMultiplier('conversions'))
         {
           $conversionMultiplier += $dominion->getTechPerkMultiplier('conversions');
+        }
+        # Title: Embalmer
+        if($dominion->title->getPerkMultiplier('conversions'))
+        {
+          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions');
         }
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);

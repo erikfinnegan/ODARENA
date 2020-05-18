@@ -482,4 +482,16 @@ class RaceHelper
         return $result;
     }
 
+    public function getRacePlayStyleString(int $rating): string
+    {
+        $ratings = [
+          'Unplayable',
+          'Difficult',
+          'Challenging',
+          'Apt'
+        ];
+        return $ratings[$rating];
+    }
+
+
 }

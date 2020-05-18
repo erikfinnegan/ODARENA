@@ -22,7 +22,7 @@ engineer:
 investigator:
   name: Investigator
   perks:
-    spy_strength: 5
+    spy_strength: 7.5
 
 pathfinder:
   name: Pathfinder
@@ -38,9 +38,19 @@ excavator:
 researcher:
   name: Researcher
   perks:
-    tech_production: 1.25
+    tech_production: 2.5
 
 healer:
   name: Healer
   perks:
     casualties: -2.5
+
+embalmer:
+  name: Embalmer
+  perks:
+    conversions: 2.5
+
+warden:
+  name: Warden
+  perks:
+    lumber_production: 2.5

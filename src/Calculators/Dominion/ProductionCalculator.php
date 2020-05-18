@@ -509,8 +509,10 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('lumber_production');
 
-        # SPELLS
+        // Title
+        $multiplier += $dominion->title->getPerkMultiplier('lumber_production');
 
+        # SPELLS
         // Spell:  Gaia's Blessing (+20%)
         if ($this->spellCalculator->isSpellActive($dominion, 'gaias_blessing'))
         {
@@ -1171,7 +1173,7 @@ class ProductionCalculator
 
             if($resource == 'platinum')
             {
-                $max = $land * 5000;
+                $max = $land * 10000;
             }
             elseif($resource == 'lumber')
             {

@@ -58,6 +58,14 @@ class TitleHelper
                 $negativeBenefit = true;
                 $description = 'Casualties:';
                 break;
+            case 'conversions':
+                $negativeBenefit = true;
+                $description = 'Units converted:';
+                break;
+            case 'lumber_production':
+                $negativeBenefit = false;
+                $description = 'Lumber production:';
+                break;
             default:
                 return null;
         }

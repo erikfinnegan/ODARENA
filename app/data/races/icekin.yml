@@ -7,7 +7,7 @@ description: >-
 home_land_type: mountain
 playable: 1
 
-attacking: 2
+attacking: 1
 exploring : 3
 converting: 3
 

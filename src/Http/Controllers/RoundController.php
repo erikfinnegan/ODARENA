@@ -131,6 +131,19 @@ class RoundController extends AbstractController
             'pack_size' => "integer|min:2|max:{$round->pack_size}|required_if:realm,create_pack",
         ]);
 
+        $roundsPlayed = DB::table('dominions')
+                            ->where('dominions.user_id', '=', Auth::user()->id)
+                            ->where('dominions.protection_ticks', '=', 0)
+                            ->count();
+
+        $countRaces = DB::table('dominions')
+                            ->join('races', 'dominions.race_id', '=', 'races.id')
+                            ->join('realms', 'realms.id', '=', 'dominions.realm_id')
+                            ->select('races.name as race', DB::raw('count(distinct dominions.id) as dominions'))
+                            ->where('dominions.round_id', '=', $round->id)
+                            ->groupBy('races.name')
+                            ->pluck('dominions', 'race')->all();
+
         /** @var Realm $realm */
         $realm = null;
 
@@ -141,7 +154,7 @@ class RoundController extends AbstractController
         $dominionName = null;
 
         try {
-            DB::transaction(function () use ($request, $round, &$realm, &$dominion, &$dominionName) {
+            DB::transaction(function () use ($request, $round, &$realm, &$dominion, &$dominionName, $roundsPlayed, $countRaces) {
                 $realmFinderService = app(RealmFinderService::class);
                 $realmFactory = app(RealmFactory::class);
 
@@ -154,6 +167,16 @@ class RoundController extends AbstractController
                 if (!$race->playable and $race->alignment !== 'npc')
                 {
                     throw new GameException('Invalid race selection');
+                }
+
+                if ($roundsPlayed < $race->getPerkValue('min_rounds_played'))
+                {
+                    throw new GameException('You must have played at least ' . number_format($race->getPerkValue('min_rounds_played')) .  ' rounds to play ' . $race->name . '.');
+                }
+
+                if ($countRaces[$race->name] >= $race->getPerkValue('min_rounds_played'))
+                {
+                    throw new GameException('There can only be ' . $race->getPerkValue('max_per_round') . ' of this faction per round.');
                 }
 
                 switch ($request->get('realm_type')) {
