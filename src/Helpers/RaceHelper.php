@@ -107,11 +107,6 @@ class RaceHelper
                 $description = 'Increased boat capacity';
                 $valueType = ' units/boat';
                 break;
-            case 'platinum_production':
-                $negativeBenefit = false;
-                $description = 'Platinum production';
-                $booleanValue = false;
-                break;
             case 'can_invest_mana':
                 $negativeBenefit = false;
                 $description = 'Can use mana for improvements';
