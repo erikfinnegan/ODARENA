@@ -169,7 +169,7 @@ class RoundController extends AbstractController
                     throw new GameException('Invalid race selection');
                 }
 
-                if($realm->round->hasStarted() and request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
+                if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
                 {
                     if ($roundsPlayed < $race->getPerkValue('min_rounds_played'))
                     {
