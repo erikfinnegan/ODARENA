@@ -478,7 +478,7 @@ class SpellHelper
                 'key' => 'highway_robbers',
                 'mana_cost' => 1,
                 'duration' => 3, # Three ticks (45 minutes)
-                'races' => collect(['Barbaran']),
+                'races' => collect(['Barbarian']),
             ],
         ]);
     }
