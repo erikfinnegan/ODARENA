@@ -51,7 +51,7 @@
                     <label for="ruler_name" class="col-sm-3 control-label">Ruler Name</label>
                     <div class="col-sm-9">
                         <input type="text" name="ruler_name" id="ruler_name" class="form-control" placeholder="{{ Auth::user()->display_name }}" value="{{ old('ruler_name') }}">
-                        <p class="help-block">If you leave it as default ({{ Auth::user()->display_name }}), you get 100 extra pretige for playing under your real display name.</p>
+                        <p class="help-block">If you leave it as default ({{ Auth::user()->display_name }}), you get 100 extra prestige for playing under your real display name.</p>
                     </div>
                 </div>
 
