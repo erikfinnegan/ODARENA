@@ -169,22 +169,22 @@ class RoundController extends AbstractController
                     throw new GameException('Invalid race selection');
                 }
 
-                #if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
-                #{
+                if(request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
+                {
                     if ($roundsPlayed < $race->getPerkValue('min_rounds_played'))
                     {
                         throw new GameException('You must have played at least ' . number_format($race->getPerkValue('min_rounds_played')) .  ' rounds to play ' . $race->name . '.');
                     }
 
 
-                    if ($race->getPerkValue('max_per_round'))
+                    if ($race->getPerkValue('max_per_round') and isset($countRaces[$race->name]))
                     {
                         if($countRaces[$race->name] >= $race->getPerkValue('max_per_round'))
                         {
                             throw new GameException('There can only be ' . number_format($race->getPerkValue('max_per_round')) . ' of this faction per round.');
                         }
                     }
-                #}
+                }
                 switch ($request->get('realm_type')) {
                     case 'random':
                         $realm = $realmFinderService->findRandomRealm($round, $race);
