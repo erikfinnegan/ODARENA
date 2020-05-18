@@ -472,6 +472,14 @@ class SpellHelper
                 'duration' => 12*2, # Six hours
                 'races' => collect(['Marshling']),
             ],
+            [
+                'name' => 'Highway Robbers',
+                'description' => 'Increases offensive power by 5% against merchant caravans.',
+                'key' => 'highway_robbers',
+                'mana_cost' => 1,
+                'duration' => 3, # Three ticks (45 minutes)
+                'races' => collect(['Barbaran']),
+            ],
         ]);
     }
 
