@@ -176,7 +176,7 @@ class RoundController extends AbstractController
                         throw new GameException('You must have played at least ' . number_format($race->getPerkValue('min_rounds_played')) .  ' rounds to play ' . $race->name . '.');
                     }
 
-                    if (isset($countRaces[$race->name]) and $countRaces[$race->name] >= $race->getPerkValue('min_rounds_played'))
+                    if (isset($countRaces[$race->name]) and  $race->getPerkValue('min_rounds_played') !== 0 and $countRaces[$race->name] >= $race->getPerkValue('min_rounds_played'))
                     {
                         throw new GameException('There can only be ' . $race->getPerkValue('max_per_round') . ' of this faction per round.');
                     }

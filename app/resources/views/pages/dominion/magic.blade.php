@@ -36,7 +36,11 @@
                                                         <small>
                                                             @if ($isActive)
                                                                 ({{ $spellCalculator->getSpellDuration($selectedDominion, $spell['key']) }} ticks remaining)<br/>
+                                                            @else
+                                                                ({{ $spell['duration'] }} ticks)
                                                             @endif
+
+
                                                             @if ($cooldownHours)
                                                                 (<span class="text-danger">{{ $cooldownHours }} hour recharge remaining</span>)<br/>
                                                             @elseif (isset($spell['cooldown']))
