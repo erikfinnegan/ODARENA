@@ -2014,6 +2014,32 @@ class InvadeActionService
         $result['defender']['salvage']['lumber'] = 0;
         $result['defender']['salvage']['gems'] = 0;
 
+        # Defender: Salvaging
+        if($salvaging = $defender->race->getPerkMultiplier('salvaging'))
+        {
+            $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($defender);
+            foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountLost)
+            {
+                if($slot !== 'draftees')
+                {
+                    $unitType = 'unit'.$slot;
+                    $unitOreCost = $unitCosts[$unitType]['ore'];
+                    $unitLumberCost = $unitCosts[$unitType]['lumber'];
+                    $unitGemCost = $unitCosts[$unitType]['gem'];
+
+                    $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
+                    $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
+                    $result['defender']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
+
+                    # Update statistics
+                    $defender->stat_total_ore_salvaged += $result['defender']['salvage']['ore'];
+                    $defender->stat_total_lumber_salvaged += $result['defender']['salvage']['lumber'];
+                    $defender->stat_total_gem_salvaged += $result['defender']['salvage']['gems'];
+                }
+            }
+        }
+
+        # Attacker gets no salvage or plunder if attack fails.
         if(!$this->invasionResult['result']['success'])
         {
             return;
@@ -2039,31 +2065,6 @@ class InvadeActionService
                 $attacker->stat_total_ore_salvaged += $result['attacker']['salvage']['ore'];
                 $attacker->stat_total_lumber_salvaged += $result['attacker']['salvage']['lumber'];
                 $attacker->stat_total_gem_salvaged += $result['attacker']['salvage']['gems'];
-            }
-        }
-
-        # Defender: Salvaging
-        if($salvaging = $defender->race->getPerkMultiplier('salvaging'))
-        {
-            $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($defender);
-            foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountLost)
-            {
-                if($slot !== 'draftees')
-                {
-                    $unitType = 'unit'.$slot;
-                    $unitOreCost = $unitCosts[$unitType]['ore'];
-                    $unitLumberCost = $unitCosts[$unitType]['lumber'];
-                    $unitGemCost = $unitCosts[$unitType]['gem'];
-
-                    $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
-                    $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
-                    $result['defender']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
-
-                    # Update statistics
-                    $defender->stat_total_ore_salvaged += $result['defender']['salvage']['ore'];
-                    $defender->stat_total_lumber_salvaged += $result['defender']['salvage']['lumber'];
-                    $defender->stat_total_gem_salvaged += $result['defender']['salvage']['gems'];
-                }
             }
         }
 

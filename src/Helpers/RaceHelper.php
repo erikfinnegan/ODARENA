@@ -190,6 +190,7 @@ class RaceHelper
             case 'draftee_dp':
                 $negativeBenefit = true;
                 $description = 'DP per draftee';
+                $valueType = '';
                 $booleanValue = 'static';
                 break;
             case 'increased_construction_speed':
