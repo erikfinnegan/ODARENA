@@ -1667,7 +1667,7 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getPrestigeGainsPerk(array $units): float
+    public function getPrestigeGainsPerk(Dominion $dominion, array $units): float
     {
         $unitsIncreasingPrestige = 0;
         # Look for increases_morale
