@@ -68,4 +68,4 @@ units:
       only_dies_vs_raw_power: 8 # >=
       offense_from_pairing: 3,2 # slot, amount
       defense_from_pairing: 3,2 # slot, amount
-      plunders: food;2,gem;1
+      plunders: food;2,gems;1

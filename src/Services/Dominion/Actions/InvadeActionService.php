@@ -1390,7 +1390,7 @@ class InvadeActionService
         $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalOffensiveCasualties * 1.75) * $landRatio;
         $totalConverts = min($totalOffensiveCasualties, $totalConverts);
 
-        if($isInvasionSuccessful)
+        if($this->invasionResult['result']['success'])
         {
             $totalConverts /= 3;
         }
@@ -2034,6 +2034,11 @@ class InvadeActionService
                 $result['attacker']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                 $result['attacker']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
                 $result['attacker']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
+
+                # Update statistics
+                $attacker->stat_total_ore_salvaged += $result['attacker']['salvage']['ore'];
+                $attacker->stat_total_lumber_salvaged += $result['attacker']['salvage']['lumber'];
+                $attacker->stat_total_gem_salvaged += $result['attacker']['salvage']['gems'];
             }
         }
 
@@ -2043,14 +2048,22 @@ class InvadeActionService
             $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($defender);
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountLost)
             {
-                $unitType = 'unit'.$slot;
-                $unitOreCost = $unitCosts[$unitType]['ore'];
-                $unitLumberCost = $unitCosts[$unitType]['lumber'];
-                $unitGemCost = $unitCosts[$unitType]['gem'];
+                if($slot !== 'draftees')
+                {
+                    $unitType = 'unit'.$slot;
+                    $unitOreCost = $unitCosts[$unitType]['ore'];
+                    $unitLumberCost = $unitCosts[$unitType]['lumber'];
+                    $unitGemCost = $unitCosts[$unitType]['gem'];
 
-                $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
-                $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
-                $result['defender']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
+                    $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
+                    $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
+                    $result['defender']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
+
+                    # Update statistics
+                    $defender->stat_total_ore_salvaged += $result['defender']['salvage']['ore'];
+                    $defender->stat_total_lumber_salvaged += $result['defender']['salvage']['lumber'];
+                    $defender->stat_total_gem_salvaged += $result['defender']['salvage']['gems'];
+                }
             }
         }
 
@@ -2101,11 +2114,17 @@ class InvadeActionService
                     'resource_'.$resource => $amount
                 ]
             );
+
+            # Update statistics
+            $attacker->{'stat_total_' . $resource . '_plundered'} += $amount;
+
         }
 
         $this->invasionResult['attacker']['salvage'] = $result['attacker']['salvage'];
         $this->invasionResult['attacker']['plunder'] = $result['attacker']['plunder'];
         $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
+
+
 
     }
 

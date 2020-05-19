@@ -558,7 +558,7 @@ class UnitHelper
     }
 
 
-    public function getPlunderString(array $resources): string
+    public function getPlunderString(array $plunder): string
     {
         $plunder = array_filter($plunder);
         $count = count($plunder);
