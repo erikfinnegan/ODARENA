@@ -265,28 +265,25 @@ class MilitaryCalculator
         $minDPPerAcre = 10; # LandDP
         $forestHavenDpPerPeasant = 0.75;
         $peasantsPerForestHaven = 20;
+        $dpPerDraftee = 1;
 
-
-        # If draftees are ignored, we lower DP per draftee to 0.
         if($ignoreDraftees)
         {
             $dpPerDraftee = 0;
         }
         else
         {
-            $dpPerDraftee = 1;
-
-            # Some draftees are weaker (Ants, Growth), and some draftees
-            # count as no DP. If no DP, draftees do not participate in battle.
             if($dominion->race->getPerkValue('draftee_dp'))
             {
                 $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
-                if($dominion->race->name == 'Swarm' and $this->spellCalculator->isSpellActive($dominion, 'chitin'))
-                {
-                    $dpPerDraftee = 1;
-                }
+            }
+            else
+            {
+                $dpPerDraftee = 1;
             }
         }
+
+        #dd($ignoreDraftees, $dpPerDraftee);
 
         # If DP per draftee is 0, ignore them (no casualties).
         if($dpPerDraftee == 0)
