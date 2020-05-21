@@ -187,7 +187,10 @@ class CasualtiesCalculator
             $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_offense');
 
             // Techs
-            $multiplier += $dominion->title->getPerkMultiplier('casualties');
+            if(isset($dominion->title))
+            {
+                $multiplier += $dominion->title->getPerkMultiplier('casualties');
+            }
 
             # Infirmary
             $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
@@ -326,7 +329,10 @@ class CasualtiesCalculator
             $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_defense');
 
             // Title
-            $multiplier += $dominion->title->getPerkMultiplier('casualties');
+            if(isset($dominion->title))
+            {
+                $multiplier += $dominion->title->getPerkMultiplier('casualties');
+            }
 
             // Infirmary
             $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');

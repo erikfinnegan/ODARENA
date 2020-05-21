@@ -510,7 +510,10 @@ class ProductionCalculator
         $multiplier += $dominion->getTechPerkMultiplier('lumber_production');
 
         // Title
-        $multiplier += $dominion->title->getPerkMultiplier('lumber_production');
+        if(isset($dominion->title))
+        {
+            $multiplier += $dominion->title->getPerkMultiplier('lumber_production');
+        }
 
         # SPELLS
         // Spell:  Gaia's Blessing (+20%)
@@ -792,7 +795,10 @@ class ProductionCalculator
         $multiplier += $dominion->getTechPerkMultiplier('ore_production');
 
         // Title
-        $multiplier += $dominion->title->getPerkMultiplier('ore_production');
+        if(isset($dominion->title))
+        {
+            $multiplier += $dominion->title->getPerkMultiplier('ore_production');
+        }
 
         // Improvement: Refinery
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
@@ -897,7 +903,10 @@ class ProductionCalculator
         $multiplier += $dominion->getTechPerkMultiplier('gem_production');
 
         // Title
-        $multiplier += $dominion->title->getPerkMultiplier('gem_production');
+        if(isset($dominion->title))
+        {
+            $multiplier += $dominion->title->getPerkMultiplier('gem_production');
+        }
 
         # SPELLS
         // Spell: Miner's Sight (+5%)
@@ -984,7 +993,10 @@ class ProductionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('tech_production');
 
         // Title
-        $multiplier += $dominion->title->getPerkMultiplier('tech_production');
+        if(isset($dominion->title))
+        {
+            $multiplier += $dominion->title->getPerkMultiplier('tech_production');
+        }
 
         # Observatory
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
