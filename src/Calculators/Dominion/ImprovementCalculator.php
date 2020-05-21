@@ -225,7 +225,7 @@ class ImprovementCalculator
             }
 
             # Title: improvements (Engineer)
-            if($dominion->title->getPerkMultiplier('improvements'))
+            if(isset($dominion->title) and $dominion->title->getPerkMultiplier('improvements'))
             {
               $multiplier += $dominion->title->getPerkMultiplier('improvements');
             }
