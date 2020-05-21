@@ -36,7 +36,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Ruler:</td>
-                                        <td><em>{{ isset($infoOp->data['title']) ? $infoOp->data['title'] }}</em> {{ $infoOp->data['ruler_name'] }}</td>
+                                        <td><em>{{ isset($infoOp->data['title']) ? $infoOp->data['title'] : '' }}</em> {{ $infoOp->data['ruler_name'] }}</td>
                                     </tr>
                                     <tr>
                                         <td>Faction:</td>
