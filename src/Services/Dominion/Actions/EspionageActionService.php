@@ -883,7 +883,7 @@ class EspionageActionService
     protected function performHostileOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
 
-        if($dominion->spy_strength < static::SPY_STRENGTH_COST_HOSTILE_OPS)
+        if($dominion->spy_strength <= static::SPY_STRENGTH_COST_HOSTILE_OPS)
         {
             throw new GameException('You do not have enough spy strength to perform this operation.');
         }
