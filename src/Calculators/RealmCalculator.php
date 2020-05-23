@@ -17,22 +17,22 @@ class RealmCalculator
      */
      public function hasMonster(Realm $realm): bool
      {
-          $monster = DB::table('dominions')
+          $monster_dominion_id = DB::table('dominions')
                          ->join('races', 'dominions.race_id', '=', 'races.id')
                          ->join('realms', 'realms.id', '=', 'dominions.realm_id')
                          ->select('dominions.id')
                          ->where('dominions.round_id', '=', $realm->round->id)
                          ->where('realms.id', '=', $realm->id)
                          ->where('races.name', '=', 'Monster')
-                         ->groupBy('realms.alignment')
+                         ->where('dominions.protection_ticks', '=', 0)
                          ->pluck('dominions.id')->first();
 
-          if($monster === null)
+          if($monster_dominion_id === null)
           {
             return false;
           }
 
-         return $monster;
+         return $monster_dominion_id;
      }
 
     public function getMonster(Realm $realm): Dominion
@@ -47,9 +47,7 @@ class RealmCalculator
                         ->groupBy('realms.alignment')
                         ->pluck('dominions.id')->first();
 
-                        #dd($monsters);
-
-        $monster = Dominion::findorfail($monster);
+        $monster = Dominion::findOrFail($monster);
 
         return $monster;
     }

@@ -9,8 +9,8 @@ use OpenDominion\Services\Dominion\HistoryService;
 
 class GovernmentService
 {
-    public const WAR_ACTIVE_WAIT_IN_HOURS = 12;
-    public const WAR_CANCEL_WAIT_IN_HOURS = 24;
+    public const WAR_ACTIVE_WAIT_IN_HOURS = 6;
+    public const WAR_CANCEL_WAIT_IN_HOURS = 12;
 
     /**
      * Gets votes for Realm monarchy by Dominion.

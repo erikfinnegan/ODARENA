@@ -57,7 +57,8 @@ class GovernmentController extends AbstractDominionController
             'hoursBeforeWarActive' => $governmentService->getHoursBeforeWarActive($dominion->realm),
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
-            'rangeCalculator' => app(RangeCalculator::class)
+            'rangeCalculator' => app(RangeCalculator::class),
+            'realmCalculator' => app(RealmCalculator::class)
         ]);
     }
 
@@ -80,9 +81,10 @@ class GovernmentController extends AbstractDominionController
 
         $motd = $request->get('realm_motd');
         $name = $request->get('realm_name');
+        $contribution = $request->get('realm_contribution');
 
         try {
-            $governmentActionService->updateRealm($dominion, $motd, $name);
+            $governmentActionService->updateRealm($dominion, $motd, $name, $contribution);
         } catch (GameException $e) {
             return redirect()
                 ->back()
@@ -203,4 +205,25 @@ class GovernmentController extends AbstractDominionController
         $request->session()->flash('alert-success', 'Your realm is no longer at war.');
         return redirect()->route('dominion.government');
     }
+
+    public function postContribution(GovernmentActionRequest $request)
+    {
+        $dominion = $this->getSelectedDominion();
+        $governmentActionService = app(GovernmentActionService::class);
+
+        $realm_number = $request->get('realm_number');
+
+        try {
+            $governmentActionService->declareWar($dominion, $realm_number);
+        } catch (GameException $e) {
+            return redirect()
+                ->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash('alert-success', "You have declared WAR on realm #{$realm_number}!");
+        return redirect()->route('dominion.government');
+    }
+
 }

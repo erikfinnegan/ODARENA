@@ -23,7 +23,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Production /tick</th>
+                                        <th colspan="2">Production / tick</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -135,7 +135,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Consumption /tick</th>
+                                        <th colspan="2">Consumption / tick</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -181,6 +181,11 @@
                                     </tr>
                                 </tbody>
                             </table>
+
+                            @if($realmCalculator->hasMonster($selectedDominion->realm))
+                            <p><em>As decided by the realm's Governor, you contribute <strong>{{ $selectedDominion->realm->contribution }}%</strong> of your ore, lumber, and food stockpile to the monster.</em></p>
+                            @endif
+
                         </div>
 
                         <div class="col-xs-12 col-sm-4">
@@ -191,7 +196,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Net Change /tick</th>
+                                        <th colspan="2">Net Change / tick</th>
                                     </tr>
                                 </thead>
                                 <tbody>

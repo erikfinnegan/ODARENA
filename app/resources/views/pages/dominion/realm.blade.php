@@ -149,11 +149,11 @@
                             @endif
 
                             @if($realmCalculator->hasMonster($realm))
-                            @php
-                              $monster = $realmCalculator->getMonster($realm)
-                            @endphp
+                                @php
+                                    $monster = $realmCalculator->getMonster($realm)
+                                @endphp
 
-                              This realm has a monster: <b>{{ $monster->name }}</b>!
+                                  This realm has a monster: <b>{{ $monster->name }}</b>!
 
                             @endif
 

@@ -3,53 +3,104 @@
 @section('page-header', 'Government')
 
 @section('content')
+@if ($selectedDominion->isMonarch())
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-star"></i> Governor's Duties</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="{{ route('dominion.government.realm') }}" method="post" role="form">
+                            @csrf
+                            <label for="realm_name">Realm Message</label>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="realm_motd" id="realm_motd" placeholder="{{ $selectedDominion->realm->motd }}" maxlength="256" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="realm_name">Realm Name</label>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="realm_name" id="realm_name" placeholder="{{ $selectedDominion->realm->name }}" maxlength="64" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
+                            @if($realmCalculator->hasMonster($selectedDominion->realm))
+                            @php
+                              $monster = $realmCalculator->getMonster($selectedDominion->realm)
+                            @endphp
+
+                            <label for="realm_name">Percentage Contribution to the Monster</label>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" name="realm_contribution" id="realm_contribution" placeholder="{{ $selectedDominion->realm->contribution }}" min=0 max=10 step=1 autocomplete="off" />
+                                    </div>
+                                </div>
+                                @endif
+                                <div class="col-xs-offset-6 col-xs-6 col-sm-offset-8 col-sm-4 col-lg-offset-10 col-lg-2">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            Change
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Information</h3>
+            </div>
+            <div class="box-body">
+                    <p><i class="fa fa-star fa-lg text-orange" title="Governor of The Realm"></i> <strong>Welcome, Governor!</strong></p>
+                    <p>As the Governor, you have the power to declare war and revoke declarations of war against other realms.</p>
+                    <p>You also have the power to moderate the
+                      @if($selectedDominion->realm->alignment == 'evil')
+                        Senate
+                      @elseif($selectedDominion->realm->alignment == 'good')
+                        Parliament
+                      @elseif($selectedDominion->realm->alignment == 'independent')
+                        Assembly
+                      @else
+                        Council
+                      @endif
+                    by removing posts.
+
+                    @if($realmCalculator->hasMonster($selectedDominion->realm))
+                    <p>There is monster in your realm. You are tasked with deciding what percentage of everyone's food, lumber, and ore stockpiles shall be given to the monster each tick.
+                    @endif
+                  </p>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
     <div class="row">
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-gavel"></i> Governor</h3>
+                    <h3 class="box-title"><i class="fa fa-ticket"></i> Vote for Governor</h3>
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        @if ($selectedDominion->isMonarch())
-                            <div class="col-md-12">
-                                <form action="{{ route('dominion.government.realm') }}" method="post" role="form">
-                                    @csrf
-                                    <label for="realm_name">Realm Message</label>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="realm_motd" id="realm_motd" placeholder="{{ $selectedDominion->realm->motd }}" maxlength="256" autocomplete="off" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <label for="realm_name">Realm Name</label>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="realm_name" id="realm_name" placeholder="{{ $selectedDominion->realm->name }}" maxlength="64" autocomplete="off" />
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-offset-6 col-xs-6 col-sm-offset-8 col-sm-4 col-lg-offset-10 col-lg-2">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                                    Change
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <hr/>
-                                </div>
-                            </div>
-                        @endif
                         <div class="col-md-12">
                             <form action="{{ route('dominion.government.monarch') }}" method="post" role="form">
                                 @csrf
-                                <label for="monarch">Vote for governor</label>
+                                <label for="monarch">Select your candidate</label>
                                 <div class="row">
                                     <div class="col-sm-8 col-lg-10">
                                         <div class="form-group">
@@ -180,14 +231,14 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-sm-8 col-lg-10">
-                                                You have declared <span class="text-red text-bold">WAR</span> on {{ $selectedDominion->realm->warRealm->name }} (#{{ $selectedDominion->realm->warRealm->number }})!
+                                                You have declared <span class="text-red text-bold">war</span> on {{ $selectedDominion->realm->warRealm->name }} (#{{ $selectedDominion->realm->warRealm->number }})!
                                                 @if ($hoursBeforeCancelWar > 0)
-                                                <br/><small class="text-warning">You cannot cancel this war for {{ $hoursBeforeCancelWar }} hours.</small>
+                                                <br/><small class="text-warning">You cannot revoke this declaration of war for {{ $hoursBeforeCancelWar }} hours.</small>
                                                 @endif
                                             </div>
                                             <div class="col-xs-offset-6 col-xs-6 col-sm-offset-0 col-sm-4 col-lg-2">
                                                 <button type="submit" class="btn btn-warning btn-block" {{ $selectedDominion->isLocked() || $hoursBeforeCancelWar > 0 ? 'disabled' : null }}>
-                                                    Cancel War
+                                                    Revoke Declaration of War
                                                 </button>
                                             </div>
                                         </div>

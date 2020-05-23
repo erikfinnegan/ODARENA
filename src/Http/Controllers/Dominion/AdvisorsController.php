@@ -17,6 +17,7 @@ use OpenDominion\Services\Dominion\QueueService;
 # ODA
 use DB;
 use OpenDominion\Helpers\HistoryHelper;
+use OpenDominion\Calculators\RealmCalculator;
 
 class AdvisorsController extends AbstractDominionController
 {
@@ -31,6 +32,7 @@ class AdvisorsController extends AbstractDominionController
             'populationCalculator' => app(PopulationCalculator::class),
             'productionCalculator' => app(ProductionCalculator::class),
             'landCalculator' => app(LandCalculator::class),
+            'realmCalculator' => app(RealmCalculator::class),
         ]);
     }
 

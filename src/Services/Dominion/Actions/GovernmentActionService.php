@@ -73,7 +73,7 @@ class GovernmentActionService
      * @param string $name
      * @throws GameException
      */
-    public function updateRealm(Dominion $dominion, ?string $motd, ?string $name)
+    public function updateRealm(Dominion $dominion, ?string $motd, ?string $name, ?int $contribution)
     {
         $this->guardLockedDominion($dominion);
 
@@ -89,13 +89,26 @@ class GovernmentActionService
             throw new GameException('Realm names are limited to 100 characters.');
         }
 
-        if ($motd) {
+        if (isset($contribution) and ($contribution < 0 or $contribution > 10))
+        {
+            throw new GameException('Contribution must be a value between 0 and 10.');
+        }
+
+        if ($motd)
+        {
             $dominion->realm->motd = $motd;
             $dominion->realm->motd_updated_at = now();
         }
-        if ($name) {
+        if ($name)
+        {
             $dominion->realm->name = $name;
         }
+
+        if (isset($contribution))
+        {
+            $dominion->realm->contribution = $contribution;
+        }
+
         $dominion->realm->save(['event' => HistoryService::EVENT_ACTION_REALM_UPDATED]);
     }
 
@@ -170,7 +183,7 @@ class GovernmentActionService
     public function cancelWar(Dominion $dominion)
     {
         if (!$dominion->isMonarch()) {
-            throw new GameException('Only the monarch can declare war.');
+            throw new GameException('Only the governor can declare war.');
         }
 
         $hoursBeforeCancelWar = $this->governmentService->getHoursBeforeCancelWar($dominion->realm);
@@ -192,4 +205,5 @@ class GovernmentActionService
         $dominion->realm->war_active_at = null;
         $dominion->realm->save(['event' => HistoryService::EVENT_ACTION_CANCEL_WAR]);
     }
+
 }

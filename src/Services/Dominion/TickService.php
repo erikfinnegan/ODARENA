@@ -99,28 +99,6 @@ class TickService
         $activeRounds = Round::active()->get();
 
         foreach ($activeRounds as $round) {
-            // Precalculate all dominion ticks on hour 0'd
-            /*
-            if ($this->now->diffInHours($round->start_date) === 0)
-            {
-                $dominions = $round->activeDominions()
-                    ->with([
-                        'race',
-                        'race.perks',
-                        'race.units',
-                        'race.units.perks',
-                    ])
-                    ->get();
-
-                  foreach ($dominions as $dominion)
-                  {
-                    $this->precalculateTick($dominion, true);
-                  }
-
-                continue;
-            }
-            */
-
             DB::transaction(function () use ($round)
             {
 
@@ -139,10 +117,10 @@ class TickService
                         'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
                         'dominions.resource_platinum' => DB::raw('dominions.resource_platinum + dominion_tick.resource_platinum'),
-                        'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food'),
-                        'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
+                        'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food - dominion_tick.food_contribution + dominion_tick.food_contributed'),
+                        'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber - dominion_tick.ore_contribution + dominion_tick.ore_contributed'),
                         'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
-                        'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
+                        'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore - dominion_tick.ore_contribution + dominion_tick.ore_contributed'),
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                         'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
@@ -252,8 +230,6 @@ class TickService
                           'hours' => DB::raw('`hours` - 1'),
                           'dominion_queue.updated_at' => $this->now,
                       ]);
-
-
 
                 // Update queues
 

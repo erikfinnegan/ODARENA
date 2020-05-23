@@ -398,7 +398,7 @@ class ProductionCalculator
 
         $decayProtection = 0;
         $multiplier = 0;
-        $food = $dominion->resource_food;
+        $food = $dominion->resource_food - $this->getContribution($dominion, 'food');
 
         # Check for decay protection
         for ($slot = 1; $slot <= 4; $slot++)
@@ -537,6 +537,28 @@ class ProductionCalculator
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
+
+    /**
+     * Returns the Dominion's contribution.
+     *
+     * Set by Governor to feed the Monster.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getContribution(Dominion $dominion, string $resourceType): float
+    {
+        $contributed = 0;
+        $contribution = $dominion->realm->contribution / 100;
+
+        if(in_array($resource, ['lumber','ore','food']))
+        {
+            $contributed = $dominion->{'resource_'.$resourceType} * $contribution;
+        }
+
+        return $contributed;
+    }
+
     /**
      * Returns the Dominion's lumber decay.
      *
@@ -552,7 +574,7 @@ class ProductionCalculator
 
         $multiplier = 0;
         $decayProtection = 0;
-        $lumber = $dominion->resource_lumber;
+        $lumber = $dominion->resource_lumber - $this->getContribution($dominion, 'lumber');
 
         # Check for decay protection
         for ($slot = 1; $slot <= 4; $slot++)
