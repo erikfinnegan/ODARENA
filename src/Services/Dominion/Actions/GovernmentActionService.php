@@ -49,16 +49,25 @@ class GovernmentActionService
             throw new RuntimeException('Dominion not found.');
         }
         if ($dominion->realm != $monarch->realm) {
-            throw new RuntimeException('You cannot vote for a monarch outside of your realm.');
+            throw new RuntimeException('You cannot vote for a Governor outside of your realm.');
         }
         if ($monarch->is_locked)
         {
-            throw new RuntimeException('You cannot vote for a locked dominion to be your monarch.');
+            throw new RuntimeException('You cannot vote for a locked dominion to be your Governor.');
         }
         if(request()->getHost() == 'sim.odarena.com')
         {
             throw new GameException('Voting is disabled in the sim.');
         }
+        if($dominion->race->getPerkValue('cannot_vote'))
+        {
+            throw new GameException($dominion->race->name . ' cannot vote for Governor.');
+        }
+        if($monarch->race->getPerkValue('cannot_vote'))
+        {
+            throw new GameException($monarch->race->name . ' cannot be Governor.');
+        }
+
 
         $dominion->monarchy_vote_for_dominion_id = $monarch->id;
         $dominion->save();
@@ -78,7 +87,7 @@ class GovernmentActionService
         $this->guardLockedDominion($dominion);
 
         if (!$dominion->isMonarch()) {
-            throw new GameException('Only the monarch can make changes to their realm.');
+            throw new GameException('Only the Governor can make changes to their realm.');
         }
 
         if ($motd && strlen($motd) > 400) {
@@ -128,7 +137,7 @@ class GovernmentActionService
         }
 
         if (!$dominion->isMonarch()) {
-            throw new GameException('Only the monarch can declare war.');
+            throw new GameException('Only the Governor can declare war.');
         }
 
         if ($dominion->realm->id == $target->id) {
@@ -183,7 +192,7 @@ class GovernmentActionService
     public function cancelWar(Dominion $dominion)
     {
         if (!$dominion->isMonarch()) {
-            throw new GameException('Only the governor can declare war.');
+            throw new GameException('Only the Governor can declare war.');
         }
 
         $hoursBeforeCancelWar = $this->governmentService->getHoursBeforeCancelWar($dominion->realm);

@@ -469,12 +469,17 @@ class UnitHelper
                 }
                 elseif (strtolower($type) == 'machinery')
                 {
-                    $iconClass = 'ra ra-cog';
+                    $iconClass = 'ra ra-cog-wheel';
                 }
                 elseif (strtolower($type) == 'equipment')
                 {
                     $iconClass = 'ra ra-vest';
                 }
+                elseif (strtolower($type) == 'ammunition')
+                {
+                    $iconClass = 'ra ra-blast';
+                }
+
 
                 if (strtolower($proficiency) == 'specialist')
                 {
@@ -483,6 +488,10 @@ class UnitHelper
                 elseif (strtolower($proficiency) == 'elite')
                 {
                     $colorClass = 'text-light-blue';
+                }
+                elseif (strtolower($proficiency) == 'super')
+                {
+                    $colorClass = 'text-orange';
                 }
             }
         }

@@ -333,6 +333,11 @@ class RaceHelper
                 $description = 'Cannot join guards';
                 $booleanValue = true;
                 break;
+            case 'cannot_vote':
+                $negativeBenefit = true;
+                $description = 'Cannot vote for Governor';
+                $booleanValue = true;
+                break;
             case 'converts_killed_spies_into_souls':
                 $negativeBenefit = true;
                 $description = 'Converts killed spies into souls';

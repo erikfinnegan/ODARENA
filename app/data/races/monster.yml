@@ -1,9 +1,8 @@
 name: Monster
 alignment: evil
 description: >-
-  <p>Awakend from the Great Divide, the Monster is the common term used to refer to this gargantuan beast under magical control by the Empire.</p>
-  <p>It consists of an ever-changing configuration of claws, muscles, limbs, and heads, forged and fused from organic matter, rocks, and trees.</p>
-  <p>The Monster can have at most one claw per limb and it needs at least twenty muscles to support each head.</p>
+  <p>Awakend from the Great Divide, the Monster is the common term used to refer to a gargantuan beast under magical control by the Empire.</p>
+  <p>A caretaker is appointed to administer the Monster, which consists of an ever-changing configuration of claws, muscles, limbs, and heads, forged and fused from organic matter, rocks, and trees.</p>
   <p>If the Monster is present, the Governor is tasked with setting a contribution rate of 0% to 10%. All Imperial dominions must contribute this amount of their food, ore, and lumber stockpile every tick to the Monster. The caretaker of the Monster may exchange resources at a favourable rate.</p>
 home_land_type: plain
 playable: 1
@@ -18,12 +17,16 @@ perks:
   cannot_construct: 1
   max_population: -100
   exchange_bonus: 25
+  cannot_join_guards: 1
+  cannot_vote: 1
+  food_consumption: -100
+  research_points_per_acre: 200
 units:
   - name: Muscle
     cost:
       food: 100
       lumber: 100
-      ore: 500
+      ore: 0
     power:
       offense: 0
       defense: 0
@@ -34,7 +37,7 @@ units:
     cost:
       food: 100
       lumber: 100
-      ore: 500
+      ore: 0
     power:
       offense: 0
       defense: 0
@@ -45,27 +48,35 @@ units:
     need_boat: false
     cost:
       food: 100
-      lumber: 100
+      lumber: 500
       ore: 1000
     power:
       offense: 10
-      defense: 10
+      defense: 30
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      pairing_limit: 2,1 # Unit slot, amount (max 2 of this unit per each Unit 2)
-      increases_defensive_casualties: 1
+      pairing_limit: 2,2 # Unit slot, amount (max 2 of this unit per each Unit 2)
+      increases_offensive_casualties: 1
+      plunders: food;2,lumber;25,ore;100
+      conversion: 2
+      offense_from_pairing: 4,30,0.25 # slot, amount, num required
   - name: Head
+    type: hybrid_elite
     need_boat: false
     cost:
-      food: 100
-      lumber: 100
-      ore: 1000
+      food: 1000
+      lumber: 50
+      ore: 500
     power:
-      offense: 40
+      offense: 20
       defense: 20
     perks:
       no_draftee: 1
+      reduces_casualties: 1
+      increases_defensive_casualties: 1
       does_not_count_as_population: 1
-      pairing_limit: 1,0.1 # Unit slot, amount (max 0.1 of this unit per each Unit 1)
+      pairing_limit: 1,0.05 # Unit slot, amount
       tech_production: 1
+      plunders: food;10,lumber;15,mana;50
+      conversion: 1

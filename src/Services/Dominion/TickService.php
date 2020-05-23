@@ -117,10 +117,10 @@ class TickService
                         'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
                         'dominions.resource_platinum' => DB::raw('dominions.resource_platinum + dominion_tick.resource_platinum'),
-                        'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food - dominion_tick.food_contribution + dominion_tick.food_contributed'),
-                        'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber - dominion_tick.ore_contribution + dominion_tick.ore_contributed'),
+                        'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food - dominion_tick.resource_food_contribution + dominion_tick.resource_food_contributed'),
+                        'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber - dominion_tick.resource_ore_contribution + dominion_tick.resource_ore_contributed'),
                         'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
-                        'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore - dominion_tick.ore_contribution + dominion_tick.ore_contributed'),
+                        'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore - dominion_tick.resource_ore_contribution + dominion_tick.resource_ore_contributed'),
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                         'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
@@ -749,6 +749,9 @@ class TickService
         $tick->resource_food_decay += $this->productionCalculator->getFoodDecay($dominion);
         $tick->resource_lumber_rot += $this->productionCalculator->getLumberDecay($dominion);
         $tick->resource_mana_drain += $this->productionCalculator->getManaDecay($dominion);
+
+        # Contribution
+#        $tick->
 
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);

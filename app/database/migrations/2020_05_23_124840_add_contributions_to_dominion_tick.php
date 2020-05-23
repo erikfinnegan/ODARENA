@@ -14,14 +14,14 @@ class AddContributionsToDominionTick extends Migration
     public function up()
     {
         Schema::table('dominion_tick', function (Blueprint $table) {
-        $table->unsignedInteger('food_contribution')->after('resource_mana_drain')->default(0);
-        $table->unsignedInteger('lumber_contribution')->after('food_contribution')->default(0);
-        $table->unsignedInteger('ore_contribution')->after('lumber_contribution')->default(0);
+        $table->unsignedInteger('resource_food_contribution')->after('resource_mana_drain')->default(0);
+        $table->unsignedInteger('resource_lumber_contribution')->after('food_contribution')->default(0);
+        $table->unsignedInteger('resource_ore_contribution')->after('lumber_contribution')->default(0);
 
 
-        $table->unsignedInteger('food_contributed')->after('ore_contribution')->default(0);
-        $table->unsignedInteger('lumber_contributed')->after('food_contributed')->default(0);
-        $table->unsignedInteger('ore_contributed')->after('lumber_contributed')->default(0);
+        $table->unsignedInteger('resource_food_contributed')->after('resource_ore_contribution')->default(0);
+        $table->unsignedInteger('resource_lumber_contributed')->after('resource_food_contributed')->default(0);
+        $table->unsignedInteger('resource_ore_contributed')->after('resource_lumber_contributed')->default(0);
         });
     }
 

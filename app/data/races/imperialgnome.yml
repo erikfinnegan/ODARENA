@@ -39,6 +39,7 @@ units:
     perks:
       offense_from_pairing: 1,1
   - name: Catapult
+    type: machinery_super
     cost:
       platinum: 55000
       ore: 20000
@@ -52,6 +53,7 @@ units:
       houses_military_units: 8
       building_limit: factory,2,workshops # building, buildings per unit, imp to increase
   - name: Airship
+    type: machinery_super
     need_boat: false
     cost:
       platinum: 30000
