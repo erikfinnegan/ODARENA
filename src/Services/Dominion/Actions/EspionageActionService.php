@@ -272,7 +272,7 @@ class EspionageActionService
      */
     protected function performInfoGatheringOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
-        if($dominion->spy_strength < static::SPY_STRENGTH_COST_INFO_OPS)
+        if($dominion->spy_strength <= static::SPY_STRENGTH_COST_INFO_OPS)
         {
             throw new GameException('You do not have enough spy strength to perform this operation.');
         }
@@ -533,7 +533,7 @@ class EspionageActionService
     protected function performResourceTheftOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
 
-        if($dominion->spy_strength < static::SPY_STRENGTH_COST_THEFT_OPS)
+        if($dominion->spy_strength <= static::SPY_STRENGTH_COST_THEFT_OPS)
         {
             throw new GameException('You do not have enough spy strength to perform this operation.');
         }

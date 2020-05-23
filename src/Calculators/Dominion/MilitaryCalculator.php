@@ -1647,6 +1647,7 @@ class MilitaryCalculator
     public function getBaseMoraleModifier(Dominion $dominion, int $population): float
     {
         $unitsIncreasingMorale = 0;
+        $population = max($population, 1);
         # Look for increases_morale
         for ($slot = 1; $slot <= 4; $slot++)
         {

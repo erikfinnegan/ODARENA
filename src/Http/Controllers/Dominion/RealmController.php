@@ -14,6 +14,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\RealmCalculator;
 
 class RealmController extends AbstractDominionController
 {
@@ -24,7 +25,7 @@ class RealmController extends AbstractDominionController
         $protectionService = app(ProtectionService::class);
         $guardMembershipService = app(GuardMembershipService::class);
         $spellCalculator = app(SpellCalculator::class);
-        #$militaryCalculator = app(MilitaryCalculator::class);
+        $realmCalculator = app(RealmCalculator::class);
 
         $dominion = $this->getSelectedDominion();
         $round = $dominion->round;
@@ -133,7 +134,8 @@ class RealmController extends AbstractDominionController
 
             # ODA
             'spellCalculator',
-            'realmDominionsStats'
+            'realmDominionsStats',
+            'realmCalculator',
         ));
     }
 

@@ -13,6 +13,9 @@ use OpenDominion\Services\Dominion\Actions\GuardMembershipActionService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 
+# ODA
+use OpenDominion\Calculators\RealmCalculator;
+
 class GovernmentController extends AbstractDominionController
 {
     public function getIndex()

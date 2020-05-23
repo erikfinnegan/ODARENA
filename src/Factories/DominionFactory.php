@@ -299,6 +299,13 @@ class DominionFactory
             $startingResources['improvement_harbor'] = 591000;
         }
 
+        if($race->name == 'Monster')
+        {
+            $startingResources['draftees'] = 0;
+            $startingResources['peasants'] = 0;
+            $startingResources['draft_rate'] = 0;
+        }
+
         if($race->alignment == 'npc')
         {
             if($race->name == 'Barbarian')

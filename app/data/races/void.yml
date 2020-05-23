@@ -65,4 +65,4 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_per_hour: 0.003,1 # amount, max
+      offense_per_hour: 0.006,1 # amount, max

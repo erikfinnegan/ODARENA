@@ -147,6 +147,16 @@
                             @elseif($realm->alignment == 'npc')
                             <strong>Barbarian Horde</strong>.</p>
                             @endif
+
+                            @if($realmCalculator->hasMonster($realm))
+                            @php
+                              $monster = $realmCalculator->getMonster($realm)
+                            @endphp
+
+                              This realm has a monster: <b>{{ $monster->name }}</b>!
+
+                            @endif
+
                           </div>
                       </div>
                       <div class="row">
@@ -195,7 +205,6 @@
                             <p><a href="{{ route('dominion.town-crier', [$realm->number]) }}">View the realm's News</a></p>
                           </div>
                       </div>
-
                 </div>
                 @if (($prevRealm !== null) || ($nextRealm !== null))
                     <div class="box-footer">
