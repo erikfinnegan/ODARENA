@@ -469,7 +469,7 @@ class UnitHelper
                 }
                 elseif (strtolower($type) == 'machinery')
                 {
-                    $iconClass = 'ra ra-cog-wheel';
+                    $iconClass = 'ra ra-cog';
                 }
                 elseif (strtolower($type) == 'equipment')
                 {
@@ -477,7 +477,20 @@ class UnitHelper
                 }
                 elseif (strtolower($type) == 'ammunition')
                 {
-                    $iconClass = 'ra ra-blast';
+                    $iconClass = 'ra ra-spikeball';
+                }
+
+                elseif (strtolower($type) == 'monsterclaw')
+                {
+                    $iconClass = 'ra ra-flaming-claw';
+                }
+                elseif (strtolower($type) == 'monsterhead')
+                {
+                    $iconClass = 'ra ra-monster-skull';
+                }
+                elseif (strtolower($type) == 'monsterpart')
+                {
+                    $iconClass = 'ra ra-meat';
                 }
 
 

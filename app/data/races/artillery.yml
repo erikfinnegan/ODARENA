@@ -40,7 +40,7 @@ units:
       true_immortal: 1
       faster_return: 11
   - name: Cannonball
-    type: machinery_elite
+    type: ammunition_specialist
     need_boat: false
     cost:
       platinum: 50
@@ -55,7 +55,7 @@ units:
       offense_from_pairing: 2,4 # slot, amount
       damages_improvements_on_attack: 100
   - name: Burning Cannonball
-    type: machinery_elite
+    type: ammunition_elite
     need_boat: false
     cost:
       platinum: 100

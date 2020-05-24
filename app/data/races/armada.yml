@@ -38,6 +38,7 @@ units:
       defense: 5
   - name: Frigate
     need_boat: false
+    type: machinery_super
     cost:
       platinum: 12500
       ore: 2500
@@ -53,6 +54,7 @@ units:
       building_limit: dock,2,harbor # building, buildings per unit, imp to increase
   - name: Battleship
     need_boat: false
+    type: machinery_super
     cost:
       platinum: 60000
       ore: 15000
