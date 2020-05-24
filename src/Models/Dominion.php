@@ -434,7 +434,7 @@ class Dominion extends AbstractModel
     }
 
     protected function getTechPerks() {
-        return $this->techs()->with('perks')->get()->flatMap(
+        return $this->techs->flatMap(
             function ($tech) {
                 return $tech->perks;
             }
