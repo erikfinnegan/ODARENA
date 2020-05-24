@@ -17,6 +17,8 @@ perks:
   food_consumption: -50
 units:
   - name: Imp
+    type:
+      - magical
     need_boat: false
     cost:
       mana: 10
@@ -31,6 +33,9 @@ units:
       fixed_casualties: 100
     static_networth: 10
   - name: Gloom
+    type:
+      - living
+      - sentient
     cost:
       platinum: 350
       mana: 5
@@ -38,6 +43,9 @@ units:
       offense: 0
       defense: 3
   - name: Nightshade
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       mana: 10
@@ -47,6 +55,9 @@ units:
     perks:
       defense_from_land: swamp,12,5 # land type, ratio%,max
   - name: Lich
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1100
       mana: 15

@@ -16,6 +16,9 @@ perks:
   lumber_production: 50
 units:
   - name: Savage
+    type:
+      - living
+      - sentient
     cost:
       platinum: 420
       ore: 0
@@ -23,6 +26,9 @@ units:
       offense: 4.5
       defense: 0
   - name: Guard
+    type:
+      - living
+      - sentient
     cost:
       platinum: 275
       ore: 15
@@ -30,6 +36,9 @@ units:
       offense: 0
       defense: 3
   - name: Voodoo Mage
+    type:
+      - living
+      - sentient
     cost:
       platinum: 800
       ore: 0
@@ -39,6 +48,9 @@ units:
     perks:
       defense_from_prestige: 250,4 # amount, max
   - name: Bone Breaker
+    type:
+      - living
+      - sentient
     cost:
       platinum: 900
       ore: 100

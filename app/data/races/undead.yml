@@ -16,6 +16,10 @@ perks:
   food_consumption: -80
 units:
   - name: Skeleton
+    type:
+      - living
+      - sentient
+      - undying
     need_boat: false
     cost:
       platinum: 225
@@ -26,6 +30,10 @@ units:
       immortal: 1
       increases_casualties_on_offense: 1
   - name: Ghoul
+    type:
+      - living
+      - sentient
+      - undying
     cost:
       platinum: 225
     power:
@@ -34,6 +42,10 @@ units:
     perks:
       immortal: 1
   - name: Revenant
+    type:
+      - living
+      - sentient
+      - undying
     need_boat: false
     cost:
       platinum: 1000
@@ -45,6 +57,10 @@ units:
       immortal: 1
       staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
   - name: Wraith
+    type:
+      - living
+      - sentient
+      - undying
     need_boat: false
     cost:
       platinum: 1000

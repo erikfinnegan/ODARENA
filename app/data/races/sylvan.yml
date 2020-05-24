@@ -18,6 +18,9 @@ perks:
   salvaging: 65
 units:
   - name: Leshy
+    type:
+      - living
+      - sentient
     cost:
       platinum: 250
     power:
@@ -26,12 +29,18 @@ units:
     perks:
       offense_if_recently_invaded: 1
   - name: Sprite
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
     power:
       offense: 0
       defense: 3
   - name: Dryad
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       mana: 10
@@ -44,6 +53,9 @@ units:
       defense_from_land: forest,20,5 # land type, ratio%, max
       decay_protection: 100,mana
   - name: Spriggan
+    type:
+      - living
+      - sentient
     cost:
       lumber: 650
       mana: 100

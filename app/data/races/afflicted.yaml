@@ -28,6 +28,9 @@ perks:
 units:
   - name: Abomination
     need_boat: true
+    type:
+      - living
+      - mindless
     cost:
       food: 100
     power:
@@ -39,6 +42,9 @@ units:
       food_consumption: 0.15
   - name: Pest Rat
     need_boat: true
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
       ore: 0
@@ -47,6 +53,9 @@ units:
       defense: 3
   - name: Necromancer
     need_boat: true
+    type:
+      - living
+      - sentient
     cost:
       platinum: 800
       ore: 10
@@ -60,6 +69,9 @@ units:
       fewer_casualties_offense: 80
   - name: Reaper
     need_boat: true
+    type:
+      - living
+      - sentient
     cost:
       platinum: 600
       ore: 200

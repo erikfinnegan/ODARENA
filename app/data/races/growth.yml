@@ -33,6 +33,8 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Abscess
+    type:
+      - living
     need_boat: false
     cost:
       platinum: 0
@@ -45,6 +47,8 @@ units:
       counts_as_wizard_offense: 0.2
       counts_as_spy_offense: 0.2
   - name: Blister
+    type:
+      - living
     cost:
       platinum: 0
       ore: 0
@@ -56,6 +60,8 @@ units:
       counts_as_wizard_defense: 0.15
       counts_as_spy_defense: 0.15
   - name: Cyst
+    type:
+      - living
     cost:
       platinum: 0
       ore: 0
@@ -67,6 +73,8 @@ units:
         mana_production: 0.025
         food_production: 0.50
   - name: Ulcer
+    type:
+      - living
     need_boat: false
     cost:
       platinum: 0

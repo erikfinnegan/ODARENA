@@ -21,6 +21,9 @@ perks:
   food_consumption: -80
 units:
   - name: Summoner
+    type:
+      - living
+      - sentient
     cost:
       platinum: 3000
       archmage: 1
@@ -36,6 +39,10 @@ units:
         immortal_wizard: 1
   - name: Tl'Tl
     need_boat: false
+    type:
+      - living
+      - sentient
+      - otherworldly
     cost:
       mana: 30
     power:
@@ -49,7 +56,10 @@ units:
       faster_return: 11
       pairing_limit: 1,16 # Unit slot, amount
   - name: Sft'Rm
-    #need_boat: false
+    type:
+      - living
+      - sentient
+      - otherworldly
     cost:
       mana: 192
     power:
@@ -61,6 +71,10 @@ units:
       mana_drain: 0.05
       pairing_limit: 1,8 # Unit slot, amount
   - name: Ze'Tk
+    type:
+      - living
+      - sentient
+      - otherworldly
     need_boat: false
     cost:
       mana: 240

@@ -34,7 +34,7 @@
                             @foreach ($unitHelper->getUnitTypes() as $unitType)
                                 <tr>
                                     <td>  <!-- Unit Name -->
-                                        {!! $unitHelper->getUnitTypeIconHtml($unitType, $selectedDominion->race) !!}
+                                        
                                         <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
                                             {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
                                         </span>

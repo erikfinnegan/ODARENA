@@ -23,7 +23,9 @@ perks:
   research_points_per_acre: 200
 units:
   - name: Muscle
-    type: monsterpart_specialist
+    type:
+      - bodypart
+      - massive
     cost:
       food: 100
       lumber: 100
@@ -35,7 +37,9 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
   - name: Limb
-    type: monsterpart_specialist
+    type:
+      - bodypart
+      - massive
     cost:
       food: 100
       lumber: 100
@@ -47,7 +51,9 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
   - name: Claw
-    type: monsterclaw_elite
+    type:
+      - bodypart
+      - massive
     need_boat: false
     cost:
       food: 100
@@ -65,7 +71,11 @@ units:
       conversion: 2
       offense_from_pairing: 4,30,0.25 # slot, amount, num required
   - name: Head
-    type: monsterhead_elite
+    type:
+      - bodypart
+      - sentient
+      - living
+      - massive
     need_boat: false
     cost:
       food: 1000

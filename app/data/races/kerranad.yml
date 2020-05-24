@@ -46,6 +46,9 @@ perks:
   cannot_train_archmages: 1
 units:
   - name: Assassin
+    type:
+      - living
+      - sentient
     cost:
       platinum: 200
       ore: 100
@@ -60,6 +63,9 @@ units:
       fewer_casualties: 50
       no_draftee: 1
   - name: Immortal Guard
+    type:
+      - living
+      - sentient
     cost:
       platinum: 400
       ore: 200
@@ -70,6 +76,9 @@ units:
     perks:
       increases_morale: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
   - name: Battlemage
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1200
       ore: 75
@@ -83,6 +92,9 @@ units:
       immortal_wizard: 1
       no_draftee: 1
   - name: Immortal Knight
+    type:
+      - living
+      - sentient
     cost:
       platinum: 800
       ore: 120

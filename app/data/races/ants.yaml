@@ -27,6 +27,8 @@ perks:
 units:
   - name: Soldier Ant
     need_boat: true
+    type:
+      - living
     cost:
       platinum: 50
       ore: 0
@@ -35,6 +37,8 @@ units:
       defense: 0
   - name: Worker Ant
     need_boat: true
+    type:
+      - living
     cost:
       platinum: 150
       ore: 0
@@ -45,6 +49,8 @@ units:
       lumber_production: 0.5
   - name: Giant Ant
     need_boat: true
+    type:
+      - living
     cost:
       platinum: 320
       ore: 0
@@ -53,6 +59,8 @@ units:
       defense: 3
   - name: Flying Ant
     need_boat: false
+    type:
+      - living
     cost:
       platinum: 500
       ore: 0

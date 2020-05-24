@@ -18,6 +18,9 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Spawn
+    type:
+      - living
+      - mindless
     need_boat: true
     static_networth: 3
     cost:
@@ -31,6 +34,8 @@ units:
       minimum_wpa_to_train: 0.50
       wins_into: 2
   - name: Slime
+    type:
+      - living
     need_boat: true
     static_networth: 5
     cost:
@@ -43,6 +48,9 @@ units:
       wins_into: 3
       dies_into: 1
   - name: Goo
+    type:
+      - living
+      - sentient
     need_boat: true
     static_networth: 7
     cost:
@@ -55,6 +63,9 @@ units:
       wins_into: 4
       dies_into: 2
   - name: Ooze
+    type:
+      - living
+      - sentient
     need_boat: true
     static_networth: 8
     cost:

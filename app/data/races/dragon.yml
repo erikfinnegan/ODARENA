@@ -20,6 +20,9 @@ perks:
     cannot_explore: 1
 units:
   - name: Militia
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 80
@@ -30,6 +33,9 @@ units:
     perks:
       faster_training: 7
   - name: Lookout
+    type:
+      - living
+      - sentient
     cost:
       platinum: 100
       ore: 35
@@ -39,6 +45,9 @@ units:
     perks:
       faster_training: 7
   - name: Mercenary
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 500
@@ -49,6 +58,9 @@ units:
       platinum_upkeep: 0.5
       no_draftee: 1
   - name: Dragon
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       gem: 50000

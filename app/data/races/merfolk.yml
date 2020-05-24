@@ -24,6 +24,9 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Merman
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
     power:
@@ -33,6 +36,9 @@ units:
       sink_boats_offense: 1
     need_boat: false
   - name: Siren
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
     power:
@@ -41,6 +47,10 @@ units:
     perks:
       sink_boats_defense: 1
   - name: Leviathan
+    type:
+      - living
+      - sentient
+      - massive
     cost:
       platinum: 2800
     power:
@@ -50,6 +60,10 @@ units:
       sink_boats_defense: 1
       food_consumption: 1
   - name: Kraken
+    type:
+      - living
+      - sentient
+      - massive
     cost:
       platinum: 1650
     power:

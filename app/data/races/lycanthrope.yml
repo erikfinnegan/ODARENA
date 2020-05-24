@@ -14,19 +14,27 @@ perks:
   max_population: 20
 units:
   - name: Warg
+    type:
+      - living
+      - sentient
     cost:
       platinum: 250
     power:
       offense: 3
       defense: 0
   - name: Ratman
+    type:
+      - living
+      - sentient
     cost:
       platinum: 250
     power:
       offense: 0
       defense: 3
   - name: Werewolf
-    type: hybrid_elite
+    type:
+      - living
+      - sentient
     cost:
       platinum: 850
     power:
@@ -38,6 +46,9 @@ units:
       offense_from_pairing: 4,1 # slot, amount
       conversion: 3 # Werewolves
   - name: Garou
+    type:
+      - living
+      - sentient
     cost:
       platinum: 900
     power:

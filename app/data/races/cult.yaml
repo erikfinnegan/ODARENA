@@ -1,0 +1,77 @@
+name: Cult
+alignment: independent
+description: >-
+  <p>The Cult arose </p>
+  <p>The Cult grows controlling the minds by magic.</p>
+  <hr />
+  <p>If successful, the Proselytize spell will convert units 6
+  <ul>
+  <li>Draftees and units
+home_land_type: hill
+playable: 0
+
+attacking: 3
+exploring : 3
+converting: 3
+
+perks:
+  mana_production: 10
+units:
+  - name: Thrall
+    type:
+      - living
+      - mindless
+    need_boat: true
+    cost:
+      platinum: 0
+      ore: 0
+    power:
+      offense: 3
+      defense: 3
+    perks:
+      cannot_be_trained: 1
+      attrition: 0.5 # 0.5% of Thralls lost each tick.
+      wins_into: 2
+  - name: Follower
+    type:
+      - living
+    need_boat: true
+    cost:
+      platinum: 0
+      ore: 0
+    power:
+      offense: 6
+      defense: 6
+    perks:
+      reduces_casualties: 1
+      mana_production: 0.05
+      faster_training: 3
+      attrition: 0.1 # 0.5% of Thralls lost each tick.
+      wins_into: 3
+  - name: Initiate
+    type:
+      - living
+      - sentient
+    need_boat: true
+    cost:
+      platinum: 900
+      ore: 90
+    power:
+      offense: 0
+      defense: 6
+    perks:
+      reduces_casualties: 1
+  - name: Mystic
+    type:
+      - living
+      - sentient
+    cost:
+      platinum: 1150
+      ore: 100
+      wizard: 1
+    power:
+      offense: 5
+      defense: 3
+    perks:
+      kills_immortal: 1
+      unit_production: 3,0.1 # Produces one Follower per tick

@@ -14,7 +14,11 @@ perks:
   food_consumption: -100
 units:
   - name: Wisp
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
+      - ethereal
+      - immortal
     need_boat: false
     cost:
       platinum: 200
@@ -26,8 +30,12 @@ units:
       immortal: 1
       staggered_conversion: 40;1,85;2
   - name: Banshee
+    type:
+      - living
+      - sentient
+      - ethereal
+      - immortal
     need_boat: false
-    type: hybrid_specialist
     cost:
       platinum: 500
       ore: 0
@@ -40,8 +48,12 @@ units:
       offense_from_building: alchemy,40,1 # building type, ratio%, max
       defense_from_building: alchemy,40,1 # building type, ratio%, max
   - name: Phantom
+    type:
+      - living
+      - sentient
+      - ethereal
+      - immortal
     need_boat: false
-    type: hybrid_elite
     cost:
       platinum: 1600
       ore: 0
@@ -54,8 +66,12 @@ units:
       offense_from_building: alchemy,20,2 # building type, ratio%, max
       defense_from_building: alchemy,20,2 # building type, ratio%, max
   - name: Spectre
+    type:
+      - living
+      - sentient
+      - ethereal
+      - immortal
     need_boat: false
-    type: hybrid_elite
     static_networth: 20
     cost:
       platinum: 0

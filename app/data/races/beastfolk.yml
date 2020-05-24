@@ -30,6 +30,9 @@ perks:
   max_population: 10
 units:
   - name: Boarman
+    type:
+      - living
+      - sentient
     cost:
       platinum: 265
       ore: 25
@@ -37,6 +40,9 @@ units:
       offense: 3
       defense: 0
   - name: Ram
+    type:
+      - living
+      - sentient
     cost:
       platinum: 325
       ore: 25
@@ -44,6 +50,9 @@ units:
       offense: 0
       defense: 4
   - name: Goat Witch
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       ore: 0
@@ -56,6 +65,9 @@ units:
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
   - name: Minotaur
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1200
       ore: 90

@@ -18,6 +18,9 @@ perks:
   invest_bonus: 20
 units:
   - name: Raider
+    type:
+      - living
+      - sentient
     cost:
       platinum: 200
       ore: 10
@@ -25,6 +28,9 @@ units:
       offense: 2
       defense: 0
   - name: Shaman
+    type:
+      - living
+      - sentient
     cost:
       platinum: 350
       ore: 20
@@ -36,7 +42,9 @@ units:
       counts_as_wizard_offense: 0.025
       counts_as_wizard_defense: 0.025
   - name: Skulker
-    type: offensive_elite
+    type:
+      - living
+      - sentient
     cost:
       platinum: 600
       ore: 50
@@ -47,7 +55,9 @@ units:
       plunders: platinum;1,gems;0.35
       offense_vs_resource: gems,20000,3 # +1 OP per 20,000 gems, max +3
   - name: Wolf Rider
-    type: offensive_elite
+    type:
+      - living
+      - sentient
     cost:
       platinum: 700
       ore: 100

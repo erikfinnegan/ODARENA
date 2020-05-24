@@ -16,6 +16,9 @@ perks:
   salvaging: 75
 units:
   - name: Spearman
+    type:
+      - living
+      - sentient
     cost:
       platinum: 275
       ore: 25
@@ -23,6 +26,9 @@ units:
       offense: 3
       defense: 0
   - name: Archer
+    type:
+      - living
+      - sentient
     cost:
       platinum: 275
       ore: 15
@@ -30,6 +36,9 @@ units:
       offense: 0
       defense: 3
   - name: Knight
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       ore: 75
@@ -39,6 +48,9 @@ units:
     perks:
       fewer_casualties: 25
   - name: Cavalry
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1250
       ore: 100

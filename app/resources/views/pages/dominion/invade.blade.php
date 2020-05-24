@@ -126,7 +126,6 @@
 
                                         <tr>
                                             <td>
-                                                {!! $unitHelper->getUnitTypeIconHtml("unit{$unitSlot}", $selectedDominion->race) !!}
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString("unit{$unitSlot}", $selectedDominion->race) }}">
                                                     {{ $unitHelper->getUnitName("unit{$unitSlot}", $selectedDominion->race) }}
                                                 </span>

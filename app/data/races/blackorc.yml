@@ -15,6 +15,9 @@ perks:
   extra_barracks_housing: 18
 units:
   - name: Impaler
+    type:
+      - living
+      - sentient
     cost:
       platinum: 500
       ore: 50
@@ -24,6 +27,9 @@ units:
     perks:
       offense_from_pairing: 4,2,0.1 # slot, amount, num required
   - name: Shieldbearer
+    type:
+      - living
+      - sentient
     cost:
       platinum: 400
       ore: 40
@@ -33,6 +39,9 @@ units:
     perks:
       defense_from_pairing: 4,2,0.1 # slot, amount
   - name: Warlock
+    type:
+      - living
+      - sentient
     cost:
       platinum: 800
       lumber: 40
@@ -46,6 +55,9 @@ units:
       counts_as_wizard_offense: 0.20
       counts_as_wizard_defense: 0.10
   - name: Warboss
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1400
       ore: 200

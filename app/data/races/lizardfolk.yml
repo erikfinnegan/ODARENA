@@ -14,6 +14,9 @@ perks:
   food_consumption: -25
 units:
   - name: Reptile
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 250
@@ -21,13 +24,18 @@ units:
       offense: 3
       defense: 0
   - name: Serpent
+    type:
+      - living
+      - sentient
     cost:
       platinum: 250
     power:
       offense: 0
       defense: 3
   - name: Chameleon
-    type: hybrid_elite
+    type:
+      - living
+      - sentient
     cost:
       platinum: 900
     power:
@@ -40,6 +48,9 @@ units:
       sink_boats_defense: 1
     need_boat: false
   - name: Archaesaur
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 2800

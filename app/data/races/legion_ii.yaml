@@ -25,7 +25,9 @@ perks:
   salvaging: 25
 units:
   - name: Reanimated
-    type: hybrid_specialist
+    type:
+      - living
+      - mindless
     need_boat: true
     static_networth: 5
     cost:
@@ -39,7 +41,9 @@ units:
       cannot_be_trained: 1
       faster_return: 2
   - name: Demon
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 820
@@ -51,7 +55,9 @@ units:
       fewer_casualties: 50
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Lycanthrope
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 820
@@ -63,7 +69,9 @@ units:
       conversion: 1
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Icekin
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 820

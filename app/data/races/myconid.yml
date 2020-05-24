@@ -34,6 +34,8 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Fruitbody
+    type:
+      - living
     need_boat: false
     cost:
       food: 25
@@ -43,6 +45,8 @@ units:
     perks:
       faster_training: 6
   - name: Mushroom
+    type:
+      - living
     cost:
       food: 100
       unit1: 1
@@ -54,6 +58,9 @@ units:
       no_draftee: 1
       dies_into: 1
   - name: Psilocybe
+    type:
+      - living
+      - sentient
     cost:
       food: 875
       unit2: 1
@@ -71,6 +78,9 @@ units:
       decreases_info_ops_accuracy: 1
       tech_production: 0.0333
   - name: Amanita
+    type:
+      - living
+      - sentient
     cost:
       food: 1250
       unit2: 1

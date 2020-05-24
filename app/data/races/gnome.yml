@@ -20,6 +20,9 @@ perks:
   salvaging: 50
 units:
   - name: Suicide Squad
+    type:
+      - living
+      - sentient
     cost:
       platinum: 225
       ore: 55
@@ -29,6 +32,9 @@ units:
     perks:
       fixed_casualties: 50
   - name: Tinker
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
       ore: 5
@@ -36,6 +42,9 @@ units:
       offense: 0
       defense: 3
   - name: Rockapult
+    type:
+      - living
+      - sentient
     cost:
       platinum: 700
       ore: 300
@@ -45,6 +54,9 @@ units:
     perks:
       defense_from_land: mountain,20,5 # land type, ratio%, max
   - name: Juggernaut
+    type:
+      - living
+      - sentient
     cost:
       platinum: 800
       ore: 500

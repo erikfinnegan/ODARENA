@@ -23,6 +23,9 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Fire
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 950
@@ -35,6 +38,9 @@ units:
       counts_as_wizard_offense: 0.25
       immortal_wizard: 1
   - name: Water
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 950
@@ -46,6 +52,9 @@ units:
       offense_from_land: water,10,1 # land type, ratio%, max
       counts_as_spy_defense: 0.25
   - name: Earth
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 950
@@ -57,6 +66,9 @@ units:
       offense_vs_barren_land: 10,1 # ratio%, max
       counts_as_wizard_defense: 0.25
   - name: Air
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 950

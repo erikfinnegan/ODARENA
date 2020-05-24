@@ -26,6 +26,10 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Essence
+    type:
+      - living
+      - sentient
+      - ethereal
     static_networth: 5
     cost:
       platinum: 250
@@ -34,6 +38,10 @@ units:
       offense: 0
       defense: 0
   - name: Hex
+    type:
+      - living
+      - sentient
+      - ethereal
     need_boat: false
     static_networth: 7
     cost:
@@ -49,6 +57,10 @@ units:
       counts_as_wizard_offense: 0.05
       counts_as_wizard_defense: 0.03
   - name: Vex
+    type:
+      - living
+      - sentient
+      - ethereal
     need_boat: false
     static_networth: 7
     cost:
@@ -65,6 +77,10 @@ units:
       counts_as_spy_offense: 0.05
       counts_as_spy_defense: 0.03
   - name: Pax
+    type:
+      - living
+      - sentient
+      - ethereal
     need_boat: false
     static_networth: 14
     cost:

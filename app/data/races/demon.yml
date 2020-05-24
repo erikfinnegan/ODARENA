@@ -21,6 +21,8 @@ perks:
   can_invest_soul: 1
 units:
   - name: Hellhound
+    type:
+      - living
     need_boat: true
     cost:
       platinum: 450
@@ -33,7 +35,9 @@ units:
       faster_return: 6
       faster_training: 3
   - name: Subjugator
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 800
@@ -46,7 +50,9 @@ units:
       counts_as_wizard_offense: 0.1666
       immortal_wizard: 1
   - name: Succubus
-    type: defensive_specialist
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       blood: 6
@@ -58,7 +64,9 @@ units:
       sacrifices_peasants: 0.04 # 1/0.04=Every 25 Succubus sacrifice one Peasant per tick
       population_growth: 2.5 # Population growth increased by 2.5% for every 1% of population made up of Succubus.
   - name: Archdemon
-    type: hybrid_elite
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       blood: 60000

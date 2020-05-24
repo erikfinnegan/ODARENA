@@ -19,6 +19,9 @@ perks:
   salvaging: 35
 units:
   - name: Ranger
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
       lumber: 25
@@ -26,6 +29,9 @@ units:
       offense: 3
       defense: 0
   - name: Longbowman
+    type:
+      - living
+      - sentient
     cost:
       platinum: 400
       lumber: 25
@@ -33,6 +39,9 @@ units:
       offense: 0
       defense: 4
   - name: Warden
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       lumber: 100
@@ -42,6 +51,9 @@ units:
     perks:
       defense_from_land: forest,20,5 # land type, ratio%, max
   - name: Sentinel
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1200
       lumber: 150

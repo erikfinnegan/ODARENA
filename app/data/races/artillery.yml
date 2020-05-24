@@ -18,14 +18,17 @@ perks:
   cannot_build_homes: 1
 units:
   - name: Bombardier
-    type: defensive_elite
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
     power:
       offense: 0
       defense: 9
   - name: Cannon
-    type: machinery_elite
+    type:
+      - machine
     need_boat: false
     cost:
       platinum: 500
@@ -40,7 +43,8 @@ units:
       true_immortal: 1
       faster_return: 11
   - name: Cannonball
-    type: ammunition_specialist
+    type:
+      - ammunition
     need_boat: false
     cost:
       platinum: 50
@@ -55,7 +59,8 @@ units:
       offense_from_pairing: 2,4 # slot, amount
       damages_improvements_on_attack: 100
   - name: Burning Cannonball
-    type: ammunition_elite
+    type:
+      - ammunition
     need_boat: false
     cost:
       platinum: 100

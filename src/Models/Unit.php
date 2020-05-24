@@ -32,6 +32,7 @@ class Unit extends AbstractModel
         'power_offense' => 'float',
         'power_defense' => 'float',
         'need_boat' => 'boolean',
+        'type' => 'array',
         // Unit food cost
         'cost_food' => 'integer',
         // Unit mana cost

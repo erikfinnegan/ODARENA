@@ -16,16 +16,25 @@ perks:
   population_from_alchemy: 0.5
 units:
   - name: Fire Sprite
+    type:
+      - living
+      - sentient
     cost:
       platinum: 250
     power:
       offense: 3
   - name: Flamewolf
+    type:
+      - living
+      - sentient
     cost:
       platinum: 250
     power:
       defense: 3
   - name: Phoenix
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
     power:
@@ -34,6 +43,9 @@ units:
       immortal_on_successful_defense: 1
       dies_into: 3
   - name: Magma Giant
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1100
     power:

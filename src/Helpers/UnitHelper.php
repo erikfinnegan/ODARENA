@@ -223,13 +223,7 @@ class UnitHelper
             })->first();
 
             list($type, $proficiency) = explode(' ', $helpStrings[$unitType]);
-            if ($unit->type) {
-                list($type, $proficiency) = explode('_', $unit->type);
-                $type = ucfirst($type);
-            }   $proficiency .= '.';
-            #$helpStrings[$unitType] = "$type $proficiency";
 
-            # ODA: Show base OP and DP in unitHelperString
             $helpStrings[$unitType] .= '<li>OP: '. $unit->power_offense . ' / DP: ' . $unit->power_defense . '</li>';
 
             foreach ($unit->perks as $perk)
@@ -399,117 +393,28 @@ class UnitHelper
         return $helpStrings[$unitType] ?: null;
     }
 
-    public function getUnitTypeIconHtml(string $unitType, Race $race = null): string
+    public function getUnitAttributesString(string $unitType, Race $race = null): string
     {
-        switch ($unitType)
-        {
-            case 'draftees':
-                $iconClass = 'fa fa-user';
-                $colorClass = 'text-green';
-                break;
 
-            case 'unit1':
-                $iconClass = 'ra ra-sword';
-                $colorClass = 'text-green';
-                break;
-
-            case 'unit2':
-                $iconClass = 'ra ra-shield';
-                $colorClass = 'text-green';
-                break;
-
-            case 'unit3':
-                $iconClass = 'ra ra-shield';
-                $colorClass = 'text-light-blue';
-                break;
-
-            case 'unit4':
-                $iconClass = 'ra ra-sword';
-                $colorClass = 'text-light-blue';
-                break;
-
-            case 'spies':
-                $iconClass = 'fa fa-user-secret';
-                $colorClass = 'text-green';
-                break;
-
-            case 'wizards':
-                $iconClass = 'ra ra-fairy-wand';
-                $colorClass = 'text-green';
-                break;
-
-            case 'archmages':
-                $iconClass = 'ra ra-fairy-wand';
-                $colorClass = 'text-light-blue';
-                break;
-
-            default:
-                return '';
-        }
+        $attributeString = '<ul>';
 
         if ($race && in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
         {
             $unit = $race->units->filter(function ($unit) use ($unitType) {
                 return ($unit->slot == (int)str_replace('unit', '', $unitType));
             })->first();
-            if ($unit->type) {
-                list($type, $proficiency) = explode('_', $unit->type);
-
-                if (strtolower($type) == 'offensive')
+            if($unit->type)
+            {
+                foreach($unit->type as $attribute)
                 {
-                    $iconClass = 'ra ra-sword';
-                }
-                elseif (strtolower($type) == 'defensive')
-                {
-                    $iconClass = 'ra ra-shield';
-                }
-                elseif (strtolower($type) == 'hybrid')
-                {
-                    $iconClass = 'ra ra-crossed-swords';
-                }
-                elseif (strtolower($type) == 'machinery')
-                {
-                    $iconClass = 'ra ra-cog';
-                }
-                elseif (strtolower($type) == 'equipment')
-                {
-                    $iconClass = 'ra ra-vest';
-                }
-                elseif (strtolower($type) == 'ammunition')
-                {
-                    $iconClass = 'ra ra-spikeball';
-                }
-
-                elseif (strtolower($type) == 'monsterclaw')
-                {
-                    $iconClass = 'ra ra-flaming-claw';
-                }
-                elseif (strtolower($type) == 'monsterhead')
-                {
-                    $iconClass = 'ra ra-monster-skull';
-                }
-                elseif (strtolower($type) == 'monsterpart')
-                {
-                    $iconClass = 'ra ra-meat';
-                }
-
-
-                if (strtolower($proficiency) == 'specialist')
-                {
-                    $colorClass = 'text-green';
-                }
-                elseif (strtolower($proficiency) == 'elite')
-                {
-                    $colorClass = 'text-light-blue';
-                }
-                elseif (strtolower($proficiency) == 'super')
-                {
-                    $colorClass = 'text-orange';
+                    $attributeString .= '<li>' . ucwords($attribute) . '</li>';
                 }
             }
         }
 
-        return "<i class=\"$iconClass $colorClass\"></i>";
+        $attributeString .= '</ul>';
+
+        return $attributeString;
     }
 
     public function getConvertedUnitsString(array $convertedUnits, Race $race, string $type): string

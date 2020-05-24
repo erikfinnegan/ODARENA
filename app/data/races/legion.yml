@@ -25,7 +25,9 @@ perks:
   salvaging: 25
 units:
   - name: Goblin
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 820
@@ -38,7 +40,9 @@ units:
       faster_return: 2
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Dark Elf
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 820
@@ -52,7 +56,9 @@ units:
       faster_return: 2
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Lizardfolk
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 820
@@ -66,7 +72,9 @@ units:
       faster_return: 2
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Troll
-    type: hybrid_specialist
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 820

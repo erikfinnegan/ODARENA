@@ -22,6 +22,9 @@ perks:
   salvaging: 10
 units:
   - name: Grunt
+    type:
+      - living
+      - sentient
     cost:
       platinum: 200
       ore: 20
@@ -32,6 +35,9 @@ units:
       offense_from_pairing: 4,0.5,1 # slot, amount, num required
       plunders: platinum;0.1,gems;0.01
   - name: Underling
+    type:
+      - living
+      - sentient
     cost:
       platinum: 200
       ore: 20
@@ -41,6 +47,9 @@ units:
     perks:
       defense_from_pairing: 3,1,1 # slot, amount, num required
   - name: Beast
+    type:
+      - living
+      - sentient
     cost:
       platinum: 600
       ore: 80
@@ -50,6 +59,9 @@ units:
     perks:
       #defense_mob: 1 # +1 DP when they outnumber attacker's units
   - name: Overlord
+    type:
+      - living
+      - sentient
     cost:
       platinum: 800
       ore: 100

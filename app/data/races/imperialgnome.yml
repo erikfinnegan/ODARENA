@@ -18,6 +18,9 @@ perks:
   salvaging: 75
 units:
   - name: Arquebusier
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 320
@@ -28,6 +31,8 @@ units:
     perks:
       increases_casualties_on_offense: 1
   - name: Automaton
+    type:
+      - machine
     need_boat: true
     cost:
       platinum: 555
@@ -39,7 +44,8 @@ units:
     perks:
       offense_from_pairing: 1,1
   - name: Catapult
-    type: machinery_super
+    type:
+      - machine
     cost:
       platinum: 55000
       ore: 20000
@@ -53,7 +59,8 @@ units:
       houses_military_units: 8
       building_limit: factory,2,workshops # building, buildings per unit, imp to increase
   - name: Airship
-    type: machinery_super
+    type:
+      - machine
     need_boat: false
     cost:
       platinum: 30000

@@ -23,6 +23,9 @@ perks:
   salvaging: 20
 units:
   - name: Clubber
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
       ore: 50
@@ -33,6 +36,9 @@ units:
     perks:
       only_dies_vs_raw_power: 3 # >=
   - name: Basher
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
       ore: 50
@@ -42,7 +48,8 @@ units:
     perks:
       only_dies_vs_raw_power: 3 # >=
   - name: Ironskin
-    type: equipment_elite
+    type:
+      - equipment
     need_boat: false
     cost:
       lumber: 200
@@ -55,7 +62,10 @@ units:
       does_not_count_as_population: 1
       no_draftee: 1
   - name: Mountain Troll
-    type: hybrid_elite
+    type:
+      - living
+      - sentient
+      - massive
     cost:
       platinum: 1500
       ore: 500

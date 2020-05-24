@@ -18,6 +18,9 @@ perks:
   archmage_cost: -200
 units:
   - name: Icebeast
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
       ore: 10
@@ -27,6 +30,9 @@ units:
     perks:
       offense_wizard_ratio: 4,1 # ratio%, max
   - name: Snow Witch
+    type:
+      - living
+      - sentient
     cost:
       platinum: 350
       ore: 35
@@ -38,6 +44,9 @@ units:
       counts_as_wizard_offense: 0.05
       counts_as_wizard_defense: 0.05
   - name: Frost Mage
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       ore: 100
@@ -49,6 +58,9 @@ units:
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
   - name: Ice Elemental
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       mana: 15

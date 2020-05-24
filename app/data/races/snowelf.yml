@@ -24,8 +24,10 @@ perks:
   mana_drain: -50
 units:
   - name: Arbalist
+    type:
+      - living
+      - sentient
     need_boat: true
-    type: defensive_specialist
     cost:
       platinum: 500
       ore: 50
@@ -34,8 +36,9 @@ units:
       offense: 0
       defense: 4
   - name: Ice Boulder
+    type:
+      - ammunition
     need_boat: false
-    type: ammunition_specialist
     cost:
       platinum: 775
       mana: 110
@@ -48,8 +51,9 @@ units:
       offense_from_pairing: 3,25 # slot, amount
       fixed_casualties: 100
   - name: Trebuchet
+    type:
+      - machine
     need_boat: false
-    type: machinery_elite
     cost:
       platinum: 1700
       lumber: 150
@@ -62,8 +66,10 @@ units:
       true_immortal: 1
       faster_return: 11
   - name: Yeti
+    type:
+      - living
+      - sentient
     need_boat: true
-    type: hybrid_elite
     cost:
       wild_yeti: 1
       platinum: 1500

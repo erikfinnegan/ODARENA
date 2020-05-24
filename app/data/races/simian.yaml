@@ -22,6 +22,9 @@ perks:
   lumber_improvement_points: 50
 units:
   - name: Chimpanzee
+    type:
+      - living
+      - sentient
     cost:
       platinum: 200
       ore: 0
@@ -31,6 +34,9 @@ units:
     perks:
       fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
   - name: Bonobo
+    type:
+      - living
+      - sentient
     cost:
       platinum: 200
       ore: 0
@@ -40,6 +46,9 @@ units:
     perks:
       fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
   - name: Orangutan
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       lumber: 100
@@ -50,6 +59,9 @@ units:
       fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
       fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
   - name: Gorilla
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       lumber: 100

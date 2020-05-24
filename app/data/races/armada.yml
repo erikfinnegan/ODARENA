@@ -20,6 +20,9 @@ perks:
 units:
   - name: Ensign
     need_boat: true
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
       ore: 10
@@ -30,6 +33,9 @@ units:
       fewer_casualties_offense: 50
   - name: Commodore
     need_boat: true
+    type:
+      - living
+      - sentient
     cost:
       platinum: 800
       ore: 25
@@ -38,7 +44,8 @@ units:
       defense: 5
   - name: Frigate
     need_boat: false
-    type: machinery_super
+    type:
+      - machine
     cost:
       platinum: 12500
       ore: 2500
@@ -54,7 +61,8 @@ units:
       building_limit: dock,2,harbor # building, buildings per unit, imp to increase
   - name: Battleship
     need_boat: false
-    type: machinery_super
+    type:
+      - machine
     cost:
       platinum: 60000
       ore: 15000

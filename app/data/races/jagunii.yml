@@ -20,6 +20,9 @@ perks:
   salvaging: 25
 units:
   - name: Javelineer
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 250
@@ -29,6 +32,9 @@ units:
       offense: 3
       defense: 0
   - name: Lancer
+    type:
+      - living
+      - sentient
     need_boat: true
     cost:
       platinum: 250
@@ -38,6 +44,10 @@ units:
       offense: 0
       defense: 3
   - name: Mammoth
+    type:
+      - living
+      - sentient
+      - massive
     need_boat: true
     cost:
       platinum: 2400
@@ -51,6 +61,10 @@ units:
       fewer_casualties: 50
       faster_return: 6
   - name: War Mammoth
+    type:
+      - living
+      - sentient
+      - massive
     need_boat: true
     cost:
       ore: 1200

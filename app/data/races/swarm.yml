@@ -29,6 +29,9 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Scarab
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 250
@@ -38,6 +41,9 @@ units:
     perks:
       offense_vs_barren_land: 10,1 # ratio%, max
   - name: Burrower
+    type:
+      - living
+      - sentient
     cost:
       platinum: 375
     power:
@@ -46,6 +52,9 @@ units:
     perks:
       gem_production: 0.5
   - name: Arachnid
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 1000
@@ -56,6 +65,9 @@ units:
       offense_vs_barren_land: 10,1 # ratio%, max
       fewer_casualties_defense: 80
   - name: Naga
+    type:
+      - living
+      - sentient
     need_boat: false
     cost:
       platinum: 700

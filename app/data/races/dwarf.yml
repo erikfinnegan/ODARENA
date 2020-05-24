@@ -17,6 +17,9 @@ perks:
   salvaging: 25
 units:
   - name: Soldier
+    type:
+      - living
+      - sentient
     cost:
       platinum: 200
       ore: 50
@@ -24,6 +27,9 @@ units:
       offense: 3
       defense: 0
   - name: Miner
+    type:
+      - living
+      - sentient
     cost:
       platinum: 300
       ore: 75
@@ -33,7 +39,9 @@ units:
     perks:
       ore_production: 2
   - name: Cleric
-    type: hybrid_elite
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       ore: 100
@@ -45,6 +53,9 @@ units:
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
   - name: Warrior
+    type:
+      - living
+      - sentient
     cost:
       platinum: 1000
       ore: 200
