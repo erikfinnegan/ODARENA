@@ -272,10 +272,10 @@ class EspionageActionService
      */
     protected function performInfoGatheringOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
-        if($dominion->spy_strength <= static::SPY_STRENGTH_COST_INFO_OPS)
-        {
-            throw new GameException('You do not have enough spy strength to perform this operation.');
-        }
+        #if($dominion->spy_strength <= static::SPY_STRENGTH_COST_INFO_OPS)
+        #{
+        #    throw new GameException('You do not have enough spy strength to perform this operation.');
+        #}
 
         $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
@@ -533,10 +533,10 @@ class EspionageActionService
     protected function performResourceTheftOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
 
-        if($dominion->spy_strength <= static::SPY_STRENGTH_COST_THEFT_OPS)
-        {
-            throw new GameException('You do not have enough spy strength to perform this operation.');
-        }
+        #if($dominion->spy_strength <= static::SPY_STRENGTH_COST_THEFT_OPS)
+        #{
+        #    throw new GameException('You do not have enough spy strength to perform this operation.');
+        #}
 
         if ($dominion->round->hasOffensiveActionsDisabled())
         {
@@ -883,10 +883,10 @@ class EspionageActionService
     protected function performHostileOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
 
-        if($dominion->spy_strength <= static::SPY_STRENGTH_COST_HOSTILE_OPS)
-        {
-            throw new GameException('You do not have enough spy strength to perform this operation.');
-        }
+        #if($dominion->spy_strength <= static::SPY_STRENGTH_COST_HOSTILE_OPS)
+        #{
+        #    throw new GameException('You do not have enough spy strength to perform this operation.');
+        #}
 
         if ($dominion->round->hasOffensiveActionsDisabled()) {
             throw new GameException('Black ops have been disabled for the remainder of the round.');
