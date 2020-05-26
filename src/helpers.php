@@ -59,6 +59,10 @@ if (!function_exists('generate_sentence_from_array')) {
         string $delimiter = ', ',
         string $lastDelimiter = ' and '
     ): string {
+        if(count($stringParts) > 2)
+        {
+            $lastDelimiter = ', and ';
+        }
         return str_replace_last($delimiter, $lastDelimiter, implode($delimiter, $stringParts));
     }
 }

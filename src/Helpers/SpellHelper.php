@@ -488,6 +488,14 @@ class SpellHelper
                 'duration' => 2, # Two ticks
                 'races' => collect(['Monster']),
             ],
+            [
+                'name' => 'Mind Control',
+                'description' => '?',
+                'key' => 'mind_control',
+                'mana_cost' => 12,
+                'duration' => 2, # Two ticks
+                'races' => collect(['Cult']),
+            ],
         ]);
     }
 
@@ -676,6 +684,21 @@ class SpellHelper
                         'decreases' => [
                             'military_unit1',
                         ],
+                        'percentage' => 5
+                    ],
+                ]);
+            }
+
+
+
+            if(in_array($dominion->race->name, ['Cult']))
+            {
+                $spells = $spells->concat([
+                    [
+                        'name' => 'Proselytize',
+                        'description' => 'Converts some of targets units to join you.',
+                        'key' => 'proselytize',
+                        'mana_cost' => 0.5,
                         'percentage' => 5
                     ],
                 ]);

@@ -131,6 +131,8 @@ class UnitHelper
             'true_immortal_defense' => 'Near immortal. Only dies when overwhelmed on defense.',
             'true_immortal' => 'Immortal. Only dies when overwhelmed on attack.',
 
+            'kills_immortal' => 'Kills near immortal units.',
+
             'reduces_casualties' => 'Reduces combat losses.',
             'increases_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',
             'increases_casualties_on_defense' => 'Increases enemy casualties on defense (attacker suffers more casualties).',
@@ -180,6 +182,10 @@ class UnitHelper
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
 
+            'unit_production' => 'Produces %s per tick.',
+
+            'attrition' => '%1$s%% attrition rate (leaves dominion per tick).',
+
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
@@ -208,7 +214,6 @@ class UnitHelper
             'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, two gallons of blood, and 1/4 bushel of food per peasant.',
 
             // Myconid
-            'unit_production' => 'Produces %2$s %1$s per tick.',
             'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion by 0.50%% for every 1%% of total population made up of this unit.',
 
             # TBD
@@ -338,38 +343,41 @@ class UnitHelper
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
 
-                // Special case for dies_into and wins_into ("change_into")
-                if ($perk->key === 'unit_productionX')
+                // Special case for unit_production
+                if ($perk->key === 'unit_production')
                 {
-                    $unitSlotToGenerate = intval($perkValue[0]);
-                    $unitsGeneratedPerUnit = $perkValue[1];
+                    $unitSlotToProduce = intval($perkValue[0]);
 
-                    $unitToProduce = $race->units->filter(static function ($unit) use ($unitSlotToGenerate)
-                        {
-                            return ($unit->slot === $unitSlotToGenerate);
-                        })->first();
+                    $unitToProduce = $race->units->filter(static function ($unit) use ($unitSlotToProduce) {
+                        return ($unit->slot === $unitSlotToProduce);
+                    })->first();
 
+                    $unitNameToProduce[] = str_plural($unitToProduce->name);
 
-                    $unitNamesToProduce[] = $unitsGeneratedPerUnit;
-                                        $unitNamesToProduce[] = str_plural($unitToProduce->name);
-
-                    $perkValue = generate_sentence_from_array($unitNamesToProduce);
+                    $perkValue = generate_sentence_from_array($unitNameToProduce);
                 }
 
 
-                if (is_array($perkValue)) {
-                    if ($nestedArrays) {
-                        foreach ($perkValue as $nestedKey => $nestedValue) {
+                if (is_array($perkValue))
+                {
+                    if ($nestedArrays)
+                    {
+                        foreach ($perkValue as $nestedKey => $nestedValue)
+                        {
                             $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
                         }
-                    } else {
+                    }
+                    else
+                    {
                         $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                     }
-                } else {
-                    #if($unitType == 'unit3')
-                    #{
-                    #  dd($perkValue);
-                    #}
+                }
+                else
+                {
+                    if($unitType == 'unit4' and $perk->key == 'unit_production')
+                    {
+                        #dd($perk->key, $perkValue);
+                    }
                     $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
             }
@@ -408,13 +416,14 @@ class UnitHelper
                 foreach($unit->type as $attribute)
                 {
                     $attributeString .= '<li>' . ucwords($attribute) . '</li>';
+                    $attributes[] = ucwords($attribute);
                 }
             }
         }
 
         $attributeString .= '</ul>';
-
-        return $attributeString;
+        sort($attributes);
+        return generate_sentence_from_array($attributes);
     }
 
     public function getConvertedUnitsString(array $convertedUnits, Race $race, string $type): string

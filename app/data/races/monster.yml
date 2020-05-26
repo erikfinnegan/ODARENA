@@ -24,8 +24,8 @@ perks:
 units:
   - name: Muscle
     type:
-      - bodypart
       - massive
+      - mindless
     cost:
       food: 100
       lumber: 100
@@ -38,8 +38,8 @@ units:
       does_not_count_as_population: 1
   - name: Limb
     type:
-      - bodypart
       - massive
+      - mindless
     cost:
       food: 100
       lumber: 100
@@ -52,8 +52,8 @@ units:
       does_not_count_as_population: 1
   - name: Claw
     type:
-      - bodypart
       - massive
+      - mindless
     need_boat: false
     cost:
       food: 100
@@ -72,7 +72,6 @@ units:
       offense_from_pairing: 4,30,0.25 # slot, amount, num required
   - name: Head
     type:
-      - bodypart
       - sentient
       - living
       - massive
