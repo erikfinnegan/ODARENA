@@ -60,7 +60,7 @@ units:
       counts_as_spy_offense: 1
       counts_as_spy_defense: 1
       increases_defensive_casualties: 1
-      fewer_casualties: 50
+      immortal_on_victory: 1
       no_draftee: 1
   - name: Immortal Guard
     type:
