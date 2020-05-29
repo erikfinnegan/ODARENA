@@ -26,7 +26,7 @@
                                         <option value="{{ $dominion->id }}"
                                                 data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
                                                 data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
-                                                data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
+                                                data-percentage="{{ $rangeCalculator->getDominionRange($selectedDominion, $dominion) }}"
                                                 data-war="{{ $governmentService->isAtWarWithRealm($selectedDominion->realm, $dominion->realm) ? 1 : 0 }}">
                                             {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                         </option>
@@ -126,7 +126,6 @@
 
                                         <tr>
                                             <td>
-                                                {!! $unitHelper->getUnitTypeIconHtml("unit{$unitSlot}", $selectedDominion->race) !!}
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString("unit{$unitSlot}", $selectedDominion->race) }}">
                                                     {{ $unitHelper->getUnitName("unit{$unitSlot}", $selectedDominion->race) }}
                                                 </span>
@@ -606,7 +605,8 @@
             }
 
             const land = state.element.dataset.land;
-            const percentage = state.element.dataset.percentage;
+            var range = new Number(state.element.dataset.percentage);
+            const percentage = range.toPrecision(8);
             const networth = state.element.dataset.networth;
             const war = state.element.dataset.war;
             let difficultyClass;
