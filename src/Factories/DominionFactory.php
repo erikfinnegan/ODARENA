@@ -314,14 +314,14 @@ class DominionFactory
             $startingResources['gems'] = 0;
             $startingResources['boats'] = 0;
 
-            $startingResources['unit1'] = 0;
-            $startingResources['unit1'] = 0;
-            $startingResources['unit1'] = 0;
-            $startingResources['unit1'] = 0;
+            $startingResources['unit1'] = 4;
+            $startingResources['unit2'] = 600;
+            $startingResources['unit3'] = 1200;
+            $startingResources['unit4'] = 1;
 
             $startingResources['draft_rate'] = 0;
 
-            $startingResources['protection_ticks'] = 0;
+            $startingResources['protection_ticks'] = 1;
         }
 
         if($race->alignment == 'npc')
