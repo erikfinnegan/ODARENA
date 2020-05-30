@@ -306,7 +306,6 @@ class DominionFactory
             $startingResources['draftees'] = 0;
             $startingResources['peasants'] = 0;
 
-
             $startingResources['platinum'] = 0;
             $startingResources['mana'] = 0;
             $startingResources['ore'] = 0;

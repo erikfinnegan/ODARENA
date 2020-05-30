@@ -65,7 +65,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
-                <p>Your race does not have a castle and therefore cannot use castle improvements.</p>
+                <p>{{ $selectedDominion->race->name }} cannot use improvements.</p>
             </div>
         </div>
     </div>

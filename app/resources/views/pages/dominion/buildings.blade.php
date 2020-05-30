@@ -114,7 +114,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
-            <p>Your faction is not able to construct buildings.</p>
+            <p>{{ $selectedDominion->race->name }} cannot construct buildings.</p>
         </div>
     </div>
 </div>

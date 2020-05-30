@@ -414,7 +414,7 @@ class InvadeActionService
                 $target->realm->stat_defending_success += 1;
             }
 
-            dd($this->invasionResult);
+            #dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([

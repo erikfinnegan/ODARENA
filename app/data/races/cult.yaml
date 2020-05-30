@@ -18,6 +18,7 @@ perks:
   max_population: 30
   population_growth: 23
   cannot_build_barracks: 1
+  min_rounds_played: 10
 units:
   - name: Thrall
     type:
