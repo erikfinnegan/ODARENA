@@ -288,6 +288,7 @@ class DominionFactory
           $startingResources['wild_yeti'] = 150;
         }
 
+        // Kerranad: starting imps.
         if($race->name == 'Kerranad')
         {
             $startingResources['improvement_markets'] = 422500;
@@ -299,11 +300,28 @@ class DominionFactory
             $startingResources['improvement_harbor'] = 591000;
         }
 
+        // Monster: no one lives here.
         if($race->name == 'Monster')
         {
             $startingResources['draftees'] = 0;
             $startingResources['peasants'] = 0;
+
+
+            $startingResources['platinum'] = 0;
+            $startingResources['mana'] = 0;
+            $startingResources['ore'] = 0;
+            $startingResources['lumber'] = 0;
+            $startingResources['gems'] = 0;
+            $startingResources['boats'] = 0;
+
+            $startingResources['unit1'] = 0;
+            $startingResources['unit1'] = 0;
+            $startingResources['unit1'] = 0;
+            $startingResources['unit1'] = 0;
+
             $startingResources['draft_rate'] = 0;
+
+            $startingResources['protection_ticks'] = 0;
         }
 
         if($race->alignment == 'npc')
@@ -573,6 +591,18 @@ class DominionFactory
               'forest' => 0,
               'hill' => 0,
               'water' => 0,
+          ];
+        }
+        elseif($race->name == 'Monster')
+        {
+          return [
+              'plain' => 175,
+              'mountain' => 175,
+              'swamp' => 175,
+              'cavern' => 0,
+              'forest' => 175,
+              'hill' => 150,
+              'water' => 150,
           ];
         }
         else

@@ -32,6 +32,7 @@ perks:
   peasants_produce_food: 2
   food_decay: -100
   can_only_abduct_own: 1
+  min_rounds_played: 1
 units:
   - name: Fruitbody
     type:
