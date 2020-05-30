@@ -1229,8 +1229,8 @@ class InvadeActionService
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);
 
-        $this->invasionResult['result']['attacker']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
-        $this->invasionResult['result']['attacker']['conversionAnalysis']['conversionBaseMultiplier'] = $conversionBaseMultiplier;
+        $this->invasionResult['attacker']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
+        $this->invasionResult['attacker']['conversionAnalysis']['conversionBaseMultiplier'] = $conversionBaseMultiplier;
 
         # Calculate converting units
         $totalConvertingUnits = 0;
@@ -1269,8 +1269,8 @@ class InvadeActionService
             $totalConvertingUnits += $units[$unit->slot];
         }
 
-        $this->invasionResult['result']['attacker']['conversionAnalysis']['totalConvertingUnits'] = $totalConvertingUnits;
-        $this->invasionResult['result']['attacker']['conversionAnalysis']['totalDefensiveCasualties'] = $totalDefensiveCasualties;
+        $this->invasionResult['attacker']['conversionAnalysis']['totalConvertingUnits'] = $totalConvertingUnits;
+        $this->invasionResult['attacker']['conversionAnalysis']['totalDefensiveCasualties'] = $totalDefensiveCasualties;
 
         $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalDefensiveCasualties * 1.75) * $landRatio;
 
@@ -1389,8 +1389,8 @@ class InvadeActionService
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);
 
-        $this->invasionResult['result']['defender']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
-        $this->invasionResult['result']['defender']['conversionAnalysis']['conversionBaseMultiplier'] = $conversionBaseMultiplier;
+        $this->invasionResult['defender']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
+        $this->invasionResult['defender']['conversionAnalysis']['conversionBaseMultiplier'] = $conversionBaseMultiplier;
 
         # Calculate converting units
         $totalConvertingUnits = 0;
@@ -1430,8 +1430,8 @@ class InvadeActionService
             $totalConvertingUnits += $dominion->{'military_unit'.$unit->slot};
         }
 
-        $this->invasionResult['result']['defender']['conversionAnalysis']['totalConvertingUnits'] = $totalConvertingUnits;
-        $this->invasionResult['result']['defender']['conversionAnalysis']['totalOffensiveCasualties'] = $totalOffensiveCasualties;
+        $this->invasionResult['defender']['conversionAnalysis']['totalConvertingUnits'] = $totalConvertingUnits;
+        $this->invasionResult['defender']['conversionAnalysis']['totalOffensiveCasualties'] = $totalOffensiveCasualties;
 
         $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalOffensiveCasualties * 1.75) * $landRatio;
         $totalConverts = min($totalOffensiveCasualties, $totalConverts);
