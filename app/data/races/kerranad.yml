@@ -27,7 +27,7 @@ description: >-
   <li>Harbor: 5%</li>
   </ul>
   <p>There can only be one Citystate of Kerranad per round. A player must have played at least four rounds to be eligible to play Kerranad.</p>
-home_land_type: plains
+home_land_type: plain
 playable: 1
 
 attacking: 3
