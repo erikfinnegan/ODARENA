@@ -126,7 +126,8 @@ class UnitHelper
             'fixed_casualties' => 'Always suffers %s%% casualties.',
 
             'immortal' => 'Near immortal. Only dies when overwhelmed on attack.',
-            'immortal_except_vs' => 'Near immortal, except vs % or when overwhelmed on attack..',
+            'immortal_except_vs' => 'Near immortal, except vs % or when overwhelmed on attack.',
+            'immortal_on_victory' => 'Immortal if invasion is successful.',
             'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
             'true_immortal_defense' => 'Near immortal. Only dies when overwhelmed on defense.',
             'true_immortal' => 'Immortal. Only dies when overwhelmed on attack.',

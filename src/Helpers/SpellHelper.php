@@ -484,7 +484,7 @@ class SpellHelper
                 'name' => 'Primordial Wrath',
                 'description' => '+100% offensive power, +50% defensive power',
                 'key' => 'primordial_wrath',
-                'mana_cost' => 12,
+                'mana_cost' => 20,
                 'duration' => 2, # Two ticks
                 'races' => collect(['Monster']),
             ],

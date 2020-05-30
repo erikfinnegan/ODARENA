@@ -27,7 +27,7 @@ description: >-
   <li>Harbor: 5%</li>
   </ul>
   <p>There can only be one Citystate of Kerranad per round. A player must have played at least four rounds to be eligible to play Kerranad.</p>
-home_land_type: hill
+home_land_type: plains
 playable: 1
 
 attacking: 3
@@ -44,14 +44,15 @@ perks:
   max_per_round: 1
   min_rounds_played: 12
   cannot_train_archmages: 1
+  max_population: 10
 units:
   - name: Assassin
     type:
       - living
       - sentient
     cost:
-      platinum: 200
-      ore: 100
+      platinum: 100
+      ore: 20
       spy: 1
     power:
       offense: 4
@@ -80,12 +81,12 @@ units:
       - living
       - sentient
     cost:
-      platinum: 1200
-      ore: 75
+      platinum: 800
+      ore: 100
       wizard: 1
     power:
       offense: 6
-      defense: 6
+      defense: 7
     perks:
       counts_as_wizard_offense: 1
       counts_as_wizard_defense: 1
@@ -96,9 +97,9 @@ units:
       - living
       - sentient
     cost:
-      platinum: 800
-      ore: 120
-      gem: 25
+      platinum: 700
+      ore: 100
+      gem: 20
       unit2: 1
     power:
       offense: 9

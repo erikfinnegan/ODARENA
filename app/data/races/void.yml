@@ -72,9 +72,9 @@ units:
     need_boat: false
     cost:
       platinum: 0
-      mana: 225
+      mana: 500
     power:
       offense: 5
       defense: 3
     perks:
-      offense_per_hour: 0.006,1 # amount, max
+      offense_per_hour: 0.006,2 # amount, max

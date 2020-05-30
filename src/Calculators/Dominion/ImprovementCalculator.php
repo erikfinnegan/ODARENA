@@ -112,7 +112,7 @@ class ImprovementCalculator
             'forestry' => 25, # Increases lumber production
             'refinery' => 25, # Increases ore production
             'granaries' => 85, # Reduces food and lumber rot
-            'tissue' => 25, # Increases max population (Growth)
+            'tissue' => 100, # Increases max population (Growth)
         ];
 
         if($dominion->race->getPerkMultiplier('improvements_max'))
@@ -152,7 +152,7 @@ class ImprovementCalculator
             'forestry' => 4000,
             'refinery' => 4000,
             'granaries' => 5000,
-            'tissue' => 7500,
+            'tissue' => 100000,
         ];
 
         return ($coefficients[$improvementType] ?: null);
@@ -172,7 +172,7 @@ class ImprovementCalculator
         if($dominion->race->getPerkValue('can_invest_mana'))
         {
           #unset($worth);
-          $worth['mana'] = 5;
+          $worth['mana'] = 4;
         }
         # Growth: only sees food
         if($dominion->race->getPerkValue('tissue_improvement'))

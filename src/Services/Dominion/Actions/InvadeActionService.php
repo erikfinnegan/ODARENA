@@ -414,6 +414,8 @@ class InvadeActionService
                 $target->realm->stat_defending_success += 1;
             }
 
+            dd($this->invasionResult);
+
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
                 'round_id' => $dominion->round_id,
@@ -615,7 +617,6 @@ class InvadeActionService
     {
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
-        #$landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
         $attackingForceOP = $this->invasionResult['attacker']['op'];
         $targetDP = $this->invasionResult['defender']['dp'];
         $offensiveCasualtiesPercentage = (static::CASUALTIES_OFFENSIVE_BASE_PERCENTAGE / 100);
@@ -696,7 +697,9 @@ class InvadeActionService
         foreach ($offensiveUnitsLost as $slot => &$amount)
         {
             // Reduce amount of units to kill by further multipliers
-            $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP);
+            $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful);
+
+            $this->invasionResult['attacker']['unitPerks']['offensiveCasualties'][$slot] = $unitsToKillMultiplier;
 
             if ($unitsToKillMultiplier !== 0)
             {
@@ -833,7 +836,9 @@ class InvadeActionService
                 continue;
             }
 
-            $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio)) * $casualtiesMultiplier);
+            $slotLostMultiplier = $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio);
+            $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * $slotLostMultiplier * $casualtiesMultiplier);
+            $this->invasionResult['defender']['unitPerks']['defensiveCasualties'][$unit->slot] = $slotLostMultiplier;
 
             if ($slotLost > 0) {
                 $defensiveUnitsLost[$unit->slot] = $slotLost;
@@ -884,36 +889,45 @@ class InvadeActionService
             return;
         }
 
-        if (!isset($this->invasionResult['attacker']['landConquered'])) {
+        if (!isset($this->invasionResult['attacker']['landConquered']))
+        {
             $this->invasionResult['attacker']['landConquered'] = [];
         }
 
-        if (!isset($this->invasionResult['attacker']['landGenerated'])) {
+        if (!isset($this->invasionResult['attacker']['landGenerated']))
+        {
             $this->invasionResult['attacker']['landGenerated'] = [];
         }
 
-        #$range = $this->rangeCalculator->getDominionRange($dominion, $target);
+        if (!isset($this->invasionResult['defender']['landLost']))
+        {
+            $this->invasionResult['defender']['landLost'] = [];
+        }
+
+        if (!isset($this->invasionResult['defender']['buildingsLost']))
+        {
+            $this->invasionResult['defender']['buildingsLost'] = [];
+        }
+
+        if (!isset($this->invasionResult['defender']['totalBuildingsLost']))
+        {
+            $this->invasionResult['defender']['totalBuildingsLost'] = 0;
+        }
+
         $rangeMultiplier = ($landRatio / 100);
 
-        $landGrabRatio = 1;
-        $bonusLandRatio = 2;
+        $attackerLandWithRatioModifier = ($this->landCalculator->getTotalLand($dominion));
 
-        // War Bonus
-        /*
-        if ($this->governmentService->isAtMutualWarWithRealm($dominion->realm, $target->realm)) {
-            $landGrabRatio = 1.2;
-        } elseif ($this->governmentService->isAtWarWithRealm($dominion->realm, $target->realm)) {
-            $landGrabRatio = 1.15;
-        }
-        */
-
-        $attackerLandWithRatioModifier = ($this->landCalculator->getTotalLand($dominion) * $landGrabRatio);
-
-        if ($landRatio < 55) {
+        if ($landRatio < 55)
+        {
             $acresLost = (0.304 * ($rangeMultiplier ** 2) - 0.227 * $rangeMultiplier + 0.048) * $attackerLandWithRatioModifier;
-        } elseif ($landRatio < 75) {
+        }
+        elseif ($landRatio < 75)
+        {
             $acresLost = (0.154 * $rangeMultiplier - 0.069) * $attackerLandWithRatioModifier;
-        } else {
+        }
+        else
+        {
             $acresLost = (0.129 * $rangeMultiplier - 0.048) * $attackerLandWithRatioModifier;
         }
 
@@ -927,22 +941,13 @@ class InvadeActionService
         $landGainedPerLandType = [];
         foreach ($landAndBuildingsLostPerLandType as $landType => $landAndBuildingsLost)
         {
-            if (!isset($this->invasionResult['attacker']['landConquered'][$landType]))
-            {
-                $this->invasionResult['attacker']['landConquered'][$landType] = 0;
-            }
-
-            if (!isset($this->invasionResult['attacker']['landGenerated'][$landType]))
-            {
-                $this->invasionResult['attacker']['landGenerated'][$landType] = 0;
-            }
-
             $buildingsToDestroy = $landAndBuildingsLost['buildingsToDestroy'];
             $landLost = $landAndBuildingsLost['landLost'];
             $buildingsLostForLandType = $this->buildingCalculator->getBuildingTypesToDestroy($target, $buildingsToDestroy, $landType);
 
             // Remove land
             $target->{"land_$landType"} -= $landLost;
+            $this->invasionResult['defender']['totalBuildingsLost'] += $landLost;
 
             // Add discounted land for buildings destroyed
             $target->discounted_land += $buildingsToDestroy;
@@ -954,6 +959,15 @@ class InvadeActionService
                 $resourceName = "building_{$buildingType}";
                 $target->$resourceName -= $builtBuildingsToDestroy;
 
+                if (isset($this->invasionResult['defender']['buildingsLost'][$buildingType]))
+                {
+                    $this->invasionResult['defender']['buildingsLost'][$buildingType] += $buildingsLost;
+                }
+                else
+                {
+                    $this->invasionResult['defender']['buildingsLost'][$buildingType] = $buildingsLost;
+                }
+
                 $buildingsInQueueToRemove = $buildingsLost['buildingsInQueueToRemove'];
 
                 if ($buildingsInQueueToRemove !== 0)
@@ -963,7 +977,7 @@ class InvadeActionService
             }
 
             $landConquered = (int)round($landLost);
-            $landGenerated = (int)round($landConquered * ($bonusLandRatio - 1));
+            $landGenerated = (int)round($landConquered);
             $landGained = ($landConquered + $landGenerated);
 
             # No generated acres for in-realm invasions.
@@ -979,7 +993,7 @@ class InvadeActionService
             # $dominion = attacker
             if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) > 0)
             {
-              $landGenerated = 0;
+                $landGenerated = 0;
             }
 
             $landGained = ($landConquered + $landGenerated);
@@ -989,10 +1003,37 @@ class InvadeActionService
             }
             $landGainedPerLandType["land_{$landType}"] += $landGained;
 
-            $this->invasionResult['attacker']['landConquered'][$landType] += $landConquered;
-            $this->invasionResult['attacker']['landGenerated'][$landType] += $landGenerated;
-        }
+            # Attacker: Land Conquered
+            if(isset($this->invasionResult['attacker']['landConquered'][$landType]))
+            {
+              $this->invasionResult['attacker']['landConquered'][$landType] += $landConquered;
+            }
+            else
+            {
+              $this->invasionResult['attacker']['landConquered'][$landType] = $landConquered;
+            }
 
+            # Attacker: Land Generated
+            if(isset($this->invasionResult['attacker']['landGenerated'][$landType]))
+            {
+              $this->invasionResult['attacker']['landGenerated'][$landType] += $landConquered;
+            }
+            else
+            {
+              $this->invasionResult['attacker']['landGenerated'][$landType] = $landConquered;
+            }
+
+            # Defender: Land Lost
+            if(isset($this->invasionResult['defender']['landLost'][$landType]))
+            {
+              $this->invasionResult['defender']['landLost'][$landType] += $landConquered;
+            }
+            else
+            {
+              $this->invasionResult['defender']['landLost'][$landType] = $landConquered;
+            }
+
+        }
 
         // Calculate extra generated land (becomes home land type).
         $landGeneratedMultiplier = 0;
@@ -1012,16 +1053,7 @@ class InvadeActionService
 
         $extraLandGenerated = round($acresLost * $landGeneratedMultiplier);
 
-        #$this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] += $extraLandGenerated;
-
-        if(isset($this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type]))
-        {
-          $this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] += $extraLandGenerated;
-        }
-        else
-        {
-          $this->invasionResult['attacker']['landGenerated'][$dominion->race->home_land_type] = $extraLandGenerated;
-        }
+        $this->invasionResult['attacker']['extraLandGenerated'][$dominion->race->home_land_type] = $extraLandGenerated;
 
         if(isset($landGainedPerLandType[$homeLandType]))
         {
@@ -1139,6 +1171,9 @@ class InvadeActionService
         }
         $target->morale += $defenderMoraleChange;
 
+        $this->invasionResult['attacker']['moraleChange'] = $attackerMoraleChange;
+        $this->invasionResult['defender']['moraleChange'] = $defenderMoraleChange;
+
     }
 
     /**
@@ -1166,7 +1201,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalDefensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope','Spirit','Undead','Sacred Order','Afflicted','Legion II'], true)
+              !in_array($dominion->race->name, ['Lycanthrope','Spirit','Undead','Sacred Order'], true)
           )
         {
             return $convertedUnits;
@@ -1194,6 +1229,10 @@ class InvadeActionService
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);
 
+        $this->invasionResult['result']['attacker']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
+        $this->invasionResult['result']['attacker']['conversionAnalysis']['conversionBaseMultiplier'] = $conversionBaseMultiplier;
+
+        # Calculate converting units
         $totalConvertingUnits = 0;
 
         $unitsWithConversionPerk = $dominion->race->units->filter(static function (Unit $unit) use (
@@ -1219,7 +1258,6 @@ class InvadeActionService
                         return true;
                     }
                 }
-
                 return false;
             }
 
@@ -1230,6 +1268,9 @@ class InvadeActionService
         {
             $totalConvertingUnits += $units[$unit->slot];
         }
+
+        $this->invasionResult['result']['attacker']['conversionAnalysis']['totalConvertingUnits'] = $totalConvertingUnits;
+        $this->invasionResult['result']['attacker']['conversionAnalysis']['totalDefensiveCasualties'] = $totalDefensiveCasualties;
 
         $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalDefensiveCasualties * 1.75) * $landRatio;
 
@@ -1306,7 +1347,6 @@ class InvadeActionService
         # Remove units with fixed casualties greater than 50%.
         foreach($this->invasionResult['attacker']['unitsLost'] as $unit => $lost)
         {
-            #dd($unit, $lost, $attacker->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties"));
            if($attacker->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties") >= 50)
            {
               $totalOffensiveCasualties -= $lost;
@@ -1321,7 +1361,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalOffensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted','Legion II','Demon'], true)
+              !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted'], true)
           )
         {
             return;
@@ -1348,6 +1388,9 @@ class InvadeActionService
         }
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);
+
+        $this->invasionResult['result']['defender']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
+        $this->invasionResult['result']['defender']['conversionAnalysis']['conversionBaseMultiplier'] = $conversionBaseMultiplier;
 
         # Calculate converting units
         $totalConvertingUnits = 0;
@@ -1387,6 +1430,9 @@ class InvadeActionService
             $totalConvertingUnits += $dominion->{'military_unit'.$unit->slot};
         }
 
+        $this->invasionResult['result']['defender']['conversionAnalysis']['totalConvertingUnits'] = $totalConvertingUnits;
+        $this->invasionResult['result']['defender']['conversionAnalysis']['totalOffensiveCasualties'] = $totalOffensiveCasualties;
+
         $totalConverts = min($totalConvertingUnits * $conversionBaseMultiplier, $totalOffensiveCasualties * 1.75) * $landRatio;
         $totalConverts = min($totalOffensiveCasualties, $totalConverts);
 
@@ -1394,6 +1440,8 @@ class InvadeActionService
         {
             $totalConverts /= 3;
         }
+
+        $this->invasionResult['result']['defender']['totalConverts'] = $totalConverts;
 
 
         foreach ($unitsWithConversionPerk as $unit)
@@ -1429,11 +1477,10 @@ class InvadeActionService
             }
         }
 
-        if (!isset($this->invasionResult['defender']['conversion']) && array_sum($convertedUnits) > 0) {
+        if (!isset($this->invasionResult['defender']['conversion']) && array_sum($convertedUnits) > 0)
+        {
             $this->invasionResult['defender']['conversion'] = $convertedUnits;
         }
-
-        #return $convertedUnits;
 
         # Defensive conversions take 6 ticks to activate
         foreach($convertedUnits as $slot => $amount)
@@ -2049,7 +2096,6 @@ class InvadeActionService
         if($salvaging = $attacker->race->getPerkMultiplier('salvaging'))
         {
             $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($attacker);
-            #dd($unitCosts);
             foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amountLost)
             {
                 $unitType = 'unit'.$slot;
@@ -2125,10 +2171,7 @@ class InvadeActionService
         $this->invasionResult['attacker']['plunder'] = $result['attacker']['plunder'];
         $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
 
-
-
     }
-
 
     /**
      * Check whether the invasion is successful.

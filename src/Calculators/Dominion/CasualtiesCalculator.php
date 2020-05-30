@@ -69,9 +69,10 @@ class CasualtiesCalculator
      * @param bool $isOverwhelmed
      * @param bool $attackingForceOP
      * @param bool $targetDP
+     * @param bool $isInvasionSuccessful - True/False flag whether invasion was successful
      * @return float
      */
-    public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $target, int $slot, array $units, float $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP): float
+    public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $target, int $slot, array $units, float $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
     {
         $multiplier = 1;
 
@@ -120,6 +121,13 @@ class CasualtiesCalculator
 
             // Race perk-based immortality
             if ($this->isImmortalVersusRacePerk($dominion, $target, $slot))
+            {
+                $multiplier = 0;
+            }
+
+
+            // Perk: immortal on victory
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
             {
                 $multiplier = 0;
             }

@@ -91,7 +91,7 @@
                                 <th class="text-center">OP</th>
                                 <th class="text-center">DP</th>
                                 <th>Special Abilities</th>
-                                <th>Attributes</th>
+                                <th><!-- Attributes --></th>
                                 <th class="text-center">Cost</th>
                             </tr>
                         </thead>
@@ -191,7 +191,7 @@
                                         {!! $unitHelper->getUnitHelpString("unit{$unit->slot}", $race) !!}
                                     </td>
                                     <td>
-                                        {!! $unitHelper->getUnitAttributesString("unit{$unit->slot}", $race) !!}
+                                        
                                     </td>
                                     <td class="text-center">
                                         {{ $unitCostString }}
