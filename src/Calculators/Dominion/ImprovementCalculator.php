@@ -172,7 +172,7 @@ class ImprovementCalculator
         if($dominion->race->getPerkValue('can_invest_mana'))
         {
           #unset($worth);
-          $worth['mana'] = 4;
+          $worth['mana'] = 2;
         }
         # Growth: only sees food
         if($dominion->race->getPerkValue('tissue_improvement'))

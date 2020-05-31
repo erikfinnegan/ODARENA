@@ -24,6 +24,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Calculators\RealmCalculator;
 
 class TickService
 {
@@ -750,8 +751,23 @@ class TickService
         $tick->resource_lumber_rot += $this->productionCalculator->getLumberDecay($dominion);
         $tick->resource_mana_drain += $this->productionCalculator->getManaDecay($dominion);
 
-        # Contribution
-#        $tick->
+        # Contribution: how much is LOST (GIVEN AWAY)
+        $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
+        $tick->resource_lumber_contribution = $this->productionCalculator->getContribution($dominion, 'lumber');
+        $tick->resource_ore_contribution = $this->productionCalculator->getContribution($dominion, 'ore');
+
+        # Contributed: how much is RECEIVED (GIVEN TO)
+        if($dominion->race->name == 'Monster')
+        {
+
+
+        }
+        else
+        {
+            $tick->resource_food_contributed = 0;
+            $tick->resource_lumber_contributed = 0;
+            $tick->resource_ore_contributed = 0;
+        }
 
         // Check for starvation before adjusting food
         $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);

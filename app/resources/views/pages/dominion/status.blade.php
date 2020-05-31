@@ -106,7 +106,9 @@
                                         <td>{{ number_format($selectedDominion->resource_gems) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Experience Points:</td>
+                                        <td><span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $selectedDominion->race) }}">
+                                            Experience Points:
+                                        </span></td>
                                         <td>{{ number_format($selectedDominion->resource_tech) }}</td>
                                     </tr>
                                     <tr>

@@ -183,7 +183,30 @@
                             </table>
 
                             @if($realmCalculator->hasMonster($selectedDominion->realm))
-                            <p><em>As decided by the realm's Governor, you contribute <strong>{{ $selectedDominion->realm->contribution }}%</strong> of your ore, lumber, and food stockpile to the monster.</em></p>
+                                @if($selectedDominion->race->name == 'Monster')
+                                  <table class="table">
+                                      <colgroup>
+                                          <col width="50%">
+                                          <col width="50%">
+                                      </colgroup>
+                                      <thead>
+                                          <tr>
+                                              <th>Resource</th>
+                                              <th>Expected</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                      @foreach($realmCalculator->getTotalContributions($selectedDominion->realm) as $resource => $amount)
+                                          <tr>
+                                              <td>{{ ucwords($resource) }}</td>
+                                              <td>{{ number_format($amount) }}</td>
+                                          </tr>
+                                      @endforeach
+                                      </tbody>
+                                  </table>
+                                @else
+                                  <p><em>As decided by the realm's Governor, you contribute <strong>{{ $selectedDominion->realm->contribution }}%</strong> of your ore, lumber, and food stockpile to the monster.</em></p>
+                                @endif
                             @endif
 
                         </div>

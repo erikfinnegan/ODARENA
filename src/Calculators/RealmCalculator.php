@@ -6,9 +6,25 @@ namespace OpenDominion\Calculators;
 use DB;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
 
 class RealmCalculator
 {
+
+    /** @var ProductionCalculator */
+    protected $productionCalculator;
+
+    /**
+     * NetworthCalculator constructor.
+     *
+     * @param ProductionCalculator $productionCalculator
+     */
+    public function __construct(
+        ProductionCalculator $productionCalculator
+    ) {
+        $this->productionCalculator = $productionCalculator;
+    }
+
     /**
      * Checks if Realm has a monster.
      *
@@ -50,6 +66,32 @@ class RealmCalculator
         $monster = Dominion::findOrFail($monster);
 
         return $monster;
+    }
+
+    public function getTotalContributions(Realm $realm): array
+    {
+        $contributions = [
+            'food' => 0,
+            'lumber' => 0,
+            'ore' => 0
+          ];
+
+        if($this->hasMonster($realm))
+        {
+            $dominions = $realm->dominions->flatten();
+
+            foreach($contributions as $resource => $amount)
+            {
+                foreach($dominions as $dominion)
+                {
+                    #echo '<p>' . $dominion->name . ' contributes ' . $this->productionCalculator->getContribution($dominion, $resource) . ' ' . $resource . '</p>';
+                    $contributions[$resource] += $this->productionCalculator->getContribution($dominion, $resource);
+                }
+            }
+        }
+
+        return $contributions;
+
     }
 
 }

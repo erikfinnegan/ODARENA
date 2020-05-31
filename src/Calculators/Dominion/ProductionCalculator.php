@@ -551,6 +551,9 @@ class ProductionCalculator
         $contributed = 0;
         $contribution = $dominion->realm->contribution / 100;
 
+        # Cap contribution to 0-10%, in case something is screwy with $realm->contribution.
+        $contribution = min(max($contribution, 0), 0.10);
+
         if(in_array($resourceType, ['lumber','ore','food']))
         {
             $contributed = $dominion->{'resource_'.$resourceType} * $contribution;
