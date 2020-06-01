@@ -1048,8 +1048,8 @@ class InvadeActionService
         // Improvement: Cartography
         $landGeneratedMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
-        // Resource: XP
-        $landGeneratedMultiplier += $dominion->resource_tech / 1000000;
+        // Resource: XP (max +10% from 100,000 XP)
+        $landGeneratedMultiplier += min($dominion->resource_tech, 100000) / 1000000;
 
         $extraLandGenerated = round($acresLost * $landGeneratedMultiplier);
 

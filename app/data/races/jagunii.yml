@@ -67,17 +67,17 @@ units:
       - massive
     need_boat: true
     cost:
-      ore: 1200
-      gem: 600
+      ore: 2000
+      gem: 1000
       unit1: 4
       unit2: 4
       unit3: 1
     power:
-      offense: 24
+      offense: 44
       defense: 24
     perks:
       dies_into: 3
-      fewer_casualties: 75
+      fewer_casualties_offense: 90
       no_draftee: 1
       does_not_count_as_population: 1
       food_consumption: 2
