@@ -57,6 +57,7 @@ units:
       fewer_casualties_offense: 50
       fewer_casualties_defense: 25
       offense_from_prestige: 250,4 # amount, max
+      defense_from_prestige: 500,2 # amount, max
   - name: Einherjar
     type:
       - living
