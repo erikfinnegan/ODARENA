@@ -11,25 +11,26 @@ description: >-
 home_land_type: mountain
 playable: 1
 
-attacking: 3
-exploring : 3
+attacking: 2
+exploring : 2
 converting: 2
 
 perks:
-  population_growth: 50
+  population_growth: 25
   max_population: 30
   can_invest_soul: 1
+  min_rounds: 1
 units:
   - name: Hellhound
     type:
       - living
     need_boat: true
     cost:
-      platinum: 450
-      mana: 8
-      blood: 6
+      platinum: 675
+      mana: 12
+      blood: 9
     power:
-      offense: 4
+      offense: 6
       defense: 0
     perks:
       faster_return: 6
@@ -55,10 +56,10 @@ units:
       - sentient
     need_boat: true
     cost:
-      blood: 6
+      blood: 9
     power:
       offense: 0
-      defense: 2
+      defense: 1
     perks:
       immortal: 1
       sacrifices_peasants: 0.04 # 1/0.04=Every 25 Succubus sacrifice one Peasant per tick

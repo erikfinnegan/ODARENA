@@ -63,11 +63,6 @@ class InvadeActionService
     protected const OVERWHELMED_PERCENTAGE = 15.0;
 
     /**
-     * @var float Percentage of attacker prestige used to cap prestige gains (plus bonus)
-     */
-    protected const PRESTIGE_CAP_PERCENTAGE = 10.0;
-
-    /**
      * @var int Bonus prestige when invading successfully
      */
     protected const PRESTIGE_CHANGE_ADD = 20;
@@ -500,7 +495,6 @@ class InvadeActionService
      */
     protected function handlePrestigeChanges(Dominion $dominion, Dominion $target, array $units, float $landRatio): void
     {
-        $landRatio = $landRatio * 100;
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
 
@@ -509,13 +503,12 @@ class InvadeActionService
 
         if ($isOverwhelmed or (!$isInvasionSuccessful && $landRatio < 50))
         {
-            $attackerPrestigeChange = ($dominion->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 100));
+            $attackerPrestigeChange = ($dominion->prestige * (-0.085));
         }
         elseif ($isInvasionSuccessful && ($landRatio >= 75))
         {
-            $targetPrestigeChange = (int)round(($target->prestige * -(static::PRESTIGE_CHANGE_PERCENTAGE / 400)));
-            $attackerPrestigeChange = (int)round(static::PRESTIGE_CHANGE_ADD + ($target->prestige * (($landRatio / 100) / 10)));
-
+            $targetPrestigeChange = ($target->prestige * (-0.0225));
+            $attackerPrestigeChange = intval(20 + ($target->prestige * ($landRatio / 10)));
         }
 
         // Reduce attacker prestige gain if the target was hit recently
@@ -1224,7 +1217,7 @@ class InvadeActionService
         # Title: Embalmer
         if($dominion->title->getPerkMultiplier('conversions'))
         {
-          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions');
+          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions') * $dominion->title->getPerkXPBonus($dominion);
         }
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);
@@ -1384,7 +1377,7 @@ class InvadeActionService
         # Title: Embalmer
         if($dominion->title->getPerkMultiplier('conversions'))
         {
-          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions');
+          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions') * $dominion->title->getPerkXPBonus($dominion);
         }
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);

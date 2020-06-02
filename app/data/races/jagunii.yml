@@ -69,7 +69,7 @@ units:
     cost:
       ore: 2000
       gem: 1000
-      unit1: 4
+      unit1: 8
       unit2: 4
       unit3: 1
     power:

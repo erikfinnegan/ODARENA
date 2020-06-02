@@ -1193,7 +1193,7 @@ class MilitaryCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('spy_strength');
+            $multiplier += $dominion->title->getPerkMultiplier('spy_strength') * $dominion->title->getPerkXPBonus($dominion);
         }
 
         // Beastfolk: Cavern increases Spy Strength

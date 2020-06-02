@@ -58,7 +58,7 @@ class SpellCalculator
 
         if(isset($dominion->title))
         {
-            $spellCostMultiplier += $dominion->title->getPerkMultiplier('spell_cost');          
+            $spellCostMultiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->title->getPerkXPBonus($dominion);         
         }
 
         return round($spellInfo['mana_cost'] * $totalLand * $spellCostMultiplier);

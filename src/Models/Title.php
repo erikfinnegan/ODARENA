@@ -47,6 +47,21 @@ class Title extends AbstractModel
     }
 
     /**
+     * Gets a Title's perk XP Bonus.
+     *
+     * @param string $key
+     * @return float
+     */
+    public function getPerkXPBonus(Dominion $dominion): float
+    {
+
+        return 1 + (1 - exp(-$dominion->resource_tech / 500000));
+
+        #return min((1 + $dominion->resource_tech / 100000),11);
+    }
+
+
+    /**
      * @param string $key
      * @return float
      */

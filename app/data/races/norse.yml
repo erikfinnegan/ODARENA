@@ -33,31 +33,28 @@ units:
       - living
       - sentient
     cost:
-      platinum: 300
-      ore: 50
-      mana: 10
+      platinum: 500
+      mana: 20
     power:
       offense: 0
-      defense: 3
+      defense: 5
     perks:
       true_immortal: 1
   - name: Valkyrja
     type:
       - living
       - sentient
-    need_boat: false
     cost:
       platinum: 1000
       ore: 200
       mana: 25
     power:
-      offense: 3
-      defense: 6
+      offense: 2
+      defense: 2
     perks:
-      fewer_casualties_offense: 50
-      fewer_casualties_defense: 25
-      offense_from_prestige: 250,4 # amount, max
-      defense_from_prestige: 500,2 # amount, max
+      fewer_casualties: 25
+      defense_from_prestige: 300,6 # amount, max
+      offense_from_prestige: 300,6 # amount, max
   - name: Einherjar
     type:
       - living

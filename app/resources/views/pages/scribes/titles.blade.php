@@ -10,6 +10,7 @@
             <div class="row">
                 <div class="col-md-12 col-md-12">
                     <p>Every Dominion Ruler must select a Ruler Title, which comes with perks.</p>
+                    <p>The perk is increased based on how many unspent Experience Points you have.</p>
                     <em>
                         <p>More information can be found on the <a href="https://odarena.miraheze.org/wiki/Titles">wiki</a>.</p>
                     </em>
