@@ -64,6 +64,9 @@ class TickService
     /** @var ImprovementHelper */
     protected $improvementHelper;
 
+    /** @var RealmCalculator */
+    protected $realmCalculator;
+
     /**
      * TickService constructor.
      */
@@ -82,6 +85,7 @@ class TickService
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
+        $this->realmCalculator = app(RealmCalculator::class);
 
         /* These calculators need to ignore queued resources for the following tick */
         $this->populationCalculator->setForTick(true);
@@ -292,6 +296,16 @@ class TickService
                 if(!empty($dominion->tick->generated_unit4) and $dominion->protection_ticks == 0)
                 {
                     $this->queueService->queueResources('training', $dominion, ['military_unit4' => $dominion->tick->generated_unit4], 12);
+                }
+
+                // Monster: resource contributions
+                if(!empty($dominion->tick->pestilence_units))
+                {
+                    $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
+                    if ($caster)
+                    {
+                        $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
+                    }
                 }
 
                 DB::transaction(function () use ($dominion) {
@@ -759,8 +773,10 @@ class TickService
         # Contributed: how much is RECEIVED (GIVEN TO)
         if($dominion->race->name == 'Monster')
         {
-
-
+            $totalContributions = $this->realmCalculator->getTotalContributions($dominion->realm);
+            $tick->resource_food_contributed = $totalContributions['food'];
+            $tick->resource_lumber_contributed = $totalContributions['lumber'];
+            $tick->resource_ore_contributed = $totalContributions['ore'];
         }
         else
         {

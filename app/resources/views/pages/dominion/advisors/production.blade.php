@@ -206,6 +206,32 @@
                                   </table>
                                 @else
                                   <p><em>As decided by the realm's Governor, you contribute <strong>{{ $selectedDominion->realm->contribution }}%</strong> of your ore, lumber, and food stockpile to the monster.</em></p>
+                                  <table class="table">
+                                      <colgroup>
+                                          <col width="50%">
+                                          <col width="50%">
+                                      </colgroup>
+                                      <thead>
+                                          <tr>
+                                              <th>Resource</th>
+                                              <th>To Be Contributed</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          <tr>
+                                              <td>Ore:</td>
+                                              <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'ore')) }}</td>
+                                          </tr>
+                                          <tr>
+                                              <td>Lumber:</td>
+                                              <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'lumber')) }}</td>
+                                          </tr>
+                                          <tr>
+                                              <td>Food:</td>
+                                              <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'food')) }}</td>
+                                          </tr>
+                                      </tbody>
+                                  </table>
                                 @endif
                             @endif
 

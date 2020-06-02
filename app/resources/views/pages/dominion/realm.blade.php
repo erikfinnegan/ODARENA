@@ -68,6 +68,10 @@
                                                 <i class="ra ra-droplet fa-lg text-blue" title="Rainy Season"></i>
                                             @endif
 
+                                            @if ($spellCalculator->isSpellActive($dominion, 'primordial_wrath'))
+                                                <i class="ra ra-monster-skull fa-lg text-red" title="Primordial Wrath"></i>
+                                            @endif
+
                                             @if ($dominion->isMonarch())
                                                 <i class="fa fa-star fa-lg text-orange" title="Governor of The Realm"></i>
                                             @endif
