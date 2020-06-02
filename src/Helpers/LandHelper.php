@@ -67,6 +67,7 @@ class LandHelper
           'mycelia' => 'forest'
         ];
       }
+      /*
       elseif($race->name == 'Swarm')
       {
         $buildings = [
@@ -78,6 +79,7 @@ class LandHelper
             'tunnels' => 'water',
         ];
       }
+      */
       else
       {
         $buildings = [

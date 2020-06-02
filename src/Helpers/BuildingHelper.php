@@ -59,10 +59,10 @@ class BuildingHelper
           {
             $buildings = ['mycelia'];
           }
-          if($dominion->race->name == 'Swarm')
-          {
-            $buildings = ['tunnels'];
-          }
+          #if($dominion->race->name == 'Swarm')
+          #{
+          #  $buildings = ['tunnels'];
+          #}
         }
 
       return $buildings;
@@ -182,6 +182,7 @@ class BuildingHelper
               'water' => [],
           ];
           }
+          /*
           elseif($dominion->race->name == 'Swarm')
           {
           $buildings = [
@@ -193,6 +194,7 @@ class BuildingHelper
               'water' => ['tunnels'],
           ];
           }
+          */
 
           if(!$dominion->race->getPerkValue('cannot_build_homes'))
           {
