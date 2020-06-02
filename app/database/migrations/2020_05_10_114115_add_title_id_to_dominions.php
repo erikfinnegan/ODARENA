@@ -15,7 +15,7 @@ class AddTitleIdToDominions extends Migration
     {
         Schema::table('dominions', function (Blueprint $table) {
 
-            if (!Schema::hasColumn('title_id'))
+            if (!Schema::hasColumn('dominions', 'title_id'))
             {
             $table->integer('title_id')->unsigned();
             $table->foreign('title_id')->references('id')->on('titles');
