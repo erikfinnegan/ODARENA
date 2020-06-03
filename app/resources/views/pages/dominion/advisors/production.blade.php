@@ -219,16 +219,16 @@
                                       </thead>
                                       <tbody>
                                           <tr>
-                                              <td>Ore:</td>
-                                              <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'ore')) }}</td>
+                                              <td>Food:</td>
+                                              <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'food')) }}</td>
                                           </tr>
                                           <tr>
                                               <td>Lumber:</td>
                                               <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'lumber')) }}</td>
                                           </tr>
                                           <tr>
-                                              <td>Food:</td>
-                                              <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'food')) }}</td>
+                                              <td>Ore:</td>
+                                              <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'ore')) }}</td>
                                           </tr>
                                       </tbody>
                                   </table>

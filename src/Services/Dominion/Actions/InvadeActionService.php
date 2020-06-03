@@ -409,6 +409,7 @@ class InvadeActionService
                 $target->realm->stat_defending_success += 1;
             }
 
+            # Debug before saving:
             #dd($this->invasionResult);
 
             // todo: move to GameEventService
@@ -501,11 +502,11 @@ class InvadeActionService
         $attackerPrestigeChange = 0;
         $targetPrestigeChange = 0;
 
-        if ($isOverwhelmed or (!$isInvasionSuccessful && $landRatio < 50))
+        if ($isOverwhelmed or (!$isInvasionSuccessful && $landRatio < 0.50))
         {
             $attackerPrestigeChange = ($dominion->prestige * (-0.085));
         }
-        elseif ($isInvasionSuccessful && ($landRatio >= 75))
+        elseif ($isInvasionSuccessful && ($landRatio >= 0.75))
         {
             $targetPrestigeChange = ($target->prestige * (-0.0225));
             $attackerPrestigeChange = intval(20 + ($target->prestige * ($landRatio / 10)));
@@ -558,9 +559,9 @@ class InvadeActionService
             }
 
         }
-        elseif ($isInvasionSuccessful && ($landRatio < 60))
+        elseif ($isInvasionSuccessful && ($landRatio < 0.60))
         {
-          $attackerPrestigeChange = $dominion->prestige * (0 + ($this->militaryCalculator->getRecentlyInvadedCount($target) / 100) +  ((100 - $landRatio) / 100 / 100));
+          $attackerPrestigeChange = $dominion->prestige * (0 + ($this->militaryCalculator->getRecentlyInvadedCount($target) / 100) +  ((1 - $landRatio) / 100));
           $attackerPrestigeChange = $attackerPrestigeChange * -1;
         }
 

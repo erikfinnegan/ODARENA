@@ -33,10 +33,15 @@ class RoundFactory
         $endDate = (clone $startDate)->addDays(static::ROUND_DURATION_IN_DAYS);
         if($number % 2 == 0)
         {
-            $startDate = (clone $startDate)->addHours(12);
-            $endDate = (clone $endDate)->addHours(12);
+            $startDate = (clone $startDate)->addHours(16);
+            $endDate = (clone $endDate)->addHours(16);
         }
-        
+        else
+        {
+            $startDate = (clone $startDate)->addHours(4);
+            $endDate = (clone $endDate)->addHours(4);
+        }
+
         # End offensive actions between 0 and 240 minutes before round end (skewed towards 240).
         $minutesBeforeRoundEnd = min(240,rand(0,300));
 
