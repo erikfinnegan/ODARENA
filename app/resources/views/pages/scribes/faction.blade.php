@@ -49,7 +49,7 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>{{ $race->name }} Perks</th>
+                                <th>{!! $race->name !!} Perks</th>
                                 <th>Value</th>
                             </tr>
                         </thead>
