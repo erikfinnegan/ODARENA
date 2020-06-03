@@ -49,7 +49,7 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>Faction Special Ability</th>
+                                <th>{{ $race->name }} Perks</th>
                                 <th>Value</th>
                             </tr>
                         </thead>
@@ -191,7 +191,7 @@
                                         {!! $unitHelper->getUnitHelpString("unit{$unit->slot}", $race) !!}
                                     </td>
                                     <td>
-                                        
+
                                     </td>
                                     <td class="text-center">
                                         {{ $unitCostString }}

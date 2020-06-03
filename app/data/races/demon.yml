@@ -19,7 +19,7 @@ perks:
   population_growth: 25
   max_population: 30
   can_invest_soul: 1
-  min_rounds: 1
+  min_rounds_played: 1
 units:
   - name: Hellhound
     type:
