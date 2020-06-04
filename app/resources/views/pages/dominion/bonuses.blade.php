@@ -27,7 +27,7 @@
 
             <div class="box">
                 <div class="box-body">
-                    <p>While you're here, consider supporting the project in one (or more) of the following ways:</p>
+                    <p>While you're here, consider supporting ODARENA:</p>
 
                     <div class="row">
                         @if ($discordInviteLink = config('app.discord_invite_link'))
@@ -47,10 +47,10 @@
                             <div class="col-md-4 text-center">
                                 <h4>Become a Patron</h4>
                                 <p>
-                                    <a href="{{ $patreonPledgeLink }}" data-patreon-widget-type="become-patron-button">Become a Patron!</a>
+                                    <a href="https://www.patreon.com/bePatron?u=10125735" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
                                 </p>
-                                <p>ODARENA is and always will be free to play. There will be no advertising or microtransactions.</p>
-                                <p>Maintaining the game is a side project and costs are taken out of pocket. Any support of any kind through Patreon is therefore appreciated.</p>
+                                <p>ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
+                                <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind through Patreon is highly appreciated.</p>
                             </div>
                         @endif
                     </div>
