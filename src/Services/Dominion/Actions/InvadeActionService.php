@@ -384,7 +384,7 @@ class InvadeActionService
             # Demon
             $this->handleSoulBloodFoodCollection($dominion, $target, $landRatio);
             # Norse
-            $this->handleChampionCreation($dominion, $target, $units, $landRatio);
+            $this->handleChampionCreation($dominion, $target, $units, $landRatio, $this->invasionResult['result']['success']);
 
             #$this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $units);
             # Salvage and Plunder
