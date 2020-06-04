@@ -2008,7 +2008,7 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
-    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units, float $landRatio): void
+    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units, float $landRatio, bool $isInvasionSuccessful): void
     {
         $champions = 0;
         if ($attacker->race->name == 'Norse')
