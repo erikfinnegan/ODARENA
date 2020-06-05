@@ -187,7 +187,7 @@
                       @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                         <tr>
                           <td>Mana</td>
-                          <td>{{ $improvementCalculator->getResourceWorth('mana', $selectedDominion) }}</td>
+                          <td>{{ number_format($improvementCalculator->getResourceWorth('mana', $selectedDominion),2) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('mana', $selectedDominion) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('mana', $selectedDominion)*100 }}%</td>
                         </tr>
@@ -195,32 +195,32 @@
                       @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
                         <tr>
                           <td>Souls</td>
-                          <td>{{ $improvementCalculator->getResourceWorth('soul', $selectedDominion) }}</td>
+                          <td>{{ number_format($improvementCalculator->getResourceWorth('soul', $selectedDominion),2) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('soul', $selectedDominion) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('soul', $selectedDominion)*100 }}%</td>
                         </tr>
                       @endif
                         <tr>
                           <td>Gems</td>
-                          <td>{{ $improvementCalculator->getResourceWorth('gems', $selectedDominion) }}</td>
+                          <td>{{ number_format($improvementCalculator->getResourceWorth('gems', $selectedDominion),2) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('gems', $selectedDominion) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('gems', $selectedDominion)*100 }}%</td>
                         </tr>
                         <tr>
                           <td>Lumber</td>
-                          <td>{{ $improvementCalculator->getResourceWorth('lumber', $selectedDominion) }}</td>
+                          <td>{{ number_format($improvementCalculator->getResourceWorth('lumber', $selectedDominion),2) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('lumber', $selectedDominion) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('lumber', $selectedDominion)*100 }}%</td>
                         </tr>
                         <tr>
                           <td>Ore</td>
-                          <td>{{ $improvementCalculator->getResourceWorth('ore', $selectedDominion) }}</td>
+                          <td>{{ number_format($improvementCalculator->getResourceWorth('ore', $selectedDominion),2)}}</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('ore', $selectedDominion) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('ore', $selectedDominion)*100 }}%</td>
                         </tr>
                         <tr>
                           <td>Platinum</td>
-                          <td>{{ $improvementCalculator->getResourceWorth('platinum', $selectedDominion) }}</td>
+                          <td>{{ number_format($improvementCalculator->getResourceWorth('platinum', $selectedDominion),2) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthRaw('platinum', $selectedDominion) }}</td>
                           <td>{{ $improvementCalculator->getResourceWorthMultipler('platinum', $selectedDominion)*100 }}%</td>
                         </tr>

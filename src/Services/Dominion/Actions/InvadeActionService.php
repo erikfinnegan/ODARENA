@@ -1195,7 +1195,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalDefensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope','Spirit','Undead','Sacred Order'], true)
+              !in_array($dominion->race->name, ['Lycanthrope','Spirit','Undead','Sacred Order','Afflicted'], true)
           )
         {
             return $convertedUnits;
@@ -1435,7 +1435,7 @@ class InvadeActionService
             $totalConverts /= 3;
         }
 
-        $this->invasionResult['result']['defender']['totalConverts'] = $totalConverts;
+        $this->invasionResult['defender']['totalConverts'] = $totalConverts;
 
 
         foreach ($unitsWithConversionPerk as $unit)
