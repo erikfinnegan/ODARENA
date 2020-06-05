@@ -383,10 +383,10 @@ class InvadeActionService
 
             # Demon
             $this->handleSoulBloodFoodCollection($dominion, $target, $landRatio);
+
             # Norse
             $this->handleChampionCreation($dominion, $target, $units, $landRatio, $this->invasionResult['result']['success']);
 
-            #$this->handleAfterInvasionUnitPerks($dominion, $target, $survivingUnits, $totalDefensiveCasualties, $units);
             # Salvage and Plunder
             $this->handleSalvagingAndPlundering($dominion, $target, $survivingUnits);
 
@@ -410,7 +410,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -1195,7 +1195,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalDefensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope','Spirit','Undead','Sacred Order','Afflicted'], true)
+              !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted'], true)
           )
         {
             return $convertedUnits;
@@ -1355,7 +1355,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalOffensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted'], true)
+              !in_array($dominion->race->name, ['Lycanthrope', 'Spirit', 'Undead', 'Sacred Order', 'Afflicted'], true)
           )
         {
             return;
@@ -2113,17 +2113,14 @@ class InvadeActionService
         {
             if($plunderPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot,'plunders'))
             {
-                echo '<pre>';
                 foreach($plunderPerk as $plunder)
                 {
                     $resourceToPlunder = $plunder[0];
-                    $amountPlunderedPerUnit = intval($plunder[1]);
-                    $amountToPlunder = min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit);
-
+                    $amountPlunderedPerUnit = $plunder[1];
+                    $amountToPlunder = intval(min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit));
                     $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
+                    #echo '<pre>You plunder ' . $amountToPlunder . ' ' . $resourceToPlunder. '. The target has ' . $defender->{'resource_'.$resourceToPlunder} . ' ' . $resourceToPlunder. '</pre>';
                 }
-
-                echo '</pre>';
             }
         }
 
@@ -2164,7 +2161,6 @@ class InvadeActionService
         $this->invasionResult['attacker']['salvage'] = $result['attacker']['salvage'];
         $this->invasionResult['attacker']['plunder'] = $result['attacker']['plunder'];
         $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
-
     }
 
     /**
