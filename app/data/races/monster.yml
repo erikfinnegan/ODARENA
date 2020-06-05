@@ -94,6 +94,6 @@ units:
       increases_defensive_casualties: 1
       does_not_count_as_population: 1
       pairing_limit: 1,0.25 # Unit slot, amount
-      tech_production: 10
+      tech_production: 2
       plunders: food;10,lumber;15,mana;50
       conversion: 1
