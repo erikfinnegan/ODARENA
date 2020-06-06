@@ -128,9 +128,16 @@ class ReleaseActionService
             }
         }
 
-        foreach ($data as $unitType => $amount) {
-            if ($amount === 0) {
+        foreach ($data as $unitType => $amount)
+        {
+            if ($amount === 0)
+            {
                 continue;
+            }
+
+            if ($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'cannot_be_released'))
+            {
+                throw new GameException('Cannot release that unit.');
             }
 
             $dominion->{'military_' . $unitType} -= $amount;

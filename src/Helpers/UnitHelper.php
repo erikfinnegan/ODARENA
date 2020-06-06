@@ -187,6 +187,8 @@ class UnitHelper
 
             'attrition' => '%1$s%% attrition rate (leaves dominion per tick).',
 
+            'cannot_be_released' => 'Cannot be released',
+
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',

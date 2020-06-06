@@ -81,3 +81,4 @@ units:
       immortal: 1
       offense_from_resource: soul,2,0 # +1 OP per 2 souls, no max
       amount_limit: 1
+      cannot_be_released: 1
