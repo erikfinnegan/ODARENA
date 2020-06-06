@@ -268,7 +268,7 @@ class InvadeActionService
                 throw new GameException('You need to leave at least 1/3 of your total defensive power at home (33% rule).');
             }
 
-            if (!$this->passes54RatioRule($dominion, $target, $landRatio, $units)) {
+            if (!$this->passes43RatioRule($dominion, $target, $landRatio, $units)) {
                 throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
             }
 
@@ -342,7 +342,7 @@ class InvadeActionService
             $this->checkOverwhelmed();
 
             # Only count successful, non-in-realm hits over 75% as victories.
-            if($this->rangeCalculator->getDominionRange($dominion, $target) >= 75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
+            if($landRatio >= 0.75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
             {
                 $countsAsVictory = 1;
                 $countsAsFailure = 0;
@@ -2351,13 +2351,13 @@ class InvadeActionService
     }
 
     /**
-     * Check if an invasion passes the 5:4-rule.
+     * Check if an invasion passes the 4:3-rule.
      *
      * @param Dominion $dominion
      * @param array $units
      * @return bool
      */
-    protected function passes54RatioRule(Dominion $dominion, Dominion $target, float $landRatio, array $units): bool
+    protected function passes43RatioRule(Dominion $dominion, Dominion $target, float $landRatio, array $units): bool
     {
         $unitsHome = [
             0 => $dominion->military_draftees,
@@ -2449,15 +2449,15 @@ class InvadeActionService
         // Void: Spell (remove DP reduction from Temples)
         if ($this->spellCalculator->isSpellActive($target, 'voidspell'))
         {
-          $dpMultiplierReduction = 0;
+            $dpMultiplierReduction = 0;
         }
 
         // Dark Elf: Unholy Ghost (ignore draftees)
         // Dragon: Dragon's Roar (alias of Unholy Ghost)
         if ($this->spellCalculator->isSpellActive($attacker, 'unholy_ghost'))
         {
-          $ignoreDraftees = true;
-          $this->invasionResult['result']['ignoreDraftees'] = $ignoreDraftees;
+            $ignoreDraftees = true;
+            $this->invasionResult['result']['ignoreDraftees'] = $ignoreDraftees;
         }
 
         return $this->militaryCalculator->getDefensivePower(
