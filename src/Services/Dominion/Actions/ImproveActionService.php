@@ -79,13 +79,6 @@ class ImproveActionService
 
             $points = $amount * $worth;
 
-            #var_dump($points);
-            #var_dump($dominion->{'improvement_' . $improvementType});
-            #$dominion->{'improvement_' . $improvementType} += $points;
-            #var_dump($dominion->{'improvement_' . $improvementType});
-            #var_dump($points);
-            #die();
-
         }
 
         if($dominion->race->getPerkValue('tissue_improvement'))

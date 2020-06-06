@@ -334,6 +334,9 @@ class InvadeActionService
                 throw new GameException('You cannot attack unless a portal is open.');
             }
 
+            // Handle pre-invasion
+            $this->handleBeforeInvasionPerks($dominion);
+
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
@@ -691,7 +694,7 @@ class InvadeActionService
         foreach ($offensiveUnitsLost as $slot => &$amount)
         {
             // Reduce amount of units to kill by further multipliers
-            $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful);
+            $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful, $this->isAmbush);
 
             $this->invasionResult['attacker']['unitPerks']['offensiveCasualties'][$slot] = $unitsToKillMultiplier;
 
@@ -799,7 +802,7 @@ class InvadeActionService
             $casualtiesMultiplier += 0.2;
         }
 
-        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio) * $casualtiesMultiplier));
+        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush) * $casualtiesMultiplier));
 
         // Dark Elf: Unholy Ghost
         // alias as Dragon: Dragon's Roar
@@ -830,7 +833,7 @@ class InvadeActionService
                 continue;
             }
 
-            $slotLostMultiplier = $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio);
+            $slotLostMultiplier = $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio, $this->isAmbush);
             $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * $slotLostMultiplier * $casualtiesMultiplier);
             $this->invasionResult['defender']['unitPerks']['defensiveCasualties'][$unit->slot] = $slotLostMultiplier;
 
@@ -1956,7 +1959,7 @@ class InvadeActionService
             {
 
                 $unitsKilled = $this->invasionResult['defender']['unitsLost'];
-                $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, false, true);
+                $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, $this->isAmbush, true);
 
                 $blood += $dpFromKilledUnits * 1/3;
                 $food += $dpFromKilledUnits * 4;
@@ -2163,19 +2166,41 @@ class InvadeActionService
         $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
     }
 
+
+
+    /**
+     * Check for events that take place before the invasion:
+     *  Beastfolk Ambush
+     *
+     * @param Dominion $dominion
+     * @return void
+     */
+    protected function handleBeforeInvasionPerks(Dominion $attacker): void
+    {
+        # Check for Ambush
+        $this->isAmbush = false;
+        if ($this->spellCalculator->isSpellActive($attacker, 'ambush'))
+        {
+            $this->isAmbush = true;
+        }
+
+
+        $this->invasionResult['result']['isAmbush'] = $this->isAmbush;
+    }
+
     /**
      * Check whether the invasion is successful.
      *
      * @param Dominion $dominion
      * @param Dominion $target
      * @param array $units
-     * @return bool
+     * @return void
      */
     protected function checkInvasionSuccess(Dominion $dominion, Dominion $target, array $units): void
     {
         $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
-        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units);
+        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units, $landRatio, $this->isAmbush);
         $this->invasionResult['attacker']['op'] = $attackingForceOP;
         $this->invasionResult['defender']['dp'] = $targetDP;
         $this->invasionResult['result']['success'] = ($attackingForceOP > $targetDP);
@@ -2404,16 +2429,20 @@ class InvadeActionService
         return $hours;
     }
 
-    protected function getDefensivePowerWithTemples(Dominion $dominion, Dominion $target, array $units): float
+    protected function getDefensivePowerWithTemples(
+      Dominion $attacker,
+      Dominion $target,
+      array $units,
+      float $landRatio
+      ): float
     {
         // Values (percentages)
         $dpReductionPerTemple = 2;
         $templeMaxDpReduction = 40;
         $ignoreDraftees = false;
-        $isAmbush = false;
 
         $dpMultiplierReduction = min(
-            (($dpReductionPerTemple * $dominion->building_temple) / $this->landCalculator->getTotalLand($dominion)),
+            (($dpReductionPerTemple * $attacker->building_temple) / $this->landCalculator->getTotalLand($attacker)),
             ($templeMaxDpReduction / 100)
         );
 
@@ -2425,18 +2454,21 @@ class InvadeActionService
 
         // Dark Elf: Unholy Ghost (ignore draftees)
         // Dragon: Dragon's Roar (alias of Unholy Ghost)
-        if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost'))
+        if ($this->spellCalculator->isSpellActive($attacker, 'unholy_ghost'))
         {
           $ignoreDraftees = true;
+          $this->invasionResult['result']['ignoreDraftees'] = $ignoreDraftees;
         }
 
-        // Beastfolk: Ambush (reduce raw DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'ambush'))
-        {
-          $isAmbush = true;
-        }
-
-        return $this->militaryCalculator->getDefensivePower($target, $dominion, null, null, $dpMultiplierReduction, $ignoreDraftees, $isAmbush);
+        return $this->militaryCalculator->getDefensivePower(
+                                                            $target,
+                                                            $attacker,
+                                                            $landRatio,
+                                                            null,
+                                                            $dpMultiplierReduction,
+                                                            $ignoreDraftees,
+                                                            $this->isAmbush
+                                                          );
     }
 
 }

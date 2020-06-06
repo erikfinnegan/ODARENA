@@ -72,7 +72,7 @@ class CasualtiesCalculator
      * @param bool $isInvasionSuccessful - True/False flag whether invasion was successful
      * @return float
      */
-    public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $target, int $slot, array $units, float $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
+    public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $target, int $slot, array $units, float $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful, bool $isAmbush): float
     {
         $multiplier = 1;
 
@@ -151,7 +151,7 @@ class CasualtiesCalculator
             }
 
             # How much of the DP is from units that kill?
-            $multiplier = $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($target);
+            $multiplier = $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($target, $dominion, $landRatio, null, 0, false, $isAmbush, false);
         }
         # END CHECK ONLY DIES VS X RAW POWER
 
@@ -209,18 +209,10 @@ class CasualtiesCalculator
             $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
 
             # Unit Perk: Reduces or increases casualties.
-            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($dominion, $target, $units, $landRatio, 'offensive');
-
-            #echo '<pre>';
-            #echo "Offensive multiplier:\n";
-            #var_dump($multiplier);
+            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($dominion, $target, $units, $landRatio, 'offensive', $isAmbush);
 
             $multiplier += $unitCasualtiesPerk['defender']['increases_casualties_on_defense'];
             $multiplier -= $unitCasualtiesPerk['attacker']['reduces_casualties'];
-
-            #var_dump($multiplier);
-            #echo '</pre>';
-            #dd($unitCasualtiesPerk);
 
             // Absolute cap at 90% reduction.
             $multiplier = max(0.10, $multiplier);
@@ -240,7 +232,7 @@ class CasualtiesCalculator
      * @param int|null $slot Null is for non-racial units and thus used as draftees casualties multiplier
      * @return float
      */
-    public function getDefensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $attacker, ?int $slot, array $units, float $landRatio): float
+    public function getDefensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $attacker, ?int $slot, array $units, float $landRatio, bool $isAmbush): float
     {
         $multiplier = 1;
 
@@ -353,21 +345,10 @@ class CasualtiesCalculator
             }
 
             # Unit Perk: Reduces or increases casualties.
-            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($attacker, $dominion, $units, $landRatio, 'defensive');
-
-            #echo '<pre>';
-            #echo "Defensive multiplier:\n";
-            #var_dump($multiplier);
+            $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($attacker, $dominion, $units, $landRatio, 'defensive', $isAmbush);
 
             $multiplier += $unitCasualtiesPerk['attacker']['increases_casualties_on_offense'];
             $multiplier -= $unitCasualtiesPerk['defender']['reduces_casualties'];
-
-            #var_dump($multiplier);
-            #echo '</pre>';
-
-            #dd($unitCasualtiesPerk);
-            # Apply RCL do uBM.
-            #$multiplier -= $reducedCombatLosses;
 
             // Absolute cap at 90% reduction.
             $multiplier = max(0.10, $multiplier);
@@ -630,16 +611,11 @@ class CasualtiesCalculator
       *   increases_casualties: increases casualties of enemy units participating in the battle. ([Perk Units]/[All Units])/4
       *   $mode is either OFFENSIVE or DEFENSIVE
       **/
-      protected function getUnitCasualtiesPerk(Dominion $attacker, Dominion $defender, array $units, float $landRatio, string $mode): array
+      protected function getUnitCasualtiesPerk(Dominion $attacker, Dominion $defender, array $units, float $landRatio, string $mode, bool $isAmbush): array
       {
 
-          #echo '<pre>';
-          #echo "\nDefender == " . $defender->name;
-          #echo "\nAttacker == " . $attacker->name;
-          #echo '</pre>';
-
           $rawOpFromSentUnits = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $units, []);
-          $rawDpFromHomeUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio);
+          $rawDpFromHomeUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, null, 0, false, $isAmbush, false);
           $defenderUnitsHome = ($defender->military_unit1 + $defender->military_unit2 + $defender->military_unit3 + $defender->military_unit4);
 
           $unitCasualtiesPerk['attacker']['increases_casualties_on_offense'] = 0;
@@ -666,7 +642,7 @@ class CasualtiesCalculator
           {
               if($increasesCasualties = $defender->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_defense'))
               {
-                  $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] += $this->militaryCalculator->getDefensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]) / $rawDpFromHomeUnits;
+                  $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] += $this->militaryCalculator->getDefensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount], 0, false, $isAmbush, false) / $rawDpFromHomeUnits;
               }
               if($decreasesCasualties = $defender->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties'))
               {
@@ -679,8 +655,6 @@ class CasualtiesCalculator
 
           $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] /= 2;
           $unitCasualtiesPerk['defender']['reduces_casualties'] /= 2;
-
-          #dd($units, $unitCasualtiesPerk['attacker'], $rawOpFromSentUnits, $rawDpFromHomeUnits);
 
           return $unitCasualtiesPerk;
 

@@ -39,7 +39,6 @@ class StatusController extends AbstractDominionController
 
     public function postTick(TickActionRequest $request)
     {
-        #var_dump($request->returnTo);
         #dd($request);
         $dominion = $this->getSelectedDominion();
         $tickActionService = app(TickActionService::class);

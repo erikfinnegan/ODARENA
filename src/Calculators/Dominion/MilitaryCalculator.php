@@ -92,16 +92,16 @@ class MilitaryCalculator
      * @return float
      */
     public function getOffensivePower(
-        Dominion $dominion,
-        Dominion $target = null,
+        Dominion $attacker,
+        Dominion $defender = null,
         float $landRatio = null,
         array $units = null,
         array $calc = []
     ): float
     {
-        $op = ($this->getOffensivePowerRaw($dominion, $target, $landRatio, $units, $calc) * $this->getOffensivePowerMultiplier($dominion, $target));
+        $op = ($this->getOffensivePowerRaw($attacker, $defender, $landRatio, $units, $calc) * $this->getOffensivePowerMultiplier($attacker, $defender));
 
-        return ($op * $this->getMoraleMultiplier($dominion));
+        return ($op * $this->getMoraleMultiplier($attacker));
     }
 
     /**
@@ -114,8 +114,8 @@ class MilitaryCalculator
      * @return float
      */
     public function getOffensivePowerRaw(
-        Dominion $dominion,
-        Dominion $target = null,
+        Dominion $attacker,
+        Dominion $defender = null,
         float $landRatio = null,
         array $units = null,
         array $calc = []
@@ -123,18 +123,18 @@ class MilitaryCalculator
     {
         $op = 0;
 
-        foreach ($dominion->race->units as $unit) {
-            $powerOffense = $this->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'offense', $calc, $units);
+        foreach ($attacker->race->units as $unit) {
+            $powerOffense = $this->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense', $calc, $units);
             $numberOfUnits = 0;
 
             if ($units === null) {
-                $numberOfUnits = (int)$dominion->{'military_unit' . $unit->slot};
+                $numberOfUnits = (int)$attacker->{'military_unit' . $unit->slot};
             } elseif (isset($units[$unit->slot]) && ((int)$units[$unit->slot] !== 0)) {
                 $numberOfUnits = (int)$units[$unit->slot];
             }
 
             if ($numberOfUnits !== 0) {
-                $bonusOffense = $this->getBonusPowerFromPairingPerk($dominion, $unit, 'offense', $units);
+                $bonusOffense = $this->getBonusPowerFromPairingPerk($attacker, $unit, 'offense', $units);
                 $powerOffense += $bonusOffense / $numberOfUnits;
             }
 
@@ -150,38 +150,38 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getOffensivePowerMultiplier(Dominion $dominion, Dominion $target = null): float
+    public function getOffensivePowerMultiplier(Dominion $attacker, Dominion $defender = null): float
     {
         $multiplier = 0;
 
         // Building: Gryphon Nests
-        $multiplier += $this->getGryphonNestMultiplier($dominion);
+        $multiplier += $this->getGryphonNestMultiplier($attacker);
 
         // Improvement: Forges
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forges');
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'forges');
 
         // Racial Bonus
-        $multiplier += $dominion->race->getPerkMultiplier('offense');
+        $multiplier += $attacker->race->getPerkMultiplier('offense');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('offense');
+        $multiplier += $attacker->getTechPerkMultiplier('offense');
 
         // Spell
-        $multiplier += $this->getSpellMultiplier($dominion, $target, 'offense');
+        $multiplier += $this->getSpellMultiplier($attacker, $defender, 'offense');
 
         // Prestige
-        $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+        $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($attacker);
 
         // Beastfolk: Plains increases OP
-        if($dominion->race->name == 'Beastfolk')
+        if($attacker->race->name == 'Beastfolk')
         {
-          $multiplier += 0.20 * ($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 0.20 * ($attacker->{"land_plain"} / $this->landCalculator->getTotalLand($attacker));
         }
 
         // Nomad: defense_from_forest
-        if($dominion->race->getPerkValue('offense_from_barren'))
+        if($attacker->race->getPerkValue('offense_from_barren'))
         {
-            $multiplier += $dominion->race->getPerkValue('offense_from_barren') * ($this->landCalculator->getTotalBarrenLand($dominion) / $this->landCalculator->getTotalLand($dominion));
+            $multiplier += $attacker->race->getPerkValue('offense_from_barren') * ($this->landCalculator->getTotalBarrenLand($dominion) / $this->landCalculator->getTotalLand($attacker));
         }
 
         return (1 + $multiplier);
@@ -222,19 +222,37 @@ class MilitaryCalculator
      * @return float
      */
     public function getDefensivePower(
-        Dominion $dominion,               # 1
-        Dominion $target = null,          # 2
-        float $landRatio = null,          # 3
-        array $units = null,              # 4
-        float $multiplierReduction = 0,   # 5
-        bool $ignoreDraftees = false,     # 6
-        bool $isAmbush = false            # 7
+        Dominion $defender,                     # 1
+        Dominion $attacker = null,              # 2
+        float $landRatio = null,                # 3
+        array $units = null,                    # 4
+        float $multiplierReduction = 0,         # 5
+        bool $ignoreDraftees = false,           # 6
+        bool $isAmbush = false,                 # 7
+        bool $ignoreRawDpFromBuildings = false  # 8
     ): float
     {
-        $dp = $this->getDefensivePowerRaw($dominion, $target, $landRatio, $units, $ignoreDraftees, $isAmbush, false);
-        $dp *= $this->getDefensivePowerMultiplier($dominion, $multiplierReduction);
+        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings);
+        $dp *= $this->getDefensivePowerMultiplier($defender, $multiplierReduction);
 
-        return ($dp * $this->getMoraleMultiplier($dominion));
+/*
+        if(isset($attacker))
+        {
+            echo '<pre>';
+            echo $attacker->name . ' is invading ' . $defender->name . ', whose DP is ' . number_format($dp);
+            if($isAmbush)
+            {
+              echo ' and it is an AMBUSH!';
+            }
+            else
+            {
+              echo ' and it is not an ambush.';
+            }
+            echo '</pre>';
+        }
+*/
+
+        return ($dp * $this->getMoraleMultiplier($defender));
     }
 
     /**
@@ -249,8 +267,8 @@ class MilitaryCalculator
      * @return float
      */
     public function getDefensivePowerRaw(
-        Dominion $dominion,
-        Dominion $target = null,
+        Dominion $defender,
+        Dominion $attacker = null,
         float $landRatio = null,
         array $units = null,
         float $multiplierReduction = 0,
@@ -273,17 +291,15 @@ class MilitaryCalculator
         }
         else
         {
-            if($dominion->race->getPerkValue('draftee_dp'))
+            if($defender->race->getPerkValue('draftee_dp'))
             {
-                $dpPerDraftee = $dominion->race->getPerkValue('draftee_dp');
+                $dpPerDraftee = $defender->race->getPerkValue('draftee_dp');
             }
             else
             {
                 $dpPerDraftee = 1;
             }
         }
-
-        #dd($ignoreDraftees, $dpPerDraftee);
 
         # If DP per draftee is 0, ignore them (no casualties).
         if($dpPerDraftee == 0)
@@ -292,15 +308,15 @@ class MilitaryCalculator
         }
 
         // Military
-        foreach ($dominion->race->units as $unit)
+        foreach ($defender->race->units as $unit)
         {
-            $powerDefense = $this->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'defense', null, $units);
+            $powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units);
 
             $numberOfUnits = 0;
 
             if ($units === null)
             {
-                $numberOfUnits = (int)$dominion->{'military_unit' . $unit->slot};
+                $numberOfUnits = (int)$defender->{'military_unit' . $unit->slot};
             }
             elseif (isset($units[$unit->slot]) && ((int)$units[$unit->slot] !== 0))
             {
@@ -309,7 +325,7 @@ class MilitaryCalculator
 
             if ($numberOfUnits !== 0)
             {
-                $bonusDefense = $this->getBonusPowerFromPairingPerk($dominion, $unit, 'defense', $units);
+                $bonusDefense = $this->getBonusPowerFromPairingPerk($defender, $unit, 'defense', $units);
                 $powerDefense += $bonusDefense / $numberOfUnits;
             }
 
@@ -330,7 +346,7 @@ class MilitaryCalculator
             }
             else
             {
-                $dp += ($dominion->military_draftees * $dpPerDraftee);
+                $dp += ($defender->military_draftees * $dpPerDraftee);
             }
         }
 
@@ -338,23 +354,26 @@ class MilitaryCalculator
         {
             // Building: Forest Havens
             $dp += min(
-                ($dominion->peasants * $forestHavenDpPerPeasant),
-                ($dominion->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
+                ($defender->peasants * $forestHavenDpPerPeasant),
+                ($defender->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
             );
 
-            if($dominion->race->getPerkValue('defense_per_ziggurat'))
-            {
-                $dp += $dominion->building_ziggurat * $dominion->race->getPerkValue('defense_per_ziggurat');
-            }
+            // Building: Ziggurats
+            $dp += $defender->building_ziggurat * $defender->race->getPerkValue('defense_per_ziggurat');
         }
 
-        // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10)
+        // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10%, which get by doing $forestRatio/5)
         if($isAmbush)
         {
-          $forestRatio = $target->{'land_forest'} / $this->landCalculator->getTotalLand($target);
-          $forestRatioModifier = $forestRatio / 5;
-          $ambushReduction = min($forestRatioModifier, 0.10);
-          $dp = $dp * (1 - $ambushReduction);
+            #echo "<pre>\tAmbush!\t";
+            $forestRatio = $attacker->{'land_forest'} / $this->landCalculator->getTotalLand($attacker);
+            $forestRatioModifier = $forestRatio / 5;
+            $ambushReduction = min($forestRatioModifier, 0.10);
+
+            #echo "Reduction: $ambushReduction (" . $ambushReduction*100 .'%), lowering $dp from '. $dp;
+
+            $dp = $dp * (1 - $ambushReduction);
+            #echo ' to '. $dp . '</pre>';
         }
 
         // Attacking Forces skip land-based defenses
@@ -363,10 +382,9 @@ class MilitaryCalculator
             return $dp;
         }
 
-        return max(
-            $dp,
-            ($minDPPerAcre * $this->landCalculator->getTotalLand($dominion))
-        );
+        $dp = max($dp, $minDPPerAcre * $this->landCalculator->getTotalLand($defender));
+
+        return $dp;
     }
 
     /**

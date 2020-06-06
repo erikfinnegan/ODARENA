@@ -822,10 +822,6 @@ class TickService
         $baseMoraleModifier = $this->militaryCalculator->getBaseMoraleModifier($dominion, $this->populationCalculator->getPopulation($dominion));
         $baseMorale *= (1 + $baseMoraleModifier);
         $baseMorale = intval($baseMorale);
-        #if($baseMoraleModifier)
-        #{
-        #    dd($baseMoraleModifier, $baseMorale);
-        #}
 
         if ($isStarving)
         {
