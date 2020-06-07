@@ -2130,7 +2130,7 @@ class InvadeActionService
         # Remove plundered resources from defender.
         foreach($result['attacker']['plunder'] as $resource => $amount)
         {
-            $result['attacker']['plunder'] = min($amount, $defender->{'resource_'.$resource});
+            $result['attacker']['plunder'][$resource] = min($amount, $defender->{'resource_'.$resource});
             $defender->{'resource_'.$resource} -= $result['attacker']['plunder'];
         }
 
