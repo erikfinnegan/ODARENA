@@ -160,7 +160,8 @@ class ProductionCalculator
         {
           $guardTax = 0;
         }
-        else {
+        else
+        {
           $guardTax = -0.02;
         }
 
@@ -299,17 +300,17 @@ class ProductionCalculator
             $multiplier += 0.50;
         }
 
-        // Spell [hostile]: Insect Swarm (-5% food production)
+        // Spell [hostile]: Insect Swarm (-5%)
         if ($this->spellCalculator->isSpellActive($dominion, 'insect_swarm'))
         {
-            $multiplier *= (1-0.05);
+            $multiplier -= 0.05;
             $multiplier *= (1 - $dominion->race->getPerkMultiplier('damage_from_insect_swarm'));
         }
 
         // Invasion Spell: Great Fever (-5% food production)
         if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
         {
-            $multiplier *= (1-0.05);
+            $multiplier -= 0.05;
         }
 
         # /SPELLS
@@ -358,7 +359,7 @@ class ProductionCalculator
         $multiplier = $dominion->race->getPerkMultiplier('food_consumption');
 
         // Invasion Spell: Unhealing Wounds (+10% consumption)
-        if ($multiplier !== -1 and $this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
+        if ($multiplier !== -1.00 and $this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
         {
             $multiplier *= 0.10;
         }
