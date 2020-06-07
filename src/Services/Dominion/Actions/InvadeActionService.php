@@ -2131,7 +2131,7 @@ class InvadeActionService
         foreach($result['attacker']['plunder'] as $resource => $amount)
         {
             $result['attacker']['plunder'][$resource] = min($amount, $defender->{'resource_'.$resource});
-            $defender->{'resource_'.$resource} -= $result['attacker']['plunder'];
+            $defender->{'resource_'.$resource} -= $result['attacker']['plunder'][$resource];
         }
 
         # Add salvaged resources to defender.
