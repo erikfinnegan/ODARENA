@@ -776,7 +776,7 @@ class TickService
         }
 
         // Check for starvation before adjusting food
-        $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion);
+        $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion) - $tick->resource_food_contribution;
 
         $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
 
@@ -797,7 +797,7 @@ class TickService
 
             // Decrement to zero
             $tick->resource_food = -$dominion->resource_food;
-            $tick->resource_food = max(0, ($tick->resource_food - $tick->resource_food_contribution)); # TEMPORARY
+            $tick->resource_food = max(0, $tick->resource_food); # TEMPORARY
         }
         else
         {
