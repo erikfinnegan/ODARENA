@@ -756,6 +756,7 @@ class TickService
         $tick->resource_mana_drain += $this->productionCalculator->getManaDecay($dominion);
 
         # Contribution: how much is LOST (GIVEN AWAY)
+        echo $dominion->name;
         $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
         $tick->resource_lumber_contribution = $this->productionCalculator->getContribution($dominion, 'lumber');
         $tick->resource_ore_contribution = $this->productionCalculator->getContribution($dominion, 'ore');
