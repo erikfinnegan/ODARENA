@@ -41,10 +41,9 @@
                                                 @if ($thread->dominion->isMonarch())
                                                     <i class="ra ra-queen-crown text-red"></i>
                                                 @endif
+                                                <em>{{ $thread->dominion->title->name }}</em>
+                                                {{ $thread->dominion->ruler_name }} of
                                                 <b>{{ $thread->dominion->name }}</b>
-                                                @if ($thread->dominion->name !== $thread->dominion->ruler_name)
-                                                    ({{ $thread->dominion->ruler_name }})
-                                                @endif
                                             </small>
                                             @if ($selectedDominion->isMonarch())
                                                 <a href="{{ route('dominion.council.delete.thread', $thread) }}"><i class="fa fa-trash text-red"></i></a>

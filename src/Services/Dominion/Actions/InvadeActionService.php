@@ -712,6 +712,7 @@ class InvadeActionService
                 // Actually kill the units. RIP in peace, glorious warriors ;_;7
                 $dominion->{"military_unit{$slot}"} -= $amount;
                 $this->invasionResult['attacker']['unitsLost'][$slot] = $amount;
+                #$dominion->{'stat_total_unit' . $slot . '_lost'} += $amount;
             }
         }
         unset($amount); // Unset var by reference from foreach loop above to prevent unintended side-effects
@@ -837,9 +838,10 @@ class InvadeActionService
             $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * $slotLostMultiplier * $casualtiesMultiplier);
             $this->invasionResult['defender']['unitPerks']['defensiveCasualties'][$unit->slot] = $slotLostMultiplier;
 
-            if ($slotLost > 0) {
+            if ($slotLost > 0)
+            {
                 $defensiveUnitsLost[$unit->slot] = $slotLost;
-
+                #$target->{'stat_total_unit' . $slot . '_lost'} += $slotLost;
                 $this->unitsLost += $slotLost; // todo: refactor
             }
         }

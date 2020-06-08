@@ -560,6 +560,8 @@ class ProductionCalculator
             $contributed = $dominion->{'resource_'.$resourceType} * $contribution;
         }
 
+        $contributed = min($dominion->{'resource_'.$resourceType}, $contributed);
+
         return $contributed;
     }
 

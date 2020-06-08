@@ -298,16 +298,6 @@ class TickService
                     $this->queueService->queueResources('training', $dominion, ['military_unit4' => $dominion->tick->generated_unit4], 12);
                 }
 
-                // Monster: resource contributions
-                if(!empty($dominion->tick->pestilence_units))
-                {
-                    $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
-                    if ($caster)
-                    {
-                        $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
-                    }
-                }
-
                 DB::transaction(function () use ($dominion) {
                     if (!empty($dominion->tick->starvation_casualties)) {
                         $this->notificationService->queueNotification(
