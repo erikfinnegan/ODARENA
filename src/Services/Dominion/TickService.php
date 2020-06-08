@@ -108,7 +108,6 @@ class TickService
             {
 
                 // Update dominions
-                echo $dominion->name;
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
@@ -757,7 +756,6 @@ class TickService
         $tick->resource_mana_drain += $this->productionCalculator->getManaDecay($dominion);
 
         # Contribution: how much is LOST (GIVEN AWAY)
-        #echo $dominion->name;
         $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
         $tick->resource_lumber_contribution = $this->productionCalculator->getContribution($dominion, 'lumber');
         $tick->resource_ore_contribution = $this->productionCalculator->getContribution($dominion, 'ore');
@@ -799,7 +797,7 @@ class TickService
 
             // Decrement to zero
             $tick->resource_food = -$dominion->resource_food;
-            $tick->resource_food = max(0, $tick->resource_food); # TEMPORARY
+            $tick->resource_food = max(0, ($tick->resource_food - $tick->resource_food_contribution)); # TEMPORARY
         }
         else
         {
