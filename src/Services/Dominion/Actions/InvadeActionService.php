@@ -1988,12 +1988,11 @@ class InvadeActionService
             {
                 $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['defender']['unitsLost'], [], false, true);
 
-
                 foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
                 {
-                  $souls += $casualties;
-                  $blood += $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['attacker']['unitsLost']) * 1/3;
-                  $food += $casualties * 2;
+                    $souls += $casualties;
+                    $blood += $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['attacker']['unitsLost']) * 1/3;
+                    $food += $casualties * 2;
                 }
 
                 $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
@@ -2003,6 +2002,8 @@ class InvadeActionService
                 $this->invasionResult['defender']['demonic_collection']['food'] = $food;
 
                 $defender->resource_soul += $souls;
+                $defender->resource_blood += $blood;
+                $defender->resource_food += $food;
             }
         }
     }

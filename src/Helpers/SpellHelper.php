@@ -185,7 +185,7 @@ class SpellHelper
                 'key' => 'crusade',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Human', 'Sacred Order', 'Templars']),
+                'races' => collect(['Human', 'Sacred Order']),
             ],
             [
                 'name' => 'Miner\'s Sight',
@@ -529,7 +529,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Vision',
-                'description' => 'Reveal tech and heroes',
+                'description' => 'Reveal advancements',
                 'key' => 'vision',
                 'mana_cost' => 0.5,
             ],
@@ -654,60 +654,56 @@ class SpellHelper
                 'percentage' => 1,
             ],
         ]);
-
-        if(isset($dominion))
-        {
-            if(in_array($dominion->race->name, ['Human', 'Sacred Order', 'Dwarf']))
-            {
-                $spells = $spells->concat([
-                    [
-                        'name' => 'Purification',
-                        'description' => 'Eradicates Abominations. Only effective against the Afflicted.',
-                        'key' => 'purification',
-                        'mana_cost' => 3,
-                        'decreases' => [
-                            'military_unit1',
-                        ],
-                        'percentage' => 1
-                    ],
-                ]);
-            }
-
-            if(in_array($dominion->race->name, ['Lux']))
-            {
-                $spells = $spells->concat([
-                    [
-                        'name' => 'Solar Flare',
-                        'description' => 'Eradicates Imps. Only effective against the Nox.',
-                        'key' => 'solar_flare',
-                        'mana_cost' => 3,
-                        'decreases' => [
-                            'military_unit1',
-                        ],
-                        'percentage' => 5
-                    ],
-                ]);
-            }
-
-
-
-            if(in_array($dominion->race->name, ['Cult']))
-            {
-                $spells = $spells->concat([
-                    [
-                        'name' => 'Proselytize',
-                        'description' => 'Converts some of targets units to join you.',
-                        'key' => 'proselytize',
-                        'mana_cost' => 0.5,
-                        'percentage' => 5
-                    ],
-                ]);
-            }
-
-        }
-
-
         return $spells;
+    }
+
+
+    public function getRacialWarSpells(): Collection
+    {
+        return collect([
+            [
+                'name' => 'Purification',
+                'description' => 'Eradicates Abominations. Only effective against the Afflicted.',
+                'key' => 'purification',
+                'mana_cost' => 3,
+                'decreases' => [
+                    'military_unit1',
+                ],
+                'duration' => NULL,
+                'percentage' => 1,
+                'races' => collect(['Sacred Order', 'Sylvan']),
+            ],
+            [
+                'name' => 'Solar Flare',
+                'description' => 'Eradicates Imps. Only effective against the Nox.',
+                'key' => 'solar_flare',
+                'mana_cost' => 3,
+                'decreases' => [
+                    'military_unit1',
+                ],
+                'duration' => NULL,
+                'percentage' => 5,
+                'races' => collect(['Lux']),
+            ],
+            [
+                'name' => 'Proselytize',
+                'description' => 'Converts some of targets units to join you',
+                'key' => 'proselytize',
+                'mana_cost' => 0.5,
+                'duration' => NULL,
+                'percentage' => 5,
+                'races' => collect(['Cult']),
+            ],
+            [
+                'name' => 'Solar Eclipse',
+                'description' => '-20% food production, -20% mana production',
+                'key' => 'solar_eclipse',
+                'mana_cost' => 3,
+                'duration' => 12*3,
+                'percentage' => NULL,
+                'races' => collect(['Nox']),
+            ],
+          ]);
     }
 
 
@@ -765,7 +761,6 @@ class SpellHelper
         }
     }
 
-
     /*
     *
     * These spells can be cast on friendly dominions:
@@ -774,36 +769,34 @@ class SpellHelper
     * @param Dominion $target - the target
     *
     */
-    public function getFriendlySpells(Dominion $dominion): Collection
+    public function getFriendlySelfSpells(): Collection
     {
-        if($dominion->race->name == 'Sacred Order')
-        {
-          return collect([
+        return collect([
             [
-                'name' => 'Holy Aura',
-                'description' => '-10% casualties, +10% population growth rate',
+                'name' => 'Magical Aura',
+                'description' => '-10% casualties, +25% population growth rate',
                 'key' => 'holy_aura',
-                'mana_cost' => 16,
-                'duration' => 6*4,
+                'mana_cost' => 5,
+                'duration' => 12*2,
+                'races' => collect(['Sacred Order', 'Sylvan']),
+            ],
+            [
+                'name' => 'Iceshield',
+                'description' => '-25% damage from fireballs and lightning bolts',
+                'key' => 'iceshield',
+                'mana_cost' => 5,
+                'duration' => 12*2,
+                'races' => collect(['Icekin']),
+            ],
+            [
+                'name' => 'Dark Arts',
+                'description' => '+25% wizard strength',
+                'key' => 'dark_arts',
+                'mana_cost' => 5,
+                'duration' => 12*2,
+                'races' => collect(['Dark Elf']),
             ],
           ]);
-        }
-        elseif($dominion->race->name == 'Sylvan')
-        {
-          return collect([
-            [
-                'name' => 'Holy Aura',
-                'description' => '-10% casualties, +10% population growth rate',
-                'key' => 'holy_aura',
-                'mana_cost' => 16,
-                'duration' => 6*4,
-            ],
-          ]);
-        }
-        else
-        {
-          return collect([]);
-        }
     }
 
 }

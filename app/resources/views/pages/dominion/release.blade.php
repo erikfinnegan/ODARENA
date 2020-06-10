@@ -68,10 +68,10 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p><b>Warning</b>: You are about to release your troops.</p>
-                    <p>Draftees will release into the peasantry. Other troops into draftees.</p>
-                    <p>Any platinum, ore and wizards used to train any released unit <b>will be lost</b>.</p>
-                    <p>Releasing troops processes <b>instantly</b>.</p>
+                    <p><b>Warning</b>: You are about to <b>instantly</b> release your troops.</p>
+                    <p>No resources spent on training units will be returned when you release units.</p>
+                    <p>Units are released into draftees and draftees are released into the peasantry.</p>
+                    <p><em>Units which do not count towards population are simply released and destroyed. No draftee is returned.</em></p>
                 </div>
             </div>
         </div>
