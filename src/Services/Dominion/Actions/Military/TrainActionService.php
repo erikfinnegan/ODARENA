@@ -392,66 +392,8 @@ class TrainActionService
         {
             throw new GameException('Training failed as training would exceed your max population');
         }
-/*
-        # $unitXtoBeTrained must be set (including to 0) for Armada/IG stuff to work.
-        if(isset($unitsToTrain['unit3']) or isset($unitsToTrain['unit4']))
-        {
-          // Wonky workaround.
-          if(isset($unitsToTrain['unit3']))
-          {
-            $unit3toBeTrained = intval($unitsToTrain['unit3']);
-          }
-          else
-          {
-            $unit3toBeTrained = 0;
-          }
 
-          if(isset($unitsToTrain['unit4']))
-          {
-            $unit4toBeTrained = intval($unitsToTrain['unit4']);
-          }
-          else
-          {
-            $unit4toBeTrained = 0;
-          }
-
-          // If training elites, check if ARMADA or IMPERIAL GNOME to calculate unit housing (Docks / Factories)
-          // ARMADA: Max 2 Boats per Dock (+ Harbour)
-          if (
-            $dominion->race->name == 'Armada'
-            and (
-                  ($dominion->military_unit3 + $dominion->military_unit4) +
-                  ($unit3toBeTrained + $unit4toBeTrained) +
-                  ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')) +
-                  ($this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4'))
-
-                )
-
-                  // If all the above is greater than Docks*2*Harbor
-                  > ($dominion->building_dock * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor'))))
-          {
-            throw new GameException('You cannot control that many ships. Max 2 ships per Dock. Increased by Harbor.');
-          }
-          // IMPERIAL GNOME: Max 2 Machines per Factory (+ Science)
-          if (
-            $dominion->race->name == 'Imperial Gnome'
-            and (
-                  ($dominion->military_unit3 + $dominion->military_unit4) +
-                  ($unit3toBeTrained + $unit4toBeTrained) +
-                  ($this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4')) +
-                  ($this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit3') + $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4'))
-                )
-
-                  // If all the above is greater than Factories*2*Science
-                  > ($dominion->building_factory * 2 * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops'))))
-          {
-            throw new GameException('You cannot control that many machines. Max 2 machines per Factory. Increased by improvements into Workshops.');
-          }
-        }
-*/
-
-
-        DB::transaction(function () use ($dominion, $data, $totalCosts) {
+        DB::transaction(function () use ($dominion, $data, $totalCosts, $unitSlot, $unitAmountToTrain) {
             $dominion->resource_platinum -= $totalCosts['platinum'];
             $dominion->resource_ore -= $totalCosts['ore'];
             $dominion->military_draftees -= $totalCosts['draftees'];
@@ -498,6 +440,9 @@ class TrainActionService
             $dominion->stat_total_soul_spent_training += $totalCosts['soul'];
             $dominion->stat_total_blood_spent_training += $totalCosts['blood'];
             $dominion->stat_total_champion_spent_training += $totalCosts['champion'];
+            $dominion->{'stat_total_unit' . $unitSlot . '_trained'} += $unitAmountToTrain;
+
+
 
             // $data:
             # unit1 => int

@@ -25,7 +25,6 @@ perks:
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
-  cannot_improve_castle: 1
 units:
   - name: Muscle
     type:
@@ -33,28 +32,30 @@ units:
       - mindless
     cost:
       food: 100
-      lumber: 100
-      ore: 0
+      lumber: 10
+      ore: 10
     power:
       offense: 0
       defense: 0
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-  - name: Limb
+      faster_training: 6
+  - name: Carapace
     type:
       - massive
       - mindless
     cost:
-      food: 100
-      lumber: 100
-      ore: 0
+      food: 600
+      lumber: 200
+      ore: 3200
     power:
       offense: 0
-      defense: 0
+      defense: 60
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
+      pairing_limit: 1,0.18 # Unit slot, amount - 1/0.018=55, one Carapace per 55 Muscles
   - name: Claw
     type:
       - massive
@@ -65,16 +66,15 @@ units:
       lumber: 500
       ore: 1000
     power:
-      offense: 10
-      defense: 30
+      offense: 30
+      defense: 20
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      pairing_limit: 2,2 # Unit slot, amount (max 2 of this unit per each Unit 2)
+      pairing_limit: 1,0.12 # Unit slot, amount - 1/0.012=83, one Claw per 83 Muscles
       increases_offensive_casualties: 1
-      plunders: food;2,lumber;25,ore;100
+      plunders: food;2,lumber;25,ore;100,gem;10
       conversion: 2
-      offense_from_pairing: 4,30,0.25 # slot, amount, num required
   - name: Head
     type:
       - sentient
@@ -85,15 +85,16 @@ units:
       food: 1000
       lumber: 50
       ore: 500
+      tech: 10000
     power:
-      offense: 20
-      defense: 20
+      offense: 0
+      defense: 0
     perks:
+      sendable_with_zero_op: 1
       no_draftee: 1
-      reduces_casualties: 1
-      increases_defensive_casualties: 1
       does_not_count_as_population: 1
-      pairing_limit: 1,0.25 # Unit slot, amount
-      tech_production: 2
-      plunders: food;10,lumber;15,mana;50
+      pairing_limit: 1,0.000072 # Unit slot, amount - 1/0.000072=13,888, one Head per 13,888 Muscles
+      tech_production: 5
+      plunders: food;10,mana;10000
       conversion: 1
+      offense_from_pairing: 3,20000,1111 # slot, amount, num required - 1/0.0008=1,250, one Head adds +10000 OP to x Claws

@@ -83,6 +83,7 @@
                             <col width="100">
                             <col width="100">
                             <col width="100">
+                            <col width="100">
                             <col width="100" class="hidden">
                         </colgroup>
                         <thead>
@@ -92,6 +93,7 @@
                                 <th class="text-center">Faction</th>
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
+                                <th class="text-center">Troops<br>Returning</th>
                                 <th class="text-center hidden">My Range</th>
                             </tr>
                         </thead>
@@ -123,6 +125,13 @@
                                         </td>
                                         <td class="text-center" data-order="{{ $networthCalculator->getDominionNetworth($dominion) }}" data-search="{{ $networthCalculator->getDominionNetworth($dominion) }}">
                                             {{ number_format($networthCalculator->getDominionNetworth($dominion)) }}
+                                        </td>
+                                        <td>
+                                            @if ($militaryCalculator->hasReturningUnits($dominion))
+                                                <span class="label label-success">Yes</span>
+                                            @else
+                                                <span class="text-gray">No</span>
+                                            @endif
                                         </td>
                                         <td class="hidden">
                                             @if ($rangeCalculator->isInRange($selectedDominion, $dominion))

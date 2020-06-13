@@ -1715,4 +1715,22 @@ class MilitaryCalculator
         return $unitsIncreasingPrestige / array_sum($units);
     }
 
+
+    /**
+     * Simple true/false if Dominion has units returning from battle.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function hasReturningUnits(Dominion $dominion): bool
+    {
+        $hasReturningUnits = 0;
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+          $hasReturningUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
+        }
+
+        return $hasReturningUnits;
+    }
+
 }

@@ -172,6 +172,14 @@ class PopulationCalculator
                     $housing = 30;
                     break;
 
+                case 'wizard_guild':
+                    $housing = 0;
+                    break;
+
+                case 'forest_haven':
+                    $housing = 0;
+                    break;
+
                 default:
                     $housing = 15;
                     break;
@@ -249,6 +257,9 @@ class PopulationCalculator
         $housingFromBarracks = 0;
         $housingFromUnits = 0;
         $troopsPerBarracks = 36;
+
+        $spyUnitsPerForestHaven = 50;
+        $wizUnitsPerWizardGuild = 50;
 
         // Race
         if($dominion->race->getPerkValue('extra_barracks_housing'))
@@ -400,9 +411,6 @@ class PopulationCalculator
      */
     public function getPopulationPeasantGrowth(Dominion $dominion): int
     {
-
-
-
 
         $maximumPeasantDeath = ((-0.05 * $dominion->peasants) - $this->getPopulationDrafteeGrowth($dominion));
 

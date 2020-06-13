@@ -712,7 +712,8 @@ class InvadeActionService
                 // Actually kill the units. RIP in peace, glorious warriors ;_;7
                 $dominion->{"military_unit{$slot}"} -= $amount;
                 $this->invasionResult['attacker']['unitsLost'][$slot] = $amount;
-                #$dominion->{'stat_total_unit' . $slot . '_lost'} += $amount;
+                $dominion->{'stat_total_unit' . $slot . '_lost'} += $amount;
+                $target->{'stat_total_units_killed'} += $amount;
             }
         }
         unset($amount); // Unset var by reference from foreach loop above to prevent unintended side-effects
@@ -841,7 +842,8 @@ class InvadeActionService
             if ($slotLost > 0)
             {
                 $defensiveUnitsLost[$unit->slot] = $slotLost;
-                #$target->{'stat_total_unit' . $slot . '_lost'} += $slotLost;
+                $target->{'stat_total_unit' . $slot . '_lost'} += $slotLost;
+                $dominion->{'stat_total_units_killed'} += $slotLost;
                 $this->unitsLost += $slotLost; // todo: refactor
             }
         }
@@ -949,7 +951,7 @@ class InvadeActionService
             $this->invasionResult['defender']['totalBuildingsLost'] += $landLost;
 
             // Add discounted land for buildings destroyed
-            $target->discounted_land += $buildingsToDestroy;
+            #$target->discounted_land += $buildingsToDestroy;
 
             // Destroy buildings
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
@@ -1068,12 +1070,14 @@ class InvadeActionService
         $queueData = $landGainedPerLandType;
 
         // Only gain discounted acres when hitting over 75%.
+        /*
         if ($landRatio >= 75)
         {
             $queueData += [
                 'discounted_land' => array_sum($landGainedPerLandType)
             ];
         }
+        */
 
         $this->queueService->queueResources(
             'invasion',

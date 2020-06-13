@@ -142,7 +142,7 @@ class ConstructActionService
                 'resource_lumber' => ($dominion->resource_lumber - $lumberCost),
                 'resource_mana' => ($dominion->resource_mana - $manaCost),
                 'resource_food' => ($dominion->resource_food - $foodCost),
-                'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
+                #'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
 
                 'stat_total_platinum_spent_building' => ($dominion->stat_total_platinum_spent_building + $platinumCost),
                 'stat_total_food_spent_building' => ($dominion->stat_total_food_spent_building + $foodCost),

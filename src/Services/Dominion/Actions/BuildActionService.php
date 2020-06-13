@@ -128,7 +128,7 @@ class BuildActionService
             $dominion->resource_lumber -= $lumberCost;
             $dominion->resource_mana -= $manaCost;
             $dominion->resource_food -= $foodCost;
-            $dominion->discounted_land -= min($dominion->discounted_land, $totalBuildingsToConstruct);
+            #$dominion->discounted_land -= min($dominion->discounted_land, $totalBuildingsToConstruct);
 
             # Update spending statistics.
             $dominion->stat_total_platinum_spent_building += $platinumCost;

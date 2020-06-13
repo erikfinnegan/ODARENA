@@ -72,9 +72,10 @@ class NetworthCalculator
         $networthPerLand = 20;
         $networthPerBuilding = 5;
 
-        foreach ($dominion->race->units as $unit) {
+        foreach ($dominion->race->units as $unit)
+        {
             $totalUnitsOfType = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unit->slot);
-            $networth += $totalUnitsOfType * $this->getUnitNetworth($dominion, $unit);
+            $networth += $totalUnitsOfType * $this->getUnitNetworth($unit);
         }
 
         $networth += ($dominion->military_spies * $networthPerSpy);
@@ -87,9 +88,6 @@ class NetworthCalculator
 
         $networth += floor(($dominion->resource_soul) / 10);
 
-        // todo: Certain units have conditional bonus DP/OP. Do we need to calculate those too?
-        // racial networth bonuses (wood elf, dryad, sylvan, rockapult, gnome, adept, dark elf, frost mage, ice elemental, icekin)
-
         return round($networth);
     }
 
@@ -100,23 +98,23 @@ class NetworthCalculator
      * @param Unit $unit
      * @return float
      */
-     public function getUnitNetworth(Dominion $dominion, Unit $unit): float
+     public function getUnitNetworth(Unit $unit): float
      {
-        if (isset($unit->static_networth) && $unit->static_networth > 0)
+        if (isset($unit->static_networth) and $unit->static_networth > 0)
         {
-          return (float)$unit->static_networth;
+          return $unit->static_networth;
         }
         else
         {
           return ($unit->cost_platinum
-                  + $unit->cost_ore
-                  + $unit->cost_lumber
-                  + $unit->cost_food
+                  + $unit->cost_ore*1.25
+                  + $unit->cost_lumber*1.5
+                  + $unit->cost_food*1.5
                   + $unit->cost_mana*2.5
                   + $unit->cost_gem*5
                   + $unit->cost_soul*7.5
                   + $unit->cost_champion*1.25
-                  + $unit->cost_blood
+                  + $unit->cost_blood*2
                   + $unit->cost_unit1*10
                   + $unit->cost_unit2*10
                   + $unit->cost_unit3*20

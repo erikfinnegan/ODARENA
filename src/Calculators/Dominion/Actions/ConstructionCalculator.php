@@ -86,10 +86,10 @@ class ConstructionCalculator
         $cost = $this->getPlatinumCost($dominion);
         $totalCost = $cost * $acres;
         // Check for discounted acres after invasion
-        $discountedAcres = min($dominion->discounted_land, $acres);
-        if ($discountedAcres > 0) {
-            $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.25);
-        }
+        #$discountedAcres = min($dominion->discounted_land, $acres);
+        #if ($discountedAcres > 0) {
+        #    $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.25);
+        #}
         return $totalCost;
     }
 
@@ -149,10 +149,10 @@ class ConstructionCalculator
         $cost = $this->getLumberCost($dominion);
         $totalCost = $cost * $acres;
         // Check for discounted acres after invasion
-        $discountedAcres = min($dominion->discounted_land, $acres);
-        if ($discountedAcres > 0) {
-            $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.25);
-        }
+        #$discountedAcres = min($dominion->discounted_land, $acres);
+        #if ($discountedAcres > 0) {
+        #    $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.25);
+        #}
         return $totalCost;
     }
 
@@ -215,10 +215,10 @@ class ConstructionCalculator
             $cost = $this->getManaCost($dominion);
             $totalCost = $cost * $acres;
             // Check for discounted acres after invasion
-            $discountedAcres = min($dominion->discounted_land, $acres);
-            if ($discountedAcres > 0) {
-                $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.25);
-            }
+            #$discountedAcres = min($dominion->discounted_land, $acres);
+            #if ($discountedAcres > 0) {
+            #    $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.25);
+            #}
             return $totalCost;
         }
 
@@ -283,10 +283,10 @@ class ConstructionCalculator
             $cost = $this->getFoodCost($dominion);
             $totalCost = $cost * $acres;
             // Check for discounted acres after invasion
-            $discountedAcres = min($dominion->discounted_land, $acres);
-            if ($discountedAcres > 0) {
-                $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.25);
-            }
+            #$discountedAcres = min($dominion->discounted_land, $acres);
+            #if ($discountedAcres > 0) {
+            #    $totalCost -= (int)ceil(($cost * $discountedAcres) * 0.25);
+            #}
             return $totalCost;
         }
 
@@ -314,6 +314,7 @@ class ConstructionCalculator
         $foodCost = $this->getFoodCost($dominion);
 
         // Check for discounted acres after invasion
+        /*
         if ($dominion->discounted_land > 0)
         {
             if($platinumCost > 0)
@@ -398,6 +399,7 @@ class ConstructionCalculator
             $manaToSpend -= (int)ceil(($manaCost * $discountedBuildings) * 0.75);
             $foodToSpend -= (int)ceil(($foodCost * $discountedBuildings) * 0.75);
         }
+        */
 
         # Merfolk: only platinum
         if($dominion->race->getPerkValue('construction_cost_only_platinum'))
