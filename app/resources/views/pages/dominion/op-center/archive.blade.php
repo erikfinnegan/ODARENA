@@ -79,7 +79,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Peasants:</td>
+                                            <td>Peasants</td>
                                             <td>{{ number_format($infoOp->data['peasants']) }}</td>
                                         </tr>
                                         <tr>

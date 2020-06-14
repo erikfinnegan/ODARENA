@@ -77,6 +77,9 @@ class BankActionService
         $dominion->{$source} -= $amount;
         $dominion->{$target} += $targetAmount;
 
+        $dominion->most_recent_exchange_from = $source;
+        $dominion->most_recent_exchange_to = $target;
+        
         $dominion->save(['event' => HistoryService::EVENT_ACTION_BANK]);
 
         $message = 'Your resources have been exchanged.';

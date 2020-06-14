@@ -193,6 +193,8 @@ class Dominion extends AbstractModel
         'is_locked' => 'boolean',
 
         'most_recent_improvement_resource' => 'string',
+        'most_recent_exchange_from' => 'string',
+        'most_recent_exchange_to' => 'string',
 
         'npc_modifier' => 'integer',
 

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page-header', 'National Bank')
+@section('page-header', 'Exchange')
 
 @section('content')
     @php($resources = $bankingCalculator->getResources($selectedDominion))
@@ -26,7 +26,7 @@
                                                     @continue
                                                 @endif
 
-                                                <option value="{{ $field }}">{{ $resource['label'] }}</option>
+                                                <option value="{{ $field }}" {{ $field  == $selectedDominion->most_recent_exchange_from ? 'selected' : ''}} >{{ $resource['label'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -38,7 +38,7 @@
                                                     @continue
                                                 @endif
 
-                                                <option value="{{ $field }}">{{ $resource['label'] }}</option>
+                                                <option value="{{ $field }}" {{ $field  == $selectedDominion->most_recent_exchange_to ? 'selected' : ''}} >{{ $resource['label'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
