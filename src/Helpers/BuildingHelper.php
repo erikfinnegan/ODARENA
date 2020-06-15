@@ -213,34 +213,43 @@ class BuildingHelper
         return $buildings;
     }
 
-    public function getBuildingHelpString(string $buildingType): ?string
+    public function getBuildingHelpString(string $buildingType): string
     {
         $helpStrings = [
-            'home' => 'Houses 30 people.',
-            'alchemy' => 'Produces 45 platinum/tick.',
-            'farm' => 'Produces 80 bushels of food/tick.<br><br>Each person eats 0.25 of a bushel of food per tick.',
-            'smithy' => 'Reduces military unit training platinum and ore costs.<br><br>Training cost reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned. Does not affect Gnome or Imperial Gnome ore costs.',
-            'masonry' => 'Increases castle bonuses and reduces damage done to castle.<br><br>Bonuses increased by 2.75% per 1% owned.<br>Damage reduced by 0.75% per 1% owned.',
-            'ore_mine' => 'Produces 60 ore per tick.',
-            'gryphon_nest' => 'Increases offensive power.<br><br>Power increased by +2% per 1% owned, up to a maximum of +40% at 20% owned.',
-            'tower' => 'Produces 25 mana per tick.',
-            'wizard_guild' => 'Houses 40 wizards, Arch Mages, and units that count as wizards.<br><br>Increases Wizard Strength refresh rate, reduces Wizard and ArchMages training cost and reduces spell costs.<br><br>Wizard Strength refresh rate increased by 0.1% per 1% owned, up to a maximum of 2% at 20% owned.<br>Wizard and ArchMage training and spell costs reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned.',
-            'temple' => 'Increases population growth and reduces defensive bonuses of dominions you invade.<br><br>Population growth increased by 6% per 1% owned.<br>Defensive bonuses reduced by 2% per 1% owned, up to a maximum of 40% at 20% owned.',
-            'diamond_mine' => 'Produces 15 gems/tick.',
-            'lumberyard' => 'Produces 50 lumber/tick.',
-            'forest_haven' => 'Houses 40 spies and units that count as spies.<br><br>Increases peasant defense, reduces losses on failed spy ops, reduces incoming Fireball damage and reduces platinum theft.<br><br>Each Forest Haven gives 20 peasants 0.75 defense each.<br>Failed spy ops losses reduced by 3% per 1% owned, up to a maximum of 30% at 10% owned.<br>Fireball damage and platinum theft reduced by 8% per 1% owned.',
-            'factory' => 'Reduces construction and land rezoning costs.<br><br>Construction costs reduced by 4% per 1% owned, up to a maximum of 80% at 20% owned.<br>Rezoning costs reduced by 3% per 1% owned, up to a maximum of 60% at 20% owned.',
-            'guard_tower' => 'Increases defensive power.<br><br>Power increased by +2% per 1% owned, up to a maximum of +40% at 20% owned.',
-            'shrine' => 'Reduces offensive casualties reduced by 5% per 1% owned, up to a maximum of -75% at 15% owned.<br><br>Reduces defensive casualties by 1% per 1% owned, up to a maximum of 15%.', // todo: hero level gain and hero bonuses
-            'barracks' => 'Houses 36 trained or training military units.<br><br>Not affected by population bonus.',
-            'dock' => 'Produces 1 boat every 20 ticks on average and 35 food/tick. Each dock protects 2.5 of your boats from being sunk.',
-            'ziggurat' => 'Produces 30 mana/tick. Provides 4 raw defensive power.',
-            'tissue' => 'Houses 160 cells, amoeba, or units. Produces 4 food/tick.',
-            'mycelia' => 'House 30 people or units. Produces 4 food/tick.',
+            'home' => ['Houses 30 people.'],
+            'alchemy' => ['Produces 45 platinum/tick.'],
+            'farm' => ['Produces 80 food/tick.'],
+            'smithy' => ['Reduces unit training costs by 2% per 1% owned','Maximum 40% at 20% owned.','Does not affect Gnome or Imperial Gnome ore costs.'],
+            'masonry' => ['Improvements increased by 2.75% per 1% owned.','Lightning bolt damage reduced by 0.75% per 1% owned.'],
+            'ore_mine' => ['Produces 60 ore/tick.'],
+            'gryphon_nest' => ['Offensive power increased by +2% per 1% owned.', 'Maximum +40% OP at 20% owned.'],
+            'tower' => ['Produces 25 mana/tick.'],
+            'wizard_guild' => ['Houses 40 wizards, Arch Mages, and units that count as wizards.', 'Wizard Strength refresh rate increased by 0.1% per 1% owned (max +2% at 20% owned).','Wizard and ArchMage training and spell costs reduced by 2% per 1% owned (maximum 40% at 20% owned).'],
+            'temple' => ['Population growth increased by 6% per 1% owned.','Defensive bonuses reduced by 2% per 1% owned (maximum of 40% at 20% owned).'],
+            'diamond_mine' => ['Produces 15 gems/tick.'],
+            'lumberyard' => ['Produces 50 lumber/tick.'],
+            'forest_haven' => ['Houses 40 spies and units that count as spies.','Failed spy ops losses reduced by 3% per 1% owned, up to a maximum of 30% at 10% owned.','Fireball damage and platinum theft reduced by 8% per 1% owned.'],
+            'factory' => ['Construction costs reduced by 4% per 1% owned (maximum of 80% at 20% owned).','Rezoning costs reduced by 3% per 1% owned (maximum of 60% at 20% owned).'],
+            'guard_tower' => ['Defensive power increased by +2% per 1% owned.', 'Maximum +40% DP at 20% owned.'],
+            'shrine' => ['Reduces offensive casualties reduced by 5% per 1% owned, up to a maximum of -75% at 15% owned.','Reduces defensive casualties by 1% per 1% owned, up to a maximum of 15%.'],
+            'barracks' => ['Houses 36 trained or training military units.','Not affected by population bonuses.'],
+            'dock' => ['Produces 1 boat every 20 ticks.','Produces 35 food/tick.','Protects 2.5 docks from being sunk.'],
+            'ziggurat' => ['Produces 30 mana/tick','Provides 4 raw defensive power.'],
+            'tissue' => ['Houses 160 cells, amoeba, or units.','Produces 4 food/tick.'],
+            'mycelia' => ['Houses 30 people or units.','Produces 4 food/tick.']
         ];
 
-        return $helpStrings[$buildingType] ?: null;
+        $string = '<ul>';
+        foreach($helpStrings[$buildingType] as $item)
+        {
+            $string .= '<li>' . $item . '</li>';
+        }
+
+        $string .= '<ul>';
+
+        return $string;
     }
+
 
     public function getBuildingDescription(Building $building): ?string
     {

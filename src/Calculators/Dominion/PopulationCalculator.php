@@ -287,6 +287,7 @@ class PopulationCalculator
                 $housingFromForestHavens += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
             }
         }
+        $housingFromForestHavens = min($housingFromForestHavens, $dominion->building_forest_haven * $spyUnitsPerForestHaven);
 
         # WIZARD GUILDS: house Spies and spy-units
         for ($slot = 1; $slot <= 4; $slot++)
@@ -298,6 +299,7 @@ class PopulationCalculator
                 $housingFromWizardGuilds += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
             }
         }
+        $housingFromWizardGuilds = min($housingFromWizardGuilds, $dominion->building_wizard_guild * $wizUnitsPerWizardGuild);
 
         # UNITS: Look for houses_military_units
         for ($slot = 1; $slot <= 4; $slot++)
