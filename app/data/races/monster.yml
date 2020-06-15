@@ -31,7 +31,7 @@ units:
       - massive
       - mindless
     cost:
-      food: 8000
+      food: 4000
       lumber: 2000
       ore: 2000
     power:
@@ -46,9 +46,9 @@ units:
       - massive
       - mindless
     cost:
-      food: 6000
-      lumber: 2000
-      ore: 32000
+      food: 10000
+      lumber: 10000
+      ore: 230000
     power:
       offense: 0
       defense: 6000
@@ -62,9 +62,9 @@ units:
       - mindless
     need_boat: false
     cost:
-      food: 1000
-      lumber: 5000
-      ore: 10000
+      food: 65000
+      lumber: 30000
+      ore: 70000
     power:
       offense: 3000
       defense: 1000
@@ -83,9 +83,9 @@ units:
       - massive
     need_boat: false
     cost:
-      food: 100000
-      lumber: 5000
-      ore: 5000
+      food: 125000
+      lumber: 10000
+      ore: 10000
     power:
       offense: 0
       defense: 0
@@ -94,6 +94,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       pairing_limit: 1,0.007 # Unit slot, amount - 1/0.007=142, one Head per 142 Muscles
-      tech_production: 10
+      tech_production: 100
+      mana_production: 25
       plunders: food;10000,mana;10000
-      conversion: 1
+      decay_protection: 10000,mana

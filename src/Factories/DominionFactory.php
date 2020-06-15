@@ -313,9 +313,9 @@ class DominionFactory
             $startingResources['gems'] = 0;
             $startingResources['boats'] = 0;
 
-            $startingResources['unit1'] = 4;
-            $startingResources['unit2'] = 600;
-            $startingResources['unit3'] = 1200;
+            $startingResources['unit1'] = 333;
+            $startingResources['unit2'] = 6;
+            $startingResources['unit3'] = 2;
             $startingResources['unit4'] = 1;
 
             $startingResources['draft_rate'] = 0;

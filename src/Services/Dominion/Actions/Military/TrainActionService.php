@@ -440,7 +440,10 @@ class TrainActionService
             $dominion->stat_total_soul_spent_training += $totalCosts['soul'];
             $dominion->stat_total_blood_spent_training += $totalCosts['blood'];
             $dominion->stat_total_champion_spent_training += $totalCosts['champion'];
-            $dominion->{'stat_total_unit' . $unitSlot . '_trained'} += $unitAmountToTrain;
+            if($unitSlot == 1 or $unitSlot == 2 or $unitSlot == 3 or $unitSlot == 4)
+            {
+                $dominion->{'stat_total_unit' . $unitSlot . '_trained'} += $unitAmountToTrain;            
+            }
 
 
 

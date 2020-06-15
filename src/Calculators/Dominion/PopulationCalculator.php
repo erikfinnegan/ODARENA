@@ -256,11 +256,14 @@ class PopulationCalculator
 
         $housingFromBarracks = 0;
         $housingFromUnits = 0;
+        $housingFromForestHavens = 0;
+        $housingFromWizardGuilds = 0;
+
         $troopsPerBarracks = 36;
+        $spyUnitsPerForestHaven = 40;
+        $wizUnitsPerWizardGuild = 40;
 
-        $spyUnitsPerForestHaven = 50;
-        $wizUnitsPerWizardGuild = 50;
-
+        # BARRACKS
         // Race
         if($dominion->race->getPerkValue('extra_barracks_housing'))
         {
@@ -275,7 +278,28 @@ class PopulationCalculator
 
         $housingFromBarracks = $dominion->building_barracks * $troopsPerBarracks;
 
-        # Look for houses_military_units
+        # FOREST HAVENS: house Spies and spy-units
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            $housingFromForestHavens += $dominion->military_spies;
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_offense') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_defense'))
+            {
+                $housingFromForestHavens += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+            }
+        }
+
+        # WIZARD GUILDS: house Spies and spy-units
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            $housingFromWizardGuilds += $dominion->military_wizards;
+            $housingFromWizardGuilds += $dominion->military_archmages;
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense'))
+            {
+                $housingFromWizardGuilds += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+            }
+        }
+
+        # UNITS: Look for houses_military_units
         for ($slot = 1; $slot <= 4; $slot++)
         {
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units'))
@@ -284,7 +308,9 @@ class PopulationCalculator
             }
         }
 
-        $militaryHousing = $housingFromBarracks + $housingFromUnits;
+        # WIZARD GUILDS: hosue Wizards and wiz-units
+
+        $militaryHousing = $housingFromBarracks + $housingFromUnits + $housingFromForestHavens + $housingFromWizardGuilds;
 
         return min(
             ($this->getPopulationMilitary($dominion) - $dominion->military_draftees),
