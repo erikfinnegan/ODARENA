@@ -361,19 +361,19 @@ class ProductionCalculator
         // Invasion Spell: Unhealing Wounds (+10% consumption)
         if ($multiplier !== -1.00 and $this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
         {
-            $multiplier *= 0.10;
+            $multiplier += 0.10;
         }
 
         // Unit Perk: food_consumption
         $extraFoodEaten = 0;
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption'))
-          {
-            $extraFoodUnits = $dominion->{"military_unit".$unitSlot};
-            $extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption');
-            $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
-          }
+            if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption'))
+            {
+                $extraFoodUnits = $dominion->{"military_unit".$unitSlot};
+                $extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption');
+                $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
+            }
         }
 
         $consumption += $extraFoodEaten;
