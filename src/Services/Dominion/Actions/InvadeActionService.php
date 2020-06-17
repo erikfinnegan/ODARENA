@@ -1102,58 +1102,58 @@ class InvadeActionService
         # For successful invasions...
         if($this->invasionResult['result']['success'])
         {
-          # Drop 10% morale for hits under 60%.
-          if($landRatio < 60)
-          {
-            $attackerMoraleChange = -15;
-          }
-          # No change for hits in lower RG (60-75).
-          elseif($landRatio < 75)
-          {
-            $attackerMoraleChange = 0;
-          }
-          # Increase 15% for hits 75-85%.
-          elseif($landRatio < 85)
-          {
-            $attackerMoraleChange = 15;
-          }
-          # Increase 20% for hits 85-100%
-          elseif($landRatio < 100)
-          {
-            $attackerMoraleChange = 20;
-          }
-          # Increase 25% for hits 100% and up.
-          else
-          {
-            $attackerMoraleChange = 25;
-          }
-          # Defender gets the inverse of attacker morale change,
-          # if it greater than 0.
-          if($attackerMoraleChange > 0)
-          {
-            $defenderMoraleChange = $attackerMoraleChange*-1;
-          }
-          else
-          {
-            $defenderMoraleChange = 0;
-          }
+            # Drop 10% morale for hits under 60%.
+            if($landRatio < 60)
+            {
+                $attackerMoraleChange = -15;
+            }
+            # No change for hits in lower RG (60-75).
+            elseif($landRatio < 75)
+            {
+                $attackerMoraleChange = 0;
+            }
+            # Increase 15% for hits 75-85%.
+            elseif($landRatio < 85)
+            {
+                $attackerMoraleChange = 15;
+            }
+            # Increase 20% for hits 85-100%
+            elseif($landRatio < 100)
+            {
+                $attackerMoraleChange = 20;
+            }
+            # Increase 25% for hits 100% and up.
+            else
+            {
+                $attackerMoraleChange = 25;
+            }
+            # Defender gets the inverse of attacker morale change,
+            # if it greater than 0.
+            if($attackerMoraleChange > 0)
+            {
+                $defenderMoraleChange = $attackerMoraleChange*-1;
+            }
+            else
+            {
+                $defenderMoraleChange = 0;
+            }
 
         }
         # For failed invasions...
         else
         {
-          # If overwhelmed, attacker loses 20%, defender gets nothing.
-          if($this->invasionResult['result']['overwhelmed'])
-          {
-            $attackerMoraleChange = -20;
-            $defenderMoraleChange = 0;
-          }
-          # Otherwise, -10% for attacker and +5% for defender
-          else
-          {
-            $attackerMoraleChange = -10;
-            $defenderMoraleChange = 10;
-          }
+            # If overwhelmed, attacker loses 20%, defender gets nothing.
+            if($this->invasionResult['result']['overwhelmed'])
+            {
+                $attackerMoraleChange = -20;
+                $defenderMoraleChange = 0;
+            }
+            # Otherwise, -10% for attacker and +5% for defender
+            else
+            {
+                $attackerMoraleChange = -10;
+                $defenderMoraleChange = 10;
+            }
         }
 
         # Change attacker morale.

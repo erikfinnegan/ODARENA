@@ -5,17 +5,16 @@ description: >-
   <p>Beastfolk take shelter in the forests and excel at fighting on the open plains.</p>
   <p>Malcontent with their treatment as a part of the Commonwealth, the Beastfolk have broken their treaty and decided to be as they feel best: independent.</p>
   <hr />
-  <p>Instead of castle improvements, Beastfolk use natural resources (land types) to strengthen their dominion. All bonuses except the OP and DP bonuses from Plains and Hills are increased by prestige.</p>
+  <p>Instead of traditional improvements, Beastfolk use natural resources (land types) to strengthen their dominion.</p>
   <ul>
-  <li>Platinum production increased by Mountains % (<em>Markets</em>).</li>
-  <li>Max population increased by Forest % (<em>Keep</em>).</li>
-  <li>Wizard Strength increased by 2 x Swamp % (<em>Tower</em>).</li>
-  <li>Defensive Power increased by Hills % (<em>Walls</em>).</li>
-  <li>Offensive Power increased by 0.2 x Plains % (<em>Forges</em>).</li>
-  <li>Food and Boat production increased by 5 x Water % (<em>Harbor</em>).</li>
+  <li>Platinum production increased by 0.75 x Mountains %.</li>
+  <li>Max population increased by 0.75 x Forest %.</li>
+  <li>Wizard Strength increased by 2 x Swamp %.</li>
+  <li>Defensive Power increased by 0.65 x Hills %.</li>
+  <li>Offensive Power increased by 0.15 x Plains %.</li>
+  <li>Food and Boat production increased by 5 x Water %.</li>
   </ul>
-  <hr />
-  <p>Beastfolk Smithies are 2.5% reduction for every 1% Smithies (max 50%) instead of 2.0% per 1% Smithies (max 40%).</p>
+  <p>These bonuses are increased by Prestige using the standard prestige multiplier. For example,
 home_land_type: forest
 playable: 1
 

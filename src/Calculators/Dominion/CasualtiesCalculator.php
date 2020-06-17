@@ -88,49 +88,45 @@ class CasualtiesCalculator
         # This means that OFFENSIVE CASUALTIES are zero when INVADING a Lux.
         if($target->race->getPerkValue('does_not_kill') == 1)
         {
-          $multiplier = 0;
+            $multiplier = 0;
         }
 
         // Then check immortality, so we can skip the other remaining checks if we indeed have immortal units, since
         // casualties will then always be 0 anyway
 
-        // Immortality never triggers upon being overwhelmed
-        if (!$isOverwhelmed)
+        // General "Almost never dies" type of immortality.
+        if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
         {
-            // General "Almost never dies" type of immortality.
-            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
+            $multiplier = 0;
+        }
+
+        // True immortality: only dies when overwhelmed.
+        if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
+        {
+            // For now the same as SPUD-style immortal, but separate in code for future usage.
+            $multiplier = 0;
+        }
+
+        // Range-based immortality
+        if (($immortalVsLandRange = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_vs_land_range')) !== 0)
+        {
+            if ($landRatio >= ($immortalVsLandRange / 100))
             {
                 $multiplier = 0;
             }
+        }
 
-            // True immortality: only dies when overwhelmed.
-            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
-            {
-                // For now the same as SPUD-style immortal, but separate in code for future usage.
-                $multiplier = 0;
-            }
-
-            // Range-based immortality
-            if (($immortalVsLandRange = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_vs_land_range')) !== 0)
-            {
-                if ($landRatio >= ($immortalVsLandRange / 100))
-                {
-                    $multiplier = 0;
-                }
-            }
-
-            // Race perk-based immortality
-            if ($this->isImmortalVersusRacePerk($dominion, $target, $slot))
-            {
-                $multiplier = 0;
-            }
+        // Race perk-based immortality
+        if ($this->isImmortalVersusRacePerk($dominion, $target, $slot))
+        {
+            $multiplier = 0;
+        }
 
 
-            // Perk: immortal on victory
-            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
-            {
-                $multiplier = 0;
-            }
+        // Perk: immortal on victory
+        if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
+        {
+            $multiplier = 0;
         }
         # END CHECK IMMORTALITY
 

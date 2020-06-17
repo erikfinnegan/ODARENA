@@ -229,7 +229,7 @@ class PopulationCalculator
         // Beastfolk: Forest increases population
         if($dominion->race->name == 'Beastfolk')
         {
-            $multiplier += ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
+            $multiplier += 0.75 * (($dominion->{"land_forest"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
         }
 
         $multiplierFromAlchemies = 0;
@@ -533,8 +533,11 @@ class PopulationCalculator
      */
     public function getEmploymentJobs(Dominion $dominion): int
     {
-        # Does not include Homes, Barracks, Ziggurats, Tissue, and Mycelia
-        return (20 * (
+
+        $fromBuildings = 0;
+        $fromUnits = 0;
+
+        $fromBuildings += (20 * (
                 $dominion->building_alchemy
                 + $dominion->building_farm
                 + $dominion->building_smithy
@@ -553,6 +556,16 @@ class PopulationCalculator
                 + $dominion->building_shrine
                 + $dominion->building_dock
             ));
+
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs'))
+            {
+                $fromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs');
+            }
+        }
+        # Does not include Homes, Barracks, Ziggurats, Tissue, and Mycelia
+        return ($fromBuildings + $fromUnits);
     }
 
     /**

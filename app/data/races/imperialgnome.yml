@@ -23,10 +23,10 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 320
-      ore: 60
+      platinum: 350
+      ore: 65
     power:
-      offense: 3.5
+      offense: 4
       defense: 0
     perks:
       increases_casualties_on_offense: 1
@@ -39,11 +39,13 @@ units:
       ore: 110
       gem: 2
     power:
-      offense: 1
+      offense: 0
       defense: 5
     perks:
-      offense_from_pairing: 1,1
-  - name: Catapult
+      no_draftee: 1
+      does_not_count_as_population: 1
+      pairing_limit: 3,12 # Unit slot, amount (max 12 of this unit per each Unit 3)
+  - name: Turret
     type:
       - machine
     cost:
@@ -56,8 +58,8 @@ units:
       fewer_casualties: 25
       no_draftee: 1
       does_not_count_as_population: 1
-      houses_military_units: 8
-      building_limit: factory,2,workshops # building, buildings per unit, imp to increase
+      provides_jobs: 20
+      building_limit: factory,3,workshops # building, buildings per unit, imp to increase
   - name: Airship
     type:
       - machine
@@ -73,4 +75,4 @@ units:
       fewer_casualties: 50
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: factory,2,workshops # building, buildings per unit, imp to increase
+      building_limit: factory,3,workshops # building, buildings per unit, imp to increase

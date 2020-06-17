@@ -202,6 +202,8 @@ class UnitHelper
             'houses_military_units' => 'Houses %1$s military units.',
             'houses_people' => 'Houses %1$s people.',
 
+            'provides_jobs' => 'Provides %1$s jobs.',
+
             // Other
             'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',

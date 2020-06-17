@@ -28,7 +28,7 @@ units:
       ore: 10
     power:
       offense: 3
-      defense: 1.5
+      defense: 1
     perks:
       fewer_casualties_offense: 50
   - name: Commodore

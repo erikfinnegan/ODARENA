@@ -153,16 +153,11 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $spellMidasTouch = 10;
+        $guardTax = -0.02;
 
         if($dominion->race->getPerkValue('guard_tax_exemption'))
         {
-          $guardTax = 0;
-        }
-        else
-        {
-          $guardTax = -0.02;
+            $guardTax = 0;
         }
 
         // Racial Bonus
@@ -171,18 +166,19 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('platinum_production');
 
-        // Improvement: Markets (formerly "Science")
+        // Improvement: Markets
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
 
         // Guard Tax
-        if ($this->guardMembershipService->isGuardMember($dominion)) {
+        if ($this->guardMembershipService->isGuardMember($dominion))
+        {
             $multiplier += $guardTax;
         }
 
         // Beastfolk: Mountain increases platinum production.
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += $dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion);
+            $multiplier += 0.75 * (($dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
         }
 
         // Invasion Spell: Unhealing Wounds (-5% production)
@@ -327,7 +323,7 @@ class ProductionCalculator
         // Beastfolk: Water increases food production
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 5 * (($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
         }
 
         // Apply Morale multiplier to production multiplier
@@ -1099,7 +1095,7 @@ class ProductionCalculator
         // Beastfolk: Water increases boat production.
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 5 * ($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion));
+          $multiplier += 5 * (($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
         }
 
 

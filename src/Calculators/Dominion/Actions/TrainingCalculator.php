@@ -359,12 +359,6 @@ class TrainingCalculator
         $smithiesReduction = 2;
         $smithiesReductionMax = 40;
 
-        if($dominion->race->name == 'Beastfolk')
-        {
-          $smithiesReduction = 2.5;
-          $smithiesReductionMax = 50;
-        }
-
         # Smithies: discount Platinum (for all) and Ore (for non-Gnomes)
         # Armory: discounts Platinum and Ore (for all)
         # Techs: discounts Platinum, Ore, and Lumber (for all); Food ("Lean Mass" techs); Mana ("Magical Weapons" techs)

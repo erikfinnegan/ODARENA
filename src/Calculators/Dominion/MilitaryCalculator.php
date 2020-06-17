@@ -175,7 +175,7 @@ class MilitaryCalculator
         // Beastfolk: Plains increases OP
         if($attacker->race->name == 'Beastfolk')
         {
-          $multiplier += 0.20 * ($attacker->{"land_plain"} / $this->landCalculator->getTotalLand($attacker));
+            $multiplier += 0.15 * (($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
         }
 
         // Nomad: defense_from_forest
@@ -353,10 +353,10 @@ class MilitaryCalculator
         if (!$ignoreRawDpFromBuildings)
         {
             // Building: Forest Havens
-            $dp += min(
-                ($defender->peasants * $forestHavenDpPerPeasant),
-                ($defender->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
-            );
+            #$dp += min(
+            #    ($defender->peasants * $forestHavenDpPerPeasant),
+            #    ($defender->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
+            #);
 
             // Building: Ziggurats
             $dp += $defender->building_ziggurat * $defender->race->getPerkValue('defense_per_ziggurat');
@@ -416,7 +416,7 @@ class MilitaryCalculator
         // Beastfolk: Hill increases DP
         if($dominion->race->name == 'Beastfolk')
         {
-            $multiplier += 1 * ($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion));
+            $multiplier += 0.75 * (($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
         }
 
         // Simian: defense_from_forest
@@ -1214,12 +1214,6 @@ class MilitaryCalculator
             $multiplier += $dominion->title->getPerkMultiplier('spy_strength') * $dominion->title->getPerkXPBonus($dominion);
         }
 
-        // Beastfolk: Cavern increases Spy Strength
-        if($dominion->race->name == 'Beastfolk')
-        {
-          $multiplier += 1 * ($dominion->{"land_cavern"} / $this->landCalculator->getTotalLand($dominion));
-        }
-
         return (1 + $multiplier);
     }
 
@@ -1295,7 +1289,7 @@ class MilitaryCalculator
         // Beastfolk: Swamp increases Wizard Strength
         if($dominion->race->name == 'Beastfolk')
         {
-          $multiplier += 2 * ($dominion->{"land_swamp"} / $this->landCalculator->getTotalLand($dominion))  * $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+            $multiplier += 2 * (($dominion->{"land_swamp"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
         }
 
         return (1 + $multiplier);
