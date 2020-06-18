@@ -413,7 +413,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -842,7 +842,7 @@ class InvadeActionService
             if ($slotLost > 0)
             {
                 $defensiveUnitsLost[$unit->slot] = $slotLost;
-                $target->{'stat_total_unit' . $slot . '_lost'} += $slotLost;
+                $target->{'stat_total_unit' . $unit->slot . '_lost'} += $slotLost;
                 $dominion->{'stat_total_units_killed'} += $slotLost;
                 $this->unitsLost += $slotLost; // todo: refactor
             }
@@ -1967,6 +1967,8 @@ class InvadeActionService
                 $unitsKilled = $this->invasionResult['defender']['unitsLost'];
                 $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, $this->isAmbush, true);
 
+                $this->invasionResult['attacker']['demonic_collection']['dpFromKilledUnits'] = $dpFromKilledUnits;
+
                 $blood += $dpFromKilledUnits * 1/3;
                 $food += $dpFromKilledUnits * 4;
 
@@ -1995,9 +1997,11 @@ class InvadeActionService
                 foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
                 {
                     $souls += $casualties;
-                    $blood += $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['attacker']['unitsLost']) * 1/3;
+                    $blood += $opFromKilledUnits * 1/3;
                     $food += $casualties * 2;
                 }
+
+                $this->invasionResult['defender']['demonic_collection']['opFromKilledUnits'] = $opFromKilledUnits;
 
                 $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
 

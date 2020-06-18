@@ -55,7 +55,7 @@ class SpellHelper
 
     public function isWarSpell(string $spellKey, Dominion $dominion): bool
     {
-        return $this->getWarSpells($dominion)->filter(function ($spell) use ($spellKey) {
+        return $this->getWarSpells($dominion)->merge($this->getRacialWarSpells($dominion))->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -498,7 +498,8 @@ class SpellHelper
       {
         return $this->getInfoOpSpells()
             ->merge($this->getBlackOpSpells($dominion))
-            ->merge($this->getWarSpells($dominion));
+            ->merge($this->getWarSpells($dominion))
+            ->merge($this->getRacialWarSpells($dominion));
       }
     }
 
@@ -549,7 +550,8 @@ class SpellHelper
         else
         {
           return $this->getBlackOpSpells($dominion)
-              ->merge($this->getWarSpells($dominion));
+              ->merge($this->getWarSpells($dominion))
+              ->merge($this->getRacialWarSpells($dominion));
         }
     }
 
@@ -638,6 +640,7 @@ class SpellHelper
                 'percentage' => 1,
             ],
         ]);
+
         return $spells;
     }
 
@@ -780,9 +783,10 @@ class SpellHelper
             [
                 'name' => 'Magical Aura',
                 'description' => '-10% casualties, +25% population growth rate',
-                'key' => 'holy_aura',
+                'key' => 'magical_aura',
                 'mana_cost' => 5,
                 'duration' => 12*2,
+                'cooldown' => 12*4,
                 'races' => collect(['Sacred Order', 'Sylvan']),
             ],
             [
@@ -791,15 +795,8 @@ class SpellHelper
                 'key' => 'iceshield',
                 'mana_cost' => 5,
                 'duration' => 12*2,
+                'cooldown' => 0,
                 'races' => collect(['Icekin']),
-            ],
-            [
-                'name' => 'Dark Arts',
-                'description' => '+25% wizard strength',
-                'key' => 'dark_arts',
-                'mana_cost' => 5,
-                'duration' => 12*2,
-                'races' => collect(['Dark Elf']),
             ],
           ]);
     }

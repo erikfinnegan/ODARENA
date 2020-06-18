@@ -40,7 +40,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 1100
+      platinum: 1200
       ore: 0
     power:
       offense: 4
@@ -63,5 +63,5 @@ units:
       offense: 7
       defense: 0
     perks:
-      immortal: 1
+      immortal_on_victory: 1
       offense_staggered_land_range: 75;1,100;1.5

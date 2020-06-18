@@ -66,6 +66,7 @@
                                     </div>
                                 @endforeach
                             </div>
+
                         </form>
                     </div>
                 </div>
@@ -139,22 +140,6 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label>
-                                                @if($selectedDominion->realm->alignment == 'evil')
-                                                    Imperial Institute of Magic
-                                                @elseif($selectedDominion->realm->alignment == 'good')
-                                                    Commonwealth Academy of Wizardry
-                                                @elseif($selectedDominion->race->alignment == 'independent')
-                                                    Pagan Magic
-                                                @else
-                                                    Unknown Magic
-                                                @endif
-                                            </label>
-                                        </div>
-                                    </div>
-
                                     @foreach ($spellHelper->getBlackOpSpells($selectedDominion)->chunk(4) as $spells)
                                         <div class="row">
                                             @foreach ($spells as $spell)
@@ -219,7 +204,6 @@
                                             @endforeach
                                         </div>
                                     @endforeach
-
                                 </div>
                             </form>
                         @endif
