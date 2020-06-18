@@ -339,12 +339,24 @@
                                   </colgroup>
                                 <tbody>
                                   </tr>
-                                    <td>Population max:</td>
-                                    <td>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
+                                    <td>Population:</td>
+                                    <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                                   </tr>
-                                  <tr>
-                                    <td>Population current:</td>
-                                    <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }}</td>
+                                  </tr>
+                                    <td>Max pop raw:</td>
+                                    <td>{{ number_format($populationCalculator->getMaxPopulationRaw($selectedDominion)) }}</td>
+                                  </tr>
+                                  </tr>
+                                    <td>Military housing:</td>
+                                    <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
+                                  </tr>
+                                  </tr>
+                                    <td>Spy housing:</td>
+                                    <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>
+                                  </tr>
+                                  </tr>
+                                    <td>Wizard housing:</td>
+                                    <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
                                   </tr>
                                   <tr>
                                     <td>Peasants max:</td>
@@ -364,19 +376,6 @@
                                         @endif
                                     </td>
                                   </tr>
-
-
-                                  <tr>
-                                    <td>Units housed in FH:</td>
-                                    <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Units housed in WG:</td>
-                                    <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }}</td>
-                                  </tr>
-
-
-
                                   <tr>
                                     <td>Military:</td>
                                     <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>

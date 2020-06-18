@@ -139,7 +139,8 @@ class PopulationCalculator
             ($this->getMaxPopulationRaw($dominion) * $this->getMaxPopulationMultiplier($dominion))
             + $this->getUnitsHousedInForestHavens($dominion)
             + $this->getUnitsHousedInWizardGuilds($dominion)
-            + $this->getMaxPopulationMilitaryBonus($dominion)
+            + $this->getUnitsHousedInBarracks($dominion)
+            #+ $this->getUnitsHousedInUnits($dominion)
         );
     }
 
@@ -156,8 +157,10 @@ class PopulationCalculator
         $population = 0;
 
         // Constructed buildings
-        foreach ($this->buildingHelper->getBuildingTypes($dominion) as $buildingType) {
-            switch ($buildingType) {
+        foreach ($this->buildingHelper->getBuildingTypes($dominion) as $buildingType)
+        {
+            switch ($buildingType)
+            {
                 case 'home':
                     $housing = 30;
                     break;
@@ -253,15 +256,13 @@ class PopulationCalculator
      * @param Dominion $dominion
      * @return float
      */
+/*
     public function getMaxPopulationMilitaryBonus(Dominion $dominion): float
     {
-
         $housingFromBarracks = 0;
         $housingFromUnits = 0;
 
         $troopsPerBarracks = 36;
-        $spyUnitsPerForestHaven = 40;
-        $wizUnitsPerWizardGuild = 40;
 
         # BARRACKS
         // Race
@@ -288,18 +289,86 @@ class PopulationCalculator
         }
 
         $militaryHousing = $housingFromBarracks + $housingFromUnits;
-        $militaryHousing -= $this->getUnitsHousedInForestHavens($dominion);
-        $militaryHousing -= $this->getUnitsHousedInWizardGuilds($dominion);
+        #$militaryHousing -= $this->getUnitsHousedInForestHavens($dominion);
+        #$militaryHousing -= $this->getUnitsHousedInWizardGuilds($dominion);
 
         return min(
             ($this->getPopulationMilitary($dominion) - $dominion->military_draftees),
             $militaryHousing
           );
     }
+*/
+
+    public function getAvailableHousingFromBarracks(Dominion $dominion): int
+    {
+        $unitsPerBarracks = 36;
+
+        if($dominion->race->getPerkValue('extra_barracks_housing'))
+        {
+            $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
+        }
+
+        if($dominion->getTechPerkMultiplier('barracks_housing'))
+        {
+            $troopsPerBarracks *= (1 + $dominion->getTechPerkMultiplier('barracks_housing'));
+        }
+
+        return ($dominion->building_barracks * $unitsPerBarracks);
+    }
+
+    public function getAvailableHousingFromForestHavens(Dominion $dominion): int
+    {
+        $spyUnitsPerForestHaven = 40;
+
+        return ($dominion->building_forest_haven * $spyUnitsPerForestHaven);
+    }
+
+    public function getAvailableHousingFromWizardGuilds(Dominion $dominion): int
+    {
+        $wizUnitsPerWizardGuild = 40;
+
+        return ($dominion->building_wizard_guild * $wizUnitsPerWizardGuild);
+    }
+
+    public function getAvailableHousingFromUnits(Dominion $dominion): int
+    {
+        $housingFromUnits = 0;
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units'))
+            {
+                $housingFromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units');
+            }
+        }
+
+        return $housingFromUnits;
+    }
+
+    public function getUnitsHousedInBarracks(Dominion $dominion): int
+    {
+        $units = 0;
+        $units += $dominion->military_spies;
+        $units += $dominion->military_wizards;
+        $units += $dominion->military_archmages;
+
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') !== 1)
+            {
+                $units += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+            }
+        }
+
+        $unitsHousedInBarracks = $units;
+        $unitsHousedInBarracks -= $this->getUnitsHousedInForestHavens($dominion);
+        $unitsHousedInBarracks -= $this->getUnitsHousedInWizardGuilds($dominion);
+        $unitsHousedInBarracks = max(0, $unitsHousedInBarracks);
+
+        return min($units, $unitsHousedInBarracks);
+    }
 
     public function getUnitsHousedInForestHavens(Dominion $dominion): int
     {
-        $spyUnitsPerForestHaven = 40;
         $spyUnits = $dominion->military_spies;
         for ($slot = 1; $slot <= 4; $slot++)
         {
@@ -309,11 +378,11 @@ class PopulationCalculator
             }
         }
 
-        return min($spyUnits, ($dominion->building_forest_haven * $spyUnitsPerForestHaven));
+        return min($spyUnits, $this->getAvailableHousingFromForestHavens($dominion));
     }
+
     public function getUnitsHousedInWizardGuilds(Dominion $dominion): int
     {
-        $wizUnitsPerWizardGuild = 40;
         $wizUnits = $dominion->military_wizards;
         $wizUnits += $dominion->military_archmages;
         for ($slot = 1; $slot <= 4; $slot++)
@@ -324,7 +393,7 @@ class PopulationCalculator
             }
         }
 
-        return min($wizUnits, ($dominion->building_wizard_guild * $wizUnitsPerWizardGuild));
+        return min($wizUnits, $this->getAvailableHousingFromWizardGuilds($dominion));
     }
 
     /**
