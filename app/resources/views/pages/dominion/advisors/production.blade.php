@@ -339,19 +339,19 @@
                                   </colgroup>
                                 <tbody>
                                   </tr>
-                                    <td>Population:</td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Total population:<br>Current / Available">Population:</span></td>
                                     <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                                   </tr>
                                   </tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks">Barracks housing:</span></td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks:<br>Filled / Available">Barracks housing:</span></td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
                                   </tr>
                                   </tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens">Spy housing:</span></td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens:<br>Filled / Available">Spy housing:</span></td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>
                                   </tr>
                                   </tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds">Wizard housing:</span></td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds:<br>Filled / Available">Wizard housing:</span></td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
                                   </tr>
                                   <tr>
