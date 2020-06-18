@@ -1967,7 +1967,7 @@ class InvadeActionService
                 $unitsKilled = $this->invasionResult['defender']['unitsLost'];
                 $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, $this->isAmbush, true);
 
-                $this->invasionResult['attacker']['demonic_collection']['dpFromKilledUnits'] = $dpFromKilledUnits;
+                #$this->invasionResult['attacker']['demonic_collection']['dpFromKilledUnits'] = $dpFromKilledUnits;
 
                 $blood += $dpFromKilledUnits * 1/3;
                 $food += $dpFromKilledUnits * 4;
@@ -2001,7 +2001,7 @@ class InvadeActionService
                     $food += $casualties * 2;
                 }
 
-                $this->invasionResult['defender']['demonic_collection']['opFromKilledUnits'] = $opFromKilledUnits;
+                #$this->invasionResult['defender']['demonic_collection']['opFromKilledUnits'] = $opFromKilledUnits;
 
                 $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
 
