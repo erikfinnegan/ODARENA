@@ -343,6 +343,16 @@
                                     <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                                   </tr>
                                   </tr>
+                                    <td>Peasants:</td>
+                                    <td>{{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                                        @if ($selectedDominion->peasants_last_hour < 0)
+                                            <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
+                                        @elseif ($selectedDominion->peasants_last_hour > 0)
+                                            <span class="text-green">+{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
+                                        @endif
+                                    </td>
+                                  </tr>
+                                  </tr>
                                     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks:<br>Filled / Available">Barracks housing:</span></td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
                                   </tr>
@@ -354,24 +364,7 @@
                                     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds:<br>Filled / Available">Wizard housing:</span></td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
                                   </tr>
-                                  <tr>
-                                    <td>Peasants max:</td>
-                                    <td>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Peasants current:</td>
-                                    <td>{{ number_format($selectedDominion->peasants) }}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Peasants change:</td>
-                                    <td>
-                                        @if ($selectedDominion->peasants_last_hour < 0)
-                                            <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
-                                        @elseif ($selectedDominion->peasants_last_hour > 0)
-                                            <span class="text-green">+{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
-                                        @endif
-                                    </td>
-                                  </tr>
+
                                   <tr>
                                     <td>Military:</td>
                                     <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
