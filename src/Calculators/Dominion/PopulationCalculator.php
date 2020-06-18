@@ -267,7 +267,7 @@ class PopulationCalculator
         // Race
         if($dominion->race->getPerkValue('extra_barracks_housing'))
         {
-          $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
+            $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
         }
 
         // Tech
@@ -287,7 +287,7 @@ class PopulationCalculator
                 $housingFromForestHavens += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
             }
         }
-        $housingFromForestHavens = min($housingFromForestHavens, $dominion->building_forest_haven * $spyUnitsPerForestHaven);
+        $housingFromForestHavens = $dominion->building_forest_haven;
 
         # WIZARD GUILDS: house Spies and spy-units
         for ($slot = 1; $slot <= 4; $slot++)
@@ -299,7 +299,7 @@ class PopulationCalculator
                 $housingFromWizardGuilds += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
             }
         }
-        $housingFromWizardGuilds = min($housingFromWizardGuilds, $dominion->building_wizard_guild * $wizUnitsPerWizardGuild);
+        $housingFromWizardGuilds = $dominion->building_wizard_guild * $wizUnitsPerWizardGuild;
 
         # UNITS: Look for houses_military_units
         for ($slot = 1; $slot <= 4; $slot++)

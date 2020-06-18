@@ -175,7 +175,7 @@ class MilitaryCalculator
         // Beastfolk: Plains increases OP
         if($attacker->race->name == 'Beastfolk')
         {
-            $multiplier += 0.15 * (($dominion->{"land_plain"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
+            $multiplier += 0.15 * (($attacker->{"land_plain"} / $this->landCalculator->getTotalLand($attacker)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($attacker)));
         }
 
         // Nomad: defense_from_forest
