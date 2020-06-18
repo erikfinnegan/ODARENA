@@ -364,6 +364,19 @@
                                         @endif
                                     </td>
                                   </tr>
+
+
+                                  <tr>
+                                    <td>Units housed in FH:</td>
+                                    <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Units housed in WG:</td>
+                                    <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }}</td>
+                                  </tr>
+
+
+
                                   <tr>
                                     <td>Military:</td>
                                     <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
