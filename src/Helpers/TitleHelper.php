@@ -59,7 +59,7 @@ class TitleHelper
                 $description = 'Casualties:';
                 break;
             case 'conversions':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'Units converted:';
                 break;
             case 'lumber_production':
