@@ -343,10 +343,6 @@
                                     <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                                   </tr>
                                   </tr>
-                                    <td>Max pop raw:</td>
-                                    <td>{{ number_format($populationCalculator->getMaxPopulationRaw($selectedDominion)) }}</td>
-                                  </tr>
-                                  </tr>
                                     <td>Military housing:</td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
                                   </tr>
