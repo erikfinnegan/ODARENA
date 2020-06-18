@@ -288,8 +288,8 @@ class PopulationCalculator
         }
 
         $militaryHousing = $housingFromBarracks + $housingFromUnits;
-        #$militaryHousing -= $this->getUnitsHousedInForestHavens($dominion);
-        #$militaryHousing -= $this->getUnitsHousedInWizardGuilds($dominion);
+        $militaryHousing -= $this->getUnitsHousedInForestHavens($dominion);
+        $militaryHousing -= $this->getUnitsHousedInWizardGuilds($dominion);
 
         return min(
             ($this->getPopulationMilitary($dominion) - $dominion->military_draftees),
