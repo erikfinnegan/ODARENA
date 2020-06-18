@@ -90,22 +90,6 @@ class SpellHelper
                 'duration' => 12*4,
                 'cooldown' => 0,
             ],
-            /*
-            [
-                'name' => 'Ares\' Call',
-                'description' => '+10% defensive power',
-                'key' => 'ares_call',
-                'mana_cost' => 2.5,
-                'duration' => 12*4,
-            ],
-            [
-                'name' => 'Midas Touch',
-                'description' => '+10% platinum production',
-                'key' => 'midas_touch',
-                'mana_cost' => 2.5,
-                'duration' => 12*4,
-            ],
-            */
             [
                 'name' => 'Mining Strength',
                 'description' => '+10% ore production',
@@ -702,6 +686,27 @@ class SpellHelper
                 'duration' => 12*3,
                 'percentage' => NULL,
                 'races' => collect(['Nox']),
+            ],
+            [
+                'name' => 'Frozen Shores',
+                'description' => 'Freezes water and target cannot send out boats. No food production from docks.',
+                'key' => 'frozen_shores',
+                'mana_cost' => 4,
+                'duration' => 4,
+                'percentage' => NULL,
+                'races' => collect(['Icekin']),
+            ],
+            [
+                'name' => 'Pyroclast',
+                'description' => 'Twice as affective as a Fireball and leaves a lingering forest fire reducing lumber production.',
+                'key' => 'pyroclast',
+                'mana_cost' => 3,
+                'duration' => 6,
+                'decreases' => [
+                    'peasants',
+                    'resource_food'],
+                'percentage' => 1,
+                'races' => collect(['Firewalker']),
             ],
           ]);
     }

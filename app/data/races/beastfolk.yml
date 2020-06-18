@@ -14,7 +14,7 @@ description: >-
   <li>Offensive Power increased by 0.15 x Plains %.</li>
   <li>Food and Boat production increased by 5 x Water %.</li>
   </ul>
-  <p>These bonuses are increased by Prestige using the standard prestige multiplier. For example,
+  <p>These bonuses are increased by Prestige using the standard prestige multiplier.</p>
 home_land_type: forest
 playable: 1
 
