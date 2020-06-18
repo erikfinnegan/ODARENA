@@ -343,15 +343,15 @@
                                     <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                                   </tr>
                                   </tr>
-                                    <td>Military housing:</td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks">Barracks housing:</span></td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
                                   </tr>
                                   </tr>
-                                    <td>Spy housing:</td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens">Spy housing:</span></td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>
                                   </tr>
                                   </tr>
-                                    <td>Wizard housing:</td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds">Wizard housing:</span></td>
                                     <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
                                   </tr>
                                   <tr>
