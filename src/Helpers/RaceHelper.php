@@ -210,12 +210,22 @@ class RaceHelper
                 break;
             case 'cannot_build_homes':
                 $negativeBenefit = true;
-                $description = 'Cannot build homes';
+                $description = 'Cannot build Homes';
                 $booleanValue = true;
                 break;
             case 'cannot_build_barracks':
                 $negativeBenefit = true;
-                $description = 'Cannot build barracks';
+                $description = 'Cannot build Barracks';
+                $booleanValue = true;
+                break;
+            case 'cannot_build_wizard_guilds':
+                $negativeBenefit = true;
+                $description = 'Cannot build Wizard Guilds';
+                $booleanValue = true;
+                break;
+            case 'cannot_build_forest_havens':
+                $negativeBenefit = true;
+                $description = 'Cannot build Forest Havens';
                 $booleanValue = true;
                 break;
             case 'improvements_max':

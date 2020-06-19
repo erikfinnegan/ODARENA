@@ -341,7 +341,7 @@ class PopulationCalculator
 
     /*
     *   Calculate how many units can be fit in this Dominion's Units that can house military units.
-    *   This is added to getAvailableHousingFromBarracks.
+    *   This is added to getAvailableHousingFromBarracks().
     */
     public function getAvailableHousingFromUnits(Dominion $dominion): int
     {

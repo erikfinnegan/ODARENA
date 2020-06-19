@@ -206,6 +206,16 @@ class BuildingHelper
               $buildings['hill'] = array_diff($buildings['hill'], array('barracks'));
           }
 
+          if($dominion->race->getPerkValue('cannot_build_wizard_guilds'))
+          {
+              $buildings['swamp'] = array_diff($buildings['swamp'], array('wizard_guild'));
+          }
+
+          if($dominion->race->getPerkValue('cannot_build_forest_havens'))
+          {
+              $buildings['forest'] = array_diff($buildings['forest'], array('forest_haven'));
+          }
+
         }
 
         #array_unshift($buildings[$dominion->race->home_land_type], 'home');
