@@ -44,7 +44,7 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      pairing_limit: 3,12 # Unit slot, amount (max 12 of this unit per each Unit 3)
+      pairing_limit: 3,30 # Unit slot, amount (max 30 of this unit per each Unit 3)
   - name: Turret
     type:
       - machine
