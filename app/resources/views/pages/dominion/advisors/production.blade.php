@@ -371,12 +371,8 @@
                                   </tr>
 
                                   </tr>
-                                    <td>Jobs:</td>
-                                    <td>{{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Filled:</td>
-                                    <td>{{ number_format($populationCalculator->getPopulationEmployed($selectedDominion)) }}</td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Available jobs:<br>Peasants / Available Jobs">Jobs:</span></td></td>
+                                    <td>{{ number_format($populationCalculator->getPopulationEmployed($selectedDominion)) }} / {{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}</td>
                                   </tr>
                                   @php($jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion)))
                                   @if ($jobsNeeded < 0)

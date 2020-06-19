@@ -299,6 +299,9 @@ class PopulationCalculator
     }
 */
 
+    /*
+    *   Calculate how many units can be fit in this Dominion's Barracks.
+    */
     public function getAvailableHousingFromBarracks(Dominion $dominion): int
     {
         $unitsPerBarracks = 36;
@@ -313,9 +316,12 @@ class PopulationCalculator
             $troopsPerBarracks *= (1 + $dominion->getTechPerkMultiplier('barracks_housing'));
         }
 
-        return ($dominion->building_barracks * $unitsPerBarracks);
+        return ($dominion->building_barracks * $unitsPerBarracks) + $this->getAvailableHousingFromUnits($dominion);
     }
 
+    /*
+    *   Calculate how many units can be fit in this Dominion's Forest Havens.
+    */
     public function getAvailableHousingFromForestHavens(Dominion $dominion): int
     {
         $spyUnitsPerForestHaven = 40;
@@ -323,6 +329,9 @@ class PopulationCalculator
         return ($dominion->building_forest_haven * $spyUnitsPerForestHaven);
     }
 
+    /*
+    *   Calculate how many units can be fit in this Dominion's Wizard Guilds.
+    */
     public function getAvailableHousingFromWizardGuilds(Dominion $dominion): int
     {
         $wizUnitsPerWizardGuild = 40;
@@ -330,6 +339,10 @@ class PopulationCalculator
         return ($dominion->building_wizard_guild * $wizUnitsPerWizardGuild);
     }
 
+    /*
+    *   Calculate how many units can be fit in this Dominion's Units that can house military units.
+    *   This is added to getAvailableHousingFromBarracks.
+    */
     public function getAvailableHousingFromUnits(Dominion $dominion): int
     {
         $housingFromUnits = 0;
@@ -344,9 +357,16 @@ class PopulationCalculator
         return $housingFromUnits;
     }
 
+    /*
+    *   Calculate how many units live in Barracks.
+    *   Units start to live in barracks as soon as their military training begins.
+    *   Spy and wiz units prefer to live in FHs or WGs, and will only live in Barracks if FH/WG are full or unavailable.
+    */
     public function getUnitsHousedInBarracks(Dominion $dominion): int
     {
         $units = 0;
+        $units -= $this->getUnitsHousedInForestHavens($dominion);
+        $units -= $this->getUnitsHousedInWizardGuilds($dominion);
         $units += $dominion->military_spies;
         $units += $dominion->military_wizards;
         $units += $dominion->military_archmages;
@@ -356,17 +376,19 @@ class PopulationCalculator
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') !== 1)
             {
                 $units += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+                $units += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
             }
         }
 
-        $unitsHousedInBarracks = $units;
-        $unitsHousedInBarracks -= $this->getUnitsHousedInForestHavens($dominion);
-        $unitsHousedInBarracks -= $this->getUnitsHousedInWizardGuilds($dominion);
-        $unitsHousedInBarracks = max(0, $unitsHousedInBarracks);
+        $units = max(0, $units);
 
-        return min($unitsHousedInBarracks, $this->getAvailableHousingFromBarracks($dominion));
+        return min($units, $this->getAvailableHousingFromBarracks($dominion));
     }
 
+    /*
+    *   Calculate how many units live in Forest Havens.
+    *   Spy units start to live in FHs as soon as their military training begins.
+    */
     public function getUnitsHousedInForestHavens(Dominion $dominion): int
     {
         $spyUnits = $dominion->military_spies;
@@ -375,12 +397,17 @@ class PopulationCalculator
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_offense') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_defense'))
             {
                 $spyUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+                $spyUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
             }
         }
 
         return min($spyUnits, $this->getAvailableHousingFromForestHavens($dominion));
     }
 
+    /*
+    *   Calculate how many units live in Wizard Guilds.
+    *   Wiz units start to live in WGs as soon as their military training begins.
+    */
     public function getUnitsHousedInWizardGuilds(Dominion $dominion): int
     {
         $wizUnits = $dominion->military_wizards;
@@ -390,6 +417,7 @@ class PopulationCalculator
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense'))
             {
                 $wizUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+                $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
             }
         }
 
