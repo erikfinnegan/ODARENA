@@ -364,7 +364,7 @@ class PopulationCalculator
         $unitsHousedInBarracks -= $this->getUnitsHousedInWizardGuilds($dominion);
         $unitsHousedInBarracks = max(0, $unitsHousedInBarracks);
 
-        return min($units, $unitsHousedInBarracks);
+        return min($unitsHousedInBarracks, $this->getAvailableHousingFromBarracks($dominion));
     }
 
     public function getUnitsHousedInForestHavens(Dominion $dominion): int
