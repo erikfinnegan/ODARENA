@@ -178,10 +178,10 @@ class MilitaryCalculator
             $multiplier += 0.15 * (($attacker->{"land_plain"} / $this->landCalculator->getTotalLand($attacker)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($attacker)));
         }
 
-        // Nomad: defense_from_forest
+        // Nomad: offense_from_barren
         if($attacker->race->getPerkValue('offense_from_barren'))
         {
-            $multiplier += $attacker->race->getPerkValue('offense_from_barren') * ($this->landCalculator->getTotalBarrenLand($dominion) / $this->landCalculator->getTotalLand($attacker));
+            $multiplier += $attacker->race->getPerkValue('offense_from_barren') * ($this->landCalculator->getTotalBarrenLand($attacker) / $this->landCalculator->getTotalLand($attacker));
         }
 
         return (1 + $multiplier);
