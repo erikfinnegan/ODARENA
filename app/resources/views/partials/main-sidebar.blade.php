@@ -63,13 +63,7 @@
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
                 <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}">
                   <a href="{{ route('dominion.improvements') }}">
-                    <i class="fa fa-arrow-up fa-fw"></i> <span>
-                      @if((bool)$selectedDominion->race->getPerkValue('tissue_improvement'))
-                      Feeding
-                      @else
-                      Improvements
-                      @endif
-                      </span>
+                    <i class="fa fa-arrow-up fa-fw"></i> <span>Improvements</span>
                   </a>
                 </li>
                 @endif
