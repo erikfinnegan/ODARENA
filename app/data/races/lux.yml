@@ -93,9 +93,11 @@ units:
       defense: 8
     perks:
       no_draftee: 1
+      does_not_count_as_population: 1
       true_immortal: 1
       counts_as_wizard_offense: 0.12
       counts_as_wizard_defense: 0.08
       counts_as_spy_offense: 0.12
       counts_as_spy_defense: 0.08
+      mana_drain: 0.2
       plunders: mana;1,gems;0.2

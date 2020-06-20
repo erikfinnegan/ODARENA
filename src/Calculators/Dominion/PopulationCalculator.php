@@ -140,7 +140,6 @@ class PopulationCalculator
             + $this->getUnitsHousedInForestHavens($dominion)
             + $this->getUnitsHousedInWizardGuilds($dominion)
             + $this->getUnitsHousedInBarracks($dominion)
-            #+ $this->getUnitsHousedInUnits($dominion)
         );
     }
 
