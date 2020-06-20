@@ -300,103 +300,72 @@
                     </div>
                     <div class="box-body">
                         <p>
-                          @if ($selectedDominion->race->name == 'Growth')
-                            <b>Growth</b><br>
-                            Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
-                            Cells: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
-                            @if ($selectedDominion->peasants_last_hour < 0)
-                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
-                            @elseif ($selectedDominion->peasants_last_hour > 0)
-                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
-                            @endif
+                          <b>Population and Jobs</b>
+                          <table class="table">
+                              <colgroup>
+                                  <col width="50%">
+                                  <col width="50%">
+                              </colgroup>
+                            <tbody>
+                              </tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Total population:<br>Current / Available">Population:</span></td>
+                                <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
+                              </tr>
+                              </tr>
+                                <td>Peasants:</td>
+                                <td>{{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                                    @if ($selectedDominion->peasants_last_hour < 0)
+                                        <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
+                                    @elseif ($selectedDominion->peasants_last_hour > 0)
+                                        <span class="text-green">+{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
+                                    @endif
+                                </td>
+                              </tr>
+                              </tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks:<br>Filled / Available">Barracks housing:</span></td>
+                                <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
+                              </tr>
+                              </tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens:<br>Filled / Available">Spy housing:</span></td>
+                                <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>
+                              </tr>
+                              </tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds:<br>Filled / Available">Wizard housing:</span></td>
+                                <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
+                              </tr>
 
-                          @elseif ($selectedDominion->race->name == 'Myconid')
-                            <b>Network</b><br>
-                            Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
-                            Spores: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
-                            @if ($selectedDominion->peasants_last_hour < 0)
-                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
-                            @elseif ($selectedDominion->peasants_last_hour > 0)
-                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
-                            @endif
+                              <tr>
+                                <td>Military:</td>
+                                <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
+                              </tr>
 
-                          @elseif ($selectedDominion->race->name == 'Swarm')
-                            <b>Swarm</b><br>
-                            Total: {{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}<br>
-                            Larvae: {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
-                            @if ($selectedDominion->peasants_last_hour < 0)
-                                <span class="text-red">(<b>{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
-                            @elseif ($selectedDominion->peasants_last_hour > 0)
-                                <span class="text-green">(<b>+{{ number_format($selectedDominion->peasants_last_hour) }}</b> last tick</span>
-                            @endif
+                              </tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Available jobs:<br>Peasants / Available Jobs">Jobs:</span></td></td>
+                                <td>{{ number_format($populationCalculator->getPopulationEmployed($selectedDominion)) }} / {{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}</td>
+                              </tr>
+                              @php($jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion)))
+                              @if ($jobsNeeded < 0)
+                              <tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="How many peasants you need in order to fill all available jobs">Jobs available:</span></td>
+                                <td>{{ number_format(abs($jobsNeeded)) }}</td>
+                              </tr>
+                              @else
+                              <tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="How many new jobs need to be created to provide employment for all currently unemployed peasants<br>Peasants - Jobs = Jobs Needed">Jobs needed:</span></td>
+                                <td>{{ number_format(abs($jobsNeeded)) }}</td>
+                              </tr>
+                              @endif
+                              <tr>
+                                <td>Lost income:</td>
+                                <td>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</td>
+                              </tr>
+                              <tr>
+                                <td>Per peasant:</td>
+                                <td>{{ number_format((2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) / max(1, abs($jobsNeeded)), 3) }} platinum</td>
+                              </tr>
+                            </tbody>
+                          </table>
 
-                          @else
-                              <b>Population and Jobs</b>
-                              <table class="table">
-                                  <colgroup>
-                                      <col width="50%">
-                                      <col width="50%">
-                                  </colgroup>
-                                <tbody>
-                                  </tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Total population:<br>Current / Available">Population:</span></td>
-                                    <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
-                                  </tr>
-                                  </tr>
-                                    <td>Peasants:</td>
-                                    <td>{{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
-                                        @if ($selectedDominion->peasants_last_hour < 0)
-                                            <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
-                                        @elseif ($selectedDominion->peasants_last_hour > 0)
-                                            <span class="text-green">+{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
-                                        @endif
-                                    </td>
-                                  </tr>
-                                  </tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks:<br>Filled / Available">Barracks housing:</span></td>
-                                    <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
-                                  </tr>
-                                  </tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens:<br>Filled / Available">Spy housing:</span></td>
-                                    <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>
-                                  </tr>
-                                  </tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds:<br>Filled / Available">Wizard housing:</span></td>
-                                    <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
-                                  </tr>
-
-                                  <tr>
-                                    <td>Military:</td>
-                                    <td>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}</td>
-                                  </tr>
-
-                                  </tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Available jobs:<br>Peasants / Available Jobs">Jobs:</span></td></td>
-                                    <td>{{ number_format($populationCalculator->getPopulationEmployed($selectedDominion)) }} / {{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}</td>
-                                  </tr>
-                                  @php($jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion)))
-                                  @if ($jobsNeeded < 0)
-                                  <tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="How many peasants you need in order to fill all available jobs">Jobs available:</span></td>
-                                    <td>{{ number_format(abs($jobsNeeded)) }}</td>
-                                  </tr>
-                                  @else
-                                  <tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="How many new jobs need to be created to provide employment for all currently unemployed peasants<br>Peasants - Jobs = Jobs Needed">Jobs needed:</span></td>
-                                    <td>{{ number_format(abs($jobsNeeded)) }}</td>
-                                  </tr>
-                                  @endif
-                                  <tr>
-                                    <td>Lost income:</td>
-                                    <td>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Per peasant:</td>
-                                    <td>{{ number_format((2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) / max(1, abs($jobsNeeded)), 3) }} platinum</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                          @endif
                     </div>
                 </div>
             </div>
