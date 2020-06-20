@@ -177,7 +177,7 @@ class ImprovementCalculator
         # Growth: only sees food
         if($dominion->race->getPerkValue('tissue_improvement'))
         {
-          unset($worth);
+          #unset($worth);
           $worth['food'] = 1;
         }
         # Demon: can also invest souls (unused?)
