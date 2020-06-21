@@ -405,6 +405,7 @@ class InvadeActionService
                 $dominion->stat_attacking_failures += $countsAsFailure;
 
                 $target->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
+                $target->stat_defending_failures += 1;
             }
             else
             {
@@ -1323,6 +1324,8 @@ class InvadeActionService
             $this->invasionResult['attacker']['conversion'] = $convertedUnits;
         }
 
+        $dominion->stat_total_units_converted += array_sum($convertedUnits);
+
         return $convertedUnits;
     }
 
@@ -1485,7 +1488,9 @@ class InvadeActionService
             $this->invasionResult['defender']['conversion'] = $convertedUnits;
         }
 
-        # Defensive conversions take 6 ticks to activate
+        $dominion->stat_total_units_converted += array_sum($convertedUnits);
+
+        # Defensive conversions take 6 ticks to appear
         foreach($convertedUnits as $slot => $amount)
         {
             $unitKey = 'military_unit'.$slot;
