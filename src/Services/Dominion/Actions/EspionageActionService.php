@@ -339,7 +339,7 @@ class EspionageActionService
                         {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
-                            $dominion->{'stat_total_unit' . $unit->slot . '_lost') += $unitKilled;
+                            $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
                             $potentialSouls += $unitKilled;
                         }
                     }
@@ -608,7 +608,7 @@ class EspionageActionService
                         {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
-                            $dominion->{'stat_total_unit' . $unit->slot . '_lost') += $unitKilled;
+                            $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
                             $potentialSouls += $unitKilled;
                         }
                     }
@@ -964,7 +964,7 @@ class EspionageActionService
                         {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
-                            $dominion->{'stat_total_unit' . $unit->slot . '_lost') += $unitKilled;
+                            $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
                             $potentialSouls += $unitKilled;
                         }
                     }
