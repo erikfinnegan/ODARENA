@@ -334,6 +334,14 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <table class="table">
+                                <colgroup>
+                                    <col width="50%">
+                                    <col width="50%">
+                                </colgroup>
                                 <thead>
                                     <tr>
                                         <th colspan="2">Theft</th>
@@ -379,12 +387,141 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="box-header with-border">
+                                <h4 class="box-title">Magic</h4>
+                            </div>
+                        </div>
                         <div class="col-xs-12 col-sm-4">
                             <table class="table">
                                 <colgroup>
                                     <col width="50%">
                                     <col width="50%">
                                 </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Wizard Power</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Wizard Ratio (Offense):</td>
+                                        <td>
+                                            <strong>{{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</strong>
+                                            @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
+                                                <small class="text-muted">({{ number_format($militaryCalculator->getWIzardRatioRaw($selectedDominion, 'offense'), 3) }})</small>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wizard Ratio (Defense):</td>
+                                        <td>
+                                            <strong>{{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'defense'), 3) }}</strong>
+                                            @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
+                                                <small class="text-muted">({{ number_format($militaryCalculator->getWizardRatioRaw($selectedDominion, 'defense'), 3) }})</small>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Magic Success:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_spell_success) }}</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <table class="table">
+                                <colgroup>
+                                    <col width="50%">
+                                    <col width="50%">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Offensive Operations</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Draftees Assassinated:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_assassinate_draftees_damage) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wizards Assassinated:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_assassinate_wizards_damage) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Snare Impact:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_magic_snare_damage) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Boats Sunk:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_sabotage_boats_damage) }}</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <table class="table">
+                                <colgroup>
+                                    <col width="50%">
+                                    <col width="50%">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Theft</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Platinum Stolen:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lumber Stolen:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_lumber_stolen) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Food Stolen:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_food_stolen) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mana Stolen:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_mana_stolen) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ore Stolen:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_ore_stolen) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gems Stolen:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_gems_stolen) }}</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
                                 <thead>
                                     <tr>
                                         <th colspan="2">Black Ops (Wizard)</th>

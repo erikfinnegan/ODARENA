@@ -479,9 +479,11 @@ class TrainActionService
                 $timeReductionElites += 3;
               }
 
-              if($unit == 'unit1' or $unit == 'unit2' or $unit == 'unit3' or $unit == 'unit4')
+              if($unit == 'military_unit1' or $unit == 'military_unit2' or $unit == 'military_unit3' or $unit == 'military_unit4')
               {
-                  $dominion->{'stat_total_unit' . $unitSlot . '_trained'} += $unitAmountToTrain;
+                  $slot = str_replace('military_unit', '', $unit);
+                #  dd($slot);
+                  $dominion->{'stat_total_unit' . $slot . '_trained'} += $unitAmountToTrain;
               }
 
 
