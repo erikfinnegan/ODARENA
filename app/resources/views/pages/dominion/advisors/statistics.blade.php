@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12">
                             <div class="box-header with-border">
-                                <h4 class="box-title">Military</h4>
+                                <h4 class="box-title"><i class="ra ra-sword ra-fw"></i> Military</h4>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-4">
@@ -255,7 +255,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12">
                             <div class="box-header with-border">
-                                <h4 class="box-title">Espionage</h4>
+                                <h4 class="box-title"><i class="fa fa-user-secret fa-fw"></i> Espionage</h4>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-4">
@@ -289,9 +289,21 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Espionage Success:</td>
+                                        <td>Espionage success:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_espionage_success) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Spies trained:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_spies_trained) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Spies lost:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_spies_lost) }}</strong>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -349,37 +361,37 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Platinum Stolen:</td>
+                                        <td>Platinum stolen:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Lumber Stolen:</td>
+                                        <td>Lumber stolen:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_total_lumber_stolen) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Food Stolen:</td>
+                                        <td>Food stolen:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_total_food_stolen) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Mana Stolen:</td>
+                                        <td>Mana stolen:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_total_mana_stolen) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Ore Stolen:</td>
+                                        <td>Ore stolen:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_total_ore_stolen) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Gems Stolen:</td>
+                                        <td>Gems stolen:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_total_gems_stolen) }}</strong>
                                         </td>
@@ -392,7 +404,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-12">
                             <div class="box-header with-border">
-                                <h4 class="box-title">Magic</h4>
+                                <h4 class="box-title"><i class="ra ra-fairy-wand ra-fw"></i> Magic</h4>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-4">
@@ -431,6 +443,30 @@
                                             <strong>{{ number_format($selectedDominion->stat_spell_success) }}</strong>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>Wizards trained:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_wizards_trained) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Wizards lost:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_wizards_lost) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Archmages trained:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_archmages_lost) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Archmages lost:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_archmages_lost) }}</strong>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -447,27 +483,21 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Draftees Assassinated:</td>
+                                        <td>Spies disbanded:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_assassinate_draftees_damage) }}</strong>
+                                            <strong>{{ number_format($selectedDominion->stat_disband_spies_damage) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Wizards Assassinated:</td>
+                                        <td>Fireball damage:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_assassinate_wizards_damage) }}</strong>
+                                            <strong>{{ number_format($selectedDominion->stat_fireball_damage) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Snare Impact:</td>
+                                        <td>Lightning bolt damage:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_magic_snare_damage) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Boats Sunk:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_sabotage_boats_damage) }}</strong>
+                                            <strong>{{ number_format($selectedDominion->stat_lightning_bolt_damage) }}</strong>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -481,85 +511,24 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Theft</th>
+                                        <th colspan="2">Offensive Operations</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Platinum Stolen:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Lumber Stolen:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_lumber_stolen) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Food Stolen:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_food_stolen) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mana Stolen:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_mana_stolen) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ore Stolen:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_ore_stolen) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Gems Stolen:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_gems_stolen) }}</strong>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Black Ops (Wizard)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Spies Disbanded:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_disband_spies_damage) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fireball Damage:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_fireball_damage) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Lightning Bolt Damage:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_lightning_bolt_damage) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Earthquake Ticks:</td>
+                                        <td>Earthquake duration:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_earthquake_hours) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Great Flood Ticks:</td>
+                                        <td>Great Flood duration:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_great_flood_hours) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Insect Swarm Ticks:</td>
+                                        <td>Insect Swarm duration:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_insect_swarm_hours) }}</strong>
                                         </td>
@@ -580,7 +549,7 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="box-header with-border">
-                                        <h4 class="box-title">Population</h4>
+                                        <h4 class="box-title"><i class="ra ra-double-team ra-fw"></i> Population</h4>
                                     </div>
                                 </div>
                                 <div class="col-xs-12">

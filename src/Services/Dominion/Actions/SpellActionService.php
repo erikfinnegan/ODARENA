@@ -511,6 +511,7 @@ class SpellActionService
                 {
                     $unitsKilled['wizards'] = $wizardsKilled;
                     $dominion->military_wizards -= $wizardsKilled;
+                    $dominion->stat_total_wizards_lost += $wizardsKilled;
                 }
 
                 foreach ($dominion->race->units as $unit)
@@ -531,6 +532,7 @@ class SpellActionService
                         {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                            $dominion->{'stat_total_unit' . $unit->slot . '_lost') += $unitKilled;
                         }
                     }
                 }

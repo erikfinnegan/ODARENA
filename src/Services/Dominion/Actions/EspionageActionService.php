@@ -272,7 +272,7 @@ class EspionageActionService
      */
     protected function performInfoGatheringOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
-      
+
         if($dominion->spy_strength <= static::SPY_STRENGTH_COST_INFO_OPS)
         {
             throw new GameException('You do not have enough spy strength to perform this operation.');
@@ -318,6 +318,7 @@ class EspionageActionService
                 {
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
+                    $dominion->stat_total_spies_lost += $spiesKilled;
                 }
 
                 $potentialSouls = 0;
@@ -338,6 +339,7 @@ class EspionageActionService
                         {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                            $dominion->{'stat_total_unit' . $unit->slot . '_lost') += $unitKilled;
                             $potentialSouls += $unitKilled;
                         }
                     }
@@ -580,9 +582,11 @@ class EspionageActionService
                   $spiesKilled = 0;
                 }
 
-                if ($spiesKilled > 0) {
+                if ($spiesKilled > 0)
+                {
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
+                    $dominion->stat_total_spies_lost += $spiesKilled;
                 }
 
                 $potentialSouls = 0;
@@ -600,9 +604,11 @@ class EspionageActionService
                           $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
                         }
 
-                        if ($unitKilled > 0) {
+                        if ($unitKilled > 0)
+                        {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                            $dominion->{'stat_total_unit' . $unit->slot . '_lost') += $unitKilled;
                             $potentialSouls += $unitKilled;
                         }
                     }
@@ -926,9 +932,12 @@ class EspionageActionService
 
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
-                if ($spiesKilled > 0) {
+
+                if ($spiesKilled > 0)
+                {
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
+                    $dominion->stat_total_spies_lost += $spiesKilled;
                 }
 
                 # Swarm: immortal spies
@@ -951,9 +960,11 @@ class EspionageActionService
                         $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
                       }
 
-                        if ($unitKilled > 0) {
+                        if ($unitKilled > 0)
+                        {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                            $dominion->{'stat_total_unit' . $unit->slot . '_lost') += $unitKilled;
                             $potentialSouls += $unitKilled;
                         }
                     }

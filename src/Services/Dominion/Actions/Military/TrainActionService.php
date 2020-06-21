@@ -479,13 +479,8 @@ class TrainActionService
                 $timeReductionElites += 3;
               }
 
-              if($unit == 'military_unit1' or $unit == 'military_unit2' or $unit == 'military_unit3' or $unit == 'military_unit4')
-              {
-                  $slot = str_replace('military_unit', '', $unit);
-                #  dd($slot);
-                  $dominion->{'stat_total_unit' . $slot . '_trained'} += $unitAmountToTrain;
-              }
-
+              $unitType = str_replace('military_','',$unit);
+              $dominion->{'stat_total_' . $unitType . '_trained'} += $amountToTrain;
 
               // Look for faster training.
               if($fasterTraining = $dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'faster_training') and $amountToTrain > 0)
