@@ -90,7 +90,7 @@
                                                 <b>{{ $dominion->name }}</b>
                                             @else
                                                 @if ($isOwnRealm)
-                                                    {{ $dominion->name }}
+                                                    <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }}">{{ $dominion->name }}</span>
                                                 @else
                                                     <a href="{{ route('dominion.op-center.show', $dominion) }}">{{ $dominion->name }}</a>
                                                 @endif
