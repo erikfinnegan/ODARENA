@@ -342,6 +342,12 @@ class InvadeActionService
             $this->checkOverwhelmed();
 
             # Only count successful, non-in-realm hits over 75% as victories.
+
+            $countsAsVictory = 0;
+            $countsAsFailure = 0;
+            $countsAsRaze = 0;
+            $countsAsBottomfeed = 0;
+
             if($landRatio >= 0.75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
             {
                 $countsAsVictory = 1;
@@ -353,14 +359,16 @@ class InvadeActionService
                 $countsAsVictory = 0;
 
                 # For non-overwhelmed bounces, count it as a raze.
-                if(!$this->invasionResult['result']['overwhelmed'])
+                if($landRatio < 0.75 and $this->invasionResult['result']['success'])
+                {
+                    $countsAsBottomfeed = 1;
+                }
+                elseif(!$this->invasionResult['result']['overwhelmed'] and !$this->invasionResult['result']['success'])
                 {
                     $countsAsRaze = 1;
-                    $countsAsFailure = 0;
                 }
                 else
                 {
-                    $countsAsRaze = 0;
                     $countsAsFailure = 1;
                 }
             }
@@ -403,6 +411,7 @@ class InvadeActionService
                 $dominion->stat_attacking_success += $countsAsVictory;
                 $dominion->stat_attacking_razes += $countsAsRaze;
                 $dominion->stat_attacking_failures += $countsAsFailure;
+                $dominion->stat_attacking_bottomfeeds += $countsAsBottomfeed;
 
                 $target->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
                 $target->stat_defending_failures += 1;
