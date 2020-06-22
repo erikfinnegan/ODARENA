@@ -22,17 +22,16 @@
                             <col width="100">
                             <col width="100">
                             <col width="100">
+                            <col width="100">
                         </colgroup>
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
                                 <th>Dominion</th>
-                                @if ($isOwnRealm && $selectedDominion->pack !== null)
-                                    <th class="text-center">Player from Pack</th>
-                                @endif
                                 <th class="text-center">Faction</th>
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
+                                <th class="text-center">Units Returning</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,18 +99,18 @@
                                                 <span class="label label-success">Online</span>
                                             @endif
                                         </td>
-                                        @if ($isOwnRealm && $selectedDominion->pack !== null)
-                                            @if (($dominion->pack !== null) && ($dominion->pack->id === $selectedDominion->pack->id))
-                                                <td class="text-center">{{ $dominion->user->display_name }}</td>
-                                            @else
-                                                <td class="text-center"></td>
-                                            @endif
-                                        @endif
                                         <td class="text-center">
                                             {{ $dominion->race->name }}
                                         </td>
                                         <td class="text-center">{{ number_format($landCalculator->getTotalLand($dominion)) }}</td>
                                         <td class="text-center">{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}</td>
+                                        <td class="text-center">
+                                            @if ($militaryCalculator->hasReturningUnits($dominion))
+                                                <span class="label label-success">Yes</span>
+                                            @else
+                                                <span class="text-gray">No</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endif
                             @endfor

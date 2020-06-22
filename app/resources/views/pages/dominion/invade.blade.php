@@ -4,9 +4,6 @@
 
 @section('content')
 
-
-
-
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -116,7 +113,6 @@
                                                 if ($offenseMobPerk) {
                                                     $mobOffense = explode(',', $offenseMobPerk)[0];
                                                 }
-
 
                                             }
                                             $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {

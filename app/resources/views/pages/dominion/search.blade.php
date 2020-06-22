@@ -93,7 +93,7 @@
                                 <th class="text-center">Faction</th>
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
-                                <th class="text-center">Troops<br>Returning</th>
+                                <th class="text-center">Units<br>Returning</th>
                                 <th class="text-center hidden">My Range</th>
                             </tr>
                         </thead>
