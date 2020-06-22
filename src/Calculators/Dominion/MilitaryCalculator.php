@@ -1458,7 +1458,7 @@ class MilitaryCalculator
                               ->where('game_events.created_at', '>=', now()->subHours(6))
                               ->where([
                                   'game_events.type' => 'invasion',
-                                  'source_dominion.realm_id' => $defender->realm_id,
+                                  'game_events.source_id' => $defender->id,
                                   'target_dominion.realm_id' => $attacker->realm_id,
                               ])
                               ->get();
