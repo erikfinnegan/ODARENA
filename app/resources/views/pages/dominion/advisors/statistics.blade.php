@@ -112,6 +112,12 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Bottomfeeds:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_attacking_bottomfeeds) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Tactical razes:</td>
                                         <td>
                                             <strong>{{ number_format($selectedDominion->stat_attacking_razes) }}</strong>
