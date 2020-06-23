@@ -1412,7 +1412,7 @@ class MilitaryCalculator
     /**
      * Checks Dominion was recently invaded by attacker.
      *
-     * 'Recent' refers to the past 24 hours.
+     * 'Recent' refers to the past 12 hours.
      *
      * @param Dominion $dominion
      * @param Dominion $attacker
@@ -1442,7 +1442,7 @@ class MilitaryCalculator
     /**
      * Checks if $defender recently invaded $attacker's realm.
      *
-     * 'Recent' refers to the past 24 hours.
+     * 'Recent' refers to the past 6 hours.
      *
      * @param Dominion $dominion
      * @param Dominion $attacker
