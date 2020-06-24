@@ -128,7 +128,7 @@
                                         <td>Souls:</td>
                                         <td>
                                             @if ($soulProduction = $productionCalculator->getSoulProduction($selectedDominion))
-                                                <span class="text-green">+{{ number_format($soulProduction, 2) }}</span>
+                                                <span class="text-green">+{{ number_format($soulProduction) }}</span>
                                             @else
                                                 0
                                             @endif
