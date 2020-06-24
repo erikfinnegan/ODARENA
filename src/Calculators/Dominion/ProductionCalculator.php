@@ -1115,7 +1115,7 @@ class ProductionCalculator
         {
             if(!$dominion->race->getPerkValue('gryphon_nests_generates_wild_yetis'))
             {
-              return 0;
+                return 0;
             }
 
             $wildYetis = 0;
