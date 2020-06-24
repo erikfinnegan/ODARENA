@@ -851,9 +851,6 @@ class ProductionCalculator
             $multiplier = -1;
         }
 
-        # /SPELLS
-
-
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
@@ -1118,7 +1115,7 @@ class ProductionCalculator
         {
             if(!$dominion->race->getPerkValue('gryphon_nests_generates_wild_yetis'))
             {
-              return 0;
+                return 0;
             }
 
             $wildYetis = 0;

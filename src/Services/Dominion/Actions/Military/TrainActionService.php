@@ -440,12 +440,6 @@ class TrainActionService
             $dominion->stat_total_soul_spent_training += $totalCosts['soul'];
             $dominion->stat_total_blood_spent_training += $totalCosts['blood'];
             $dominion->stat_total_champion_spent_training += $totalCosts['champion'];
-            if($unitSlot == 1 or $unitSlot == 2 or $unitSlot == 3 or $unitSlot == 4)
-            {
-                $dominion->{'stat_total_unit' . $unitSlot . '_trained'} += $unitAmountToTrain;            
-            }
-
-
 
             // $data:
             # unit1 => int
@@ -484,6 +478,10 @@ class TrainActionService
               {
                 $timeReductionElites += 3;
               }
+
+              $unitType = str_replace('military_','',$unit);
+              $dominion->{'stat_total_' . $unitType . '_trained'} += $amountToTrain;
+
               // Look for faster training.
               if($fasterTraining = $dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'faster_training') and $amountToTrain > 0)
               {

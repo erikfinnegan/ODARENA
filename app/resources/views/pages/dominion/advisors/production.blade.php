@@ -123,6 +123,30 @@
                                             <small class="text-muted">({{ number_format(($productionCalculator->getBoatProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                         </td>
                                     </tr>
+                                    @if ($selectedDominion->race->name == 'Demon')
+                                    <tr>
+                                        <td>Souls:</td>
+                                        <td>
+                                            @if ($soulProduction = $productionCalculator->getSoulProduction($selectedDominion))
+                                                <span class="text-green">+{{ number_format($soulProduction) }}</span>
+                                            @else
+                                                0
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endif
+                                    @if ($selectedDominion->race->name == 'Snow Elf')
+                                    <tr>
+                                        <td>Wild yetis:</td>
+                                        <td>
+                                            @if ($wildYetiProduction = $productionCalculator->getWildYetiProduction($selectedDominion))
+                                                <span class="text-green">+{{ number_format($wildYetiProduction, 2) }}</span>
+                                            @else
+                                                0
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -179,6 +203,20 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    @if ($selectedDominion->race->name == 'Snow Elf')
+                                    <tr>
+                                        <td>Wild yetis escaped:</td>
+                                        <td>
+                                            @if ($wildYetiEscaped = $productionCalculator->getWildYetiEscaped($selectedDominion))
+                                                <span class="text-red">-{{ number_format($wildYetiEscaped) }}</span>
+                                            @else
+                                                <span class="text-green">+0</span>
+                                            @endif
+
+                                            <small class="text-muted"><em>(estimated)</em></span>
+                                        </td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
 

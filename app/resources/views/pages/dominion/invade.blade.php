@@ -4,9 +4,6 @@
 
 @section('content')
 
-
-
-
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -116,7 +113,6 @@
                                                 if ($offenseMobPerk) {
                                                     $mobOffense = explode(',', $offenseMobPerk)[0];
                                                 }
-
 
                                             }
                                             $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {
@@ -417,7 +413,7 @@
                 <div class="box-body">
                     <p>Here you can invade other players to try to capture some of their land and to gain prestige. Invasions are successful if you send more OP than they have DP.</p>
                     <p>If you hit the same target within two hours, you will not discover additional land. You will only get the acres you conquer. Note that this is down to the <em>exact second</em> of your previous hit and includes failed invasions.</p>
-                    <p>You will only gain prestige on targets 75% or greater relative to your own land size. Land gain from such hits can be constructed at a 25% discount.</p>
+                    <p>You will only gain prestige on targets 75% or greater relative to your own land size.</p>
                     <p>For every acre you gain, you receive 25 experience points.</p>
                     <p>Note that minimum raw DP a target can have is 10 DP per acre.</p>
 

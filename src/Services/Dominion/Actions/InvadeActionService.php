@@ -342,6 +342,12 @@ class InvadeActionService
             $this->checkOverwhelmed();
 
             # Only count successful, non-in-realm hits over 75% as victories.
+
+            $countsAsVictory = 0;
+            $countsAsFailure = 0;
+            $countsAsRaze = 0;
+            $countsAsBottomfeed = 0;
+
             if($landRatio >= 0.75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
             {
                 $countsAsVictory = 1;
@@ -353,14 +359,16 @@ class InvadeActionService
                 $countsAsVictory = 0;
 
                 # For non-overwhelmed bounces, count it as a raze.
-                if(!$this->invasionResult['result']['overwhelmed'])
+                if($landRatio < 0.75 and $this->invasionResult['result']['success'])
+                {
+                    $countsAsBottomfeed = 1;
+                }
+                elseif(!$this->invasionResult['result']['overwhelmed'] and !$this->invasionResult['result']['success'])
                 {
                     $countsAsRaze = 1;
-                    $countsAsFailure = 0;
                 }
                 else
                 {
-                    $countsAsRaze = 0;
                     $countsAsFailure = 1;
                 }
             }
@@ -403,8 +411,10 @@ class InvadeActionService
                 $dominion->stat_attacking_success += $countsAsVictory;
                 $dominion->stat_attacking_razes += $countsAsRaze;
                 $dominion->stat_attacking_failures += $countsAsFailure;
+                $dominion->stat_attacking_bottomfeeds += $countsAsBottomfeed;
 
                 $target->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
+                $target->stat_defending_failures += 1;
             }
             else
             {
@@ -1323,6 +1333,8 @@ class InvadeActionService
             $this->invasionResult['attacker']['conversion'] = $convertedUnits;
         }
 
+        $dominion->stat_total_units_converted += array_sum($convertedUnits);
+
         return $convertedUnits;
     }
 
@@ -1485,7 +1497,9 @@ class InvadeActionService
             $this->invasionResult['defender']['conversion'] = $convertedUnits;
         }
 
-        # Defensive conversions take 6 ticks to activate
+        $dominion->stat_total_units_converted += array_sum($convertedUnits);
+
+        # Defensive conversions take 6 ticks to appear
         foreach($convertedUnits as $slot => $amount)
         {
             $unitKey = 'military_unit'.$slot;
@@ -1963,11 +1977,10 @@ class InvadeActionService
             # Demon attacking non-Demon
             if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
             {
-
                 $unitsKilled = $this->invasionResult['defender']['unitsLost'];
                 $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, $this->isAmbush, true);
 
-                #$this->invasionResult['attacker']['demonic_collection']['dpFromKilledUnits'] = $dpFromKilledUnits;
+                $this->invasionResult['attacker']['dpFromKilledUnits'] = $dpFromKilledUnits;
 
                 $blood += $dpFromKilledUnits * 1/3;
                 $food += $dpFromKilledUnits * 4;
@@ -1992,7 +2005,7 @@ class InvadeActionService
             # Demon defending against non-Demon
             elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
             {
-                $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['defender']['unitsLost'], [], false, true);
+                $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $this->invasionResult['attacker']['unitsLost'], [], false, true);
 
                 foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
                 {
@@ -2001,7 +2014,7 @@ class InvadeActionService
                     $food += $casualties * 2;
                 }
 
-                #$this->invasionResult['defender']['demonic_collection']['opFromKilledUnits'] = $opFromKilledUnits;
+                $this->invasionResult['defender']['opFromKilledUnits'] = $opFromKilledUnits;
 
                 $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
 
