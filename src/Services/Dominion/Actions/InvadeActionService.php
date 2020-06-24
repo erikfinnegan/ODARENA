@@ -423,7 +423,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -1977,11 +1977,10 @@ class InvadeActionService
             # Demon attacking non-Demon
             if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
             {
-
                 $unitsKilled = $this->invasionResult['defender']['unitsLost'];
                 $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, $this->isAmbush, true);
 
-                #$this->invasionResult['attacker']['demonic_collection']['dpFromKilledUnits'] = $dpFromKilledUnits;
+                $this->invasionResult['attacker']['demonic_collection']['dpFromKilledUnits'] = $dpFromKilledUnits;
 
                 $blood += $dpFromKilledUnits * 1/3;
                 $food += $dpFromKilledUnits * 4;
@@ -2006,7 +2005,7 @@ class InvadeActionService
             # Demon defending against non-Demon
             elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
             {
-                $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['defender']['unitsLost'], [], false, true);
+                $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $this->invasionResult['attacker']['unitsLost'], [], false, true);
 
                 foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
                 {
@@ -2015,7 +2014,7 @@ class InvadeActionService
                     $food += $casualties * 2;
                 }
 
-                #$this->invasionResult['defender']['demonic_collection']['opFromKilledUnits'] = $opFromKilledUnits;
+                $this->invasionResult['defender']['demonic_collection']['opFromKilledUnits'] = $opFromKilledUnits;
 
                 $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
 
