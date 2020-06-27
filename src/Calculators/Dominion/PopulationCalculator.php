@@ -307,12 +307,12 @@ class PopulationCalculator
 
         if($dominion->race->getPerkValue('extra_barracks_housing'))
         {
-            $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
+            $unitsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
         }
 
         if($dominion->getTechPerkMultiplier('barracks_housing'))
         {
-            $troopsPerBarracks *= (1 + $dominion->getTechPerkMultiplier('barracks_housing'));
+            $unitsPerBarracks *= (1 + $dominion->getTechPerkMultiplier('barracks_housing'));
         }
 
         return ($dominion->building_barracks * $unitsPerBarracks) + $this->getAvailableHousingFromUnits($dominion);
