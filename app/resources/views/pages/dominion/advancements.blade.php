@@ -12,7 +12,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-flask"></i> Advancements</h3>
                 </div>
-                <form action="{{ route('dominion.techs') }}" method="post" role="form">
+                <form action="{{ route('dominion.advancements') }}" method="post" role="form">
                     @csrf
                     <div class="box-body table-responsive no-padding">
                         <table class="table">

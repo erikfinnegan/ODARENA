@@ -9,11 +9,11 @@ use OpenDominion\Services\Analytics\AnalyticsEvent;
 use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\Actions\BankActionService;
 
-class BankController extends AbstractDominionController
+class ExchangeController extends AbstractDominionController
 {
     public function getBank()
     {
-        return view('pages.dominion.bank', [
+        return view('pages.dominion.exchange', [
             'bankingCalculator' => app(BankingCalculator::class),
         ]);
     }
@@ -47,6 +47,6 @@ class BankController extends AbstractDominionController
         ));
 
         $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.bank');
+        return redirect()->route('dominion.exchange');
     }
 }

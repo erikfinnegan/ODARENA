@@ -15,7 +15,7 @@ class TechController extends AbstractDominionController
 {
     public function getTechs()
     {
-        return view('pages.dominion.techs', [
+        return view('pages.dominion.advancements', [
             'techs' => Tech::all()->keyBy('key'),
             'techCalculator' => app(TechCalculator::class),
             'techHelper' => app(TechHelper::class),
@@ -47,6 +47,6 @@ class TechController extends AbstractDominionController
         ));
 
         $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.techs');
+        return redirect()->route('dominion.advancements');
     }
 }

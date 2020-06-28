@@ -84,6 +84,44 @@
                                                 <a href="{{ route('dominion.realm', [$gameEvent->source->number]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span> (#{{ $gameEvent->source->number }})</a> has declared <span class="text-red text-bold">WAR</span> on <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span> (#{{ $gameEvent->target->number }})</a>.
                                             @elseif ($gameEvent->type === 'war_canceled')
                                                 <a href="{{ route('dominion.realm', [$gameEvent->source->number]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span> (#{{ $gameEvent->source->number }})</a> has <span class="text-green text-bold">CANCELED</span> war against realm <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span> (#{{ $gameEvent->target->number }})</a>.
+                                            @elseif ($gameEvent->type === 'new_dominion')
+                                                @php
+                                                if($gameEvent->target->alignment == 'evil')
+                                                {
+                                                    $alignment = 'Empire';
+                                                    $verb = 'joined';
+                                                }
+                                                elseif($gameEvent->target->alignment == 'good')
+                                                {
+                                                    $alignment = 'Commonwealth';
+                                                    $verb = 'enlisted in';
+                                                }
+                                                elseif($gameEvent->target->alignment == 'independent')
+                                                {
+                                                    $alignment = 'Independent';
+                                                    $verb = 'appeared in';
+                                                }
+                                                elseif($gameEvent->target->alignment == 'Barbarian')
+                                                {
+                                                    $alignment = 'Barbarian Horde';
+                                                    $verb = 'been spotted in';
+                                                }
+                                                else
+                                                {
+                                                    $alignment = 'Unknown';
+                                                }
+
+                                                $race = strtolower($gameEvent->source->race->name);
+                                                @endphp
+
+                                                A new {{ $race }} dominion called <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> has {{ $verb }} the
+                                                <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}">
+                                                  @if ($gameEvent->target->id == $selectedDominion->realm_id)
+                                                    <span class="text-green">
+                                                  @else
+                                                    <span class="text-red">
+                                                  @endif
+                                                  {{ $alignment }}</span></a>.
                                             @endif
                                         </td>
                                         <td class="text-center">
@@ -137,7 +175,7 @@
         (function ($) {
             $('#realm-select').change(function() {
                 var selectedRealm = $(this).val();
-                window.location.href = "{!! route('dominion.town-crier') !!}/" + selectedRealm;
+                window.location.href = "{!! route('dominion.world-news') !!}/" + selectedRealm;
             });
         })(jQuery);
     </script>

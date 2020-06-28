@@ -5,7 +5,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Services\GameEventService;
 
-class TownCrierController extends AbstractDominionController
+class WorldNewsController extends AbstractDominionController
 {
     public function getIndex(int $realmNumber = null)
     {
@@ -30,7 +30,7 @@ class TownCrierController extends AbstractDominionController
 
         $realmCount = Realm::where('round_id', $dominion->round_id)->count();
 
-        return view('pages.dominion.town-crier', compact(
+        return view('pages.dominion.world-news', compact(
             'dominionIds',
             'gameEvents',
             'realm',

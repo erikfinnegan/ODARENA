@@ -70,14 +70,13 @@
 
                 <!-- NATIONAL BANK -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_exchange'))
-                <li class="{{ Route::is('dominion.bank') ? 'active' : null }}"><a href="{{ route('dominion.bank') }}">
-                <i class="fa fa-money fa-fw"></i> <span>Exchange
-                </span></a></li>
+                <li class="{{ Route::is('dominion.exchange') ? 'active' : null }}"><a href="{{ route('dominion.exchange') }}">
+                <i class="fa fa-money fa-fw"></i> <span>Exchange</span></a></li>
                 @endif
 
                 <!-- TECHS -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
-                <li class="{{ Route::is('dominion.techs') ? 'active' : null }}"><a href="{{ route('dominion.techs') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span> {!! $techLevelAffordable > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">Level&nbsp;' . $techLevelAffordable . '</small></span>') : null !!}</a></li>
+                <li class="{{ Route::is('dominion.advancements') ? 'active' : null }}"><a href="{{ route('dominion.advancements') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span> {!! $techLevelAffordable > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">Level&nbsp;' . $techLevelAffordable . '</small></span>') : null !!}</a></li>
                 @endif
 
 
@@ -117,7 +116,7 @@
                 <li class="header">REALM</li>
                 -->
                 <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="ra ra-circle-of-circles ra-fw"></i> <span>The World</span></a></li>
-                <li class="{{ Route::is('dominion.town-crier') ? 'active' : null }}"><a href="{{ route('dominion.town-crier') }}"><i class="fa fa-newspaper-o ra-fw"></i> <span>World News</span></a></li>
+                <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}"><a href="{{ route('dominion.world-news') }}"><i class="fa fa-newspaper-o ra-fw"></i> <span>World News</span></a></li>
                 <li class="{{ Route::is('dominion.rankings') ? 'active' : null }}"><a href="{{ route('dominion.rankings') }}"><i class="fa fa-trophy ra-fw"></i> <span>Rankings</span></a></li>
 
                 <li class="{{ Route::is('dominion.notes') ? 'active' : null }}"><a href="{{ route('dominion.notes') }}"><i class="ra ra-quill-ink ra-fw"></i> <span>Notes</span></a></li>

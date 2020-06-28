@@ -39,13 +39,19 @@ class StatusController extends AbstractDominionController
 
     public function postTick(TickActionRequest $request)
     {
-        #dd($request);
+        $ticks = intval($request->ticks);
+        $ticks = min($ticks, 84);
+        $ticks = max($ticks, 0);
         $dominion = $this->getSelectedDominion();
         $tickActionService = app(TickActionService::class);
 
         try
         {
-            $result = $tickActionService->tickDominion($dominion);
+            for ($tick = 1; $tick <= $ticks; $tick++)
+            {
+                $result = $tickActionService->tickDominion($dominion);
+                usleep(rand(100000,100000));
+            }
         }
         catch (GameException $e)
         {

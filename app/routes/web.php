@@ -111,12 +111,12 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('improvements')->uses('Dominion\ImprovementController@postImprovements');
 
             // National Bank
-            $router->get('bank')->uses('Dominion\BankController@getBank')->name('bank');
-            $router->post('bank')->uses('Dominion\BankController@postBank');
+            $router->get('exchange')->uses('Dominion\ExchangeController@getBank')->name('exchange');
+            $router->post('exchange')->uses('Dominion\ExchangeController@postBank');
 
             // Techs
-            $router->get('techs')->uses('Dominion\TechController@getTechs')->name('techs');
-            $router->post('techs')->uses('Dominion\TechController@postTechs');
+            $router->get('advancements')->uses('Dominion\TechController@getTechs')->name('advancements');
+            $router->post('advancements')->uses('Dominion\TechController@postTechs');
 
             // Military
             $router->get('military')->uses('Dominion\MilitaryController@getMilitary')->name('military');
@@ -179,7 +179,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('realm/change-realm')->uses('Dominion\RealmController@postChangeRealm')->name('realm.change-realm');
 
             // Town Crier
-            $router->get('town-crier/{realmNumber?}')->uses('Dominion\TownCrierController@getIndex')->name('town-crier');
+            $router->get('world-news/{realmNumber?}')->uses('Dominion\WorldNewsController@getIndex')->name('world-news');
 
             // Notes
             $router->get('notes')->uses('Dominion\NotesController@getNotes')->name('notes');

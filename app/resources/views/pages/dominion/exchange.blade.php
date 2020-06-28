@@ -12,7 +12,7 @@
                 <div class="box-header with-border">
                   <h3 class="box-title"><i class="fa fa-money"></i> Exchange</h3>
                 </div>
-                <form action="{{ route('dominion.bank') }}" method="post" {{--class="form-inline" --}}role="form">
+                <form action="{{ route('dominion.exchange') }}" method="post" {{--class="form-inline" --}}role="form">
                     @csrf
                     <div class="box-body">
                         <div class="row">
@@ -96,7 +96,7 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>The National Bank allows you to exchange resources with the empire. Exchanging resources processes <b>instantly</b>.</p>
+                    <p>In the Exchange, you can exchange resources with the empire. Exchanging resources processes <b>instantly</b>.</p>
                     <p>Platinum, lumber and ore trade 2 for 1.<br>Gems trade 1:2 platinum, lumber or ore.<br>Food sells for 4 platinum, lumber or ore, or 1 gem.</p>
                     <p>You have {{ number_format($selectedDominion->resource_platinum) }} platinum, {{ number_format($selectedDominion->resource_lumber) }} lumber, {{ number_format($selectedDominion->resource_ore) }} ore and {{ number_format($selectedDominion->resource_gems) }} {{ str_plural('gem', $selectedDominion->resource_gems) }}.</p>
                 </div>

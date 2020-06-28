@@ -269,13 +269,18 @@
                           <form action="{{ route('dominion.status') }}" method="post" role="form" id="tick_form">
                           @csrf
                           <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
+                          <select class="btn btn-warning" name="ticks">
+                              @for ($i = 1; $i <= $selectedDominion->protection_ticks; $i++)
+                              <option value="{{ $i }}">{{ $i }}</option>
+                              @endfor
+                          </select>
+
                           <button type="submit"
                                   class="btn btn-info"
                                   {{ $selectedDominion->isLocked() ? 'disabled' : null }}
                                   id="tick-button">
                               <i class="ra ra-shield"></i>
-                              Proceed to next tick
-                          </button>
+                              Proceed tick(s) ({{ $selectedDominion->protection_ticks }} {{ str_plural('tick', $selectedDominion->protection_ticks) }} left)
                         </form>
                       </div>
                 </div>

@@ -205,7 +205,7 @@
                               </table>
                             </div>
 
-                            <p><a href="{{ route('dominion.town-crier', [$realm->number]) }}">View the realm's News</a></p>
+                            <p><a href="{{ route('dominion.world-news', [$realm->number]) }}">View the realm's News</a></p>
                           </div>
                       </div>
                 </div>

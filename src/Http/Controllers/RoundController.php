@@ -24,7 +24,8 @@ use OpenDominion\Services\Dominion\SelectorService;
 use OpenDominion\Services\PackService;
 use OpenDominion\Services\RealmFinderService;
 
-
+# ODA
+use OpenDominion\Models\GameEvent;
 
 class RoundController extends AbstractController
 {
@@ -34,6 +35,8 @@ class RoundController extends AbstractController
     /** @var PackService */
     protected $packService;
 
+    /** @var GameEvent */
+    protected $newDominionEvent;
     /**
      * RoundController constructor.
      *
@@ -44,6 +47,7 @@ class RoundController extends AbstractController
     {
         $this->dominionFactory = $dominionFactory;
         $this->packService = $packService;
+        #$this->newDominionEvent = $newDominionEvent;
     }
 
     public function getRegister(Round $round)
@@ -230,6 +234,17 @@ class RoundController extends AbstractController
                     $pack,
                     $title
                 );
+
+
+                $this->newDominionEvent = GameEvent::create([
+                    'round_id' => $dominion->round_id,
+                    'source_type' => Dominion::class,
+                    'source_id' => $dominion->id,
+                    'target_type' => Realm::class,
+                    'target_id' => $dominion->realm_id,
+                    'type' => 'new_dominion',
+                    'data' => NULL,
+                ]);
 
                 if ($request->get('realm_type') === 'create_pack') {
                     $pack = $this->packService->createPack(

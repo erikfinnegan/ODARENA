@@ -463,6 +463,7 @@ class DominionFactory
 
             'royal_guard_active_at' => $startingResources['royal_guard_active_at'],
         ]);
+
     }
 
     /**

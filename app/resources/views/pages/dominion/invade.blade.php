@@ -304,7 +304,7 @@
 
                                   @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
                                       <p><strong><em>Due to starvation, you cannot invade until you have more food.</em></strong></p>
-                                      <p><strong><em>Go to the <a href="{{ route('dominion.bank') }}">Exchange</a> to buy food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</em></strong></p>
+                                      <p><strong><em>Go to the <a href="{{ route('dominion.exchange') }}">Exchange</a> to buy food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</em></strong></p>
 
                                   @elseif ($protectionService->isUnderProtection($selectedDominion))
                                   <p><strong><em>You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not invade during that time.</em></strong></p>

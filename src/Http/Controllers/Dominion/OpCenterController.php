@@ -142,7 +142,7 @@ class OpCenterController extends AbstractDominionController
         $gameEvents = $clairvoyanceData['gameEvents'];
         $dominionIds = $clairvoyanceData['dominionIds'];
 
-        return view('pages.dominion.town-crier', compact(
+        return view('pages.dominion.world-news', compact(
             'gameEvents',
             'dominionIds',
             'clairvoyanceInfoOp'

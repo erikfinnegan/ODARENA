@@ -754,7 +754,7 @@ class InvadeActionService
      *
      * Defensive casualties are spread out in ratio between all units that help
      * defend, including draftees. Being recently invaded reduces defensive
-     * casualties: 100%, 80%, 60%, 55%, 45%, 35%.
+     * casualties: 100%, 80%, 60%, 50%, 33%, 0.25%.
      *
      * @param Dominion $dominion
      * @param Dominion $target
