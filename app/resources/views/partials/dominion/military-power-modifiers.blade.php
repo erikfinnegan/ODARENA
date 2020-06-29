@@ -52,6 +52,11 @@
                         <td>{{ number_format($selectedDominion->race->getPerkMultiplier('offense') * 100, 2) }}%</td>
                         <td>{{ number_format($selectedDominion->race->getPerkMultiplier('defense') * 100, 2) }}%</td>
                     </tr>
+                    <tr>
+                        <td>League:</td>
+                        <td>{{ number_format($militaryCalculator->getLeagueMultiplier($selectedDominion, null, 'offense') * 100, 2) }}%</td>
+                        <td>{{ number_format($militaryCalculator->getLeagueMultiplier($selectedDominion, null, 'defense') * 100, 2) }}%</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -16,6 +16,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\GuardMembershipService;
 
 class ExploreActionService
 {
@@ -43,6 +44,9 @@ class ExploreActionService
     /** @var ProtectionService */
     protected $protectionService;
 
+    /** @var GuardMembershipService */
+    protected $guardMembershipService;
+
     /**
      * @var int The minimum morale required to explore
      */
@@ -55,7 +59,8 @@ class ExploreActionService
           ImprovementCalculator $improvementCalculator,
           SpellCalculator $spellCalculator,
           LandCalculator $landCalculator,
-          ProtectionService $protectionService
+          ProtectionService $protectionService,
+          GuardMembershipService $guardMembershipService
       )
     {
         $this->explorationCalculator = app(ExplorationCalculator::class);
@@ -65,6 +70,7 @@ class ExploreActionService
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
         $this->protectionService = $protectionService;
+        $this->guardMembershipService = $guardMembershipService;
     }
 
     /**
@@ -79,10 +85,10 @@ class ExploreActionService
     {
         $this->guardLockedDominion($dominion);
 
-        #if ($this->protectionService->isUnderProtection($dominion))
-        #{
-        #    throw new GameException('You cannot explore while under protection.');
-        #}
+        if ($this->guardMembershipService->isEliteGuardMember($dominion))
+        {
+            throw new GameException('As a member of the Warriors League, you cannot explore.');
+        }
 
         if($dominion->round->hasOffensiveActionsDisabled())
         {

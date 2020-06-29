@@ -12,6 +12,7 @@ use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
 use Illuminate\Support\Carbon;
+use OpenDominion\Services\Dominion\GuardMembershipService;
 
 class MilitaryCalculator
 {
@@ -41,6 +42,9 @@ class MilitaryCalculator
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var GuardMembershipService */
+    protected $guardMembershipService;
+
     /** @var bool */
     protected $forTick = false;
 
@@ -61,7 +65,8 @@ class MilitaryCalculator
         LandCalculator $landCalculator,
         PrestigeCalculator $prestigeCalculator,
         QueueService $queueService,
-        SpellCalculator $spellCalculator
+        SpellCalculator $spellCalculator,
+        GuardMembershipService $guardMembershipService
         )
     {
         $this->buildingCalculator = $buildingCalculator;
@@ -71,6 +76,7 @@ class MilitaryCalculator
         $this->prestigeCalculator = $prestigeCalculator;
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
+        $this->guardMembershipService = $guardMembershipService;
     }
 
     /**
@@ -156,6 +162,9 @@ class MilitaryCalculator
 
         // Building: Gryphon Nests
         $multiplier += $this->getGryphonNestMultiplier($attacker);
+
+        // League: Peacekeepers League
+        $multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
 
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'forges');
@@ -400,6 +409,9 @@ class MilitaryCalculator
 
         // Building: Guard Towers
         $multiplier += $this->getGuardTowerMultiplier($dominion);
+
+        // League: Peacekeepers League
+        $multiplier += $this->getLeagueMultiplier($dominion, null, 'defense');
 
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
@@ -1660,6 +1672,40 @@ class MilitaryCalculator
       $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion)) * 2;
 
       return min($multiplier, 0.40);
+    }
+
+
+    /**
+     * Gets the dominion's bonus from Guard Towers.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getLeagueMultiplier(Dominion $attacker, Dominion $defender = Null, string $type): float
+    {
+
+        $multiplier = 0;
+
+        if($type == 'offense')
+        {
+            if($this->guardMembershipService->isEliteGuardMember($attacker) and $this->guardMembershipService->isEliteGuardMember($defender))
+            {
+                $multiplier += 0.05;
+            }
+            if($this->guardMembershipService->isRoyalGuardMember($attacker))
+            {
+                $multiplier -= 0.10;
+            }
+        }
+        elseif($type == 'defense')
+        {
+            if($this->guardMembershipService->isRoyalGuardMember($attacker))
+            {
+                $multiplier += 0.05;
+            }
+        }
+
+        return $multiplier;
     }
 
 

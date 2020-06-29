@@ -153,12 +153,12 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        $guardTax = -0.02;
+        #$guardTax = -0.02;
 
-        if($dominion->race->getPerkValue('guard_tax_exemption'))
-        {
-            $guardTax = 0;
-        }
+        #if($dominion->race->getPerkValue('guard_tax_exemption'))
+        #{
+        #    $guardTax = 0;
+        #}
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('platinum_production');
@@ -170,10 +170,10 @@ class ProductionCalculator
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
 
         // Guard Tax
-        if ($this->guardMembershipService->isGuardMember($dominion))
-        {
-            $multiplier += $guardTax;
-        }
+        #if ($this->guardMembershipService->isGuardMember($dominion))
+        #{
+        #    $multiplier += $guardTax;
+        #}
 
         // Beastfolk: Mountain increases platinum production.
         if($dominion->race->name == 'Beastfolk')

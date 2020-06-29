@@ -81,12 +81,14 @@
                     </div>
                     <div class="box-footer">
                       @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
-                        <p><strong>Your faction is not able to explore.</strong></p>
+                          <p><strong>Your faction is not able to explore.</strong></p>
+                      @elseif ($guardMembershipService->isEliteGuardMember($selectedDominion))
+                          <p><strong>As a member of the Warriors League, you cannot explore.</strong></p>
                       @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
-                        <p><strong>Your cannot explore during the Rainy Season.</strong></p>
+                          <p><strong>Your cannot explore during the Rainy Season.</strong></p>
                       @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
-                      <p><strong>Due to starvation, you cannot explore until you have more food.</strong></p>
-                      <p><strong>Go to the <a href="{{ route('dominion.exchange') }}">Exchange</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</strong></p>
+                          <p><strong>Due to starvation, you cannot explore until you have more food.</strong></p>
+                          <p><strong>Go to the <a href="{{ route('dominion.exchange') }}">Exchange</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</strong></p>
                       @else
                         <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
                       @endif

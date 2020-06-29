@@ -91,10 +91,10 @@ class ExplorationCalculator
         // Improvement: Cartography (returns positive value)
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
-        // Elite Guard Tax
-        if ($this->guardMembershipService->isEliteGuardMember($dominion))
+        // Royal Guard / Peacekeepers League: +10%
+        if ($this->guardMembershipService->isRoyalGuardMember($dominion))
         {
-            $multiplier += 0.25;
+            $multiplier += 0.10;
         }
 
         # Cap explore plat reduction to 50%.
@@ -148,6 +148,12 @@ class ExplorationCalculator
         $modifier = 0;
         // Techs
         $modifier += $dominion->getTechPerkValue('explore_draftee_cost');
+
+        // Royal Guard / Peacekeepers League: +1
+        if ($this->guardMembershipService->isRoyalGuardMember($dominion))
+        {
+            $modifier += 1;
+        }
 
         return round($modifier);
     }
