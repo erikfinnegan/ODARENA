@@ -88,7 +88,7 @@ class RangeCalculator
             $selfLand = $this->landCalculator->getTotalLand($self);
             $targetLand = $this->landCalculator->getTotalLand($target);
 
-            // Reset Royal Guard application if out of range
+            // Reset Peacekeepers League (Royal Guard) application if out of range
             if ($isRoyalGuardApplicant) {
                 $guardModifier = $this->guardMembershipService::ROYAL_GUARD_RANGE;
                 if (($targetLand < ($selfLand * $guardModifier)) || ($targetLand > ($selfLand / $guardModifier))) {
@@ -96,7 +96,7 @@ class RangeCalculator
                 }
             }
 
-            // Reset Elite Guard application if out of range
+            // Reset Warriors League (Elite Guard) application if out of range
             if ($isEliteGuardApplicant) {
                 $guardModifier = $this->guardMembershipService::ELITE_GUARD_RANGE;
                 if (($targetLand < ($selfLand * $guardModifier)) || ($targetLand > ($selfLand / $guardModifier))) {

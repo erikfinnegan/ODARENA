@@ -32,6 +32,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <label for="realm_name">Discord link</label> <small class="text-muted">(format: https://discord.gg/xxxxxxx)</small>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="discord_link" id="discord_link" placeholder="{{ $selectedDominion->realm->discord_link }}" maxlength="64" autocomplete="off" />
+                                    </div>
+                                </div>
+                            </div>
                             @if($realmCalculator->hasMonster($selectedDominion->realm))
                                 <label for="realm_name">Percentage Contribution to the Monster</label>
                                 <div class="row">
@@ -283,28 +291,26 @@
                 <div class="row">
                     @if ($selectedDominion->race->getPerkValue('cannot_join_guards'))
                         <div class="col-sm-12 text-center">
-                            <p class="text-red">{{ $selectedDominion->race->name }} cannot join the Royal and Elite Guards.</p>
-                        </div>
-                    @elseif (!$canJoinGuards)
-                        <div class="col-sm-12 text-center">
-                            <p class="text-red">You cannot join the Royal Guard for the first day of the round.</p>
+                            <p class="text-red">{{ $selectedDominion->race->name }} cannot join any of the Leagues.</p>
                         </div>
                     @else
                     <div class="col-sm-6 text-center">
                         <h4 class="text-green">
-                            <i class="ra ra-heavy-shield" title="Royal Guard"></i>
-                            The Royal Guard
+                            <i class="ra ra-heavy-shield" title="Peacekeepers League"></i>
+                            The Peacekeepers League
                         </h4>
                         <ul class="text-left" style="padding: 0 50px;">
                             <li>Cannot interact with Dominions less than 60% or greater than 166% of your land size.</li>
-                            <li>Hourly platinum production reduced by 2%.</li>
+                            <li>-10% offensive power.</li>
+                            <li>+5% defensive power.</li>
+                            <li>+10% cost of exploration.</li>
                         </ul>
                         @if ($isRoyalGuardApplicant || $isGuardMember)
                             <form action="{{ route('dominion.government.royal-guard.leave') }}" method="post" role="form" style="padding-bottom: 10px;">
                                 @csrf
                                 <button type="submit" name="land" class="btn btn-danger btn-sm-lg" {{ $selectedDominion->isLocked() || $isEliteGuardApplicant || $isEliteGuardMember || $hoursBeforeLeaveRoyalGuard ? 'disabled' : null }}>
                                     @if ($isGuardMember)
-                                        Leave Royal Guard
+                                        Leave Peacekeepers League
                                     @else
                                         Cancel Application
                                     @endif
@@ -314,27 +320,28 @@
                             <form action="{{ route('dominion.government.royal-guard.join') }}" method="post" role="form" style="padding-bottom: 10px;">
                                 @csrf
                                 <button type="submit" name="land" class="btn btn-primary btn-sm-lg" {{ $selectedDominion->isLocked() || !$canJoinGuards ? 'disabled' : null }}>
-                                    Request to Join Royal Guard
+                                    Apply to join the Peacekeepers League
                                 </button>
                             </form>
                         @endif
                     </div>
                     <div class="col-sm-6 text-center">
                         <h4 class="text-yellow">
-                            <i class="ra ra-heavy-shield" title="Elite Guard"></i>
-                            The Elite Guard
+                            <i class="ra ra-heavy-shield" title="Warriors League"></i>
+                            The Warriors League
                         </h4>
                         <ul class="text-left" style="padding: 0 50px;">
                             <li>Cannot interact with Dominions less than 75% or greater than 133% of your land size.</li>
-                            <li>Hourly platinum production reduced by 2%.</li>
-                            <li>Exploration platinum cost increased by 25%.</li>
+                            <li>+10% prestige gains.</li>
+                            <li>+5% offensive power against other members of the Warriors League.</li>
+                            <li>Cannot explore.</li>
                         </ul>
                         @if ($isEliteGuardApplicant || $isEliteGuardMember)
                             <form action="{{ route('dominion.government.elite-guard.leave') }}" method="post" role="form">
                                 @csrf
                                 <button type="submit" name="land" class="btn btn-danger btn-sm-lg" {{ $selectedDominion->isLocked() || $hoursBeforeLeaveEliteGuard ? 'disabled' : null }}>
                                     @if ($isEliteGuardMember)
-                                        Leave Elite Guard
+                                        Leave Warriors League
                                     @else
                                         Cancel Application
                                     @endif
@@ -343,8 +350,8 @@
                         @else
                             <form action="{{ route('dominion.government.elite-guard.join') }}" method="post" role="form">
                                 @csrf
-                                <button type="submit" name="land" class="btn btn-primary btn-sm-lg" {{ $selectedDominion->isLocked() || !$canJoinGuards || !$isRoyalGuardMember ? 'disabled' : null }}>
-                                    Request to Join Elite Guard
+                                <button type="submit" name="land" class="btn btn-primary btn-sm-lg" {{ $selectedDominion->isLocked() || !$canJoinGuards ? 'disabled' : null }}>
+                                    Apply to join the Warriors League
                                 </button>
                             </form>
                         @endif
@@ -361,32 +368,30 @@
                 <h3 class="box-title">Information</h3>
             </div>
             <div class="box-body">
-                <p>Joining a guard will reduce the range other dominions can perform hostile interactions against you. In turn, you also can not perform hostile interactions against dominions outside of your guard range.</p>
-                <p>Upon requesting to join a guard it takes 6 hours for your request to be accepted. If you perform any hostile operations against dominions outside of that guard range, your application is reset back to 6 hours.</p>
-                <p>Once you join a guard, you cannot leave for 12 hours. Joining the Royal Guard unlocks the ability to apply for the Elite Guard.</p>
+                <p>REWRITE</p>
 
                 @if ($isEliteGuardMember)
-                    <p>You are a member of the <span class="text-yellow"><i class="ra ra-heavy-shield" title="Elite Guard"></i>Elite Guard</span>.</p>
+                    <p>You are a member of the <span class="text-yellow"><i class="ra ra-heavy-shield" title="Warriors League"></i>Warriors League</span>.</p>
 
                     @if ($hoursBeforeLeaveEliteGuard)
                         <p>You cannot leave for {{ $hoursBeforeLeaveEliteGuard }} hours.</p>
                     @endif
                 @elseif ($isRoyalGuardMember)
-                    <p>You are a member of the <span class="text-green"><i class="ra ra-heavy-shield" title="Royal Guard"></i> Royal Guard</span>.</p>
+                    <p>You are a member of the <span class="text-green"><i class="ra ra-heavy-shield" title="Peacekeepers League"></i> Peacekeepers League</span>.</p>
 
                     @if ($hoursBeforeLeaveRoyalGuard)
                         <p class="text-red">You cannot leave for {{ $hoursBeforeLeaveRoyalGuard }} hours.</p>
                     @endif
                 @else
-                    <p>You are <span class="text-red">NOT</span> a member of the Royal or Elite Guard. You cannot interact with dominions less than 40% or greater than 250% of your land size.</p>
+                    <p>You are <span class="text-red">NOT</span> a member of the Peacekeepers League or Warriors League. You cannot interact with dominions less than 40% or greater than 250% of your land size.</p>
                 @endif
 
                 @if ($isEliteGuardApplicant)
-                    <p>You will become a member of the Elite Guard in {{ $hoursBeforeEliteGuardMember }} hours.</p>
+                    <p>You will become a member of the Warriors League in {{ $hoursBeforeEliteGuardMember }} hours.</p>
                 @endif
 
                 @if ($isRoyalGuardApplicant)
-                    <p>You will become a member of the Royal Guard in {{ $hoursBeforeRoyalGuardMember }} hours.</p>
+                    <p>You will become a member of the Peacekeepers League in {{ $hoursBeforeRoyalGuardMember }} hours.</p>
                 @endif
             </div>
         </div>

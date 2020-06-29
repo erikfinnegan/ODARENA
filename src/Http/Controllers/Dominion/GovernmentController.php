@@ -82,9 +82,10 @@ class GovernmentController extends AbstractDominionController
         $motd = $request->get('realm_motd');
         $name = $request->get('realm_name');
         $contribution = $request->get('realm_contribution');
+        $discordLink = $request->get('discord_link');
 
         try {
-            $governmentActionService->updateRealm($dominion, $motd, $name, $contribution);
+            $governmentActionService->updateRealm($dominion, $motd, $name, $contribution, $discordLink);
         } catch (GameException $e) {
             return redirect()
                 ->back()

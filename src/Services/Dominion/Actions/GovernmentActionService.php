@@ -82,7 +82,7 @@ class GovernmentActionService
      * @param string $name
      * @throws GameException
      */
-    public function updateRealm(Dominion $dominion, ?string $motd, ?string $name, ?int $contribution)
+    public function updateRealm(Dominion $dominion, ?string $motd, ?string $name, ?int $contribution, ?string $discordLink)
     {
         $this->guardLockedDominion($dominion);
 
@@ -103,6 +103,25 @@ class GovernmentActionService
             throw new GameException('Contribution must be a value between 0 and 10.');
         }
 
+        if ($discordLink)
+        {
+            if(
+                !filter_var($discordLink, FILTER_VALIDATE_URL) or
+                strlen($discordLink) !== strlen('https://discord.gg/HpzetmR') or
+                substr($discordLink,0,19) !== 'https://discord.gg/' or
+                $discordLink == 'https://discord.gg/xxxxxxx'
+              )
+            {
+                throw new GameException('"' . $discordLink . '" is not a valid Discord link. It should be in the format of https://discord.gg/xxxxxxx');
+            }
+
+            if($discordLink == config('app.discord_invite_link'))
+            {
+                throw new GameException('You cannot use ' . config('app.discord_invite_link') . ' because it is the ODARENA Discord link. Please insert your Realm\'s own Discord link here.');
+            }
+
+        }
+
         if ($motd)
         {
             $dominion->realm->motd = $motd;
@@ -111,6 +130,10 @@ class GovernmentActionService
         if ($name)
         {
             $dominion->realm->name = $name;
+        }
+        if ($discordLink)
+        {
+            $dominion->realm->discord_link = $discordLink;
         }
 
         if (isset($contribution))

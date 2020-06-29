@@ -80,9 +80,9 @@
                                             @endif
 
                                             @if ($guardMembershipService->isEliteGuardMember($dominion))
-                                                <i class="ra ra-heavy-shield ra-lg text-yellow" title="Elite Guard"></i>
+                                                <i class="ra ra-heavy-shield ra-lg text-yellow" title="Warriors League"></i>
                                             @elseif ($guardMembershipService->isRoyalGuardMember($dominion))
-                                                <i class="ra ra-heavy-shield ra-lg text-green" title="Royal Guard"></i>
+                                                <i class="ra ra-heavy-shield ra-lg text-green" title="Peacekeepers League"></i>
                                             @endif
 
                                             @if ($dominion->id === $selectedDominion->id)

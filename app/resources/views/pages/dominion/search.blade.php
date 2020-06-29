@@ -107,9 +107,9 @@
                                             @endif
 
                                             @if ($guardMembershipService->isEliteGuardMember($dominion))
-                                                <i class="ra ra-heavy-shield ra-lg text-yellow" title="Elite Guard"></i>
+                                                <i class="ra ra-heavy-shield ra-lg text-yellow" title="Warriors League"></i>
                                             @elseif ($guardMembershipService->isRoyalGuardMember($dominion))
-                                                <i class="ra ra-heavy-shield ra-lg text-green" title="Royal Guard"></i>
+                                                <i class="ra ra-heavy-shield ra-lg text-green" title="Peacekeepers League"></i>
                                             @endif
 
                                             <a href="{{ route('dominion.op-center.show', $dominion) }}">{{ $dominion->name }}</a>
@@ -156,8 +156,8 @@
                 <div class="box-body">
                     <p>Use the search to find dominions matching certain criteria.</p>
                     <p>The grey button labelled 40% pre-fills the land min and land max with dominions 40%-250% your range.</p>
-                    <p>The green button labelled 60% pre-fills the land min and land max with dominions 60%-166% your range: Royal Guard range.</p>
-                    <p>The orange button labelled 75% pre-fills the land min and land max with dominions 75%-133% your range: Elite Guard range</p>
+                    <p>The green button labelled 60% pre-fills the land min and land max with dominions 60%-166% your range: Peacekeepers League range.</p>
+                    <p>The orange button labelled 75% pre-fills the land min and land max with dominions 75%-133% your range: Warriors League range</p>
                     @if (!$selectedDominion->round->hasStarted())
                         <p>The current round has not started. No dominions will be listed.</p>
                     @endif

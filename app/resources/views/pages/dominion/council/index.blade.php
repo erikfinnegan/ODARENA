@@ -1,6 +1,16 @@
 @extends('layouts.master')
 
-@section('page-header', 'Council')
+@if($selectedDominion->realm->alignment == 'evil')
+  @section('page-header', 'Senate')
+@elseif($selectedDominion->realm->alignment == 'good')
+  @section('page-header', 'Parliament')
+@elseif($selectedDominion->realm->alignment == 'independent')
+  @section('page-header', 'Assembly')
+@else
+  @section('page-header', 'Council')
+@endif
+
+
 
 @section('content')
     <div class="row">
@@ -91,6 +101,24 @@
                 </div>
             </div>
         </div>
+
+        @if($selectedDominion->realm->discord_link)
+            <div class="col-sm-12 col-md-3">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-comments"></i> Realm Discord</h3>
+                    </div>
+                    <div class="box-body">
+                        <p>The Governor of the Realm has provided a Discord link for faster communication.</p>
+                        <p>
+                            <a href="{{ $selectedDominion->realm->discord_link }}" target="_blank">
+                                <img src="{{ asset('assets/app/images/join-the-discord.png') }}" alt="Join the Realm Discord" class="img-responsive" style="max-width:200px">
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div class="col-sm-12 col-md-3">
             <div class="box">
