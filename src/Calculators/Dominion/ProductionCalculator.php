@@ -153,13 +153,6 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        #$guardTax = -0.02;
-
-        #if($dominion->race->getPerkValue('guard_tax_exemption'))
-        #{
-        #    $guardTax = 0;
-        #}
-
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('platinum_production');
 
@@ -169,16 +162,16 @@ class ProductionCalculator
         // Improvement: Markets
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
 
-        // Guard Tax
-        #if ($this->guardMembershipService->isGuardMember($dominion))
-        #{
-        #    $multiplier += $guardTax;
-        #}
-
         // Beastfolk: Mountain increases platinum production.
         if($dominion->race->name == 'Beastfolk')
         {
             $multiplier += 0.75 * (($dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
+        }
+
+        // Human: Call To Arms
+        if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
+        {
+            $multiplier -= 0.20;
         }
 
         // Invasion Spell: Unhealing Wounds (-5% production)
@@ -850,6 +843,15 @@ class ProductionCalculator
         {
             $multiplier = -1;
         }
+
+        // Human: Call To Arms
+        if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
+        {
+            $multiplier -= 0.20;
+        }
+
+
+
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);

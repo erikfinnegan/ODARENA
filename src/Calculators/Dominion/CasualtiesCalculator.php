@@ -241,14 +241,14 @@ class CasualtiesCalculator
             // Global immortality
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
             {
-                if (!$this->spellCalculator->isSpellActive($attacker, 'crusade'))
+                if (!$this->spellCalculator->isSpellActive($attacker, 'holy_war'))
                 {
                     $multiplier = 0;
                 }
             }
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
-                // Note: true_immortal is used for non-SPUD races to be exempt from Crusade.
+                // Note: true_immortal is used for non-SPUD races to be exempt from Holy War.
                 $multiplier = 0;
             }
 

@@ -164,12 +164,12 @@ class SpellHelper
     {
         return collect([
             [
-                'name' => 'Crusade',
+                'name' => 'Holy War',
                 'description' => '+10% offensive power and allows you to kill Undead and Demon units.',
-                'key' => 'crusade',
+                'key' => 'holy_war',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Human', 'Sacred Order']),
+                'races' => collect(['Sacred Order']),
             ],
             [
                 'name' => 'Miner\'s Sight',
@@ -398,6 +398,7 @@ class SpellHelper
                 'cooldown' => 6, # Every 6 hours.
                 'races' => collect(['Dimensionalists']),
             ],
+            /*
             [
                 'name' => 'Call To Arms',
                 'description' => 'Training times reduced by 2 for every recent invasion (max -8 ticks).',
@@ -407,6 +408,7 @@ class SpellHelper
                 'races' => collect(['Legion II']),
                 #'races' => collect(['Legion', 'Legion II', 'Legion III', 'Legion IV', 'Legion V', 'Legion VI']),
             ],
+            */
             [
                 'name' => 'Underground Caves',
                 'description' => 'Psilocybe experience point production replaced by gem production (10x).',
@@ -479,6 +481,15 @@ class SpellHelper
                 'mana_cost' => 12,
                 'duration' => 2, # Two ticks
                 'races' => collect(['Cult']),
+            ],
+            [
+                'name' => 'Call To Arms',
+                'description' => 'Training costs reduced by 10%, training times reduced by six ticks, and +20% ore and platinum production.',
+                'key' => 'call_to_arms',
+                'mana_cost' => 12,
+                'duration' => 12,
+                'cooldown' => 36, # 36 hours, 1.5 days
+                'races' => collect(['Human']),
             ],
         ]);
     }

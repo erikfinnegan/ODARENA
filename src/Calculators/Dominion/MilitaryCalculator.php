@@ -1381,7 +1381,8 @@ class MilitaryCalculator
             return 0;
         }
 
-        $invasionEvents = $invasionEvents->filter(function (GameEvent $event) {
+        $invasionEvents = $invasionEvents->filter(function (GameEvent $event)
+        {
             return !$event->data['result']['overwhelmed'];
         });
 
@@ -1391,7 +1392,7 @@ class MilitaryCalculator
     /**
      * Returns the number of time the Dominion was recently invaded by the attacker.
      *
-     * 'Recent' refers to the past 6 hours.
+     * 'Recent' refers to the past 2 hours by default.
      *
      * @param Dominion $dominion
      * @return int
@@ -1420,36 +1421,6 @@ class MilitaryCalculator
 
         return $invasionEvents->count();
     }
-
-    /**
-     * Checks Dominion was recently invaded by attacker.
-     *
-     * 'Recent' refers to the past 12 hours.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $attacker
-     * @return bool
-     */
-    public function recentlyInvadedBy(Dominion $dominion, Dominion $attacker): bool
-    {
-        $invasionEvents = GameEvent::query()
-            ->where('created_at', '>=', now()->subHours(12))
-            ->where([
-                'target_type' => Dominion::class,
-                'target_id' => $dominion->id,
-                'source_id' => $attacker->id,
-                'type' => 'invasion',
-            ])
-            ->get();
-
-        if (!$invasionEvents->isEmpty())
-        {
-            return true;
-        }
-
-        return false;
-    }
-
 
     /**
      * Checks if $defender recently invaded $attacker's realm.
@@ -1491,9 +1462,6 @@ class MilitaryCalculator
 
     }
 
-
-    # ODA functions
-
     /**
      * Gets the dominion's bonus from Gryphon Nests.
      *
@@ -1531,8 +1499,8 @@ class MilitaryCalculator
           $multiplier += 0.10;
         }
 
-        // Spell: Crusade (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'crusade'))
+        // Spell: Holy War (+10% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'holy_war'))
         {
           $multiplier += 0.10;
         }

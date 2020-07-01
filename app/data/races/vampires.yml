@@ -2,7 +2,6 @@ name: Vampires
 alignment: independent
 description: >-
   <p>Cursed with eternal life through an ancient malaise or curse, Vampires have roamed the fringes of the world.</p>
-  <p>They prefer to strike at night
 home_land_type: plain
 playable: 1
 
@@ -11,8 +10,9 @@ exploring : 1
 converting: 1
 
 perks:
-  max_population: 30
+  max_population: -50
   food_consumption: -75
+  title_bonus: 100
 units:
   - name: Bat
     type:
@@ -27,12 +27,14 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
+      extra_food_consumption: 0.01
       pairing_limit: 4,2000 # Unit slot, amount (max 2000 of this unit per each Unit 4)
       offense_from_time: 18,06,0.25 # Between the hours 18:00 and 06:00, gains +0.25 OP
   - name: Servant
     type:
       - living
       - sentient
+      - mindless
     cost:
       platinum: 0
     power:
@@ -42,6 +44,7 @@ units:
       immortal: 1
       cannot_be_trained: 1
       conversions: 2
+      does_not_count_as_population: 1
   - name: Shapeshifter
     type:
       - living
@@ -55,7 +58,7 @@ units:
       offense: 0
       defense: 5
     perks:
-      mirrors_attackers_units: 1
+      shapeshifts: 1
       conversions: 2
   - name: Master
     type:
@@ -73,7 +76,5 @@ units:
     perks:
       immortal: 1
       conversions: 2
-      staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
-      offense_wizard_ratio: 1,2 # ratio%, max
       defense_from_time: 18,06,0.25 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,0.25 # Between the hours 18:00 and 06:00, gains +2 OP

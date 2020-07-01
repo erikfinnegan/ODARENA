@@ -461,18 +461,21 @@ class TrainActionService
                 $timeReductionSpecs += 4;
                 $timeReductionElites += 4;
               }
-              // Legion: Spell (reduce training times by 4 ticks)
+
+              // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
               {
-                $timeReductionSpecs += min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
-                $timeReductionElites += min($this->militaryCalculator->getRecentlyInvadedCount($dominion), 4) * 2;
+                $timeReductionSpecs += 6;
+                $timeReductionElites += 6;
               }
+
               // Spell: Spawning Pool (increase units trained, for free)
               if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unit == 'military_unit1')
               {
                 $amountToTrainMultiplier = ($dominion->land_swamp / $this->landCalculator->getTotalLand($dominion)) / 2;
                 $amountToTrain = round($amountToTrain * (1 + $amountToTrainMultiplier));
               }
+
               // Legion and Elementals: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
               {

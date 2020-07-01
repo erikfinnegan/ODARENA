@@ -10,6 +10,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class TrainingCalculator
 {
@@ -28,6 +29,9 @@ class TrainingCalculator
     /** @var QueueService */
     protected $queueService;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * TrainingCalculator constructor.
      *
@@ -39,7 +43,8 @@ class TrainingCalculator
           UnitHelper $unitHelper,
           ImprovementCalculator $improvementCalculator,
           MilitaryCalculator $militaryCalculator,
-          QueueService $queueService
+          QueueService $queueService,
+          SpellCalculator $spellCalculator
           )
     {
         $this->landCalculator = $landCalculator;
@@ -47,6 +52,7 @@ class TrainingCalculator
         $this->improvementCalculator = $improvementCalculator;
         $this->militaryCalculator = $militaryCalculator;
         $this->queueService = $queueService;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -426,8 +432,12 @@ class TrainingCalculator
         }
 
 
-
         $multiplier = max(-0.50, $multiplier);
+
+        if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
+        {
+            $multiplier -= 0.10;
+        }
 
         return (1 + $multiplier);
     }

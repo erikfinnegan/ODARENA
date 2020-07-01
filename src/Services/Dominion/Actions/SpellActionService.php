@@ -464,7 +464,7 @@ class SpellActionService
 
         if ($this->spellHelper->isWarSpell($spellKey, $dominion)) {
             $warDeclared = ($dominion->realm->war_realm_id == $target->realm->id || $target->realm->war_realm_id == $dominion->realm->id);
-            if (!$warDeclared && !$this->militaryCalculator->recentlyInvadedBy($dominion, $target)) {
+            if (!$warDeclared && !$this->militaryCalculator->getRecentlyInvadedCountByAttacker($dominion, $target, 12)) {
                 throw new GameException("You cannot cast {$spellInfo['name']} outside of war.");
             }
         }
