@@ -93,6 +93,9 @@ class UnitHelper
             'offense_per_hour' => 'Offense increased by %1$s for every hour of the round (max +%2$s).',
             'defense_per_hour' => 'Defense increased by %1$s for every hour of the round (max +%2$s).',
 
+            'offense_from_time' => 'Offense increased by %3$s between %1$s:00 and %2$s:00.',
+            'defense_from_time' => 'Defense increased by %3$s between %1$s:00 and %2$s:00.',
+
             'offense_vs_barren_land' => 'Offense increased by 1 against every %1$s%% barren land of target (max +%2$s). Unfinished buildings count as barren land. Does not count against Barbarians.',
 
             'offense_vs_resource' => 'Offense increased by 1 for every %2$s %1$s target has (max +%3$s).',
@@ -207,6 +210,8 @@ class UnitHelper
             // Other
             'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
+
+            'shapeshifts' => '',
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',

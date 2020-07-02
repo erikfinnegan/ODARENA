@@ -639,7 +639,11 @@ class PopulationCalculator
         $fromBuildings = 0;
         $fromUnits = 0;
 
-        $fromBuildings += (20 * (
+        $jobsPerBuilding = 20;
+
+        $jobsPerBuilding *= 1 + $dominion->getTechPerkMultiplier('jobs_per_building');
+
+        $fromBuildings += ($jobsPerBuilding * (
                 $dominion->building_alchemy
                 + $dominion->building_farm
                 + $dominion->building_smithy

@@ -489,6 +489,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromTimePerk($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -1152,6 +1153,45 @@ class MilitaryCalculator
           return $powerFromPerk;
       }
 
+      protected function getUnitPowerFromTimePerk(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+
+          $timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_time", null);
+
+          if (!$timePerkData or !$dominion->round->hasStarted())
+          {
+              return 0;
+          }
+
+          $hourFrom = $timePerkData[0];
+          $hourTo = $timePerkData[1];
+          $powerFromTime = (float)$timePerkData[2];
+          $hourNow = date('H');
+
+          $timeFrom = Carbon::createFromFormat('H:i:s',$hourFrom.':00:00');
+          $timeTo = Carbon::createFromFormat('H:i:s',$hourTo.':00:00');
+          $timeNow = Carbon::createFromFormat('H:i:s',$hourNow.':00:00');
+
+          # If $hourTo is tomorrow, add one day
+          if($hourTo < $hourFrom)
+          {
+              #$timeTo->addDay();
+              $timeFrom->subDay();
+          }
+
+          #echo '<pre>Between ' . $timeFrom . ' and ' . $timeTo . ' add ' . $powerFromTime . ', and it is now ' . $timeNow . '.</pre>';
+
+          if($timeNow >= $timeFrom and $timeNow < $timeTo)
+          {
+              $powerFromPerk = $powerFromTime;
+          }
+          else
+          {
+              $powerFromPerk = 0;
+          }
+
+          return $powerFromPerk;
+      }
 
     /**
      * Returns the Dominion's morale modifier.

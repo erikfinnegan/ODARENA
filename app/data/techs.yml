@@ -1346,6 +1346,56 @@ commerce_level6:
 # </Ladder: Commerce>
 
 
+# <Ladder: Employment>
+
+craftsmanship_level1:
+  name: Craftsmanship (1/6)
+  cost_multiplier: 0
+  perks:
+    jobs_per_building: 2.5
+
+craftsmanship_level2:
+  name: Craftsmanship (2/6)
+  cost_multiplier: 10
+  perks:
+    jobs_per_building: 5
+  requires:
+    - craftsmanship_level1
+
+craftsmanship_level3:
+  name: Craftsmanship (3/6)
+  cost_multiplier: 20
+  perks:
+    jobs_per_building: 7.5
+  requires:
+    - craftsmanship_level2
+
+craftsmanship_level4:
+  name: Craftsmanship (4/6)
+  cost_multiplier: 30
+  perks:
+    jobs_per_building: 10
+  requires:
+    - craftsmanship_level3
+
+craftsmanship_level5:
+  name: Craftsmanship (5/6)
+  cost_multiplier: 40
+  perks:
+    jobs_per_building: 12.5
+  requires:
+    - craftsmanship_level4
+
+craftsmanship_level6:
+  name: Craftsmanship (6/6)
+  cost_multiplier: 50
+  perks:
+    jobs_per_building: 15
+  requires:
+    - craftsmanship_level5
+
+# </Ladder: Employment>
+
 ## Master Tech: Military Master
 
 master_military:

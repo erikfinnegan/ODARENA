@@ -1,7 +1,9 @@
 name: Vampires
 alignment: independent
 description: >-
-  <p>Cursed with eternal life through an ancient malaise or curse, Vampires have roamed the fringes of the world.</p>
+  <p>Cursed with eternal life through a profane malaise, Vampires have roamed in packs on the fringes of the world.</p>
+  <p>Outcasts and unwelcome, some Vampires have formed clans and some clans have come together to fight for their own land.</p>
+  <p>Centuries of wandering the nights, Vampires have developed a special relationship with bats.</p>
 home_land_type: plain
 playable: 1
 
@@ -11,7 +13,7 @@ converting: 1
 
 perks:
   max_population: -50
-  food_consumption: -75
+  food_consumption: -50
   title_bonus: 100
 units:
   - name: Bat
@@ -23,7 +25,7 @@ units:
       food: 5
     power:
       offense: 0.5
-      defense: 0
+      defense: 0.25
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
@@ -41,9 +43,9 @@ units:
       offense: 0
       defense: 3
     perks:
-      immortal: 1
+      true_immortal: 1
       cannot_be_trained: 1
-      conversions: 2
+      conversion: 2
       does_not_count_as_population: 1
   - name: Shapeshifter
     type:
@@ -59,22 +61,21 @@ units:
       defense: 5
     perks:
       shapeshifts: 1
-      conversions: 2
-  - name: Master
+      conversion: 2
+  - name: Noble
     type:
       - living
       - sentient
       - undying
-    need_boat: false
+    need_boat: true
     cost:
       platinum: 1000
       mana: 10
-      unit: 1
     power:
       offense: 2
       defense: 4
     perks:
-      immortal: 1
-      conversions: 2
-      defense_from_time: 18,06,0.25 # Between the hours 18:00 and 06:00, gains +1 DP
-      offense_from_time: 18,06,0.25 # Between the hours 18:00 and 06:00, gains +2 OP
+      true_immortal: 1
+      conversion: 2
+      defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
+      offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP

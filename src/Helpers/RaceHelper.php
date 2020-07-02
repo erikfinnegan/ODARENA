@@ -425,6 +425,11 @@ class RaceHelper
                 $valueType = ' rounds';
                 $booleanValue = 'static';
                 break;
+            case 'title_bonus':
+                $negativeBenefit = false;
+                $description = 'Ruler Title bonus';
+                $booleanValue = false;
+                break;
 
 
 

@@ -57,6 +57,7 @@ class TechHelper
             'gemcutting' => '%s%% more improvement points per gem',
             'platinum_interest' => '%s%% interest on your platinum stockpile per tick',
             'exchange_rate' => '%s%% better exchange rates',
+            'jobs_per_building' => '%s%% more jobs per building',
 
         ];
 
