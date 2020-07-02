@@ -99,7 +99,7 @@
                                                 elseif($gameEvent->target->alignment == 'independent')
                                                 {
                                                     $alignment = 'Independent';
-                                                    $verb = 'appeared in';
+                                                    $verb = 'appeared among';
                                                 }
                                                 elseif($gameEvent->target->alignment == 'Barbarian')
                                                 {
@@ -111,7 +111,7 @@
                                                     $alignment = 'Unknown';
                                                 }
 
-                                                $race = strtolower($gameEvent->source->race->name);
+                                                $race = ($gameEvent->source->race->name);
                                                 @endphp
 
                                                 A new {{ $race }} dominion called <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> has {{ $verb }} the
@@ -121,7 +121,7 @@
                                                   @else
                                                     <span class="text-red">
                                                   @endif
-                                                  {{ $alignment }}</span></a>.
+                                                  {{ $alignment }}</span></a>, under the leadership of <em>{{ $gameEvent->source->title->name }}</em> {{ $gameEvent->source->ruler_name }}.
                                             @endif
                                         </td>
                                         <td class="text-center">
