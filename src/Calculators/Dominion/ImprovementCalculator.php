@@ -227,7 +227,7 @@ class ImprovementCalculator
             # Title: improvements (Engineer)
             if(isset($dominion->title) and $dominion->title->getPerkMultiplier('improvements'))
             {
-              $multiplier += $dominion->title->getPerkMultiplier('improvements') * $dominion->title->getPerkXPBonus($dominion);
+              $multiplier += $dominion->title->getPerkMultiplier('improvements') * $dominion->title->getPerkBonus($dominion);
             }
 
             # Imperial Gnome: Spell (increase imp points by 10%)

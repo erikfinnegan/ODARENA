@@ -474,7 +474,7 @@ class ConstructionCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('construction_cost') * $dominion->title->getPerkXPBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('construction_cost') * $dominion->title->getPerkBonus($dominion);
         }
 
         // Workshops

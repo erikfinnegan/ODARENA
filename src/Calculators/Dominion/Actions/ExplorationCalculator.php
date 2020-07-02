@@ -82,7 +82,7 @@ class ExplorationCalculator
         // Title (returns negative value)
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('explore_cost') * $dominion->title->getPerkXPBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('explore_cost') * $dominion->title->getPerkBonus($dominion);
         }
 
         // Racial bonus

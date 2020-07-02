@@ -193,7 +193,7 @@ class CasualtiesCalculator
             // Techs
             if(isset($dominion->title))
             {
-                $multiplier += $dominion->title->getPerkMultiplier('casualties') * $dominion->title->getPerkXPBonus($dominion);
+                $multiplier += $dominion->title->getPerkMultiplier('casualties') * $dominion->title->getPerkBonus($dominion);
             }
 
             # Infirmary
@@ -327,7 +327,7 @@ class CasualtiesCalculator
             // Title
             if(isset($dominion->title))
             {
-                $multiplier += $dominion->title->getPerkMultiplier('casualties') * $dominion->title->getPerkXPBonus($dominion);
+                $multiplier += $dominion->title->getPerkMultiplier('casualties') * $dominion->title->getPerkBonus($dominion);
             }
 
             // Infirmary

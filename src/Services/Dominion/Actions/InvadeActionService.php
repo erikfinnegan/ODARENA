@@ -1237,7 +1237,7 @@ class InvadeActionService
         # Title: Embalmer
         if($dominion->title->getPerkMultiplier('conversions'))
         {
-          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions') * $dominion->title->getPerkXPBonus($dominion);
+          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions') * $dominion->title->getPerkBonus($dominion);
         }
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);
@@ -1399,7 +1399,7 @@ class InvadeActionService
         # Title: Embalmer
         if($dominion->title->getPerkMultiplier('conversions'))
         {
-          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions') * $dominion->title->getPerkXPBonus($dominion);
+          $conversionMultiplier += $dominion->title->getPerkMultiplier('conversions') * $dominion->title->getPerkBonus($dominion);
         }
 
         $conversionBaseMultiplier *= (1 + $conversionMultiplier);

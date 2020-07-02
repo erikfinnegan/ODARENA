@@ -1263,7 +1263,7 @@ class MilitaryCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('spy_strength') * $dominion->title->getPerkXPBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('spy_strength') * $dominion->title->getPerkBonus($dominion);
         }
 
         return (1 + $multiplier);

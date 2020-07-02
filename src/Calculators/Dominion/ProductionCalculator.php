@@ -502,7 +502,7 @@ class ProductionCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('lumber_production') * $dominion->title->getPerkXPBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('lumber_production') * $dominion->title->getPerkBonus($dominion);
         }
 
         # SPELLS
@@ -814,7 +814,7 @@ class ProductionCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('ore_production') * $dominion->title->getPerkXPBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('ore_production') * $dominion->title->getPerkBonus($dominion);
         }
 
         // Improvement: Refinery
@@ -928,7 +928,7 @@ class ProductionCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('gem_production') * $dominion->title->getPerkXPBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('gem_production') * $dominion->title->getPerkBonus($dominion);
         }
 
         # SPELLS
@@ -1018,7 +1018,7 @@ class ProductionCalculator
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('tech_production') * $dominion->title->getPerkXPBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('tech_production') * $dominion->title->getPerkBonus($dominion);
         }
 
         # Observatory

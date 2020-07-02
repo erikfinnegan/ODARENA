@@ -52,14 +52,13 @@ class Title extends AbstractModel
      * @param string $key
      * @return float
      */
-    public function getPerkXPBonus(Dominion $dominion): float
+    public function getPerkBonus(Dominion $dominion): float
     {
-
-        return 1 + (1 - exp(-$dominion->resource_tech / 500000));
-
-        #return min((1 + $dominion->resource_tech / 100000),11);
+        $bonus = 0;
+        $bonus += (1 - exp(-$dominion->resource_tech / 500000));
+        $bonus *= 1 + $dominion->race->getPerkMultiplier('title_bonus');
+        return 1 + $bonus;
     }
-
 
     /**
      * @param string $key
