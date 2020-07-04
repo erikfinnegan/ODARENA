@@ -241,7 +241,7 @@ class CasualtiesCalculator
             // Global immortality
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
             {
-                if (!$this->spellCalculator->isSpellActive($attacker, 'holy_war'))
+                if (!$this->spellCalculator->isSpellActive($attacker, 'divine_intervention'))
                 {
                     $multiplier = 0;
                 }

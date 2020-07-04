@@ -19,7 +19,7 @@ perks:
   population_growth: 25
   max_population: 30
   can_invest_soul: 1
-  min_rounds_played: 1
+  min_rounds_played: 2
 units:
   - name: Hellhound
     type:
@@ -79,6 +79,6 @@ units:
       defense: 0
     perks:
       immortal: 1
-      offense_from_resource: soul,2,0 # +1 OP per 2 souls, no max
+      offense_from_resource: soul,3,0 # +1 OP per 3 souls, no max
       amount_limit: 1
       cannot_be_released: 1

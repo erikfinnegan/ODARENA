@@ -5,7 +5,7 @@ description: >-
   <p>Outcasts and unwelcome, some Vampires have formed clans and some clans have come together to fight for their own land.</p>
   <p>Centuries of wandering the nights, Vampires have developed a special relationship with bats.</p>
 home_land_type: plain
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 1

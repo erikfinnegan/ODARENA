@@ -31,6 +31,7 @@
                                     <th>XP Cost</th>
                                 </tr>
                             </thead>
+                            {{ dd($techs) }}
                             @foreach ($techs as $tech)
                                 @if($tech->enabled == 1)
                                     @if(count(array_diff($tech->prerequisites, $unlockedTechs)) == 0 or in_array($tech->key, $unlockedTechs))

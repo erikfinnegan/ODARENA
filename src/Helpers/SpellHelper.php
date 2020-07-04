@@ -164,9 +164,9 @@ class SpellHelper
     {
         return collect([
             [
-                'name' => 'Holy War',
+                'name' => 'Divine Intervention',
                 'description' => '+10% offensive power and allows you to kill Undead and Demon units.',
-                'key' => 'holy_war',
+                'key' => 'divine_intervention',
                 'mana_cost' => 10,
                 'duration' => 12*4,
                 'races' => collect(['Sacred Order']),
@@ -265,7 +265,7 @@ class SpellHelper
                 'key' => 'parasitic_hunger',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Lycanthrope', 'Afflicted']),
+                'races' => collect(['Lycanthrope', 'Afflicted', 'Vampires']),
             ],
             [
                 'name' => 'Gaia\'s Blessing',
