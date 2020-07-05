@@ -16,7 +16,12 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="ra ra-crossed-swords"></i>
-                        {{ $event->source->name }} (#{{ $event->source->realm->number }})
+                        @if($event->target->id === $selectedDominion->id)
+                          <span class="text-red">
+                        @else
+                          <span class="text-green">
+                        @endif
+                        <strong>{{ $event->source->name }}</strong> (#{{ $event->source->realm->number }})
 
                         @if($event->data['result']['success'])
                         successfully
@@ -29,7 +34,8 @@
                         @else
                         invaded
                         @endif
-                        {{ $event->target->name }} (#{{ $event->target->realm->number }})
+                        <strong>{{ $event->target->name }}</strong> (#{{ $event->target->realm->number }})
+                        </span>
                     </h3>
                 </div>
                 <div class="box-bod no-padding">
@@ -42,7 +48,7 @@
                                     @if ($event->source->id === $selectedDominion->id)
                                         Because you were severely outmatched, you suffer extra casualties.
                                     @else
-                                        Because {{ $event->source->name }} (# {{ $event->source->realm->number }}) was severely outmatched, they suffer extra casualties.
+                                        Because the forces from {{ $event->source->name }} were severely outmatched, they suffer extra casualties.
                                     @endif
                                 </p>
                             @endif
@@ -80,10 +86,14 @@
                                             </td>
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
-                                                      @if (isset($event->data['attacker']['unitsSent'][$slot]))
-                                                        {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
+                                                      @if ($event->source->id === $selectedDominion->id)
+                                                          @if (isset($event->data['attacker']['unitsSent'][$slot]))
+                                                            {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
+                                                          @else
+                                                            0
+                                                          @endif
                                                       @else
-                                                        0
+                                                            <span class="text-muted">?</span>
                                                       @endif
                                                 </span>
                                             </td>
@@ -95,10 +105,14 @@
                                                 @endif
                                             </td>
                                             <td>
-                                              @if (isset($event->data['attacker']['unitsReturning'][$slot]))
-                                                {{ number_format($event->data['attacker']['unitsReturning'][$slot]) }}
+                                              @if ($event->source->id === $selectedDominion->id)
+                                                  @if (isset($event->data['attacker']['unitsReturning'][$slot]))
+                                                    {{ number_format($event->data['attacker']['unitsReturning'][$slot]) }}
+                                                  @else
+                                                    0
+                                                  @endif
                                               @else
-                                                0
+                                                    <span class="text-muted">?</span>
                                               @endif
                                             </td>
                                         </tr>
@@ -331,10 +345,14 @@
                                             </td>
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race) }}">
-                                                      @if (isset($event->data['defender']['unitsDefending'][$slot]))
-                                                        {{ number_format($event->data['defender']['unitsDefending'][$slot]) }}
+                                                      @if ($event->target->id === $selectedDominion->id)
+                                                          @if (isset($event->data['defender']['unitsDefending'][$slot]))
+                                                            {{ number_format($event->data['defender']['unitsDefending'][$slot]) }}
+                                                          @else
+                                                            0
+                                                          @endif
                                                       @else
-                                                        0
+                                                          <span class="text-muted">?</span>
                                                       @endif
                                                 </span>
                                             </td>
