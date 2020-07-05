@@ -21,7 +21,7 @@
                         @else
                           <span class="text-green">
                         @endif
-                        <strong>{{ $event->source->name }}</strong> (#{{ $event->source->realm->number }})
+                        {{ $event->source->name }} (#{{ $event->source->realm->number }})
 
                         @if($event->data['result']['success'])
                         successfully
@@ -34,7 +34,7 @@
                         @else
                         invaded
                         @endif
-                        <strong>{{ $event->target->name }}</strong> (#{{ $event->target->realm->number }})
+                        {{ $event->target->name }} (#{{ $event->target->realm->number }})
                         </span>
                     </h3>
                 </div>
