@@ -1539,7 +1539,7 @@ class MilitaryCalculator
           $multiplier += 0.10;
         }
 
-        // Spell: Holy War (+10% OP)
+        // Spell: Divine Intervention (+10% OP)
         if ($this->spellCalculator->isSpellActive($dominion, 'divine_intervention'))
         {
           $multiplier += 0.10;

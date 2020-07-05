@@ -248,7 +248,7 @@ class CasualtiesCalculator
             }
             if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
-                // Note: true_immortal is used for non-SPUD races to be exempt from Holy War.
+                // Note: true_immortal is used for non-SPUD races to be exempt from Divine Intervention.
                 $multiplier = 0;
             }
 

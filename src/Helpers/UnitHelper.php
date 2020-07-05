@@ -129,7 +129,7 @@ class UnitHelper
             'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
 
-            'immortal' => 'Immortal. Only dies against Holy War.',
+            'immortal' => 'Immortal. Only dies against Divine Intervention.',
             'immortal_except_vs' => 'Near immortal, except vs % or when overwhelmed on attack.',
             'immortal_on_victory' => 'Immortal if invasion is successful.',
             'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
