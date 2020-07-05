@@ -348,11 +348,11 @@ class InvadeActionService
 
             for ($slot = 1; $slot <= 4; $slot++)
             {
-                $unit = $dominion->race->units->filter(function ($unit) use ($unitSlot) {
-                    return ($unit->slot === $unitSlot);
+                $unit = $target->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
                 })->first();
 
-                if($this->militaryCalculator->getUnitPowerWithPerks($dominion, null, null, $unit, 'defense') !== 0)
+                if($this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $unit, 'defense') !== 0.0)
                 {
                     $this->invasionResult['defender']['unitsDefending'][$slot] = $target->{'military_unit'.$slot};
                 }
@@ -454,7 +454,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            dd($this->invasionResult);
+            #dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
