@@ -4,6 +4,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Models\Realm;
 use OpenDominion\Services\GameEventService;
+use OpenDominion\Helpers\RaceHelper;
 
 class WorldNewsController extends AbstractDominionController
 {
@@ -30,11 +31,14 @@ class WorldNewsController extends AbstractDominionController
 
         $realmCount = Realm::where('round_id', $dominion->round_id)->count();
 
+        $raceHelper = app(RaceHelper::class);
+
         return view('pages.dominion.world-news', compact(
             'dominionIds',
             'gameEvents',
             'realm',
-            'realmCount'
+            'realmCount',
+            'raceHelper'
         ))->with('fromOpCenter', false);
     }
 }

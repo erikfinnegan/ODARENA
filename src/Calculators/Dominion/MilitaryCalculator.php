@@ -1471,7 +1471,7 @@ class MilitaryCalculator
      * @param Dominion $attacker
      * @return bool
      */
-    public function recentlyInvadedAttackersRealm(Dominion $attacker, Dominion $defender = null): bool
+    public function isOwnRealmRecentlyInvadedByTarget(Dominion $attacker, Dominion $defender = null): bool
     {
         if($defender)
         {
@@ -1592,10 +1592,10 @@ class MilitaryCalculator
         # Condition: target must have invaded $dominion's realm in the last six hours.
         if ($this->spellCalculator->isSpellActive($dominion, 'retribution'))
         {
-          if($this->recentlyInvadedAttackersRealm($dominion, $target))
-          {
-            $multiplier += 0.20;
-          }
+            if($this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
+            {
+                $multiplier += 0.20;
+            }
         }
 
       }
@@ -1691,18 +1691,16 @@ class MilitaryCalculator
      */
     public function getLeagueMultiplier(Dominion $attacker, Dominion $defender = Null, string $type): float
     {
-
         $multiplier = 0;
 
         if($type == 'offense')
         {
-            if($this->guardMembershipService->isEliteGuardMember($attacker) and $this->guardMembershipService->isEliteGuardMember($defender))
+            if(isset($defender))
             {
-                $multiplier += 0.05;
-            }
-            if($this->guardMembershipService->isRoyalGuardMember($attacker))
-            {
-                $multiplier -= 0.10;
+                if($this->guardMembershipService->isEliteGuardMember($attacker) and $this->guardMembershipService->isEliteGuardMember($defender))
+                {
+                    $multiplier += 0.05;
+                }
             }
         }
         elseif($type == 'defense')

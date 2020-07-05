@@ -5,10 +5,8 @@
 @section('content')
     @php
         $boxColor = ($event->data['result']['success'] ? 'success' : 'danger');
-
-        // todo: refactor/optimize
-        // Invert box color if we are the target
-        if ($event->target->id === $selectedDominion->id) {
+        if ($event->target->id === $selectedDominion->id)
+        {
             $boxColor = ($event->data['result']['success'] ? 'danger' : 'success');
         }
     @endphp
@@ -19,152 +17,530 @@
                     <h3 class="box-title">
                         <i class="ra ra-crossed-swords"></i>
                         {{ $event->source->name }} (#{{ $event->source->realm->number }})
-                        vs
+
+                        @if($event->data['result']['success'])
+                        successfully
+                        @else
+                        unsuccessfully
+                        @endif
+
+                        @if($event->data['result']['isAmbush'])
+                        ambushed
+                        @else
+                        invaded
+                        @endif
                         {{ $event->target->name }} (#{{ $event->target->realm->number }})
                     </h3>
                 </div>
                 <div class="box-bod no-padding">
                     <div class="row">
-
                         <div class="col-xs-12 col-sm-4">
+                            <div class="text-center">
+                            <h4>Attacker's Forces</h4>
+                            @if (isset($event->data['result']['overwhelmed']) && $event->data['result']['overwhelmed'])
+                                <p class="text-center text-red">
+                                    @if ($event->source->id === $selectedDominion->id)
+                                        Because you were severely outmatched, you suffer extra casualties.
+                                    @else
+                                        Because {{ $event->source->name }} (# {{ $event->source->realm->number }}) was severely outmatched, they suffer extra casualties.
+                                    @endif
+                                </p>
+                            @endif
+                            </div>
                             <table class="table">
                                 <colgroup>
-                                    <col width="50%">
-                                    <col width="50%">
+                                    <col width="25%">
+                                    <col width="25%">
+                                    <col width="25%">
+                                    <col width="25%">
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2" class="text-center">
-                                            @if ($event->source->id === $selectedDominion->id)
-                                                Your Losses
-                                            @else
-                                                {{ $event->source->name }} (#{{ $event->source->realm->number }})'s Losses
-                                            @endif
-                                        </th>
+                                        <th>Unit</th>
+                                        <th>Sent</th>
+                                        <th>Lost</th>
+                                        <th>Returning</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($event->data['attacker']['unitsLost'] as $unitSlot => $amount)
-                                        @if ($amount === 0)
-                                            @continue
-                                        @endif
+                                    @for ($slot = 1; $slot <= 4; $slot++)
+                                    @if((isset($event->data['attacker']['unitsSent'][$slot]) and $event->data['attacker']['unitsSent'][$slot] > 0) or
+                                        (isset($event->data['attacker']['unitsLost'][$slot]) and $event->data['attacker']['unitsLost'][$slot] > 0) or
+                                        (isset($event->data['attacker']['unitsReturning'][$slot]) and $event->data['attacker']['unitsReturning'][$slot] > 0)
+                                        )
+
                                         @php
-                                            $unitType = "unit{$unitSlot}";
+                                            $unitType = "unit{$slot}";
                                         @endphp
                                         <tr>
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
-                                                    {{ $event->source->race->units->where('slot', $unitSlot)->first()->name }}
+                                                    {{ $event->source->race->units->where('slot', $slot)->first()->name }}
                                                 </span>
                                             </td>
                                             <td>
-                                                {{ number_format($amount) }}
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
+                                                      @if (isset($event->data['attacker']['unitsSent'][$slot]))
+                                                        {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
+                                                      @else
+                                                        0
+                                                      @endif
+                                                </span>
                                             </td>
-                                        </tr>
-                                    @endforeach
-                                    @if (isset($event->data['attacker']['boatsLost']))
-                                        <tr>
-                                            <td><i class="ra ra-droplet text-blue"></i> Boats</td>
-                                            <td>{{ number_format($event->data['attacker']['boatsLost']) }}</td>
+                                            <td>
+                                                @if (isset($event->data['attacker']['unitsLost'][$slot]))
+                                                  {{ number_format($event->data['attacker']['unitsLost'][$slot]) }}
+                                                @else
+                                                  0
+                                                @endif
+                                            </td>
+                                            <td>
+                                              @if (isset($event->data['attacker']['unitsReturning'][$slot]))
+                                                {{ number_format($event->data['attacker']['unitsReturning'][$slot]) }}
+                                              @else
+                                                0
+                                              @endif
+                                            </td>
                                         </tr>
                                     @endif
-                                </tbody>
+                                    @endfor
+                                    @if (isset($event->data['attacker']['boatsLost']))
+                                        <tr>
+                                            <td>Boats</td>
+                                            <td>boats_sent</td>
+                                            <td>{{ number_format($event->data['attacker']['boatsLost']) }}</td>
+                                            <td>boats_returning</td>
+                                        </tr>
+                                    @endif
                             </table>
-                        </div>
 
-                        <div class="col-xs-12 col-sm-4">
+                            @if ($event->source->id === $selectedDominion->id)
                             <table class="table">
                                 <colgroup>
-                                    <col width="50%">
-                                    <col width="50%">
+                                    <col width="25%">
+                                    <col width="75%">
                                 </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th colspan="2" class="text-center">
-                                            @if ($event->target->id === $selectedDominion->id)
-                                                Your Losses
-                                            @else
-                                                {{ $event->target->name }} (#{{ $event->target->realm->number }})'s Losses
-                                            @endif
-                                        </th>
-                                    </tr>
-                                </thead>
                                 <tbody>
-                                    @if (array_sum($event->data['defender']['unitsLost']) === 0)
-                                        <tr>
-                                            <td colspan="2" class="text-center">
-                                                <em>None</em>
-                                            </td>
-                                        </tr>
-                                    @else
-                                        @foreach ($event->data['defender']['unitsLost'] as $unitSlot => $amount)
-                                            @if ($amount === 0)
-                                                @continue
-                                            @endif
+                                    <tr>
+                                        <td>Prestige:</td>
+                                        <td>
+                                        @if (isset($event->data['attacker']['prestigeChange']))
                                             @php
-                                                $unitType = (($unitSlot !== 'draftees') ? "unit{$unitSlot}" : 'draftees');
+                                                $prestigeChange = $event->data['attacker']['prestigeChange'];
                                             @endphp
+                                            @if ($prestigeChange < 0)
+                                                <span class="text-red">
+                                                    {{ number_format($prestigeChange) }}
+                                                </span>
+                                            @elseif ($prestigeChange > 0)
+                                                <span class="text-green">
+                                                    +{{ number_format($prestigeChange) }}
+                                                </span>
+                                            @else
+                                                <span class="text-muted">
+                                                    0
+                                                </span>
+                                            @endif
+                                        @endif
+                                        </td>
+                                    <tr>
+                                        <td>XP:</td>
+                                        <td>
+                                        @if (isset($event->data['attacker']['researchPoints']))
+                                            <span class="text-green">
+                                                +{{ number_format($event->data['attacker']['researchPoints']) }}
+                                            </span>
+                                        @else
+                                            <span class="text-muted">
+                                                0
+                                            </span>
+                                        @endif
+                                        </td>
+                                    </tr>
+
+                                    @if (isset($event->data['attacker']['conversion']))
+                                    <tr>
+                                        <th colspan="2">Conversion</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->source->race) }} forces recall some of the dead.</small></td>
+                                    </tr>
+                                        @foreach($event->data['attacker']['conversion'] as $slot => $amount)
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ $event->source->race->units->where('slot', $slot)->first()->name }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['plunder']) and array_sum($event->data['attacker']['plunder']) > 0)
+                                    <tr>
+                                        <th colspan="2">Plunder</th>
+                                    </tr>
+                                        @foreach($event->data['attacker']['plunder'] as $resource => $amount)
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ ucwords($resource) }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['salvage']) and array_sum($event->data['attacker']['salvage']) > 0)
+                                    <tr>
+                                        <th colspan="2">Salvage</th>
+                                    </tr>
+                                        @foreach($event->data['attacker']['salvage'] as $resource => $amount)
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ ucwords($resource) }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['demonic_collection']))
+                                    <tr>
+                                        <th colspan="2">Demonic Collection</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Tearing apart the dead, the {{ $raceHelper->getRaceAdjective($event->source->race) }} units collect souls, blood, and food.</small></td>
+                                    </tr>
+                                        @foreach($event->data['attacker']['demonic_collection'] as $resource => $amount)
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ ucwords($resource) }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['champion']))
+                                    <tr>
+                                        <th colspan="2">Legendary Champions</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->source->race) }} warriors fight bravely; some to the end, becoming legendary champions.</small></td>
+                                    </tr>
+                                        @foreach($event->data['attacker']['champion'] as $amount)
                                             <tr>
-                                                <td>
-                                                    <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race) }}">
-                                                        @if ($unitType === 'draftees')
-                                                            Draftees
-                                                        @else
-                                                            {{ $event->target->race->units->where('slot', $unitSlot)->first()->name }}
-                                                        @endif
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    {{ number_format($amount) }}
-                                                </td>
+                                                <td colspan="2"><p class="text-green text-center">{{ number_format($amount) }} new champions return!</p></td>
                                             </tr>
                                         @endforeach
                                     @endif
-                                    @if (isset($event->data['defender']['boatsLost']))
-                                        <tr>
-                                            <td><i class="ra ra-droplet text-blue"></i> Boats</td>
-                                            <td>{{ number_format($event->data['defender']['boatsLost']) }}</td>
-                                        </tr>
+
+                                    @if (isset($event->data['attacker']['peasants_eaten']) and isset($event->data['attacker']['draftees_eaten']))
+                                    <tr>
+                                        <th colspan="2">People Eaten</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Peasants:</td>
+                                        <td><span class="text-green">{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Draftees:</td>
+                                        <td><span class="text-green">{{ number_format($event->data['attacker']['draftees_eaten']['draftees']) }}</span></td>
+                                    </tr>
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['peasants_burned']))
+                                    <tr>
+                                        <th colspan="2">Firewalking</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Peasants burned:</td>
+                                        <td><span class="text-green">{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</span></td>
+                                    </tr>
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['improvements_damage']))
+                                        @if ($event->source->id === $selectedDominion->id)
+                                            <p class="text-center text-green">
+                                        @else
+                                            <p class="text-center text-red">
+                                        @endif
+                                            Improvements suffer <strong>{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }}</strong> points worth of damage.</p>
+                                            </p>
                                     @endif
                                 </tbody>
                             </table>
+                            @endif
+
                         </div>
 
                         <div class="col-xs-12 col-sm-4">
+                            <div class="text-center">
+                            <h4>Defender's Forces</h4>
+                            </div>
                             <table class="table">
                                 <colgroup>
-                                    <col width="50%">
-                                    <col width="50%">
+                                    <col width="34%">
+                                    <col width="33%">
+                                    <col width="33%">
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2" class="text-center">
-                                            @if ($event->target->id === $selectedDominion->id)
-                                                Land Lost
+                                        <th>Unit</th>
+                                        <th>Defending</th>
+                                        <th>Lost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for ($slot = 1; $slot <= 4; $slot++)
+                                    @if((isset($event->data['defender']['unitsDefending'][$slot]) and $event->data['defender']['unitsDefending'][$slot] > 0) or
+                                        (isset($event->data['defender']['unitsLost'][$slot]) and $event->data['defender']['unitsLost'][$slot] > 0)
+                                        )
+
+                                        @php
+                                            $unitType = "unit{$slot}";
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race) }}">
+                                                    {{ $event->target->race->units->where('slot', $slot)->first()->name }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race) }}">
+                                                      @if (isset($event->data['defender']['unitsDefending'][$slot]))
+                                                        {{ number_format($event->data['defender']['unitsDefending'][$slot]) }}
+                                                      @else
+                                                        0
+                                                      @endif
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if (isset($event->data['defender']['unitsLost'][$slot]))
+                                                  {{ number_format($event->data['defender']['unitsLost'][$slot]) }}
+                                                @else
+                                                  0
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @endfor
+                                    @if (isset($event->data['attacker']['boatsLost']))
+                                        <tr>
+                                            <td>Boats</td>
+                                            <td>boats_sent</td>
+                                            <td>{{ number_format($event->data['attacker']['boatsLost']) }}</td>
+                                            <td>boats_returning</td>
+                                        </tr>
+                                    @endif
+                            </table>
+
+                            @if ($event->target->realm->id === $selectedDominion->realm->id)
+                            <table class="table">
+                                <colgroup>
+                                    <col width="25%">
+                                    <col width="75%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td>Prestige:</td>
+                                        <td>
+                                        @if (isset($event->data['defender']['prestigeChange']))
+                                            @php
+                                                $prestigeChange = $event->data['defender']['prestigeChange'];
+                                            @endphp
+                                            @if ($prestigeChange < 0)
+                                                <span class="text-red">
+                                                    {{ number_format($prestigeChange) }}
+                                                </span>
+                                            @elseif ($prestigeChange > 0)
+                                                <span class="text-green">
+                                                    +{{ number_format($prestigeChange) }}
+                                                </span>
                                             @else
-                                                Land Conquered
+                                                <span class="text-muted">
+                                                    0
+                                                </span>
+                                            @endif
+                                        @endif
+                                        </td>
+
+                                    @if (isset($event->data['defender']['conversion']))
+                                    <tr>
+                                        <th colspan="2">Conversion</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->target->race) }} forces recall some of the dead.</small></td>
+                                    </tr>
+                                        @foreach($event->data['defender']['conversion'] as $slot => $amount)
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ $event->target->race->units->where('slot', $slot)->first()->name }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['defender']['salvage']) and array_sum($event->data['attacker']['salvage']) > 0)
+                                    <tr>
+                                        <th colspan="2">Salvage</th>
+                                    </tr>
+                                        @foreach($event->data['defender']['salvage'] as $resource => $amount)
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ ucwords($resource) }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['defender']['demonic_collection']))
+                                    <tr>
+                                        <th colspan="2">Demonic Collection</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Tearing apart the dead, the {{ $raceHelper->getRaceAdjective($event->source->race) }} units collect souls, blood, and food.</small></td>
+                                    </tr>
+                                        @foreach($event->data['defender']['demonic_collection'] as $resource => $amount)
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ ucwords($resource) }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['peasants_eaten']) and isset($event->data['attacker']['draftees_eaten']))
+                                    <tr>
+                                        <th colspan="2">People Eaten</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Peasants:</td>
+                                        <td><span class="text-red">{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Draftees:</td>
+                                        <td><span class="text-red">{{ number_format($event->data['attacker']['draftees_eaten']['draftees']) }}</span></td>
+                                    </tr>
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['peasants_burned']))
+                                    <tr>
+                                        <th colspan="2">Firewalking</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Peasants burned:</td>
+                                        <td><span class="text-red">{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</span></td>
+                                    </tr>
+                                    @endif
+
+                                    @if (isset($event->data['attacker']['improvements_damage']))
+                                        @if ($event->source->id === $selectedDominion->id)
+                                            <p class="text-center text-green">
+                                        @else
+                                            <p class="text-center text-red">
+                                        @endif
+                                            Improvements suffer <strong>{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }}</strong> points worth of damage.</p>
+                                            </p>
+                                    @endif
+                                </tbody>
+                            </table>
+                            @endif
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-4">
+                            <div class="text-center">
+                            <h4>
+                              @if ($event->target->realm->id === $selectedDominion->realm->id)
+                                  Land Lost
+                              @else
+                                  Land Conquered
+                              @endif
+                            </h4>
+                            </div>
+                            <table class="table">
+                                <colgroup>
+                                    <col width="33%">
+                                    <col width="33%">
+                                    <col width="33%">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>Landtype</th>
+                                        <th>
+                                            @if ($event->target->realm->id === $selectedDominion->realm->id)
+                                                Lost
+                                            @else
+                                                Conquered
                                             @endif
                                         </th>
+                                        <th>Discovered</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (!isset($event->data['attacker']['landConquered']))
                                         <tr>
-                                            <td colspan="2" class="text-center">
+                                            <td colspan="3" class="text-center">
                                                 <em>None</em>
                                             </td>
                                         </tr>
                                     @else
-                                        @foreach ($event->data['attacker']['landConquered'] as $landType => $amount)
-                                            @if ($amount === 0)
-                                                @continue
-                                            @endif
-                                            <tr>
-                                                <td>{{ ucfirst($landType) }}</td>
-                                                <td>{{ number_format($amount) }}</td>
-                                            </tr>
+
+                                        @php
+                                            $landChanges = array_merge($event->data['attacker']['landConquered'], $event->data['attacker']['landGenerated'])
+                                        @endphp
+
+                                        @foreach($landChanges as $landType => $amount)
+                                        <tr>
+                                            <td>{{ ucwords($landType) }}</td>
+                                            <td>{{ $event->data['attacker']['landConquered'][$landType] }}</td>
+                                            <td>{{ $event->data['attacker']['landGenerated'][$landType] }}</td>
+                                        </tr>
                                         @endforeach
                                     @endif
+                                </tbody>
+                            </table>
+
+
+                            <table class="table">
+                                <div class="text-center">
+                                <h4>
+                                  @if ($event->target->realm->id === $selectedDominion->realm->id)
+                                      Buildings Lost
+                                  @else
+                                      Buildings Destroyed
+                                  @endif
+                                </h4>
+                                <small class="text-muted" style="font-weight: normal;">(including unfinished)</small>
+                                </div>
+                                <colgroup>
+                                    <col width="50%">
+                                    <col width="50%">
+                                </colgroup>
+                                <tbody>
+                                @if(isset($event->data['defender']['buildingsLost']))
+                                    @foreach($event->data['defender']['buildingsLost'] as $building => $details)
+                                        @php
+                                            $buildingName = str_replace('_',' ',$building);
+                                            $buildingName = ucwords($buildingName);
+
+                                            $destroyed = array_sum($details);
+                                        @endphp
+
+                                    <tr>
+                                        <td>{{ $buildingName }}</td>
+                                        <td>{{ number_format($destroyed )}}</td>
+                                    </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="2" class="text-center">
+                                            <em>None</em>
+                                        </td>
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -185,122 +561,6 @@
                                     @endif
                                 </p>
                             @endif
-
-                            @if (isset($event->data['result']['overwhelmed']) && $event->data['result']['overwhelmed'])
-                                <p class="text-center text-red">
-                                    @if ($event->source->id === $selectedDominion->id)
-                                        Because you were severely outmatched, you suffer extra casualties.
-                                    @else
-                                        Because {{ $event->source->name }} (# {{ $event->source->realm->number }}) was severely outmatched, they suffer extra casualties.
-                                    @endif
-                                </p>
-                            @endif
-
-                            {{-- Only show prestige / experience point gains if we are the attacker --}}
-                            @if ($event->source->id === $selectedDominion->id)
-                                @if (isset($event->data['attacker']['prestigeChange']))
-                                    @php
-                                        $prestigeChange = $event->data['attacker']['prestigeChange'];
-                                    @endphp
-                                    @if ($prestigeChange < 0)
-                                        <p class="text-center text-red">
-                                            You lost <b>{{ number_format(-$prestigeChange) }}</b> prestige.
-                                        </p>
-                                    @elseif ($prestigeChange > 0)
-                                        <p class="text-center text-green">
-                                            You gain <b>{{ number_format($prestigeChange) }}</b> prestige.
-                                        </p>
-                                    @endif
-                                @endif
-                                @if (isset($event->data['attacker']['researchPoints']))
-                                    <p class="text-center text-green">
-                                        You gain <b>{{ number_format($event->data['attacker']['researchPoints']) }}</b> experience points.
-                                    </p>
-                                @endif
-                            @endif
-                            @if (isset($event->data['attacker']['plunder'])  and array_sum($event->data['attacker']['plunder']) > 0)
-                                @if ($event->source->id === $selectedDominion->id)
-                                    <p class="text-center text-green">
-                                @else
-                                    <p class="text-center text-red">
-                                @endif
-                                    {{ $unitHelper->getPlunderString($event->data['attacker']['plunder']) }}
-                                    </p>
-                            @endif
-                            @if (isset($event->data['attacker']['salvage']) and array_sum($event->data['attacker']['salvage']) > 0 and $event->source->id === $selectedDominion->id)
-                                    <p class="text-center text-green">
-                                    {{ $unitHelper->getSalvageString($event->data['attacker']['salvage']) }}
-                                    </p>
-                            @endif
-                            @if (isset($event->data['attacker']['conversion']) && $event->source->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                                    {{ $unitHelper->getConvertedUnitsString($event->data['attacker']['conversion'], $selectedDominion->race, 'offensive') }}
-                                </p>
-                            @endif
-                            @if (isset($event->data['defender']['conversion']) && $event->target->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                                    {{ $unitHelper->getConvertedUnitsString($event->data['defender']['conversion'], $selectedDominion->race, 'defensive') }}
-                                </p>
-                            @endif
-
-                            @if (isset($event->data['attacker']['demonic_collection']) && $event->source->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                                  {{ $unitHelper->getDemonicCollectionString($event->data['attacker']['demonic_collection']) }}
-                                </p>
-                            @endif
-                            @if (isset($event->data['defender']['demonic_collection']) && $event->target->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                                  {{ $unitHelper->getDemonicCollectionString($event->data['defender']['demonic_collection']) }}
-                                </p>
-                            @endif
-
-                            @if (isset($event->data['attacker']['champion']) && $event->source->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                                  {{ $unitHelper->getChampionsString($event->data['attacker']['champion']['champions']) }}
-                                </p>
-                            @endif
-
-                            @if (isset($event->data['attacker']['peasants_burned']))
-                              @if ($event->source->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                              @else
-                                <p class="text-center text-red">
-                              @endif
-                                  <strong>{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</strong> peasants were burned to death.</p>
-                                </p>
-                            @endif
-
-                            @if (isset($event->data['attacker']['peasants_eaten']))
-                              @if ($event->source->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                              @else
-                                <p class="text-center text-red">
-                              @endif
-                                  <strong>{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</strong> peasants were eaten alive.</p>
-                                </p>
-                            @endif
-
-                            @if (isset($event->data['attacker']['draftees_eaten']))
-                              @if ($event->source->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                              @else
-                                <p class="text-center text-red">
-                              @endif
-                                  <strong>{{ number_format($event->data['attacker']['draftees_eaten']['draftees']) }}</strong> draftees were eaten alive.</p>
-                                </p>
-                            @endif
-
-
-                            @if (isset($event->data['attacker']['improvements_damage']))
-                              @if ($event->source->id === $selectedDominion->id)
-                                <p class="text-center text-green">
-                              @else
-                                <p class="text-center text-red">
-                              @endif
-                                  Improvements suffer <strong>{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }}</strong> points worth of damage.</p>
-                                </p>
-                            @endif
-
                         </div>
                     </div>
                 </div>

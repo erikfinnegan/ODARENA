@@ -16,7 +16,7 @@ class TechController extends AbstractDominionController
     public function getTechs()
     {
         return view('pages.dominion.advancements', [
-            'techs' => Tech::all()->keyBy('key'),
+            'techs' => Tech::all()->keyBy('key')->sortBy('name'),
             'techCalculator' => app(TechCalculator::class),
             'techHelper' => app(TechHelper::class),
         ]);

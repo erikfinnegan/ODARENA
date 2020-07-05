@@ -27,6 +27,7 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
+use OpenDominion\Services\Dominion\GuardMembershipService;
 
 class InvadeActionService
 {
@@ -120,6 +121,9 @@ class InvadeActionService
     /** @var TrainingCalculator */
     protected $trainingCalculator;
 
+    /** @var GuardMembershipService */
+    protected $guardMembershipService;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -175,7 +179,8 @@ class InvadeActionService
         SpellHelper $spellHelper,
         SpellActionService $spellActionService,
         UnitHelper $unitHelper,
-        TrainingCalculator $trainingCalculator
+        TrainingCalculator $trainingCalculator,
+        GuardMembershipService $guardMembershipService
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -193,6 +198,7 @@ class InvadeActionService
         $this->spellActionService = $spellActionService;
         $this->unitHelper = $unitHelper;
         $this->trainingCalculator = $trainingCalculator;
+        $this->guardMembershipService = $guardMembershipService;
     }
 
     /**
@@ -334,6 +340,20 @@ class InvadeActionService
                 throw new GameException('You cannot attack unless a portal is open.');
             }
 
+            // Peacekeepers League: can only invade if recently invaded.
+            if($this->guardMembershipService->isRoyalGuardMember($dominion) and !$this->militaryCalculator->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
+            {
+                throw new GameException('As a member of the Peacekeepers League, you can only invade other dominions if they have recently invaded your realm.');
+            }
+
+            # todo: exclude zero-dp units
+            $this->invasionResult['defender']['unitsDefending'][1] = $target->military_unit1;
+            $this->invasionResult['defender']['unitsDefending'][2] = $target->military_unit2;
+            $this->invasionResult['defender']['unitsDefending'][3] = $target->military_unit3;
+            $this->invasionResult['defender']['unitsDefending'][4] = $target->military_unit4;
+
+            $this->invasionResult['defender']['recentlyInvadedCount'] = $this->militaryCalculator->getRecentlyInvadedCount($target);
+
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
 
@@ -460,7 +480,8 @@ class InvadeActionService
 
         $this->notificationService->sendNotifications($target, 'irregular_dominion');
 
-        if ($this->invasionResult['result']['success']) {
+        if ($this->invasionResult['result']['success'])
+        {
             $message = sprintf(
                 'You are victorious and defeat the forces of %s (#%s), conquering %s new acres of land! During the invasion, your troops also discovered %s acres of land.',
                 $target->name,
@@ -469,7 +490,9 @@ class InvadeActionService
                 number_format(array_sum($this->invasionResult['attacker']['landGenerated']))
             );
             $alertType = 'success';
-        } else {
+        }
+        else
+        {
             $message = sprintf(
                 'Your army fails to defeat the forces of %s (#%s).',
                 $target->name,
@@ -1764,6 +1787,9 @@ class InvadeActionService
       foreach($returningUnits as $unitKey => $returningAmount)
       {
           $slot = intval(str_replace('military_unit','',$unitKey));
+
+          $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
+
           $this->queueService->queueResources(
               'invasion',
               $dominion,

@@ -509,5 +509,38 @@ class RaceHelper
         return $ratings[$rating];
     }
 
+    public function getRaceAdjective(Race $race): string
+    {
+        $adjectives = [
+            'Ants' => 'Ant',
+            'Black Orc' => 'Black Orcish',
+            'Cult' => 'Cultist',
+            'Dark Elf' => 'Dark Elven',
+            'Demon' => 'Demonic',
+            'Dimensionalists' => 'Dimensionalist',
+            'Dwarf' => 'Dwarven',
+            'Elementals' => 'Elemental',
+            'Gnome' => 'Gnomish',
+            'Imperial Gnome' => 'Imperial Gnomish',
+            'Lycanthrope' => 'Lycanthropic',
+            'Nomad' => 'Nomadic',
+            'Norse' => 'Norsen',
+            'Nox' => 'Noxian',
+            'Orc' => 'Orcish',
+            'Snow Elf' => 'Snow Elven',
+            'Sylvan' => 'Sylvana',
+            'Vampires' => 'Vampiric',
+            'Wood Elf' => 'Wood Elven'
+        ];
+
+        if(in_array($race->name, $adjectives))
+        {
+            return $adjectives[$race->name];
+        }
+        else
+        {
+            return $race->name;
+        }
+    }
 
 }
