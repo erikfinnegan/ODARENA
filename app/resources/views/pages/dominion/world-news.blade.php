@@ -113,7 +113,7 @@
 
                                                 @endphp
 
-                                                A new {{ $raceHelper->getRaceAdjective($gameEvent->source->race) }} dominion called <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> has {{ $verb }} the
+                                                A new {{ $raceHelper->getRaceAdjective($gameEvent->source->race) }} dominion bearing the name <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> has {{ $verb }} the
                                                 <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}">
                                                   @if ($gameEvent->target->id == $selectedDominion->realm_id)
                                                     <span class="text-green">
