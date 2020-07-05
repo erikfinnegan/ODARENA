@@ -239,6 +239,9 @@
                                         <th colspan="2">People Eaten</th>
                                     </tr>
                                     <tr>
+                                        <td colspan="2"><small class="text-muted">A gruesome sight as {{ $raceHelper->getRaceAdjective($event->source->race) }} warriors eat peasants and draftees alive.</small></td>
+                                    </tr>
+                                    <tr>
                                         <td>Peasants:</td>
                                         <td><span class="text-green">{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</span></td>
                                     </tr>
@@ -250,22 +253,27 @@
 
                                     @if (isset($event->data['attacker']['peasants_burned']))
                                     <tr>
-                                        <th colspan="2">Firewalking</th>
+                                        <th colspan="2">People Burned</th>
                                     </tr>
                                     <tr>
-                                        <td>Peasants burned:</td>
+                                        <td colspan="2"><small class="text-muted">The charred bodies of burned peasants emit a foul odour across the battlefield.</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Peasants:</td>
                                         <td><span class="text-green">{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</span></td>
                                     </tr>
                                     @endif
 
                                     @if (isset($event->data['attacker']['improvements_damage']))
-                                        @if ($event->source->id === $selectedDominion->id)
-                                            <p class="text-center text-green">
-                                        @else
-                                            <p class="text-center text-red">
-                                        @endif
-                                            Improvements suffer <strong>{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }}</strong> points worth of damage.</p>
-                                            </p>
+                                    <tr>
+                                        <th colspan="2">Improvements Damage</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Heavy blows to {{$event->target->race->name}}'s improvements have caused damage.</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><span class="text-green">{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }} improvement points destroyed</span></td>
+                                    </tr>
                                     @endif
                                 </tbody>
                             </table>
@@ -291,6 +299,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if(isset($event->data['defender']['unitsLost']['draftees']) and $event->data['defender']['unitsLost']['draftees'] > 0)
+
+                                    @php
+                                    if(!isset($event->data['defender']['unitsDefending']['draftees']))
+                                        $draftees = 0;
+                                    else
+                                        $draftees = $event->data['defender']['unitsDefending']['draftees'];
+                                    @endphp
+
+                                    <tr>
+                                        <td>Draftees</td>
+                                        <td>{{ number_format($draftees) }}</td>
+                                        <td>{{ number_format($event->data['defender']['unitsLost']['draftees']) }}</td>
+                                    </tr>
+
+                                    @endif
                                     @for ($slot = 1; $slot <= 4; $slot++)
                                     @if((isset($event->data['defender']['unitsDefending'][$slot]) and $event->data['defender']['unitsDefending'][$slot] > 0) or
                                         (isset($event->data['defender']['unitsLost'][$slot]) and $event->data['defender']['unitsLost'][$slot] > 0)
@@ -417,6 +441,10 @@
                                         <th colspan="2">People Eaten</th>
                                     </tr>
                                     <tr>
+                                        <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->source->race) }} warriors eat some of our peasants and draftees alive.</small></td>
+                                    </tr>
+                                    </tr>
+                                    <tr>
                                         <td>Peasants:</td>
                                         <td><span class="text-red">{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</span></td>
                                     </tr>
@@ -428,7 +456,10 @@
 
                                     @if (isset($event->data['attacker']['peasants_burned']))
                                     <tr>
-                                        <th colspan="2">Firewalking</th>
+                                        <th colspan="2">People Burned</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Our peasants have been attacked with fire.</small></td>
                                     </tr>
                                     <tr>
                                         <td>Peasants burned:</td>
@@ -437,13 +468,15 @@
                                     @endif
 
                                     @if (isset($event->data['attacker']['improvements_damage']))
-                                        @if ($event->source->id === $selectedDominion->id)
-                                            <p class="text-center text-green">
-                                        @else
-                                            <p class="text-center text-red">
-                                        @endif
-                                            Improvements suffer <strong>{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }}</strong> points worth of damage.</p>
-                                            </p>
+                                    <tr>
+                                        <th colspan="2">Improvements Damage</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Heavy blows to our improvements have weakened us.</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><span class="text-red">{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }} improvement points destroyed</span></td>
+                                    </tr>
                                     @endif
                                 </tbody>
                             </table>
@@ -457,7 +490,7 @@
                               @if ($event->target->realm->id === $selectedDominion->realm->id)
                                   Land Lost
                               @else
-                                  Land Conquered
+                                  Land Gained
                               @endif
                             </h4>
                             </div>
@@ -477,7 +510,9 @@
                                                 Conquered
                                             @endif
                                         </th>
-                                        <th>Discovered</th>
+                                        @if ($event->source->realm->id === $selectedDominion->realm->id)
+                                          <th>Discovered</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -497,7 +532,9 @@
                                         <tr>
                                             <td>{{ ucwords($landType) }}</td>
                                             <td>{{ $event->data['attacker']['landConquered'][$landType] }}</td>
-                                            <td>{{ $event->data['attacker']['landGenerated'][$landType] }}</td>
+                                            @if ($event->source->realm->id === $selectedDominion->realm->id)
+                                              <td>{{ $event->data['attacker']['landGenerated'][$landType] }}</td>
+                                            @endif
                                         </tr>
                                         @endforeach
                                     @endif
@@ -548,11 +585,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            @php
-                                $recentlyInvadedCount = $militaryCalculator->getRecentlyInvadedCount($event->target);
-                            @endphp
-
-                            @if ($recentlyInvadedCount > 0 && $event->data['result']['success'])
+                            @if (isset($event->data['defender']['recentlyInvadedCount']) and $event->data['defender']['recentlyInvadedCount'] > 0 and $event->data['result']['success'])
                                 <p class="text-center">
                                     @if ($event->source->id === $selectedDominion->id)
                                         Because the target was recently invaded, your prestige gains and their defensive losses are reduced.

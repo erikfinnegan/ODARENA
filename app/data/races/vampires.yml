@@ -32,6 +32,7 @@ units:
       extra_food_consumption: 0.025
       pairing_limit: 4,2000 # Unit slot, amount (max 2000 of this unit per each Unit 4)
       offense_from_time: 18,06,0.25 # Between the hours 18:00 and 06:00, gains +0.25 OP
+      cannot_be_converted: 1
   - name: Servant
     type:
       - living

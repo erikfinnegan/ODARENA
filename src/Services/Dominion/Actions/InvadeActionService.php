@@ -346,11 +346,18 @@ class InvadeActionService
                 throw new GameException('As a member of the Peacekeepers League, you can only invade other dominions if they have recently invaded your realm.');
             }
 
-            # todo: exclude zero-dp units
-            $this->invasionResult['defender']['unitsDefending'][1] = $target->military_unit1;
-            $this->invasionResult['defender']['unitsDefending'][2] = $target->military_unit2;
-            $this->invasionResult['defender']['unitsDefending'][3] = $target->military_unit3;
-            $this->invasionResult['defender']['unitsDefending'][4] = $target->military_unit4;
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                $unit = $dominion->race->units->filter(function ($unit) use ($unitSlot) {
+                    return ($unit->slot === $unitSlot);
+                })->first();
+
+                if($this->militaryCalculator->getUnitPowerWithPerks($dominion, null, null, $unit, 'defense') !== 0)
+                {
+                    $this->invasionResult['defender']['unitsDefending'][$slot] = $target->{'military_unit'.$slot};
+                }
+
+            }
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $this->militaryCalculator->getRecentlyInvadedCount($target);
 
@@ -361,8 +368,12 @@ class InvadeActionService
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
 
-            # Only count successful, non-in-realm hits over 75% as victories.
+            if (!isset($this->invasionResult['result']['ignoreDraftees']))
+            {
+                $this->invasionResult['defender']['unitsDefending']['draftees'] = $target->military_draftees;
+            }
 
+            # Only count successful, non-in-realm hits over 75% as victories.
             $countsAsVictory = 0;
             $countsAsFailure = 0;
             $countsAsRaze = 0;
@@ -443,7 +454,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -2484,7 +2495,8 @@ class InvadeActionService
       Dominion $attacker,
       Dominion $target,
       array $units,
-      float $landRatio
+      float $landRatio,
+      bool $isAmbush
       ): float
     {
         // Values (percentages)

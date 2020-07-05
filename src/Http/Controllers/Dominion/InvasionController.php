@@ -35,8 +35,7 @@ class InvasionController extends AbstractDominionController
             'spellCalculator' => app(SpellCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
-            'improvementCalculator' => app(improvementCalculator::class),
-            #'building' => app(PrestigeCalculator::class),
+            'improvementCalculator' => app(improvementCalculator::class)
         ]);
     }
 
