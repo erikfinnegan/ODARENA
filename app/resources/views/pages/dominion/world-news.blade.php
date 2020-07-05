@@ -101,7 +101,7 @@
                                                     $alignment = 'Independent';
                                                     $verb = 'appeared among';
                                                 }
-                                                elseif($gameEvent->target->alignment == 'Barbarian')
+                                                elseif($gameEvent->target->alignment == 'npc')
                                                 {
                                                     $alignment = 'Barbarian Horde';
                                                     $verb = 'been spotted in';
