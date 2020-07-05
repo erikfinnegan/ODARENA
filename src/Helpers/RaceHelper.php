@@ -524,8 +524,7 @@ class RaceHelper
             'Imperial Gnome' => 'Imperial Gnomish',
             'Lycanthrope' => 'Lycanthropic',
             'Nomad' => 'Nomadic',
-            'Norse' => 'Norsen',
-            'Nox' => 'Noxian',
+            'Nox' => 'Nocten',
             'Orc' => 'Orcish',
             'Snow Elf' => 'Snow Elven',
             'Sylvan' => 'Sylvana',
@@ -533,7 +532,7 @@ class RaceHelper
             'Wood Elf' => 'Wood Elven'
         ];
 
-        if(in_array($race->name, $adjectives))
+        if(isset($adjectives[$race->name]))
         {
             return $adjectives[$race->name];
         }
