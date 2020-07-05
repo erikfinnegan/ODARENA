@@ -68,6 +68,12 @@ class TechActionService
             ));
         }
 
+        // Check if faction can unlock advancements
+        if($dominion->race->getPerkValue('cannot_tech'))
+        {
+            throw new GameException($dominion->race->name . ' cannot unlock advancements.');
+        }
+
         DB::transaction(function () use ($dominion, $techToUnlock, $techCost) {
             DominionTech::create([
                 'dominion_id' => $dominion->id,
