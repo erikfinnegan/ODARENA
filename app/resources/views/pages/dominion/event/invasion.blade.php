@@ -86,7 +86,7 @@
                                             </td>
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
-                                                      @if ($event->source->id === $selectedDominion->id)
+                                                      @if ($event->source->realm->id === $selectedDominion->realm->id)
                                                           @if (isset($event->data['attacker']['unitsSent'][$slot]))
                                                             {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
                                                           @else
@@ -345,7 +345,7 @@
                                             </td>
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race) }}">
-                                                      @if ($event->target->id === $selectedDominion->id)
+                                                      @if ($event->target->realm->id === $selectedDominion->realm->id)
                                                           @if (isset($event->data['defender']['unitsDefending'][$slot]))
                                                             {{ number_format($event->data['defender']['unitsDefending'][$slot]) }}
                                                           @else
