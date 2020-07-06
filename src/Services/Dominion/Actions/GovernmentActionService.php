@@ -107,7 +107,6 @@ class GovernmentActionService
         {
             if(
                 !filter_var($discordLink, FILTER_VALIDATE_URL) or
-                strlen($discordLink) !== strlen('https://discord.gg/HpzetmR') or
                 substr($discordLink,0,19) !== 'https://discord.gg/' or
                 $discordLink == 'https://discord.gg/xxxxxxx'
               )
