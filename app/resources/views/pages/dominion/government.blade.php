@@ -301,9 +301,8 @@
                         </h4>
                         <ul class="text-left" style="padding: 0 50px;">
                             <li>Cannot interact with Dominions less than 60% or greater than 166% of your land size.</li>
-                            <li>-10% offensive power.</li>
                             <li>+5% defensive power.</li>
-                            <li>+10% cost of exploration.</li>
+                            <li>Cannot invade unless recently invaded, and then only the invader's realm.</li>
                         </ul>
                         @if ($isRoyalGuardApplicant || $isGuardMember)
                             <form action="{{ route('dominion.government.royal-guard.leave') }}" method="post" role="form" style="padding-bottom: 10px;">
@@ -332,7 +331,6 @@
                         </h4>
                         <ul class="text-left" style="padding: 0 50px;">
                             <li>Cannot interact with Dominions less than 75% or greater than 133% of your land size.</li>
-                            <li>+10% prestige gains.</li>
                             <li>+5% offensive power against other members of the Warriors League.</li>
                             <li>Cannot explore.</li>
                         </ul>
