@@ -113,14 +113,14 @@
 
                                                 @endphp
 
-                                                A new {{ $raceHelper->getRaceAdjective($gameEvent->source->race) }} dominion bearing the name <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> has {{ $verb }} the
+                                                A new {{ ($gameEvent->source->race->name) }} has {{ $verb }} the
                                                 <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}">
                                                   @if ($gameEvent->target->id == $selectedDominion->realm_id)
                                                     <span class="text-green">
                                                   @else
                                                     <span class="text-red">
                                                   @endif
-                                                  {{ $alignment }}</span></a>, under the leadership of <em>{{ $gameEvent->source->title->name }}</em> {{ $gameEvent->source->ruler_name }}.
+                                                  {{ $alignment }}</span></a>: <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> led by <em>{{ $gameEvent->source->title->name }}</em> {{ $gameEvent->source->ruler_name }}.
                                             @endif
                                         </td>
                                         <td class="text-center">
