@@ -522,6 +522,7 @@ class RaceHelper
             'Elementals' => 'Elemental',
             'Gnome' => 'Gnomish',
             'Imperial Gnome' => 'Imperial Gnomish',
+            'Lux' => 'Lucene',
             'Lycanthrope' => 'Lycanthropic',
             'Nomad' => 'Nomadic',
             'Nox' => 'Nocten',
