@@ -91,12 +91,6 @@ class ExplorationCalculator
         // Improvement: Cartography (returns positive value)
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
 
-        // Royal Guard / Peacekeepers League: +10%
-        if ($this->guardMembershipService->isRoyalGuardMember($dominion))
-        {
-            $multiplier += 0.10;
-        }
-
         # Cap explore plat reduction to 50%.
         $multiplier = max($multiplier, -0.50);
 
