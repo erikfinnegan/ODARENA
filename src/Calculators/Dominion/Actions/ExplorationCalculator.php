@@ -140,14 +140,9 @@ class ExplorationCalculator
     public function getDrafteeCostModifier(Dominion $dominion): int
     {
         $modifier = 0;
+
         // Techs
         $modifier += $dominion->getTechPerkValue('explore_draftee_cost');
-
-        // Royal Guard / Peacekeepers League: +1
-        if ($this->guardMembershipService->isRoyalGuardMember($dominion))
-        {
-            $modifier += 1;
-        }
 
         return round($modifier);
     }
