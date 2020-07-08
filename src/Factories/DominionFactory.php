@@ -358,7 +358,7 @@ class DominionFactory
                 $startingResources['unit4'] = floor(($opRequired * $opaTargetElitesRatio)/5);
 
                 $startingResources['protection_ticks'] = 0;
-                $startingResources['royal_guard_active_at'] = now();
+                #$startingResources['royal_guard_active_at'] = now();
             }
         }
 
