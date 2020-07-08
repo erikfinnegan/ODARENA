@@ -128,7 +128,7 @@
                                     @endif
                             </table>
 
-                            @if ($event->source->id === $selectedDominion->id)
+                            @if ($event->source->realm->id === $selectedDominion->realm->id)
                             <table class="table">
                                 <colgroup>
                                     <col width="25%">
