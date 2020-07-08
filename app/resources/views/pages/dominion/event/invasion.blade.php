@@ -324,7 +324,13 @@
 
                                     <tr>
                                         <td>Draftees</td>
-                                        <td>{{ number_format($draftees) }}</td>
+                                        <td>
+                                            @if ($event->target->realm->id === $selectedDominion->realm->id)
+                                                {{ number_format($draftees) }}
+                                            @else
+                                                <span class="text-muted">?</span>
+                                            @endif
+                                        </td>
                                         <td>{{ number_format($event->data['defender']['unitsLost']['draftees']) }}</td>
                                     </tr>
 
