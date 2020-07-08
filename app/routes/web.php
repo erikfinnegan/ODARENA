@@ -52,6 +52,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
     $router->get('settings')->uses('SettingsController@getIndex')->name('settings');
     $router->post('settings')->uses('SettingsController@postIndex');
 
+    // Settings
+    $router->get('patreon')->uses('PatreonController@getPatreonAccessToken')->name('patreon');
+    $router->get('patreon/pledge')->uses('PatreonController@getPatreonPledge')->name('patreon/pledge');
+
     // Round Register
     $router->get('round/{round}/register')->uses('RoundController@getRegister')->name('round.register');
     $router->post('round/{round}/register')->uses('RoundController@postRegister');
