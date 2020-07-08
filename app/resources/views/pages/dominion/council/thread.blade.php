@@ -41,9 +41,9 @@
                             @if ($post->dominion->isMonarch())
                                 <i class="ra ra-queen-crown text-red"></i>
                             @endif
-                            <em>{{ $thread->dominion->title->name }}</em>
-                            {{ $thread->dominion->ruler_name }} of
-                            <b>{{ $thread->dominion->name }}</b>
+                            <em>{{ $post->dominion->title->name }}</em>
+                            {{ $post->dominion->ruler_name }} of
+                            <b>{{ $post->dominion->name }}</b>
                         </i>
                     </small>
                     @if ($selectedDominion->isMonarch())
