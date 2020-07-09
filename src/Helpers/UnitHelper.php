@@ -129,12 +129,12 @@ class UnitHelper
             'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
 
-            'immortal' => 'Immortal. Only dies against Divine Intervention.',
-            'immortal_except_vs' => 'Near immortal, except vs % or when overwhelmed on attack.',
-            'immortal_on_victory' => 'Immortal if invasion is successful.',
+            'immortal' => 'Immortal in combat. Only dies against Divine Intervention.',
+            'true_immortal' => 'Immortal in combat.',
+            'immortal_on_victory' => 'Immortal in combat if invasion is successful.',
+            'true_immortal_defense' => 'Immortal in combat if successfully fending off invader.',
+
             'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
-            'true_immortal_defense' => 'Near immortal. Only dies when overwhelmed on defense.',
-            'true_immortal' => 'Immortal.',
 
             'kills_immortal' => 'Kills near immortal units.',
 
