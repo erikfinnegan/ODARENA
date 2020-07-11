@@ -236,7 +236,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 ->fill([
                     'name' => $techData->name,
                     'prerequisites' => object_get($techData, 'requires', []),
-                    'cost_multiplier' => $techData->cost_multiplier,
+                    'level' => $techData->level,
                     'enabled' => (int)object_get($techData, 'enabled', 1),
                 ]);
 
