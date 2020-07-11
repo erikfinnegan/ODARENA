@@ -116,7 +116,7 @@
                 <li class="header">REALM</li>
                 -->
                 <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="ra ra-circle-of-circles ra-fw"></i> <span>The World</span></a></li>
-                <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}"><a href="{{ route('dominion.world-news') }}"><i class="fa fa-newspaper-o ra-fw"></i> <span>World News</span></a></li>
+                <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}"><a href="{{ route('dominion.world-news') }}"><i class="fa fa-newspaper-o ra-fw"></i> <span>World News</span> {!! $newsUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $newsUnreadCount . '</small></span>') : null !!}</a></li>
                 <li class="{{ Route::is('dominion.rankings') ? 'active' : null }}"><a href="{{ route('dominion.rankings') }}"><i class="fa fa-trophy ra-fw"></i> <span>Rankings</span></a></li>
 
                 <li class="{{ Route::is('dominion.notes') ? 'active' : null }}"><a href="{{ route('dominion.notes') }}"><i class="ra ra-quill-ink ra-fw"></i> <span>Notes</span></a></li>

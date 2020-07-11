@@ -47,7 +47,8 @@ class QueueService
     public function getQueue(string $source, Dominion $dominion): Collection
     {
         $hours = 0;
-        if ($this->forTick) {
+        if ($this->forTick)
+        {
             // don't include next hour when calculating tick
             $hours = 1;
         }
@@ -68,7 +69,8 @@ class QueueService
     public function getQueueAmount(string $source, Dominion $dominion, string $resource, int $hour): int
     {
         return $this->getQueue($source, $dominion)
-                ->filter(static function ($row) use ($resource, $hour) {
+                ->filter(static function ($row) use ($resource, $hour)
+                {
                     return (
                         ($row->resource === $resource) &&
                         ($row->hours === $hour)

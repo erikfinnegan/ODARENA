@@ -158,6 +158,7 @@ class HistoryService
                 'daily_platinum',
                 'daily_land',
                 'council_last_read',
+                'news_last_read',
                 'royal_guard_active_at',
                 'elite_guard_active_at',
                 'last_tick_at',

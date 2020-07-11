@@ -3,6 +3,7 @@
 namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Models\Realm;
+use OpenDominion\Models\Dominion;
 use OpenDominion\Services\GameEventService;
 use OpenDominion\Helpers\RaceHelper;
 
@@ -10,9 +11,10 @@ class WorldNewsController extends AbstractDominionController
 {
     public function getIndex(int $realmNumber = null)
     {
-        $gameEventService = app(GameEventService::class);
 
+        $gameEventService = app(GameEventService::class);
         $dominion = $this->getSelectedDominion();
+        $this->updateDominionNewsLastRead($dominion);
 
         if ($realmNumber !== null) {
             $realm = Realm::where([
@@ -41,4 +43,12 @@ class WorldNewsController extends AbstractDominionController
             'raceHelper'
         ))->with('fromOpCenter', false);
     }
+
+
+    protected function updateDominionNewsLastRead(Dominion $dominion): void
+    {
+        $dominion->news_last_read = now();
+        $dominion->save();
+    }
+
 }

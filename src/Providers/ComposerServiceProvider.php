@@ -14,6 +14,7 @@ use OpenDominion\Services\Dominion\SelectorService;
 # ODA
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Models\GameEvent;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
@@ -40,18 +41,23 @@ class ComposerServiceProvider extends AbstractServiceProvider
             /** @var Dominion $dominion */
             $dominion = $selectorService->getUserSelectedDominion();
 
-            $lastRead = $dominion->council_last_read;
+            $councilLastRead = $dominion->council_last_read;
+            $newsLastRead = $dominion->news_last_read;
+            if($newsLastRead == null)
+            {
+                $newsLastRead = $dominion->created_at;
+            }
 
             $councilUnreadCount = $dominion->realm
                 ->councilThreads()
                 ->with('posts')
                 ->get()
-                ->map(static function (Thread $thread) use ($lastRead) {
-                    $unreadCount = $thread->posts->filter(static function (Post $post) use ($lastRead) {
-                        return $post->created_at > $lastRead;
+                ->map(static function (Thread $thread) use ($councilLastRead) {
+                    $unreadCount = $thread->posts->filter(static function (Post $post) use ($councilLastRead) {
+                        return $post->created_at > $councilLastRead;
                     })->count();
 
-                    if ($thread->created_at > $lastRead) {
+                    if ($thread->created_at > $councilLastRead) {
                         $unreadCount++;
                     }
 
@@ -59,9 +65,16 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 })
                 ->sum();
 
+            $newsUnreadCount = $gameEvents = GameEvent::query()
+                ->select('id')
+                ->where('round_id', $dominion->round->id)
+                ->where('created_at', '>', $newsLastRead)
+                ->count();
+
             $techLevelAffordable = min(floor($dominion->resource_tech/max(1000,$landCalculator->getTotalLand($dominion)) - 9),6);
 
             $view->with('councilUnreadCount', $councilUnreadCount);
+            $view->with('newsUnreadCount', $newsUnreadCount);
             $view->with('techLevelAffordable', $techLevelAffordable);
         });
 
