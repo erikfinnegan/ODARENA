@@ -19,23 +19,14 @@
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
-                                <col width="100">
-                                <col width="50">
-                                <col width="50">
-                                <col width="50">
-                                <col width="50">
-                                <col width="50">
-                                <col width="50">
+                                <col width="200">
                             </colgroup>
                             <thead>
                                 <tr>
                                     <th>Advancement</th>
-                                    <th>Level 1<br>{{ $techCalculator->getTechCost($selectedDominion, null, 1) }}</th>
-                                    <th>Level 2<br>{{ $techCalculator->getTechCost($selectedDominion, null, 2) }}</th>
-                                    <th>Level 3<br>{{ $techCalculator->getTechCost($selectedDominion, null, 3) }}</th>
-                                    <th>Level 4<br>{{ $techCalculator->getTechCost($selectedDominion, null, 4) }}</th>
-                                    <th>Level 5<br>{{ $techCalculator->getTechCost($selectedDominion, null, 5) }}</th>
-                                    <th>Level 6<br>{{ $techCalculator->getTechCost($selectedDominion, null, 6) }}</th>
+                                    @for ($i = 1; $i <= 8; $i++)
+                                        <th class="text-center">Level {{ $i }}</th>
+                                    @endfor
                                 </tr>
                             </thead>
                             @foreach ($techs as $tech)
@@ -44,15 +35,20 @@
                                     <td>{{ $tech->name }}</td>
                                 @else
                                 @endif
-                                <td>
+
+                                <td class="text-center">
                                 @if(in_array($tech->key, $unlockedTechs))
+                                    <span data-toggle="tooltip" data-placement="top" title="{{ $techHelper->getTechDescription($tech) }}" style="display:block;">
                                     <i class="fa fa-check text-green"></i>
+                                    </span>
                                 @else
+                                    <span data-toggle="tooltip" data-placement="top" title="{{ $techHelper->getTechDescription($tech) }}" style="display:block;">
                                     <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" {{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'disabled' : null }}>
+                                    </span>
                                 @endif
                                 </td>
 
-                                @if($tech->level == 6)
+                                @if($tech->level == 8)
                                     </tr>
                                 @endif
                             @endforeach
@@ -72,9 +68,15 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>You can unlock technological advancements by earning enough experience points (XP). You can XP by invading, exploring, and every tick from your prestige.</p>
-                    <p>Each advancement improves an aspect of your dominion. Only the highest level advancement counts. If you have unlocked Level 1 and Level 2, only the bonus from the Level 2 advancement counts.</p>
-                    <p>You have <b>{{ number_format($selectedDominion->resource_tech) }} experience points</b>.</p>
+                    <p>You can unlock technological advancements by earning enough experience points (XP). You can XP by invading, exploring, and every tick from your prestige. The cost of each advancement level is shown below:</p>
+                    <ul>
+                    @for ($i = 1; $i <= 6; $i++)
+                        <li>Level {{ $i }}: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $i)) }}</li>
+                    @endfor
+                    </ul>
+                    <p>You have <b>{{ number_format($selectedDominion->resource_tech) }} XP</b>.</p>
+                    <p>Only the perks from the highest level advancement counts. if you have Level 1 and Level 2, only Level 2 counts.</p>
+
                 </div>
             </div>
         </div>

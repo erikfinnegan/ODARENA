@@ -43,13 +43,14 @@ class TechCalculator
         $cost += min($this->landCalculator->getTotalLand($dominion) * 10, 10000);
 
         # Add extra cost from level (from $techToUnlock, if known, or from $level)
-        if($techToUnlock = Tech::where('key', $techToUnlock->key)->first())
+        if($techToUnlock !== null)
         {
-            $cost *= 1 + $techToUnlock->level / 10;
+            $techToUnlock = Tech::where('key', $techToUnlock->key)->first();
+            $cost *= 1 + ($techToUnlock->level - 1) / 10;
         }
-        elseif(isset($level) and ($level >= 1 and $level <= 6))
+        elseif(isset($level) and ($level >= 1 and $level <= 8))
         {
-            $cost *= 1 + $level / 10;
+            $cost *= 1 + ($level - 1) / 10;
         }
 
         $cost *= 1 + $this->getTechCostMultiplier($dominion);

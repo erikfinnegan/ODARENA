@@ -942,10 +942,10 @@ class SpellActionService
         // Disband Spies: spies
         if($spellInfo['key'] == 'disband_spies')
         {
-          if ($target->race->getPerkValue('immortal_spies'))
-          {
-            $damageMultiplier = -1;
-          }
+            if ($target->race->getPerkValue('immortal_spies'))
+            {
+                $damageMultiplier = -1;
+            }
         }
 
         // Purification: only effective against Afflicted.
