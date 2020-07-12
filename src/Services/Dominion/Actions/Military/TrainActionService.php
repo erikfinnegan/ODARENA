@@ -197,7 +197,7 @@ class TrainActionService
             if( # Units trained + Units in Training + Units in Queue + Units to Train
                 (($dominion->{'military_unit' . $unitSlot} +
                   $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                  $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                   $amountToTrain))
                 >
                 ($pairingLimitedByTrained * $pairingLimitedTo)
@@ -223,7 +223,7 @@ class TrainActionService
             if( # Units trained + Units in Training + Units in Queue + Units to Train
                 (($dominion->{'military_unit' . $unitSlot} +
                   $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                  $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                   $amountToTrain))
                 >
                 $upperLimit
@@ -241,7 +241,7 @@ class TrainActionService
             if( # Units trained + Units in Training + Units in Queue + Units to Train
                 (($dominion->{'military_unit' . $unitSlot} +
                   $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                  $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                   $amountToTrain))
                 >
                 $amountLimit
@@ -270,7 +270,7 @@ class TrainActionService
             if( # Units trained + Units in Training + Units in Queue + Units to Train
                 (($dominion->{'military_unit' . $unitSlot} +
                   $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                  $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                   $amountToTrain))
                 >
                 $upperLimit

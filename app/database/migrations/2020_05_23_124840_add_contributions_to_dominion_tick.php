@@ -34,12 +34,12 @@ class AddContributionsToDominionTick extends Migration
     {
         Schema::table('dominion_tick', function (Blueprint $table) {
             $table->dropColumn([
-              'food_contribution',
-              'lumber_contribution',
-              'ore_contribution',
-              'food_contributed',
-              'lumber_contributed',
-              'ore_contributed',
+              'resource_food_contribution',
+              'resource_lumber_contribution',
+              'resource_ore_contribution',
+              'resource_food_contributed',
+              'resource_lumber_contributed',
+              'resource_ore_contributed',
             ]);
         });
     }

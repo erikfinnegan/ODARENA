@@ -372,7 +372,7 @@ class SpellActionService
                     'resource_ore' => $target->resource_ore * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                     'resource_gems' => $target->resource_gems * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                     'resource_tech' => $target->resource_tech * $this->opsHelper->getInfoOpsAccuracyModifier($target),
-                    'resource_boats' => $target->resource_boats + $this->queueService->getInvasionQueueTotalByResource(
+                    'resource_boats' => $target->resource_boats + $this->queueService->getReturningQueueTotalByResource(
                             $target,
                             'resource_boats'
                         ) * $this->opsHelper->getInfoOpsAccuracyModifier($target),

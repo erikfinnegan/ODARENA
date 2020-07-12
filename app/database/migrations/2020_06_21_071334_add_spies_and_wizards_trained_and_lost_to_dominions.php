@@ -32,8 +32,15 @@ class AddSpiesAndWizardsTrainedAndLostToDominions extends Migration
      */
     public function down()
     {
-        Schema::table('dominions', function (Blueprint $table) {
-            //
-        });
+      Schema::table('dominions', function (Blueprint $table) {
+        $table->dropColumn([
+            'stat_total_spies_trained',
+            'stat_total_wizards_trained',
+            'stat_total_archmages_trained',
+            'stat_total_spies_lost',
+            'stat_total_wizards_lost',
+            'stat_total_archmages_lost',
+        ]);
+      });
     }
 }

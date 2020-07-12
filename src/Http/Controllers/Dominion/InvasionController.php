@@ -17,7 +17,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
-use OpenDominion\Calculators\Dominion\improvementCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 class InvasionController extends AbstractDominionController
 {
@@ -35,7 +35,7 @@ class InvasionController extends AbstractDominionController
             'spellCalculator' => app(SpellCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
-            'improvementCalculator' => app(improvementCalculator::class)
+            'improvementCalculator' => app(ImprovementCalculator::class)
         ]);
     }
 

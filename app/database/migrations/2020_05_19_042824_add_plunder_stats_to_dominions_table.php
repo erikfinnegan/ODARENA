@@ -31,7 +31,14 @@ class AddPlunderStatsToDominionsTable extends Migration
     public function down()
     {
         Schema::table('dominions', function (Blueprint $table) {
-            //
+          $table->dropColumn([
+              'stat_total_ore_plundered',
+              'stat_total_lumber_plundered',
+              'stat_total_gems_plundered',
+              'stat_total_food_plundered',
+              'stat_total_mana_plundered',
+              'stat_total_platinum_plundered',
+          ]);
         });
     }
 }

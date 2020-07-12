@@ -106,7 +106,7 @@ class ReleaseActionService
             $totalUnitsReturning = 0;
             for ($slot = 1; $slot <= 4; $slot++)
             {
-              $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
+              $totalUnitsReturning += $this->queueService->getReturningQueueTotalByResource($dominion, "military_unit{$slot}");
             }
             if ($totalUnitsReturning !== 0)
             {
