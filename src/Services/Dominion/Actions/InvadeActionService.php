@@ -463,7 +463,7 @@ class InvadeActionService
                 'source_id' => $dominion->id,
                 'target_type' => Dominion::class,
                 'target_id' => $target->id,
-                'type' => 'returning',
+                'type' => 'invasion',
                 'data' => $this->invasionResult,
             ]);
 
@@ -1805,7 +1805,7 @@ class InvadeActionService
           $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
 
           $this->queueService->queueResources(
-              'invasion',
+              'returning',
               $dominion,
               [$unitKey => $returningAmount],
               $this->getUnitReturnHoursForSlot($dominion, $slot)
@@ -2457,7 +2457,8 @@ class InvadeActionService
             return ($unit->slot === $slot);
         })->first();
 
-        if ($unit->getPerkValue('faster_return') !== 0) {
+        if ($unit->getPerkValue('faster_return') !== 0)
+        {
             $hours -= (int)$unit->getPerkValue('faster_return');
         }
 

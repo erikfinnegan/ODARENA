@@ -126,7 +126,7 @@ training_costs_level7:
   perks:
     military_cost: -16.25
   requires:
-    - training_costs_level4
+    - training_costs_level6
 
 training_costs_level8:
   name: Anvils

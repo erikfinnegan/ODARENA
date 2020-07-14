@@ -76,6 +76,12 @@ class NotificationHelper
                 'route' => route('dominion.military'),
                 'iconClass' => 'ra ra-player-dodge text-green',
             ],
+            'invading_completed' => [
+                'label' => 'Units have arrived at their desination',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.advisors.military'),
+                'iconClass' => 'ra ra-boot-stomp text-green',
+            ],
             'beneficial_magic_dissipated' => [
                 'label' => 'Beneficial magic effect dissipated',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -253,6 +259,18 @@ class NotificationHelper
                 );
 
             case 'hourly_dominion.returning_completed':
+                $units = collect($data)->filter(
+                    function ($value, $key) {
+                        // Disregard prestige and experience points
+                        if(strpos($key, 'military_') === 0) {
+                            return $value;
+                        }
+                    }
+                )->sum();
+
+
+
+            case 'hourly_dominion.invading_completed':
                 $units = collect($data)->filter(
                     function ($value, $key) {
                         // Disregard prestige and experience points

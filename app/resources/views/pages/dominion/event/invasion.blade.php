@@ -16,7 +16,7 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">
                         <i class="ra ra-crossed-swords"></i>
-                        @if($event->target->id === $selectedDominion->id)
+                        @if($event->target->realm->id === $selectedDominion->realm->id)
                           <span class="text-red">
                         @else
                           <span class="text-green">

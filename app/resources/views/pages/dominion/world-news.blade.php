@@ -39,6 +39,7 @@
                             </colgroup>
                             <tbody>
                                 @foreach ($gameEvents as $gameEvent)
+                                @if($gameEvent->type !== 'send_units' or ($gameEvent->type == 'send_units' and $gameEvent->source->realm->id === $selectedDominion->realm->id))
                                     <tr>
                                         <td>
                                             <span>{{ $gameEvent->created_at }}</span>
@@ -121,16 +122,23 @@
                                                     <span class="text-red">
                                                   @endif
                                                   {{ $alignment }}</span></a>.
+                                            @elseif($gameEvent->type === 'send_units' and $gameEvent->source->realm->id === $selectedDominion->realm->id)
+                                                Units from <span class="text-aqua">{{ $gameEvent->source->name }} <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> have been sent to invade <span class="text-orange">{{ $gameEvent->target->name }}</span>
+                                                <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a>.
                                             @endif
                                         </td>
                                         <td class="text-center">
                                             @if ($gameEvent->type === 'invasion')
-                                                @if ($gameEvent->source->realm_id == $selectedDominion->realm->id || $gameEvent->target->realm_id == $selectedDominion->realm->id)
+                                                @if ($gameEvent->source->realm_id == $selectedDominion->realm->id or $gameEvent->target->realm_id == $selectedDominion->realm->id)
                                                     <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="ra ra-crossed-swords ra-fw"></i></a>
                                                 @endif
                                             @endif
+                                            @if($gameEvent->type === 'send_units' and $gameEvent->source->realm->id === $selectedDominion->realm->id)
+                                                    <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="ra ra-boot-stomp ra-fw"></i></a>
+                                            @endif
                                         </td>
                                     </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>

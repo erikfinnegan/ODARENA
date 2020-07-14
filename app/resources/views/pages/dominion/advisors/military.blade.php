@@ -10,7 +10,7 @@
         <div class="col-sm-12 col-md-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-sword"></i> Units in training and home</h3>
+                    <h3 class="box-title"><i class="ra ra-sword"></i> Units Training and Home</h3>
                 </div>
                 <div class="box-body table-responsive no-padding">
                     <table class="table">
@@ -27,7 +27,7 @@
                                 @for ($i = 1; $i <= 12; $i++)
                                     <th class="text-center">{{ $i }}</th>
                                 @endfor
-                                <th class="text-center">Home (Training)</th>
+                                <th class="text-center">Home<br>(Training)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,7 +49,7 @@
                                         </td>
                                     @endfor
                                     <td class="text-center">
-                                        {{ number_format($selectedDominion->{'military_' . $unitType}) }}
+                                        {{ number_format($selectedDominion->{'military_' . $unitType}) }}<br>
                                         ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
                                     </td>
                                 </tr>
@@ -61,9 +61,9 @@
         </div>
 
         <div class="col-sm-12 col-md-6">
-            <div class="box">
+            <div class="box box-danger">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-clock-o"></i> Units invading</h3>
+                    <h3 class="box-title"><i class="ra ra-boot-stomp"></i> Units Invading</h3>
                 </div>
                 <div class="box-body table-responsive no-padding">
                     <table class="table">
@@ -95,15 +95,15 @@
                                     </td>
                                     @for ($i = 1; $i <= 12; $i++)
                                         <td class="text-center">
-                                            @if ($queueService->getReturningQueueAmount($selectedDominion, "military_{$unitType}", $i) === 0)
+                                            @if ($queueService->getInvadingQueueAmount($selectedDominion, "military_{$unitType}", $i) === 0)
                                                 -
                                             @else
-                                                {{ number_format($queueService->getReturningQueueAmount($selectedDominion, "military_{$unitType}", $i)) }}
+                                                {{ number_format($queueService->getInvadingQueueAmount($selectedDominion, "military_{$unitType}", $i)) }}
                                             @endif
                                         </td>
                                     @endfor
                                     <td class="text-center">
-                                        {{ number_format($queueService->getReturningQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
+                                        {{ number_format($queueService->getInvadingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -112,9 +112,9 @@
                 </div>
             </div>
 
-            <div class="box">
+            <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-clock-o"></i> Units returning</h3>
+                    <h3 class="box-title"><i class="ra ra-sideswipe"></i> Units Returning</h3>
                 </div>
                 <div class="box-body table-responsive no-padding">
                     <table class="table">

@@ -18,6 +18,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Services\Dominion\Actions\SendUnitsActionService;
 
 class InvasionController extends AbstractDominionController
 {
@@ -42,10 +43,12 @@ class InvasionController extends AbstractDominionController
     public function postInvade(InvadeActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
-        $invasionActionService = app(InvadeActionService::class);
+        #$invasionActionService = app(InvadeActionService::class);
+        $sendUnitsActionService = app(SendUnitsActionService::class);
 
         try {
-            $result = $invasionActionService->invade(
+            #$result = $invasionActionService->invade(
+            $result = $sendUnitsActionService->sendUnits(
                 $dominion,
                 Dominion::findOrFail($request->get('target_dominion')),
                 $request->get('unit')

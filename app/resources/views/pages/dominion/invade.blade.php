@@ -324,7 +324,7 @@
                                               {{ $selectedDominion->isLocked() ? 'disabled' : null }}
                                               id="invade-button">
                                           <i class="ra ra-player-teleport"></i>
-                                          Teleport units to battle
+                                          Teleport Units
                                       </button>
                                       @else
                                         <p><strong><em>You must open a portal before you can send your units to invade.</em></strong></p>
@@ -336,7 +336,7 @@
                                               {{ $selectedDominion->isLocked() ? 'disabled' : null }}
                                               id="invade-button">
                                           <i class="ra ra-crossed-swords"></i>
-                                          Invade
+                                          Send Units
                                       </button>
                                     @endif
                                   @endif

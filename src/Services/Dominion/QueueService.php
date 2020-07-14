@@ -66,14 +66,22 @@ class QueueService
      * @param int $hour
      * @return int
      */
-    public function getQueueAmount(string $source, Dominion $dominion, string $resource, int $hour): int
+    public function getQueueAmount(string $source, Dominion $dominion, string $resource, int $hour, Dominion $target = null): int
     {
+
+        # If no target, the dominion becomes the target.
+        if($target === null)
+        {
+            $target = $dominion;
+        }
+        
         return $this->getQueue($source, $dominion)
                 ->filter(static function ($row) use ($resource, $hour)
                 {
                     return (
                         ($row->resource === $resource) &&
                         ($row->hours === $hour)
+                        ($row->target_id === $target_id)
                     );
                 })->first()->amount ?? 0;
     }
