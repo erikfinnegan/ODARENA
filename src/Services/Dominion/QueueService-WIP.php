@@ -74,7 +74,7 @@ class QueueService
         {
             $target = $dominion;
         }
-        
+
         return $this->getQueue($source, $dominion)
                 ->filter(static function ($row) use ($resource, $hour)
                 {
