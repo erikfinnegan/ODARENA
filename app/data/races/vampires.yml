@@ -22,12 +22,14 @@ perks:
   food_consumption: -80
   title_bonus: 100
   cannot_build_barracks: 1
+  min_rounds_played: 4
 units:
   - name: Servant
     type:
       - living
       - mindless
     need_boat: true
+    static_networth: 5
     cost:
       food: 0
     power:
@@ -42,6 +44,7 @@ units:
       - living
       - sentient
     need_boat: true
+    static_networth: 10
     cost:
       platinum: 0
     power:
@@ -61,6 +64,7 @@ units:
       - enormous
       - undying
     need_boat: false
+    static_networth: 18
     cost:
       platinum: 0
     power:
