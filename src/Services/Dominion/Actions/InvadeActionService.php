@@ -2656,7 +2656,9 @@ class InvadeActionService
                                                             null,
                                                             $dpMultiplierReduction,
                                                             $ignoreDraftees,
-                                                            $this->isAmbush
+                                                            $this->isAmbush,
+                                                            false,
+                                                            $units # Becomes $invadingUnits
                                                           );
     }
 

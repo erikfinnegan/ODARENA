@@ -228,6 +228,8 @@ class MilitaryCalculator
      * @param float $multiplierReduction
      * @param bool $ignoreDraftees
      * @param bool $isAmbush
+     * @param bool $ignoreRawDpFromBuildings
+     * @param array $invadingUnits
      * @return float
      */
     public function getDefensivePower(
@@ -238,10 +240,11 @@ class MilitaryCalculator
         float $multiplierReduction = 0,         # 5
         bool $ignoreDraftees = false,           # 6
         bool $isAmbush = false,                 # 7
-        bool $ignoreRawDpFromBuildings = false  # 8
+        bool $ignoreRawDpFromBuildings = false, # 8
+        array $invadingUnits = null            # 9
     ): float
     {
-        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings);
+        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings, $invadingUnits);
         $dp *= $this->getDefensivePowerMultiplier($defender, $multiplierReduction);
 
 /*
@@ -283,7 +286,8 @@ class MilitaryCalculator
         float $multiplierReduction = 0,
         bool $ignoreDraftees = false,
         bool $isAmbush = false,
-        bool $ignoreRawDpFromBuildings = false
+        bool $ignoreRawDpFromBuildings = false,
+        array $invadingUnits = null
     ): float
     {
         $dp = 0;
@@ -319,7 +323,7 @@ class MilitaryCalculator
         // Military
         foreach ($defender->race->units as $unit)
         {
-            $powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units);
+            $powerDefense = $this->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense', null, $units, $invadingUnits);
 
             $numberOfUnits = 0;
 
@@ -472,7 +476,8 @@ class MilitaryCalculator
         Unit $unit,
         string $powerType,
         ?array $calc = [],
-        array $units = null
+        array $units = null,
+        array $invadingUnits = null
     ): float
     {
         $unitPower = $unit->{"power_$powerType"};
@@ -503,7 +508,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
-            $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units);
+            $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
         }
 
         return $unitPower;
@@ -1079,7 +1084,7 @@ class MilitaryCalculator
     }
 
 
-      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null): float
+      protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null, array $invadingUnits = null): float
       {
 
           if ($target === null and empty($calc))
@@ -1122,7 +1127,7 @@ class MilitaryCalculator
 
                   if(array_sum($units) > $targetUnits)
                   {
-                    $powerFromPerk = $mobPerk[0];
+                      $powerFromPerk = $mobPerk[0];
                   }
 
               }
@@ -1137,9 +1142,9 @@ class MilitaryCalculator
                   $mobUnits += $dominion->military_unit3;
                   $mobUnits += $dominion->military_unit4;
 
-                  if($mobUnits > array_sum($units))
+                  if(isset($invadingUnits) and $mobUnits > array_sum($invadingUnits))
                   {
-                    $powerFromPerk = $mobPerk[0];
+                      $powerFromPerk = $mobPerk[0];
                   }
               }
           }
