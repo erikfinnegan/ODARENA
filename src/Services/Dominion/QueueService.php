@@ -19,7 +19,7 @@ use Throwable;
  * @method int getExplorationQueueTotalByResource(Dominion $dominion, string $resource)
  * @method Collection getInvasionQueue(Dominion $dominion)
  * @method int getInvasionQueueTotal(Dominion $dominion)
- * @method int getReturningQueueTotalByResource(Dominion $dominion, string $resource)
+ * @method int getInvasionQueueTotalByResource(Dominion $dominion, string $resource)
  * @method Collection getTrainingQueue(Dominion $dominion)
  * @method int getTrainingQueueTotal(Dominion $dominion)
  * @method int getTrainingQueueTotalByResource(Dominion $dominion, string $resource)
@@ -66,22 +66,14 @@ class QueueService
      * @param int $hour
      * @return int
      */
-    public function getQueueAmount(string $source, Dominion $dominion, string $resource, int $hour, Dominion $target = null): int
+    public function getQueueAmount(string $source, Dominion $dominion, string $resource, int $hour): int
     {
-
-        # If no target, the dominion becomes the target.
-        if($target === null)
-        {
-            $target = $dominion;
-        }
-        
         return $this->getQueue($source, $dominion)
                 ->filter(static function ($row) use ($resource, $hour)
                 {
                     return (
                         ($row->resource === $resource) &&
                         ($row->hours === $hour)
-                        ($row->target_id === $target_id)
                     );
                 })->first()->amount ?? 0;
     }
@@ -165,15 +157,8 @@ class QueueService
      * @param array $data In format: [$resource => $amount, $resource2 => $amount2] etc
      * @param int $hours
      */
-    public function queueResources(string $source, Dominion $dominion, array $data, int $hours = 12, Dominion $target = null): void
+    public function queueResources(string $source, Dominion $dominion, array $data, int $hours = 12): void
     {
-
-        # If no target, the dominion becomes the target.
-        if($target === null)
-        {
-            $target = $dominion;
-        }
-
         $data = array_map('\intval', $data);
         $now = now();
 
@@ -193,7 +178,6 @@ class QueueService
             if ($existingQueueRow === null) {
                 DB::table('dominion_queue')->insert([
                     'dominion_id' => $dominion->id,
-                    'target_id' => $target->id,
                     'source' => $source,
                     'resource' => $resource,
                     'hours' => $hours,
