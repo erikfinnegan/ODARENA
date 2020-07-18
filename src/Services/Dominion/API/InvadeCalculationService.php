@@ -38,6 +38,7 @@ class InvadeCalculationService
         'min_dp' => 0,
         'land_ratio' => 0.5,
         'spell_bonus' => null,
+        'units_sent' => 0,
         'units' => [ // home, away, raw OP, raw DP
             '1' => ['dp' => 0, 'op' => 0],
             '2' => ['dp' => 0, 'op' => 0],
@@ -117,6 +118,8 @@ class InvadeCalculationService
                 $unitsThatNeedBoats += (int)$units[$unit->slot];
             }
         }
+        $this->calculationResult['units_sent'] = array_sum($units);
+
         $this->calculationResult['boats_needed'] = ceil($unitsThatNeedBoats / $dominion->race->getBoatCapacity());
         $this->calculationResult['boats_remaining'] = floor($dominion->resource_boats - $this->calculationResult['boats_needed']);
 

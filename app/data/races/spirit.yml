@@ -75,7 +75,6 @@ units:
     static_networth: 20
     cost:
       platinum: 0
-      ore: 0
     power:
       offense: 10
       defense: 10

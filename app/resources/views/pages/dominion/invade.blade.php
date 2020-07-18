@@ -63,6 +63,7 @@
                                         $offenseVsBarren = [];
                                         $offenseVsResource = [];
                                         $offenseVsOpposingUnits = [];
+                                        $offenseFromMob = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
@@ -109,9 +110,9 @@
                                                     $offenseVsResource = explode(',', $offenseVsResourcePerk)[0];
                                                 }
 
-                                                $offenseMobPerk = $unit->getPerkValue('offense_mob');
-                                                if ($offenseMobPerk) {
-                                                    $mobOffense = explode(',', $offenseMobPerk)[0];
+                                                $offenseFromMobPerk = $unit->getPerkValue('offense_mob');
+                                                if ($offenseFromMobPerk) {
+                                                    $offenseFromMob = explode(',', $offenseFromMobPerk)[0];
                                                 }
 
                                             }
@@ -237,6 +238,34 @@
                                                        {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             </td>
                                             <td>&nbsp;</td>
+                                        </tr>
+                                    @endif
+                                    @if($offenseFromMob)
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <b>Enter total number of units target has at home:</b>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       name="calc[opposing_units]"
+                                                       class="form-control text-center"
+                                                       min="0"
+                                                       placeholder="0"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                                  {{-- Tried and failed to get this to be a hidden input, but textarea works... --}}
+                                                  <textarea type="hidden" style="display: none;"
+                                                         id="invasion-total-units"
+                                                         name="calc[units_sent]"
+                                                         class="form-control text-center"
+                                                         min="0"
+                                                         placeholder="0"
+                                                         data-amount="0"
+                                                         value=""
+                                                         {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                                       </textarea>
+
+
+                                            </td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -428,8 +457,6 @@
             @include('partials.dominion.military-power-modifiers')
         </div>
 
-
-
     </div>
 
 @endsection
@@ -445,12 +472,15 @@
 @push('inline-scripts')
     <script type="text/javascript">
 
-    $(document).keypress(
-      function(event){
-        if (event.which == '13') {
-          event.preventDefault();
-        }
-    });
+        $(document).keypress(
+          function(event)
+          {
+              if (event.which == '13')
+              {
+                  event.preventDefault();
+              }
+          }
+        );
 
         (function ($) {
             var invasionForceOPElement = $('#invasion-force-op');
@@ -462,6 +492,8 @@
             var homeForcesBoatsElement = $('#home-forces-boats');
             var homeForcesMinDPElement = $('#home-forces-min-dp');
             var homeForcesDPAElement = $('#home-forces-dpa');
+
+            var invasionForceCountElement = $('#invasion-total-units');
 
             var invadeButtonElement = $('#invade-button');
             var allUnitInputs = $('input[name^=\'unit\']');
@@ -492,8 +524,10 @@
                 $.get(
                     "{{ route('api.dominion.invasion') }}?" + $('#invade_form').serialize(), {},
                     function(response) {
-                        if(response.result == 'success') {
-                            $.each(response.units, function(slot, stats) {
+                        if(response.result == 'success')
+                        {
+                            $.each(response.units, function(slot, stats)
+                            {
                                 // Update unit stats data attributes
                                 $('#unit\\['+slot+'\\]').data('dp', stats.dp);
                                 $('#unit\\['+slot+'\\]').data('op', stats.op);
@@ -501,6 +535,7 @@
                                 $('#unit'+slot+'_dp').text(stats.dp.toLocaleString(undefined, {maximumFractionDigits: 2}));
                                 $('#unit'+slot+'_op').text(stats.op.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             });
+
                             // Update OP / DP data attributes
                             invasionForceOPElement.data('amount', response.away_offense);
                             invasionForceDPElement.data('amount', response.away_defense);
@@ -511,6 +546,7 @@
                             homeForcesBoatsElement.data('amount', response.boats_remaining);
                             homeForcesMinDPElement.data('amount', response.min_dp);
                             homeForcesDPAElement.data('amount', response.home_dpa);
+
                             // Update OP / DP display
                             invasionForceOPElement.text(response.away_offense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             invasionForceDPElement.text(response.away_defense.toLocaleString(undefined, {maximumFractionDigits: 2}));
@@ -521,6 +557,9 @@
                             homeForcesBoatsElement.text(response.boats_remaining.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesMinDPElement.text(response.min_dp.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPAElement.text(response.home_dpa.toLocaleString(undefined, {maximumFractionDigits: 3}));
+
+                            invasionForceCountElement.text(response.units_sent);
+
                             calculate();
                         }
                     }
@@ -578,7 +617,7 @@
                     homeForcesDPElement.removeClass('text-danger');
                 }
 
-                // Check 5:4 rule
+                // Check 4:3 rule
                 var maxOffenseRule = parseFloat(invasionForceOPElement.data('amount')) > parseFloat(invasionForceMaxOPElement.data('amount'));
                 if (maxOffenseRule) {
                     invasionForceOPElement.addClass('text-danger');
@@ -592,8 +631,11 @@
                 } else {
                     invadeButtonElement.removeAttr('disabled');
                 }
+
+
             }
         })(jQuery);
+
 
         function select2Template(state) {
             if (!state.id) {

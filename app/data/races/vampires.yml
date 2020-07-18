@@ -1,68 +1,76 @@
 name: Vampires
 alignment: independent
 description: >-
-  <p>Cursed with eternal life through a profane malaise, Vampires have roamed in packs on the fringes of the world.</p>
-  <p>Outcasts and unwelcome, some Vampires have formed clans and some clans have come together to fight for their own land.</p>
-  <p>Centuries of wandering the nights, Vampires have developed a special relationship with bats.</p>
+  <p>Cursed with eternal life through a profane malaise, Vampires have roamed as a pack on the fringes of the world seeking shelter in mountainous coasts to the west.</p>
+  <p>They live in strict aristocratic societies ruled by a Nobility which claims ancestry to many of the eldest noble families among all elves, orcs, humans, and goblins.</p>
+  <p>Instead of slaying their foes, Vampire Nobles drain their enemies of blood and replace it with a goo that transforms them into one three forms.</p>
+  <p>Weak foes are turned into Servants, whose only duty is to mindlessly defend the Nobles.</p>
+  <p>Average sized and intelligent casualties are twisted and turned into a being called Gnarl.</p>
+  <p>The largest and strongest fighters are morphed into the four-legged, two-armed, three-horned winged creature known only as Ravager.</p>
+  <hr>
+  <p><strong>Vampiric Conversion</strong></p>
+  <p>Vampires have a unique method for converting. Nobles convert to different unit types depending on the raw military power of the unit slain. Each Vampire can </p>
 home_land_type: plain
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 1
 converting: 1
 
 perks:
-  max_population: -50
-  food_consumption: -50
+  max_population: 30
+  food_consumption: -80
   title_bonus: 100
+  cannot_build_barracks: 1
 units:
-  - name: Bat
-    type:
-      - living
-      - sentient
-    need_boat: false
-    cost:
-      food: 5
-    power:
-      offense: 0.5
-      defense: 0.25
-    perks:
-      no_draftee: 1
-      does_not_count_as_population: 1
-      extra_food_consumption: 0.025
-      pairing_limit: 4,2000 # Unit slot, amount (max 2000 of this unit per each Unit 4)
-      offense_from_time: 18,06,0.25 # Between the hours 18:00 and 06:00, gains +0.25 OP
-      cannot_be_converted: 1
   - name: Servant
     type:
       - living
-      - sentient
       - mindless
+    need_boat: true
     cost:
-      platinum: 0
+      food: 0
     power:
       offense: 0
-      defense: 3
+      defense: 4
     perks:
-      true_immortal: 1
       cannot_be_trained: 1
-      conversion: 2
       does_not_count_as_population: 1
-  - name: Shapeshifter
+      extra_food_consumption: 0.025
+  - name: Gnarl
     type:
       - living
       - sentient
+    need_boat: true
+    cost:
+      platinum: 0
+    power:
+      offense: 6
+      defense: 6
+    perks:
+      cannot_be_trained: 1
+      does_not_count_as_population: 1
+      fewer_casualties: 50
+      extra_food_consumption: 0.1
+      defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
+      offense_from_time: 18,06,1 # Between the hours 18:00 and 06:00, gains +1 OP
+  - name: Ravager
+    type:
+      - living
+      - sentient
+      - enormous
       - undying
     need_boat: false
     cost:
-      platinum: 1000
-      mana: 10
+      platinum: 0
     power:
-      offense: 0
-      defense: 5
+      offense: 10
+      defense: 8
     perks:
-      shapeshifts: 1
-      conversion: 2
+      cannot_be_trained: 1
+      fewer_casualties: 75
+      extra_food_consumption: 0.5
+      offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
   - name: Noble
     type:
       - living
@@ -71,12 +79,13 @@ units:
     need_boat: true
     cost:
       platinum: 1000
-      mana: 10
     power:
-      offense: 2
+      offense: 3
       defense: 4
     perks:
       true_immortal: 1
-      conversion: 2
+      vampiric_conversion: 3,7 # 0-3: unit1, 4-7: unit2,  7+: unit3
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
+      counts_as_spy_on_defense: 0.25
+      faster_return: 4

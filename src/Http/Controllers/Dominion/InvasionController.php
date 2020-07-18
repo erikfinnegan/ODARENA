@@ -43,12 +43,12 @@ class InvasionController extends AbstractDominionController
     public function postInvade(InvadeActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
-        #$invasionActionService = app(InvadeActionService::class);
-        $sendUnitsActionService = app(SendUnitsActionService::class);
+        $invasionActionService = app(InvadeActionService::class);
+        #$sendUnitsActionService = app(SendUnitsActionService::class);
 
         try {
-            #$result = $invasionActionService->invade(
-            $result = $sendUnitsActionService->sendUnits(
+            $result = $invasionActionService->invade(
+            #$result = $sendUnitsActionService->sendUnits(
                 $dominion,
                 Dominion::findOrFail($request->get('target_dominion')),
                 $request->get('unit')

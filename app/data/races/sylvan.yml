@@ -58,7 +58,7 @@ units:
       - sentient
     cost:
       lumber: 650
-      mana: 100
+      mana: 75
     power:
       offense: 7
       defense: 3

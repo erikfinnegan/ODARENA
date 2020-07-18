@@ -57,6 +57,7 @@ class UnitHelper
             'conversion' => 'Converts some enemy casualties into %s.',
             'staggered_conversion' => 'Converts some enemy casualties into %2$s against dominions %1$s%%+ of your size.',
             'cannot_be_converted' => 'Unit cannot be converted.',
+            'vampiric_conversion' => 'Spreads vampirism.',
 
             // OP/DP related
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',

@@ -16,7 +16,6 @@ converting: 2
 
 perks:
   food_consumption: -50
-  mana_production: 10
   does_not_kill: 1
   cannot_train_spies: 1
   cannot_train_wizards: 1
@@ -24,6 +23,7 @@ perks:
   invest_bonus: -10
   platinum_production: -15
   can_only_abduct_own: 1
+  mana_production: 10
 units:
   - name: Essence
     type:
@@ -93,7 +93,6 @@ units:
       defense: 8
     perks:
       no_draftee: 1
-      does_not_count_as_population: 1
       true_immortal: 1
       counts_as_wizard_offense: 0.12
       counts_as_wizard_defense: 0.08

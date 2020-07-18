@@ -44,10 +44,10 @@ units:
       - living
       - sentient
     cost:
-      platinum: 700
+      platinum: 600
       ore: 300
     power:
-      offense: 3
+      offense: 0
       defense: 4
     perks:
       defense_from_land: mountain,20,5 # land type, ratio%, max

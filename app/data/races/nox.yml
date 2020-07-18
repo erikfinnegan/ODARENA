@@ -47,13 +47,13 @@ units:
       - living
       - sentient
     cost:
-      platinum: 1000
-      mana: 10
+      platinum: 800
+      mana: 15
     power:
       offense: 0
       defense: 2
     perks:
-      defense_from_land: swamp,12,5 # land type, ratio%,max
+      defense_from_land: swamp,12.5,5 # land type, ratio%,max
   - name: Lich
     type:
       - living
