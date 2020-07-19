@@ -395,8 +395,11 @@ class PopulationCalculator
         {
             if(($dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_offense') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_defense')) and $dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') !== 1)
             {
-                $spyUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
-                $spyUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
+                if(!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense'))
+                {
+                    $spyUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+                    $spyUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
+                }
             }
         }
 
@@ -415,8 +418,11 @@ class PopulationCalculator
         {
             if(($dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense')) and $dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') !== 1)
             {
-                $wizUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
-                $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
+                if(!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_offense') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_defense'))
+                {
+                    $wizUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+                    $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
+                }
             }
         }
 
