@@ -379,35 +379,34 @@ class InvadeActionService
             $countsAsRaze = 0;
             $countsAsBottomfeed = 0;
 
-            if($landRatio >= 0.75 and $dominion->realm->id !== $target->realm->id and $this->invasionResult['result']['success'])
+            # Successful hits over 75% count as victories
+            if($landRatio >= 0.75 and $this->invasionResult['result']['success'])
             {
                 $countsAsVictory = 1;
-                $countsAsFailure = 0;
-                $countsAsRaze = 0;
             }
-            else
-            {
-                $countsAsVictory = 0;
 
-                # For non-overwhelmed bounces, count it as a raze.
-                if($landRatio < 0.75 and $this->invasionResult['result']['success'])
-                {
-                    $countsAsBottomfeed = 1;
-                }
-                elseif(!$this->invasionResult['result']['overwhelmed'] and !$this->invasionResult['result']['success'])
-                {
-                    $countsAsRaze = 1;
-                }
-                else
-                {
-                    $countsAsFailure = 1;
-                }
+            # Successful hits under 75% count as BFs
+            if($landRatio < 0.75 and $this->invasionResult['result']['success'])
+            {
+                $countsAsBottomfeed = 1;
+            }
+
+            # Overwhelmed hits count as failures
+            if($this->invasionResult['result']['overwhelmed'])
+            {
+                $countsAsFailure = 1;
+            }
+
+            # Non-overwhelmed unsuccessful hits count as tactical razes
+            if(!$this->invasionResult['result']['overwhelmed'] and !$this->invasionResult['result']['success'])
+            {
+                $countsAsRaze = 1;
             }
 
             $this->rangeCalculator->checkGuardApplications($dominion, $target);
 
             $this->handleBoats($dominion, $target, $units);
-            $this->handlePrestigeChanges($dominion, $target, $units, $landRatio);
+            $this->handlePrestigeChanges($dominion, $target, $units, $landRatio, $countsAsVictory, $countsAsBottomfeed, $countsAsFailure, $countsAsRaze);
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio);
@@ -557,90 +556,77 @@ class InvadeActionService
      * @param Dominion $target
      * @param array $units
      */
-    protected function handlePrestigeChanges(Dominion $dominion, Dominion $target, array $units, float $landRatio): void
+    protected function handlePrestigeChanges(Dominion $attacker, Dominion $defender, array $units, float $landRatio, int $countsAsVictory, int $countsAsBottomfeed, int $countsAsFailure, int $countsAsRaze): void
     {
-        $isInvasionSuccessful = $this->invasionResult['result']['success'];
-        $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
 
         $attackerPrestigeChange = 0;
         $targetPrestigeChange = 0;
 
-        if ($isOverwhelmed or (!$isInvasionSuccessful && $landRatio < 0.50))
+        $attackerPrestige = $attacker->prestige;
+        $defenderPrestige = $defender->prestige;
+
+        # Successful hits over 75% give prestige to attacker and remove prestige from defender
+        if($countsAsVictory)
         {
-            $attackerPrestigeChange = ($dominion->prestige * (-0.085));
-        }
-        elseif ($isInvasionSuccessful && ($landRatio >= 0.75))
-        {
-            $targetPrestigeChange = ($target->prestige * (-0.0225));
-            $attackerPrestigeChange = intval(20 + ($target->prestige * ($landRatio / 10)));
-        }
-
-        // Reduce attacker prestige gain if the target was hit recently
-        if($attackerPrestigeChange > 0)
-        {
-            $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
-
-            if ($recentlyInvadedCount === 1)
-            {
-                $attackerPrestigeChange *= 0.9;
-            }
-            elseif ($recentlyInvadedCount === 2)
-            {
-                $attackerPrestigeChange *= 0.6;
-            }
-            elseif ($recentlyInvadedCount === 3)
-            {
-                $attackerPrestigeChange *= 0.3;
-            }
-            elseif ($recentlyInvadedCount >= 4)
-            {
-                $attackerPrestigeChange *= 0.1;
-            }
-
-            $attackerPrestigeChange = max($attackerPrestigeChange, static::PRESTIGE_CHANGE_ADD);
-
-            $attackerPrestigeChangeMultiplier = 0;
-
-            // Racial perk
-            $attackerPrestigeChangeMultiplier += $dominion->race->getPerkMultiplier('prestige_gains');
-
-            // Unit perk
-            $attackerPrestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($dominion, $units);
-
-            // Tech
-            $attackerPrestigeChangeMultiplier += $dominion->getTechPerkMultiplier('prestige_gains');
-
-            $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
-
-            $this->invasionResult['defender']['recentlyInvadedCount'] = $recentlyInvadedCount;
-
-            # In-realm Invasion: No prestige gains or losses
-            if($dominion->realm->id == $target->realm->id)
-            {
-              $attackerPrestigeChange = 0;
-              $targetPrestigeChange = 0;
-            }
-
-        }
-        elseif ($isInvasionSuccessful && ($landRatio < 0.60))
-        {
-          $attackerPrestigeChange = $dominion->prestige * (0 + ($this->militaryCalculator->getRecentlyInvadedCount($target) / 100) +  ((1 - $landRatio) / 100));
-          $attackerPrestigeChange = $attackerPrestigeChange * -1;
+            $attackerPrestigeChange += 40;
+            $defenderPrestigeChange -= 10;
         }
 
+        # Successful bottomfeeds over 60% give no prestige change.
+        if($countsAsBottomfeed and $landRatio >= 0.60)
+        {
+            $attackerPrestigeChange += 0;
+        }
 
-        if ($attackerPrestigeChange !== 0) {
-            if (!$isInvasionSuccessful) {
+        # Successful bottomfeeds under 60% give negative prestige for attacker.
+        if($countsAsBottomfeed and $landRatio < 0.60)
+        {
+            $attackerPrestigeChange -= 20;
+        }
+
+        # Unsuccessful hits give negative prestige.
+        if($countsAsFailure)
+        {
+            $attackerPrestigeChange -= 20;
+        }
+
+        # Razes over 75% have no prestige loss for attacker and small gain for defender.
+        if($countsAsRaze and $landRatio > 0.75)
+        {
+            $attackerPrestigeChange += 0;
+             $defenderPrestigeChange += 10;
+        }
+
+        $attackerPrestigeChange *= max(1, (1 - ($this->invasionResult['defender']['recentlyInvadedCount']/10)));
+        $defenderPrestigeChange *= max(1, (1 - ($this->invasionResult['defender']['recentlyInvadedCount']/10)));
+
+        $attackerPrestigeChangeMultiplier = 0;
+
+        // Racial perk
+        $attackerPrestigeChangeMultiplier += $attacker->race->getPerkMultiplier('prestige_gains');
+
+        // Unit perk
+        $attackerPrestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($attacker, $units);
+
+        // Tech
+        $attackerPrestigeChangeMultiplier += $attacker->getTechPerkMultiplier('prestige_gains');
+
+        $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
+
+        if ($attackerPrestigeChange !== 0)
+        {
+            if (!$isInvasionSuccessful)
+            {
                 // Unsuccessful invasions (bounces) give negative prestige immediately
-                $dominion->prestige += $attackerPrestigeChange;
-
-            } else {
-                // todo: possible bug if all 12hr units die (somehow) and only 9hr units survive, prestige gets returned after 12 hrs, since $units is input, not surviving units. fix?
-                $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($dominion, $units);
+                $attacker->prestige += $attackerPrestigeChange;
+            }
+            else
+            {
+                $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($attacker, $units);
 
                 $this->queueService->queueResources(
                     'invasion',
-                    $dominion,
+                    $attacker,
                     ['prestige' => $attackerPrestigeChange],
                     $slowestTroopsReturnHours
                 );
@@ -649,10 +635,10 @@ class InvadeActionService
             $this->invasionResult['attacker']['prestigeChange'] = $attackerPrestigeChange;
         }
 
-        if ($targetPrestigeChange !== 0)
+        if ($defenderPrestigeChange !== 0)
         {
-            $target->prestige += $targetPrestigeChange;
-            $this->invasionResult['defender']['prestigeChange'] = $targetPrestigeChange;
+            $defender->prestige += $defenderPrestigeChange;
+            $this->invasionResult['defender']['prestigeChange'] = $defenderPrestigeChange;
         }
     }
 
@@ -825,28 +811,9 @@ class InvadeActionService
         $defensiveCasualtiesPercentage *= ($attackingForceOP / $targetDP);
 
         // Reduce casualties if target has been hit recently
-        $recentlyInvadedCount = $this->militaryCalculator->getRecentlyInvadedCount($target);
+        $recentlyInvadedCount = $this->invasionResult['defender']['recentlyInvadedCount'];
 
-        if ($recentlyInvadedCount === 1)
-        {
-            $defensiveCasualtiesPercentage *= 0.8;
-        }
-        elseif ($recentlyInvadedCount === 2)
-        {
-            $defensiveCasualtiesPercentage *= 0.6;
-        }
-        elseif ($recentlyInvadedCount === 3)
-        {
-            $defensiveCasualtiesPercentage *= 0.50;
-        }
-        elseif ($recentlyInvadedCount === 4)
-        {
-            $defensiveCasualtiesPercentage *= 0.33;
-        }
-        elseif ($recentlyInvadedCount >= 5)
-        {
-            $defensiveCasualtiesPercentage *= 0.25;
-        }
+        $defensiveCasualtiesPercentage *= max(1, (1 - ($this->invasionResult['defender']['recentlyInvadedCount']/10)));
 
         // Cap max casualties
         $defensiveCasualtiesPercentage = min(
@@ -1635,19 +1602,19 @@ class InvadeActionService
             if($unitRawDp <= $unit2Range[0])
             {
                 $slotConvertedTo = 1;
-                $unitsRequired = 1;
+                $unitsPerConversion = 1;
             }
             # If it's in the unit2 range, it's a unit2.
             elseif($unitRawDp > $unit2Range[0] and $unitRawDp <= $unit2Range[1])
             {
                 $slotConvertedTo = 2;
-                $unitsRequired = 2;
+                $unitsPerConversion = 2;
             }
             # If greater than unit2 range, it's a unit3.
             elseif($unitRawDp > $unit2Range[1])
             {
                 $slotConvertedTo = 3;
-                $unitsRequired = 2;
+                $unitsPerConversion = 3;
             }
 
             # Remove units with fixed casualties > 50%.
@@ -1656,9 +1623,12 @@ class InvadeActionService
                 $amount = 0;
             }
 
-            #echo '<pre>' . $amount . ' of enemy unit' . $slot . ' killed, which has ' . $unitRawDp . ' raw DP and therefor becomes our unit' . $slotConvertedTo . '</pre>';
+            # How many nobles are busy converting this unit?
+            $unitsConverted = $amount / ($unitsRequired / $conversionMultiplier);
 
-            $convertedUnits[$slotConvertedTo] += intval(min($amount, ($amount / $unitsRequired) * $conversionMultiplier));
+            $convertedUnits[$slotConvertedTo] += intval(min($amount, $unitsConverted));
+
+
         }
 
         if (!isset($this->invasionResult['attacker']['conversion']) && array_sum($convertedUnits) > 0)
@@ -1704,6 +1674,7 @@ class InvadeActionService
             $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
 
             $researchPointsForGeneratedAcres = 1;
+
             if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) == 0)
             {
                 $researchPointsForGeneratedAcres = 2;
