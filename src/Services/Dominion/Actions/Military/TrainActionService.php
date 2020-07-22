@@ -446,6 +446,8 @@ class TrainActionService
             # unit2 => int
             # et cetera
 
+            #dd($data);
+
             foreach($data as $unit => $amountToTrain)
             {
 
@@ -483,13 +485,14 @@ class TrainActionService
               }
 
               $unitType = str_replace('military_','',$unit);
+
               $dominion->{'stat_total_' . $unitType . '_trained'} += $amountToTrain;
 
               // Look for faster training.
               if($fasterTraining = $dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'faster_training') and $amountToTrain > 0)
               {
-                $timeReductionSpecs += min($fasterTraining, $hoursSpecs-2);
-                $timeReductionElites += min($fasterTraining, $hoursElites-2);
+                  $timeReductionSpecs += min($fasterTraining, $hoursSpecs-2);
+                  $timeReductionElites += min($fasterTraining, $hoursElites-2);
               }
               // Look for reduced training times.
               if($timeReductionSpecs > 0)

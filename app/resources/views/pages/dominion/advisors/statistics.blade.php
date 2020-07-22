@@ -464,7 +464,7 @@
                                     <tr>
                                         <td>Archmages trained:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_archmages_lost) }}</strong>
+                                            <strong>{{ number_format($selectedDominion->stat_total_archmages_trained) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>

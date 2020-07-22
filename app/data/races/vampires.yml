@@ -93,3 +93,5 @@ units:
       offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
       counts_as_spy_on_defense: 0.25
       faster_return: 4
+      increases_casualties_on_offense: 1
+      increases_casualties_on_defense: 1

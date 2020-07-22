@@ -110,7 +110,7 @@ class ReleaseActionService
             }
             if ($totalUnitsReturning !== 0)
             {
-                throw new GameException('You cannot release military units with defensive power if you have units returning from battle.');
+                throw new GameException('You cannot release military units with defensive power when you have units returning from battle.');
             }
 
         }

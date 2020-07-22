@@ -355,7 +355,7 @@ class SpellHelper
                 'key' => 'desecration',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Undead']),
+                'races' => collect(['Undead','Vampires']),
             ],
             [
                 'name' => 'Infernal Fury',
@@ -474,6 +474,7 @@ class SpellHelper
                 'duration' => 2, # Two ticks
                 'races' => collect(['Monster']),
             ],
+            /*
             [
                 'name' => 'Mind Control',
                 'description' => '?',
@@ -482,6 +483,7 @@ class SpellHelper
                 'duration' => 2, # Two ticks
                 'races' => collect(['Cult']),
             ],
+            */
             [
                 'name' => 'Call To Arms',
                 'description' => 'Training costs reduced by 10%, training times reduced by six ticks, and +20% ore and platinum production.',

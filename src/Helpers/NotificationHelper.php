@@ -574,7 +574,7 @@ class NotificationHelper
                         break;
 
                     case 'unhealing_wounds':
-                        $resultString = "Our troops return with unhealing wounds, increasing casualties and food consumption.";
+                        $resultString = "Our units return with unhealing wounds, increasing casualties and food consumption.";
                         break;
 
                     case 'purification':

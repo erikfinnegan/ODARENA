@@ -7,6 +7,9 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+#ODA
+use OpenDominion\Services\Dominion\QueueService;
+
 class GuardMembershipActionService
 {
     use DominionGuardsTrait;
@@ -22,6 +25,7 @@ class GuardMembershipActionService
     public function __construct(GuardMembershipService $guardMembershipService)
     {
         $this->guardMembershipService = $guardMembershipService;
+        $this->queueService = $queueService;
     }
 
     /**
@@ -35,7 +39,7 @@ class GuardMembershipActionService
     {
         $this->guardLockedDominion($dominion);
 
-        if ($this->guardMembershipService->isEliteGuardApplicant($dominion))
+        if ($this->queueService->isEliteGuardApplicant($dominion))
         {
             throw new GameException('You have applied to join the Warriors League. To join the Peacekeepers League, you must first cancel your application to join the Warriors League.');
         }
@@ -169,6 +173,16 @@ class GuardMembershipActionService
     public function leaveEliteGuard(Dominion $dominion): array
     {
         $this->guardLockedDominion($dominion);
+
+        $totalUnitsReturning = 0;
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            $totalUnitsReturning += $this->queueService->getReturningQueueTotalByResource($dominion, "military_unit{$slot}");
+        }
+        if ($totalUnitsReturning !== 0)
+        {
+            throw new GameException('You cannot leave the Warriors League when you have troops returning from battle.');
+        }
 
         if ($this->guardMembershipService->getHoursBeforeLeaveEliteGuard($dominion))
         {

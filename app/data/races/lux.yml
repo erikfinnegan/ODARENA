@@ -98,5 +98,4 @@ units:
       counts_as_wizard_defense: 0.08
       counts_as_spy_offense: 0.12
       counts_as_spy_defense: 0.08
-      mana_drain: 0.2
       plunders: mana;1,gems;0.2
