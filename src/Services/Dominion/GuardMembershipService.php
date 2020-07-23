@@ -227,7 +227,9 @@ class GuardMembershipService
      */
     public function joinRoyalGuard(Dominion $dominion): void
     {
-        $dominion->royal_guard_active_at = now()->startOfHour()->addHours(self::GUARD_JOIN_WAIT_IN_HOURS);
+        $startCountingFrom = max(now(), $dominion->round->start_date);
+        #$dominion->royal_guard_active_at = now()->startOfHour()->addHours(self::GUARD_JOIN_WAIT_IN_HOURS);
+        $dominion->royal_guard_active_at = $startCountingFrom->startOfHour()->addHours(self::GUARD_JOIN_WAIT_IN_HOURS);
         $dominion->save(['event' => HistoryService::EVENT_ACTION_JOIN_ROYAL_GUARD]);
     }
 
@@ -239,7 +241,9 @@ class GuardMembershipService
      */
     public function joinEliteGuard(Dominion $dominion): void
     {
-        $dominion->elite_guard_active_at = now()->startOfHour()->addHours(self::GUARD_JOIN_WAIT_IN_HOURS);
+        $startCountingFrom = max(now(), $dominion->round->start_date);
+        #$dominion->elite_guard_active_at = now()->startOfHour()->addHours(self::GUARD_JOIN_WAIT_IN_HOURS);
+        $dominion->elite_guard_active_at = $startCountingFrom->startOfHour()->addHours(self::GUARD_JOIN_WAIT_IN_HOURS);
         $dominion->save(['event' => HistoryService::EVENT_ACTION_JOIN_ELITE_GUARD]);
     }
 

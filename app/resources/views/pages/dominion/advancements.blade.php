@@ -71,7 +71,7 @@
                 <div class="box-body">
                     <p>You can unlock technological advancements by earning enough experience points (XP). You can XP by invading, exploring, and every tick from your prestige. The cost of each advancement level is shown below:</p>
                     <ul>
-                    @for ($i = 1; $i <= 6; $i++)
+                    @for ($i = 1; $i <= 8; $i++)
                         <li>Level {{ $i }}: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $i)) }}</li>
                     @endfor
                     </ul>
