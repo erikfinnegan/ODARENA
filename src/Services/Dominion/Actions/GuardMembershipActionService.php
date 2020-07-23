@@ -25,7 +25,9 @@ class GuardMembershipActionService
      *
      * @param GuardMembershipService $guardMembershipService
      */
-    public function __construct(GuardMembershipService $guardMembershipService)
+    public function __construct(
+        GuardMembershipService $guardMembershipService,
+        QueueService $queueService)
     {
         $this->guardMembershipService = $guardMembershipService;
         $this->queueService = $queueService;
