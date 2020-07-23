@@ -1,1442 +1,1442 @@
 # <Ladder: Casualties>
 
-casualties_level1:
+tactics_level1:
   name: Tactics
   level: 1
   perks:
     fewer_casualties_offense: 5
     fewer_casualties_defense: 5
 
-casualties_level2:
+tactics_level2:
   name: Tactics
   level: 2
   perks:
     fewer_casualties_offense: 10
     fewer_casualties_defense: 10
   requires:
-    - casualties_level1
+    - tactics_level1
 
-casualties_level3:
+tactics_level3:
   name: Tactics
   level: 3
   perks:
     fewer_casualties_offense: 15
     fewer_casualties_defense: 15
   requires:
-    - casualties_level2
+    - tactics_level2
 
-casualties_level4:
+tactics_level4:
   name: Tactics
   level: 4
   perks:
     fewer_casualties_offense: 20
     fewer_casualties_defense: 20
   requires:
-    - casualties_level3
+    - tactics_level3
 
-casualties_level5:
+tactics_level5:
   name: Tactics
   level: 5
   perks:
     fewer_casualties_offense: 25
     fewer_casualties_defense: 25
   requires:
-    - casualties_level4
+    - tactics_level4
 
-casualties_level6:
+tactics_level6:
   name: Tactics
   level: 6
   perks:
     fewer_casualties_offense: 30
     fewer_casualties_defense: 30
   requires:
-    - casualties_level5
+    - tactics_level5
 
-casualties_level7:
+tactics_level7:
   name: Tactics
   level: 7
   perks:
     fewer_casualties_offense: 32.5
     fewer_casualties_defense: 32.5
   requires:
-    - casualties_level6
+    - tactics_level6
 
-casualties_level8:
+tactics_level8:
   name: Tactics
   level: 8
   perks:
     fewer_casualties_offense: 35
     fewer_casualties_defense: 35
   requires:
-    - casualties_level7
+    - tactics_level7
 
 # </Ladder: Casualties>
 
 # <Ladder: Training Costs>
 
-training_costs_level1:
+anvils_level1:
   name: Anvils
   level: 1
   perks:
     military_cost: -2.5
 
-training_costs_level2:
+anvils_level2:
   name: Anvils
   level: 2
   perks:
     military_cost: -5
   requires:
-    - training_costs_level1
+    - anvils_level1
 
-training_costs_level3:
+anvils_level3:
   name: Anvils
   level: 3
   perks:
     military_cost: -7.5
   requires:
-    - training_costs_level2
+    - anvils_level2
 
-training_costs_level4:
+anvils_level4:
   name: Anvils
   level: 4
   perks:
     military_cost: -10
   requires:
-    - training_costs_level3
+    - anvils_level3
 
-training_costs_level5:
+anvils_level5:
   name: Anvils
   level: 5
   perks:
     military_cost: -12.5
   requires:
-    - training_costs_level4
+    - anvils_level4
 
-training_costs_level6:
+anvils_level6:
   name: Anvils
   level: 6
   perks:
     military_cost: -15
   requires:
-    - training_costs_level5
+    - anvils_level5
 
-training_costs_level7:
+anvils_level7:
   name: Anvils
   level: 7
   perks:
     military_cost: -16.25
   requires:
-    - training_costs_level6
+    - anvils_level6
 
-training_costs_level8:
+anvils_level8:
   name: Anvils
   level: 8
   perks:
     military_cost: -17.5
   requires:
-    - training_costs_level7
+    - anvils_level7
 
 # </Ladder: Training Costs>
 
 # <Ladder: Offensive Power>
 
-offensive_power_level1:
+strategy_level1:
   name: Strategy
   level: 1
   perks:
     offense: 2.5
 
-offensive_power_level2:
+strategy_level2:
   name: Strategy
   level: 2
   perks:
     offense: 5
   requires:
-    - offensive_power_level1
+    - strategy_level1
 
-offensive_power_level3:
+strategy_level3:
   name: Strategy
   level: 3
   perks:
     offense: 7.5
   requires:
-    - offensive_power_level2
+    - strategy_level2
 
-offensive_power_level4:
+strategy_level4:
   name: Strategy
   level: 4
   perks:
     offense: 10
   requires:
-    - offensive_power_level3
+    - strategy_level3
 
-offensive_power_level5:
+strategy_level5:
   name: Strategy
   level: 5
   perks:
     offense: 12.5
   requires:
-    - offensive_power_level4
+    - strategy_level4
 
-offensive_power_level6:
+strategy_level6:
   name: Strategy
   level: 6
   perks:
     offense: 15
   requires:
-    - offensive_power_level5
+    - strategy_level5
 
-offensive_power_level7:
+strategy_level7:
   name: Strategy
   level: 7
   perks:
     offense: 16.25
   requires:
-    - offensive_power_level6
+    - strategy_level6
 
-offensive_power_level8:
+strategy_level8:
   name: Strategy
   level: 8
   perks:
     offense: 17.5
   requires:
-    - offensive_power_level7
+    - strategy_level7
 
 # </Ladder: Offensive Power>
 
 # <Ladder: Architecture>
 
-construction_rezoning_level1:
+architecture_level1:
   name: Architecture
   level: 1
   perks:
     construction_cost: -5
     rezone_cost: -5
 
-construction_rezoning_level2:
+architecture_level2:
   name: Architecture
   level: 2
   perks:
     construction_cost: -10
     rezone_cost: -10
   requires:
-    - construction_rezoning_level1
+    - architecture_level1
 
-construction_rezoning_level3:
+architecture_level3:
   name: Architecture
   level: 3
   perks:
     construction_cost: -15
     rezone_cost: -15
   requires:
-    - construction_rezoning_level2
+    - architecture_level2
 
-construction_rezoning_level4:
+architecture_level4:
   name: Architecture
   level: 4
   perks:
     construction_cost: -20
     rezone_cost: -20
   requires:
-    - construction_rezoning_level3
+    - architecture_level3
 
-construction_rezoning_level5:
+architecture_level5:
   name: Architecture
   level: 5
   perks:
     construction_cost: -25
     rezone_cost: -25
   requires:
-    - construction_rezoning_level4
+    - architecture_level4
 
-construction_rezoning_level6:
+architecture_level6:
   name: Architecture
   level: 6
   perks:
     construction_cost: -30
     rezone_cost: -30
   requires:
-    - construction_rezoning_level5
+    - architecture_level5
 
-construction_rezoning_level7:
+architecture_level7:
   name: Architecture
   level: 7
   perks:
     construction_cost: -32.5
     rezone_cost: -32.5
   requires:
-    - construction_rezoning_level6
+    - architecture_level6
 
-construction_rezoning_level8:
+architecture_level8:
   name: Architecture
   level: 8
   perks:
     construction_cost: -35
     rezone_cost: -35
   requires:
-    - construction_rezoning_level7
+    - architecture_level7
 
 # </Ladder: Architecture>
 
 # <Ladder: Scouts>
 
-explore_platinum_level1:
+scounts_level1:
   name: Scouts
   level: 1
   perks:
     explore_platinum_cost: -5
 
-explore_platinum_level2:
+scounts_level2:
   name: Scouts
   level: 2
   perks:
     explore_platinum_cost: -10
   requires:
-    - explore_platinum_level1
+    - scounts_level1
 
-explore_platinum_level3:
+scounts_level3:
   name: Scouts
   level: 3
   perks:
     explore_platinum_cost: -15
   requires:
-    - explore_platinum_level2
+    - scounts_level2
 
-explore_platinum_level4:
+scounts_level4:
   name: Scouts
   level: 4
   perks:
     explore_platinum_cost: -20
   requires:
-    - explore_platinum_level3
+    - scounts_level3
 
-explore_platinum_level5:
+scounts_level5:
   name: Scouts
   level: 5
   perks:
     explore_platinum_cost: -25
   requires:
-    - explore_platinum_level4
+    - scounts_level4
 
-explore_platinum_level6:
+scounts_level6:
   name: Scouts
   level: 6
   perks:
     explore_platinum_cost: -30
   requires:
-    - explore_platinum_level5
+    - scounts_level5
 
-explore_platinum_level7:
+scounts_level7:
   name: Scouts
   level: 7
   perks:
     explore_platinum_cost: -32.5
   requires:
-    - explore_platinum_level6
+    - scounts_level6
 
-explore_platinum_level8:
+scounts_level8:
   name: Scouts
   level: 8
   perks:
     explore_platinum_cost: -35
   requires:
-    - explore_platinum_level7
+    - scounts_level7
 
 # </Ladder: Scouts>
 
 # <Ladder: Convoy>
 
-explore_draftee_level1:
+convoy_level1:
   name: Convoy
   level: 1
   perks:
     explore_draftee_cost: -1
 
-explore_draftee_level2:
+convoy_level2:
   name: Convoy
   level: 2
   perks:
     explore_draftee_cost: -2
   requires:
-    - explore_draftee_level1
+    - convoy_level1
 
-explore_draftee_level3:
+convoy_level3:
   name: Convoy
   level: 3
   perks:
     explore_draftee_cost: -3
   requires:
-    - explore_draftee_level2
+    - convoy_level2
 
-explore_draftee_level4:
+convoy_level4:
   name: Convoy
   level: 4
   perks:
     explore_draftee_cost: -4
   requires:
-    - explore_draftee_level3
+    - convoy_level3
 
-explore_draftee_level5:
+convoy_level5:
   name: Convoy
   level: 5
   perks:
     explore_draftee_cost: -5
   requires:
-    - explore_draftee_level4
+    - convoy_level4
 
-explore_draftee_level6:
+convoy_level6:
   name: Convoy
   level: 6
   perks:
     explore_draftee_cost: -6
   requires:
-    - explore_draftee_level5
+    - convoy_level5
 
-explore_draftee_level7:
+convoy_level7:
   name: Convoy
   level: 7
   perks:
     explore_draftee_cost: -6
   requires:
-    - explore_draftee_level6
+    - convoy_level6
 
-explore_draftee_level8:
+convoy_level8:
   name: Convoy
   level: 8
   perks:
     explore_draftee_cost: -7
   requires:
-    - explore_draftee_level7
+    - convoy_level7
 
 # </Ladder: Convoy>
 
 # <Ladder: Agents Costs>
 
-spy_costs_losses_level1:
+agents_level1:
   name: Agents
   level: 1
   perks:
     spy_cost: -5
     spy_losses: -5
 
-spy_costs_losses_level2:
+agents_level2:
   name: Agents
   level: 2
   perks:
     spy_cost: -10
     spy_losses: -10
   requires:
-    - spy_costs_losses_level1
+    - agents_level1
 
-spy_costs_losses_level3:
+agents_level3:
   name: Agents
   level: 3
   perks:
     spy_cost: -15
     spy_losses: -15
   requires:
-    - spy_costs_losses_level2
+    - agents_level2
 
-spy_costs_losses_level4:
+agents_level4:
   name: Agents
   level: 4
   perks:
     spy_cost: -20
     spy_losses: -20
   requires:
-    - spy_costs_losses_level3
+    - agents_level3
 
-spy_costs_losses_level5:
+agents_level5:
   name: Agents
   level: 5
   perks:
     spy_cost: -25
     spy_losses: -25
   requires:
-    - spy_costs_losses_level4
+    - agents_level4
 
-spy_costs_losses_level6:
+agents_level6:
   name: Agents
   level: 6
   perks:
     spy_cost: -30
     spy_losses: -30
   requires:
-    - spy_costs_losses_level5
+    - agents_level5
 
-spy_costs_losses_level7:
+agents_level7:
   name: Agents
   level: 7
   perks:
     spy_cost: -32.5
     spy_losses: -32.5
   requires:
-    - spy_costs_losses_level6
+    - agents_level6
 
-spy_costs_losses_level8:
+agents_level8:
   name: Agents
   level: 8
   perks:
     spy_cost: -35
     spy_losses: -35
   requires:
-    - spy_costs_losses_level7
+    - agents_level7
 
 # </Ladder: Agents Costs>
 
 
 # <Ladder: Intelligence Costs>
 
-spy_strength_and_recovery_level1:
+intelligence_level1:
   name: Intelligence
   level: 1
   perks:
     spy_strength: 2.5
     spy_strength_recovery: 0
 
-spy_strength_and_recovery_level2:
+intelligence_level2:
   name: Intelligence
   level: 2
   perks:
     spy_strength: 5
     spy_strength_recovery: 0
   requires:
-    - spy_strength_and_recovery_level1
+    - intelligence_level1
 
-spy_strength_and_recovery_level3:
+intelligence_level3:
   name: Intelligence
   level: 3
   perks:
     spy_strength: 7.5
     spy_strength_recovery: 1
   requires:
-    - spy_strength_and_recovery_level2
+    - intelligence_level2
 
-spy_strength_and_recovery_level4:
+intelligence_level4:
   name: Intelligence
   level: 4
   perks:
     spy_strength: 10
     spy_strength_recovery: 1
   requires:
-    - spy_strength_and_recovery_level3
+    - intelligence_level3
 
-spy_strength_and_recovery_level5:
+intelligence_level5:
   name: Intelligence
   level: 5
   perks:
     spy_strength: 12.5
     spy_strength_recovery: 1
   requires:
-    - spy_strength_and_recovery_level4
+    - intelligence_level4
 
-spy_strength_and_recovery_level6:
+intelligence_level6:
   name: Intelligence
   level: 6
   perks:
     spy_strength: 15
     spy_strength_recovery: 2
   requires:
-    - spy_strength_and_recovery_level5
+    - intelligence_level5
 
-spy_strength_and_recovery_level7:
+intelligence_level7:
   name: Intelligence
   level: 7
   perks:
     spy_strength: 16.25
     spy_strength_recovery: 2
   requires:
-    - spy_strength_and_recovery_level6
+    - intelligence_level6
 
-spy_strength_and_recovery_level8:
+intelligence_level8:
   name: Intelligence
   level: 8
   perks:
     spy_strength: 17.5
     spy_strength_recovery: 2.5
   requires:
-    - spy_strength_and_recovery_level7
+    - intelligence_level7
 
 # </Ladder: Intelligence Costs>
 
 # <Ladder: Agents Costs>
 
-wiz_and_spell_costs_level1:
+wizardry_tradition_level1:
   name: Wizardry Tradition
   level: 1
   perks:
     wizard_cost: -5
     spell_cost: -5
 
-wiz_and_spell_costs_level2:
+wizardry_tradition_level2:
   name: Wizardry Tradition
   level: 2
   perks:
     wizard_cost: -10
     spell_cost: -10
   requires:
-    - wiz_and_spell_costs_level1
+    - wizardry_tradition_level1
 
-wiz_and_spell_costs_level3:
+wizardry_tradition_level3:
   name: Wizardry Tradition
   level: 3
   perks:
     wizard_cost: -15
     spell_cost: -15
   requires:
-    - wiz_and_spell_costs_level2
+    - wizardry_tradition_level2
 
-wiz_and_spell_costs_level4:
+wizardry_tradition_level4:
   name: Wizardry Tradition
   level: 4
   perks:
     wizard_cost: -20
     spell_cost: -20
   requires:
-    - wiz_and_spell_costs_level3
+    - wizardry_tradition_level3
 
-wiz_and_spell_costs_level5:
+wizardry_tradition_level5:
   name: Wizardry Tradition
   level: 5
   perks:
     wizard_cost: -25
     spell_cost: -25
   requires:
-    - wiz_and_spell_costs_level4
+    - wizardry_tradition_level4
 
-wiz_and_spell_costs_level6:
+wizardry_tradition_level6:
   name: Wizardry Tradition
   level: 6
   perks:
     wizard_cost: -30
     spell_cost: -30
   requires:
-    - wiz_and_spell_costs_level5
+    - wizardry_tradition_level5
 
-wiz_and_spell_costs_level7:
+wizardry_tradition_level7:
   name: Wizardry Tradition
   level: 7
   perks:
     wizard_cost: -32.5
     spell_cost: -32.5
   requires:
-    - wiz_and_spell_costs_level6
+    - wizardry_tradition_level6
 
-wiz_and_spell_costs_level8:
+wizardry_tradition_level8:
   name: Wizardry Tradition
   level: 8
   perks:
     wizard_cost: -35
     spell_cost: -35
   requires:
-    - wiz_and_spell_costs_level7
+    - wizardry_tradition_level7
 
 # </Ladder: Agents Costs>
 
 # <Ladder: Concentration Costs>
 
-wiz_strength_and_recovery_level1:
+concentration_level1:
   name: Concentration
   level: 1
   perks:
     wizard_strength: 2.5
     wizard_strength_recovery: 0
 
-wiz_strength_and_recovery_level2:
+concentration_level2:
   name: Concentration
   level: 2
   perks:
     wizard_strength: 5
     wizard_strength_recovery: 0
   requires:
-    - wiz_strength_and_recovery_level1
+    - concentration_level1
 
-wiz_strength_and_recovery_level3:
+concentration_level3:
   name: Concentration
   level: 3
   perks:
     wizard_strength: 7.5
     wizard_strength_recovery: 1
   requires:
-    - wiz_strength_and_recovery_level2
+    - concentration_level2
 
-wiz_strength_and_recovery_level4:
+concentration_level4:
   name: Concentration
   level: 4
   perks:
     wizard_strength: 10
     wizard_strength_recovery: 1
   requires:
-    - wiz_strength_and_recovery_level3
+    - concentration_level3
 
-wiz_strength_and_recovery_level5:
+concentration_level5:
   name: Concentration
   level: 5
   perks:
     wizard_strength: 12.5
     wizard_strength_recovery: 1
   requires:
-    - wiz_strength_and_recovery_level4
+    - concentration_level4
 
-wiz_strength_and_recovery_level6:
+concentration_level6:
   name: Concentration
   level: 6
   perks:
     wizard_strength: 15
     wizard_strength_recovery: 2
   requires:
-    - wiz_strength_and_recovery_level5
+    - concentration_level5
 
-wiz_strength_and_recovery_level7:
+concentration_level7:
   name: Concentration
   level: 7
   perks:
     wizard_strength: 16.25
     wizard_strength_recovery: 2
   requires:
-    - wiz_strength_and_recovery_level6
+    - concentration_level6
 
-wiz_strength_and_recovery_level8:
+concentration_level8:
   name: Concentration
   level: 8
   perks:
     wizard_strength: 17.5
     wizard_strength_recovery: 2.5
   requires:
-    - wiz_strength_and_recovery_level7
+    - concentration_level7
 
 # </Ladder: Concentration Costs>
 
 # <Ladder: Agriculture>
 
-food_production_level1:
+agriculture_level1:
   name: Agriculture
   level: 1
   perks:
     food_production: 2.5
 
-food_production_level2:
+agriculture_level2:
   name: Agriculture
   level: 2
   perks:
     food_production: 5
   requires:
-    - food_production_level1
+    - agriculture_level1
 
-food_production_level3:
+agriculture_level3:
   name: Agriculture
   level: 3
   perks:
     food_production: 7.5
   requires:
-    - food_production_level2
+    - agriculture_level2
 
-food_production_level4:
+agriculture_level4:
   name: Agriculture
   level: 4
   perks:
     food_production: 10
   requires:
-    - food_production_level3
+    - agriculture_level3
 
-food_production_level5:
+agriculture_level5:
   name: Agriculture
   level: 5
   perks:
     food_production: 12.5
   requires:
-    - food_production_level4
+    - agriculture_level4
 
-food_production_level6:
+agriculture_level6:
   name: Agriculture
   level: 6
   perks:
     food_production: 15
   requires:
-    - food_production_level5
+    - agriculture_level5
 
-food_production_level7:
+agriculture_level7:
   name: Agriculture
   level: 7
   perks:
     food_production: 16.25
   requires:
-    - food_production_level6
+    - agriculture_level6
 
-food_production_level8:
+agriculture_level8:
   name: Agriculture
   level: 7
   perks:
     food_production: 17.5
   requires:
-    - food_production_level7
+    - agriculture_level7
 
 # </Ladder: Agriculture>
 
 
 # <Ladder: Drills>
 
-gem_production_level1:
+drills_level1:
   name: Drills
   level: 1
   perks:
     gem_production: 2.5
 
-gem_production_level2:
+drills_level2:
   name: Drills
   level: 2
   perks:
     gem_production: 5
   requires:
-    - gem_production_level1
+    - drills_level1
 
-gem_production_level3:
+drills_level3:
   name: Drills
   level: 3
   perks:
     gem_production: 7.5
   requires:
-    - gem_production_level2
+    - drills_level2
 
-gem_production_level4:
+drills_level4:
   name: Drills
   level: 4
   perks:
     gem_production: 10
   requires:
-    - gem_production_level3
+    - drills_level3
 
-gem_production_level5:
+drills_level5:
   name: Drills
   level: 5
   perks:
     gem_production: 12.5
   requires:
-    - gem_production_level4
+    - drills_level4
 
-gem_production_level6:
+drills_level6:
   name: Drills
   level: 6
   perks:
     gem_production: 15
   requires:
-    - gem_production_level5
+    - drills_level5
 
-gem_production_level7:
+drills_level7:
   name: Drills
   level: 7
   perks:
     gem_production: 16.25
   requires:
-    - gem_production_level6
+    - drills_level6
 
-gem_production_level8:
+drills_level8:
   name: Drills
   level: 6
   perks:
     gem_production: 17.5
   requires:
-    - gem_production_level7
+    - drills_level7
 
 # </Ladder: Drills>
 
 
 # <Ladder: Mills>
 
-lumber_production_level1:
+mills_level1:
   name: Mills
   level: 1
   perks:
     lumber_production: 2.5
 
-lumber_production_level2:
+mills_level2:
   name: Mills
   level: 2
   perks:
     lumber_production: 5
   requires:
-    - lumber_production_level1
+    - mills_level1
 
-lumber_production_level3:
+mills_level3:
   name: Mills
   level: 3
   perks:
     lumber_production: 7.5
   requires:
-    - lumber_production_level2
+    - mills_level2
 
-lumber_production_level4:
+mills_level4:
   name: Mills
   level: 4
   perks:
     lumber_production: 10
   requires:
-    - lumber_production_level3
+    - mills_level3
 
-lumber_production_level5:
+mills_level5:
   name: Mills
   level: 5
   perks:
     lumber_production: 12.5
   requires:
-    - lumber_production_level4
+    - mills_level4
 
-lumber_production_level6:
+mills_level6:
   name: Mills
   level: 6
   perks:
     lumber_production: 15
   requires:
-    - lumber_production_level5
+    - mills_level5
 
-lumber_production_level7:
+mills_level7:
   name: Mills
   level: 7
   perks:
     lumber_production: 16.25
   requires:
-    - lumber_production_level6
+    - mills_level6
 
-lumber_production_level8:
+mills_level8:
   name: Mills
   level: 8
   perks:
     lumber_production: 17.5
   requires:
-    - lumber_production_level7
+    - mills_level7
 
 # </Ladder: Mills>
 
 
 # <Ladder: Invocations>
 
-mana_production_level1:
+invocations_level1:
   name: Invocations
   level: 1
   perks:
     mana_production: 2.5
 
-mana_production_level2:
+invocations_level2:
   name: Invocations
   level: 2
   perks:
     mana_production: 5
   requires:
-    - mana_production_level1
+    - invocations_level1
 
-mana_production_level3:
+invocations_level3:
   name: Invocations
   level: 3
   perks:
     mana_production: 7.5
   requires:
-    - mana_production_level2
+    - invocations_level2
 
-mana_production_level4:
+invocations_level4:
   name: Invocations
   level: 4
   perks:
     mana_production: 10
   requires:
-    - mana_production_level3
+    - invocations_level3
 
-mana_production_level5:
+invocations_level5:
   name: Invocations
   level: 5
   perks:
     mana_production: 12.5
   requires:
-    - mana_production_level4
+    - invocations_level4
 
-mana_production_level6:
+invocations_level6:
   name: Invocations
   level: 6
   perks:
     mana_production: 15
   requires:
-    - mana_production_level5
+    - invocations_level5
 
-mana_production_level7:
+invocations_level7:
   name: Invocations
   level: 7
   perks:
     mana_production: 16.25
   requires:
-    - mana_production_level6
+    - invocations_level6
 
-mana_production_level8:
+invocations_level8:
   name: Invocations
   level: 8
   perks:
     mana_production: 17.5
   requires:
-    - mana_production_level7
+    - invocations_level7
 
 # </Ladder: Invocations>
 
 # <Ladder: Quarries>
 
-ore_production_level1:
+quarries_level1:
   name: Quarries
   level: 1
   perks:
     ore_production: 2.5
 
-ore_production_level2:
+quarries_level2:
   name: Quarries
   level: 2
   perks:
     ore_production: 5
   requires:
-    - ore_production_level1
+    - quarries_level1
 
-ore_production_level3:
+quarries_level3:
   name: Quarries
   level: 3
   perks:
     ore_production: 7.5
   requires:
-    - ore_production_level2
+    - quarries_level2
 
-ore_production_level4:
+quarries_level4:
   name: Quarries
   level: 4
   perks:
     ore_production: 10
   requires:
-    - ore_production_level3
+    - quarries_level3
 
-ore_production_level5:
+quarries_level5:
   name: Quarries
   level: 5
   perks:
     ore_production: 12.5
   requires:
-    - ore_production_level4
+    - quarries_level4
 
-ore_production_level6:
+quarries_level6:
   name: Quarries
   level: 6
   perks:
     ore_production: 15
   requires:
-    - ore_production_level5
+    - quarries_level5
 
-ore_production_level7:
+quarries_level7:
   name: Quarries
   level: 7
   perks:
     ore_production: 16.25
   requires:
-    - ore_production_level6
+    - quarries_level6
 
-ore_production_level8:
+quarries_level8:
   name: Quarries
   level: 8
   perks:
     ore_production: 17.5
   requires:
-    - ore_production_level7
+    - quarries_level7
 
 # </Ladder: Quarries>
 
 # <Ladder: Minting>
 
-platinum_production_level1:
+minting_level1:
   name: Minting
   level: 1
   perks:
     platinum_production: 2.5
 
-platinum_production_level2:
+minting_level2:
   name: Minting
   level: 2
   perks:
     platinum_production: 5
   requires:
-    - platinum_production_level1
+    - minting_level1
 
-platinum_production_level3:
+minting_level3:
   name: Minting
   level: 3
   perks:
     platinum_production: 7.5
   requires:
-    - platinum_production_level2
+    - minting_level2
 
-platinum_production_level4:
+minting_level4:
   name: Minting
   level: 4
   perks:
     platinum_production: 10
   requires:
-    - platinum_production_level3
+    - minting_level3
 
-platinum_production_level5:
+minting_level5:
   name: Minting
   level: 5
   perks:
     platinum_production: 12.5
   requires:
-    - platinum_production_level4
+    - minting_level4
 
-platinum_production_level6:
+minting_level6:
   name: Minting
   level: 6
   perks:
     platinum_production: 15
   requires:
-    - platinum_production_level5
+    - minting_level5
 
-platinum_production_level7:
+minting_level7:
   name: Minting
   level: 7
   perks:
     platinum_production: 16.25
   requires:
-    - platinum_production_level6
+    - minting_level6
 
-platinum_production_level8:
+minting_level8:
   name: Minting
   level: 8
   perks:
     platinum_production: 17.5
   requires:
-    - platinum_production_level7
+    - minting_level7
 
 # </Ladder: Minting>
 
 
 # <Ladder: Population>
 
-population_level1:
+quarters_level1:
   name: Quarters
   level: 1
   perks:
     max_population: 1.25
 
-population_level2:
+quarters_level2:
   name: Quarters
   level: 2
   perks:
     max_population: 2.5
   requires:
-    - population_level1
+    - quarters_level1
 
-population_level3:
+quarters_level3:
   name: Quarters
   level: 3
   perks:
     max_population: 3.75
   requires:
-    - population_level2
+    - quarters_level2
 
-population_level4:
+quarters_level4:
   name: Quarters
   level: 4
   perks:
     max_population: 5
   requires:
-    - population_level3
+    - quarters_level3
 
-population_level5:
+quarters_level5:
   name: Quarters
   level: 5
   perks:
     max_population: 6.25
   requires:
-    - population_level4
+    - quarters_level4
 
-population_level6:
+quarters_level6:
   name: Quarters
   level: 6
   perks:
     max_population: 7.5
   requires:
-    - population_level5
+    - quarters_level5
 
-population_level7:
+quarters_level7:
   name: Quarters
   level: 7
   perks:
     max_population: 8.125
   requires:
-    - population_level6
+    - quarters_level6
 
-population_level8:
+quarters_level8:
   name: Quarters
   level: 8
   perks:
     max_population: 8.75
   requires:
-    - population_level7
+    - quarters_level7
 
 # </Ladder: Population>
 
 
 # <Ladder: Prestige>
 
-prestige_level1:
+honour_level1:
   name: Honour
   level: 1
   perks:
     prestige_gains: 5
 
-prestige_level2:
+honour_level2:
   name: Honour
   level: 2
   perks:
     prestige_gains: 10
   requires:
-    - prestige_level1
+    - honour_level1
 
-prestige_level3:
+honour_level3:
   name: Honour
   level: 3
   perks:
     prestige_gains: 15
   requires:
-    - prestige_level2
+    - honour_level2
 
-prestige_level4:
+honour_level4:
   name: Honour
   level: 4
   perks:
     prestige_gains: 20
   requires:
-    - prestige_level3
+    - honour_level3
 
-prestige_level5:
+honour_level5:
   name: Honour
   level: 5
   perks:
     prestige_gains: 25
   requires:
-    - prestige_level4
+    - honour_level4
 
-prestige_level6:
+honour_level6:
   name: Honour
   level: 6
   perks:
     prestige_gains: 30
   requires:
-    - prestige_level5
+    - honour_level5
 
-prestige_level7:
+honour_level7:
   name: Honour
   level: 7
   perks:
     prestige_gains: 32.5
   requires:
-    - prestige_level6
+    - honour_level6
 
-prestige_level8:
+honour_level8:
   name: Honour
   level: 8
   perks:
     prestige_gains: 35
   requires:
-    - prestige_level7
+    - honour_level7
 
 # </Ladder: Prestige>
 
 # <Ladder: Improvements>
 
-improvements_level1:
+infrastructure_level1:
   name: Infrastructure
   level: 1
   perks:
     improvements: 5
 
-improvements_level2:
+infrastructure_level2:
   name: Infrastructure
   level: 2
   perks:
     improvements: 10
   requires:
-    - improvements_level1
+    - infrastructure_level1
 
-improvements_level3:
+infrastructure_level3:
   name: Infrastructure
   level: 3
   perks:
     improvements: 15
   requires:
-    - improvements_level2
+    - infrastructure_level2
 
-improvements_level4:
+infrastructure_level4:
   name: Infrastructure
   level: 4
   perks:
     improvements: 20
   requires:
-    - improvements_level3
+    - infrastructure_level3
 
-improvements_level5:
+infrastructure_level5:
   name: Infrastructure
   level: 5
   perks:
     improvements: 25
   requires:
-    - improvements_level4
+    - infrastructure_level4
 
-improvements_level6:
+infrastructure_level6:
   name: Infrastructure
   level: 6
   perks:
     improvements: 30
   requires:
-    - improvements_level5
+    - infrastructure_level5
 
-improvements_level7:
+infrastructure_level7:
   name: Infrastructure
   level: 7
   perks:
     improvements: 32.5
   requires:
-    - improvements_level6
+    - infrastructure_level6
 
-improvements_level8:
+infrastructure_level8:
   name: Infrastructure
   level: 8
   perks:
     improvements: 35
   requires:
-    - improvements_level7
+    - infrastructure_level7
 
 # </Ladder: Improvements>
 
 
 # <Ladder: Conversions>
 
-conversions_level1:
+recalling_level1:
   name: Recalling
   level: 1
   perks:
     conversions: 2.5
 
-conversions_level2:
+recalling_level2:
   name: Recalling
   level: 2
   perks:
     conversions: 5
   requires:
-    - conversions_level1
+    - recalling_level1
 
-conversions_level3:
+recalling_level3:
   name: Recalling
   level: 3
   perks:
     conversions: 7.5
   requires:
-    - conversions_level2
+    - recalling_level2
 
-conversions_level4:
+recalling_level4:
   name: Recalling
   level: 4
   perks:
     conversions: 10
   requires:
-    - conversions_level3
+    - recalling_level3
 
-conversions_level5:
+recalling_level5:
   name: Recalling
   level: 5
   perks:
     conversions: 12.5
   requires:
-    - conversions_level4
+    - recalling_level4
 
-conversions_level6:
+recalling_level6:
   name: Recalling
   level: 6
   perks:
     conversions: 15
   requires:
-    - conversions_level5
+    - recalling_level5
 
-conversions_level7:
+recalling_level7:
   name: Recalling
   level: 7
   perks:
     conversions: 16.25
   requires:
-    - conversions_level6
+    - recalling_level6
 
-conversions_level8:
+recalling_level8:
   name: Recalling
   level: 8
   perks:
     conversions: 17.5
   requires:
-    - conversions_level7
+    - recalling_level7
 
 # </Ladder: Conversions>
 
 
 # <Ladder: Garrisons Housing>
 
-barracks_housing_level1:
+garrisons_level1:
   name: Garrisons
   level: 1
   perks:
     barracks_housing: 1.25
 
-barracks_housing_level2:
+garrisons_level2:
   name: Garrisons
   level: 2
   perks:
     barracks_housing: 2.5
   requires:
-    - barracks_housing_level1
+    - garrisons_level1
 
-barracks_housing_level3:
+garrisons_level3:
   name: Garrisons
   level: 3
   perks:
     barracks_housing: 3.75
   requires:
-    - barracks_housing_level2
+    - garrisons_level2
 
-barracks_housing_level4:
+garrisons_level4:
   name: Garrisons
   level: 4
   perks:
     barracks_housing: 5
   requires:
-    - barracks_housing_level3
+    - garrisons_level3
 
-barracks_housing_level5:
+garrisons_level5:
   name: Garrisons
   level: 5
   perks:
     barracks_housing: 6.25
   requires:
-    - barracks_housing_level4
+    - garrisons_level4
 
-barracks_housing_level6:
+garrisons_level6:
   name: Garrisons
   level: 6
   perks:
     barracks_housing: 7.5
   requires:
-    - barracks_housing_level5
+    - garrisons_level5
 
-barracks_housing_level7:
+garrisons_level7:
   name: Garrisons
   level: 7
   perks:
     barracks_housing: 8.125
   requires:
-    - barracks_housing_level6
+    - garrisons_level6
 
-barracks_housing_level8:
+garrisons_level8:
   name: Garrisons
   level: 8
   perks:
     barracks_housing: 8.75
   requires:
-    - barracks_housing_level5
+    - garrisons_level5
 
 # </Ladder: Garrisons Housing>
 

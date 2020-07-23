@@ -28,6 +28,7 @@ use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Services\Dominion\GuardMembershipService;
+use OpenDominion\Calculators\Dominion\ConversionCalculator;
 
 class InvadeActionService
 {
@@ -124,6 +125,9 @@ class InvadeActionService
     /** @var GuardMembershipService */
     protected $guardMembershipService;
 
+    /** @var ConversionCalculator */
+    protected $conversionCalculator;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -180,7 +184,8 @@ class InvadeActionService
         SpellActionService $spellActionService,
         UnitHelper $unitHelper,
         TrainingCalculator $trainingCalculator,
-        GuardMembershipService $guardMembershipService
+        GuardMembershipService $guardMembershipService,
+        ConversionCalculator $conversionCalculator
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -199,6 +204,7 @@ class InvadeActionService
         $this->unitHelper = $unitHelper;
         $this->trainingCalculator = $trainingCalculator;
         $this->guardMembershipService = $guardMembershipService;
+        $this->ConversionCalculator = $conversionCalculator;
     }
 
     /**
@@ -591,7 +597,7 @@ class InvadeActionService
         if($countsAsRaze and $landRatio > 0.75)
         {
             $attackerPrestigeChange += 0;
-             $defenderPrestigeChange += 10;
+            $defenderPrestigeChange += 10;
         }
 
         $attackerPrestigeChange *= max(1, (1 - ($this->invasionResult['defender']['recentlyInvadedCount']/10)));
@@ -609,6 +615,12 @@ class InvadeActionService
         $attackerPrestigeChangeMultiplier += $attacker->getTechPerkMultiplier('prestige_gains');
 
         $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
+
+        // 33% reduction for hitting Barbarians.
+        if($defender->race->name === 'Barbarian')
+        {
+            $attackerPrestigeChange /= 3;
+        }
 
         if ($attackerPrestigeChange !== 0)
         {
@@ -1547,20 +1559,7 @@ class InvadeActionService
             return $convertedUnits;
         }
 
-        $conversionMultiplier = 1;
-
-        # Tech: up to +15%
-        if($attacker->getTechPerkMultiplier('conversions'))
-        {
-            $conversionMultiplier += $attacker->getTechPerkMultiplier('conversions');
-        }
-        # Title: Embalmer
-        if($attacker->title->getPerkMultiplier('conversions'))
-        {
-            $conversionMultiplier += $attacker->title->getPerkMultiplier('conversions') * $attacker->title->getPerkBonus($attacker);
-        }
-
-        $conversionMultiplier -= $defender->race->getPerkMultiplier('reduced_conversions');
+        $conversionMultiplier = $this->ConversionCalculator->getConversionMultiplier($attacker, $defender, $units, null);
 
         $this->invasionResult['attacker']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
 
@@ -1575,18 +1574,15 @@ class InvadeActionService
             return $unit->getPerkValue('vampiric_conversion');
         });
 
-
         $totalVampiricConvertingUnits = 0;
         foreach ($unitWithVampiricConversionPerk as $unit)
         {
-            $totalVampiricConvertingUnits /*+=*/ = $units[$unit->slot];
+            $totalVampiricConvertingUnits += $units[$unit->slot];
         }
 
         $this->invasionResult['attacker']['conversionAnalysis']['totalConvertingUnits'] = $totalVampiricConvertingUnits;
 
         $unit2Range = $attacker->race->getUnitPerkValueForUnitSlot(4, 'vampiric_conversion');
-
-        #dd($this->invasionResult['defender']['unitsLost']);
 
         foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountKilled)
         {
@@ -1629,9 +1625,7 @@ class InvadeActionService
                 $unitsPerConversion = 3;
             }
 
-            # How many nobles are busy converting this unit?
             $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
-
             $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
 
         }
@@ -1654,35 +1648,17 @@ class InvadeActionService
      * @param int $totalDefensiveCasualties
      * @return array
      */
-    protected function handleVampiricConversionOnDefense(Dominion $attacker, Dominion $defender, array $units, float $landRatio): array
+    protected function handleVampiricConversionOnDefense(Dominion $defender, Dominion $attacker, array $units, float $landRatio): array
     {
 
-        $convertedUnits = array_fill(1, 3, 0);
+        $convertedUnits = array_fill(1, 4, 0);
 
-        if($this->invasionResult['result']['overwhelmed'] or $attacker->race->name !== 'Vampires')
-        {
-            return $convertedUnits;
-        }
+        $conversionMultiplier = $this->ConversionCalculator->getConversionMultiplier($defender, $attacker, $units, null);
 
-        $conversionMultiplier = 1;
+        $this->invasionResult['defender']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
 
-        # Tech: up to +15%
-        if($attacker->getTechPerkMultiplier('conversions'))
-        {
-            $conversionMultiplier += $attacker->getTechPerkMultiplier('conversions');
-        }
-        # Title: Embalmer
-        if($attacker->title->getPerkMultiplier('conversions'))
-        {
-            $conversionMultiplier += $attacker->title->getPerkMultiplier('conversions') * $attacker->title->getPerkBonus($attacker);
-        }
-
-        $conversionMultiplier -= $defender->race->getPerkMultiplier('reduced_conversions');
-
-        $this->invasionResult['attacker']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
-
-        # Did we send any units with vampiric_conversion?
-        $unitWithVampiricConversionPerk = $attacker->race->units->filter(static function (Unit $unit) use ($units)
+        # Did we have any units with vampiric_conversion?
+        $unitWithVampiricConversionPerk = $defender->race->units->filter(static function (Unit $unit) use ($units)
         {
             if (!array_key_exists($unit->slot, $units) or ($units[$unit->slot] === 0))
             {
@@ -1696,51 +1672,43 @@ class InvadeActionService
         $totalVampiricConvertingUnits = 0;
         foreach ($unitWithVampiricConversionPerk as $unit)
         {
-            $totalVampiricConvertingUnits /*+=*/ = $units[$unit->slot];
+            $totalVampiricConvertingUnits = $defender->{'military_unit'.$unit->slot};
         }
 
         $this->invasionResult['attacker']['conversionAnalysis']['totalConvertingUnits'] = $totalVampiricConvertingUnits;
 
-        $unit2Range = $attacker->race->getUnitPerkValueForUnitSlot(4, 'vampiric_conversion');
+        $unit2Range = $defender->race->getUnitPerkValueForUnitSlot(4, 'vampiric_conversion');
 
-        #dd($this->invasionResult['defender']['unitsLost']);
-
-        foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountKilled)
+        foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amountKilled)
         {
 
-            if($slot == 'draftees')
-            {
-                $unitRawDp = 1;
-            }
-            else
-            {
-                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot === $slot);
-                })->first();
+            $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                return ($unit->slot === $slot);
+            })->first();
 
-                $unitRawDp = $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
 
-                # Remove units with fixed casualties > 50%.
-                if($defender->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
-                {
-                    $amount = 0;
-                }
+            $unitRawOp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
+
+            # Remove units with fixed casualties > 50%.
+            if($defender->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+            {
+                $amount = 0;
             }
 
             # If less than unit2 range, it's a unit1.
-            if($unitRawDp <= $unit2Range[0])
+            if($unitRawOp <= $unit2Range[0])
             {
                 $slotConvertedTo = 1;
                 $unitsPerConversion = 1;
             }
             # If it's in the unit2 range, it's a unit2.
-            elseif($unitRawDp > $unit2Range[0] and $unitRawDp <= $unit2Range[1])
+            elseif($unitRawOp > $unit2Range[0] and $unitRawOp <= $unit2Range[1])
             {
                 $slotConvertedTo = 2;
                 $unitsPerConversion = 2;
             }
             # If greater than unit2 range, it's a unit3.
-            elseif($unitRawDp > $unit2Range[1])
+            elseif($unitRawOp > $unit2Range[1])
             {
                 $slotConvertedTo = 3;
                 $unitsPerConversion = 3;
@@ -1749,13 +1717,15 @@ class InvadeActionService
             # How many nobles are busy converting this unit?
             $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
 
+            $unitsConverted /= 3;
+
             $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
 
         }
 
-        if (!isset($this->invasionResult['attacker']['conversion']) && array_sum($convertedUnits) > 0)
+        if (!isset($this->invasionResult['defender']['conversion']) && array_sum($convertedUnits) > 0)
         {
-            $this->invasionResult['attacker']['conversion'] = $convertedUnits;
+            $this->invasionResult['defender']['conversion'] = $convertedUnits;
         }
 
         $attacker->stat_total_units_converted += array_sum($convertedUnits);

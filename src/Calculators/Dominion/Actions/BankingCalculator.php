@@ -65,18 +65,20 @@ class BankingCalculator
             ],
         ];
 
+          $bonus = 1;
+
           // Get racial bonus
-          $bonus = $dominion->race->getPerkMultiplier('exchange_bonus');
+          $bonus += $dominion->race->getPerkMultiplier('exchange_bonus');
 
           // Techs
           $bonus += $dominion->getTechPerkMultiplier('exchange_rate');
 
-          $resources['resource_platinum']['sell'] *= (1 + $bonus);
-          $resources['resource_lumber']['sell'] *= (1 + $bonus);
-          $resources['resource_ore']['sell'] *= (1 + $bonus);
-          $resources['resource_gems']['sell'] *= (1 + $bonus);
-          $resources['resource_food']['sell'] *= (1 + $bonus);
-          $resources['resource_mana']['sell'] *= (1 + $bonus);
+          $resources['resource_platinum']['sell'] *= $bonus;
+          $resources['resource_lumber']['sell'] *= $bonus;
+          $resources['resource_ore']['sell'] *= $bonus;
+          $resources['resource_gems']['sell'] *= $bonus;
+          $resources['resource_food']['sell'] *= $bonus;
+          $resources['resource_mana']['sell'] *= $bonus;
 
         return $resources;
     }

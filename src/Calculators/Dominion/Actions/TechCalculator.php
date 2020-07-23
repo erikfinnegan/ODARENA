@@ -39,8 +39,8 @@ class TechCalculator
         # Start at 0
         $cost = 0;
 
-        # Add 10 x acres, minimum 10,000
-        $cost += min($this->landCalculator->getTotalLand($dominion) * 10, 10000);
+        # Add 5 x acres, minimum 5,000
+        $cost += min($this->landCalculator->getTotalLand($dominion) * 5, 5000);
 
         # Add extra cost from level (from $techToUnlock, if known, or from $level)
         if($techToUnlock !== null)
@@ -56,6 +56,14 @@ class TechCalculator
         $cost *= 1 + $this->getTechCostMultiplier($dominion);
 
         return $cost;
+
+    }
+
+    public function canAffordTech(Dominion $dominion, int $level = 1): bool
+    {
+        $cost = $this->getTechCost($dominion, null, $level);
+
+        return $dominion->resource_tech >= $cost;
 
     }
 

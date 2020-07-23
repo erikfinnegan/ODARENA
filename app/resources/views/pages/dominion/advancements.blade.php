@@ -37,15 +37,16 @@
                                 @endif
 
                                 <td class="text-center">
+                                    <span data-toggle="tooltip" data-placement="top" title="{{ $techHelper->getTechDescription($tech) }}<br>XP: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $tech->level)) }}" style="display:block;">
+
                                 @if(in_array($tech->key, $unlockedTechs))
-                                    <span data-toggle="tooltip" data-placement="top" title="{{ $techHelper->getTechDescription($tech) }}" style="display:block;">
                                     <i class="fa fa-check text-green"></i>
-                                    </span>
+                                @elseif(count(array_diff($tech->prerequisites, $unlockedTechs)) == 0 and $techCalculator->canAffordTech($selectedDominion, $tech->level))
+                                    <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}">
                                 @else
-                                    <span data-toggle="tooltip" data-placement="top" title="{{ $techHelper->getTechDescription($tech) }}" style="display:block;">
-                                    <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" {{ count(array_diff($tech->prerequisites, $unlockedTechs)) != 0 ? 'disabled' : null }}>
-                                    </span>
+                                    <input type="radio" name="key" id="{{ $tech->key }}" value="{{ $tech->key }}" disabled>
                                 @endif
+                                    </span>
                                 </td>
 
                                 @if($tech->level == 8)
