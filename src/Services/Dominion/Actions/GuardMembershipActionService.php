@@ -17,6 +17,9 @@ class GuardMembershipActionService
     /** @var GuardMembershipService */
     protected $guardMembershipService;
 
+    /** @var QueueService */
+    protected $queueService;
+
     /**
      * GuardMembershipActionService constructor.
      *

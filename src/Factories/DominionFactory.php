@@ -76,7 +76,7 @@ class DominionFactory
           $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
         }
 
-        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.010);
+        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.015);
 
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
