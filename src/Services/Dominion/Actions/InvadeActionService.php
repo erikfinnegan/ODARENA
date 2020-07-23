@@ -475,7 +475,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            dd($this->invasionResult);
+            #dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
