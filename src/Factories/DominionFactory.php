@@ -330,7 +330,6 @@ class DominionFactory
                 $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
                 $startingResources['draftees'] = 0;
 
-                $startingResources['prestige'] = intval($acresBase / 4);
                 $startingResources['draft_rate'] = 0;
                 $startingResources['peasants'] = 0;
                 $startingResources['platinum'] = 0;

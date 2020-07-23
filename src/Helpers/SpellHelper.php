@@ -265,7 +265,7 @@ class SpellHelper
                 'key' => 'parasitic_hunger',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Lycanthrope', 'Afflicted', 'Vampires']),
+                'races' => collect(['Lycanthrope', 'Afflicted']),
             ],
             [
                 'name' => 'Gaia\'s Blessing',
@@ -355,7 +355,7 @@ class SpellHelper
                 'key' => 'desecration',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Undead','Vampires']),
+                'races' => collect(['Undead']),
             ],
             [
                 'name' => 'Infernal Fury',
@@ -492,6 +492,15 @@ class SpellHelper
                 'duration' => 12,
                 'cooldown' => 36, # 36 hours, 1.5 days
                 'races' => collect(['Human']),
+            ],
+            [
+                'name' => 'Fine Arts',
+                'description' => '+5% platinum production, +5% gem production',
+                'key' => 'fine_arts',
+                'mana_cost' => 10,
+                'duration' => 12*4,
+                'cooldown' => 24, # 24 hours, 1 days
+                'races' => collect(['Vampires']),
             ],
         ]);
     }

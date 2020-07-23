@@ -171,7 +171,13 @@ class ProductionCalculator
         // Human: Call To Arms
         if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
         {
-            $multiplier -= 0.20;
+            $multiplier += 0.20;
+        }
+
+        // Vampires: Fine Arts
+        if ($this->spellCalculator->isSpellActive($dominion, 'fine_arts'))
+        {
+            $multiplier += 0.05;
         }
 
         // Invasion Spell: Unhealing Wounds (-5% production)
@@ -847,7 +853,7 @@ class ProductionCalculator
         // Human: Call To Arms
         if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
         {
-            $multiplier -= 0.20;
+            $multiplier += 0.20;
         }
 
 
@@ -934,6 +940,12 @@ class ProductionCalculator
         # SPELLS
         // Spell: Miner's Sight (+5%)
         if ($this->spellCalculator->isSpellActive($dominion, 'miners_sight'))
+        {
+            $multiplier += 0.05;
+        }
+
+        // Vampires: Fine Arts (+5%)
+        if ($this->spellCalculator->isSpellActive($dominion, 'fine_arts'))
         {
             $multiplier += 0.05;
         }
