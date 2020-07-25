@@ -56,6 +56,22 @@ class TechCalculator
         $cost *= 1 + $this->getTechCostMultiplier($dominion);
 
         return $cost;
+    }
+
+    public function maxLevelAfforded(Dominion $dominion)
+    {
+        $xp = $dominion->resource_tech;
+        if($xp > 4999)
+        {
+            for ($level = 8; $level >= 1; $level--)
+            {
+                if($xp >= $this->getTechCost($dominion, null, $level))
+                {
+                    return $level;
+                }
+            }
+        }
+        return 0;
 
     }
 

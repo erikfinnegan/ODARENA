@@ -12,9 +12,10 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\SelectorService;
 
 # ODA
-use OpenDominion\Calculators\Dominion\LandCalculator;
+#use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Models\GameEvent;
+use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
@@ -32,7 +33,8 @@ class ComposerServiceProvider extends AbstractServiceProvider
 
         view()->composer('partials.main-sidebar', function (View $view) {
             $selectorService = app(SelectorService::class);
-            $landCalculator = app(LandCalculator::class);
+            #$landCalculator = app(LandCalculator::class);
+            $techCalculator = app(TechCalculator::class);
 
             if (!$selectorService->hasUserSelectedDominion()) {
                 return;
@@ -71,11 +73,9 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 ->where('created_at', '>', $newsLastRead)
                 ->count();
 
-            $techLevelAffordable = min(floor($dominion->resource_tech/max(1000,$landCalculator->getTotalLand($dominion)) - 9),6);
-
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('newsUnreadCount', $newsUnreadCount);
-            $view->with('techLevelAffordable', $techLevelAffordable);
+            $view->with('techCalculator', $techCalculator);
         });
 
         view()->composer('partials.main-footer', function (View $view) {
