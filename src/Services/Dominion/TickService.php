@@ -487,7 +487,7 @@ class TickService
         {
           // Are we invading?
           $invade = false;
-          
+
           // Make sure all units1 and unit4 are at home.
           if($dominion->military_unit1 > 0 and
              $dominion->military_unit4 > 0 and
@@ -502,6 +502,8 @@ class TickService
                   $invade = true;
               }
           }
+
+          $invade = false;
 
             if($invade)
             {
