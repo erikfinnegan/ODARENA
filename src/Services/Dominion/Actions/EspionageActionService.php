@@ -392,7 +392,7 @@ class EspionageActionService
                 $data = [
                     'units' => [
                         'home' => [],
-                        'returning' => [],
+                        'invasion' => [],
                         'training' => [],
                     ],
                 ];
