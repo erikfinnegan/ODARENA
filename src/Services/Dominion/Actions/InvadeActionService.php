@@ -1990,7 +1990,8 @@ class InvadeActionService
           $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
 
           $this->queueService->queueResources(
-              'returning',
+              #'returning',
+              'invasion',
               $dominion,
               [$unitKey => $returningAmount],
               $this->getUnitReturnHoursForSlot($dominion, $slot)
