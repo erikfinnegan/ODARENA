@@ -392,7 +392,7 @@ class EspionageActionService
                 $data = [
                     'units' => [
                         'home' => [],
-                        'invasion' => [],
+                        'returning' => [],
                         'training' => [],
                     ],
                 ];
@@ -429,7 +429,7 @@ class EspionageActionService
                         round($row->amount / 0.85)
                     );
 
-                    array_set($data, "units.invasion.{$unitType}.{$row->hours}", $amount);
+                    array_set($data, "units.returning.{$unitType}.{$row->hours}", $amount);
                 });
 
                 // Units in training (100% accurate)
@@ -903,7 +903,8 @@ class EspionageActionService
 
         if ($this->espionageHelper->isWarOperation($operationKey)) {
             $warDeclared = ($dominion->realm->war_realm_id == $target->realm->id || $target->realm->war_realm_id == $dominion->realm->id);
-            if (!$warDeclared && !$this->militaryCalculator->getRecentlyInvadedCountByAttacker($dominion, $target, 12)) {
+            if (!$warDeclared && !$this->militaryCalculator->recentlyInvadedBy($dominion, $target))
+            {
                 throw new GameException("You cannot perform {$operationInfo['name']} outside of war.");
             }
         }
