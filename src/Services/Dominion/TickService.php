@@ -485,14 +485,12 @@ class TickService
         # NPC Barbarian: invasion
         if($dominion->race->alignment === 'npc')
         {
-          $invade = false;
           // Are we invading?
-
           // Make sure all units1 and unit4 are at home.
           if($dominion->military_unit1 > 0 and
              $dominion->military_unit4 > 0 and
-             $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit1') == 0 and
-             $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit4') == 0
+             $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit1') === 0 and
+             $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit4') === 0
              )
           {
               $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
@@ -549,7 +547,7 @@ class TickService
                 # Queue the returning units.
                 foreach($unitsReturning as $unit => $amountReturning)
                 {
-                   $dominion->{$unit} - $unitsSent[$unit];
+                   $dominion->{$unit} -= $unitsSent[$unit];
                    $this->queueService->queueResources(
                        'invasion',
                        $dominion,
@@ -568,8 +566,8 @@ class TickService
                        $data
                    );
 
-                   $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked'];
-                   $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land'];
+                   $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered'];
+                   $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub'];
 
                    $data = [
                         'type' => $invasionTypes[rand(0,count($invasionTypes)-1)],
