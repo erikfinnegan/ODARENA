@@ -136,6 +136,36 @@ class SpellHelper
         {
             $racialSpell = $this->getRacialSelfSpell($dominion);
             $spells->push($racialSpell);
+
+            if($dominion->race->name === 'Cult')
+            {
+                $cultSpells = collect([
+                    [
+                        'name' => 'Persuasion',
+                        'description' => 'Captured spies and espionage units join the Cult as spies.',
+                        'key' => 'persuasion',
+                        'mana_cost' => 3,
+                        'duration' => 12*4,
+                    ],
+                    [
+                        'name' => 'Cogency',
+                        'description' => 'Wizardry casualties are saved and join the Cult as wizards.',
+                        'key' => 'cogency',
+                        'mana_cost' => 3,
+                        'duration' => 12*4,
+                    ],
+                    [
+                        'name' => 'Menticide',
+                        'description' => 'Mind Controlled units join the Cult permanently.',
+                        'key' => 'menticide',
+                        'mana_cost' => 4,
+                        'duration' => 2,
+                    ],
+                ]);
+
+                $spells = $spells->concat($cultSpells);
+            }
+
         }
 
         return $spells;
@@ -474,16 +504,14 @@ class SpellHelper
                 'duration' => 2, # Two ticks
                 'races' => collect(['Monster']),
             ],
-            /*
             [
                 'name' => 'Mind Control',
-                'description' => '?',
+                'description' => 'During an invaded, some of the invading units will fight for you.',
                 'key' => 'mind_control',
                 'mana_cost' => 12,
                 'duration' => 2, # Two ticks
                 'races' => collect(['Cult']),
             ],
-            */
             [
                 'name' => 'Call To Arms',
                 'description' => 'Training costs reduced by 10%, training times reduced by six ticks, and +20% ore and platinum production.',
@@ -613,12 +641,27 @@ class SpellHelper
 
         if(isset($dominion) and $dominion->race->name === 'Cult')
         {
+            $cultSpells = collect([
+                [
+                    'name' => 'Dissent',
+                    'description' => 'Some of the units and draftees released by the target join you.',
+                    'key' => 'dissent',
+                    'mana_cost' => 1,
+                    'duration' => 4,
+                ],
+                [
+                    'name' => 'Treachery',
+                    'description' => 'The target\'s spies return some of what they steal to you.',
+                    'key' => 'treachery',
+                    'mana_cost' => 2,
+                    'duration' => 6,
+                ],
+            ]);
 
-
+            $blackOpSpells = $blackOpSpells->concat($cultSpells);
         }
 
         return $blackOpSpells;
-
 
     }
 

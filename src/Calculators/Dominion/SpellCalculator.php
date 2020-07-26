@@ -45,7 +45,7 @@ class SpellCalculator
     {
         if($isInvasionSpell)
         {
-          return 0;
+            return 0;
         }
 
         $spellInfo = $this->spellHelper->getSpellInfo($spell, $dominion);
@@ -58,7 +58,7 @@ class SpellCalculator
 
         if(isset($dominion->title))
         {
-            $spellCostMultiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->title->getPerkBonus($dominion);         
+            $spellCostMultiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->title->getPerkBonus($dominion);
         }
 
         return round($spellInfo['mana_cost'] * $totalLand * $spellCostMultiplier);
