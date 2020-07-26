@@ -1648,7 +1648,7 @@ class InvadeActionService
      * @param int $totalDefensiveCasualties
      * @return array
      */
-    protected function handleVampiricConversionOnDefense(Dominion $defender, Dominion $attacker, array $units, float $landRatio): array
+    protected function handleVampiricConversionOnDefense(Dominion $defender, Dominion $attacker, array $units, float $landRatio): void
     {
 
         $convertedUnits = array_fill(1, 4, 0);
@@ -1730,7 +1730,17 @@ class InvadeActionService
 
         $attacker->stat_total_units_converted += array_sum($convertedUnits);
 
-        return $convertedUnits;
+        # Defensive conversions take 6 ticks to appear
+        foreach($convertedUnits as $slot => $amount)
+        {
+            $unitKey = 'military_unit'.$slot;
+            $this->queueService->queueResources(
+                'training',
+                $dominion,
+                [$unitKey => $amount],
+                6
+            );
+        }
     }
 
 
