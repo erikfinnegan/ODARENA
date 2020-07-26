@@ -44,7 +44,7 @@ class GuardMembershipActionService
     {
         $this->guardLockedDominion($dominion);
 
-        if ($this->queueService->isEliteGuardApplicant($dominion))
+        if ($this->guardMembershipService->isEliteGuardApplicant($dominion))
         {
             throw new GameException('You have applied to join the Warriors League. To join the Peacekeepers League, you must first cancel your application to join the Warriors League.');
         }
