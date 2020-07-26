@@ -503,8 +503,6 @@ class TickService
               }
           }
 
-          $invade = false;
-
             if($invade)
             {
                 # Grow by 5-12.5% (random), skewed to lower.
