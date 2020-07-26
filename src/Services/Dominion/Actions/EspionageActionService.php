@@ -429,7 +429,7 @@ class EspionageActionService
                         round($row->amount / 0.85)
                     );
 
-                    array_set($data, "units.returning.{$unitType}.{$row->hours}", $amount);
+                    array_set($data, "units.invasion.{$unitType}.{$row->hours}", $amount);
                 });
 
                 // Units in training (100% accurate)
