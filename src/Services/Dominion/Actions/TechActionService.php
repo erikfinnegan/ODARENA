@@ -50,7 +50,7 @@ class TechActionService
 
         // Check prerequisites
         if (!$this->techCalculator->hasPrerequisites($dominion, $techToUnlock)) {
-            throw new GameException('You do not meet the requirements to unlock this advancement.');
+            throw new GameException('You do not meet the requirements to level up this advancement.');
         }
 
         // Check if enabled
@@ -63,7 +63,7 @@ class TechActionService
         $techCost = $this->techCalculator->getTechCost($dominion, $techToUnlock);
         if ($dominion->resource_tech < $techCost) {
             throw new GameException(sprintf(
-                'You do not have the required %s experience points to unlock this advancement.',
+                'You do not have the required %s experience points to level up this advancement.',
                 number_format($techCost)
             ));
         }
@@ -71,7 +71,7 @@ class TechActionService
         // Check if faction can unlock advancements
         if($dominion->race->getPerkValue('cannot_tech'))
         {
-            throw new GameException($dominion->race->name . ' cannot unlock advancements.');
+            throw new GameException($dominion->race->name . ' cannot level up advancements.');
         }
 
         DB::transaction(function () use ($dominion, $techToUnlock, $techCost) {
@@ -89,7 +89,7 @@ class TechActionService
 
         return [
             'message' => sprintf(
-                'You have unlocked %s.',
+                'You have levelled up %s.',
                 $techToUnlock->name
             )
         ];

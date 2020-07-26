@@ -580,37 +580,45 @@ class SpellHelper
     # Available all the time (after first day).
     public function getBlackOpSpells(?Dominion $dominion): Collection
     {
+        $blackOpSpells = collect([
+            [
+                'name' => 'Plague',
+                'description' => 'Slows population growth by 25%.',
+                'key' => 'plague',
+                'mana_cost' => 3,
+                'duration' => 12*2,
+            ],
+            [
+                'name' => 'Insect Swarm',
+                'description' => 'Slows food production by 5%.',
+                'key' => 'insect_swarm',
+                'mana_cost' => 3,
+                'duration' => 12*2,
+            ],
+            [
+                'name' => 'Great Flood',
+                'description' => 'Slows boat production by 25%.',
+                'key' => 'great_flood',
+                'mana_cost' => 3,
+                'duration' => 12*2,
+            ],
+            [
+                'name' => 'Earthquake',
+                'description' => 'Slows ore and diamond mine production by 5%.',
+                'key' => 'earthquake',
+                'mana_cost' => 3,
+                'duration' => 12*2,
+            ],
+        ]);
 
-      return collect([
-          [
-              'name' => 'Plague',
-              'description' => 'Slows population growth by 25%.',
-              'key' => 'plague',
-              'mana_cost' => 3,
-              'duration' => 12*2,
-          ],
-          [
-              'name' => 'Insect Swarm',
-              'description' => 'Slows food production by 5%.',
-              'key' => 'insect_swarm',
-              'mana_cost' => 3,
-              'duration' => 12*2,
-          ],
-          [
-              'name' => 'Great Flood',
-              'description' => 'Slows boat production by 25%.',
-              'key' => 'great_flood',
-              'mana_cost' => 3,
-              'duration' => 12*2,
-          ],
-          [
-              'name' => 'Earthquake',
-              'description' => 'Slows ore and diamond mine production by 5%.',
-              'key' => 'earthquake',
-              'mana_cost' => 3,
-              'duration' => 12*2,
-          ],
-      ]);
+        if(isset($dominion) and $dominion->race->name === 'Cult')
+        {
+
+
+        }
+
+        return $blackOpSpells;
+
 
     }
 
