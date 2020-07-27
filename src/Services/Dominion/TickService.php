@@ -491,10 +491,8 @@ class TickService
           // Make sure all units1 and unit4 are at home.
           if($dominion->military_unit1 > 0 and
              $dominion->military_unit4 > 0 and
-             #$this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit1') === 0 and
-             #$this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit4') === 0 and
-             $this->queueService->getInvadingQueueTotalByResource($dominion, 'military_unit1') === 0 and
-             $this->queueService->getInvadingQueueTotalByResource($dominion, 'military_unit4') === 0
+             $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') == 0 and
+             $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
              )
           {
               $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
@@ -655,13 +653,7 @@ class TickService
            $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
            $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
 
-           #$opReturning = $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
-           #$opReturning += $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
-
-           $opReturning = $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
-           $opReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
-
-           $opPaid = $opTrained + $opInTraining + $opReturning;
+           $opPaid = $opTrained + $opInTraining;
 
            // Determine what (if any) training is required
            $dpToTrain = max(0, $dpRequired - $dpPaid);
