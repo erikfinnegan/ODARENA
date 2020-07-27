@@ -485,23 +485,23 @@ class TickService
         # NPC Barbarian: invasion
         if($dominion->race->alignment === 'npc')
         {
-            // Are we invading?
-            $invade = false;
+          // Are we invading?
+          $invade = false;
 
-            // Make sure all units1 and unit4 are at home.
-            if($dominion->military_unit1 > 0 and
-               $dominion->military_unit4 > 0 and
-               $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit1') === 0 and
-               $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit4') === 0
-               )
-            {
-                $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-                $chanceOneIn = 32 - (14 - min($currentDay, 14));
-                if(rand(1,$chanceOneIn) == 1)
-                {
-                    $invade = true;
-                }
-            }
+          // Make sure all units1 and unit4 are at home.
+          if($dominion->military_unit1 > 0 and
+             $dominion->military_unit4 > 0 and
+             $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit1') === 0 and
+             $this->queueService->getReturningQueueTotalByResource($dominion, 'military_unit4') === 0
+             )
+          {
+              $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
+              $chanceOneIn = 32 - (14 - min($currentDay, 14));
+              if(rand(1,$chanceOneIn) == 1)
+              {
+                  $invade = true;
+              }
+          }
 
             if($invade)
             {
@@ -556,6 +556,8 @@ class TickService
                        [$unit => $amountReturning],
                        12
                    );
+
+                   $dominion->save();
                 }
 
                 # Queue the incoming land.
@@ -569,7 +571,7 @@ class TickService
                    );
 
                    $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered'];
-                   $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub', 'peninsula'];
+                   $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub'];
 
                    $data = [
                         'type' => $invasionTypes[rand(0,count($invasionTypes)-1)],
@@ -610,8 +612,7 @@ class TickService
 
            // Calculate DPA required / target DPA
            $constant = 25;
-           #$day = $this->now->diffInDays($dominion->round->start_date);
-           $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()); # Borrowed from Void OP from MilitaryCalculator
+           $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
 
            # Linear hourly
            $dpa = $constant + ($hours * 0.40);
@@ -678,9 +679,7 @@ class TickService
              foreach($units as $unit => $amountToTrain)
              {
                 $data = [$unit => $amountToTrain];
-
                 $hours = 12;
-
                 $this->queueService->queueResources('training', $dominion, $data, $hours);
              }
            }
