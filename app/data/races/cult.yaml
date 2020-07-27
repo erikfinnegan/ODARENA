@@ -25,8 +25,8 @@ units:
       platinum: 0
       ore: 0
     power:
-      offense: 3
-      defense: 3
+      offense: 2
+      defense: 2
     perks:
       cannot_be_trained: 1
       attrition: 0.1 # % lost each tick.
@@ -51,17 +51,20 @@ units:
     cost:
       platinum: 800
       ore: 25
+      unit2: 1
     power:
       offense: 0
       defense: 6
     perks:
       food_production: 1
       mana_production: 1
+      no_draftee: 1
   - name: Mystic
     type:
       - living
       - sentient
       - super intelligent
+    need_boat: true
     cost:
       platinum: 1000
       ore: 100

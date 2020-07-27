@@ -156,7 +156,7 @@ class SpellHelper
                     ],
                     [
                         'name' => 'Menticide',
-                        'description' => 'Mind Controlled units join the Cult permanently.',
+                        'description' => 'Mind Controlled units join the Cult permanently as Initiates.',
                         'key' => 'menticide',
                         'mana_cost' => 4,
                         'duration' => 2,
@@ -506,7 +506,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Mind Control',
-                'description' => 'During an invaded, some of the invading units will fight for you.',
+                'description' => 'During an invasion, some of the invading units will fight for you.',
                 'key' => 'mind_control',
                 'mana_cost' => 12,
                 'duration' => 2, # Two ticks
@@ -644,7 +644,7 @@ class SpellHelper
             $cultSpells = collect([
                 [
                     'name' => 'Enthralling',
-                    'description' => 'Some of the units and draftees released by the target join you as Thralls (takes up to 12 ticks).',
+                    'description' => 'Some of the units and draftees released by the target join you as Thralls (takes up to 12 ticks to arrive).',
                     'key' => 'enthralling',
                     'mana_cost' => 1,
                     'duration' => 4,
