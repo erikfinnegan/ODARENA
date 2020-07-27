@@ -556,6 +556,8 @@ class TickService
                        [$unit => $amountReturning],
                        12
                    );
+
+                   $dominion->save();
                 }
 
                 # Queue the incoming land.
@@ -610,8 +612,7 @@ class TickService
 
            // Calculate DPA required / target DPA
            $constant = 25;
-           #$day = $this->now->diffInDays($dominion->round->start_date);
-           $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()); # Borrowed from Void OP from MilitaryCalculator
+           $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
 
            # Linear hourly
            $dpa = $constant + ($hours * 0.40);
@@ -678,9 +679,7 @@ class TickService
              foreach($units as $unit => $amountToTrain)
              {
                 $data = [$unit => $amountToTrain];
-
                 $hours = 12;
-
                 $this->queueService->queueResources('training', $dominion, $data, $hours);
              }
            }
