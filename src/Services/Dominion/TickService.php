@@ -557,7 +557,7 @@ class TickService
                        12
                    );
 
-                   $dominion->save();
+                   #$dominion->save();
                 }
 
                 # Queue the incoming land.
