@@ -485,23 +485,27 @@ class TickService
         # NPC Barbarian: invasion
         if($dominion->race->alignment === 'npc')
         {
-          // Are we invading?
-          $invade = false;
+            // Are we invading?
+            $invade = false;
 
-          // Make sure all units1 and unit4 are at home.
-          if($dominion->military_unit1 > 0 and
-             $dominion->military_unit4 > 0 and
-             $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') == 0 and
-             $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
-             )
-          {
-              $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-              $chanceOneIn = 32 - (14 - min($currentDay, 14));
-              if(rand(1,$chanceOneIn) == 1)
-              {
-                  $invade = true;
-              }
-          }
+            // Make sure all units1 and unit4 are at home.
+            if($dominion->military_unit1 > 0 and
+               $dominion->military_unit4 > 0 and
+               $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') == 0 and
+               $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
+               )
+            {
+
+                Log::debug($dominion->name . ' might invade because units are home is greater than zero (unit1: ' . number_format($dominion->military_unit1) . ', unit4: ' . number_format($dominion->military_unit4) . ') and units returning home equal zero (unit1: ' .$this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1'). ', unit4:' . $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') . ')');
+
+                $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
+                $chanceOneIn = 32 - (14 - min($currentDay, 14));
+                if(rand(1,$chanceOneIn) == 1)
+                {
+                    $invade = true;
+                    Log::debug($dominion->name . ' will invade');
+                }
+            }
 
             if($invade)
             {
@@ -535,8 +539,8 @@ class TickService
                 $unitsSent['military_unit4'] = $dominion->military_unit4 * $sentRatio;
 
                 # Remove the sent units from the dominion.
-                $dominion->military_unit1 -= $unitsSent['military_unit1'];
-                $dominion->military_unit4 -= $unitsSent['military_unit4'];
+                $dominion->military_unit1 -= min($dominion->military_unit1, $unitsSent['military_unit1']);
+                $dominion->military_unit4 -= min($dominion->military_unit4, $unitsSent['military_unit4']);
 
                 # Calculate losses by applying casualties ratio to units sent.
                 $unitsLost['military_unit1'] = $unitsSent['military_unit1'] * $casualtiesRatio;
@@ -549,15 +553,12 @@ class TickService
                 # Queue the returning units.
                 foreach($unitsReturning as $unit => $amountReturning)
                 {
-                   $dominion->{$unit} -= $unitsSent[$unit];
                    $this->queueService->queueResources(
                        'invasion',
                        $dominion,
                        [$unit => $amountReturning],
                        12
                    );
-
-                   #$dominion->save();
                 }
 
                 # Queue the incoming land.
@@ -589,6 +590,8 @@ class TickService
                     'type' => 'barbarian_invasion',
                     'data' => $data,
                 ]);
+                $dominion->save();
+
            }
         }
 
@@ -658,6 +661,8 @@ class TickService
            // Determine what (if any) training is required
            $dpToTrain = max(0, $dpRequired - $dpPaid);
            $opToTrain = max(0, $opRequired - $opPaid);
+
+           Log::debug($dominion->name . ' needs ' . number_format($opRequired) . ' OP and currently has ' . number_format($opTrained) . ' OP trained. This means it needs to train ' . number_format($opToTrain) . ' OP.');
 
            # Randomly train between 10% and 30% of units as specs.
            $specsRatio = rand(10,30)/100;
