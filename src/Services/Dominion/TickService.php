@@ -569,7 +569,7 @@ class TickService
                    );
 
                    $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered'];
-                   $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub'];
+                   $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub', 'peninsula'];
 
                    $data = [
                         'type' => $invasionTypes[rand(0,count($invasionTypes)-1)],
