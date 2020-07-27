@@ -11,6 +11,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class ReleaseActionService
 {
@@ -25,6 +26,9 @@ class ReleaseActionService
     /** @var QueueService */
     protected $queueService;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * ReleaseActionService constructor.
      *
@@ -33,12 +37,14 @@ class ReleaseActionService
     public function __construct(
         UnitHelper $unitHelper,
         QueueService $queueService,
-        MilitaryCalculator $militaryCalculator
+        MilitaryCalculator $militaryCalculator,
+        SpellCalculator $spellCalculator
       )
     {
         $this->unitHelper = $unitHelper;
         $this->queueService = $queueService;
         $this->militaryCalculator = $militaryCalculator;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -153,6 +159,26 @@ class ReleaseActionService
             }
 
             $troopsReleased[$unitType] = $amount;
+
+            # Cult: Dissent
+            if ($this->spellCalculator->isSpellActive($dominion, 'dissent'))
+            {
+                $cult = $this->spellCalculator->getCaster($dominion, 'dissent');
+
+                $amountDissenting = $amount * (1 - ($dominion->race->getPerkMultiplier('reduce_conversions')));
+
+                1/($dominion->morale/100)
+
+                $amountDissenting = min(max(1, intval($amountDissenting)),$amount);
+
+                $this->queueService->queueResources(
+                    'training',
+                    $cult,
+                    ['military_unit1' => $amountDissenting],
+                    rand(6,12)
+                );
+
+            }
         }
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_RELEASE]);

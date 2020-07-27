@@ -1,8 +1,8 @@
 name: Cult
 alignment: independent
 description: >-
-  <p>The Cult arose </p>
-  <p>The Cult grows controlling the minds by magic.</p>
+  <p>While not embraced with open arms, the Cult is accepted among the Independent for its strong refusal of Imperial and Commonwealth rule. But its methods have made many uneasy.</p>
+  <p>The Cult uses tricks of the mind to grow its numbers, force enemies to fight each other, and promote treason.</p>
 home_land_type: hill
 playable: 1
 
@@ -11,9 +11,10 @@ exploring : 3
 converting: 3
 
 perks:
+  max_per_round: 1
+  min_rounds_played: 10
   max_population: 30
   population_growth: 25
-  min_rounds_played: 10
 units:
   - name: Thrall
     type:
@@ -60,7 +61,7 @@ units:
     type:
       - living
       - sentient
-      - intelligent
+      - super intelligent
     cost:
       platinum: 1000
       ore: 100
@@ -69,7 +70,9 @@ units:
       offense: 6
       defense: 3
     perks:
+      no_draftee: 1
       counts_as_wizard_defense: 0.25
       counts_as_wizard_offense: 0.25
+      immortal_wizard: 1
       kills_immortal: 1
       unit_production: 2,0.044 # Every 22 Mystics produce 1 Initiate

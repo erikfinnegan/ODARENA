@@ -643,9 +643,9 @@ class SpellHelper
         {
             $cultSpells = collect([
                 [
-                    'name' => 'Dissent',
-                    'description' => 'Some of the units and draftees released by the target join you.',
-                    'key' => 'dissent',
+                    'name' => 'Enthralling',
+                    'description' => 'Some of the units and draftees released by the target join you as Thralls (takes up to 12 ticks).',
+                    'key' => 'enthralling',
                     'mana_cost' => 1,
                     'duration' => 4,
                 ],
