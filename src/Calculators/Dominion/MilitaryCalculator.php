@@ -1772,7 +1772,6 @@ class MilitaryCalculator
         $hasReturningUnits = 0;
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            $hasReturningUnits += $this->queueService->getReturningQueueTotalByResource($dominion, "military_unit{$slot}");
             $hasReturningUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
         }
 

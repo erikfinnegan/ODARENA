@@ -447,7 +447,7 @@ class SendUnitsActionService
         $unitsReturning = [];
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            $unitsReturning[$slot] = $this->queueService->getReturningQueueTotalByResource($dominion, "military_unit{$slot}");
+            $unitsReturning[$slot] = $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
         }
 
         $returningForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsReturning);

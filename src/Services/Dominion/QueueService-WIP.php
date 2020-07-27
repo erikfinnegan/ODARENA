@@ -19,7 +19,7 @@ use Throwable;
  * @method int getExplorationQueueTotalByResource(Dominion $dominion, string $resource)
  * @method Collection getInvasionQueue(Dominion $dominion)
  * @method int getInvasionQueueTotal(Dominion $dominion)
- * @method int getReturningQueueTotalByResource(Dominion $dominion, string $resource)
+ * @method int getInvasionQueueTotalByResource(Dominion $dominion, string $resource)
  * @method Collection getTrainingQueue(Dominion $dominion)
  * @method int getTrainingQueueTotal(Dominion $dominion)
  * @method int getTrainingQueueTotalByResource(Dominion $dominion, string $resource)

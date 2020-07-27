@@ -146,15 +146,15 @@
                                     </td>
                                     @for ($i = 1; $i <= 12; $i++)
                                         <td class="text-center">
-                                            @if ($queueService->getReturningQueueAmount($selectedDominion, "military_{$unitType}", $i) === 0)
+                                            @if ($queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i) === 0)
                                                 -
                                             @else
-                                                {{ number_format($queueService->getReturningQueueAmount($selectedDominion, "military_{$unitType}", $i)) }}
+                                                {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i)) }}
                                             @endif
                                         </td>
                                     @endfor
                                     <td class="text-center">
-                                        {{ number_format($queueService->getReturningQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
+                                        {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
                                     </td>
                                 </tr>
                             @endforeach
