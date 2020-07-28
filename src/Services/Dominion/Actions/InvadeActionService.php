@@ -475,7 +475,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -1552,7 +1552,7 @@ class InvadeActionService
     protected function handleVampiricConversionOnOffense(Dominion $attacker, Dominion $defender, array $units, float $landRatio): array
     {
 
-        $convertedUnits = array_fill(1, 3, 0);
+        $convertedUnits = array_fill(1, 4, 0);
 
         if($this->invasionResult['result']['overwhelmed'] or $attacker->race->name !== 'Vampires')
         {
@@ -1613,13 +1613,13 @@ class InvadeActionService
                 $unitsPerConversion = 1;
             }
             # If it's in the unit2 range, it's a unit2.
-            elseif($unitRawDp > $unit2Range[0] and $unitRawDp <= $unit2Range[1])
+            elseif($unitRawDp > $unit2Range[0] and $unitRawDp < $unit2Range[1])
             {
                 $slotConvertedTo = 2;
                 $unitsPerConversion = 2;
             }
             # If greater than unit2 range, it's a unit3.
-            elseif($unitRawDp > $unit2Range[1])
+            elseif($unitRawDp >= $unit2Range[1])
             {
                 $slotConvertedTo = 3;
                 $unitsPerConversion = 3;
