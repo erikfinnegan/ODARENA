@@ -496,14 +496,14 @@ class TickService
                )
             {
 
-                Log::debug($dominion->name . ' might invade because units are home is greater than zero (unit1: ' . number_format($dominion->military_unit1) . ', unit4: ' . number_format($dominion->military_unit4) . ') and units returning home equal zero (unit1: ' .$this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1'). ', unit4:' . $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') . ')');
+                #Log::debug($dominion->name . ' might invade because units are home is greater than zero (unit1: ' . number_format($dominion->military_unit1) . ', unit4: ' . number_format($dominion->military_unit4) . ') and units returning home equal zero (unit1: ' .$this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1'). ', unit4:' . $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') . ')');
 
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
                 $chanceOneIn = 32 - (14 - min($currentDay, 14));
                 if(rand(1,$chanceOneIn) == 1)
                 {
                     $invade = true;
-                    Log::debug($dominion->name . ' will invade');
+                    #Log::debug($dominion->name . ' will invade');
                 }
             }
 
@@ -662,7 +662,7 @@ class TickService
            $dpToTrain = max(0, $dpRequired - $dpPaid);
            $opToTrain = max(0, $opRequired - $opPaid);
 
-           Log::debug($dominion->name . ' needs ' . number_format($opRequired) . ' OP and currently has ' . number_format($opTrained) . ' OP trained. This means it needs to train ' . number_format($opToTrain) . ' OP.');
+           #Log::debug($dominion->name . ' needs ' . number_format($opRequired) . ' OP and currently has ' . number_format($opTrained) . ' OP trained. This means it needs to train ' . number_format($opToTrain) . ' OP.');
 
            # Randomly train between 10% and 30% of units as specs.
            $specsRatio = rand(10,30)/100;

@@ -1696,7 +1696,7 @@ class InvadeActionService
             $unitRawOp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
 
             # Remove units with fixed casualties > 50%.
-            if($defender->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+            if($attacker->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
             {
                 $amount = 0;
             }
@@ -1747,7 +1747,7 @@ class InvadeActionService
             $unitKey = 'military_unit'.$slot;
             $this->queueService->queueResources(
                 'training',
-                $attacker,
+                $defender,
                 [$unitKey => $amount],
                 6
             );
