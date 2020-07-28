@@ -1162,9 +1162,10 @@ class MilitaryCalculator
               return 0;
           }
 
+          $powerFromTime = (float)$timePerkData[2];
+
           $hourFrom = $timePerkData[0];
           $hourTo = $timePerkData[1];
-          $powerFromTime = (float)$timePerkData[2];
           $hourNow = date('H');
 
           $timeFrom = Carbon::createFromFormat('H:i:s',$hourFrom.':00:00');
@@ -1178,11 +1179,12 @@ class MilitaryCalculator
               $timeFrom->subDay();
           }
 
-          #echo '<pre>Between ' . $timeFrom . ' and ' . $timeTo . ' add ' . $powerFromTime . ', and it is now ' . $timeNow . '.</pre>';
-
           if($timeNow >= $timeFrom and $timeNow < $timeTo)
           {
               $powerFromPerk = $powerFromTime;
+
+              echo('<p>' . $unit->name . ' has ' . $powerType . ' perk of +' .  $powerFromPerk . ' from ' . $timeFrom . ' to ' . $timeTo . ' and it is ' . $timeNow . ' now, so it is active.</p>');
+
           }
           else
           {

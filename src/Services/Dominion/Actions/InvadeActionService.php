@@ -1727,7 +1727,7 @@ class InvadeActionService
 
             if($this->invasionResult['result']['success'])
             {
-                $totalConverts /= 3;
+                $unitsConverted /= 3;
             }
 
             $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
