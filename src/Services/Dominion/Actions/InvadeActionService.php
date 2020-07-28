@@ -2046,7 +2046,7 @@ class InvadeActionService
         if (!$this->invasionResult['result']['overwhelmed'] && $unitsThatSinkBoats > 0) {
             $defenderBoatsProtected = $this->militaryCalculator->getBoatsProtected($target);
             $defenderBoatsSunkPercentage = (static::BOATS_SUNK_BASE_PERCENTAGE / 100) * ($unitsThatSinkBoats / $unitsTotal);
-            $targetQueuedBoats = $this->queueService->getReturningQueueTotalByResource($target, 'resource_boats');
+            $targetQueuedBoats = $this->queueService->getInvasionQueueTotalByResource($target, 'resource_boats');
             $targetBoatTotal = $target->resource_boats + $targetQueuedBoats;
             $defenderBoatsSunk = (int)floor(max(0, $targetBoatTotal - $defenderBoatsProtected) * $defenderBoatsSunkPercentage);
             if ($defenderBoatsSunk > $targetQueuedBoats) {
@@ -2599,7 +2599,7 @@ class InvadeActionService
         $unitsReturning = [];
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            $unitsReturning[$slot] = $this->queueService->getReturningQueueTotalByResource($dominion, "military_unit{$slot}");
+            $unitsReturning[$slot] = $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
         }
 
         $returningForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsReturning);
