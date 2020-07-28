@@ -1702,19 +1702,19 @@ class InvadeActionService
             }
 
             # If less than unit2 range, it's a unit1.
-            if($unitRawDp <= $unit2Range[0])
+            if($unitRawOp <= $unit2Range[0])
             {
                 $slotConvertedTo = 1;
                 $unitsPerConversion = 1;
             }
             # If it's in the unit2 range, it's a unit2.
-            elseif($unitRawDp > $unit2Range[0] and $unitRawDp < $unit2Range[1])
+            elseif($unitRawOp > $unit2Range[0] and $unitRawOp < $unit2Range[1])
             {
                 $slotConvertedTo = 2;
                 $unitsPerConversion = 2;
             }
             # If greater than unit2 range, it's a unit3.
-            elseif($unitRawDp >= $unit2Range[1])
+            elseif($unitRawOp >= $unit2Range[1])
             {
                 $slotConvertedTo = 3;
                 $unitsPerConversion = 3;
