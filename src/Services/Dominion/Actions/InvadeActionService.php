@@ -1747,7 +1747,7 @@ class InvadeActionService
             $unitKey = 'military_unit'.$slot;
             $this->queueService->queueResources(
                 'training',
-                $dominion,
+                $attacker,
                 [$unitKey => $amount],
                 6
             );
