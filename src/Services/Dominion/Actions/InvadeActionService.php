@@ -1626,6 +1626,12 @@ class InvadeActionService
             }
 
             $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
+
+            if(!$this->invasionResult['result']['success'])
+            {
+                $unitsConverted /= 12;
+            }
+
             $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
 
         }
@@ -1718,6 +1724,11 @@ class InvadeActionService
             $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
 
             $unitsConverted /= 3;
+
+            if($this->invasionResult['result']['success'])
+            {
+                $totalConverts /= 3;
+            }
 
             $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
 
