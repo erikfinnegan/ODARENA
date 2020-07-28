@@ -1183,7 +1183,7 @@ class MilitaryCalculator
           {
               $powerFromPerk = $powerFromTime;
 
-              echo('<p>' . $unit->name . ' has ' . $powerType . ' perk of +' .  $powerFromPerk . ' from ' . $timeFrom . ' to ' . $timeTo . ' and it is ' . $timeNow . ' now, so it is active.</p>');
+              #echo('<p>' . $unit->name . ' has ' . $powerType . ' perk of +' .  $powerFromPerk . ' from ' . $timeFrom . ' to ' . $timeTo . ' and it is ' . $timeNow . ' now, so it is active.</p>');
 
           }
           else
