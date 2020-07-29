@@ -52,6 +52,9 @@ class TickService
     /** @var QueueService */
     protected $queueService;
 
+    /** @var BarbarianService */
+    protected $barbarianService;
+
     /** @var SpellCalculator */
     protected $spellCalculator;
 
@@ -87,6 +90,8 @@ class TickService
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->realmCalculator = app(RealmCalculator::class);
 
+        $this->barbarianService = app(BarbarianService::class);
+
         /* These calculators need to ignore queued resources for the following tick */
         $this->populationCalculator->setForTick(true);
         $this->queueService->setForTick(true);
@@ -106,7 +111,6 @@ class TickService
         foreach ($activeRounds as $round) {
             DB::transaction(function () use ($round)
             {
-
                 // Update dominions
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
@@ -262,6 +266,8 @@ class TickService
 
             foreach ($dominions as $dominion)
             {
+                # NPC Barbarian: invasion
+                $this->barbarianService->handleBarbarianInvasion($dominion);
 
                 // Afflicted: Abomination generation
                 if(!empty($dominion->tick->pestilence_units))
@@ -482,119 +488,6 @@ class TickService
             ->where('hours', '=', 1)
             ->get();
 
-        # NPC Barbarian: invasion
-        if($dominion->race->alignment === 'npc')
-        {
-            // Are we invading?
-            $invade = false;
-
-            // Make sure all units1 and unit4 are at home.
-            if($dominion->military_unit1 > 0 and
-               $dominion->military_unit4 > 0 and
-               $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1') == 0 and
-               $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') == 0
-               )
-            {
-
-                #Log::debug($dominion->name . ' might invade because units are home is greater than zero (unit1: ' . number_format($dominion->military_unit1) . ', unit4: ' . number_format($dominion->military_unit4) . ') and units returning home equal zero (unit1: ' .$this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit1'). ', unit4:' . $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit4') . ')');
-
-                $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-                $chanceOneIn = 32 - (14 - min($currentDay, 14));
-                if(rand(1,$chanceOneIn) == 1)
-                {
-                    $invade = true;
-                    #Log::debug($dominion->name . ' will invade');
-                }
-            }
-
-            if($invade)
-            {
-                # Grow by 5-12.5% (random), skewed to lower.
-                $landGainRatio = max(500,rand(400,1250))/10000;
-
-                # Calculate the amount of acres to grow.
-                $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
-
-                # Split the land gained evenly across all 6 land types.
-                $landGained['land_plain'] = intval($totalLandToGain/6);
-                $landGained['land_mountain'] = intval($totalLandToGain/6);
-                $landGained['land_forest'] = intval($totalLandToGain/6);
-                $landGained['land_swamp'] = intval($totalLandToGain/6);
-                $landGained['land_hill'] = intval($totalLandToGain/6);
-                $landGained['land_water'] = intval($totalLandToGain/6);
-
-                # Add the land gained to the $dominion.
-                $dominion->stat_total_land_conquered = $totalLandToGain;
-                $dominion->stat_attacking_success += 1;
-
-                # Send out 80-100% of all units. Rand over 100 but capped at 100
-                # to make it more likely 100% are sent.
-                $sentRatio = 1 - $landGainRatio;
-
-                # Casualties between 8.5% and 12% (random).
-                $casualtiesRatio = rand(85,120)/1000;
-
-                # Calculate how many Unit1 and Unit4 are sent.
-                $unitsSent['military_unit1'] = $dominion->military_unit1 * $sentRatio;
-                $unitsSent['military_unit4'] = $dominion->military_unit4 * $sentRatio;
-
-                # Remove the sent units from the dominion.
-                $dominion->military_unit1 -= min($dominion->military_unit1, $unitsSent['military_unit1']);
-                $dominion->military_unit4 -= min($dominion->military_unit4, $unitsSent['military_unit4']);
-
-                # Calculate losses by applying casualties ratio to units sent.
-                $unitsLost['military_unit1'] = $unitsSent['military_unit1'] * $casualtiesRatio;
-                $unitsLost['military_unit4'] = $unitsSent['military_unit4'] * $casualtiesRatio;
-
-                # Calculate amount of returning units.
-                $unitsReturning['military_unit1'] = max($unitsSent['military_unit1'] - $unitsLost['military_unit1'],0);
-                $unitsReturning['military_unit4'] = max($unitsSent['military_unit4'] - $unitsLost['military_unit4'],0);
-
-                # Queue the returning units.
-                foreach($unitsReturning as $unit => $amountReturning)
-                {
-                   $this->queueService->queueResources(
-                       'invasion',
-                       $dominion,
-                       [$unit => $amountReturning],
-                       12
-                   );
-                }
-
-                # Queue the incoming land.
-                foreach($landGained as $type => $amount)
-                {
-                   $data = [$type => $amount];
-                   $this->queueService->queueResources(
-                       'invasion',
-                       $dominion,
-                       $data
-                   );
-
-                   $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered'];
-                   $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub'];
-
-                   $data = [
-                        'type' => $invasionTypes[rand(0,count($invasionTypes)-1)],
-                        'target' => $invasionTargets[rand(0,count($invasionTargets)-1)],
-                        'land' => $totalLandToGain,
-                      ];
-                }
-
-                $barbarianInvasionEvent = GameEvent::create([
-                    'round_id' => $dominion->round_id,
-                    'source_type' => Dominion::class,
-                    'source_id' => $dominion->id,
-                    'target_type' => Realm::class,
-                    'target_id' => $dominion->realm_id,
-                    'type' => 'barbarian_invasion',
-                    'data' => $data,
-                ]);
-                $dominion->save();
-
-           }
-        }
-
         foreach ($incomingQueue as $row)
         {
             $tick->{$row->resource} += $row->amount;
@@ -603,90 +496,7 @@ class TickService
         }
 
         # NPC Barbarian: training
-        if($dominion->race->alignment === 'npc')
-        {
-          /*
-           Every tick, NPCs:
-           1) Train until they reach the DPA requirement
-           2) Train until they reach the OPA requirement
-           3) Have a chance to quasi-invade.
-              Invade = send out between 80% and 100% of the OP and queue land.
-           */
-
-           // Calculate DPA required / target DPA
-           $constant = 25;
-           $hours = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
-
-           # Linear hourly
-           $dpa = $constant + ($hours * 0.40);
-           $dpa *= ($dominion->npc_modifier / 1000);
-           $dpa = intval($dpa);
-           $opa = intval($dpa * 0.75);
-
-           $dpRequired = $this->landCalculator->getTotalLand($dominion) * $dpa;
-           $opRequired = $this->landCalculator->getTotalLand($dominion) * $opa;
-
-           // Determine current DP and OP
-           # Unit 1: 3 OP, 0 DP
-           # Unit 2: 3 DP, 0 OP
-           # Unit 3: 5 DP, 0 OP
-           # Unit 4: 5 OP, 2 DP (turtle)
-
-           $dpUnit1 = 0;
-           $dpUnit2 = 3;
-           $dpUnit3 = 5;
-           $dpUnit4 = 0; # Has turtle but ignored here
-
-           $opUnit1 = 3;
-           $opUnit2 = 0;
-           $opUnit3 = 0;
-           $opUnit4 = 5;
-
-           $dpTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * $dpUnit2;
-           $dpTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * $dpUnit3;
-
-           $dpInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * $dpUnit2;
-           $dpInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * $dpUnit3;
-
-           $dpPaid = $dpTrained + $dpInTraining;
-
-           $opTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * $opUnit1;
-           $opTrained += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * $opUnit4;
-
-           $opInTraining = $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * $opUnit1;
-           $opInTraining += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * $opUnit4;
-
-           $opPaid = $opTrained + $opInTraining;
-
-           // Determine what (if any) training is required
-           $dpToTrain = max(0, $dpRequired - $dpPaid);
-           $opToTrain = max(0, $opRequired - $opPaid);
-
-           #Log::debug($dominion->name . ' needs ' . number_format($opRequired) . ' OP and currently has ' . number_format($opTrained) . ' OP trained. This means it needs to train ' . number_format($opToTrain) . ' OP.');
-
-           # Randomly train between 10% and 30% of units as specs.
-           $specsRatio = rand(10,30)/100;
-           $elitesRatio = 1 - $specsRatio;
-
-           $units = [
-             'military_unit1' => intval(($opToTrain * $specsRatio) / $opUnit1),
-             'military_unit2' => intval(($dpToTrain * $specsRatio) / $dpUnit2),
-             'military_unit3' => intval(($dpToTrain * $elitesRatio) / $dpUnit3),
-             'military_unit4' => intval(($opToTrain * $elitesRatio) / $opUnit4),
-           ];
-
-           // 50% chance the Barbarian train
-           if(rand(1,2) == 1)
-           {
-             foreach($units as $unit => $amountToTrain)
-             {
-                $data = [$unit => $amountToTrain];
-                $hours = 12;
-                $this->queueService->queueResources('training', $dominion, $data, $hours);
-             }
-           }
-
-        }
+        $this->barbarianService->handleBarbarianTraining($dominion);
 
         $tick->protection_ticks = 0;
         // Tick
@@ -728,7 +538,6 @@ class TickService
         // Resources
 
         # Max storage
-
         $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
         $acres = $this->landCalculator->getTotalLand($dominion);
         $maxPlatinumPerAcre = 10000;

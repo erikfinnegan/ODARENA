@@ -922,7 +922,8 @@ class InvadeActionService
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
 
         // Nothing to grab if invasion isn't successful :^)
-        if (!$isInvasionSuccessful) {
+        if (!$isInvasionSuccessful)
+        {
             return;
         }
 
@@ -1017,18 +1018,14 @@ class InvadeActionService
             $landGenerated = (int)round($landConquered);
             $landGained = ($landConquered + $landGenerated);
 
-            # No generated acres for in-realm invasions.
-            if($dominion->realm->id == $target->realm->id)
-            {
-                $landGenerated = 0;
-            }
-
+            # No generated acres for in-realm invasions
+            #   and
             # No generated acres for multiple invasions on the same target by
             # the same attacker within a time period defined in the function.
             # Currently three hours, as of writing.
             # $target = defender
             # $dominion = attacker
-            if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) > 0)
+            if(($dominion->realm->id == $target->realm->id) or ($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) > 0))
             {
                 $landGenerated = 0;
             }
@@ -1091,17 +1088,17 @@ class InvadeActionService
             $landGeneratedMultiplier += min($dominion->resource_tech, 1000000) / 1000000;
         }
 
-        $extraLandGenerated = round($acresLost * $landGeneratedMultiplier);
+        $extraLandGenerated = intval($landGenerated * (1 +$landGeneratedMultiplier));
 
         $this->invasionResult['attacker']['extraLandGenerated'][$dominion->race->home_land_type] = $extraLandGenerated;
 
         if(isset($landGainedPerLandType[$homeLandType]))
         {
-          $landGainedPerLandType[$homeLandType] += $extraLandGenerated;
+            $landGainedPerLandType[$homeLandType] += $extraLandGenerated;
         }
         else
         {
-          $landGainedPerLandType[$homeLandType] = $extraLandGenerated;
+            $landGainedPerLandType[$homeLandType] = $extraLandGenerated;
         }
 
         $this->landLost = $acresLost;
@@ -2011,7 +2008,6 @@ class InvadeActionService
           $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
 
           $this->queueService->queueResources(
-              #'returning',
               'invasion',
               $dominion,
               [$unitKey => $returningAmount],
