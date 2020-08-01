@@ -82,7 +82,7 @@
                                                     @endif
                                                 @endif
                                             @elseif ($gameEvent->type === 'barbarian_invasion')
-                                                <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-orange">{{ $gameEvent->source->name }}</span></a>
+                                                <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-yellow">{{ $gameEvent->source->name }}</span></a>
                                                 <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a>
                                                 {{ $gameEvent['data']['type'] }} a nearby {{ $gameEvent['data']['target'] }} and captured <span class="text-yellow text-bold">{{ number_format($gameEvent['data']['land']) }}</span> land.
                                             @elseif ($gameEvent->type === 'war_declared')

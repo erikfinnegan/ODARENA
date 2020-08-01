@@ -2,8 +2,6 @@
 
 namespace OpenDominion\Services\Dominion;
 
-
-
 use Log;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
@@ -36,6 +34,7 @@ class BarbarianService
         $this->queueService = app(QueueService::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
     }
+
 
     private function getDpaTarget(Dominion $dominion): int
     {
@@ -282,8 +281,6 @@ class BarbarianService
                     $dominion,
                     $unitsReturning
                 );
-
-
 
                $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered'];
                $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub'];
