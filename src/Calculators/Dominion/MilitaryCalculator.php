@@ -1441,13 +1441,13 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return int
      */
-    public function getRecentlyInvadedCountByAttacker(Dominion $dominion, Dominion $attacker, int $hours = 2): int
+    public function getRecentlyInvadedCountByAttacker(Dominion $defender, Dominion $attacker, int $hours = 2): int
     {
         $invasionEvents = GameEvent::query()
             ->where('created_at', '>=', now()->subHours($hours))
             ->where([
                 'target_type' => Dominion::class,
-                'target_id' => $dominion->id,
+                'target_id' => $defender->id,
                 'source_id' => $attacker->id,
                 'type' => 'invasion',
             ])
@@ -1782,6 +1782,79 @@ class MilitaryCalculator
         }
 
         return $hasReturningUnits;
+    }
+
+
+    /*
+    *   Land gains formula go here, because they break the game when they were in the Land Calculator.
+    *   (???)
+    *
+    */
+
+    public function getLandConquered(Dominion $attacker, Dominion $defender, float $landRatio): int
+    {
+        $rangeMultiplier = $landRatio/100;
+
+        $attackerLandWithRatioModifier = ($this->landCalculator->getTotalLand($attacker));
+
+        if ($landRatio < 55)
+        {
+            $landConquered = (0.304 * ($rangeMultiplier ** 2) - 0.227 * $rangeMultiplier + 0.048) * $attackerLandWithRatioModifier;
+        }
+        elseif ($landRatio < 75)
+        {
+            $landConquered = (0.154 * $rangeMultiplier - 0.069) * $attackerLandWithRatioModifier;
+        }
+        else
+        {
+            $landConquered = (0.129 * $rangeMultiplier - 0.048) * $attackerLandWithRatioModifier;
+        }
+
+        $landConquered *= 0.75;
+
+        return max(10, $landConquered);
+    }
+
+    public function checkDiscoverLand(Dominion $attacker, Dominion $defender, int $landConquered): int
+    {
+        $discverLand = 0;
+
+        if($this->getRecentlyInvadedCountByAttacker($defender,$attacker) == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function getExtraLandDiscovered(Dominion $attacker, bool $discoverLand, int $landConquered): int
+    {
+        $multiplier = 0;
+
+        if(!$discoverLand)
+        {
+            return 0;
+        }
+
+        // Add 25% to generated if Nomad spell Campaign is enabled.
+        if ($this->spellCalculator->isSpellActive($attacker, 'campaign'))
+        {
+            $multiplier += 0.25;
+        }
+
+        // Improvement: Cartography
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'cartography');
+
+        // Resource: XP (max +100% from 1,000,000 XP) – only for factions which cannot take advancements (Troll)
+        if($attacker->race->getPerkValue('cannot_tech'))
+        {
+            $multiplier += min($attacker->resource_tech, 1000000) / 1000000;
+        }
+
+        return $landConquered * $multiplier;
+
     }
 
 }

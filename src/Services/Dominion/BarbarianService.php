@@ -139,7 +139,7 @@ class BarbarianService
 
             if($dpaDelta > 0)
             {
-                echo "[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
+                #echo "[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
                 $dpToTrain = $dpaDelta * $land;
 
                 $specsRatio = rand(50,500)/1000;
@@ -150,14 +150,14 @@ class BarbarianService
             }
             else
             {
-                echo "[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
+                #echo "[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
             }
 
             $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
 
             if($opaDelta > 0)
             {
-                echo "[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+                #echo "[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
 
                 $opToTrain = $opaDelta * $land;
 
@@ -169,7 +169,7 @@ class BarbarianService
             }
             else
             {
-                echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+                #echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
             }
 
             foreach($units as $unit => $amountToTrain)
@@ -178,7 +178,7 @@ class BarbarianService
                 {
                     # Randomly train between 25% and 75% of the units needed.
                     $amountToTrain = max(1, intval($amountToTrain * (rand(250,750)/1000)));
-                    echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
+                    #echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     $data = [$unit => $amountToTrain];
                     $hours = 12;
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
@@ -198,19 +198,19 @@ class BarbarianService
             // Make sure we have the expected OPA to hit.
             if($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion))
             {
-                echo "[INVADE] Sufficient OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
+                #echo "[INVADE] Sufficient OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
 
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
                 $chanceOneIn = 1;#32 - (14 - min($currentDay, 14));
                 if(rand(1,$chanceOneIn) == 1)
                 {
                     $invade = true;
-                    echo "[INVADE] Invasion confirmed to take place.\n";
+                    #echo "[INVADE] Invasion confirmed to take place.\n";
                 }
             }
             else
             {
-                echo "[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
+                #echo "[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
             }
 
             if($invade === true)
@@ -245,17 +245,17 @@ class BarbarianService
 
                 # Remove the sent units from the dominion.
 
-                echo "Unit1 before sending: " . number_format($dominion->military_unit1) . "\n";
-                echo "Unit4 before sending: " . number_format($dominion->military_unit4) . "\n";
+                #echo "Unit1 before sending: " . number_format($dominion->military_unit1) . "\n";
+                #echo "Unit4 before sending: " . number_format($dominion->military_unit4) . "\n";
 
-                echo "Unit1 to send: " . number_format($unitsSent['military_unit1']) . "\n";
-                echo "Unit4 to send: " . number_format($unitsSent['military_unit4']) . "\n";
+                #echo "Unit1 to send: " . number_format($unitsSent['military_unit1']) . "\n";
+                #echo "Unit4 to send: " . number_format($unitsSent['military_unit4']) . "\n";
 
                 $dominion->military_unit1 -= $unitsSent['military_unit1'];
                 $dominion->military_unit4 -= $unitsSent['military_unit4'];
 
-                echo "Unit1 after sending: " . number_format($dominion->military_unit1) . "\n";
-                echo "Unit4 after sending: " . number_format($dominion->military_unit4) . "\n";
+                #echo "Unit1 after sending: " . number_format($dominion->military_unit1) . "\n";
+                #echo "Unit4 after sending: " . number_format($dominion->military_unit4) . "\n";
 
                 # Calculate losses by applying casualties ratio to units sent.
                 $unitsLost['military_unit1'] = $unitsSent['military_unit1'] * $casualtiesRatio;

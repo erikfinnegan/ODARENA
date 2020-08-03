@@ -549,15 +549,25 @@
                                     @else
 
                                         @php
-                                            $landChanges = array_merge($event->data['attacker']['landConquered'], $event->data['attacker']['landGenerated'])
+                                            $landChanges = array_merge($event->data['attacker']['landConquered'], $event->data['attacker']['landDiscovered'])
                                         @endphp
 
                                         @foreach($landChanges as $landType => $amount)
                                         <tr>
                                             <td>{{ ucwords($landType) }}</td>
-                                            <td>{{ $event->data['attacker']['landConquered'][$landType] }}</td>
+                                            <td>{{ number_format($event->data['attacker']['landConquered'][$landType]) }}</td>
                                             @if ($event->source->realm->id === $selectedDominion->realm->id)
-                                              <td>{{ $event->data['attacker']['landGenerated'][$landType] }}</td>
+                                              <td>
+                                                  @if(isset($event->data['attacker']['landDiscovered'][$landType]))
+                                                      @if(isset($event->data['attacker']['extraLandDiscovered'][$landType]))
+                                                          {{ number_format($event->data['attacker']['landDiscovered'][$landType]+$event->data['attacker']['extraLandDiscovered'][$landType]) }}
+                                                      @else
+                                                          {{ number_format($event->data['attacker']['landDiscovered'][$landType]) }}
+                                                      @endif
+                                                  @else
+                                                      &mdash;
+                                                  @endif
+                                              </td>
                                             @endif
                                         </tr>
                                         @endforeach

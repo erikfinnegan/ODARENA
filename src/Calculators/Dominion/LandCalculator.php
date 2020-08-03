@@ -24,6 +24,12 @@ class LandCalculator
     /** @var LandHelper */
     protected $landHelper;
 
+    /** @var SpellCalculator */
+    #protected $spellCalculator;
+
+    /** @var ImprovementCalculator */
+    #protected $improvementCalculator;
+
     /**
      * LandCalculator constructor.
      *
@@ -211,6 +217,5 @@ class LandCalculator
 
       return $networth;
   }
-
 
 }
