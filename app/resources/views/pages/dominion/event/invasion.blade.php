@@ -549,7 +549,11 @@
                                     @else
 
                                         @php
-                                            $landChanges = array_merge($event->data['attacker']['landConquered'], $event->data['attacker']['landDiscovered'])
+                                            if(isset($event->data['attacker']['landDiscovered']) and !isset($event->data['attacker']['landGenerated']))
+                                                $landChanges = array_merge($event->data['attacker']['landConquered'], $event->data['attacker']['landDiscovered']);
+                                            else
+                                                $landChanges = array_merge($event->data['attacker']['landConquered'], $event->data['attacker']['landGenerated']);
+
                                         @endphp
 
                                         @foreach($landChanges as $landType => $amount)
