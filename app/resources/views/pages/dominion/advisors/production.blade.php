@@ -167,7 +167,13 @@
                                         <td>Food Eaten:</td>
                                         <td>
                                             @if ($foodConsumption = $productionCalculator->getFoodConsumption($selectedDominion))
-                                                <span class="text-red">-{{ number_format($foodConsumption) }}</span>
+                                                @if($foodProduction > $foodConsumption)
+                                                    <span class="text-orange">
+                                                @else
+                                                    <span class="text-red">
+                                                @endif
+                                                -{{ number_format($foodConsumption) }}
+                                                </span>
                                             @else
                                                 <span class="text-green">+0</span>
                                             @endif
