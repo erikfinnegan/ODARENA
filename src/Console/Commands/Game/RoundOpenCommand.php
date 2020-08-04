@@ -10,7 +10,7 @@ use OpenDominion\Factories\RoundFactory;
 use OpenDominion\Models\RoundLeague;
 use RuntimeException;
 
-use OpenDominion\Services\BarbarianService;
+use OpenDominion\Services\Dominion\BarbarianService;
 
 class RoundOpenCommand extends Command implements CommandInterface
 {
