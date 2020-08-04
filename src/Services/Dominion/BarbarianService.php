@@ -402,7 +402,7 @@ class BarbarianService
             $rulerName = $user->display_name;
 
             # Get the corresponding dominion name.
-            $dominionName = $rulerName . "'s " . $tribeTypes[rand(1,count($tribeTypes)-1)];
+            $dominionName = $rulerName . "'s " . $tribeTypes[array_rand($tribeTypes, 1)];
 
             #echo "[BARBARIAN] Creating $dominionName.";
 
