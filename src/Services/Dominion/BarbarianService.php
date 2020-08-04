@@ -2,12 +2,19 @@
 
 namespace OpenDominion\Services\Dominion;
 
+Use DB;
 use Log;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
+use OpenDominion\Models\Round;
+use OpenDominion\Models\User;
+use OpenDominion\Models\Race;
+use OpenDominion\Models\Title;
+
+use OpenDominion\Factories\DominionFactory;
 
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -33,8 +40,8 @@ class BarbarianService
         $this->landCalculator = app(LandCalculator::class);
         $this->queueService = app(QueueService::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->dominionFactory = app(DominionFactory::class);
     }
-
 
     private function getDpaTarget(Dominion $dominion): int
     {
@@ -303,6 +310,105 @@ class BarbarianService
                 $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
             }
         }
+    }
+
+
+    public function createBarbarian(Round $round): void
+    {
+        # Get Bandit/Barbarian users.
+        $availableUsers = DB::table('users')
+            ->select('users.id')
+            ->where('users.email', 'like', 'bandit%@lykanthropos.com')
+            ->pluck('users.id');
+
+        $currentBarbarians = Dominion::query()
+            ->where('round_id', '=' , $round->id)
+            ->where('user_id', $availableUsers)
+            ->get();
+
+        dd($availableUsers, $currentBarbarians);
+
+
+
+        # Get Barbarian realm.
+        $realm = Realm::query()
+            ->where('alignment', '=' , 'npc')
+            ->where('round_id', '=' , $round->id)
+            ->first();
+
+        # Get Barbarian race.
+        $race = Race::query()
+            ->where('name', '=', 'Barbarian')
+            ->first();
+
+        # Get title.
+        $title = Title::query()
+            ->where('name', '=', 'Commander')
+            ->first();
+
+        # Barbarian tribe names
+        $tribeTypes = [
+          'Crew',
+          'Gang',
+          'Tribe',
+          'Band',
+          'Rovers',
+          'Raiders',
+          'Ruffians',
+          'Roughnecks',
+          'Mongrels',
+          'Clan',
+          'Scofflaws',
+          'Mob',
+          'Scoundrels',
+          'Rascals',
+          'Outlaws',
+          'Savages',
+          'Vandals',
+          'Coterie',
+          'Muggers',
+          'Brutes',
+          'Pillagers',
+          'Thieves',
+          'Crooks',
+          'Junta',
+          'Bruisers',
+          'Guerilla',
+          'Posse',
+          'Herd',
+          'Hooligans',
+          'Hoodlums',
+          'Rapscallions',
+          'Scallywags',
+          'Wretches',
+          'Knaves',
+          'Scamps',
+          'Miscreants',
+          'Misfits',
+          'Good-For-Nothings',
+          'Murderers',
+        ];
+
+        $user = User::findorfail($availableUsers[0]);
+
+        # Get ruler name.
+        $rulerName = $user->display_name;
+
+        # Get the corresponding dominion name.
+        $dominionName = $rulerName . "'s '" . $tribeTypes[rand(1,count($tribeTypes-1))];
+
+        $barbarian = $this->dominionFactory->create($user, $realm, $race, $title, $rulerName, $dominionName, NULL);
+
+        $this->newDominionEvent = GameEvent::create([
+            'round_id' => $barbarian->round_id,
+            'source_type' => Dominion::class,
+            'source_id' => $barbarian->id,
+            'target_type' => Realm::class,
+            'target_id' => $barbarian->realm_id,
+            'type' => 'new_dominion',
+            'data' => NULL,
+        ]);
+
     }
 
 }

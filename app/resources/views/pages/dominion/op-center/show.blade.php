@@ -47,7 +47,7 @@
                                         <td>
                                             {{ number_format($infoOp->data['land']) }}
                                             <span class="{{ $rangeCalculator->getDominionRangeSpanClass($selectedDominion, $dominion) }}">
-                                                ({{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}%)
+                                                ({{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 2) }}%)
                                             </span>
                                         </td>
                                     </tr>

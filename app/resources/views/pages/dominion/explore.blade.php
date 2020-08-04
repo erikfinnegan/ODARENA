@@ -47,7 +47,7 @@
                                         <td class="text-center">
                                             {{ number_format($selectedDominion->{'land_' . $landType}) }}
                                             <small>
-                                                ({{ number_format((($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) * 100), 1) }}%)
+                                                ({{ number_format((($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) * 100), 2) }}%)
                                             </small>
                                         </td>
                                         <td class="text-center">{{ number_format($landCalculator->getTotalBarrenLandByLandType($selectedDominion, $landType)) }}</td>

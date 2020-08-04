@@ -264,6 +264,8 @@ class TickService
                 ])
                 ->get();
 
+            $this->barbarianService->createBarbarian($round);
+
             foreach ($dominions as $dominion)
             {
                 # NPC Barbarian: invasion
