@@ -46,7 +46,10 @@ class BarbarianService
     private function getDpaTarget(Dominion $dominion): int
     {
         $constant = 25;
-        $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
+
+        $calculateDate = max($dominion->round->start_date, $dominion->created_at);
+
+        $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
         $dpa = $constant + ($hoursIntoTheRound * 0.40);
         return $dpa *= ($dominion->npc_modifier / 1000);
     }
@@ -401,7 +404,7 @@ class BarbarianService
             # Get the corresponding dominion name.
             $dominionName = $rulerName . "'s " . $tribeTypes[rand(1,count($tribeTypes)-1)];
 
-            echo "[BARBARIAN] Creating $dominionName.";
+            #echo "[BARBARIAN] Creating $dominionName.";
 
             $barbarian = $this->dominionFactory->create($user, $realm, $race, $title, $rulerName, $dominionName, NULL);
 
