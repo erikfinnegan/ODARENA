@@ -10,6 +10,8 @@ use OpenDominion\Factories\RoundFactory;
 use OpenDominion\Models\RoundLeague;
 use RuntimeException;
 
+use OpenDominion\Services\BarbarianService;
+
 class RoundOpenCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
@@ -32,6 +34,9 @@ class RoundOpenCommand extends Command implements CommandInterface
     /** @var RoundFactory */
     protected $roundFactory;
 
+    /** @var BarbarianService */
+    protected $barbarianService;
+
     /**
      * RoundOpenCommand constructor.
      *
@@ -40,12 +45,14 @@ class RoundOpenCommand extends Command implements CommandInterface
      */
     public function __construct(
         RoundFactory $roundFactory,
-        RealmFactory $realmFactory
+        RealmFactory $realmFactory,
+        BarbarianService $barbarianService
     ) {
         parent::__construct();
 
         $this->roundFactory = $roundFactory;
         $this->realmFactory = $realmFactory;
+        $this->barbarianService = $barbarianService;
     }
 
     /**
@@ -145,5 +152,12 @@ class RoundOpenCommand extends Command implements CommandInterface
             }
         }
         */
+
+        // Create 15 Barbarians.
+        for ($slot = 1; $slot <= 15; $slot++)
+        {
+            $this->barbarianService->createBarbarian($round);
+        }
+
     }
 }

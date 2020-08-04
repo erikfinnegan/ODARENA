@@ -1,4 +1,4 @@
-<?php
+cl<?php
 
 namespace OpenDominion\Services\Dominion;
 
@@ -264,7 +264,10 @@ class TickService
                 ])
                 ->get();
 
-            $this->barbarianService->createBarbarian($round);
+            if(rand(1,96) === 1)
+            {
+                $this->barbarianService->createBarbarian($round);              
+            }
 
             foreach ($dominions as $dominion)
             {
