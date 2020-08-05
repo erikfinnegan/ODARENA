@@ -134,25 +134,6 @@ class RoundOpenCommand extends Command implements CommandInterface
         $this->realmFactory->create($round, 'evil');
         $this->realmFactory->create($round, 'independent');
 
-        /*
-        if ($round->mixed_alignment) {
-            // Prepopulate round with 20 mixed realms
-            for ($i = 1; $i <= 20; $i++) {
-                $realm = $this->realmFactory->create($round);
-                $this->info("Realm {$realm->name} (#{$realm->number}) created in Round {$round->number} with an alignment of {$realm->alignment}");
-            }
-        } else {
-            // Prepopulate round with 5 good and 5 evil realms
-            for ($i = 1; $i <= 5; $i++) {
-                $realm = $this->realmFactory->create($round, 'good');
-                $this->info("Realm {$realm->name} (#{$realm->number}) created in Round {$round->number} with an alignment of {$realm->alignment}");
-
-                $realm = $this->realmFactory->create($round, 'evil');
-                $this->info("Realm {$realm->name} (#{$realm->number}) created in Round {$round->number} with an alignment of {$realm->alignment}");
-            }
-        }
-        */
-
         // Create 15 Barbarians.
         for ($slot = 1; $slot <= 15; $slot++)
         {

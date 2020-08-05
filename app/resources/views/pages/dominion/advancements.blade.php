@@ -9,7 +9,6 @@
 
     <div class="row">
 
-
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -58,7 +57,7 @@
                         </table>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Unlock</button>
+                        <button type="submit" class="btn btn-primary">Level Up</button>
                     </div>
                 </form>
             </div>
@@ -70,14 +69,15 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>You can unlock technological advancements by earning enough experience points (XP). You can XP by invading, exploring, and every tick from your prestige. The cost of each advancement level is shown below:</p>
+                    <p>You can level up advancements by earning enough experience points (XP). You earn XP by invading other dominions, exploring new lands, and every tick from your prestige.</p>
+                    <h4>Cost</h4>
                     <ul>
                     @for ($i = 1; $i <= 8; $i++)
                         <li>Level {{ $i }}: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $i)) }}</li>
                     @endfor
                     </ul>
                     <p>You have <b>{{ number_format($selectedDominion->resource_tech) }} XP</b>.</p>
-                    <p>Only the perks from the highest level advancement counts. if you have Level 1 and Level 2, only Level 2 counts.</p>
+                    <p>Only the perks from the highest-level advancement counts. if you have Level 1 and Level 2, only Level 2 counts.</p>
 
                 </div>
             </div>

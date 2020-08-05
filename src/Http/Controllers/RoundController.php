@@ -189,6 +189,8 @@ class RoundController extends AbstractController
                         }
                     }
                 }
+
+                /*
                 switch ($request->get('realm_type')) {
                     case 'random':
                         $realm = $realmFinderService->findRandomRealm($round, $race);
@@ -217,6 +219,9 @@ class RoundController extends AbstractController
                     default:
                         throw new LogicException('Unsupported realm type');
                 }
+                */
+
+                $realm = $realmFinderService->findRandomRealm($round, $race);
 
                 if (!$realm) {
                     $realm = $realmFactory->create($round, $race->alignment);

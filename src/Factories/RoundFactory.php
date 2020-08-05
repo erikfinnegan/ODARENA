@@ -69,11 +69,17 @@ class RoundFactory
      */
     protected function getLastRoundNumber(RoundLeague $league): int
     {
+        /*
         $round = Round::where('round_league_id', $league->id)
             ->orderBy('number', 'desc')
             ->first();
+        */
 
-        if ($round) {
+        $round = Round::query()
+            ->max('number');
+
+        if ($round)
+        {
             return $round->number;
         }
 

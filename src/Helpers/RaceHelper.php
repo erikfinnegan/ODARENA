@@ -248,7 +248,7 @@ class RaceHelper
                 break;
             case 'cannot_tech':
                 $negativeBenefit = true;
-                $description = 'Cannot unlock advancements';
+                $description = 'Cannot level up advancements';
                 $booleanValue = true;
                 break;
             case 'construction_cost_only_platinum':
@@ -544,7 +544,16 @@ class RaceHelper
 
     public function isBeginnerFriendly(Race $race)
     {
-        $beginnerFriendlyRaces = ['Human', 'Wood Elf', 'Nomad', 'Troll', 'Beastfolk', 'Merfolk'];
+        $beginnerFriendlyRaces = [
+            'Human',
+            #'Spirit',
+            'Wood Elf',
+            'Nomad',
+            'Troll',
+            #'Undead',
+            'Beastfolk',
+            'Merfolk'
+        ];
         return in_array($race->name, $beginnerFriendlyRaces);
     }
 
