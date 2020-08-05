@@ -11,6 +11,10 @@
                     <strong>{{ $race->name }}</strong>
                     &nbsp;&mdash;&nbsp;
                 <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
+                @if($roundsPlayed < 2 and $raceHelper->isBeginnerFriendly($race))
+                    &nbsp;&mdash;&nbsp;
+                    <span class="label label-success">Beginner Friendly</span>
+                @endif
                 </p>
                 <ul>
                   <li>Currently:&nbsp;
@@ -20,7 +24,7 @@
                   0
                   @endif
                   @if($race->getPerkValue('max_per_round') > 0)
-                  <br>(Max {{ $race->getPerkValue('max_per_round') }} per round)
+                  (Max {{ $race->getPerkValue('max_per_round') }} per round)
                   @endif
                   </li>
                 </ul>

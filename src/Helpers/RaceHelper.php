@@ -431,8 +431,6 @@ class RaceHelper
                 $booleanValue = false;
                 break;
 
-
-
             default:
                 return null;
         }
@@ -520,6 +518,7 @@ class RaceHelper
             'Dimensionalists' => 'Dimensionalist',
             'Dwarf' => 'Dwarven',
             'Elementals' => 'Elemental',
+            'Firewalker' => 'Firewalking',
             'Gnome' => 'Gnomish',
             'Imperial Gnome' => 'Imperial Gnomish',
             'Lux' => 'Lucene',
@@ -541,6 +540,12 @@ class RaceHelper
         {
             return $race->name;
         }
+    }
+
+    public function isBeginnerFriendly(Race $race)
+    {
+        $beginnerFriendlyRaces = ['Human', 'Wood Elf', 'Nomad', 'Troll', 'Beastfolk', 'Merfolk'];
+        return in_array($race->name, $beginnerFriendlyRaces);
     }
 
 }
