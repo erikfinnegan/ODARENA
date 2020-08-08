@@ -1188,7 +1188,6 @@ class MilitaryCalculator
           echo '</pre>';
           */
 
-
           if($timeNow >= $timeFrom and $timeNow < $timeTo)
           {
               $powerFromPerk = $powerFromTime;
@@ -1668,10 +1667,6 @@ class MilitaryCalculator
             }
         }
 
-      }
-      else
-      {
-        $multiplier = 0; # Remove this eventually.
       }
 
       return $multiplier;

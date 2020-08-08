@@ -474,7 +474,7 @@ class TrainActionService
               // Spell: Spawning Pool (increase units trained, for free)
               if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unit == 'military_unit1')
               {
-                $amountToTrainMultiplier = ($dominion->land_swamp / $this->landCalculator->getTotalLand($dominion)) / 2;
+                $amountToTrainMultiplier = ($dominion->land_swamp / $this->landCalculator->getTotalLand($dominion));
                 $amountToTrain = round($amountToTrain * (1 + $amountToTrainMultiplier));
               }
 

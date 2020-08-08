@@ -12,11 +12,11 @@ converting: 1
 
 perks:
   cannot_build_barracks: 1
-  construction_cost: 10
   platinum_production: -50
   max_population: 25
   can_only_abduct_own: 1
 units:
+
   - name: Spawn
     type:
       - living
@@ -33,6 +33,7 @@ units:
     perks:
       minimum_wpa_to_train: 0.50
       wins_into: 2
+
   - name: Slime
     type:
       - living
@@ -47,6 +48,7 @@ units:
       cannot_be_trained: 1
       wins_into: 3
       dies_into: 1
+
   - name: Goo
     type:
       - living
@@ -62,6 +64,7 @@ units:
       cannot_be_trained: 1
       wins_into: 4
       dies_into: 2
+
   - name: Ooze
     type:
       - living
@@ -71,8 +74,8 @@ units:
     cost:
       platinum: 0
     power:
-      offense: 5
-      defense: 2.5
+      offense: 6
+      defense: 3
     perks:
       cannot_be_trained: 1
       dies_into: 1
