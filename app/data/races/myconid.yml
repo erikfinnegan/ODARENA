@@ -8,10 +8,7 @@ description: >-
   <p>Whether they cannot or simply do not want to, Myconids do not invade other dominions nor do their stationary disposition allow them to explore. They only gain land by spreading their underground network through the Amanita.</p>
   <p>The mysterious Psilocybe creates a fog of war, obscuring the true magnitude of the Myconid network.</p>
   <hr />
-  <ul>
-  <li>Unique building: Mycelia - houses 30 and produces 4 food/tick.</li>
-  <li>Starts with 1,000 Mycelia.</li>
-  </ul>
+  <p>Unique building: Mycelia - houses 30 and produces 4 food/tick. Starts with 1,000 Mycelia.</p>
 home_land_type: forest
 playable: 1
 
