@@ -325,6 +325,8 @@ class PopulationCalculator
     {
         $spyUnitsPerForestHaven = 40;
 
+        $spyUnitsPerForestHaven *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts'));
+
         return ($dominion->building_forest_haven * $spyUnitsPerForestHaven);
     }
 
@@ -334,6 +336,8 @@ class PopulationCalculator
     public function getAvailableHousingFromWizardGuilds(Dominion $dominion): int
     {
         $wizUnitsPerWizardGuild = 40;
+
+        $wizUnitsPerWizardGuild *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers'));
 
         return ($dominion->building_wizard_guild * $wizUnitsPerWizardGuild);
     }
