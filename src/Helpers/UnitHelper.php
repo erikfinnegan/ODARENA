@@ -58,6 +58,7 @@ class UnitHelper
             'staggered_conversion' => 'Converts some enemy casualties into %2$s against dominions %1$s%%+ of your size.',
             'cannot_be_converted' => 'Unit cannot be converted.',
             'vampiric_conversion' => 'Spreads vampirism.',
+            #'vampiric_conversion' => 'Converts enemy casualties into %2$s.',
 
             // OP/DP related
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
@@ -355,6 +356,31 @@ class UnitHelper
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
 
+/*
+                // Special case for vampiric_conversion
+                if($perk->key === 'vampiric_conversion')
+                {
+                    foreach ($perkValue as $unitKilledStrength => $conversion)
+                    {
+                        $slot = 1;
+                        [$unitKilledStrength, $i] = $conversion;
+
+                        #dd($conversion);
+
+                        $unitSlotsToConvertTo = $slot;
+                        $unitNamesToConvertTo = [];
+
+                        $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
+                            return ($unit->slot === $slot);
+                        })->first();
+                        $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
+
+                        $perkValue[$unitKilledStrength][1] = generate_sentence_from_array($unitNamesToConvertTo);
+
+                        $slot++;
+                    }
+                }
+*/
                 // Special case for unit_production
                 if ($perk->key === 'unit_production')
                 {

@@ -229,7 +229,7 @@ class BuildingHelper
             'home' => ['Houses 30 people.'],
             'alchemy' => ['Produces 45 platinum/tick.'],
             'farm' => ['Produces 80 food/tick.'],
-            'smithy' => ['Reduces unit training costs by 2% per 1% owned','Maximum 40% at 20% owned.','Does not affect Gnome or Imperial Gnome ore costs.'],
+            'smithy' => ['Reduces unit platinum and ore training costs by 2% per 1% owned','Maximum 40% at 20% owned.','Does not affect Gnome or Imperial Gnome ore costs.'],
             'masonry' => ['Improvements increased by 2.75% per 1% owned.','Lightning bolt damage reduced by 0.75% per 1% owned.'],
             'ore_mine' => ['Produces 60 ore/tick.'],
             'gryphon_nest' => ['Offensive power increased by +2% per 1% owned.', 'Maximum +40% OP at 20% owned.'],

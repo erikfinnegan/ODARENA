@@ -9,7 +9,12 @@ description: >-
   <p>The largest and strongest fighters are morphed into the four-legged, two-armed, three-horned winged creature known only as Ravager.</p>
   <hr>
   <p><strong>Vampiric Conversion</strong></p>
-  <p>Vampires have a unique method for converting. Nobles convert to different unit types depending on the raw military power of the unit slain. Each Vampire can </p>
+  <p>Vampires have a unique method for converting. Nobles convert to different unit types depending on the raw military power of the unit slain.</p>
+  <ul>
+  <li>Weak units (up to and including 3 OP/DP) become Servants.</li>
+  <li>Average units (4 to 7 OP/DP) become Gnarls.</li>
+  <li>Strong units (greater than 7 OP/DP) become Ravagers.</li>
+  </ul>
 home_land_type: plain
 playable: 1
 
@@ -18,11 +23,10 @@ exploring : 1
 converting: 1
 
 perks:
-  max_population: 30
+  max_population: 40
   food_consumption: -80
   title_bonus: 100
   cannot_build_barracks: 1
-  min_rounds_played: 4
 units:
   - name: Servant
     type:
@@ -78,16 +82,15 @@ units:
     type:
       - living
       - sentient
-      - undying
     need_boat: true
     cost:
-      platinum: 1000
+      platinum: 900
     power:
-      offense: 3
+      offense: 4
       defense: 4
     perks:
       fewer_casualties: 50
-      vampiric_conversion: 3,6 # 0-3: unit1, 4-6: unit2,  6+: unit3
+      vampiric_conversion: 3,7 # <=3: unit1, >3 <=7: unit2, >7: unit3
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
       counts_as_spy_on_defense: 0.25

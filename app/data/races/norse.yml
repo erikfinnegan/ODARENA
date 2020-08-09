@@ -53,8 +53,8 @@ units:
       defense: 2
     perks:
       fewer_casualties: 25
-      defense_from_prestige: 300,6 # amount, max
-      offense_from_prestige: 300,6 # amount, max
+      defense_from_prestige: 250,6 # amount, max
+      offense_from_prestige: 250,6 # amount, max
   - name: Einherjar
     type:
       - living
