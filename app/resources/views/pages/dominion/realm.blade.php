@@ -88,11 +88,13 @@
                                             @if ($dominion->id === $selectedDominion->id)
                                                 <b>{{ $dominion->name }}</b>
                                             @else
+                                                <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }}">
                                                 @if ($isOwnRealm)
-                                                    <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }}">{{ $dominion->name }}</span>
+                                                    {{ $dominion->name }}
                                                 @else
                                                     <a href="{{ route('dominion.op-center.show', $dominion) }}">{{ $dominion->name }}</a>
                                                 @endif
+                                                </span>
                                             @endif
 
                                             @if ($isOwnRealm && $dominion->round->isActive() && $dominion->user->isOnline() and $dominion->id !== $selectedDominion->id)

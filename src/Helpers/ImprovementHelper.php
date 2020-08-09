@@ -62,7 +62,6 @@ class ImprovementHelper
     public function getImprovementRatingString(string $improvementType): string
     {
         $ratingStrings = [
-            #'science' => '+%s%% platinum production',
             'markets' => '+%s%% platinum production',
             'keep' => '+%s%% max population',
             'towers' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells',
@@ -87,7 +86,6 @@ class ImprovementHelper
     public function getImprovementHelpString(string $improvementType, Dominion $dominion): string
     {
         $helpStrings = [
-            #'science' => 'Improvements to science increase your platinum production.<br><br>Max +20% platinum production.',
             'markets' => 'Markets increase your platinum production.<br><br>Max +',
             'keep' => 'Keep increases population housing of barren land and all buildings except for Barracks.<br><br>Max +',
             'towers' => 'Towers increase your wizard power, mana production, reduce damage from offensive spells, and increase Wizard Guild housing.<br><br>Max +',
