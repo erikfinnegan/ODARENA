@@ -1,7 +1,7 @@
 name: Barbarian
 alignment: npc
 description: >-
-  <p>A lose gathering of roving, thieving crooks and scoundrels, enacting its anarchic rule over land not taken by the Empire or Commonwealth.</p>
+  <p>Barbarians have been robbing, murdering, and pillaging the lands for as long as there has been recorded history.</p>
 home_land_type: hill
 playable: 0
 
