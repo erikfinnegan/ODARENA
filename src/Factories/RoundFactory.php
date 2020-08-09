@@ -29,7 +29,7 @@ class RoundFactory
         int $playersPerRace,
         bool $mixedAlignment
     ): Round {
-        $number = ($this->getLastRoundNumber($league) + 1);
+        $number = $this->getLastRoundNumber() + 1;
         $endDate = (clone $startDate)->addDays(static::ROUND_DURATION_IN_DAYS);
         if($number % 2 == 0)
         {
@@ -67,22 +67,11 @@ class RoundFactory
      * @param RoundLeague $league
      * @return int
      */
-    protected function getLastRoundNumber(RoundLeague $league): int
+    protected function getLastRoundNumber(): int
     {
-        /*
-        $round = Round::where('round_league_id', $league->id)
-            ->orderBy('number', 'desc')
-            ->first();
-        */
 
-        $round = Round::query()
-            ->max('number');
+        $round = Round::query()->max('number');
+        return $round ? $round : 0;
 
-        if ($round)
-        {
-            return $round->number;
-        }
-
-        return 0;
     }
 }
