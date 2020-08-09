@@ -545,14 +545,16 @@ class RaceHelper
     public function isBeginnerFriendly(Race $race)
     {
         $beginnerFriendlyRaces = [
+            'Halfling',
             'Human',
             #'Spirit',
             'Wood Elf',
             'Nomad',
             'Troll',
-            #'Undead',
+            'Undead',
             'Beastfolk',
-            'Merfolk'
+            'Merfolk',
+            'Simian'
         ];
         return in_array($race->name, $beginnerFriendlyRaces);
     }
