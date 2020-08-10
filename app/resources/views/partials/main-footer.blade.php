@@ -15,9 +15,9 @@
 
       @elseif (isset($selectedDominion) and !$selectedDominion->round->hasStarted())
           @php
-              $diff = $selectedDominion->round->start_date->subDays(1)->diff(now());
+              $diff = $selectedDominion->round->start_date->diff(now());
               $hours = $diff->h;
-              $hours = $hours + ($diff->days*24);
+              $hours += ($diff->days*24);
           @endphp
 
           Round <strong>{{ $selectedDominion->round->number }}</strong> starts in <strong>{{ number_format($hours) . ' ' . str_plural('hour', $hours) }}</strong>.
