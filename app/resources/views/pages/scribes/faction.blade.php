@@ -182,10 +182,10 @@
                                         {{ $unit->name }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $unit->power_offense }}
+                                        {{ number_format($unit->power_offense,2) }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $unit->power_defense }}
+                                        {{ number_format($unit->power_defense,2) }}
                                     </td>
                                     <td>
                                         {!! $unitHelper->getUnitHelpString("unit{$unit->slot}", $race) !!}
