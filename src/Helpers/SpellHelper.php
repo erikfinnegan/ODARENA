@@ -694,6 +694,7 @@ class SpellHelper
                 'percentage' => 5,
                 'races' => collect(['Lux']),
             ],
+            /*
             [
                 'name' => 'Proselytize',
                 'description' => 'Converts some of targets units to join you',
@@ -703,6 +704,7 @@ class SpellHelper
                 'percentage' => 5,
                 'races' => collect(['Cult']),
             ],
+            */
             [
                 'name' => 'Solar Eclipse',
                 'description' => '-20% food production, -20% mana production',
