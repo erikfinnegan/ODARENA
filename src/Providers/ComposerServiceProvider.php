@@ -16,6 +16,7 @@ use OpenDominion\Services\Dominion\SelectorService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
+use Carbon\Carbon;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
@@ -78,9 +79,21 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $view->with('techCalculator', $techCalculator);
         });
 
-        view()->composer('partials.main-footer', function (View $view) {
+        view()->composer('partials.main-footer', function (View $view)
+        {
+            $selectorService = app(SelectorService::class);
+            if($dominion = $selectorService->getUserSelectedDominion())
+            {
+                $hoursUntilRoundStarts = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
+            }
+            else
+            {
+                $hoursUntilRoundStarts = 0;
+            }
+
             $version = (Cache::has('version-html') ? Cache::get('version-html') : 'unknown');
             $view->with('version', $version);
+            $view->with('hoursUntilRoundStarts', $hoursUntilRoundStarts);
         });
 
         view()->composer('partials.notification-nav', function (View $view) {

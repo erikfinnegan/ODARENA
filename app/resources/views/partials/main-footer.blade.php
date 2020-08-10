@@ -14,13 +14,8 @@
           Day <strong>{{ $roundDay }}</strong>/{{ $roundDurationInDays }}, hour <strong>{{ $currentHour }}</strong>, tick <strong>{{ $currentTick }}</strong>.
 
       @elseif (isset($selectedDominion) and !$selectedDominion->round->hasStarted())
-          @php
-              $diff = $selectedDominion->round->start_date->diff(now());
-              $hours = $diff->h;
-              $hours += ($diff->days*24);
-          @endphp
 
-          Round <strong>{{ $selectedDominion->round->number }}</strong> starts in <strong>{{ number_format($hours) . ' ' . str_plural('hour', $hours) }}</strong>.
+          Round <strong>{{ $selectedDominion->round->number }}</strong> starts in <strong>{{ number_format($hoursUntilRoundStarts) . ' ' . str_plural('hour', $hoursUntilRoundStarts) }}</strong>.
 
       @endif
       <br>
