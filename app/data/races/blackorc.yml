@@ -1,7 +1,6 @@
 name: Black Orc
 alignment: evil
-description: >-
-  <p>Part of The Empress' elite of distinguished warriors, the Black Orc &mdash; so called for their black armour and black weapons forged with moonsoot &mdash; are the preeminent infantry of the Empire.</p>
+description:
 home_land_type: forest
 playable: 1
 

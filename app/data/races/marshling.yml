@@ -1,8 +1,6 @@
 name: Marshling
 alignment: independent
-description: >-
-  <p>Bubbling and oozing from the deepest, dankest swamps, Marshlings live a cyclical life. They start their lives as bogpoles, which when fed a diet of food and lumber can, with the touch of magic, turn into spawns.</p>
-  <p>If sent out to attack others and conquer land, Spawn can grow into Slime, which can grow into Goo, which can grow into Ooze, which upon death comes back as a Spawn.</p>
+description:
 home_land_type: swamp
 playable: 1
 

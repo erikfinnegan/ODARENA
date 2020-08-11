@@ -1,10 +1,6 @@
 name: Demon
 alignment: evil
 description: >-
-  <p>The Empress has struck a deal with an ancient evil and allied the Empire with Demonic beasts.</p>
-  <p>Demonic loyalty is always capricious, but as long as there are souls to collect and blood to bathe in, the Demons will follow the Empress.</p>
-  <p>The soul of every enemy unit slain and all blood spilled in battle is collected.</p>
-  <hr />
   <p>Each enemy unit killed yields 1 soul, 1/3 gallons of blood per 1 raw military power (DP if killed on defense, OP if killed on offense), and 4 bushels of food.</p>
   <p>Each sacrificed peasant yields 1 soul, 1.5 gallons of blood, and 2 bushels of food.</p>
   <p>Demon starts with 1 Archdemon and 140,000 gallons of blood.</p>

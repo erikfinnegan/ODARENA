@@ -9,11 +9,24 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-12 col-md-9">
-                    {{-- Description --}}
-                    <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Description</h4>
-                    <em>
-                        {!! $race->description !!}
-                    </em>
+
+                    <div class="row">
+                        <div class="col-md-12 col-md-9">
+
+                        @if($race->description)
+                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Important</h4>
+                            {!! $race->description !!}
+                        @endif
+
+                        @php
+                            $factionUrlName = str_replace(' ','-',strtolower($race->name));
+                            $alignments = ['good' => 'commonwealth', 'evil' => 'empire', 'independent' => 'independent', 'npc' => 'barbarian-horde'];
+                            $alignment = $alignments[$race->alignment];
+                        @endphp
+                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0"> Chronicles</h4>
+                            <p><a href="https://lounge.odarena.com/chronicles/factions/{{ $alignment }}/{{ $factionUrlName }}/" target="_blank"><i class="fa fa-book"></i> Click here to read the history and lore of {{ $race->name }} in the Chronicles.</a></p>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-12 col-md-3">

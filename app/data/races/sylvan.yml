@@ -1,10 +1,6 @@
 name: Sylvan
 alignment: good
-description: >-
-  <p>Sylvan are beings of the forest. They consider it their duty to maintain the forest and take care of all that lives there.</p>
-  <p>Trespassers are dealt with swiftly by the Leshy and Spriggan
-  <p>Those found destroying forest under Sylvan protection end up regretting it.</p>
-  <p>Their affinity for nature makes them excellent at exploration, and highly proficient spellcasters.</p>
+description:
 home_land_type: forest
 playable: 1
 

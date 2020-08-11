@@ -1,9 +1,6 @@
 name: Orc
 alignment: evil
-description: >-
-  <p>Orcs are proud warriors with a strong sense of honor. The more they fight, the stronger they become.</p>
-  <p>With the emergence of the Empire, their reputation as brutish, uncivilized warriors has changed under the visionary leadership of the Orcish Empress.</p>
-  <p>They form the backbone of the Imperial army but consider themselves equal, at least to most. Many look with envy at the elite that make it into the Black Orc battalions.</p>
+description:
 home_land_type: forest
 playable: 1
 

@@ -1,8 +1,6 @@
 name: Spirit
 alignment: good
-description: >-
-  <p>Spirits have always surrounded the world.</p>
-  <p>Distraught by the scourge of the Empire, these Spirits have rejoined the corporeal world to keep the pure pure.</p>
+description:
 home_land_type: water
 playable: 1
 

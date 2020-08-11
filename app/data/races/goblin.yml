@@ -1,8 +1,6 @@
 name: Goblin
 alignment: evil
-description: >-
-  <p>Greedy and reclusive, the Goblins are small in stature but great in number. They live at the foot of the mountains, often found raiding mines. Nothing triggers their bloodlust like the thought of laying their hands on a dead enemy's wealths.</p>
-  <p>Goblin populations can grow quickly out of control if left unchecked, and these short, green and ugly wretches have been known to completely ransack well-fortified castles in their relentless and violent pursuit of gems, gems and more gems.</p>
+description:
 home_land_type: hill
 playable: 1
 

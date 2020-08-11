@@ -1,9 +1,6 @@
 name: Icekin
 alignment: evil
-description: >-
-  <p>Slow, lumbering elementals of frost and stone, Icekin were long hidden behind blizzards and enormous snow-tipped mountains.</p>
-  <p>After long wars with the Snow Elves and failing to put out fires brought on by lava in deep mines which ultimately brought the Firewalkers back to live, Icekin have joined the Empire as among the most powerful wizards in the Imperial Academy of Dark Arts.</p>
-  <p>While Ice Elementals do most of the fighting, it is the Frost Mages and Snow Witches which are in control of the Icekin domains.</p>
+description:
 home_land_type: mountain
 playable: 1
 

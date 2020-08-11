@@ -1,9 +1,6 @@
 name: Norse
 alignment: good
-description: >-
-  <p>Rarely before have the Norse ventured south for anything other than trade.</p>
-  <p>The emergence of the Empire has forced even these northern stalwarts to pick a side, joining the Commonwealth.</p>
-  <p>They are fierce warriors, into death and beyond.</p>
+description:
 home_land_type: plain
 playable: 1
 

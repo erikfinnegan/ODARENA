@@ -1,9 +1,6 @@
 name: Growth
 alignment: independent
 description: >-
-  <p>The growth is believed to originate from ancient Nox burial pits, deep in the swamp lands.</p>
-  <p>Attempts at communication have failed. It shows no signs of sentience. It simply grows and grows.</p>
-  <hr />
   <ul>
   <li>Unique building: Tissue - houses 160 and produces 2 food/tick. Starts with 1,000 Tissue.</li>
   <li>Unique improvement: Tissue - increases population and food production.</li>

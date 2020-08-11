@@ -153,7 +153,7 @@ class UnitHelper
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
 
             'dies_into' => 'Upon death, returns as %s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
-            'wins_into' => 'Upon victory, returns as %s.',
+            'wins_into' => 'Upon successul invasion, returns as %s.',
 
             // Resource related
             'ore_production' => 'Each unit produces %s units of ore per tick.',

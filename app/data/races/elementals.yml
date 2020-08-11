@@ -1,9 +1,6 @@
 name: Elementals
 alignment: good
-description: >-
-  <p>The Elementals are beings forged and by arcane forces from the elements: Fire, Water, Earth, and Air.</p>
-  <p>Each unit is unique but they work best together and form Aether.</p>
-  <p>Disturbed by the unnatural movements of the Empire, the Elementals have sided with the Commonwealth to restore what they believe to be natural balance.</p>
+description:
 home_land_type: water
 playable: 1
 

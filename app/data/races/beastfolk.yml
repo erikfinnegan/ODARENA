@@ -1,10 +1,6 @@
 name: Beastfolk
 alignment: independent
-description: >-
-  <p>Arcane magic has given life to the beasts of the forest, which have been seen building villages in the forests of the Commonwealth.</p>
-  <p>Beastfolk take shelter in the forests and excel at fighting on the open plains.</p>
-  <p>Malcontent with their treatment as a part of the Commonwealth, the Beastfolk have broken their treaty and decided to be as they feel best: independent.</p>
-  <hr />
+description:
   <p>Instead of traditional improvements, Beastfolk use natural resources (land types) to strengthen their dominion.</p>
   <ul>
   <li>Platinum production increased by 0.75 x Mountains %.</li>

@@ -1,8 +1,6 @@
 name: Imperial Gnome
 alignment: evil
-description: >-
-  <p>Distressed by the failed attempt to create an Orcish Navy, the Empress exploited the largest weakness found in Gnomes- their greed.</p>
-  <p>By promising them gems and ore, the Empress convinced thousands of Commonwealth Gnomes to join the Empire and build war machines.</p>
+description:
 home_land_type: mountain
 playable: 1
 

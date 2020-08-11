@@ -1,11 +1,6 @@
 name: Artillery
 alignment: evil
-description: >-
-  <p>Designed by the Imperial Gnomes but operated by the more expendable and numerous trolls, the Artillery is the Empire's response to the Snow Elf and its powerful Trebuchets.</p>
-  <p>Enormous cannons are built and set into the ground, from where they fire cannonballs at the target. Each Cannon has two barrels: a smaller one can fit a Cannonball and a larger one which can fit a Burning Fireball.</p>
-  <hr />
-  <p>Each Bombardier can operate up to twenty-five Cannons.</p>
-  <p>Cannonballs are destroyed upon impact.</p>
+description:
 home_land_type: hill
 playable: 1
 

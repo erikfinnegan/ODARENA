@@ -1,11 +1,6 @@
 name: Troll
 alignment: evil
-description: >-
-  <p>Legends about Trolls go as far back as the oldest tales of Odarena. They are depicted as foul, brutish, and dull.</p>
-  <p>Many stories tell of Trolls eating unsuspecting wanderers who have wandered too far into the darkest depths of the forests at the foot of the Great Mountains.</p>
-  <p>Trolls have grown to be the largest and strongest land dwellers, with skin and muscles as thick as swords. While they can be overrun and driven away, only the strongest warriors can actually kill them.</p>
-  <p>Often assumed to be stupid in human, dwarven, and elven lore, Trolls have instead been embraced by the Empire for their simple sovereignty and tremendous power.</p>
-  <p>Enormously strong and enthralled by the shiine, Trolls are formidable at mining for gems. Mountain Trolls can sometimes be seen wearing Ironskin, a type of armour made of rock and root.</p>
+description:
 home_land_type: forest
 playable: 1
 

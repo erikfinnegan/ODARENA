@@ -1,8 +1,6 @@
 name: Monster
 alignment: evil
 description: >-
-  <p>Awakened from the Great Divide, the Monster is the commonly used term used to refer to an ancient gargantuan beast under magical control by the Empire.</p>
-  <p>A caretaker is appointed to administer the Monster, which consists of an ever-changing configuration of claws, muscles, limbs, and heads, forged and fused from organic matter, rocks, and trees.</p>
   <p>If the Monster is present, the Governor is tasked with setting a contribution rate of 0% to 10%. All Imperial dominions must contribute this amount of their food, ore, and lumber stockpile every tick to the Monster. The caretaker of the Monster may exchange resources at a favourable rate.</p>
 home_land_type: plain
 playable: 1

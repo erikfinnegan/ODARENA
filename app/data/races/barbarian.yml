@@ -1,7 +1,6 @@
 name: Barbarian
 alignment: npc
-description: >-
-  <p>Barbarians have been robbing, murdering, and pillaging the lands for as long as there has been recorded history.</p>
+description:
 home_land_type: hill
 playable: 0
 

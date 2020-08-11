@@ -1,9 +1,6 @@
 name: Kobold
 alignment: independent
-description: >-
-  <p>Kobold are small in stature but great in number. They fight harder when they perceive a numeric advantage.</p>
-  <p>Despite their small size, their thick leathery hide provide a natural armour and the fur keeps them warm in the hilltops at winter where they hunt. Although sometimes dismissed as vermin, they have more in common with lizards. Although no reliable sources exist, Kobolds like to tell legends about how they are distant cousins to the dragons.</p>
-
+description:
 home_land_type: hill
 playable: 1
 

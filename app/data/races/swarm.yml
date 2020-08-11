@@ -3,10 +3,7 @@
 
 name: Swarm
 alignment: good
-description: >-
-  <p>Living entirely underground, the Swarm are a civilisation of intelligent and mostly benevolent being that take up dwelling in vast tunnels.</p>
-  <p>Every swarmling is born as a larva ("peasant"), which can be turned into cocoon ("draftee") and then into Scarabs, Burrowers, Arachnids, and the fierce Naga.</p>
-  <p>They dig tunnels underground and attack from below, preferring to assault barren land or unfinished buildings.</p>
+description:
 home_land_type: plain
 playable: 1
 

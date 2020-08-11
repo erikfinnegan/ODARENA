@@ -1,12 +1,6 @@
 name: Cult
 alignment: independent
-description: >-
-  <p>The Cult arose </p>
-  <p>The Cult grows controlling the minds by magic.</p>
-  <hr />
-  <p>If successful, the Proselytize spell will convert units to Thralls. It takes 6 ticks for the Thralls to arrive.</p>
-  <ul>
-  <li>Draftees and units
+description:
 home_land_type: hill
 playable: 0
 
