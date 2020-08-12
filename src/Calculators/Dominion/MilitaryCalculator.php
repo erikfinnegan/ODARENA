@@ -1188,14 +1188,14 @@ class MilitaryCalculator
               $powerFromPerk = 0;
               #echo("<pre>[INACTIVE]\t" . $unit->name . "\t+" .  $powerFromTime . ' ' . $powerType . ' from ' . $timeFrom . ' to ' . $timeTo . ' and it is ' . $timeNow . ' now.</pre>');
           }
-
+/*
           echo '<pre>';
           echo "[UNIT] $unit->name (+$powerFromTime $powerType)" . ($powerFromPerk ? '[ACTIVE]' : '[INACTIVE]'). "\n";
           echo "From:\t$timeFrom \n";
           echo "To:\t$timeTo \n";
           echo "Now:\t$timeNow \n";
           echo '</pre>';
-
+*/
           return $powerFromPerk;
       }
 
