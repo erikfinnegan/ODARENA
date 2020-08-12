@@ -36,6 +36,7 @@ class InvadeCalculationService
         'home_dpa' => 0,
         'max_op' => 0,
         'min_dp' => 0,
+        'land_conquered' => 0,
         'land_ratio' => 0.5,
         'spell_bonus' => null,
         'units_sent' => 0,
@@ -144,6 +145,8 @@ class InvadeCalculationService
 
         $this->calculationResult['max_op'] = $this->calculationResult['home_defense'] * (4/3);
         $this->calculationResult['min_dp'] = $this->calculationResult['away_offense'] / 3;
+
+        $this->calculationResult['land_conquered'] = $this->militaryCalculator->getLandConquered($dominion, $target, $landRatio*100);
 
         return $this->calculationResult;
     }

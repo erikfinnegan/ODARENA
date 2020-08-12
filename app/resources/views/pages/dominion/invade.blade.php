@@ -320,6 +320,10 @@
                                                 </td>
                                                 <td id="invasion-force-max-op" data-amount="0">0</td>
                                             </tr>
+                                            <tr>
+                                                <td>Land conquered:</td>
+                                                <td id="invasion-land-conquered" data-amount="0">0</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -492,6 +496,7 @@
             var homeForcesBoatsElement = $('#home-forces-boats');
             var homeForcesMinDPElement = $('#home-forces-min-dp');
             var homeForcesDPAElement = $('#home-forces-dpa');
+            var invasionLandConqueredElement = $('#invasion-land-conquered');
 
             var invasionForceCountElement = $('#invasion-total-units');
 
@@ -541,6 +546,7 @@
                             invasionForceDPElement.data('amount', response.away_defense);
                             invasionForceBoatsElement.data('amount', response.boats_needed);
                             invasionForceMaxOPElement.data('amount', response.max_op);
+                            invasionLandConqueredElement.data('amount', response.land_conquered);
                             homeForcesOPElement.data('amount', response.home_offense);
                             homeForcesDPElement.data('amount', response.home_defense);
                             homeForcesBoatsElement.data('amount', response.boats_remaining);
@@ -552,6 +558,7 @@
                             invasionForceDPElement.text(response.away_defense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             invasionForceBoatsElement.text(response.boats_needed.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             invasionForceMaxOPElement.text(response.max_op.toLocaleString(undefined, {maximumFractionDigits: 2}));
+                            invasionLandConqueredElement.text(response.land_conquered.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesOPElement.text(response.home_offense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPElement.text(response.home_defense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesBoatsElement.text(response.boats_remaining.toLocaleString(undefined, {maximumFractionDigits: 2}));
