@@ -38,9 +38,6 @@
                               @endfor
                           </tr>
                       </thead>
-                      @php
-                          $techs = $techHelper->getTechs();
-                      @endphp
                       @foreach ($techs as $tech)
                           @if($tech->level == 1)
                               <tr>

@@ -13,6 +13,7 @@ use OpenDominion\Models\Race;
 use OpenDominion\Models\Title;
 use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Helpers\TechHelper;
+use OpenDominion\Models\Tech;
 
 class ScribesController extends AbstractController
 {
@@ -97,7 +98,8 @@ class ScribesController extends AbstractController
     public function getAdvancements()
     {
         return view('pages.scribes.advancements', [
-            'techHelper' => app(TechHelper::class)
+            'techs' => Tech::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
+            'techHelper' => app(TechHelper::class),
         ]);
     }
 
