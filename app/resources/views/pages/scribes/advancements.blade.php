@@ -9,12 +9,9 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-12">
-                    <p>The tech tree is a map of advancements that your dominion can obtain as you grow in size. You can obtain technical advancements by reaching appropriate levels of research points.</p>
-                    <p>The costs of each advancement will scale with your land size, and has a minimum of 3780 points. Some advancements require others before you can select them. Please consult the tech tree below.</p>
-                    <p>If you pick a tech that has the same, but higher, bonus as another tech, as several do, only the highest technology bonus counts. It overrides the lesser bonus (they do not stack).</p>
-                    <em>
-                        <p>More information can be found on the <a href="https://wiki.opendominion.net/wiki/Teching">wiki</a>.</p>
-                    </em>
+                    <p>You can level up Advancements in your dominion by spending XP. You earn XP every tick based on your prestige. You can also earn XP from invasions, exploring, and performing certain spy ops and casting certain spells on other dominions.</p>
+                    <p>The cost of levelling up Advancements is based on your land size.</p>
+                    <p>Each Advancement has eight levels. For every level, the cost is increased by 10%.</p>
                 </div>
             </div>
         </div>
