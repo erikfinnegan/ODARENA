@@ -12,6 +12,7 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Title;
 use OpenDominion\Helpers\TitleHelper;
+use OpenDominion\Helpers\TechHelper;
 
 class ScribesController extends AbstractController
 {
@@ -90,6 +91,13 @@ class ScribesController extends AbstractController
         return view('pages.scribes.titles', [
             'titles' => $titles,
             'titleHelper' => app(TitleHelper::class),
+        ]);
+    }
+
+    public function getAdvancements()
+    {
+        return view('pages.scribes.advancements', [
+            'techHelper' => app(TechHelper::class)
         ]);
     }
 

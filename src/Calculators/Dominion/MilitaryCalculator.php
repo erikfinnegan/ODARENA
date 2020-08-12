@@ -1181,12 +1181,10 @@ class MilitaryCalculator
           if($timeNow >= $timeFrom and $timeNow < $timeTo)
           {
               $powerFromPerk = $powerFromTime;
-              #echo("<pre>[ACTIVE]\t" . $unit->name . "\t+" .  $powerFromTime . ' ' . $powerType . ' from ' . $timeFrom . ' to ' . $timeTo . ' and it is ' . $timeNow . ' now.</pre>');
           }
           else
           {
               $powerFromPerk = 0;
-              #echo("<pre>[INACTIVE]\t" . $unit->name . "\t+" .  $powerFromTime . ' ' . $powerType . ' from ' . $timeFrom . ' to ' . $timeTo . ' and it is ' . $timeNow . ' now.</pre>');
           }
 /*
           echo '<pre>';

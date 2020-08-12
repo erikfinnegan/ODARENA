@@ -17,7 +17,7 @@
                 <form action="{{ route('dominion.advancements') }}" method="post" role="form">
                     @csrf
                     <div class="box-body table-responsive no-padding">
-                        <table class="table">
+                        <table class="table table-striped">
                             <colgroup>
                                 <col width="200">
                             </colgroup>
