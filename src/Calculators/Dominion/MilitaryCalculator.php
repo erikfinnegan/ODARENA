@@ -1166,16 +1166,15 @@ class MilitaryCalculator
 
           $hourFrom = $timePerkData[0];
           $hourTo = $timePerkData[1];
-          $hourNow = date('H');
 
           $timeFrom = Carbon::createFromFormat('H:i:s',$hourFrom.':00:00');
           $timeTo = Carbon::createFromFormat('H:i:s',$hourTo.':00:00');
-          $timeNow = Carbon::createFromFormat('H:i:s',$hourNow.':00:00');
+          $timeNow = Carbon::createFromFormat('H:i:s',now()->hour.':00:00');
 
           # If timeFrom > timeTo
           if(Carbon::createFromFormat('H:i:s',$hourFrom.':00:00') > Carbon::createFromFormat('H:i:s',$hourTo.':00:00'))
           {
-              $timeFrom->subDay();
+              $timeTo->addDay();
           }
 
           if($timeNow >= $timeFrom and $timeNow < $timeTo)
@@ -1187,6 +1186,23 @@ class MilitaryCalculator
               $powerFromPerk = 0;
           }
 /*
+          echo '<pre>';
+          echo "[UNIT] $unit->name (+$powerFromTime $powerType)" . ($powerFromPerk ? '[ACTIVE]' : '[INACTIVE]'). "\n";
+          echo "From:\t$timeFrom \n";
+          echo "To:\t$timeTo \n";
+          echo "Now:\t$timeNow \n";
+          echo '</pre>';
+
+/*
+          if(now()->hour >= $hourFrom and now()->hour < $hourTo)
+          {
+              $powerFromPerk = $powerFromTime;
+          }
+          else
+          {
+              $powerFromPerk = 0;
+          }
+
           echo '<pre>';
           echo "[UNIT] $unit->name (+$powerFromTime $powerType)" . ($powerFromPerk ? '[ACTIVE]' : '[INACTIVE]'). "\n";
           echo "From:\t$timeFrom \n";
