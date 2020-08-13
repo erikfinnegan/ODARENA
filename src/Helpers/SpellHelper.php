@@ -136,6 +136,36 @@ class SpellHelper
         {
             $racialSpell = $this->getRacialSelfSpell($dominion);
             $spells->push($racialSpell);
+
+            if($dominion->race->name === 'Cult')
+            {
+                $cultSpells = collect([
+                    [
+                        'name' => 'Persuasion',
+                        'description' => 'Captured spies and espionage units join the Cult as spies.',
+                        'key' => 'persuasion',
+                        'mana_cost' => 3,
+                        'duration' => 12*4,
+                    ],
+                    [
+                        'name' => 'Cogency',
+                        'description' => 'Wizardry casualties are saved and join the Cult as wizards.',
+                        'key' => 'cogency',
+                        'mana_cost' => 3,
+                        'duration' => 12*4,
+                    ],
+                    [
+                        'name' => 'Menticide',
+                        'description' => 'Mind Controlled units join the Cult permanently as Initiates.',
+                        'key' => 'menticide',
+                        'mana_cost' => 4,
+                        'duration' => 2,
+                    ],
+                ]);
+
+                $spells = $spells->concat($cultSpells);
+            }
+
         }
 
         return $spells;
@@ -474,16 +504,14 @@ class SpellHelper
                 'duration' => 2, # Two ticks
                 'races' => collect(['Monster']),
             ],
-            /*
             [
                 'name' => 'Mind Control',
-                'description' => '?',
+                'description' => 'During an invasion, some of the invading units will fight for you.',
                 'key' => 'mind_control',
                 'mana_cost' => 12,
                 'duration' => 2, # Two ticks
                 'races' => collect(['Cult']),
             ],
-            */
             [
                 'name' => 'Call To Arms',
                 'description' => 'Training costs reduced by 10%, training times reduced by six ticks, and +20% ore and platinum production.',
@@ -580,37 +608,60 @@ class SpellHelper
     # Available all the time (after first day).
     public function getBlackOpSpells(?Dominion $dominion): Collection
     {
+        $blackOpSpells = collect([
+            [
+                'name' => 'Plague',
+                'description' => 'Slows population growth by 25%.',
+                'key' => 'plague',
+                'mana_cost' => 3,
+                'duration' => 12*2,
+            ],
+            [
+                'name' => 'Insect Swarm',
+                'description' => 'Slows food production by 5%.',
+                'key' => 'insect_swarm',
+                'mana_cost' => 3,
+                'duration' => 12*2,
+            ],
+            [
+                'name' => 'Great Flood',
+                'description' => 'Slows boat production by 25%.',
+                'key' => 'great_flood',
+                'mana_cost' => 3,
+                'duration' => 12*2,
+            ],
+            [
+                'name' => 'Earthquake',
+                'description' => 'Slows ore and diamond mine production by 5%.',
+                'key' => 'earthquake',
+                'mana_cost' => 3,
+                'duration' => 12*2,
+            ],
+        ]);
 
-      return collect([
-          [
-              'name' => 'Plague',
-              'description' => 'Slows population growth by 25%.',
-              'key' => 'plague',
-              'mana_cost' => 3,
-              'duration' => 12*2,
-          ],
-          [
-              'name' => 'Insect Swarm',
-              'description' => 'Slows food production by 5%.',
-              'key' => 'insect_swarm',
-              'mana_cost' => 3,
-              'duration' => 12*2,
-          ],
-          [
-              'name' => 'Great Flood',
-              'description' => 'Slows boat production by 25%.',
-              'key' => 'great_flood',
-              'mana_cost' => 3,
-              'duration' => 12*2,
-          ],
-          [
-              'name' => 'Earthquake',
-              'description' => 'Slows ore and diamond mine production by 5%.',
-              'key' => 'earthquake',
-              'mana_cost' => 3,
-              'duration' => 12*2,
-          ],
-      ]);
+        if(isset($dominion) and $dominion->race->name === 'Cult')
+        {
+            $cultSpells = collect([
+                [
+                    'name' => 'Enthralling',
+                    'description' => 'Some of the units and draftees released by the target join you as Thralls (takes up to 12 ticks to arrive).',
+                    'key' => 'enthralling',
+                    'mana_cost' => 1,
+                    'duration' => 4,
+                ],
+                [
+                    'name' => 'Treachery',
+                    'description' => 'The target\'s spies return some of what they steal to you.',
+                    'key' => 'treachery',
+                    'mana_cost' => 2,
+                    'duration' => 6,
+                ],
+            ]);
+
+            $blackOpSpells = $blackOpSpells->concat($cultSpells);
+        }
+
+        return $blackOpSpells;
 
     }
 
@@ -694,7 +745,6 @@ class SpellHelper
                 'percentage' => 5,
                 'races' => collect(['Lux']),
             ],
-            /*
             [
                 'name' => 'Proselytize',
                 'description' => 'Converts some of targets units to join you',
@@ -704,7 +754,6 @@ class SpellHelper
                 'percentage' => 5,
                 'races' => collect(['Cult']),
             ],
-            */
             [
                 'name' => 'Solar Eclipse',
                 'description' => '-20% food production, -20% mana production',
