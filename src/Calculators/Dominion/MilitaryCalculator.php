@@ -1125,9 +1125,12 @@ class MilitaryCalculator
                   $targetUnits += $target->military_unit3;
                   $targetUnits += $target->military_unit4;
 
-                  if(array_sum($units) > $targetUnits)
+                  if(isset($units))
                   {
-                      $powerFromPerk = $mobPerk[0];
+                      if(array_sum($units) > $targetUnits)
+                      {
+                          $powerFromPerk = $mobPerk[0];
+                      }                    
                   }
 
               }
