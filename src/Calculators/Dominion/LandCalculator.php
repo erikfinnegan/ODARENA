@@ -56,7 +56,7 @@ class LandCalculator
      * @param Dominion $dominion
      * @return int
      */
-    public function getTotalLand(Dominion $dominion): int
+    public function getTotalLand(Dominion $dominion, bool $canBeZero = false): int
     {
         $totalLand = 0;
 
@@ -65,7 +65,16 @@ class LandCalculator
             $totalLand += $dominion->{'land_' . $landType};
         }
 
-        return $totalLand;
+        if($canBeZero)
+        {
+            return $totalLand;
+        }
+        else
+        {
+            return max(1,$totalLand);
+        }
+
+
     }
 
     /**

@@ -104,7 +104,7 @@
                                         <td class="text-center">
                                             {{ $dominion->race->name }}
                                         </td>
-                                        <td class="text-center">{{ number_format($landCalculator->getTotalLand($dominion)) }}</td>
+                                        <td class="text-center">{{ number_format($landCalculator->getTotalLand($dominion, true)) }}</td>
                                         <td class="text-center">{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}</td>
                                         <td class="text-center">
                                             @if ($militaryCalculator->hasReturningUnits($dominion))

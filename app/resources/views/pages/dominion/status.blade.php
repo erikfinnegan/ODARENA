@@ -42,7 +42,7 @@
                                     </tr>
                                     <tr>
                                         <td>Land:</td>
-                                        <td>{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</td>
+                                        <td>{{ number_format($landCalculator->getTotalLand($selectedDominion, true)) }}</td>
                                     </tr>
                                     <tr>
                                       @if ($selectedDominion->race->name == 'Growth')
