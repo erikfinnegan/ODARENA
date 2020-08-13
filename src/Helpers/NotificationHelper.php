@@ -581,8 +581,18 @@ class NotificationHelper
                         $resultString = "{$data['damageString']} die from Purification.";
                         break;
 
+                    # Faction spells
+
                     case 'solar_flare':
                         $resultString = "{$data['damageString']} vanish under Solar Flares.";
+                        break;
+
+                    case 'dissent':
+                        $resultString = 'Dissent is spreading among our population.';
+                        break;
+
+                    case 'treachery':
+                        $resultString = 'Spies are accusing each other of treason.';
                         break;
 
                     default:
