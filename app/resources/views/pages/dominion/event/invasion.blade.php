@@ -105,7 +105,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                              @if ($event->source->id === $selectedDominion->id)
+                                              @if ($event->source->realm->id === $selectedDominion->realm->id)
                                                   @if (isset($event->data['attacker']['unitsReturning'][$slot]))
                                                     {{ number_format($event->data['attacker']['unitsReturning'][$slot]) }}
                                                   @else
