@@ -231,6 +231,8 @@
                       <li>Wizard Strength:  {{ floor($selectedDominion->wizard_strength) }}%.
                       <li>Wizard Ratio (offense): {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</li>
                     </ul>
+
+                    <a href="{{ route('scribes.magic') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Magic in the Scribes.</span></a>
                 </div>
             </div>
         </div>

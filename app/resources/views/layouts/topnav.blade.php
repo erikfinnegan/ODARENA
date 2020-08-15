@@ -57,7 +57,7 @@
                     <ul class="nav navbar-nav">
                         <li class="{{ Route::is('home') ? 'active' : null }}"><a href="{{ route('home') }}">Home</a></li>
                         <li class="{{ Route::is('valhalla.*') ? 'active' : null }}"><a href="{{ route('valhalla.index') }}">Valhalla</a></li>
-                        <li class="{{ Route::is('scribes.*') ? 'active' : null }}"><a href="{{ route('scribes.factions') }}">Scribes</a></li>
+                        <li class="{{ Route::is('scribes.*') ? 'active' : null }}"><a href="{{ route('scribes.factions') }}"><i class="ra ra-scroll-unfurled"></i> Scribes</a></li>
                         @include('partials.wiki-nav')
                         @auth
                             @if ($selectorService->hasUserSelectedDominion())
