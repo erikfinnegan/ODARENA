@@ -1130,7 +1130,7 @@ class MilitaryCalculator
                       if(array_sum($units) > $targetUnits)
                       {
                           $powerFromPerk = $mobPerk[0];
-                      }                    
+                      }
                   }
 
               }
@@ -1196,8 +1196,6 @@ class MilitaryCalculator
           echo "Now:\t$timeNow \n";
           echo '</pre>';
 */
-
-
 
           if (
               (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or

@@ -101,6 +101,8 @@
                       and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
 
                     <p>You may also <a href="{{ route('dominion.destroy') }}">destroy buildings</a> if you wish.</p>
+
+                    <a href="{{ route('scribes.construction') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Buildings in the Scribes.</span></a>
                 </div>
             </div>
         </div>

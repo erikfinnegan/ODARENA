@@ -157,6 +157,8 @@
                       <li>Spy Strength: {{ floor($selectedDominion->spy_strength) }}%</li>
                       <li>Spy Ratio (offense): {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</li>
                     </ul>
+
+                    <a href="{{ route('scribes.espionage') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Espionage in the Scribes.</span></a>
                 </div>
             </div>
         </div>

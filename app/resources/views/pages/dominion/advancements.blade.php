@@ -79,6 +79,7 @@
                     <p>You have <b>{{ number_format($selectedDominion->resource_tech) }} XP</b>.</p>
                     <p>Only the perks from the highest-level advancement counts. if you have Level 1 and Level 2, only Level 2 counts.</p>
 
+                    <a href="{{ route('scribes.advancements') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Advancements in the Scribes.</span></a>
                 </div>
             </div>
         </div>
