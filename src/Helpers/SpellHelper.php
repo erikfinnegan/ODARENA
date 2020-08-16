@@ -149,7 +149,7 @@ class SpellHelper
                     ],
                     [
                         'name' => 'Cogency',
-                        'description' => 'Wizardry casualties are saved and join the Cult as wizards.',
+                        'description' => 'Wizardry casualties are saved and join the Cult as wizards. Takes up to 12 ticks to arrive.',
                         'key' => 'cogency',
                         'mana_cost' => 3,
                         'duration' => 12*4,
@@ -405,16 +405,16 @@ class SpellHelper
             ],
             [
                 'name' => 'Gryphon\'s Call',
-                'description' => '4x yeti trapping. Removes offensive power bonus from Gryphon Nests.',
+                'description' => 'Quadruple yeti trapping. No offensive power bonus from Gryphon Nests.',
                 'key' => 'gryphons_call',
                 'mana_cost' => 4,
                 'duration' => 1.5*4, # 6 ticks (3 hours)
                 'races' => collect(['Snow Elf']),
             ],
             [
-                'name' => 'Charybdis\' Gape',
+                'name' => 'Maelstrom',
                 'description' => 'Increases offensive casualties by 50% against invading forces.',
-                'key' => 'charybdis_gape',
+                'key' => 'maelstrom',
                 'mana_cost' => 6,
                 'duration' => 12*4,
                 'races' => collect(['Merfolk']),
@@ -527,7 +527,6 @@ class SpellHelper
                 'key' => 'fine_arts',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'cooldown' => 24, # 24 hours, 1 days
                 'races' => collect(['Vampires']),
             ],
         ]);
@@ -651,7 +650,7 @@ class SpellHelper
                 ],
                 [
                     'name' => 'Treachery',
-                    'description' => 'The target\'s spies return some of what they steal to you.',
+                    'description' => "The target's spies return some of what they steal to you.",
                     'key' => 'treachery',
                     'mana_cost' => 2,
                     'duration' => 6,
@@ -767,7 +766,7 @@ class SpellHelper
                 'name' => 'Frozen Shores',
                 'description' => 'Freezes water and target cannot send out boats. No food production from docks.',
                 'key' => 'frozen_shores',
-                'mana_cost' => 4,
+                'mana_cost' => 6,
                 'duration' => 4,
                 'percentage' => NULL,
                 'races' => collect(['Icekin']),

@@ -36,6 +36,7 @@ units:
       cannot_be_trained: 1
       does_not_count_as_population: 1
       extra_food_consumption: 0.025
+      vampiric_conversion: 3,7 # <=3: unit1, >3 <=7: unit2, >7: unit3
   - name: Gnarl
     type:
       - living
@@ -53,6 +54,7 @@ units:
       extra_food_consumption: 0.1
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,1 # Between the hours 18:00 and 06:00, gains +1 OP
+      vampiric_conversion: 3,7 # <=3: unit1, >3 <=7: unit2, >7: unit3
   - name: Ravager
     type:
       - living
@@ -71,6 +73,7 @@ units:
       fewer_casualties: 75
       extra_food_consumption: 0.5
       offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
+      vampiric_conversion: 3,7 # <=3: unit1, >3 <=7: unit2, >7: unit3
   - name: Noble
     type:
       - living

@@ -67,9 +67,9 @@ units:
     need_boat: true
     cost:
       wild_yeti: 1
-      platinum: 1500
-      ore: 120
-      food: 120
+      platinum: 1250
+      ore: 100
+      food: 100
     power:
       offense: 8
       defense: 8

@@ -1,7 +1,7 @@
 name: Cult
 alignment: independent
 description:
-home_land_type: hill
+home_land_type: forest
 playable: 0
 
 attacking: 3
@@ -10,8 +10,7 @@ converting: 3
 
 perks:
   max_population: 30
-  population_growth: 23
-  cannot_build_barracks: 1
+  population_growth: 15
   min_rounds_played: 10
 units:
   - name: Thrall
@@ -24,20 +23,21 @@ units:
       ore: 0
     power:
       offense: 3
-      defense: 3
+      defense: 0
     perks:
       cannot_be_trained: 1
       attrition: 0.1 # % lost each tick.
+      does_not_count_as_population: 1
       wins_into: 2
   - name: Initiate
     type:
       - living
     need_boat: true
     cost:
-      platinum: 500
-      ore: 10
+      platinum: 300
+      mana: 8
     power:
-      offense: 3
+      offense: 4
       defense: 3
     perks:
       attrition: 0.01 # % lost each tick.
@@ -48,26 +48,28 @@ units:
     need_boat: true
     cost:
       platinum: 800
-      ore: 25
+      mana: 8
     power:
       offense: 0
       defense: 6
     perks:
       food_production: 1
       mana_production: 1
+      reduces_attrition: 1
+      conversion: 1
   - name: Mystic
     type:
       - living
       - sentient
     cost:
       platinum: 1000
-      ore: 100
+      mana: 25
       wizard: 1
     power:
       offense: 6
       defense: 3
     perks:
-      counts_as_wizard_defense: 0.15
-      counts_as_wizard_offense: 0.25
-      kills_immortal: 1
-      unit_production: 2,0.044 # Every 22 Mystics produce 1 Initiate
+      counts_as_wizard_defense: 0.2
+      counts_as_wizard_offense: 0.2
+      unit_production: 2,0.0333333 # Every 30 Mystics produce 1 Initiate
+      conversion: 1

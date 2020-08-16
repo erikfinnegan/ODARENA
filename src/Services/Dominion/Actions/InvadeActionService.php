@@ -674,7 +674,7 @@ class InvadeActionService
         $offensiveCasualtiesPercentage = (static::CASUALTIES_OFFENSIVE_BASE_PERCENTAGE / 100);
 
         # Merfolk: Charybdis' Gape - increase offensive casualties by 50% if target has this spell on.
-        if ($this->spellCalculator->isSpellActive($target, 'charybdis_gape'))
+        if ($this->spellCalculator->isSpellActive($target, 'maelstrom'))
         {
             $offensiveCasualtiesPercentage *= 1.50;
         }
@@ -1536,14 +1536,28 @@ class InvadeActionService
             return $unit->getPerkValue('vampiric_conversion');
         });
 
+        $unitsWithVampiricConversionPerk = $attacker->race->units->filter(static function (Unit $unit) use (
+            $landRatio,
+            $units,
+            $attacker
+        ) {
+            if (!array_key_exists($unit->slot, $units) || ($units[$unit->slot] === 0)) {
+                return false;
+            }
+
+            return $unit->getPerkValue('vampiric_conversion');
+        });
+
+
         $totalVampiricConvertingUnits = 0;
-        foreach ($unitWithVampiricConversionPerk as $unit)
+        foreach ($unitsWithVampiricConversionPerk as $unit)
         {
             $totalVampiricConvertingUnits += $units[$unit->slot];
         }
 
         $this->invasionResult['attacker']['conversionAnalysis']['totalConvertingUnits'] = $totalVampiricConvertingUnits;
 
+        # This requires that the thresholds are the same for all units.
         $unit2Range = $attacker->race->getUnitPerkValueForUnitSlot(4, 'vampiric_conversion');
 
         foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountKilled)
@@ -1578,13 +1592,13 @@ class InvadeActionService
             elseif($unitRawDp > $unit2Range[0] and $unitRawDp < $unit2Range[1])
             {
                 $slotConvertedTo = 2;
-                $unitsPerConversion = 2;
+                $unitsPerConversion = 1; # From 2, R29
             }
             # If greater than unit2 range, it's a unit3.
             elseif($unitRawDp >= $unit2Range[1])
             {
                 $slotConvertedTo = 3;
-                $unitsPerConversion = 3;
+                $unitsPerConversion = 1; # From 3, R29
             }
 
             $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
@@ -1636,15 +1650,27 @@ class InvadeActionService
             return $unit->getPerkValue('vampiric_conversion');
         });
 
+        $unitsWithVampiricConversionPerk = $defender->race->units->filter(static function (Unit $unit) use (
+            $landRatio,
+            $defender
+        ) {
+            if (($defender->{'military_unit'.$unit->slot} === 0))
+            {
+                return false;
+            }
+
+            return $unit->getPerkValue('conversion');
+        });
 
         $totalVampiricConvertingUnits = 0;
-        foreach ($unitWithVampiricConversionPerk as $unit)
+        foreach ($unitsWithVampiricConversionPerk as $unit)
         {
             $totalVampiricConvertingUnits = $defender->{'military_unit'.$unit->slot};
         }
 
         $this->invasionResult['attacker']['conversionAnalysis']['totalConvertingUnits'] = $totalVampiricConvertingUnits;
 
+        # This requires that the thresholds are the same for all units.
         $unit2Range = $defender->race->getUnitPerkValueForUnitSlot(4, 'vampiric_conversion');
 
         foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amountKilled)
@@ -1673,13 +1699,13 @@ class InvadeActionService
             elseif($unitRawOp > $unit2Range[0] and $unitRawOp < $unit2Range[1])
             {
                 $slotConvertedTo = 2;
-                $unitsPerConversion = 2;
+                $unitsPerConversion = 1;  # From 2, R29
             }
             # If greater than unit2 range, it's a unit3.
             elseif($unitRawOp >= $unit2Range[1])
             {
                 $slotConvertedTo = 3;
-                $unitsPerConversion = 3;
+                $unitsPerConversion = 1; # From 3, R29
             }
 
             # How many nobles are busy converting this unit?

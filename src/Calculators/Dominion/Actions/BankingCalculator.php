@@ -23,7 +23,7 @@ class BankingCalculator
         }
         if($dominion->race->getPerkMultiplier('can_sell_mana'))
         {
-          $manaSell = 0.05;
+          $manaSell = 0.10;
         }
 
         $resources = [

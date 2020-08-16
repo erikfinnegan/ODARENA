@@ -294,7 +294,7 @@ class TickService
                     $this->queueService->queueResources('exploration', $dominion, [$homeLandType => $dominion->tick->generated_land], 12);
                 }
 
-                // Myconid: Unit generation
+                // Myconid and Cult: Unit generation
                 if(!empty($dominion->tick->generated_unit1) and $dominion->protection_ticks == 0)
                 {
                     $this->queueService->queueResources('training', $dominion, ['military_unit1' => $dominion->tick->generated_unit1], 12);
@@ -721,14 +721,23 @@ class TickService
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
             {
                 $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
+                $generatedLand = max($generatedLand, 0);
             }
 
-            // Myconid: Unit generation
+            $availablePopulation = $this->populationCalculator->getMaxPopulation($dominion) - $this->populationCalculator->getPopulationMilitary($dominion);
+
+            // Myconid and Cult: Unit generation
             if($unitGenerationPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
             {
                 $unitToGenerateSlot = $unitGenerationPerk[0];
                 $unitAmountToGeneratePerGeneratingUnit = $unitGenerationPerk[1];
-                $unitAmountToGenerate = $dominion->{'military_unit'.$slot} * $unitAmountToGeneratePerGeneratingUnit;
+                $unitAmountToGenerate = intval($dominion->{'military_unit'.$slot} * $unitAmountToGeneratePerGeneratingUnit);
+
+                #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which generate " . $unitAmountToGeneratePerGeneratingUnit . " per tick. Total generation is " . $unitAmountToGenerate . " unit" . $unitToGenerateSlot . ". Available population: " . number_format($availablePopulation) . "\n";
+
+                $unitAmountToGenerate = max(0, min($unitAmountToGenerate, $availablePopulation));
+
+                #echo "\tAmount generated: " . $unitAmountToGenerate . "\n\n";
 
                 if($unitToGenerateSlot == 1)
                 {
@@ -746,6 +755,8 @@ class TickService
                 {
                   $generatedUnit4 += $unitAmountToGenerate;
                 }
+
+                $availablePopulation -= $unitAmountToGenerate;
             }
         }
         $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
@@ -754,8 +765,6 @@ class TickService
         $tick->generated_unit2 += intval($generatedUnit2) + (rand()/getrandmax() < fmod($generatedUnit2, 1) ? 1 : 0);
         $tick->generated_unit3 += intval($generatedUnit3) + (rand()/getrandmax() < fmod($generatedUnit3, 1) ? 1 : 0);
         $tick->generated_unit4 += intval($generatedUnit4) + (rand()/getrandmax() < fmod($generatedUnit4, 1) ? 1 : 0);
-
-        #$capGeneratedUnitsMilitary = $this->populationCalculator->getMaxPopulation($dominion);
 
         foreach ($incomingQueue as $row)
         {
