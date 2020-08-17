@@ -16,6 +16,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
       platinum: 320
@@ -29,6 +30,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 500
       mana: 20
@@ -41,6 +43,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 1000
       ore: 200
@@ -57,6 +60,7 @@ units:
       - living
       - sentient
       - legendary
+      - intelligent
     need_boat: false
     cost:
       platinum: 0

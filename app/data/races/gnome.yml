@@ -15,10 +15,11 @@ perks:
   increased_construction_speed: 6
   salvaging: 50
 units:
-  - name: Suicide Squad
+  - name: Bomb Squad
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 225
       ore: 55
@@ -31,6 +32,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 300
       ore: 5
@@ -41,6 +43,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 600
       ore: 300
@@ -53,6 +56,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 800
       ore: 500

@@ -20,6 +20,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 300
       ore: 10
@@ -33,6 +34,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 800
       ore: 25

@@ -162,6 +162,7 @@ class UnitHelper
             'food_production' => 'Each unit produces %s food per tick.',
             'gem_production' => 'Each unit mines %s gems per tick.',
             'tech_production' => 'Each unit produces %s experience points per tick.',
+            'platinum_production' => 'Each unit produces %s platinum points per tick.',
 
             'food_consumption' => 'Eats %s bushels of food extra.',
 
@@ -449,19 +450,24 @@ class UnitHelper
             $unit = $race->units->filter(function ($unit) use ($unitType) {
                 return ($unit->slot == (int)str_replace('unit', '', $unitType));
             })->first();
-            if($unit->type)
-            {
-                foreach($unit->type as $attribute)
-                {
-                    $attributeString .= '<li>' . ucwords($attribute) . '</li>';
-                    $attributes[] = ucwords($attribute);
-                }
-            }
+
+        }
+
+        foreach($unit->type as $attribute)
+        {
+            $attributes[] = $attribute;
+        }
+
+
+        sort($attributes);
+        $attributeString = '</ul>';
+        foreach($attributes as $attribute)
+        {
+            $attributeString .= '<li>' . ucwords($attribute) . '</li>';
         }
 
         $attributeString .= '</ul>';
-        sort($attributes);
-        return generate_sentence_from_array($attributes);
+        return $attributeString;
     }
 
     public function getConvertedUnitsString(array $convertedUnits, Race $race, string $type): string

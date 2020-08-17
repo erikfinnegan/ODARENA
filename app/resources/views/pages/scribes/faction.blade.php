@@ -91,11 +91,11 @@
 
                     <table class="table table-striped">
                         <colgroup>
-                            <col width="200px">
+                            <col width="150px">
                             <col width="50px">
                             <col width="50px">
                             <col>
-                            <col>
+                            <col width="125px">
                             <col width="100px">
                         </colgroup>
                         <thead>
@@ -104,7 +104,7 @@
                                 <th class="text-center">OP</th>
                                 <th class="text-center">DP</th>
                                 <th>Special Abilities</th>
-                                <th><!-- Attributes --></th>
+                                <th>Attributes</th>
                                 <th class="text-center">Cost</th>
                             </tr>
                         </thead>
@@ -204,7 +204,7 @@
                                         {!! $unitHelper->getUnitHelpString("unit{$unit->slot}", $race) !!}
                                     </td>
                                     <td>
-
+                                        {!! $unitHelper->getUnitAttributesString("unit{$unit->slot}", $race) !!}
                                     </td>
                                     <td class="text-center">
                                         {{ $unitCostString }}

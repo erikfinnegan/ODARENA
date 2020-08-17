@@ -22,14 +22,15 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
-      platinum: 500
-      ore: 50
-      lumber: 5
+      platinum: 550
+      ore: 60
+      lumber: 25
     power:
       offense: 0
-      defense: 4
+      defense: 5
   - name: Ice Boulder
     type:
       - ammunition

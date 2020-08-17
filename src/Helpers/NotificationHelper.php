@@ -77,7 +77,7 @@ class NotificationHelper
                 'iconClass' => 'ra ra-player-dodge text-green',
             ],
             'invading_completed' => [
-                'label' => 'Units have arrived at their desination',
+                'label' => 'Units have arrived at their destination',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'route' => route('dominion.advisors.military'),
                 'iconClass' => 'ra ra-boot-stomp text-green',
@@ -97,7 +97,22 @@ class NotificationHelper
                 'label' => 'Starvation occurred',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'route' => route('dominion.advisors.production'),
-                'iconClass' => 'ra ra-tombstone text-red',
+                #'iconClass' => 'ra ra-knife-fork text-red',
+                'iconClass' => 'ra ra-apple text-red',
+            ],
+
+            'attrition_occurred' => [
+                'label' => 'Attrition occurred',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.military'),
+                'iconClass' => 'ra ra-interdiction text-orange',
+            ],
+
+            'treachery_completed' => [
+                'label' => 'Resources from treasonous spies have arrived.',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.advisors.military'),
+                'iconClass' => 'ra ra-aware text-green',
             ],
         ];
     }
@@ -151,10 +166,32 @@ class NotificationHelper
                 'defaults' => ['email' => false, 'ingame' => true],
                 'iconClass' => 'ra ra-fairy-wand text-orange',
             ],
-//            'scripted' => [
-//                'label' => 'Land you conquered got removed due to anti-cheating mechanics (scripted)',
-//                'defaults' => ['email' => false, 'ingame' => true],
-//            ],
+
+            # Cult
+            'enthralling_occurred' => [
+                'label' => 'Enthralling occurred',
+                'defaults' => ['email' => false, 'ingame' => true],
+                #'route' => route('dominion.military'),
+                'iconClass' => 'ra ra-aware text-green',
+            ],
+            'persuasion_occurred' => [
+                'label' => 'Perusasion occurred',
+                'defaults' => ['email' => false, 'ingame' => true],
+                #'route' => route('dominion.military'),
+                'iconClass' => 'ra ra-aware text-green',
+            ],
+            'cogency_occurred' => [
+                'label' => 'Cogency occurred',
+                'defaults' => ['email' => false, 'ingame' => true],
+                #'route' => route('dominion.military'),
+                'iconClass' => 'ra ra-aware text-green',
+            ],
+            'treachery_occurred' => [
+                'label' => 'Treachery occurred',
+                'defaults' => ['email' => false, 'ingame' => true],
+                #'route' => route('dominion.military'),
+                'iconClass' => 'ra ra-aware text-green',
+            ],
         ];
     }
 
@@ -305,16 +342,61 @@ class NotificationHelper
                 );
 
             case 'hourly_dominion.starvation_occurred':
-                $units = array_sum($data);
+                return 'You are starving and morale is decreasing.';
 
-                return 'You are starving and cannot explore or invade until you have enough food to feed your population.';
-                /*
+            # CULT
+
+            case 'hourly_dominion.attrition_occurred':
+                $units = array_sum($data);
                 return sprintf(
-                    '%s %s died due to starvation',
+                    '%s %s have abandoned your dominion.',
                     number_format($units),
                     str_plural('unit', $units)
                 );
-                */
+
+            case 'irregular_dominion.enthralling_occurred':
+                $units = $data['enthralled'];
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+                return sprintf(
+                    '%s %s have abandoned %s (# %s) to join us.',
+                    number_format($units),
+                    str_plural('unit', $units),
+                    $sourceDominion->name,
+                    $sourceDominion->realm->number
+                );
+
+            case 'irregular_dominion.persuasion_occurred':
+                $units = $data['persuaded'];
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+                return sprintf(
+                    'We have persuaded %s %s captured from %s (# %s) to join us.',
+                    number_format($units),
+                    str_plural('spy', $units),
+                    $sourceDominion->name,
+                    $sourceDominion->realm->number
+                );
+
+            case 'irregular_dominion.cogency_occurred':
+                $units = $data['saved'];
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+                return sprintf(
+                    'We have rescued %s %s from %s (# %s).',
+                    number_format($units),
+                    str_plural('spellcaster', $units),
+                    $sourceDominion->name,
+                    $sourceDominion->realm->number
+                );
+
+            case 'irregular_dominion.treachery_occurred':
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+                return sprintf(
+                    'Spies from %s (# %s) have stolen %s %s for us and will arrive in two ticks.',
+                    $sourceDominion->name,
+                    $sourceDominion->realm->number,
+                    number_format($data['amount']),
+                    $data['resource']
+                );
+
 
             case 'irregular_dominion.received_invasion':
                 $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
@@ -587,8 +669,8 @@ class NotificationHelper
                         $resultString = "{$data['damageString']} vanish under Solar Flares.";
                         break;
 
-                    case 'dissent':
-                        $resultString = 'Dissent is spreading among our population.';
+                    case 'enthralling':
+                        $resultString = 'Dissent is spreading among our population and some feel enthralled by the Cult.';
                         break;
 
                     case 'treachery':

@@ -20,6 +20,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 3000
       archmage: 1

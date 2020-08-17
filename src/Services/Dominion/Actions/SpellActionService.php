@@ -514,6 +514,7 @@ class SpellActionService
                     $dominion->stat_total_wizards_lost += $wizardsKilled;
                 }
 
+                $wizardUnitsKilled = 0;
                 foreach ($dominion->race->units as $unit)
                 {
                     if ($unit->getPerkValue('counts_as_wizard_offense'))
@@ -533,8 +534,16 @@ class SpellActionService
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                             $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+
+                            $wizardUnitsKilled += $unitKilled;
                         }
                     }
+                }
+
+                if ($this->spellCalculator->isSpellActive($target, 'cogency'))
+                {
+                    $this->notificationService->queueNotification('cogency_occurred',['sourceDominionId' => $dominion->id, 'saved' => ($wizardsKilled + $wizardUnitsKilled)]);
+                    $this->queueService->queueResources('training', $target, ['military_wizards' => ($wizardsKilled + $wizardUnitsKilled)], 6);
                 }
 
                 $unitsKilledStringParts = [];

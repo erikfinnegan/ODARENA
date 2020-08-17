@@ -17,6 +17,10 @@ perks:
   extra_barren_max_population: 20
 units:
   - name: Marauder
+    type:
+      - living
+      - sentient
+      - intelligent
     cost:
       platinum: 225
       ore: 0
@@ -24,6 +28,10 @@ units:
       offense: 3
       defense: 0
   - name: Thug
+    type:
+      - living
+      - sentient
+      - intelligent
     cost:
       platinum: 225
       ore: 0
@@ -31,6 +39,10 @@ units:
       offense: 0
       defense: 3
   - name: Robber
+    type:
+      - living
+      - sentient
+      - intelligent
     cost:
       platinum: 600
       ore: 0
@@ -38,6 +50,10 @@ units:
       offense: 0
       defense: 5
   - name: Bandit
+    type:
+      - living
+      - sentient
+      - intelligent
     cost:
       platinum: 720
       ore: 0

@@ -31,6 +31,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 350
       mana: 5
@@ -41,6 +42,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 800
       mana: 15
@@ -53,6 +55,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 1100
       mana: 15

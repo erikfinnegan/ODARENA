@@ -17,6 +17,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 500
       ore: 50
@@ -29,6 +30,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 400
       ore: 40
@@ -41,6 +43,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 800
       lumber: 40
@@ -57,6 +60,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 1400
       ore: 200

@@ -20,6 +20,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
       platinum: 250
@@ -32,6 +33,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
       platinum: 250
@@ -45,6 +47,7 @@ units:
       - living
       - sentient
       - massive
+      - intelligent
     need_boat: true
     cost:
       platinum: 2400
@@ -62,6 +65,7 @@ units:
       - living
       - sentient
       - massive
+      - intelligent
     need_boat: true
     cost:
       ore: 2000

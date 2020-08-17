@@ -11,6 +11,8 @@ use OpenDominion\Traits\DominionGuardsTrait;
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Services\NotificationService;
 
 class ReleaseActionService
 {
@@ -25,6 +27,13 @@ class ReleaseActionService
     /** @var QueueService */
     protected $queueService;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
+    /** @var NotificationService */
+    protected $notificationService;
+
+
     /**
      * ReleaseActionService constructor.
      *
@@ -33,12 +42,16 @@ class ReleaseActionService
     public function __construct(
         UnitHelper $unitHelper,
         QueueService $queueService,
-        MilitaryCalculator $militaryCalculator
+        MilitaryCalculator $militaryCalculator,
+        SpellCalculator $spellCalculator,
+        NotificationService $notificationService
       )
     {
         $this->unitHelper = $unitHelper;
         $this->queueService = $queueService;
         $this->militaryCalculator = $militaryCalculator;
+        $this->spellCalculator = $spellCalculator;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -153,6 +166,26 @@ class ReleaseActionService
             }
 
             $troopsReleased[$unitType] = $amount;
+        }
+
+        // Cult: Enthralling
+        if ($this->spellCalculator->isSpellActive($dominion, 'enthralling'))
+        {
+            $cult = $this->spellCalculator->getCaster($dominion, 'enthralling');
+
+            # Calculate how many are enthralled.
+            # Cap at max 1 per 100 Mystic.
+            $enthralled = min($totalTroopsToRelease, $cult->military_unit4/100);
+
+            $enthralled = intval($enthralled);
+
+            $ticks = rand(6,12);
+
+            #$this->queueService->queueResources('training', $dominion, $data, $hours);
+            $this->queueService->queueResources('training', $cult, ['military_unit1' => $enthralled], $ticks);
+            $this->notificationService->queueNotification('enthralling_occurred',['sourceDominionId' => $dominion->id, 'enthralled' => $enthralled]);
+            $this->notificationService->sendNotifications($cult, 'irregular_dominion');
+
         }
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_RELEASE]);

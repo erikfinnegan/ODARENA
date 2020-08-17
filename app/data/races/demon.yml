@@ -20,6 +20,7 @@ units:
   - name: Hellhound
     type:
       - living
+      - sentient
     need_boat: true
     cost:
       platinum: 675
@@ -35,6 +36,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
       platinum: 800
@@ -50,6 +52,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
       blood: 9
@@ -64,6 +67,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: false
     cost:
       blood: 60000

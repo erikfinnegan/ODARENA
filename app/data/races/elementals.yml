@@ -23,6 +23,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
       platinum: 950
@@ -38,6 +39,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: false
     cost:
       platinum: 950
@@ -52,6 +54,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
       platinum: 950
@@ -66,6 +69,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: false
     cost:
       platinum: 950

@@ -33,6 +33,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 850
     power:
@@ -47,6 +48,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 900
     power:

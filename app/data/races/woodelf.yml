@@ -20,6 +20,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 300
       lumber: 25
@@ -30,6 +31,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 400
       lumber: 25
@@ -40,6 +42,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 1000
       lumber: 100
@@ -52,6 +55,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 1200
       lumber: 150

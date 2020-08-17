@@ -67,6 +67,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     static_networth: 8
     cost:

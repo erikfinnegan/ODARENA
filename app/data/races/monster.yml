@@ -79,6 +79,7 @@ units:
       - sentient
       - living
       - massive
+      - intelligent
     need_boat: false
     cost:
       food: 125000

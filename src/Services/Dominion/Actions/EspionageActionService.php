@@ -321,7 +321,7 @@ class EspionageActionService
                     $dominion->stat_total_spies_lost += $spiesKilled;
                 }
 
-                $potentialSouls = 0;
+                $spyUnitsKilled = 0;
                 foreach ($dominion->race->units as $unit) {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
@@ -340,14 +340,20 @@ class EspionageActionService
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                             $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
-                            $potentialSouls += $unitKilled;
+                            $spyUnitsKilled += $unitKilled;
                         }
                     }
                 }
 
                 if($target->race == 'Demon')
                 {
-                    $target->resource_soul += ($spiesKilled + $potentialSouls);
+                    $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
+                }
+
+                if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
+                {
+                    $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
+                    $this->queueService->queueResources('training', $target, ['military_spies' => ($spiesKilled + $spyUnitsKilled)], 2);
                 }
 
                 $unitsKilledStringParts = [];
@@ -589,7 +595,7 @@ class EspionageActionService
                     $dominion->stat_total_spies_lost += $spiesKilled;
                 }
 
-                $potentialSouls = 0;
+                $spyUnitsKilled = 0;
                 foreach ($dominion->race->units as $unit) {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
@@ -609,14 +615,20 @@ class EspionageActionService
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                             $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
-                            $potentialSouls += $unitKilled;
+                            $spyUnitsKilled += $unitKilled;
                         }
                     }
                 }
 
                 if($target->race == 'Demon')
                 {
-                    $target->resource_soul += ($spiesKilled + $potentialSouls);
+                    $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
+                }
+
+                if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
+                {
+                    $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
+                    $this->queueService->queueResources('training', $target, ['military_spies' => ($spiesKilled + $spyUnitsKilled)], 2);
                 }
 
                 $unitsKilledStringParts = [];
@@ -767,9 +779,32 @@ class EspionageActionService
         }
         else
         {
+
+            # Cult: Treachery
+            # If the $dominion is under Treachery, some of stolen resources go to $cult.
+            if ($this->spellCalculator->isSpellActive($dominion, 'treachery'))
+            {
+                $cult = $this->spellCalculator->getCaster($dominion, 'treachery');
+                $treacherousSpies = min($cult->military_unit4/10, $dominion->military_spies);
+
+                $amountStolenPerSpy = $amountStolen / $dominion->military_spies;
+
+                $amountStolenForCult = min($treacherousSpies*$amountStolenPerSpy, $amountStolen * 0.5);
+
+                $amountStolen = max(0, $amountStolen - $amountStolenForCult);
+
+                $this->queueService->queueResources('treachery', $cult, ['resource_'.$resource => $amountStolenForCult], 2);
+                $this->notificationService->queueNotification('treachery_occurred',['sourceDominionId' => $dominion->id, 'resource' => $resource, 'amount' => $amountStolenForCult]);
+                $this->notificationService->sendNotifications($cult, 'irregular_dominion');
+
+            }
+
             DB::transaction(function () use ($dominion, $target, $resource, $amountStolen, $operationKey) {
                 $dominion->{"resource_{$resource}"} += $amountStolen;
-                $dominion->{"stat_total_{$resource}_stolen"} += $amountStolen;
+                if($resource !== 'peasants')
+                {
+                    $dominion->{"stat_total_{$resource}_stolen"} += $amountStolen;
+                }
                 $dominion->save([
                     'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
                     'action' => $operationKey
@@ -947,7 +982,7 @@ class EspionageActionService
                   $spiesKilled = 0;
                 }
 
-                $potentialSouls = 0;
+                $spyUnitsKilled = 0;
                 foreach ($dominion->race->units as $unit) {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
@@ -966,14 +1001,20 @@ class EspionageActionService
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                             $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
-                            $potentialSouls += $unitKilled;
+                            $spyUnitsKilled += $unitKilled;
                         }
                     }
                 }
 
                 if($target->race == 'Demon')
                 {
-                    $target->resource_soul += ($spiesKilled + $potentialSouls);
+                    $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
+                }
+
+                if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
+                {
+                    $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
+                    $this->queueService->queueResources('training', $target, ['military_spies' => ($spiesKilled + $spyUnitsKilled)], 2);
                 }
 
                 $unitsKilledStringParts = [];

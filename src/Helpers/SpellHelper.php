@@ -46,9 +46,9 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isBlackOpSpell(string $spellKey): bool
+    public function isBlackOpSpell(string $spellKey, bool $isViewOnly = false): bool
     {
-        return $this->getBlackOpSpells($dominion)->filter(function ($spell) use ($spellKey) {
+        return $this->getBlackOpSpells($dominion, $isViewOnly)->filter(function ($spell) use ($spellKey) {
             return ($spell['key'] === $spellKey);
         })->isNotEmpty();
     }
@@ -64,22 +64,12 @@ class SpellHelper
     public function getSpells(Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): Collection
     {
 
-        return $this->getSelfSpells($dominion)
+        return $this->getSelfSpells($dominion, $isViewOnly)
             ->merge($this->getOffensiveSpells($dominion, $isInvasionSpell, $isViewOnly));
-/*
-        if($isInvasionSpell)
-        {
-          return $this->getInvasionSpells($dominion, Null, $isViewOnly);
-        }
-        else
-        {
-          return $this->getSelfSpells($dominion)
-              ->merge($this->getOffensiveSpells($dominion));
-        }
-        */
+
     }
 
-    public function getSelfSpells(?Dominion $dominion): Collection
+    public function getSelfSpells(?Dominion $dominion, bool $isViewOnly = false): Collection
     {
         $spells = collect(array_filter([
             [
@@ -132,31 +122,31 @@ class SpellHelper
             ]
         ]));
 
-        if($dominion !== null)
+        if($dominion !== null or ($isViewOnly === true))
         {
             $racialSpell = $this->getRacialSelfSpell($dominion);
             $spells->push($racialSpell);
 
-            if($dominion->race->name === 'Cult')
+            if((isset($dominion) and $dominion->race->name === 'Cult') or $isViewOnly)
             {
                 $cultSpells = collect([
                     [
                         'name' => 'Persuasion',
-                        'description' => 'Captured spies and espionage units join the Cult as spies.',
+                        'description' => 'Captured spies and espionage units join the Cult as spies. It takes two ticks to complete persuasion.',
                         'key' => 'persuasion',
                         'mana_cost' => 3,
                         'duration' => 12*4,
                     ],
                     [
                         'name' => 'Cogency',
-                        'description' => 'Wizardry casualties are saved and join the Cult as wizards. Takes up to 12 ticks to arrive.',
+                        'description' => 'Wizardry casualties are saved and join the Cult as wizards. It takes eight ticks for the new wizards to be ready.',
                         'key' => 'cogency',
                         'mana_cost' => 3,
                         'duration' => 12*4,
                     ],
                     [
                         'name' => 'Menticide',
-                        'description' => 'Mind Controlled units join the Cult permanently as Initiates.',
+                        'description' => 'Units affected by Mind Control join the Cult permanently as Initiates after the invasion. The menticide procedure takes 12 ticks.',
                         'key' => 'menticide',
                         'mana_cost' => 4,
                         'duration' => 2,
@@ -539,8 +529,8 @@ class SpellHelper
       if($isInvasionSpell or $isViewOnly)
       {
       return $this->getInfoOpSpells()
-          ->merge($this->getBlackOpSpells($dominion))
-          ->merge($this->getWarSpells($dominion))
+          ->merge($this->getBlackOpSpells($dominion, $isViewOnly))
+          ->merge($this->getWarSpells($dominion, $isViewOnly))
           ->merge($this->getInvasionSpells($dominion, Null, $isViewOnly));
       }
       else
@@ -605,7 +595,7 @@ class SpellHelper
     }
 
     # Available all the time (after first day).
-    public function getBlackOpSpells(?Dominion $dominion): Collection
+    public function getBlackOpSpells(?Dominion $dominion, bool $isViewOnly = false): Collection
     {
         $blackOpSpells = collect([
             [
@@ -638,12 +628,12 @@ class SpellHelper
             ],
         ]);
 
-        if(isset($dominion) and $dominion->race->name === 'Cult')
+        if((isset($dominion) and $dominion->race->name === 'Cult') or $isViewOnly)
         {
             $cultSpells = collect([
                 [
                     'name' => 'Enthralling',
-                    'description' => 'Some of the units and draftees released by the target join you as Thralls (takes up to 12 ticks to arrive).',
+                    'description' => 'Some of the units and draftees released by the target join you as Thralls. The units take between 6 and 12 ticks to arrive.',
                     'key' => 'enthralling',
                     'mana_cost' => 1,
                     'duration' => 4,

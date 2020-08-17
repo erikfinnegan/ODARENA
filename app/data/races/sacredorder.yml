@@ -31,6 +31,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     static_networth: 3
     cost:
       platinum: 0
@@ -46,6 +47,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 800
       ore: 75
@@ -62,6 +64,8 @@ units:
     type:
       - living
       - sentient
+      - intelligent
+      - legendary
     cost:
       platinum: 1400
       ore: 80

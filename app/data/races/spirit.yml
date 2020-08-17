@@ -16,7 +16,7 @@ units:
       - living
       - sentient
       - ethereal
-      - immortal
+      - intelligent
     need_boat: false
     cost:
       platinum: 200
@@ -32,7 +32,7 @@ units:
       - living
       - sentient
       - ethereal
-      - immortal
+      - intelligent
     need_boat: false
     cost:
       platinum: 500
@@ -50,7 +50,7 @@ units:
       - living
       - sentient
       - ethereal
-      - immortal
+      - intelligent
     need_boat: false
     cost:
       platinum: 1600
@@ -68,7 +68,7 @@ units:
       - living
       - sentient
       - ethereal
-      - immortal
+      - intelligent
     need_boat: false
     static_networth: 20
     cost:

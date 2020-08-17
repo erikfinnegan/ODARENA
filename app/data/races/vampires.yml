@@ -60,7 +60,7 @@ units:
       - living
       - sentient
       - enormous
-      - undying
+      - intelligent
     need_boat: false
     static_networth: 18
     cost:
@@ -78,6 +78,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     need_boat: true
     cost:
       platinum: 900

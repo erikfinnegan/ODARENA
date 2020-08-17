@@ -17,6 +17,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 250
     power:
@@ -37,6 +38,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       platinum: 1000
       mana: 10
@@ -52,6 +54,7 @@ units:
     type:
       - living
       - sentient
+      - intelligent
     cost:
       lumber: 650
       mana: 75
