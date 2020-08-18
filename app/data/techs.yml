@@ -1436,7 +1436,7 @@ garrisons_level8:
   perks:
     barracks_housing: 8.75
   requires:
-    - garrisons_level5
+    - garrisons_level7
 
 # </Ladder: Garrisons Housing>
 
