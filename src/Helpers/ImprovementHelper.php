@@ -64,7 +64,7 @@ class ImprovementHelper
         $ratingStrings = [
             'markets' => '+%s%% platinum production',
             'keep' => '+%s%% max population',
-            'towers' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells',
+            'towers' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells, +%1$s%% Wizard Guild wizard housing',
             'forges' => '+%s%% offensive power',
             'walls' => '+%s%% defensive power',
             'harbor' => '+%s%% food production, boat production & protection',
@@ -73,7 +73,7 @@ class ImprovementHelper
             'workshops' => '-%s%% construction and rezoning costs',
             'observatory' => '+%1$s%% experience points gained through invasions, exploration, and production',
             'cartography' => '+%1$s%% land discovered during invasions, -%1$s%% cost of exploring (max -50%% total reduction)',
-            'hideouts' => '+%1$s%% spy power, -%1$s%% spy losses',
+            'hideouts' => '+%1$s%% spy power, -%1$s%% spy losses, +%1$s%% Forest Haven spy housing',
             'forestry' => '+%s%% lumber production',
             'refinery' => '+%s%% ore production',
             'granaries' => '-%s%% lumber and food rot',
