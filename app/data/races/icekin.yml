@@ -41,6 +41,7 @@ units:
       reduces_casualties: 1
       counts_as_wizard_offense: 0.05
       counts_as_wizard_defense: 0.05
+      defense_from_land: mountain,50,2
   - name: Frost Mage
     type:
       - living

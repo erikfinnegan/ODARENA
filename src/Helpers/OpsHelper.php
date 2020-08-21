@@ -120,4 +120,12 @@ class OpsHelper
           return 1;
       }
 
+      public function isHallucination(Dominion $dominion): bool
+      {
+          if($dominion->race->name !== 'Myconid')
+          {
+              return false;
+          }
+      }
+
 }

@@ -275,11 +275,11 @@ class InvadeActionService
             if ($dominion->morale < static::MIN_MORALE) {
                 throw new GameException('You do not have enough morale to invade.');
             }
-
+/*
             if (!$this->passes33PercentRule($dominion, $target, $units)) {
                 throw new GameException('You need to leave at least 1/3 of your total defensive power at home (33% rule).');
             }
-
+*/
             if (!$this->passes43RatioRule($dominion, $target, $landRatio, $units)) {
                 throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
             }
@@ -418,6 +418,7 @@ class InvadeActionService
             $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio);
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
 
+            # Conversions
             if($dominion->race->name === 'Vampires')
             {
                 $offensiveConversions = $this->handleVampiricConversionOnOffense($dominion, $target, $units, $landRatio);
@@ -616,7 +617,7 @@ class InvadeActionService
 
         $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
 
-        // 33% reduction for hitting Barbarians.
+        // 1/3 gains for hitting Barbarians.
         if($defender->race->name === 'Barbarian')
         {
             $attackerPrestigeChange /= 3;
