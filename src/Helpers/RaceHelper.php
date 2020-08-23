@@ -6,6 +6,8 @@ use LogicException;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\RacePerkType;
 
+use OpenDominion\Models\Dominion;
+
 class RaceHelper
 {
     public function getPerkDescriptionHtmlWithValue(RacePerkType $perkType): ?array
@@ -557,6 +559,45 @@ class RaceHelper
             'Simian'
         ];
         return in_array($race->name, $beginnerFriendlyRaces);
+    }
+
+
+    public function hasPeasantsAlias(Race $race): bool
+    {
+        return $race->peasants_alias ? true : false;
+    }
+
+    public function hasDrafteesAlias(Race $race): bool
+    {
+        return $race->draftees_alias ? true : false;
+    }
+
+    public function getPeasantsTerm(Race $race): string
+    {
+        if($this->hasPeasantsAlias($race))
+        {
+            $term = $race->peasants_alias;
+        }
+        else
+        {
+            $term = 'peasant';
+        }
+
+        return ucwords($term);
+    }
+
+    public function getDrafteesTerm(Race $race): string
+    {
+      if($this->hasDrafteesAlias($race))
+      {
+          $term = $race->draftees_alias;
+      }
+      else
+      {
+          $term = 'draftee';
+      }
+
+      return ucwords($term);
     }
 
 }

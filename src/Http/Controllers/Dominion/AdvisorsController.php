@@ -18,6 +18,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use DB;
 use OpenDominion\Helpers\HistoryHelper;
 use OpenDominion\Calculators\RealmCalculator;
+use OpenDominion\Helpers\RaceHelper;
 
 class AdvisorsController extends AbstractDominionController
 {
@@ -33,6 +34,7 @@ class AdvisorsController extends AbstractDominionController
             'productionCalculator' => app(ProductionCalculator::class),
             'landCalculator' => app(LandCalculator::class),
             'realmCalculator' => app(RealmCalculator::class),
+            'raceHelper' => app(RaceHelper::class),
         ]);
     }
 
@@ -78,6 +80,7 @@ class AdvisorsController extends AbstractDominionController
             'militaryCalculator' => app(MilitaryCalculator::class),
             'populationCalculator' => app(PopulationCalculator::class),
             'unitHelper' => app(UnitHelper::class),
+            'raceHelper' => app(RaceHelper::class),
         ]);
     }
 

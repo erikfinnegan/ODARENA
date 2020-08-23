@@ -356,7 +356,7 @@
                                 <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                               </tr>
                               </tr>
-                                <td>Peasants:</td>
+                                <td>{{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}:</td>
                                 <td>{{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                                     @if ($selectedDominion->peasants_last_hour < 0)
                                         <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
@@ -404,7 +404,7 @@
                                 <td>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</td>
                               </tr>
                               <tr>
-                                <td>Per peasant:</td>
+                                <td>Per {{ $raceHelper->getPeasantsTerm($selectedDominion->race) }}:</td>
                                 <td>{{ number_format((2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) / max(1, abs($jobsNeeded)), 3) }} platinum</td>
                               </tr>
                             </tbody>

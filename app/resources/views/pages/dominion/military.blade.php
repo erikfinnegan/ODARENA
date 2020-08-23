@@ -214,15 +214,7 @@
                       @endif
                     </button>
                     <div class="pull-right">
-                      @if ($selectedDominion->race->name == 'Growth')
-                        You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> amoeba available to mutate.
-                      @elseif ($selectedDominion->race->name == 'Myconid')
-                        You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> sporelings available to grow.
-                      @elseif ($selectedDominion->race->name == 'Swarm')
-                        You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> cocoons available to hatch.
-                      @else
-                        You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ str_plural('draftee', $selectedDominion->military_draftees) }} available to train.
-                      @endif
+                        You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }} available.
 
                       @if ($selectedDominion->race->name == 'Snow Elf')
                       <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti trapped.
@@ -255,21 +247,21 @@
             </div>
             <div class="box-body">
                 @if ($selectedDominion->race->name == 'Growth')
-                <p>Here you can mutate your amoeba into military units. Mutating Abscess and Blisters take <b>9 ticks</b> to process, while mutating Cysts and Ulcers take <b>12 ticks</b>.</p>
-                <p>You have {{ number_format($selectedDominion->military_draftees) }} amoeba.</p>
+                <p>Here you can mutate your {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }} into military units. Mutating Abscess and Blisters take <b>9 ticks</b> to process, while mutating Cysts and Ulcers take <b>12 ticks</b>.</p>
+                <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
 
                 @elseif ($selectedDominion->race->name == 'Myconid')
-                <p>Here you can grow your sporelings into Fruitbodies, which can then be grown into Mushrooms. The Mushrooms can be further trained into the mystical Psilocybe or the mighty Amanita.</p>
+                <p>Here you can grow your {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}  into Fruitbodies, which can then be grown into Mushrooms. The Mushrooms can be further trained into the mystical Psilocybe or the mighty Amanita.</p>
                 <p>It takes three ticks to grow Fruitbodies, six ticks to grow Mushrooms, nine ticks to grow a Psilocybe, and 12 ticks to grow an Amanita.</p>
-                <p>You have {{ number_format($selectedDominion->military_draftees) }} sporelings.</p>
+                <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
 
                 @elseif ($selectedDominion->race->name == 'Swarm')
-                <p>Here you can hatch your cocoons into units.</p>
-                <p>You have {{ number_format($selectedDominion->military_draftees) }} cocoons.</p>
+                <p>Here you can hatch your {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}  into units.</p>
+                <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
 
                 @else
-                <p>Here you can train your draftees into stronger military units. Training specialist units take <b>9 ticks</b> to process, while training your other units take <b>12 ticks</b>.</p>
-                {{-- <p>You have {{ number_format($selectedDominion->resource_platinum) }} platinum, {{ number_format($selectedDominion->resource_ore) }} ore and {{ number_format($selectedDominion->military_draftees) }} {{ str_plural('draftee', $selectedDominion->military_draftees) }}.</p> --}}
+                <p>Here you can train your {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}  into stronger military units. Training specialist units take <b>9 ticks</b> to process, while training your other units take <b>12 ticks</b>.</p>
+                <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
                 @endif
 
                 <p>You may also <a href="{{ route('dominion.military.release') }}">release your troops</a> if you wish.</p>

@@ -5,8 +5,8 @@ description: >-
 home_land_type: forest
 playable: 1
 
-peasants_alias: spores
-draftees_alias: sporelings
+peasants_alias: spore
+draftees_alias: sporeling
 
 attacking: 0
 exploring : 2

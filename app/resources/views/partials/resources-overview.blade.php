@@ -37,15 +37,7 @@
                 <div class="col-xs-3">
                     <div class="row">
                       <div class="col-lg-6"><b>
-                        @if ($selectedDominion->race->name == 'Growth')
-                        Cells:
-                        @elseif ($selectedDominion->race->name == 'Myconid')
-                        Spores:
-                        @elseif ($selectedDominion->race->name == 'Swarm')
-                        Larvae:
-                        @else
-                        Peasants:
-                        @endif
+                        {{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}:</td>
                         </div>
                         </b>
                         <div class="col-lg-6">{{ number_format($selectedDominion->peasants) }}</div>

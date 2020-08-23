@@ -17,6 +17,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use Carbon\Carbon;
+use OpenDominion\Helpers\RaceHelper;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
@@ -105,6 +106,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
         {
             $view->with('networthCalculator', app(NetworthCalculator::class));
             $view->with('dominionProtectionService', app(ProtectionService::class));
+            $view->with('raceHelper', app(RaceHelper::class));
         });
     }
 }

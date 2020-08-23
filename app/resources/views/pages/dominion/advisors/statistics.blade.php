@@ -577,15 +577,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                @if ($selectedDominion->race->name == 'Growth')
-                                                    <td>Cells:</td>
-                                                @elseif ($selectedDominion->race->name == 'Myconid')
-                                                    <td>Spores:</td>
-                                                @elseif ($selectedDominion->race->name == 'Swarm')
-                                                    <td>Larvae:</td>
-                                                @else
-                                                    <td>Peasant Population:</td>
-                                                @endif
+                                                <td>{{ $raceHelper->getPeasantsTerm($selectedDominion->race) }}</td>
                                                 <td>
                                                     <strong>{{ number_format($selectedDominion->peasants) }}</strong>
                                                     <small class="text-muted">({{ number_format((($selectedDominion->peasants / $populationCalculator->getPopulation($selectedDominion)) * 100), 2) }}%)</small>

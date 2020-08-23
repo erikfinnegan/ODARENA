@@ -52,15 +52,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                      @if ($dominion->race->name == 'Growth')
-                                        <td>Cells:</td>
-                                      @elseif ($dominion->race->name == 'Myconid')
-                                        <td>Spores:</td>
-                                      @elseif ($dominion->race->name == 'Swarm')
-                                        <td>Larvae:</td>
-                                      @else
-                                        <td>Peasants:</td>
-                                      @endif
+                                        <td>{{ str_plural($raceHelper->getPeasantsTerm($dominion->race)) }}:</td>
                                         <td>{{ number_format($infoOp->data['peasants']) }}</td>
                                     </tr>
                                     <tr>
@@ -171,15 +163,7 @@
                                         <td>{{ number_format($infoOp->data['morale']) }}%</td>
                                     </tr>
                                     <tr>
-                                      @if ($dominion->race->name == 'Growth')
-                                        <td>Amoeba:</td>
-                                      @elseif ($dominion->race->name == 'Myconid')
-                                        <td>Sporeling:</td>
-                                      @elseif ($dominion->race->name == 'Swarm')
-                                        <td>Cocoons:</td>
-                                      @else
-                                        <td>Draftees:</td>
-                                      @endif
+                                        <td>{{ str_plural($raceHelper->getDrafteesTerm($dominion->race)) }}:</td>
                                         <td>{{ number_format($infoOp->data['military_draftees']) }}</td>
                                     </tr>
                                     <tr>

@@ -1937,38 +1937,4 @@ class MilitaryCalculator
 
     }
 
-    public function hasPeasantsAlias(Dominion $dominion): bool
-    {
-        return $dominion->peasants_alias ? true : false;
-    }
-
-    public function hasDrafteesAlias(Dominion $dominion): bool
-    {
-        return $dominion->draftees_alias ? true : false;
-    }
-
-    public function getPeasantsTerm(Dominion $dominion): string
-    {
-        if($this->hasPeasantsAlias($dominion))
-        {
-            return $dominion->peasants_alias;
-        }
-        else
-        {
-            return 'peasants';
-        }
-    }
-
-    public function getDrafteesTerm(Dominion $dominion): string
-    {
-      if($this->hasDrafteesAlias($dominion))
-      {
-          return $dominion->draftees_alias;
-      }
-      else
-      {
-          return 'draftees';
-      }
-    }
-
 }

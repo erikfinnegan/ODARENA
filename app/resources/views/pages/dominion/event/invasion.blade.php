@@ -250,30 +250,30 @@
 
                                     @if (isset($event->data['attacker']['peasants_eaten']) and isset($event->data['attacker']['draftees_eaten']))
                                     <tr>
-                                        <th colspan="2">People Eaten</th>
+                                        <th colspan="2">Population Eaten</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><small class="text-muted">A gruesome sight as {{ $raceHelper->getRaceAdjective($event->source->race) }} warriors eat peasants and draftees alive.</small></td>
+                                        <td colspan="2"><small class="text-muted">A gruesome sight as {{ $raceHelper->getRaceAdjective($event->source->race) }} warriors eat some of the {{ $raceHelper->getRaceAdjective($event->target->race) }}  {{ strtolower(str_plural($raceHelper->getPeasantsTerm($event->target->race))) }} and {{ strtolower(str_plural($raceHelper->getDrafteesTerm($event->target->race))) }}.</small></td>
                                     </tr>
                                     <tr>
-                                        <td>Peasants:</td>
+                                        <td>{{ str_plural($raceHelper->getPeasantsTerm($event->target->race)) }}:</td>
                                         <td><span class="text-green">{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</span></td>
                                     </tr>
                                     <tr>
-                                        <td>Draftees:</td>
+                                        <td>{{ str_plural($raceHelper->getDrafteesTerm($event->target->race)) }}:</td>
                                         <td><span class="text-green">{{ number_format($event->data['attacker']['draftees_eaten']['draftees']) }}</span></td>
                                     </tr>
                                     @endif
 
                                     @if (isset($event->data['attacker']['peasants_burned']))
                                     <tr>
-                                        <th colspan="2">People Burned</th>
+                                        <th colspan="2">Population Burned</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><small class="text-muted">The charred bodies of burned peasants emit a foul odour across the battlefield.</small></td>
+                                        <td colspan="2"><small class="text-muted">The charred bodies of burned {{ str_plural($raceHelper->getPeasantsTerm($event->target->race)) }} emit a foul odour across the battlefield.</small></td>
                                     </tr>
                                     <tr>
-                                        <td>Peasants:</td>
+                                        <td>{{ str_plural($raceHelper->getPeasantsTerm($event->target->race)) }}:</td>
                                         <td><span class="text-green">{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</span></td>
                                     </tr>
                                     @endif
@@ -462,31 +462,31 @@
 
                                     @if (isset($event->data['attacker']['peasants_eaten']) and isset($event->data['attacker']['draftees_eaten']))
                                     <tr>
-                                        <th colspan="2">People Eaten</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->source->race) }} warriors eat some of our peasants and draftees alive.</small></td>
+                                        <th colspan="2">Population Eaten</th>
                                     </tr>
                                     </tr>
                                     <tr>
-                                        <td>Peasants:</td>
-                                        <td><span class="text-red">{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</span></td>
+                                        <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->source->race) }} warriors eat some of our {{ strtolower(str_plural($raceHelper->getPeasantsTerm($event->target->race))) }} and {{ strtolower(str_plural($raceHelper->getDrafteesTerm($event->target->race))) }}.</small></td>
                                     </tr>
                                     <tr>
-                                        <td>Draftees:</td>
-                                        <td><span class="text-red">{{ number_format($event->data['attacker']['draftees_eaten']['draftees']) }}</span></td>
+                                        <td>{{ str_plural($raceHelper->getPeasantsTerm($event->target->race)) }}:</td>
+                                        <td><span class="text-green">{{ number_format($event->data['attacker']['peasants_eaten']['peasants']) }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ str_plural($raceHelper->getDrafteesTerm($event->target->race)) }}:</td>
+                                        <td><span class="text-green">{{ number_format($event->data['attacker']['draftees_eaten']['draftees']) }}</span></td>
                                     </tr>
                                     @endif
 
                                     @if (isset($event->data['attacker']['peasants_burned']))
                                     <tr>
-                                        <th colspan="2">People Burned</th>
+                                        <th colspan="2">Population Burned</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><small class="text-muted">Our peasants have been attacked with fire.</small></td>
+                                        <td colspan="2"><small class="text-muted">Our {{ strtolower(str_plural($raceHelper->getPeasantsTerm($event->target->race))) }} have been attacked with fire.</small></td>
                                     </tr>
                                     <tr>
-                                        <td>Peasants burned:</td>
+                                        <td>{{ str_plural($raceHelper->getPeasantsTerm($event->target->race)) }} burned:</td>
                                         <td><span class="text-red">{{ number_format($event->data['attacker']['peasants_burned']['peasants']) }}</span></td>
                                     </tr>
                                     @endif

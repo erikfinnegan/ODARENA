@@ -30,7 +30,7 @@
                                 <tr>
                                     <td>
                                         <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('draftees', $selectedDominion->race) }}">
-                                            Draftees
+                                            {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}
                                         </span>
                                     </td>
                                     <td class="text-center">{{ number_format($selectedDominion->military_draftees) }}</td>

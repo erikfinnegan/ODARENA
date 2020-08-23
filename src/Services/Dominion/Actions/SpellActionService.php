@@ -398,7 +398,7 @@ class SpellActionService
                     'accuracy' => $this->opsHelper->getInfoOpsAccuracyModifier($target),
                 ];
 */
-                $isHallucination = $this->opsHelper->isHallucination();
+                $isHallucination = $this->opsHelper->isHallucination($target);
                 if($isHallucination)
                 {
                     $infoOp->data = [

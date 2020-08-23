@@ -20,6 +20,7 @@ use OpenDominion\Services\Dominion\QueueService;
 # ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
+use OpenDominion\Helpers\RaceHelper;
 
 class MilitaryController extends AbstractDominionController
 {
@@ -35,6 +36,7 @@ class MilitaryController extends AbstractDominionController
             # ODA
             'improvementCalculator' => app(ImprovementCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
+            'raceHelper' => app(RaceHelper::class),
         ]);
     }
 
@@ -96,6 +98,7 @@ class MilitaryController extends AbstractDominionController
     {
         return view('pages.dominion.release', [
             'unitHelper' => app(UnitHelper::class),
+            'raceHelper' => app(RaceHelper::class),
         ]);
     }
 

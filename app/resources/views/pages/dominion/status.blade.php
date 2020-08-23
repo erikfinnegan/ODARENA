@@ -45,15 +45,7 @@
                                         <td>{{ number_format($landCalculator->getTotalLand($selectedDominion, true)) }}</td>
                                     </tr>
                                     <tr>
-                                      @if ($selectedDominion->race->name == 'Growth')
-                                        <td>Cells:</td>
-                                      @elseif ($selectedDominion->race->name == 'Myconid')
-                                        <td>Spores:</td>
-                                      @elseif ($selectedDominion->race->name == 'Swarm')
-                                        <td>Larvae:</td>
-                                      @else
-                                        <td>Peasants:</td>
-                                      @endif
+                                        <td>{{ $raceHelper->getPeasantsTerm($selectedDominion->race) }}:</td>
                                         <td>{{ number_format($selectedDominion->peasants) }}</td>
                                     </tr>
                                     <tr>
@@ -163,15 +155,7 @@
                                         <td>{{ number_format($selectedDominion->morale) }}%</td>
                                     </tr>
                                     <tr>
-                                      @if ($selectedDominion->race->name == 'Growth')
-                                        <td>Amoeba:</td>
-                                      @elseif ($selectedDominion->race->name == 'Myconid')
-                                        <td>Sporelings:</td>
-                                      @elseif ($selectedDominion->race->name == 'Swarm')
-                                        <td>Cocoons:</td>
-                                      @else
-                                        <td>Draftees:</td>
-                                      @endif
+                                        <td>{{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:</td>
                                         <td>{{ number_format($selectedDominion->military_draftees) }}</td>
                                     </tr>
                                     <tr>

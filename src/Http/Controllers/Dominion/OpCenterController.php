@@ -16,6 +16,9 @@ use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\InfoOpService;
 use OpenDominion\Services\GameEventService;
 
+# ODA
+use OpenDominion\Helpers\RaceHelper;
+
 class OpCenterController extends AbstractDominionController
 {
     public function getIndex()
@@ -76,6 +79,7 @@ class OpCenterController extends AbstractDominionController
             'spellHelper' => app(SpellHelper::class),
             'techHelper' => app(TechHelper::class),
             'unitHelper' => app(UnitHelper::class),
+            'raceHelper' => app(RaceHelper::class),
             'dominion' => $dominion,
             'latestInfoOps' => $latestInfoOps
         ]);
@@ -110,6 +114,7 @@ class OpCenterController extends AbstractDominionController
             'spellHelper' => app(SpellHelper::class),
             'techHelper' => app(TechHelper::class),
             'unitHelper' => app(UnitHelper::class),
+            'raceHelper' => app(RaceHelper::class),
             'dominion' => $dominion,
             'infoOpArchive' => $infoOpArchive
         ]);
