@@ -1,11 +1,11 @@
-# Peasants = Larvae
-# Draftees = Cocoons
-
 name: Swarm
 alignment: good
 description:
 home_land_type: plain
 playable: 1
+
+peasants_alias: larvaeo
+draftees_alias: cocoon
 
 attacking: 2
 exploring : 2

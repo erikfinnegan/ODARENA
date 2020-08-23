@@ -4,6 +4,9 @@ description:
 home_land_type: forest
 playable: 1
 
+peasants_alias: drone
+draftees_alias: antling
+
 attacking: 3
 exploring : 3
 converting: 3

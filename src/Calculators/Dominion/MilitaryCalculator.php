@@ -495,6 +495,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromTimePerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromSpell($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -509,6 +510,7 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
+            $unitPower += $this->getUnitPowerFromVersusSpellPerk($dominion, $target, $unit, $powerType, $calc);
         }
 
         return $unitPower;
@@ -1219,6 +1221,66 @@ class MilitaryCalculator
           return $powerFromPerk;
       }
 
+      protected function getUnitPowerFromSpell(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+
+          $spellPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_spell", null);
+          $powerFromPerk = 0;
+
+          if (!$spellPerkData)
+          {
+              return 0;
+          }
+
+          $powerFromSpell = (float)$spellPerkData[1];
+          $spell = $spellPerkData[0];
+
+          if ($this->spellCalculator->isSpellActive($dominion, $spell))
+          {
+              $powerFromPerk = $powerFromSpell;
+          }
+
+          return $powerFromPerk;
+
+      }
+
+      # Untested/unused
+      protected function getUnitPowerFromVersusSpellPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = []): float
+      {
+          if ($target === null && empty($calc))
+          {
+              return 0;
+          }
+
+          $spellPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_versus_spell", null);
+
+          if(!$spellPerkData)
+          {
+              return 0;
+          }
+
+          $powerVersusSpell = (float)$spellPerkData[1];
+          $spell = $spellPerkData[0];
+
+          if (!empty($calc))
+          {
+              # Override resource amount for invasion calculator
+              if (isset($calc[$spell]))
+              {
+                  $powerFromPerk = $powerVersusSpell;
+              }
+          }
+          elseif ($target !== null)
+          {
+              if($targetSpellActive = $this->spellCalculator->isSpellActive($target, $spell));
+              {
+                  $powerFromPerk = $powerVersusSpell;
+              }
+          }
+
+          return $powerFromPerk;
+      }
+
     /**
      * Returns the Dominion's morale modifier.
      *
@@ -1873,6 +1935,40 @@ class MilitaryCalculator
 
         return $landConquered * $multiplier;
 
+    }
+
+    public function hasPeasantsAlias(Dominion $dominion): bool
+    {
+        return $dominion->peasants_alias ? true : false;
+    }
+
+    public function hasDrafteesAlias(Dominion $dominion): bool
+    {
+        return $dominion->draftees_alias ? true : false;
+    }
+
+    public function getPeasantsTerm(Dominion $dominion): string
+    {
+        if($this->hasPeasantsAlias($dominion))
+        {
+            return $dominion->peasants_alias;
+        }
+        else
+        {
+            return 'peasants';
+        }
+    }
+
+    public function getDrafteesTerm(Dominion $dominion): string
+    {
+      if($this->hasDrafteesAlias($dominion))
+      {
+          return $dominion->draftees_alias;
+      }
+      else
+      {
+          return 'draftees';
+      }
     }
 
 }

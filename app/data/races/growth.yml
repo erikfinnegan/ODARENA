@@ -8,6 +8,9 @@ description: >-
 home_land_type: swamp
 playable: 1
 
+peasants_alias: cell
+draftees_alias: amoeba
+
 attacking: 2
 exploring : 0
 converting: 0

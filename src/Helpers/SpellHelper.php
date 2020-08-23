@@ -429,10 +429,20 @@ class SpellHelper
                 #'races' => collect(['Legion', 'Legion II', 'Legion III', 'Legion IV', 'Legion V', 'Legion VI']),
             ],
             */
+            /*
             [
                 'name' => 'Underground Caves',
                 'description' => 'Psilocybe experience point production replaced by gem production (10x).',
                 'key' => 'underground_caves',
+                'mana_cost' => 5,
+                'duration' => 12*4,
+                'races' => collect(['Myconid']),
+            ],
+            */
+            [
+                'name' => 'Defensive Warts',
+                'description' => 'Stops Amanita land generation and increases their defensive power (see unit description).',
+                'key' => 'defensive_warts',
                 'mana_cost' => 5,
                 'duration' => 12*4,
                 'races' => collect(['Myconid']),

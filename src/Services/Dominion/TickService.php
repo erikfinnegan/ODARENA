@@ -720,6 +720,11 @@ class TickService
             {
                 $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
                 $generatedLand = max($generatedLand, 0);
+
+                if($dominion->race->name === 'Myconid' and $this->spellCalculator->isSpellActive($dominion, 'defensive_warts'))
+                {
+                    $generatedLand = 0;
+                }
             }
 
             $availablePopulation = $this->populationCalculator->getMaxPopulation($dominion) - $this->populationCalculator->getPopulationMilitary($dominion);

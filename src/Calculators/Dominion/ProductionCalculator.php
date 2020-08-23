@@ -128,7 +128,7 @@ class ProductionCalculator
 
         // Unit Perk: Production Bonus (Cult)
         $platinum += $dominion->getUnitPerkProductionBonus('platinum_production');
-                
+
         // Unit Perk Production Reduction (Dragon Unit: Mercenary)
         $upkeep = $dominion->getUnitPerkProductionBonus('platinum_upkeep');
 
@@ -906,13 +906,6 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $gems += $dominion->getUnitPerkProductionBonus('gem_production');
 
-        // Myconid spell: if Underground Caves is cast, the tech_production
-        // bonus on Psilocybe becomes a gem production bonus.
-        if ($this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
-        {
-            $gems += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
-        }
-
         return max(0,$gems);
     }
 
@@ -1001,17 +994,7 @@ class ProductionCalculator
      {
          $tech = max(0, $dominion->prestige);
 
-         if($dominion->race->name == 'Myconid')
-         {
-             if(!$this->spellCalculator->isSpellActive($dominion, 'underground_caves'))
-             {
-                 $tech += $dominion->getUnitPerkProductionBonus('tech_production');
-             }
-         }
-         else
-         {
-             $tech += $dominion->getUnitPerkProductionBonus('tech_production');
-         }
+         $tech += $dominion->getUnitPerkProductionBonus('tech_production');
 
          return max(0,$tech);
      }

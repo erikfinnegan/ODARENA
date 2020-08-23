@@ -113,6 +113,9 @@ class UnitHelper
             'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
+            'offense_from_spell' => 'Offense increased by %2$s if the spell %1$s is active.',
+            'defense_from_spell' => 'Defense increased by %2$s if the spell %1$s is active.',
+
             // Spy related
             'counts_as_spy_defense' => 'Each unit counts as %s of a spy on defense.',
             'counts_as_spy_offense' => 'Each unit counts as %s of a spy on offense.',
@@ -228,10 +231,7 @@ class UnitHelper
             'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, two gallons of blood, and 1/4 bushel of food per peasant.',
 
             // Myconid
-            'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion by 0.50%% for every 1%% of total population made up of this unit.',
-
-            # TBD
-            'is_inanimate' => 'Inanimate.',
+            'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion by 0.50%% for every 1%% of total military made up of this unit.',
         ];
 
         // Get unit - same logic as military page
@@ -253,10 +253,12 @@ class UnitHelper
                     continue;
                 }
 
+
                 $perkValue = $perk->pivot->value;
 
                 // Handle array-based perks
                 $nestedArrays = false;
+
                 // todo: refactor all of this
                 // partially copied from Race::getUnitPerkValueForUnitSlot
                 if (str_contains($perkValue, ','))
@@ -403,25 +405,32 @@ class UnitHelper
                     {
                         foreach ($perkValue as $nestedKey => $nestedValue)
                         {
+                            foreach($nestedValue as $key => $value)
+                            {
+                                $nestedValue[$key] = ucwords(str_replace('_', ' ',$value));
+                            }
                             $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
                         }
                     }
                     else
                     {
+                        #var_dump($perkValue);
+                        foreach($perkValue as $key => $value)
+                        {
+                            $perkValue[$key] = ucwords(str_replace('_', ' ',$value));
+                        }
                         $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                     }
                 }
                 else
                 {
-                    if($unitType == 'unit4' and $perk->key == 'unit_production')
-                    {
-                        #dd($perk->key, $perkValue);
-                    }
+                    $perkValue = str_replace('_', ' ',ucwords($perkValue));
                     $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
             }
 
-            if ($unit->need_boat === false) {
+            if ($unit->need_boat === false)
+            {
                 $helpStrings[$unitType] .= ('<li>No boats needed.</li>');
             }
 

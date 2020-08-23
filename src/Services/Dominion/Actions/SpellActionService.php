@@ -444,7 +444,57 @@ class SpellActionService
                       'recently_invaded_count' => $this->militaryCalculator->getRecentlyInvadedCount($target),
 
                       'hallucination' => $isHallucination,
+
                     ];
+                }
+                else
+                {
+                    $infoOp->data = [
+
+                      'title' => $target->title->name,
+                      'ruler_name' => $target->ruler_name,
+                      'race_id' => $target->race->id,
+                      'land' => $this->landCalculator->getTotalLand($target),
+                      'peasants' => $target->peasants * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'employment' => $this->populationCalculator->getEmploymentPercentage($target),
+                      'networth' => $this->networthCalculator->getDominionNetworth($target),
+                      'prestige' => $target->prestige,
+                      'victories' => $target->stat_attacking_success,
+
+                      'resource_platinum' => $target->resource_platinum * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'resource_food' => $target->resource_food * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'resource_lumber' => $target->resource_lumber * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'resource_mana' => $target->resource_mana * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'resource_ore' => $target->resource_ore * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'resource_gems' => $target->resource_gems * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'resource_tech' => $target->resource_tech * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'resource_boats' => $target->resource_boats + $this->queueService->getInvasionQueueTotalByResource(
+                              $target,
+                              'resource_boats'
+                          ) * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+
+
+                      'resource_champion' => $target->resource_champion,
+                      'resource_soul' => $target->resource_soul,
+                      'resource_blood' => $target->resource_blood,
+                      'resource_wild_yeti' => $target->resource_wild_yeti,
+
+                      'morale' => $target->morale,
+                      'military_draftees' => $target->military_draftees * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'military_unit1' => $this->militaryCalculator->getTotalUnitsForSlot($target, 1) * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'military_unit2' => $this->militaryCalculator->getTotalUnitsForSlot($target, 2) * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'military_unit3' => $this->militaryCalculator->getTotalUnitsForSlot($target, 3) * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'military_unit4' => $this->militaryCalculator->getTotalUnitsForSlot($target, 4) * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'military_spies' => $target->military_spies * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'military_wizards' => $target->military_wizards * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'military_archmages' => $target->military_archmages * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+
+                      'recently_invaded_count' => $this->militaryCalculator->getRecentlyInvadedCount($target),
+
+                      'hallucination' => $isHallucination,
+
+                    ];
+
                 }
 
                 break;

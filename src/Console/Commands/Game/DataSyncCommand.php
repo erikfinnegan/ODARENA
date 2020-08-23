@@ -84,6 +84,9 @@ class DataSyncCommand extends Command implements CommandInterface
                     'attacking' => object_get($data, 'attacking'),
                     'exploring' => object_get($data, 'exploring'),
                     'converting' => object_get($data, 'converting'),
+
+                    'peasants_alias' => object_get($data, 'peasants_alias', null),
+                    'draftees_alias' => object_get($data, 'draftees_alias', null),
                 ]);
 
             if (!$race->exists) {

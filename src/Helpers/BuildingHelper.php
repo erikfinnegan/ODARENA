@@ -243,7 +243,7 @@ class BuildingHelper
             'guard_tower' => ['Defensive power increased by +2% per 1% owned.', 'Maximum +40% DP at 20% owned.'],
             'shrine' => ['Reduces offensive casualties reduced by 5% per 1% owned, up to a maximum of -75% at 15% owned.','Reduces defensive casualties by 1% per 1% owned, up to a maximum of 15%.'],
             'barracks' => ['Houses 36 trained or training military units, including units in training.','Not affected by population bonuses.'],
-            'dock' => ['Produces 1 boat every 20 ticks.','Produces 35 food/tick.','Protects 2.5 docks from being sunk.'],
+            'dock' => ['Produces 1 boat every 20 ticks.','Produces 35 food/tick.','Protects 2.5 boats from being sunk.'],
             'ziggurat' => ['Produces 30 mana/tick','Provides 4 raw defensive power.'],
             'tissue' => ['Houses 160 cells, amoeba, or units.','Produces 4 food/tick.'],
             'mycelia' => ['Houses 30 people or units.','Produces 4 food/tick.']
