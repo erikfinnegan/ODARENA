@@ -36,7 +36,7 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      true_immortal: 1
+      immortal_on_victory: 1
       faster_return: 11
   - name: Cannonball
     type:

@@ -11,7 +11,7 @@ description: >-
   <li><b>Mind Control:</b> The target's spies return some of what they steal to you.</li>
   </ul>
 home_land_type: forest
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 3
