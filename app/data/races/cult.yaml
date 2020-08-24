@@ -80,6 +80,7 @@ units:
       offense: 6
       defense: 3
     perks:
+      no_draftee: 1
       counts_as_wizard_defense: 0.2
       counts_as_wizard_offense: 0.2
       unit_production: 2,0.0333333 # Every 30 Mystics produce 1 Initiate
