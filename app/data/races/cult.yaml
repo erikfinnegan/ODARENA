@@ -8,7 +8,7 @@ description: >-
   <li><b>Cogency:</b> Wizardry casualties are saved and join the Cult as wizards. It takes eight ticks for the new wizards to be ready.</li>
   <li><b>Menticide:</b> Units affected by Mind Control join the Cult permanently as Initiates after the invasion. The menticide procedure takes 12 ticks.</li>
   <li><b>Enthralling:</b> Some of the units and draftees released by the target join you as Thralls. The units take between 6 and 12 ticks to arrive.</li>
-  <li><b>Mind Control:</b> The target's spies return some of what they steal to you.</li>
+  <li><b>Treachery:</b> The target's spies return some of what they steal to you.</li>
   </ul>
 home_land_type: forest
 playable: 1
