@@ -8,6 +8,9 @@ attacking: 2
 exploring : 2
 converting: 2
 
+peasants_alias: shimmerling
+draftees_alias: aspect
+
 perks:
   food_consumption: -50
   does_not_kill: 1

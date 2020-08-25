@@ -16,6 +16,7 @@ perks:
   max_population: 30
   can_invest_soul: 1
   min_rounds_played: 2
+  explore_cost: 15
 units:
   - name: Hellhound
     type:

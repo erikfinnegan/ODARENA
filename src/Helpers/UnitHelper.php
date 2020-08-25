@@ -3,6 +3,7 @@
 namespace OpenDominion\Helpers;
 
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Unit;
 
 class UnitHelper
 {
@@ -449,6 +450,16 @@ class UnitHelper
         return $helpStrings[$unitType] ?: null;
     }
 
+    public function getUnitAttributes(Unit $unit)
+    {
+        foreach($unit->type as $attribute)
+        {
+            $attributes[] = $attribute;
+        }
+
+        return $attributes;
+    }
+
     public function getUnitAttributesString(string $unitType, Race $race = null): string
     {
 
@@ -459,7 +470,6 @@ class UnitHelper
             $unit = $race->units->filter(function ($unit) use ($unitType) {
                 return ($unit->slot == (int)str_replace('unit', '', $unitType));
             })->first();
-
         }
 
         foreach($unit->type as $attribute)

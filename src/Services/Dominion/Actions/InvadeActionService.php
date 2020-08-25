@@ -29,6 +29,7 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Calculators\Dominion\ConversionCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
 class InvadeActionService
 {
@@ -73,6 +74,11 @@ class InvadeActionService
      * @var float Base prestige % change for both parties when invading
      */
     protected const PRESTIGE_CHANGE_PERCENTAGE = 8.5;
+
+    /**
+     * @var float Percentage of mind controlled units that perish
+     */
+    protected const MINDCONTROLLED_UNITS_CASUALTIES = 10;
 
     /** @var BuildingCalculator */
     protected $buildingCalculator;
@@ -127,6 +133,9 @@ class InvadeActionService
 
     /** @var ConversionCalculator */
     protected $conversionCalculator;
+
+    /** @var PopulationCalculator */
+    protected $populationCalculator;
 
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
@@ -185,7 +194,8 @@ class InvadeActionService
         UnitHelper $unitHelper,
         TrainingCalculator $trainingCalculator,
         GuardMembershipService $guardMembershipService,
-        ConversionCalculator $conversionCalculator
+        ConversionCalculator $conversionCalculator,
+        PopulationCalculator $populationCalculator
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -204,7 +214,8 @@ class InvadeActionService
         $this->unitHelper = $unitHelper;
         $this->trainingCalculator = $trainingCalculator;
         $this->guardMembershipService = $guardMembershipService;
-        $this->ConversionCalculator = $conversionCalculator;
+        $this->conversionCalculator = $conversionCalculator;
+        $this->populationCalculator = $populationCalculator;
     }
 
     /**
@@ -369,6 +380,7 @@ class InvadeActionService
 
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
+            $this->handleMindControl($target, $dominion, $units);
 
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
@@ -437,7 +449,9 @@ class InvadeActionService
                 $defensiveConversions = $this->handleDefensiveConversions($target, $landRatio, $units, $dominion);
             }
 
-            $this->handleReturningUnits($dominion, $survivingUnits, $offensiveConversions);
+            $this->handleMenticide($target, $dominion);
+
+            $this->handleReturningUnits($dominion, $survivingUnits, $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
 
             $this->handleMoraleChanges($dominion, $target, $landRatio);
             $this->handleLandGrabs($dominion, $target, $landRatio);
@@ -1917,10 +1931,32 @@ class InvadeActionService
             $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenPeasants;
           }
 
-
         }
       }
 
+    }
+
+    protected function handleMenticide(Dominion $cult, Dominion $attacker)
+    {
+        if(array_sum($this->invasionResult['defender']['mindControlledUnits']) > 0 and ($this->spellCalculator->isSpellActive($cult, 'menticide')))
+        {
+            $this->invasionResult['defender']['isMenticide'] = true;
+        }
+        else
+        {
+            return;
+        }
+
+        $menticides = 0;
+        foreach($this->invasionResult['defender']['mindControlledUnits'] as $slot => $amount)
+        {
+            $menticides += $amount * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
+        }
+
+        $newThralls = min($availablePopulation, $menticides);
+
+        $this->invasionResult['defender']['menticide']['newThralls'] = $newThralls;
+        $cult->military_unit1 += $newThralls;
     }
 
     /**
@@ -1930,7 +1966,7 @@ class InvadeActionService
      * @param array $units
      * @param array $convertedUnits
      */
-    protected function handleReturningUnits(Dominion $dominion, array $units, array $convertedUnits): void
+    protected function handleReturningUnits(Dominion $dominion, array $units, array $convertedUnits, array $mindControlledUnits): void
     {
         $returningUnits = [
           'military_unit1' => 0,
@@ -1966,6 +2002,11 @@ class InvadeActionService
             if (array_key_exists($i, $convertedUnits))
             {
                 $returningAmount += $convertedUnits[$i];
+            }
+
+            if(isset($mindControlledUnits[$i]) and $mindControlledUnits[$i] > 0)
+            {
+                $returningAmount -= $mindControlledUnits[$i] * (static::MINDCONTROLLED_UNITS_CASUALTIES / 100);
             }
 
             $returningUnits[$returningUnitKey] += $returningAmount;
@@ -2432,7 +2473,7 @@ class InvadeActionService
      * Check for events that take place before the invasion:
      *  Beastfolk Ambush
      *
-     * @param Dominion $dominion
+     * @param Dominion $attacker
      * @return void
      */
     protected function handleBeforeInvasionPerks(Dominion $attacker): void
@@ -2444,9 +2485,59 @@ class InvadeActionService
             $this->isAmbush = true;
         }
 
-
         $this->invasionResult['result']['isAmbush'] = $this->isAmbush;
     }
+
+    /**
+     * Check for Cultist Mind Control spell:
+     *
+     * @param Dominion $cult
+     * @param Dominion $attacker
+     * @param array $units
+     * @return void
+     */
+    protected function handleMindControl(Dominion $cult, Dominion $attacker, array $units): void
+    {
+        if ($this->spellCalculator->isSpellActive($cult, 'mind_control'))
+        {
+            $this->invasionResult['defender']['isMindControl'] = true;
+        }
+        else
+        {
+            $this->invasionResult['defender']['isMindControl'] = false;
+            $this->invasionResult['defender']['mindControlledUnits'] = [];
+            return;
+        }
+
+        # How many Mystics do we have?
+        $availableMystics = $cult->military_unit4;
+
+        # Check invading forces for units that are only SENTIENT
+        $mindControlledUnits = [];
+        foreach($units as $slot => $amount)
+        {
+            $mindControlledUnits[$slot] = 0;
+
+            # Get the $unit
+            $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot == $slot);
+                })->first();
+
+            # Get the attributes
+            $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+            # Is it sentient?
+            if(in_array('sentient', $unitAttributes) and !in_array(['intelligent','massive'], $unitAttributes))
+            {
+                $mindControlledUnits[$slot] = min($amount, $availableMystics);
+            }
+
+            $availableMystics -= $mindControlledUnits[$slot];
+            $this->invasionResult['defender']['mindControlledUnits'][$slot] = $mindControlledUnits[$slot];
+        }
+
+    }
+
 
     /**
      * Check whether the invasion is successful.
@@ -2459,8 +2550,8 @@ class InvadeActionService
     protected function checkInvasionSuccess(Dominion $dominion, Dominion $target, array $units): void
     {
         $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
-        $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
-        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units, $landRatio, $this->isAmbush);
+        $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, [], $this->invasionResult['defender']['mindControlledUnits']);
+        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units, $landRatio, $this->isAmbush, $this->invasionResult['defender']['mindControlledUnits']);
         $this->invasionResult['attacker']['op'] = $attackingForceOP;
         $this->invasionResult['defender']['dp'] = $targetDP;
         $this->invasionResult['result']['success'] = ($attackingForceOP > $targetDP);
@@ -2694,7 +2785,8 @@ class InvadeActionService
       Dominion $target,
       array $units,
       float $landRatio,
-      bool $isAmbush
+      bool $isAmbush,
+      array $mindControlledUnits
       ): float
     {
         // Values (percentages)
@@ -2730,7 +2822,8 @@ class InvadeActionService
                                                             $ignoreDraftees,
                                                             $this->isAmbush,
                                                             false,
-                                                            $units # Becomes $invadingUnits
+                                                            $units, # Becomes $invadingUnits
+                                                            $mindControlledUnits
                                                           );
     }
 

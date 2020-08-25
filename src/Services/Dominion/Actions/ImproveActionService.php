@@ -50,7 +50,7 @@ class ImproveActionService
             throw new GameException('You cannot use mana for improvements.');
         }
 
-        if($resource == 'food' and !$dominion->race->getPerkValue('tissue_improvement'))
+        if($resource == 'food' and (!$dominion->race->getPerkValue('tissue_improvement') and !$dominion->race->getPerkValue('can_invest_food')))
         {
             throw new GameException('You cannot use food for improvements.');
         }

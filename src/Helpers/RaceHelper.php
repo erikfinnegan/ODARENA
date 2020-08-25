@@ -119,6 +119,11 @@ class RaceHelper
                 $description = 'Can use souls for improvements';
                 $booleanValue = true;
                 break;
+            case 'can_invest_food':
+                $negativeBenefit = false;
+                $description = 'Can use food for improvements';
+                $booleanValue = true;
+                break;
             case 'population_growth':
                 $negativeBenefit = false;
                 $description = 'Population growth rate';

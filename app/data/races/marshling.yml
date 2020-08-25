@@ -8,6 +8,9 @@ attacking: 1
 exploring : 1
 converting: 1
 
+peasants_alias: bubbler
+draftees_alias: blob
+
 perks:
   cannot_build_barracks: 1
   platinum_production: -50
