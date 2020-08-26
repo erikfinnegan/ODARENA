@@ -20,7 +20,7 @@ perks:
   immortal_wizards: 1
   damage_from_lightning_bolts: -100
   damage_from_insect_swarm: -100
-  draftees_produce_mana: 1
+  draftees_produce_mana: 1.5
   peasants_produce_food: 0.5
   unemployed_peasants_produce_platinum: 2.7
   can_only_abduct_own: 1
