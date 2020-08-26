@@ -397,6 +397,17 @@ class NotificationHelper
                     $data['resource']
                 );
 
+            case 'hourly_dominion.treachery_completed':
+                #$resources = array_keys($data);
+                #$amount = number_format(intval($data[$resource]));
+                #$resource = str_replace('resource_','',$resource);
+                return 'Stolen resources have arrived from treacherous spies.';
+                #return sprintf(
+                #    'Stolen resources have arrived from treacherous spies.',
+                #    $amount,
+                #    $resource
+                #);
+
 
             case 'irregular_dominion.received_invasion':
                 $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);

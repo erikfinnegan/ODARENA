@@ -112,7 +112,7 @@ class TickService
             DB::transaction(function () use ($round)
             {
                 // Update dominions
-                  echo "Updating dominions.\n";
+                  #echo "Updating dominions.\n";
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
@@ -222,7 +222,7 @@ class TickService
                     ]);
 
                 // Update spells
-                  echo "Updating spells.\n";
+                  #echo "Updating spells.\n";
                   DB::table('active_spells')
                       ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
@@ -233,7 +233,7 @@ class TickService
                       ]);
 
                 // Update queues
-                  echo "Updating queues.\n";
+                  #echo "Updating queues.\n";
                   DB::table('dominion_queue')
                       ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
