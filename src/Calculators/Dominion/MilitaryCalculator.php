@@ -256,24 +256,7 @@ class MilitaryCalculator
     ): float
     {
         $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings, $invadingUnits, $mindControlledUnits);
-        $dp *= $this->getDefensivePowerMultiplier($defender, $multiplierReduction);
-
-/*
-        if(isset($attacker))
-        {
-            echo '<pre>';
-            echo $attacker->name . ' is invading ' . $defender->name . ', whose DP is ' . number_format($dp);
-            if($isAmbush)
-            {
-              echo ' and it is an AMBUSH!';
-            }
-            else
-            {
-              echo ' and it is not an ambush.';
-            }
-            echo '</pre>';
-        }
-*/
+        $dp *= $this->getDefensivePowerMultiplier($defender, $attacker, $multiplierReduction);
 
         return ($dp * $this->getMoraleMultiplier($defender));
     }
@@ -425,7 +408,7 @@ class MilitaryCalculator
      * @param float $multiplierReduction
      * @return float
      */
-    public function getDefensivePowerMultiplier(Dominion $dominion, float $multiplierReduction = 0): float
+    public function getDefensivePowerMultiplier(Dominion $dominion, Dominion $attacker = null, float $multiplierReduction = 0): float
     {
         $multiplier = 0;
 
@@ -445,7 +428,7 @@ class MilitaryCalculator
         $multiplier += $dominion->getTechPerkMultiplier('defense');
 
         // Spell
-        $multiplier += $this->getSpellMultiplier($dominion, null, 'defense');
+        $multiplier += $this->getSpellMultiplier($dominion, $attacker, 'defense');
 
         // Beastfolk: Hill increases DP
         if($dominion->race->name == 'Beastfolk')
@@ -1632,7 +1615,7 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getSpellMultiplier(Dominion $dominion, Dominion $target = null, string $power = null): float
+    public function getSpellMultiplier(Dominion $dominion, Dominion $target = null, string $power): float
     {
 
       $multiplier = 0;
@@ -1707,11 +1690,8 @@ class MilitaryCalculator
       }
       elseif($power == 'defense')
       {
-        // Spell: Howling (+10% DP)
-        #if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
-        #{
-        #  $multiplier += 0.10;
-        #}
+        # $dominion = defender
+        # $target = attacker
 
         // Spell: Icekin Blizzard (+5% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'blizzard'))
@@ -1719,7 +1699,7 @@ class MilitaryCalculator
           $multiplier += 0.05;
         }
 
-        // Spell: Halfling Defensive Frenzy (+20% DP)
+        // Spell: Halfling Defensive Frenzy (+10% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'defensive_frenzy'))
         {
           $multiplier += 0.10;
@@ -1744,12 +1724,11 @@ class MilitaryCalculator
           $multiplier += 1.00;
         }
 
-        // Spell: Primordial Wrath (+100% OP)
+        // Spell: Primordial Wrath (+50% DP)
         if ($this->spellCalculator->isSpellActive($dominion, 'primordial_wrath'))
         {
           $multiplier += 0.50;
         }
-
 
         // Spell: Aether (+10% DP)
         # Condition: must have equal amounts of every unit.
@@ -1761,6 +1740,15 @@ class MilitaryCalculator
             and $dominion->military_unit3 == $dominion->military_unit4)
             {
               $multiplier += 0.10;
+            }
+        }
+
+        // Spell: Chiting (+15% DP if attacker has Insect Swarm)
+        if(isset($target))
+        {
+            if ($this->spellCalculator->isSpellActive($dominion, 'chitin') and $this->spellCalculator->isSpellActive($target, 'insect_swarm'))
+            {
+                $multiplier += 0.15;
             }
         }
 

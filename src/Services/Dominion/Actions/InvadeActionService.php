@@ -490,7 +490,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -1223,16 +1223,19 @@ class InvadeActionService
         $totalDefensiveCasualties = $totalDefensiveCasualties * (1 - ($reduceConversions / 100));
 
         # Remove units with fixed casualties greater than 50% or specific attributes.
-        $exemptibleUnitAttributes = ['ammunition', 'machine', 'equipment', 'ship', 'magical'];
+        $exemptibleUnitAttributes = ['ammunition', 'machine', 'mechanical', 'equipment', 'ship', 'magical'];
         foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
         {
-            $unit = $target->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot == $slot);
-                })->first();
-            $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-            if(in_array($exemptibleUnitAttributes, $unitAttributes) or $target->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+            if($slot !== 'draftees')
             {
-                $totalDefensiveCasualties -= $lost;
+                $unit = $target->race->units->filter(function ($unit) use ($slot) {
+                        return ($unit->slot == $slot);
+                    })->first();
+                $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+                if(in_array($exemptibleUnitAttributes, $unitAttributes) or $target->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+                {
+                    $totalDefensiveCasualties -= $lost;
+                }
             }
         }
 

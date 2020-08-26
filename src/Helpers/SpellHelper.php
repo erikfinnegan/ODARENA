@@ -447,9 +447,19 @@ class SpellHelper
                 'duration' => 12*4,
                 'races' => collect(['Myconid']),
             ],
+            /*
             [
                 'name' => 'Chitin',
                 'description' => 'Cocoons receive 1 DP each. Unaffected by Unholy Ghost or Dragon\'s Roar.',
+                'key' => 'chitin',
+                'mana_cost' => 10,
+                'duration' => 12*4,
+                'races' => collect(['Swarm']),
+            ],
+            */
+            [
+                'name' => 'Chitin',
+                'description' => '+15% defensive power if attacker is affected by Insect Swarm swarm.',
                 'key' => 'chitin',
                 'mana_cost' => 10,
                 'duration' => 12*4,
