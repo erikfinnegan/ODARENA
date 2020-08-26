@@ -37,7 +37,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      offense_vs_barren_land: 15,1.25 # ratio%, max
+      offense_vs_barren_land: 12,1.25 # ratio%, max
   - name: Burrower
     type:
       - living
@@ -62,7 +62,7 @@ units:
       offense: 4
       defense: 7
     perks:
-      offense_vs_barren_land: 10,1 # ratio%, max
+      offense_vs_barren_land: 10,1.5 # ratio%, max
       fewer_casualties_defense: 80
       immortal_on_fending_off: 1
   - name: Naga

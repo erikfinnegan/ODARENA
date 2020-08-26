@@ -839,7 +839,7 @@ class MilitaryCalculator
         }
 
         $ratio = (int)$versusLandPerkData[0];
-        $max = (int)$versusLandPerkData[1];
+        $max = (float)$versusLandPerkData[1];
 
         $barrenLandPercentage = 0;
         if (!empty($calc))
