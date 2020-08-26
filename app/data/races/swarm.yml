@@ -37,7 +37,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      offense_vs_barren_land: 18,1.5 # ratio%, max
+      offense_vs_barren_land: 15,1.5 # ratio%, max
   - name: Burrower
     type:
       - living
@@ -77,6 +77,6 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_vs_barren_land: 6,3 # ratio%, max
+      offense_vs_barren_land: 6,2.5 # ratio%, max
       fewer_casualties_defense: 80
       immortal_on_fending_off: 1
