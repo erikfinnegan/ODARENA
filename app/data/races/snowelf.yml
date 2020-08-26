@@ -79,3 +79,4 @@ units:
     perks:
       no_draftee: 1
       offense_vs_building: gryphon_nest,10,2
+      plunders: food;2,gems;2

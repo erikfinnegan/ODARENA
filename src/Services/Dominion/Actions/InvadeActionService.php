@@ -437,7 +437,7 @@ class InvadeActionService
             }
             else
             {
-                $offensiveConversions = $this->handleOffensiveConversions($dominion, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
+                $offensiveConversions = $this->handleOffensiveConversions($dominion, $target, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
             }
 
             if($target->race->name === 'Vampires')
@@ -1210,6 +1210,7 @@ class InvadeActionService
      */
     protected function handleOffensiveConversions(
         Dominion $dominion,
+        Dominion $target,
         float $landRatio,
         array $units,
         int $totalDefensiveCasualties,
@@ -1223,10 +1224,13 @@ class InvadeActionService
 
         # Remove units with fixed casualties greater than 50% or specific attributes.
         $exemptibleUnitAttributes = ['ammunition', 'machine', 'equipment', 'ship', 'magical'];
-        foreach($this->invasionResult['defender']['unitsLost'] as $unit => $lost)
+        foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
         {
+            $unit = $target->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot == $slot);
+                })->first();
             $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-            if(in_array($exemptibleUnitAttributes, $unitAttributes) or $dominion->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties") >= 50)
+            if(in_array($exemptibleUnitAttributes, $unitAttributes) or $target->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
             {
                 $totalDefensiveCasualties -= $lost;
             }
@@ -1385,10 +1389,13 @@ class InvadeActionService
 
         # Remove units with fixed casualties greater than 50% or specific attributes.
         $exemptibleUnitAttributes = ['ammunition', 'machine', 'equipment', 'ship', 'magical'];
-        foreach($this->invasionResult['attacker']['unitsLost'] as $unit => $lost)
+        foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $lost)
         {
+            $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot == $slot);
+                })->first();
             $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-            if(in_array($exemptibleUnitAttributes, $unitAttributes) or $attacker->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties") >= 50)
+            if(in_array($exemptibleUnitAttributes, $unitAttributes) or $attacker->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
             {
                 $totalOffensiveCasualties -= $lost;
             }
@@ -2549,7 +2556,7 @@ class InvadeActionService
             $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
 
             # Is it sentient?
-            if(in_array('sentient', $unitAttributes) and !in_array(['intelligent','massive'], $unitAttributes))
+            if(in_array('sentient', $unitAttributes) and !in_array(['intelligent','massive','mindless'], $unitAttributes))
             {
                 $mindControlledUnits[$slot] = min($amount, $availableMystics);
             }

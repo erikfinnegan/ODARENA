@@ -15,7 +15,7 @@ perks:
 units:
   - name: Skeleton
     type:
-      - sentient
+      - mindless
     need_boat: false
     cost:
       platinum: 225
@@ -27,7 +27,7 @@ units:
       increases_casualties_on_offense: 1
   - name: Ghoul
     type:
-      - sentient
+      - mindless
     cost:
       platinum: 225
     power:

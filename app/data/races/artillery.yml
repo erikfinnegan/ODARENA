@@ -31,13 +31,14 @@ units:
       ore: 500
       lumber: 100
     power:
-      offense: 1
+      offense: 0
       defense: 4
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
       immortal_on_victory: 1
       faster_return: 11
+      sendable_with_zero_op: 1
   - name: Cannonball
     type:
       - ammunition
@@ -52,7 +53,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       fixed_casualties: 100
-      offense_from_pairing: 2,4 # slot, amount
+      offense_from_pairing: 2,5 # slot, amount
       damages_improvements_on_attack: 100
   - name: Burning Cannonball
     type:
@@ -69,5 +70,5 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       fixed_casualties: 100
-      offense_from_pairing: 2,9 # slot, amount
+      offense_from_pairing: 2,10 # slot, amount
       burns_peasants_on_attack: 1

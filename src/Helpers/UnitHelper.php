@@ -183,7 +183,7 @@ class UnitHelper
             // Misc
             'faster_return' => 'Returns %s ticks faster from battle.',
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
-            'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
+            #'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
 
             // Training
             'cannot_be_trained' => 'Unit cannot be trained.',
