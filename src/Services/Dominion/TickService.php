@@ -317,7 +317,7 @@ class TickService
 
                 DB::transaction(function () use ($dominion)
                 {
-                    echo "Ticking $dominion->name.\n";
+                    #echo "Ticking $dominion->name.\n";
                     # Send starvation notification.
                     if($dominion->tick->starvation_casualties > 0)
                     {
