@@ -70,5 +70,5 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       fixed_casualties: 100
-      offense_from_pairing: 2,10 # slot, amount
+      offense_from_pairing: 2,9 # slot, amount
       burns_peasants_on_attack: 1

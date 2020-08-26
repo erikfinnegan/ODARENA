@@ -221,7 +221,7 @@
                                         @endforeach
                                     @endif
 
-                                    @if (isset($event->data['attacker']['demonic_collection']))
+                                    @if (isset($event->data['attacker']['demonic_collection']) and array_sum($event->data['attacker']['demonic_collection']) > 0)
                                     <tr>
                                         <th colspan="2">Demonic Collection</th>
                                     </tr>
@@ -291,6 +291,36 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2"><span class="text-green">{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }} improvement points destroyed</span></td>
+                                    </tr>
+                                    @endif
+
+
+
+                                    @if (isset($event->data['defender']['isMindControl']))
+                                    <tr>
+                                        <th colspan="2">Mind Control</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Cultist Mystics take control of the minds of some of ours soldiers and turn them against us.</small></td>
+                                    </tr>
+                                    @foreach($event->data['defender']['mindControlledUnits'] as $slot => $amount)
+                                        <tr>
+                                            <td>{{ $event->source->race->units->where('slot', $slot)->first()->name }}:</td>
+                                            <td><span class="text-red">{{ number_format($amount) }}</span> <small class="text-muted">(of which {{ number_format($amount*0.10) }} died in combat)</small></td>
+                                        </tr>
+                                    @endforeach
+                                    @endif
+
+                                    @if (isset($event->data['defender']['isMenticide']))
+                                    <tr>
+                                        <th colspan="2">Menticide</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">The Mystics destroy the minds of the mind controlled units, capturing them.</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total units lost:</td>
+                                        <td><span class="text-red">{{ number_format($event->data['defender']['menticide']['newThralls']) }}</span></td>
                                     </tr>
                                     @endif
                                 </tbody>
