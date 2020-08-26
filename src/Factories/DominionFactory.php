@@ -457,7 +457,6 @@ class DominionFactory
             'building_ziggurat' => $startingBuildings['ziggurat'],
             'building_tissue' => $startingBuildings['tissue'],
             'building_mycelia' => $startingBuildings['mycelia'],
-            #'building_tunnels' => $startingBuildings['tunnels'],
 
             'npc_modifier' => $startingResources['npc_modifier'],
 
@@ -638,7 +637,6 @@ class DominionFactory
                 'ziggurat' => 0,
                 'tissue' => 0,
                 'mycelia' => 0,
-                #'tunnels' => 0,
                 'smithy' => 0,
                 'home' => 0,
                 'forest_haven' => 0,
@@ -657,10 +655,9 @@ class DominionFactory
               'tower' => 0,
               'farm' => 0,
               'lumberyard' => 0,
-              'ziggurat' => intval($acresBase/2),
+              'ziggurat' => $acresBase,
               'tissue' => 0,
               'mycelia' => 0,
-              #'tunnels' => 0,
               'smithy' => 0,
               'home' => 0,
               'forest_haven' => 0,
@@ -682,7 +679,6 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => $acresBase,
               'mycelia' => 0,
-              #'tunnels' => 0,
               'smithy' => 0,
               'home' => 0,
               'forest_haven' => 0,
@@ -704,7 +700,6 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => $acresBase,
-              #'tunnels' => 0,
               'smithy' => 0,
               'home' => 0,
               'forest_haven' => 0,
@@ -726,7 +721,6 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => 0,
-              #'tunnels' => 0,
               'smithy' => 0,
               'home' => 0,
               'forest_haven' => 0,
@@ -763,7 +757,6 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => 0,
-              #'tunnels' => 0,
           ];
         }
         # Default
@@ -776,7 +769,6 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => 0,
-              #'tunnels' => 0,
               'smithy' => 0,
               'home' => 0,
               'forest_haven' => 0,

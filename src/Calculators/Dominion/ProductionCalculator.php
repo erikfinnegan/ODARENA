@@ -303,8 +303,7 @@ class ProductionCalculator
         // Spell [hostile]: Insect Swarm (-5%)
         if ($this->spellCalculator->isSpellActive($dominion, 'insect_swarm'))
         {
-            $multiplier -= 0.05;
-            $multiplier *= (1 - $dominion->race->getPerkMultiplier('damage_from_insect_swarm'));
+            $multiplier -= 0.05 * (1 - $dominion->race->getPerkMultiplier('damage_from_insect_swarm'));
         }
 
         // Invasion Spell: Great Fever (-5% food production)
@@ -318,7 +317,7 @@ class ProductionCalculator
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
 
-        // Improvement: Tissue (growth)
+        // Improvement: Tissue (Growth)
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tissue');
 
         // Prestige Bonus

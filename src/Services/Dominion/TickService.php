@@ -718,6 +718,13 @@ class TickService
         $attritionUnit2 = 0;
         $attritionUnit3 = 0;
         $attritionUnit4 = 0;
+
+        # Cult unit attrition reduction
+        if($dominion->race->name == 'Cult')
+        {
+            $attritionReduction = $dominion->military_unit3 / $this->populationCalculator->getPopulationMilitary($dominion);
+        }
+
         for ($slot = 1; $slot <= 4; $slot++)
         {
             // Myconid: Land generation
