@@ -526,7 +526,7 @@ class DominionFactory
         {
           return [
               'plain' => 0,
-              'mountain' => intval($acresBase-$acresBase/2),
+              'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
