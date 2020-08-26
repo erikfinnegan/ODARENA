@@ -670,10 +670,8 @@ class ProductionCalculator
         // Unit Perk Production Bonus
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');
 
-        if($dominion->race->getPerkValue('draftee_mana_production'))
-        {
-          $mana += $dominion->military_draftees * $dominion->race->getPerkValue('draftee_mana_production');
-        }
+        // Perk: mana draftee production
+        $mana += $dominion->military_draftees * $dominion->race->getPerkValue('draftees_produce_mana');
 
         return max(0,$mana);
     }

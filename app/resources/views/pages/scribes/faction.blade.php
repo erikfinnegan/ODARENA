@@ -11,7 +11,7 @@
                 <div class="col-md-12 col-md-9">
 
                     <div class="row">
-                        <div class="col-md-12 col-md-9">
+                        <div class="col-md-12 col-md-12">
 
                         @if($race->description)
                             <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Important</h4>

@@ -122,7 +122,6 @@ class CasualtiesCalculator
             $multiplier = 0;
         }
 
-
         // Perk: immortal on victory
         if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
         {
@@ -228,7 +227,7 @@ class CasualtiesCalculator
      * @param int|null $slot Null is for non-racial units and thus used as draftees casualties multiplier
      * @return float
      */
-    public function getDefensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $attacker, ?int $slot, array $units, float $landRatio, bool $isAmbush): float
+    public function getDefensiveCasualtiesMultiplierForUnitSlot(Dominion $dominion, Dominion $attacker, ?int $slot, array $units, float $landRatio, bool $isAmbush, bool $isInvasionSuccessful): float
     {
         $multiplier = 1;
 
@@ -254,6 +253,12 @@ class CasualtiesCalculator
 
             // Race perk-based immortality
             if (($multiplier !== 1) && $this->isImmortalVersusRacePerk($dominion, $attacker, $slot))
+            {
+                $multiplier = 0;
+            }
+
+            // Perk: immortal on victory
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_fending_off') and !$isInvasionSuccessful)
             {
                 $multiplier = 0;
             }

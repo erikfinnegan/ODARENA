@@ -36,7 +36,7 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      immortal_on_victory: 1
+      immortal_on_fending_off: 1
       faster_return: 11
       sendable_with_zero_op: 1
   - name: Cannonball

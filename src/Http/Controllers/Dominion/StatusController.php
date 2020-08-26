@@ -15,6 +15,7 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\TickActionRequest;
 use OpenDominion\Services\Dominion\Actions\TickActionService;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\TitleHelper;
 
 class StatusController extends AbstractDominionController
 {
@@ -35,6 +36,7 @@ class StatusController extends AbstractDominionController
             'queueService' => app(QueueService::class),
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
+            'titleHelper' => app(TitleHelper::class),
             'notifications' => $notifications
         ]);
     }

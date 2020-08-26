@@ -55,7 +55,7 @@ class Title extends AbstractModel
     public function getPerkBonus(Dominion $dominion): float
     {
         $bonus = 0;
-        $bonus += (1 - exp(-$dominion->resource_tech / 500000));
+        $bonus += (1 - exp(-$dominion->resource_tech / 100000));
         $bonus += $dominion->race->getPerkMultiplier('title_bonus');
         return 1 + $bonus;
     }
@@ -66,11 +66,13 @@ class Title extends AbstractModel
      */
     public function getPerkValue(string $key): float
     {
-        $perks = $this->perks->filter(function (TitlePerkType $titlePerkType) use ($key) {
+        $perks = $this->perks->filter(function (TitlePerkType $titlePerkType) use ($key)
+        {
             return ($titlePerkType->key === $key);
         });
 
-        if ($perks->isEmpty()) {
+        if ($perks->isEmpty())
+        {
             return 0;
         }
 

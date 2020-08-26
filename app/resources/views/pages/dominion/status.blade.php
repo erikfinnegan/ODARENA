@@ -29,7 +29,11 @@
                                         <td>Ruler:</td>
                                         <td>
                                             @if(isset($selectedDominion->title->name))
-                                                  <em>{{ $selectedDominion->title->name }}</em>
+                                                  <em>
+                                                      <span data-toggle="tooltip" data-placement="top" title="{!! $titleHelper->getRulerTitlePerksForDominion($selectedDominion) !!}">
+                                                          {{ $selectedDominion->title->name }}
+                                                      </span>
+                                                  </em>
                                             @endif
 
                                             {{ $selectedDominion->ruler_name }}

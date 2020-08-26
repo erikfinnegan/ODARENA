@@ -1,18 +1,18 @@
 commander:
   name: Commander
   perks:
-    military_cost: -1
+    military_cost: -2
 
 conjurer:
   name: Conjurer
   perks:
-    spell_cost: -5
+    spell_cost: -10
 
 surveyor:
   name: Surveyor
   perks:
-    construction_cost: -5
-    rezone_cost: -5
+    construction_cost: -7.5
+    rezone_cost: -7.5
 
 engineer:
   name: Engineer
@@ -22,18 +22,18 @@ engineer:
 investigator:
   name: Investigator
   perks:
-    spy_strength: 7.5
+    spy_strength: 10
 
 pathfinder:
   name: Pathfinder
   perks:
-    explore_cost: -5
+    explore_cost: -7.5
 
 excavator:
   name: Excavator
   perks:
-    ore_production: 2.5
-    gem_production: 2.5
+    ore_production: 3.25
+    gem_production: 3.25
 
 researcher:
   name: Researcher
@@ -43,14 +43,19 @@ researcher:
 healer:
   name: Healer
   perks:
-    casualties: -2.5
+    casualties: -5
 
 embalmer:
   name: Embalmer
   perks:
-    conversions: 2.5
+    conversions: 5
 
-warden:
-  name: Warden
+forester:
+  name: Forester
   perks:
     lumber_production: 2.5
+
+merchant:
+  name: Merchant
+  perks:
+    exchange_rate: 10

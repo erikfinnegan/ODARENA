@@ -3,12 +3,12 @@ alignment: independent
 description: >-
   <p>The Cult has many unique spells:</p>
   <ul>
-  <li><b>Mind Control:</b> During an invasion, some of the invading units will fight for you. Each defending Mystic can control one living unit.</li>
-  <li><b>Persial:</b> Captured spies and espionage units join the Cult as spies. It takes two ticks to complete persuasion.</li>
-  <li><b>Cogency:</b> Wizardry casualties are saved and join the Cult as wizards. It takes eight ticks for the new wizards to be ready.</li>
-  <li><b>Menticide:</b> Units affected by Mind Control join the Cult permanently as Initiates after the invasion. The menticide procedure takes 12 ticks.</li>
-  <li><b>Enthralling:</b> Some of the units and draftees released by the target join you as Thralls. The units take between 6 and 12 ticks to arrive.</li>
-  <li><b>Treachery:</b> The target's spies return some of what they steal to you.</li>
+  <li><b>Mind Control</b> (<em>self-spell</em>): When defending, each Mystic takes control of one invading unit's mind. Mindcontrolled units provide 2 raw DP. Only units which have the attribute Sentient and neither of the attributes Intelligent, Massive, or Mindless can be mindcontrolled.</li>
+  <li><b>Menticide</b> (<em>self-spell</em>):Units affected by Mind Control join the Cult as Thralls immediately after the invasion.</li>
+  <li><b>Persuasion</b> (<em>self-spell</em>):Captured spies and espionage units join the Cult as spies. It takes two ticks to complete persuasion.</li>
+  <li><b>Cogency</b> (<em>self-spell</em>): Wizardry casualties are saved and join the Cult as wizards. It takes eight ticks for the new wizards to be ready.</li>
+  <li><b>Enthralling</b> (<em>hostile spell</em>): Some of the units and draftees released by the target join you as Thralls. The new units take between 6 and 12 ticks to arrive.</li>
+  <li><b>Treachery</b> (<em>hostile spell</em>): The target's spies return some of what they steal to you.</li>
   </ul>
 home_land_type: forest
 playable: 1
@@ -22,6 +22,7 @@ perks:
   population_growth: 15
   min_rounds_played: 6
   max_per_round: 1
+  cannot_explore: 1
 units:
   - name: Thrall
     type:

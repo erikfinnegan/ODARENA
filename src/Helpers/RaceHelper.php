@@ -339,7 +339,7 @@ class RaceHelper
                 $valueType = ' platinum/tick';
                 $booleanValue = false;
                 break;
-            case 'draftee_mana_production':
+            case 'draftees_produce_mana':
                 $negativeBenefit = false;
                 $description = 'Draftees produce mana';
                 $valueType = ' mana/tick';

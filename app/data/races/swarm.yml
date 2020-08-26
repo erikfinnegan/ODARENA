@@ -1,6 +1,7 @@
 name: Swarm
 alignment: good
-description:
+description: >-
+  <p>Buildings under construction count as barren land for the purpose of Scarab, Arachnid, and Naga offensive power perk, except for against Barbarians.</p>
 home_land_type: plain
 playable: 1
 
@@ -12,15 +13,14 @@ exploring : 2
 converting: 1
 
 perks:
-  extra_barren_max_population: 25
+  extra_barren_max_population: 27
   cannot_construct: 1
   food_consumption: -50
   immortal_spies: 1
   immortal_wizards: 1
   damage_from_lightning_bolts: -100
   damage_from_insect_swarm: -100
-  draftee_dp: 0.01
-  draftee_mana_production: 1
+  draftees_produce_mana: 1
   peasants_produce_food: 0.5
   unemployed_peasants_produce_platinum: 2.7
   can_only_abduct_own: 1
@@ -42,7 +42,6 @@ units:
     type:
       - living
       - sentient
-      - intelligent
     cost:
       platinum: 375
     power:
@@ -50,6 +49,7 @@ units:
       defense: 4
     perks:
       gem_production: 0.5
+      immortal_on_fending_off: 1
   - name: Arachnid
     type:
       - living
@@ -64,6 +64,7 @@ units:
     perks:
       offense_vs_barren_land: 10,1 # ratio%, max
       fewer_casualties_defense: 80
+      immortal_on_fending_off: 1
   - name: Naga
     type:
       - living
@@ -76,5 +77,6 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_vs_barren_land: 6.5,1.5 # ratio%, max
+      offense_vs_barren_land: 6,2 # ratio%, max
       fewer_casualties_defense: 80
+      immortal_on_fending_off: 1

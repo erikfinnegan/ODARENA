@@ -100,7 +100,7 @@ class UnitHelper
             'offense_from_time' => 'Offense increased by %3$s between %1$s:00 and %2$s:00.',
             'defense_from_time' => 'Defense increased by %3$s between %1$s:00 and %2$s:00.',
 
-            'offense_vs_barren_land' => 'Offense increased by 1 against every %1$s%% barren land of target (max +%2$s). Unfinished buildings count as barren land. Does not count against Barbarians.',
+            'offense_vs_barren_land' => 'Offense increased by 1 against every %1$s%% barren land of target (max +%2$s).',
 
             'offense_vs_resource' => 'Offense increased by 1 for every %2$s %1$s target has (max +%3$s).',
             'defense_vs_resource' => 'Defense increased by 1 for every %2$s %1$s attacker has (max +%3$s).',
@@ -138,7 +138,7 @@ class UnitHelper
             'immortal' => 'Immortal in combat. Only dies against Divine Intervention.',
             'true_immortal' => 'Immortal in combat.',
             'immortal_on_victory' => 'Immortal in combat if invasion is successful.',
-            'true_immortal_defense' => 'Immortal in combat if successfully fending off invader.',
+            'immortal_on_fending_off' => 'Immortal in combat if successfully fending off invader.',
 
             'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
 

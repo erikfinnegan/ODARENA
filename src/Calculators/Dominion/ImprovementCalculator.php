@@ -152,7 +152,7 @@ class ImprovementCalculator
             'forestry' => 4000,
             'refinery' => 4000,
             'granaries' => 5000,
-            'tissue' => 50000,
+            'tissue' => 75000,
         ];
 
         return ($coefficients[$improvementType] ?: null);
@@ -176,7 +176,7 @@ class ImprovementCalculator
         # (Growth only sees food)
         if($dominion->race->getPerkValue('tissue_improvement') or $dominion->race->getPerkValue('can_invest_food'))
         {
-          $worth['food'] = 1.25;
+          $worth['food'] = 1.20;
         }
         # Demon: can also invest souls
         if($dominion->race->getPerkValue('can_invest_soul'))

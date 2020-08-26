@@ -6,6 +6,8 @@ use LogicException;
 use OpenDominion\Models\Title;
 use OpenDominion\Models\TitlePerkType;
 
+use OpenDominion\Models\Dominion;
+
 class TitleHelper
 {
     public function getPerkDescriptionHtmlWithValue(TitlePerkType $perkType): ?array
@@ -65,6 +67,10 @@ class TitleHelper
             case 'lumber_production':
                 $negativeBenefit = false;
                 $description = 'Lumber production:';
+                break;
+            case 'exchange_rate':
+                $negativeBenefit = false;
+                $description = 'Better exchange rates:';
                 break;
             default:
                 return null;
@@ -129,6 +135,30 @@ class TitleHelper
         }
 
         return $result;
+    }
+
+    public function getRulerTitlePerksForDominion(Dominion $dominion): string
+    {
+        $rulerTitlePerks = [];
+
+        foreach($dominion->title->perks as $perk)
+        {
+            $perkDescription = $this->getPerkDescriptionHtmlWithValue($perk);
+            $perkDescription = $perkDescription['description'];
+            $value = $dominion->title->getPerkMultiplier($perk->key);
+
+            $rulerTitlePerks[$perkDescription] = round(($value * $dominion->title->getPerkBonus($dominion))*100,2);
+        }
+
+        $rulerTitlePerksString = '<ul>';
+        foreach($rulerTitlePerks as $perk => $value)
+        {
+            $rulerTitlePerksString .= '<li>' . $perk . '&nbsp;' . $value . '%</li>';
+        }
+        $rulerTitlePerksString .= '<ul>';
+
+        return $rulerTitlePerksString;
+
     }
 
 }
