@@ -59,7 +59,7 @@ units:
     type:
       - living
       - sentient
-      - enormous
+      - massive
       - intelligent
     need_boat: false
     static_networth: 18

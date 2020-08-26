@@ -36,31 +36,33 @@ units:
       - ammunition
     need_boat: false
     cost:
-      platinum: 775
-      mana: 110
+      platinum: 500
+      mana: 100
     power:
       offense: 1
       defense: 0
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
-      offense_from_pairing: 3,25 # slot, amount
+      offense_from_pairing: 3,29 # slot, amount
       fixed_casualties: 100
   - name: Trebuchet
     type:
       - machine
     need_boat: false
     cost:
-      platinum: 1700
+      platinum: 1000
       lumber: 150
+      mana: 10
     power:
-      offense: 2
+      offense: 0
       defense: 0
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
       true_immortal: 1
       faster_return: 11
+      sendable_with_zero_op: 1
   - name: Yeti
     type:
       - living
@@ -70,7 +72,7 @@ units:
       wild_yeti: 1
       platinum: 1250
       ore: 100
-      food: 100
+      food: 50
     power:
       offense: 8
       defense: 8

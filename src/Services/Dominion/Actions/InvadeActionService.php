@@ -427,7 +427,7 @@ class InvadeActionService
             $this->handlePrestigeChanges($dominion, $target, $units, $landRatio, $countsAsVictory, $countsAsBottomfeed, $countsAsFailure, $countsAsRaze);
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
-            $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio);
+            $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio,  $this->invasionResult['defender']['mindControlledUnits']);
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
 
             # Conversions
@@ -680,7 +680,7 @@ class InvadeActionService
      * @param array $units
      * @return array All the units that survived and will return home
      */
-    protected function handleOffensiveCasualties(Dominion $dominion, Dominion $target, array $units, float $landRatio): array
+    protected function handleOffensiveCasualties(Dominion $dominion, Dominion $target, array $units, float $landRatio, array $mindControlledUnits): array
     {
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
@@ -701,6 +701,14 @@ class InvadeActionService
         }
 
         $offensiveUnitsLost = [];
+
+        if(array_sum($mindControlledUnits) > 0)
+        {
+            foreach($mindControlledUnits as $slot => $amount)
+            {
+                $units[$slot] -= $amount;
+            }
+        }
 
         if ($isInvasionSuccessful)
         {
@@ -944,8 +952,6 @@ class InvadeActionService
         $landConquered = $this->militaryCalculator->getLandConquered($dominion, $target, $landRatio);
         $discoverLand = $this->militaryCalculator->checkDiscoverLand($dominion, $target, $landConquered);
         $extraLandDiscovered = $this->militaryCalculator->getExtraLandDiscovered($dominion, $discoverLand, $landConquered);
-
-        #dd($extraLandDiscovered);
 
         $this->invasionResult['attacker']['landConquered'] = [];
         $this->invasionResult['attacker']['landDiscovered'] = [];
@@ -1215,12 +1221,23 @@ class InvadeActionService
         // Racial: Apply reduce_conversions
         $totalDefensiveCasualties = $totalDefensiveCasualties * (1 - ($reduceConversions / 100));
 
+        # Remove units with fixed casualties greater than 50% or specific attributes.
+        $exemptibleUnitAttributes = ['ammunition', 'machine', 'equipment', 'ship', 'magical'];
+        foreach($this->invasionResult['defender']['unitsLost'] as $unit => $lost)
+        {
+            $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+            if(in_array($exemptibleUnitAttributes, $unitAttributes) or $dominion->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties") >= 50)
+            {
+                $totalDefensiveCasualties -= $lost;
+            }
+        }
+
         # Conversions only for non-overwhelmed invasions with casualties where the attacker is one of these factions
         if
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalDefensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope','Spirit', 'Undead','Sacred Order','Afflicted'], true)
+              !in_array($dominion->race->name, ['Lycanthrope', 'Spirit', 'Undead', 'Sacred Order', 'Afflicted', 'Cult'], true)
           )
         {
             return $convertedUnits;
@@ -1363,15 +1380,18 @@ class InvadeActionService
         $landRatio = 1/$landRatio;
 
         $convertedUnits = array_fill(1, 4, 0);
+
         $totalOffensiveCasualties = array_sum($this->invasionResult['attacker']['unitsLost']);
 
-        # Remove units with fixed casualties greater than 50%.
+        # Remove units with fixed casualties greater than 50% or specific attributes.
+        $exemptibleUnitAttributes = ['ammunition', 'machine', 'equipment', 'ship', 'magical'];
         foreach($this->invasionResult['attacker']['unitsLost'] as $unit => $lost)
         {
-           if($attacker->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties") >= 50)
-           {
-              $totalOffensiveCasualties -= $lost;
-           }
+            $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+            if(in_array($exemptibleUnitAttributes, $unitAttributes) or $attacker->race->getUnitPerkValueForUnitSlot($unit, "fixed_casualties") >= 50)
+            {
+                $totalOffensiveCasualties -= $lost;
+            }
         }
 
         // Racial: Apply reduce_conversions
@@ -1382,7 +1402,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalOffensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope', 'Spirit', 'Undead', 'Sacred Order', 'Afflicted'], true)
+              !in_array($dominion->race->name, ['Lycanthrope', 'Spirit', 'Undead', 'Sacred Order', 'Afflicted', 'Cult'], true)
           )
         {
             return;
@@ -1947,13 +1967,13 @@ class InvadeActionService
             return;
         }
 
-        $menticides = 0;
+        $this->invasionResult['defender']['mindControlledUnitsReleased'] = array_fill(1, 4, 0);
+        $newThralls = 0;
+
         foreach($this->invasionResult['defender']['mindControlledUnits'] as $slot => $amount)
         {
-            $menticides += $amount * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
+            $newThralls += $amount * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
         }
-
-        $newThralls = min($availablePopulation, $menticides);
 
         $this->invasionResult['defender']['menticide']['newThralls'] = $newThralls;
         $cult->military_unit1 += $newThralls;
@@ -2006,7 +2026,9 @@ class InvadeActionService
 
             if(isset($mindControlledUnits[$i]) and $mindControlledUnits[$i] > 0)
             {
-                $returningAmount -= $mindControlledUnits[$i] * (static::MINDCONTROLLED_UNITS_CASUALTIES / 100);
+                # Release non-menticided mind controlled units, less 10%.
+                #$returningAmount -= $this->invasionResult['defender']['mindControlledUnits'][$i];
+                $returningAmount += $this->invasionResult['defender']['mindControlledUnitsReleased'][$i];
             }
 
             $returningUnits[$returningUnitKey] += $returningAmount;
@@ -2534,6 +2556,7 @@ class InvadeActionService
 
             $availableMystics -= $mindControlledUnits[$slot];
             $this->invasionResult['defender']['mindControlledUnits'][$slot] = $mindControlledUnits[$slot];
+            $this->invasionResult['defender']['mindControlledUnitsReleased'][$slot] = $mindControlledUnits[$slot] * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
         }
 
     }

@@ -15,7 +15,6 @@ perks:
 units:
   - name: Skeleton
     type:
-      - living
       - sentient
     need_boat: false
     cost:
@@ -28,7 +27,6 @@ units:
       increases_casualties_on_offense: 1
   - name: Ghoul
     type:
-      - living
       - sentient
     cost:
       platinum: 225
@@ -39,7 +37,6 @@ units:
       immortal: 1
   - name: Revenant
     type:
-      - living
       - sentient
       - intelligent
     need_boat: false
@@ -54,7 +51,6 @@ units:
       staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
   - name: Wraith
     type:
-      - living
       - sentient
       - intelligent
     need_boat: false

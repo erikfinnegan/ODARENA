@@ -43,7 +43,7 @@ class RoundFactory
         }
 
         # End offensive actions between 0 and 240 minutes before round end (skewed towards 240).
-        $minutesBeforeRoundEnd = min(240,rand(0,300));
+        $minutesBeforeRoundEnd = max(240,rand(0,330));
 
         $offensiveActionsEndDate = (clone $endDate)->subMinutes($minutesBeforeRoundEnd);
 

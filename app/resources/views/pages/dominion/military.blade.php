@@ -214,7 +214,7 @@
                       @endif
                     </button>
                     <div class="pull-right">
-                        You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }} available.
+                        You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ strtolower(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race))) }} available.
 
                       @if ($selectedDominion->race->name == 'Snow Elf')
                       <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti trapped.

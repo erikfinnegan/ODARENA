@@ -44,6 +44,7 @@ units:
       - living
       - sentient
       - intelligent
+      - machine
     cost:
       platinum: 600
       ore: 300
@@ -57,6 +58,7 @@ units:
       - living
       - sentient
       - intelligent
+      - machine
     cost:
       platinum: 800
       ore: 500

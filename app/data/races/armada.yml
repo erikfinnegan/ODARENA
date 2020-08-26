@@ -44,7 +44,7 @@ units:
   - name: Frigate
     need_boat: false
     type:
-      - machine
+      - ship
     cost:
       platinum: 12500
       ore: 2500
@@ -61,7 +61,7 @@ units:
   - name: Battleship
     need_boat: false
     type:
-      - machine
+      - ship
     cost:
       platinum: 60000
       ore: 15000

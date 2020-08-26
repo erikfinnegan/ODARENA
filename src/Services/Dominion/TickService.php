@@ -706,12 +706,13 @@ class TickService
             $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
         }
 
+        # Tickly unit perks
         $generatedLand = 0;
+
         $generatedUnit1 = 0;
         $generatedUnit2 = 0;
         $generatedUnit3 = 0;
         $generatedUnit4 = 0;
-
 
         $attritionUnit1 = 0;
         $attritionUnit2 = 0;
@@ -725,7 +726,8 @@ class TickService
                 $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
                 $generatedLand = max($generatedLand, 0);
 
-                if($dominion->race->name === 'Myconid' and $this->spellCalculator->isSpellActive($dominion, 'defensive_warts'))
+                # Defensive Warts turn off land generation
+                if($this->spellCalculator->isSpellActive($dominion, 'defensive_warts'))
                 {
                     $generatedLand = 0;
                 }
