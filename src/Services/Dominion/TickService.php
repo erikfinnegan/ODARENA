@@ -720,8 +720,10 @@ class TickService
         $attritionUnit4 = 0;
 
         # Cult unit attrition reduction
+        $attritionReduction = 1;
         if($dominion->race->name == 'Cult')
         {
+
             $attritionReduction = $dominion->military_unit3 / $this->populationCalculator->getPopulationMilitary($dominion);
         }
 
@@ -779,7 +781,7 @@ class TickService
             // Cult: Unit attrition
             if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
             {
-                $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100);
+                $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * $attritionReduction);
                 #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will abandon.\n";
                 $unitAttritionAmount = max(0, min($unitAttritionAmount, $dominion->{'military_unit'.$slot})); # Sanity caps.
 
