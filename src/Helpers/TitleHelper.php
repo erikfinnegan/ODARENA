@@ -62,7 +62,7 @@ class TitleHelper
                 break;
             case 'conversions':
                 $negativeBenefit = false;
-                $description = 'Units converted:';
+                $description = 'Units converted (not applicable to Vampires):';
                 break;
             case 'lumber_production':
                 $negativeBenefit = false;
