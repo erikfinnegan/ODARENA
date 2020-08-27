@@ -1611,7 +1611,7 @@ class InvadeActionService
             return $convertedUnits;
         }
 
-        $conversionMultiplier = $this->ConversionCalculator->getConversionMultiplier($attacker, $defender, $units, null);
+        $conversionMultiplier = $this->conversionCalculator->getConversionMultiplier($attacker, $defender, $units, null);
 
         $this->invasionResult['attacker']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
 
@@ -1637,7 +1637,6 @@ class InvadeActionService
 
             return $unit->getPerkValue('vampiric_conversion');
         });
-
 
         $totalVampiricConvertingUnits = 0;
         foreach ($unitsWithVampiricConversionPerk as $unit)
@@ -1691,7 +1690,8 @@ class InvadeActionService
                 $unitsPerConversion = 1; # From 3, R29
             }
 
-            $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
+            $unitsConverted = min($totalVampiricConvertingUnits, $amountKilled);
+            $totalVampiricConvertingUnits -= $unitsConverted;
 
             if(!$this->invasionResult['result']['success'])
             {
