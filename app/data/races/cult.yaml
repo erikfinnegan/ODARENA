@@ -3,7 +3,8 @@ alignment: independent
 description: >-
   <p>The Cult has many unique spells:</p>
   <ul>
-  <li><b>Mind Control</b> (<em>self-spell</em>): When defending, each Mystic takes control of one invading unit's mind. Mindcontrolled units provide 2 raw DP. Only units which have the attribute Sentient and neither of the attributes Intelligent, Massive, or Mindless can be mindcontrolled.</li>
+  <li><b>Mind Control</b> (<em>self-spell</em>): When defending, each Mystic takes control of one invading unit's mind. Mindcontrolled units provide 2 raw DP.
+  <ul><li>Only units which have the attribute Sentient and neither of the attributes Ammunition, Equipment, Magical, Massive, Mechanical, Mindless, Ship, or Wise can be mindcontrolled.</li></ul></li>
   <li><b>Menticide</b> (<em>self-spell</em>):Units affected by Mind Control join the Cult as Thralls immediately after the invasion.</li>
   <li><b>Persuasion</b> (<em>self-spell</em>):Captured spies and espionage units join the Cult as spies. It takes two ticks to complete persuasion.</li>
   <li><b>Cogency</b> (<em>self-spell</em>): Wizardry casualties are saved and join the Cult as wizards. It takes eight ticks for the new wizards to be ready.</li>

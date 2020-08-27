@@ -61,6 +61,7 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     cost:
       platinum: 1400
       ore: 200

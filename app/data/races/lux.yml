@@ -82,6 +82,7 @@ units:
       - sentient
       - ethereal
       - intelligent
+      - wise
     need_boat: false
     static_networth: 14
     cost:

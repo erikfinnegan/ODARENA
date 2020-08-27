@@ -31,6 +31,7 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     need_boat: false
     cost:
       platinum: 0
@@ -43,6 +44,7 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     cost:
       platinum: 0
       mana: 50
@@ -56,6 +58,7 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     cost:
       platinum: 0
       mana: 175
@@ -69,6 +72,7 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     need_boat: false
     cost:
       platinum: 0

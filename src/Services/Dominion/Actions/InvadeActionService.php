@@ -1223,16 +1223,39 @@ class InvadeActionService
         $totalDefensiveCasualties = $totalDefensiveCasualties * (1 - ($reduceConversions / 100));
 
         # Remove units with fixed casualties greater than 50% or specific attributes.
-        $exemptibleUnitAttributes = ['ammunition', 'machine', 'mechanical', 'equipment', 'ship', 'magical'];
+        $exemptibleUnitAttributes = [
+            'ammunition',
+            'equipment',
+            'magical',
+            'mechanical',
+            'ship',
+          ];
+
         foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
         {
             if($slot !== 'draftees')
             {
+                $isUnitConvertible = true;
+
                 $unit = $target->race->units->filter(function ($unit) use ($slot) {
                         return ($unit->slot == $slot);
                     })->first();
+
                 $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-                if(in_array($exemptibleUnitAttributes, $unitAttributes) or $target->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+
+                # Is it convertible?
+                foreach($exemptibleUnitAttributes as $exemptibleUnitAttribute)
+                {
+                    if(in_array($exemptibleUnitAttribute, $unitAttributes))
+                    {
+                        $isUnitConvertible = false;
+                        break;
+                    }
+                }
+
+                #var_dump($unit->name . ' is convertible:', $isUnitConvertible);
+
+                if(!$isUnitConvertible or $target->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
                 {
                     $totalDefensiveCasualties -= $lost;
                 }
@@ -1391,14 +1414,36 @@ class InvadeActionService
         $totalOffensiveCasualties = array_sum($this->invasionResult['attacker']['unitsLost']);
 
         # Remove units with fixed casualties greater than 50% or specific attributes.
-        $exemptibleUnitAttributes = ['ammunition', 'machine', 'equipment', 'ship', 'magical'];
+        $exemptibleUnitAttributes = [
+            'ammunition',
+            'equipment',
+            'magical',
+            'massive',
+            'mechanical',
+            'ship',
+          ];
+
         foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $lost)
         {
+            $isUnitConvertible = true;
+
             $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
                     return ($unit->slot == $slot);
                 })->first();
+
             $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-            if(in_array($exemptibleUnitAttributes, $unitAttributes) or $attacker->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+
+            # Is it convertible?
+            foreach($exemptibleUnitAttributes as $exemptibleUnitAttribute)
+            {
+                if(in_array($exemptibleUnitAttribute, $unitAttributes))
+                {
+                    $isUnitConvertible = false;
+                    break;
+                }
+            }
+
+            if(!$isUnitConvertible or $attacker->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
             {
                 $totalOffensiveCasualties -= $lost;
             }
@@ -2546,6 +2591,16 @@ class InvadeActionService
 
         # Check invading forces for units that are only SENTIENT
         $mindControlledUnits = [];
+        $nonControllableAttributes = [
+            'ammunition',
+            'equipment',
+            'magical',
+            'massive',
+            'mechanical',
+            'mindless',
+            'ship',
+            'wise',
+          ];
         foreach($units as $slot => $amount)
         {
             $mindControlledUnits[$slot] = 0;
@@ -2558,8 +2613,22 @@ class InvadeActionService
             # Get the attributes
             $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
 
-            # Is it sentient?
-            if(in_array('sentient', $unitAttributes) and !in_array(['intelligent','massive','mindless'], $unitAttributes))
+            $isUnitControllable = true;
+            if(in_array('sentient', $unitAttributes))
+            {
+                foreach($nonControllableAttributes as $nonControllableAttribute)
+                {
+                    if(in_array($nonControllableAttribute, $unitAttributes))
+                    {
+                        $isUnitControllable = false;
+                        break;
+                    }
+                }
+            }
+
+            #dd($unit->name . ' is controllable:', $isUnitControllable);
+
+            if($isUnitControllable)
             {
                 $mindControlledUnits[$slot] = min($amount, $availableMystics);
             }
