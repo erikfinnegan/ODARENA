@@ -723,8 +723,7 @@ class TickService
         $attritionReduction = 1;
         if($dominion->race->name == 'Cult')
         {
-
-            $attritionReduction = $dominion->military_unit3 / $this->populationCalculator->getPopulationMilitary($dominion);
+            $attritionReduction = $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
         }
 
         for ($slot = 1; $slot <= 4; $slot++)
