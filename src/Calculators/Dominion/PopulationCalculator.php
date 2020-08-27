@@ -184,6 +184,10 @@ class PopulationCalculator
                     $housing = 30;
                     break;
 
+                case 'ziggurat':
+                    $housing = 18;
+                    break;
+
                 default:
                     $housing = 15;
                     break;
