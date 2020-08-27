@@ -541,7 +541,7 @@
                                     </tr>
                                     @endif
 
-                                    @if (isset($event->data['defender']['isMindControl']))
+                                    @if (isset($event->data['defender']['isMindControl']) and array_sum($event->data['defender']['mindControlledUnits']) > 0)
                                     <tr>
                                         <th colspan="2">Mind Control</th>
                                     </tr>
