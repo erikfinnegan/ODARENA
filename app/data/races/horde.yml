@@ -1,0 +1,65 @@
+name: Human
+alignment: good
+description: >-
+  <p>With their spell, Human can achieve unit training cost reduction greater than 50% (up to 60%).</p>
+home_land_type: plain
+playable: 1
+
+attacking: 3
+exploring : 3
+converting: 3
+
+perks:
+  food_production: 15
+  research_points_per_acre: 100
+  salvaging: 75
+units:
+  - name: Man-at-Arms
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      platinum: 365
+      ore: 20
+    power:
+      offense: 4
+      defense: 0
+  - name: Archer
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      platinum: 365
+      lumber: 20
+    power:
+      offense: 0
+      defense: 4
+  - name: Spearman
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      platinum: 800
+      ore: 80
+    power:
+      offense: 0
+      defense: 7
+    perks:
+      fewer_casualties: 25
+  - name: Knight
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      platinum: 1250
+      ore: 100
+    power:
+      offense: 8
+      defense: 4
+    perks:
+      faster_return: 3
+      plunders: platinum;0.75,gems;0.25

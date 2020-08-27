@@ -444,7 +444,7 @@ class SpellHelper
                 'description' => 'Stops Amanita land generation and increases their defensive power (see unit description).',
                 'key' => 'defensive_warts',
                 'mana_cost' => 5,
-                'duration' => 12*4,
+                'duration' => 18,
                 'races' => collect(['Myconid']),
             ],
             /*
