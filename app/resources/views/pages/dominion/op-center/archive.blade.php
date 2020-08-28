@@ -190,7 +190,7 @@
                                             <td>{{ number_format($infoOp->data['morale']) }}%</td>
                                         </tr>
                                         <tr>
-                                            <td>{{ str_plural($raceHelper->getPeasantsTerm($dominion->race))) }}:</td>
+                                            <td>{{ str_plural($raceHelper->getPeasantsTerm($dominion->race)) }}:</td>
                                             <td>{{ number_format($infoOp->data['military_draftees']) }}</td>
                                         </tr>
                                         <tr>
