@@ -162,7 +162,7 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Cost of exploration';
                 break;
-            case 'reduce_conversions':
+            case 'reduced_conversions':
                 $negativeBenefit = false;
                 $description = 'Reduced conversions';
                 break;

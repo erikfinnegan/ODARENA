@@ -21,7 +21,7 @@ perks:
   platinum_production: -15
 #  population_growth: 100
   explore_cost: 25
-  reduce_conversions: 25
+  reduced_conversions: 25
   draftee_dp: 0.1
   gem_production: -10
   can_only_abduct_own: 1

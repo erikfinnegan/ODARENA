@@ -18,7 +18,7 @@ perks:
   improvements_max: 100
   improvements_decay: 0.1
   population_growth: 40
-  reduce_conversions: 100
+  reduced_conversions: 100
   construction_cost_only_mana: 1
   can_only_build_ziggurat: 1
   defense_per_ziggurat: 4

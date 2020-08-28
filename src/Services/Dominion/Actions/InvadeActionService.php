@@ -437,7 +437,7 @@ class InvadeActionService
             }
             else
             {
-                $offensiveConversions = $this->handleOffensiveConversions($dominion, $target, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduce_conversions'));
+                $offensiveConversions = $this->handleOffensiveConversions($dominion, $target, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduced_conversions'));
             }
 
             if($target->race->name === 'Vampires')
@@ -1219,7 +1219,7 @@ class InvadeActionService
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $convertedUnits = array_fill(1, 4, 0);
 
-        // Racial: Apply reduce_conversions
+        // Racial: Apply reduced_conversions
         $totalDefensiveCasualties = $totalDefensiveCasualties * (1 - ($reduceConversions / 100));
 
         # Remove units with fixed casualties greater than 50% or specific attributes.
@@ -1449,8 +1449,8 @@ class InvadeActionService
             }
         }
 
-        // Racial: Apply reduce_conversions
-        $totalOffensiveCasualties = $totalOffensiveCasualties * (1 - ($attacker->race->getPerkMultiplier('reduce_conversions')));
+        // Racial: Apply reduced_conversions
+        $totalOffensiveCasualties = $totalOffensiveCasualties * (1 - ($attacker->race->getPerkMultiplier('reduced_conversions')));
 
         # Conversions only for non-overwhelmed invasions with casualties and where the attacker is one of these factions
         if
