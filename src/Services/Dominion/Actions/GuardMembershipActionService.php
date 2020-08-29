@@ -184,7 +184,7 @@ class GuardMembershipActionService
         {
             $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
         }
-        if ($totalUnitsReturning !== 0)
+        if ($totalUnitsReturning !== 0 and $this->guardMembershipService->isEliteGuardMember($dominion))
         {
             throw new GameException('You cannot leave the Warriors League when you have troops returning from battle.');
         }
