@@ -1725,7 +1725,7 @@ class InvadeActionService
 
         $convertedUnits = array_fill(1, 4, 0);
 
-        $conversionMultiplier = $this->ConversionCalculator->getConversionMultiplier($defender, $attacker, $units, null);
+        $conversionMultiplier = $this->conversionCalculator->getConversionMultiplier($defender, $attacker, $units, null);
 
         $this->invasionResult['defender']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
 
