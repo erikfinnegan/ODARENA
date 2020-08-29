@@ -748,7 +748,7 @@ class TickService
             {
                 $unitToGenerateSlot = $unitGenerationPerk[0];
                 $unitAmountToGeneratePerGeneratingUnit = $unitGenerationPerk[1];
-                $unitAmountToGenerate = intval($dominion->{'military_unit'.$slot} * $unitAmountToGeneratePerGeneratingUnit);
+                $unitAmountToGenerate = $dominion->{'military_unit'.$slot} * $unitAmountToGeneratePerGeneratingUnit;
 
                 #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which generate " . $unitAmountToGeneratePerGeneratingUnit . " per tick. Total generation is " . $unitAmountToGenerate . " unit" . $unitToGenerateSlot . ". Available population: " . number_format($availablePopulation) . "\n";
 
