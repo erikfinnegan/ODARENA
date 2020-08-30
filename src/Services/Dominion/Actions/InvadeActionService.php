@@ -2626,8 +2626,6 @@ class InvadeActionService
                 }
             }
 
-            #dd($unit->name . ' is controllable:', $isUnitControllable);
-
             if($isUnitControllable)
             {
                 $mindControlledUnits[$slot] = min($amount, $availableMystics);
