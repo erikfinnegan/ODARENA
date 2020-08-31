@@ -220,7 +220,7 @@ class BarbarianService
                 echo "[INVADE] Sufficient OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
 
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-                $chanceOneIn = 28 - (14 - min($currentDay, 14));
+                $chanceOneIn = 21 - (14 - min($currentDay, 14));
 
                 if(rand(1,$chanceOneIn) == 1)
                 {
