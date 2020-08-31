@@ -172,7 +172,8 @@ class UnitHelper
 
             'decay_protection' => 'Each units protects %1$s %2$s per tick from decay.',
 
-            'plunders' => 'Plunders up to %2$s %1$s on attack.',
+            'plunders' => 'Plunders up to %2$s %1$s on attack.', # Multiple resources
+            'plunder' => 'Plunders up to %2$s %1$s on attack.', # Single resource
 
             'sink_boats_defense' => 'Sinks boats when defending.',
             'sink_boats_offense' => 'Sinks boats when attacking.',

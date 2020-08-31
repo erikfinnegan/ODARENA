@@ -1,4 +1,4 @@
-name: Snow Elf
+name: Yeti
 alignment: good
 description:
   <p>Up to 5% of all wild yetis in captivity escape every tick.</p>
@@ -11,10 +11,7 @@ exploring : 1
 converting: 2
 
 perks:
-  food_consumption: -25
-  invest_bonus: 20
-  mana_drain: -50
-  max_population: -30
+  gryphon_nests_generate_wild_yetis: 1
 units:
   - name: Arbalist
     type:

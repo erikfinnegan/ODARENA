@@ -1112,7 +1112,7 @@ class ProductionCalculator
          */
         public function getWildYetiProduction(Dominion $dominion): float
         {
-            if(!$dominion->race->getPerkValue('gryphon_nests_generates_wild_yetis'))
+            if(!$dominion->race->getPerkValue('gryphon_nests_generate_wild_yetis'))
             {
                 return 0;
             }
@@ -1143,7 +1143,7 @@ class ProductionCalculator
          */
         public function getWildYetiEscaped(Dominion $dominion): float
         {
-            if(!$dominion->race->getPerkValue('gryphon_nests_generates_wild_yetis'))
+            if(!$dominion->race->getPerkValue('gryphon_nests_generate_wild_yetis'))
             {
               return 0;
             }

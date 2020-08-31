@@ -185,9 +185,9 @@ class RaceHelper
                 $description = 'Does not kill units.';
                 $booleanValue = true;
                 break;
-          case 'gryphon_nests_generates_wild_yetis':
+          case 'gryphon_nests_generate_wild_yetis':
                 $negativeBenefit = false;
-                $description = 'Traps wild yetis';
+                $description = 'Lures wild yetis';
                 $booleanValue = true;
                 break;
             case 'prestige_gains':
