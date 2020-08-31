@@ -50,7 +50,7 @@ class BarbarianService
         $calculateDate = max($dominion->round->start_date, $dominion->created_at);
 
         $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
-        $dpa = $constant + ($hoursIntoTheRound * 0.50);
+        $dpa = $constant + ($hoursIntoTheRound * 0.65);
         return $dpa *= ($dominion->npc_modifier / 1000);
     }
 
@@ -186,8 +186,8 @@ class BarbarianService
             {
                 if($amountToTrain > 0)
                 {
-                    # Randomly train between 25% and 75% of the units needed.
-                    $amountToTrain = max(1, intval($amountToTrain * (rand(250,750)/1000)));
+                    # Randomly train between 50% and 80% of the units needed.
+                    $amountToTrain = max(1, intval($amountToTrain * (rand(500,800)/1000)));
                     #echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     $data = [$unit => $amountToTrain];
                     $hours = 12;
@@ -225,8 +225,8 @@ class BarbarianService
 
             if($invade === true)
             {
-                # Grow by 5-12.5% (random), skewed to lower.
-                $landGainRatio = max(500,rand(400,1250))/10000;
+                # Grow by 6-14% (random), skewed to lower.
+                $landGainRatio = max(600,rand(400,1400))/10000;
 
                 # Calculate the amount of acres to grow.
                 $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
@@ -246,8 +246,8 @@ class BarbarianService
                 # Send out 80-100% of all units. Random over 100 but capped at 100 to make it more likely 100% are sent.
                 $sentRatio = min(1000,rand(800,1250))/1000;
 
-                # Casualties between 8.5% and 12% (random).
-                $casualtiesRatio = rand(85,120)/1000;
+                # Casualties between 6% and 10% (random).
+                $casualtiesRatio = rand(60,100)/1000;
 
                 # Calculate how many Unit1 and Unit4 are sent.
                 $unitsSent['military_unit1'] = $dominion->military_unit1 * $sentRatio;
@@ -292,8 +292,8 @@ class BarbarianService
                     $unitsReturning
                 );
 
-               $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered'];
-               $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub'];
+               $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered', 'sacked'];
+               $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub', 'merchant outpost'];
 
                $data = [
                     'type' => $invasionTypes[rand(0,count($invasionTypes)-1)],
