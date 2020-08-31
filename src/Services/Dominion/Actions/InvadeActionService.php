@@ -490,7 +490,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -2050,6 +2050,8 @@ class InvadeActionService
           'military_unit4' => 0,
         ];
 
+        echo '<pre>';var_dump($convertedUnits);echo '</pre>';
+
         for ($i = 1; $i <= 4; $i++)
         {
 
@@ -2067,6 +2069,19 @@ class InvadeActionService
                 }
             }
 
+            # Look for dies_into amongst the dead attacking units.
+            foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
+            {
+                $unitKey = "military_unit{$slot}";
+                if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+                {
+                    # Which unit do they die into?
+                    $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
+                    $newUnitKey = "military_unit{$newUnitSlot}";
+
+                    $returningUnits[$newUnitKey] += $casualties;
+                }
+            }
 
             if (array_key_exists($i, $units))
             {
@@ -2082,40 +2097,21 @@ class InvadeActionService
             if(isset($mindControlledUnits[$i]) and $mindControlledUnits[$i] > 0)
             {
                 # Release non-menticided mind controlled units, less 10%.
-                #$returningAmount -= $this->invasionResult['defender']['mindControlledUnits'][$i];
                 $returningAmount += $this->invasionResult['defender']['mindControlledUnitsReleased'][$i];
             }
 
             $returningUnits[$returningUnitKey] += $returningAmount;
         }
 
-        # Look for dies_into amongst the dead attacking units.
-        foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
-        {
-          $unitKey = "military_unit{$slot}";
-          if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
-          {
-            # Which unit do they die into?
-            $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
-            $newUnitKey = "military_unit{$newUnitSlot}";
+      echo '<pre>';var_dump($returningUnits);echo '</pre>';
 
-            $returningUnits[$newUnitKey] += $casualties;
-          }
-        }
-
-        /*
-        $this->queueService->queueResources(
-            'invasion',
-            $dominion,
-            [$unitKey => $returningAmount],
-            $this->getUnitReturnHoursForSlot($dominion, $i)
-        );
-      */
       foreach($returningUnits as $unitKey => $returningAmount)
       {
           $slot = intval(str_replace('military_unit','',$unitKey));
 
           $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
+
+          echo "<pre>$returningAmount unit$slot are returning.</pre>";
 
           $this->queueService->queueResources(
               'invasion',
