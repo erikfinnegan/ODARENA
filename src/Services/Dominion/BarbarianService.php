@@ -138,6 +138,13 @@ class BarbarianService
         {
             $land = $this->landCalculator->getTotalLand($dominion);
 
+            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_plain');
+            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_mountain');
+            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_swamp');
+            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_forest');
+            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_hill');
+            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_water');
+
             $units = [
               'military_unit1' => 0,
               'military_unit2' => 0,
