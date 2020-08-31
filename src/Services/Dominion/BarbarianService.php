@@ -138,12 +138,12 @@ class BarbarianService
         {
             $land = $this->landCalculator->getTotalLand($dominion);
 
-            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_plain');
-            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_mountain');
-            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_swamp');
-            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_forest');
-            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_hill');
-            $land += $queueService->getInvasionQueueTotalByResource($selectedDominion, 'land_water');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_plain');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_mountain');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_swamp');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_forest');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_hill');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_water');
 
             $units = [
               'military_unit1' => 0,
