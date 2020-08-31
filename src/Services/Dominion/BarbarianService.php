@@ -157,6 +157,8 @@ class BarbarianService
             if($dpaDelta > 0)
             {
                 echo "[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
+                Log::Debug("[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")");
+
                 $dpToTrain = $dpaDelta * $land;
 
                 $specsRatio = rand(50,500)/1000;
@@ -168,6 +170,7 @@ class BarbarianService
             else
             {
                 echo "[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
+                Log::Debug("[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) .  ")");
             }
 
             $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
@@ -175,6 +178,7 @@ class BarbarianService
             if($opaDelta > 0)
             {
                 echo "[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+                Log::Debug("[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) .  ")");
 
                 $opToTrain = $opaDelta * $land;
 
@@ -195,7 +199,7 @@ class BarbarianService
                 {
                     # Randomly train between 50% and 80% of the units needed.
                     $amountToTrain = max(1, intval($amountToTrain * (rand(500,800)/1000)));
-                    echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
+                    #echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     $data = [$unit => $amountToTrain];
                     $hours = 12;
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
@@ -211,6 +215,7 @@ class BarbarianService
         $invade = false;
 
         echo "[INVADE] Handling invasion check for " . $dominion->name . ".\n";
+        Log::Debug("[INVADE] Handling invasion check for " . $dominion->name . ".");
 
         if($dominion->race->name === 'Barbarian')
         {
@@ -226,15 +231,18 @@ class BarbarianService
                 {
                     $invade = true;
                     echo "[INVADE] ✅ Invasion confirmed to take place.\n";
+                    Log::Debug("[INVADE] ✅ Invasion confirmed to take place.");
                 }
                 else
                 {
                     echo "[INVADE] ❌ Chance of invasion did not occur.\n";
+                    Log::Debug("[INVADE] ❌ Chance of invasion did not occur.");
                 }
             }
             else
             {
                 echo "[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
+                Log::Debug("[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")");
             }
 
             if($invade === true)
@@ -328,6 +336,7 @@ class BarbarianService
             }
 
             echo "[INVADE] Handling invasion check for " . $dominion->name . " ended.\n\n";
+            Log::Debug("[INVADE] Handling invasion check for " . $dominion->name . " ended");
         }
     }
 

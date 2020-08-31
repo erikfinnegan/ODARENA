@@ -2111,7 +2111,7 @@ class InvadeActionService
 
           $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
 
-          echo "<pre>$returningAmount unit$slot are returning.</pre>";
+          #echo "<pre>$returningAmount unit$slot are returning.</pre>";
 
           $this->queueService->queueResources(
               'invasion',
