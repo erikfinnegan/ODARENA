@@ -2050,7 +2050,7 @@ class InvadeActionService
           'military_unit4' => 0,
         ];
 
-        echo '<pre>';var_dump($convertedUnits);echo '</pre>';
+        #echo '<pre>';var_dump($convertedUnits);echo '</pre>';
 
         for ($i = 1; $i <= 4; $i++)
         {
@@ -2103,7 +2103,7 @@ class InvadeActionService
             $returningUnits[$returningUnitKey] += $returningAmount;
         }
 
-      echo '<pre>';var_dump($returningUnits);echo '</pre>';
+      #echo '<pre>';var_dump($returningUnits);echo '</pre>';
 
       foreach($returningUnits as $unitKey => $returningAmount)
       {
