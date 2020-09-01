@@ -490,7 +490,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            dd($this->invasionResult);
+            #dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -2069,20 +2069,6 @@ class InvadeActionService
                 }
             }
 
-            # Look for dies_into amongst the dead attacking units.
-            foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
-            {
-                $unitKey = "military_unit{$slot}";
-                if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
-                {
-                    # Which unit do they die into?
-                    $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
-                    $newUnitKey = "military_unit{$newUnitSlot}";
-
-                    $returningUnits[$newUnitKey] += $casualties;
-                }
-            }
-
             if (array_key_exists($i, $units))
             {
                 $returningAmount += $units[$i];
@@ -2103,6 +2089,20 @@ class InvadeActionService
             $returningUnits[$returningUnitKey] += $returningAmount;
         }
 
+        # Look for dies_into amongst the dead attacking units.
+        foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
+        {
+            $unitKey = "military_unit{$slot}";
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+            {
+                # Which unit do they die into?
+                $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
+                $newUnitKey = "military_unit{$newUnitSlot}";
+
+                $returningUnits[$newUnitKey] += $casualties;
+            }
+        }
+
       #echo '<pre>';var_dump($returningUnits);echo '</pre>';
 
       foreach($returningUnits as $unitKey => $returningAmount)
@@ -2111,7 +2111,7 @@ class InvadeActionService
 
           $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
 
-          echo "<pre>$returningAmount unit$slot are returning.</pre>";
+          #echo "<pre>$returningAmount unit$slot are returning.</pre>";
 
           $this->queueService->queueResources(
               'invasion',
