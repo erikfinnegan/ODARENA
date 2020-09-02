@@ -45,7 +45,7 @@ class BarbarianService
     protected const CASUALTIES_MAX = 90;
 
     # Train between these two values % of required units per tick. /100
-    protected const UNITS_TRAINED_MIN = 25;
+    protected const UNITS_TRAINED_MIN = 50;
     protected const UNITS_TRAINED_MAX = 100;
 
 
