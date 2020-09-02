@@ -74,7 +74,7 @@ class BarbarianService
         $calculateDate = max($dominion->round->start_date, $dominion->created_at);
 
         $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
-        $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * DPA_PER_HOUR);
+        $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * static::DPA_PER_HOUR);
         return $dpa *= ($dominion->npc_modifier / 1000);
     }
 
