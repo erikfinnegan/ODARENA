@@ -81,7 +81,7 @@ class BarbarianService
         return $dpa *= ($dominion->npc_modifier / 1000);
     }
 
-    private function getOpaTarget(Dominion $dominion): float
+    private function getOpaTarget(Dominion $dominion): int
     {
         return $this->getDpaTarget($dominion) * 0.75;
     }
