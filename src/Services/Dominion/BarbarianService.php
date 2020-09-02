@@ -30,11 +30,11 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # One in x chance to hit
-    protected const ONE_IN_CHANCE_TO_HIT = 3;
+    protected const ONE_IN_CHANCE_TO_HIT = 1;
 
     # Gain % of land between these two values when hitting. /1000
-    protected const LAND_GAIN_MIN = 75;
-    protected const LAND_GAIN_MAX = 150;
+    protected const LAND_GAIN_MIN = 100;
+    protected const LAND_GAIN_MAX = 200;
 
     # Send between these two values when hitting. /100
     protected const SENT_RATIO_MIN = 80;
@@ -44,9 +44,9 @@ class BarbarianService
     protected const CASUALTIES_MIN = 60;
     protected const CASUALTIES_MAX = 90;
 
-    # Train between these two values per tick. /100
-    protected const UNITS_TRAINED_MIN = 15;
-    protected const UNITS_TRAINED_MAX = 65;
+    # Train between these two values % of required units per tick. /100
+    protected const UNITS_TRAINED_MIN = 25;
+    protected const UNITS_TRAINED_MAX = 100;
 
 
     /** @var MilitaryCalculator */
@@ -183,8 +183,8 @@ class BarbarianService
 
             if($dpaDelta > 0)
             {
-                echo "[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
-                Log::Debug("[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")");
+                //echo "[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
+                //Log::Debug("[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")");
 
                 $dpToTrain = $dpaDelta * $land;
 
@@ -196,16 +196,16 @@ class BarbarianService
             }
             else
             {
-                echo "[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
-                Log::Debug("[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) .  ")");
+                //echo "[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
+                //Log::Debug("[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) .  ")");
             }
 
             $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
 
             if($opaDelta > 0)
             {
-                echo "[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
-                Log::Debug("[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) .  ")");
+                //echo "[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+                //Log::Debug("[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) .  ")");
 
                 $opToTrain = $opaDelta * $land;
 
@@ -217,7 +217,8 @@ class BarbarianService
             }
             else
             {
-                #echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+                //echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+                //Log::Debug("[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion));
             }
 
             foreach($units as $unit => $amountToTrain)
@@ -225,7 +226,8 @@ class BarbarianService
                 if($amountToTrain > 0)
                 {
                     $amountToTrain = max(1, intval($amountToTrain * (rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100)));
-                    #echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
+                    //echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
+                    //Log::Debug("[TRAINING] " . number_format($amountToTrain) . ' ' . $unit);
                     $data = [$unit => $amountToTrain];
                     $hours = 12;
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
@@ -240,39 +242,38 @@ class BarbarianService
     {
         $invade = false;
 
-        echo "[INVADE] Handling invasion check for " . $dominion->name . ".\n";
-        Log::Debug("[INVADE] Handling invasion check for " . $dominion->name . ".");
+        //echo "[INVADE] Handling invasion check for " . $dominion->name . ".\n";
+        //Log::Debug("[INVADE] Handling invasion check for " . $dominion->name . ".");
 
         if($dominion->race->name === 'Barbarian')
         {
-            // Make sure we have the expected OPA to hit.
+            # Make sure we have the expected OPA to hit.
             if($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion))
             {
-                echo "[INVADE] Sufficient OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
+                //echo "[INVADE] Sufficient OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
 
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
 
                 if(rand(1, static::ONE_IN_CHANCE_TO_HIT) == 1)
                 {
                     $invade = true;
-                    echo "[INVADE] ✅ Invasion confirmed to take place.\n";
-                    Log::Debug("[INVADE] ✅ Invasion confirmed to take place.");
+                    //echo "[INVADE] ✅ Invasion confirmed to take place.\n";
+                    //Log::Debug("[INVADE] ✅ Invasion confirmed to take place.");
                 }
                 else
                 {
-                    echo "[INVADE] ❌ Chance of invasion did not occur.\n";
-                    Log::Debug("[INVADE] ❌ Chance of invasion did not occur.");
+                    //echo "[INVADE] ❌ Chance of invasion did not occur.\n";
+                    //Log::Debug("[INVADE] ❌ Chance of invasion did not occur.");
                 }
             }
             else
             {
-                echo "[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
-                Log::Debug("[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")");
+                //echo "[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
+                //Log::Debug("[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")");
             }
 
             if($invade === true)
             {
-                # Grow by 6-14% (random), skewed to lower.
                 $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
 
                 # Calculate the amount of acres to grow.
@@ -290,10 +291,8 @@ class BarbarianService
                 $dominion->stat_total_land_conquered = $totalLandToGain;
                 $dominion->stat_attacking_success += 1;
 
-                # Send out 80-100% of all units. Random over 100 but capped at 100 to make it more likely 100% are sent.
                 $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/100;
 
-                # Casualties between 6% and 10% (random).
                 $casualtiesRatio = rand(static::CASUALTIES_MIN, static::CASUALTIES_MAX)/1000;
 
                 # Calculate how many Unit1 and Unit4 are sent.
@@ -301,18 +300,8 @@ class BarbarianService
                 $unitsSent['military_unit4'] = $dominion->military_unit4 * $sentRatio;
 
                 # Remove the sent units from the dominion.
-
-                #echo "Unit1 before sending: " . number_format($dominion->military_unit1) . "\n";
-                #echo "Unit4 before sending: " . number_format($dominion->military_unit4) . "\n";
-
-                #echo "Unit1 to send: " . number_format($unitsSent['military_unit1']) . "\n";
-                #echo "Unit4 to send: " . number_format($unitsSent['military_unit4']) . "\n";
-
                 $dominion->military_unit1 -= $unitsSent['military_unit1'];
                 $dominion->military_unit4 -= $unitsSent['military_unit4'];
-
-                #echo "Unit1 after sending: " . number_format($dominion->military_unit1) . "\n";
-                #echo "Unit4 after sending: " . number_format($dominion->military_unit4) . "\n";
 
                 # Calculate losses by applying casualties ratio to units sent.
                 $unitsLost['military_unit1'] = $unitsSent['military_unit1'] * $casualtiesRatio;
@@ -321,9 +310,6 @@ class BarbarianService
                 # Calculate amount of returning units.
                 $unitsReturning['military_unit1'] = intval(max($unitsSent['military_unit1'] - $unitsLost['military_unit1'],0));
                 $unitsReturning['military_unit4'] = intval(max($unitsSent['military_unit4'] - $unitsLost['military_unit4'],0));
-
-                #print_r($landGained);
-                #print_r($unitsReturning);
 
                 # Queue the incoming land.
                 $this->queueService->queueResources(
@@ -360,8 +346,8 @@ class BarbarianService
                 $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
             }
 
-            echo "[INVADE] Handling invasion check for " . $dominion->name . " ended.\n\n";
-            Log::Debug("[INVADE] Handling invasion check for " . $dominion->name . " ended");
+            //echo "[INVADE] Handling invasion check for " . $dominion->name . " ended.\n\n";
+            //Log::Debug("[INVADE] Handling invasion check for " . $dominion->name . " ended");
         }
     }
 

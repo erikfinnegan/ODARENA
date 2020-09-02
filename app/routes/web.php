@@ -136,6 +136,9 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Event result
             $router->get('event/{uuid}')->uses('Dominion\EventController@index')->name('event');
 
+            // Calculations
+            $router->get('calculations')->uses('Dominion\CalculationsController@getIndex')->name('calculations');
+
             // Magic
             $router->get('magic')->uses('Dominion\MagicController@getMagic')->name('magic');
             $router->post('magic')->uses('Dominion\MagicController@postMagic');
