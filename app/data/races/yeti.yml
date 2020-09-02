@@ -10,8 +10,8 @@ exploring : 2
 converting: 2
 
 construction_materials:
-  - lumber
-  - ore
+  primary: lumber
+  secondary: ore
 
 perks:
   max_population: -100
