@@ -223,10 +223,15 @@ class BarbarianService
 
             foreach($units as $unit => $amountToTrain)
             {
+
+                echo $dominion->name . ' amount to train: '. $amountToTrain . "\n";
+
                 if($amountToTrain > 0)
                 {
+                    #$amountToTrain *= rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100;
 
-                    $amountToTrain *= rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100;
+                    #echo $dominion->name . ' amount to train: '. $amountToTrain . "\n";
+
                     $amountToTrain = max(1, $amountToTrain); # WTF?
                     //echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     //Log::Debug("[TRAINING] " . number_format($amountToTrain) . ' ' . $unit);
