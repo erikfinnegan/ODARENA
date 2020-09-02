@@ -285,10 +285,12 @@ class DominionFactory
           $startingResources['mana'] *= 2;
         }
 
-        // Snow Elf: starting yetis.
-        if($race->name == 'Snow Elf')
+        // Yeti: starting yetis.
+        if($race->name == 'Yeti')
         {
-          $startingResources['wild_yeti'] = 150;
+          $startingResources['wild_yeti'] = intval($startingResources['peasants'] * 0.30);
+          $startingResources['draftees'] = 0;
+          $startingResources['draft_rate'] = 0;
         }
 
         // Kerranad: starting imps.

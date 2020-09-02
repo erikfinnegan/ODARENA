@@ -1,73 +1,77 @@
 name: Yeti
-alignment: good
+alignment: independent
 description:
   <p>Up to 5% of all wild yetis in captivity escape every tick.</p>
-  <p>Each Trebuchet can throw one Ice Boulder, which is destroyed upon impact. It takes one tick for the Trebuchet to be able to throw another Ice Boulder.</p>
 home_land_type: mountain
 playable: 1
 
 attacking: 2
-exploring : 1
+exploring : 2
 converting: 2
 
+construction_materials:
+  - lumber
+  - ore
+
 perks:
+  max_population: -100
+  platinum_production: -100
   gryphon_nests_generate_wild_yetis: 1
+  construction_cost_only_mana: 1
+  exchange_rates: 50
 units:
-  - name: Arbalist
+  - name: Yeti
+    type:
+      - living
+      - sentient
+    need_boat: true
+    cost:
+      wild_yeti: 1
+      food: 100
+    power:
+      offense: 4
+      defense: 4
+    perks:
+      no_draftee: 1
+  - name: Great Yeti
     type:
       - living
       - sentient
       - intelligent
     need_boat: true
     cost:
-      platinum: 550
-      ore: 60
-      lumber: 25
+      unit1: 1
+      food: 200
     power:
-      offense: 0
-      defense: 5
-  - name: Ice Boulder
-    type:
-      - ammunition
-    need_boat: false
-    cost:
-      platinum: 500
-      mana: 100
-    power:
-      offense: 1
-      defense: 0
+      offense: 6
+      defense: 6
     perks:
-      does_not_count_as_population: 1
       no_draftee: 1
-      offense_from_pairing: 3,29 # slot, amount
-      fixed_casualties: 100
-  - name: Trebuchet
+  - name: Guard Yeti
     type:
-      - machine
-    need_boat: false
-    cost:
-      platinum: 1000
-      lumber: 150
-      mana: 10
-    power:
-      offense: 0
-      defense: 0
-    perks:
-      does_not_count_as_population: 1
-      true_immortal: 1
-      faster_return: 11
-      sendable_with_zero_op: 1
-  - name: Ballista
-    type:
-      - machine
+      - living
+      - sentient
+      - intelligent
     need_boat: true
     cost:
-      lumber: 1200
-      ore: 500
+      unit2: 1
+      lumber: 400
+    power:
+      offense: 0
+      defense: 12
+    perks:
+      no_draftee: 1
+  - name: War Yeti
+    type:
+      - living
+      - sentient
+      - intelligent
+    need_boat: true
+    cost:
+      unit2: 1
+      ore: 400
     power:
       offense: 12
       defense: 6
     perks:
-      does_not_count_as_population: 1
-      plunder: mana,10
-      defense_from_pairing: 1,4 # slot, amount
+      no_draftee: 1
