@@ -44,7 +44,7 @@ class BarbarianService
     protected const CASUALTIES_MIN = 60;
     protected const CASUALTIES_MAX = 90;
 
-    # Train between these two values per tick. /100
+    # Train between these two values % of required units per tick. /100
     protected const UNITS_TRAINED_MIN = 50;
     protected const UNITS_TRAINED_MAX = 100;
 
@@ -217,7 +217,8 @@ class BarbarianService
             }
             else
             {
-                #echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+                //echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+                //Log::Debug("[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion));
             }
 
             foreach($units as $unit => $amountToTrain)
@@ -225,7 +226,8 @@ class BarbarianService
                 if($amountToTrain > 0)
                 {
                     $amountToTrain = max(1, intval($amountToTrain * (rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100)));
-                    #echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
+                    //echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
+                    //Log::Debug("[TRAINING] " . number_format($amountToTrain) . ' ' . $unit);
                     $data = [$unit => $amountToTrain];
                     $hours = 12;
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
