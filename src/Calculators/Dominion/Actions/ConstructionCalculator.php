@@ -48,6 +48,25 @@ class ConstructionCalculator
      * @param Dominion $dominion
      * @return float
      */
+    public function getConstructionMaterials(Dominion $dominion): int
+    {
+        if($dominion->race->getPerkMultiplier('construction_cost_only_mana') or $dominion->race->getPerkMultiplier('construction_cost_only_food'))
+        {
+            return 0;
+        }
+        else
+        {
+            return ($this->getPlatinumCostRaw($dominion) * $this->getCostMultiplier($dominion));
+        }
+    }
+
+
+    /**
+     * Returns the Dominion's construction platinum cost (per building).
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
     public function getPlatinumCost(Dominion $dominion): int
     {
         if($dominion->race->getPerkMultiplier('construction_cost_only_mana') or $dominion->race->getPerkMultiplier('construction_cost_only_food'))

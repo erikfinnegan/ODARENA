@@ -117,6 +117,24 @@ class Race extends AbstractModel
     }
 
     /**
+     * @param string $key
+     * @return float
+     */
+    public function getConstructionMaterials(): array
+    {
+        $perks = $this->perks->filter(function (RacePerkType $racePerkType) use ($key) {
+            return ($racePerkType->key === $key);
+        });
+
+        if ($perks->isEmpty())
+        {
+            return 0;
+        }
+
+        return (float)$perks->first()->pivot->value;
+    }
+
+    /**
      * Gets a Race's boat capacity.
      *
      * @return int
