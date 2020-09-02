@@ -214,10 +214,12 @@
                       @endif
                     </button>
                     <div class="pull-right">
+                        @if ($selectedDominion->race->name !== 'Yeti')
                         You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ strtolower(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race))) }} available.
+                        @endif
 
                       @if ($selectedDominion->race->name == 'Yeti')
-                      <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti.
+                      You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti available.
                       @endif
 
                       @if ($selectedDominion->race->name == 'Demon')

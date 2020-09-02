@@ -81,7 +81,8 @@ class ConstructActionService
 
         $buildingsByLandType = [];
 
-        foreach ($data as $buildingType => $amount) {
+        foreach ($data as $buildingType => $amount)
+        {
             if ($amount === 0) {
                 continue;
             }
@@ -102,10 +103,24 @@ class ConstructActionService
             $buildingsByLandType[$landType] += $amount;
         }
 
-        $platinumCost = $this->constructionCalculator->getTotalPlatinumCost($dominion, $totalBuildingsToConstruct);
-        $lumberCost = $this->constructionCalculator->getTotalLumberCost($dominion, $totalBuildingsToConstruct);
-        $manaCost = $this->constructionCalculator->getTotalManaCost($dominion, $totalBuildingsToConstruct);
-        $foodCost = $this->constructionCalculator->getTotalFoodCost($dominion, $totalBuildingsToConstruct);
+        # Get construction materials
+        $constructionMaterials = $this->constructionCalculator->getConstructionMaterials($dominion);
+
+        $primaryResource = null;
+        $secondaryResource = null;
+
+        if(isset($constructionMaterials[0]))
+        {
+            $primaryResource = $constructionMaterials[0];
+        }
+        if(isset($constructionMaterials[1]))
+        {
+            $secondaryResource = $constructionMaterials[1];
+        }
+
+        # Calculate total cost per primary and secondary
+        $primaryCost = $this->constructionCalculator->getConstructionCostPrimary($dominion) * $totalBuildingsToConstruct;
+        $secondaryCost = $this->constructionCalculator->getConstructionCostSecondary($dominion) * $totalBuildingsToConstruct;
 
         foreach ($buildingsByLandType as $landType => $amount)
         {
@@ -118,107 +133,77 @@ class ConstructActionService
         # Look for forest_construction_cost
         foreach ($buildingsByLandType as $landType => $amount)
         {
-
             if($forestConstructionCostPerk = $dominion->race->getPerkMultiplier('forest_construction_cost') and $landType == 'forest')
             {
-                $platinumCost += $this->constructionCalculator->getTotalPlatinumCost($dominion, $amount) * $forestConstructionCostPerk;
-                $lumberCost += $this->constructionCalculator->getTotalLumberCost($dominion, $amount) * $forestConstructionCostPerk;
+                $primaryCost *= $forestConstructionCostPerk;
+                $secondaryCost *= $forestConstructionCostPerk;
             }
-
         }
 
-        DB::transaction(function () use ($dominion, $data, $platinumCost, $lumberCost, $manaCost, $foodCost, $totalBuildingsToConstruct) {
-            $hours = 12;
+        DB::transaction(function () use ($dominion, $data, $primaryCost, $secondaryCost, $primaryResource, $secondaryResource, $totalBuildingsToConstruct) {
+            $ticks = 12;
             # Gnome: increased construction speed
             if($dominion->race->getPerkValue('increased_construction_speed'))
             {
-              $hours = 12 - $dominion->race->getPerkValue('increased_construction_speed');
+              $ticks = 12 - $dominion->race->getPerkValue('increased_construction_speed');
             }
 
-            $this->queueService->queueResources('construction', $dominion, $data, $hours);
+            $this->queueService->queueResources('construction', $dominion, $data, $ticks);
 
+
+            $dominion->{'resource_'.$primaryResource} -= $primaryCost;
+            $dominion->{'stat_total_' . $primaryResource . '_spent_building'} += $primaryCost;
+
+            if(isset($secondaryResource))
+            {
+                $dominion->{'resource_'.$secondaryResource} -= $secondaryCost;
+                $dominion->{'stat_total_' . $secondaryResource . '_spent_building'} += $secondaryCost;
+            }
+
+            $dominion->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
+/*
             $dominion->fill([
-                'resource_platinum' => ($dominion->resource_platinum - $platinumCost),
-                'resource_lumber' => ($dominion->resource_lumber - $lumberCost),
-                'resource_mana' => ($dominion->resource_mana - $manaCost),
-                'resource_food' => ($dominion->resource_food - $foodCost),
-                #'discounted_land' => max(0, $dominion->discounted_land - $totalBuildingsToConstruct),
+                {'resource_'.$primaryResource} => ($dominion->{'resource_'.$primaryResource} - $primaryCost),
+                {'resource_'.$secondaryResource} => ($dominion->{'resource_'.$secondaryResource} - $secondaryCost),
 
-                'stat_total_platinum_spent_building' => ($dominion->stat_total_platinum_spent_building + $platinumCost),
-                'stat_total_food_spent_building' => ($dominion->stat_total_food_spent_building + $foodCost),
-                'stat_total_lumber_spent_building' => ($dominion->stat_total_lumber_spent_building + $lumberCost),
-                'stat_total_mana_spent_building' => ($dominion->stat_total_mana_spent_building + $manaCost),
+                {'stat_total_' . $primaryResource . '_spent_building'} => ($dominion->{'stat_total_' . $primaryResource . '_spent_building'} + $primaryCost),
+                {'stat_total_' . $secondaryResource . '_spent_building'} => ($dominion->{'stat_total_' . $secondaryResource . '_spent_building'} + $secondaryCost),
 
-                'stat_total_ore_spent_building' => ($dominion->stat_total_ore_spent_building + 0),
-                'stat_total_gem_spent_building' => ($dominion->stat_total_gem_spent_building + 0),
 
             ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
+*/
         });
 
-        if($platinumCost > 0 and $lumberCost > 0)
-        {
-          $return = [
-              'message' => sprintf(
-                  'Construction started at a cost of %s platinum and %s lumber.',
-                  number_format($platinumCost),
-                  number_format($lumberCost)
-              ),
-              'data' => [
-                  'platinumCost' => $platinumCost,
-                  'lumberCost' => $lumberCost,
-              ],
-          ];
-        }
-        elseif($platinumCost > 0)
-        {
-          $return = [
-              'message' => sprintf(
-                  'Construction started at a cost of %s platinum.',
-                  number_format($platinumCost)
-              ),
-              'data' => [
-                  'platinumCost' => $platinumCost
-              ],
-          ];
-        }
-        elseif($manaCost > 0)
-        {
-          $return = [
-              'message' => sprintf(
-                  'Conjuring of buildings started at a cost of %s mana.',
-                  number_format($manaCost)
-              ),
-              'data' => [
-                  'platinumCost' => $manaCost
-              ],
-          ];
-        }
-        elseif($foodCost > 0)
-        {
-          $return = [
-              'message' => sprintf(
-                  'Growth of building started at a cost of %s food.',
-                  number_format($foodCost)
-              ),
-              'data' => [
-                  'platinumCost' => $foodCost
-              ],
-          ];
-        }
-        elseif($platinumCost == 0 and $lumberCost == 0)
+        if(isset($secondaryResource))
         {
             $return = [
                 'message' => sprintf(
-                    'Construction started at a cost of %s platinum and %s lumber.',
-                    number_format($platinumCost),
-                    number_format($lumberCost)
+                    'Construction started at a cost of %s %s and %s %s.',
+                    number_format($primaryCost),
+                    $primaryResource,
+                    number_format($secondaryCost),
+                    $secondaryResource
                 ),
                 'data' => [
-                    'platinumCost' => $platinumCost,
-                    'lumberCost' => $lumberCost,
-                ],
+                    'primaryCost' => $primaryCost,
+                    'secondaryCost' => $secondaryCost,
+                ]
             ];
         }
+        else
+        {
+            $return = [
+                'message' => sprintf(
+                    'Construction started at a cost of %s %s.',
+                    number_format($primaryCost),
+                    $primaryResource
+                ),
+                'data' => [
+                    'primaryCost' => $primaryCost
+                ]
+            ];
+        }
+
         return $return;
     }
 }

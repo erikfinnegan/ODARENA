@@ -50,6 +50,7 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     need_boat: true
     cost:
       unit2: 1
@@ -64,13 +65,14 @@ units:
       - living
       - sentient
       - intelligent
+      - wise
     need_boat: true
     cost:
       unit2: 1
       ore: 400
     power:
       offense: 12
-      defense: 6
+      defense: 8
     perks:
       no_draftee: 1
       eats_peasants: 4

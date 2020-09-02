@@ -56,29 +56,9 @@
                     <a href="{{ route('dominion.advisors.construct') }}" class="pull-right">Construction Advisor</a>
                 </div>
                 <div class="box-body">
+
+                    {{ print_r($constructionCalculator->getConstructionMaterials($selectedDominion)) }}
                     <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
-                    <p>Each building costs
-                    @if ($selectedDominion->race->getPerkValue('construction_cost_only_mana'))
-                      {{ number_format($constructionCalculator->getManaCost($selectedDominion)) }} mana.
-                    @elseif ($selectedDominion->race->getPerkValue('construction_cost_only_food'))
-                      {{ number_format($constructionCalculator->getFoodCost($selectedDominion)) }} food.
-                    @else
-                      {{ number_format($constructionCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($constructionCalculator->getLumberCost($selectedDominion)) }} lumber.
-                    @endif
-                    </p>
-
-                    @if (1-$constructionCalculator->getCostMultiplier($selectedDominion) !== 0)
-                      <p>Bonuses are
-
-                      @if (1-$constructionCalculator->getCostMultiplier($selectedDominion) > 0)
-                        decreasing
-                      @else
-                        increasing
-                      @endif
-
-                       your construction costs by <strong>{{ number_format((abs(1-$constructionCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
-
-                    @endif
 
                     <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
                       and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
