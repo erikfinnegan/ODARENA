@@ -45,7 +45,7 @@ class BarbarianService
     protected const CASUALTIES_MAX = 90;
 
     # Train between these two values % of required units per tick. /100
-    protected const UNITS_TRAINED_MIN = 25;
+    protected const UNITS_TRAINED_MIN = 50;
     protected const UNITS_TRAINED_MAX = 100;
 
 
@@ -225,7 +225,9 @@ class BarbarianService
             {
                 if($amountToTrain > 0)
                 {
-                    $amountToTrain = max(1, intval($amountToTrain * (rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100)));
+
+                    $amountToTrain *= rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100;
+                    $amountToTrain = max(1, $amountToTrain); # WTF?
                     //echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     //Log::Debug("[TRAINING] " . number_format($amountToTrain) . ' ' . $unit);
                     $data = [$unit => $amountToTrain];
@@ -233,6 +235,32 @@ class BarbarianService
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
                 }
             }
+
+            $logString = '[BARBARIAN] ' . $dominion->name . ' is ' . $land . ' acres and has a target DPA of ' . $this->getDpaTarget($dominion) . ' and a has DPA delta of ' . $dpaDelta . ', and an OPA delta of ' . $opaDelta . '. ';
+            if(isset($dpToTrain))
+            {
+                $logString .= 'DP to train: ' . number_format($dpToTrain) . '. ';
+            }
+            else
+            {
+                $logString .= 'No need train additional DP. ';
+            }
+            if(isset($opToTrain))
+            {
+                $logString .= 'OP to train: ' . number_format($opToTrain) . '. ';
+            }
+            else
+            {
+                $logString .= 'No need train additional OP. ';
+            }
+
+            $logString .= 'They will train ' . $units['military_unit1'] . ' unit1, ' . $units['military_unit2'] . ' unit2, ' . $units['military_unit3'] . ' unit3, ' . $units['military_unit4'] . ' unit4.';
+
+            $logString .= 'Target DPA: ' . $this->getDpaTarget($dominion) . '. Paid DPA: ' . $this->getDpaPaid($dominion) . '. Target OPA: ' . $this->getOpaTarget($dominion) . '. Paid OPA: ' . $this->getOpaPaid($dominion) . '. ';
+
+            Log::Debug($logString);
+            //echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
+            //Log::Debug("[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion));
 
         }
 
