@@ -30,11 +30,11 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # One in x chance to hit
-    protected const ONE_IN_CHANCE_TO_HIT = 3;
+    protected const ONE_IN_CHANCE_TO_HIT = 1;
 
     # Gain % of land between these two values when hitting. /1000
-    protected const LAND_GAIN_MIN = 75;
-    protected const LAND_GAIN_MAX = 150;
+    protected const LAND_GAIN_MIN = 100;
+    protected const LAND_GAIN_MAX = 200;
 
     # Send between these two values when hitting. /100
     protected const SENT_RATIO_MIN = 80;
