@@ -22,6 +22,30 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 class BarbarianService
 {
 
+    protected const DPA_CONSTANT = 25;
+    protected const DPA_PER_HOUR = 0.50;
+
+    # Train % of new units as specs. /1000
+    protected const SPECS_RATIO_MIN = 50;
+    protected const SPECS_RATIO_MAX = 500;
+
+    # Gain % of land between these two values when hitting.
+    protected const LAND_GAIN_MIN = 750;
+    protected const LAND_GAIN_MAX = 1500;
+
+    # Send between these two values when hitting. /100
+    protected const SENT_RATIO_MIN = 80;
+    protected const SENT_RATIO_MAX = 100;
+
+    # Lose % of units between these two values when hitting. /1000
+    protected const CASUALTIES_MIN = 60;
+    protected const CASUALTIES_MAX = 90;
+
+    # Train between these two values per tick. /100
+    protected const UNITS_TRAINED_MIN = 15;
+    protected const UNITS_TRAINED_MAX = 65;
+
+
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
@@ -45,12 +69,12 @@ class BarbarianService
 
     private function getDpaTarget(Dominion $dominion): float
     {
-        $constant = 25;
+        #$constant = 25;
 
         $calculateDate = max($dominion->round->start_date, $dominion->created_at);
 
         $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
-        $dpa = $constant + ($hoursIntoTheRound * 0.50);
+        $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * DPA_PER_HOUR);
         return $dpa *= ($dominion->npc_modifier / 1000);
     }
 
@@ -138,12 +162,12 @@ class BarbarianService
         {
             $land = $this->landCalculator->getTotalLand($dominion);
 
-            #$land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_plain');
-            #$land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_mountain');
-            #$land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_swamp');
-            #$land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_forest');
-            #$land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_hill');
-            #$land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_water');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_plain');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_mountain');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_swamp');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_forest');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_hill');
+            $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_water');
 
             $units = [
               'military_unit1' => 0,
@@ -161,7 +185,7 @@ class BarbarianService
 
                 $dpToTrain = $dpaDelta * $land;
 
-                $specsRatio = rand(50,500)/1000;
+                $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
 
                 $units['military_unit2'] = intval(($dpToTrain*$specsRatio)/3);
@@ -182,7 +206,7 @@ class BarbarianService
 
                 $opToTrain = $opaDelta * $land;
 
-                $specsRatio = rand(50,500)/1000;
+                $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
 
                 $units['military_unit1'] = intval(($opToTrain*$specsRatio)/3);
@@ -197,8 +221,7 @@ class BarbarianService
             {
                 if($amountToTrain > 0)
                 {
-                    # Randomly train between 50% and 80% of the units needed.
-                    $amountToTrain = max(1, intval($amountToTrain * (rand(500,800)/1000)));
+                    $amountToTrain = max(1, intval($amountToTrain * (rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100)));
                     #echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     $data = [$unit => $amountToTrain];
                     $hours = 12;
@@ -225,7 +248,7 @@ class BarbarianService
                 echo "[INVADE] Sufficient OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
 
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-                $chanceOneIn = 21 - (14 - min($currentDay, 14));
+                $chanceOneIn = 14 - (14 - min($currentDay, 14));
 
                 if(rand(1,$chanceOneIn) == 1)
                 {
@@ -248,7 +271,7 @@ class BarbarianService
             if($invade === true)
             {
                 # Grow by 6-14% (random), skewed to lower.
-                $landGainRatio = max(600,rand(400,1400))/10000;
+                $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/10000;
 
                 # Calculate the amount of acres to grow.
                 $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
@@ -266,10 +289,10 @@ class BarbarianService
                 $dominion->stat_attacking_success += 1;
 
                 # Send out 80-100% of all units. Random over 100 but capped at 100 to make it more likely 100% are sent.
-                $sentRatio = min(1000,rand(800,1250))/1000;
+                $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/100;
 
                 # Casualties between 6% and 10% (random).
-                $casualtiesRatio = rand(60,100)/1000;
+                $casualtiesRatio = rand(static::CASUALTIES_MIN, static::CASUALTIES_MAX)/1000;
 
                 # Calculate how many Unit1 and Unit4 are sent.
                 $unitsSent['military_unit1'] = $dominion->military_unit1 * $sentRatio;
