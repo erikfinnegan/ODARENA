@@ -33,8 +33,8 @@ class BarbarianService
     protected const ONE_IN_CHANCE_TO_HIT = 1;
 
     # Gain % of land between these two values when hitting. /1000
-    protected const LAND_GAIN_MIN = 150;
-    protected const LAND_GAIN_MAX = 300;
+    protected const LAND_GAIN_MIN = 100;
+    protected const LAND_GAIN_MAX = 200;
 
     # Send between these two values when hitting. /100
     protected const SENT_RATIO_MIN = 80;
@@ -45,7 +45,7 @@ class BarbarianService
     protected const CASUALTIES_MAX = 90;
 
     # Train between these two values % of required units per tick. /100
-    protected const UNITS_TRAINED_MIN = 50;
+    protected const UNITS_TRAINED_MIN = 25;
     protected const UNITS_TRAINED_MAX = 100;
 
 
