@@ -388,7 +388,7 @@ class TrainActionService
 
         }
 
-        if ($newDraftelessUnitsToHouse > 0 and ($newDraftelessUnitsToHouse + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
+        if (($dominion->race->name !== 'Cult') and ($newDraftelessUnitsToHouse > 0) and ($newDraftelessUnitsToHouse + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
         {
             throw new GameException('Training failed as training would exceed your max population');
         }
