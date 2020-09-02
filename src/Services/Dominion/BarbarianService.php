@@ -236,14 +236,22 @@ class BarbarianService
                 }
             }
 
-            $logString = '[BARBARIAN] ' . $dominion->name . ' is ' . $land . ' acres and has DPA delta of ' . $dpaDelta . ' and OPA delta of ' . $opaDelta . '. ';
+            $logString = '[BARBARIAN] ' . $dominion->name . ' is ' . $land . ' acres and has a target DPA of ' . $this->getDpaTarget($dominion) . ' and a has DPA delta of ' . $dpaDelta . ', and an OPA delta of ' . $opaDelta . '. ';
             if(isset($dpToTrain))
             {
                 $logString .= 'DP to train: ' . number_format($dpToTrain) . '. ';
             }
+            else
+            {
+                $logString .= 'No need train additional DP. ';
+            }
             if(isset($opToTrain))
             {
                 $logString .= 'OP to train: ' . number_format($opToTrain) . '. ';
+            }
+            else
+            {
+                $logString .= 'No need train additional OP. ';
             }
 
             $logString .= 'They will train ' . $units['military_unit1'] . ' unit1, ' . $units['military_unit2'] . ' unit2, ' . $units['military_unit3'] . ' unit3, ' . $units['military_unit4'] . ' unit4.';
