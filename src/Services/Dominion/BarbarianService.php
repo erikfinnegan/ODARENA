@@ -232,7 +232,7 @@ class BarbarianService
 
                     #echo $dominion->name . ' amount to train: '. $amountToTrain . "\n";
 
-                    $amountToTrain = max(1, $amountToTrain); # WTF?
+                    $amountToTrain = max(1, ceil($amountToTrain)); # WTF?
                     //echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     //Log::Debug("[TRAINING] " . number_format($amountToTrain) . ' ' . $unit);
                     $data = [$unit => $amountToTrain];
