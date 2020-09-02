@@ -30,7 +30,7 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # One in x chance to hit
-    protected const ONE_IN_CHANCE_TO_HIT = 1;
+    protected const ONE_IN_CHANCE_TO_HIT = 2;
 
     # Gain % of land between these two values when hitting. /1000
     protected const LAND_GAIN_MIN = 100;
@@ -212,8 +212,9 @@ class BarbarianService
                 $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
 
-                $units['military_unit1'] = intval(($opToTrain*$specsRatio)/3);
-                $units['military_unit4'] = intval(($opToTrain*$specsRatio)/5);
+                # Overtrain OP by 10%.
+                $units['military_unit1'] = intval(($opToTrain*$specsRatio)/3 * 1.1);
+                $units['military_unit4'] = intval(($opToTrain*$specsRatio)/5 * 1.1);
             }
             else
             {
@@ -223,16 +224,10 @@ class BarbarianService
 
             foreach($units as $unit => $amountToTrain)
             {
-
-                echo $dominion->name . ' amount to train: '. $amountToTrain . "\n";
-
                 if($amountToTrain > 0)
                 {
-                    #$amountToTrain *= rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100;
-
-                    #echo $dominion->name . ' amount to train: '. $amountToTrain . "\n";
-
-                    $amountToTrain = max(1, ceil($amountToTrain)); # WTF?
+                    $amountToTrain *= rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100;
+                    $amountToTrain = max(1, $amountToTrain); # WTF?
                     //echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     //Log::Debug("[TRAINING] " . number_format($amountToTrain) . ' ' . $unit);
                     $data = [$unit => $amountToTrain];
