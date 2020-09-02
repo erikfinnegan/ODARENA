@@ -216,8 +216,8 @@
                     <div class="pull-right">
                         You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ strtolower(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race))) }} available.
 
-                      @if ($selectedDominion->race->name == 'Snow Elf')
-                      <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti trapped.
+                      @if ($selectedDominion->race->name == 'Yeti')
+                      <br> You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti.
                       @endif
 
                       @if ($selectedDominion->race->name == 'Demon')

@@ -132,7 +132,7 @@
                                         <td>Blood:</td>
                                         <td>{{ number_format($selectedDominion->resource_blood) }}</td>
                                     </tr>
-                                    @elseif ($selectedDominion->race->name == 'Snow Elf')
+                                    @elseif ($selectedDominion->race->name == 'Yeti')
                                     <tr>
                                         <td>Wild yetis:</td>
                                         <td>{{ number_format($selectedDominion->resource_wild_yeti) }}</td>

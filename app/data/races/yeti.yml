@@ -9,9 +9,7 @@ attacking: 2
 exploring : 2
 converting: 2
 
-construction_materials:
-  primary: lumber
-  secondary: ore
+construction_materials: lumber,ore
 
 perks:
   max_population: -100
@@ -75,3 +73,4 @@ units:
       defense: 6
     perks:
       no_draftee: 1
+      eats_peasants: 4

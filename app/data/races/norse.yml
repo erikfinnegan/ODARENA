@@ -8,6 +8,8 @@ attacking: 3
 exploring : 1
 converting: 1
 
+construction_materials: platinum,lumber
+
 perks:
   exchange_bonus: 10
   lumber_production: 10

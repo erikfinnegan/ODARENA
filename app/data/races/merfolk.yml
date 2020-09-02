@@ -9,6 +9,8 @@ attacking: 3
 exploring : 3
 converting: 1
 
+construction_materials: platinum
+
 perks:
   gem_production: -10
   platinum_production: -10

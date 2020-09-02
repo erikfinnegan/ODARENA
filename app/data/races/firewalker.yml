@@ -8,6 +8,8 @@ attacking: 3
 exploring : 2
 converting: 1
 
+construction_materials: platinum,lumber
+
 perks:
   lumber_production: -15
   damage_from_fireballs: -50

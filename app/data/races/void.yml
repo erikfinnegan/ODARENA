@@ -12,6 +12,8 @@ attacking: 3
 exploring : 2
 converting: 2
 
+construction_materials: mana
+
 perks:
   food_consumption: -100
   can_invest_mana: 1

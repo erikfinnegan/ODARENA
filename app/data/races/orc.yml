@@ -8,6 +8,8 @@ attacking: 3
 exploring : 1
 converting: 1
 
+construction_materials: platinum,lumber
+
 perks:
   food_consumption: 20
   lumber_production: 50

@@ -10,6 +10,8 @@ attacking: 3
 exploring : 0
 converting: 1
 
+construction_materials:
+
 perks:
   max_per_round: 1
   min_rounds_played: 5

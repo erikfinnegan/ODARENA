@@ -221,7 +221,7 @@ class SpellHelper
                 'key' => 'blizzard',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Icekin']),
+                'races' => collect(['Icekin', 'Snow Elf']),
             ],
             [
                 'name' => 'Bloodrage',
@@ -397,9 +397,9 @@ class SpellHelper
                 'name' => 'Gryphon\'s Call',
                 'description' => 'Quadruple yeti trapping. No offensive power bonus from Gryphon Nests.',
                 'key' => 'gryphons_call',
-                'mana_cost' => 4,
-                'duration' => 1.5*4, # 6 ticks (3 hours)
-                'races' => collect(['Snow Elf']),
+                'mana_cost' => 2,
+                'duration' => 4,
+                'races' => collect(['Yeti']),
             ],
             [
                 'name' => 'Maelstrom',

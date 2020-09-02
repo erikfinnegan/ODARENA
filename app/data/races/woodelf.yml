@@ -8,6 +8,8 @@ attacking: 2
 exploring : 3
 converting: 3
 
+construction_materials: platinum,lumber
+
 perks:
   wizard_strength: 20
   spy_strength: 20

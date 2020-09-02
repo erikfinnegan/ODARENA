@@ -9,6 +9,8 @@ attacking: 2
 exploring : 0
 converting: 2
 
+construction_materials: platinum,lumber
+
 perks:
     gem_production: 10
     max_population: -10

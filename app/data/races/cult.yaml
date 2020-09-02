@@ -18,6 +18,8 @@ attacking: 3
 exploring : 3
 converting: 3
 
+construction_materials: platinum,lumber
+
 perks:
   population_growth: 15
   min_rounds_played: 5

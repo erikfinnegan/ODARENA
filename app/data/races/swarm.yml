@@ -12,6 +12,8 @@ attacking: 2
 exploring : 2
 converting: 1
 
+construction_materials:
+
 perks:
   extra_barren_max_population: 27
   cannot_construct: 1

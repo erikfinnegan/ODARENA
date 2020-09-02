@@ -289,6 +289,7 @@ class DominionFactory
         if($race->name == 'Yeti')
         {
           $startingResources['wild_yeti'] = intval($startingResources['peasants'] * 0.30);
+          $startingResources['peasants'] = 0;
           $startingResources['draftees'] = 0;
           $startingResources['draft_rate'] = 0;
         }

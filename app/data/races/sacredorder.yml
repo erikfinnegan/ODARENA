@@ -8,6 +8,8 @@ attacking: 3
 exploring : 2
 converting: 2
 
+construction_materials: platinum,lumber
+
 perks:
   food_production: 5
   max_population: 5

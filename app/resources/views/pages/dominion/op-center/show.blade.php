@@ -137,7 +137,7 @@
                                             <td>{{ number_format($infoOp->data['resource_blood']) }}</td>
                                         </tr>
                                         @endif
-                                    @elseif ($dominion->race->name == 'Snow Elf' and isset($infoOp->data['resource_wild_yeti']))
+                                    @elseif ($dominion->race->name == 'Yeti' and isset($infoOp->data['resource_wild_yeti']))
                                     <tr>
                                         <td>Wild yetis:</td>
                                         <td>{{ number_format($infoOp->data['resource_wild_yeti']) }}</td>

@@ -135,7 +135,7 @@
                                         </td>
                                     </tr>
                                     @endif
-                                    @if ($selectedDominion->race->name == 'Snow Elf')
+                                    @if ($selectedDominion->race->name == 'Yeti')
                                     <tr>
                                         <td>Wild yetis:</td>
                                         <td>
@@ -209,7 +209,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    @if ($selectedDominion->race->name == 'Snow Elf')
+                                    @if ($selectedDominion->race->name == 'Yeti')
                                     <tr>
                                         <td>Wild yetis escaped:</td>
                                         <td>

@@ -11,6 +11,8 @@ playable: 1
 peasants_alias: cell
 draftees_alias: amoeba
 
+construction_materials: food
+
 attacking: 2
 exploring : 0
 converting: 0

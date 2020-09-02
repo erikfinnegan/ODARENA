@@ -27,6 +27,8 @@ attacking: 3
 exploring : 3
 converting: 3
 
+construction_materials: platinum,lumber
+
 perks:
   platinum_production: 10
   ore_production: 25

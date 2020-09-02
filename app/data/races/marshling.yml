@@ -8,6 +8,8 @@ attacking: 1
 exploring : 1
 converting: 1
 
+construction_materials: platinum,lumber
+
 peasants_alias: bubbler
 draftees_alias: blob
 

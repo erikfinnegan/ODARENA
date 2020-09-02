@@ -11,6 +11,8 @@ attacking: 2
 exploring : 2
 converting: 2
 
+construction_materials: platinum,lumber
+
 perks:
   population_growth: 25
   max_population: 30

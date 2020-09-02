@@ -9,6 +9,8 @@ attacking: 2
 exploring : 2
 converting: 2
 
+construction_materials: platinum,lumber
+
 perks:
   construction_cost: 15
   max_population: -50

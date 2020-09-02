@@ -12,6 +12,8 @@ attacking: 2
 exploring : 2
 converting: 1
 
+construction_materials: platinum,lumber
+
 perks:
   max_population: 20
   guard_tax_exemption: 1

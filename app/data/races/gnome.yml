@@ -8,6 +8,8 @@ attacking: 2
 exploring : 3
 converting: 3
 
+construction_materials: platinum,ore
+
 perks:
   extra_barren_max_population: 5
   food_consumption: -25

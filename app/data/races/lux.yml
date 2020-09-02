@@ -8,6 +8,8 @@ attacking: 2
 exploring : 2
 converting: 2
 
+construction_materials: platinum,lumber
+
 peasants_alias: shimmerling
 draftees_alias: aspect
 

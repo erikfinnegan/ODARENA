@@ -18,6 +18,8 @@ attacking: 3
 exploring : 2
 converting: 2
 
+construction_materials: platinum,lumber
+
 perks:
   extra_barren_max_population: 10
   cannot_improve_castle: 1

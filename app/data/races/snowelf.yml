@@ -10,6 +10,8 @@ attacking: 2
 exploring : 1
 converting: 2
 
+construction_materials: platinum,lumber
+
 perks:
   food_consumption: -25
   invest_bonus: 20
@@ -73,4 +75,4 @@ units:
     perks:
       does_not_count_as_population: 1
       plunder: mana,10
-      defense_from_pairing: 1,4 # slot, amount
+      defense_from_pairing: 1,2 # slot, amount

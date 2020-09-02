@@ -8,6 +8,8 @@ attacking: 3
 exploring : 3
 converting: 3
 
+construction_materials: platinum,lumber
+
 perks:
   all_units_trained_in_9hrs: 1
   max_population: 15

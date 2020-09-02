@@ -9,6 +9,8 @@ attacking: 3
 exploring : 3
 converting: 3
 
+construction_materials: platinum,lumber
+
 perks:
   gem_production: 10
 units:
