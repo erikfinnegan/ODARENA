@@ -29,9 +29,9 @@ class BarbarianService
     protected const SPECS_RATIO_MIN = 50;
     protected const SPECS_RATIO_MAX = 500;
 
-    # Gain % of land between these two values when hitting.
-    protected const LAND_GAIN_MIN = 750;
-    protected const LAND_GAIN_MAX = 1500;
+    # Gain % of land between these two values when hitting. /1000
+    protected const LAND_GAIN_MIN = 75;
+    protected const LAND_GAIN_MAX = 150;
 
     # Send between these two values when hitting. /100
     protected const SENT_RATIO_MIN = 80;
@@ -271,7 +271,7 @@ class BarbarianService
             if($invade === true)
             {
                 # Grow by 6-14% (random), skewed to lower.
-                $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/10000;
+                $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
 
                 # Calculate the amount of acres to grow.
                 $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
