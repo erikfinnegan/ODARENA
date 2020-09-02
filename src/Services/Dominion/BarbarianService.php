@@ -70,10 +70,8 @@ class BarbarianService
         $this->dominionFactory = app(DominionFactory::class);
     }
 
-    private function getDpaTarget(Dominion $dominion): float
+    private function getDpaTarget(Dominion $dominion): int
     {
-        #$constant = 25;
-
         $calculateDate = max($dominion->round->start_date, $dominion->created_at);
 
         $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
@@ -132,28 +130,28 @@ class BarbarianService
     }
 
 
-    private function getDpaCurrent(Dominion $dominion): float
+    private function getDpaCurrent(Dominion $dominion): int
     {
         return $this->getDpCurrent($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
-    private function getOpaCurrent(Dominion $dominion): float
+    private function getOpaCurrent(Dominion $dominion): int
     {
         return $this->getOpCurrent($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
 
-    private function getDpaPaid(Dominion $dominion): float
+    private function getDpaPaid(Dominion $dominion): int
     {
         return $this->getDpPaid($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
-    private function getOpaPaid(Dominion $dominion): float
+    private function getOpaPaid(Dominion $dominion): int
     {
         return $this->getOpPaid($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
-    private function getOpaAtHome(Dominion $dominion): float
+    private function getOpaAtHome(Dominion $dominion): int
     {
         return $this->getOpAtHome($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
@@ -236,27 +234,14 @@ class BarbarianService
                 }
             }
 
-            $logString = '[BARBARIAN] ' . $dominion->name . ' is ' . $land . ' acres and has a target DPA of ' . $this->getDpaTarget($dominion) . ' and a has DPA delta of ' . $dpaDelta . ', and an OPA delta of ' . $opaDelta . '. ';
-            if(isset($dpToTrain))
-            {
-                $logString .= 'DP to train: ' . number_format($dpToTrain) . '. ';
-            }
-            else
-            {
-                $logString .= 'No need train additional DP. ';
-            }
-            if(isset($opToTrain))
-            {
-                $logString .= 'OP to train: ' . number_format($opToTrain) . '. ';
-            }
-            else
-            {
-                $logString .= 'No need train additional OP. ';
-            }
-
-            $logString .= 'They will train ' . $units['military_unit1'] . ' unit1, ' . $units['military_unit2'] . ' unit2, ' . $units['military_unit3'] . ' unit3, ' . $units['military_unit4'] . ' unit4.';
-
-            $logString .= 'Target DPA: ' . $this->getDpaTarget($dominion) . '. Paid DPA: ' . $this->getDpaPaid($dominion) . '. Target OPA: ' . $this->getOpaTarget($dominion) . '. Paid OPA: ' . $this->getOpaPaid($dominion) . '. ';
+            $logString = '[NPC] ' . $dominion->name . ' is ' . $land . ' acres. ';
+            $logString .= 'Target DPA: ' . $this->getDpaTarget($dominion) . '. ';
+            $logString .= 'Current DPA: ' . $this->getDpaCurrent($dominion) . '. ';
+            $logString .= 'Paid DPA: ' . $this->getDpaPaid($dominion) . '. ';
+            $logString .= ' | ';
+            $logString .= 'Target OPA: ' . $this->getOpaTarget($dominion) . '. ';
+            $logString .= 'Current OPA: ' . $this->getOpaTarget($dominion) . '. ';
+            $logString .= 'Paid OPA: ' . $this->getOpaTarget($dominion) . '. ';
 
             Log::Debug($logString);
             //echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
