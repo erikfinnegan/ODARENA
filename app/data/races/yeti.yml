@@ -1,6 +1,7 @@
 name: Yeti
 alignment: independent
-description:
+description: >-
+  <p>The Yeti population is not made up of traditional peasants and draftees. Instead, Yeti rely on wild yetis being attrac
 home_land_type: mountain
 playable: 1
 
@@ -10,15 +11,21 @@ converting: 2
 
 construction_materials: lumber,ore
 
+spies_cost: 1000,food
+wizards_cost: 1000,food
+archmages_cost: 2000,food
+
 perks:
   max_population: -100
   platinum_production: -100
   gryphon_nests_generate_wild_yetis: 1
-  construction_cost_only_mana: 1
-  exchange_rates: 50
+  exchange_bonus: 50
   boat_capacity: -10
+  yeti_spies: 1
+  yeti_wizards: 1
 units:
   - name: Yeti
+    training_time: 3
     type:
       - living
       - sentient
@@ -31,7 +38,9 @@ units:
       defense: 4
     perks:
       no_draftee: 1
+
   - name: Great Yeti
+    training_time: 6
     type:
       - living
       - sentient
@@ -45,7 +54,9 @@ units:
       defense: 6
     perks:
       no_draftee: 1
+
   - name: Guard Yeti
+    training_time: 9
     type:
       - living
       - sentient
@@ -60,7 +71,9 @@ units:
       defense: 12
     perks:
       no_draftee: 1
+
   - name: War Yeti
+    training_time: 9
     type:
       - living
       - sentient

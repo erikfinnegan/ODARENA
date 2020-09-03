@@ -51,10 +51,10 @@ units:
       fixed_casualties: 100
 
   - name: Trebuchet
+    need_boat: false
     training_time: 12
     type:
       - machine
-    need_boat: false
     cost:
       platinum: 1000
       lumber: 150
@@ -69,17 +69,19 @@ units:
       sendable_with_zero_op: 1
 
   - name: Ballista
+    need_boat: false
     training_time: 12
     type:
       - machine
-    need_boat: true
     cost:
       lumber: 1200
       ore: 500
     power:
       offense: 12
-      defense: 6
+      defense: 5
     perks:
+      faster_return: 6
       does_not_count_as_population: 1
       plunder: mana,10
       defense_from_pairing: 1,2 # slot, amount
+      houses_military_units: 1

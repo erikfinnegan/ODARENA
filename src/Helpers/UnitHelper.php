@@ -44,10 +44,10 @@ class UnitHelper
 
         $helpStrings = [
             'draftees' => 'Used for exploring and training other units. Provides 1 DP.',
-            'unit1' => 'Offensive specialist',
-            'unit2' => 'Defensive specialist',
-            'unit3' => 'Defensive elite',
-            'unit4' => 'Offensive elite',
+            'unit1' => ' ',
+            'unit2' => ' ',
+            'unit3' => ' ',
+            'unit4' => ' ',
             'spies' => 'Used for espionage.',
             'wizards' => 'Used for casting offensive spells.',
             'archmages' => 'Used for casting offensive spells. Twice as strong as regular wizards.',
@@ -245,7 +245,9 @@ class UnitHelper
 
             list($type, $proficiency) = explode(' ', $helpStrings[$unitType]);
 
-            $helpStrings[$unitType] .= '<li>OP: '. $unit->power_offense . ' / DP: ' . $unit->power_defense . '</li>';
+            $helpStrings[$unitType] .= '<li>OP: '. $unit->power_offense . ' / DP: ' . $unit->power_defense . ' / T: ' . $unit->training_time .  '</li>';
+            $helpStrings[$unitType] .= '<li>Attributes: '. $this->getUnitAttributesString($unitType, $race) . '</li>';
+
 
             foreach ($unit->perks as $perk)
             {
@@ -464,6 +466,38 @@ class UnitHelper
     public function getUnitAttributesString(string $unitType, Race $race = null): string
     {
 
+        $attributeString = '';
+
+        if ($race && in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
+        {
+            $unit = $race->units->filter(function ($unit) use ($unitType) {
+                return ($unit->slot == (int)str_replace('unit', '', $unitType));
+            })->first();
+        }
+
+        foreach($unit->type as $attribute)
+        {
+            $attributes[] = $attribute;
+        }
+
+
+        sort($attributes);
+        $count = count($attributes);
+
+        $i = $count;
+        foreach($attributes as $attribute)
+        {
+            $attributeString .= ucwords($attribute);
+            $attributeString .= ', ';
+
+        }
+
+        return $attributeString;
+    }
+
+    public function getUnitAttributesList(string $unitType, Race $race = null): string
+    {
+
         $attributeString = '<ul>';
 
         if ($race && in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
@@ -488,130 +522,6 @@ class UnitHelper
 
         $attributeString .= '</ul>';
         return $attributeString;
-    }
-
-    public function getConvertedUnitsString(array $convertedUnits, Race $race, string $type): string
-    {
-        if($type == 'offensive')
-        {
-            $result = 'In addition, your army converts some of the killed enemy soldiers into ';
-        }
-        elseif($type == 'defensive')
-        {
-            $result = 'However, your army converts some of the killed invading soldiers into ';
-        }
-
-        $convertedUnitsFiltered = array_filter($convertedUnits, function ($item) {
-            return $item > 0;
-        });
-
-        $numberOfUnitTypesConverted = count($convertedUnitsFiltered);
-        $i = 1;
-
-        // todo: this can probably be refactored to use generate_sentence_from_array() in helpers.php
-        foreach ($convertedUnitsFiltered as $slotNumber => $amount) {
-            if ($i !== 1) {
-                if ($numberOfUnitTypesConverted === $i) {
-                    $result .= ' and ';
-                } else {
-                    $result .= ', ';
-                }
-            }
-
-            $formattedAmount = number_format($amount);
-
-            $result .= "{$formattedAmount} {$race->units[$slotNumber - 1]->name}s";
-
-            $i++;
-        }
-
-        $result .= '!';
-
-        return $result;
-    }
-
-    # Norse champions
-    public function getChampionsString(int $champions): string
-    {
-      if ($champions > 0)
-      {
-        $result = number_format($champions) . ' of your brave fallen soldiers have become legendary champions.';
-      }
-      else
-      {
-        $result = 'No legendary champions arose from this battle.';
-      }
-
-        return $result;
-    }
-
-    # Demon Soul collection
-    public function getDemonicCollectionString(array $demonicCollection): string
-    {
-
-      if($demonicCollection['souls'] > 0 or $demonicCollection['blood'] > 0 or $demonicCollection['food'] > 0)
-      {
-          $result = 'Ripping and tearing the dead apart, the Demonic units collect ' . number_format($demonicCollection['souls']) . ' souls and ' . number_format($demonicCollection['blood']) . ' gallons of blood, and use the carcasses to create ' . number_format($demonicCollection['food']) . ' bushels of food.';
-      }
-
-        return $result;
-    }
-
-
-    public function getPlunderString(array $plunder): string
-    {
-        $plunder = array_filter($plunder);
-        $count = count($plunder);
-        $string = '';
-
-        $i = 0;
-        foreach($plunder as $resource => $amount)
-        {
-            $i++;
-            $remainingResources = $count - $i;
-            $string .= number_format($amount) . ' ' . $resource;
-
-            if($remainingResources > 1)
-            {
-                $string .= ', ';
-            }
-            elseif($remainingResources == 1)
-            {
-                $string .= ' and ';
-            }
-        }
-
-        $string .= ' were plundered.';
-
-        return $string;
-    }
-
-    public function getSalvageString(array $salvage): string
-    {
-        $salvage = array_filter($salvage);
-        $count = count($salvage);
-        $string = 'You salvage ';
-
-        $i = 0;
-        foreach($salvage as $resource => $amount)
-        {
-            $i++;
-            $remainingResources = $count - $i;
-            $string .= number_format($amount) . ' ' . $resource;
-
-            if($remainingResources > 1)
-            {
-                $string .= ', ';
-            }
-            elseif($remainingResources == 1)
-            {
-                $string .= ' and ';
-            }
-        }
-
-        $string .= '.';
-
-        return $string;
     }
 
 }

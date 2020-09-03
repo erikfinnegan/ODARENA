@@ -204,7 +204,7 @@
                                         {!! $unitHelper->getUnitHelpString("unit{$unit->slot}", $race) !!}
                                     </td>
                                     <td>
-                                        {!! $unitHelper->getUnitAttributesString("unit{$unit->slot}", $race) !!}
+                                        {!! $unitHelper->getUnitAttributesList("unit{$unit->slot}", $race) !!}
                                     </td>
                                     <td class="text-center">
                                         {{ $unitCostString }}

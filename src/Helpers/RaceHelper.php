@@ -187,7 +187,7 @@ class RaceHelper
                 break;
           case 'gryphon_nests_generate_wild_yetis':
                 $negativeBenefit = false;
-                $description = 'Lures wild yetis';
+                $description = 'Wild yeti population';
                 $booleanValue = true;
                 break;
             case 'prestige_gains':
@@ -436,6 +436,16 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Ruler Title bonus';
                 $booleanValue = false;
+                break;
+            case 'yeti_spies':
+                $negativeBenefit = false;
+                $description = 'Spies trained from wild yeti';
+                $booleanValue = true;
+                break;
+            case 'yeti_wizards':
+                $negativeBenefit = false;
+                $description = 'Wizards trained from wild yeti';
+                $booleanValue = true;
                 break;
 
             default:

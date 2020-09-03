@@ -57,8 +57,26 @@
                 </div>
                 <div class="box-body">
 
-                    {{ print_r($constructionCalculator->getConstructionMaterials($selectedDominion)) }}
                     <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
+                    @php
+                        $constructionMaterials = $constructionCalculator->getConstructionMaterials($selectedDominion);
+                        $primaryCost = $constructionCalculator->getConstructionCostPrimary($selectedDominion);
+                        $secondaryCost = $constructionCalculator->getConstructionCostSecondary($selectedDominion);
+
+                        if(count($constructionMaterials) == 2)
+                        {
+                            $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . ' and ' . number_format($secondaryCost) . ' ' . $constructionMaterials[1] . '.';
+                        }
+                        else
+                        {
+                            $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . '.';
+                        }
+
+
+
+                    @endphp
+
+                    <p>{{ $costString }}</p>
 
                     <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
                       and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>

@@ -79,52 +79,19 @@ class RezoneActionService
             }
         }
 
-        $platinumCost = $totalLand * $this->rezoningCalculator->getPlatinumCost($dominion);
-        $foodCost = $totalLand * $this->rezoningCalculator->getFoodCost($dominion);
-        $manaCost = $totalLand * $this->rezoningCalculator->getManaCost($dominion);
+        $cost = $totalLand * $this->rezoningCalculator->getRezoningCost($dominion);
+        $resource = $this->rezoningCalculator->getRezoningMaterial($dominion);
 
-
-        if ($platinumCost > 0 and $platinumCost > $dominion->resource_platinum)
+        if($cost > $dominion->{'resource_'.$resource})
         {
-            throw new GameException("You do not have enough platinum to re-zone {$totalLand} acres of land.");
+            throw new GameException("You do not have enough $resource to re-zone {$totalLand} acres of land.");
         }
 
-        if ($foodCost > 0 and $foodCost > $dominion->resource_food)
-        {
-            throw new GameException("You do not have enough food to re-zone {$totalLand} acres of land.");
-        }
-
-        if ($manaCost > 0 and $platinumCost > $dominion->resource_mana)
-        {
-            throw new GameException("You do not have enough mana to re-zone {$totalLand} acres of land.");
-        }
-
-
-        // All fine, perform changes.
-        $dominion->resource_platinum -= $platinumCost;
-        $dominion->resource_food -= $foodCost;
-        $dominion->resource_mana -= $manaCost;
+        # All fine, perform changes.
+        $dominion->{'resource_'.$resource} -= $cost;
 
         # Update spending statistics.
-        $dominion->stat_total_platinum_spent_rezoning += $platinumCost;
-        $dominion->stat_total_food_spent_rezoning += $foodCost;
-        $dominion->stat_total_mana_spent_rezoning += $manaCost;
-
-
-        $dominion->stat_total_lumber_spent_rezoning += 0;
-        $dominion->stat_total_ore_spent_rezoning += 0;
-        $dominion->stat_total_gem_spent_rezoning += 0;
-        #$dominion->stat_total_unit1_spent_rezoning += 0;
-        #$dominion->stat_total_unit2_spent_rezoning += 0;
-        #$dominion->stat_total_unit3_spent_rezoning += 0;
-        #$dominion->stat_total_unit4_spent_rezoning += 0;
-        #$dominion->stat_total_spies_spent_rezoning += 0;
-        #$dominion->stat_total_wizards_spent_rezoning += 0;
-        #$dominion->stat_total_wizards_spent_rezoning += 0;
-        #$dominion->stat_total_archmages_spent_rezoning += 0;
-        #$dominion->stat_total_wild_yeti_spent_rezoning += 0;
-        #$dominion->stat_total_soul_spent_rezoning += 0;
-        #$dominion->stat_total_champion_spent_rezoning += 0;
+        $dominion->{'stat_total_'.$resource.'_spent_rezoning'}  += $cost;
 
         foreach ($remove as $landType => $amount) {
             $dominion->{'land_' . $landType} -= $amount;
@@ -135,22 +102,6 @@ class RezoneActionService
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_REZONE]);
 
-        if($manaCost > 0)
-        {
-          $resource = 'mana';
-          $cost = $manaCost;
-        }
-        elseif($foodCost > 0)
-        {
-          $resource = 'food';
-          $cost = $foodCost;
-        }
-        else
-        {
-          $resource = 'platinum';
-          $cost = $platinumCost;
-        }
-
         return [
             'message' => sprintf(
                 'Your land has been re-zoned at a cost of %1$s %2$s.',
@@ -158,7 +109,8 @@ class RezoneActionService
                 $resource
             ),
             'data' => [
-                'platinumCost' => $platinumCost,
+                'cost' => $cost,
+                'resource' => $resource,
             ]
         ];
     }

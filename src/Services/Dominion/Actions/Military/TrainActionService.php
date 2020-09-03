@@ -448,11 +448,25 @@ class TrainActionService
 
             #dd($data);
 
-            foreach($data as $unit => $amountToTrain)
+            foreach($data as $unitType => $amountToTrain)
             {
 
-              $ticks = $unit->training_time;
+              $unitStatsName = str_replace('military_','',$unitType);
+              $slot = (int)str_replace('military_unit','',$unitType);
 
+              $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                  return ($unit->slot === $slot);
+              })->first();
+
+              if(isset($unit))
+              {
+                  $ticks = $unit->training_time;
+              }
+              else
+              {
+                  $ticks = 12;
+              }
+              
               // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
               {
@@ -466,33 +480,24 @@ class TrainActionService
               }
 
               // Spell: Spawning Pool (increase units trained, for free)
-              if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unit == 'military_unit1')
+              if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unitType == 'military_unit1')
               {
                   $amountToTrainMultiplier = ($dominion->land_swamp / $this->landCalculator->getTotalLand($dominion));
                   $amountToTrain = round($amountToTrain * (1 + $amountToTrainMultiplier));
               }
 
-              // Legion and Elementals: all units train in 9 hours.
-              if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
-              {
-                  $timeReductionElites += 3;
-              }
-
-              $unitType = str_replace('military_','',$unit);
-
-              $dominion->{'stat_total_' . $unitType . '_trained'} += $amountToTrain;
-
+              $dominion->{'stat_total_' . $unitStatsName . '_trained'} += $amountToTrain;
 
               // Look for instant training.
               if($ticks === 0 and $amountToTrain > 0)
               {
-                $dominion->{"$unit"} += $amountToTrain;
+                $dominion->{"$unitType"} += $amountToTrain;
               }
               // If not instant training, queue resource.
               else
               {
                 # Default state
-                $data = array($unit => $amountToTrain);
+                $data = array($unitType => $amountToTrain);
 
                 // $hours must always be at least 1.
                 $ticks = max($ticks,1);

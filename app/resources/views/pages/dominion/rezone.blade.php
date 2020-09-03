@@ -74,16 +74,7 @@
                 <div class="box-body">
                     <p>Land rezoning is the art of converting barren land of one type into another type. Rezoning is instant.</p>
 
-                    <p>Each acre costs
-                    @if ($selectedDominion->race->getPerkValue('construction_cost_only_mana'))
-                      {{ number_format($rezoningCalculator->getManaCost($selectedDominion)) }} mana
-                    @elseif ($selectedDominion->race->getPerkValue('construction_cost_only_food'))
-                      {{ number_format($rezoningCalculator->getFoodCost($selectedDominion)) }} food
-                    @else
-                      {{ number_format($rezoningCalculator->getPlatinumCost($selectedDominion)) }} platinum
-                    @endif
-                     to rezone.
-                    </p>
+                    <p>Each acre costs {{ number_format($rezoningCalculator->getRezoningCost($selectedDominion)) }} {{ $rezoningCalculator->getRezoningMaterial($selectedDominion) }} to rezone.</p>
 
                     @if (1-$rezoningCalculator->getCostMultiplier($selectedDominion) !== 0)
                       <p>Bonuses are
