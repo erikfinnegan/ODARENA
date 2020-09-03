@@ -26,6 +26,7 @@ perks:
 units:
   - name: Abomination
     need_boat: true
+    training_time: 9
     type:
       - living
       - mindless
@@ -40,6 +41,7 @@ units:
       food_consumption: 0.15
   - name: Pest Rat
     need_boat: true
+    training_time: 9
     type:
       - living
       - sentient
@@ -51,6 +53,7 @@ units:
       defense: 3
   - name: Necromancer
     need_boat: true
+    training_time: 12
     type:
       - living
       - sentient
@@ -68,6 +71,7 @@ units:
       fewer_casualties_offense: 80
   - name: Reaper
     need_boat: true
+    training_time: 12
     type:
       - living
       - sentient

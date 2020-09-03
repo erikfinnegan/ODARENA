@@ -19,6 +19,7 @@ perks:
 units:
   - name: Ensign
     need_boat: true
+    training_time: 9
     type:
       - living
       - sentient
@@ -33,6 +34,7 @@ units:
       fewer_casualties_offense: 50
   - name: Commodore
     need_boat: true
+    training_time: 9
     type:
       - living
       - sentient
@@ -45,6 +47,7 @@ units:
       defense: 5
   - name: Frigate
     need_boat: false
+    training_time: 12
     type:
       - ship
     cost:
@@ -62,6 +65,7 @@ units:
       building_limit: dock,2,harbor # building, buildings per unit, imp to increase
   - name: Battleship
     need_boat: false
+    training_time: 12
     type:
       - ship
     cost:

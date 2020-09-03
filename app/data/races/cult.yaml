@@ -43,6 +43,7 @@ units:
       does_not_count_as_population: 1
       wins_into: 2
   - name: Initiate
+    training_time: 9
     type:
       - living
     need_boat: true
@@ -55,6 +56,7 @@ units:
     perks:
       attrition: 0.2 # 0.2% lost each tick.
   - name: Disciple
+    training_time: 12
     type:
       - living
       - sentient
@@ -71,6 +73,7 @@ units:
       reduces_attrition: 1
       conversion: 1
   - name: Mystic
+    training_time: 12
     type:
       - living
       - sentient

@@ -15,6 +15,7 @@ perks:
   cannot_build_homes: 1
 units:
   - name: Bombardier
+    training_time: 9
     type:
       - living
       - sentient
@@ -25,6 +26,7 @@ units:
       offense: 0
       defense: 9
   - name: Cannon
+    training_time: 9
     type:
       - machine
     need_boat: false
@@ -42,6 +44,7 @@ units:
       faster_return: 11
       sendable_with_zero_op: 1
   - name: Cannonball
+    training_time: 12
     type:
       - ammunition
     need_boat: false
@@ -58,6 +61,7 @@ units:
       offense_from_pairing: 2,5 # slot, amount
       damages_improvements_on_attack: 100
   - name: Burning Cannonball
+    training_time: 12
     type:
       - ammunition
     need_boat: false

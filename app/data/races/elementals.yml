@@ -11,7 +11,6 @@ converting: 3
 construction_materials: platinum,lumber
 
 perks:
-  all_units_trained_in_9hrs: 1
   max_population: 15
   extra_barren_max_population: 25
   cannot_train_wizards: 1
@@ -22,6 +21,7 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Fire
+    training_time: 9
     type:
       - living
       - sentient
@@ -38,6 +38,7 @@ units:
       counts_as_wizard_offense: 0.25
       immortal_wizard: 1
   - name: Water
+    training_time: 9
     type:
       - living
       - sentient
@@ -53,6 +54,7 @@ units:
       offense_from_land: water,10,1 # land type, ratio%, max
       counts_as_spy_defense: 0.25
   - name: Earth
+    training_time: 9
     type:
       - living
       - sentient
@@ -68,6 +70,7 @@ units:
       offense_vs_barren_land: 10,1 # ratio%, max
       counts_as_wizard_defense: 0.25
   - name: Air
+    training_time: 9
     type:
       - living
       - sentient

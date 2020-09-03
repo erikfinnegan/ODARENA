@@ -16,6 +16,7 @@ perks:
   salvaging: 65
 units:
   - name: Leshy
+    training_time: 9
     type:
       - living
       - sentient
@@ -27,7 +28,9 @@ units:
       defense: 0
     perks:
       offense_if_recently_invaded: 1
+
   - name: Sprite
+    training_time: 9
     type:
       - living
       - sentient
@@ -36,7 +39,9 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Dryad
+    training_time: 12
     type:
       - living
       - sentient
@@ -52,7 +57,9 @@ units:
       counts_as_wizard_defense: 0.333
       defense_from_land: forest,20,5 # land type, ratio%, max
       decay_protection: 100,mana
+
   - name: Spriggan
+    training_time: 12
     type:
       - living
       - sentient

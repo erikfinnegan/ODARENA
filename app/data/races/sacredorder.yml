@@ -29,7 +29,9 @@ units:
     perks:
       fixed_casualties: 100
       cannot_be_trained: 1
+
   - name: Monk
+    training_time: 1
     type:
       - living
       - sentient
@@ -44,8 +46,9 @@ units:
     perks:
         reduces_casualties: 1
         tech_production: 0.03
-        faster_training: 7
+
   - name: Fanatic
+    training_time: 10
     type:
       - living
       - sentient
@@ -62,14 +65,16 @@ units:
       offense_from_building: temple,5,2 # building type, ratio%, max
       defense_from_building: temple,5,2 # building type, ratio%, max
       conversion: 1
+
   - name: Paladin
+    training_time: 10
     type:
       - living
       - sentient
       - intelligent
       - legendary
     cost:
-      platinum: 1400
+      platinum: 1250
       ore: 80
       unit2: 1
     power:

@@ -17,6 +17,7 @@ perks:
   archmage_cost: -200
 units:
   - name: Icebeast
+    training_time: 6
     type:
       - living
       - sentient
@@ -28,7 +29,9 @@ units:
       defense: 0
     perks:
       offense_wizard_ratio: 4,1 # ratio%, max
+
   - name: Snow Witch
+    training_time: 9
     type:
       - living
       - sentient
@@ -44,7 +47,9 @@ units:
       counts_as_wizard_offense: 0.05
       counts_as_wizard_defense: 0.05
       defense_from_land: mountain,50,2
+
   - name: Frost Mage
+    training_time: 12
     type:
       - living
       - sentient
@@ -59,7 +64,9 @@ units:
       defense_from_land: mountain,20,5
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
+
   - name: Ice Elemental
+    training_time: 12
     type:
       - living
       - sentient

@@ -21,6 +21,7 @@ perks:
   cannot_build_barracks: 1
 units:
   - name: Light Cavalry
+    training_time: 9
     type:
       - living
       - sentient
@@ -35,7 +36,9 @@ units:
       faster_return: 3
       fewer_casualties: 25
       plunders: platinum;2,gems;0.1
+
   - name: Sabrer
+    training_time: 9
     type:
       - living
       - sentient
@@ -46,7 +49,9 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Halberder
+    training_time: 12
     type:
       - living
       - sentient
@@ -59,7 +64,9 @@ units:
       defense: 7
     perks:
       increases_casualties_on_defense: 1
+
   - name: Horse Archer
+    training_time: 12
     type:
       - living
       - sentient

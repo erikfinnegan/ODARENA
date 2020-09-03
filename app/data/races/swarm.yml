@@ -28,6 +28,7 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Scarab
+    training_time: 9
     type:
       - living
       - sentient
@@ -40,7 +41,9 @@ units:
       defense: 0
     perks:
       offense_vs_barren_land: 12,1.25 # ratio%, max
+
   - name: Burrower
+    training_time: 9
     type:
       - living
       - sentient
@@ -52,7 +55,9 @@ units:
     perks:
       gem_production: 0.5
       immortal_on_fending_off: 1
+
   - name: Arachnid
+    training_time: 12
     type:
       - living
       - sentient
@@ -67,7 +72,9 @@ units:
       offense_vs_barren_land: 10,1.5 # ratio%, max
       fewer_casualties_defense: 80
       immortal_on_fending_off: 1
+
   - name: Naga
+    training_time: 12
     type:
       - living
       - sentient

@@ -22,6 +22,8 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Merman
+    need_boat: false
+    training_time: 9
     type:
       - living
       - sentient
@@ -33,8 +35,9 @@ units:
       defense: 0
     perks:
       sink_boats_offense: 1
-    need_boat: false
+
   - name: Siren
+    training_time: 9
     type:
       - living
       - sentient
@@ -46,7 +49,9 @@ units:
       defense: 3
     perks:
       sink_boats_defense: 1
+
   - name: Leviathan
+    training_time: 9
     type:
       - living
       - sentient
@@ -60,7 +65,10 @@ units:
     perks:
       sink_boats_defense: 1
       food_consumption: 1
+
   - name: Kraken
+    need_boat: false
+    training_time: 9
     type:
       - living
       - sentient
@@ -75,4 +83,3 @@ units:
       sink_boats_offense: 1
       sink_boats_defense: 1
       food_consumption: 0.75
-    need_boat: false

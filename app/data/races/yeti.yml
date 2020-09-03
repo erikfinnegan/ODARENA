@@ -1,7 +1,6 @@
 name: Yeti
 alignment: independent
 description:
-  <p>Up to 5% of all wild yetis in captivity escape every tick.</p>
 home_land_type: mountain
 playable: 1
 
@@ -17,6 +16,7 @@ perks:
   gryphon_nests_generate_wild_yetis: 1
   construction_cost_only_mana: 1
   exchange_rates: 50
+  boat_capacity: -10
 units:
   - name: Yeti
     type:

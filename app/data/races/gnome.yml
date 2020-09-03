@@ -18,6 +18,7 @@ perks:
   salvaging: 50
 units:
   - name: Bomb Squad
+    training_time: 9
     type:
       - living
       - sentient
@@ -30,7 +31,9 @@ units:
       defense: 0
     perks:
       fixed_casualties: 50
+
   - name: Tinker
+    training_time: 9
     type:
       - living
       - sentient
@@ -41,7 +44,9 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Rockapult
+    training_time: 12
     type:
       - living
       - sentient
@@ -55,7 +60,9 @@ units:
       defense: 4
     perks:
       defense_from_land: mountain,20,5 # land type, ratio%, max
+
   - name: Juggernaut
+    training_time: 12
     type:
       - living
       - sentient

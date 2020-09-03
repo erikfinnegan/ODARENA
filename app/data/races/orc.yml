@@ -15,6 +15,7 @@ perks:
   lumber_production: 50
 units:
   - name: Savage
+    training_time: 9
     type:
       - living
       - sentient
@@ -24,7 +25,9 @@ units:
     power:
       offense: 4.5
       defense: 0
+
   - name: Guard
+    training_time: 9
     type:
       - living
       - sentient
@@ -35,7 +38,9 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Voodoo Mage
+    training_time: 12
     type:
       - living
       - sentient
@@ -48,7 +53,9 @@ units:
       defense: 3
     perks:
       defense_from_prestige: 250,4 # amount, max
+
   - name: Bone Breaker
+    training_time: 12
     type:
       - living
       - sentient

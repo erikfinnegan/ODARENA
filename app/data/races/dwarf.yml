@@ -15,8 +15,10 @@ perks:
   extra_barren_max_population: 10
   ore_improvement_points: 100
   salvaging: 25
+
 units:
   - name: Soldier
+    training_time: 9
     type:
       - living
       - sentient
@@ -27,7 +29,9 @@ units:
     power:
       offense: 3
       defense: 0
+
   - name: Miner
+    training_time: 9
     type:
       - living
       - sentient
@@ -40,7 +44,9 @@ units:
       defense: 3
     perks:
       ore_production: 2
+
   - name: Cleric
+    training_time: 12
     type:
       - living
       - sentient
@@ -55,7 +61,9 @@ units:
       reduces_casualties: 1
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
+
   - name: Warrior
+    training_time: 12
     type:
       - living
       - sentient

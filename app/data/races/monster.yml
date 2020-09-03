@@ -28,6 +28,7 @@ perks:
   cannot_train_archmages: 1
 units:
   - name: Muscle
+    training_time: 3
     type:
       - massive
       - mindless
@@ -41,8 +42,9 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      faster_training: 6
+
   - name: Carapace
+    training_time: 9
     type:
       - massive
       - mindless
@@ -57,7 +59,9 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       pairing_limit: 1,0.18 # Unit slot, amount - 1/0.018=55, one Carapace per 55 Muscles
+
   - name: Claw
+    training_time: 12
     type:
       - massive
       - mindless
@@ -77,7 +81,9 @@ units:
       plunders: food;2,lumber;25,ore;100,gem;10
       conversion: 2
       offense_from_pairing: 4,3000,0.5 # slot, amount, num required - 1/0.5=2, one Head doubles OP of 2 Claws
+
   - name: Head
+    training_time: 12
     type:
       - sentient
       - living

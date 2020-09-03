@@ -15,7 +15,6 @@ construction_materials: platinum,lumber
 perks:
   max_population: 20
   guard_tax_exemption: 1
-  all_units_trained_in_9hrs: 1
   extra_barracks_housing: 36
   cannot_build_homes: 1
   prestige_gains: 20
@@ -27,6 +26,7 @@ perks:
   salvaging: 25
 units:
   - name: Goblin
+    training_time: 9
     type:
       - living
       - sentient
@@ -42,6 +42,7 @@ units:
       faster_return: 2
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Dark Elf
+    training_time: 9
     type:
       - living
       - sentient
@@ -58,6 +59,7 @@ units:
       faster_return: 2
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Lizardfolk
+    training_time: 9
     type:
       - living
       - sentient
@@ -74,6 +76,7 @@ units:
       faster_return: 2
       offense_from_military_percentage: 1 # Gets up to +1 OP per % military
   - name: Troll
+    training_time: 9
     type:
       - living
       - sentient

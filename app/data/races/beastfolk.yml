@@ -27,6 +27,7 @@ perks:
   max_population: 10
 units:
   - name: Boarman
+    training_time: 9
     type:
       - living
       - sentient
@@ -38,6 +39,7 @@ units:
       offense: 3
       defense: 0
   - name: Ram
+    training_time: 9
     type:
       - living
       - sentient
@@ -49,6 +51,7 @@ units:
       offense: 0
       defense: 4
   - name: Goat Witch
+    training_time: 12
     type:
       - living
       - sentient
@@ -65,6 +68,7 @@ units:
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
   - name: Minotaur
+    training_time: 12
     type:
       - living
       - sentient

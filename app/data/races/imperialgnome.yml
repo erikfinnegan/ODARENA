@@ -17,6 +17,7 @@ perks:
   salvaging: 75
 units:
   - name: Arquebusier
+    training_time: 9
     type:
       - living
       - sentient
@@ -30,7 +31,9 @@ units:
       defense: 0
     perks:
       increases_casualties_on_offense: 1
+
   - name: Automaton
+    training_time: 9
     type:
       - machine
     need_boat: true
@@ -45,7 +48,9 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       pairing_limit: 3,30 # Unit slot, amount (max 30 of this unit per each Unit 3)
+
   - name: Turret
+    training_time: 12
     type:
       - machine
     cost:
@@ -60,7 +65,9 @@ units:
       does_not_count_as_population: 1
       provides_jobs: 20
       building_limit: factory,3,workshops # building, buildings per unit, imp to increase
+
   - name: Airship
+    training_time: 12
     type:
       - machine
     need_boat: false

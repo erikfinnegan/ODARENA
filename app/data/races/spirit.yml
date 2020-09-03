@@ -14,6 +14,7 @@ perks:
   food_consumption: -100
 units:
   - name: Wisp
+    training_time: 6
     type:
       - living
       - sentient
@@ -29,7 +30,9 @@ units:
     perks:
       immortal: 1
       staggered_conversion: 40;1,85;2
+
   - name: Banshee
+    training_time: 9
     type:
       - living
       - sentient
@@ -47,7 +50,9 @@ units:
       staggered_conversion: 75;2,85;3
       offense_from_building: alchemy,40,1 # building type, ratio%, max
       defense_from_building: alchemy,40,1 # building type, ratio%, max
+
   - name: Phantom
+    training_time: 12
     type:
       - living
       - sentient
@@ -65,6 +70,7 @@ units:
       staggered_conversion: 75;3,85;4
       offense_from_building: alchemy,20,2 # building type, ratio%, max
       defense_from_building: alchemy,20,2 # building type, ratio%, max
+
   - name: Spectre
     type:
       - living

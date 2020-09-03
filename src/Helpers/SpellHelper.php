@@ -162,10 +162,10 @@ class SpellHelper
     }
 
     # Hacky fix for round 13.
-    public function getRacialSelfSpell(Race $race)
-    #public function getRacialSelfSpell(Dominion $dominion)
+    #public function getRacialSelfSpell(Race $race)
+    public function getRacialSelfSpell(Dominion $dominion)
     {
-        $raceName = $race->name;
+        $raceName = $dominion->race->name;
         return $this->getRacialSelfSpells()->filter(function ($spell) use ($raceName) {
             return $spell['races']->contains($raceName);
         })->first();

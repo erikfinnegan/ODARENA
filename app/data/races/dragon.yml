@@ -17,7 +17,9 @@ perks:
     population_growth: -10
     cannot_explore: 1
 units:
+
   - name: Militia
+    training_time: 2
     type:
       - living
       - sentient
@@ -29,9 +31,9 @@ units:
     power:
       offense: 2
       defense: 0
-    perks:
-      faster_training: 7
+
   - name: Lookout
+    training_time: 2
     type:
       - living
       - sentient
@@ -42,9 +44,9 @@ units:
     power:
       offense: 0
       defense: 3
-    perks:
-      faster_training: 7
+
   - name: Mercenary
+    training_time: 12
     type:
       - living
       - sentient
@@ -58,7 +60,9 @@ units:
     perks:
       platinum_upkeep: 0.5
       no_draftee: 1
+
   - name: Dragon
+    training_time: 12
     type:
       - living
       - sentient

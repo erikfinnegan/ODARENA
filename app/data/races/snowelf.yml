@@ -19,6 +19,7 @@ perks:
   max_population: -30
 units:
   - name: Arbalist
+    training_time: 9
     type:
       - living
       - sentient
@@ -31,7 +32,9 @@ units:
     power:
       offense: 0
       defense: 5
+
   - name: Ice Boulder
+    training_time: 6
     type:
       - ammunition
     need_boat: false
@@ -46,7 +49,9 @@ units:
       no_draftee: 1
       offense_from_pairing: 3,29 # slot, amount
       fixed_casualties: 100
+
   - name: Trebuchet
+    training_time: 12
     type:
       - machine
     need_boat: false
@@ -62,7 +67,9 @@ units:
       true_immortal: 1
       faster_return: 11
       sendable_with_zero_op: 1
+
   - name: Ballista
+    training_time: 12
     type:
       - machine
     need_boat: true

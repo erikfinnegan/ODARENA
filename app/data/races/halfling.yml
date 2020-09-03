@@ -16,7 +16,9 @@ perks:
   food_consumption: -30
   salvaging: 25
 units:
+
   - name: Slinger
+    training_time: 9
     type:
       - living
       - sentient
@@ -26,7 +28,9 @@ units:
       ore: 15
     power:
       offense: 3
+
   - name: Defender
+    training_time: 9
     type:
       - living
       - sentient
@@ -35,7 +39,9 @@ units:
       platinum: 300
     power:
       defense: 3
+
   - name: Master Thief
+    training_time: 12
     type:
       - living
       - sentient
@@ -50,7 +56,9 @@ units:
       counts_as_spy_offense: 0.25
       counts_as_spy_defense: 0.25
       plunders: platinum;2,gems;0.1
+
   - name: Staff Master
+    training_time: 12
     type:
       - living
       - sentient

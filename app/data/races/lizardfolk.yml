@@ -19,12 +19,14 @@ units:
       - sentient
       - intelligent
     need_boat: false
+    training_time: 9
     cost:
       platinum: 250
     power:
       offense: 3
       defense: 0
   - name: Serpent
+    training_time: 9
     type:
       - living
       - sentient
@@ -35,6 +37,8 @@ units:
       offense: 0
       defense: 3
   - name: Chameleon
+    need_boat: false
+    training_time: 9
     type:
       - living
       - sentient
@@ -49,13 +53,13 @@ units:
       counts_as_spy_defense: 0.25
       sink_boats_offense: 1
       sink_boats_defense: 1
-    need_boat: false
   - name: Archaesaur
+    need_boat: false
+    training_time: 9
     type:
       - living
       - sentient
       - massive
-    need_boat: false
     cost:
       platinum: 2800
     power:

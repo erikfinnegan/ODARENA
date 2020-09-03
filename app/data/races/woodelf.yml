@@ -19,6 +19,7 @@ perks:
   salvaging: 35
 units:
   - name: Ranger
+    training_time: 9
     type:
       - living
       - sentient
@@ -29,7 +30,9 @@ units:
     power:
       offense: 3
       defense: 0
+
   - name: Longbowman
+    training_time: 9
     type:
       - living
       - sentient
@@ -40,7 +43,9 @@ units:
     power:
       offense: 0
       defense: 4
+
   - name: Warden
+    training_time: 12
     type:
       - living
       - sentient
@@ -53,7 +58,9 @@ units:
       defense: 5
     perks:
       defense_from_land: forest,20,5 # land type, ratio%, max
+
   - name: Sentinel
+    training_time: 12
     type:
       - living
       - sentient

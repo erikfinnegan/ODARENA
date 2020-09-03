@@ -21,6 +21,7 @@ perks:
 units:
 
   - name: Spawn
+    training_time: 6
     type:
       - living
       - mindless

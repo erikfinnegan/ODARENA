@@ -19,6 +19,7 @@ perks:
   salvaging: 25
 units:
   - name: Javelineer
+    training_time: 9
     type:
       - living
       - sentient
@@ -31,7 +32,9 @@ units:
     power:
       offense: 3
       defense: 0
+
   - name: Lancer
+    training_time: 9
     type:
       - living
       - sentient
@@ -44,7 +47,9 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Mammoth
+    training_time: 12
     type:
       - living
       - sentient
@@ -62,7 +67,9 @@ units:
       food_consumption: 0.25
       fewer_casualties: 50
       faster_return: 6
+
   - name: War Mammoth
+    training_time: 12
     type:
       - living
       - sentient

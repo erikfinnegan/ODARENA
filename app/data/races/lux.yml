@@ -25,6 +25,7 @@ perks:
   mana_production: 10
 units:
   - name: Essence
+    training_time: 6
     type:
       - living
       - sentient
@@ -37,13 +38,15 @@ units:
     power:
       offense: 0
       defense: 0
+
   - name: Hex
+    need_boat: false
+    training_time: 9
     type:
       - living
       - sentient
       - ethereal
       - intelligent
-    need_boat: false
     static_networth: 7
     cost:
       unit1: 1
@@ -57,13 +60,15 @@ units:
       fewer_casualties: 50
       counts_as_wizard_offense: 0.05
       counts_as_wizard_defense: 0.03
+
   - name: Vex
+    need_boat: false
+    training_time: 9
     type:
       - living
       - sentient
       - ethereal
       - intelligent
-    need_boat: false
     static_networth: 7
     cost:
       unit1: 1
@@ -73,19 +78,20 @@ units:
       offense: 4
       defense: 0
     perks:
-      faster_training: 3
       no_draftee: 1
       fewer_casualties: 50
       counts_as_spy_offense: 0.05
       counts_as_spy_defense: 0.03
+
   - name: Pax
+    need_boat: false
+    training_time: 12
     type:
       - living
       - sentient
       - ethereal
       - intelligent
       - wise
-    need_boat: false
     static_networth: 14
     cost:
       unit2: 1

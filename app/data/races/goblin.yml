@@ -18,6 +18,7 @@ perks:
   invest_bonus: 20
 units:
   - name: Raider
+    training_time: 9
     type:
       - living
       - sentient
@@ -28,7 +29,9 @@ units:
     power:
       offense: 2
       defense: 0
+
   - name: Shaman
+    training_time: 9
     type:
       - living
       - sentient
@@ -43,7 +46,9 @@ units:
       reduces_casualties: 1
       counts_as_wizard_offense: 0.025
       counts_as_wizard_defense: 0.025
+
   - name: Skulker
+    training_time: 9
     type:
       - living
       - sentient
@@ -57,7 +62,9 @@ units:
     perks:
       plunders: platinum;1,gems;0.35
       offense_vs_resource: gems,20000,3 # +1 OP per 20,000 gems, max +3
+
   - name: Wolf Rider
+    training_time: 12
     type:
       - living
       - sentient

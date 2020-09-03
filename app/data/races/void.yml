@@ -29,19 +29,22 @@ perks:
   can_sell_mana: 1
 units:
   - name: Fallen
+    need_boat: false
+    training_time: 9
     type:
       - living
       - sentient
       - intelligent
       - wise
-    need_boat: false
     cost:
       platinum: 0
       mana: 50
     power:
       offense: 3
       defense: 0
+
   - name: Shadow
+    training_time: 9
     type:
       - living
       - sentient
@@ -55,7 +58,9 @@ units:
       defense: 3
     perks:
       mana_production: 1
+
   - name: Vision
+    training_time: 12
     type:
       - living
       - sentient
@@ -70,12 +75,13 @@ units:
     perks:
       mana_production: 1
   - name: Nightmare
+    need_boat: false
+    training_time: 12
     type:
       - living
       - sentient
       - intelligent
       - wise
-    need_boat: false
     cost:
       platinum: 0
       mana: 500

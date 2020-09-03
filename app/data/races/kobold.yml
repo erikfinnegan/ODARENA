@@ -21,6 +21,7 @@ perks:
   salvaging: 10
 units:
   - name: Grunt
+    training_time: 9
     type:
       - living
       - sentient
@@ -33,7 +34,9 @@ units:
     perks:
       offense_from_pairing: 4,0.5,1 # slot, amount, num required
       plunders: platinum;0.1,gems;0.01
+
   - name: Underling
+    training_time: 9
     type:
       - living
       - sentient
@@ -45,7 +48,9 @@ units:
       defense: 2
     perks:
       defense_from_pairing: 3,1,1 # slot, amount, num required
+
   - name: Beast
+    training_time: 12
     type:
       - living
       - sentient
@@ -58,7 +63,9 @@ units:
       defense: 5
     perks:
       defense_mob: 1 # +1 DP when they outnumber attacker's units
+
   - name: Overlord
+    training_time: 12
     type:
       - living
       - sentient

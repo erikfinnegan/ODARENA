@@ -16,6 +16,7 @@ perks:
   extra_barracks_housing: 18
 units:
   - name: Impaler
+    training_time: 12
     type:
       - living
       - sentient
@@ -29,6 +30,7 @@ units:
     perks:
       offense_from_pairing: 4,2,0.1 # slot, amount, num required
   - name: Shieldbearer
+    training_time: 12
     type:
       - living
       - sentient
@@ -42,6 +44,7 @@ units:
     perks:
       defense_from_pairing: 4,2,0.1 # slot, amount
   - name: Warlock
+    training_time: 12
     type:
       - living
       - sentient
@@ -59,6 +62,7 @@ units:
       counts_as_wizard_offense: 0.20
       counts_as_wizard_defense: 0.10
   - name: Warboss
+    training_time: 12
     type:
       - living
       - sentient

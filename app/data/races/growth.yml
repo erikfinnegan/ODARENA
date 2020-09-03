@@ -35,6 +35,7 @@ perks:
   can_only_abduct_own: 1
 units:
   - name: Abscess
+    training_time: 9
     type:
       - living
     need_boat: false
@@ -48,7 +49,9 @@ units:
     perks:
       counts_as_wizard_offense: 0.2
       counts_as_spy_offense: 0.2
+
   - name: Blister
+    training_time: 9
     type:
       - living
     cost:
@@ -61,7 +64,9 @@ units:
     perks:
       counts_as_wizard_defense: 0.15
       counts_as_spy_defense: 0.15
+
   - name: Cyst
+    training_time: 12
     type:
       - living
     cost:
@@ -74,7 +79,9 @@ units:
     perks:
         mana_production: 0.025
         food_production: 0.50
+
   - name: Ulcer
+    training_time: 12
     type:
       - living
     need_boat: false

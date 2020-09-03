@@ -16,9 +16,10 @@ perks:
   food_consumption: -80
 units:
   - name: Skeleton
+    need_boat: false
+    training_time: 9
     type:
       - mindless
-    need_boat: false
     cost:
       platinum: 225
     power:
@@ -28,6 +29,7 @@ units:
       immortal: 1
       increases_casualties_on_offense: 1
   - name: Ghoul
+    training_time: 9
     type:
       - mindless
     cost:
@@ -38,10 +40,11 @@ units:
     perks:
       immortal: 1
   - name: Revenant
+    need_boat: false
+    training_time: 12
     type:
       - sentient
       - intelligent
-    need_boat: false
     cost:
       platinum: 1000
       mana: 10
@@ -52,10 +55,11 @@ units:
       immortal: 1
       staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
   - name: Wraith
+    need_boat: false
+    training_time: 12
     type:
       - sentient
       - intelligent
-    need_boat: false
     cost:
       platinum: 1000
       mana: 10

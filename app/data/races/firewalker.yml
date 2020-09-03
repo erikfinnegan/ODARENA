@@ -16,6 +16,7 @@ perks:
   population_from_alchemy: 0.5
 units:
   - name: Fire Sprite
+    training_time: 9
     type:
       - living
       - sentient
@@ -24,7 +25,9 @@ units:
       platinum: 250
     power:
       offense: 3
+
   - name: Flamewolf
+    training_time: 9
     type:
       - living
       - sentient
@@ -33,7 +36,9 @@ units:
       platinum: 250
     power:
       defense: 3
+
   - name: Phoenix
+    training_time: 12
     type:
       - living
       - sentient
@@ -45,7 +50,9 @@ units:
     perks:
       immortal_on_successful_defense: 1
       dies_into: 3
+
   - name: Magma Giant
+    training_time: 12
     type:
       - living
       - sentient

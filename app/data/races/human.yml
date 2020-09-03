@@ -16,7 +16,9 @@ perks:
   research_points_per_acre: 100
   salvaging: 75
 units:
+
   - name: Man-at-Arms
+    training_time: 9
     type:
       - living
       - sentient
@@ -27,7 +29,9 @@ units:
     power:
       offense: 4
       defense: 0
+
   - name: Archer
+    training_time: 9
     type:
       - living
       - sentient
@@ -38,7 +42,9 @@ units:
     power:
       offense: 0
       defense: 4
+
   - name: Spearman
+    training_time: 12
     type:
       - living
       - sentient
@@ -51,7 +57,9 @@ units:
       defense: 7
     perks:
       fewer_casualties: 25
+
   - name: Knight
+    training_time: 12
     type:
       - living
       - sentient

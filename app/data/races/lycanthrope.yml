@@ -14,6 +14,7 @@ perks:
   max_population: 20
 units:
   - name: Warg
+    training_time: 9
     type:
       - living
       - sentient
@@ -22,7 +23,9 @@ units:
     power:
       offense: 3
       defense: 0
+
   - name: Ratman
+    training_time: 9
     type:
       - living
       - sentient
@@ -31,7 +34,9 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Werewolf
+    training_time: 12
     type:
       - living
       - sentient
@@ -46,7 +51,9 @@ units:
       fewer_casualties_offense: 50
       offense_from_pairing: 4,1 # slot, amount
       conversion: 3 # Werewolves
+
   - name: Garou
+    training_time: 12
     type:
       - living
       - sentient

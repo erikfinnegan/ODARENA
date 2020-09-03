@@ -22,6 +22,7 @@ perks:
   lumber_improvement_points: 50
 units:
   - name: Chimpanzee
+    training_time: 9
     type:
       - living
       - sentient
@@ -34,7 +35,9 @@ units:
       defense: 0
     perks:
       fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
+
   - name: Bonobo
+    training_time: 9
     type:
       - living
       - sentient
@@ -47,7 +50,9 @@ units:
       defense: 3
     perks:
       fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
+
   - name: Orangutan
+    training_time: 12
     type:
       - living
       - sentient
@@ -61,7 +66,9 @@ units:
     perks:
       fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
       fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
+
   - name: Gorilla
+    training_time: 12
     type:
       - living
       - sentient

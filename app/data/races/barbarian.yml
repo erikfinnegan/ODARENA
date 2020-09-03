@@ -19,6 +19,7 @@ perks:
   extra_barren_max_population: 20
 units:
   - name: Marauder
+    training_time: 12
     type:
       - living
       - sentient
@@ -30,6 +31,7 @@ units:
       offense: 3
       defense: 0
   - name: Thug
+    training_time: 12
     type:
       - living
       - sentient
@@ -41,6 +43,7 @@ units:
       offense: 0
       defense: 3
   - name: Robber
+    training_time: 12
     type:
       - living
       - sentient
@@ -52,6 +55,7 @@ units:
       offense: 0
       defense: 5
   - name: Bandit
+    training_time: 12
     type:
       - living
       - sentient

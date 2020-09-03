@@ -388,7 +388,7 @@ class TrainActionService
 
         }
 
-        if (($dominion->race->name !== 'Cult') and ($newDraftelessUnitsToHouse > 0) and ($newDraftelessUnitsToHouse + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
+        if (($dominion->race->name !== 'Cult' and $dominion->race->name !== 'Yeti') and ($newDraftelessUnitsToHouse > 0) and ($newDraftelessUnitsToHouse + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
         {
             throw new GameException('Training failed as training would exceed your max population');
         }
@@ -451,60 +451,40 @@ class TrainActionService
             foreach($data as $unit => $amountToTrain)
             {
 
-              // Reset at each run of loop.
-              $hoursSpecs = 9;
-              $hoursElites = 12;
-              $timeReductionSpecs = 0;
-              $timeReductionElites = 0;
+              $ticks = $unit->training_time;
 
               // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
               {
-                $timeReductionSpecs += 4;
-                $timeReductionElites += 4;
+                  $ticks -= 2;
               }
 
-              // Lux: Spell (reduce training times by 2 ticks)
+              // Human: Spell (reduce training times by 6 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
               {
-                $timeReductionSpecs += 6;
-                $timeReductionElites += 6;
+                  $ticks -= 6;
               }
 
               // Spell: Spawning Pool (increase units trained, for free)
               if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unit == 'military_unit1')
               {
-                $amountToTrainMultiplier = ($dominion->land_swamp / $this->landCalculator->getTotalLand($dominion));
-                $amountToTrain = round($amountToTrain * (1 + $amountToTrainMultiplier));
+                  $amountToTrainMultiplier = ($dominion->land_swamp / $this->landCalculator->getTotalLand($dominion));
+                  $amountToTrain = round($amountToTrain * (1 + $amountToTrainMultiplier));
               }
 
               // Legion and Elementals: all units train in 9 hours.
               if($dominion->race->getPerkValue('all_units_trained_in_9hrs'))
               {
-                $timeReductionElites += 3;
+                  $timeReductionElites += 3;
               }
 
               $unitType = str_replace('military_','',$unit);
 
               $dominion->{'stat_total_' . $unitType . '_trained'} += $amountToTrain;
 
-              // Look for faster training.
-              if($fasterTraining = $dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'faster_training') and $amountToTrain > 0)
-              {
-                  $timeReductionSpecs += min($fasterTraining, $hoursSpecs-2);
-                  $timeReductionElites += min($fasterTraining, $hoursElites-2);
-              }
-              // Look for reduced training times.
-              if($timeReductionSpecs > 0)
-              {
-                $hoursSpecs -= $timeReductionSpecs;
-              }
-              if($timeReductionElites > 0)
-              {
-                $hoursElites -= $timeReductionElites;
-              }
+
               // Look for instant training.
-              if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('military_unit','',$unit)), 'instant_training') and $amountToTrain > 0)
+              if($ticks === 0 and $amountToTrain > 0)
               {
                 $dominion->{"$unit"} += $amountToTrain;
               }
@@ -514,19 +494,10 @@ class TrainActionService
                 # Default state
                 $data = array($unit => $amountToTrain);
 
-                if($unit == 'military_unit1' or $unit == 'military_unit2')
-                {
-                  $hours = $hoursSpecs;
-                }
-                else
-                {
-                  $hours = $hoursElites;
-                }
-
                 // $hours must always be at least 1.
-                $hours = max($hours,1);
+                $ticks = max($ticks,1);
 
-                $this->queueService->queueResources('training', $dominion, $data, $hours);
+                $this->queueService->queueResources('training', $dominion, $data, $ticks);
 
                 $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
               }

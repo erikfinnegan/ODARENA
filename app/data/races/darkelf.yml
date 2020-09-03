@@ -15,6 +15,7 @@ perks:
   food_consumption: -20
 units:
   - name: Gargoyle
+    training_time: 9
     type:
       - living
       - sentient
@@ -27,6 +28,7 @@ units:
       offense: 4
       defense: 0
   - name: Swordsman
+    training_time: 9
     type:
       - living
       - sentient
@@ -38,6 +40,7 @@ units:
       offense: 0
       defense: 4
   - name: Adept
+    training_time: 12
     type:
       - living
       - sentient
@@ -56,6 +59,7 @@ units:
       defense_from_building: wizard_guild,10,5 # building type, ratio%, max
       tech_production: 0.025
   - name: Spirit Warrior
+    training_time: 12
     type:
       - living
       - sentient

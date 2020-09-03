@@ -15,6 +15,7 @@ perks:
   lumber_production: 10
 units:
   - name: Berserk
+    training_time: 9
     type:
       - living
       - sentient
@@ -28,7 +29,9 @@ units:
       defense: 0
     perks:
       afterlife_norse: 1
+
   - name: Norn
+    training_time: 9
     type:
       - living
       - sentient
@@ -41,7 +44,10 @@ units:
       defense: 5
     perks:
       true_immortal: 1
+
   - name: Valkyrja
+    need_boat: false
+    training_time: 12
     type:
       - living
       - sentient
@@ -57,7 +63,9 @@ units:
       fewer_casualties: 25
       defense_from_prestige: 250,6 # amount, max
       offense_from_prestige: 250,6 # amount, max
+
   - name: Einherjar
+    training_time: 6
     type:
       - living
       - sentient

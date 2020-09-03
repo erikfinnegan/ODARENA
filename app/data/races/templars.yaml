@@ -15,6 +15,7 @@ perks:
   gem_production: 10
 units:
   - name: Crusader
+    training_time: 9
     need_boat: true
     cost:
       platinum: 350
@@ -24,7 +25,9 @@ units:
       defense: 0
     perks:
       faster_return: 3
+
   - name: Follower
+    training_time: 6
     need_boat: true
     cost:
       platinum: 0
@@ -35,8 +38,9 @@ units:
     perks:
       reduces_casualties: 1
       mana_production: 0.05
-      faster_training: 3
+
   - name: Pikeman
+    training_time: 12
     need_boat: true
     cost:
       platinum: 900
@@ -44,7 +48,9 @@ units:
     power:
       offense: 0
       defense: 6
+
   - name: Paladin
+    training_time: 12
     cost:
       platinum: 1150
       ore: 100

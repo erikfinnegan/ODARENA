@@ -14,9 +14,10 @@ perks:
   food_consumption: -50
 units:
   - name: Imp
+    need_boat: false
+    training_time: 0
     type:
       - magical
-    need_boat: false
     cost:
       mana: 10
     power:
@@ -30,6 +31,7 @@ units:
       fixed_casualties: 100
     static_networth: 10
   - name: Gloom
+    training_time: 9
     type:
       - living
       - sentient
@@ -41,6 +43,7 @@ units:
       offense: 0
       defense: 3
   - name: Nightshade
+    training_time: 12
     type:
       - living
       - sentient
@@ -54,6 +57,7 @@ units:
     perks:
       defense_from_land: swamp,12,5 # land type, ratio%,max
   - name: Lich
+    training_time: 12
     type:
       - living
       - sentient

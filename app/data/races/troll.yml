@@ -20,6 +20,7 @@ perks:
   salvaging: 20
 units:
   - name: Clubber
+    training_time: 9
     type:
       - living
       - sentient
@@ -32,7 +33,9 @@ units:
       defense: 0
     perks:
       only_dies_vs_raw_power: 3 # >=
+
   - name: Basher
+    training_time: 9
     type:
       - living
       - sentient
@@ -44,7 +47,9 @@ units:
       defense: 4
     perks:
       only_dies_vs_raw_power: 3 # >=
+
   - name: Ironskin
+    training_time: 12
     type:
       - equipment
     need_boat: false
@@ -58,7 +63,9 @@ units:
       sendable_with_zero_op: 1
       does_not_count_as_population: 1
       no_draftee: 1
+
   - name: Mountain Troll
+    training_time: 12
     type:
       - living
       - sentient
