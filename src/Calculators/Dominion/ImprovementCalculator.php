@@ -100,6 +100,7 @@ class ImprovementCalculator
             'markets' => 25, # Increases platinum production
             'keep' => 20, # Increases max population
             'towers' => 45, # Increases wizard strength, mana production, and reduces damage form black-ops
+            'spires' => 45, # Increases wizard strength, mana production, and reduces damage form black-ops
             'forges' => 25, # Increases OP
             'walls' => 25, # Increases DP
             'harbor' => 45, # Increase food and boat production
@@ -140,6 +141,7 @@ class ImprovementCalculator
             'markets' => 4000,
             'keep' => 4000,
             'towers' => 5000,
+            'spires' => 5000,
             'forges' => 7500,
             'walls' => 7500,
             'harbor' => 5000,
@@ -171,7 +173,7 @@ class ImprovementCalculator
         # Void: only sees mana
         if($dominion->race->getPerkValue('can_invest_mana'))
         {
-          $worth['mana'] = 2;
+          $worth['mana'] = 3;
         }
         # (Growth only sees food)
         if($dominion->race->getPerkValue('tissue_improvement') or $dominion->race->getPerkValue('can_invest_food'))

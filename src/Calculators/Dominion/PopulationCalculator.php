@@ -341,7 +341,8 @@ class PopulationCalculator
     {
         $wizUnitsPerWizardGuild = 40;
 
-        $wizUnitsPerWizardGuild *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers'));
+        #$wizUnitsPerWizardGuild *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers'));
+        $wizUnitsPerWizardGuild *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires'));
 
         return ($dominion->building_wizard_guild * $wizUnitsPerWizardGuild);
     }

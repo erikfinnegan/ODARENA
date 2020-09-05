@@ -65,7 +65,7 @@ class ConstructionCalculator
 
         if(count($this->raceHelper->getConstructionMaterials($dominion->race)) === 1)
         {
-            $cost /= 3;
+            $cost /= 5;
         }
 
         return $cost;

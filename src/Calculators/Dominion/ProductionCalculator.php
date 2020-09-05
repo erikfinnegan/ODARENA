@@ -690,7 +690,10 @@ class ProductionCalculator
         $multiplier = 0;
 
         // Improvement: Tower
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
+        #$multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
+
+        // Improvement: Spires
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('mana_production');
@@ -1124,7 +1127,7 @@ class ProductionCalculator
 
             $wildYetis += intval($dominion->building_gryphon_nest * $wildYetisPerGryphonNest);
 
-            // Snow Elf: Spell (triples wild yeti production)
+            // Yeti: Spell (triples wild yeti production)
             if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
             {
               $wildYetis = $wildYetis * 4;
@@ -1141,6 +1144,7 @@ class ProductionCalculator
          * @param Dominion $dominion
          * @return float
          */
+         # ABANDONED IN ROUND 30
         public function getWildYetiEscaped(Dominion $dominion): float
         {
             if(!$dominion->race->getPerkValue('gryphon_nests_generate_wild_yetis'))
@@ -1166,8 +1170,8 @@ class ProductionCalculator
          */
         public function getWildYetiNetChange(Dominion $dominion): int
         {
-            #return intval($this->getWildYetiProduction($dominion));
-            return intval($this->getWildYetiProduction($dominion) - $this->getWildYetiEscaped($dominion));
+            return intval($this->getWildYetiProduction($dominion));
+            #return intval($this->getWildYetiProduction($dominion) - $this->getWildYetiEscaped($dominion));
         }
 
         /**

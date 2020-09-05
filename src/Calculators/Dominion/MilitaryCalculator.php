@@ -1424,6 +1424,9 @@ class MilitaryCalculator
         // Improvement: Towers
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
 
+        // Improvement: Spires
+        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
+
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('wizard_strength');
 

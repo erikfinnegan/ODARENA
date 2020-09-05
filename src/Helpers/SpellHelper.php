@@ -399,7 +399,7 @@ class SpellHelper
                 'description' => 'Quadruple yeti trapping. No offensive power bonus from Gryphon Nests.',
                 'key' => 'gryphons_call',
                 'mana_cost' => 2,
-                'duration' => 4,
+                'duration' => 24,
                 'races' => collect(['Yeti']),
             ],
             [
@@ -687,7 +687,8 @@ class SpellHelper
                 'decreases' => [
                     'improvement_markets',
                     'improvement_keep',
-                    'improvement_towers',
+                    #'improvement_towers',
+                    'improvement_spires',
                     'improvement_forges',
                     'improvement_walls',
                     'improvement_harbor',

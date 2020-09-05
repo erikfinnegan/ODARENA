@@ -215,13 +215,6 @@ class DominionFactory
           $startingResources['mana'] = $startingResources['mana']*3;
         }
 
-        // Lumber-free races: no lumber or Lumberyards
-        if($race->getPerkMultiplier('construction_cost_only_platinum') or $race->getPerkMultiplier('construction_cost_only_mana') or $race->getPerkMultiplier('construction_cost_only_food'))
-        {
-          $startingResources['lumber'] = 0;
-          $startingBuildings['lumberyard'] = 0;
-        }
-
         // For cannot_improve_castle races: replace Gems with Platinum.
         if((bool)$race->getPerkValue('cannot_improve_castle'))
         {
@@ -288,7 +281,12 @@ class DominionFactory
         // Yeti: starting yetis.
         if($race->name == 'Yeti')
         {
-          $startingResources['wild_yeti'] = intval($startingResources['peasants'] * 0.30);
+          $startingResources['wild_yeti'] = 1000;
+          $startingResources['ore'] += $startingResources['platinum'] * 0.5;
+          $startingResources['food'] += $startingResources['platinum'] * 0.5;
+          $startingResources['lumber'] += $startingResources['platinum'] * 0.5;
+
+          $startingResources['platinum'] = 0;
           $startingResources['peasants'] = 0;
           $startingResources['draftees'] = 0;
           $startingResources['draft_rate'] = 0;
@@ -413,6 +411,7 @@ class DominionFactory
             'improvement_observatory' => $startingResources['improvement_observatory'],
             'improvement_cartography' => 0,
             'improvement_towers' => 0,
+            'improvement_spires' => 0,
             'improvement_hideouts' => 0,
             'improvement_granaries' => 0,
             'improvement_harbor' => $startingResources['improvement_harbor'],

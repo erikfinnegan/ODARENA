@@ -20,7 +20,6 @@ converting: 0
 perks:
   population_growth: 200
   food_consumption: -100
-  construction_cost_only_food: 1
   can_only_build_tissue: 1
   cannot_build_homes: 1
   cannot_explore: 1

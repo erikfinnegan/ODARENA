@@ -25,12 +25,10 @@ perks:
   improvements_decay: 0.1
   population_growth: 40
   reduced_conversions: 100
-  construction_cost_only_mana: 1
   can_only_build_ziggurat: 1
   defense_per_ziggurat: 4
   mana_per_ziggurat: 30
   cannot_build_homes: 1
-  can_sell_mana: 1
 
 units:
   - name: Fallen
@@ -79,6 +77,7 @@ units:
       defense: 5
     perks:
       mana_production: 1
+
   - name: Nightmare
     need_boat: false
     training_time: 12

@@ -1,6 +1,8 @@
 name: Yeti
 alignment: independent
 description: >-
+  <p>Wild yeti are obtained through Gryphon Nests, which generate 1 wild yeti each per tick.</p>
+  <p>You start with 1,000 wild yetis.</p>
   <p>The Yeti population is not made up of traditional peasants and draftees. Instead, wild yetis are used to train Yetis, spies, and wizards. The Yeti unit can then be trained into a Great Yeti which in turn can become a Guard Yeti or a War Yeti.</p>
 home_land_type: mountain
 playable: 1
@@ -27,6 +29,8 @@ perks:
   lumber_production: 25
   food_production: 25
   gem_production: 25
+  invest_bonus: 50
+  food_decay: -25
 units:
   - name: Yeti
     training_time: 3
@@ -75,6 +79,7 @@ units:
       defense: 12
     perks:
       no_draftee: 1
+      only_dies_vs_raw_power: 6 # >=
 
   - name: War Yeti
     training_time: 9
@@ -92,3 +97,4 @@ units:
       defense: 8
     perks:
       no_draftee: 1
+      only_dies_vs_raw_power: 6 # >=

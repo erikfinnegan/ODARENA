@@ -31,7 +31,8 @@ class ImprovementHelper
           'workshops',
           'observatory',
           'cartography',
-          'towers',
+          #'towers',
+          'spires',
           'hideouts',
           'granaries',
           'harbor',
@@ -64,7 +65,8 @@ class ImprovementHelper
         $ratingStrings = [
             'markets' => '+%s%% platinum production',
             'keep' => '+%s%% max population',
-            'towers' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells, +%1$s%% Wizard Guild wizard housing',
+            #'towers' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells, +%1$s%% Wizard Guild wizard housing',
+            'spires' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells, +%1$s%% Wizard Guild wizard housing',
             'forges' => '+%s%% offensive power',
             'walls' => '+%s%% defensive power',
             'harbor' => '+%s%% food production, boat production & protection',
@@ -88,7 +90,8 @@ class ImprovementHelper
         $helpStrings = [
             'markets' => 'Markets increase your platinum production.<br><br>Max +',
             'keep' => 'Keep increases population housing of barren land and all buildings except for Barracks.<br><br>Max +',
-            'towers' => 'Towers increase your wizard power, mana production, reduce damage from offensive spells, and increase Wizard Guild housing.<br><br>Max +',
+            #'towers' => 'Towers increase your wizard power, mana production, reduce damage from offensive spells, and increase Wizard Guild housing.<br><br>Max +',
+            'spires' => 'Spires increase your wizard power, mana production, reduce damage from offensive spells, and increase Wizard Guild housing.<br><br>Max +',
             'forges' => 'Forges increase your offensive power.<br><br>Max +',
             'walls' => 'Walls increase your defensive power.<br><br>Max +',
             'harbor' => 'Harbor increases your food and boat production and protects boats from sinking.<br><br>Max +',
@@ -111,8 +114,9 @@ class ImprovementHelper
     {
         $icons = [
             'markets' => 'hive-emblem',
-            'keep' => 'capitol',
-            'towers' => 'fairy-wand',
+            'keep' => 'tower',
+            #'towers' => 'fairy-wand',
+            'spires' => 'fairy-wand',
             'forges' => 'forging',
             'walls' => 'shield',
             'harbor' => 'anchor',

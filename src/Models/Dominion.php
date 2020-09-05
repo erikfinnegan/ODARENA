@@ -134,6 +134,7 @@ class Dominion extends AbstractModel
         'improvement_markets' => 'integer',
         'improvement_keep' => 'integer',
         'improvement_towers' => 'integer',
+        'improvement_spires' => 'integer',
         'improvement_forges' => 'integer',
         'improvement_walls' => 'integer',
         'improvement_harbor' => 'integer',

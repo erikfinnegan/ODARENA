@@ -27,10 +27,10 @@ $factory->define(\OpenDominion\Models\Dominion::class, function (Faker $faker) {
         'resource_wild_yeti' => 0,
         'resource_blood' => 0,
         # End new resources
-        #'improvement_science' => 0,
         'improvement_markets' => 0,
         'improvement_keep' => 0,
-        'improvement_towers' => 0,
+        'improvement_towers' => 0, # Remove eventually
+        'improvement_spires' => 0,
         'improvement_forges' => 0,
         'improvement_walls' => 0,
         'improvement_harbor' => 0,

@@ -20,7 +20,6 @@ perks:
   cannot_train_archmages: 1
   cannot_invade: 1
   cannot_explore: 1
-  construction_cost_only_food: 1
   can_only_build_mycelia: 1
   cannot_build_homes: 1
   cannot_join_guards: 1

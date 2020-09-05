@@ -1018,7 +1018,10 @@ class SpellActionService
         $damageMultiplier = 0;
 
         // Damage reduction from Towers
-        $damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers');
+        #$damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers');
+
+        // Damage reduction from Spires
+        $damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
 
         // Fireballs: peasants and food
         if($spellInfo['key'] == 'fireball')

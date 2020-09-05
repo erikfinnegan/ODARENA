@@ -209,20 +209,6 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    @if ($selectedDominion->race->name == 'Yeti')
-                                    <tr>
-                                        <td>Wild yetis escaped:</td>
-                                        <td>
-                                            @if ($wildYetiEscaped = $productionCalculator->getWildYetiEscaped($selectedDominion))
-                                                <span class="text-red">-{{ number_format($wildYetiEscaped) }}</span>
-                                            @else
-                                                <span class="text-green">0</span>
-                                            @endif
-
-                                            <small class="text-muted"><em>(estimated)</em></span>
-                                        </td>
-                                    </tr>
-                                    @endif
                                 </tbody>
                             </table>
 
