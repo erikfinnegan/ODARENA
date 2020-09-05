@@ -13,6 +13,9 @@ use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+# ODA
+use OpenDominion\Helpers\RaceHelper;
+
 class ConstructActionService
 {
     use DominionGuardsTrait;
@@ -32,6 +35,9 @@ class ConstructActionService
     /** @var QueueService */
     protected $queueService;
 
+    /** @var RaceHelper */
+    protected $raceHelper;
+
     /**
      * ConstructionActionService constructor.
      */
@@ -42,6 +48,7 @@ class ConstructActionService
         $this->landCalculator = app(LandCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
+        $this->raceHelper = app(RaceHelper::class);
     }
 
     /**
@@ -104,7 +111,7 @@ class ConstructActionService
         }
 
         # Get construction materials
-        $constructionMaterials = $this->constructionCalculator->getConstructionMaterials($dominion);
+        $constructionMaterials = $this->raceHelper->getConstructionMaterials($dominion->race);
 
         $primaryResource = null;
         $secondaryResource = null;

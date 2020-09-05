@@ -1,8 +1,8 @@
 name: Snow Elf
 alignment: good
 description:
-  <p>Up to 5% of all wild yetis in captivity escape every tick.</p>
   <p>Each Trebuchet can throw one Ice Boulder, which is destroyed upon impact. It takes one tick for the Trebuchet to be able to throw another Ice Boulder.</p>
+  <p>It takes six ticks to reload Ballistas.</p>
 home_land_type: mountain
 playable: 1
 
@@ -74,14 +74,13 @@ units:
     type:
       - machine
     cost:
-      lumber: 1200
-      ore: 500
+      lumber: 250
+      ore: 1000
     power:
-      offense: 12
+      offense: 10
       defense: 5
     perks:
       faster_return: 6
       does_not_count_as_population: 1
-      plunder: mana,10
-      defense_from_pairing: 1,2 # slot, amount
       houses_military_units: 1
+      immortal_on_victory: 1

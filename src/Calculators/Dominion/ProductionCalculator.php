@@ -1150,8 +1150,8 @@ class ProductionCalculator
 
             $escaped = 0;
 
-            // Escaped percentage
-            $escaped = rand(0,50) / 1000;
+            // Between 0% and 1% wander off each tick.
+            $escaped = rand(0,10) / 1000;
 
             $escaped += intval($dominion->resource_wild_yeti * $escaped);
 

@@ -11,6 +11,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Helpers\RaceHelper;
 
 class TrainingCalculator
 {
@@ -32,6 +33,9 @@ class TrainingCalculator
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var RaceHelper */
+    protected $raceHelper;
+
     /**
      * TrainingCalculator constructor.
      *
@@ -44,7 +48,8 @@ class TrainingCalculator
           ImprovementCalculator $improvementCalculator,
           MilitaryCalculator $militaryCalculator,
           QueueService $queueService,
-          SpellCalculator $spellCalculator
+          SpellCalculator $spellCalculator,
+          RaceHelper $raceHelper
           )
     {
         $this->landCalculator = $landCalculator;
@@ -53,6 +58,7 @@ class TrainingCalculator
         $this->militaryCalculator = $militaryCalculator;
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
+        $this->raceHelper = $raceHelper;
     }
 
     /**
@@ -64,38 +70,51 @@ class TrainingCalculator
     public function getTrainingCostsPerUnit(Dominion $dominion): array
     {
         $costsPerUnit = [];
-        $spyBaseCost = 500;
-        $wizardBaseCost = 500;
-        $archmageBaseCost = 1000;
-        $archmageBaseCost += $dominion->race->getPerkValue('archmage_cost');
 
         $spyCostMultiplier = $this->getSpyCostMultiplier($dominion);
         $wizardCostMultiplier = $this->getWizardCostMultiplier($dominion);
 
         // Values
-        $spyPlatinumCost = (int)ceil($spyBaseCost * $spyCostMultiplier);
-        $wizardPlatinumCost = (int)ceil($wizardBaseCost * $wizardCostMultiplier);
-        $archmagePlatinumCost = (int)ceil($archmageBaseCost * $wizardCostMultiplier);
-
         $units = $dominion->race->units;
+
+        $spyCost = $this->raceHelper->getSpyCost($dominion->race);
+        $wizardCost = $this->raceHelper->getWizardCost($dominion->race);
+        $archmageCost = $this->raceHelper->getArchmageCost($dominion->race);
+
+        $spyCost['trainedFrom'] = 'draftees';
+        $wizardCost['trainedFrom'] = 'draftees';
+
+        # Generally, do not mess with thi sone.
+        $archmageCost['trainedFrom'] = 'wizards';
+
+
+        // Yeti: spies and wizards are trained from wild yetis
+        if($dominion->race->getPerkValue('yeti_spies'))
+        {
+            $spyCost['trainedFrom'] = 'wild_yeti';
+        }
+        if($dominion->race->getPerkValue('yeti_wizards'))
+        {
+            $wizardCost['trainedFrom'] = 'wild_yeti';
+        }
 
         foreach ($this->unitHelper->getUnitTypes() as $unitType) {
             $cost = [];
 
             switch ($unitType) {
                 case 'spies':
-                    $cost['draftees'] = 1;
-                    $cost['platinum'] = $spyPlatinumCost;
+                    $cost[$spyCost['trainedFrom']] = 1;
+                    $cost[$spyCost['resource']] = $spyCost['amount'];
                     break;
 
                 case 'wizards':
-                    $cost['draftees'] = 1;
-                    $cost['platinum'] = $wizardPlatinumCost;
+                    $cost[$spyCost['trainedFrom']] = 1;
+                    $cost[$wizardCost['resource']] = $wizardCost['amount'];
                     break;
 
                 case 'archmages':
-                    $cost['platinum'] = $archmagePlatinumCost;
-                    $cost['wizards'] = 1;
+                    $cost[$archmageCost['trainedFrom']] = 1;
+                    $cost[$archmageCost['resource']] = $archmageCost['amount'];
                     break;
 
                 default:
@@ -399,17 +418,13 @@ class TrainingCalculator
         // Armory
         if(in_array($resourceType,$discountableResourceTypesByArmory))
         {
-          // Armory
-          if($this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory') > 0)
-          {
-              $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
-          }
+            $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
         }
 
         // Techs
         if(in_array($resourceType,$discountableResourceTypesByTech))
         {
-          $multiplier += $dominion->getTechPerkMultiplier('military_cost');
+            $multiplier += $dominion->getTechPerkMultiplier('military_cost');
         }
 
         // Title
@@ -423,17 +438,18 @@ class TrainingCalculator
 
         if(in_array($resourceType,$discountableResourceTypesByTechFood))
         {
-          $multiplier += $dominion->getTechPerkMultiplier('military_cost_food');
+            $multiplier += $dominion->getTechPerkMultiplier('military_cost_food');
         }
 
         if(in_array($resourceType,$discountableResourceTypesByTechMana))
         {
-          $multiplier += $dominion->getTechPerkMultiplier('military_cost_mana');
+            $multiplier += $dominion->getTechPerkMultiplier('military_cost_mana');
         }
 
-
+        # Cap reduction at -50%
         $multiplier = max(-0.50, $multiplier);
 
+        # Human: Call to Arms, allow for total reduction of 60%
         if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
         {
             $multiplier -= 0.10;
@@ -486,4 +502,5 @@ class TrainingCalculator
 
         return (1 + $multiplier);
     }
+
 }

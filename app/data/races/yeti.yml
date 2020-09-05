@@ -1,7 +1,7 @@
 name: Yeti
 alignment: independent
 description: >-
-  <p>The Yeti population is not made up of traditional peasants and draftees. Instead, Yeti rely on wild yetis being attrac
+  <p>The Yeti population is not made up of traditional peasants and draftees. Instead, wild yetis are used to train Yetis, spies, and wizards. The Yeti unit can then be trained into a Great Yeti which in turn can become a Guard Yeti or a War Yeti.</p>
 home_land_type: mountain
 playable: 1
 
@@ -9,11 +9,11 @@ attacking: 2
 exploring : 2
 converting: 2
 
-construction_materials: lumber,ore
+construction_materials: food,lumber
 
-spies_cost: 1000,food
-wizards_cost: 1000,food
-archmages_cost: 2000,food
+spies_cost: 200,food
+wizards_cost: 200,food
+archmages_cost: 400,food
 
 perks:
   max_population: -100
@@ -23,6 +23,10 @@ perks:
   boat_capacity: -10
   yeti_spies: 1
   yeti_wizards: 1
+  ore_production: 25
+  lumber_production: 25
+  food_production: 25
+  gem_production: 25
 units:
   - name: Yeti
     training_time: 3
@@ -88,4 +92,3 @@ units:
       defense: 8
     perks:
       no_draftee: 1
-      eats_peasants: 4

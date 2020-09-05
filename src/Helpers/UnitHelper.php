@@ -246,8 +246,7 @@ class UnitHelper
             list($type, $proficiency) = explode(' ', $helpStrings[$unitType]);
 
             $helpStrings[$unitType] .= '<li>OP: '. $unit->power_offense . ' / DP: ' . $unit->power_defense . ' / T: ' . $unit->training_time .  '</li>';
-            $helpStrings[$unitType] .= '<li>Attributes: '. $this->getUnitAttributesString($unitType, $race) . '</li>';
-
+            #$helpStrings[$unitType] .= '<li>Attributes: '. $this->getUnitAttributesString($unitType, $race) . '</li>';
 
             foreach ($unit->perks as $perk)
             {
@@ -256,7 +255,6 @@ class UnitHelper
                     //\Debugbar::warning("Missing perk help text for unit perk '{$perk->key}'' on unit '{$unit->name}''.");
                     continue;
                 }
-
 
                 $perkValue = $perk->pivot->value;
 

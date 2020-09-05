@@ -615,4 +615,45 @@ class RaceHelper
       return ucwords($term);
     }
 
+
+    public function getSpyCost(Race $race): array
+    {
+        $cost = explode(',', $race->spies_cost);
+        $spyCost['amount'] = $cost[0];
+        $spyCost['resource'] = $cost[1];
+
+        return $spyCost;
+    }
+    public function getWizardCost(Race $race): array
+    {
+        $cost = explode(',', $race->wizards_cost);
+        $wizardCost['amount'] = $cost[0];
+        $wizardCost['resource'] = $cost[1];
+
+        return $wizardCost;
+    }
+    public function getArchmageCost(Race $race): array
+    {
+        $cost = explode(',', $race->archmages_cost);
+        $archmageCost['amount'] = $cost[0];
+        $archmageCost['resource'] = $cost[1];
+
+        return $archmageCost;
+    }
+
+    /**
+     * Returns the Dominion's construction materials.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getConstructionMaterials(Race $race): array
+    {
+        if($race->construction_materials === null)
+        {
+            return [];
+        }
+        return explode(',', $race->construction_materials);
+    }
+
 }

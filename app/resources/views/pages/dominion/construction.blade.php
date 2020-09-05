@@ -59,7 +59,7 @@
 
                     <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
                     @php
-                        $constructionMaterials = $constructionCalculator->getConstructionMaterials($selectedDominion);
+                        $constructionMaterials = $raceHelper->getConstructionMaterials($selectedDominion->race);
                         $primaryCost = $constructionCalculator->getConstructionCostPrimary($selectedDominion);
                         $secondaryCost = $constructionCalculator->getConstructionCostSecondary($selectedDominion);
 

@@ -274,7 +274,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Regeneration',
-                'description' => '-25% combat losses',
+                'description' => '25% fewer casualties',
                 'key' => 'regeneration',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -306,7 +306,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Campaign',
-                'description' => '+25% land generated for successful attack',
+                'description' => '+25% land discovered on successful attacks',
                 'key' => 'campaign',
                 'mana_cost' => 8,
                 'duration' => 1*4,
@@ -330,7 +330,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Metabolism',
-                'description' => '+200% food production.',
+                'description' => 'Double raw food production.',
                 'key' => 'metabolism',
                 'mana_cost' => 8,
                 'duration' => 6*4, # 24 ticks / 6 hours

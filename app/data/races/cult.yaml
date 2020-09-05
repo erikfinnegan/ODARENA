@@ -25,6 +25,7 @@ perks:
   min_rounds_played: 5
   max_per_round: 1
   cannot_explore: 1
+  max_population: 20
 units:
   - name: Thrall
     type:

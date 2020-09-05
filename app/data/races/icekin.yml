@@ -10,11 +10,13 @@ converting: 3
 
 construction_materials: platinum,ore
 
+
+archmages_cost: 700,platinum
+
 perks:
   food_consumption: -50
   gem_production: -25
   ore_production: 20
-  archmage_cost: -200
 units:
   - name: Icebeast
     training_time: 6

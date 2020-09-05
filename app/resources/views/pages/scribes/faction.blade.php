@@ -36,9 +36,18 @@
                                 {!! $landHelper->getLandTypeIconHtml($race->home_land_type) !!} {{ ucfirst($race->home_land_type) }}
                             </p>
                         </div>
-                        <div class="col-md-12 col-md-9">
+                        <div class="col-md-12 col-md-3">
+                            {{-- Home land --}}
+                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Construction Materials</h4>
+                            <p>
+                                @php
+                                    $constructionMaterials = $raceHelper->getConstructionMaterials($race);
+                                @endphp
+                            </p>
+                        </div>
+                        <div class="col-md-12 col-md-6">
                             {{-- Racial Spell --}}
-                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Racial Spell</h4>
+                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Unique Spell</h4>
                             @php
                                 $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
                             @endphp
@@ -211,6 +220,44 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td>Spies</td>
+                                @php
+                                    $spyCost = $raceHelper->getSpyCost($race);
+                                @endphp
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-center">{{ number_format($spyCost['amount']) . ' ' . $spyCost['resource'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>Wizards</td>
+                                @php
+                                    $wizCost = $raceHelper->getWizardCost($race);
+                                @endphp
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-center">{{ number_format($wizCost['amount']) . ' ' . $wizCost['resource'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>Archmages</td>
+                                @php
+                                    $archmageCost = $raceHelper->getArchmageCost($race);
+                                @endphp
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <ul>
+                                        <li>Twice as powerful as a wizard.</li>
+                                        <li>Immortal. Does not die on any failed spells and cannot be assassinated.</li>
+                                    </ul>
+                                </td>
+                                <td></td>
+                                <td class="text-center">{{ number_format($archmageCost['amount']) . ' ' . $archmageCost['resource'] }}, 1 Wizard</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

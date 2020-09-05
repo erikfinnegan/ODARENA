@@ -9,6 +9,7 @@ use OpenDominion\Models\Dominion;
 
 # ODA
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\RaceHelper;
 
 class ConstructionCalculator
 {
@@ -24,6 +25,9 @@ class ConstructionCalculator
     /** @var LandHelper */
     protected $landHelper;
 
+    /** @var RaceHelper */
+    protected $raceHelper;
+
     /**
      * ConstructionCalculator constructor.
      *
@@ -34,28 +38,18 @@ class ConstructionCalculator
         BuildingCalculator $buildingCalculator,
         LandCalculator $landCalculator,
         ImprovementCalculator $improvementCalculator,
-        LandHelper $landHelper)
+        LandHelper $landHelper,
+        RaceHelper $raceHelper
+        )
     {
         $this->buildingCalculator = $buildingCalculator;
         $this->landCalculator = $landCalculator;
         $this->improvementCalculator = $improvementCalculator;
         $this->landHelper = $landHelper;
+        $this->raceHelper = $raceHelper;
     }
 
-    /**
-     * Returns the Dominion's construction materials.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getConstructionMaterials(Dominion $dominion): array
-    {
-        if($dominion->race->construction_materials === null)
-        {
-            return [];
-        }
-        return explode(',', $dominion->race->construction_materials);
-    }
+
 
     /**
      * Returns the Dominion's construction raw cost for the primary resource.
@@ -68,6 +62,12 @@ class ConstructionCalculator
         $cost = 0;
         $cost = 250 + ($this->landCalculator->getTotalLand($dominion) * 1.5);
         $cost /= 2;
+
+        if(count($this->raceHelper->getConstructionMaterials($dominion->race)) === 1)
+        {
+            $cost /= 3;
+        }
+
         return $cost;
     }
 
@@ -116,7 +116,7 @@ class ConstructionCalculator
     public function getMaxAfford(Dominion $dominion): int
     {
 
-        $constructionMaterials = $this->getConstructionMaterials($dominion);
+        $constructionMaterials = $this->raceHelper->getConstructionMaterials($dominion->race);
         $barrenLand = $this->landCalculator->getTotalBarrenLand($dominion);
 
         if(isset($constructionMaterials[0]))
