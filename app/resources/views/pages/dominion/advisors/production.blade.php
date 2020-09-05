@@ -140,7 +140,7 @@
                                         <td>Wild yetis:</td>
                                         <td>
                                             @if ($wildYetiProduction = $productionCalculator->getWildYetiProduction($selectedDominion))
-                                                <span class="text-green">+{{ number_format($wildYetiProduction, 2) }}</span>
+                                                <span class="text-green">+{{ number_format($wildYetiProduction) }}</span>
                                             @else
                                                 0
                                             @endif

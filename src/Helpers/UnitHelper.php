@@ -187,7 +187,7 @@ class UnitHelper
             #'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
 
             // Training
-            'cannot_be_trained' => 'Unit cannot be trained.',
+            'cannot_be_trained' => 'Cannot be trained.',
             'instant_training' => 'Summoned immediately.',
             'faster_training' => 'Trains %s ticks faster (minimum two ticks).',
 

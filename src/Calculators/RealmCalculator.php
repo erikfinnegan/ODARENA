@@ -89,9 +89,9 @@ class RealmCalculator
                 }
             }
         }
-
         return $contributions;
-
     }
+
+
 
 }

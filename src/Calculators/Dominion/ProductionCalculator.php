@@ -1137,32 +1137,6 @@ class ProductionCalculator
         }
 
         /**
-         * Returns the Dominion's wild yeti escapees.
-         *
-         * Between 0% and 5% wild yetis escape.
-         *
-         * @param Dominion $dominion
-         * @return float
-         */
-         # ABANDONED IN ROUND 30
-        public function getWildYetiEscaped(Dominion $dominion): float
-        {
-            if(!$dominion->race->getPerkValue('gryphon_nests_generate_wild_yetis'))
-            {
-              return 0;
-            }
-
-            $escaped = 0;
-
-            // Between 0% and 1% wander off each tick.
-            $escaped = rand(0,10) / 1000;
-
-            $escaped += intval($dominion->resource_wild_yeti * $escaped);
-
-            return $escaped;
-        }
-
-        /**
          * Returns the Dominion's net wild yeti change.
          *
          * @param Dominion $dominion
@@ -1171,7 +1145,6 @@ class ProductionCalculator
         public function getWildYetiNetChange(Dominion $dominion): int
         {
             return intval($this->getWildYetiProduction($dominion));
-            #return intval($this->getWildYetiProduction($dominion) - $this->getWildYetiEscaped($dominion));
         }
 
         /**

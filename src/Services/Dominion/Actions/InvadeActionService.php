@@ -468,6 +468,9 @@ class InvadeActionService
             # Salvage and Plunder
             $this->handleSalvagingAndPlundering($dominion, $target, $survivingUnits);
 
+            # Imperial Crypt
+            $this->handleCrypt($dominion, $target, $survivingUnits, $offensiveConversions, $defensiveConversions);
+
             $this->invasionResult['attacker']['unitsSent'] = $units;
 
             // Stat changes
@@ -476,8 +479,6 @@ class InvadeActionService
                 $dominion->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
                 $dominion->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landDiscovered']);
                 $dominion->stat_attacking_success += $countsAsVictory;
-                $dominion->stat_attacking_razes += $countsAsRaze;
-                $dominion->stat_attacking_failures += $countsAsFailure;
                 $dominion->stat_attacking_bottomfeeds += $countsAsBottomfeed;
 
                 $target->stat_total_land_lost += (int)array_sum($this->invasionResult['attacker']['landConquered']);
@@ -485,6 +486,9 @@ class InvadeActionService
             }
             else
             {
+                $dominion->stat_attacking_razes += $countsAsRaze;
+                $dominion->stat_attacking_failures += $countsAsFailure;
+
                 $target->stat_defending_success += 1;
                 $target->realm->stat_defending_success += 1;
             }
@@ -586,7 +590,7 @@ class InvadeActionService
         # Successful hits over 75% give prestige to attacker and remove prestige from defender
         if($countsAsVictory)
         {
-            $attackerPrestigeChange += 40;
+            $attackerPrestigeChange += ceil(60 * $landRatio);
             $defenderPrestigeChange -= 10;
         }
 
@@ -964,47 +968,6 @@ class InvadeActionService
 
         $landGainedPerLandType = [];
 
-/*
-        if (!isset($this->invasionResult['attacker']['landConquered']))
-        {
-            $this->invasionResult['attacker']['landConquered'] = [];
-        }
-
-        if (!isset($this->invasionResult['attacker']['landGenerated']))
-        {
-            $this->invasionResult['attacker']['landGenerated'] = [];
-        }
-
-        if (!isset($this->invasionResult['defender']['landLost']))
-        {
-            $this->invasionResult['defender']['landLost'] = [];
-        }
-
-        if (!isset($this->invasionResult['defender']['buildingsLost']))
-        {
-            $this->invasionResult['defender']['buildingsLost'] = [];
-        }
-
-        if (!isset($this->invasionResult['defender']['totalBuildingsLost']))
-        {
-            $this->invasionResult['defender']['totalBuildingsLost'] = 0;
-        }
-
-        $rangeMultiplier = ($landRatio / 100);
-
-        $attackerLandWithRatioModifier = ($this->landCalculator->getTotalLand($dominion));
-
-        $acresLost = $this->landCalculator->getLandConquered($dominion, $target, $landRatio);
-        $acresDiscovered = $this->landCalculator->getLandDiscovered($dominion, $target, $acresLost, $this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion));
-
-        $landLossRatio = ($acresLost / $this->landCalculator->getTotalLand($target));
-        $landAndBuildingsLostPerLandType = $this->landCalculator->getLandLostByLandType($target, $landLossRatio);
-
-        $landGainedPerLandType = [];
-        */
-        #echo '<pre>';
-        #var_dump($landAndBuildingsLostPerLandType);
-        #echo '</pre>';
         foreach ($landAndBuildingsLostPerLandType as $landType => $landAndBuildingsLost)
         {
             $buildingsToDestroy = $landAndBuildingsLost['buildingsToDestroy'];
@@ -2120,6 +2083,7 @@ class InvadeActionService
               $this->getUnitReturnHoursForSlot($dominion, $slot)
           );
       }
+
     }
 
     /**
@@ -2540,7 +2504,134 @@ class InvadeActionService
         $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
     }
 
+    # Add casualties to the Imperial Crypto.
+    protected function handleCrypt(Dominion $attacker, Dominion $defender, array $offensiveConversions, array $defensiveConversions): void
+    {
 
+        #dd($defensiveConversions, $offensiveConversions);
+
+        if($attacker->race->alignment === 'evil' or $defender->race->alignment === 'evil')
+        {
+
+            # Units with these attributes do not go in the Crypt.
+            $exemptibleUnitAttributes = [
+                'ammunition',
+                'equipment',
+                'magical',
+                'mechanical',
+                'ship',
+                'massive',
+              ];
+
+            # The battlefield:
+            # Cap bodies by reduced_conversions perk, and round.
+            $defensiveBodies = round(array_sum($this->invasionResult['defender']['unitsLost']) * (1 - $defender->race->getPerkMultiplier('reduced_conversions')));
+            $offensiveBodies = round(array_sum($this->invasionResult['attacker']['unitsLost']) * (1 - $attacker->race->getPerkMultiplier('reduced_conversions')));
+
+            # Loop through defensive casualties and remove units that don't qualify.
+            foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
+            {
+                if($slot !== 'draftees')
+                {
+                    $isUnitConvertible = true;
+
+                    $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                            return ($unit->slot == $slot);
+                        })->first();
+
+                    $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+                    # Is it convertible?
+                    foreach($exemptibleUnitAttributes as $exemptibleUnitAttribute)
+                    {
+                        if(in_array($exemptibleUnitAttribute, $unitAttributes))
+                        {
+                            $isUnitConvertible = false;
+                            break;
+                        }
+                    }
+
+                    if(!$isUnitConvertible or $defender->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+                    {
+                        $defensiveBodies -= $lost;
+                    }
+                }
+            }
+
+            # Loop through offensive casualties and remove units that don't qualify.
+            foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $lost)
+            {
+                if($slot !== 'draftees')
+                {
+                    $isUnitConvertible = true;
+
+                    $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                            return ($unit->slot == $slot);
+                        })->first();
+
+                    $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+                    # Is it convertible?
+                    foreach($exemptibleUnitAttributes as $exemptibleUnitAttribute)
+                    {
+                        if(in_array($exemptibleUnitAttribute, $unitAttributes))
+                        {
+                            $isUnitConvertible = false;
+                            break;
+                        }
+                    }
+
+                    if(!$isUnitConvertible or $attacker->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+                    {
+                        $offensiveBodies -= $lost;
+                    }
+                }
+            }
+
+            # Remove defensive conversions (defender's conversions) from offensive bodies (they are spent)
+            if(isset($this->invasionResult['defender']['conversion']))
+            {
+                $offensiveBodies -= array_sum($this->invasionResult['defender']['conversion']);
+            }
+
+            # Remove offensive conversions (attacker's conversions) from defensive bodies (they are spent)
+            if(isset($this->invasionResult['attacker']['conversion']))
+            {
+                $defensiveBodies -= array_sum($this->invasionResult['attacker']['conversion']);
+            }
+
+            $toTheCrypt = 0;
+
+            # If defender is empire
+            if($defender->race->alignment === 'evil')
+            {
+                  # If the attack is successful
+                  if($this->invasionResult['result']['success'])
+                  {
+                      # 50% of defensive and 0% of defensive bodies go to the crypt.
+                      $defensiveBodies /= 2;
+                      $offensiveBodies *= 0;
+                  }
+                  # If the attack is unsuccessful
+                  else
+                  {
+                      # 100% of defensive and 100% of offensive bodies go to the crypt.
+                      $defensiveBodies += 0;
+                      $offensiveBodies += 0;
+                  }
+            }
+
+            $toTheCrypt = max(0, round($defensiveBodies + $offensiveBodies));
+
+            $this->invasionResult['defender']['crypt']['defensiveBodies'] = $defensiveBodies;
+            $this->invasionResult['defender']['crypt']['offensiveBodies'] = $offensiveBodies;
+            $this->invasionResult['defender']['crypt']['total'] = $toTheCrypt;
+
+            $defender->realm->crypt += $toTheCrypt;
+
+        }
+
+    }
 
     /**
      * Check for events that take place before the invasion:

@@ -114,7 +114,7 @@ class ImprovementHelper
     {
         $icons = [
             'markets' => 'hive-emblem',
-            'keep' => 'tower',
+            'keep' => 'capitol',
             #'towers' => 'fairy-wand',
             'spires' => 'fairy-wand',
             'forges' => 'forging',

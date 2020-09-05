@@ -42,7 +42,15 @@
                             <p>
                                 @php
                                     $constructionMaterials = $raceHelper->getConstructionMaterials($race);
+                                    $materials = count($constructionMaterials);
                                 @endphp
+
+                                @if($materials === 1)
+                                    <b>Resource</b>: {{ ucwords($constructionMaterials[0]) }}<br>
+                                @else
+                                    <b>Primary</b>: {{ ucwords($constructionMaterials[0]) }}<br>
+                                    <b>Secondary</b>: {{ ucwords($constructionMaterials[1]) }}
+                                @endif
                             </p>
                         </div>
                         <div class="col-md-12 col-md-6">

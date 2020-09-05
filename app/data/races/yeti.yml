@@ -19,7 +19,6 @@ archmages_cost: 400,food
 
 perks:
   max_population: -100
-  platinum_production: -100
   gryphon_nests_generate_wild_yetis: 1
   exchange_bonus: 50
   boat_capacity: -10

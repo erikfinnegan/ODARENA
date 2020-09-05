@@ -28,6 +28,7 @@ units:
     perks:
       immortal: 1
       increases_casualties_on_offense: 1
+      cannot_be_trained: 1
   - name: Ghoul
     training_time: 9
     type:
@@ -39,6 +40,8 @@ units:
       defense: 3
     perks:
       immortal: 1
+      increases_casualties_on_defense: 1
+      cannot_be_trained: 1
   - name: Revenant
     need_boat: false
     training_time: 12
@@ -53,7 +56,7 @@ units:
       defense: 5
     perks:
       immortal: 1
-      staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
+      staggered_conversion: 60;3,85;4 # 60% and up, convert to Revenant
   - name: Wraith
     need_boat: false
     training_time: 12
@@ -68,5 +71,5 @@ units:
       defense: 3
     perks:
       immortal: 1
-      staggered_conversion: 60;3,100;4 # 60% and up, convert to Revenant
+      staggered_conversion: 60;3,85;4 # 60% and up, convert to Revenant
       offense_wizard_ratio: 1,2 # ratio%, max
