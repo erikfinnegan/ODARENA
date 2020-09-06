@@ -876,7 +876,7 @@ class InvadeActionService
             $drafteesLost = 0;
         }
 
-        // Undead: Desecration - Triples draftee casualties (capped by target's number of draftees)
+        // Afflicted: Desecration - Triples draftee casualties (capped by target's number of draftees)
         if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
         {
             $drafteesLost = min($target->military_draftees, $drafteesLost * 3);
@@ -2627,7 +2627,11 @@ class InvadeActionService
             $this->invasionResult['defender']['crypt']['offensiveBodies'] = $offensiveBodies;
             $this->invasionResult['defender']['crypt']['total'] = $toTheCrypt;
 
-            $defender->realm->crypt += $toTheCrypt;
+            #$defender->realm->crypt += $toTheCrypt;
+
+            $defender->realm->fill([
+                'crypt' => ($defender->realm->crypt + $toTheCrypt),
+            ])->save();
 
         }
 

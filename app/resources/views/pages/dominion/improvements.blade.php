@@ -27,14 +27,15 @@
                         <table class="table">
                             <colgroup>
                                 <col width="150">
-                                <col width="150">
+                                <col width="100">
+                                <col width="100">
                                 <col>
                                 <col width="100">
                             </colgroup>
                             <thead>
                                 <tr>
                                     <th>Part</th>
-                                    <th class="text-center">Invest</th>
+                                    <th class="text-center" colspan="2">Invest</th>
                                     <th>Rating</th>
                                     <th class="text-center">Invested</th>
                                 </tr>
@@ -47,7 +48,10 @@
                                             {{ ucfirst($improvementType) }}
                                         </td>
                                         <td class="text-center">
-                                            <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:5em;" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-default improve-max" data-type="{{ $improvementType }}" type="button" style="min-width:8em; width:100%;">Max</button>
                                         </td>
                                         <td>
                                             {{ sprintf(
@@ -65,22 +69,22 @@
                         <div class="pull-right">
                             <select name="resource" class="form-control">
                                 @if ((bool)$selectedDominion->race->getPerkValue('tissue_improvement'))
-                                <option value="food" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
+                                    <option value="food" data-amount="{{ $selectedDominion->resource_food }}" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
                                 @else
-                                  @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
-                                  <option value="mana" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
-                                  @else
-                                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
-                                    <option value="soul" {{ $selectedResource  === 'soul' ? 'selected' : ''}}>Soul</option>
+                                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
+                                        <option value="mana" data-amount="{{ $selectedDominion->resource_mana }}" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
+                                    @else
+                                          @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
+                                              <option value="soul" data-amount="{{ $selectedDominion->resource_soul }}" {{ $selectedResource  === 'soul' ? 'selected' : ''}}>Soul</option>
+                                          @endif
+                                          @if ((bool)$selectedDominion->race->getPerkValue('can_invest_food'))
+                                              <option value="food" data-amount="{{ $selectedDominion->resource_food }}" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
+                                          @endif
+                                        <option value="gems" data-amount="{{ $selectedDominion->resource_gems }}" {{ $selectedDominion->most_recent_improvement_resource  === 'gems' ? 'selected' : ''}}>Gems</option>
+                                        <option value="lumber" data-amount="{{ $selectedDominion->resource_lumber }}" {{ $selectedDominion->most_recent_improvement_resource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
+                                        <option value="ore" data-amount="{{ $selectedDominion->resource_ore }}" {{ $selectedDominion->most_recent_improvement_resource  === 'ore' ? 'selected' : ''}}>Ore</option>
+                                        <option value="platinum" data-amount="{{ $selectedDominion->resource_platinum }}" {{ $selectedDominion->most_recent_improvement_resource === 'platinum' ? 'selected' : ''}}>Platinum</option>
                                     @endif
-                                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_food'))
-                                    <option value="soul" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Soul</option>
-                                    @endif
-                                  <option value="gems" {{ $selectedDominion->most_recent_improvement_resource  === 'gems' ? 'selected' : ''}}>Gems</option>
-                                  <option value="lumber" {{ $selectedDominion->most_recent_improvement_resource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
-                                  <option value="ore" {{ $selectedDominion->most_recent_improvement_resource  === 'ore' ? 'selected' : ''}}>Ore</option>
-                                  <option value="platinum" {{ $selectedDominion->most_recent_improvement_resource === 'platinum' ? 'selected' : ''}}>Platinum</option>
-                                  @endif
                                 @endif
                             </select>
                         </div>
@@ -197,3 +201,18 @@
     </div>
 @endif
 @endsection
+
+@push('inline-scripts')
+    <script type="text/javascript">
+        (function ($) {
+            $('.improve-max').click(function(e) {
+                var selectedOption = $('select[name=resource] option:selected'),
+                    selectedResource = selectedOption.val(),
+                    maxAmount = selectedOption.data('amount'),
+                    improvementType = $(this).data('type');
+                $('input[name^=improve]').val('');
+                $('input[name=improve\\['+improvementType+'\\]]').val(maxAmount);
+            });
+        })(jQuery);
+    </script>
+@endpush

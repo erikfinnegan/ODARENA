@@ -161,8 +161,7 @@ class SpellHelper
         return $spells;
     }
 
-    # Hacky fix for round 13.
-    #public function getRacialSelfSpell(Race $race)
+
     public function getRacialSelfSpell(Dominion $dominion)
     {
         $raceName = $dominion->race->name;
@@ -376,7 +375,7 @@ class SpellHelper
                 'key' => 'desecration',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Undead']),
+                'races' => collect(['Afflicted']),
             ],
             [
                 'name' => 'Infernal Fury',

@@ -3,6 +3,13 @@
 @section('page-header', 'Calculators')
 
 @section('content')
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <span class="text-notice">The calculator is in early beta and may not work accurately. Please use it carefully.</span>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-sm-12 col-md-9">
             <form action="" method="get" role="form" id="calculate-defense-form" class="calculate-form">
@@ -189,7 +196,7 @@
 
                                 <div class="form-group row">
                                     @php
-                                        $racialSpell = $spellHelper->getRacialSelfSpell($race);
+                                        $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
                                     @endphp
                                     <div class="col-xs-3 text-right">
                                         @if (in_array($racialSpell['key'], ['blizzard', 'defensive_frenzy', 'howling']))
@@ -514,7 +521,7 @@
 
                                 <div class="form-group row">
                                     @php
-                                        $racialSpell = $spellHelper->getRacialSelfSpell($race);
+                                        $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
                                     @endphp
                                     <div class="col-xs-3 text-right">
                                         @if (in_array($racialSpell['key'], ['bloodrage', 'crusade', 'howling', 'killing_rage', 'nightfall']))
