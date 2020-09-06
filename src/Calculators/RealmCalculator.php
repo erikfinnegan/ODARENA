@@ -7,6 +7,7 @@ use DB;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class RealmCalculator
 {
@@ -14,15 +15,22 @@ class RealmCalculator
     /** @var ProductionCalculator */
     protected $productionCalculator;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
-     * NetworthCalculator constructor.
+     * RealmCalculator constructor.
      *
      * @param ProductionCalculator $productionCalculator
+     * @param SpellCalculator $productionCalculator
      */
     public function __construct(
-        ProductionCalculator $productionCalculator
-    ) {
+        ProductionCalculator $productionCalculator,
+        SpellCalculator $spellCalculator
+    )
+    {
         $this->productionCalculator = $productionCalculator;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -51,6 +59,12 @@ class RealmCalculator
          return $monster_dominion_id;
      }
 
+   /**
+    * Return the monster.
+    *
+    * @param Realm $realm
+    * @return int
+    */
     public function getMonster(Realm $realm): Dominion
     {
         $monster = DB::table('dominions')
@@ -68,6 +82,12 @@ class RealmCalculator
         return $monster;
     }
 
+    /**
+     * For each resource, calculate how much is contributed to the monster in total.
+     *
+     * @param Realm $realm
+     * @return int
+     */
     public function getTotalContributions(Realm $realm): array
     {
         $contributions = [
@@ -92,6 +112,62 @@ class RealmCalculator
         return $contributions;
     }
 
+    /**
+     * Calculate how many bodies in the crypt decayed this tick.
+     *
+     * @param Realm $realm
+     * @return int
+     */
+    public function getCryptBodiesDecayed(Realm $realm): int
+    {
+        $bodiesDecayed = 0;
+        if($realm->alignment !== 'evil' or $realm->crypt === 0)
+        {
+            return $bodiesDecayed;
+        }
+        else
+        {
+            $bodiesDecayed = max(1, round($realm->crypt * 0.01));
+        }
 
+        return $bodiesDecayed;
+    }
+
+    /**
+     * Calculate the ratio of crypt bodies available to the $dominion.
+     *
+     * @param Realm $realm
+     * @return int
+     */
+    public function getCryptBodiesProportion($dominion): float
+    {
+
+        $dominionDarkRiteUnits = $dominion->military_unit3 + $dominion->military_unit4;
+        $totaldarkRiteUnits = $dominion->military_unit3 + $dominion->military_unit4;
+
+        $undeads = DB::table('dominions')
+                     ->join('races', 'dominions.race_id', '=', 'races.id')
+                     ->join('realms', 'realms.id', '=', 'dominions.realm_id')
+                     ->select('dominions.id')
+                     ->where('dominions.round_id', '=', $dominion->realm->round->id)
+                     ->where('realms.id', '=', $dominion->realm->id)
+                     ->where('races.name', '=', 'Undead')
+                     ->where('dominions.protection_ticks', '=', 0)
+                     ->where('dominions.is_locked', '=', 0)
+                     ->pluck('dominions.id');
+
+        foreach($undeads as $undead)
+        {
+            $undeadDominion = Dominion::findOrFail($undead);
+            if ($this->spellCalculator->isSpellActive($undeadDominion, 'dark_rites'))
+            {
+                $totaldarkRiteUnits += $undeadDominion->military_unit3 + $undeadDominion->military_unit4;
+            }
+        }
+
+        return $dominionDarkRiteUnits / $totaldarkRiteUnits;
+
+
+    }
 
 }

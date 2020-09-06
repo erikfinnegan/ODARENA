@@ -18,6 +18,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Helpers\RaceHelper;
 
 class TrainActionService
 {
@@ -48,6 +49,9 @@ class TrainActionService
     /** @var PopulationCalculator */
     protected $populationCalculator;
 
+    /** @var RaceHelper */
+    protected $raceHelper;
+
     /**
      * TrainActionService constructor.
      */
@@ -62,6 +66,7 @@ class TrainActionService
         $this->queueService = app(QueueService::class);
         $this->trainingCalculator = app(TrainingCalculator::class);
         $this->unitHelper = app(UnitHelper::class);
+        $this->raceHelper = app(RaceHelper::class);
 
         $this->improvementCalculator = $improvementCalculator;
         $this->spellCalculator = $spellCalculator;
@@ -370,7 +375,7 @@ class TrainActionService
 
         if ($totalCosts['draftees'] > $dominion->military_draftees)
         {
-            throw new GameException('Training aborted due to lack of draftees.');
+            throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race)) . '.');
         }
 
         $newDraftelessUnitsToHouse = 0;
@@ -466,7 +471,7 @@ class TrainActionService
               {
                   $ticks = 12;
               }
-              
+
               // Lux: Spell (reduce training times by 2 ticks)
               if ($this->spellCalculator->isSpellActive($dominion, 'aurora'))
               {

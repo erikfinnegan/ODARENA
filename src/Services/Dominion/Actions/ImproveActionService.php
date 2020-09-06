@@ -92,7 +92,7 @@ class ImproveActionService
             $dominion->fill([
               'improvement_markets' => ($dominion->improvement_markets + ($data['markets'] * $worth)),
               'improvement_keep' => ($dominion->improvement_keep + ($data['keep'] * $worth)),
-              'improvement_towers' => ($dominion->improvement_towers + ($data['towers'] * $worth)),
+              #'improvement_towers' => ($dominion->improvement_towers + ($data['towers'] * $worth)),
               'improvement_spires' => ($dominion->improvement_spires + ($data['spires'] * $worth)),
               'improvement_forges' => ($dominion->improvement_forges + ($data['forges'] * $worth)),
               'improvement_walls' => ($dominion->improvement_walls + ($data['walls'] * $worth)),

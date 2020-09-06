@@ -30,6 +30,7 @@ perks:
   gem_production: 25
   invest_bonus: 50
   food_decay: -25
+
 units:
   - name: Yeti
     training_time: 3
@@ -39,7 +40,7 @@ units:
     need_boat: true
     cost:
       wild_yeti: 1
-      food: 100
+      food: 50
     power:
       offense: 4
       defense: 4
@@ -55,7 +56,7 @@ units:
     need_boat: true
     cost:
       unit1: 1
-      food: 200
+      food: 150
     power:
       offense: 6
       defense: 6
@@ -63,7 +64,7 @@ units:
       no_draftee: 1
 
   - name: Guard Yeti
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -73,6 +74,7 @@ units:
     cost:
       unit2: 1
       lumber: 400
+      ore: 200
     power:
       offense: 0
       defense: 12
@@ -90,10 +92,12 @@ units:
     need_boat: true
     cost:
       unit2: 1
+      lumber: 400
       ore: 400
     power:
       offense: 12
-      defense: 8
+      defense: 9
     perks:
       no_draftee: 1
       only_dies_vs_raw_power: 6 # >=
+      offense_vs_building: gryphon_nest,10,2

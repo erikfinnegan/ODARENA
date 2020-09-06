@@ -285,7 +285,7 @@ class SpellHelper
                 'key' => 'parasitic_hunger',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Lycanthrope', 'Afflicted']),
+                'races' => collect(['Lycanthrope']),
             ],
             [
                 'name' => 'Gaia\'s Blessing',
@@ -538,6 +538,14 @@ class SpellHelper
                 'mana_cost' => 10,
                 'duration' => 12*4,
                 'races' => collect(['Vampires']),
+            ],
+            [
+                'name' => 'Dark Rites',
+                'description' => 'Taking bodies from the Imperial Crypt, each Wraith turns up to one body into a Skeleton and each Revenant turns up to one body in a Ghoul, until the spell expires or until there are no bodies left in the crypt.',
+                'key' => 'dark_rites',
+                'mana_cost' => 10,
+                'duration' => 12*2,
+                'races' => collect(['Undead']),
             ],
         ]);
     }

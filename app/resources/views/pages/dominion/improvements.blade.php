@@ -27,15 +27,15 @@
                         <table class="table">
                             <colgroup>
                                 <col width="150">
-                                <col width="100">
-                                <col width="100">
+                                <col width="150">
+                                <col width="50">
                                 <col>
                                 <col width="100">
                             </colgroup>
                             <thead>
                                 <tr>
                                     <th>Part</th>
-                                    <th class="text-center" colspan="2">Invest</th>
+                                    <th colspan="2">Invest</th>
                                     <th>Rating</th>
                                     <th class="text-center">Invested</th>
                                 </tr>
@@ -51,7 +51,7 @@
                                             <input type="number" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
                                         <td>
-                                            <button class="btn btn-default improve-max" data-type="{{ $improvementType }}" type="button" style="min-width:8em; width:100%;">Max</button>
+                                            <button class="btn btn-default improve-max" data-type="{{ $improvementType }}" type="button" style="width:4em;">Max</button>
                                         </td>
                                         <td>
                                             {{ sprintf(

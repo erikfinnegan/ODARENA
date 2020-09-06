@@ -268,6 +268,8 @@ class TickService
                 ])
                 ->get();
 
+            $realms = $round->realms()->get();
+
             if(rand(1,96) === 1)
             {
                 $this->barbarianService->createBarbarian($round);
@@ -339,6 +341,16 @@ class TickService
 
                 }, 5);
 
+            }
+
+            foreach($realms as $realm)
+            {
+                # Imperial Crypt
+                $bodiesDecayed = $this->realmCalculator->getCryptBodiesDecayed($realm);
+
+                $realm->fill([
+                    'crypt' => ($realm->crypt - $bodiesDecayed),
+                ])->save();
             }
 
             Log::info(sprintf(
@@ -631,7 +643,6 @@ class TickService
         $tick->starvation_casualties = 0;
         if (($dominion->resource_food + $foodNetChange) < 0)
         {
-            #echo $dominion->name . " is starving.\n";
             $tick->starvation_casualties = 1;
             $tick->resource_food = max(0, $tick->resource_food);
         }
@@ -804,6 +815,32 @@ class TickService
 
             }
         }
+
+        # Imperial Crypt: Dark Rites units
+        if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 > 0 or $dominion->military_unit4 > 0))
+        {
+            $cryptProportion = $this->realmCalculator->getCryptBodiesProportion($dominion);
+
+            $unit4PerUnit1 = 1; # How many Wraiths does it take to create a Skeleton
+            $unit3PerUnit2 = 1; # How many Reverends does it take to create a Ghoul
+
+            $unit1Ratio = $dominion->military_unit4 / ($dominion->military_unit3 + $dominion->military_unit4);
+            $unit2Ratio = 1 - $unit1Ratio;
+
+            $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
+
+            $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable * $unit1Ratio));
+            $unit2Created = intval(min($dominion->military_unit3 / $unit3PerUnit2, $bodiesAvailable * $unit2Ratio));
+
+            $bodiesSpent = min($dominion->realm->crypt, intval($unit1Created + $unit2Created));
+
+            $tick->generated_unit1 += $unit1Created;
+            $tick->generated_unit2 += $unit2Created;
+
+            $tick->crypt_bodies_spent = $bodiesSpent;
+        }
+
+        # Use decimals as probability to round up
         $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
 
         $tick->generated_unit1 += intval($generatedUnit1) + (rand()/getrandmax() < fmod($generatedUnit1, 1) ? 1 : 0);
