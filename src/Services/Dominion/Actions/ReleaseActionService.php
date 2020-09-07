@@ -13,6 +13,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Services\NotificationService;
+use OpenDominion\Helpers\RaceHelper;
 
 class ReleaseActionService
 {
@@ -33,6 +34,9 @@ class ReleaseActionService
     /** @var NotificationService */
     protected $notificationService;
 
+    /** @var RaceHelper */
+    protected $raceHelper;
+
 
     /**
      * ReleaseActionService constructor.
@@ -44,7 +48,8 @@ class ReleaseActionService
         QueueService $queueService,
         MilitaryCalculator $militaryCalculator,
         SpellCalculator $spellCalculator,
-        NotificationService $notificationService
+        NotificationService $notificationService,
+        RaceHelper $raceHelper
       )
     {
         $this->unitHelper = $unitHelper;
@@ -52,6 +57,7 @@ class ReleaseActionService
         $this->militaryCalculator = $militaryCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->notificationService = $notificationService;
+        $this->raceHelper = $raceHelper;
     }
 
     /**
@@ -159,6 +165,10 @@ class ReleaseActionService
             {
                 $dominion->peasants += $amount;
             }
+            elseif($dominion->race->getPerkValue('gryphon_nests_generate_wild_yetis'))
+            {
+                $dominion->resource_wild_yeti += $amount;
+            }
             # Only return draftees if unit is not exempt from population.
             elseif (!$dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'does_not_count_as_population'))
             {
@@ -210,9 +220,12 @@ class ReleaseActionService
         $stringParts = ['You successfully released'];
 
         // Draftees into peasants
-        if (isset($troopsReleased['draftees'])) {
+        if (isset($troopsReleased['draftees']))
+        {
             $amount = $troopsReleased['draftees'];
-            $stringParts[] = sprintf('%s %s into the peasantry', number_format($amount), str_plural('draftee', $amount));
+            $stringParts[] = sprintf('%s %s into %s',
+                number_format($amount),
+                str_plural($this->raceHelper->getPeasantsTerm($dominion->race),$amount));
         }
 
         // Troops into draftees
@@ -232,7 +245,7 @@ class ReleaseActionService
             }
 
             $stringParts[] = generate_sentence_from_array($troopsParts);
-            $stringParts[] = 'into draftees';
+            $stringParts[] = 'into ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race));
         }
 
         return (implode(' ', $stringParts) . '.');

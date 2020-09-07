@@ -348,8 +348,27 @@ class TickService
                 # Imperial Crypt
                 $bodiesDecayed = $this->realmCalculator->getCryptBodiesDecayed($realm);
 
+                $bodiesSpent = DB::table('dominion_tick')
+                             ->join('dominions', 'dominion_tick.dominion_Id', '=', 'dominions.id')
+                             ->join('races', 'dominions.race_id', '=', 'races.id')
+                             ->select(DB::raw("SUM(crypt_bodies_spent) as cryptBodiesSpent"))
+                             ->where('dominions.round_id', '=', $realm->round->id)
+                             ->where('races.name', '=', 'Undead')
+                             ->where('dominions.protection_ticks', '=', 0)
+                             ->where('dominions.is_locked', '=', 0)
+                             ->first();
+
+                 $bodiesToRemove = intval($bodiesDecayed + $bodiesSpent->cryptBodiesSpent);
+
+                 echo "Bodies decayed: " . $bodiesDecayed . "\n";
+                 echo "Bodies spent: " . $bodiesSpent->cryptBodiesSpent . "\n";
+                 echo "Bodies to remove: " . $bodiesToRemove . "\n";
+                 echo "Crypt: " . $realm->crypt . "\n";
+
+                 $bodiesToRemove = min($bodiesToRemove, $realm->crypt);
+
                 $realm->fill([
-                    'crypt' => ($realm->crypt - $bodiesDecayed),
+                    'crypt' => ($realm->crypt - $bodiesToRemove),
                 ])->save();
             }
 
@@ -364,8 +383,10 @@ class TickService
         }
 
         // Update rankings
-        if (($this->now->hour % 6) === 0) {
-            foreach ($activeRounds as $round) {
+        if (($this->now->hour % 6) === 0)
+        {
+            foreach ($activeRounds as $round)
+            {
                 $this->updateDailyRankings($round->dominions);
 
                 Log::info(sprintf(
@@ -418,19 +439,24 @@ class TickService
         $beneficialSpells = [];
         $harmfulSpells = [];
 
-        foreach ($finished as $row) {
-            if ($row->cast_by_dominion_id == $dominion->id) {
+        foreach ($finished as $row)
+        {
+            if ($row->cast_by_dominion_id == $dominion->id)
+            {
                 $beneficialSpells[] = $row->spell;
-            } else {
+            }
+            else
+            {
                 $harmfulSpells[] = $row->spell;
             }
         }
 
-        if (!empty($beneficialSpells)) {
+        if (!empty($beneficialSpells)){
             $this->notificationService->queueNotification('beneficial_magic_dissipated', $beneficialSpells);
         }
 
-        if (!empty($harmfulSpells)) {
+        if (!empty($harmfulSpells))
+        {
             $this->notificationService->queueNotification('harmful_magic_dissipated', $harmfulSpells);
         }
 
@@ -447,15 +473,20 @@ class TickService
             ->where('hours', '<=', 0)
             ->get();
 
-        foreach ($finished->groupBy('source') as $source => $group) {
+        foreach ($finished->groupBy('source') as $source => $group)
+        {
             $resources = [];
-            foreach ($group as $row) {
+            foreach ($group as $row)
+            {
                 $resources[$row->resource] = $row->amount;
             }
 
-            if ($source === 'invasion') {
+            if ($source === 'invasion')
+            {
                 $notificationType = 'returning_completed';
-            } else {
+            }
+            else
+            {
                 $notificationType = "{$source}_completed";
             }
 
@@ -477,11 +508,13 @@ class TickService
             ['dominion_id' => $dominion->id]
         );
 
-        if ($saveHistory) {
+        if ($saveHistory)
+        {
             // Save a dominion history record
             $dominionHistoryService = app(HistoryService::class);
 
-            $changes = array_filter($tick->getAttributes(), static function ($value, $key) {
+            $changes = array_filter($tick->getAttributes(), static function ($value, $key)
+            {
                 return (
                     !in_array($key, [
                         'id',
@@ -502,11 +535,11 @@ class TickService
             {
                   $tick->{$attr} = 0;
             }
-          elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'/*, 'attrition_unit1', 'attrition_unit2', 'attrition_unit3', 'attrition_unit4'*/], true))
+            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'/*, 'attrition_unit1', 'attrition_unit2', 'attrition_unit3', 'attrition_unit4'*/], true))
             {
                   $tick->{$attr} = [];
             }
-          }
+        }
 
         // Hacky refresh for dominion
         $dominion->refresh();
