@@ -225,18 +225,20 @@ class ReleaseActionService
             $amount = $troopsReleased['draftees'];
             $stringParts[] = sprintf('%s %s into %s',
                 number_format($amount),
-                str_plural($this->raceHelper->getPeasantsTerm($dominion->race),$amount));
+                str_plural($this->raceHelper->getDrafteesTerm($dominion->race), $amount),
+                str_plural($this->raceHelper->getPeasantsTerm($dominion->race), $amount));
         }
 
         // Troops into draftees
         $troopsParts = [];
-        foreach ($troopsReleased as $unitType => $amount) {
+        foreach ($troopsReleased as $unitType => $amount)
+        {
             if ($unitType === 'draftees') {
                 continue;
             }
 
             $unitName = str_singular(strtolower($this->unitHelper->getUnitName($unitType, $dominion->race)));
-            $troopsParts[] = (number_format($amount) . ' ' . str_plural($unitName, $amount));
+            $troopsParts[] = (number_format($amount) . ' ' . ucwords(str_plural($unitName, $amount)));
         }
 
         if (!empty($troopsParts)) {
@@ -245,7 +247,7 @@ class ReleaseActionService
             }
 
             $stringParts[] = generate_sentence_from_array($troopsParts);
-            $stringParts[] = 'into ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race));
+            $stringParts[] = 'into ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race), $amount);
         }
 
         return (implode(' ', $stringParts) . '.');
