@@ -27,6 +27,8 @@ units:
     power:
       offense: 4
       defense: 0
+    perks:
+      faster_return: 3
   - name: Swordsman
     training_time: 9
     type:
@@ -50,14 +52,13 @@ units:
       platinum: 1200
       ore: 0
     power:
-      offense: 4
+      offense: 3
       defense: 5
     perks:
       counts_as_wizard_offense: 0.333
       counts_as_wizard_defense: 0.333
       offense_from_building: wizard_guild,10,5 # building type, ratio%, max
       defense_from_building: wizard_guild,10,5 # building type, ratio%, max
-      tech_production: 0.025
   - name: Spirit Warrior
     training_time: 12
     type:
@@ -70,8 +71,8 @@ units:
       platinum: 1000
       mana: 25
     power:
-      offense: 7
+      offense: 5
       defense: 0
     perks:
       immortal_on_victory: 1
-      offense_staggered_land_range: 75;1,100;1.5
+      offense_from_advancements: wizardry_tradition_level8;1,magical_weapons_level8;1,concentration_level8;1,invocations_level8;1

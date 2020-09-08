@@ -117,6 +117,8 @@ class UnitHelper
             'offense_from_spell' => 'Offense increased by %2$s if the spell %1$s is active.',
             'defense_from_spell' => 'Defense increased by %2$s if the spell %1$s is active.',
 
+            'offense_from_advancements' => 'Offense increased by %2$s if you unlock %1$s.',
+
             // Spy related
             'counts_as_spy_defense' => 'Counts as %s of a spy on defense.',
             'counts_as_spy_offense' => 'Counts as %s of a spy on offense.',
@@ -409,7 +411,7 @@ class UnitHelper
                         {
                             foreach($nestedValue as $key => $value)
                             {
-                                $nestedValue[$key] = ucwords(str_replace('_', ' ',$value));
+                                $nestedValue[$key] = ucwords(str_replace('level8','Level 8',str_replace('_', ' ',$value)));
                             }
                             $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
                         }

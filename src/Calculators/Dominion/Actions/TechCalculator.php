@@ -108,4 +108,19 @@ class TechCalculator
 
         return count(array_diff($tech->prerequisites, $unlockedTechs)) == 0;
     }
+
+
+    /**
+     * Determine if the Dominion has a tech.
+     *
+     * @param Dominion $dominion
+     * @return bool
+     */
+    public function hasTech(Dominion $dominion, Tech $tech): bool
+    {
+        $unlockedTechs = $dominion->techs->pluck('key')->all();
+
+        return in_array($tech->key, $unlockedTechs);
+    }
+
 }

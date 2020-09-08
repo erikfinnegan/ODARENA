@@ -43,7 +43,7 @@ class InvadeActionService
     /**
      * @var float Base percentage of defensive casualties
      */
-    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 3.825;
+    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 4;
 
     /**
      * @var float Max percentage of defensive casualties
@@ -710,8 +710,6 @@ class InvadeActionService
             $offensiveCasualtiesPercentage *= (1 + $this->militaryCalculator->getWizardRatio($dominion, 'offense') * 0.05);
         }
 
-
-
         $offensiveUnitsLost = [];
 
         if(array_sum($mindControlledUnits) > 0)
@@ -752,6 +750,7 @@ class InvadeActionService
                 $totalUnitsLeftToKill -= $unitsToKill;
 
                 $fixedCasualtiesPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties');
+
                 if ($fixedCasualtiesPerk)
                 {
                     $fixedCasualtiesRatio = $fixedCasualtiesPerk / 100;
@@ -849,15 +848,15 @@ class InvadeActionService
 
         $attackingForceOP = $this->invasionResult['attacker']['op'];
         $targetDP = $this->invasionResult['defender']['dp'];
-        $defensiveCasualtiesPercentage = (static::CASUALTIES_DEFENSIVE_BASE_PERCENTAGE / 100);
-
-        // Scale casualties further with invading OP vs target DP
-        $defensiveCasualtiesPercentage *= ($attackingForceOP / $targetDP);
+        $defensiveCasualtiesPercentage = (static::CASUALTIES_DEFENSIVE_BASE_PERCENTAGE / 100) * min(1, $landRatio);
 
         // Reduce casualties if target has been hit recently
         $recentlyInvadedCount = $this->invasionResult['defender']['recentlyInvadedCount'];
 
         $defensiveCasualtiesPercentage *= max(0.1, (1 - ($this->invasionResult['defender']['recentlyInvadedCount']/10)));
+
+        // Scale casualties further with invading OP vs target DP
+        $defensiveCasualtiesPercentage *= ($attackingForceOP / $targetDP);
 
         // Cap max casualties
         $defensiveCasualtiesPercentage = min(

@@ -13,6 +13,8 @@ use OpenDominion\Services\Dominion\QueueService;
 # ODA
 use Illuminate\Support\Carbon;
 use OpenDominion\Services\Dominion\GuardMembershipService;
+use OpenDominion\Models\Tech;
+use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 
 class MilitaryCalculator
 {
@@ -45,6 +47,9 @@ class MilitaryCalculator
     /** @var GuardMembershipService */
     protected $guardMembershipService;
 
+    /** @var TechCalculator */
+    protected $techCalculator;
+
     /** @var bool */
     protected $forTick = false;
 
@@ -57,6 +62,7 @@ class MilitaryCalculator
      * @param PrestigeCalculator $prestigeCalculator
      * @param QueueService $queueService
      * @param SpellCalculator $spellCalculator
+     * @param TechCalculator $spellCalculator
      */
     public function __construct(
         BuildingCalculator $buildingCalculator,
@@ -66,7 +72,8 @@ class MilitaryCalculator
         PrestigeCalculator $prestigeCalculator,
         QueueService $queueService,
         SpellCalculator $spellCalculator,
-        GuardMembershipService $guardMembershipService
+        GuardMembershipService $guardMembershipService,
+        TechCalculator $techCalculator
         )
     {
         $this->buildingCalculator = $buildingCalculator;
@@ -77,6 +84,7 @@ class MilitaryCalculator
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
         $this->guardMembershipService = $guardMembershipService;
+        $this->techCalculator = $techCalculator;
     }
 
     /**
@@ -497,6 +505,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromTimePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromSpell($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -1277,6 +1286,34 @@ class MilitaryCalculator
               {
                   $powerFromPerk = $powerVersusSpell;
               }
+          }
+
+          return $powerFromPerk;
+      }
+
+
+
+      protected function getUnitPowerFromAdvancement(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+
+          $advancementPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_advancements", null);
+          $powerFromPerk = 0;
+
+          if (!$advancementPerkData)
+          {
+              return 0;
+          }
+
+          foreach($advancementPerkData as $advancementSet)
+          {
+                $key = $advancementSet[0];
+                $power = (float)$advancementSet[1];
+                $tech = Tech::where('key', $key)->first();
+
+                if($this->techCalculator->hasTech($dominion, $tech))
+                {
+                    $powerFromPerk += $power;
+                }
           }
 
           return $powerFromPerk;
