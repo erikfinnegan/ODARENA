@@ -248,31 +248,27 @@
                 <a href="{{ route('dominion.advisors.military') }}" class="pull-right">Military Advisor</a>
             </div>
             <div class="box-body">
-                @if ($selectedDominion->race->name == 'Growth')
-                <p>Here you can mutate your {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }} into military units. Mutating Abscess and Blisters take <b>9 ticks</b> to process, while mutating Cysts and Ulcers take <b>12 ticks</b>.</p>
-                <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
 
-                @elseif ($selectedDominion->race->name == 'Myconid')
-                <p>Here you can grow your {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}  into Fruitbodies, which can then be grown into Mushrooms. The Mushrooms can be further trained into the mystical Psilocybe or the mighty Amanita.</p>
-                <p>It takes three ticks to grow Fruitbodies, six ticks to grow Mushrooms, nine ticks to grow a Psilocybe, and 12 ticks to grow an Amanita.</p>
-                <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
+              <p>
+                  Here you can
+                  @if ($selectedDominion->race->name == 'Growth')
+                  mutate
+                  @elseif ($selectedDominion->race->name == 'Myconid')
+                  grow
+                  @elseif ($selectedDominion->race->name == 'Swarm')
+                  hatch
+                  @else
+                  train
+                  @endif
+                  military units.
+              </p>
+              <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
 
-                @elseif ($selectedDominion->race->name == 'Swarm')
-                <p>Here you can hatch your {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}  into units.</p>
-                <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
-
-                @else
-                <p>Here you can train your {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}  into stronger military units. Training specialist units take <b>9 ticks</b> to process, while training your other units take <b>12 ticks</b>.</p>
-                <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
-                @endif
-
-                <p>You may also <a href="{{ route('dominion.military.release') }}">release your troops</a> if you wish.</p>
+              <p>You can also <a href="{{ route('dominion.military.release') }}">release units</a>.</p>
             </div>
-        </div>
 
-        <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Composition</h3>
+                <h3 class="box-title">Drafting</h3>
             </div>
             <form action="{{ route('dominion.military.change-draft-rate') }}" method="post" role="form">
                 @csrf

@@ -537,14 +537,6 @@ class SendUnitsActionService
             $dpMultiplierReduction = 0;
         }
 
-        // Dark Elf: Unholy Ghost (ignore draftees)
-        // Dragon: Dragon's Roar (alias of Unholy Ghost)
-        if ($this->spellCalculator->isSpellActive($attacker, 'unholy_ghost'))
-        {
-            $ignoreDraftees = true;
-            $this->invasionResult['result']['ignoreDraftees'] = $ignoreDraftees;
-        }
-
         return $this->militaryCalculator->getDefensivePower(
                                                             $target,
                                                             $attacker,

@@ -232,19 +232,11 @@ class SpellHelper
                 'races' => collect(['Orc', 'Black Orc']),
             ],
             [
-                'name' => 'Dragon\'s Roar',
-                'description' => 'Enemy draftees do not participate in battle',
-                'key' => 'unholy_ghost',
+                'name' => 'Enchanted Blades',
+                'description' => 'Enemy casualties increased by (WPA * 0.05)%.',
+                'key' => 'enchanted_blades',
                 'mana_cost' => 10,
-                'duration' => 12*4,
-                'races' => collect(['Dragon']),
-            ],
-            [
-                'name' => 'Unholy Ghost',
-                'description' => 'Enemy draftees do not participate in battle',
-                'key' => 'unholy_ghost',
-                'mana_cost' => 10,
-                'duration' => 12*4,
+                'duration' => 6,
                 'races' => collect(['Dark Elf']),
             ],
             [

@@ -24,10 +24,10 @@ perks:
   boat_capacity: -10
   yeti_spies: 1
   yeti_wizards: 1
-  ore_production: 25
-  lumber_production: 25
-  food_production: 25
-  gem_production: 25
+  ore_production: 20
+  lumber_production: 20
+  food_production: 20
+  gem_production: 20
   invest_bonus: 50
   food_decay: -25
 
@@ -64,7 +64,7 @@ units:
       no_draftee: 1
 
   - name: Guard Yeti
-    training_time: 6
+    training_time: 9
     type:
       - living
       - sentient
@@ -83,7 +83,7 @@ units:
       only_dies_vs_raw_power: 6 # >=
 
   - name: War Yeti
-    training_time: 9
+    training_time: 12
     type:
       - living
       - sentient
@@ -96,7 +96,7 @@ units:
       ore: 400
     power:
       offense: 12
-      defense: 9
+      defense: 10
     perks:
       no_draftee: 1
       only_dies_vs_raw_power: 6 # >=

@@ -17,6 +17,7 @@ perks:
   invest_bonus: 20
   mana_drain: -50
   max_population: -30
+  morale_on_successful_invasion_from_gryphon_nests: 1
 units:
   - name: Arbalist
     training_time: 9
@@ -42,13 +43,14 @@ units:
       platinum: 500
       mana: 100
     power:
-      offense: 1
+      offense: 0
       defense: 0
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
-      offense_from_pairing: 3,29 # slot, amount
+      offense_from_pairing: 3,30 # slot, amount
       fixed_casualties: 100
+      sendable_with_zero_op: 1
 
   - name: Trebuchet
     need_boat: false
@@ -75,7 +77,7 @@ units:
       - machine
     cost:
       lumber: 250
-      ore: 1000
+      ore: 750
     power:
       offense: 10
       defense: 5

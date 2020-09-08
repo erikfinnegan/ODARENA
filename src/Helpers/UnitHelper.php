@@ -118,14 +118,14 @@ class UnitHelper
             'defense_from_spell' => 'Defense increased by %2$s if the spell %1$s is active.',
 
             // Spy related
-            'counts_as_spy_defense' => 'Each unit counts as %s of a spy on defense.',
-            'counts_as_spy_offense' => 'Each unit counts as %s of a spy on offense.',
+            'counts_as_spy_defense' => 'Counts as %s of a spy on defense.',
+            'counts_as_spy_offense' => 'Counts as %s of a spy on offense.',
             'immortal_spy' => 'Immortal spy (cannot be killed when conducting espionage).',
             'minimum_spa_to_train' => 'Must have at least %s Spy Ratio (on offense) to train.',
 
             // Wizard related
-            'counts_as_wizard_defense' => 'Each unit counts as %s of a wizard on defense.',
-            'counts_as_wizard_offense' => 'Each unit counts as %s of a wizard on offense.',
+            'counts_as_wizard_defense' => 'Counts as %s of a wizard on defense.',
+            'counts_as_wizard_offense' => 'Counts as %s of a wizard on offense.',
             'immortal_wizard' => 'Immortal wizard (cannot be killed when casting spells).',
             'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio (on offense) to train.',
 

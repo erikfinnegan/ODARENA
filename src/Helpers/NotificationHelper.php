@@ -166,6 +166,11 @@ class NotificationHelper
                 'defaults' => ['email' => false, 'ingame' => true],
                 'iconClass' => 'ra ra-fairy-wand text-orange',
             ],
+            'reflected_hostile_spell' => [
+                'label' => 'Hostile spell reflected',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'iconClass' => 'ra ra-fairy-wand text-green',
+            ],
 
             # Cult
             'enthralling_occurred' => [
@@ -433,7 +438,25 @@ class NotificationHelper
             case 'irregular_dominion.received_spy_op':
                 $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
 
-                switch ($data['operationKey']) {
+                switch ($data['operationKey'])
+                {
+                    case 'barracks_spy':
+                        $resultString = 'Traces of enemy spies were detected within our barracks.';
+                        break;
+
+                    case 'castle_spy':
+                        $resultString = 'Traces of enemy spies were detected within our castle.';
+                        break;
+
+                    case 'survey_dominion':
+                        $resultString = 'Traces of enemy spies were detected amongst our buildings.';
+                        break;
+
+                    case 'land_spy':
+                        $resultString = 'Traces of enemy spies were detected amongst our lands.';
+                        break;
+
+
                     case 'assassinate_draftees':
                         $resultString = "{$data['damageString']} were killed while they slept in our barracks.";
                         break;
@@ -628,7 +651,20 @@ class NotificationHelper
             case 'irregular_dominion.received_hostile_spell':
                 $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
 
-                switch ($data['spellKey']) {
+                switch ($data['spellKey'])
+                {
+                    case 'clear_sight':
+                        $resultString = 'Traces of enemy spies were detected our advisor\'s quarters.';
+                        break;
+
+                    case 'vision':
+                        $resultString = 'Traces of enemy spies were detected our research facilities.';
+                        break;
+
+                    case 'revelation':
+                        $resultString = 'Traces of enemy spies were detected our towers.';
+                        break;
+
                     case 'plague':
                         $resultString = 'A plague has befallen our people, slowing population growth.';
                         break;
@@ -667,7 +703,7 @@ class NotificationHelper
                         break;
 
                     case 'unhealing_wounds':
-                        $resultString = "Our units return with unhealing wounds, increasing casualties and food consumption.";
+                        $resultString = "Our units report having unhealing wounds, increasing casualties and food consumption.";
                         break;
 
                     case 'purification':
@@ -716,6 +752,16 @@ class NotificationHelper
                     $sourceDominion->name,
                     $sourceDominion->realm->number,
                     $lastPart
+                );
+
+            case 'irregular_dominion.reflected_hostile_spell':
+                $sourceDominion = Dominion::with('realm')->findOrFail($data['sourceDominionId']);
+
+                return sprintf(
+                    'The energy mirror protecting our dominion has reflected a %s spell back at %s (#%s).',
+                    $this->spellHelper->getSpellInfo($data['spellKey'], $sourceDominion)['name'],
+                    $sourceDominion->name,
+                    $sourceDominion->realm->number,
                 );
 
             case 'irregular_realm.enemy_realm_declared_war':

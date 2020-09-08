@@ -447,6 +447,14 @@ class RaceHelper
                 $description = 'Wizards trained from wild yeti';
                 $booleanValue = true;
                 break;
+            case 'morale_on_successful_invasion_from_gryphon_nests':
+                $negativeBenefit = false;
+                $description = '+1% morale on successful invasions for every 1% Gryphon Nests owned (max +20%)';
+                $booleanValue = true;
+                break;
+
+
+
 
             default:
                 return null;

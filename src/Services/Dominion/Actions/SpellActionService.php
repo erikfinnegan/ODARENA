@@ -524,6 +524,16 @@ class SpellActionService
                 throw new LogicException("Unknown info op spell {$spellKey}");
         }
 
+        // Surreal Perception
+        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+            $this->notificationService
+                ->queueNotification('received_hostile_spell', [
+                    'sourceDominionId' => $dominion->id,
+                    'spellKey' => $spellKey,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
+        }
+
         $infoOp->save();
 
         $redirect = route('dominion.op-center.show', $target);
@@ -679,13 +689,13 @@ class SpellActionService
             }
         }
 
-        $spellDeflected = false;
-        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2) and !$isInvasionSpell)
-        {
-            $spellDeflected = true;
-            $deflectedBy = $target;
+        $spellReflected = false;
+        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2) and !$isInvasionSpell) {
+            $spellReflected = true;
+            $reflectedBy = $target;
             $target = $dominion;
-            $dominion = $deflectedBy;
+            $dominion = $reflectedBy;
+            #$dominion->stat_spells_reflected += 1;
         }
 
         if (isset($spellInfo['duration']))
@@ -742,25 +752,32 @@ class SpellActionService
                 ])
                 ->sendNotifications($target, 'irregular_dominion');
 
-            if ($spellDeflected) {
-                return [
-                    'success' => true,
-                    'message' => sprintf(
-                        'Your wizards cast the spell successfully, but it was deflected and it will now affect your dominion for the next %s ticks.',
-                        $spellInfo['duration']
-                    ),
-                    'alert-type' => 'danger'
-                ];
-            } else {
-                return [
-                    'success' => true,
-                    'damage' => true,
-                    'message' => sprintf(
-                        'Your wizards cast the spell successfully, and it will continue to affect your target for the next %s ticks.',
-                        $spellInfo['duration']
-                    )
-                ];
-            }
+            if ($spellReflected) {
+              // Notification for Energy Mirror deflection
+               $this->notificationService
+                   ->queueNotification('reflected_hostile_spell', [
+                       'sourceDominionId' => $target->id,
+                       'spellKey' => $spellKey,
+                   ])
+                   ->sendNotifications($dominion, 'irregular_dominion');
+
+               return [
+                   'success' => true,
+                   'message' => sprintf(
+                       'Your wizards cast the spell successfully, but it was reflected and it will now affect your dominion for the next %s hours.',
+                       $spellInfo['duration']
+                   ),
+                   'alert-type' => 'danger'
+               ];
+           } else {
+               return [
+                   'success' => true,
+                   'message' => sprintf(
+                       'Your wizards cast the spell successfully, and it will continue to affect your target for the next %s hours.',
+                       $spellInfo['duration']
+                   )
+               ];
+           }
         }
         else
         {

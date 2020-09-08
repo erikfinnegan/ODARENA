@@ -1841,7 +1841,7 @@ class MilitaryCalculator
     public function getPrestigeGainsPerk(Dominion $dominion, array $units): float
     {
         $unitsIncreasingPrestige = 0;
-        # Look for increases_morale
+        # Look for increases_prestige_gains
         foreach($units as $slot => $amount)
         {
             if($increasesPrestige = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_prestige_gains'))

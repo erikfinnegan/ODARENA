@@ -704,6 +704,14 @@ class InvadeActionService
             $offensiveCasualtiesPercentage *= 1.20;
         }
 
+        # Dark Elf: Enchanted Blades - increase offensive casualties by offensive WPA * 0.05.
+        if ($this->spellCalculator->isSpellActive($target, 'enchanted_blades'))
+        {
+            $offensiveCasualtiesPercentage *= (1 + $this->militaryCalculator->getWizardRatio($dominion, 'offense') * 0.05);
+        }
+
+
+
         $offensiveUnitsLost = [];
 
         if(array_sum($mindControlledUnits) > 0)
@@ -867,14 +875,13 @@ class InvadeActionService
             $casualtiesMultiplier += 0.2;
         }
 
-        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
-
-        // Dark Elf: Unholy Ghost
-        // alias as Dragon: Dragon's Roar
-        if ($this->spellCalculator->isSpellActive($dominion, 'unholy_ghost'))
+        # Dark Elf: Enchanted Blades - increase offensive casualties by offensive WPA * 0.05.
+        if ($this->spellCalculator->isSpellActive($dominion, 'enchanted_blades'))
         {
-            $drafteesLost = 0;
+            $casualtiesMultiplier *= (1 + $this->militaryCalculator->getWizardRatio($dominion, 'offense') * 0.05);
         }
+
+        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
 
         // Afflicted: Desecration - Triples draftee casualties (capped by target's number of draftees)
         if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
@@ -1123,6 +1130,11 @@ class InvadeActionService
                 $defenderMoraleChange = 0;
             }
 
+            if($dominion->race->getPerkValue('morale_on_successful_invasion_from_gryphon_nests'))
+            {
+                $attackerMoraleChange += intval(($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)) * 100);
+            }
+
         }
         # For failed invasions...
         else
@@ -1185,11 +1197,12 @@ class InvadeActionService
         // Racial: Apply reduced_conversions
         $totalDefensiveCasualties = $totalDefensiveCasualties * (1 - ($reduceConversions / 100));
 
-        # Remove units with fixed casualties greater than 50% or specific attributes.
+        # Remove specific attributes.
         $exemptibleUnitAttributes = [
             'ammunition',
             'equipment',
             'magical',
+            'massive',
             'mechanical',
             'ship',
           ];
@@ -1612,8 +1625,18 @@ class InvadeActionService
         # This requires that the thresholds are the same for all units.
         $unit2Range = $attacker->race->getUnitPerkValueForUnitSlot(4, 'vampiric_conversion');
 
+        # Remove specific attributes.
+        $exemptibleUnitAttributes = [
+            'ammunition',
+            'equipment',
+            'magical',
+            'mechanical',
+            'ship',
+          ];
+
         foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountKilled)
         {
+            $isUnitConvertible = true;
 
             if($slot == 'draftees')
             {
@@ -1625,43 +1648,52 @@ class InvadeActionService
                     return ($unit->slot === $slot);
                 })->first();
 
+                $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
                 $unitRawDp = $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
 
-                # Remove units with fixed casualties > 50%.
-                if($defender->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+                # Is it convertible?
+                foreach($exemptibleUnitAttributes as $exemptibleUnitAttribute)
                 {
-                    $amount = 0;
+                    if(in_array($exemptibleUnitAttribute, $unitAttributes))
+                    {
+                        $isUnitConvertible = false;
+                        break;
+                    }
                 }
             }
 
-            # If less than unit2 range, it's a unit1.
-            if($unitRawDp <= $unit2Range[0])
+            if($isUnitConvertible)
             {
-                $slotConvertedTo = 1;
-                $unitsPerConversion = 1;
-            }
-            # If it's in the unit2 range, it's a unit2.
-            elseif($unitRawDp > $unit2Range[0] and $unitRawDp < $unit2Range[1])
-            {
-                $slotConvertedTo = 2;
-                $unitsPerConversion = 1; # From 2, R29
-            }
-            # If greater than unit2 range, it's a unit3.
-            elseif($unitRawDp >= $unit2Range[1])
-            {
-                $slotConvertedTo = 3;
-                $unitsPerConversion = 1; # From 3, R29
-            }
+                # If less than unit2 range, it's a unit1.
+                if($unitRawDp <= $unit2Range[0])
+                {
+                    $slotConvertedTo = 1;
+                    $unitsPerConversion = 1;
+                }
+                # If it's in the unit2 range, it's a unit2.
+                elseif($unitRawDp > $unit2Range[0] and $unitRawDp < $unit2Range[1])
+                {
+                    $slotConvertedTo = 2;
+                    $unitsPerConversion = 1; # From 2, R29
+                }
+                # If greater than unit2 range, it's a unit3.
+                elseif($unitRawDp >= $unit2Range[1])
+                {
+                    $slotConvertedTo = 3;
+                    $unitsPerConversion = 1; # From 3, R29
+                }
 
-            $unitsConverted = min($totalVampiricConvertingUnits, $amountKilled);
-            $totalVampiricConvertingUnits -= $unitsConverted;
+                $unitsConverted = min($totalVampiricConvertingUnits, $amountKilled);
+                $totalVampiricConvertingUnits -= $unitsConverted;
 
-            if(!$this->invasionResult['result']['success'])
-            {
-                $unitsConverted /= 12;
+                if(!$this->invasionResult['result']['success'])
+                {
+                    $unitsConverted /= 12;
+                }
+
+                $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
             }
-
-            $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
 
         }
 
@@ -1726,52 +1758,71 @@ class InvadeActionService
         # This requires that the thresholds are the same for all units.
         $unit2Range = $defender->race->getUnitPerkValueForUnitSlot(4, 'vampiric_conversion');
 
+        # Remove specific attributes.
+        $exemptibleUnitAttributes = [
+            'ammunition',
+            'equipment',
+            'magical',
+            'mechanical',
+            'ship',
+          ];
+
         foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amountKilled)
         {
+
+            $isUnitConvertible = true;
 
             $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
                 return ($unit->slot === $slot);
             })->first();
 
+            $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
 
             $unitRawOp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
 
-            # Remove units with fixed casualties > 50%.
-            if($attacker->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+            # Is it convertible?
+            foreach($exemptibleUnitAttributes as $exemptibleUnitAttribute)
             {
-                $amount = 0;
+                if(in_array($exemptibleUnitAttribute, $unitAttributes))
+                {
+                    $isUnitConvertible = false;
+                    break;
+                }
             }
 
-            # If less than unit2 range, it's a unit1.
-            if($unitRawOp <= $unit2Range[0])
+            if($isUnitConvertible)
             {
-                $slotConvertedTo = 1;
-                $unitsPerConversion = 1;
-            }
-            # If it's in the unit2 range, it's a unit2.
-            elseif($unitRawOp > $unit2Range[0] and $unitRawOp < $unit2Range[1])
-            {
-                $slotConvertedTo = 2;
-                $unitsPerConversion = 1;  # From 2, R29
-            }
-            # If greater than unit2 range, it's a unit3.
-            elseif($unitRawOp >= $unit2Range[1])
-            {
-                $slotConvertedTo = 3;
-                $unitsPerConversion = 1; # From 3, R29
-            }
+                # If less than unit2 range, it's a unit1.
+                if($unitRawOp <= $unit2Range[0])
+                {
+                    $slotConvertedTo = 1;
+                    $unitsPerConversion = 1;
+                }
+                # If it's in the unit2 range, it's a unit2.
+                elseif($unitRawOp > $unit2Range[0] and $unitRawOp < $unit2Range[1])
+                {
+                    $slotConvertedTo = 2;
+                    $unitsPerConversion = 1;  # From 2, R29
+                }
+                # If greater than unit2 range, it's a unit3.
+                elseif($unitRawOp >= $unit2Range[1])
+                {
+                    $slotConvertedTo = 3;
+                    $unitsPerConversion = 1; # From 3, R29
+                }
 
-            # How many nobles are busy converting this unit?
-            $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
+                # How many nobles are busy converting this unit?
+                $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
 
-            $unitsConverted /= 3;
-
-            if($this->invasionResult['result']['success'])
-            {
                 $unitsConverted /= 3;
-            }
 
-            $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
+                if($this->invasionResult['result']['success'])
+                {
+                    $unitsConverted /= 3;
+                }
+
+                $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
+            }
 
         }
 
@@ -2994,14 +3045,6 @@ class InvadeActionService
         if ($this->spellCalculator->isSpellActive($target, 'voidspell'))
         {
             $dpMultiplierReduction = 0;
-        }
-
-        // Dark Elf: Unholy Ghost (ignore draftees)
-        // Dragon: Dragon's Roar (alias of Unholy Ghost)
-        if ($this->spellCalculator->isSpellActive($attacker, 'unholy_ghost'))
-        {
-            $ignoreDraftees = true;
-            $this->invasionResult['result']['ignoreDraftees'] = $ignoreDraftees;
         }
 
         return $this->militaryCalculator->getDefensivePower(

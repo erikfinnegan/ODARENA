@@ -14,7 +14,7 @@ class AddCryptBodiesSpentDominionTick extends Migration
     public function up()
     {
         Schema::table('dominion_tick', function (Blueprint $table) {
-            $table->integer('crypt_bodies_spent')->after('attrition_unit4');
+            $table->integer('crypt_bodies_spent')->default(0)->after('attrition_unit4');
         });
     }
 
