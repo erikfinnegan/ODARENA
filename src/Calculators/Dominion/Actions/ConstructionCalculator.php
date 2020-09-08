@@ -119,10 +119,10 @@ class ConstructionCalculator
         $constructionMaterials = $this->raceHelper->getConstructionMaterials($dominion->race);
         $barrenLand = $this->landCalculator->getTotalBarrenLand($dominion);
 
-        if(isset($constructionMaterials[0]))
-        {
+        #if(isset($constructionMaterials[0]))
+        #{
             $primaryResource = $constructionMaterials[0];
-        }
+        #}
         if(isset($constructionMaterials[1]))
         {
             $secondaryResource = $constructionMaterials[1];
