@@ -214,13 +214,7 @@
                       @endif
                     </button>
                     <div class="pull-right">
-                        @if ($selectedDominion->race->name !== 'Yeti')
-                        You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ strtolower(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race))) }} available.
-                        @endif
-
-                      @if ($selectedDominion->race->name == 'Yeti')
-                      You also have <strong>{{ number_format($selectedDominion->resource_wild_yeti) }}</strong>  wild yeti available.
-                      @endif
+                      You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ ucwords(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race))) }} available.
 
                       @if ($selectedDominion->race->name == 'Demon')
                       <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls and <strong>{{ number_format($selectedDominion->resource_blood) }}</strong> gallons of blood.
@@ -262,13 +256,13 @@
                   @endif
                   military units.
               </p>
-              <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p>
+              {{-- <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p> --}}
 
               <p>You can also <a href="{{ route('dominion.military.release') }}">release units</a>.</p>
             </div>
 
             <div class="box-header with-border">
-                <h3 class="box-title">Drafting</h3>
+                <h4 class="box-title">Drafting</h4>
             </div>
             <form action="{{ route('dominion.military.change-draft-rate') }}" method="post" role="form">
                 @csrf

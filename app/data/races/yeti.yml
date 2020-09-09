@@ -23,7 +23,6 @@ perks:
   gryphon_nests_drafts: 1
   boat_capacity: -10
   food_decay: -25
-  cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
 
@@ -39,10 +38,11 @@ units:
       food: 400
     power:
       offense: 0
-      defense: 6
+      defense: 0
     perks:
       ore_production: 0.5
       lumber_production: 0.5
+      food_consumption: 0.5
 
   - name: Wizard Yeti
     training_time: 6
@@ -51,7 +51,6 @@ units:
       - sentient
       - intelligent
       - wise
-    need_boat: true
     cost:
       food: 350
       mana: 25
@@ -61,6 +60,8 @@ units:
     perks:
       counts_as_wizard_offense: 0.2
       counts_as_wizard_defense: 0.2
+      immortal_wizard: 1
+      food_consumption: 0.25
 
   - name: Guard Yeti
     training_time: 9
@@ -79,6 +80,7 @@ units:
       defense: 12
     perks:
       only_dies_vs_raw_power: 6 # >=
+      food_consumption: 0.25
 
   - name: War Yeti
     training_time: 12
@@ -98,3 +100,4 @@ units:
     perks:
       only_dies_vs_raw_power: 6 # >=
       offense_vs_building: gryphon_nest,10,2
+      food_consumption: 0.5

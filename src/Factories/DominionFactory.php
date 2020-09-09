@@ -281,15 +281,9 @@ class DominionFactory
         // Yeti: starting yetis.
         if($race->name == 'Yeti')
         {
-          $startingResources['wild_yeti'] = 1000;
           $startingResources['ore'] += $startingResources['platinum'] * 0.5;
           $startingResources['food'] += $startingResources['platinum'] * 0.5;
           $startingResources['lumber'] += $startingResources['platinum'] * 0.5;
-
-          $startingResources['platinum'] = 0;
-          $startingResources['peasants'] = 0;
-          $startingResources['draftees'] = 0;
-          $startingResources['draft_rate'] = 0;
         }
 
         // Kerranad: starting imps.
