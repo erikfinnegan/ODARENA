@@ -190,6 +190,11 @@ class RaceHelper
                 $description = 'Wild yeti population';
                 $booleanValue = true;
                 break;
+          case 'gryphon_nests_drafts':
+                $negativeBenefit = false;
+                $description = 'Wild yetis turn into yetis';
+                $booleanValue = true;
+                break;
             case 'prestige_gains':
                 $negativeBenefit = false;
                 $description = 'Prestige gains';

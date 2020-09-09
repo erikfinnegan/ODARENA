@@ -48,25 +48,20 @@ units:
   - name: Rockapult
     training_time: 12
     type:
-      - living
-      - sentient
-      - intelligent
       - machine
     cost:
       platinum: 600
       ore: 350
     power:
       offense: 0
-      defense: 4
+      defense: 3
     perks:
       defense_from_land: mountain,20,5 # land type, ratio%, max
+      defense_from_advancements: anvils_level8;0.5,quarries_level8;0.5,infrastructure_level8;0.5
 
   - name: Juggernaut
     training_time: 12
     type:
-      - living
-      - sentient
-      - intelligent
       - machine
     cost:
       platinum: 800
@@ -76,4 +71,4 @@ units:
       defense: 4
     perks:
       plunder: ore;2,gems;0.15
-      offense_from_advancements: architecture_level8;1,infrastructure_level8;1,quarries_level8;1
+      offense_from_advancements: anvils_level8;1,quarries_level8;1,infrastructure_level8;1

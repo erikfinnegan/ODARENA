@@ -87,17 +87,6 @@ class TrainingCalculator
         # Generally, do not mess with thi sone.
         $archmageCost['trainedFrom'] = 'wizards';
 
-
-        // Yeti: spies and wizards are trained from wild yetis
-        if($dominion->race->getPerkValue('yeti_spies'))
-        {
-            $spyCost['trainedFrom'] = 'wild_yeti';
-        }
-        if($dominion->race->getPerkValue('yeti_wizards'))
-        {
-            $wizardCost['trainedFrom'] = 'wild_yeti';
-        }
-
         foreach ($this->unitHelper->getUnitTypes() as $unitType) {
             $cost = [];
 

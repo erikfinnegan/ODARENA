@@ -1,11 +1,12 @@
 name: Yeti
 alignment: independent
 description: >-
-  <p>Wild yeti are obtained through Gryphon Nests, which generate 1 wild yeti each per tick.</p>
-  <p>You start with 1,000 wild yetis.</p>
-  <p>The Yeti population is not made up of traditional peasants and draftees. Instead, wild yetis are used to train Yetis, spies, and wizards. The Yeti unit can then be trained into a Great Yeti which in turn can become a Guard Yeti or a War Yeti.</p>
+  <p>Wild yeti (<em>peasants</em>) roam the lands are turned into yetis (<em>draftees</em>) at a rate of 0.2 wild yetis into yetis per GN per tick.</p>
 home_land_type: mountain
 playable: 1
+
+peasants_alias: wild yeti
+draftees_alias: yeti
 
 attacking: 2
 exploring : 2
@@ -18,15 +19,16 @@ wizards_cost: 200,food
 archmages_cost: 400,food
 
 perks:
-  max_population: -100
-  gryphon_nests_generate_wild_yetis: 1
+  platinum_population: -100
+  gryphon_nests_drafts: 1
   boat_capacity: -10
-  yeti_spies: 1
-  yeti_wizards: 1
   food_decay: -25
+  cannot_train_spies: 1
+  cannot_train_wizards: 1
+  cannot_train_archmages: 1
 
 units:
-  - name: Spy Yeti
+  - name: Worker Yeti
     training_time: 6
     type:
       - living
@@ -34,15 +36,13 @@ units:
       - intelligent
     need_boat: true
     cost:
-      wild_yeti: 1
       food: 400
     power:
       offense: 0
       defense: 6
     perks:
-      no_draftee: 1
-      counts_as_spy_offense: 0.2
-      counts_as_spy_defense: 0.2
+      ore_production: 0.5
+      lumber_production: 0.5
 
   - name: Wizard Yeti
     training_time: 6
@@ -53,14 +53,12 @@ units:
       - wise
     need_boat: true
     cost:
-      wild_yeti: 1
       food: 350
       mana: 25
     power:
       offense: 0
       defense: 6
     perks:
-      no_draftee: 1
       counts_as_wizard_offense: 0.2
       counts_as_wizard_defense: 0.2
 
@@ -73,7 +71,6 @@ units:
       - wise
     need_boat: true
     cost:
-      wild_yeti: 1
       food: 500
       lumber: 400
       ore: 200
@@ -81,7 +78,6 @@ units:
       offense: 0
       defense: 12
     perks:
-      no_draftee: 1
       only_dies_vs_raw_power: 6 # >=
 
   - name: War Yeti
@@ -93,7 +89,6 @@ units:
       - wise
     need_boat: true
     cost:
-      wild_yeti: 1
       food: 500
       lumber: 400
       ore: 600
@@ -101,6 +96,5 @@ units:
       offense: 12
       defense: 10
     perks:
-      no_draftee: 1
       only_dies_vs_raw_power: 6 # >=
       offense_vs_building: gryphon_nest,10,2

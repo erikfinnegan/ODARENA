@@ -165,10 +165,7 @@ class ReleaseActionService
             {
                 $dominion->peasants += $amount;
             }
-            elseif($dominion->race->getPerkValue('gryphon_nests_generate_wild_yetis'))
-            {
-                $dominion->resource_wild_yeti += $amount;
-            }
+            
             # Only return draftees if unit is not exempt from population.
             elseif (!$dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'does_not_count_as_population'))
             {

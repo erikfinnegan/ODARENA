@@ -599,20 +599,33 @@ class PopulationCalculator
      */
     public function getPopulationDrafteeGrowth(Dominion $dominion): int
     {
+
         $draftees = 0;
 
-        // Values (percentages)
-        $growthFactor = 0.01;
-
-        // Racial Spell: Swarming (Ants)
-        if ($this->spellCalculator->isSpellActive($dominion, 'swarming'))
+        if($dominion->race->getPerkValue('gryphon_nests_drafts'))
         {
-            $growthFactor = 0.02;
+            if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
+            {
+                $draftees += round($dominion->building_gryphon_nest * 0.2);
+            }
         }
-
-        if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
+        else
         {
-            $draftees += round($dominion->peasants * $growthFactor);
+
+            // Values (percentages)
+            $growthFactor = 0.01;
+
+            // Racial Spell: Swarming (Ants)
+            if ($this->spellCalculator->isSpellActive($dominion, 'swarming'))
+            {
+                $growthFactor = 0.02;
+            }
+
+            if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
+            {
+                $draftees += round($dominion->peasants * $growthFactor);
+            }
+
         }
 
         return $draftees;

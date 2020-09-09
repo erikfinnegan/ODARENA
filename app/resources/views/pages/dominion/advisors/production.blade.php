@@ -135,18 +135,6 @@
                                         </td>
                                     </tr>
                                     @endif
-                                    @if ($selectedDominion->race->name == 'Yeti')
-                                    <tr>
-                                        <td>Wild yetis:</td>
-                                        <td>
-                                            @if ($wildYetiProduction = $productionCalculator->getWildYetiProduction($selectedDominion))
-                                                <span class="text-green">+{{ number_format($wildYetiProduction) }}</span>
-                                            @else
-                                                0
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endif
                                 </tbody>
                             </table>
                         </div>
