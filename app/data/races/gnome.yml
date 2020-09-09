@@ -54,7 +54,7 @@ units:
       - machine
     cost:
       platinum: 600
-      ore: 300
+      ore: 350
     power:
       offense: 0
       defense: 4
@@ -72,7 +72,8 @@ units:
       platinum: 800
       ore: 500
     power:
-      offense: 8
+      offense: 7
       defense: 4
     perks:
       plunder: ore;2,gems;0.15
+      offense_from_advancements: architecture_level8;1,infrastructure_level8;1,quarries_level8;1

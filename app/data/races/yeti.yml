@@ -20,15 +20,9 @@ archmages_cost: 400,food
 perks:
   max_population: -100
   gryphon_nests_generate_wild_yetis: 1
-  exchange_bonus: 50
   boat_capacity: -10
   yeti_spies: 1
   yeti_wizards: 1
-  ore_production: 20
-  lumber_production: 20
-  food_production: 20
-  gem_production: 20
-  invest_bonus: 50
   food_decay: -25
 
 units:
@@ -40,7 +34,7 @@ units:
     need_boat: true
     cost:
       wild_yeti: 1
-      food: 50
+      food: 100
     power:
       offense: 4
       defense: 4
@@ -56,7 +50,7 @@ units:
     need_boat: true
     cost:
       unit1: 1
-      food: 150
+      food: 200
     power:
       offense: 6
       defense: 6
@@ -73,6 +67,7 @@ units:
     need_boat: true
     cost:
       unit2: 1
+      food: 250
       lumber: 400
       ore: 200
     power:
@@ -92,6 +87,7 @@ units:
     need_boat: true
     cost:
       unit2: 1
+      food: 250
       lumber: 400
       ore: 400
     power:

@@ -411,7 +411,7 @@ class UnitHelper
                         {
                             foreach($nestedValue as $key => $value)
                             {
-                                $nestedValue[$key] = ucwords(str_replace('level8','Level 8',str_replace('_', ' ',$value)));
+                                $nestedValue[$key] = ucwords(str_replace('level','level ',str_replace('_', ' ',$value)));
                             }
                             $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
                         }
