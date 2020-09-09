@@ -26,22 +26,7 @@ perks:
   food_decay: -25
 
 units:
-  - name: Yeti
-    training_time: 3
-    type:
-      - living
-      - sentient
-    need_boat: true
-    cost:
-      wild_yeti: 1
-      food: 100
-    power:
-      offense: 4
-      defense: 4
-    perks:
-      no_draftee: 1
-
-  - name: Great Yeti
+  - name: Spy Yeti
     training_time: 6
     type:
       - living
@@ -49,13 +34,35 @@ units:
       - intelligent
     need_boat: true
     cost:
-      unit1: 1
-      food: 200
+      wild_yeti: 1
+      food: 400
     power:
-      offense: 6
+      offense: 0
       defense: 6
     perks:
       no_draftee: 1
+      counts_as_spy_offense: 0.2
+      counts_as_spy_defense: 0.2
+
+  - name: Wizard Yeti
+    training_time: 6
+    type:
+      - living
+      - sentient
+      - intelligent
+      - wise
+    need_boat: true
+    cost:
+      wild_yeti: 1
+      food: 350
+      mana: 25
+    power:
+      offense: 0
+      defense: 6
+    perks:
+      no_draftee: 1
+      counts_as_wizard_offense: 0.2
+      counts_as_wizard_defense: 0.2
 
   - name: Guard Yeti
     training_time: 9
@@ -66,8 +73,8 @@ units:
       - wise
     need_boat: true
     cost:
-      unit2: 1
-      food: 250
+      wild_yeti: 1
+      food: 500
       lumber: 400
       ore: 200
     power:
@@ -86,10 +93,10 @@ units:
       - wise
     need_boat: true
     cost:
-      unit2: 1
-      food: 250
+      wild_yeti: 1
+      food: 500
       lumber: 400
-      ore: 400
+      ore: 600
     power:
       offense: 12
       defense: 10
