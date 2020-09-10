@@ -242,7 +242,7 @@ class DominionFactory
         }
 
         // If primary resource isn't plat, give 1/4 of plat as primary resource.
-        if()
+        #if()
 
         // Growth: extra food, no platinum, no gems, no lumber, and higher draft rate.
         if($race->name == 'Growth')
