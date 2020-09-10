@@ -42,8 +42,8 @@ units:
       offense: 0
       defense: 0
     perks:
-      ore_production: 0.5
-      lumber_production: 0.5
+      ore_production: 1
+      lumber_production: 1
       food_consumption: 0.5
 
   - name: Wizard Yeti
