@@ -608,6 +608,11 @@ class PopulationCalculator
             {
                 $draftees += round($dominion->building_gryphon_nest * 0.2);
             }
+
+            if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
+            {
+                $draftees *= 4;
+            }
         }
         else
         {
