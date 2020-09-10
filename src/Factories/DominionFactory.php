@@ -190,15 +190,6 @@ class DominionFactory
 
         # RACE/FACTION SPECIFIC RESOURCES
 
-        // Gnome and Imperial Gnome: triple the ore and remove 1/4 of platinum
-/*
-        if($race->name == 'Gnome' or $race->name == 'Imperial Gnome')
-        {
-          $startingResources['ore'] = intval($startingResources['ore'] * 3);
-          $startingResources['platinum'] -= intval($startingResources['platinum'] * (1/4));
-        }
-*/
-
         // Ore-free races: no ore
         $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Marshling','Simian','Vampires','Void');
         if(in_array($race->name, $oreFreeRaces))
@@ -241,8 +232,22 @@ class DominionFactory
           $startingResources['lumber'] = 0;
         }
 
-        // If primary resource isn't plat, give 1/4 of plat as primary resource.
-        #if()
+        # Check construction materials
+        $constructionMaterials = $this->raceHelper->getConstructionMaterials($race);
+
+        // If primary resource isn't plat, give 1/10 of plat as primary resource.
+        if($constructionMaterials[0] !== 'platinum')
+        {
+            $startingResources[$constructionMaterials[0]] += $startingResources['platinum'] / 10;
+            $startingResources['platinum'] = 0;
+        }
+
+        // If secondary is set but isn't lumber, give lumber into second resource (typically ore for Gnome, IG, and Icekin)
+        if(isset($constructionMaterials[1]) and $constructionMaterials[1] !== 'lumber')
+        {
+            $startingResources[$constructionMaterials[1]] += $startingResources['lumber'];
+            $startingResources['lumber'] = 0;
+        }
 
         // Growth: extra food, no platinum, no gems, no lumber, and higher draft rate.
         if($race->name == 'Growth')
@@ -299,6 +304,8 @@ class DominionFactory
           $startingResources['food'] += $startingResources['platinum'] / 2;
           $startingResources['lumber'] += $startingResources['platinum'] / 2;
           $startingResources['platinum'] = 0;
+
+          $startingResources['draft_rate'] = 100;
         }
 
         // Kerranad: starting imps.
@@ -638,7 +645,7 @@ class DominionFactory
      */
     protected function getStartingBuildings($race, $acresBase): array
     {
-        # Non-construction races (Swarm?)
+        # Non-construction races (Swarm)
         if($race->getPerkValue('cannot_construct'))
         {
             $startingBuildings = [

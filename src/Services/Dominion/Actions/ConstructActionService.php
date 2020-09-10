@@ -142,8 +142,8 @@ class ConstructActionService
         {
             if($forestConstructionCostPerk = $dominion->race->getPerkMultiplier('forest_construction_cost') and $landType == 'forest')
             {
-                $primaryCost *= $forestConstructionCostPerk;
-                $secondaryCost *= $forestConstructionCostPerk;
+                $primaryCost = 0;
+                $secondaryCost = 0;
             }
         }
 
