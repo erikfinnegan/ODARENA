@@ -16,7 +16,7 @@ use OpenDominion\Models\User;
 
 # ODA
 use Illuminate\Support\Carbon;
-use OpenDominion\Helper\RaceHelper;
+use OpenDominion\Helpers\RaceHelper;
 
 class DominionFactory
 {
