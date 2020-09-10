@@ -348,11 +348,18 @@ class ProductionCalculator
         $consumption = 0;
         $multiplier = 0;
 
+        $consumers = $this->populationCalculator->getPopulation($dominion);
+
+        if($dominion->race->getPerkValue('gryphon_nests_drafts'))
+        {
+            $consumers -= $dominion->peasants;
+        }
+
         // Values
         $populationConsumption = 0.25;
 
         // Population Consumption
-        $consumption += ($this->populationCalculator->getPopulation($dominion) * $populationConsumption);
+        $consumption += $consumers * $populationConsumption;
 
         // Racial Bonus
         $multiplier = $dominion->race->getPerkMultiplier('food_consumption');

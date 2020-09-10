@@ -12,7 +12,7 @@ construction_materials: platinum,lumber
 
 perks:
   food_production: 5
-  max_population: 5
+  max_population: 25
   prestige_gains: 10
   salvaging: 15
 units:

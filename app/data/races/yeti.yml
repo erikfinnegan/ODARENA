@@ -35,7 +35,9 @@ units:
       - intelligent
     need_boat: true
     cost:
-      food: 200
+      food: 24
+      ore: 2
+      lumber: 2
     power:
       offense: 0
       defense: 0
@@ -52,8 +54,8 @@ units:
       - intelligent
       - wise
     cost:
-      food: 250
-      mana: 10
+      food: 220
+      mana: 8
     power:
       offense: 0
       defense: 6
