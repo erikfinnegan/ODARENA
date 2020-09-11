@@ -142,31 +142,38 @@ class RealmCalculator
     public function getCryptBodiesProportion($dominion): float
     {
 
-        $dominionDarkRiteUnits = $dominion->military_unit3 + $dominion->military_unit4;
-        $totaldarkRiteUnits = $dominion->military_unit3 + $dominion->military_unit4;
-
-        $undeads = DB::table('dominions')
-                     ->join('races', 'dominions.race_id', '=', 'races.id')
-                     ->join('realms', 'realms.id', '=', 'dominions.realm_id')
-                     ->select('dominions.id')
-                     ->where('dominions.round_id', '=', $dominion->realm->round->id)
-                     ->where('realms.id', '=', $dominion->realm->id)
-                     ->where('races.name', '=', 'Undead')
-                     ->where('dominions.protection_ticks', '=', 0)
-                     ->where('dominions.is_locked', '=', 0)
-                     ->pluck('dominions.id');
-
-        foreach($undeads as $undead)
+        if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites'))
         {
-            $undeadDominion = Dominion::findOrFail($undead);
-            if ($this->spellCalculator->isSpellActive($undeadDominion, 'dark_rites'))
-            {
-                $totaldarkRiteUnits += $undeadDominion->military_unit3 + $undeadDominion->military_unit4;
-            }
+          $dominionDarkRiteUnits = $dominion->military_unit3 + $dominion->military_unit4;
+          $totaldarkRiteUnits = max(1,$dominion->military_unit3 + $dominion->military_unit4);
+
+          $undeads = DB::table('dominions')
+                       ->join('races', 'dominions.race_id', '=', 'races.id')
+                       ->join('realms', 'realms.id', '=', 'dominions.realm_id')
+                       ->select('dominions.id')
+                       ->where('dominions.round_id', '=', $dominion->realm->round->id)
+                       ->where('realms.id', '=', $dominion->realm->id)
+                       ->where('races.name', '=', 'Undead')
+                       ->where('dominions.protection_ticks', '=', 0)
+                       ->where('dominions.is_locked', '=', 0)
+                       ->pluck('dominions.id');
+
+          foreach($undeads as $undead)
+          {
+              $undeadDominion = Dominion::findOrFail($undead);
+              if ($this->spellCalculator->isSpellActive($undeadDominion, 'dark_rites'))
+              {
+                  $totaldarkRiteUnits += $undeadDominion->military_unit3 + $undeadDominion->military_unit4;
+              }
+          }
+
+          return $dominionDarkRiteUnits / $totaldarkRiteUnits;
+
         }
-
-        return $dominionDarkRiteUnits / $totaldarkRiteUnits;
-
+        else
+        {
+            return 0.0;
+        }
 
     }
 

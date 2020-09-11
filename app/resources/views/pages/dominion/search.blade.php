@@ -113,6 +113,9 @@
                                             @endif
 
                                             <a href="{{ route('dominion.op-center.show', $dominion) }}">{{ $dominion->name }}</a>
+                                            @if($dominion->id === $selectedDominion->id)
+                                            <span class="label label-primary">You</span>
+                                            @endif
                                         </td>
                                         <td class="text-center">
                                             {{ $dominion->realm->number }}

@@ -345,31 +345,37 @@ class TickService
 
             foreach($realms as $realm)
             {
-                # Imperial Crypt
-                $bodiesDecayed = $this->realmCalculator->getCryptBodiesDecayed($realm);
 
-                $bodiesSpent = DB::table('dominion_tick')
-                             ->join('dominions', 'dominion_tick.dominion_Id', '=', 'dominions.id')
-                             ->join('races', 'dominions.race_id', '=', 'races.id')
-                             ->select(DB::raw("SUM(crypt_bodies_spent) as cryptBodiesSpent"))
-                             ->where('dominions.round_id', '=', $realm->round->id)
-                             ->where('races.name', '=', 'Undead')
-                             ->where('dominions.protection_ticks', '=', 0)
-                             ->where('dominions.is_locked', '=', 0)
-                             ->first();
+                if($realm->crypt > 0)
+                {
+                    # Imperial Crypt: handle decay (handleDecay)
+                    $bodiesDecayed = $this->realmCalculator->getCryptBodiesDecayed($realm);
 
-                 $bodiesToRemove = intval($bodiesDecayed + $bodiesSpent->cryptBodiesSpent);
+                    $bodiesSpent = DB::table('dominion_tick')
+                                 ->join('dominions', 'dominion_tick.dominion_Id', '=', 'dominions.id')
+                                 ->join('races', 'dominions.race_id', '=', 'races.id')
+                                 ->select(DB::raw("SUM(crypt_bodies_spent) as cryptBodiesSpent"))
+                                 ->where('dominions.round_id', '=', $realm->round->id)
+                                 ->where('races.name', '=', 'Undead')
+                                 ->where('dominions.protection_ticks', '=', 0)
+                                 ->where('dominions.is_locked', '=', 0)
+                                 ->first();
 
-                 echo "Bodies decayed: " . $bodiesDecayed . "\n";
-                 echo "Bodies spent: " . $bodiesSpent->cryptBodiesSpent . "\n";
-                 echo "Bodies to remove: " . $bodiesToRemove . "\n";
-                 echo "Crypt: " . $realm->crypt . "\n";
+                     $bodiesToRemove = intval($bodiesDecayed + $bodiesSpent->cryptBodiesSpent);
 
-                 $bodiesToRemove = min($bodiesToRemove, $realm->crypt);
+                     $cryptLogString .= "Bodies decayed: " . $bodiesDecayed . ". ";
+                     $cryptLogString .= "Bodies spent: " . $bodiesSpent->cryptBodiesSpent . ". ";
+                     $cryptLogString .= "Bodies to remove: " . $bodiesToRemove . ". ";
+                     $cryptLogString .= "Crypt: " . $realm->crypt . ". ";
 
-                $realm->fill([
-                    'crypt' => ($realm->crypt - $bodiesToRemove),
-                ])->save();
+                     $bodiesToRemove = min($bodiesToRemove, $realm->crypt);
+
+                    $realm->fill([
+                        'crypt' => ($realm->crypt - $bodiesToRemove),
+                    ])->save();
+
+                    Log::info($cryptLogString);
+                }
             }
 
             Log::info(sprintf(
@@ -850,26 +856,33 @@ class TickService
         }
 
         # Imperial Crypt: Dark Rites units
-        if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 > 0 or $dominion->military_unit4 > 0))
+        if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
         {
+            # What portion of the Crypt bodies is available to this dominion?
             $cryptProportion = $this->realmCalculator->getCryptBodiesProportion($dominion);
 
-            $unit4PerUnit1 = 1; # How many Wraiths does it take to create a Skeleton
-            $unit3PerUnit2 = 1; # How many Reverends does it take to create a Ghoul
+            # Determine how many bodies are available to this dominion.
+            $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
 
+            $unit4PerUnit1 = 10; # How many Wraiths does it take to create a Skeleton
+            $unit3PerUnit2 = 10; # How many Reverends does it take to create a Ghoul
+
+            # Of the available bodies, how many become Skeletons (unit1) and how many become Ghouls (unit2)?
             $unit1Ratio = $dominion->military_unit4 / ($dominion->military_unit3 + $dominion->military_unit4);
             $unit2Ratio = 1 - $unit1Ratio;
 
-            $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
-
+            # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
             $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable * $unit1Ratio));
             $unit2Created = intval(min($dominion->military_unit3 / $unit3PerUnit2, $bodiesAvailable * $unit2Ratio));
 
+            # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
             $bodiesSpent = min($dominion->realm->crypt, intval($unit1Created + $unit2Created));
 
+            # Prepare the units for queue.
             $tick->generated_unit1 += $unit1Created;
             $tick->generated_unit2 += $unit2Created;
 
+            # Prepare the bodies for removal.
             $tick->crypt_bodies_spent = $bodiesSpent;
         }
 

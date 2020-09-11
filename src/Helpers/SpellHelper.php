@@ -197,7 +197,7 @@ class SpellHelper
                 'key' => 'miners_sight',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Dwarf', 'Gnome', 'Artillery']),
+                'races' => collect(['Dwarf', 'Gnome', 'Artillery', 'Dragon']),
             ],
             [
                 'name' => 'Killing Rage',
