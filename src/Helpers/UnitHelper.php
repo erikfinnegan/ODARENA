@@ -118,7 +118,7 @@ class UnitHelper
             'defense_from_spell' => 'Defense increased by %2$s if the spell %1$s is active.',
 
             'offense_from_advancements' => 'Offense increased by %2$s if you unlock %1$s.',
-            'defense_from_advancements' => 'Offense increased by %2$s if you unlock %1$s.',
+            'defense_from_advancements' => 'Defense increased by %2$s if you unlock %1$s.',
 
             // Spy related
             'counts_as_spy_defense' => 'Counts as %s of a spy on defense.',
