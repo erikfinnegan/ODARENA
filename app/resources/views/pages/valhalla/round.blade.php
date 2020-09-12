@@ -237,15 +237,15 @@
                 </div>
                 <div class="col-sm-4 text-center">
                     <h4>Wizards</h4>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-wizards-spent-training']) }}">Most Trained</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-wizards-spent-training']) }}">Most Lost</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-wizards-spent-building']) }}">Most Spent Training</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-wizards-trained']) }}">Most Trained</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-wizards-lost']) }}">Most Lost</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-wizards-spent-training']) }}">Most Spent Training</a><br>
                 </div>
                 <div class="col-sm-4 text-center">
                     <h4>Archmages</h4>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-archmages-spent-training']) }}">Most Trained</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-archmages-spent-training']) }}">Most Lost</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-archmages-spent-building']) }}">Most Spent Training</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-archmages-trained']) }}">Most Trained</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-archmages-lost']) }}">Most Lost</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-archmages-spent-training']) }}">Most Spent Training</a><br>
                 </div>
             </div>
 
