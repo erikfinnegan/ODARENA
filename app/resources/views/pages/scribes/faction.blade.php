@@ -45,7 +45,9 @@
                                     $materials = count($constructionMaterials);
                                 @endphp
 
-                                @if($materials === 1)
+                                @if($race->getPerkValue('cannot_construct'))
+                                    <em>Cannot construct buildings.</em>
+                                @elseif($materials === 1)
                                     <b>Resource</b>: {{ ucwords($constructionMaterials[0]) }}<br>
                                 @else
                                     <b>Primary</b>: {{ ucwords($constructionMaterials[0]) }}<br>

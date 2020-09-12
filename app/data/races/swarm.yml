@@ -12,7 +12,7 @@ attacking: 2
 exploring : 2
 converting: 1
 
-construction_materials:
+construction_materials: platinum,lumber
 
 perks:
   extra_barren_max_population: 27
