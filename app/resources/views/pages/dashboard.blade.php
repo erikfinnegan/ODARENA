@@ -68,7 +68,7 @@
                                         <td>
                                             @if ($dominion->isSelectedByAuthUser())
                                                 <a href="{{ route('dominion.status') }}">{{ $dominion->name }}</a>
-                                                <span class="label label-success">Selected</span>
+                                                <span class="label label-muted">Selected</span>
 
                                                 @if (!$dominion->round->hasStarted())
                                                     <span class="label label-warning">Starting soon</span>
@@ -82,6 +82,10 @@
                                                         <span class="label label-warning">Starting soon</span>
                                                     @endif
                                                 </form>
+                                            @endif
+
+                                            @if($dominion-isLocked())
+                                                <span class="label label-warning">Finished</span>
                                             @endif
                                         </td>
                                         <td class="text-center">
