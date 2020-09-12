@@ -81,10 +81,6 @@
                                                     @if (!$dominion->round->hasStarted())
                                                         <span class="label label-warning">Starting soon</span>
                                                     @endif
-
-                                                    @if ($dominion->isLocked())
-                                                        <span class="label label-danger">Finished</span>
-                                                    @endif
                                                 </form>
                                             @endif
                                         </td>
