@@ -1015,7 +1015,7 @@ class InvadeActionService
 
                         $dragonOpRatio = ($units[4] * 1000 / $rawOp);
 
-                        if($dragonOpRatio > 0.85)
+                        if($dragonOpRatio > 0.90)
                         {
                             $this->invasionResult['attacker']['furnace_maws'] = true;
                             $builtBuildingsToDestroy = min($builtBuildingsToDestroy * 1.10, $target->{'building_'.$buildingType});

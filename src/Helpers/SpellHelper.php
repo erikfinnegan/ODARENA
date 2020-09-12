@@ -541,7 +541,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Furnace Maws',
-                'description' => 'Destroy up to 10% additional buildings when successfully invading someone, if buildings are built with lumber. Dragons must account for at least 85% of the offensive power.',
+                'description' => 'Destroy up to 10% additional buildings when successfully invading someone, if buildings are built with lumber. Dragons must account for at least 90% of the offensive power.',
                 'key' => 'furnace_maws',
                 'mana_cost' => 6,
                 'duration' => 2,
