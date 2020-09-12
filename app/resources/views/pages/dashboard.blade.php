@@ -68,24 +68,19 @@
                                         <td>
                                             @if ($dominion->isSelectedByAuthUser())
                                                 <a href="{{ route('dominion.status') }}">{{ $dominion->name }}</a>
-                                                <span class="label label-muted">Selected</span>
-
-                                                @if (!$dominion->round->hasStarted())
-                                                    <span class="label label-warning">Starting soon</span>
-                                                @endif
+                                                <span class="label label-success">Selected</span>
                                             @else
                                                 <form action="{{ route('dominion.select', $dominion) }}" method="post">
                                                     @csrf
                                                     <button type="submit" class="btn btn-link" style="padding: 0;">{{ $dominion->name }}</button>
-
-                                                    @if (!$dominion->round->hasStarted())
-                                                        <span class="label label-warning">Starting soon</span>
-                                                    @endif
-                                                </form>
                                             @endif
 
-                                            @if($dominion-isLocked())
-                                                <span class="label label-warning">Finished</span>
+                                            @if (!$dominion->round->hasStarted())
+                                                <span class="label label-success">Starting soon</span>
+                                            @endif
+
+                                            @if($dominion->isLocked())
+                                                <span class="label label-info">Finished</span>
                                             @endif
                                         </td>
                                         <td class="text-center">
