@@ -67,7 +67,7 @@ units:
       platinum: 800
       ore: 500
     power:
-      offense: 7
+      offense: 6
       defense: 4
     perks:
       plunder: ore;2,gems;0.15
