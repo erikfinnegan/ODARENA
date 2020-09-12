@@ -540,11 +540,11 @@ class SpellHelper
                 'races' => collect(['Undead']),
             ],
             [
-                'name' => "Dragon's Delight",
-                'description' => 'Improvement points from gems increased by ((Dragons * 2.5)/Land)%. Only Dragons currently at home count.',
-                'key' => 'dragons_delight',
-                'mana_cost' => 8,
-                'duration' => 12*2,
+                'name' => 'Furnace Maws',
+                'description' => 'Destroy up to 10% additional buildings when successfully invading someone, if buildings are built with lumber. Dragons must account for at least 85% of the offensive power.',
+                'key' => 'furnace_maws',
+                'mana_cost' => 6,
+                'duration' => 2,
                 'races' => collect(['Dragon']),
             ],
         ]);

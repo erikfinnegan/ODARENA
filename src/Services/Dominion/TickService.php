@@ -363,6 +363,7 @@ class TickService
 
                      $bodiesToRemove = intval($bodiesDecayed + $bodiesSpent->cryptBodiesSpent);
 
+                     $cryptLogString = '[CRYPT]';
                      $cryptLogString .= "Bodies decayed: " . $bodiesDecayed . ". ";
                      $cryptLogString .= "Bodies spent: " . $bodiesSpent->cryptBodiesSpent . ". ";
                      $cryptLogString .= "Bodies to remove: " . $bodiesToRemove . ". ";

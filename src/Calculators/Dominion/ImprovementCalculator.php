@@ -236,12 +236,6 @@ class ImprovementCalculator
                 $multiplier += 0.10;
             }
 
-            # Dragon: Spell (increase imp points by 10%)
-            if($resource == 'gems' and $this->spellCalculator->isSpellActive($dominion, 'dragons_delight'))
-            {
-                $multiplier += ($dominion->military_unit4 * 2.5) / $this->landCalculator->getTotalLand($dominion);
-            }
-
             return $multiplier;
         }
     }

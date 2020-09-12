@@ -30,6 +30,7 @@ use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Calculators\Dominion\ConversionCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Helpers\RaceHelper;
 
 class InvadeActionService
 {
@@ -137,6 +138,9 @@ class InvadeActionService
     /** @var PopulationCalculator */
     protected $populationCalculator;
 
+    /** @var RaceHelpe */
+    protected $raceHelper;
+
     // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
     // a bit hacky with getting new data between $dominion/$target->save()s
 
@@ -195,7 +199,8 @@ class InvadeActionService
         TrainingCalculator $trainingCalculator,
         GuardMembershipService $guardMembershipService,
         ConversionCalculator $conversionCalculator,
-        PopulationCalculator $populationCalculator
+        PopulationCalculator $populationCalculator,
+        RaceHelper $raceHelper
     ) {
         $this->buildingCalculator = $buildingCalculator;
         $this->casualtiesCalculator = $casualtiesCalculator;
@@ -216,6 +221,7 @@ class InvadeActionService
         $this->guardMembershipService = $guardMembershipService;
         $this->conversionCalculator = $conversionCalculator;
         $this->populationCalculator = $populationCalculator;
+        $this->raceHelper = $raceHelper;
     }
 
     /**
@@ -454,7 +460,7 @@ class InvadeActionService
             $this->handleReturningUnits($dominion, $survivingUnits, $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
 
             $this->handleMoraleChanges($dominion, $target, $landRatio);
-            $this->handleLandGrabs($dominion, $target, $landRatio);
+            $this->handleLandGrabs($dominion, $target, $landRatio, $units);
             $this->handleResearchPoints($dominion, $target, $units);
 
             $this->handleInvasionSpells($dominion, $target);
@@ -494,7 +500,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -946,7 +952,7 @@ class InvadeActionService
      * @param Dominion $dominion
      * @param Dominion $target
      */
-    protected function handleLandGrabs(Dominion $dominion, Dominion $target, float $landRatio): void
+    protected function handleLandGrabs(Dominion $dominion, Dominion $target, float $landRatio, array $units): void
     {
         // Nothing to grab if invasion isn't successful :^)
         if (!$this->invasionResult['result']['success'])
@@ -987,18 +993,39 @@ class InvadeActionService
             // Destroy buildings
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
             {
+
+                # What are the buildings made out of?
+                $constructionMaterials = $this->raceHelper->getConstructionMaterials($target->race);
+                if (isset($constructionMaterials[1]) and $constructionMaterials[1] === 'lumber' and $this->spellCalculator->isSpellActive($dominion, 'furnace_maws'))
+                {
+                    # Ensure Dragons account for at least 85% of the raw OP sent.
+                    if(isset($units[4]))
+                    {
+                        $rawOp = 0;
+                        foreach($units as $slot => $amount)
+                        {
+                            $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                                return ($unit->slot == $slot);
+                            })->first();
+
+                            $rawOp += $this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') * $amount;
+                        }
+
+                        $dragonOpRatio = ($units[4] * 1000 / $rawOp);
+
+                        if($dragonOpRatio > 0.85)
+                        {
+                            $this->invasionResult['attacker']['furnace_maws'] = true;
+                            $buildingsLost = min($buildingsLost * 1.10, $target->{'building_'.$buildingType});
+                        }
+                    }
+                }
+
                 $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
                 $resourceName = "building_{$buildingType}";
                 $target->$resourceName -= $builtBuildingsToDestroy;
 
-                #if (isset($this->invasionResult['defender']['buildingsLost'][$buildingType]))
-                #{
-                #    $this->invasionResult['defender']['buildingsLost'][$buildingType] += $buildingsLost;
-                #}
-                #else
-                #{
-                    $this->invasionResult['defender']['buildingsLost'][$buildingType] = $buildingsLost;
-                #}
+                $this->invasionResult['defender']['buildingsLost'][$buildingType] = $buildingsLost;
 
                 $buildingsInQueueToRemove = $buildingsLost['buildingsInQueueToRemove'];
 
@@ -1008,49 +1035,22 @@ class InvadeActionService
                 }
             }
 
-            #$landGained = ($landConquered[$landType] + $landDiscovered[$landType] + $extraLandDiscovered[$landType]);
-
             if (!isset($landGainedPerLandType["land_{$landType}"]))
             {
                 $landGainedPerLandType["land_{$landType}"] = 0;
             }
 
-            #$landGainedPerLandType["land_{$landType}"] += $landGained;
             $landGainedPerLandType["land_{$landType}"] += $landLost;
 
-            # Attacker: Land Conquered
-            #if(isset($this->invasionResult['attacker']['landConquered'][$landType]))
-            #{
-            #    $this->invasionResult['attacker']['landConquered'][$landType] += $landConquered;
-            #}
-            #else
-            #{
-                $this->invasionResult['attacker']['landConquered'][$landType] = $landLost;
-            #}
+            $this->invasionResult['attacker']['landConquered'][$landType] = $landLost;
 
-            # Attacker: Land Generated
-            #if(isset($this->invasionResult['attacker']['landDiscovered'][$landType]))
-            #{
-            #    $this->invasionResult['attacker']['landDiscovered'][$landType] += $landDiscovered;
-            #}
-            #else
-            #{
             if($discoverLand)
             {
                 $this->invasionResult['attacker']['landDiscovered'][$landType] = $landLost;
                 $landGainedPerLandType["land_{$landType}"] += $landLost;
             }
-            #}
 
-            # Defender: Land Lost
-            #if(isset($this->invasionResult['defender']['landLost'][$landType]))
-            #{
-            #    $this->invasionResult['defender']['landLost'][$landType] += $landConquered;
-            #}
-            #else
-            #{
-                $this->invasionResult['defender']['landLost'][$landType] = $landLost;
-            #}
+            $this->invasionResult['defender']['landLost'][$landType] = $landLost;
 
         }
         $this->invasionResult['attacker']['extraLandDiscovered'][$dominion->race->home_land_type] = $extraLandDiscovered;
@@ -2557,8 +2557,6 @@ class InvadeActionService
     # Add casualties to the Imperial Crypto.
     protected function handleCrypt(Dominion $attacker, Dominion $defender, array $offensiveConversions, array $defensiveConversions): void
     {
-
-        #dd($defensiveConversions, $offensiveConversions);
 
         if($attacker->race->alignment === 'evil' or $defender->race->alignment === 'evil')
         {
