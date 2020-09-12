@@ -192,12 +192,12 @@ class SpellHelper
                 'races' => collect(['Sacred Order']),
             ],
             [
-                'name' => 'Miner\'s Sight',
+                'name' => "Miner's Sight",
                 'description' => '+10% ore and +5% gem production',
                 'key' => 'miners_sight',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Dwarf', 'Gnome', 'Artillery', 'Dragon']),
+                'races' => collect(['Dwarf', 'Gnome', 'Artillery']),
             ],
             [
                 'name' => 'Killing Rage',
@@ -538,6 +538,14 @@ class SpellHelper
                 'mana_cost' => 10,
                 'duration' => 12*2,
                 'races' => collect(['Undead']),
+            ],
+            [
+                'name' => 'Dark Rites',
+                'description' => 'Taking bodies from the Imperial Crypt, each Wraith turns up to one body into a Skeleton and each Revenant turns up to one body in a Ghoul, until the spell expires or until there are no bodies left in the crypt.',
+                'key' => 'dark_rites',
+                'mana_cost' => 10,
+                'duration' => 12*2,
+                'races' => collect(['Dragon']),
             ],
         ]);
     }

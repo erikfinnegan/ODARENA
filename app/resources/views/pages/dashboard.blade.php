@@ -46,12 +46,16 @@
                                 <col>
                                 <col width="200">
                                 <col width="80">
+                                <col width="80">
+                                <col width="80">
                             </colgroup>
                             <thead>
                                 <tr>
                                     <th class="text-center">Round</th>
                                     <th>Dominion</th>
                                     <th class="text-center">Faction</th>
+                                    <th class="text-center">Land</th>
+                                    <th class="text-center">Networth</th>
                                     <th class="text-center">Realm</th>
                                 </tr>
                             </thead>
@@ -68,10 +72,6 @@
 
                                                 @if (!$dominion->round->hasStarted())
                                                     <span class="label label-warning">Starting soon</span>
-                                                @endif
-
-                                                @if ($dominion->isLocked())
-                                                    <span class="label label-danger">Finished</span>
                                                 @endif
                                             @else
                                                 <form action="{{ route('dominion.select', $dominion) }}" method="post">
@@ -90,6 +90,12 @@
                                         </td>
                                         <td class="text-center">
                                             {{ $dominion->race->name }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ number_format($landCalculator->getTotalLand($dominion)) }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ number_format($networthCalculator->getDominionNetworth($dominion)) }}
                                         </td>
                                         <td class="text-center">
                                             #{{ $dominion->realm->number }}: {{ $dominion->realm->name }}
