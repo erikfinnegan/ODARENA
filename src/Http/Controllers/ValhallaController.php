@@ -111,6 +111,71 @@ class ValhallaController extends AbstractController
             case 'stat-masters-of-earth': $data = $this->getDominionsByStatistic($round, 'stat_earthquake_hours'); break;
             case 'stat-top-spy-disbanders': $data = $this->getDominionsByStatistic($round, 'stat_disband_spies_damage'); break;
 
+            # ODA NEW
+            case 'stat-total-units-killed': $data = $this->getDominionsByStatistic($round, 'stat_total_units_killed'); break;
+            case 'stat-total-units-converted': $data = $this->getDominionsByStatistic($round, 'stat_total_units_converted'); break;
+            case 'stat-total-land-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_land_lost'); break;
+
+
+            case 'stat-total-platinum-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_spent_training'); break;
+            case 'stat-total-platinum-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_spent_building'); break;
+            case 'stat-total-platinum-spent-rezoning': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_spent_rezoning'); break;
+            case 'stat-total-platinum-spent-exploring': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_spent_exploring'); break;
+            case 'stat-total-platinum-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_spent_improving'); break;
+            case 'stat-total-platinum-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_plundered'); break;
+            case 'stat-total-platinum-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_salvaged'); break;
+
+            case 'stat-total-food-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_food_spent_training'); break;
+            case 'stat-total-food-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_food_spent_building'); break;
+            case 'stat-total-food-spent-rezoning': $data = $this->getDominionsByStatistic($round, 'stat_total_food_spent_rezoning'); break;
+            case 'stat-total-food-spent-exploring': $data = $this->getDominionsByStatistic($round, 'stat_total_food_spent_exploring'); break;
+            case 'stat-total-food-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_food_spent_improving'); break;
+            case 'stat-total-food-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_food_plundered'); break;
+            case 'stat-total-food-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_food_salvaged'); break;
+            case 'stat-total-food-decayed': $data = $this->getDominionsByStatistic($round, 'stat_total_food_decayed'); break;
+            case 'stat-total-food-consumed': $data = $this->getDominionsByStatistic($round, 'stat_total_food_consumed'); break;
+
+            case 'stat-total-ore-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_spent_training'); break;
+            case 'stat-total-ore-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_spent_building'); break;
+            case 'stat-total-ore-spent-rezoning': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_spent_rezoning'); break;
+            case 'stat-total-ore-spent-exploring': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_spent_exploring'); break;
+            case 'stat-total-ore-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_spent_improving'); break;
+            case 'stat-total-ore-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_plundered'); break;
+            case 'stat-total-ore-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_salvaged'); break;
+
+            case 'stat-total-lumber-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_spent_training'); break;
+            case 'stat-total-lumber-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_spent_building'); break;
+            case 'stat-total-lumber-spent-rezoning': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_spent_rezoning'); break;
+            case 'stat-total-lumber-spent-exploring': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_spent_exploring'); break;
+            case 'stat-total-lumber-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_spent_improving'); break;
+            case 'stat-total-lumber-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_plundered'); break;
+            case 'stat-total-lumber-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_salvaged'); break;
+            case 'stat-total-lumber-rotted': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_rotted'); break;
+
+            case 'stat-total-gem-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_spent_training'); break;
+            case 'stat-total-gem-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_spent_building'); break;
+            case 'stat-total-gem-spent-rezoning': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_spent_rezoning'); break;
+            case 'stat-total-gem-spent-exploring': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_spent_exploring'); break;
+            case 'stat-total-gem-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_spent_improving'); break;
+            case 'stat-total-gem-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_gems_plundered'); break;
+            case 'stat-total-gem-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_salvaged'); break;
+
+            case 'stat-total-mana-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_training'); break;
+            case 'stat-total-mana-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_building'); break;
+            case 'stat-total-mana-spent-rezoning': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_rezoning'); break;
+            case 'stat-total-mana-spent-exploring': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_exploring'); break;
+            case 'stat-total-mana-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_improving'); break;
+            case 'stat-total-mana-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_plundered'); break;
+            case 'stat-total-mana-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_salvaged'); break;
+            case 'stat-total-mana-drained': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_drained'); break;
+            case 'stat-total-mana-cast': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_cast'); break;
+
+
+            case 'stat-total-champion-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_champion_spent_training'); break;
+            case 'stat-total-soul-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_champion_soul_training'); break;
+            case 'stat-total-soul-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_champion_soul_improving'); break;
+
+
             default:
                 if (!preg_match('/(strongest|largest|stat)-([-\w]+)/', $type, $matches)) {
                     return redirect()->back()
