@@ -500,7 +500,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            dd($this->invasionResult);
+            #dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -994,6 +994,8 @@ class InvadeActionService
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
             {
 
+                $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
+
                 # What are the buildings made out of?
                 $constructionMaterials = $this->raceHelper->getConstructionMaterials($target->race);
                 if (isset($constructionMaterials[1]) and $constructionMaterials[1] === 'lumber' and $this->spellCalculator->isSpellActive($dominion, 'furnace_maws'))
@@ -1016,16 +1018,17 @@ class InvadeActionService
                         if($dragonOpRatio > 0.85)
                         {
                             $this->invasionResult['attacker']['furnace_maws'] = true;
-                            $buildingsLost = min($buildingsLost * 1.10, $target->{'building_'.$buildingType});
+                            $builtBuildingsToDestroy = min($builtBuildingsToDestroy * 1.10, $target->{'building_'.$buildingType});
                         }
                     }
                 }
 
-                $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
                 $resourceName = "building_{$buildingType}";
                 $target->$resourceName -= $builtBuildingsToDestroy;
 
                 $this->invasionResult['defender']['buildingsLost'][$buildingType] = $buildingsLost;
+
+
 
                 $buildingsInQueueToRemove = $buildingsLost['buildingsInQueueToRemove'];
 
@@ -1067,8 +1070,6 @@ class InvadeActionService
         $this->landLost = $landConquered;
 
         $queueData = $landGainedPerLandType;
-
-        #var_dump($queueData);
 
         $this->queueService->queueResources(
             'invasion',
