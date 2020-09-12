@@ -90,7 +90,7 @@
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-spent-exploring']) }}">Most Spent Exploring</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-spent-improving']) }}">Most Spent Improving</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-plundered']) }}">Most Plundered</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-salvaged']) }}">Most Salvaged</a><br>
+                    {{--<a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-salvaged']) }}">Most Salvaged</a><br>--}}
                 </div>
                 <div class="col-sm-4 text-center">
                     <h4>Food</h4>
@@ -100,7 +100,7 @@
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-spent-exploring']) }}">Most Spent Exploring</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-spent-improving']) }}">Most Spent Improving</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-plundered']) }}">Most Plundered</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-salvaged']) }}">Most Salvaged</a><br>
+                    {{--<a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-salvaged']) }}">Most Salvaged</a><br>--}}
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-decayed']) }}">Most Decayed</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-consumed']) }}">Most Consumed</a><br>
                 </div>
