@@ -166,7 +166,7 @@ class ValhallaController extends AbstractController
             case 'stat-total-mana-spent-exploring': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_exploring'); break;
             case 'stat-total-mana-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_improving'); break;
             case 'stat-total-mana-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_plundered'); break;
-            case 'stat-total-mana-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_salvaged'); break;
+            #case 'stat-total-mana-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_salvaged'); break;
             case 'stat-total-mana-drained': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_drained'); break;
             case 'stat-total-mana-cast': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_cast'); break;
 

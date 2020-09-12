@@ -148,7 +148,7 @@
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-mana-spent-exploring']) }}">Most Spent Exploring</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-mana-spent-improving']) }}">Most Spent Improving</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-mana-plundered']) }}">Most Plundered</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-mana-salvaged']) }}">Most Salvaged</a><br>
+                    {{--<a href="{{ route('valhalla.round.type', [$round, 'stat-total-mana-salvaged']) }}">Most Salvaged</a><br>--}}
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-mana-drained']) }}">Most Drained</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-mana-cast']) }}">Most Cast</a><br>
                 </div>
