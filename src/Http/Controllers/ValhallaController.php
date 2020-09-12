@@ -172,8 +172,8 @@ class ValhallaController extends AbstractController
 
 
             case 'stat-total-champion-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_champion_spent_training'); break;
-            case 'stat-total-soul-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_champion_soul_training'); break;
-            case 'stat-total-soul-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_champion_soul_improving'); break;
+            case 'stat-total-soul-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_soul_spent_training'); break;
+            case 'stat-total-soul-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_soul_spent_improving'); break;
 
 
             default:
