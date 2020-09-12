@@ -170,10 +170,39 @@ class ValhallaController extends AbstractController
             case 'stat-total-mana-drained': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_drained'); break;
             case 'stat-total-mana-cast': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_cast'); break;
 
-
             case 'stat-total-champion-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_champion_spent_training'); break;
             case 'stat-total-soul-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_soul_spent_training'); break;
             case 'stat-total-soul-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_soul_spent_improving'); break;
+
+
+            case 'stat-total-unit1-trained': $data = $this->getDominionsByStatistic($round, 'stat_total_unit1_trained'); break;
+            case 'stat-total-unit1-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_unit1_lost'); break;
+            case 'stat-total-unit1-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_unit1_spent_training'); break;
+
+            case 'stat-total-unit2-trained': $data = $this->getDominionsByStatistic($round, 'stat_total_unit2_trained'); break;
+            case 'stat-total-unit2-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_unit2_lost'); break;
+            case 'stat-total-unit2-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_unit2_spent_training'); break;
+
+            case 'stat-total-unit3-trained': $data = $this->getDominionsByStatistic($round, 'stat_total_unit3_trained'); break;
+            case 'stat-total-unit3-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_unit3_lost'); break;
+            case 'stat-total-unit3-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_unit3_spent_training'); break;
+
+            case 'stat-total-unit4-trained': $data = $this->getDominionsByStatistic($round, 'stat_total_unit4_trained'); break;
+            case 'stat-total-unit4-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_unit4_lost'); break;
+            case 'stat-total-unit4-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_unit4_spent_training'); break;
+
+            case 'stat-total-spies-trained': $data = $this->getDominionsByStatistic($round, 'stat_total_spies_trained'); break;
+            case 'stat-total-spies-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_spies_lost'); break;
+            case 'stat-total-spies-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_spies_spent_training'); break;
+
+            case 'stat-total-wizards-trained': $data = $this->getDominionsByStatistic($round, 'stat_total_wizards_trained'); break;
+            case 'stat-total-wizards-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_wizards_lost'); break;
+            case 'stat-total-wizards-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_wizards_spent_training'); break;
+
+            case 'stat-total-archmages-trained': $data = $this->getDominionsByStatistic($round, 'stat_total_archmages_trained'); break;
+            case 'stat-total-archmages-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_archmages_lost'); break;
+            case 'stat-total-archmages-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_archmages_spent_training'); break;
+
 
 
             default:
