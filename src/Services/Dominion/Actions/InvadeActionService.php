@@ -2669,6 +2669,24 @@ class InvadeActionService
                       $offensiveBodies += 0;
                   }
             }
+            # If attacker is empire
+            if($attacker->race->alignment === 'evil')
+            {
+                  # If the attack is successful
+                  if($this->invasionResult['result']['success'])
+                  {
+                      # 50% of defensive and 100% of defensive bodies go to the crypt.
+                      $defensiveBodies /= 2;
+                      $offensiveBodies *= 1;
+                  }
+                  # If the attack is unsuccessful
+                  else
+                  {
+                      # 0% of defensive and 0% of offensive bodies go to the crypt.
+                      $defensiveBodies *= 0;
+                      $offensiveBodies *= 0;
+                  }
+            }
 
             $toTheCrypt = max(0, round($defensiveBodies + $offensiveBodies));
 
