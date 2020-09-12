@@ -1203,7 +1203,7 @@ class InvadeActionService
             'equipment',
             'magical',
             'massive',
-            'mechanical',
+            'machine',
             'ship',
           ];
 
@@ -1395,7 +1395,7 @@ class InvadeActionService
             'equipment',
             'magical',
             'massive',
-            'mechanical',
+            'machine',
             'ship',
           ];
 
@@ -1630,7 +1630,7 @@ class InvadeActionService
             'ammunition',
             'equipment',
             'magical',
-            'mechanical',
+            'machine',
             'ship',
           ];
 
@@ -1763,7 +1763,7 @@ class InvadeActionService
             'ammunition',
             'equipment',
             'magical',
-            'mechanical',
+            'machine',
             'ship',
           ];
 
@@ -2567,7 +2567,7 @@ class InvadeActionService
                 'ammunition',
                 'equipment',
                 'magical',
-                'mechanical',
+                'machine',
                 'ship',
                 'massive',
               ];
@@ -2754,7 +2754,7 @@ class InvadeActionService
             'equipment',
             'magical',
             'massive',
-            'mechanical',
+            'machine',
             'mindless',
             'ship',
             'wise',
