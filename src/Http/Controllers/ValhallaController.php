@@ -124,6 +124,8 @@ class ValhallaController extends AbstractController
             case 'stat-total-platinum-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_spent_improving'); break;
             case 'stat-total-platinum-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_plundered'); break;
             case 'stat-total-platinum-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_salvaged'); break;
+            case 'stat-total-platinum-sold': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_sold'); break;
+            case 'stat-total-platinum-bought': $data = $this->getDominionsByStatistic($round, 'stat_total_platinum_bought'); break;
 
             case 'stat-total-food-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_food_spent_training'); break;
             case 'stat-total-food-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_food_spent_building'); break;
@@ -134,6 +136,8 @@ class ValhallaController extends AbstractController
             case 'stat-total-food-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_food_salvaged'); break;
             case 'stat-total-food-decayed': $data = $this->getDominionsByStatistic($round, 'stat_total_food_decayed'); break;
             case 'stat-total-food-consumed': $data = $this->getDominionsByStatistic($round, 'stat_total_food_consumed'); break;
+            case 'stat-total-food-sold': $data = $this->getDominionsByStatistic($round, 'stat_total_food_sold'); break;
+            case 'stat-total-food-bought': $data = $this->getDominionsByStatistic($round, 'stat_total_food_bought'); break;
 
             case 'stat-total-ore-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_spent_training'); break;
             case 'stat-total-ore-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_spent_building'); break;
@@ -142,6 +146,8 @@ class ValhallaController extends AbstractController
             case 'stat-total-ore-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_spent_improving'); break;
             case 'stat-total-ore-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_plundered'); break;
             case 'stat-total-ore-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_salvaged'); break;
+            case 'stat-total-ore-sold': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_sold'); break;
+            case 'stat-total-ore-bought': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_bought'); break;
 
             case 'stat-total-lumber-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_spent_training'); break;
             case 'stat-total-lumber-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_spent_building'); break;
@@ -151,6 +157,8 @@ class ValhallaController extends AbstractController
             case 'stat-total-lumber-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_plundered'); break;
             case 'stat-total-lumber-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_salvaged'); break;
             case 'stat-total-lumber-rotted': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_rotted'); break;
+            case 'stat-total-lumber-sold': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_sold'); break;
+            case 'stat-total-lumber-bought': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_bought'); break;
 
             case 'stat-total-gem-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_spent_training'); break;
             case 'stat-total-gem-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_spent_building'); break;
@@ -159,6 +167,7 @@ class ValhallaController extends AbstractController
             case 'stat-total-gem-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_spent_improving'); break;
             case 'stat-total-gem-plundered': $data = $this->getDominionsByStatistic($round, 'stat_total_gems_plundered'); break;
             case 'stat-total-gem-salvaged': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_salvaged'); break;
+            case 'stat-total-gem-sold': $data = $this->getDominionsByStatistic($round, 'stat_total_gems_sold'); break;
 
             case 'stat-total-mana-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_training'); break;
             case 'stat-total-mana-spent-building': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_spent_building'); break;
@@ -173,7 +182,6 @@ class ValhallaController extends AbstractController
             case 'stat-total-champion-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_champion_spent_training'); break;
             case 'stat-total-soul-spent-training': $data = $this->getDominionsByStatistic($round, 'stat_total_soul_spent_training'); break;
             case 'stat-total-soul-spent-improving': $data = $this->getDominionsByStatistic($round, 'stat_total_soul_spent_improving'); break;
-
 
             case 'stat-total-unit1-trained': $data = $this->getDominionsByStatistic($round, 'stat_total_unit1_trained'); break;
             case 'stat-total-unit1-lost': $data = $this->getDominionsByStatistic($round, 'stat_total_unit1_lost'); break;

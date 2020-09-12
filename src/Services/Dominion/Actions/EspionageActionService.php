@@ -766,6 +766,8 @@ class EspionageActionService
                 ]);
 
                 $target->{"military_{$resource}"} -= $amountStolen;
+                $dominion->stat_total_draftees_abducted += $amountStolen;
+
                 $target->save([
                     'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
                     'action' => $operationKey
@@ -782,6 +784,8 @@ class EspionageActionService
                 ]);
 
                 $target->{"{$resource}"} -= $amountStolen;
+                $dominion->stat_total_peasants_abducted += $amountStolen;
+
                 $target->save([
                     'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
                     'action' => $operationKey

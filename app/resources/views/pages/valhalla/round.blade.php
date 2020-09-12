@@ -25,10 +25,6 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h3>Military</h3>
-                </div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-12 text-center">
@@ -44,7 +40,7 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h3>Spies and Wizards</h3>
+                    <h3>Espionage and Magic</h3>
                 </div>
             </div>
             <div class="row form-group">
@@ -78,7 +74,7 @@
 
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h3>Production and Spending</h3>
+                    <h3>Resources</h3>
                 </div>
             </div>
             <div class="row form-group text-center">
@@ -92,6 +88,8 @@
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-plundered']) }}">Most Plundered</a><br>
                     {{--<a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-salvaged']) }}">Most Salvaged</a><br>--}}
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-stolen']) }}">Most Stolen</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-sold']) }}">Most Sold</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-bought']) }}">Most Bought</a><br>
                 </div>
                 <div class="col-sm-4 text-center">
                     <h4>Food</h4>
@@ -105,6 +103,8 @@
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-decayed']) }}">Most Decayed</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-consumed']) }}">Most Consumed</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-stolen']) }}">Most Stolen</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-sold']) }}">Most Sold</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-bought']) }}">Most Bought</a><br>
                 </div>
                 <div class="col-sm-4 text-center">
                     <h4>Ore</h4>
@@ -116,6 +116,8 @@
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-ore-plundered']) }}">Most Plundered</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-ore-salvaged']) }}">Most Salvaged</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-ore-stolen']) }}">Most Stolen</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-ore-sold']) }}">Most Sold</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-ore-bought']) }}">Most Bought</a><br>
                 </div>
 
 
@@ -133,6 +135,8 @@
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-lumber-salvaged']) }}">Most Salvaged</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-lumber-rotted']) }}">Most Rotted</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-lumber-stolen']) }}">Most Stolen</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-lumber-sold']) }}">Most Sold</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-lumber-bought']) }}">Most Bought</a><br>
                 </div>
                 <div class="col-sm-4 text-center">
                     <h4>Gems</h4>
@@ -144,6 +148,7 @@
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gem-plundered']) }}">Most Plundered</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gem-salvaged']) }}">Most Salvaged</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gems-stolen']) }}">Most Stolen</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gems-sold']) }}">Most Sold</a><br>
                 </div>
                 <div class="col-sm-4 text-center">
                     <h4>Mana</h4>
