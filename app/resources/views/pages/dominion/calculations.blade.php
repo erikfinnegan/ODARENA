@@ -6,7 +6,9 @@
 
     <div class="row">
         <div class="col-sm-12 col-md-12">
-            <span class="text-notice">The calculator is in early beta and may not work accurately. Please use it carefully.</span>
+            <div class="alert alert-danger">
+            The calculators are in early beta and may not work accurately. Please use carefully. Verify calculations manually.
+          </div>
         </div>
     </div>
 
@@ -20,9 +22,9 @@
                     </div>
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="race">Race</label>
+                            <label for="race">Faction</label>
                             <select name="race" id="race_dp" class="form-control" style="width: 100%;">
-                                <option value="0">Select a race</option>
+                                <option value="0">Select a faction</option>
                                 @foreach ($races as $race)
                                     <option value="{{ $race->id }}" {{ ($targetDominion !== null && $targetDominion->race_id == $race->id) ? 'selected' : null }}>
                                         {{ $race->name }}
@@ -367,9 +369,9 @@
                     </div>
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="race">Race</label>
+                            <label for="race">Faction</label>
                             <select name="race" id="race_op" class="form-control" style="width: 100%;">
-                                <option value="0">Select a race</option>
+                                <option value="0">Select a faction</option>
                                 @foreach ($races as $race)
                                     <option value="{{ $race->id }}" {{ ($targetDominion !== null && $targetDominion->race_id == $race->id) ? 'selected' : null }}>
                                         {{ $race->name }}

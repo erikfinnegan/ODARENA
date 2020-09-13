@@ -91,7 +91,8 @@
                 -->
                 <li class="{{ Route::is('dominion.military') ? 'active' : null }}"><a href="{{ route('dominion.military') }}"><i class="ra ra-sword ra-fw"></i> <span>Military</span></a></li>
 
-                <li class="{{ Route::is('dominion.calculations') ? 'active' : null }}"><a href="{{ route('dominion.calculations') }}"><i class="ra ra-gears ra-fw"></i> <span>Calculations</span></a></li>
+                <li class="{{ Route::is('dominion.calculations') ? 'active' : null }}"><a href="{{ route('dominion.calculations') }}"><i class="ra ra-gears ra-fw"></i> <span>Calculations</span>
+                  <span class="pull-right-container"><small class="label pull-right">Beta</small></span></a></li> </li>
 
                 <!-- Hide Invade from cannot_invade races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_invade'))
