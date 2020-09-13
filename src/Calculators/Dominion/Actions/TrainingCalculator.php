@@ -93,17 +93,17 @@ class TrainingCalculator
             switch ($unitType) {
                 case 'spies':
                     $cost[$spyCost['trainedFrom']] = 1;
-                    $cost[$spyCost['resource']] = $spyCost['amount'];
+                    $cost[$spyCost['resource']] = round($spyCost['amount'] * $spyCostMultiplier);
                     break;
 
                 case 'wizards':
                     $cost[$spyCost['trainedFrom']] = 1;
-                    $cost[$wizardCost['resource']] = $wizardCost['amount'];
+                    $cost[$wizardCost['resource']] = round($wizardCost['amount'] * $wizardCostMultiplier);
                     break;
 
                 case 'archmages':
                     $cost[$archmageCost['trainedFrom']] = 1;
-                    $cost[$archmageCost['resource']] = $archmageCost['amount'];
+                    $cost[$archmageCost['resource']] = round($archmageCost['amount'] * $wizardCostMultiplier);
                     break;
 
                 default:
