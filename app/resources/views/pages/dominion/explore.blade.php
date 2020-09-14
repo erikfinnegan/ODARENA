@@ -21,13 +21,14 @@
                                 <col width="100">
                                 <col width="100">
                                 <col width="100">
+                                <col width="100">
                             </colgroup>
                             <thead>
                                 <tr>
                                     <th>Terrain</th>
                                     <th class="text-center">Owned</th>
                                     <th class="text-center">Barren</th>
-                                    <th class="text-center">Exploring</th>
+                                    <th class="text-center">Incoming</th>
                                     <th class="text-center">Explore For</th>
                                     @if ($selectedDominion->race->name == 'Beastfolk')
                                     <th class="text-center">Bonus</th>
@@ -35,6 +36,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $totalIncomingLand = 0;
+                                @endphp
                                 @foreach ($landHelper->getLandTypes() as $landType)
                                     <tr>
                                         <td>
@@ -51,7 +55,7 @@
                                             </small>
                                         </td>
                                         <td class="text-center">{{ number_format($landCalculator->getTotalBarrenLandByLandType($selectedDominion, $landType)) }}</td>
-                                        <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
+                                        <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
                                         <td class="text-center">
                                             <input type="number" name="explore[land_{{ $landType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $explorationCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('explore.' . $landType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
@@ -75,7 +79,18 @@
                                         </td>
                                         @endif
                                     </tr>
+                                    @php
+                                        $totalIncomingLand += $queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}");
+                                        $totalIncomingLand += $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")
+                                    @endphp
                                 @endforeach
+                                    <tr>
+                                        <td><em>Total</em></td>
+                                        <td class="text-center"><em>{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</em></td>
+                                        <td class="text-center"><em>{{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} <small class="text-muted">({{ number_format(($landCalculator->getTotalBarrenLand($selectedDominion) / $landCalculator->getTotalLand($selectedDominion))*100)}}%)</span></em></td>
+                                        <td class="text-center"><em>{{ number_format($totalIncomingLand) }}</em></td>
+                                        <td></td>
+                                    </tr>
                             </tbody>
                         </table>
                     </div>
