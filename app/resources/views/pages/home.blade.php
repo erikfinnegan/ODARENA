@@ -196,7 +196,7 @@
                 <div class="box-body">
                     <p>ODARENA is based on <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, created by WaveHack.</p>
 
-                    <p>Just like OpenDominion, ODARENA is open source software and can be found on <a href="https://github.com/Dr-Eki/ODArena" target="_blank">GitHub <i class="fa fa-external-link"></i></a>.</p>
+                    <p>ODARENA is open source software. The code can be found on <a href="https://github.com/Dr-Eki/ODArena" target="_blank">GitHub <i class="fa fa-external-link"></i></a>.</p>
                 </div>
 
             </div>

@@ -42,6 +42,12 @@
                                     <td class="text-center">{{ number_format($landCalculator->getTotalBarrenLandByLandType($selectedDominion, $landType)) }}</td>
                                 </tr>
                             @endforeach
+                                <tr>
+                                    <td><em>Total</em></td>
+                                    <td class="text-center"><em>{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</em></td>
+                                    <td class="text-center"><em>100.00%</em></td>
+                                    <td class="text-center"><em>{{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }}</em></td>
+                                </tr>
                         </tbody>
                     </table>
                 </div>
@@ -72,6 +78,9 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @php
+                            $incomingLandPerTick = array_fill(1,12,0);
+                        @endphp
                         @foreach ($landHelper->getLandTypes() as $landType)
                             <tr>
                                 <td>
@@ -86,6 +95,7 @@
                                             $queueService->getExplorationQueueAmount($selectedDominion, "land_{$landType}", $i) +
                                             $queueService->getInvasionQueueAmount($selectedDominion, "land_{$landType}", $i)
                                         );
+                                        $incomingLandPerTick[$i] += $land;
                                     @endphp
                                     <td class="text-center">
                                         @if ($land === 0)
@@ -98,6 +108,20 @@
                                 <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
                             </tr>
                         @endforeach
+                            <tr>
+                                <td><em>Total</em></td>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <td class="text-center">
+                                      <em>
+                                    @if($incomingLandPerTick[$i] !== 0)
+                                        {{ number_format($incomingLandPerTick[$i]) }}
+                                    @else
+                                        -
+                                    @endif
+                                    </em>
+                                    </td>
+                                @endfor
+                                <td class="text-center"><em>{{ number_format(array_sum($incomingLandPerTick)) }}</em></td>
                         </tbody>
                     </table>
                 </div>
