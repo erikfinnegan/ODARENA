@@ -10,7 +10,7 @@ attacking: 3
 exploring : 0
 converting: 1
 
-construction_materials:
+construction_materials: platinum,lumber
 
 perks:
   max_per_round: 1
