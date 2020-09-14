@@ -84,6 +84,7 @@
                                         $totalIncomingLand += $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")
                                     @endphp
                                 @endforeach
+                                {{--
                                     <tr>
                                         <td><em>Total</em></td>
                                         <td class="text-center"><em>{{ number_format($landCalculator->getTotalLand($selectedDominion)) }}</em></td>
@@ -91,6 +92,7 @@
                                         <td class="text-center"><em>{{ number_format($totalIncomingLand) }}</em></td>
                                         <td></td>
                                     </tr>
+                                --}}
                             </tbody>
                         </table>
                     </div>
