@@ -220,23 +220,23 @@
                                     </tr>
                                     <tr>
                                         <td>Plains:</td>
-                                        <td>{{ number_format($realmDominionsStats['plain']) }}</td>
+                                        <td><span data-toggle="tooltip" data-placement="top" title="{{ number_format( ($realmDominionsStats['plain'] / array_sum($realmDominionsStats)) * 100,2) }}%">{{ number_format($realmDominionsStats['plain']) }}</span></td>
 
                                         <td>Mountains:</td>
-                                        <td>{{ number_format($realmDominionsStats['mountain']) }}</td>
+                                        <td><span data-toggle="tooltip" data-placement="top" title="{{ number_format( ($realmDominionsStats['mountain'] / array_sum($realmDominionsStats)) * 100,2) }}%">{{ number_format($realmDominionsStats['mountain']) }}</span></td>
 
                                         <td>Swamp:</td>
-                                        <td>{{ number_format($realmDominionsStats['swamp']) }}</td>
+                                        <td><span data-toggle="tooltip" data-placement="top" title="{{ number_format( ($realmDominionsStats['swamp'] / array_sum($realmDominionsStats)) * 100,2) }}%">{{ number_format($realmDominionsStats['swamp']) }}</span></td>
                                     </tr>
                                     <tr>
                                       <td>Forest:</td>
-                                      <td>{{ number_format($realmDominionsStats['forest']) }}</td>
+                                      <td><span data-toggle="tooltip" data-placement="top" title="{{ number_format( ($realmDominionsStats['forest'] / array_sum($realmDominionsStats)) * 100,2) }}%">{{ number_format($realmDominionsStats['forest']) }}</span></td>
 
                                       <td>Hills:</td>
-                                      <td>{{ number_format($realmDominionsStats['hill']) }}</td>
+                                      <td><span data-toggle="tooltip" data-placement="top" title="{{ number_format( ($realmDominionsStats['hill'] / array_sum($realmDominionsStats)) * 100,2) }}%">{{ number_format($realmDominionsStats['hill']) }}</span></td>
 
                                       <td>Water:</td>
-                                      <td>{{ number_format($realmDominionsStats['water']) }}</td>
+                                      <td><span data-toggle="tooltip" data-placement="top" title="{{ number_format( ($realmDominionsStats['water'] / array_sum($realmDominionsStats)) * 100,2) }}%">{{ number_format($realmDominionsStats['water']) }}</span></td>
                                     </tr>
                                 </table>
                               </div>
