@@ -97,7 +97,7 @@ class CasualtiesCalculator
         // General "Almost never dies" type of immortality.
         if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
         {
-            if (!$this->spellCalculator->isSpellActive($attacker, 'divine_intervention'))
+            if (!$this->spellCalculator->isSpellActive($target, 'divine_intervention'))
             {
                 $multiplier = 0;
             }
