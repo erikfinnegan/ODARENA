@@ -105,7 +105,14 @@ class RealmController extends AbstractDominionController
 
             foreach($landHelper->getLandTypes() as $landType)
             {
-                $realmDominionsStats[$landType] = $dominion->{'land_'.$landType};
+                if(isset($realmDominionsStats[$landType]))
+                {
+                    $realmDominionsStats[$landType] += $dominion->{'land_'.$landType};
+                }
+                else
+                {
+                    $realmDominionsStats[$landType] = $dominion->{'land_'.$landType};
+                }
             }
         }
 
