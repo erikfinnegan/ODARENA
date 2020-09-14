@@ -97,7 +97,10 @@ class CasualtiesCalculator
         // General "Almost never dies" type of immortality.
         if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
         {
-            $multiplier = 0;
+            if (!$this->spellCalculator->isSpellActive($attacker, 'divine_intervention'))
+            {
+                $multiplier = 0;
+            }
         }
 
         // True immortality: only dies when overwhelmed.
