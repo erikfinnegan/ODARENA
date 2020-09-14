@@ -533,7 +533,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Dark Rites',
-                'description' => 'Taking bodies from the Imperial Crypt, every ten Wraith turn up to one body into a Skeleton and every ten Revenants turn up to one body in a Ghoul, until the spell expires or until there are no bodies left in the crypt.',
+                'description' => 'Taking bodies from the Imperial Crypt, every ten Wraith turn up to one body into a Skeleton and every ten Revenants turn up to one body in a Ghoul, until the spell expires or until there are no bodies left in the crypt. Only Wraiths and Reverents currently at home perform Dark Rites.',
                 'key' => 'dark_rites',
                 'mana_cost' => 10,
                 'duration' => 12*2,
