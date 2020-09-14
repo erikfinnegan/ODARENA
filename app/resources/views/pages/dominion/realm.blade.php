@@ -142,16 +142,7 @@
                             @endif
                           </div>
                           <div class="col-xs-10">
-                            <p>This is the
-                            @if($realm->alignment == 'good')
-                            Commonwealth Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
-                            @elseif($realm->alignment == 'evil')
-                            Imperial Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
-                            @elseif($realm->alignment == 'independent')
-                            Independent Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
-                            @elseif($realm->alignment == 'npc')
-                            <strong>Barbarian Horde</strong>.</p>
-                            @endif
+                            <p>This is the {{ $alignmentAdjective }} Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
 
                             @if($realmCalculator->hasMonster($realm))
                                 @php
@@ -213,7 +204,43 @@
                               </table>
                             </div>
 
-                            <p><a href="{{ route('dominion.world-news', [$realm->number]) }}">View the realm's News</a></p>
+                            <p class="text-center"><a href="{{ route('dominion.world-news', [$realm->number]) }}">Read the News from the {{ $alignmentNoun }}</a></p>
+
+                            <div class="col-xs-12">
+                              <div class="box-body table-responsive no-padding">
+                                <table class="table">
+                                    <colgroup>
+                                        <col width="25%">
+                                        <col width="25%">
+                                        <col width="25%">
+                                        <col width="25%">
+                                    </colgroup>
+                                    <tr>
+                                        <th colspan="6" class="text-center">{{ $alignmentAdjective }} Lands</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Plains:</td>
+                                        <td>{{ number_format($realmDominionsStats['plain']) }}</td>
+
+                                        <td>Mountains:</td>
+                                        <td>{{ number_format($realmDominionsStats['mountain']) }}</td>
+
+                                        <td>Swamp:</td>
+                                        <td>{{ number_format($realmDominionsStats['swamp']) }}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Forest:</td>
+                                      <td>{{ number_format($realmDominionsStats['forest']) }}</td>
+
+                                      <td>Hills:</td>
+                                      <td>{{ number_format($realmDominionsStats['hill']) }}</td>
+
+                                      <td>Water:</td>
+                                      <td>{{ number_format($realmDominionsStats['water']) }}</td>
+                                    </tr>
+                                </table>
+                              </div>
+
                           </div>
                       </div>
                 </div>

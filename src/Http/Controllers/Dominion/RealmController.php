@@ -16,6 +16,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Helpers\LandHelper;
 
 class RealmController extends AbstractDominionController
 {
@@ -28,6 +29,7 @@ class RealmController extends AbstractDominionController
         $spellCalculator = app(SpellCalculator::class);
         $realmCalculator = app(RealmCalculator::class);
         $militaryCalculator = app(MilitaryCalculator::class);
+        $landHelper = app(LandHelper::class);
 
         $dominion = $this->getSelectedDominion();
         $round = $dominion->round;
@@ -95,11 +97,37 @@ class RealmController extends AbstractDominionController
 
         foreach($dominions as $dominion)
         {
-          $realmDominionsStats['victories'] += $dominion->stat_attacking_success;
-          $realmDominionsStats['total_land_conquered'] += $dominion->stat_total_land_conquered;
-          $realmDominionsStats['total_land_explored'] += $dominion->stat_total_land_explored;
-          $realmDominionsStats['total_land_lost'] += $dominion->stat_total_land_lost;
-          $realmDominionsStats['prestige'] += $dominion->prestige;
+            $realmDominionsStats['victories'] += $dominion->stat_attacking_success;
+            $realmDominionsStats['total_land_conquered'] += $dominion->stat_total_land_conquered;
+            $realmDominionsStats['total_land_explored'] += $dominion->stat_total_land_explored;
+            $realmDominionsStats['total_land_lost'] += $dominion->stat_total_land_lost;
+            $realmDominionsStats['prestige'] += $dominion->prestige;
+
+            foreach($landHelper->getLandTypes() as $landType)
+            {
+                $realmDominionsStats[$landType] = $dominion->{'land_'.$landType};
+            }
+        }
+
+        if($realm->alignment == 'good')
+        {
+            $alignmentNoun = 'Commonwealth';
+            $alignmentAdjective = 'Commonwealth';
+        }
+        elseif($realm->alignment == 'evil')
+        {
+            $alignmentNoun = 'Empire';
+            $alignmentAdjective = 'Imperial';
+        }
+        elseif($realm->alignment == 'independent')
+        {
+            $alignmentNoun = 'Independent';
+            $alignmentAdjective = 'Independent';
+        }
+        elseif($realm->alignment == 'npc')
+        {
+            $alignmentNoun = 'Barbarian';
+            $alignmentAdjective = 'Barbarian';
         }
 
         // Todo: refactor this hacky hacky navigation stuff
@@ -139,6 +167,9 @@ class RealmController extends AbstractDominionController
             'realmDominionsStats',
             'realmCalculator',
             'militaryCalculator',
+            'landHelper',
+            'alignmentNoun',
+            'alignmentAdjective',
         ));
     }
 
