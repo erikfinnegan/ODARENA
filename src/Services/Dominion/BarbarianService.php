@@ -258,9 +258,7 @@ class BarbarianService
 
             $logString .= 'Target DPA: ' . $this->getDpaTarget($dominion) . '. Paid DPA: ' . $this->getDpaPaid($dominion) . '. Target OPA: ' . $this->getOpaTarget($dominion) . '. Paid OPA: ' . $this->getOpaPaid($dominion) . '. ';
 
-            Log::Debug($logString);
-            //echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
-            //Log::Debug("[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion));
+            #Log::Debug($logString);
 
         }
 
