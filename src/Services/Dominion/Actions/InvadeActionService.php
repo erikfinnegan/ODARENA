@@ -2654,6 +2654,7 @@ class InvadeActionService
             # If defender is empire
             if($defender->race->alignment === 'evil')
             {
+                  $whoHasCrypt = 'defender';
                   # If the attack is successful
                   if($this->invasionResult['result']['success'])
                   {
@@ -2672,6 +2673,7 @@ class InvadeActionService
             # If attacker is empire
             if($attacker->race->alignment === 'evil')
             {
+                  $whoHasCrypt = 'attacker';
                   # If the attack is successful
                   if($this->invasionResult['result']['success'])
                   {
@@ -2694,11 +2696,18 @@ class InvadeActionService
             $this->invasionResult['defender']['crypt']['offensiveBodies'] = $offensiveBodies;
             $this->invasionResult['defender']['crypt']['total'] = $toTheCrypt;
 
-            #$defender->realm->crypt += $toTheCrypt;
-
-            $defender->realm->fill([
-                'crypt' => ($defender->realm->crypt + $toTheCrypt),
-            ])->save();
+            if($whoHasCrypt == 'defender')
+            {
+                $defender->realm->fill([
+                    'crypt' => ($defender->realm->crypt + $toTheCrypt),
+                ])->save();
+            }
+            elseif($whoHasCrypt == 'attacker')
+            {
+                $attacker->realm->fill([
+                    'crypt' => ($defender->realm->crypt + $toTheCrypt),
+                ])->save();
+            }
 
         }
 
