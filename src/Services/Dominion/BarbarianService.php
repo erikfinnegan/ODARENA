@@ -259,7 +259,7 @@ class BarbarianService
 
             $logString .= 'Target DPA: ' . $this->getDpaTarget($dominion) . '. Paid DPA: ' . $this->getDpaPaid($dominion) . '. Target OPA: ' . $this->getOpaTarget($dominion) . '. Paid OPA: ' . $this->getOpaPaid($dominion) . '. ';
 
-            #Log::Debug($logString);
+            Log::Debug($logString);
 
         }
 
