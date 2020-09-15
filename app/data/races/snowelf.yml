@@ -88,3 +88,4 @@ units:
       does_not_count_as_population: 1
       houses_military_units: 1
       immortal_on_victory: 1
+      plunder: mana,10

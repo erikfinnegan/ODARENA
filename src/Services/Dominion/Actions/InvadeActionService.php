@@ -2513,6 +2513,15 @@ class InvadeActionService
                     #echo '<pre>You plunder ' . $amountToPlunder . ' ' . $resourceToPlunder. '. The target has ' . $defender->{'resource_'.$resourceToPlunder} . ' ' . $resourceToPlunder. '</pre>';
                 }
             }
+
+            if($plunderPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot,'plunder'))
+            {
+                $resourceToPlunder = $plunderPerk[0];
+                $amountPlunderedPerUnit = $plunderPerk[1];
+                $amountToPlunder = intval(min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit));
+                $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
+                #echo '<pre>You plunder ' . $amountToPlunder . ' ' . $resourceToPlunder. '. The target has ' . $defender->{'resource_'.$resourceToPlunder} . ' ' . $resourceToPlunder. '</pre>';
+            }
         }
 
         # Remove plundered resources from defender.
