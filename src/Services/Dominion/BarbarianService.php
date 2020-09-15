@@ -41,12 +41,13 @@ class BarbarianService
     protected const SENT_RATIO_MAX = 100;
 
     # Lose % of units between these two values when hitting. /1000
-    protected const CASUALTIES_MIN = 75;
-    protected const CASUALTIES_MAX = 95;
+    protected const CASUALTIES_MIN = 50;
+    protected const CASUALTIES_MAX = 100;
 
     # Train between these two values % of required units per tick. /100
-    protected const UNITS_TRAINED_MIN = 100;
-    protected const UNITS_TRAINED_MAX = 100;
+    // Disabled, always training 100%.
+    protected const UNITS_TRAINED_MIN = 90;
+    protected const UNITS_TRAINED_MAX = 120;
 
 
     /** @var MilitaryCalculator */
