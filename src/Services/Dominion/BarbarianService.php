@@ -71,7 +71,7 @@ class BarbarianService
         $this->dominionFactory = app(DominionFactory::class);
     }
 
-    private function getDpaTarget(Dominion $dominion): float
+    private function getDpaTarget(Dominion $dominion): int
     {
         #$constant = 25;
 
@@ -82,7 +82,7 @@ class BarbarianService
         return $dpa *= ($dominion->npc_modifier / 1000);
     }
 
-    private function getOpaTarget(Dominion $dominion): float
+    private function getOpaTarget(Dominion $dominion): int
     {
         return $this->getDpaTarget($dominion) * 0.75;
     }
@@ -133,28 +133,28 @@ class BarbarianService
     }
 
 
-    private function getDpaCurrent(Dominion $dominion): float
+    private function getDpaCurrent(Dominion $dominion): int
     {
         return $this->getDpCurrent($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
-    private function getOpaCurrent(Dominion $dominion): float
+    private function getOpaCurrent(Dominion $dominion): int
     {
         return $this->getOpCurrent($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
 
-    private function getDpaPaid(Dominion $dominion): float
+    private function getDpaPaid(Dominion $dominion): int
     {
         return $this->getDpPaid($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
-    private function getOpaPaid(Dominion $dominion): float
+    private function getOpaPaid(Dominion $dominion): int
     {
         return $this->getOpPaid($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
-    private function getOpaAtHome(Dominion $dominion): float
+    private function getOpaAtHome(Dominion $dominion): int
     {
         return $this->getOpAtHome($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
