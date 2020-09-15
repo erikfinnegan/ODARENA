@@ -31,7 +31,7 @@
 
                     <div class="row">
                         @if ($discordInviteLink = config('app.discord_invite_link'))
-                            <div class="col-md-4 text-center">
+                            <div class="col-md-6 text-center">
                                 <h4>Join us on Discord</h4>
                                 <p>
                                     <a href="{{ $discordInviteLink }}" target="_blank">
@@ -43,16 +43,18 @@
                             </div>
                         @endif
 
-                        @if ($patreonPledgeLink = config('app.patreon_pledge_link'))
-                            <div class="col-md-4 text-center">
-                                <h4>Become a Patron</h4>
-                                <p>
-                                    <a href="https://www.patreon.com/bePatron?u=10125735" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
-                                </p>
-                                <p>ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
-                                <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind through Patreon is highly appreciated.</p>
+                            <div class="col-md-6 text-center">
+                                <h4>Support ODARENA on Patreon or Ko-Fi</h4>
+
+                                <p><script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#dd4b39', 'P5P526XK1');kofiwidget2.draw();</script></p>
+                                <p><a href="https://www.patreon.com/bePatron?u=10125735" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></p>
+
+                                <p>In addition to be free open source software, ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
+                                <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind is highly appreciated.</p>
                             </div>
-                        @endif
+
+
+
                     </div>
                 </div>
                 <div class="box-footer">

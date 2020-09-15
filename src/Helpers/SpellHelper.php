@@ -185,7 +185,7 @@ class SpellHelper
         return collect([
             [
                 'name' => 'Divine Intervention',
-                'description' => '+10% offensive power and allows you to kill Undead and Demon units.',
+                'description' => '+10% offensive power and allows you to kill immortal Undead, Demon, and Afflicted.',
                 'key' => 'divine_intervention',
                 'mana_cost' => 10,
                 'duration' => 12*4,
