@@ -269,8 +269,7 @@ class BarbarianService
     {
         $invade = false;
 
-        //echo "[INVADE] Handling invasion check for " . $dominion->name . ".\n";
-        //Log::Debug("[INVADE] Handling invasion check for " . $dominion->name . ".");
+        $logString = "[INVADE] Handling invasion check for " . $dominion->name . ": ";
 
         if($dominion->race->name === 'Barbarian')
         {
@@ -284,27 +283,28 @@ class BarbarianService
                 if(rand(1, static::ONE_IN_CHANCE_TO_HIT) == 1)
                 {
                     $invade = true;
-                    //echo "[INVADE] ✅ Invasion confirmed to take place.\n";
-                    //Log::Debug("[INVADE] ✅ Invasion confirmed to take place.");
+                    $logString .= " ✅ Invasion confirmed to take place.";
                 }
                 else
                 {
-                    //echo "[INVADE] ❌ Chance of invasion did not occur.\n";
-                    //Log::Debug("[INVADE] ❌ Chance of invasion did not occur.");
+                    $logString .= " ❌ Chance of invasion did not occur.";
                 }
             }
             else
             {
-                //echo "[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
-                //Log::Debug("[INVADE] Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")");
+                $logString .= "Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) ."). ";
             }
 
             if($invade === true)
             {
                 $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
 
+                $logString .= 'Land gain ratio: ' . $landGainRatio*100 . '%. ';
+
                 # Calculate the amount of acres to grow.
                 $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
+
+                $logString .= 'Acres gained: ' . $totalLandToGain . '. ';
 
                 # Split the land gained evenly across all 6 land types.
                 $landGained['land_plain'] = intval($totalLandToGain/6);
@@ -371,10 +371,9 @@ class BarbarianService
                     'data' => $data,
                 ]);
                 $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
-            }
 
-            //echo "[INVADE] Handling invasion check for " . $dominion->name . " ended.\n\n";
-            //Log::Debug("[INVADE] Handling invasion check for " . $dominion->name . " ended");
+                Log::Debug($logString);
+            }
         }
     }
 
