@@ -141,7 +141,6 @@ class BarbarianService
         return $op;
     }
 
-
     private function getDpaCurrent(Dominion $dominion): int
     {
         return $this->getDpCurrent($dominion) / $this->landCalculator->getTotalLand($dominion);
@@ -204,21 +203,13 @@ class BarbarianService
 
             if($dpaDelta > 0)
             {
-                //echo "[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
-                //Log::Debug("[DP] Need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")");
-
                 $dpToTrain = $dpaDelta * $land;
 
                 $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
 
                 $units['military_unit2'] = intval(($dpToTrain*$specsRatio)/static::UNIT2_DP);
-                $units['military_unit3'] = intval(($dpToTrain*$specsRatio)/static::UNIT3_DP);
-            }
-            else
-            {
-                //echo "[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
-                //Log::Debug("[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) .  ")");
+                $units['military_unit3'] = intval(($dpToTrain*$elitesRatio)/static::UNIT3_DP);
             }
 
             if($opaDelta > 0)
@@ -229,22 +220,15 @@ class BarbarianService
                 $elitesRatio = 1-$specsRatio;
 
                 $units['military_unit1'] = intval(($opToTrain*$specsRatio)/static::UNIT1_OP);
-                $units['military_unit4'] = intval(($opToTrain*$specsRatio)/static::UNIT4_OP);
-            }
-            else
-            {
-                //echo "[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
-                //Log::Debug("[OP] No need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion));
+                $units['military_unit4'] = intval(($opToTrain*$elitesRatio)/static::UNIT4_OP);
             }
 
             foreach($units as $unit => $amountToTrain)
             {
                 if($amountToTrain > 0)
                 {
-                    $amountToTrain *= rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100;
-                    $amountToTrain = max(1, $amountToTrain); # WTF?
-                    //echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
-                    //Log::Debug("[TRAINING] " . number_format($amountToTrain) . ' ' . $unit);
+                    #$amountToTrain *= rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100;
+                    #$amountToTrain = max(1, $amountToTrain);
                     $data = [$unit => $amountToTrain];
                     $hours = intval(static::UNITS_TRAINING_TICKS);
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
