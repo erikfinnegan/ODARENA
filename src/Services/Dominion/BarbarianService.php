@@ -184,6 +184,17 @@ class BarbarianService
             ];
 
             $dpaDelta = $this->getDpaTarget($dominion) - $this->getDpaPaid($dominion);
+            $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
+
+            $logString = '[BARBARIAN/training] ' . $dominion->name . ': Acres: ' . number_format($land);
+            $logString .= ' | DPA target: ' . $this->getDpaTarget($dominion);
+            $logString .= ' | DPA paid: ' .   $this->getDpaPaid($dominion);
+            $logString .= ' | DPA delta: ' .   $dpaDelta;
+            $logString .= ' || OPA target: ' . $this->getOpaTarget($dominion);
+            $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
+            $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
+            $logString .= ' | OPA delta: ' .   $opaDelta;
+            $logString .= ' || ';
 
             if($dpaDelta > 0)
             {
@@ -203,8 +214,6 @@ class BarbarianService
                 //echo "[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) . ")\n";
                 //Log::Debug("[DP] No need to train DP. DPA delta is: $dpaDelta (current: " . $this->getDpaTarget($dominion) . " - paid: " . $this->getDpaPaid($dominion) .  ")");
             }
-
-            $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
 
             if($opaDelta > 0)
             {
@@ -239,16 +248,6 @@ class BarbarianService
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
                 }
             }
-
-            $logString = '[BARBARIAN/training] ' . $dominion->name . ': Acres: ' . number_format($land);
-            $logString .= ' | DPA target: ' . $this->getDpaTarget($dominion);
-            $logString .= ' | DPA paid: ' .   $this->getDpaPaid($dominion);
-            $logString .= ' | DPA delta: ' .   $dpaDelta;
-            $logString .= ' || OPA target: ' . $this->getOpaTarget($dominion);
-            $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
-            $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
-            $logString .= ' | OPA delta: ' .   $opaDelta;
-            $logString .= ' || ';
 
             if(isset($dpToTrain))
             {
@@ -298,7 +297,12 @@ class BarbarianService
             }
             else
             {
-                $logString .= "Not enough OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) ."). ";
+                $logString .= ' Not enough OP to invade.'
+                $logString .= ' | OPA target: ' . $this->getOpaTarget($dominion);
+                $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
+                $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
+                $logString .= ' | OPA delta: ' .   $opaDelta;
+                $logString .= ' || ';
             }
 
             if($invade === true)
@@ -310,7 +314,7 @@ class BarbarianService
                 # Calculate the amount of acres to grow.
                 $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
 
-                $logString .= 'Acres gained: ' . $totalLandToGain . '. ';
+                $logString .= 'Acres gained: ' . number_format($totalLandToGain) . '. ';
 
                 # Split the land gained evenly across all 6 land types.
                 $landGained['land_plain'] = intval($totalLandToGain/6);

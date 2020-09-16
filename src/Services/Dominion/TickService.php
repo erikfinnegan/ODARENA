@@ -278,7 +278,10 @@ class TickService
             foreach ($dominions as $dominion)
             {
                 # NPC Barbarian: invasion
-                $this->barbarianService->handleBarbarianInvasion($dominion);
+                if($dominion->race->name === 'Barbarian')
+                {
+                    $this->barbarianService->handleBarbarianInvasion($dominion);
+                }
 
                 // Afflicted: Abomination generation
                 if(!empty($dominion->tick->pestilence_units))
