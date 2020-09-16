@@ -23,7 +23,7 @@ class BarbarianService
 {
 
     protected const DPA_CONSTANT = 25;
-    protected const DPA_PER_HOUR = 0.40;
+    protected const DPA_PER_HOUR = 0.55;
 
     # Train % of new units as specs. /1000
     protected const SPECS_RATIO_MIN = 50;
@@ -33,8 +33,8 @@ class BarbarianService
     protected const ONE_IN_CHANCE_TO_HIT = 1;
 
     # Gain % of land between these two values when hitting. /1000
-    protected const LAND_GAIN_MIN = 80;
-    protected const LAND_GAIN_MAX = 160;
+    protected const LAND_GAIN_MIN = 100;
+    protected const LAND_GAIN_MAX = 200;
 
     # Send between these two values when hitting. /100
     protected const SENT_RATIO_MIN = 80;
@@ -46,8 +46,8 @@ class BarbarianService
 
     # Train between these two values % of required units per tick. /100
     // Disabled, always training 100%.
-    protected const UNITS_TRAINED_MIN = 80;
-    protected const UNITS_TRAINED_MAX = 120;
+    protected const UNITS_TRAINED_MIN = 90;
+    protected const UNITS_TRAINED_MAX = 125;
 
 
     /** @var MilitaryCalculator */
