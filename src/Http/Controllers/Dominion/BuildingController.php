@@ -19,6 +19,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Models\Building;
 use OpenDominion\Services\Dominion\Actions\BuildActionService;
 use OpenDominion\Http\Requests\Dominion\Actions\BuildActionRequest;
+use OpenDominion\Helpers\RaceHelper;
 
 class BuildingController extends AbstractDominionController
 {
@@ -30,6 +31,7 @@ class BuildingController extends AbstractDominionController
             'constructionCalculator' => app(ConstructionCalculator::class),
             'landCalculator' => app(LandCalculator::class),
             'queueService' => app(QueueService::class),
+            'raceHelper' => app(RaceHelper::class),
         ]);
     }
 
