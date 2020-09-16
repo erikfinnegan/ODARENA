@@ -279,6 +279,7 @@ class BarbarianService
     {
         $invade = false;
         $logString = "[BARBARIAN/invading] Handling invasion check for " . $dominion->name . ": ";
+        echo $logString . "\n";
 
         if($dominion->race->name === 'Barbarian')
         {
@@ -298,11 +299,10 @@ class BarbarianService
             }
             else
             {
-                $logString .= ' Not enough OP to invade.'
+                $logString .= ' Not enough OP to invade.';
                 $logString .= ' | OPA target: ' . $this->getOpaTarget($dominion);
                 $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
                 $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
-                $logString .= ' | OPA delta: ' .   $opaDelta;
                 $logString .= ' || ';
             }
 
@@ -382,10 +382,15 @@ class BarbarianService
                     'data' => $data,
                 ]);
                 $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
-
-                Log::Debug($logString);
             }
         }
+        else
+        {
+            $logString .= 'Not a Barbarian.';
+        }
+
+        Log::Debug($logString);
+
     }
 
 
