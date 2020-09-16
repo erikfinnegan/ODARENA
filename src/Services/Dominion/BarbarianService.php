@@ -276,8 +276,6 @@ class BarbarianService
             # Make sure we have the expected OPA to hit.
             if($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion))
             {
-                //echo "[INVADE] Sufficient OPA to invade. (home: " . $this->getOpaAtHome($dominion) . ", target:" . $this->getOpaTarget($dominion) . ", paid: " . $this->getOpaPaid($dominion) .")\n";
-
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
 
                 if(rand(1, static::ONE_IN_CHANCE_TO_HIT) == 1)
