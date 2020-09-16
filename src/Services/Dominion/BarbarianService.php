@@ -23,7 +23,7 @@ class BarbarianService
 {
 
     protected const DPA_CONSTANT = 25;
-    protected const DPA_PER_HOUR = 0.55;
+    protected const DPA_PER_HOUR = 0.60;
 
     # Train % of new units as specs. /1000
     protected const SPECS_RATIO_MIN = 50;
@@ -33,8 +33,8 @@ class BarbarianService
     protected const ONE_IN_CHANCE_TO_HIT = 1;
 
     # Gain % of land between these two values when hitting. /1000
-    protected const LAND_GAIN_MIN = 100;
-    protected const LAND_GAIN_MAX = 200;
+    protected const LAND_GAIN_MIN = 150;
+    protected const LAND_GAIN_MAX = 300;
 
     # Send between these two values when hitting. /100
     protected const SENT_RATIO_MIN = 80;
@@ -46,11 +46,11 @@ class BarbarianService
 
     # Train between these two values % of required units per tick. /100
     // Disabled, always training 100%.
-    protected const UNITS_TRAINED_MIN = 90;
+    protected const UNITS_TRAINED_MIN = 100;
     protected const UNITS_TRAINED_MAX = 125;
 
     # Training time in ticks
-    protected const UNITS_TRAINING_TICKS = 9;
+    protected const UNITS_TRAINING_TICKS = 6;
 
 
     /** @var MilitaryCalculator */
@@ -240,7 +240,16 @@ class BarbarianService
                 }
             }
 
-            $logString = '[BARBARIAN/training] ' . $dominion->name . ' is ' . $land . ' acres and has a target DPA of ' . $this->getDpaTarget($dominion) . ' and a has DPA delta of ' . $dpaDelta . ', and an OPA delta of ' . $opaDelta . '. ';
+            $logString = '[BARBARIAN/training] ' . $dominion->name . ': Acres: ' . number_format($land);
+            $logString .= ' | DPA target: ' . $this->getDpaTarget($dominion);
+            $logString .= ' | DPA paid: ' .   $this->getDpaPaid($dominion);
+            $logString .= ' | DPA delta: ' .   $dpaDelta;
+            $logString .= ' || OPA target: ' . $this->getOpaTarget($dominion);
+            $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
+            $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
+            $logString .= ' | OPA delta: ' .   $opaDelta;
+            $logString .= ' || ';
+
             if(isset($dpToTrain))
             {
                 $logString .= 'DP to train: ' . number_format($dpToTrain) . '. ';
@@ -249,6 +258,7 @@ class BarbarianService
             {
                 $logString .= 'No need train additional DP. ';
             }
+
             if(isset($opToTrain))
             {
                 $logString .= 'OP to train: ' . number_format($opToTrain) . '. ';
@@ -258,9 +268,7 @@ class BarbarianService
                 $logString .= 'No need train additional OP. ';
             }
 
-            $logString .= 'They will train ' . $units['military_unit1'] . ' unit1, ' . $units['military_unit2'] . ' unit2, ' . $units['military_unit3'] . ' unit3, ' . $units['military_unit4'] . ' unit4.';
-
-            $logString .= 'Target DPA: ' . $this->getDpaTarget($dominion) . '. Paid DPA: ' . $this->getDpaPaid($dominion) . '. Target OPA: ' . $this->getOpaTarget($dominion) . '. Paid OPA: ' . $this->getOpaPaid($dominion) . '. ';
+            $logString .= 'To be trained: ' . $units['military_unit1'] . ' unit1, ' . $units['military_unit2'] . ' unit2, ' . $units['military_unit3'] . ' unit3, ' . $units['military_unit4'] . ' unit4.';
 
             Log::Debug($logString);
 
