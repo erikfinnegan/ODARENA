@@ -49,6 +49,9 @@ class BarbarianService
     protected const UNITS_TRAINED_MIN = 90;
     protected const UNITS_TRAINED_MAX = 125;
 
+    # Training time in ticks
+    protected const UNITS_TRAINING_TICKS = 9;
+
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
@@ -232,12 +235,12 @@ class BarbarianService
                     //echo "[TRAINING] " . number_format($amountToTrain) . ' ' . $unit. "\n";
                     //Log::Debug("[TRAINING] " . number_format($amountToTrain) . ' ' . $unit);
                     $data = [$unit => $amountToTrain];
-                    $hours = 12;
+                    $hours = intval(static::UNITS_TRAINING_TICKS);
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
                 }
             }
 
-            $logString = '[BARBARIAN] ' . $dominion->name . ' is ' . $land . ' acres and has a target DPA of ' . $this->getDpaTarget($dominion) . ' and a has DPA delta of ' . $dpaDelta . ', and an OPA delta of ' . $opaDelta . '. ';
+            $logString = '[BARBARIAN/training] ' . $dominion->name . ' is ' . $land . ' acres and has a target DPA of ' . $this->getDpaTarget($dominion) . ' and a has DPA delta of ' . $dpaDelta . ', and an OPA delta of ' . $opaDelta . '. ';
             if(isset($dpToTrain))
             {
                 $logString .= 'DP to train: ' . number_format($dpToTrain) . '. ';
@@ -268,16 +271,13 @@ class BarbarianService
     public function handleBarbarianInvasion(Dominion $dominion): void
     {
         $invade = false;
-
-        $logString = "[INVADE] Handling invasion check for " . $dominion->name . ": ";
-
         if($dominion->race->name === 'Barbarian')
         {
+            $logString = "[BARBARIAN/invading] Handling invasion check for " . $dominion->name . ": ";
+
             # Make sure we have the expected OPA to hit.
             if($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion))
             {
-                $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-
                 if(rand(1, static::ONE_IN_CHANCE_TO_HIT) == 1)
                 {
                     $invade = true;
