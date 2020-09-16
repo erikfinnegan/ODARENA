@@ -278,13 +278,14 @@ class BarbarianService
     public function handleBarbarianInvasion(Dominion $dominion): void
     {
         $invade = false;
+        $logString = "[BARBARIAN/invading] Handling invasion check for " . $dominion->name . ": ";
+
         if($dominion->race->name === 'Barbarian')
         {
-            $logString = "[BARBARIAN/invading] Handling invasion check for " . $dominion->name . ": ";
-
             # Make sure we have the expected OPA to hit.
             if($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion))
             {
+
                 if(rand(1, static::ONE_IN_CHANCE_TO_HIT) == 1)
                 {
                     $invade = true;
