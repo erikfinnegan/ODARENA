@@ -52,6 +52,12 @@ class BarbarianService
     # Training time in ticks
     protected const UNITS_TRAINING_TICKS = 6;
 
+    # Unit powers
+    protected const UNIT1_OP = 3;
+    protected const UNIT2_DP = 3;
+    protected const UNIT3_DP = 5;
+    protected const UNIT4_OP = 5;
+
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
@@ -93,8 +99,8 @@ class BarbarianService
     # Includes units out on attack.
     private function getDpCurrent(Dominion $dominion): int
     {
-        $dp = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * 3;
-        $dp += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * 5;
+        $dp = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * static::UNIT2_DP;
+        $dp += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * static::UNIT3_DP;
 
         return $dp;
     }
@@ -102,8 +108,8 @@ class BarbarianService
     # Includes units at home and out on attack.
     private function getOpCurrent(Dominion $dominion): int
     {
-        $op = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * 3;
-        $op += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * 5;
+        $op = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * static::UNIT1_OP;
+        $op += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * static::UNIT4_OP;
 
         return $op;
     }
@@ -111,8 +117,8 @@ class BarbarianService
     # Includes units at home and out on attack.
     private function getOpAtHome(Dominion $dominion): int
     {
-        $op = $dominion->military_unit1 * 3;
-        $op += $dominion->military_unit4 * 5;
+        $op = $dominion->military_unit1 * static::UNIT1_OP;
+        $op += $dominion->military_unit4 * static::UNIT4_OP;
 
         return $op;
     }
@@ -120,8 +126,8 @@ class BarbarianService
     private function getDpPaid(Dominion $dominion): int
     {
         $dp = $this->getDpCurrent($dominion);
-        $dp += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * 3;
-        $dp += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * 5;
+        $dp += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * static::UNIT2_DP;
+        $dp += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * static::UNIT3_DP;
 
         return $dp;
     }
@@ -129,8 +135,8 @@ class BarbarianService
     private function getOpPaid(Dominion $dominion): int
     {
         $op = $this->getOpCurrent($dominion);
-        $op += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * 3;
-        $op += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * 5;
+        $op += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * static::UNIT1_OP;
+        $op += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * static::UNIT4_OP;
 
         return $op;
     }
@@ -186,14 +192,14 @@ class BarbarianService
             $dpaDelta = $this->getDpaTarget($dominion) - $this->getDpaPaid($dominion);
             $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
 
-            $logString = '[BARBARIAN/training] ' . $dominion->name . ': Acres: ' . number_format($land);
-            $logString .= ' | DPA target: ' . $this->getDpaTarget($dominion);
-            $logString .= ' | DPA paid: ' .   $this->getDpaPaid($dominion);
-            $logString .= ' | DPA delta: ' .   $dpaDelta;
-            $logString .= ' || OPA target: ' . $this->getOpaTarget($dominion);
-            $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
-            $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
-            $logString .= ' | OPA delta: ' .   $opaDelta;
+            $logString = '[BARBARIAN:TRAINING] ' . $dominion->name . ': Acres: ' . number_format($land);
+            $logString .= ' | DPA target: ' .   $this->getDpaTarget($dominion);
+            $logString .= ' | DPA paid: ' .     $this->getDpaPaid($dominion);
+            $logString .= ' | DPA delta: ' .    $dpaDelta;
+            $logString .= ' || OPA target: ' .  $this->getOpaTarget($dominion);
+            $logString .= ' | OPA paid: ' .     $this->getOpaPaid($dominion);
+            $logString .= ' | OPA home: ' .     $this->getOpaAtHome($dominion);
+            $logString .= ' | OPA delta: ' .    $opaDelta;
             $logString .= ' || ';
 
             if($dpaDelta > 0)
@@ -206,8 +212,8 @@ class BarbarianService
                 $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
 
-                $units['military_unit2'] = intval(($dpToTrain*$specsRatio)/3);
-                $units['military_unit3'] = intval(($dpToTrain*$specsRatio)/5);
+                $units['military_unit2'] = intval(($dpToTrain*$specsRatio)/static::UNIT2_DP);
+                $units['military_unit3'] = intval(($dpToTrain*$specsRatio)/static::UNIT3_DP);
             }
             else
             {
@@ -217,17 +223,13 @@ class BarbarianService
 
             if($opaDelta > 0)
             {
-                //echo "[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) . ")\n";
-                //Log::Debug("[OP] Need to train OP. OPA delta is: $opaDelta (current: " . $this->getOpaTarget($dominion) . " - paid: " . $this->getOpaPaid($dominion) .  ")");
-
                 $opToTrain = $opaDelta * $land;
 
                 $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
 
-                # Overtrain OP by 10%.
-                $units['military_unit1'] = intval(($opToTrain*$specsRatio)/3 * 1.1);
-                $units['military_unit4'] = intval(($opToTrain*$specsRatio)/5 * 1.1);
+                $units['military_unit1'] = intval(($opToTrain*$specsRatio)/static::UNIT1_OP);
+                $units['military_unit4'] = intval(($opToTrain*$specsRatio)/static::UNIT4_OP);
             }
             else
             {
@@ -278,8 +280,8 @@ class BarbarianService
     public function handleBarbarianInvasion(Dominion $dominion): void
     {
         $invade = false;
-        $logString = "[BARBARIAN/invading] Handling invasion check for " . $dominion->name . ": ";
-        echo $logString . "\n";
+        $logString = "[BARBARIAN:INVASION] " . $dominion->name . ": ";
+        #echo $logString . "\n";
 
         if($dominion->race->name === 'Barbarian')
         {
@@ -290,20 +292,20 @@ class BarbarianService
                 if(rand(1, static::ONE_IN_CHANCE_TO_HIT) == 1)
                 {
                     $invade = true;
-                    $logString .= " ✅ Invasion confirmed to take place.";
+                    $logString .= "✅ Invasion confirmed to take place.";
                 }
                 else
                 {
-                    $logString .= " ❌ Chance of invasion did not occur.";
+                    $logString .= "❌ Chance of invasion did not occur.";
                 }
             }
             else
             {
-                $logString .= ' Not enough OP to invade.';
+                $logString .= '🚫 Insufficient OP!';
                 $logString .= ' | OPA target: ' . $this->getOpaTarget($dominion);
                 $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
                 $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
-                $logString .= ' || ';
+                $logString .= '.';
             }
 
             if($invade === true)
