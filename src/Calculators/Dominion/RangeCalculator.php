@@ -218,13 +218,16 @@ class RangeCalculator
                   return (
 
                       # Not in the same realm; and
-                      ($dominion->realm->id !== $self->realm->id) &&
+                      ($dominion->realm->id !== $self->realm->id) and
 
                       # Is in range; and
-                      $this->isInRange($self, $dominion) &&
+                      $this->isInRange($self, $dominion) and
 
                       # Is not in protection;
-                      !$this->protectionService->isUnderProtection($dominion)
+                      !$this->protectionService->isUnderProtection($dominion) and
+
+                      # Is not locked;
+                      $dominion->is_locked !== 1
                   );
               })
               ->sortByDesc(function ($dominion) {
