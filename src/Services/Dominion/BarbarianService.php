@@ -30,7 +30,7 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # One in x chance to hit
-    protected const ONE_IN_CHANCE_TO_HIT = 3;
+    protected const ONE_IN_CHANCE_TO_HIT = 2;
 
     # Gain % of land between these two values when hitting. /1000
     protected const LAND_GAIN_MIN = 100;
@@ -50,7 +50,7 @@ class BarbarianService
     protected const UNITS_TRAINED_MAX = 120;
 
     # Training time in ticks
-    protected const UNITS_TRAINING_TICKS = 2;
+    protected const UNITS_TRAINING_TICKS = 4;
 
     # Unit powers
     protected const UNIT1_OP = 3;
