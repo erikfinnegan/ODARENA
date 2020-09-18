@@ -136,7 +136,10 @@
                               @foreach($barbarianSettings as $setting => $value)
                                   <li>{{ $setting }}: <code>{{ $value }}</code></li>
                               @endforeach
+                              <li>NPC_MODIFIER: <code>rand(500,1000)</code>, assigned to each Barbarian at registration</li>
                               <li>CHANCE_TO_HIT: <code>1 / (14 - (14 - min([Current Day], 14))) = {{ 1/(14 - (14 - min($realm->round->start_date->subDays(1)->diffInDays(now()),14))) }}</code></li>
+                              <li>DPA_TARGET: <code>[DPA constant] + ([Hours Into The Round] * [DPA Per Hour]) * [NPC Modifier] = {{ $barbarianSettings['DPA_CONSTANT'] }} + ({{ $hoursIntoTheRound }} * {{ $barbarianSettings['DPA_PER_HOUR'] }})  * [NPC Modifier] = {{ $barbarianSettings['DPA_CONSTANT'] + ($hoursIntoTheRound * $barbarianSettings['DPA_PER_HOUR']) }}  * [NPC Modifier]</code></li>
+                              <li>OPA_TARGET: <code>[DPA] * 0.75</code></li>
                               </ul>
                           </div>
                     </div>

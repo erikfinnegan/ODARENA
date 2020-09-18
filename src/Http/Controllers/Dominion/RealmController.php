@@ -18,6 +18,7 @@ use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Services\Dominion\BarbarianService;
+use Illuminate\Support\Carbon;
 
 class RealmController extends AbstractDominionController
 {
@@ -142,6 +143,9 @@ class RealmController extends AbstractDominionController
             $barbarianSettings = $barbarianService->getBarbarianSettings();
         }
 
+        $calculateDate = max($dominion->round->start_date, $dominion->created_at);
+        $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
+
         // Todo: refactor this hacky hacky navigation stuff
         $prevRealm = DB::table('realms')
             ->where('round_id', $round->id)
@@ -182,7 +186,8 @@ class RealmController extends AbstractDominionController
             'landHelper',
             'alignmentNoun',
             'alignmentAdjective',
-            'barbarianSettings'
+            'barbarianSettings',
+            'hoursIntoTheRound'
         ));
     }
 
