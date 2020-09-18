@@ -599,7 +599,7 @@ class TickService
         # Prevent negative peasants.
         if($populationPeasantGrowth < 0)
         {
-            $populationPeasantGrowth = max(abs($populationPeasantGrowth), $dominion->peasants)*-1;
+            $populationPeasantGrowth = min(abs($populationPeasantGrowth), $dominion->peasants)*-1;
         }
         $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
