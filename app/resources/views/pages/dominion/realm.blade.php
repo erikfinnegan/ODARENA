@@ -136,7 +136,7 @@
                               @foreach($barbarianSettings as $setting => $value)
                                   <li>{{ $setting }}: <code>{{ $value }}</code></li>
                               @endforeach
-                              <li>CHANCE_TO_HIT: <code>1 / (14 - (14 - min({{ $realm->round->start_date->subDays(1)->diffInDays(now()) }}, 14))) = {{ 1/(14 - (14 - min($realm->round->start_date->subDays(1)->diffInDays(now()),14))) }}</code></li>
+                              <li>CHANCE_TO_HIT: <code>1 / (14 - (14 - min([Current Day], 14))) = {{ 1/(14 - (14 - min($realm->round->start_date->subDays(1)->diffInDays(now()),14))) }}</code></li>
                               </ul>
                           </div>
                     </div>
