@@ -29,9 +29,6 @@ class BarbarianService
     protected const SPECS_RATIO_MIN = 50;
     protected const SPECS_RATIO_MAX = 500;
 
-    # One in x chance to hit
-    protected const ONE_IN_CHANCE_TO_HIT = 14;
-
     # Gain % of land between these two values when hitting. /1000
     protected const LAND_GAIN_MIN = 100;
     protected const LAND_GAIN_MAX = 200;
@@ -273,11 +270,7 @@ class BarbarianService
             if($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion))
             {
 
-                $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-
-                
-
-                if(rand(1, static::ONE_IN_CHANCE_TO_HIT) == 1)
+                if($this->chanceToHit($dominion))
                 {
                     $invade = true;
                     $logString .= "✅ Invasion confirmed to take place.";
@@ -486,7 +479,14 @@ class BarbarianService
                 'data' => NULL,
             ]);
         }
-
     }
+
+    private function chanceToHit($dominion): bool
+    {
+        $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
+        $chanceOneIn = 14 - (14 - min($currentDay, 14));
+        return rand(1,$chanceOneIn) ? true : false;
+    }
+
 
 }
