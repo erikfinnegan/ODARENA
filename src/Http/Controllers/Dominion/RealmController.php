@@ -17,6 +17,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Services\Dominion\BarbarianService;
 
 class RealmController extends AbstractDominionController
 {
@@ -30,6 +31,7 @@ class RealmController extends AbstractDominionController
         $realmCalculator = app(RealmCalculator::class);
         $militaryCalculator = app(MilitaryCalculator::class);
         $landHelper = app(LandHelper::class);
+        $barbarianService = app(BarbarianService::class);
 
         $dominion = $this->getSelectedDominion();
         $round = $dominion->round;
@@ -116,6 +118,8 @@ class RealmController extends AbstractDominionController
             }
         }
 
+        $barbarianSettings = [];
+
         if($realm->alignment == 'good')
         {
             $alignmentNoun = 'Commonwealth';
@@ -135,6 +139,7 @@ class RealmController extends AbstractDominionController
         {
             $alignmentNoun = 'Barbarian';
             $alignmentAdjective = 'Barbarian';
+            $barbarianSettings = $barbarianService->getBarbarianSettings();
         }
 
         // Todo: refactor this hacky hacky navigation stuff
@@ -177,6 +182,7 @@ class RealmController extends AbstractDominionController
             'landHelper',
             'alignmentNoun',
             'alignmentAdjective',
+            'barbarianSettings'
         ));
     }
 

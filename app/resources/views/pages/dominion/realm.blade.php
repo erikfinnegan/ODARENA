@@ -86,9 +86,11 @@
                                             @endif
 
                                             @if ($dominion->id === $selectedDominion->id)
+                                                <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }} &mdash; That's you, chief!">
                                                 <b>{{ $dominion->name }}</b>
+                                                </span>
                                             @else
-                                                <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }} @if($dominion->race->name === 'Barbarian') {{ '<br>NPC modifier: ' . $dominion->npc_modifier/1000 }} @endif ">
                                                 @if ($isOwnRealm)
                                                     {{ $dominion->name }}
                                                 @else
@@ -121,6 +123,26 @@
 
                 </div>
             </div>
+
+
+            @if($realm->alignment === 'npc')
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="ra ra-uncertainty"></i> Barbarian AI</h3>
+                    </div>
+                    <div class="box-body">
+                          <div class="row">
+                              <ul>
+                              @foreach($barbarianSettings as $setting => $value)
+                                  <li>{{ $setting }}: <code>{{ $value }}</code></li>
+                              @endforeach
+                              <li>CHANCE_TO_HIT: <code>1 / (14 - (14 - min({{ $realm->round->start_date->subDays(1)->diffInDays(now()) }}, 14))) = {{ 1/(14 - (14 - min($realm->round->start_date->subDays(1)->diffInDays(now()),14))) }}</code></li>
+                              </ul>
+                          </div>
+                    </div>
+
+                </div>
+            @endif
         </div>
 
         <div class="col-sm-12 col-md-3">

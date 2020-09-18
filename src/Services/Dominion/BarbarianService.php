@@ -78,43 +78,43 @@ class BarbarianService
     }
 
 
-    public function getBarbarianSetting(string $setting): array
+    public function getBarbarianSettings(): array
     {
         $settings = [
-            'DPA_CONSTANT' => DPA_CONSTANT,
-            'DPA_PER_HOUR' => DPA_PER_HOUR,
+            'DPA_CONSTANT' => static::DPA_CONSTANT,
+            'DPA_PER_HOUR' => static::DPA_PER_HOUR,
 
             # Train % of new units as specs. /1000
-            'SPECS_RATIO_MIN' => SPECS_RATIO_MIN,
-            'SPECS_RATIO_MAX' => SPECS_RATIO_MAX,
+            'SPECS_RATIO_MIN' => static::SPECS_RATIO_MIN,
+            'SPECS_RATIO_MAX' => static::SPECS_RATIO_MAX,
 
             # Gain % of land between these two values when hitting. /1000
-            'LAND_GAIN_MIN' => LAND_GAIN_MIN,
-            'LAND_GAIN_MAX' => LAND_GAIN_MAX,
+            'LAND_GAIN_MIN' => static::LAND_GAIN_MIN,
+            'LAND_GAIN_MAX' => static::LAND_GAIN_MAX,
 
             # Send between these two values when hitting. /100
-            'SENT_RATIO_MIN' => SENT_RATIO_MIN,
-            'SENT_RATIO_MAX' => SENT_RATIO_MAX,
+            'SENT_RATIO_MIN' => static::SENT_RATIO_MIN,
+            'SENT_RATIO_MAX' => static::SENT_RATIO_MAX,
 
             # Lose % of units between these two values when hitting. /1000
-            'CASUALTIES_MIN' => CASUALTIES_MIN,
-            'CASUALTIES_MAX' => CASUALTIES_MAX,
+            'CASUALTIES_MIN' => static::CASUALTIES_MIN,
+            'CASUALTIES_MAX' => static::CASUALTIES_MAX,
 
             # Train between these two values % of required units per tick. /100
-            'UNITS_TRAINED_MIN' => UNITS_TRAINED_MIN,
-            'UNITS_TRAINED_MAX' => UNITS_TRAINED_MAX,
+            'UNITS_TRAINED_MIN' => static::UNITS_TRAINED_MIN,
+            'UNITS_TRAINED_MAX' => static::UNITS_TRAINED_MAX,
 
             # Training time in ticks
-            'UNITS_TRAINING_TICKS' => UNITS_TRAINING_TICKS,
+            'UNITS_TRAINING_TICKS' => static::UNITS_TRAINING_TICKS,
 
             # Unit powers
-            'UNIT1_OP' => UNIT1_OP,
-            'UNIT2_DP' => UNIT2_DP,
-            'UNIT3_DP' => UNIT3_DP,
-            'UNIT4_OP' => UNIT4_OP,
+            'UNIT1_OP' => static::UNIT1_OP,
+            'UNIT2_DP' => static::UNIT2_DP,
+            'UNIT3_DP' => static::UNIT3_DP,
+            'UNIT4_OP' => static::UNIT4_OP,
         ];
 
-        return $settings[$setting];
+        return $settings;
     }
 
     private function getDpaTarget(Dominion $dominion): int
