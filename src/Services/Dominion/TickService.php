@@ -596,11 +596,6 @@ class TickService
 
         $tick->peasants_sacrificed = $this->populationCalculator->getPeasantsSacrificed($dominion) * -1;
 
-        # Prevent negative peasants.
-        if($populationPeasantGrowth < 0)
-        {
-            $populationPeasantGrowth = min(abs($populationPeasantGrowth), $dominion->peasants)*-1;
-        }
         $tick->peasants = $populationPeasantGrowth;
         $tick->military_draftees = $drafteesGrowthRate;
 
