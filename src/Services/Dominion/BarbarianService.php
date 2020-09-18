@@ -30,21 +30,21 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # Gain % of land between these two values when hitting. /1000
-    protected const LAND_GAIN_MIN = 100;
-    protected const LAND_GAIN_MAX = 200;
+    protected const LAND_GAIN_MIN = 80;
+    protected const LAND_GAIN_MAX = 160;
 
-    # Send between these two values when hitting. /100
-    protected const SENT_RATIO_MIN = 80;
-    protected const SENT_RATIO_MAX = 100;
+    # Send between these two values when hitting. /1000
+    protected const SENT_RATIO_MIN = 800;
+    protected const SENT_RATIO_MAX = 1000;
 
     # Lose % of units between these two values when hitting. /1000
     protected const CASUALTIES_MIN = 50;
     protected const CASUALTIES_MAX = 100;
 
-    # Train between these two values % of required units per tick. /100
+    # Train between these two values % of required units per tick. /1000
     // Disabled, always training 100%.
-    protected const UNITS_TRAINED_MIN = 80;
-    protected const UNITS_TRAINED_MAX = 120;
+    protected const UNITS_TRAINED_MIN = 800;
+    protected const UNITS_TRAINED_MAX = 1200;
 
     # Training time in ticks
     protected const UNITS_TRAINING_TICKS = 4;
@@ -75,6 +75,46 @@ class BarbarianService
         $this->queueService = app(QueueService::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->dominionFactory = app(DominionFactory::class);
+    }
+
+
+    public function getBarbarianSetting(string $setting): array
+    {
+        $settings = [
+            'DPA_CONSTANT' => DPA_CONSTANT,
+            'DPA_PER_HOUR' => DPA_PER_HOUR,
+
+            # Train % of new units as specs. /1000
+            'SPECS_RATIO_MIN' => SPECS_RATIO_MIN,
+            'SPECS_RATIO_MAX' => SPECS_RATIO_MAX,
+
+            # Gain % of land between these two values when hitting. /1000
+            'LAND_GAIN_MIN' => LAND_GAIN_MIN,
+            'LAND_GAIN_MAX' => LAND_GAIN_MAX,
+
+            # Send between these two values when hitting. /100
+            'SENT_RATIO_MIN' => SENT_RATIO_MIN,
+            'SENT_RATIO_MAX' => SENT_RATIO_MAX,
+
+            # Lose % of units between these two values when hitting. /1000
+            'CASUALTIES_MIN' => CASUALTIES_MIN,
+            'CASUALTIES_MAX' => CASUALTIES_MAX,
+
+            # Train between these two values % of required units per tick. /100
+            'UNITS_TRAINED_MIN' => UNITS_TRAINED_MIN,
+            'UNITS_TRAINED_MAX' => UNITS_TRAINED_MAX,
+
+            # Training time in ticks
+            'UNITS_TRAINING_TICKS' => UNITS_TRAINING_TICKS,
+
+            # Unit powers
+            'UNIT1_OP' => UNIT1_OP,
+            'UNIT2_DP' => UNIT2_DP,
+            'UNIT3_DP' => UNIT3_DP,
+            'UNIT4_OP' => UNIT4_OP,
+        ];
+
+        return $settings[$setting];
     }
 
     private function getDpaTarget(Dominion $dominion): int
@@ -205,8 +245,8 @@ class BarbarianService
                 $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
 
-                $units['military_unit2'] = intval(($dpToTrain*$specsRatio)/static::UNIT2_DP);
-                $units['military_unit3'] = intval(($dpToTrain*$elitesRatio)/static::UNIT3_DP);
+                $units['military_unit2'] = ceil(($dpToTrain*$specsRatio)/static::UNIT2_DP);
+                $units['military_unit3'] = ceil(($dpToTrain*$elitesRatio)/static::UNIT3_DP);
             }
 
             if($opaDelta > 0)
@@ -216,16 +256,14 @@ class BarbarianService
                 $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
 
-                $units['military_unit1'] = intval(($opToTrain*$specsRatio)/static::UNIT1_OP);
-                $units['military_unit4'] = intval(($opToTrain*$elitesRatio)/static::UNIT4_OP);
+                $units['military_unit1'] = ceil(($opToTrain*$specsRatio)/static::UNIT1_OP);
+                $units['military_unit4'] = ceil(($opToTrain*$elitesRatio)/static::UNIT4_OP);
             }
 
             foreach($units as $unit => $amountToTrain)
             {
                 if($amountToTrain > 0)
                 {
-                    #$amountToTrain *= rand(static::UNITS_TRAINED_MIN, static::UNITS_TRAINED_MAX)/100;
-                    #$amountToTrain = max(1, $amountToTrain);
                     $data = [$unit => $amountToTrain];
                     $hours = intval(static::UNITS_TRAINING_TICKS);
                     $this->queueService->queueResources('training', $dominion, $data, $hours);
@@ -312,7 +350,7 @@ class BarbarianService
                 $dominion->stat_total_land_conquered = $totalLandToGain;
                 $dominion->stat_attacking_success += 1;
 
-                $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/100;
+                $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/1000;
 
                 $casualtiesRatio = rand(static::CASUALTIES_MIN, static::CASUALTIES_MAX)/1000;
 
