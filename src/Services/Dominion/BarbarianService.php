@@ -273,6 +273,10 @@ class BarbarianService
             if($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion))
             {
 
+                $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
+
+                
+
                 if(rand(1, static::ONE_IN_CHANCE_TO_HIT) == 1)
                 {
                     $invade = true;
