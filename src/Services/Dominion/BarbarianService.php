@@ -29,6 +29,9 @@ class BarbarianService
     protected const SPECS_RATIO_MIN = 50;
     protected const SPECS_RATIO_MAX = 500;
 
+    # Chance to hit
+    protected const CHANCE_TO_HIT_CONSTANT = 14;
+
     # Gain % of land between these two values when hitting. /1000
     protected const LAND_GAIN_MIN = 40;
     protected const LAND_GAIN_MAX = 80;
@@ -83,31 +86,18 @@ class BarbarianService
         $settings = [
             'DPA_CONSTANT' => static::DPA_CONSTANT,
             'DPA_PER_HOUR' => static::DPA_PER_HOUR,
-
-            # Train % of new units as specs. /1000
             'SPECS_RATIO_MIN' => static::SPECS_RATIO_MIN,
             'SPECS_RATIO_MAX' => static::SPECS_RATIO_MAX,
-
-            # Gain % of land between these two values when hitting. /1000
+            'CHANCE_TO_HIT_CONSTANT' => static::CHANCE_TO_HIT_CONSTANT;
             'LAND_GAIN_MIN' => static::LAND_GAIN_MIN,
             'LAND_GAIN_MAX' => static::LAND_GAIN_MAX,
-
-            # Send between these two values when hitting. /100
             'SENT_RATIO_MIN' => static::SENT_RATIO_MIN,
             'SENT_RATIO_MAX' => static::SENT_RATIO_MAX,
-
-            # Lose % of units between these two values when hitting. /1000
             'CASUALTIES_MIN' => static::CASUALTIES_MIN,
             'CASUALTIES_MAX' => static::CASUALTIES_MAX,
-
-            # Train between these two values % of required units per tick. /100
             'UNITS_TRAINED_MIN' => static::UNITS_TRAINED_MIN,
             'UNITS_TRAINED_MAX' => static::UNITS_TRAINED_MAX,
-
-            # Training time in ticks
             'UNITS_TRAINING_TICKS' => static::UNITS_TRAINING_TICKS,
-
-            # Unit powers
             'UNIT1_OP' => static::UNIT1_OP,
             'UNIT2_DP' => static::UNIT2_DP,
             'UNIT3_DP' => static::UNIT3_DP,
@@ -522,7 +512,7 @@ class BarbarianService
     private function chanceToHit($dominion): bool
     {
         $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-        $chanceOneIn = 14 - (14 - min($currentDay, 14));
+        $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - min($currentDay, 14));
         return rand(1,$chanceOneIn) ? true : false;
     }
 
