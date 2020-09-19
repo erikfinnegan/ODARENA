@@ -88,7 +88,7 @@ class BarbarianService
             'DPA_PER_HOUR' => static::DPA_PER_HOUR,
             'SPECS_RATIO_MIN' => static::SPECS_RATIO_MIN,
             'SPECS_RATIO_MAX' => static::SPECS_RATIO_MAX,
-            'CHANCE_TO_HIT_CONSTANT' => static::CHANCE_TO_HIT_CONSTANT;
+            'CHANCE_TO_HIT_CONSTANT' => static::CHANCE_TO_HIT_CONSTANT,
             'LAND_GAIN_MIN' => static::LAND_GAIN_MIN,
             'LAND_GAIN_MAX' => static::LAND_GAIN_MAX,
             'SENT_RATIO_MIN' => static::SENT_RATIO_MIN,
