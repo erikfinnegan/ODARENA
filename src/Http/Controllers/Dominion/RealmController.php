@@ -143,8 +143,7 @@ class RealmController extends AbstractDominionController
             $barbarianSettings = $barbarianService->getBarbarianSettings();
         }
 
-        $calculateDate = max($dominion->round->start_date, $dominion->created_at);
-        $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
+        $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
 
         // Todo: refactor this hacky hacky navigation stuff
         $prevRealm = DB::table('realms')
