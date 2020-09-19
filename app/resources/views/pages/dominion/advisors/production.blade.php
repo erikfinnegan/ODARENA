@@ -585,7 +585,7 @@
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on exploring land">Exploring</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on improvements">Improvements</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much of this resource you have bought">Bought</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much of this resource you have sold">Sould</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much of this resource you have sold">Sold</span></th>
                                   </tr>
                             </thead>
                             <tbody>
