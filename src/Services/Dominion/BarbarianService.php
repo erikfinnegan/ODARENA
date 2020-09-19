@@ -30,8 +30,8 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # Gain % of land between these two values when hitting. /1000
-    protected const LAND_GAIN_MIN = 80;
-    protected const LAND_GAIN_MAX = 160;
+    protected const LAND_GAIN_MIN = 40;
+    protected const LAND_GAIN_MAX = 80;
 
     # Send between these two values when hitting. /1000
     protected const SENT_RATIO_MIN = 800;
