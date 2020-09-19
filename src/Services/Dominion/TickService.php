@@ -270,7 +270,7 @@ class TickService
 
             $realms = $round->realms()->get();
 
-            if(rand(1,96) === 1)
+            if(rand(1, $this->barbarianService->getSetting('ONE_IN_CHANCE_TO_SPAWN')) === 1)
             {
                 $this->barbarianService->createBarbarian($round);
             }

@@ -24,6 +24,7 @@ class BarbarianService
 
     protected const DPA_CONSTANT = 25;
     protected const DPA_PER_HOUR = 0.50;
+    protected const OPA_MULTIPLIER = 0.75;
 
     # Train % of new units as specs. /1000
     protected const SPECS_RATIO_MIN = 50;
@@ -33,8 +34,8 @@ class BarbarianService
     protected const CHANCE_TO_HIT_CONSTANT = 14;
 
     # Gain % of land between these two values when hitting. /1000
-    protected const LAND_GAIN_MIN = 35;
-    protected const LAND_GAIN_MAX = 70;
+    protected const LAND_GAIN_MIN = 30;
+    protected const LAND_GAIN_MAX = 60;
 
     # Send between these two values when hitting. /1000
     protected const SENT_RATIO_MIN = 800;
@@ -58,6 +59,8 @@ class BarbarianService
     protected const UNIT3_DP = 5;
     protected const UNIT4_OP = 5;
 
+    # Chance each tick for new Barbarian to spawn
+    protected const ONE_IN_CHANCE_TO_SPAWN = 80;
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
@@ -86,6 +89,7 @@ class BarbarianService
         $settings = [
             'DPA_CONSTANT' => static::DPA_CONSTANT,
             'DPA_PER_HOUR' => static::DPA_PER_HOUR,
+            'OPA_MULTIPLIER' => static::OPA_MULTIPLIER,
             'SPECS_RATIO_MIN' => static::SPECS_RATIO_MIN,
             'SPECS_RATIO_MAX' => static::SPECS_RATIO_MAX,
             'CHANCE_TO_HIT_CONSTANT' => static::CHANCE_TO_HIT_CONSTANT,
@@ -102,9 +106,22 @@ class BarbarianService
             'UNIT2_DP' => static::UNIT2_DP,
             'UNIT3_DP' => static::UNIT3_DP,
             'UNIT4_OP' => static::UNIT4_OP,
+            'ONE_IN_CHANCE_TO_SPAWN' => static::ONE_IN_CHANCE_TO_SPAWN,
         ];
 
         return $settings;
+    }
+
+    public function getBarbarianSetting(string $setting)
+    {
+        $value = null;
+        $settings = $this->getBarbarianSettings();
+        if(in_array($setting, $settings))
+        {
+            $value = $settings[$setting];
+        }
+
+        return $value;
     }
 
     private function getDpaTarget(Dominion $dominion): int
@@ -120,7 +137,7 @@ class BarbarianService
 
     private function getOpaTarget(Dominion $dominion): int
     {
-        return $this->getDpaTarget($dominion) * 0.75;
+        return $this->getDpaTarget($dominion) * static::OPA_MULTIPLIER;
     }
 
     # Includes units out on attack.

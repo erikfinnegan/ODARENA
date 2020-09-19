@@ -139,7 +139,7 @@
                               <li>NPC_MODIFIER: <code>rand(500,1000)</code>, assigned to each Barbarian at registration</li>
                               <li>CHANCE_TO_HIT: <code>1 / ([Chance To Hit Constant] - (14 - min([Current Day], 14))) = {{ 1/($barbarianSettings['CHANCE_TO_HIT_CONSTANT'] - (14 - min($realm->round->start_date->subDays(1)->diffInDays(now()),14))) }}</code></li>
                               <li>DPA_TARGET: <code>[DPA Constant] + ([Hours Into The Round] * [DPA Per Hour]) * [NPC Modifier] = {{ $barbarianSettings['DPA_CONSTANT'] }} + ({{ $hoursIntoTheRound }} * {{ $barbarianSettings['DPA_PER_HOUR'] }})  * [NPC Modifier] = {{ $barbarianSettings['DPA_CONSTANT'] + ($hoursIntoTheRound * $barbarianSettings['DPA_PER_HOUR']) }}  * [NPC Modifier]</code></li>
-                              <li>OPA_TARGET: <code>[DPA] * 0.75</code></li>
+                              <li>OPA_TARGET: <code>[DPA] * [OPA Multiplier]</code></li>
                               </ul>
                           </div>
                     </div>
