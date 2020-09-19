@@ -31,7 +31,7 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # Chance to hit
-    protected const CHANCE_TO_HIT_CONSTANT = 14;
+    protected const CHANCE_TO_HIT_CONSTANT = 21;
 
     # Gain % of land between these two values when hitting. /1000
     protected const LAND_GAIN_MIN = 20;
@@ -51,7 +51,7 @@ class BarbarianService
     protected const UNITS_TRAINED_MAX = 1200;
 
     # Training time in ticks
-    protected const UNITS_TRAINING_TICKS = 4;
+    protected const UNITS_TRAINING_TICKS = 9;
 
     # Unit powers
     protected const UNIT1_OP = 3;
@@ -126,8 +126,6 @@ class BarbarianService
 
     private function getDpaTarget(Dominion $dominion): int
     {
-        #$constant = 25;
-
         $calculateDate = max($dominion->round->start_date, $dominion->created_at);
 
         $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
@@ -210,6 +208,7 @@ class BarbarianService
     {
         return $this->getOpAtHome($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
+
 
 
     public function handleBarbarianTraining(Dominion $dominion): void
@@ -311,8 +310,11 @@ class BarbarianService
 
         if($dominion->race->name === 'Barbarian')
         {
-            # Make sure we have the expected OPA to hit.
-            if($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion))
+            # Make sure we have the expected OPA to hit, and enough DPA at home.
+            if(
+                ($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion)) and
+                ($this->getDpaCurrent($dominion) >= $this->getDpaTarget($dominion))
+              )
             {
 
                 if($this->chanceToHit($dominion))
