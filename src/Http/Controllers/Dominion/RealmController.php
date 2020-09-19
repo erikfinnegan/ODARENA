@@ -120,6 +120,7 @@ class RealmController extends AbstractDominionController
         }
 
         $barbarianSettings = [];
+        $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
 
         if($realm->alignment == 'good')
         {
@@ -142,8 +143,6 @@ class RealmController extends AbstractDominionController
             $alignmentAdjective = 'Barbarian';
             $barbarianSettings = $barbarianService->getBarbarianSettings();
         }
-
-        $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
 
         // Todo: refactor this hacky hacky navigation stuff
         $prevRealm = DB::table('realms')

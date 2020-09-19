@@ -23,7 +23,7 @@ class BarbarianService
 {
 
     protected const DPA_CONSTANT = 25;
-    protected const DPA_PER_HOUR = 0.50;
+    protected const DPA_PER_HOUR = 0.40;
     protected const OPA_MULTIPLIER = 0.75;
 
     # Train % of new units as specs. /1000
