@@ -568,11 +568,13 @@
                         <table class="table">
                             <colgroup>
                                 <col>
-                                <col width="15%">
-                                <col width="15%">
-                                <col width="15%">
-                                <col width="15%">
-                                <col width="15%">
+                                <col width="12.5%">
+                                <col width="12.5%">
+                                <col width="12.5%">
+                                <col width="12.5%">
+                                <col width="12.5%">
+                                <col width="12.5%">
+                                <col width="12.5%">
                             </colgroup>
                             <thead>
                                   <tr>
@@ -582,6 +584,8 @@
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on rezoning land">Rezoning</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on exploring land">Exploring</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have spent of this resource on improvements">Improvements</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much of this resource you have bought">Bought</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="How much of this resource you have sold">Sould</span></th>
                                   </tr>
                             </thead>
                             <tbody>
@@ -592,6 +596,8 @@
                                       <td>{{ number_format($selectedDominion->stat_total_platinum_spent_rezoning) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_platinum_spent_exploring) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_platinum_spent_improving) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_platinum_bought) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_platinum_sold) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Food</td>
@@ -600,6 +606,8 @@
                                       <td>{{ number_format($selectedDominion->stat_total_food_spent_rezoning) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_food_spent_exploring) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_food_spent_improving) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_bought) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_food_sold) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Lumber</td>
@@ -608,6 +616,8 @@
                                       <td>{{ number_format($selectedDominion->stat_total_lumber_spent_rezoning) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_lumber_spent_exploring) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_lumber_spent_improving) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_lumber_bought) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_lumber_sold) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Mana</td>
@@ -616,6 +626,8 @@
                                       <td>{{ number_format($selectedDominion->stat_total_mana_spent_rezoning) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_mana_spent_exploring) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_mana_spent_improving) }}</td>
+                                      <td>&mdash;</td>
+                                      <td>&mdash;</td>
                                   </tr>
                                   <tr>
                                       <td>Ore</td>
@@ -624,6 +636,8 @@
                                       <td>{{ number_format($selectedDominion->stat_total_ore_spent_rezoning) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_ore_spent_exploring) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_ore_spent_improving) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_ore_bought) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_ore_sold) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Gems</td>
@@ -632,6 +646,8 @@
                                       <td>{{ number_format($selectedDominion->stat_total_gem_spent_rezoning) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gem_spent_exploring) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gem_spent_improving) }}</td>
+                                      <td>&mdash;</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gem_sold) }}</td>
                                   </tr>
                             </tbody>
                         </table>
