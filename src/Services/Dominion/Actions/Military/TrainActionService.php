@@ -36,7 +36,6 @@ class TrainActionService
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
-    // ODA
     /** @var SpellCalculator */
     protected $spellCalculator;
 
@@ -86,6 +85,12 @@ class TrainActionService
     public function train(Dominion $dominion, array $data): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot train.');
+        }
 
         $data = array_only($data, array_map(function ($value) {
             return "military_{$value}";

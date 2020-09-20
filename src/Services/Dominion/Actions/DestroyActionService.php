@@ -7,9 +7,19 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class DestroyActionService
 {
     use DominionGuardsTrait;
+
+        /** @var SpellCalculator */
+        protected $spellCalculator;
+
+        public function __construct()
+        {
+            $this->spellCalculator = app(SpellCalculator::class);
+        }
 
     /**
      * Does a destroy buildings action for a Dominion.
@@ -22,6 +32,12 @@ class DestroyActionService
     public function destroy(Dominion $dominion, array $data): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot destroy buildings.');
+        }
 
         $data = array_map('\intval', $data);
 

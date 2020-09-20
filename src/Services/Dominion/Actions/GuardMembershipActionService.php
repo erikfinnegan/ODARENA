@@ -9,6 +9,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 #ODA
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class GuardMembershipActionService
 {
@@ -20,6 +21,9 @@ class GuardMembershipActionService
     /** @var QueueService */
     protected $queueService;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * GuardMembershipActionService constructor.
      *
@@ -27,10 +31,13 @@ class GuardMembershipActionService
      */
     public function __construct(
         GuardMembershipService $guardMembershipService,
-        QueueService $queueService)
+        QueueService $queueService,
+        SpellCalculator $spellCalculator
+        )
     {
         $this->guardMembershipService = $guardMembershipService;
         $this->queueService = $queueService;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -43,6 +50,12 @@ class GuardMembershipActionService
     public function joinRoyalGuard(Dominion $dominion): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot join or leave a league.');
+        }
 
         if ($this->guardMembershipService->isEliteGuardApplicant($dominion))
         {
@@ -95,6 +108,12 @@ class GuardMembershipActionService
     {
         $this->guardLockedDominion($dominion);
 
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot join or leave a league.');
+        }
+
         if ($this->guardMembershipService->isRoyalGuardApplicant($dominion))
         {
             throw new GameException('You have applied to join the Peacekepers League. To join the Warriors League, you must first cancel your application to join the Peacekepers League.');
@@ -141,6 +160,12 @@ class GuardMembershipActionService
     {
         $this->guardLockedDominion($dominion);
 
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot join or leave a league.');
+        }
+
         if ($this->guardMembershipService->getHoursBeforeLeaveRoyalGuard($dominion))
         {
             throw new GameException('You cannot leave your League before 12 hours after joining.');
@@ -178,6 +203,12 @@ class GuardMembershipActionService
     public function leaveEliteGuard(Dominion $dominion): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot join or leave a league.');
+        }
 
         $totalUnitsReturning = 0;
         for ($slot = 1; $slot <= 4; $slot++)

@@ -12,6 +12,9 @@ use OpenDominion\Services\Realm\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use RuntimeException;
 
+
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class GovernmentActionService
 {
     use DominionGuardsTrait;
@@ -22,15 +25,22 @@ class GovernmentActionService
     /** @var NotificationService */
     protected $notificationService;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
     /**
      * GovernmentActionService constructor.
      *
      * @param GovernmentService $governmentService
      */
-    public function __construct(GovernmentService $governmentService, NotificationService $notificationService)
+    public function __construct(
+        GovernmentService $governmentService,
+        NotificationService $notificationService,
+        SpellCalculator $spellCalculator
+        )
     {
         $this->governmentService = $governmentService;
         $this->notificationService = $notificationService;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -43,6 +53,12 @@ class GovernmentActionService
     public function voteForMonarch(Dominion $dominion, ?int $monarch_id)
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot take government actions.');
+        }
 
         $monarch = Dominion::find($monarch_id);
         if ($monarch == null) {
@@ -68,6 +84,11 @@ class GovernmentActionService
             throw new GameException($monarch->race->name . ' cannot be Governor.');
         }
 
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($monarch, 'stasis'))
+        {
+            throw new GameException($monarch->name . ' is in stasis and cannot be voted for Governor.');
+        }
 
         $dominion->monarchy_vote_for_dominion_id = $monarch->id;
         $dominion->save();
@@ -85,6 +106,12 @@ class GovernmentActionService
     public function updateRealm(Dominion $dominion, ?string $motd, ?string $name, ?int $contribution, ?string $discordLink)
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot take government actions.');
+        }
 
         if (!$dominion->isMonarch()) {
             throw new GameException('Only the Governor can make changes to their realm.');
@@ -154,6 +181,13 @@ class GovernmentActionService
      */
     public function declareWar(Dominion $dominion, int $realm_number)
     {
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot take government actions.');
+        }
+
         $target = Realm::where(['round_id'=>$dominion->round_id, 'number'=>$realm_number])->first();
         if ($target == null || $dominion->realm->round_id != $target->round_id) {
             throw new RuntimeException('Realm not found.');
@@ -214,6 +248,13 @@ class GovernmentActionService
      */
     public function cancelWar(Dominion $dominion)
     {
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot take government actions.');
+        }
+
         if (!$dominion->isMonarch()) {
             throw new GameException('Only the Governor can declare war.');
         }

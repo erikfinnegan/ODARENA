@@ -363,6 +363,12 @@ class InvadeActionService
                 throw new GameException('You cannot attack unless a portal is open.');
             }
 
+            // Qur: Statis cannot be invaded.
+            if($this->spellCalculator->isSpellActive($target, 'stasis'))
+            {
+                throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your units to invade.');
+            }
+
             // Peacekeepers League: can only invade if recently invaded.
             if($this->guardMembershipService->isRoyalGuardMember($dominion) and !$this->militaryCalculator->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
             {

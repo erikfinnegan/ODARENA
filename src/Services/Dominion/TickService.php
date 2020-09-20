@@ -108,8 +108,24 @@ class TickService
 
         $activeRounds = Round::active()->get();
 
-        foreach ($activeRounds as $round) {
-            DB::transaction(function () use ($round)
+        foreach ($activeRounds as $round)
+        {
+
+            # Get dominions IDs with Stasis active
+            $stasisDominions = [];
+            $dominions = $round->activeDominions()->get();
+            foreach($dominions as $dominion)
+            {
+                if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+                {
+                    echo $dominion->name . " is in statis.\n";
+                    $stasisDominions[] = $dominion->id;
+                }
+            }
+            unset($dominions);
+
+
+            DB::transaction(function () use ($round, $stasisDominions)
             {
                 // Update dominions
                   #echo "Updating dominions.\n";
@@ -117,6 +133,7 @@ class TickService
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
                     ->where('dominions.is_locked', false)
+                    ->whereNotIn('dominion_tick.dominion_id', $stasisDominions)
                     ->where('dominions.protection_ticks', '=', 0)
                     ->update([
                         'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
@@ -223,7 +240,6 @@ class TickService
                     ]);
 
                 // Update spells
-                  #echo "Updating spells.\n";
                   DB::table('active_spells')
                       ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
@@ -234,18 +250,15 @@ class TickService
                       ]);
 
                 // Update queues
-                  #echo "Updating queues.\n";
                   DB::table('dominion_queue')
                       ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
+                      ->whereNotIn('dominions.id', $stasisDominions)
                       ->where('dominions.protection_ticks', '=', 0)
                       ->update([
                           'hours' => DB::raw('`hours` - 1'),
                           'dominion_queue.updated_at' => $this->now,
                       ]);
-
-                // Update queues
-
             }, 10);
 
             Log::info(sprintf(
@@ -515,400 +528,400 @@ class TickService
             ['dominion_id' => $dominion->id]
         );
 
-        if ($saveHistory)
-        {
-            // Save a dominion history record
-            $dominionHistoryService = app(HistoryService::class);
-
-            $changes = array_filter($tick->getAttributes(), static function ($value, $key)
-            {
-                return (
-                    !in_array($key, [
-                        'id',
-                        'dominion_id',
-                        'created_at',
-                    ], true) &&
-                    ($value != 0) // todo: strict type checking?
-                );
-            }, ARRAY_FILTER_USE_BOTH);
-
-            $dominionHistoryService->record($dominion, $changes, HistoryService::EVENT_TICK);
-        }
-
-        // Reset tick values
-        foreach ($tick->getAttributes() as $attr => $value)
-        {
-            if (!in_array($attr, ['id', 'dominion_id', 'updated_at','starvation_casualties','pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
-            {
-                  $tick->{$attr} = 0;
-            }
-            elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'/*, 'attrition_unit1', 'attrition_unit2', 'attrition_unit3', 'attrition_unit4'*/], true))
-            {
-                  $tick->{$attr} = [];
-            }
-        }
-
-        // Hacky refresh for dominion
-        $dominion->refresh();
-        $this->spellCalculator->getActiveSpells($dominion, true);
-
-        // Queues
-        $incomingQueue = DB::table('dominion_queue')
-            ->where('dominion_id', $dominion->id)
-            ->where('hours', '=', 1)
-            ->get();
-
-        foreach ($incomingQueue as $row)
-        {
-            $tick->{$row->resource} += $row->amount;
-            // Temporarily add next hour's resources for accurate calculations
-            $dominion->{$row->resource} += $row->amount;
-        }
-
-        # NPC Barbarian: training
-        if($dominion->race->name === 'Barbarian')
-        {
-            $this->barbarianService->handleBarbarianTraining($dominion);
-        }
-
-        $tick->protection_ticks = 0;
-        // Tick
-        if($dominion->protection_ticks > 0)
-        {
-            $tick->protection_ticks += -1;
-        }
-
-        // Population
-        $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
-        $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
-
-        if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
-        {
-            $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
-
-            $amountToDie = intval($dominion->peasants * 0.01);
-            $amountToDie *= $this->rangeCalculator->getDominionRange($caster, $dominion) / 100;
-            $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
-
-            $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];
-            $populationPeasantGrowth -= $amountToDie;
-        }
-
-        $tick->peasants_sacrificed = $this->populationCalculator->getPeasantsSacrificed($dominion) * -1;
-
-        $tick->peasants = $populationPeasantGrowth;
-        $tick->military_draftees = $drafteesGrowthRate;
-
-        // Void: Improvements Decay - Lower all improvements by improvements_decay%.
-        if($dominion->race->getPerkValue('improvements_decay'))
-        {
-            foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
-            {
-                $percentageDecayed = $dominion->race->getPerkValue('improvements_decay') / 100;
-                $tick->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * $percentageDecayed;
-            }
-        }
-
-        // Resources
-
-        # Max storage
-        $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
-        $acres = $this->landCalculator->getTotalLand($dominion);
-        $maxPlatinumPerAcre = 10000;
-
-        $maxStorage = [];
-        $maxStorage['platinum'] = $acres * $maxPlatinumPerAcre;
-        #$maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35) + $dominion->getUnitPerkProductionBonus('food_production'));
-        $maxStorage['lumber'] = max($acres * 100, $maxStorageTicks * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production')));
-        $maxStorage['ore'] = max($acres * 100, $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production')));
-        $maxStorage['gems'] = max($acres * 50, $maxStorageTicks * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production')));
-        if($dominion->race->name == 'Myconid')
-        {
-          $maxStorage['gems'] += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
-        }
-
-        $tick->resource_platinum += min($this->productionCalculator->getPlatinumProduction($dominion), max(0, ($maxStorage['platinum'] - $dominion->resource_platinum)));
-
-        $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
-        $tick->resource_lumber += min($this->productionCalculator->getLumberNetChange($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
-
-        $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
-        $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
-
-        $tick->resource_ore += min($this->productionCalculator->getOreProduction($dominion), max(0, ($maxStorage['ore'] - $dominion->resource_ore)));
-
-        $tick->resource_gems += min($this->productionCalculator->getGemProduction($dominion), max(0, ($maxStorage['gems'] - $dominion->resource_gems)));
-
-        $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
-        $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
-
-        # ODA: wild yeti production
-        $tick->resource_wild_yeti_production += $this->productionCalculator->getWildYetiProduction($dominion);
-        $tick->resource_wild_yeti += $this->productionCalculator->getWildYetiNetChange($dominion);
-
-        $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
-        $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
-
-        # Decay, rot, drain
-        $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
-        $tick->resource_food_decay += $this->productionCalculator->getFoodDecay($dominion);
-        $tick->resource_lumber_rot += $this->productionCalculator->getLumberDecay($dominion);
-        $tick->resource_mana_drain += $this->productionCalculator->getManaDecay($dominion);
-
-        # Contribution: how much is LOST (GIVEN AWAY)
-        $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
-        $tick->resource_lumber_contribution = $this->productionCalculator->getContribution($dominion, 'lumber');
-        $tick->resource_ore_contribution = $this->productionCalculator->getContribution($dominion, 'ore');
-
-        # Contributed: how much is RECEIVED (GIVEN TO)
-        if($dominion->race->name == 'Monster')
-        {
-            $totalContributions = $this->realmCalculator->getTotalContributions($dominion->realm);
-            $tick->resource_food_contributed = $totalContributions['food'];
-            $tick->resource_lumber_contributed = $totalContributions['lumber'];
-            $tick->resource_ore_contributed = $totalContributions['ore'];
-        }
-        else
-        {
-            $tick->resource_food_contributed = 0;
-            $tick->resource_lumber_contributed = 0;
-            $tick->resource_ore_contributed = 0;
-        }
-
-        // Check for starvation before adjusting food
-        $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion) - $tick->resource_food_contribution;
-
-        $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
-
-        // Starvation
-        $tick->starvation_casualties = 0;
-        if (($dominion->resource_food + $foodNetChange) < 0)
-        {
-            $tick->starvation_casualties = 1;
-            $tick->resource_food = max(0, $tick->resource_food);
-        }
-        else
-        {
-            // Food production
-            $tick->resource_food += $foodNetChange;
-        }
-
-        // Morale
-        $baseMorale = 100;
-        $baseMoraleModifier = $this->militaryCalculator->getBaseMoraleModifier($dominion, $this->populationCalculator->getPopulation($dominion));
-        $baseMorale *= (1 + $baseMoraleModifier);
-        $baseMorale = intval($baseMorale);
-
-        if($tick->starvation_casualties > 0)
-        {
-            # Lower morale by 10.
-            $starvationMoraleChange = -10;
-            if(($dominion->morale + $starvationMoraleChange) < 0)
-            {
-              $tick->morale = -$dominion->morale;
-            }
-            else
-            {
-              $tick->morale = $starvationMoraleChange;
-            }
-        }
-        else
-        {
-            if ($dominion->morale < 35)
-            {
-              $tick->morale = 7;
-            }
-            elseif ($dominion->morale < 70)
-            {
-                $tick->morale = 6;
-            }
-            elseif ($dominion->morale < $baseMorale)
-            {
-                $tick->morale = min(3, $baseMorale - $dominion->morale);
-            }
-            elseif($dominion->morale > $baseMorale)
-            {
-              $tick->morale -= min(2, $dominion->morale - $baseMorale);
-            }
-        }
-
-        // Spy Strength
-        if ($dominion->spy_strength < 100)
-        {
-            $spyStrengthAdded = 4;
-            $spyStrengthAdded += $dominion->getTechPerkValue('spy_strength_recovery');
-
-            $tick->spy_strength = min($spyStrengthAdded, 100 - $dominion->spy_strength);
-        }
-
-        // Wizard Strength
-        if ($dominion->wizard_strength < 100)
-        {
-            $wizardStrengthAdded = 4;
-
-            $wizardStrengthPerWizardGuild = 0.1;
-            $wizardStrengthPerWizardGuildMax = 2;
-
-            $wizardStrengthAdded += min(
-                (($dominion->building_wizard_guild / $this->landCalculator->getTotalLand($dominion)) * (100 * $wizardStrengthPerWizardGuild)),
-                $wizardStrengthPerWizardGuildMax
-            );
-
-            $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
-
-            $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
-        }
-
-        # Tickly unit perks
-        $generatedLand = 0;
-
-        $generatedUnit1 = 0;
-        $generatedUnit2 = 0;
-        $generatedUnit3 = 0;
-        $generatedUnit4 = 0;
-
-        $attritionUnit1 = 0;
-        $attritionUnit2 = 0;
-        $attritionUnit3 = 0;
-        $attritionUnit4 = 0;
-
-        # Cult unit attrition reduction
-        $attritionReduction = 1;
-        if($dominion->race->name == 'Cult')
-        {
-            $attritionReduction = $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
-        }
-
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            // Myconid: Land generation
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
-            {
-                $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
-                $generatedLand = max($generatedLand, 0);
-
-                # Defensive Warts turn off land generation
-                if($this->spellCalculator->isSpellActive($dominion, 'defensive_warts'))
-                {
-                    $generatedLand = 0;
-                }
-            }
-
-            $availablePopulation = $this->populationCalculator->getMaxPopulation($dominion) - $this->populationCalculator->getPopulationMilitary($dominion);
-
-            // Myconid and Cult: Unit generation
-            if($unitGenerationPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
-            {
-                $unitToGenerateSlot = $unitGenerationPerk[0];
-                $unitAmountToGeneratePerGeneratingUnit = $unitGenerationPerk[1];
-                $unitAmountToGenerate = $dominion->{'military_unit'.$slot} * $unitAmountToGeneratePerGeneratingUnit;
-
-                #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which generate " . $unitAmountToGeneratePerGeneratingUnit . " per tick. Total generation is " . $unitAmountToGenerate . " unit" . $unitToGenerateSlot . ". Available population: " . number_format($availablePopulation) . "\n";
-
-                $unitAmountToGenerate = max(0, min($unitAmountToGenerate, $availablePopulation));
-
-                #echo "\tAmount generated: " . $unitAmountToGenerate . "\n\n";
-
-                if($unitToGenerateSlot == 1)
-                {
-                    $generatedUnit1 += $unitAmountToGenerate;
-                }
-                elseif($unitToGenerateSlot == 2)
-                {
-                    $generatedUnit2 += $unitAmountToGenerate;
-                }
-                elseif($unitToGenerateSlot == 3)
-                {
-                    $generatedUnit3 += $unitAmountToGenerate;
-                }
-                elseif($unitToGenerateSlot == 4)
-                {
-                    $generatedUnit4 += $unitAmountToGenerate;
-                }
-
-                $availablePopulation -= $unitAmountToGenerate;
-            }
-
-
-            // Cult: Unit attrition
-            if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
-            {
-                $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * $attritionReduction);
-                #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will abandon.\n";
-                $unitAttritionAmount = max(0, min($unitAttritionAmount, $dominion->{'military_unit'.$slot})); # Sanity caps.
-
-                if($slot == 1)
-                {
-                    $attritionUnit1 += $unitAttritionAmount;
-                }
-                elseif($slot == 2)
-                {
-                    $attritionUnit2 += $unitAttritionAmount;
-                }
-                elseif($slot == 3)
-                {
-                    $attritionUnit3 += $unitAttritionAmount;
-                }
-                elseif($slot == 4)
-                {
-                    $attritionUnit4 += $unitAttritionAmount;
-                }
-
-            }
-        }
-
-        # Imperial Crypt: Dark Rites units
-        if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
-        {
-            # What portion of the Crypt bodies is available to this dominion?
-            $cryptProportion = $this->realmCalculator->getCryptBodiesProportion($dominion);
-
-            # Determine how many bodies are available to this dominion.
-            $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
-
-            $unit4PerUnit1 = 10; # How many Wraiths does it take to create a Skeleton
-            $unit3PerUnit2 = 10; # How many Reverends does it take to create a Ghoul
-
-            # Of the available bodies, how many become Skeletons (unit1) and how many become Ghouls (unit2)?
-            $unit1Ratio = $dominion->military_unit4 / ($dominion->military_unit3 + $dominion->military_unit4);
-            $unit2Ratio = 1 - $unit1Ratio;
-
-            # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
-            $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable * $unit1Ratio));
-            $unit2Created = intval(min($dominion->military_unit3 / $unit3PerUnit2, $bodiesAvailable * $unit2Ratio));
-
-            # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
-            $bodiesSpent = min($dominion->realm->crypt, intval($unit1Created + $unit2Created));
-
-            # Prepare the units for queue.
-            $tick->generated_unit1 += $unit1Created;
-            $tick->generated_unit2 += $unit2Created;
-
-            # Prepare the bodies for removal.
-            $tick->crypt_bodies_spent = $bodiesSpent;
-        }
-
-        # Use decimals as probability to round up
-        $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
-
-        $tick->generated_unit1 += intval($generatedUnit1) + (rand()/getrandmax() < fmod($generatedUnit1, 1) ? 1 : 0);
-        $tick->generated_unit2 += intval($generatedUnit2) + (rand()/getrandmax() < fmod($generatedUnit2, 1) ? 1 : 0);
-        $tick->generated_unit3 += intval($generatedUnit3) + (rand()/getrandmax() < fmod($generatedUnit3, 1) ? 1 : 0);
-        $tick->generated_unit4 += intval($generatedUnit4) + (rand()/getrandmax() < fmod($generatedUnit4, 1) ? 1 : 0);
-
-        $tick->attrition_unit1 += intval($attritionUnit1);
-        $tick->attrition_unit2 += intval($attritionUnit2);
-        $tick->attrition_unit3 += intval($attritionUnit3);
-        $tick->attrition_unit4 += intval($attritionUnit4);
-
-
-        foreach ($incomingQueue as $row)
-        {
-            // Reset current resources in case object is saved later
-            $dominion->{$row->resource} -= $row->amount;
-        }
-
-        $tick->save();
+          if ($saveHistory)
+          {
+              // Save a dominion history record
+              $dominionHistoryService = app(HistoryService::class);
+
+              $changes = array_filter($tick->getAttributes(), static function ($value, $key)
+              {
+                  return (
+                      !in_array($key, [
+                          'id',
+                          'dominion_id',
+                          'created_at',
+                      ], true) &&
+                      ($value != 0) // todo: strict type checking?
+                  );
+              }, ARRAY_FILTER_USE_BOTH);
+
+              $dominionHistoryService->record($dominion, $changes, HistoryService::EVENT_TICK);
+          }
+
+          // Reset tick values
+          foreach ($tick->getAttributes() as $attr => $value)
+          {
+              if (!in_array($attr, ['id', 'dominion_id', 'updated_at','starvation_casualties','pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
+              {
+                    $tick->{$attr} = 0;
+              }
+              elseif (in_array($attr, ['starvation_casualties', 'pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'/*, 'attrition_unit1', 'attrition_unit2', 'attrition_unit3', 'attrition_unit4'*/], true))
+              {
+                    $tick->{$attr} = [];
+              }
+          }
+
+          // Hacky refresh for dominion
+          $dominion->refresh();
+          $this->spellCalculator->getActiveSpells($dominion, true);
+
+          // Queues
+          $incomingQueue = DB::table('dominion_queue')
+              ->where('dominion_id', $dominion->id)
+              ->where('hours', '=', 1)
+              ->get();
+
+          foreach ($incomingQueue as $row)
+          {
+              $tick->{$row->resource} += $row->amount;
+              // Temporarily add next hour's resources for accurate calculations
+              $dominion->{$row->resource} += $row->amount;
+          }
+
+          # NPC Barbarian: training
+          if($dominion->race->name === 'Barbarian')
+          {
+              $this->barbarianService->handleBarbarianTraining($dominion);
+          }
+
+          $tick->protection_ticks = 0;
+          // Tick
+          if($dominion->protection_ticks > 0)
+          {
+              $tick->protection_ticks += -1;
+          }
+
+          // Population
+          $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
+          $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
+
+          if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
+          {
+              $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
+
+              $amountToDie = intval($dominion->peasants * 0.01);
+              $amountToDie *= $this->rangeCalculator->getDominionRange($caster, $dominion) / 100;
+              $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
+
+              $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];
+              $populationPeasantGrowth -= $amountToDie;
+          }
+
+          $tick->peasants_sacrificed = $this->populationCalculator->getPeasantsSacrificed($dominion) * -1;
+
+          $tick->peasants = $populationPeasantGrowth;
+          $tick->military_draftees = $drafteesGrowthRate;
+
+          // Void: Improvements Decay - Lower all improvements by improvements_decay%.
+          if($dominion->race->getPerkValue('improvements_decay'))
+          {
+              foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
+              {
+                  $percentageDecayed = $dominion->race->getPerkValue('improvements_decay') / 100;
+                  $tick->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * $percentageDecayed;
+              }
+          }
+
+          // Resources
+
+          # Max storage
+          $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
+          $acres = $this->landCalculator->getTotalLand($dominion);
+          $maxPlatinumPerAcre = 10000;
+
+          $maxStorage = [];
+          $maxStorage['platinum'] = $acres * $maxPlatinumPerAcre;
+          #$maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35) + $dominion->getUnitPerkProductionBonus('food_production'));
+          $maxStorage['lumber'] = max($acres * 100, $maxStorageTicks * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production')));
+          $maxStorage['ore'] = max($acres * 100, $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production')));
+          $maxStorage['gems'] = max($acres * 50, $maxStorageTicks * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production')));
+          if($dominion->race->name == 'Myconid')
+          {
+            $maxStorage['gems'] += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
+          }
+
+          $tick->resource_platinum += min($this->productionCalculator->getPlatinumProduction($dominion), max(0, ($maxStorage['platinum'] - $dominion->resource_platinum)));
+
+          $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
+          $tick->resource_lumber += min($this->productionCalculator->getLumberNetChange($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
+
+          $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
+          $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
+
+          $tick->resource_ore += min($this->productionCalculator->getOreProduction($dominion), max(0, ($maxStorage['ore'] - $dominion->resource_ore)));
+
+          $tick->resource_gems += min($this->productionCalculator->getGemProduction($dominion), max(0, ($maxStorage['gems'] - $dominion->resource_gems)));
+
+          $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
+          $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
+
+          # ODA: wild yeti production
+          $tick->resource_wild_yeti_production += $this->productionCalculator->getWildYetiProduction($dominion);
+          $tick->resource_wild_yeti += $this->productionCalculator->getWildYetiNetChange($dominion);
+
+          $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
+          $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
+
+          # Decay, rot, drain
+          $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
+          $tick->resource_food_decay += $this->productionCalculator->getFoodDecay($dominion);
+          $tick->resource_lumber_rot += $this->productionCalculator->getLumberDecay($dominion);
+          $tick->resource_mana_drain += $this->productionCalculator->getManaDecay($dominion);
+
+          # Contribution: how much is LOST (GIVEN AWAY)
+          $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
+          $tick->resource_lumber_contribution = $this->productionCalculator->getContribution($dominion, 'lumber');
+          $tick->resource_ore_contribution = $this->productionCalculator->getContribution($dominion, 'ore');
+
+          # Contributed: how much is RECEIVED (GIVEN TO)
+          if($dominion->race->name == 'Monster')
+          {
+              $totalContributions = $this->realmCalculator->getTotalContributions($dominion->realm);
+              $tick->resource_food_contributed = $totalContributions['food'];
+              $tick->resource_lumber_contributed = $totalContributions['lumber'];
+              $tick->resource_ore_contributed = $totalContributions['ore'];
+          }
+          else
+          {
+              $tick->resource_food_contributed = 0;
+              $tick->resource_lumber_contributed = 0;
+              $tick->resource_ore_contributed = 0;
+          }
+
+          // Check for starvation before adjusting food
+          $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion) - $tick->resource_food_contribution;
+
+          $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
+
+          // Starvation
+          $tick->starvation_casualties = 0;
+          if (($dominion->resource_food + $foodNetChange) < 0)
+          {
+              $tick->starvation_casualties = 1;
+              $tick->resource_food = max(0, $tick->resource_food);
+          }
+          else
+          {
+              // Food production
+              $tick->resource_food += $foodNetChange;
+          }
+
+          // Morale
+          $baseMorale = 100;
+          $baseMoraleModifier = $this->militaryCalculator->getBaseMoraleModifier($dominion, $this->populationCalculator->getPopulation($dominion));
+          $baseMorale *= (1 + $baseMoraleModifier);
+          $baseMorale = intval($baseMorale);
+
+          if($tick->starvation_casualties > 0)
+          {
+              # Lower morale by 10.
+              $starvationMoraleChange = -10;
+              if(($dominion->morale + $starvationMoraleChange) < 0)
+              {
+                $tick->morale = -$dominion->morale;
+              }
+              else
+              {
+                $tick->morale = $starvationMoraleChange;
+              }
+          }
+          else
+          {
+              if ($dominion->morale < 35)
+              {
+                $tick->morale = 7;
+              }
+              elseif ($dominion->morale < 70)
+              {
+                  $tick->morale = 6;
+              }
+              elseif ($dominion->morale < $baseMorale)
+              {
+                  $tick->morale = min(3, $baseMorale - $dominion->morale);
+              }
+              elseif($dominion->morale > $baseMorale)
+              {
+                $tick->morale -= min(2, $dominion->morale - $baseMorale);
+              }
+          }
+
+          // Spy Strength
+          if ($dominion->spy_strength < 100)
+          {
+              $spyStrengthAdded = 4;
+              $spyStrengthAdded += $dominion->getTechPerkValue('spy_strength_recovery');
+
+              $tick->spy_strength = min($spyStrengthAdded, 100 - $dominion->spy_strength);
+          }
+
+          // Wizard Strength
+          if ($dominion->wizard_strength < 100)
+          {
+              $wizardStrengthAdded = 4;
+
+              $wizardStrengthPerWizardGuild = 0.1;
+              $wizardStrengthPerWizardGuildMax = 2;
+
+              $wizardStrengthAdded += min(
+                  (($dominion->building_wizard_guild / $this->landCalculator->getTotalLand($dominion)) * (100 * $wizardStrengthPerWizardGuild)),
+                  $wizardStrengthPerWizardGuildMax
+              );
+
+              $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
+
+              $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
+          }
+
+          # Tickly unit perks
+          $generatedLand = 0;
+
+          $generatedUnit1 = 0;
+          $generatedUnit2 = 0;
+          $generatedUnit3 = 0;
+          $generatedUnit4 = 0;
+
+          $attritionUnit1 = 0;
+          $attritionUnit2 = 0;
+          $attritionUnit3 = 0;
+          $attritionUnit4 = 0;
+
+          # Cult unit attrition reduction
+          $attritionReduction = 1;
+          if($dominion->race->name == 'Cult')
+          {
+              $attritionReduction = $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
+          }
+
+          for ($slot = 1; $slot <= 4; $slot++)
+          {
+              // Myconid: Land generation
+              if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick'))
+              {
+                  $generatedLand += $dominion->{"military_unit".$slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_per_tick');
+                  $generatedLand = max($generatedLand, 0);
+
+                  # Defensive Warts turn off land generation
+                  if($this->spellCalculator->isSpellActive($dominion, 'defensive_warts'))
+                  {
+                      $generatedLand = 0;
+                  }
+              }
+
+              $availablePopulation = $this->populationCalculator->getMaxPopulation($dominion) - $this->populationCalculator->getPopulationMilitary($dominion);
+
+              // Myconid and Cult: Unit generation
+              if($unitGenerationPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'unit_production'))
+              {
+                  $unitToGenerateSlot = $unitGenerationPerk[0];
+                  $unitAmountToGeneratePerGeneratingUnit = $unitGenerationPerk[1];
+                  $unitAmountToGenerate = $dominion->{'military_unit'.$slot} * $unitAmountToGeneratePerGeneratingUnit;
+
+                  #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which generate " . $unitAmountToGeneratePerGeneratingUnit . " per tick. Total generation is " . $unitAmountToGenerate . " unit" . $unitToGenerateSlot . ". Available population: " . number_format($availablePopulation) . "\n";
+
+                  $unitAmountToGenerate = max(0, min($unitAmountToGenerate, $availablePopulation));
+
+                  #echo "\tAmount generated: " . $unitAmountToGenerate . "\n\n";
+
+                  if($unitToGenerateSlot == 1)
+                  {
+                      $generatedUnit1 += $unitAmountToGenerate;
+                  }
+                  elseif($unitToGenerateSlot == 2)
+                  {
+                      $generatedUnit2 += $unitAmountToGenerate;
+                  }
+                  elseif($unitToGenerateSlot == 3)
+                  {
+                      $generatedUnit3 += $unitAmountToGenerate;
+                  }
+                  elseif($unitToGenerateSlot == 4)
+                  {
+                      $generatedUnit4 += $unitAmountToGenerate;
+                  }
+
+                  $availablePopulation -= $unitAmountToGenerate;
+              }
+
+
+              // Cult: Unit attrition
+              if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
+              {
+                  $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * $attritionReduction);
+                  #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will abandon.\n";
+                  $unitAttritionAmount = max(0, min($unitAttritionAmount, $dominion->{'military_unit'.$slot})); # Sanity caps.
+
+                  if($slot == 1)
+                  {
+                      $attritionUnit1 += $unitAttritionAmount;
+                  }
+                  elseif($slot == 2)
+                  {
+                      $attritionUnit2 += $unitAttritionAmount;
+                  }
+                  elseif($slot == 3)
+                  {
+                      $attritionUnit3 += $unitAttritionAmount;
+                  }
+                  elseif($slot == 4)
+                  {
+                      $attritionUnit4 += $unitAttritionAmount;
+                  }
+
+              }
+          }
+
+          # Imperial Crypt: Dark Rites units
+          if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
+          {
+              # What portion of the Crypt bodies is available to this dominion?
+              $cryptProportion = $this->realmCalculator->getCryptBodiesProportion($dominion);
+
+              # Determine how many bodies are available to this dominion.
+              $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
+
+              $unit4PerUnit1 = 10; # How many Wraiths does it take to create a Skeleton
+              $unit3PerUnit2 = 10; # How many Reverends does it take to create a Ghoul
+
+              # Of the available bodies, how many become Skeletons (unit1) and how many become Ghouls (unit2)?
+              $unit1Ratio = $dominion->military_unit4 / ($dominion->military_unit3 + $dominion->military_unit4);
+              $unit2Ratio = 1 - $unit1Ratio;
+
+              # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
+              $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable * $unit1Ratio));
+              $unit2Created = intval(min($dominion->military_unit3 / $unit3PerUnit2, $bodiesAvailable * $unit2Ratio));
+
+              # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
+              $bodiesSpent = min($dominion->realm->crypt, intval($unit1Created + $unit2Created));
+
+              # Prepare the units for queue.
+              $tick->generated_unit1 += $unit1Created;
+              $tick->generated_unit2 += $unit2Created;
+
+              # Prepare the bodies for removal.
+              $tick->crypt_bodies_spent = $bodiesSpent;
+          }
+
+          # Use decimals as probability to round up
+          $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
+
+          $tick->generated_unit1 += intval($generatedUnit1) + (rand()/getrandmax() < fmod($generatedUnit1, 1) ? 1 : 0);
+          $tick->generated_unit2 += intval($generatedUnit2) + (rand()/getrandmax() < fmod($generatedUnit2, 1) ? 1 : 0);
+          $tick->generated_unit3 += intval($generatedUnit3) + (rand()/getrandmax() < fmod($generatedUnit3, 1) ? 1 : 0);
+          $tick->generated_unit4 += intval($generatedUnit4) + (rand()/getrandmax() < fmod($generatedUnit4, 1) ? 1 : 0);
+
+          $tick->attrition_unit1 += intval($attritionUnit1);
+          $tick->attrition_unit2 += intval($attritionUnit2);
+          $tick->attrition_unit3 += intval($attritionUnit3);
+          $tick->attrition_unit4 += intval($attritionUnit4);
+
+
+          foreach ($incomingQueue as $row)
+          {
+              // Reset current resources in case object is saved later
+              $dominion->{$row->resource} -= $row->amount;
+          }
+
+          $tick->save();
     }
 
     protected function updateDailyRankings(Collection $activeDominions): void

@@ -9,6 +9,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 // ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class ImproveActionService
 {
@@ -18,16 +19,28 @@ class ImproveActionService
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     public function __construct(
-        ImprovementCalculator $improvementCalculator
-    ) {
+        ImprovementCalculator $improvementCalculator,
+        SpellCalculator $spellCalculator
+    )
+    {
         $this->improvementCalculator = $improvementCalculator;
+        $this->spellCalculator = $spellCalculator;
     }
 
 
     public function improve(Dominion $dominion, string $resource, array $data): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot invest in improvements.');
+        }
 
         $data = array_map('\intval', $data);
 

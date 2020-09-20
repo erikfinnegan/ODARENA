@@ -1847,3 +1847,70 @@ craftsmanship_level8:
     - craftsmanship_level7
 
 # </Ladder: Employment>
+
+
+# <Ladder: Drafting>
+
+conscription_level1:
+  name: Concription
+  level: 1
+  perks:
+    drafting: 2.5
+
+conscription_level2:
+  name: Concription
+  level: 2
+  perks:
+    drafting: 5
+  requires:
+    - conscription_level1
+
+conscription_level3:
+  name: Concription
+  level: 3
+  perks:
+    drafting: 7.5
+  requires:
+    - conscription_level2
+
+conscription_level4:
+  name: Concription
+  level: 4
+  perks:
+    drafting: 10
+  requires:
+    - conscription_level3
+
+conscription_level5:
+  name: Concription
+  level: 5
+  perks:
+    drafting: 12.5
+  requires:
+    - conscription_level4
+
+conscription_level6:
+  name: Concription
+  level: 6
+  perks:
+    drafting: 15
+  requires:
+    - conscription_level5
+
+conscription_level7:
+  name: Concription
+  level: 7
+  perks:
+    drafting: 16.25
+  requires:
+    - conscription_level6
+
+conscription_level8:
+  name: Concription
+  level: 8
+  perks:
+    drafting: 17.5
+  requires:
+    - conscription_level7
+
+# </Ladder: Drafting>

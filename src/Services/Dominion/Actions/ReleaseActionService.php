@@ -80,6 +80,12 @@ class ReleaseActionService
 
         */
 
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot release.');
+        }
+
         $troopsReleased = [];
 
         $totalTroopsToRelease = array_sum($data);
@@ -165,7 +171,7 @@ class ReleaseActionService
             {
                 $dominion->peasants += $amount;
             }
-            
+
             # Only return draftees if unit is not exempt from population.
             elseif (!$dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'does_not_count_as_population'))
             {

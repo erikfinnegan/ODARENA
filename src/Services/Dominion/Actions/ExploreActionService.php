@@ -95,6 +95,12 @@ class ExploreActionService
             throw new GameException('Exploration has been disabled for the remainder of the round.');
         }
 
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot explore.');
+        }
+
         $data = array_only($data, array_map(function ($value) {
             return "land_{$value}";
         }, $this->landHelper->getLandTypes()));

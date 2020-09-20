@@ -13,6 +13,8 @@ use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class BuildActionService
 {
     use DominionGuardsTrait;
@@ -32,6 +34,9 @@ class BuildActionService
     /** @var QueueService */
     protected $queueService;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * ConstructionActionService constructor.
      */
@@ -42,6 +47,7 @@ class BuildActionService
         $this->landCalculator = app(LandCalculator::class);
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
+        $this->spellCalculator = app(SpellCalculator::class);
     }
 
     /**
@@ -55,6 +61,13 @@ class BuildActionService
     public function construct(Dominion $dominion, string $key, int $amountToBuild): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot build.');
+        }
+
 /*
         $data = array_only($data, array_map(function ($value) {
             return "building_{$value}";

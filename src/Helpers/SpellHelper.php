@@ -547,6 +547,14 @@ class SpellHelper
                 'duration' => 2,
                 'races' => collect(['Dragon']),
             ],
+            [
+                'name' => 'Stasis',
+                'description' => 'Freezes time. No production, cannot take actions, and cannot have actions taken against it.',
+                'key' => 'stasis',
+                'mana_cost' => 2,
+                'duration' => 2,
+                'races' => collect(['Qur']),
+            ],
         ]);
     }
 

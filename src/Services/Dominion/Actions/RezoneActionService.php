@@ -19,16 +19,24 @@ class RezoneActionService
     /** @var RezoningCalculator */
     protected $rezoningCalculator;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * RezoneActionService constructor.
      *
      * @param LandCalculator $landCalculator
      * @param RezoningCalculator $rezoningCalculator
      */
-    public function __construct(LandCalculator $landCalculator, RezoningCalculator $rezoningCalculator)
+    public function __construct(
+        LandCalculator $landCalculator,
+        RezoningCalculator $rezoningCalculator,
+        SpellCalculator $spellCalculator
+        )
     {
         $this->landCalculator = $landCalculator;
         $this->rezoningCalculator = $rezoningCalculator;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -43,6 +51,12 @@ class RezoneActionService
     public function rezone(Dominion $dominion, array $remove, array $add): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot rezone land.');
+        }
 
         if ($dominion->race->getPerkValue('cannot_rezone'))
         {

@@ -7,9 +7,19 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class DailyBonusesActionService
 {
     use DominionGuardsTrait;
+
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
+    public function __construct()
+    {
+        $this->spellCalculator = app(SpellCalculator::class);
+    }
 
     /**
      * Claims the daily platinum bonus for a Dominion.
@@ -35,6 +45,12 @@ class DailyBonusesActionService
     public function claimLand(Dominion $dominion): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot explore.');
+        }
 
         if ($dominion->daily_land)
         {

@@ -1,0 +1,87 @@
+name: Qur
+alignment: independent
+description:
+home_land_type: water
+playable: 1
+
+attacking: 3
+exploring : 2
+converting: 1
+
+construction_materials: platinum,lumber
+
+perks:
+  cannot_build_barracks: 1
+  salvaging: 65
+
+units:
+  - name: Hunter
+    training_time: 6
+    type:
+      - living
+      - sentient
+      - intelligent
+    need_boat: true
+    cost:
+      platinum: 200
+      ore: 0
+    power:
+      offense: 4
+      defense: 3
+    perks:
+      plunders: platinum;2,gems;0.1
+
+  - name: Crystal
+    training_time: 0
+    type:
+      - magical
+    need_boat: false
+    cost:
+      gem: 5
+      mana: 5
+    power:
+      offense: 0
+      defense: 2
+    perks:
+      no_draftee: 1
+      does_not_count_as_population: 1
+      instant_training: 1
+      mana_drain: 0.005
+
+  - name: Chariot
+    training_time: 12
+    type:
+      - machine
+    need_boat: true
+    cost:
+      platinum: 1000
+      lumber: 1000
+      ore: 1000
+    power:
+      offense: 6
+      defense: 9
+    perks:
+      faster_return: 6
+      fewer_casualties: 50
+      reduces_casualties: 1
+      plunders: ore;2,lumber;2
+      houses_military_units: 1
+
+  - name: Zealot
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+      - wise
+    need_boat: true
+    cost:
+      platinum: 1500
+    power:
+      offense: 9
+      defense: 6
+    perks:
+      destroys_souls: 1
+      kills_immortal: 1
+      faster_return_if_paired: 6,3 # ticks, unit
+      plunders: mana;2,gems;1

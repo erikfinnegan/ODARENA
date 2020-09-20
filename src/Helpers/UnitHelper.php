@@ -145,7 +145,7 @@ class UnitHelper
 
             'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
 
-            'kills_immortal' => 'Kills near immortal units.',
+            'kills_immortal' => 'Kills immortal units.',
 
             'reduces_casualties' => 'Reduces combat losses.',
             'increases_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',
@@ -183,6 +183,9 @@ class UnitHelper
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'platinum_upkeep' => 'Costs %s platinum per tick.',
+
+
+            'destroys_souls' => 'Releases souls.',            
 
             // Misc
             'faster_return' => 'Returns %s ticks faster from battle.',

@@ -146,6 +146,16 @@ class EspionageActionService
 
         $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($target, 'stasis'))
+        {
+            throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for spies to sneak in.');
+        }
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot conduct espionage.');
+        }
+
         if (!$operationInfo) {
             throw new LogicException("Cannot perform unknown operation '{$operationKey}'");
         }

@@ -19,14 +19,21 @@ class TechActionService
     /** @var TechCalculator */
     protected $techCalculator;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * TechActionService constructor.
      *
      * @param TechCalculator $techCalculator
      */
-    public function __construct(TechCalculator $techCalculator)
+    public function __construct(
+        TechCalculator $techCalculator,
+        SpellCalculator $spellCalculator
+      )
     {
         $this->techCalculator = $techCalculator;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -41,6 +48,12 @@ class TechActionService
     public function unlock(Dominion $dominion, string $key): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and level up advancements.');
+        }
 
         // Get the tech information
         $techToUnlock = Tech::where('key', $key)->first();

@@ -9,6 +9,8 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class BankActionService
 {
     use DominionGuardsTrait;
@@ -21,9 +23,13 @@ class BankActionService
      *
      * @param BankingCalculator $bankingCalculator
      */
-    public function __construct(BankingCalculator $bankingCalculator)
+    public function __construct(
+        BankingCalculator $bankingCalculator,
+        SpellCalculator $spellCalculator
+        )
     {
         $this->bankingCalculator = $bankingCalculator;
+        $this->spellCalculator = $spellCalculator;
     }
 
     /**
@@ -40,6 +46,12 @@ class BankActionService
     public function exchange(Dominion $dominion, string $source, string $target, int $amount): array
     {
         $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot exchange resources.');
+        }
 
         if($amount < 0) {
             throw new LogicException('Amount less than 0.');

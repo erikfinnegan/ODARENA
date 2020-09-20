@@ -15,6 +15,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class ConstructActionService
 {
@@ -38,6 +39,9 @@ class ConstructActionService
     /** @var RaceHelper */
     protected $raceHelper;
 
+    /** @var SpellCalculator */
+    protected $spellCalculator;
+
     /**
      * ConstructionActionService constructor.
      */
@@ -49,6 +53,7 @@ class ConstructActionService
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
         $this->raceHelper = app(RaceHelper::class);
+        $this->spellCalculator = app(SpellCalculator::class);
     }
 
     /**
@@ -70,6 +75,12 @@ class ConstructActionService
         $data = array_map('\intval', $data);
 
         $totalBuildingsToConstruct = array_sum($data);
+
+        // Qur: Statis
+        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        {
+            throw new GameException('You are in stasis and cannot build.');
+        }
 
         if ($totalBuildingsToConstruct <= 0)
         {
