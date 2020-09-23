@@ -124,6 +124,30 @@ class TickService
             }
             unset($dominions);
 
+            // Scoot hour 1 Qur Stasis units back to hour 2
+            foreach($stasisDominions as $stasisDominion)
+            {
+                $stasisDominion = Dominion::findorfail($stasisDominion);
+
+                  ## Determine how many of each unit type is returning in 1 hour
+                $units[1] = $queueService->getTrainingQueueAmount($stasisDominion, "military_unit1", 1);
+                $units[2] = $queueService->getTrainingQueueAmount($stasisDominion, "military_unit2", 1);
+                $units[3] = $queueService->getTrainingQueueAmount($stasisDominion, "military_unit3", 1);
+                $units[4] = $queueService->getTrainingQueueAmount($stasisDominion, "military_unit4", 1);
+
+                foreach($units as $slot => $amount)
+                {
+                      $unitType = 'military_unit'.$slot;
+
+                      # Dequeue the units from hour 1
+                      $this->queueService->dequeueResourceForHour('invasion', $stasisDominion, $unitType, $amount, 1);
+
+                      # (Re-)Queue the units to hour 2
+                      $this->queueService->queueResources('invasion', $stasisDominion, [$unitType => $amount], 2);
+                }
+
+            }
+
 
             DB::transaction(function () use ($round, $stasisDominions)
             {
@@ -253,12 +277,14 @@ class TickService
                   DB::table('dominion_queue')
                       ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
-                      ->whereNotIn('dominions.id', $stasisDominions)
                       ->where('dominions.protection_ticks', '=', 0)
+                      ->whereNotIn('dominion_tick.dominion_id', $stasisDominions)
                       ->update([
                           'hours' => DB::raw('`hours` - 1'),
                           'dominion_queue.updated_at' => $this->now,
                       ]);
+
+
             }, 10);
 
             Log::info(sprintf(

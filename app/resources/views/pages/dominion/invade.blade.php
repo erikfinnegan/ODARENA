@@ -335,6 +335,9 @@
                                   @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
                                     <p><strong><em>You cannot invade during the Rainy Season.</em></strong></p>
 
+                                  @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
+                                    <p><strong><em>You are in stasis and cannot invade.</em></strong></p>
+
                                   @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
                                       <p><strong><em>Due to starvation, you cannot invade until you have more food.</em></strong></p>
                                       <p><strong><em>Go to the <a href="{{ route('dominion.exchange') }}">Exchange</a> to buy food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</em></strong></p>

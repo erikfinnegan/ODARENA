@@ -111,6 +111,7 @@ class QueueService
 
     public function dequeueResource(string $source, Dominion $dominion, string $resource, int $amount): void
     {
+
         $queue = $this->getQueue($source, $dominion)
             ->filter(static function ($row) use ($resource) {
                 return ($row->resource === $resource);
@@ -118,7 +119,8 @@ class QueueService
 
         $leftToDequeue = $amount;
 
-        foreach ($queue as $value) {
+        foreach ($queue as $value)
+        {
             $amountEnqueued = $value->amount;
             $amountDequeued = $leftToDequeue;
 
@@ -129,19 +131,70 @@ class QueueService
             $leftToDequeue -= $amountDequeued;
             $newAmount = $amountEnqueued - $amountDequeued;
 
-            if($newAmount == 0) {
+            if($newAmount == 0)
+            {
                 DB::table('dominion_queue')->where([
                     'dominion_id' => $dominion->id,
                     'source' => $source,
                     'resource' => $resource,
                     'hours' => $value->hours,
                 ])->delete();
-            } else {
+            }
+            else
+            {
                 DB::table('dominion_queue')->where([
                     'dominion_id' => $dominion->id,
                     'source' => $source,
                     'resource' => $resource,
                     'hours' => $value->hours,
+                ])->update([
+                    'amount' => $newAmount,
+                ]);
+            }
+        }
+    }
+
+    public function dequeueResourceForHour(string $source, Dominion $dominion, string $resource, int $amount, int $hour): void
+    {
+
+        $queue = $this->getQueue($source, $dominion)
+            ->filter(static function ($row) use ($resource) {
+                return (
+                    $row->resource === $resource and
+                    $row->hours === $hour
+                  );
+            });
+
+        $leftToDequeue = $amount;
+
+        foreach ($queue as $value)
+        {
+            $amountEnqueued = $value->amount;
+            $amountDequeued = $leftToDequeue;
+
+            if($amountEnqueued < $leftToDequeue) {
+                $amountDequeued = $amountEnqueued;
+            }
+
+            $leftToDequeue -= $amountDequeued;
+            $newAmount = $amountEnqueued - $amountDequeued;
+
+            if($newAmount == 0)
+            {
+                DB::table('dominion_queue')->where([
+                    'dominion_id' => $dominion->id,
+                    'source' => $source,
+                    'resource' => $resource,
+                    'hours' => $hour,
+                ])->delete();
+            }
+            else
+            {
+                DB::table('dominion_queue')->where([
+                    'dominion_id' => $dominion->id,
+                    'source' => $source,
+                    'resource' => $resource,
+                    'hours' => $hour,
                 ])->update([
                     'amount' => $newAmount,
                 ]);

@@ -123,6 +123,10 @@ class SpellActionService
         {
             throw new GameException('You are in stasis and cannot cast spells.');
         }
+        if($spellKey === 'stasis' and $dominion->protection_ticks !== 0)
+        {
+            throw new GameException('You cannot enter stasis while you are under protection.');
+        }
 
         $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion, $isInvasionSpell, false);
 

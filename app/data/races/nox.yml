@@ -30,6 +30,7 @@ units:
       pairing_limit: 4,2 # Unit slot, amount (max 2 of this unit per each Unit 4)
       fixed_casualties: 100
     static_networth: 10
+
   - name: Gloom
     training_time: 9
     type:
@@ -42,6 +43,7 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Nightshade
     training_time: 12
     type:
@@ -56,6 +58,7 @@ units:
       defense: 2
     perks:
       defense_from_land: swamp,12,5 # land type, ratio%,max
+
   - name: Lich
     training_time: 12
     type:

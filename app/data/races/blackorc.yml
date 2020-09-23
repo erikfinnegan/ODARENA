@@ -16,7 +16,7 @@ perks:
   extra_barracks_housing: 18
 units:
   - name: Impaler
-    training_time: 12
+    training_time: 9
     type:
       - living
       - sentient
@@ -30,7 +30,7 @@ units:
     perks:
       offense_from_pairing: 4,2,0.1 # slot, amount, num required
   - name: Shieldbearer
-    training_time: 12
+    training_time: 9
     type:
       - living
       - sentient

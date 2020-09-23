@@ -456,7 +456,6 @@ class NotificationHelper
                         $resultString = 'Traces of enemy spies were detected amongst our lands.';
                         break;
 
-
                     case 'assassinate_draftees':
                         $resultString = "{$data['damageString']} were killed while they slept in our barracks.";
                         break;
@@ -654,15 +653,15 @@ class NotificationHelper
                 switch ($data['spellKey'])
                 {
                     case 'clear_sight':
-                        $resultString = 'Traces of enemy spies were detected our advisor\'s quarters.';
+                        $resultString = 'Traces of enemy magic were detected our advisor\'s quarters.';
                         break;
 
                     case 'vision':
-                        $resultString = 'Traces of enemy spies were detected our research facilities.';
+                        $resultString = 'Traces of enemy magic were detected our research facilities.';
                         break;
 
                     case 'revelation':
-                        $resultString = 'Traces of enemy spies were detected our towers.';
+                        $resultString = 'Traces of enemy magic were detected in our spires.';
                         break;
 
                     case 'plague':

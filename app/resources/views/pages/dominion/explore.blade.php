@@ -103,6 +103,8 @@
                           <p><strong>As a member of the Warriors League, you cannot explore.</strong></p>
                       @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
                           <p><strong>Your cannot explore during the Rainy Season.</strong></p>
+                      @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
+                          <p><strong>You are in stasis and cannot explore.</strong></p>
                       @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
                           <p><strong>Due to starvation, you cannot explore until you have more food.</strong></p>
                           <p><strong>Go to the <a href="{{ route('dominion.exchange') }}">Exchange</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</strong></p>
