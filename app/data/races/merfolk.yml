@@ -50,7 +50,7 @@ units:
       sink_boats_defense: 1
 
   - name: Leviathan
-    training_time: 9
+    training_time: 12
     type:
       - living
       - sentient
@@ -67,7 +67,7 @@ units:
 
   - name: Kraken
     need_boat: false
-    training_time: 9
+    training_time: 12
     type:
       - living
       - sentient

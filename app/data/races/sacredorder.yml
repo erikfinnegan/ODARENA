@@ -48,7 +48,7 @@ units:
         tech_production: 0.03
 
   - name: Fanatic
-    training_time: 10
+    training_time: 12
     type:
       - living
       - sentient
@@ -67,7 +67,7 @@ units:
       conversion: 1
 
   - name: Paladin
-    training_time: 10
+    training_time: 12
     type:
       - living
       - sentient

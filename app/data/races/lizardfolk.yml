@@ -38,7 +38,7 @@ units:
       defense: 3
   - name: Chameleon
     need_boat: false
-    training_time: 9
+    training_time: 12
     type:
       - living
       - sentient
@@ -55,7 +55,7 @@ units:
       sink_boats_defense: 1
   - name: Archaesaur
     need_boat: false
-    training_time: 9
+    training_time: 12
     type:
       - living
       - sentient
