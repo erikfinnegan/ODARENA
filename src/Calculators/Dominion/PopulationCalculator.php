@@ -626,6 +626,9 @@ class PopulationCalculator
                 $growthFactor = 0.02;
             }
 
+            // Advancement: Conscription
+            $growthFactor *= 1 + $dominion->getTechPerkMultiplier('drafting');
+
             if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
             {
                 $draftees += round($dominion->peasants * $growthFactor);
