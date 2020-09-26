@@ -8,7 +8,7 @@ attacking: 3
 exploring : 2
 converting: 1
 
-construction_materials: platinum,lumber
+construction_materials: platinum
 
 perks:
   food_consumption: -100
@@ -89,3 +89,4 @@ units:
       immortal: 1
       staggered_conversion: 85;3,100;4
       cannot_be_trained: 1
+      does_not_count_as_population: 1

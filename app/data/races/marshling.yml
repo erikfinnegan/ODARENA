@@ -83,4 +83,4 @@ units:
       defense: 3
     perks:
       cannot_be_trained: 1
-      dies_into: 1
+      dies_into: 1,2

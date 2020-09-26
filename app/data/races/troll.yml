@@ -77,7 +77,7 @@ units:
       offense: 12
       defense: 12
     perks:
-      eats_peasants_on_attack: 0.1 # Each Smasher eats 0.1 peasant on attack.
+      eats_peasants_on_attack: 0.1 # Each Mountain Troll eats 0.1 peasant on attack.
       eats_draftees_on_attack: 0.1 # Each Mountain Troll eats 0.1 draftee on attack.
       only_dies_vs_raw_power: 8 # >=
       offense_from_pairing: 3,2 # slot, amount

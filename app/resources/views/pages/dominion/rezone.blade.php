@@ -77,15 +77,15 @@
                     <p>Each acre costs {{ number_format($rezoningCalculator->getRezoningCost($selectedDominion)) }} {{ $rezoningCalculator->getRezoningMaterial($selectedDominion) }} to rezone.</p>
 
                     @if (1-$rezoningCalculator->getCostMultiplier($selectedDominion) !== 0)
-                      <p>Bonuses are
+                      <p>Your rezoning costs are
 
                       @if (1-$rezoningCalculator->getCostMultiplier($selectedDominion) > 0)
-                        decreasing
+                        decreased
                       @else
-                        increasing
+                        increased
                       @endif
 
-                       your rezoning costs by <strong>{{ number_format((abs(1-$rezoningCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
+                       by <strong>{{ number_format((abs(1-$rezoningCalculator->getCostMultiplier($selectedDominion)))*100, 2) }}%</strong>.</p>
 
                     @endif
 

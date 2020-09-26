@@ -184,18 +184,17 @@ class UnitHelper
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'platinum_upkeep' => 'Costs %s platinum per tick.',
 
-
-            'destroys_souls' => 'Releases souls.',            
+            'destroys_souls' => 'Releases souls.',
 
             // Misc
             'faster_return' => 'Returns %s ticks faster from battle.',
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
             #'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).',
+            'faster_return_if_paired' => 'Returns %2$s ticks faster if paired with a %1$s.',
 
             // Training
             'cannot_be_trained' => 'Cannot be trained.',
-            'instant_training' => 'Summoned immediately.',
-            'faster_training' => 'Trains %s ticks faster (minimum two ticks).',
+            'instant_training' => 'Appears immediately.',
 
             'afterlife_norse' => 'Upon honourable death (successful invasions over 75%%), becomes a legendary champion and can be recalled into services as an Einherjar.',
             'does_not_kill' => 'Does not kill other units.',
@@ -225,8 +224,6 @@ class UnitHelper
             // Other
             'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
-
-            'shapeshifts' => '',
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
@@ -287,6 +284,25 @@ class UnitHelper
 
                 // Special case for pairings
                 if ($perk->key === 'defense_from_pairing' || $perk->key === 'offense_from_pairing' || $perk->key === 'pairing_limit')
+                {
+                    $slot = (int)$perkValue[0];
+                    $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
+
+                    $perkValue[0] = $pairedUnit->name;
+                    if (isset($perkValue[2]) && $perkValue[2] > 0)
+                    {
+                        $perkValue[0] = str_plural($perkValue[0]);
+                    }
+                    else
+                    {
+                        $perkValue[2] = 1;
+                    }
+                }
+
+                // Special case for returns faster if pairings
+                if ($perk->key === 'faster_return_if_paired')
                 {
                     $slot = (int)$perkValue[0];
                     $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {

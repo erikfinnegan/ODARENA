@@ -14,9 +14,9 @@ converting: 2
 
 construction_materials: mana
 
-spies_cost: 5000,mana
-wizards_cost: 5000,mana
-archmages_cost: 10000,mana
+spies_cost: 1000,mana
+wizards_cost: 1000,mana
+archmages_cost: 2000,mana
 
 perks:
   food_consumption: -100

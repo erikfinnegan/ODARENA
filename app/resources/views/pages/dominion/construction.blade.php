@@ -62,6 +62,7 @@
                         $constructionMaterials = $raceHelper->getConstructionMaterials($selectedDominion->race);
                         $primaryCost = $constructionCalculator->getConstructionCostPrimary($selectedDominion);
                         $secondaryCost = $constructionCalculator->getConstructionCostSecondary($selectedDominion);
+                        $multiplier = $constructionCalculator->getCostMultiplier($selectedDominion);
 
                         if(count($constructionMaterials) == 2)
                         {
@@ -72,15 +73,24 @@
                             $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . '.';
                         }
 
-
-
                     @endphp
 
-                    <p>{{ $costString }}</p>
+                    <p>
+                        {{ $costString }}
+
+                        @if($multiplier !== 1)
+                            Your construction costs are
+                            @if($multiplier > 1)
+                                increased
+                            @else
+                                decreased
+                            @endif
+                            by <strong>{{ number_format(abs(($multiplier-1)*100),2) }}%</strong>.
+                        @endif
+                    </p>
 
                     <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
                       and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
-
                     <p>You may also <a href="{{ route('dominion.destroy') }}">destroy buildings</a> if you wish.</p>
 
                     <a href="{{ route('scribes.construction') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Buildings in the Scribes.</span></a>

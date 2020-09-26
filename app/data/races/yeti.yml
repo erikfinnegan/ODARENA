@@ -22,7 +22,8 @@ perks:
   platinum_production: -100
   gryphon_nests_drafts: 1
   boat_capacity: -10
-  food_decay: -25
+  food_decay: -50
+  lumber_decay: -50
   cannot_train_wizards: 1
   cannot_train_archmages: 1
 
@@ -54,7 +55,7 @@ units:
       - intelligent
       - wise
     cost:
-      food: 220
+      food: 180
       mana: 8
     power:
       offense: 0

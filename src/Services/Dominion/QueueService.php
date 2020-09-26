@@ -158,7 +158,7 @@ class QueueService
     {
 
         $queue = $this->getQueue($source, $dominion)
-            ->filter(static function ($row) use ($resource) {
+            ->filter(static function ($row) use ($resource, $hour) {
                 return (
                     $row->resource === $resource and
                     $row->hours === $hour

@@ -549,9 +549,9 @@ class SpellHelper
             ],
             [
                 'name' => 'Stasis',
-                'description' => 'Freezes time. No production, cannot take actions, and cannot have actions taken against it.',
+                'description' => 'Freezes time. No production, cannot take actions, and cannot have actions taken against it. Returning units continue their journey home but cannot complete while Stasis is in effect.',
                 'key' => 'stasis',
-                'mana_cost' => 2,
+                'mana_cost' => 1.5,
                 'duration' => 2,
                 'races' => collect(['Qur']),
             ],

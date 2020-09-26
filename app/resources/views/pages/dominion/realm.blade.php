@@ -71,6 +71,10 @@
                                                 <i class="ra ra-monster-skull fa-lg text-red" title="Primordial Wrath"></i>
                                             @endif
 
+                                            @if ($spellCalculator->isSpellActive($dominion, 'stasis'))
+                                                <i class="ra ra-emerald fa-lg text-purple" title="Stasis"></i>
+                                            @endif
+
                                             @if ($dominion->isMonarch())
                                                 <i class="fa fa-star fa-lg text-orange" title="Governor of The Realm"></i>
                                             @endif

@@ -121,6 +121,7 @@ class TickService
                     echo $dominion->name . " is in statis.\n";
                     $stasisDominions[] = $dominion->id;
                 }
+
             }
             unset($dominions);
 
@@ -129,22 +130,44 @@ class TickService
             {
                 $stasisDominion = Dominion::findorfail($stasisDominion);
 
-                  ## Determine how many of each unit type is returning in 1 hour
-                $units[1] = $queueService->getTrainingQueueAmount($stasisDominion, "military_unit1", 1);
-                $units[2] = $queueService->getTrainingQueueAmount($stasisDominion, "military_unit2", 1);
-                $units[3] = $queueService->getTrainingQueueAmount($stasisDominion, "military_unit3", 1);
-                $units[4] = $queueService->getTrainingQueueAmount($stasisDominion, "military_unit4", 1);
+                ## Determine how many of each unit type is returning in $tick ticks
+                $tick = 1;
+
+                foreach (range(1, 4) as $slot)
+                {
+                    $unitType = 'unit' . $slot;
+                    for ($i = 1; $i <= 12; $i++)
+                    {
+                        $invasionQueueUnits[$slot][$i] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_{$unitType}", $i);
+                    }
+                }
+
+                print_r($invasionQueueUnits);
+
+                $this->queueService->setForTick(false);
+                $units[1] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit1", $tick);
+                $units[2] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit2", $tick);
+                $units[3] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit3", $tick);
+                $units[4] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit4", $tick);
+
+
+                #dd("Units in hour $tick for {$stasisDominion->name}:", $units);
+
+                #dd($units);
 
                 foreach($units as $slot => $amount)
                 {
                       $unitType = 'military_unit'.$slot;
-
                       # Dequeue the units from hour 1
-                      $this->queueService->dequeueResourceForHour('invasion', $stasisDominion, $unitType, $amount, 1);
+                      $this->queueService->dequeueResourceForHour('invasion', $stasisDominion, $unitType, $amount, $tick);
+                      echo "\nUnits dequeued";
 
                       # (Re-)Queue the units to hour 2
-                      $this->queueService->queueResources('invasion', $stasisDominion, [$unitType => $amount], 2);
+                      $this->queueService->queueResources('invasion', $stasisDominion, [$unitType => $amount], ($tick+1));
+                      echo "\nUnits requeued";
                 }
+
+                $this->queueService->setForTick(true);
 
             }
 
@@ -152,7 +175,6 @@ class TickService
             DB::transaction(function () use ($round, $stasisDominions)
             {
                 // Update dominions
-                  #echo "Updating dominions.\n";
                 DB::table('dominions')
                     ->join('dominion_tick', 'dominions.id', '=', 'dominion_tick.dominion_id')
                     ->where('dominions.round_id', $round->id)
@@ -273,17 +295,28 @@ class TickService
                           'active_spells.updated_at' => $this->now,
                       ]);
 
-                // Update queues
+                // Update invasion queues
                   DB::table('dominion_queue')
                       ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
                       ->where('dominions.round_id', $round->id)
                       ->where('dominions.protection_ticks', '=', 0)
-                      ->whereNotIn('dominion_tick.dominion_id', $stasisDominions)
+                      ->where('source', '=', 'invasion')
                       ->update([
                           'hours' => DB::raw('`hours` - 1'),
                           'dominion_queue.updated_at' => $this->now,
                       ]);
 
+                // Update other queues
+                  DB::table('dominion_queue')
+                      ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
+                      ->where('dominions.round_id', $round->id)
+                      ->where('dominions.protection_ticks', '=', 0)
+                      ->whereNotIn('dominions.id', $stasisDominions)
+                      ->where('source', '!=', 'invasion')
+                      ->update([
+                          'hours' => DB::raw('`hours` - 1'),
+                          'dominion_queue.updated_at' => $this->now,
+                      ]);
 
             }, 10);
 
@@ -897,6 +930,32 @@ class TickService
           }
 
           # Imperial Crypt: Dark Rites units
+
+          # Version 1.1 (Round 31):
+          if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
+          {
+              # What portion of the Crypt bodies is available to this dominion?
+              $cryptProportion = $this->realmCalculator->getCryptBodiesProportion($dominion);
+
+              # Determine how many bodies are available to this dominion.
+              $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
+
+              $unit4PerUnit1 = 10; # How many Wraiths does it take to create a Skeleton
+
+              # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
+              $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable));
+
+              # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
+              $bodiesSpent = min($dominion->realm->crypt, intval($unit1Created + $unit2Created));
+
+              # Prepare the units for queue.
+              $tick->generated_unit1 += $unit1Created;
+
+              # Prepare the bodies for removal.
+              $tick->crypt_bodies_spent = $bodiesSpent;
+          }
+
+          /*  Version 1 (round 30):
           if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
           {
               # What portion of the Crypt bodies is available to this dominion?
@@ -926,6 +985,7 @@ class TickService
               # Prepare the bodies for removal.
               $tick->crypt_bodies_spent = $bodiesSpent;
           }
+          */
 
           # Use decimals as probability to round up
           $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);
