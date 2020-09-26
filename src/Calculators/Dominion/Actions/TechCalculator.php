@@ -48,7 +48,7 @@ class TechCalculator
             $techToUnlock = Tech::where('key', $techToUnlock->key)->first();
             $cost *= 1 + ($techToUnlock->level - 1) / 10;
         }
-        elseif(isset($level) and ($level >= 1 and $level <= 8))
+        elseif(isset($level) and ($level >= 1 and $level <= 10))
         {
             $cost *= 1 + ($level - 1) / 10;
         }

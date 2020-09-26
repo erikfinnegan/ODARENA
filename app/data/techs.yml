@@ -70,6 +70,24 @@ tactics_level8:
   requires:
     - tactics_level7
 
+tactics_level9:
+  name: Tactics
+  level: 9
+  perks:
+    fewer_casualties_offense: 37.5
+    fewer_casualties_defense: 37.5
+  requires:
+    - tactics_level8
+
+tactics_level10:
+  name: Tactics
+  level: 10
+  perks:
+    fewer_casualties_offense: 40
+    fewer_casualties_defense: 40
+  requires:
+    - tactics_level9
+
 # </Ladder: Casualties>
 
 # <Ladder: Training Costs>
@@ -136,6 +154,22 @@ anvils_level8:
   requires:
     - anvils_level7
 
+anvils_level9:
+  name: Anvils
+  level: 9
+  perks:
+    military_cost: -18.75
+  requires:
+    - anvils_level8
+
+anvils_level10:
+  name: Anvils
+  level: 10
+  perks:
+    military_cost: -20
+  requires:
+    - anvils_level9
+
 # </Ladder: Training Costs>
 
 # <Ladder: Offensive Power>
@@ -201,6 +235,22 @@ strategy_level8:
     offense: 17.5
   requires:
     - strategy_level7
+
+strategy_level9:
+  name: Strategy
+  level: 9
+  perks:
+    offense: 18.75
+  requires:
+    - strategy_level8
+
+strategy_level10:
+  name: Strategy
+  level: 10
+  perks:
+    offense: 20
+  requires:
+    - strategy_level9
 
 # </Ladder: Offensive Power>
 
@@ -276,6 +326,24 @@ architecture_level8:
   requires:
     - architecture_level7
 
+architecture_level9:
+  name: Architecture
+  level: 9
+  perks:
+    construction_cost: -37.5
+    rezone_cost: -37.5
+  requires:
+    - architecture_level8
+
+architecture_level10:
+  name: Architecture
+  level: 10
+  perks:
+    construction_cost: -40
+    rezone_cost: -40
+  requires:
+    - architecture_level9
+
 # </Ladder: Architecture>
 
 # <Ladder: Scouts>
@@ -342,6 +410,22 @@ scounts_level8:
   requires:
     - scounts_level7
 
+scounts_level9:
+  name: Scouts
+  level: 8
+  perks:
+    explore_platinum_cost: -37.5
+  requires:
+    - scounts_level8
+
+scounts_level10:
+  name: Scouts
+  level: 10
+  perks:
+    explore_platinum_cost: -40
+  requires:
+    - scounts_level9
+
 # </Ladder: Scouts>
 
 # <Ladder: Convoy>
@@ -407,6 +491,22 @@ convoy_level8:
     explore_draftee_cost: -7
   requires:
     - convoy_level7
+
+convoy_level9:
+  name: Convoy
+  level: 9
+  perks:
+    explore_draftee_cost: -7
+  requires:
+    - convoy_level8
+
+convoy_level10:
+  name: Convoy
+  level: 10
+  perks:
+    explore_draftee_cost: -8
+  requires:
+    - convoy_level9
 
 # </Ladder: Convoy>
 
@@ -482,8 +582,25 @@ agents_level8:
   requires:
     - agents_level7
 
-# </Ladder: Agents Costs>
+agents_level8:
+  name: Agents
+  level: 9
+  perks:
+    spy_cost: -37.5
+    spy_losses: -37.5
+  requires:
+    - agents_level8
 
+agents_level10:
+  name: Agents
+  level: 10
+  perks:
+    spy_cost: -40
+    spy_losses: -40
+  requires:
+    - agents_level9
+
+# </Ladder: Agents Costs>
 
 # <Ladder: Intelligence Costs>
 
@@ -556,6 +673,24 @@ intelligence_level8:
     spy_strength_recovery: 2.5
   requires:
     - intelligence_level7
+
+intelligence_level9:
+  name: Intelligence
+  level: 9
+  perks:
+    spy_strength: 18.75
+    spy_strength_recovery: 2.5
+  requires:
+    - intelligence_level8
+
+intelligence_level10:
+  name: Intelligence
+  level: 10
+  perks:
+    spy_strength: 20
+    spy_strength_recovery: 3
+  requires:
+    - intelligence_level9
 
 # </Ladder: Intelligence Costs>
 
@@ -631,6 +766,24 @@ wizardry_tradition_level8:
   requires:
     - wizardry_tradition_level7
 
+wizardry_tradition_level9:
+  name: Wizardry Tradition
+  level: 9
+  perks:
+    wizard_cost: -37.5
+    spell_cost: -37.5
+  requires:
+    - wizardry_tradition_level8
+
+wizardry_tradition_level10:
+  name: Wizardry Tradition
+  level: 10
+  perks:
+    wizard_cost: -40
+    spell_cost: -40
+  requires:
+    - wizardry_tradition_level9
+
 # </Ladder: Agents Costs>
 
 # <Ladder: Concentration Costs>
@@ -705,6 +858,24 @@ concentration_level8:
   requires:
     - concentration_level7
 
+concentration_level9:
+  name: Concentration
+  level: 9
+  perks:
+    wizard_strength: 18.75
+    wizard_strength_recovery: 2.5
+  requires:
+    - concentration_level8
+
+concentration_level10:
+  name: Concentration
+  level: 10
+  perks:
+    wizard_strength: 20
+    wizard_strength_recovery: 3
+  requires:
+    - concentration_level9
+
 # </Ladder: Concentration Costs>
 
 # <Ladder: Agriculture>
@@ -771,8 +942,23 @@ agriculture_level8:
   requires:
     - agriculture_level7
 
-# </Ladder: Agriculture>
+agriculture_level9:
+  name: Agriculture
+  level: 9
+  perks:
+    food_production: 18.75
+  requires:
+    - agriculture_level8
 
+agriculture_level10:
+  name: Agriculture
+  level: 10
+  perks:
+    food_production: 20
+  requires:
+    - agriculture_level9
+
+# </Ladder: Agriculture>
 
 # <Ladder: Drills>
 
@@ -838,8 +1024,23 @@ drills_level8:
   requires:
     - drills_level7
 
-# </Ladder: Drills>
+drills_level9:
+  name: Drills
+  level: 9
+  perks:
+    gem_production: 18.75
+  requires:
+    - drills_level8
 
+drills_level10:
+  name: Drills
+  level: 10
+  perks:
+    gem_production: 20
+  requires:
+    - drills_level9
+
+# </Ladder: Drills>
 
 # <Ladder: Mills>
 
@@ -905,8 +1106,23 @@ mills_level8:
   requires:
     - mills_level7
 
-# </Ladder: Mills>
+mills_level9:
+  name: Mills
+  level: 9
+  perks:
+    lumber_production: 18.75
+  requires:
+    - mills_level8
 
+mills_level10:
+  name: Mills
+  level: 10
+  perks:
+    lumber_production: 20
+  requires:
+    - mills_level9
+
+# </Ladder: Mills>
 
 # <Ladder: Invocations>
 
@@ -969,6 +1185,22 @@ invocations_level8:
   level: 8
   perks:
     mana_production: 17.5
+  requires:
+    - invocations_level7
+
+invocations_level9:
+  name: Invocations
+  level: 9
+  perks:
+    mana_production: 18.75
+  requires:
+    - invocations_level6
+
+invocations_level10:
+  name: Invocations
+  level: 10
+  perks:
+    mana_production: 20
   requires:
     - invocations_level7
 
@@ -1038,6 +1270,22 @@ quarries_level8:
   requires:
     - quarries_level7
 
+quarries_level9:
+  name: Quarries
+  level: 9
+  perks:
+    ore_production: 18.75
+  requires:
+    - quarries_level8
+
+quarries_level10:
+  name: Quarries
+  level: 10
+  perks:
+    ore_production: 20
+  requires:
+    - quarries_level9
+
 # </Ladder: Quarries>
 
 # <Ladder: Minting>
@@ -1104,8 +1352,23 @@ minting_level8:
   requires:
     - minting_level7
 
-# </Ladder: Minting>
+minting_level9:
+  name: Minting
+  level: 9
+  perks:
+    platinum_production: 18.75
+  requires:
+    - minting_level8
 
+minting_level10:
+  name: Minting
+  level: 10
+  perks:
+    platinum_production: 20
+  requires:
+    - minting_level9
+
+# </Ladder: Minting>
 
 # <Ladder: Population>
 
@@ -1170,6 +1433,22 @@ quarters_level8:
     max_population: 8.75
   requires:
     - quarters_level7
+
+quarters_level9:
+  name: Quarters
+  level: 9
+  perks:
+    max_population: 9.375
+  requires:
+    - quarters_level8
+
+quarters_level10:
+  name: Quarters
+  level: 10
+  perks:
+    max_population: 10
+  requires:
+    - quarters_level9
 
 # </Ladder: Population>
 
@@ -1238,6 +1517,22 @@ honour_level8:
   requires:
     - honour_level7
 
+honour_level9:
+  name: Honour
+  level: 9
+  perks:
+    prestige_gains: 37.5
+  requires:
+    - honour_level8
+
+honour_level10:
+  name: Honour
+  level: 10
+  perks:
+    prestige_gains: 40
+  requires:
+    - honour_level9
+
 # </Ladder: Prestige>
 
 # <Ladder: Improvements>
@@ -1303,6 +1598,22 @@ infrastructure_level8:
     improvements: 35
   requires:
     - infrastructure_level7
+
+infrastructure_level9:
+  name: Infrastructure
+  level: 9
+  perks:
+    improvements: 37.5
+  requires:
+    - infrastructure_level8
+
+infrastructure_level10:
+  name: Infrastructure
+  level: 10
+  perks:
+    improvements: 40
+  requires:
+    - infrastructure_level9
 
 # </Ladder: Improvements>
 
@@ -1371,6 +1682,22 @@ recalling_level8:
   requires:
     - recalling_level7
 
+recalling_level9:
+  name: Recalling
+  level: 9
+  perks:
+    conversions: 18.75
+  requires:
+    - recalling_level8
+
+recalling_level10:
+  name: Recalling
+  level: 10
+  perks:
+    conversions: 20
+  requires:
+    - recalling_level9
+
 # </Ladder: Conversions>
 
 
@@ -1438,8 +1765,23 @@ garrisons_level8:
   requires:
     - garrisons_level7
 
-# </Ladder: Garrisons Housing>
+garrisons_level9:
+  name: Garrisons
+  level: 9
+  perks:
+    barracks_housing: 9.375
+  requires:
+    - garrisons_level8
 
+garrisons_level10:
+  name: Garrisons
+  level: 10
+  perks:
+    barracks_housing: 10
+  requires:
+    - garrisons_level9
+
+# </Ladder: Garrisons Housing>
 
 # <Ladder: Gemcutting>
 
@@ -1504,6 +1846,22 @@ gemcutting_level8:
     gemcutting: 17.5
   requires:
     - gemcutting_level7
+
+gemcutting_level9:
+  name: Gemcutting
+  level: 9
+  perks:
+    gemcutting: 18.75
+  requires:
+    - gemcutting_level8
+
+gemcutting_level10:
+  name: Gemcutting
+  level: 10
+  perks:
+    gemcutting: 20
+  requires:
+    - gemcutting_level9
 
 # </Ladder: Gemcutting>
 
@@ -1646,6 +2004,22 @@ lean_mass_level8:
   requires:
     - lean_mass_level7
 
+lean_mass_level9:
+  name: Lean Mass
+  level: 9
+  perks:
+    military_cost_food: -13.125
+  requires:
+    - lean_mass_level8
+
+lean_mass_level10:
+  name: Lean Mass
+  level: 10
+  perks:
+    military_cost_food: -14
+  requires:
+    - lean_mass_level9
+
 # </Ladder: Lean Mass>
 
 
@@ -1713,6 +2087,22 @@ magical_weapons_level8:
   requires:
     - magical_weapons_level7
 
+magical_weapons_level9:
+  name: Magical Weapons
+  level: 9
+  perks:
+    military_cost_mana: -18.75
+  requires:
+    - magical_weapons_level8
+
+magical_weapons_level10:
+  name: Magical Weapons
+  level: 10
+  perks:
+    military_cost_mana: -20
+  requires:
+    - magical_weapons_level9
+
 # </Ladder: Magic Weapons>
 
 # <Ladder: Commerce>
@@ -1778,6 +2168,22 @@ commerce_level8:
     exchange_rate: 35
   requires:
     - commerce_level7
+
+commerce_level9:
+  name: Commerce
+  level: 9
+  perks:
+    exchange_rate: 37.5
+  requires:
+    - commerce_level7
+
+commerce_level10:
+  name: Commerce
+  level: 10
+  perks:
+    exchange_rate: 40
+  requires:
+    - commerce_level8
 
 # </Ladder: Commerce>
 
@@ -1846,6 +2252,22 @@ craftsmanship_level8:
   requires:
     - craftsmanship_level7
 
+craftsmanship_level9:
+  name: Craftsmanship
+  level: 9
+  perks:
+    jobs_per_building: 18.75
+  requires:
+    - craftsmanship_level8
+
+craftsmanship_level10:
+  name: Craftsmanship
+  level: 10
+  perks:
+    jobs_per_building: 20
+  requires:
+    - craftsmanship_level9
+
 # </Ladder: Employment>
 
 
@@ -1912,5 +2334,21 @@ conscription_level8:
     drafting: 17.5
   requires:
     - conscription_level7
+
+conscription_level9:
+  name: Concription
+  level: 9
+  perks:
+    drafting: 18.75
+  requires:
+    - conscription_level8
+
+conscription_level10:
+  name: Concription
+  level: 10
+  perks:
+    drafting: 20
+  requires:
+    - conscription_level9
 
 # </Ladder: Drafting>

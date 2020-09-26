@@ -24,7 +24,7 @@
                             <thead>
                                 <tr>
                                     <th>Advancement</th>
-                                    @for ($i = 1; $i <= 8; $i++)
+                                    @for ($i = 1; $i <= 10; $i++)
                                         <th class="text-center">Level {{ $i }}</th>
                                     @endfor
                                 </tr>
@@ -49,7 +49,7 @@
                                     </span>
                                 </td>
 
-                                @if($tech->level == 8)
+                                @if($tech->level == 10)
                                     </tr>
                                 @endif
                             @endforeach
@@ -72,7 +72,7 @@
                     <p>You can level up advancements by earning enough experience points (XP). You earn XP by invading other dominions, exploring new lands, and every tick from your prestige.</p>
                     <h4>Cost</h4>
                     <ul>
-                    @for ($i = 1; $i <= 8; $i++)
+                    @for ($i = 1; $i <= 10; $i++)
                         <li>Level {{ $i }}: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $i)) }}</li>
                     @endfor
                     </ul>
