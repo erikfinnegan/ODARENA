@@ -412,7 +412,7 @@ scounts_level8:
 
 scounts_level9:
   name: Scouts
-  level: 8
+  level: 9
   perks:
     explore_platinum_cost: -37.5
   requires:
@@ -936,7 +936,7 @@ agriculture_level7:
 
 agriculture_level8:
   name: Agriculture
-  level: 7
+  level: 8
   perks:
     food_production: 17.5
   requires:
@@ -1018,7 +1018,7 @@ drills_level7:
 
 drills_level8:
   name: Drills
-  level: 6
+  level: 8
   perks:
     gem_production: 17.5
   requires:
@@ -1937,6 +1937,24 @@ platinum_interest_level8:
     platinum_interest: 0.7
   requires:
     - platinum_interest_level7
+
+platinum_interest_level9:
+  name: Interest
+  level: 9
+  enabled: 0
+  perks:
+    platinum_interest: 0.75
+  requires:
+    - platinum_interest_level8
+
+platinum_interest_level10:
+  name: Interest
+  level: 10
+  enabled: 0
+  perks:
+    platinum_interest: 0.8
+  requires:
+    - platinum_interest_level9
 
 # </Ladder: Interest>
 
