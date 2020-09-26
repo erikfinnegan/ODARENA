@@ -582,7 +582,7 @@ agents_level8:
   requires:
     - agents_level7
 
-agents_level8:
+agents_level9:
   name: Agents
   level: 9
   perks:
