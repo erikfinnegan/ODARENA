@@ -98,7 +98,7 @@ class ExploreActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot explore.');
+            throw new GameException('You cannot explore while you are in stasis.');
         }
 
         $data = array_only($data, array_map(function ($value) {

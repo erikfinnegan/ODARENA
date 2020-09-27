@@ -36,7 +36,7 @@ class DestroyActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot destroy buildings.');
+            throw new GameException('You cannot destroy buildings while you are in stasis.');
         }
 
         $data = array_map('\intval', $data);

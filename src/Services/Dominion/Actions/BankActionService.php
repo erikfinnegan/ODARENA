@@ -50,7 +50,7 @@ class BankActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot exchange resources.');
+            throw new GameException('You cannot exchange resources while you are in stasis.');
         }
 
         if($amount < 0) {

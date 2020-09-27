@@ -117,11 +117,11 @@ class SpellActionService
         // Qur: Statis
         if(isset($target) and $this->spellCalculator->isSpellActive($target, 'stasis'))
         {
-            throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for spies to sneak in.');
+            throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your wizards to cast spells on them.');
         }
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot cast spells.');
+            throw new GameException('You cannot cast spells while you are in stasis.');
         }
         if($spellKey === 'stasis' and $dominion->protection_ticks !== 0)
         {

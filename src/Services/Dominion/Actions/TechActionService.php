@@ -12,6 +12,9 @@ use OpenDominion\Models\Tech;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class TechActionService
 {
     use DominionGuardsTrait;
@@ -52,7 +55,7 @@ class TechActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and level up advancements.');
+            throw new GameException('You cannot level up advancements while you are in stasis..');
         }
 
         // Get the tech information

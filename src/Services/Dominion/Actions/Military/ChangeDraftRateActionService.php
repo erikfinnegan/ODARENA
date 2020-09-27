@@ -40,7 +40,7 @@ class ChangeDraftRateActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot change your draft rate.');
+            throw new GameException('You cannot change your draft rate while you are in stasis.');
         }
 
         if (($draftRate < 0) || ($draftRate > 100)) {

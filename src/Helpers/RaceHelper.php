@@ -556,10 +556,11 @@ class RaceHelper
             'Nomad' => 'Nomadic',
             'Nox' => 'Nocten',
             'Orc' => 'Orcish',
+            'Qur' => 'Qurrian',
             'Snow Elf' => 'Snow Elven',
             'Sylvan' => 'Sylvana',
             'Vampires' => 'Vampiric',
-            'Wood Elf' => 'Wood Elven'
+            'Wood Elf' => 'Wood Elven',
         ];
 
         if(isset($adjectives[$race->name]))

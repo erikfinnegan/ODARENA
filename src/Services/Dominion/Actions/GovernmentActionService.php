@@ -57,7 +57,7 @@ class GovernmentActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot take government actions.');
+            throw new GameException('You cannot take government actions while you are in stasis.');
         }
 
         $monarch = Dominion::find($monarch_id);
@@ -110,7 +110,7 @@ class GovernmentActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot take government actions.');
+            throw new GameException('You cannot take government actions while you are in stasis.');
         }
 
         if (!$dominion->isMonarch()) {
@@ -185,7 +185,7 @@ class GovernmentActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot take government actions.');
+            throw new GameException('You cannot take government actions while you are in stasis.');
         }
 
         $target = Realm::where(['round_id'=>$dominion->round_id, 'number'=>$realm_number])->first();
@@ -252,7 +252,7 @@ class GovernmentActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot take government actions.');
+            throw new GameException('You cannot take government actions while you are in stasis.');
         }
 
         if (!$dominion->isMonarch()) {

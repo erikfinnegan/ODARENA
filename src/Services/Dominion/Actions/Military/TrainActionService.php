@@ -89,7 +89,7 @@ class TrainActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot train.');
+            throw new GameException('You cannot train while you are in stasis.');
         }
 
         $data = array_only($data, array_map(function ($value) {

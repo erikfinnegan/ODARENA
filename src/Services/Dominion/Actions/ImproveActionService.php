@@ -39,7 +39,7 @@ class ImproveActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot invest in improvements.');
+            throw new GameException('You cannot invest in improvements while you are in stasis.');
         }
 
         $data = array_map('\intval', $data);

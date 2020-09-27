@@ -153,7 +153,7 @@ class EspionageActionService
         }
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot conduct espionage.');
+            throw new GameException('You cannot spy while you are in stasis.');
         }
 
         if (!$operationInfo) {

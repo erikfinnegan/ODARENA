@@ -54,7 +54,7 @@ class GuardMembershipActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot join or leave a league.');
+            throw new GameException('You cannot join or leave Leagues while you are in stasis.');
         }
 
         if ($this->guardMembershipService->isEliteGuardApplicant($dominion))
@@ -111,7 +111,7 @@ class GuardMembershipActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot join or leave a league.');
+            throw new GameException('You cannot join or leave Leagues while you are in stasis.');
         }
 
         if ($this->guardMembershipService->isRoyalGuardApplicant($dominion))
@@ -163,7 +163,7 @@ class GuardMembershipActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot join or leave a league.');
+            throw new GameException('You cannot join or leave Leagues while you are in stasis.');
         }
 
         if ($this->guardMembershipService->getHoursBeforeLeaveRoyalGuard($dominion))
@@ -207,7 +207,7 @@ class GuardMembershipActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot join or leave a league.');
+            throw new GameException('You cannot join or leave Leagues while you are in stasis.');
         }
 
         $totalUnitsReturning = 0;

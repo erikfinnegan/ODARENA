@@ -65,7 +65,7 @@ class BuildActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot build.');
+            throw new GameException('You cannot build while you are in stasis');
         }
 
 /*

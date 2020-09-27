@@ -932,12 +932,21 @@ class InvadeActionService
         # Look for dies_into amongst the dead defenders.
         foreach($defensiveUnitsLost as $slot => $casualties)
         {
-            if($diesInto = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
             {
-                $slot = $diesInto[1];
-                $amount = $diesInto[2];
-                # Add the unit to queue.
-                $target->{'military_unit' . $newUnitSlot} += floor($casualties * $amount);
+                $slot = (int)$diesIntoPerk[0];
+
+                # Instantly add.
+                $target->{'military_unit' . $slot} += $casualties;
+            }
+
+            if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
+            {
+                $slot = (int)$diesIntoMultiplePerk[0];
+                $amount = (int)$diesIntoMultiplePerk[1];
+
+                # Instantly add.
+                $target->{'military_unit' . $slot} += floor($casualties * $amount);
             }
         }
 
@@ -2115,14 +2124,27 @@ class InvadeActionService
         foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
         {
             $unitKey = "military_unit{$slot}";
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+
+            if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
             {
                 # Which unit do they die into?
-                $newUnitSlot = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into');
+                $newUnitSlot = $diesIntoPerk[0];
                 $newUnitKey = "military_unit{$newUnitSlot}";
 
                 $returningUnits[$newUnitKey] += $casualties;
             }
+
+            if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
+            {
+                # Which unit do they die into?
+                $newUnitSlot = $diesIntoPerk[0];
+                $newUnitAmount = $diesIntoPerk[1];
+
+                $newUnitKey = "military_unit{$newUnitSlot}";
+
+                $returningUnits[$newUnitKey] += floor($casualties * $newUnitAmount);
+            }
+
         }
 
       #echo '<pre>';var_dump($returningUnits);echo '</pre>';

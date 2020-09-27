@@ -58,7 +58,7 @@ class RezoneActionService
         // Qur: Statis
         if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
         {
-            throw new GameException('You are in stasis and cannot rezone land.');
+            throw new GameException('You cannot rezone land while you are in stasis.');
         }
 
         if ($dominion->race->getPerkValue('cannot_rezone'))

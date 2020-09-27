@@ -336,7 +336,7 @@
                                     <p><strong><em>You cannot invade during the Rainy Season.</em></strong></p>
 
                                   @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
-                                    <p><strong><em>You are in stasis and cannot invade.</em></strong></p>
+                                    <p><strong><em>You cannot invade while you are in stasis.</em></strong></p>
 
                                   @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
                                       <p><strong><em>Due to starvation, you cannot invade until you have more food.</em></strong></p>
