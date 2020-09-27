@@ -932,10 +932,12 @@ class InvadeActionService
         # Look for dies_into amongst the dead defenders.
         foreach($defensiveUnitsLost as $slot => $casualties)
         {
-            if($newUnitSlot = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+            if($diesInto = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
             {
+                $slot = $diesInto[1];
+                $amount = $diesInto[2];
                 # Add the unit to queue.
-                $target->{'military_unit' . $newUnitSlot} += $casualties;
+                $target->{'military_unit' . $newUnitSlot} += floor($casualties * $amount);
             }
         }
 

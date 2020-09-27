@@ -159,8 +159,10 @@ class UnitHelper
 
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
 
-            'dies_into' => 'Upon death, returns as %s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+            'dies_into' => 'Upon death, returns as %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
             'wins_into' => 'Upon successul invasion, returns as %s.',
+            'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+
 
             // Resource related
             'ore_production' => 'Each unit produces %s units of ore per tick.',
@@ -381,6 +383,27 @@ class UnitHelper
                     }
 
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
+                }
+
+                // Special case for returns faster if pairings
+                if ($perk->key === 'dies_into_multiple')
+                {
+                    $slot = (int)$perkValue[0];
+                    $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
+
+                    $amount = (int)$perkValue[1];
+
+                    $perkValue[0] = $pairedUnit->name;
+                    if (isset($perkValue[1]) && $perkValue[1] > 0)
+                    {
+                        $perkValue[0] = str_plural($perkValue[0]);
+                    }
+                    else
+                    {
+                        $perkValue[1] = 1;
+                    }
                 }
 
 /*
