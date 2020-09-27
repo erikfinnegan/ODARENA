@@ -9,6 +9,9 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
 class RezoneActionService
 {
     use DominionGuardsTrait;
