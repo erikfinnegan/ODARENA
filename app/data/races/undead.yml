@@ -42,7 +42,6 @@ units:
       defense: 3
     perks:
       immortal: 1
-      increases_casualties_on_defense: 1
       does_not_count_as_population: 1
       pairing_limit: 3,2 # Unit slot, amount (max 2 of this unit per each Unit 4)
 

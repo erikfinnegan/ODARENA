@@ -25,6 +25,7 @@ units:
     power:
       offense: 3
       defense: 0
+
   - name: Serpent
     training_time: 9
     type:
@@ -36,6 +37,7 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Chameleon
     need_boat: false
     training_time: 12
@@ -53,6 +55,7 @@ units:
       counts_as_spy_defense: 0.25
       sink_boats_offense: 1
       sink_boats_defense: 1
+
   - name: Archaesaur
     need_boat: false
     training_time: 12

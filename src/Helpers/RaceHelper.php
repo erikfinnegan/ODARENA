@@ -45,6 +45,10 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Food decay';
                 break;
+            case 'lumber_decay':
+                $negativeBenefit = true;
+                $description = 'Lumber decay';
+                break;
             case 'gem_production':
                 $negativeBenefit = false;
                 $description = 'Gem production';
@@ -397,7 +401,7 @@ class RaceHelper
                 break;
             case 'population_from_alchemy':
                 $negativeBenefit = false;
-                $description = 'Extra population per 1% Alchemies (max +20% population)';
+                $description = 'Extra population per 1% Alchemies (max +30% population)';
                 $booleanValue = false;
                 break;
             case 'defense_from_forest':

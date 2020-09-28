@@ -641,6 +641,7 @@ class TickService
           if($dominion->race->name === 'Barbarian')
           {
               $this->barbarianService->handleBarbarianTraining($dominion);
+              $this->barbarianService->handleBarbarianConstruction($dominion);
           }
 
           $tick->protection_ticks = 0;

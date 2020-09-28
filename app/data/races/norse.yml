@@ -57,15 +57,15 @@ units:
       ore: 200
       mana: 25
     power:
-      offense: 2
-      defense: 2
+      offense: 1
+      defense: 1
     perks:
       fewer_casualties: 25
-      defense_from_prestige: 250,6 # amount, max
-      offense_from_prestige: 250,6 # amount, max
+      defense_from_prestige: 150,7 # amount, max
+      offense_from_prestige: 150,7 # amount, max
 
   - name: Einherjar
-    training_time: 6
+    training_time: 3
     type:
       - living
       - sentient

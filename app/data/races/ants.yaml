@@ -21,7 +21,6 @@ perks:
   food_consumption: -50
   boat_capacity: 70
   platinum_production: -15
-#  population_growth: 100
   explore_cost: 25
   reduced_conversions: 25
   draftee_dp: 0.1
@@ -30,7 +29,7 @@ perks:
 units:
   - name: Soldier Ant
     need_boat: true
-    training_time: 9
+    training_time: 6
     type:
       - living
     cost:
@@ -39,9 +38,10 @@ units:
     power:
       offense: 1
       defense: 0
+
   - name: Worker Ant
     need_boat: true
-    training_time: 9
+    training_time: 6
     type:
       - living
     cost:
@@ -52,6 +52,7 @@ units:
       defense: 1.5
     perks:
       lumber_production: 0.5
+
   - name: Giant Ant
     need_boat: true
     training_time: 12
@@ -63,6 +64,7 @@ units:
     power:
       offense: 0
       defense: 3
+
   - name: Flying Ant
     need_boat: false
     training_time: 12

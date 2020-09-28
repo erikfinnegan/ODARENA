@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Models\Tech;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 class MilitaryCalculator
 {
@@ -50,6 +51,9 @@ class MilitaryCalculator
     /** @var TechCalculator */
     protected $techCalculator;
 
+    /** @var LandImprovementCalculator */
+    protected $landImprovementCalculator;
+
     /** @var bool */
     protected $forTick = false;
 
@@ -73,7 +77,8 @@ class MilitaryCalculator
         QueueService $queueService,
         SpellCalculator $spellCalculator,
         GuardMembershipService $guardMembershipService,
-        TechCalculator $techCalculator
+        TechCalculator $techCalculator,
+        LandImprovementCalculator $landImprovementCalculator
         )
     {
         $this->buildingCalculator = $buildingCalculator;
@@ -85,6 +90,7 @@ class MilitaryCalculator
         $this->spellCalculator = $spellCalculator;
         $this->guardMembershipService = $guardMembershipService;
         $this->techCalculator = $techCalculator;
+        $this->landImprovementCalculator = $landImprovementCalculator;
     }
 
     /**
@@ -199,11 +205,8 @@ class MilitaryCalculator
         // Prestige
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($attacker);
 
-        // Beastfolk: Plains increases OP
-        if($attacker->race->name == 'Beastfolk')
-        {
-            $multiplier += 0.15 * (($attacker->{"land_plain"} / $this->landCalculator->getTotalLand($attacker)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($attacker)));
-        }
+        // Land improvements
+        $multiplier += $this->landImprovementCalculator->getOffensivePowerBonus($attacker);
 
         // Nomad: offense_from_barren
         if($attacker->race->getPerkValue('offense_from_barren'))
@@ -438,11 +441,8 @@ class MilitaryCalculator
         // Spell
         $multiplier += $this->getSpellMultiplier($dominion, $attacker, 'defense');
 
-        // Beastfolk: Hill increases DP
-        if($dominion->race->name == 'Beastfolk')
-        {
-            $multiplier += 0.75 * (($dominion->{"land_hill"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
-        }
+        // Land improvements
+        $multiplier += $this->landImprovementCalculator->getDefensivePowerBonus($dominion);
 
         // Simian: defense_from_forest
         if($dominion->race->getPerkValue('defense_from_forest'))
@@ -851,6 +851,7 @@ class MilitaryCalculator
         $max = (float)$versusLandPerkData[1];
 
         $barrenLandPercentage = 0;
+
         if (!empty($calc))
         {
             # Override land percentage for invasion calculator
@@ -866,8 +867,8 @@ class MilitaryCalculator
             $barrenLandPercentage = ($barrenLand / $totalLand) * 100;
         }
 
-
         $powerFromLand = $barrenLandPercentage / $ratio;
+
         if ($max < 0)
         {
             $powerFromPerk = max(-1 * $powerFromLand, $max);
@@ -875,12 +876,6 @@ class MilitaryCalculator
         else
         {
             $powerFromPerk = min($powerFromLand, $max);
-        }
-
-        # No barren bonus vs. Barbarian (for now)
-        if($target !== null and $target->race->name == 'Barbarian')
-        {
-          $powerFromPerk = 0;
         }
 
         return $powerFromPerk;
@@ -1467,11 +1462,8 @@ class MilitaryCalculator
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('wizard_strength');
 
-        // Beastfolk: Swamp increases Wizard Strength
-        if($dominion->race->name == 'Beastfolk')
-        {
-            $multiplier += 2 * (($dominion->{"land_swamp"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
-        }
+        // Land improvements
+        $multiplier += $this->landImprovementCalculator->getWizardPowerBonus($dominion);
 
         return (1 + $multiplier);
     }

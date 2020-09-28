@@ -11,7 +11,7 @@ converting: 1
 construction_materials: platinum,lumber
 
 perks:
-  max_population: 10
+  max_population: 20
   extra_barren_max_population: 10
   ore_improvement_points: 100
   salvaging: 25

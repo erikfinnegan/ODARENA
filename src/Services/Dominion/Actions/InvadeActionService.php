@@ -480,6 +480,8 @@ class InvadeActionService
             # Salvage and Plunder
             $this->handleSalvagingAndPlundering($dominion, $target, $survivingUnits);
 
+            # Qur: 
+
             # Imperial Crypt
             $this->handleCrypt($dominion, $target, $survivingUnits, $offensiveConversions, $defensiveConversions);
 
@@ -2137,8 +2139,8 @@ class InvadeActionService
             if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
             {
                 # Which unit do they die into?
-                $newUnitSlot = $diesIntoPerk[0];
-                $newUnitAmount = $diesIntoPerk[1];
+                $newUnitSlot = $diesIntoMultiplePerk[0];
+                $newUnitAmount = $diesIntoMultiplePerk[1];
 
                 $newUnitKey = "military_unit{$newUnitSlot}";
 

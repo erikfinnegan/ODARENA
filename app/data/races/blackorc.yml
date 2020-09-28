@@ -29,6 +29,7 @@ units:
       defense: 0
     perks:
       offense_from_pairing: 4,2,0.1 # slot, amount, num required
+
   - name: Shieldbearer
     training_time: 9
     type:
@@ -43,6 +44,7 @@ units:
       defense: 3
     perks:
       defense_from_pairing: 4,2,0.1 # slot, amount
+
   - name: Warlock
     training_time: 12
     type:
@@ -55,12 +57,13 @@ units:
       gem: 1
     power:
       offense: 0
-      defense: 2
+      defense: 1
     perks:
-      defense_from_prestige: 250,8 # amount, max
+      defense_from_prestige: 150,9 # amount, max
       mana_production: 0.2
       counts_as_wizard_offense: 0.20
       counts_as_wizard_defense: 0.10
+
   - name: Warboss
     training_time: 12
     type:

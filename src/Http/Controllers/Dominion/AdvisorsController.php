@@ -19,6 +19,7 @@ use DB;
 use OpenDominion\Helpers\HistoryHelper;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 class AdvisorsController extends AbstractDominionController
 {
@@ -52,6 +53,7 @@ class AdvisorsController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'landHelper' => app(LandHelper::class),
             'queueService' => app(QueueService::class),
+            'landImprovementCalculator' => app(LandImprovementCalculator::class),
         ]);
     }
 

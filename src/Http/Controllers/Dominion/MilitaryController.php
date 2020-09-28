@@ -21,6 +21,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 class MilitaryController extends AbstractDominionController
 {
@@ -37,6 +38,7 @@ class MilitaryController extends AbstractDominionController
             'improvementCalculator' => app(ImprovementCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
             'raceHelper' => app(RaceHelper::class),
+            'landImprovementCalculator' => app(LandImprovementCalculator::class),
         ]);
     }
 

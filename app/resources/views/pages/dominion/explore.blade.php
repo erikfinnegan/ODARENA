@@ -21,7 +21,9 @@
                                 <col width="100">
                                 <col width="100">
                                 <col width="100">
-                                <col width="100">
+                                @if ($selectedDominion->race->getPerkValue('land_improvements'))
+                                <col width="200">
+                                @endif
                             </colgroup>
                             <thead>
                                 <tr>
@@ -30,8 +32,8 @@
                                     <th class="text-center">Barren</th>
                                     <th class="text-center">Incoming</th>
                                     <th class="text-center">Explore For</th>
-                                    @if ($selectedDominion->race->name == 'Beastfolk')
-                                    <th class="text-center">Bonus</th>
+                                    @if ($selectedDominion->race->getPerkValue('land_improvements'))
+                                        <th class="text-center">Bonus</th>
                                     @endif
                                 </tr>
                             </thead>
@@ -59,24 +61,22 @@
                                         <td class="text-center">
                                             <input type="number" name="explore[land_{{ $landType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $explorationCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('explore.' . $landType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
-                                        @if ($selectedDominion->race->name == 'Beastfolk')
-                                        <td class="text-center">
-                                          @if($landType == 'plain')
-                                              +{{ round(100 * 0.2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Offensive Power
-                                          @elseif($landType == 'mountain')
-                                              +{{ round(100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Platinum Production
-                                          @elseif($landType == 'swamp')
-                                              +{{ round(100 * 2 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Wizard Strength
-                                          @elseif($landType == 'cavern')
-                                              +{{ round(100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Spy Strength
-                                          @elseif($landType == 'forest')
-                                              +{{ round(100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Max Population
-                                          @elseif($landType == 'hill')
-                                              +{{ round(100 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Defensive Power
-                                          @elseif($landType == 'water')
-                                              +{{ round(100 * 5 * ($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)), 3) }}% Food and Boat Production
-                                          @endif
-                                        </td>
+                                        @if ($selectedDominion->race->getPerkValue('land_improvements'))
+                                            <td class="text-center">
+                                                  @if($landType == 'plain')
+                                                      +{{ number_format($landImprovementCalculator->getOffensivePowerBonus($selectedDominion)*100,2) }}% Offensive Power
+                                                  @elseif($landType == 'mountain')
+                                                      +{{ number_format($landImprovementCalculator->getPlatinumProductionBonus($selectedDominion)*100,2) }}% Platinum Production
+                                                  @elseif($landType == 'swamp')
+                                                      +{{ number_format($landImprovementCalculator->getWizardPowerBonus($selectedDominion)*100,2) }}% Wizard Strength
+                                                  @elseif($landType == 'forest')
+                                                      +{{ number_format($landImprovementCalculator->getPopulationBonus($selectedDominion)*100,2) }}% Max Population
+                                                  @elseif($landType == 'hill')
+                                                      +{{ number_format($landImprovementCalculator->getDefensivePowerBonus($selectedDominion)*100,2) }}% Defensive Power
+                                                  @elseif($landType == 'water')
+                                                      +{{ number_format($landImprovementCalculator->getFoodProductionBonus($selectedDominion)*100,2) }}% Food and Boat Production
+                                                  @endif
+                                            </td>
                                         @endif
                                     </tr>
                                     @php

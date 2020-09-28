@@ -33,6 +33,9 @@ class PopulationCalculator
     /** @var UnitHelper */
     protected $unitHelper;
 
+    /** @var LandImprovementCalculator */
+    protected $landImprovementCalculator;
+
     /** @var bool */
     protected $forTick = false;
 
@@ -56,7 +59,8 @@ class PopulationCalculator
         PrestigeCalculator $prestigeCalculator,
         QueueService $queueService,
         SpellCalculator $spellCalculator,
-        UnitHelper $unitHelper
+        UnitHelper $unitHelper,
+        LandImprovementCalculator $landImprovementCalculator
     ) {
         $this->buildingHelper = $buildingHelper;
         $this->improvementCalculator = $improvementCalculator;
@@ -66,6 +70,7 @@ class PopulationCalculator
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
         $this->unitHelper = $unitHelper;
+        $this->landImprovementCalculator = $landImprovementCalculator;
     }
 
     /**
@@ -234,13 +239,9 @@ class PopulationCalculator
         // Improvement: Tissue (Growth)
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tissue');
 
-        // Beastfolk: Forest increases population
-        if($dominion->race->name == 'Beastfolk')
-        {
-            $multiplier += 0.75 * (($dominion->{"land_forest"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
-        }
+        // Land improvements
+        $multiplier += $this->landImprovementCalculator->getPopulationBonus($dominion);
 
-        $multiplierFromAlchemies = 0;
         if($dominion->race->getPerkValue('population_from_alchemy'))
         {
             $multiplierFromAlchemies = ($dominion->building_alchemy / $this->landCalculator->getTotalLand($dominion)) * $dominion->race->getPerkValue('population_from_alchemy');

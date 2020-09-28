@@ -29,6 +29,8 @@ units:
     power:
       offense: 4
       defense: 0
+    perks:
+      faster_return: 3
 
   - name: Archer
     training_time: 9

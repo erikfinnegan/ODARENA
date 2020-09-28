@@ -18,6 +18,7 @@ use OpenDominion\Services\GameEventService;
 
 # ODA
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 class OpCenterController extends AbstractDominionController
 {
@@ -49,6 +50,7 @@ class OpCenterController extends AbstractDominionController
             'infoOpService' => app(InfoOpService::class),
             'rangeCalculator' => app(RangeCalculator::class),
             'spellHelper' => app(SpellHelper::class),
+            'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'latestInfoOps' => $latestInfoOps,
             'clairvoyances' => $clairvoyances
         ]);
@@ -80,6 +82,7 @@ class OpCenterController extends AbstractDominionController
             'techHelper' => app(TechHelper::class),
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
+            'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'dominion' => $dominion,
             'latestInfoOps' => $latestInfoOps
         ]);
@@ -115,6 +118,7 @@ class OpCenterController extends AbstractDominionController
             'techHelper' => app(TechHelper::class),
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
+            'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'dominion' => $dominion,
             'infoOpArchive' => $infoOpArchive
         ]);

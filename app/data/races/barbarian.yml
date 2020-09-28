@@ -16,7 +16,8 @@ perks:
   food_production: -100
   lumber_production: -100
   mana_production: -100
-  extra_barren_max_population: 20
+  ore_production: -100
+  gem_production: -100
 units:
   - name: Marauder
     training_time: 12

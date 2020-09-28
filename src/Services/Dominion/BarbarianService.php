@@ -52,6 +52,7 @@ class BarbarianService
 
     # Training time in ticks
     protected const UNITS_TRAINING_TICKS = 9;
+    protected const CONSTRUCTION_TIME = 12;
 
     # Unit powers
     protected const UNIT1_OP = 3;
@@ -102,6 +103,7 @@ class BarbarianService
             'UNITS_TRAINED_MIN' => static::UNITS_TRAINED_MIN,
             'UNITS_TRAINED_MAX' => static::UNITS_TRAINED_MAX,
             'UNITS_TRAINING_TICKS' => static::UNITS_TRAINING_TICKS,
+            'CONSTRUCTION_TIME' => static::CONSTRUCTION_TIME,
             'UNIT1_OP' => static::UNIT1_OP,
             'UNIT2_DP' => static::UNIT2_DP,
             'UNIT3_DP' => static::UNIT3_DP,
@@ -423,6 +425,54 @@ class BarbarianService
 
     }
 
+    public function handleBarbarianConstruction(Dominion $dominion)
+    {
+        # Get barren land
+        $barren = $this->landCalculator->getBarrenLandByLandType($dominion);
+
+        # Determine buildings
+        foreach ($barren as $landType => $acres)
+        {
+            if($landType === 'plain')
+            {
+                $buildings['building_smithy'] = (int)floor($acres * 0.80);
+                $buildings['building_farm'] = (int)floor($acres * 0.20);
+            }
+
+            if($landType === 'mountain')
+            {
+                $buildings['building_ore_mine'] = (int)floor($acres * 0.50);
+                $buildings['building_diamond_mine'] = (int)floor($acres * 0.50);
+            }
+
+            if($landType === 'swamp')
+            {
+                $buildings['building_tower'] = (int)floor($acres * 0.50);
+                $buildings['building_temple'] = (int)floor($acres * 0.50);
+            }
+
+            if($landType === 'forest')
+            {
+                $buildings['building_forest_haven'] = (int)floor($acres * 0.50);
+                $buildings['building_lumberyard'] = (int)floor($acres * 0.50);
+            }
+
+            if($landType === 'hill')
+            {
+                $buildings['building_barracks'] = (int)$acres;
+            }
+
+            if($landType === 'water')
+            {
+                $buildings['building_dock'] = (int)$acres;
+            }
+
+        }
+
+        # Queue buildings
+        $this->queueService->queueResources('construction', $dominion, $buildings, static::CONSTRUCTION_TIME);
+
+    }
 
     public function createBarbarian(Round $round): void
     {

@@ -50,9 +50,9 @@ units:
       ore: 0
     power:
       offense: 0
-      defense: 3
+      defense: 2
     perks:
-      defense_from_prestige: 250,4 # amount, max
+      defense_from_prestige: 150,5 # amount, max
 
   - name: Bone Breaker
     training_time: 12

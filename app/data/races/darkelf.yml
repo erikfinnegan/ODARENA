@@ -29,6 +29,7 @@ units:
       defense: 0
     perks:
       faster_return: 3
+
   - name: Swordsman
     training_time: 9
     type:
@@ -41,6 +42,7 @@ units:
     power:
       offense: 0
       defense: 4
+
   - name: Adept
     training_time: 12
     type:
@@ -60,6 +62,7 @@ units:
       offense_from_building: wizard_guild,10,5 # building type, ratio%, max
       defense_from_building: wizard_guild,10,5 # building type, ratio%, max
       tech_production: 0.025
+
   - name: Spirit Warrior
     training_time: 12
     type:

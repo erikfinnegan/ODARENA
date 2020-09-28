@@ -16,7 +16,7 @@ perks:
   food_consumption: -25
   invest_bonus: 20
   mana_drain: -50
-  max_population: -30
+  max_population: -20
   morale_on_successful_invasion_from_gryphon_nests: 1
 units:
   - name: Arbalist
@@ -88,4 +88,5 @@ units:
       does_not_count_as_population: 1
       houses_military_units: 1
       immortal_on_victory: 1
+      immortal_on_fending_off: 1
       plunder: mana,10

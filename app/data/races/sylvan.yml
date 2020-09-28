@@ -47,7 +47,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      platinum: 850
       mana: 10
     power:
       offense: 0

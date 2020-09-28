@@ -25,6 +25,7 @@ perks:
   cannot_improve_castle: 1
   cannot_train_archmages: 1
   max_population: 10
+  land_improvements: 1
 units:
   - name: Boarman
     training_time: 9

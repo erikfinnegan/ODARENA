@@ -7,7 +7,7 @@ use OpenDominion\Models\Unit;
 
 class UnitHelper
 {
-    public function getUnitTypes(bool $hideSpecialUnits = false): array
+      public function getUnitTypes(bool $hideSpecialUnits = false): array
     {
         $data = [
             'unit1',
@@ -163,7 +163,6 @@ class UnitHelper
             'wins_into' => 'Upon successul invasion, returns as %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
-
             // Resource related
             'ore_production' => 'Each unit produces %s units of ore per tick.',
             'mana_production' => 'Each unit generates %s mana per tick.',
@@ -213,8 +212,13 @@ class UnitHelper
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
             'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increasable by %3$s improvements.',
 
-            // Population
+            'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increasable with %2$s improvements.',
+            'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increasable with %2$s improvements.',
+            'spy_limit' => 'You can at most have %1$s of this unit per Spy. Increasable with %2$s improvements.',
+
             'amount_limit' => 'You can at most have %1$s of this unit.',
+
+            // Population
             'does_not_count_as_population' => 'Does not count towards population. No housing required.',
             'population_growth' => 'Increases population growth by 2%% for every 1%% of population.',
 

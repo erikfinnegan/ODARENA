@@ -29,8 +29,20 @@
                     </tr>
                     <tr>
                         <td>Improvements:</td>
-                        <td>{{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'forges') * 100, 2) }}%</td>
-                        <td>{{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'walls') * 100, 2) }}%</td>
+                        <td>
+                            @if($selectedDominion->race->getPerkValue('land_improvements'))
+                                {{ number_format($landImprovementCalculator->getOffensivePowerBonus($selectedDominion) * 100, 2) }}%
+                            @else
+                                {{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'forges') * 100, 2) }}%
+                            @endif
+                        </td>
+                        <td>
+                            @if($selectedDominion->race->getPerkValue('land_improvements'))
+                                {{ number_format($landImprovementCalculator->getDefensivePowerBonus($selectedDominion) * 100, 2) }}%
+                            @else
+                                {{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'walls') * 100, 2) }}%
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td>Advancements:</td>

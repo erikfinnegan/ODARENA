@@ -7,6 +7,7 @@ use OpenDominion\Services\Dominion\GuardMembershipService;
 
 // Morale affects production
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 class ProductionCalculator
 {
@@ -31,6 +32,9 @@ class ProductionCalculator
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
+    /** @var LandImprovementCalculator */
+    protected $landImprovementCalculator;
+
     /**
      * ProductionCalculator constructor.
      *
@@ -49,7 +53,9 @@ class ProductionCalculator
         PrestigeCalculator $prestigeCalculator,
         SpellCalculator $spellCalculator,
         GuardMembershipService $guardMembershipService,
-        MilitaryCalculator $militaryCalculator)
+        MilitaryCalculator $militaryCalculator,
+        LandImprovementCalculator $landImprovementCalculator
+        )
     {
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
@@ -58,9 +64,8 @@ class ProductionCalculator
         $this->spellCalculator = $spellCalculator;
         $this->guardMembershipService = $guardMembershipService;
         $this->militaryCalculator = $militaryCalculator;
+        $this->landImprovementCalculator = $landImprovementCalculator;
     }
-
-    //<editor-fold desc="Platinum">
 
     /**
      * Returns the Dominion's platinum production.
@@ -73,12 +78,6 @@ class ProductionCalculator
         $platinum = 0;
 
         $platinum = floor($this->getPlatinumProductionRaw($dominion) * $this->getPlatinumProductionMultiplier($dominion));
-
-        // Tech: Interest (% of stockpile)
-        if($dominion->getTechPerkMultiplier('platinum_interest'))
-        {
-          $platinum += $dominion->resource_platinum * $dominion->getTechPerkMultiplier('platinum_interest');
-        }
 
         return max(0,$platinum);
     }
@@ -167,11 +166,8 @@ class ProductionCalculator
         // Improvement: Markets
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
 
-        // Beastfolk: Mountain increases platinum production.
-        if($dominion->race->name == 'Beastfolk')
-        {
-            $multiplier += 0.75 * (($dominion->{"land_mountain"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
-        }
+        // Land improvements
+        $multiplier += $this->landImprovementCalculator->getPlatinumProductionBonus($dominion);
 
         // Human: Call To Arms
         if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
@@ -323,11 +319,8 @@ class ProductionCalculator
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
-        // Beastfolk: Water increases food production
-        if($dominion->race->name == 'Beastfolk')
-        {
-          $multiplier += 5 * (($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
-        }
+        // Land improvements
+        $multiplier += $this->landImprovementCalculator->getFoodProductionBonus($dominion);
 
         // Apply Morale multiplier to production multiplier
         return ((1 + $multiplier) * (1 + $prestigeMultiplier)) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -430,7 +423,7 @@ class ProductionCalculator
         // Perk: decay reduction
         if($dominion->race->getPerkMultiplier('food_decay'))
         {
-          $multiplier += $dominion->race->getPerkMultiplier('food_decay');
+            $multiplier += $dominion->race->getPerkMultiplier('food_decay');
         }
 
         $multiplier = min(0, $multiplier);
@@ -611,7 +604,7 @@ class ProductionCalculator
         // Perk: decay reduction
         if($dominion->race->getPerkMultiplier('lumber_decay'))
         {
-          $multiplier += $dominion->race->getPerkMultiplier('lumber_decay');
+            $multiplier += $dominion->race->getPerkMultiplier('lumber_decay');
         }
 
         $multiplier = min(0, $multiplier);
@@ -1098,13 +1091,8 @@ class ProductionCalculator
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
 
-        // Beastfolk: Water increases boat production.
-        if($dominion->race->name == 'Beastfolk')
-        {
-          $multiplier += 5 * (($dominion->{"land_water"} / $this->landCalculator->getTotalLand($dominion)) * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion)));
-        }
-
-
+        // Land improvements
+        $multiplier += $this->landImprovementCalculator->getBoatProductionBonus($dominion);
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);

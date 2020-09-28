@@ -31,7 +31,6 @@ class ImproveActionService
         $this->spellCalculator = $spellCalculator;
     }
 
-
     public function improve(Dominion $dominion, string $resource, array $data): array
     {
         $this->guardLockedDominion($dominion);
@@ -121,9 +120,6 @@ class ImproveActionService
               'improvement_granaries' => ($dominion->improvement_granaries + ($data['granaries'] * $worth)),
             ])->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
         }
-
-
-
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
         $dominion->most_recent_improvement_resource = $resource;

@@ -351,8 +351,46 @@ class TrainingCalculator
               $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
 
-            $trainable[$unitType] = max(0, $trainable[$unitType]);
+            # Look for archmage_limit
+            if($archmageLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'archmage_limit'))
+            {
+                $unitsPerArchmage = (float)$archmageLimit[0]; # Units per archmage
+                $improvementToIncrease = $archmageLimit[1]; # Resource that can raise the limit
 
+                $unitsPerArchmage *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+
+                $maxAdditionalPermittedOfThisUnit = intval($dominion->military_archmages * $unitsPerArchmage) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
+
+                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
+            }
+
+            # Look for wizard_limit
+            if($wizardLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'wizard_limit'))
+            {
+                $unitsPerWizard = (float)$wizardLimit[0]; # Units per archmage
+                $improvementToIncrease = $wizardLimit[1]; # Resource that can raise the limit
+
+                $unitsPerWizard *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+
+                $maxAdditionalPermittedOfThisUnit = intval($dominion->military_wizards * $unitsPerWizard) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
+
+                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
+            }
+
+            # Look for spy_limit
+            if($spyLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'spy_limit'))
+            {
+                $unitsPerSpy = (float)$spyLimit[0]; # Units per archmage
+                $improvementToIncrease = $spyLimit[1]; # Resource that can raise the limit
+
+                $unitsPerSpy *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+
+                $maxAdditionalPermittedOfThisUnit = intval($dominion->military_spies * $unitsPerWizard) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
+
+                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
+            }
+
+            $trainable[$unitType] = max(0, $trainable[$unitType]);
 
         }
         return $trainable;
