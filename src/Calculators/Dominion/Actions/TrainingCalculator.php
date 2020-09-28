@@ -12,6 +12,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
 class TrainingCalculator
 {
@@ -36,6 +37,9 @@ class TrainingCalculator
     /** @var RaceHelper */
     protected $raceHelper;
 
+    /** @var PopulationCalculator */
+    protected $populationCalculator;
+
     /**
      * TrainingCalculator constructor.
      *
@@ -49,7 +53,8 @@ class TrainingCalculator
           MilitaryCalculator $militaryCalculator,
           QueueService $queueService,
           SpellCalculator $spellCalculator,
-          RaceHelper $raceHelper
+          RaceHelper $raceHelper,
+          PopulationCalculator $populationCalculator
           )
     {
         $this->landCalculator = $landCalculator;
@@ -59,6 +64,7 @@ class TrainingCalculator
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
         $this->raceHelper = $raceHelper;
+        $this->populationCalculator = $populationCalculator;
     }
 
     /**
@@ -420,6 +426,7 @@ class TrainingCalculator
         $discountableResourceTypesByArmory = ['platinum', 'ore'];
         $discountableResourceTypesByTech = ['platinum', 'ore', 'lumber'];
         $discountableResourceTypesByTitle = ['platinum', 'ore', 'lumber', 'mana', 'food'];
+        $discountableResourceTypesByUnitBonus = ['platinum', 'ore', 'lumber', 'mana', 'food'];
 
         $discountableResourceTypesByTechFood = ['food'];
         $discountableResourceTypesByTechMana = ['mana'];
@@ -452,6 +459,25 @@ class TrainingCalculator
         if(in_array($resourceType,$discountableResourceTypesByTech))
         {
             $multiplier += $dominion->getTechPerkMultiplier('military_cost');
+        }
+
+        // Units
+        if(in_array($resourceType,$discountableResourceTypesByUnitBonus))
+        {
+            $reducingUnits = 0;
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                if($reducesUnitCosts = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_unit_costs'))
+                {
+                    $reductionPerPercentOfUnit = (float)$reducesUnitCosts[0];
+                    $maxReduction = (float)$reducesUnitCosts[1] / 100;
+                    $unitMultiplier = min(($dominion->{'military_unit'.$slot} / $this->populationCalculator->getPopulationMilitary($dominion)) * $reductionPerPercentOfUnit, $maxReduction);
+                    $multiplier -= $unitMultiplier;
+                }
+            }
+
+
+
         }
 
         // Title

@@ -10,6 +10,8 @@ converting: 3
 
 construction_materials: platinum,lumber
 
+archmages_cost: 1200,platinum
+
 perks:
   spy_strength: 10
   wizard_strength: -10
@@ -17,9 +19,9 @@ perks:
   forest_construction_cost: -100
   defense_from_forest: 0.25 # Gets 0.25% DP bonus from every 1% forest
   extra_barren_max_population: 15
-  cannot_train_archmages: 1
   tech_costs: 10
   lumber_improvement_points: 50
+  increased_construction_speed: 6
 units:
   - name: Chimpanzee
     training_time: 9

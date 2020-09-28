@@ -21,9 +21,11 @@ class LandImprovementCalculator
     protected $landHelper;
 
     /**
-     * ImprovementCalculator constructor.
+     * LandImprovementCalculator constructor.
      *
      * @param LandCalculator $landCalculator
+     * @param PrestigeCalculator $prestigeCalculator
+     * @param LandHelper $landHelper
      */
     public function __construct(
         PrestigeCalculator $prestigeCalculator,

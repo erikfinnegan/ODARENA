@@ -32,30 +32,30 @@ units:
     perks:
       increases_casualties_on_offense: 1
 
-  - name: Automaton
+  - name: Sapper
     training_time: 9
     type:
-      - machine
+      - living
+      - sentient
+      - intelligent
     need_boat: true
     cost:
-      platinum: 555
-      ore: 110
-      gem: 2
+      platinum: 420
+      ore: 80
     power:
       offense: 0
-      defense: 5
+      defense: 4
     perks:
-      no_draftee: 1
-      does_not_count_as_population: 1
-      pairing_limit: 3,30 # Unit slot, amount (max 30 of this unit per each Unit 3)
+      reduces_casualties: 1
+      reduces_unit_costs: 0.5,7.5 # reduction per 1% of military, max reduction
 
   - name: Turret
     training_time: 12
     type:
       - machine
     cost:
-      platinum: 55000
-      ore: 20000
+      platinum: 65000
+      ore: 24000
     power:
       offense: 0
       defense: 300
@@ -72,14 +72,14 @@ units:
       - machine
     need_boat: false
     cost:
-      platinum: 30000
-      ore: 3500
-      gem: 250
+      platinum: 36000
+      ore: 4200
+      gem: 300
     power:
       offense: 120
       defense: 20
     perks:
-      fewer_casualties: 50
+      fewer_casualties_offense: 50
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,2,workshops # building, buildings per unit, imp to increased

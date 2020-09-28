@@ -207,6 +207,8 @@ class UnitHelper
 
             'cannot_be_released' => 'Cannot be released',
 
+            'reduces_unit_costs' => 'Reduces training costs by %1$s%% for every 1%% of military consisting of this unit. Max %2$s%% reduction.',
+
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',

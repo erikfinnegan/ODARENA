@@ -25,6 +25,9 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
+
 class EspionageActionService
 {
     use DominionGuardsTrait;
@@ -104,6 +107,9 @@ class EspionageActionService
     /** @var SpellCalculator */
     protected $spellCalculator;
 
+    /** @var LandImprovementCalculator */
+    protected $landImprovementCalculator;
+
     /**
      * EspionageActionService constructor.
      */
@@ -123,6 +129,7 @@ class EspionageActionService
         $this->queueService = app(QueueService::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
+        $this->landImprovementCalculator = app(LandImprovementCalculator::class);
     }
 
     # Any changes here must also be done in espionage.blade.php.
@@ -500,6 +507,17 @@ class EspionageActionService
                         (($amount / $this->landCalculator->getTotalLand($target)) * 100));
                     array_set($data, "explored.{$landType}.barren",
                         $this->landCalculator->getTotalBarrenLandByLandType($target, $landType));
+
+
+                    if($target->race->getPerkValue('land_improvements'))
+                    {
+                        $data['land_improvements']['plain'] = $this->landImprovementCalculator->getOffensivePowerBonus($target);
+                        $data['land_improvements']['mountain'] = $this->landImprovementCalculator->getPlatinumProductionBonus($target);
+                        $data['land_improvements']['swamp'] = $this->landImprovementCalculator->getWizardPowerBonus($target);
+                        $data['land_improvements']['forest'] = $this->landImprovementCalculator->getPopulationBonus($target);
+                        $data['land_improvements']['hill'] = $this->landImprovementCalculator->getDefensivePowerBonus($target);
+                        $data['land_improvements']['water'] = $this->landImprovementCalculator->getFoodProductionBonus($target);
+                    }
                 }
 
                 $this->queueService->getExplorationQueue($target)->each(static function ($row) use (&$data) {

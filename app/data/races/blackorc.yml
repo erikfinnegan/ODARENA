@@ -11,6 +11,7 @@ converting: 1
 construction_materials: platinum,lumber
 
 perks:
+  max_population: 10
   food_consumption: 20
   lumber_production: 50
   extra_barracks_housing: 18
