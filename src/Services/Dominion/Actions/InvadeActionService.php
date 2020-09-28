@@ -520,7 +520,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -2878,6 +2878,7 @@ class InvadeActionService
 
         $zealots = 0;
         $immortalsKilledPerZealot = 2;
+        $soulsDestroyedPerZealot = 2;
 
         if($attacker->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
         {
@@ -2936,6 +2937,27 @@ class InvadeActionService
                     }
                 }
             }
+
+            // SOULS
+
+            # See if Qur sent any Zealots
+            foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
+            {
+                if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'destroys_souls'))
+                {
+                    $zealots += $amount;
+                }
+            }
+
+            # See if the target has souls.
+            if($defender->resource_soul > 0)
+            {
+                $soulsDestroyed = (int)floor(min($defender->resource_soul * 0.04, ($zealots * $soulsDestroyedPerZealot)));
+
+                $this->invasionResult['attacker']['soulsDestroyed'] = $soulsDestroyed;
+                $defender->resource_soul -= $soulsDestroyed;
+                $defender->{'stat_total_soul_destroyed'} += $soulsDestroyed;
+            }
         }
         elseif($defender->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
         {
@@ -2993,6 +3015,28 @@ class InvadeActionService
                             $defender->{'stat_total_units_killed'} += $deaths;
                       }
                   }
+              }
+
+              // SOULS
+              $zealots = 0;
+
+              # See if Qur is defending with any Zealots
+              foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+              {
+                  if($slot !== 'draftees' and $defender->race->getUnitPerkValueForUnitSlot($slot, 'destroys_souls'))
+                  {
+                      $zealots += $amount;
+                  }
+              }
+
+              # See if the target has souls.
+              if($attacker->resource_soul > 0)
+              {
+                  $soulsDestroyed = (int)floor(min($attacker->resource_soul * 0.08, ($zealots * $soulsDestroyedPerZealot)));
+
+                  $this->invasionResult['defender']['soulsDestroyed'] = $soulsDestroyed;
+                  $attacker->resource_soul -= $soulsDestroyed;
+                  $attacker->{'stat_total_soul_destroyed'} += $soulsDestroyed;
               }
         }
     }
