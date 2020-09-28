@@ -54,8 +54,8 @@ units:
     type:
       - machine
     cost:
-      platinum: 65000
-      ore: 24000
+      platinum: 60000
+      ore: 22000
     power:
       offense: 0
       defense: 300
@@ -72,9 +72,9 @@ units:
       - machine
     need_boat: false
     cost:
-      platinum: 36000
-      ore: 4200
-      gem: 300
+      platinum: 33000
+      ore: 4000
+      gem: 275
     power:
       offense: 120
       defense: 20
