@@ -15,6 +15,7 @@ archmages_cost: 500,platinum
 perks:
   salvaging: 65
   gem_production: 20
+
 units:
   - name: Hunter
     training_time: 6
@@ -24,8 +25,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 700
-      ore: 0
+      platinum: 600
     power:
       offense: 4
       defense: 4
@@ -56,7 +56,7 @@ units:
       - machine
     need_boat: true
     cost:
-      platinum: 2000
+      platinum: 600
       lumber: 600
       ore: 600
     power:
@@ -81,7 +81,7 @@ units:
       - wise
     need_boat: true
     cost:
-      platinum: 1500
+      platinum: 1100
       mana: 20
     power:
       offense: 9

@@ -445,7 +445,9 @@ class InvadeActionService
             $this->handlePrestigeChanges($dominion, $target, $units, $landRatio, $countsAsVictory, $countsAsBottomfeed, $countsAsFailure, $countsAsRaze);
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
-            $survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio,  $this->invasionResult['defender']['mindControlledUnits']);
+            #$survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio,  $this->invasionResult['defender']['mindControlledUnits']);
+            $this->invasionResult['attacker']['survivingUnits'] = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio,  $this->invasionResult['defender']['mindControlledUnits']);
+
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
 
             # Conversions
@@ -467,9 +469,13 @@ class InvadeActionService
                 $defensiveConversions = $this->handleDefensiveConversions($target, $landRatio, $units, $dominion);
             }
 
+            # Qur
+            $this->handleZealots($dominion, $target, $this->invasionResult['attacker']['survivingUnits']);
+
+            # Cult
             $this->handleMenticide($target, $dominion);
 
-            $this->handleReturningUnits($dominion, $survivingUnits, $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
+            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
 
             $this->handleMoraleChanges($dominion, $target, $landRatio);
             $this->handleLandGrabs($dominion, $target, $landRatio, $units);
@@ -485,16 +491,13 @@ class InvadeActionService
             $this->handleChampionCreation($dominion, $target, $units, $landRatio, $this->invasionResult['result']['success']);
 
             # Salvage and Plunder
-            $this->handleSalvagingAndPlundering($dominion, $target, $survivingUnits);
+            $this->handleSalvagingAndPlundering($dominion, $target, $this->invasionResult['attacker']['survivingUnits']);
 
             # Growth
             $this->handleMetabolism($dominion, $target, $landRatio);
 
-            # Qur
-            $this->handleZealots($dominion, $target);
-
             # Imperial Crypt
-            $this->handleCrypt($dominion, $target, $survivingUnits, $offensiveConversions, $defensiveConversions);
+            $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $defensiveConversions);
 
             // Stat changes
             if ($this->invasionResult['result']['success'])
@@ -517,7 +520,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            dd($this->invasionResult);
+            #dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -2864,7 +2867,7 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
-    protected function handleZealots(Dominion $attacker, Dominion $defender): void
+    protected function handleZealots(Dominion $attacker, Dominion $defender, array $survivingUnits): void
     {
         $immortalDefenders = array_fill(1, 4, 0);
         $immortalDefendersDeaths = array_fill(1, 4, 0);
@@ -2934,7 +2937,7 @@ class InvadeActionService
                 }
             }
         }
-        elseif($attacker->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
+        elseif($defender->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
         {
 
               # See if attacker has any immortal units
@@ -2944,7 +2947,7 @@ class InvadeActionService
                       return ($unit->slot == $slot);
                   })->first();
 
-                  if($defender->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $defender->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
+                  if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $attacker->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
                   {
                       $immortalAttackers[$slot] += $defender->{'military_unit'.$slot};
                   }
@@ -2953,7 +2956,7 @@ class InvadeActionService
               # See if Qur has any Zealots
               foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
               {
-                  if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_immortal'))
+                  if($slot !== 'draftees' and $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_immortal'))
                   {
                       $zealots += $amount;
                   }
@@ -2975,17 +2978,19 @@ class InvadeActionService
                       {
                             $deaths = intval($deaths);
                             $defender->{"military_unit{$slot}"} -= $deaths;
-                            if(isset($this->invasionResult['defender']['unitsLost'][$slot]))
+                            if(isset($this->invasionResult['attacker']['unitsLost'][$slot]))
                             {
-                                $this->invasionResult['defender']['unitsLost'][$slot] += $deaths;
+                                $this->invasionResult['attacker']['unitsLost'][$slot] += $deaths;
                             }
                             else
                             {
-                                $this->invasionResult['defender']['unitsLost'][$slot] = $deaths;
+                                $this->invasionResult['attacker']['unitsLost'][$slot] = $deaths;
                             }
 
-                            $defender->{'stat_total_unit' . $slot . '_lost'} += $deaths;
-                            $attacker->{'stat_total_units_killed'} += $deaths;
+                            $this->invasionResult['attacker']['survivingUnits'][$slot] -= $deaths;
+
+                            $attacker->{'stat_total_unit' . $slot . '_lost'} += $deaths;
+                            $defender->{'stat_total_units_killed'} += $deaths;
                       }
                   }
               }
