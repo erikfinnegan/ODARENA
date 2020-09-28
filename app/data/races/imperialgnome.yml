@@ -82,4 +82,4 @@ units:
       fewer_casualties_offense: 50
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: factory,2,workshops # building, buildings per unit, imp to increased
+      building_limit: factory,2.5,workshops # building, buildings per unit, imp to increased

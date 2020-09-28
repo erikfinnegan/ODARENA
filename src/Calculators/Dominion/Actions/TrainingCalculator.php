@@ -471,7 +471,7 @@ class TrainingCalculator
                 {
                     $reductionPerPercentOfUnit = (float)$reducesUnitCosts[0];
                     $maxReduction = (float)$reducesUnitCosts[1] / 100;
-                    $unitMultiplier = min(($dominion->{'military_unit'.$slot} / $this->populationCalculator->getPopulationMilitary($dominion)) * $reductionPerPercentOfUnit, $maxReduction);
+                    $unitMultiplier = min(($dominion->{'military_unit'.$slot} / $this->populationCalculator->getPopulation($dominion)) * $reductionPerPercentOfUnit, $maxReduction);
                     $multiplier -= $unitMultiplier;
                 }
             }

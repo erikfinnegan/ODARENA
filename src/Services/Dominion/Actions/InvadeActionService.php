@@ -39,12 +39,12 @@ class InvadeActionService
     /**
      * @var float Base percentage of boats sunk
      */
-    protected const BOATS_SUNK_BASE_PERCENTAGE = 5;
+    protected const BOATS_SUNK_BASE_PERCENTAGE = 5.0;
 
     /**
      * @var float Base percentage of defensive casualties
      */
-    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 4;
+    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 4.0;
 
     /**
      * @var float Max percentage of defensive casualties
@@ -369,6 +369,12 @@ class InvadeActionService
                 throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your units to invade.');
             }
 
+            // Qur: Statis cannot invade.
+            if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+            {
+                throw new GameException('You cannot invade while you are in stasis.');
+            }
+
             // Peacekeepers League: can only invade if recently invaded.
             if($this->guardMembershipService->isRoyalGuardMember($dominion) and !$this->militaryCalculator->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
             {
@@ -389,7 +395,7 @@ class InvadeActionService
             }
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $this->militaryCalculator->getRecentlyInvadedCount($target);
-
+            $this->invasionResult['attacker']['unitsSent'] = $units;
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
             $this->handleMindControl($target, $dominion, $units);
@@ -469,6 +475,7 @@ class InvadeActionService
             $this->handleLandGrabs($dominion, $target, $landRatio, $units);
             $this->handleResearchPoints($dominion, $target, $units);
 
+            # Afflicted
             $this->handleInvasionSpells($dominion, $target);
 
             # Demon
@@ -480,12 +487,14 @@ class InvadeActionService
             # Salvage and Plunder
             $this->handleSalvagingAndPlundering($dominion, $target, $survivingUnits);
 
-            # Qur: 
+            # Growth
+            $this->handleMetabolism($dominion, $target, $landRatio);
+
+            # Qur
+            $this->handleZealots($dominion, $target);
 
             # Imperial Crypt
             $this->handleCrypt($dominion, $target, $survivingUnits, $offensiveConversions, $defensiveConversions);
-
-            $this->invasionResult['attacker']['unitsSent'] = $units;
 
             // Stat changes
             if ($this->invasionResult['result']['success'])
@@ -508,7 +517,7 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            dd($this->invasionResult);
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -2752,6 +2761,168 @@ class InvadeActionService
 
         }
 
+    }
+
+    /**
+     * Handles eating of units by Growth when Metabolism is active.
+     *
+     * @param Dominion $attacker
+     * @param Dominion $defender
+     */
+    protected function handleMetabolism(Dominion $attacker, Dominion $defender, float $landRatio): void
+    {
+        $food = 0;
+
+        $uneatableUnitAttributes = [
+          'ammunition',
+          'equipment',
+          'magical',
+          'machine',
+        ];
+
+        # Eat defensive casualties
+        if ($this->spellCalculator->isSpellActive($attacker, 'metabolism'))
+        {
+                $unitsEaten = array_fill(1, 4, 0);
+
+                foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amount)
+                {
+                    if($slot === 'draftees')
+                    {
+                        $unitsEaten[$slot] = $amount;
+                    }
+                    else
+                    {
+                        # Get the $unit
+                        $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                                return ($unit->slot == $slot);
+                            })->first();
+
+                        # Get the unit attributes
+                        $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+                        if(count(array_intersect($uneatableUnitAttributes, $unitAttributes)) === 0)
+                        {
+                            $unitsEaten[$slot] = $amount;
+                        }
+                    }
+                }
+
+                $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsEaten, 0, false, $this->isAmbush, true);
+
+                $food += $dpFromEatenUnits * 4;
+
+                $this->invasionResult['attacker']['metabolism']['unitsEaten'] = $unitsEaten;
+                $this->invasionResult['attacker']['metabolism']['dpFromUnitsEaten'] = $dpFromEatenUnits;
+                $this->invasionResult['attacker']['metabolism']['food'] = $food;
+
+                $this->queueService->queueResources(
+                    'invasion',
+                    $attacker,
+                    [
+                        'resource_food' => $food,
+                    ]
+                );
+          }
+          # Eat offensive casualties
+          elseif ($this->spellCalculator->isSpellActive($defender, 'metabolism'))
+          {
+              $unitsKilled = array_fill(1, 4, 0);
+
+              foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amount)
+              {
+                  # Get the $unit
+                  $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                          return ($unit->slot == $slot);
+                      })->first();
+
+                  # Get the unit attributes
+                  $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+                  if(count(array_intersect($uneatableUnitAttributes, $unitAttributes)) === 0)
+                  {
+                      $unitsEaten[$slot] = $amount;
+                  }
+              }
+
+              $opFromKilledEaten = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsEaten, 0, false, $this->isAmbush, true);
+
+              $food += $opFromKilledEaten * 4;
+
+              $this->invasionResult['attacker']['metabolism']['unitsEaten'] = $unitsEaten;
+              $this->invasionResult['attacker']['metabolism']['opFromUnitsEaten'] = $opFromKilledEaten;
+              $this->invasionResult['attacker']['metabolism']['food'] = $food;
+
+              $defender->resource_food += $food;
+          }
+    }
+
+
+    /**
+     * Handles eating of units by Growth when Metabolism is active.
+     *
+     * @param Dominion $attacker
+     * @param Dominion $defender
+     */
+    protected function handleZealots(Dominion $attacker, Dominion $defender): void
+    {
+        $immortalDefenders = array_fill(1, 4, 0);
+        $immortalDefendersDeaths = array_fill(1, 4, 0);
+        $zealots = 0;
+        $immortalsKilledPerZealot = 1;
+
+        if($attacker->race->name === 'Qur')
+        {
+            # See if target has any immortal units
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot == $slot);
+                })->first();
+
+                if($unit->power_defense !== 0 and ($defender->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $defender->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal')))
+                {
+                    $immortalDefenders[$slot] += $defender->{'military_unit'.$slot};
+                }
+            }
+
+            # See if qur sent any Zealots
+            foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
+            {
+                if($defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_immortal'))
+                {
+                    $zealots += $amount;
+                }
+            }
+
+            $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalDefenders));
+
+
+
+            # Determine ratio of each immortal defender to kill.
+            if(array_sum($immortalDefenders) > 0)
+            {
+                foreach($immortalDefenders as $slot => $amount)
+                {
+                    $immortalDefendersDeaths[$slot] = floor($immortalsKilled * ($amount / array_sum($immortalDefenders)));
+                }
+
+                foreach($immortalDefendersDeaths as $slot => $deaths)
+                {
+                    if($deaths > 0)
+                    {
+                          $defender->{"military_unit{$slot}"} -= $deaths;
+                          $this->invasionResult['attacker']['unitsLost'][$slot] += $deaths;
+                          $defender->{'stat_total_unit' . $slot . '_lost'} += $deaths;
+                          $attacker->{'stat_total_units_killed'} += $deaths;
+                    }
+                }
+            }
+        }
+        elseif($attacker->race->name === 'Qur')
+        {
+
+        }
     }
 
     /**
