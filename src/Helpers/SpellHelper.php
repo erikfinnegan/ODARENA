@@ -321,7 +321,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Metabolism',
-                'description' => 'Double raw food production.',
+                'description' => 'Double raw food production. Some enemy units killed become food.',
                 'key' => 'metabolism',
                 'mana_cost' => 8,
                 'duration' => 6*4, # 24 ticks / 6 hours

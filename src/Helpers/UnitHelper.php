@@ -109,7 +109,7 @@ class UnitHelper
             'defense_from_resource' => 'Defense increased by 1 for every %2$s %1$s (max +%3$s).',
 
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
-            'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only attacks over 75%% count as victories.',
+            'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only successful attacks over 75%% count as victories.',
 
             'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',

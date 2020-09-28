@@ -30,7 +30,7 @@
                       <thead>
                           <tr>
                               <th>Advancement</th>
-                              @for ($i = 1; $i <= 8; $i++)
+                              @for ($i = 1; $i <= 10; $i++)
                                   <th class="text-center">Level {{ $i }}</th>
                               @endfor
                           </tr>
@@ -46,11 +46,10 @@
                               {{ $techHelper->getTechDescription($tech) }}
                           </td>
 
-                          @if($tech->level == 8)
+                          @if($tech->level == 10)
                               </tr>
                           @endif
                       @endforeach
-
                   </table>
                 </div>
             </div>

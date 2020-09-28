@@ -18,10 +18,11 @@ perks:
   construction_cost: -20
   forest_construction_cost: -100
   defense_from_forest: 0.25 # Gets 0.25% DP bonus from every 1% forest
-  extra_barren_max_population: 15
+  extra_barren_max_population: 10
   tech_costs: 10
   lumber_improvement_points: 50
-  increased_construction_speed: 6
+  increased_construction_speed: 3
+  max_population: 10
 units:
   - name: Chimpanzee
     training_time: 9
@@ -31,12 +32,12 @@ units:
       - intelligent
     cost:
       platinum: 200
-      ore: 0
     power:
       offense: 3
       defense: 0
     perks:
-      fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
+      fewer_casualties_offense_vs_land: forest,1,80 # land_type, ratio%, max
+      offense_from_victories: 0.05,1.5 # +0.10 OP per Victory, max +3 (at 30 Victories)
 
   - name: Bonobo
     training_time: 9
@@ -46,7 +47,6 @@ units:
       - intelligent
     cost:
       platinum: 200
-      ore: 0
     power:
       offense: 0
       defense: 3
@@ -61,13 +61,12 @@ units:
       - intelligent
     cost:
       platinum: 1000
-      lumber: 100
     power:
       offense: 4
       defense: 7
     perks:
       fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
-      fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
+      fewer_casualties_offense_vs_land: forest,1,80 # land_type, ratio%, max
 
   - name: Gorilla
     training_time: 12
@@ -77,10 +76,10 @@ units:
       - intelligent
     cost:
       platinum: 1000
-      lumber: 100
     power:
       offense: 7
       defense: 4
     perks:
       fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
-      fewer_casualties_offense_vs_land: forest,0.5,80 # land_type, ratio%, max
+      fewer_casualties_offense_vs_land: forest,1,80 # land_type, ratio%, max
+      offense_from_victories: 0.10,3 # +0.10 OP per Victory, max +3 (at 30 Victories)
