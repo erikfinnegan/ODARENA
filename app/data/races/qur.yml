@@ -39,7 +39,7 @@ units:
       - magical
     need_boat: false
     cost:
-      gem: 100
+      gem: 5
       mana: 5
     power:
       offense: 0

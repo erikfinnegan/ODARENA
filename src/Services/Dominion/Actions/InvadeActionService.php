@@ -2868,36 +2868,42 @@ class InvadeActionService
     {
         $immortalDefenders = array_fill(1, 4, 0);
         $immortalDefendersDeaths = array_fill(1, 4, 0);
-        $zealots = 0;
-        $immortalsKilledPerZealot = 1;
 
-        if($attacker->race->name === 'Qur')
+
+        $immortalAttackers = array_fill(1, 4, 0);
+        $immortalAttackersDeaths = array_fill(1, 4, 0);
+
+        $zealots = 0;
+        $immortalsKilledPerZealot = 2;
+
+        if($attacker->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
         {
             # See if target has any immortal units
-            for ($slot = 1; $slot <= 4; $slot++)
+            foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
             {
-                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot == $slot);
-                })->first();
-
-                if($unit->power_defense !== 0 and ($defender->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $defender->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal')))
+                if($slot !== 'draftees')
                 {
-                    $immortalDefenders[$slot] += $defender->{'military_unit'.$slot};
+                    $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                        return ($unit->slot == $slot);
+                    })->first();
+
+                    if($unit->power_defense !== 0 and ($defender->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $defender->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal')))
+                    {
+                        $immortalDefenders[$slot] += $defender->{'military_unit'.$slot};
+                    }
                 }
             }
 
             # See if qur sent any Zealots
             foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
             {
-                if($defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_immortal'))
+                if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_immortal'))
                 {
                     $zealots += $amount;
                 }
             }
 
-            $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalDefenders));
-
-
+            $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalDefenders) * 0.04);
 
             # Determine ratio of each immortal defender to kill.
             if(array_sum($immortalDefenders) > 0)
@@ -2911,17 +2917,78 @@ class InvadeActionService
                 {
                     if($deaths > 0)
                     {
+                          $deaths = intval($deaths);
                           $defender->{"military_unit{$slot}"} -= $deaths;
-                          $this->invasionResult['attacker']['unitsLost'][$slot] += $deaths;
+                          if(isset($this->invasionResult['defender']['unitsLost'][$slot]))
+                          {
+                              $this->invasionResult['defender']['unitsLost'][$slot] += $deaths;
+                          }
+                          else
+                          {
+                              $this->invasionResult['defender']['unitsLost'][$slot] = $deaths;
+                          }
+
                           $defender->{'stat_total_unit' . $slot . '_lost'} += $deaths;
                           $attacker->{'stat_total_units_killed'} += $deaths;
                     }
                 }
             }
         }
-        elseif($attacker->race->name === 'Qur')
+        elseif($attacker->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
         {
 
+              # See if attacker has any immortal units
+              foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
+              {
+                  $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                      return ($unit->slot == $slot);
+                  })->first();
+
+                  if($defender->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $defender->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
+                  {
+                      $immortalAttackers[$slot] += $defender->{'military_unit'.$slot};
+                  }
+              }
+
+              # See if Qur has any Zealots
+              foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+              {
+                  if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_immortal'))
+                  {
+                      $zealots += $amount;
+                  }
+              }
+
+              $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalAttackers) * 0.04);
+
+              # Determine ratio of each immortal defender to kill.
+              if(array_sum($immortalAttackers) > 0)
+              {
+                  foreach($immortalAttackers as $slot => $amount)
+                  {
+                      $immortalAttackersDeaths[$slot] = floor($immortalsKilled * ($amount / array_sum($immortalAttackers)));
+                  }
+
+                  foreach($immortalAttackersDeaths as $slot => $deaths)
+                  {
+                      if($deaths > 0)
+                      {
+                            $deaths = intval($deaths);
+                            $defender->{"military_unit{$slot}"} -= $deaths;
+                            if(isset($this->invasionResult['defender']['unitsLost'][$slot]))
+                            {
+                                $this->invasionResult['defender']['unitsLost'][$slot] += $deaths;
+                            }
+                            else
+                            {
+                                $this->invasionResult['defender']['unitsLost'][$slot] = $deaths;
+                            }
+
+                            $defender->{'stat_total_unit' . $slot . '_lost'} += $deaths;
+                            $attacker->{'stat_total_units_killed'} += $deaths;
+                      }
+                  }
+              }
         }
     }
 
