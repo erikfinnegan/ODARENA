@@ -325,7 +325,7 @@ class SpellHelper
                 'key' => 'metabolism',
                 'mana_cost' => 8,
                 'duration' => 6*4, # 24 ticks / 6 hours
-                #'cooldown' => 36, # Once every day and a half.
+                'cooldown' => 36, # Once every day and a half.
                 'races' => collect(['Growth']),
             ],
             [
