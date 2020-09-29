@@ -193,7 +193,7 @@
                                     }
 
                                     if ($unit->cost_peasant > 0) {
-                                        $unitCostString .= (', ' . number_format($unit->cost_morale) . ' peasant');
+                                        $unitCostString .= (', ' . number_format($unit->cost_peasant) . ' peasant');
                                     }
 
                                     if ($unit->cost_wild_yeti > 0) {
