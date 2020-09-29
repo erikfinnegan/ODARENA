@@ -126,7 +126,7 @@
 
                                             @if ($dominion->isMonarch())
                                                 <span data-toggle="tooltip" data-placement="top" title="Governor of The Realm">
-                                                <i class="ra fa-star fa-lg text-orange"></i>
+                                                <i class="fa fa-star fa-lg text-orange"></i>
                                                 </span>
                                             @endif
 
