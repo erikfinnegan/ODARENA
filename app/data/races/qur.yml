@@ -30,8 +30,8 @@ units:
       offense: 4
       defense: 4
     perks:
-      plunders: platinum;2,gems;0.1
-      food_production: 0.50
+      plunders: platinum;3,gems;1
+      food_production: 0.80
 
   - name: Crystal
     training_time: 0
@@ -81,7 +81,7 @@ units:
       - wise
     need_boat: true
     cost:
-      platinum: 1100
+      platinum: 1000
       mana: 20
     power:
       offense: 9

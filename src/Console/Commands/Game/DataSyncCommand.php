@@ -184,6 +184,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'cost_wizard' => object_get($unitData, 'cost.wizard', 0),
                     'cost_archmage' => object_get($unitData, 'cost.archmage', 0),
                     'cost_morale' => object_get($unitData, 'cost.morale', 0),
+                    'cost_peasant' => object_get($unitData, 'cost.peasant', 0),
                     'cost_wild_yeti' => object_get($unitData, 'cost.wild_yeti', 0),
                     'static_networth' => object_get($unitData, 'static_networth', 0),
                 ]);

@@ -503,7 +503,7 @@ class InvadeActionService
             if ($this->invasionResult['result']['success'])
             {
                 $dominion->stat_total_land_conquered += (int)array_sum($this->invasionResult['attacker']['landConquered']);
-                $dominion->stat_total_land_explored += (int)array_sum($this->invasionResult['attacker']['landDiscovered']);
+                $dominion->stat_total_land_discovered += (int)array_sum($this->invasionResult['attacker']['landDiscovered']);
                 $dominion->stat_attacking_success += $countsAsVictory;
                 $dominion->stat_attacking_bottomfeeds += $countsAsBottomfeed;
 

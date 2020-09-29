@@ -61,6 +61,8 @@ class Unit extends AbstractModel
         'cost_unit4' => 'integer',
         // Unit morale cost
         'cost_morale' => 'integer',
+        // Unit peasant cost
+        'cost_peasant' => 'integer',
         // Unit wild yeti cost
         'cost_wild_yeti' => 'integer',
         // Unit spy cost

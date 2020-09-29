@@ -136,6 +136,7 @@ class TrainActionService
             'wild_yeti' => 0,
             'blood' => 0,
             'morale' => 0,
+            'peasant' => 0,
             'unit1' => 0,
             'unit2' => 0,
             'unit3' => 0,
@@ -355,6 +356,10 @@ class TrainActionService
           # This is fine. We just have to make sure that morale doesn't dip below 0.
           #throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
         }
+        if($totalCosts['peasant'] > $dominion->peasants)
+        {
+          throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '.');
+        }
         if(
             $totalCosts['unit1'] > $dominion->military_unit1 OR
             $totalCosts['unit2'] > $dominion->military_unit2 OR
@@ -376,7 +381,6 @@ class TrainActionService
         {
           throw new GameException('Training failed due to insufficient Arch Mages.');
         }
-
 
         if ($totalCosts['draftees'] > $dominion->military_draftees)
         {
@@ -421,6 +425,7 @@ class TrainActionService
             $dominion->resource_wild_yeti -= $totalCosts['wild_yeti'];
             $dominion->resource_blood -= $totalCosts['blood'];
             $dominion->morale = max(0, ($dominion->morale - $totalCosts['morale']));
+            $dominion->peasants -= $totalCosts['peasant'];
 
             $dominion->military_unit1 -= $totalCosts['unit1'];
             $dominion->military_unit2 -= $totalCosts['unit2'];
@@ -450,6 +455,7 @@ class TrainActionService
             $dominion->stat_total_soul_spent_training += $totalCosts['soul'];
             $dominion->stat_total_blood_spent_training += $totalCosts['blood'];
             $dominion->stat_total_champion_spent_training += $totalCosts['champion'];
+            $dominion->stat_total_peasant_spent_training += $totalCosts['peasant'];
 
             // $data:
             # unit1 => int

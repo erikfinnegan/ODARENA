@@ -164,6 +164,10 @@
                                                             $labelParts[] =  number_format($value) . '% morale';
                                                             break;
 
+                                                        case 'peasant':
+                                                            $labelParts[] =  number_format($value) . ' peasant';
+                                                            break;
+
                                                         case 'wild_yeti':
                                                             $labelParts[] =  number_format($value) . ' ' . str_plural('wild yeti', $value);
                                                             break;

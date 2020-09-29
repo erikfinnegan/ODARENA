@@ -103,6 +103,7 @@ class RealmController extends AbstractDominionController
             $realmDominionsStats['victories'] += $dominion->stat_attacking_success;
             $realmDominionsStats['total_land_conquered'] += $dominion->stat_total_land_conquered;
             $realmDominionsStats['total_land_explored'] += $dominion->stat_total_land_explored;
+            $realmDominionsStats['total_land_discovered'] += $dominion->stat_total_land_discovered;
             $realmDominionsStats['total_land_lost'] += $dominion->stat_total_land_lost;
             $realmDominionsStats['prestige'] += $dominion->prestige;
 

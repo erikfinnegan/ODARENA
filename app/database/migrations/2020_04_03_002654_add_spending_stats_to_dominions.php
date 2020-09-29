@@ -74,6 +74,9 @@ class AddSpendingStatsToDominions extends Migration
 
             # Champion
             $table->unsignedInteger('stat_total_champion_spent_training')->after('stat_total_wild_yeti_spent_training')->default(0);
+
+            # Peasants
+            $table->unsignedInteger('stat_total_peasant_spent_training')->after('stat_total_champion_spent_training')->default(0);
         });
     }
 

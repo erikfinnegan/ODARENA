@@ -128,6 +128,7 @@ class TrainingCalculator
                     $champion = $units[$unitSlot]->cost_champion;
                     $soul = $units[$unitSlot]->cost_soul;
                     $morale = $units[$unitSlot]->cost_morale;
+                    $peasant = $units[$unitSlot]->cost_peasant;
                     $wild_yeti = $units[$unitSlot]->cost_wild_yeti;
                     $blood = $units[$unitSlot]->cost_blood;
 
@@ -229,6 +230,12 @@ class TrainingCalculator
                         $cost['morale'] = (int)ceil($morale * $this->getSpecialistEliteCostMultiplier($dominion, 'morale'));
                     #}
 
+                    // PEASANT cost for units
+                    #if (peasant > 0) {
+                        $cost['peasant'] = $peasant;
+                        $cost['peasant'] = (int)ceil($peasant * $this->getSpecialistEliteCostMultiplier($dominion, 'peasant'));
+                    #}
+
                     // WILD YETI cost for units
                     #if ($wild_yeti > 0) {
                         $cost['wild_yeti'] = $wild_yeti;
@@ -298,6 +305,7 @@ class TrainingCalculator
             'champion' => 'resource_champion',
             'soul' => 'resource_soul',
             'morale' => 'morale',
+            'peasant' => 'peasants',
             'wild_yeti' => 'resource_wild_yeti',
             'blood' => 'resource_blood',
 

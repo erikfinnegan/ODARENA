@@ -122,6 +122,7 @@ class NetworthCalculator
                   + $unit->cost_wizard*500
                   + $unit->cost_archmage*1000
                   + $unit->cost_morale*10
+                  + $unit->cost_peasant*2.5
                   + $unit->cost_prestige*10
                   + $unit->cost_wild_yeti*30
               )/100;

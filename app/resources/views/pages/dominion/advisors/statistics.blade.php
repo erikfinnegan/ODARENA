@@ -135,6 +135,12 @@
                                             <strong>{{ number_format($selectedDominion->stat_total_land_conquered) }}</strong>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>Land discovered:</td>
+                                        <td>
+                                            <strong>{{ number_format($selectedDominion->stat_total_land_discovered) }}</strong>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
 

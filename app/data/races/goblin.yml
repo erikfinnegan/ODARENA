@@ -11,24 +11,27 @@ converting: 1
 construction_materials: platinum,lumber
 
 perks:
-  max_population: 50
+  max_population: 100
   population_growth: 25
   extra_barren_max_population: 5
   gem_production: 20
   invest_bonus: 20
+
 units:
-  - name: Raider
-    training_time: 9
+  - name: Kaboom
+    training_time: 3
     type:
       - living
       - sentient
-      - intelligent
     cost:
-      platinum: 200
-      ore: 10
+      platinum: 80
+      peasant: 1
     power:
       offense: 2
       defense: 0
+    perks:
+      no_draftee: 1
+      fixed_casualties: 100
 
   - name: Shaman
     training_time: 9
@@ -54,14 +57,14 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 600
-      ore: 50
+      platinum: 500
+      ore: 40
     power:
-      offense: 4
+      offense: 3
       defense: 2
     perks:
       plunders: platinum;1,gems;0.35
-      offense_vs_resource: gems,20000,3 # +1 OP per 20,000 gems, max +3
+      offense_vs_resource: platinum,300000,3 # +1 OP per 20,000 gems, max +3
 
   - name: Wolf Rider
     training_time: 12

@@ -162,6 +162,7 @@ class BuildActionService
             #$dominion->stat_total_wild_yeti_spent_building += 0;
             #$dominion->stat_total_soul_spent_building += 0;
             #$dominion->stat_total_champion_spent_building += 0;
+            #$dominion->stat_total_peasant_spent_building += 0;
 
             $hours = 12;
             # Gnome: increased construction speed
