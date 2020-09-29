@@ -11,6 +11,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 
 #ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class SearchController extends AbstractDominionController
 {
@@ -22,6 +23,7 @@ class SearchController extends AbstractDominionController
         $protectionService = app(ProtectionService::class);
         $rangeCalculator = app(RangeCalculator::class);
         $militaryCalculator = app(MilitaryCalculator::class);
+        $spellCalculator = app(SpellCalculator::class);
 
         $dominion = $this->getSelectedDominion();
 
@@ -45,6 +47,7 @@ class SearchController extends AbstractDominionController
             'protectionService',
             'rangeCalculator',
             'militaryCalculator',
+            'spellCalculator',
             'dominions'
         ));
     }

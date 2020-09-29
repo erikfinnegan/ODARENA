@@ -102,14 +102,48 @@
                                 @foreach ($dominions as $dominion)
                                     <tr>
                                         <td data-search="{{ $dominion->name }}">
+                                            @if ($dominion->is_locked == 1)
+                                                <i class="fa fa-ban fa-lg text-grey" title="This dominion has been locked by the administrator."></i>
+                                            @endif
+
+                                            @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))
+                                                <span data-toggle="tooltip" data-placement="top" title="Rainy Season">
+                                                <i class="ra ra-droplet fa-lg text-blue"></i>
+                                                </span>
+                                            @endif
+
+                                            @if ($spellCalculator->isSpellActive($dominion, 'primordial_wrath'))
+                                                <span data-toggle="tooltip" data-placement="top" title="Primordial Wrath">
+                                                <i class="ra ra-monster-skull fa-lg text-red" title=""></i>
+                                                </span>
+                                            @endif
+
+                                            @if ($spellCalculator->isSpellActive($dominion, 'stasis'))
+                                                <span data-toggle="tooltip" data-placement="top" title="Stasis">
+                                                <i class="ra ra-monster-skull fa-lg text-red"</i>
+                                                </span>
+                                            @endif
+
+                                            @if ($dominion->isMonarch())
+                                                <span data-toggle="tooltip" data-placement="top" title="Governor of The Realm">
+                                                <i class="ra fa-star fa-lg text-orange"></i>
+                                                </span>
+                                            @endif
+
                                             @if ($protectionService->isUnderProtection($dominion))
-                                                <i class="ra ra-shield ra-lg text-aqua" title="Under Protection"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $dominion->protection_ticks }} protection tick(s) left">
+                                                <i class="ra ra-shield ra-lg text-aqua"></i>
+                                                </span>
                                             @endif
 
                                             @if ($guardMembershipService->isEliteGuardMember($dominion))
-                                                <i class="ra ra-heavy-shield ra-lg text-yellow" title="Warriors League"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="Warriors League">
+                                                <i class="ra ra-heavy-shield ra-lg text-yellow"></i>
+                                                </span>
                                             @elseif ($guardMembershipService->isRoyalGuardMember($dominion))
-                                                <i class="ra ra-heavy-shield ra-lg text-green" title="Peacekeepers League"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="Peacekeepers League">
+                                                <i class="ra ra-heavy-shield ra-lg text-green"></i>
+                                                </span>
                                             @endif
 
                                             <a href="{{ route('dominion.op-center.show', $dominion) }}">{{ $dominion->name }}</a>

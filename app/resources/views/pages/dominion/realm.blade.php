@@ -64,29 +64,43 @@
                                             @endif
 
                                             @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))
-                                                <i class="ra ra-droplet fa-lg text-blue" title="Rainy Season"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="Rainy Season">
+                                                <i class="ra ra-droplet fa-lg text-blue"></i>
+                                                </span>
                                             @endif
 
                                             @if ($spellCalculator->isSpellActive($dominion, 'primordial_wrath'))
-                                                <i class="ra ra-monster-skull fa-lg text-red" title="Primordial Wrath"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="Primordial Wrath">
+                                                <i class="ra ra-monster-skull fa-lg text-red" title=""></i>
+                                                </span>
                                             @endif
 
                                             @if ($spellCalculator->isSpellActive($dominion, 'stasis'))
-                                                <i class="ra ra-emerald fa-lg text-purple" title="Stasis"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="Stasis">
+                                                <i class="ra ra-monster-skull fa-lg text-red"</i>
+                                                </span>
                                             @endif
 
                                             @if ($dominion->isMonarch())
-                                                <i class="fa fa-star fa-lg text-orange" title="Governor of The Realm"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="Governor of The Realm">
+                                                <i class="ra fa-star fa-lg text-orange"></i>
+                                                </span>
                                             @endif
 
                                             @if ($protectionService->isUnderProtection($dominion))
-                                                <i class="ra ra-shield ra-lg text-aqua" title="{{ $dominion->protection_ticks }} protection tick(s) left"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $dominion->protection_ticks }} protection tick(s) left">
+                                                <i class="ra ra-shield ra-lg text-aqua"></i>
+                                                </span>
                                             @endif
 
                                             @if ($guardMembershipService->isEliteGuardMember($dominion))
-                                                <i class="ra ra-heavy-shield ra-lg text-yellow" title="Warriors League"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="Warriors League">
+                                                <i class="ra ra-heavy-shield ra-lg text-yellow"></i>
+                                                </span>
                                             @elseif ($guardMembershipService->isRoyalGuardMember($dominion))
-                                                <i class="ra ra-heavy-shield ra-lg text-green" title="Peacekeepers League"></i>
+                                                <span data-toggle="tooltip" data-placement="top" title="Peacekeepers League">
+                                                <i class="ra ra-heavy-shield ra-lg text-green"></i>
+                                                </span>
                                             @endif
 
                                             @if ($dominion->id === $selectedDominion->id)
