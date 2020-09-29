@@ -358,7 +358,7 @@ class TrainActionService
         }
         if($totalCosts['peasant'] > ($dominion->peasants-1000))
         {
-          throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '. You must always leave at least 1000 peasants.');
+          throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '. You must always leave at least 1,000 peasants.');
         }
         if(
             $totalCosts['unit1'] > $dominion->military_unit1 OR
@@ -381,7 +381,6 @@ class TrainActionService
         {
           throw new GameException('Training failed due to insufficient Arch Mages.');
         }
-
         if ($totalCosts['draftees'] > $dominion->military_draftees)
         {
             throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race)) . '.');

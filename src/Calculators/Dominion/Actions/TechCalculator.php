@@ -63,7 +63,7 @@ class TechCalculator
         $xp = $dominion->resource_tech;
         if($xp > 4999)
         {
-            for ($level = 8; $level >= 1; $level--)
+            for ($level = 10; $level >= 1; $level--)
             {
                 if($xp >= $this->getTechCost($dominion, null, $level))
                 {
