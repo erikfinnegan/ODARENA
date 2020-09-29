@@ -356,9 +356,9 @@ class TrainActionService
           # This is fine. We just have to make sure that morale doesn't dip below 0.
           #throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
         }
-        if($totalCosts['peasant'] > $dominion->peasants)
+        if($totalCosts['peasant'] > ($dominion->peasants-1000))
         {
-          throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '.');
+          throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '. You must always leave at least 1000 peasants.');
         }
         if(
             $totalCosts['unit1'] > $dominion->military_unit1 OR
@@ -608,7 +608,7 @@ class TrainActionService
 
             $costType = str_singular($costType);
 #            if (!\in_array($costType, ['platinum', 'ore'], true)) {
-            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'blood', 'morale'], true))
+            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
             {
                 $costType = str_plural($costType, $cost);
             }
