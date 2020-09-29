@@ -94,6 +94,7 @@ class RealmController extends AbstractDominionController
             'victories' => 0,
             'total_land_conquered' => 0,
             'total_land_explored' => 0,
+            'total_land_discovered' => 0,
             'total_land_lost' => 0,
             'prestige' => 0,
           ];
