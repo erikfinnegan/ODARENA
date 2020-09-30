@@ -777,6 +777,33 @@ class DominionFactory
               'mycelia' => 0,
           ];
         }
+        # Kerranad
+        elseif($race->name == 'Barbarian')
+        {
+          $startingBuildings = [
+              'farm' => floor($acresBase*0.10),
+              'smithy' => floor($acresBase*0.10),
+              'home' => 0,
+
+              'lumberyard' => floor($acresBase*0.06),
+              'forest_haven' => floor($acresBase*0.06),
+
+              'ore_mine' => floor($acresBase*0.10),
+              'diamond_mine' => floor($acresBase*0.10),
+
+              'barracks' => floor($acresBase*0.20),
+
+              'tower' => floor($acresBase*0.06),
+              'wizard_guild' => 0,
+              'temple' => floor($acresBase*0.06),
+
+              'dock' => floor($acresBase*0.10),
+
+              'ziggurat' => 0,
+              'tissue' => 0,
+              'mycelia' => 0,
+          ];
+        }
         # Default
         else
         {
