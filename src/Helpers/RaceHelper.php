@@ -138,7 +138,7 @@ class RaceHelper
                 $booleanValue = true;
                 break;
           case 'land_improvements':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'Land based improvements';
                 $booleanValue = true;
                 break;
