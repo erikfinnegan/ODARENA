@@ -137,6 +137,11 @@ class RaceHelper
                 $description = 'Cannot use improvements';
                 $booleanValue = true;
                 break;
+          case 'land_improvements':
+                $negativeBenefit = true;
+                $description = 'Land based improvements';
+                $booleanValue = true;
+                break;
           case 'cannot_explore':
                 $negativeBenefit = true;
                 $description = 'Cannot explore';
