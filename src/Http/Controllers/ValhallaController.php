@@ -12,6 +12,8 @@ use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\User;
 
+use OpenDominion\Helpers\RealmHelper;
+
 class ValhallaController extends AbstractController
 {
     public function getIndex()
