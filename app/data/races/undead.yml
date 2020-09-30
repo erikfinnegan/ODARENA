@@ -14,6 +14,7 @@ perks:
   max_population: 30
   mana_production: 10
   food_consumption: -100
+  max_per_round: 1
 units:
   - name: Skeleton
     need_boat: true
