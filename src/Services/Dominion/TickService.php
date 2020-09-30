@@ -947,7 +947,16 @@ class TickService
               $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable));
 
               # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
-              $bodiesSpent = min($dominion->realm->crypt, $unit1Created);
+              if($unit1Created > 0)
+              {
+                  $bodiesSpent = min($dominion->realm->crypt, $unit1Created);
+              }
+              else
+              {
+                  $bodiesSpent = 0;
+              }
+
+              #$bodiesSpent = min($dominion->realm->crypt, $unit1Created);
 
               # Prepare the units for queue.
               $tick->generated_unit1 += $unit1Created;
