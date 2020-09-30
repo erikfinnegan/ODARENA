@@ -442,7 +442,7 @@ class MilitaryCalculator
         // Simian: defense_from_forest
         if($dominion->race->getPerkValue('defense_from_forest'))
         {
-            $multiplier += $this->getDefensivePowerModifierFromLand($dominion);
+            $multiplier += $this->getDefensivePowerModifierFromLandType($dominion, 'forest');
         }
 
         // Multiplier reduction when we want to factor in temples from another dominion
