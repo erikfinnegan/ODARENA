@@ -52,7 +52,7 @@ class ValhallaController extends AbstractController
             '#' => ['width' => 50, 'align-center' => true],
             'player' => ['width' => 150, 'align-center' => true],
             'players' => ['align-center' => true],
-            'race' => ['width' => 100, 'align-center' => true],
+            'faction' => ['width' => 100, 'align-center' => true],
             'realm' => ['width' => 100, 'align-center' => true],
             'alignment' => ['width' => 100, 'align-center' => true],
             'number' => ['width' => 50, 'align-center' => true],
@@ -99,7 +99,7 @@ class ValhallaController extends AbstractController
             case 'stat-total-lumber-stolen': $data = $this->getDominionsByStatistic($round, 'stat_total_lumber_stolen'); break;
             case 'stat-total-mana-stolen': $data = $this->getDominionsByStatistic($round, 'stat_total_mana_stolen'); break;
             case 'stat-total-ore-stolen': $data = $this->getDominionsByStatistic($round, 'stat_total_ore_stolen'); break;
-            case 'stat-total-gems-stolen': $data = $this->getDominionsByStatistic($round, 'stat_total_gems_stolen'); break;
+            case 'stat-total-gem-stolen': $data = $this->getDominionsByStatistic($round, 'stat_total_gem_stolen'); break;
             case 'stat-top-saboteurs': $data = $this->getDominionsByStatistic($round, 'stat_sabotage_boats_damage'); break;
             case 'stat-top-magical-assassins': $data = $this->getDominionsByStatistic($round, 'stat_assassinate_wizards_damage'); break;
             case 'stat-top-military-assassins': $data = $this->getDominionsByStatistic($round, 'stat_assassinate_draftees_damage'); break;
@@ -291,7 +291,7 @@ class ValhallaController extends AbstractController
 
                 if ($race === null) {
                     $data += [
-                        'race' => $dominion->race->name,
+                        'faction' => $dominion->race->name,
                     ];
                 }
 
@@ -416,7 +416,7 @@ class ValhallaController extends AbstractController
 
                 if ($race === null) {
                     $data += [
-                        'race' => $dominion->race->name,
+                        'faction' => $dominion->race->name,
                     ];
                 }
 
@@ -528,7 +528,7 @@ class ValhallaController extends AbstractController
                     '#' => null,
                     'dominion' => $dominion->name,
                     'player' => $dominion->user->display_name,
-                    'race' => $dominion->race->name,
+                    'faction' => $dominion->race->name,
                     'realm' => $dominion->realm->number,
                     'value' => $dominion->{$stat},
                 ];

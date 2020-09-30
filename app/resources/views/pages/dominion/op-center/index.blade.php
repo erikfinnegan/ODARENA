@@ -27,7 +27,7 @@
                         <thead>
                             <tr>
                                 <th>Dominion</th>
-                                <th class="text-center">Race</th>
+                                <th class="text-center">Faction</th>
                                 {{--
                                 <th class="text-center">OP</th>
                                 <th class="text-center">DP</th>
