@@ -624,6 +624,18 @@ class DominionFactory
               'water' => 150,
           ];
         }
+        elseif($race->name == 'Barbarian')
+        {
+          return [
+              'plain' => 10,
+              'mountain' => 10,
+              'swamp' => 10,
+              'cavern' => 0,
+              'forest' => 10,
+              'hill' => 10,
+              'water' => 10,
+          ];
+        }
         else
         {
             return [
