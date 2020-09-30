@@ -84,7 +84,7 @@ class DominionFactory
         $hoursSinceRoundStarted = 0;
         if($realm->round->hasStarted() and request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
         {
-          $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
+            $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
         }
 
         $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.015);

@@ -20,6 +20,7 @@ use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Services\Dominion\Actions\SendUnitsActionService;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 class InvasionController extends AbstractDominionController
 {
@@ -38,7 +39,8 @@ class InvasionController extends AbstractDominionController
             'networthCalculator' => app(NetworthCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
             'improvementCalculator' => app(ImprovementCalculator::class),
-            'raceHelper' => app(RaceHelper::class)
+            'raceHelper' => app(RaceHelper::class),
+            'landImprovementCalculator' => app(LandImprovementCalculator::class)
         ]);
     }
 
