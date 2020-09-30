@@ -19,6 +19,7 @@ use OpenDominion\Services\GameEventService;
 # ODA
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class OpCenterController extends AbstractDominionController
 {
@@ -51,6 +52,7 @@ class OpCenterController extends AbstractDominionController
             'rangeCalculator' => app(RangeCalculator::class),
             'spellHelper' => app(SpellHelper::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
             'latestInfoOps' => $latestInfoOps,
             'clairvoyances' => $clairvoyances
         ]);
@@ -83,6 +85,7 @@ class OpCenterController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
             'dominion' => $dominion,
             'latestInfoOps' => $latestInfoOps
         ]);
@@ -119,6 +122,7 @@ class OpCenterController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
             'dominion' => $dominion,
             'infoOpArchive' => $infoOpArchive
         ]);

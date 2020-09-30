@@ -508,17 +508,19 @@ class EspionageActionService
                     array_set($data, "explored.{$landType}.barren",
                         $this->landCalculator->getTotalBarrenLandByLandType($target, $landType));
 
-
-                    if($target->race->getPerkValue('land_improvements'))
-                    {
-                        $data['land_improvements']['plain'] = $this->landImprovementCalculator->getOffensivePowerBonus($target);
-                        $data['land_improvements']['mountain'] = $this->landImprovementCalculator->getPlatinumProductionBonus($target);
-                        $data['land_improvements']['swamp'] = $this->landImprovementCalculator->getWizardPowerBonus($target);
-                        $data['land_improvements']['forest'] = $this->landImprovementCalculator->getPopulationBonus($target);
-                        $data['land_improvements']['hill'] = $this->landImprovementCalculator->getDefensivePowerBonus($target);
-                        $data['land_improvements']['water'] = $this->landImprovementCalculator->getFoodProductionBonus($target);
-                    }
+                    $data['landtype_defense'][$landType] = $this->militaryCalculator->getDefensivePowerModifierFromLandType($target, $landType);
                 }
+
+                if($target->race->getPerkValue('land_improvements'))
+                {
+                    $data['land_improvements']['plain'] = $this->landImprovementCalculator->getOffensivePowerBonus($target);
+                    $data['land_improvements']['mountain'] = $this->landImprovementCalculator->getPlatinumProductionBonus($target);
+                    $data['land_improvements']['swamp'] = $this->landImprovementCalculator->getWizardPowerBonus($target);
+                    $data['land_improvements']['forest'] = $this->landImprovementCalculator->getPopulationBonus($target);
+                    $data['land_improvements']['hill'] = $this->landImprovementCalculator->getDefensivePowerBonus($target);
+                    $data['land_improvements']['water'] = $this->landImprovementCalculator->getFoodProductionBonus($target);
+                }
+
 
                 $this->queueService->getExplorationQueue($target)->each(static function ($row) use (&$data) {
                     $landType = str_replace('land_', '', $row->resource);

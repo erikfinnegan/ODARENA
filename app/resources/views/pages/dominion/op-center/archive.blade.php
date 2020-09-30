@@ -680,6 +680,9 @@
                                             <th class="text-center">Number</th>
                                             <th class="text-center">% of total</th>
                                             <th class="text-center">Barren</th>
+                                            @if ($dominion->race->getPerkValue('land_improvements') or $dominion->race->getPerkValue('defense_from_forest'))
+                                                <th class="text-center">Bonus</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -694,6 +697,36 @@
                                                 <td class="text-center">{{ number_format(array_get($infoOp->data, "explored.{$landType}.amount")) }}</td>
                                                 <td class="text-center">{{ number_format(array_get($infoOp->data, "explored.{$landType}.percentage"), 2) }}%</td>
                                                 <td class="text-center">{{ number_format(array_get($infoOp->data, "explored.{$landType}.barren")) }}</td>
+
+                                                @if ($dominion->race->getPerkValue('land_improvements') and isset($infoOp->data['land_improvements']))
+                                                    <td class="text-center">
+                                                          +{{ number_format($infoOp->data['land_improvements'][$landType]*100,2) }}%
+
+                                                          @if($landType == 'plain')
+                                                              Offensive Power
+                                                          @elseif($landType == 'mountain')
+                                                              Platinum Production
+                                                          @elseif($landType == 'swamp')
+                                                               Wizard Strength
+                                                          @elseif($landType == 'forest')
+                                                              Max Population
+                                                          @elseif($landType == 'hill')
+                                                              Defensive Power
+                                                          @elseif($landType == 'water')
+                                                              Food and Boat Production
+                                                          @endif
+                                                    </td>
+                                                @endif
+
+                                                @if ($dominion->race->getPerkValue('defense_from_forest') and isset($infoOp->data['landtype_defense']))
+                                                    <td class="text-center">
+                                                        @if($infoOp->data['landtype_defense'][$landType] !== 0)
+                                                            +{{ number_format($infoOp->data['landtype_defense'][$landType]*100,2) }}% Defensive Power
+                                                        @else
+                                                            &mdash;
+                                                        @endif
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>

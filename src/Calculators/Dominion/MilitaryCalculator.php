@@ -371,11 +371,6 @@ class MilitaryCalculator
 
         if (!$ignoreRawDpFromBuildings)
         {
-            // Building: Forest Havens
-            #$dp += min(
-            #    ($defender->peasants * $forestHavenDpPerPeasant),
-            #    ($defender->building_forest_haven * $forestHavenDpPerPeasant * $peasantsPerForestHaven)
-            #);
 
             // Building: Ziggurats
             $dp += $defender->building_ziggurat * $defender->race->getPerkValue('defense_per_ziggurat');
@@ -385,7 +380,7 @@ class MilitaryCalculator
         if($isAmbush)
         {
             #echo "<pre>\tAmbush!\t";
-            $forestRatio = $attacker->{'land_forest'} / $this->landCalculator->getTotalLand($attacker);
+            $forestRatio = $attacker->land_forest / $this->landCalculator->getTotalLand($attacker);
             $forestRatioModifier = $forestRatio / 5;
             $ambushReduction = min($forestRatioModifier, 0.10);
 
@@ -447,7 +442,7 @@ class MilitaryCalculator
         // Simian: defense_from_forest
         if($dominion->race->getPerkValue('defense_from_forest'))
         {
-            $multiplier += $dominion->race->getPerkValue('defense_from_forest') * ($dominion->{'land_forest'} / $this->landCalculator->getTotalLand($dominion));
+            $multiplier += $this->getDefensivePowerModifierFromLand($dominion);
         }
 
         // Multiplier reduction when we want to factor in temples from another dominion
@@ -1974,5 +1969,15 @@ class MilitaryCalculator
         return $landConquered * $multiplier;
 
     }
+
+    public function getDefensivePowerModifierFromLandType(Dominion $dominion, string $landType): float
+    {
+        $multiplier = 0.0;
+
+        $multiplier += $dominion->race->getPerkValue('defense_from_'.$landType) * ($dominion->{'land_'.$landType} / $this->landCalculator->getTotalLand($dominion));
+
+        return $multiplier;
+    }
+
 
 }

@@ -54,6 +54,7 @@ class AdvisorsController extends AbstractDominionController
             'landHelper' => app(LandHelper::class),
             'queueService' => app(QueueService::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
         ]);
     }
 

@@ -19,7 +19,7 @@
                             <col width="100">
                             <col width="100">
                             <col width="100">
-                            @if ($selectedDominion->race->getPerkValue('land_improvements'))
+                            @if ($selectedDominion->race->getPerkValue('land_improvements') or $selectedDominion->race->getPerkValue('defense_from_forest'))
                                 <col width="200">
                             @endif
                         </colgroup>
@@ -29,7 +29,7 @@
                                 <th class="text-center">Number</th>
                                 <th class="text-center">% of total</th>
                                 <th class="text-center">Barren</th>
-                                @if ($selectedDominion->race->getPerkValue('land_improvements'))
+                                @if ($selectedDominion->race->getPerkValue('land_improvements') or $selectedDominion->race->getPerkValue('defense_from_forest'))
                                     <th class="text-center">Bonus</th>
                                 @endif
                             </tr>
@@ -61,6 +61,17 @@
                                               @elseif($landType == 'water')
                                                   +{{ number_format($landImprovementCalculator->getFoodProductionBonus($selectedDominion)*100,2) }}% Food and Boat Production
                                               @endif
+                                        </td>
+                                    @endif
+
+
+                                    @if ($selectedDominion->race->getPerkValue('defense_from_forest'))
+                                        <td class="text-center">
+                                            @if($militaryCalculator->getDefensivePowerModifierFromLandType($selectedDominion, $landType))
+                                                +{{ number_format($militaryCalculator->getDefensivePowerModifierFromLandType($selectedDominion, $landType)*100,2) }}% Defensive Power
+                                            @else
+                                                &mdash;
+                                            @endif
                                         </td>
                                     @endif
                                 </tr>
