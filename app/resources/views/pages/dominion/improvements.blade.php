@@ -4,6 +4,16 @@
 
 @section('content')
 
+@php
+
+$totalImprovementPoints = 0;
+foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improvementType)
+{
+    $totalImprovementPoints += $selectedDominion->{'improvement_'.$improvementType};
+}
+
+@endphp
+
 @if ((bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
     <div class="row">
         <div class="col-sm-12 col-md-9">
@@ -62,6 +72,10 @@
                                         <td class="text-center">{{ number_format($selectedDominion->{'improvement_' . $improvementType}) }}</td>
                                     </tr>
                                 @endforeach
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>Total</strong></td>
+                                        <td class="text-center">{{ number_format($totalImprovementPoints) }}</td>
+                                    </tr>
                             </tbody>
                         </table>
                     </div>

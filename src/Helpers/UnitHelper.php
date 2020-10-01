@@ -161,6 +161,7 @@ class UnitHelper
 
             'dies_into' => 'Upon death, returns as %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
             'wins_into' => 'Upon successul invasion, returns as %s.',
+            'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
             // Resource related
@@ -213,6 +214,8 @@ class UnitHelper
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
             'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increasable by %3$s improvements.',
+
+            'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
 
             'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increasable with %2$s improvements.',
             'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increasable with %2$s improvements.',
@@ -375,7 +378,7 @@ class UnitHelper
                 }
 
                 // Special case for dies_into and wins_into ("change_into")
-                if ($perk->key === 'dies_into' or $perk->key === 'wins_into')
+                if ($perk->key === 'dies_into' or $perk->key === 'wins_into' or $perk->key === 'fends_off_into')
                 {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
@@ -385,7 +388,7 @@ class UnitHelper
                             return ($unit->slot === $slot);
                         })->first();
 
-                        $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
+                        $unitNamesToConvertTo[] = $unitToConvertTo->name;
                     }
 
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
