@@ -77,7 +77,7 @@
 
                                             @if ($spellCalculator->isSpellActive($dominion, 'stasis'))
                                                 <span data-toggle="tooltip" data-placement="top" title="Stasis">
-                                                <i class="ra ra-monster-skull fa-lg text-red"</i>
+                                                <i class="ra ra-emerald fa-lg text-purple"></i>
                                                 </span>
                                             @endif
 
