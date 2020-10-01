@@ -61,7 +61,11 @@
                                         <td>{{ number_format($networthCalculator->getDominionNetworth($selectedDominion)) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Prestige:</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="<p>Prestige increases your offensive power, food production, and population. Each prestige produces 1 XP per tick.</p>">
+                                              Prestige:
+                                            </span>
+                                        </td>
                                         <td>{{ number_format($selectedDominion->prestige) }}</td>
                                     </tr>
                                     <tr>
@@ -109,9 +113,11 @@
                                         <td>{{ number_format($selectedDominion->resource_gems) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><span data-toggle="tooltip" data-placement="top" title="<p>Used to unlock Advancements.</p><p>Unspent XP increases the perk from your Ruler Title.</p>">
-                                            Experience Points:
-                                        </span></td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="<p>Used to unlock Advancements.</p><p>Unspent XP increases the perk from your Ruler Title.</p>">
+                                              Experience Points:
+                                            </span>
+                                        </td>
                                         <td>{{ number_format($selectedDominion->resource_tech) }}</td>
                                     </tr>
                                     <tr>
