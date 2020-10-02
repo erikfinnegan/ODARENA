@@ -858,7 +858,7 @@ class SpellActionService
                 ])
                 ->sendNotifications($target, 'irregular_dominion');
 
-            if ($spellDeflected) {
+            if ($spellReflected) {
                 return [
                     'success' => true,
                     'message' => sprintf(

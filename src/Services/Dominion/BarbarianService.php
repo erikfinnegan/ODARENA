@@ -306,7 +306,7 @@ class BarbarianService
 
             $logString .= 'To be trained: ' . $units['military_unit1'] . ' unit1, ' . $units['military_unit2'] . ' unit2, ' . $units['military_unit3'] . ' unit3, ' . $units['military_unit4'] . ' unit4.';
 
-            Log::Debug($logString);
+            #Log::Debug($logString);
 
         }
 
@@ -429,7 +429,7 @@ class BarbarianService
             $logString .= 'Not a Barbarian.';
         }
 
-        Log::Debug($logString);
+        #Log::Debug($logString);
 
     }
 
