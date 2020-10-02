@@ -344,7 +344,7 @@ class TickService
 
             if(rand(1, $this->barbarianService->getBarbarianSetting('ONE_IN_CHANCE_TO_SPAWN')) === 1)
             {
-            #    $this->barbarianService->createBarbarian($round);
+                $this->barbarianService->createBarbarian($round);
             }
 
             foreach ($dominions as $dominion)
