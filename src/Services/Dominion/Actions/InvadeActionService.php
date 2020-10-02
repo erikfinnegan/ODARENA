@@ -2786,6 +2786,7 @@ class InvadeActionService
         # Eat defensive casualties
         if ($this->spellCalculator->isSpellActive($attacker, 'metabolism'))
         {
+                $dpFromEatenUnits = 0;
                 $unitsEaten = array_fill(1, 4, 0);
 
                 foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amount)
@@ -2813,7 +2814,7 @@ class InvadeActionService
 
                 $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsEaten, 0, false, $this->isAmbush, true);
 
-                $food += $dpFromEatenUnits * 4;
+                $food += $dpFromEatenUnits * 4 * 2;
 
                 $this->invasionResult['attacker']['metabolism']['unitsEaten'] = $unitsEaten;
                 $this->invasionResult['attacker']['metabolism']['dpFromUnitsEaten'] = $dpFromEatenUnits;
