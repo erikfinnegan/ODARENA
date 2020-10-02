@@ -45,6 +45,7 @@ units:
       offense: 0
       defense: 2
     perks:
+      no_draftee: 1
       does_not_count_as_population: 1
       mana_drain: 0.005
       instant_training: 1
