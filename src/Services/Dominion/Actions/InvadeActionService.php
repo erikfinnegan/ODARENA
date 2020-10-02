@@ -2161,22 +2161,60 @@ class InvadeActionService
 
         }
 
-      #echo '<pre>';var_dump($returningUnits);echo '</pre>';
+      echo '<pre>';print_r($returningUnits);echo '</pre>';
 
       foreach($returningUnits as $unitKey => $returningAmount)
       {
-          $slot = intval(str_replace('military_unit','',$unitKey));
 
-          $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
+          if($returningAmount > 0)
+          {
+              $slot = (int)str_replace('military_unit','',$unitKey);
 
-          #echo "<pre>$returningAmount unit$slot are returning.</pre>";
+              $returnTicks = $this->getUnitReturnHoursForSlot($dominion, $slot);
 
-          $this->queueService->queueResources(
-              'invasion',
-              $dominion,
-              [$unitKey => $returningAmount],
-              $this->getUnitReturnHoursForSlot($dominion, $slot)
-          );
+              # Check for faster_return_if_paired
+              if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
+              {
+                  $fasterReturnIfPairedPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired');
+                  $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
+                  $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
+                  $ticksFaster = (int)$fasterReturnIfPairedPerk[1];
+
+                  # How many of $slot should return faster?
+                  $unitsWithFasterReturnTime = min($returningUnits[$pairedUnitKey], $returningAmount);
+                  $unitsWithRegularReturnTime = $returningAmount - $unitsWithFasterReturnTime;
+
+                  # Queue faster units
+                  $this->queueService->queueResources(
+                      'invasion',
+                      $dominion,
+                      [$unitKey => $unitsWithFasterReturnTime],
+                      max(1, $returnTicks - $ticksFaster)
+                  );
+
+                  # Queue slower units
+                  $this->queueService->queueResources(
+                      'invasion',
+                      $dominion,
+                      [$unitKey => $unitsWithRegularReturnTime],
+                      $returnTicks
+                  );
+
+
+              }
+              else
+              {
+                  $this->queueService->queueResources(
+                      'invasion',
+                      $dominion,
+                      [$unitKey => $returningAmount],
+                      $returnTicks
+                  );
+              }
+
+              $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
+          }
+
       }
 
     }
