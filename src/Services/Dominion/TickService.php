@@ -142,7 +142,7 @@ class TickService
                     }
                 }
 
-                print_r($invasionQueueUnits);
+                #print_r($invasionQueueUnits);
 
                 $this->queueService->setForTick(false);
                 $units[1] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit1", $tick);
@@ -160,11 +160,11 @@ class TickService
                       $unitType = 'military_unit'.$slot;
                       # Dequeue the units from hour 1
                       $this->queueService->dequeueResourceForHour('invasion', $stasisDominion, $unitType, $amount, $tick);
-                      echo "\nUnits dequeued";
+                      #echo "\nUnits dequeued";
 
                       # (Re-)Queue the units to hour 2
                       $this->queueService->queueResources('invasion', $stasisDominion, [$unitType => $amount], ($tick+1));
-                      echo "\nUnits requeued";
+                      #echo "\nUnits requeued";
                 }
 
                 $this->queueService->setForTick(true);
@@ -342,7 +342,7 @@ class TickService
 
             $realms = $round->realms()->get();
 
-            if(rand(1, $this->barbarianService->getBarbarianSetting('ONE_IN_CHANCE_TO_SPAWN')) === 1)
+            if(rand(1, (int)$this->barbarianService->getBarbarianSetting('ONE_IN_CHANCE_TO_SPAWN')) === 1)
             {
                 $this->barbarianService->createBarbarian($round);
             }

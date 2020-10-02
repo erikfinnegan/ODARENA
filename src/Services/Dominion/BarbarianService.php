@@ -69,7 +69,7 @@ class BarbarianService
     protected const UNIT4_OP = 5;
 
     # Chance each tick for new Barbarian to spawn
-    protected const ONE_IN_CHANCE_TO_SPAWN = 120;
+    protected const ONE_IN_CHANCE_TO_SPAWN = 80;
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
@@ -122,11 +122,11 @@ class BarbarianService
         return $settings;
     }
 
-    public function getBarbarianSetting(string $setting)
+    public function getBarbarianSetting(string $setting): string
     {
         $value = null;
         $settings = $this->getBarbarianSettings();
-        if(in_array($setting, $settings))
+        if(isset($settings[$setting]))
         {
             $value = $settings[$setting];
         }
