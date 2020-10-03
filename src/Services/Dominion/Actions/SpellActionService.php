@@ -704,7 +704,8 @@ class SpellActionService
         }
 
         $spellReflected = false;
-        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2) and !$isInvasionSpell) {
+        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2) and !$isInvasionSpell)
+        {
             $spellReflected = true;
             $reflectedBy = $target;
             $target = $dominion;
@@ -749,7 +750,8 @@ class SpellActionService
             }
 
             // Update statistics
-            if (isset($dominion->{"stat_{$spellInfo['key']}_hours"})) {
+            if (isset($dominion->{"stat_{$spellInfo['key']}_hours"}))
+            {
                 $dominion->{"stat_{$spellInfo['key']}_hours"} += $spellInfo['duration'];
             }
 

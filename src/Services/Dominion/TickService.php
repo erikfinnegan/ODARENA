@@ -342,7 +342,11 @@ class TickService
 
             $realms = $round->realms()->get();
 
-            if(rand(1, (int)$this->barbarianService->getBarbarianSetting('ONE_IN_CHANCE_TO_SPAWN')) === 1)
+            $spawnBarbarian = rand(1, (int)$this->barbarianService->getBarbarianSetting('ONE_IN_CHANCE_TO_SPAWN'));
+
+            Log::Debug('[BARBARIAN] spawn chance value: '. $spawnBarbarian . ' (spawn of this value is 1).');
+
+            if($spawnBarbarian === 1)
             {
                 $this->barbarianService->createBarbarian($round);
             }
