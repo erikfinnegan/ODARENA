@@ -344,7 +344,7 @@ class TickService
 
             $spawnBarbarian = rand(1, (int)$this->barbarianService->getBarbarianSetting('ONE_IN_CHANCE_TO_SPAWN'));
 
-            Log::Debug('[BARBARIAN] spawn chance value: '. $spawnBarbarian . ' (spawn of this value is 1).');
+            Log::Debug('[BARBARIAN] spawn chance value: '. $spawnBarbarian . ' (spawn if this value is 1).');
 
             if($spawnBarbarian === 1)
             {
