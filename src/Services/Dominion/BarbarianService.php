@@ -69,7 +69,7 @@ class BarbarianService
     protected const UNIT4_OP = 5;
 
     # Chance each tick for new Barbarian to spawn
-    protected const ONE_IN_CHANCE_TO_SPAWN = 80;
+    protected const ONE_IN_CHANCE_TO_SPAWN = 48;
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
