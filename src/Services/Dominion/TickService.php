@@ -321,7 +321,7 @@ class TickService
             }, 10);
 
             Log::info(sprintf(
-                'Ticked %s dominions in %s ms in %s',
+                '[TICK] Ticked %s dominions in %s ms in %s',
                 number_format($round->activeDominions->count()),
                 number_format($this->now->diffInMilliseconds(now())),
                 $round->name
@@ -456,7 +456,7 @@ class TickService
             }
 
             Log::info(sprintf(
-                'Cleaned up queues, sent notifications, and precalculated %s dominions in %s ms in %s',
+                '[QUEUES] Cleaned up queues, sent notifications, and precalculated %s dominions in %s ms in %s',
                 number_format($round->activeDominions->count()),
                 number_format($this->now->diffInMilliseconds(now())),
                 $round->name
@@ -466,14 +466,14 @@ class TickService
         }
 
         // Update rankings
-        if (($this->now->hour % 6) === 0)
+        if (($this->now->hour === 0 or $this->now->hour === 12) and $this->now->minute < 15)
         {
             foreach ($activeRounds as $round)
             {
                 $this->updateDailyRankings($round->dominions);
 
                 Log::info(sprintf(
-                    'Updated rankings in %s ms in %s',
+                    '[RANKINGS] Updated rankings in %s ms in %s',
                     number_format($this->now->diffInMilliseconds(now())),
                     $round->name
                 ));
@@ -490,7 +490,7 @@ class TickService
      */
     public function tickDaily()
     {
-        Log::debug('Daily tick started');
+        Log::debug('[DAILY] Daily tick started');
 
         DB::transaction(function () {
             foreach (Round::with('dominions')->active()->get() as $round) {
@@ -509,7 +509,7 @@ class TickService
             }
         });
 
-        Log::info('Daily tick finished');
+        Log::info('[DAILY] Daily tick finished');
     }
 
     protected function cleanupActiveSpells(Dominion $dominion)
@@ -1127,7 +1127,7 @@ class TickService
     {
 
         Log::debug(sprintf(
-            'Manual tick started for %s.',
+            '[TICK] Manual tick started for %s.',
             $dominion->name
         ));
 
@@ -1268,7 +1268,7 @@ class TickService
             }, 10);
 
             Log::info(sprintf(
-                'Ticked dominion %s in %s ms.',
+                '[TICK] Ticked dominion %s in %s ms.',
                 $dominion->name,
                 number_format($this->now->diffInMilliseconds(now()))
             ));
@@ -1325,7 +1325,7 @@ class TickService
             }
 
             Log::info(sprintf(
-                'Cleaned up queues, sent notifications, and precalculated dominion %s in %s ms.',
+                '[TICK] Cleaned up queues, sent notifications, and precalculated dominion %s in %s ms.',
                 $dominion->name,
                 number_format($this->now->diffInMilliseconds(now()))
             ));
