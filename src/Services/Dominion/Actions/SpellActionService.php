@@ -25,6 +25,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
 use OpenDominion\Models\BlackOp;
+use OpenDominion\Models\Tech;
 
 class SpellActionService
 {
@@ -514,8 +515,16 @@ class SpellActionService
                 break;
 
             case 'vision':
+
+                $techs = $target->techs->sortBy(function ($tech, $key)
+                {
+                    return $tech['name'] . str_pad($tech['level'], 2, '0', STR_PAD_LEFT);
+                });
+
+                #dd($techs);
+
                 $infoOp->data = [
-                    'techs' => $target->techs->pluck('name', 'key')->all(),
+                    'techs' => $techs,#$target->techs->pluck('name', 'key')->all(),
                     'heroes' => []
                 ];
                 break;

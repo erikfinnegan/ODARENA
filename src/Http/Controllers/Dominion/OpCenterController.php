@@ -20,6 +20,7 @@ use OpenDominion\Services\GameEventService;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Models\Tech;
 
 class OpCenterController extends AbstractDominionController
 {

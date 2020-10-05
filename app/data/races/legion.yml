@@ -1,93 +1,81 @@
 name: Legion
 alignment: evil
-description: >-
-  <p>The Legion is the Empress' latest creation. By taking the most promising younglings from all corners of the Empire away from their families and into lifelong servitude, the Empress is forging an army of total loyalty and devotion to the art of bloodshed.</p>
-  <p>Each unit (<em>Legionaire</em>) of the Legion is trained to equal strength. The only thing separating one from another is their ancestral special ability.</p>
+description: Starts with one Legate.
 home_land_type: hill
 playable: 0
 
-attacking: 2
-exploring : 2
-converting: 1
+attacking: 3
+exploring : 0
+converting: 0
 
 construction_materials: platinum,lumber
 
-perks:
-  max_population: 20
-  guard_tax_exemption: 1
-  extra_barracks_housing: 36
-  cannot_build_homes: 1
-  prestige_gains: 20
-  food_consumption: -25
-  boat_capacity: 10
-  cannot_train_spies: 1
-  cannot_train_wizards: 1
-  cannot_train_archmages: 1
-  salvaging: 25
 units:
-  - name: Goblin
-    training_time: 9
+  - name: Infantry
+    training_time: 6
     type:
       - living
       - sentient
     need_boat: true
     cost:
-      platinum: 820
-      ore: 80
+      platinum: 600
+      ore: 100
     power:
       offense: 4
-      defense: 4
+      defense: 0
     perks:
-      plunders_resources_on_attack: 1
-      faster_return: 2
-      offense_from_military_percentage: 1 # Gets up to +1 OP per % military
-  - name: Dark Elf
-    training_time: 9
+      wins_into: 3
+      offense_from_pairing: 4,2,0.002 # slot, amount, num required
+
+  - name: Legionnaire
+    training_time: 6
     type:
       - living
       - sentient
     need_boat: true
     cost:
-      platinum: 820
-      ore: 80
+      platinum: 600
+      ore: 100
     power:
-      offense: 4
+      offense: 0
       defense: 4
     perks:
-      counts_as_wizard_offense: 0.2
-      counts_as_wizard_defense: 0.2
-      faster_return: 2
-      offense_from_military_percentage: 1 # Gets up to +1 OP per % military
-  - name: Lizardfolk
-    training_time: 9
+      fends_off_into: 3
+      defense_from_pairing: 4,2,0.002 # slot, amount, num required
+
+  - name: Veteran
+    training_time: 0
     type:
       - living
       - sentient
+      - wise
     need_boat: false
     cost:
-      platinum: 820
-      ore: 80
+      platinum: 0
+      ore: 0
     power:
-      offense: 4
-      defense: 4
+      offense: 6
+      defense: 6
     perks:
-      counts_as_spy_offense: 0.2
-      counts_as_spy_defense: 0.2
-      faster_return: 2
-      offense_from_military_percentage: 1 # Gets up to +1 OP per % military
-  - name: Troll
-    training_time: 9
+      cannot_be_trained: 1
+      offense_from_pairing: 4,2,0.002 # slot, amount, num required
+      defense_from_pairing: 4,2,0.002 # slot, amount, num required
+      offense_from_military_percentage: 1 # Gets 0.01 OP per 1% military
+
+  - name: Legate
+    training_time: 12
     type:
       - living
       - sentient
+      - wise
     need_boat: true
     cost:
-      platinum: 820
-      ore: 80
+      platinum: 2000
+      ore: 500
+      unit3: 1
     power:
-      offense: 4
-      defense: 4
+      offense: 0
+      defense: 0
     perks:
-      fewer_casualties: 50
-      faster_return: 2
-      offense_from_military_percentage: 1 # Gets up to +1 OP per % military
+      victories_limit: 4,1 # victories, limit: max 1 Legate per 1 Victory
+      sendable_with_zero_op: 1

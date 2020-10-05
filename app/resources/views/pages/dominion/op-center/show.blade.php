@@ -982,13 +982,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($infoOp->data['techs'] as $techKey => $techName)
+                            @foreach ($infoOp->data['techs'] as $tech)
                                 @php
-                                    $techDescription = $techHelper->getTechDescription(OpenDominion\Models\Tech::where('key', $techKey)->firstOrFail());
+                                    $tech = OpenDominion\Models\Tech::where('key', $tech['key'])->firstOrFail();
                                 @endphp
                                 <tr>
-                                    <td>{{ $techName }}</td>
-                                    <td>{{ $techDescription }}</td>
+                                    <td>{{ $tech['name'] }}</td>
+                                    <td>{{ $techHelper->getTechDescription($tech) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

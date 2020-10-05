@@ -140,6 +140,12 @@
                                         </div>
                                     @endforeach
 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>Offensive Spells</label>
+                                        </div>
+                                    </div>
+
                                     @foreach ($spellHelper->getBlackOpSpells($selectedDominion)->chunk(4) as $spells)
                                         <div class="row">
                                             @foreach ($spells as $spell)
@@ -222,7 +228,7 @@
                 </div>
                 <div class="box-body">
                     <p>Here you may cast spells which temporarily benefit your dominion or hinder opposing dominions. You can also perform information gathering operations with magic.</p>
-                    <p>Non-information gathering spells last for <b>48 ticks</b>, unless stated otherwise.</p>
+                    <p>Self-spells have a duration after which they expire and need to be cast again. Information Gathering spells never expire and </p>
                     <p>Any obtained data after successfully casting an information gathering spell gets posted to the <a href="{{ route('dominion.op-center') }}">Op Center</a> for your realmies.</p>
                     <p>Casting spells spends some wizard strength, but it regenerates a bit every tick.</p>
 
