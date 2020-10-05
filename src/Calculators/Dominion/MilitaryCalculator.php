@@ -1480,6 +1480,59 @@ class MilitaryCalculator
     }
 
     /**
+     * Returns the Dominion's raw wizard ratio.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getWizardPoints(Dominion $dominion, string $type = 'offense'): float
+    {
+        $wizardPoints = $dominion->military_wizards + ($dominion->military_archmages * 2);
+
+        // Add units which count as (partial) spies (Dark Elf Adept)
+        foreach ($dominion->race->units as $unit)
+        {
+            if ($type === 'offense' && $unit->getPerkValue('counts_as_wizard_offense'))
+            {
+                $wizardPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_offense'));
+            }
+
+            if ($type === 'defense' && $unit->getPerkValue('counts_as_wizard_defense'))
+            {
+                $wizardPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_defense'));
+            }
+        }
+
+        return $wizardPoints * $this->getWizardRatioMultiplier($dominion);
+    }
+
+    /**
+     * Returns the Dominion's raw wizard ratio.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getSpyPoints(Dominion $dominion, string $type = 'offense'): float
+    {
+        $spyPoints = $dominion->military_spies;
+
+        foreach ($dominion->race->units as $unit)
+        {
+            if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense'))
+            {
+                $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_offense'));
+            }
+
+            if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense'))
+            {
+                $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_defense'));
+            }
+        }
+
+        return $spyPoints * $this->getSpyRatioMultiplier($dominion);
+    }
+
+    /**
      * Returns the number of boats protected by a Dominion's docks and harbor improvements.
      *
      * @param Dominion $dominion

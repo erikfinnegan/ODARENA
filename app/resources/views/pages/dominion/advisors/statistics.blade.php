@@ -283,20 +283,42 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Spy Ratio (Offense):</td>
+                                        <td>Offensive Spy Ratio:</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</strong>
                                             @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
-                                                <small class="text-muted">({{ number_format($militaryCalculator->getSpyRatioRaw($selectedDominion, 'offense'), 3) }})</small>
+                                                <small class="text-muted">({{ number_format(($militaryCalculator->getSpyRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
                                             @endif
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Spy Ratio (Defense):</td>
+                                        <td>Defensive Spy Ratio:</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'defense'), 3) }}</strong>
                                             @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
-                                                <small class="text-muted">({{ number_format($militaryCalculator->getSpyRatioRaw($selectedDominion, 'defense'), 3) }})</small>
+                                                <small class="text-muted">({{ number_format(($militaryCalculator->getSpyRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Offensive Spy Points:</span>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($militaryCalculator->getSpyPoints($selectedDominion, 'offense')) }}</strong>
+                                            @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
+                                                <small class="text-muted">({{ number_format(($militaryCalculator->getSpyRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Defensive Spy Points:</span>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($militaryCalculator->getSpyPoints($selectedDominion, 'defense')) }}</strong>
+                                            @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
+                                                <small class="text-muted">({{ number_format(($militaryCalculator->getSpyRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
                                             @endif
                                         </td>
                                     </tr>
@@ -432,20 +454,42 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Wizard Ratio (Offense):</td>
+                                        <td>Offensive Wizard Ratio:</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</strong>
                                             @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
-                                                <small class="text-muted">({{ number_format($militaryCalculator->getWIzardRatioRaw($selectedDominion, 'offense'), 3) }})</small>
+                                                <small class="text-muted">({{ number_format(($militaryCalculator->getWizardRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
                                             @endif
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Wizard Ratio (Defense):</td>
+                                        <td>Defensive Wizard Ratio:</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'defense'), 3) }}</strong>
                                             @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
-                                                <small class="text-muted">({{ number_format($militaryCalculator->getWizardRatioRaw($selectedDominion, 'defense'), 3) }})</small>
+                                                <small class="text-muted">({{ number_format(($militaryCalculator->getWizardRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="Number of wizards (archmages count as two) you have plus how many wizards you have from units that count as wizards in part or whole">Offensive Wizard Points:</span>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($militaryCalculator->getWizardPoints($selectedDominion, 'offense')) }}</strong>
+                                            @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
+                                                <small class="text-muted">({{ number_format(($militaryCalculator->getWizardRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="Number of wizards (archmages count as two) you have plus how many wizards you have from units that count as wizards in part or whole">Defensive Wizard Points:</span>
+                                      </td>
+                                        <td>
+                                            <strong>{{ number_format($militaryCalculator->getWizardPoints($selectedDominion, 'defense')) }}</strong>
+                                            @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
+                                                <small class="text-muted">({{ number_format(($militaryCalculator->getWizardRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
                                             @endif
                                         </td>
                                     </tr>
