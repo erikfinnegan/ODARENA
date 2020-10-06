@@ -325,10 +325,10 @@ class EspionageActionService
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
-                # Swarm: immortal spies
+                # Immortal spies
                 if($dominion->race->getPerkValue('immortal_spies'))
                 {
-                  $spiesKilled = 0;
+                    $spiesKilled = 0;
                 }
 
                 if ($spiesKilled > 0)
@@ -623,10 +623,10 @@ class EspionageActionService
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
-                # Swarm: immortal spies
+                # Immortal spies
                 if($dominion->race->getPerkValue('immortal_spies'))
                 {
-                  $spiesKilled = 0;
+                    $spiesKilled = 0;
                 }
 
                 if ($spiesKilled > 0)
@@ -1014,6 +1014,12 @@ class EspionageActionService
                 $unitsKilled = [];
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
+                # Immortal spies
+                if($dominion->race->getPerkValue('immortal_spies'))
+                {
+                    $spiesKilled = 0;
+                }
+
                 if ($spiesKilled > 0)
                 {
                     $unitsKilled['spies'] = $spiesKilled;
@@ -1021,33 +1027,30 @@ class EspionageActionService
                     $dominion->stat_total_spies_lost += $spiesKilled;
                 }
 
-                # Swarm: immortal spies
-                if($dominion->race->getPerkValue('immortal_spies'))
-                {
-                  $spiesKilled = 0;
-                }
+
 
                 $spyUnitsKilled = 0;
-                foreach ($dominion->race->units as $unit) {
+                foreach ($dominion->race->units as $unit)
+                {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
-                      if($unit->getPerkValue('immortal_spy'))
-                      {
-                        $unitKilled = 0;
-                      }
-                      else
-                      {
-                        $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
-                        $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
-                      }
-
-                        if ($unitKilled > 0)
+                        if($unit->getPerkValue('immortal_spy'))
                         {
-                            $unitsKilled[strtolower($unit->name)] = $unitKilled;
-                            $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
-                            $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
-                            $spyUnitsKilled += $unitKilled;
+                            $unitKilled = 0;
                         }
+                        else
+                        {
+                            $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
+                            $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
+                        }
+
+                          if ($unitKilled > 0)
+                          {
+                              $unitsKilled[strtolower($unit->name)] = $unitKilled;
+                              $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                              $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+                              $spyUnitsKilled += $unitKilled;
+                          }
                     }
                 }
 

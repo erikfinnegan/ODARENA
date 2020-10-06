@@ -741,7 +741,6 @@ class ProductionCalculator
             }
         }
 
-
         $mana = max(0, $mana - $decayProtection);
 
         $decay += ($mana * $manaDecay);
