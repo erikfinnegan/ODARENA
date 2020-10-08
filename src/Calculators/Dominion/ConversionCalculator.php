@@ -58,5 +58,13 @@ class ConversionCalculator
 
     }
 
+    public function getOffensiveConversions(Dominion $converter, Dominion $target, array $converterUnits, array $converterUnitsLost, array $targetUnits, array $targetUnitsLost)
+    {
+        $conversions = array_fill(1,4,0);
+
+
+
+        return $conversions;
+    }
 
 }

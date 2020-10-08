@@ -520,9 +520,6 @@ class SpellActionService
                 {
                     return $tech['name'] . str_pad($tech['level'], 2, '0', STR_PAD_LEFT);
                 });
-
-                #dd($techs);
-
                 $infoOp->data = [
                     'techs' => $techs,#$target->techs->pluck('name', 'key')->all(),
                     'heroes' => []

@@ -75,8 +75,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('status')->uses('Dominion\StatusController@getStatus')->name('status');
             $router->post('status')->uses('Dominion\StatusController@postTick');
 
-
-
             // Advisors
             $router->get('advisors')->uses('Dominion\AdvisorsController@getAdvisors')->name('advisors');
             $router->get('advisors/production')->uses('Dominion\AdvisorsController@getAdvisorsProduction')->name('advisors.production');
@@ -86,6 +84,17 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('advisors/magic')->uses('Dominion\AdvisorsController@getAdvisorsMagic')->name('advisors.magic');
             $router->get('advisors/statistics')->uses('Dominion\AdvisorsController@getAdvisorsStatistics')->name('advisors.statistics');
             $router->get('advisors/history')->uses('Dominion\AdvisorsController@getHistory')->name('advisors.history');
+
+            // Mentor
+            $router->get('mentor')->uses('Dominion\MentorController@getMentor')->name('mentor');
+            $router->get('mentor/general')->uses('Dominion\MentorController@getMentorGeneral')->name('mentor.general');
+            $router->get('mentor/advancements')->uses('Dominion\MentorController@getMentorAdvancements')->name('mentor.advancements');
+            $router->get('mentor/buildings')->uses('Dominion\MentorController@getMentorBuildings')->name('mentor.buildings');
+            $router->get('mentor/espionage')->uses('Dominion\MentorController@getMentorEspionage')->name('mentor.espionage');
+            $router->get('mentor/explore')->uses('Dominion\MentorController@getMentorExplore')->name('mentor.explore');
+            $router->get('mentor/invade')->uses('Dominion\MentorController@getMentorInvade')->name('mentor.invade');
+            $router->get('mentor/magic')->uses('Dominion\MentorController@getMentorMagic')->name('mentor.magic');
+            $router->get('mentor/military')->uses('Dominion\MentorController@getMentorMilitary')->name('mentor.military');
 
             // Daily
             $router->get('bonuses')->uses('Dominion\DailyBonusesController@getBonuses')->name('bonuses');
@@ -235,6 +244,8 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
 
     $router->get('{race}')->uses('ScribesController@getRace')->name('faction');
 });
+
+
 
 // Valhalla
 

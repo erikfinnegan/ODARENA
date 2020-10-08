@@ -13,6 +13,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="fa fa-flask"></i> Advancements</h3>
+                    <a href="{{ route('dominion.mentor.advancements') }}" class="pull-right"><span><i class="ra ra-help"></i> Mentor</span></a>
                 </div>
                 <form action="{{ route('dominion.advancements') }}" method="post" role="form">
                     @csrf
@@ -37,7 +38,7 @@
                                 @endif
 
                                 <td class="text-center">
-                                    <span data-toggle="tooltip" data-placement="top" title="{{ $techHelper->getTechDescription($tech) }}<br>XP: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $tech->level)) }}" style="display:block;">
+                                    <span data-toggle="tooltip" data-placement="top" title="<strong>{{$tech['name'] }} Level {{ $tech['level'] }}</strong><br>{{ $techHelper->getTechDescription($tech) }}<br>XP: {{ number_format($techCalculator->getTechCost($selectedDominion, null, $tech->level)) }}" style="display:block;">
 
                                 @if(in_array($tech->key, $unlockedTechs))
                                     <i class="fa fa-check text-green"></i>
@@ -69,7 +70,6 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>You can level up advancements by earning enough experience points (XP). You earn XP by invading other dominions, exploring new lands, and every tick from your prestige.</p>
                     <h4>Cost</h4>
                     <ul>
                     @for ($i = 1; $i <= 10; $i++)

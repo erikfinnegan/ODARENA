@@ -616,7 +616,7 @@ class InvadeActionService
         # Successful hits over 75% give prestige to attacker and remove prestige from defender
         if($countsAsVictory)
         {
-            $attackerPrestigeChange += ceil(60 * $landRatio);
+            $attackerPrestigeChange += 60 * $landRatio;
             $defenderPrestigeChange -= 10;
         }
 
@@ -666,6 +666,9 @@ class InvadeActionService
         {
             $attackerPrestigeChange /= 3;
         }
+
+        $attackerPrestigeChange = round($attackerPrestigeChange);
+        $defenderPrestigeChange = round($defenderPrestigeChange);
 
         if ($attackerPrestigeChange !== 0)
         {
@@ -1917,7 +1920,7 @@ class InvadeActionService
             }
 
 
-            $researchPointsGained = $landConquered * $researchPointsForGeneratedAcres * $researchPointsPerAcre * $researchPointsPerAcreMultiplier;
+            $researchPointsGained = round($landConquered * $researchPointsForGeneratedAcres * $researchPointsPerAcre * $researchPointsPerAcreMultiplier);
             $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($dominion, $units);
 
             $this->queueService->queueResources(

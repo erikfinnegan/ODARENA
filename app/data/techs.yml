@@ -2292,13 +2292,13 @@ craftsmanship_level10:
 # <Ladder: Drafting>
 
 conscription_level1:
-  name: Concription
+  name: Conscription
   level: 1
   perks:
     drafting: 2.5
 
 conscription_level2:
-  name: Concription
+  name: Conscription
   level: 2
   perks:
     drafting: 5
@@ -2306,7 +2306,7 @@ conscription_level2:
     - conscription_level1
 
 conscription_level3:
-  name: Concription
+  name: Conscription
   level: 3
   perks:
     drafting: 7.5
@@ -2314,7 +2314,7 @@ conscription_level3:
     - conscription_level2
 
 conscription_level4:
-  name: Concription
+  name: Conscription
   level: 4
   perks:
     drafting: 10
@@ -2322,7 +2322,7 @@ conscription_level4:
     - conscription_level3
 
 conscription_level5:
-  name: Concription
+  name: Conscription
   level: 5
   perks:
     drafting: 12.5
@@ -2330,7 +2330,7 @@ conscription_level5:
     - conscription_level4
 
 conscription_level6:
-  name: Concription
+  name: Conscription
   level: 6
   perks:
     drafting: 15
@@ -2338,7 +2338,7 @@ conscription_level6:
     - conscription_level5
 
 conscription_level7:
-  name: Concription
+  name: Conscription
   level: 7
   perks:
     drafting: 16.25
@@ -2346,7 +2346,7 @@ conscription_level7:
     - conscription_level6
 
 conscription_level8:
-  name: Concription
+  name: Conscription
   level: 8
   perks:
     drafting: 17.5
@@ -2354,7 +2354,7 @@ conscription_level8:
     - conscription_level7
 
 conscription_level9:
-  name: Concription
+  name: Conscription
   level: 9
   perks:
     drafting: 18.75
@@ -2362,7 +2362,7 @@ conscription_level9:
     - conscription_level8
 
 conscription_level10:
-  name: Concription
+  name: Conscription
   level: 10
   perks:
     drafting: 20

@@ -9,6 +9,7 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title"><i class="ra ra-sword"></i> Military</h3>
+                <a href="{{ route('dominion.mentor.military') }}" class="pull-right"><span><i class="ra ra-help"></i> Mentor</span></a>
             </div>
             <form action="{{ route('dominion.military.train') }}" method="post" role="form">
                 @csrf
