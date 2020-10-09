@@ -1,0 +1,68 @@
+name: Shapeshifters
+alignment: independent
+description:
+home_land_type: forest
+playable: 1
+
+attacking: 3
+exploring : 2
+converting: 1
+
+construction_materials: platinum,lumber
+
+perks:
+  max_population: 30
+units:
+  - name: Warg
+    training_time: 9
+    type:
+      - living
+      - sentient
+    cost:
+      platinum: 250
+    power:
+      offense: 3
+      defense: 0
+    perks:
+      strength_conversion: 0,3,1 # min enemy unit strength, max enemy unit strength, slot
+
+  - name: Wolverine
+    training_time: 9
+    type:
+      - living
+      - sentient
+    cost:
+      platinum: 250
+    power:
+      offense: 0
+      defense: 3
+    perks:
+      strength_conversion: 0,3,2 # min enemy unit strength, max enemy unit strength, slot
+
+  - name: Werewolf
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      platinum: 850
+    power:
+      offense: 5
+      defense: 5
+    perks:
+      strength_conversion: 3,3 # min enemy unit strength, slot
+
+  - name: Werebear
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      platinum: 900
+    power:
+      offense: 7
+      defense: 4
+    perks:
+      strength_conversion: 5,6 # min enemy unit strength, slot
