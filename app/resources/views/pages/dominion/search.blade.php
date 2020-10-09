@@ -26,8 +26,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label text-right">Limit:</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" name="range">
+                                <div class="col-sm-6 form-group">
+                                    <select class="form-control select2" name="range">
                                         <option value="">No Limit</option>
                                         <option value="true">My Range</option>
                                     </select>
@@ -250,7 +250,7 @@
                 }
 
                 var range = $('select[name=range]').val();
-                if (range && data[5] != "true") return false;
+                if (range && data[6] != "true") return false;
 
                 return true;
             }
