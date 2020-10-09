@@ -30,6 +30,17 @@
                     <p>While you're here, consider supporting ODARENA:</p>
 
                     <div class="row">
+
+                        <div class="col-md-6 text-center">
+                            <h4>Support ODARENA on Ko-Fi or Patreon</h4>
+
+                            <p><script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#dd4b39', 'P5P526XK1');kofiwidget2.draw();</script></p>
+                            <p><a href="https://www.patreon.com/bePatron?u=10125735" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></p>
+
+                            <p>In addition to be free open source software, ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
+                            <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind is highly appreciated.</p>
+                        </div>
+
                         @if ($discordInviteLink = config('app.discord_invite_link'))
                             <div class="col-md-6 text-center">
                                 <h4>Join us on Discord</h4>
@@ -38,22 +49,9 @@
                                         <img src="{{ asset('assets/app/images/join-the-discord.png') }}" alt="Join the Discord" class="img-responsive" style="max-width: 200px; margin: 0 auto;">
                                     </a>
                                 </p>
-                                <p>Discord is a chat program that I use for ODARENA's game announcements, its development, and generic banter with other players and people interested in the project.</p>
-                                <p>Feel free to join us and chat along!</p>
+                                <p>Most players hang around on the official ODARENA Discord. Come join us for banter, feedback, and slacking.</p>
                             </div>
                         @endif
-
-                            <div class="col-md-6 text-center">
-                                <h4>Support ODARENA on Patreon or Ko-Fi</h4>
-
-                                <p><script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#dd4b39', 'P5P526XK1');kofiwidget2.draw();</script></p>
-                                <p><a href="https://www.patreon.com/bePatron?u=10125735" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></p>
-
-                                <p>In addition to be free open source software, ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
-                                <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind is highly appreciated.</p>
-                            </div>
-
-
 
                     </div>
                 </div>
