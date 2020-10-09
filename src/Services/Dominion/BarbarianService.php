@@ -31,7 +31,7 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # Chance to hit
-    protected const CHANCE_TO_HIT_CONSTANT = 28;
+    protected const CHANCE_TO_HIT_CONSTANT = 32;
 
     # Gain % of land between these two values when hitting. /1000
     # Current formula returns:
@@ -43,7 +43,7 @@ class BarbarianService
     # 133% - 9.20% raw 18.4% total
 
     protected const LAND_GAIN_MIN = 72; # 75% hit
-    protected const LAND_GAIN_MAX = 92; # 100% hit
+    protected const LAND_GAIN_MAX = 92; # 85% hit
 
     # Send between these two values when hitting. /1000
     protected const SENT_RATIO_MIN = 800;
@@ -69,7 +69,7 @@ class BarbarianService
     protected const UNIT4_OP = 5;
 
     # Chance each tick for new Barbarian to spawn
-    protected const ONE_IN_CHANCE_TO_SPAWN = 24;
+    protected const ONE_IN_CHANCE_TO_SPAWN = 48;
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
