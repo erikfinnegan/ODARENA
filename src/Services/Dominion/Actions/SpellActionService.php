@@ -786,7 +786,7 @@ class SpellActionService
                return [
                    'success' => true,
                    'message' => sprintf(
-                       'Your wizards cast the spell successfully, but it was reflected and it will now affect your dominion for the next %s hours.',
+                       'Your wizards cast the spell successfully, but it was reflected and it will now affect your dominion for the next %s ticks.',
                        $spellInfo['duration']
                    ),
                    'alert-type' => 'danger'
@@ -795,7 +795,7 @@ class SpellActionService
                return [
                    'success' => true,
                    'message' => sprintf(
-                       'Your wizards cast the spell successfully, and it will continue to affect your target for the next %s hours.',
+                       'Your wizards cast the spell successfully, and it will continue to affect your target for the next %s ticks.',
                        $spellInfo['duration']
                    )
                ];
