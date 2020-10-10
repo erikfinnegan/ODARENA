@@ -11,7 +11,7 @@ converting: 1
 construction_materials: platinum,lumber
 
 perks:
-  max_population: 30
+  max_population: 40
 units:
   - name: Warg
     training_time: 9
@@ -24,7 +24,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      strength_conversion: 0,3,1 # min enemy unit strength, max enemy unit strength, slot
+      strength_conversion: 0,4,1 # min enemy unit strength, max enemy unit strength, slot
 
   - name: Wolverine
     training_time: 9
@@ -37,7 +37,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      strength_conversion: 0,3,2 # min enemy unit strength, max enemy unit strength, slot
+      strength_conversion: 0,4,2 # min enemy unit strength, max enemy unit strength, slot
 
   - name: Werewolf
     training_time: 12
@@ -51,7 +51,7 @@ units:
       offense: 5
       defense: 5
     perks:
-      strength_conversion: 3,3 # min enemy unit strength, slot
+      strength_conversion: 4,6,3 # min enemy unit strength, max enemy unit strength, slot
 
   - name: Werebear
     training_time: 12
@@ -65,4 +65,4 @@ units:
       offense: 7
       defense: 4
     perks:
-      strength_conversion: 5,6 # min enemy unit strength, slot
+      strength_conversion: 6,20,4 # min enemy unit strength, slot

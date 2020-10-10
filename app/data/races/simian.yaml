@@ -62,7 +62,7 @@ units:
     cost:
       platinum: 1000
     power:
-      offense: 4
+      offense: 0
       defense: 7
     perks:
       fewer_casualties_defense_from_land: forest,1,80 # land_type, ratio%, max
