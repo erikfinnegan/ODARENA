@@ -31,7 +31,7 @@ class BarbarianService
     protected const SPECS_RATIO_MAX = 500;
 
     # Chance to hit
-    protected const CHANCE_TO_HIT_CONSTANT = 32;
+    protected const CHANCE_TO_HIT_CONSTANT = 36;
 
     # Gain % of land between these two values when hitting. /1000
     # Current formula returns:
@@ -42,7 +42,7 @@ class BarbarianService
     # 120% - 8.0% raw 16.0% total
     # 133% - 9.20% raw 18.4% total
 
-    protected const LAND_GAIN_MIN = 72; # 75% hit
+    protected const LAND_GAIN_MIN = 46; # 65% hit
     protected const LAND_GAIN_MAX = 92; # 85% hit
 
     # Send between these two values when hitting. /1000
