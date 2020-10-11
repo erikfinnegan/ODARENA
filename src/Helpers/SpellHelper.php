@@ -412,17 +412,6 @@ class SpellHelper
             ],
             /*
             [
-                'name' => 'Call To Arms',
-                'description' => 'Training times reduced by 2 for every recent invasion (max -8 ticks).',
-                'key' => 'call_to_arms',
-                'mana_cost' => 10,
-                'duration' => 12*4,
-                'races' => collect(['Legion II']),
-                #'races' => collect(['Legion', 'Legion II', 'Legion III', 'Legion IV', 'Legion V', 'Legion VI']),
-            ],
-            */
-            /*
-            [
                 'name' => 'Underground Caves',
                 'description' => 'Psilocybe experience point production replaced by gem production (10x).',
                 'key' => 'underground_caves',
@@ -533,7 +522,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Dark Rites',
-                'description' => 'Taking bodies from the Imperial Crypt, every ten Wraith turn up to one body into a Skeleton and every ten Revenants turn up to one body in a Ghoul, until the spell expires or until there are no bodies left in the crypt. Only Wraiths and Reverents currently at home perform Dark Rites.',
+                'description' => 'Taking bodies from the Imperial Crypt, every ten Wraith turn up to one body into a Skeleton, until the spell expires or until there are no bodies left in the crypt. Only Wraiths currently at home perform Dark Rites.',
                 'key' => 'dark_rites',
                 'mana_cost' => 10,
                 'duration' => 12*2,
@@ -554,6 +543,22 @@ class SpellHelper
                 'mana_cost' => 1.5,
                 'duration' => 2,
                 'races' => collect(['Qur']),
+            ],
+            [
+                'name' => 'Bloodcall',
+                'description' => '+10% offensive power, no conversions.',
+                'key' => 'bloodcall',
+                'mana_cost' => 4,
+                'duration' => 6,
+                'races' => collect(['Weres']),
+            ],
+            [
+                'name' => 'Imperial Guard',
+                'description' => '+20% defensive power if all units are at home.',
+                'key' => 'imperial_guard',
+                'mana_cost' => 4,
+                'duration' => 6,
+                'races' => collect(['Legion']),
             ],
         ]);
     }

@@ -61,6 +61,8 @@ class UnitHelper
             'vampiric_conversion' => 'Spreads vampirism.',
             #'vampiric_conversion' => 'Converts enemy casualties into %2$s.',
 
+            'strength_conversion' => 'Converts some enemy casualties into %2$s if they have at least %1$s raw OP or DP.',
+
             // OP/DP related
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
@@ -348,6 +350,25 @@ class UnitHelper
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
                 elseif($perk->key === 'staggered_conversion')
+                {
+                    foreach ($perkValue as $index => $conversion) {
+                        [$convertAboveLandRatio, $slots] = $conversion;
+
+                        $unitSlotsToConvertTo = array_map('intval', str_split($slots));
+                        $unitNamesToConvertTo = [];
+
+                        foreach ($unitSlotsToConvertTo as $slot) {
+                            $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
+                                return ($unit->slot === $slot);
+                            })->first();
+
+                            $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
+                        }
+
+                        $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
+                    }
+                }
+                elseif($perk->key === 'strength_conversion')
                 {
                     foreach ($perkValue as $index => $conversion) {
                         [$convertAboveLandRatio, $slots] = $conversion;

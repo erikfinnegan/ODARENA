@@ -106,7 +106,7 @@
                                                 foreach ($trainingCalculator->getTrainingCostsPerUnit($selectedDominion)[$unitType] as $costType => $value) {
 
                                                   # Only show resource if there is a corresponding cost
-                                                  if($value > 0)
+                                                  if($value !== 0)
                                                   {
 
                                                     switch ($costType) {

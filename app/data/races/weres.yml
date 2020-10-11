@@ -1,4 +1,4 @@
-name: Shapeshifters
+name: Weres
 alignment: independent
 description:
 home_land_type: forest
@@ -11,7 +11,7 @@ converting: 1
 construction_materials: platinum,lumber
 
 perks:
-  max_population: 40
+  max_population: 30
 units:
   - name: Warg
     training_time: 9
@@ -19,12 +19,13 @@ units:
       - living
       - sentient
     cost:
-      platinum: 250
+      platinum: 200
+      food: 5
     power:
       offense: 3
       defense: 0
     perks:
-      strength_conversion: 0,4,1 # min enemy unit strength, max enemy unit strength, slot
+      strength_conversion: 2;1,4;3
 
   - name: Wolverine
     training_time: 9
@@ -32,12 +33,13 @@ units:
       - living
       - sentient
     cost:
-      platinum: 250
+      platinum: 200
+      food: 5
     power:
       offense: 0
       defense: 3
     perks:
-      strength_conversion: 0,4,2 # min enemy unit strength, max enemy unit strength, slot
+      strength_conversion: 2;2,4;3
 
   - name: Werewolf
     training_time: 12
@@ -46,12 +48,13 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 850
+      platinum: 1000
+      food: 10
     power:
-      offense: 5
-      defense: 5
+      offense: 6
+      defense: 8
     perks:
-      strength_conversion: 4,6,3 # min enemy unit strength, max enemy unit strength, slot
+      strength_conversion: 2;3,6;4
 
   - name: Werebear
     training_time: 12
@@ -60,9 +63,10 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 900
+      platinum: 1200
+      food: 10
     power:
-      offense: 7
-      defense: 4
+      offense: 8
+      defense: 5
     perks:
-      strength_conversion: 6,20,4 # min enemy unit strength, slot
+      strength_conversion: 2;3,5;4

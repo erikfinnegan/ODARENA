@@ -82,7 +82,7 @@ units:
       fewer_casualties: 75
       no_draftee: 1
       does_not_count_as_population: 1
-      houses_military_units: 200
+      houses_military_units: 100
       offense_from_pairing: 1,200,200 # slot, amount, num required
       building_limit: dock,2,harbor
-      plunders: platinum;10000,gems;1000
+      plunders: platinum;100,gems;500

@@ -191,7 +191,7 @@ class DominionFactory
         # RACE/FACTION SPECIFIC RESOURCES
 
         // Ore-free races: no ore
-        $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Marshling','Simian','Vampires','Void');
+        $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Marshling','Qur','Simian','Vampires','Void','Weres');
         if(in_array($race->name, $oreFreeRaces))
         {
           $startingResources['ore'] = 0;
@@ -318,6 +318,12 @@ class DominionFactory
             $startingResources['improvement_armory'] = 895000;
             $startingResources['improvement_observatory'] = 528000;
             $startingResources['improvement_harbor'] = 591000;
+        }
+
+        // Legion: starting legate.
+        if($race->name == 'Legion')
+        {
+            $startingResources['unit4'] = 1;
         }
 
         // Monster: no one lives here.

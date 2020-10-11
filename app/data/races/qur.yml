@@ -57,9 +57,8 @@ units:
       - machine
     need_boat: true
     cost:
-      platinum: 600
-      lumber: 600
-      ore: 600
+      platinum: 1000
+      lumber: 400
     power:
       offense: 0
       defense: 0
@@ -83,7 +82,7 @@ units:
     need_boat: true
     cost:
       platinum: 1000
-      mana: 20
+      mana: 15
     power:
       offense: 9
       defense: 6

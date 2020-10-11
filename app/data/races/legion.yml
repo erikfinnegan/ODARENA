@@ -2,13 +2,18 @@ name: Legion
 alignment: evil
 description: Starts with one Legate.
 home_land_type: hill
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 0
 converting: 0
 
 construction_materials: platinum,lumber
+
+perks:
+  salvaging: 80
+  food_consumption: -20
+  max_population: 20
 
 units:
   - name: Infantry
@@ -18,14 +23,14 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 600
-      ore: 100
+      platinum: 500
+      ore: 80
     power:
       offense: 4
       defense: 0
     perks:
       wins_into: 3
-      offense_from_pairing: 4,2,0.002 # slot, amount, num required
+      pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
   - name: Legionnaire
     training_time: 6
@@ -34,14 +39,14 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 600
-      ore: 100
+      platinum: 500
+      ore: 80
     power:
       offense: 0
       defense: 4
     perks:
       fends_off_into: 3
-      defense_from_pairing: 4,2,0.002 # slot, amount, num required
+      pairing_limit: 4,24000 # Unit slot, amount (max 14,000 of this unit per each Unit 4)
 
   - name: Veteran
     training_time: 0
@@ -58,8 +63,6 @@ units:
       defense: 6
     perks:
       cannot_be_trained: 1
-      offense_from_pairing: 4,2,0.002 # slot, amount, num required
-      defense_from_pairing: 4,2,0.002 # slot, amount, num required
       offense_from_military_percentage: 1 # Gets 0.01 OP per 1% military
 
   - name: Legate
@@ -71,11 +74,12 @@ units:
     need_boat: true
     cost:
       platinum: 2000
-      ore: 500
       unit3: 1
+      morale: -24
     power:
       offense: 0
       defense: 0
     perks:
-      victories_limit: 4,1 # victories, limit: max 1 Legate per 1 Victory
+      no_draftee: 1
+      victories_limit: 6,1 # victories, limit: max 1 Legate per 6 Victory
       sendable_with_zero_op: 1

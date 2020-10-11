@@ -172,7 +172,16 @@ class TrainActionService
             $unitsToTrain[$unitType] = $amountToTrain;
         }
 
-        # Look for pairing_limit, cannot_be_trained, land_limit, amount_limit, building_limit, and minimum_wpa_to_train
+        /*
+          Look for:
+          pairing_limit
+          cannot_be_trained
+          land_limit
+          amount_limit
+          building_limit
+          minimum_wpa_to_train
+          victories_limit
+        */
         foreach($unitsToTrain as $unitType => $amountToTrain)
         {
           if (!$amountToTrain)
@@ -301,6 +310,30 @@ class TrainActionService
               }
           }
           # Minimum WPA check complete.
+          # Check for victories limit.
+          $victoriesLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'victories_limit');
+          if($victoriesLimit)
+          {
+            // We have building limit for this unit.
+            $victoriesLimit = (int)$victoriesLimit[0]; # How many Victories we need
+            $unitsPerVictories = (int)$victoriesLimit[1]; # Number of units per Victories number
+
+            $victories = $dominion->stat_attacking_success;
+
+            $upperLimit = intval($victories / $victoriesLimit);
+
+            if( # Units trained + Units in Training + Units in Queue + Units to Train
+                (($dominion->{'military_unit' . $unitSlot} +
+                  $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                  $amountToTrain))
+                >
+                $upperLimit
+              )
+            {
+              throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must be more victorious (successful invasions over 75%).');
+            }
+          }
         }
 
         if($totalCosts['platinum'] > $dominion->resource_platinum)

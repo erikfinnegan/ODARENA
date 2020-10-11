@@ -188,7 +188,7 @@
                                         $unitCostString .= (', ' . number_format($unit->cost_unit4) . ' ' . $unitHelper->getUnitName('unit4', $race));
                                     }
 
-                                    if ($unit->cost_morale > 0) {
+                                    if ($unit->cost_morale !== 0) {
                                         $unitCostString .= (', ' . number_format($unit->cost_morale) . '% morale');
                                     }
 
