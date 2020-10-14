@@ -466,6 +466,16 @@ class RaceHelper
                 $description = '+1% morale on successful invasions for every 1% Gryphon Nests owned (max +20%)';
                 $booleanValue = true;
                 break;
+          case 'converts_assassinated_draftees':
+                $negativeBenefit = false;
+                $description = 'Converts assassinated draftees into Warg';
+                $booleanValue = true;
+                break;
+          case 'converts_executed_spies':
+                $negativeBenefit = false;
+                $description = 'Converts captured spies into Wolverine';
+                $booleanValue = true;
+                break;
 
 
 
