@@ -32,7 +32,7 @@ units:
     perks:
       plunders: platinum;3,gems;1
       food_production: 1
-      counts_as_wizard_defense: 0.08333
+      #counts_as_wizard_defense: 0.08333
 
   - name: Crystal
     training_time: 0
@@ -50,7 +50,8 @@ units:
       does_not_count_as_population: 1
       mana_drain: 0.005
       instant_training: 1
-      pairing_limit: 1,1
+      #pairing_limit: 1,1
+      archmage_limit: 10,spires # amount, imp to increase
 
   - name: Chariot
     training_time: 12
