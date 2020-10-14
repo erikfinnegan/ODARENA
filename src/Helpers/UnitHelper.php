@@ -220,9 +220,9 @@ class UnitHelper
 
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
 
-            'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increasable with %2$s improvements.',
-            'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increasable with %2$s improvements.',
-            'spy_limit' => 'You can at most have %1$s of this unit per Spy. Increasable with %2$s improvements.',
+            'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increased by %3$ xx your %2$s improvements.',
+            'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increased by %3$ xx your %2$s improvements.',
+            'spy_limit' => 'You can at most have %1$s of this unit per Spy. Increased by %3$ xx your %2$s improvements.',
 
             'amount_limit' => 'You can at most have %1$s of this unit.',
 

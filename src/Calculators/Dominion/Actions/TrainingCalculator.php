@@ -370,8 +370,9 @@ class TrainingCalculator
             {
                 $unitsPerArchmage = (float)$archmageLimit[0]; # Units per archmage
                 $improvementToIncrease = $archmageLimit[1]; # Resource that can raise the limit
+                $improvementMultiplier = $archmageLimit[2]; # Multiplier used to extend the increase from improvement
 
-                $unitsPerArchmage *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+                $unitsPerArchmage *= (1 + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease) * $improvementMultiplier));
 
                 $maxAdditionalPermittedOfThisUnit = intval($dominion->military_archmages * $unitsPerArchmage) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 

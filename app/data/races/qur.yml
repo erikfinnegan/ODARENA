@@ -6,7 +6,7 @@ playable: 1
 
 attacking: 3
 exploring : 2
-converting: 1
+converting: 2
 
 construction_materials: platinum,lumber
 
@@ -30,9 +30,8 @@ units:
       offense: 4
       defense: 4
     perks:
-      plunders: platinum;3,gems;1
+      plunders: platinum;3,food;6
       food_production: 1
-      #counts_as_wizard_defense: 0.08333
 
   - name: Crystal
     training_time: 0
@@ -50,8 +49,7 @@ units:
       does_not_count_as_population: 1
       mana_drain: 0.005
       instant_training: 1
-      #pairing_limit: 1,1
-      archmage_limit: 10,spires # amount, imp to increase
+      archmage_limit: 4,spires,4 # amount (per AM), imp to increase, imp multiplier
 
   - name: Chariot
     training_time: 12
@@ -68,9 +66,11 @@ units:
       faster_return: 6
       fewer_casualties: 50
       reduces_casualties: 1
-      plunders: ore;10,lumber;10
+      plunders: platinum;20,lumber;20
+      houses_military_units: 1
+      offense_from_pairing: 4,6,1 # slot, amount, num required
+      defense_from_pairing: 4,9,1 # slot, amount, num required
       sendable_with_zero_op: 1
-      does_not_count_as_population: 1
 
   - name: Zealot
     training_time: 12
@@ -81,14 +81,13 @@ units:
       - wise
     need_boat: true
     cost:
-      platinum: 1200
-      mana: 15
+      platinum: 1000
+      mana: 10
     power:
       offense: 9
-      defense: 9
+      defense: 6
     perks:
       destroys_souls: 1
       kills_immortal: 1
       faster_return_if_paired: 3,6 # slot, ticks
       plunders: mana;2,gems;1
-      offense_from_pairing: 3,3,1 # slot, amount, num required
