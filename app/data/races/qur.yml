@@ -90,4 +90,4 @@ units:
       kills_immortal: 1
       faster_return_if_paired: 3,6 # slot, ticks
       plunders: mana;2,gems;1
-      offense_from_pairing: 3,2,1 # slot, amount, num required
+      offense_from_pairing: 3,3,1 # slot, amount, num required
