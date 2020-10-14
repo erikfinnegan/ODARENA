@@ -14,7 +14,7 @@ perks:
   max_population: -10
   food_consumption: 25
   invest_bonus: -25
-  gem_production: 10
+  gem_production: 50
   improvements_max: 50
   cannot_tech: 1
   salvaging: 20
@@ -54,8 +54,9 @@ units:
       - equipment
     need_boat: false
     cost:
-      lumber: 200
-      ore: 200
+      ore: 300
+      lumber: 75
+      gem: 25
     power:
       offense: 0
       defense: 0

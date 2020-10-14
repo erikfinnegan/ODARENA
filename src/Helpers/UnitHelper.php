@@ -61,7 +61,8 @@ class UnitHelper
             'vampiric_conversion' => 'Spreads vampirism.',
             #'vampiric_conversion' => 'Converts enemy casualties into %2$s.',
 
-            'strength_conversion' => 'Converts some enemy casualties into %2$s if they have at least %1$s raw OP or DP.',
+            #'strength_conversion' => 'Converts some enemy casualties into %2$s if they have at least %1$s raw OP or DP.',
+            'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s or, if stronger than %1$s, into %3$s.',
 
             // OP/DP related
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
@@ -370,22 +371,21 @@ class UnitHelper
                 }
                 elseif($perk->key === 'strength_conversion')
                 {
-                    foreach ($perkValue as $index => $conversion) {
-                        [$convertAboveLandRatio, $slots] = $conversion;
+                    $limit = (float)$perkValue[0];
+                    $under = (int)$perkValue[1];
+                    $over = (int)$perkValue[2];
 
-                        $unitSlotsToConvertTo = array_map('intval', str_split($slots));
-                        $unitNamesToConvertTo = [];
+                    $underLimitUnit = $race->units->filter(static function ($unit) use ($under)
+                        {
+                            return ($unit->slot === $under);
+                        })->first();
 
-                        foreach ($unitSlotsToConvertTo as $slot) {
-                            $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
-                                return ($unit->slot === $slot);
-                            })->first();
+                    $overLimitUnit = $race->units->filter(static function ($unit) use ($over)
+                        {
+                            return ($unit->slot === $over);
+                        })->first();
 
-                            $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
-                        }
-
-                        $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
-                    }
+                    $perkValue = [$limit, str_plural($underLimitUnit->name), str_plural($overLimitUnit->name)];
                 }
 
 
@@ -398,7 +398,7 @@ class UnitHelper
                     }
                 }
 
-                // Special case for dies_into and wins_into ("change_into")
+                // Special case for dies_into, wins_into ("change_into"), fends_off_into
                 if ($perk->key === 'dies_into' or $perk->key === 'wins_into' or $perk->key === 'fends_off_into')
                 {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));

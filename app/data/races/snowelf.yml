@@ -27,12 +27,12 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 550
-      ore: 60
+      platinum: 650
+      ore: 75
       lumber: 25
     power:
       offense: 0
-      defense: 5
+      defense: 6
 
   - name: Ice Boulder
     training_time: 6
@@ -68,7 +68,6 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       true_immortal: 1
-      faster_return: 11
       sendable_with_zero_op: 1
 
   - name: Ballista
@@ -83,10 +82,8 @@ units:
       offense: 10
       defense: 5
     perks:
-      no_draftee: 1
       faster_return: 6
-      does_not_count_as_population: 1
-      houses_military_units: 1
       immortal_on_victory: 1
       immortal_on_fending_off: 1
+      provides_jobs: 1
       plunder: mana,10
