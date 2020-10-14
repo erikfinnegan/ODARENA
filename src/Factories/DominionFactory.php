@@ -191,7 +191,7 @@ class DominionFactory
         # RACE/FACTION SPECIFIC RESOURCES
 
         // Ore-free races: no ore
-        $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Marshling','Qur','Simian','Vampires','Void','Weres');
+        $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Marshling','Qur','Simian','Vampires','Void','Weres','Yeti');
         if(in_array($race->name, $oreFreeRaces))
         {
           $startingResources['ore'] = 0;
