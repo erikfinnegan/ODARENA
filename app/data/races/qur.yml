@@ -15,6 +15,7 @@ archmages_cost: 500,platinum
 perks:
   salvaging: 65
   gem_production: 20
+  max_population: 10
 
 units:
   - name: Hunter
@@ -67,7 +68,6 @@ units:
       fewer_casualties: 50
       reduces_casualties: 1
       plunders: platinum;20,lumber;20
-      houses_military_units: 1
       offense_from_pairing: 4,6,1 # slot, amount, num required
       defense_from_pairing: 4,9,1 # slot, amount, num required
       sendable_with_zero_op: 1
