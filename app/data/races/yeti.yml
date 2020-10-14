@@ -29,7 +29,7 @@ perks:
 
 units:
   - name: Worker Yeti
-    training_time: 3
+    training_time: 1
     type:
       - living
       - sentient
