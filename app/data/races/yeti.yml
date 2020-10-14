@@ -43,7 +43,7 @@ units:
       offense: 0
       defense: 0
     perks:
-      ore_production: 1
+      gem_production: 1
       lumber_production: 1
       food_consumption: 0.5
 
