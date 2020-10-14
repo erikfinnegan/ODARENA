@@ -162,6 +162,7 @@ class HistoryService
                 'news_last_read',
                 'royal_guard_active_at',
                 'elite_guard_active_at',
+                'barbarian_guard_active_at',
                 'last_tick_at',
                 'monarchy_vote_for_dominion_id',
                 'most_recent_improvement_resource',

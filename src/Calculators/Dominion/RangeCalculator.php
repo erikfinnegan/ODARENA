@@ -167,6 +167,10 @@ class RangeCalculator
             return $this->guardMembershipService::ROYAL_GUARD_RANGE;
         }
 
+        if ($this->guardMembershipService->isBarbarianGuardMember($dominion)) {
+            return $this->guardMembershipService::ROYAL_GUARD_RANGE;
+        }
+
         return self::MINIMUM_RANGE;
     }
 

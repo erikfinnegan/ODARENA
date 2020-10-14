@@ -338,10 +338,18 @@ class ProductionCalculator
      */
     public function getFoodConsumption(Dominion $dominion): float
     {
+        $consumers = 0;
         $consumption = 0;
         $multiplier = 0;
 
-        $consumers = $this->populationCalculator->getPopulation($dominion);
+        $consumers += $dominion->peasants;
+        $consumers += $dominion->military_unit1;
+        $consumers += $dominion->military_unit2;
+        $consumers += $dominion->military_unit3;
+        $consumers += $dominion->military_unit4;
+        $consumers += $dominion->military_spies;
+        $consumers += $dominion->military_wizards;
+        $consumers += $dominion->military_archmages;
 
         if($dominion->race->getPerkValue('gryphon_nests_drafts'))
         {
@@ -369,7 +377,7 @@ class ProductionCalculator
         {
             if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption'))
             {
-                $extraFoodUnits = $dominion->{"military_unit".$unitSlot};
+                $extraFoodUnits = $dominion->{'military_unit'.$unitSlot};
                 $extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption');
                 $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
             }

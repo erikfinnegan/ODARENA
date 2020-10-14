@@ -61,14 +61,14 @@ class DominionFactory
         $startingResources['npc_modifier'] = 0;
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
         {
-          # NPC modifier is a number from 500 to 1000 (skewed toward smaller).
-          # It is to be used as a multiplier but stored as an int in database.
-          $startingResources['npc_modifier'] = max(rand(400,1000), 500);
+            # NPC modifier is a number from 500 to 1000 (skewed toward higher).
+            # It is to be used as a multiplier but stored as an int in database.
+            $startingResources['npc_modifier'] = min(rand(500,1200), 1000);
 
-          # For usage in this function, divide npc_modifier by 1000 to create a multiplier.
-          $npcModifier = $startingResources['npc_modifier'] / 1000;
+            # For usage in this function, divide npc_modifier by 1000 to create a multiplier.
+            $npcModifier = $startingResources['npc_modifier'] / 1000;
 
-          $acresBase *= $npcModifier;
+            $acresBase *= $npcModifier;
         }
 
         $startingBuildings = $this->getStartingBuildings($race, $acresBase);
@@ -164,7 +164,7 @@ class DominionFactory
             }
         }
 
-        $startingResources['royal_guard_active_at'] = NULL;
+        $startingResources['barbarian_guard_active_at'] = NULL;
 
         # POPULATION AND MILITARY
         $startingResources['peasants'] = intval(1000 * 5 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
@@ -383,7 +383,7 @@ class DominionFactory
                 $startingResources['unit4'] = floor(($opRequired * $opaTargetElitesRatio)/5);
 
                 $startingResources['protection_ticks'] = 0;
-                #$startingResources['royal_guard_active_at'] = now();
+                $startingResources['barbarian_guard_active_at'] = now();
             }
         }
 
@@ -486,7 +486,7 @@ class DominionFactory
 
             'protection_ticks' => $startingResources['protection_ticks'],
 
-            'royal_guard_active_at' => $startingResources['royal_guard_active_at'],
+            'barbarian_guard_active_at' => $startingResources['barbarian_guard_active_at'],
         ]);
 
     }

@@ -73,7 +73,7 @@ class SpellHelper
     {
         $spells = collect(array_filter([
             [
-                'name' => 'Gaia\'s Watch',
+                'name' => "Gaia's Watch",
                 'description' => '+10% food production',
                 'key' => 'gaias_watch',
                 'mana_cost' => 2,
@@ -545,13 +545,14 @@ class SpellHelper
                 'races' => collect(['Qur']),
             ],
             [
-                'name' => 'Bloodcall',
+                'name' => 'Feral Hunger',
                 'description' => '+10% offensive power, no conversions.',
-                'key' => 'bloodcall',
+                'key' => 'feral_hunger',
                 'mana_cost' => 4,
                 'duration' => 6,
                 'races' => collect(['Weres']),
             ],
+            /*
             [
                 'name' => 'Imperial Guard',
                 'description' => '+20% defensive power if all units are at home.',
@@ -560,6 +561,7 @@ class SpellHelper
                 'duration' => 6,
                 'races' => collect(['Legion']),
             ],
+            */
         ]);
     }
 

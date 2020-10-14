@@ -49,7 +49,7 @@ units:
       does_not_count_as_population: 1
       mana_drain: 0.005
       instant_training: 1
-      archmage_limit: 3,spires # amount (per AM), imp to increase
+      archmage_limit: 10,spires # amount (per AM), imp to increase
 
   - name: Chariot
     training_time: 12
@@ -67,10 +67,10 @@ units:
       fewer_casualties: 50
       reduces_casualties: 1
       plunders: ore;2,lumber;2
-      houses_military_units: 1
       offense_from_pairing: 4,6,1 # slot, amount, num required
       defense_from_pairing: 4,9,1 # slot, amount, num required
       sendable_with_zero_op: 1
+      does_not_count_as_population: 1
 
   - name: Zealot
     training_time: 12

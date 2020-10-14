@@ -1982,7 +1982,6 @@ class MilitaryCalculator
 
     public function checkDiscoverLand(Dominion $attacker, Dominion $defender, int $landConquered): int
     {
-        $discverLand = 0;
 
         if($this->getRecentlyInvadedCountByAttacker($defender,$attacker) == 0)
         {
@@ -1994,9 +1993,14 @@ class MilitaryCalculator
         }
     }
 
-    public function getExtraLandDiscovered(Dominion $attacker, bool $discoverLand, int $landConquered): int
+    public function getExtraLandDiscovered(Dominion $attacker, Dominion $defender, bool $discoverLand, int $landConquered): int
     {
         $multiplier = 0;
+
+        if($defender->race->name === 'Barbarian')
+        {
+            $landConquered = round($landConquered/3);
+        }
 
         if(!$discoverLand)
         {

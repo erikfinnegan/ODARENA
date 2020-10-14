@@ -1009,7 +1009,7 @@ class InvadeActionService
         # Returns an integer.
         $landConquered = $this->militaryCalculator->getLandConquered($dominion, $target, $landRatio);
         $discoverLand = $this->militaryCalculator->checkDiscoverLand($dominion, $target, $landConquered);
-        $extraLandDiscovered = $this->militaryCalculator->getExtraLandDiscovered($dominion, $discoverLand, $landConquered);
+        $extraLandDiscovered = $this->militaryCalculator->getExtraLandDiscovered($dominion, $target, $discoverLand, $landConquered);
 
         $this->invasionResult['attacker']['landConquered'] = [];
         $this->invasionResult['attacker']['landDiscovered'] = [];

@@ -1,7 +1,7 @@
 name: Yeti
 alignment: independent
 description: >-
-  <p>Wild yeti (<em>peasants</em>) roam the lands are turned into yetis (<em>draftees</em>) at a rate of 0.2 wild yetis into yetis per GN per tick.</p>
+  <p>Wild yeti (<em>peasants</em>) roam the lands are turned into yetis (<em>draftees</em>) at a rate of 0.2 wild yetis into yetis per Gryphon Nest per tick.</p>
 home_land_type: mountain
 playable: 1
 
@@ -22,14 +22,14 @@ perks:
   platinum_production: -100
   gryphon_nests_drafts: 1
   boat_capacity: -10
-  food_decay: -50
+  food_decay: -75
   lumber_decay: -50
   cannot_train_wizards: 1
   cannot_train_archmages: 1
 
 units:
   - name: Worker Yeti
-    training_time: 6
+    training_time: 3
     type:
       - living
       - sentient
@@ -76,7 +76,7 @@ units:
     need_boat: true
     cost:
       food: 300
-      lumber: 320
+      lumber: 260
       ore: 200
     power:
       offense: 0
@@ -95,7 +95,7 @@ units:
     need_boat: true
     cost:
       food: 300
-      lumber: 480
+      lumber: 400
       ore: 640
     power:
       offense: 12

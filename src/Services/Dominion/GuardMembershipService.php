@@ -54,6 +54,19 @@ class GuardMembershipService
         return Carbon::parse($dominion->elite_guard_active_at);
     }
 
+
+    /**
+     * Returns the Dominion's elite guard join time.
+     *
+     * @param Dominion $dominion
+     * @return Carbon
+     */
+    protected function getBarbarianGuardJoinDate(Dominion $dominion): Carbon
+    {
+        return Carbon::parse($dominion->barbarian_guard_active_at);
+    }
+
+
     /**
      * Returns the Dominion's royal guard application status.
      *
@@ -134,6 +147,28 @@ class GuardMembershipService
             $modifiedJoinDate = $this->getEliteGuardJoinDate($dominion);
 
             if ($modifiedJoinDate <= now()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Returns the Dominion's elite guard membership status.
+     *
+     * @param Dominion $dominion
+     * @return bool
+     */
+    public function isBarbarianGuardMember(Dominion $dominion): bool
+    {
+        if ($dominion->barbarian_guard_active_at !== null)
+        {
+            $modifiedJoinDate = $this->getBarbarianGuardJoinDate($dominion);
+
+            if ($modifiedJoinDate <= now())
+            {
                 return true;
             }
         }

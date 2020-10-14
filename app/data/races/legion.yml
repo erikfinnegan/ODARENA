@@ -2,7 +2,7 @@ name: Legion
 alignment: evil
 description: Starts with one Legate.
 home_land_type: hill
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 0

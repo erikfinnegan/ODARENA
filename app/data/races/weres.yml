@@ -1,5 +1,5 @@
 name: Weres
-alignment: independent
+alignment: evil
 description:
 home_land_type: forest
 playable: 1
@@ -11,7 +11,12 @@ converting: 1
 construction_materials: platinum,lumber
 
 perks:
-  max_population: 30
+  population_growth: 25
+  extra_barren_max_population: 5
+  defense_from_forest: 0.10 # Gets 0.10% DP bonus from every 1% forest
+  converts_assassinated_draftees: 1 # into slot 1
+  converts_executed_spies: 2 # into slot 1
+
 units:
   - name: Warg
     training_time: 9
@@ -25,7 +30,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      strength_conversion: 2;1,4;3
+      strength_conversion: 4,1,3 # threshold,under,over <3 DP becomes Warg, >=3 DP becomes Werewolf
 
   - name: Wolverine
     training_time: 9
@@ -39,7 +44,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      strength_conversion: 2;2,4;3
+      strength_conversion: 4,1,3 # <3 OP becomes Warg, >=3 OP becomes Werewolf
 
   - name: Werewolf
     training_time: 12
@@ -51,10 +56,10 @@ units:
       platinum: 1000
       food: 10
     power:
-      offense: 6
-      defense: 8
+      offense: 7
+      defense: 7
     perks:
-      strength_conversion: 2;3,6;4
+      strength_conversion: 6,3,4 # <6 OP/DP becomes Werewolf, >=6 OP/DP becomes Werebear
 
   - name: Werebear
     training_time: 12
@@ -64,9 +69,9 @@ units:
       - intelligent
     cost:
       platinum: 1200
-      food: 10
+      food: 15
     power:
       offense: 8
-      defense: 5
+      defense: 6
     perks:
-      strength_conversion: 2;3,5;4
+      strength_conversion: 6,3,4 # <6 OP/DP becomes Werewolf, >=6 OP/DP becomes Werebear

@@ -24,17 +24,21 @@ class BarbarianService
 
     protected const DPA_CONSTANT = 25;
     protected const DPA_PER_HOUR = 0.40;
-    protected const OPA_MULTIPLIER = 0.75;
+    protected const DPA_PER_TIMES_INVADED = 0.005;
+
+    protected const OPA_MULTIPLIER = 1;
 
     # Train % of new units as specs. /1000
     protected const SPECS_RATIO_MIN = 50;
     protected const SPECS_RATIO_MAX = 500;
 
     # Chance to hit
-    protected const CHANCE_TO_HIT_CONSTANT = 21;
+    protected const CHANCE_TO_HIT_CONSTANT = 48;
 
     # Gain % of land between these two values when hitting. /1000
     # Current formula returns:
+    #  40% - 1.5% raw 3.0% total
+    #  60% - 1.7% raw 3.4% total
     #  75% - 3.6% raw 7.2% total
     #  85% - 4.6% raw 9.2% total
     #  95% - 5.5% raw 11.0% total
@@ -42,8 +46,8 @@ class BarbarianService
     # 120% - 8.0% raw 16.0% total
     # 133% - 9.20% raw 18.4% total
 
-    protected const LAND_GAIN_MIN = 72; # 75% hit
-    protected const LAND_GAIN_MAX = 120; # 100% hit
+    protected const LAND_GAIN_MIN = 34; # 75% hit
+    protected const LAND_GAIN_MAX = 92; # 100% hit
 
     # Send between these two values when hitting. /1000
     protected const SENT_RATIO_MIN = 800;
@@ -69,7 +73,7 @@ class BarbarianService
     protected const UNIT4_OP = 5;
 
     # Chance each tick for new Barbarian to spawn
-    protected const ONE_IN_CHANCE_TO_SPAWN = 24;
+    protected const ONE_IN_CHANCE_TO_SPAWN = 84;
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
@@ -92,12 +96,12 @@ class BarbarianService
         $this->dominionFactory = app(DominionFactory::class);
     }
 
-
     public function getBarbarianSettings(): array
     {
         $settings = [
             'DPA_CONSTANT' => static::DPA_CONSTANT,
             'DPA_PER_HOUR' => static::DPA_PER_HOUR,
+            'DPA_PER_TIMES_INVADED' => static::DPA_PER_TIMES_INVADED,
             'OPA_MULTIPLIER' => static::OPA_MULTIPLIER,
             'SPECS_RATIO_MIN' => static::SPECS_RATIO_MIN,
             'SPECS_RATIO_MAX' => static::SPECS_RATIO_MAX,
@@ -139,7 +143,7 @@ class BarbarianService
         $calculateDate = max($dominion->round->start_date, $dominion->created_at);
 
         $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
-        $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * static::DPA_PER_HOUR);
+        $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * (static::DPA_PER_HOUR + ($dominion->stat_defending_failures * static::DPA_PER_TIMES_INVADED)));
         return $dpa *= ($dominion->npc_modifier / 1000);
     }
 
@@ -281,8 +285,8 @@ class BarbarianService
                 if($amountToTrain > 0)
                 {
                     $data = [$unit => $amountToTrain];
-                    $hours = intval(static::UNITS_TRAINING_TICKS);
-                    $this->queueService->queueResources('training', $dominion, $data, $hours);
+                    $ticks = intval(static::UNITS_TRAINING_TICKS);
+                    $this->queueService->queueResources('training', $dominion, $data, $ticks);
                 }
             }
 
@@ -306,7 +310,7 @@ class BarbarianService
 
             $logString .= 'To be trained: ' . $units['military_unit1'] . ' unit1, ' . $units['military_unit2'] . ' unit2, ' . $units['military_unit3'] . ' unit3, ' . $units['military_unit4'] . ' unit4.';
 
-            #Log::Debug($logString);
+            Log::Debug($logString);
 
         }
 
@@ -429,7 +433,7 @@ class BarbarianService
             $logString .= 'Not a Barbarian.';
         }
 
-        #Log::Debug($logString);
+        Log::Debug($logString);
 
     }
 
@@ -589,7 +593,8 @@ class BarbarianService
     private function chanceToHit($dominion): bool
     {
         $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-        $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - min($currentDay, 14));
+        #$chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - min($currentDay, 14));
+        $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
         return rand(1,$chanceOneIn) ? true : false;
     }
 
