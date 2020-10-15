@@ -14,7 +14,7 @@ converting: 2
 
 construction_materials: food,lumber
 
-spies_cost: 200,food
+spies_cost: 100,food
 wizards_cost: 200,food
 archmages_cost: 400,food
 
@@ -23,7 +23,7 @@ perks:
   gryphon_nests_drafts: 1
   boat_capacity: -10
   food_decay: -75
-  lumber_decay: -50
+  lumber_decay: -75
   cannot_train_wizards: 1
   cannot_train_archmages: 1
 
@@ -76,7 +76,7 @@ units:
     need_boat: true
     cost:
       food: 300
-      lumber: 260
+      lumber: 200
       ore: 200
     power:
       offense: 0
@@ -96,7 +96,7 @@ units:
     cost:
       food: 300
       lumber: 400
-      ore: 640
+      ore: 600
     power:
       offense: 12
       defense: 10
