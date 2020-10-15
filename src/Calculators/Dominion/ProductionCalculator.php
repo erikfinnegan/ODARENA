@@ -349,7 +349,6 @@ class ProductionCalculator
             'massive',
             'machine',
             'ship',
-            'magical',
             'ethereal'
           ];
 
@@ -359,7 +358,7 @@ class ProductionCalculator
         for ($slot = 1; $slot <= 4; $slot++)
         {
               # Get the $unit
-              $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+              $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
                       return ($unit->slot == $slot);
                   })->first();
 
