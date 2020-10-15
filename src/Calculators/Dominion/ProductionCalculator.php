@@ -5,9 +5,9 @@ namespace OpenDominion\Calculators\Dominion;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 
-// Morale affects production
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
+use OpenDominion\Helpers\UnitHelper;
 
 class ProductionCalculator
 {
@@ -35,6 +35,9 @@ class ProductionCalculator
     /** @var LandImprovementCalculator */
     protected $landImprovementCalculator;
 
+    /** @var UnitHelper */
+    protected $unitHelper;
+
     /**
      * ProductionCalculator constructor.
      *
@@ -54,7 +57,8 @@ class ProductionCalculator
         SpellCalculator $spellCalculator,
         GuardMembershipService $guardMembershipService,
         MilitaryCalculator $militaryCalculator,
-        LandImprovementCalculator $landImprovementCalculator
+        LandImprovementCalculator $landImprovementCalculator,
+        UnitHelper $unitHelper
         )
     {
         $this->improvementCalculator = $improvementCalculator;
@@ -65,6 +69,7 @@ class ProductionCalculator
         $this->guardMembershipService = $guardMembershipService;
         $this->militaryCalculator = $militaryCalculator;
         $this->landImprovementCalculator = $landImprovementCalculator;
+        $this->unitHelper = $unitHelper;
     }
 
     /**
