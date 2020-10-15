@@ -342,11 +342,36 @@ class ProductionCalculator
         $consumption = 0;
         $multiplier = 0;
 
+        $nonConsumingUnitAttributes = [
+            'ammunition',
+            'equipment',
+            'magical',
+            'massive',
+            'machine',
+            'ship',
+            'magical',
+            'ethereal'
+          ];
+
         $consumers += $dominion->peasants;
-        $consumers += $dominion->military_unit1;
-        $consumers += $dominion->military_unit2;
-        $consumers += $dominion->military_unit3;
-        $consumers += $dominion->military_unit4;
+
+        # Check each Unit for does_not_count_as_population perk.
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+              # Get the $unit
+              $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                      return ($unit->slot == $slot);
+                  })->first();
+
+              # Get the unit attributes
+              $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+              if (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and count(array_intersect($nonConsumingUnitAttributes, $unitAttributes)) === 0)
+              {
+                  $consumers += $dominion->{'military_unit'.$slot};
+              }
+        }
+
         $consumers += $dominion->military_spies;
         $consumers += $dominion->military_wizards;
         $consumers += $dominion->military_archmages;
