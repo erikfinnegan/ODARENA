@@ -71,6 +71,7 @@ units:
       offense_from_pairing: 4,6,1 # slot, amount, num required
       defense_from_pairing: 4,9,1 # slot, amount, num required
       sendable_with_zero_op: 1
+      does_not_count_as_population: 1
 
   - name: Zealot
     training_time: 12
