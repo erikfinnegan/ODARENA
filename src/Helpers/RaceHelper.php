@@ -579,6 +579,7 @@ class RaceHelper
             'Snow Elf' => 'Snow Elven',
             'Sylvan' => 'Sylvana',
             'Vampires' => 'Vampiric',
+            'Weres' => 'Weren',
             'Wood Elf' => 'Wood Elven',
         ];
 

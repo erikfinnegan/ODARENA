@@ -55,8 +55,7 @@ units:
     need_boat: false
     cost:
       ore: 300
-      lumber: 75
-      gem: 25
+      gem: 50
     power:
       offense: 0
       defense: 0

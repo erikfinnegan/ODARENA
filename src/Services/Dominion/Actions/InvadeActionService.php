@@ -457,7 +457,7 @@ class InvadeActionService
             }
             elseif($dominion->race->name === 'Weres')
             {
-                $defensiveConversions = $this->handleStrengthConversion($dominion, $target, $units, $landRatio, 'offense');
+                $offensiveConversions = $this->handleStrengthConversionOnOffense($dominion, $target, $units, $landRatio);
             }
             else
             {
@@ -470,7 +470,7 @@ class InvadeActionService
             }
             elseif($target->race->name === 'Weres')
             {
-                $defensiveConversions = $this->handleStrengthConversion($target, $dominion, $units, $landRatio, 'defense');
+                $defensiveConversions = $this->handleStrengthConversionOnDefense($dominion, $target, $landRatio);
             }
             else
             {
@@ -1611,36 +1611,53 @@ class InvadeActionService
         }
     }
 
-    /**
-     * @param Dominion $dominion -- DEFENDER
-     * @param float $landRatio
-     * @param array $units
-     * @param int $totalDefensiveCasualties
-     * @return array
-     */
-    protected function handleStrengthConversion(
+    protected function handleStrengthConversionOnOffense(
         Dominion $attacker,
         Dominion $defender,
         array $units,
-        float $landRatio,
-        string $scope # offense or defense
+        float $landRatio
     ): array {
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         $convertedUnits = array_fill(1, 4, 0);
+        $sentUnitsOpRatio = array_fill(1, 4, 0.0);
 
-        # Remove specific attributes.
-        $unconvertibleAttributes = [
-            'ammunition',
-            'equipment',
-            'magical',
-            'massive',
-            'machine',
-            'ship',
-          ];
-
-        # Converter is attacking someone.
-        if($scope === 'offense')
+        if(!$this->spellCalculator->isSpellActive($defender, 'feral_hunger'))
         {
+            # Calculate the proportion each unit type contributes to the overall OP.
+
+            # First, total raw OP
+            $rawOp = 0;
+            foreach($units as $slot => $amount)
+            {
+                $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                $rawOp += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense') * $amount;
+            }
+
+            # Then calculate contribution (unit raw OP / total raw OP)
+            foreach($units as $slot => $amount)
+            {
+                $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                $unitRawOp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
+
+                $sentUnitsOpRatio[$slot] = ($unitRawOp * $amount) / $rawOp;
+             }
+
+            # Determine available casualties
+            $unconvertibleAttributes = [
+                'ammunition',
+                'equipment',
+                'magical',
+                'massive',
+                'machine',
+                'ship',
+              ];
+
             $availableCasualties =
                 [
                     'draftees' => ['amount' => 0, 'dp' => 0],
@@ -1652,18 +1669,17 @@ class InvadeActionService
 
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amount)
             {
-
                 # Apply reduced conversions
                 $amount *= (1 - ($defender->race->getPerkMultiplier('reduced_conversions')));
 
-                # Drop to 1/3 if invasion is not successful
+                # Drop to 1/12 if invasion is not successful
                 if(!$this->invasionResult['result']['success'])
                 {
                     $amount /= 12;
                 }
 
                 # Round it down
-                $amount = floor($amount);
+                $amount = round($amount);
 
                 if($slot === 'draftees')
                 {
@@ -1688,18 +1704,222 @@ class InvadeActionService
                     # Get the unit attributes
                     $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
 
+                    # Only add unit to available casualties if it has none of the unconvertible unit attributes.
                     if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0)
                     {
                         $availableCasualties[$slot]['amount'] = (int)$amount;
 
                         # Determine the unit's DP.
-                        $availableCasualties[$slot]['dp'] = $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
+                        $availableCasualties[$slot]['dp'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
                     }
                 }
             }
 
-            dd($availableCasualties);
+            # Loop through all available casualties
+            foreach($availableCasualties as $casualty)
+            {
+                #echo "<pre>***\n";
+                #echo "[DEFENDER] Unit amount: " . $casualty['amount'] . ' / Unit raw DP: ' .$casualty['dp']. "\n";
+                # For each casualty unit, loop through units sent.
+                foreach($units as $unitSentSlot => $sentAmount)
+                {
+                    #echo "[ATTACKER] Unit slot: $unitSentSlot / Amount sent: $sentAmount / Raw OP ratio: {$sentUnitsOpRatio[$unitSentSlot]}\n";
+
+                    $casualtyAmountAvailableToUnit = round($casualty['amount'] * $sentUnitsOpRatio[$unitSentSlot]);
+                    #$casualty['amount'] -= min($casualtyAmountAvailableToUnit, $casualty['amount']);
+
+                    #echo "[ATTACKER] Unit slot $unitSentSlot killed $casualtyAmountAvailableToUnit of this unit.\n";
+
+                    if($strengthConversion = $attacker->race->getUnitPerkValueForUnitSlot($unitSentSlot,'strength_conversion'))
+                    {
+                        $limit = (float)$strengthConversion[0];
+                        $under = (int)$strengthConversion[1];
+                        $over = (int)$strengthConversion[2];
+
+                        if($casualty['dp'] <= $limit)
+                        {
+                            $slotConvertedTo = $under;
+                            #echo "[DEFENDER] Unit raw DP is less than or equal to the limit ($limit). So it gets converted to $slotConvertedTo.\n";
+                        }
+                        else
+                        {
+                            $slotConvertedTo = $over;
+                            #echo "[DEFENDER] Unit raw DP is greater the limit ($limit). So it gets converted to $slotConvertedTo.\n";
+                        }
+
+                        $convertedUnits[$slotConvertedTo] += (int)$casualtyAmountAvailableToUnit;
+                    }
+                }
+                #echo "***</pre>";
+            }
+
+            if (!isset($this->invasionResult['attacker']['conversion']) && array_sum($convertedUnits) > 0)
+            {
+                $this->invasionResult['attacker']['conversion'] = $convertedUnits;
+            }
+
+            $attacker->stat_total_units_converted += array_sum($convertedUnits);
         }
+
+        return $convertedUnits;
+    }
+
+    protected function handleStrengthConversionOnDefense(
+        Dominion $attacker,
+        Dominion $defender,
+        float $landRatio
+    ): array {
+        $isInvasionSuccessful = $this->invasionResult['result']['success'];
+        $convertedUnits = array_fill(1, 4, 0);
+        $defendingUnitsDpRatio = array_fill(1, 4, 0.0);
+        $defendingUnitsTotal = array_fill(1, 4, 0);
+
+        if(!$this->spellCalculator->isSpellActive($defender, 'feral_hunger'))
+        {
+            foreach($defendingUnitsTotal as $slot => $amount)
+            {
+                if(isset($this->invasionResult['defender']['unitsDefending'][$slot]))
+                {
+                    $defendingUnitsTotal[$slot] += $this->invasionResult['defender']['unitsDefending'][$slot];
+                }
+            }
+
+            # Calculate the proportion each unit type contributes to the overall OP.
+
+            # First, total raw OP
+            $rawDp = 0;
+            foreach($defendingUnitsTotal as $slot => $amount)
+            {
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                $rawDp += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'defense') * $amount;
+            }
+
+            # Then calculate contribution (unit raw OP / total raw OP)
+            foreach($defendingUnitsTotal as $slot => $amount)
+            {
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                $unitRawDp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'defense');
+
+                $defendingUnitsDpRatio[$slot] = ($unitRawDp * $amount) / $rawDp;
+             }
+
+            # Determine available casualties
+            $unconvertibleAttributes = [
+                'ammunition',
+                'equipment',
+                'magical',
+                'massive',
+                'machine',
+                'ship',
+              ];
+
+            $availableCasualties =
+                [
+                    '1' => ['amount' => 0, 'op' => 0],
+                    '2' => ['amount' => 0, 'op' => 0],
+                    '3' => ['amount' => 0, 'op' => 0],
+                    '4' => ['amount' => 0, 'op' => 0],
+                ];
+
+            foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amount)
+            {
+                # Apply reduced conversions
+                $amount *= (1 - ($attacker->race->getPerkMultiplier('reduced_conversions')));
+
+                # Drop to 1/3 if invasion is successful
+                if($this->invasionResult['result']['success'])
+                {
+                    $amount /= 3;
+                }
+
+                # Round it
+                $amount = round($amount);
+
+                # Get the $unit
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                        return ($unit->slot == $slot);
+                    })->first();
+
+                # Get the unit attributes
+                $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+                # Only add unit to available casualties if it has none of the unconvertible unit attributes.
+                if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0)
+                {
+                    $availableCasualties[$slot]['amount'] = (int)$amount;
+
+                    # Determine the unit's DP.
+                    $availableCasualties[$slot]['op'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
+                }
+            }
+
+            # Loop through all available casualties
+            foreach($availableCasualties as $casualty)
+            {
+                #echo "<pre>***\n";
+                #echo "[ATTACKER] Unit amount: " . $casualty['amount'] . ' / Unit raw OP: ' .$casualty['op']. "\n";
+                # For each casualty unit, loop through units sent.
+                foreach($defendingUnitsTotal as $unitDefendingSlot => $defendingAmount)
+                {
+                    #echo "[DEFENDER] Unit slot: $unitDefendingSlot / Amount defending: $defendingAmount / Raw OP ratio: {$defendingUnitsDpRatio[$unitDefendingSlot]}\n";
+
+                    $casualtyAmountAvailableToUnit = round($casualty['amount'] * $defendingUnitsDpRatio[$unitDefendingSlot]);
+
+                    #echo "[DEFENDER] Unit slot $unitDefendingSlot killed $casualtyAmountAvailableToUnit of this unit.\n";
+
+                    if($strengthConversion = $defender->race->getUnitPerkValueForUnitSlot($unitDefendingSlot, 'strength_conversion'))
+                    {
+                        $limit = (float)$strengthConversion[0];
+                        $under = (int)$strengthConversion[1];
+                        $over = (int)$strengthConversion[2];
+
+                        if($casualty['op'] <= $limit)
+                        {
+                            $slotConvertedTo = $under;
+                            #echo "[ATTACKER] Unit raw OP is less than or equal to the limit ($limit). So it gets converted to $slotConvertedTo.\n";
+                        }
+                        else
+                        {
+                            $slotConvertedTo = $over;
+                            #echo "[ATTACKER] Unit raw OP is greater the limit ($limit). So it gets converted to $slotConvertedTo.\n";
+                        }
+
+                        #echo "[DEFENDER] New $slotConvertedTo units: $casualtyAmountAvailableToUnit.\n";
+
+                        $convertedUnits[$slotConvertedTo] += (int)$casualtyAmountAvailableToUnit;
+
+                    }
+                }
+                #echo "***</pre>";
+            }
+
+            if (!isset($this->invasionResult['defender']['conversion']) && array_sum($convertedUnits) > 0)
+            {
+                $this->invasionResult['defender']['conversion'] = $convertedUnits;
+            }
+
+            $defender->stat_total_units_converted += array_sum($convertedUnits);
+
+            # Defensive conversions take 6 ticks to appear
+            foreach($convertedUnits as $slot => $amount)
+            {
+                $unitKey = 'military_unit'.$slot;
+                $this->queueService->queueResources(
+                    'training',
+                    $defender,
+                    [$unitKey => $amount],
+                    6
+                );
+            }
+        }
+
+        return $convertedUnits;
     }
 
     /**

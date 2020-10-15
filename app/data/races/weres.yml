@@ -30,7 +30,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      strength_conversion: 4,1,3 # threshold,under,over <3 DP becomes Warg, >=3 DP becomes Werewolf
+      strength_conversion: 4,1,3 # threshold,under,over <=4 DP becomes Warg, >4 DP becomes Werewolf
 
   - name: Wolverine
     training_time: 9
@@ -44,7 +44,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      strength_conversion: 4,1,3 # <3 OP becomes Warg, >=3 OP becomes Werewolf
+      strength_conversion: 4,2,3 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
 
   - name: Werewolf
     training_time: 12
@@ -59,7 +59,7 @@ units:
       offense: 7
       defense: 7
     perks:
-      strength_conversion: 6,3,4 # <6 OP/DP becomes Werewolf, >=6 OP/DP becomes Werebear
+      strength_conversion: 6,3,4 # threshold,under,over <=6 DP becomes Werewolf, >4 DP becomes Werebear
 
   - name: Werebear
     training_time: 12
@@ -74,4 +74,4 @@ units:
       offense: 8
       defense: 6
     perks:
-      strength_conversion: 6,3,4 # <6 OP/DP becomes Werewolf, >=6 OP/DP becomes Werebear
+      strength_conversion: 6,3,4 # threshold,under,over <=6 DP becomes Werewolf, >4 DP becomes Werebear

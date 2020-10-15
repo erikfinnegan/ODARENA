@@ -1743,6 +1743,12 @@ class MilitaryCalculator
           $multiplier += 1.00;
         }
 
+        // Spell: Feral Hunger (+100% OP)
+        if ($this->spellCalculator->isSpellActive($dominion, 'feral_hunger'))
+        {
+          $multiplier += 0.10;
+        }
+
         // Spell: Aether (+10% OP)
         # Condition: must have equal amounts of every unit.
         if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
