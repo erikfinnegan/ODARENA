@@ -32,7 +32,7 @@ class RoundFactory
         $number = $this->getLastRoundNumber() + 1;
         $endDate = (clone $startDate)->addDays(static::ROUND_DURATION_IN_DAYS);
 
-        if($number % 2 == 0)
+        if($number % 2 === 0)
         {
             $startDate = (clone $startDate)->addHours(16);
             $endDate = (clone $endDate)->addHours(16);
