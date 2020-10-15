@@ -94,8 +94,8 @@ units:
       - wise
     need_boat: true
     cost:
-      food: 300
-      lumber: 400
+      food: 200
+      lumber: 200
       ore: 600
     power:
       offense: 12
