@@ -136,18 +136,16 @@ class ConstructActionService
             $secondaryResource = $constructionMaterials[1];
         }
 
-        # Calculate total cost per primary and secondary
-        $primaryCost = $this->constructionCalculator->getConstructionCostPrimary($dominion);# * $totalBuildingsToConstruct;
-        $secondaryCost = $this->constructionCalculator->getConstructionCostSecondary($dominion);# * $totalBuildingsToConstruct;
-        $primaryCostPerLandType = [];
-        $secondaryCostPerLandType = [];
-
         foreach ($buildingsByLandType as $landType => $amount)
         {
+
             if ($amount > $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType))
             {
                 throw new GameException("You do not have enough barren land to construct {$totalBuildingsToConstruct} buildings.");
             }
+
+            $primaryCost = $this->constructionCalculator->getConstructionCostPrimary($dominion);# * $totalBuildingsToConstruct;
+            $secondaryCost = $this->constructionCalculator->getConstructionCostSecondary($dominion);# * $totalBuildingsToConstruct;
 
             if($landConstructionCostPerk = $dominion->race->getPerkMultiplier($landType.'_construction_cost'))
             {
@@ -162,7 +160,7 @@ class ConstructActionService
         $primaryCostTotal = array_sum($primaryCostPerLandType);
         $secondaryCostTotal = array_sum($secondaryCostPerLandType);
 
-        #dd($primaryCostPerLandType, $secondaryCostPerLandType);
+        dd($primaryCostPerLandType, $secondaryCostPerLandType);
 
         DB::transaction(function () use ($dominion, $data, $primaryCostTotal, $secondaryCostTotal, $primaryResource, $secondaryResource, $totalBuildingsToConstruct)
         {
