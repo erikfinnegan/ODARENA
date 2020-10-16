@@ -41,7 +41,7 @@
         <div class="col-sm-12 col-md-4">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-flask"></i> Current Advancements</h3>
+                    <h3 class="box-title"><i class="fa fa-flask"></i> Your Current Advancements</h3>
                 </div>
 
 

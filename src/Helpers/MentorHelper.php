@@ -3,13 +3,11 @@
 namespace OpenDominion\Helpers;
 
 use OpenDominion\Models\Race;
-
-use RaceHelper;
-use UnitHelper;
-use TechHelper;
+use OpenDominion\Models\Dominion;
 
 
-class ManualHelper
+class MentorHelper
 {
+
 
 }

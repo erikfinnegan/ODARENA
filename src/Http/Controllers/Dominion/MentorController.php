@@ -30,6 +30,7 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Helpers\MentorHelper;
 
 # Services
 use OpenDominion\Services\Dominion\QueueService;
