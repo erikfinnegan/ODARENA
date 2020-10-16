@@ -33,7 +33,7 @@
                       <p>If at some point you have a large population and need an extra push, train Chimpanzees. Otherwise, stay focused on Gorillas and Orangutans.</p>
                       <p>Simian spies are extra strong but wizards are weakened and Archmages cost extra. Unless you are in dire need of defensive wizards, it's not worth training lots of wizards and Archmages. Make sure you have enough for info ops on regular targets, but collaborate with your realm to get ops on for examples Dark Elves and Sylvans, rather than training a high WPA yourself.</p>
                     @else
-                    <p class="text-muted"><i>Not yet written. Want to contribute? Contact Dreki on Discord or email info@odarena.com.</i></p>
+                    <p class="text-muted"><i>Not yet written. Want to contribute? Contact Dreki on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</i></p>
                     @endif
 
                 </div>
