@@ -137,8 +137,10 @@ class ConstructActionService
         }
 
         # Calculate total cost per primary and secondary
-        $primaryCost = $this->constructionCalculator->getConstructionCostPrimary($dominion) * $totalBuildingsToConstruct;
-        $secondaryCost = $this->constructionCalculator->getConstructionCostSecondary($dominion) * $totalBuildingsToConstruct;
+        $primaryCost = $this->constructionCalculator->getConstructionCostPrimary($dominion);# * $totalBuildingsToConstruct;
+        $secondaryCost = $this->constructionCalculator->getConstructionCostSecondary($dominion);# * $totalBuildingsToConstruct;
+        $primaryCostPerLandType = [];
+        $secondaryCostPerLandType = [];
 
         foreach ($buildingsByLandType as $landType => $amount)
         {
@@ -146,36 +148,37 @@ class ConstructActionService
             {
                 throw new GameException("You do not have enough barren land to construct {$totalBuildingsToConstruct} buildings.");
             }
+
+            if($landConstructionCostPerk = $dominion->race->getPerkMultiplier($landType.'_construction_cost'))
+            {
+                $primaryCost *= (1 + $landConstructionCostPerk);
+                $secondaryCost *=  (1 + $landConstructionCostPerk);
+            }
+
+            $primaryCostPerLandType[$landType] = $amount * $primaryCost;
+            $secondaryCostPerLandType[$landType] = $amount * $secondaryCost;
         }
 
-        # Look for forest_construction_cost
-        foreach ($buildingsByLandType as $landType => $amount)
+        $primaryCostTotal = array_sum($primaryCostPerLandType);
+        $secondaryCostTotal = array_sum($secondaryCostPerLandType);
+
+        #dd($primaryCostPerLandType, $secondaryCostPerLandType);
+
+        DB::transaction(function () use ($dominion, $data, $primaryCostTotal, $secondaryCostTotal, $primaryResource, $secondaryResource, $totalBuildingsToConstruct)
         {
-            if($forestConstructionCostPerk = $dominion->race->getPerkMultiplier('forest_construction_cost') and $landType == 'forest')
-            {
-                $primaryCost = 0;
-                $secondaryCost = 0;
-            }
-        }
-
-        DB::transaction(function () use ($dominion, $data, $primaryCost, $secondaryCost, $primaryResource, $secondaryResource, $totalBuildingsToConstruct) {
             $ticks = 12;
-            # Gnome: increased construction speed
-            if($dominion->race->getPerkValue('increased_construction_speed'))
-            {
-              $ticks = 12 - $dominion->race->getPerkValue('increased_construction_speed');
-            }
+
+            $ticks = 12 - $dominion->race->getPerkValue('increased_construction_speed');
 
             $this->queueService->queueResources('construction', $dominion, $data, $ticks);
 
-
-            $dominion->{'resource_'.$primaryResource} -= $primaryCost;
-            $dominion->{'stat_total_' . $primaryResource . '_spent_building'} += $primaryCost;
+            $dominion->{'resource_'.$primaryResource} -= $primaryCostTotal;
+            $dominion->{'stat_total_' . $primaryResource . '_spent_building'} += $primaryCostTotal;
 
             if(isset($secondaryResource))
             {
-                $dominion->{'resource_'.$secondaryResource} -= $secondaryCost;
-                $dominion->{'stat_total_' . $secondaryResource . '_spent_building'} += $secondaryCost;
+                $dominion->{'resource_'.$secondaryResource} -= $secondaryCostTotal;
+                $dominion->{'stat_total_' . $secondaryResource . '_spent_building'} += $secondaryCostTotal;
             }
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
@@ -197,14 +200,14 @@ class ConstructActionService
             $return = [
                 'message' => sprintf(
                     'Construction started at a cost of %s %s and %s %s.',
-                    number_format($primaryCost),
+                    number_format($primaryCostTotal),
                     $primaryResource,
-                    number_format($secondaryCost),
+                    number_format($secondaryCostTotal),
                     $secondaryResource
                 ),
                 'data' => [
-                    'primaryCost' => $primaryCost,
-                    'secondaryCost' => $secondaryCost,
+                    'primaryCost' => $primaryCostTotal,
+                    'secondaryCost' => $secondaryCostTotal,
                 ]
             ];
         }
