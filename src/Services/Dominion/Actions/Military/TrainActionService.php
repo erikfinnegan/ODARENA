@@ -389,7 +389,7 @@ class TrainActionService
           # This is fine. We just have to make sure that morale doesn't dip below 0.
           #throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
         }
-        if($totalCosts['peasant'] > ($dominion->peasants-1000))
+        if(isset($totalCosts['peasant']) and $totalCosts['peasant'] > ($dominion->peasants-1000))
         {
           throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '. You must always leave at least 1,000 peasants.');
         }
