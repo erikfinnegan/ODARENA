@@ -637,7 +637,7 @@ class PopulationCalculator
 
         }
 
-        return $draftees;
+        return min($dominion->peasant, $draftees);
     }
 
     /**
