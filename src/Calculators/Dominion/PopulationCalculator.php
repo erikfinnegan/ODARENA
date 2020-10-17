@@ -614,6 +614,8 @@ class PopulationCalculator
             {
                 $draftees *= 4;
             }
+
+            $draftees = min($draftees, $dominion->peasant);
         }
         else
         {
@@ -637,7 +639,7 @@ class PopulationCalculator
 
         }
 
-        return min($dominion->peasant, $draftees);
+        return $draftees;
     }
 
     /**
