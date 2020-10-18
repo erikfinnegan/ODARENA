@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="alert alert-danger">
-            The calculators are in early beta and may not work accurately. Please use carefully. Verify calculations manually.
+                The calculators are in early beta and may not work accurately. It is missing a lot of features, including the ability to calculate any DP mods. Please use carefully. Verify calculations manually.
           </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
                 @csrf
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-calculator"></i> Defense Calculator</h3>
+                        <h3 class="box-title"><i class="ra ra-gears"></i> Defense Calculator</h3>
                     </div>
                     <div class="box-body">
                         <div class="form-group">
@@ -54,7 +54,6 @@
                                         class="form-control text-center"
                                         placeholder="100"
                                         min="0"
-                                        max="100"
                                         value="{{ ($targetDominion !== null && $targetInfoOps->has('clear_sight')) ? array_get($targetInfoOps['clear_sight']->data, "morale") : null }}" />
                             </div>
                         </div>
@@ -201,12 +200,12 @@
                                         $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
                                     @endphp
                                     <div class="col-xs-3 text-right">
-                                        @if (in_array($racialSpell['key'], ['blizzard', 'defensive_frenzy', 'howling']))
+                                        @if (in_array($racialSpell['key'], ['blizzard', 'defensive_frenzy', 'howling', 'coastal_cannons', 'fimbulwinter']))
                                             {{ $racialSpell['name'] }}
                                         @endif
                                     </div>
                                     <div class="col-xs-3 text-left">
-                                        @if (in_array($racialSpell['key'], ['blizzard', 'defensive_frenzy', 'howling']))
+                                        @if (in_array($racialSpell['key'], ['blizzard', 'defensive_frenzy', 'howling', 'coastal_cannons', 'fimbulwinter']))
                                             <input type="checkbox"
                                                     step="any"
                                                     name="calc[{{ $racialSpell['key'] }}]"
@@ -264,13 +263,27 @@
 
                         <div class="form-group row">
                             <div class="col-xs-3 text-right">
-                                    Ares Call
+                              {{--
+                                 Advancement
+                              --}}
                             </div>
                             <div class="col-xs-3 text-left">
-                                <input type="checkbox"
-                                        step="any"
-                                        name="calc[ares_call]"
-                                        checked />
+                              {{--
+                                <select name="calc[tech_defense]" class="form-control">
+                                    <option value="0"></option>
+                                    <option value="2.5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level1")) ? 'selected' : null }}>Barricades Level 1</option>
+                                    <option value="5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level2")) ? 'selected' : null }}>Barricades Level 2</option>
+                                    <option value="7.5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level3")) ? 'selected' : null }}>Barricades Level 3</option>
+                                    <option value="10" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level4")) ? 'selected' : null }}>Barricades Level 4</option>
+                                    <option value="12.5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level5")) ? 'selected' : null }}>Barricades Level 5</option>
+                                    <option value="15" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level6")) ? 'selected' : null }}>Barricades Level 6</option>
+                                    <option value="16.25" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level7")) ? 'selected' : null }}>Barricades Level 7</option>
+                                    <option value="17.5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level8")) ? 'selected' : null }}>Barricades Level 8</option>
+                                    <option value="18.75" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level9")) ? 'selected' : null }}>Barricades Level 9</option>
+                                    <option value="20" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.barricades_level10")) ? 'selected' : null }}>Barricades Level 10</option>
+                                </select>
+                              --}}
+
                             </div>
                             <div class="col-xs-3 text-right">
                                 Walls %
@@ -297,7 +310,7 @@
                                         class="form-control text-center"
                                         placeholder="0"
                                         min="0"
-                                        max="16.67" />
+                                        max="20" />
                             </div>
                             <div class="col-xs-3 text-right">
                                 Guard Tower %
@@ -365,7 +378,7 @@
                 @csrf
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-calculator"></i> Offense Calculator</h3>
+                        <h3 class="box-title"><i class="ra ra-gears"></i> Offense Calculator</h3>
                     </div>
                     <div class="box-body">
                         <div class="form-group">
@@ -401,7 +414,6 @@
                                         class="form-control text-center"
                                         placeholder="100"
                                         min="0"
-                                        max="100"
                                         value="{{ ($targetDominion !== null && $targetInfoOps->has('clear_sight')) ? array_get($targetInfoOps['clear_sight']->data, "morale") : null }}" />
                             </div>
                         </div>
@@ -635,8 +647,16 @@
                             <div class="col-xs-3 text-left">
                                 <select name="calc[tech_offense]" class="form-control">
                                     <option value="0"></option>
-                                    <option value="5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.military_genius")) ? 'selected' : null }}>Military Genius +5%</option>
-                                    <option value="10" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.magical_weaponry")) ? 'selected' : null }}>Magical Weaponry +10%</option>
+                                    <option value="2.5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level1")) ? 'selected' : null }}>Strategy Level 1</option>
+                                    <option value="5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level2")) ? 'selected' : null }}>Strategy Level 2</option>
+                                    <option value="7.5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level3")) ? 'selected' : null }}>Strategy Level 3</option>
+                                    <option value="10" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level4")) ? 'selected' : null }}>Strategy Level 4</option>
+                                    <option value="12.5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level5")) ? 'selected' : null }}>Strategy Level 5</option>
+                                    <option value="15" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level6")) ? 'selected' : null }}>Strategy Level 6</option>
+                                    <option value="16.25" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level7")) ? 'selected' : null }}>Strategy Level 7</option>
+                                    <option value="17.5" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level8")) ? 'selected' : null }}>Strategy Level 8</option>
+                                    <option value="18.75" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level9")) ? 'selected' : null }}>Strategy Level 9</option>
+                                    <option value="20" {{ ($targetDominion !== null && $targetInfoOps->has('vision') && array_get($targetInfoOps['vision']->data, "techs.strategy_level10")) ? 'selected' : null }}>Strategy Level 10</option>
                                 </select>
                             </div>
                             <div class="col-xs-3 text-right">

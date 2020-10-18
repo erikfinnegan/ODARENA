@@ -27,11 +27,26 @@
                         <p>Then start training Ulcers until you have enough to start invading other dominions. Remember, you can also use your Abcesseses for offensive power.</p>
                         <p>Blisters are mostly useful if you need to defend from hostile spies and wizards. Otherwise refrain from training too many of them and focus on Cysts as defensive units, since they are twice as efficient.</p>
                         <p>Throughout the round, it is often good to overtrain Ulcers, so that you have more of them than you might need for invasions, as this gives you the flexibility of using some for defense while training potentially threatening OP.</p>
+
                     @elseif($selectedDominion->race->name === 'Simian')
                         <p>Gorillas and Chimpanzees become stronger the more you invade, so your early focus should be on getting to 10-20 Victories (successsful invasions against targets at least 75% your size).</p>
                         <p>Except for a few thousand Bonobos in the first day, train only Gorillas and Orangutans in the beginning. Since your focus is on earning victories, don't worry about being invaded. If you have a high ratio of forest, you will lose very few units.</p>
                         <p>If at some point you have a large population and need an extra push, train Chimpanzees. Otherwise, stay focused on Gorillas and Orangutans.</p>
                         <p>Simian spies are extra strong but wizards are weakened and Archmages cost extra. Unless you are in dire need of defensive wizards, it's not worth training lots of wizards and Archmages. Make sure you have enough for info ops on regular targets, but collaborate with your realm to get ops on for examples Dark Elves and Sylvans, rather than training a high WPA yourself.</p>
+
+                    @elseif($selectedDominion->race->name === 'Marshling')
+                        <p>Aside from spies and wizards, Marshlings can only train one unit: Spawns. You need 0.50 WPA to train Spawns, which means you need to have at least 1 wizard per 2 acres (or 1 Archmage per 4 acres).</p>
+                        <p>Once you have that, your goal is simply to train Spawns. You obtain the higher level units by invading.</p>
+                        <p>When successfully invading another dominion, Spawns morph into Slimes. Slimes morph into Goos. Goos morph into Oozes.</p>
+                        <p>If a Slime dies, it reverts back to a Spawn. Goo reverts to Slime. When an Ooze dies, it's split in two and become two Spawns. And then the cycle repeats, with doubled potential.</p>
+
+                    @elseif($selectedDominion->race->name === 'Void')
+                        <p>Void relies entirely on effective mana production and the best way for Void to produce mana is by training Shadows and Visions.</p>
+                        <p>In protection, start by training Visions until you have around 8,000 – 10,000. This gives enough mana production to transition into training Nightmares to begin invading other dominions.</p>
+                        <p>As the round goes on, Visions are a better choice if you have more mana than you can spend. Shadows are good in small, targeted batches to increase your mana production.</p>
+                        <p>Your offensive power should consist of only Nightmares, other than exceptional circumstances where Fallen may be needed to quickly boost your OP for a specific goal.</p>
+
+
                     @else
                         <p class="text-muted"><i>Not yet written. Want to contribute? Contact Dreki on <a href="{{ config('app.discord_invite_link') }}" target="_blank">Discord</a>.</i></p>
                     @endif
