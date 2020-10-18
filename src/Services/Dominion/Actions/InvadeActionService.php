@@ -528,7 +528,10 @@ class InvadeActionService
             }
 
             # Debug before saving:
-            #dd($this->invasionResult);
+            if(request()->getHost() === 'odarena.local')
+            {
+                dd($this->invasionResult);
+            }
 
             // todo: move to GameEventService
             $this->invasionEvent = GameEvent::create([
@@ -1091,7 +1094,15 @@ class InvadeActionService
 
             if($discoverLand)
             {
-                $this->invasionResult['attacker']['landDiscovered'][$landType] = $landLost;
+                if($target->race->name === 'Barbarian')
+                {
+                    $this->invasionResult['attacker']['landDiscovered'][$landType] = intval($landLost/3);
+                }
+                else
+                {
+                    $this->invasionResult['attacker']['landDiscovered'][$landType] = $landLost;
+                }
+
                 $landGainedPerLandType["land_{$landType}"] += $landLost;
             }
 

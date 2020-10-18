@@ -2003,11 +2003,6 @@ class MilitaryCalculator
     {
         $multiplier = 0;
 
-        if($defender->race->name === 'Barbarian')
-        {
-            $landConquered = round($landConquered/3);
-        }
-
         if(!$discoverLand)
         {
             return 0;
