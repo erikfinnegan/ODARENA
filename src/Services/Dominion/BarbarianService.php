@@ -331,7 +331,7 @@ class BarbarianService
               )
             {
 
-                if($this->chanceToHit($dominion) === true)
+                if($this->chanceToHit($dominion) === 1)
                 {
                     $invade = true;
                     $logString .= "✅ Invasion confirmed to take place.";
@@ -590,11 +590,11 @@ class BarbarianService
         }
     }
 
-    private function chanceToHit($dominion): bool
+    private function chanceToHit($dominion): int
     {
         $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
         $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
-        return rand(1,$chanceOneIn) ? true : false;
+        return rand(1,$chanceOneIn);
     }
 
 
