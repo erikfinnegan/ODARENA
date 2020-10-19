@@ -41,11 +41,17 @@ class CalculationsController extends AbstractDominionController
             }
         }
 
+        $races = Race::with(['units', 'units.perks'])->where('playable',1)->orderBy('name')->get();
+
+        $barbarian = Race::with(['units', 'units.perks'])->where('name','Barbarian')->get();
+
+        $allRaces = $races->merge($barbarian)->sort();
+
         return view('pages.dominion.calculations', [
             'landCalculator' => app(LandCalculator::class),
             'targetDominion' => $targetDominion,
             'targetInfoOps' => $targetInfoOps,
-            'races' => Race::with(['units', 'units.perks'])->where('playable',1)->orderBy('name')->get(),
+            'races' => $allRaces->all(),
             'raceHelper' => app(RaceHelper::class),
             'spellHelper' => app(SpellHelper::class),
             'unitHelper' => app(UnitHelper::class),
