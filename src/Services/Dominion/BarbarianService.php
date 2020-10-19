@@ -334,7 +334,7 @@ class BarbarianService
                 $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
                 $chanceToHit = rand(1,$chanceOneIn);
 
-                $logString .= "CTH: 1 in $chanceToHit | ";
+                $logString .= "CTH: $chanceToHit (from 1 in $chanceOneIn) | ";
 
                 if($chanceToHit === 1)
                 {
