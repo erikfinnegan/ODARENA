@@ -124,7 +124,8 @@ class QueueService
             $amountEnqueued = $value->amount;
             $amountDequeued = $leftToDequeue;
 
-            if($amountEnqueued < $leftToDequeue) {
+            if($amountEnqueued < $leftToDequeue)
+            {
                 $amountDequeued = $amountEnqueued;
             }
 

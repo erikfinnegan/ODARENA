@@ -577,10 +577,24 @@ class TickService
         }
 
         // Cleanup
+        /*
         DB::table('dominion_queue')
             ->where('dominion_id', $dominion->id)
             ->where('hours', '<=', 0)
             ->delete();
+        */
+
+        DB::transaction(function () use ($dominion)
+        {
+            DB::table('dominion_queue')
+                ->where('dominion_id', $dominion->id)
+                ->where('hours', '<=', 0)
+                ->delete();
+        }, 10);
+
+
+
+
     }
 
     public function precalculateTick(Dominion $dominion, ?bool $saveHistory = false): void
