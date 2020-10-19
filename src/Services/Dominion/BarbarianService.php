@@ -331,7 +331,12 @@ class BarbarianService
               )
             {
 
-                if($this->chanceToHit($dominion) === 1)
+                $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
+                $chanceToHit = rand(1,$chanceOneIn);
+
+                $logString .= "CTH: $chanceToHit | ";
+
+                if($chanceToHit === 1)
                 {
                     $invade = true;
                     $logString .= "✅ Invasion confirmed to take place.";
