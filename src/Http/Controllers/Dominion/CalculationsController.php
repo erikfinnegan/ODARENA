@@ -45,7 +45,9 @@ class CalculationsController extends AbstractDominionController
 
         $barbarian = Race::with(['units', 'units.perks'])->where('name','Barbarian')->get();
 
-        $allRaces = $races->merge($barbarian)->sort();
+        $allRaces = $races->merge($barbarian)->sortBy('name');
+
+        #dd($allRaces);
 
         return view('pages.dominion.calculations', [
             'landCalculator' => app(LandCalculator::class),
