@@ -331,6 +331,7 @@ class BarbarianService
               )
             {
 
+                $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
                 $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
                 $chanceToHit = rand(1,$chanceOneIn);
 

@@ -530,7 +530,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -2819,7 +2819,7 @@ class InvadeActionService
         $champions = 0;
         if ($attacker->race->name == 'Norse')
         {
-            if($landRatio >= 0.75 and $isInvasionSuccessful)
+            if($landRatio >= 0.75 and $isInvasionSuccessful and isset($this->invasionResult['attacker']['unitsLost']['1']) and $this->invasionResult['attacker']['unitsLost']['1'] > 0)
             {
                 $champions = $this->invasionResult['attacker']['unitsLost']['1'];
 
