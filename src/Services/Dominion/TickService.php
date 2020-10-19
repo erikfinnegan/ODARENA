@@ -3,6 +3,7 @@
 namespace OpenDominion\Services\Dominion;
 
 use DB;
+use File;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -97,6 +98,7 @@ class TickService
         $this->queueService->setForTick(true);
     }
 
+
     /**
      * Does an hourly tick on all active dominions.
      *
@@ -104,6 +106,15 @@ class TickService
      */
     public function tickHourly()
     {
+
+          if(File::exists('storage/framework/down'))
+          {
+              $logString = 'Tick at ' . $this->now . ' skipped.';
+              Log::debug($logString);
+              dd($logString);
+          }
+
+
         Log::debug('Scheduled tick started');
 
         $activeRounds = Round::active()->get();
