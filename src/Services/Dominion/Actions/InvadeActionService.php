@@ -958,14 +958,15 @@ class InvadeActionService
         }
 
         # Look for dies_into amongst the dead defenders.
+        $diesIntoNewUnits = array_fill(1,4,0);
+
         foreach($defensiveUnitsLost as $slot => $casualties)
         {
             if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
             {
                 $slot = (int)$diesIntoPerk[0];
 
-                # Instantly add.
-                $target->{'military_unit' . $slot} += $casualties;
+                $diesIntoNewUnits[$slot] += intval($casualties);
             }
 
             if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
@@ -973,9 +974,20 @@ class InvadeActionService
                 $slot = (int)$diesIntoMultiplePerk[0];
                 $amount = (int)$diesIntoMultiplePerk[1];
 
-                # Instantly add.
-                $target->{'military_unit' . $slot} += floor($casualties * $amount);
+                $diesIntoNewUnits[$slot] += intval($casualties * $amount);
             }
+        }
+
+        # Defensive conversions take 2 ticks to appear
+        foreach($diesIntoNewUnits as $slot => $amount)
+        {
+            $unitKey = 'military_unit'.$slot;
+            $this->queueService->queueResources(
+                'training',
+                $target,
+                [$unitKey => $amount],
+                2
+            );
         }
 
 
@@ -1615,7 +1627,7 @@ class InvadeActionService
             $unitKey = 'military_unit'.$slot;
             $this->queueService->queueResources(
                 'training',
-                $dominion,
+                $target,
                 [$unitKey => $amount],
                 6
             );
