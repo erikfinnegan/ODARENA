@@ -214,11 +214,11 @@ class ConstructActionService
             $return = [
                 'message' => sprintf(
                     'Construction started at a cost of %s %s.',
-                    number_format($primaryCost),
+                    number_format($primaryCostTotal),
                     $primaryResource
                 ),
                 'data' => [
-                    'primaryCost' => $primaryCost
+                    'primaryCost' => $primaryCostTotal
                 ]
             ];
         }
