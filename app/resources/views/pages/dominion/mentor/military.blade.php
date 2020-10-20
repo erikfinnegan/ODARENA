@@ -98,7 +98,7 @@
                         <td>Spies</td>
                         <td>{{ number_format($selectedDominion->military_spies) }}</td>
                         <td>&mdash;</td>
-                        <td>{{number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}"))}}</td>
+                        <td>{{number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_spies"))}}</td>
                     </tr>
                     @endif
                     @if(!$selectedDominion->race->getPerkValue('cannot_train_wizards'))
@@ -106,7 +106,7 @@
                         <td>Wizards</td>
                         <td>{{ number_format($selectedDominion->military_wizards) }}</td>
                         <td>&mdash;</td>
-                        <td>{{number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}"))}}</td>
+                        <td>{{number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_wizards"))}}</td>
                     </tr>
                     @endif
                     @if(!$selectedDominion->race->getPerkValue('cannot_train_archmages'))
@@ -114,7 +114,7 @@
                         <td>Archmages</td>
                         <td>{{ number_format($selectedDominion->military_archmages) }}</td>
                         <td>&mdash;</td>
-                        <td>{{number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}"))}}</td>
+                        <td>{{number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_archmages"))}}</td>
                     </tr>
                     @endif
                     <tbody>
