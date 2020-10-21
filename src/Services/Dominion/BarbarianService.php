@@ -349,14 +349,14 @@ class BarbarianService
             }
             else
             {
-                $logString .= '🚫 Insufficient OP OR DP!';
+                $logString .= '🚫 Insufficient OP or DP!';
                 $logString .= ' | OPA target: ' . $this->getOpaTarget($dominion);
                 $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
                 $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
 
-                $logString .= ' | OPA target: ' . $this->getDpaTarget($dominion);
-                $logString .= ' | OPA paid: ' .   $this->getDpaPaid($dominion);
-                $logString .= ' | OPA home: ' .   $this->getDpaCurrent($dominion);
+                $logString .= ' | DPA target: ' . $this->getDpaTarget($dominion);
+                $logString .= ' | DPA paid: ' .   $this->getDpaPaid($dominion);
+                $logString .= ' | DPA current: ' .$this->getDpaCurrent($dominion);
                 $logString .= '.';
             }
 
