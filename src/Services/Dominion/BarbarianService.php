@@ -229,6 +229,7 @@ class BarbarianService
     {
         if($dominion->race->name === 'Barbarian')
         {
+            $logString = "\n[BARBARIAN]\n\t[training]\n";
             $land = $this->landCalculator->getTotalLand($dominion);
 
             $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_plain');
@@ -248,15 +249,18 @@ class BarbarianService
             $dpaDelta = $this->getDpaTarget($dominion) - $this->getDpaPaid($dominion);
             $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
 
-            $logString = '[BARBARIAN:TRAINING] ' . $dominion->name . ': Acres: ' . number_format($land);
-            $logString .= ' | DPA target: ' .   $this->getDpaTarget($dominion);
-            $logString .= ' | DPA paid: ' .     $this->getDpaPaid($dominion);
-            $logString .= ' | DPA delta: ' .    $dpaDelta;
-            $logString .= ' || OPA target: ' .  $this->getOpaTarget($dominion);
-            $logString .= ' | OPA paid: ' .     $this->getOpaPaid($dominion);
-            $logString .= ' | OPA home: ' .     $this->getOpaAtHome($dominion);
-            $logString .= ' | OPA delta: ' .    $opaDelta;
-            $logString .= ' || ';
+            $logString .= "\t\tName: $dominion->name / Size: {number_format($land)}\n";
+            $logString .= "\t\t* DPA\n";
+            $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
+            $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
+            $logString .= "\t\t** DPA current: " . $this->getDpaPaid($dominion) ."\n";
+            $logString .= "\t\t** DPA delta: " . $dpaDelta ."\n";
+
+            $logString .= "\t\t* OPA\n";
+            $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
+            $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
+            $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
+            $logString .= "\t\t** OPA target: " . $opaDelta ."\n";
 
             if($dpaDelta > 0)
             {
@@ -292,23 +296,30 @@ class BarbarianService
 
             if(isset($dpToTrain))
             {
-                $logString .= 'DP to train: ' . number_format($dpToTrain) . '. ';
+                $logString .= "\t\t* DP to train: " . number_format($dpToTrain) . "\n";
             }
             else
             {
-                $logString .= 'No need train additional DP. ';
+                $logString .= "\t\t* No need to train additional DP\n";
             }
 
             if(isset($opToTrain))
             {
-                $logString .= 'OP to train: ' . number_format($opToTrain) . '. ';
+                $logString .= "\t\t* OP to train: " . number_format($opToTrain) . "\n";
             }
             else
             {
-                $logString .= 'No need train additional OP. ';
+                #$logString .= 'No need train additional OP. ';
+                $logString .= "\t\t* No need to train additional OP\n";
             }
 
-            $logString .= 'To be trained: ' . $units['military_unit1'] . ' unit1, ' . $units['military_unit2'] . ' unit2, ' . $units['military_unit3'] . ' unit3, ' . $units['military_unit4'] . ' unit4.';
+            $logString .= "\t\t* Training:\n";
+            $logString .= "\t\t** Unit1: " . number_format($units['military_unit1']) ."\n";
+            $logString .= "\t\t** Unit2: " . number_format($units['military_unit2']) ."\n";
+            $logString .= "\t\t** Unit3: " . number_format($units['military_unit3']) ."\n";
+            $logString .= "\t\t** Unit4: " . number_format($units['military_unit4']) ."\n";
+
+            $logString .= "\t[/training]\n[/BARBARIAN]";
 
             Log::Debug($logString);
 
