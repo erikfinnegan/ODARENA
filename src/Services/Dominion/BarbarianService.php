@@ -347,17 +347,22 @@ class BarbarianService
             $logString .= "\t\tSize: ".number_format($this->landCalculator->getTotalLand($dominion))."\n";
 
             # Make sure we have the expected OPA to hit, and enough DPA at home.
-            if(
-                ($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion)) and
-                ($this->getDpaCurrent($dominion) >= $this->getDpaTarget($dominion))
-              )
+            if($this->getDpaDelta($dominion) <= 0 and $this->getOpaDelta($dominion) <= 0)
             {
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
                 $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
                 $chanceToHit = rand(1,$chanceOneIn);
 
-                $logString .= "\t\tChance to hit: 1 in $chanceOneIn\n";
-                $logString .= "\t\tOutcome: $chanceToHit: ";
+
+                $logString .= "\t\t* OP/DP\n";
+                $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
+                $logString .= "\t\t** DP current: " . $this->getDpaCurrent($dominion) ."\n";
+
+                $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
+                $logString .= "\t\t** OP current: " . $this->getOpCurrent($dominion) ."\n";
+
+                $logString .= "\t\t* Chance to hit: 1 in $chanceOneIn\n";
+                $logString .= "\t\t** Outcome: $chanceToHit: ";
 
                 if($chanceToHit === 1)
                 {
@@ -371,7 +376,7 @@ class BarbarianService
             }
             else
             {
-                if($this->getDpaCurrent($dominion) < $this->getDpaTarget($dominion))
+                if($this->getDpaDelta($dominion) > 0)
                 {
                     $logString .= "\t\t🚫 Insufficient DP:\n";
                     $logString .= "\t\t* DPA\n";
@@ -381,7 +386,7 @@ class BarbarianService
                     $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
                 }
 
-                if($this->getOpaAtHome($dominion) < $this->getOpaTarget($dominion))
+                if($this->getOpaDelta($dominion) > 0)
                 {
                     $logString .= "\t\t🚫 Insufficient OP:\n";
                     $logString .= "\t\t* OPA\n";
