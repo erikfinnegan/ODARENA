@@ -378,11 +378,11 @@ class BarbarianService
                 if($chanceToHit === 1)
                 {
                     $invade = true;
-                    $logString .= "✅ Invade!";
+                    $logString .= "✅ Invade!\n";
                 }
                 else
                 {
-                    $logString .= "❌ No invasion";
+                    $logString .= "❌ No invasion\n";
                 }
             }
             else
