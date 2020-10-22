@@ -371,24 +371,24 @@ class BarbarianService
             }
             else
             {
-                if($this->getOpaAtHome($dominion) < $this->getOpaTarget($dominion))
-                {
-                    $logString .= "\t\t🚫 Insufficient OP\n";
-                    $logString .= "\t\t* OPA\n";
-                    $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
-                    $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
-                    $logString .= "\t\t** OPA current: " . $this->getOpaAtHome($dominion) ."\n";
-                    $logString .= "\t\t** OPA dela: " . $this->getOpaDelta($dominion) ."\n";
-                }
-
                 if($this->getDpaCurrent($dominion) < $this->getDpaTarget($dominion))
                 {
-                    $logString .= "\t\t🚫 Insufficient DP\n";
+                    $logString .= "\t\t🚫 Insufficient DP:\n";
                     $logString .= "\t\t* DPA\n";
+                    $logString .= "\t\t** DPA delta: " . $this->getDpaDelta($dominion) ."\n";
                     $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
                     $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
                     $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
-                    $logString .= "\t\t** DPA dela: " . $this->getDpaDelta($dominion) ."\n";
+                }
+
+                if($this->getOpaAtHome($dominion) < $this->getOpaTarget($dominion))
+                {
+                    $logString .= "\t\t🚫 Insufficient OP:\n";
+                    $logString .= "\t\t* OPA\n";
+                    $logString .= "\t\t** OPA delta: " . $this->getOpaDelta($dominion) ."\n";
+                    $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
+                    $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
+                    $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
                 }
             }
 
@@ -397,14 +397,14 @@ class BarbarianService
                 $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
 
 
-                $logString .= "\t\t* Invasion\n";
+                $logString .= "\t\t* Invasion:\n";
 
                 $logString .= "\t\t**Land gain ratio: " . number_format($landGainRatio*100,2) . "% \n";
 
                 # Calculate the amount of acres to grow.
                 $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
 
-                $logString .= "\t\t**Land gained: " . number_format($totalLandToGain). "\n";
+                $logString .= "\t\t**Land to gain: " . number_format($totalLandToGain). "\n";
 
                 # Split the land gained evenly across all 6 land types.
                 $landGained['land_plain'] = intval($totalLandToGain/6);
@@ -413,6 +413,8 @@ class BarbarianService
                 $landGained['land_swamp'] = intval($totalLandToGain/6);
                 $landGained['land_hill'] = intval($totalLandToGain/6);
                 $landGained['land_water'] = intval($totalLandToGain/6);
+
+                $logString .= "\t\t**Actual land gained: " . array_sum($landGained) . "\n";
 
                 # Add the land gained to the $dominion.
                 $dominion->stat_total_land_conquered = $totalLandToGain;
