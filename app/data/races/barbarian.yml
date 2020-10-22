@@ -21,7 +21,7 @@ perks:
   reduced_conversions: 33
 units:
   - name: Marauder
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -33,7 +33,7 @@ units:
       offense: 3
       defense: 0
   - name: Thug
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -45,7 +45,7 @@ units:
       offense: 0
       defense: 3
   - name: Robber
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -57,7 +57,7 @@ units:
       offense: 0
       defense: 5
   - name: Bandit
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient

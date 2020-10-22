@@ -63,7 +63,7 @@ class BarbarianService
     protected const UNITS_TRAINED_MAX = 1200;
 
     # Training time in ticks
-    protected const UNITS_TRAINING_TICKS = 9;
+    protected const UNITS_TRAINING_TICKS = 6;
     protected const CONSTRUCTION_TIME = 12;
 
     # Unit powers
