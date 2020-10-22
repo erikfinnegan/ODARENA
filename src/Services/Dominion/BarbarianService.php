@@ -249,7 +249,7 @@ class BarbarianService
             $dpaDelta = $this->getDpaTarget($dominion) - $this->getDpaPaid($dominion);
             $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
 
-            $logString .= "\t\tName: $dominion->name / Size: {number_format($land)}\n";
+            $logString .= "\t\tName: $dominion->name / Size: ".number_format($land)."\n";
             $logString .= "\t\t* DPA\n";
             $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
             $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
@@ -260,7 +260,7 @@ class BarbarianService
             $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
             $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
             $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
-            $logString .= "\t\t** OPA target: " . $opaDelta ."\n";
+            $logString .= "\t\t** OPA delta: " . $opaDelta ."\n";
 
             if($dpaDelta > 0)
             {
