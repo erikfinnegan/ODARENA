@@ -381,13 +381,13 @@ class BarbarianService
                     $logString .= "\t\t** OPA dela: " . $this->getOpaDelta($dominion) ."\n";
                 }
 
-                if($this->getDpaCurrent($dominion) >= $this->getDpaTarget($dominion))
+                if($this->getDpaCurrent($dominion) < $this->getDpaTarget($dominion))
                 {
                     $logString .= "\t\t🚫 Insufficient DP\n";
                     $logString .= "\t\t* DPA\n";
                     $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
                     $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
-                    $logString .= "\t\t** DPA current: " . $this->getDpaPaid($dominion) ."\n";
+                    $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
                     $logString .= "\t\t** DPA dela: " . $this->getDpaDelta($dominion) ."\n";
                 }
             }
