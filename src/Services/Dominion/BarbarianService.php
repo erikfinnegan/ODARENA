@@ -223,16 +223,25 @@ class BarbarianService
         return $this->getOpAtHome($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
-    private function getOpaDelta(Dominion $dominion): int
+    private function getOpaDeltaPaid(Dominion $dominion): int
     {
         return $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
     }
 
-    private function getDpaDelta(Dominion $dominion): int
+    private function getDpaDeltaPaid(Dominion $dominion): int
     {
         return $this->getDpaTarget($dominion) - $this->getDpaPaid($dominion);
     }
 
+    private function getOpaDeltaAtHome(Dominion $dominion): int
+    {
+        return $this->getOpaTarget($dominion) - $this->getOpaAtHome($dominion);
+    }
+
+    private function getDpaDeltaCurrent(Dominion $dominion): int
+    {
+        return $this->getDpaTarget($dominion) - $this->getDpaCurrent($dominion);
+    }
 
     public function handleBarbarianTraining(Dominion $dominion): void
     {
@@ -255,8 +264,8 @@ class BarbarianService
               'military_unit4' => 0,
             ];
 
-            $dpaDelta = $this->getDpaDelta($dominion);
-            $opaDelta = $this->getOpaDelta($dominion);
+            $dpaDeltaPaid = $this->getDpaDeltaPaid($dominion);
+            $opaDeltaPaid = $this->getOpaDeltaPaid($dominion);
 
             $logString .= "\t\tName: $dominion->name\n";
             $logString .= "\t\tSize: ".number_format($land)."\n";
@@ -264,17 +273,19 @@ class BarbarianService
             $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
             $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
             $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
-            $logString .= "\t\t** DPA delta: " . $dpaDelta ."\n";
+            $logString .= "\t\t** DPA delta current: " . $this->getDpaDeltaCurrent($dominion) ."\n";
+            $logString .= "\t\t** DPA delta paid: " . $dpaDeltaPaid ."\n";
 
             $logString .= "\t\t* OPA\n";
             $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
             $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
             $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
-            $logString .= "\t\t** OPA delta: " . $opaDelta ."\n";
+            $logString .= "\t\t** OPA delta at home: " . $this->getOpaDeltaAtHome($dominion) ."\n";
+            $logString .= "\t\t** OPA delta paid: " . $opaDeltaPaid ."\n";
 
-            if($dpaDelta > 0)
+            if($dpaDeltaPaid > 0)
             {
-                $dpToTrain = $dpaDelta * $land;
+                $dpToTrain = $dpaDeltaPaid * $land;
 
                 $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
@@ -283,9 +294,9 @@ class BarbarianService
                 $units['military_unit3'] = ceil(($dpToTrain*$elitesRatio)/static::UNIT3_DP);
             }
 
-            if($opaDelta > 0)
+            if($opaDeltaPaid > 0)
             {
-                $opToTrain = $opaDelta * $land;
+                $opToTrain = $opaDeltaPaid * $land;
 
                 $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
                 $elitesRatio = 1-$specsRatio;
@@ -347,7 +358,7 @@ class BarbarianService
             $logString .= "\t\tSize: ".number_format($this->landCalculator->getTotalLand($dominion))."\n";
 
             # Make sure we have the expected OPA to hit, and enough DPA at home.
-            if($this->getDpaDelta($dominion) <= 0 and $this->getOpaDelta($dominion) <= 0)
+            if($this->getDpaDeltaCurrent($dominion) <= 0 and $this->getOpaDeltaAtHome($dominion) <= 0)
             {
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
                 $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
@@ -376,21 +387,23 @@ class BarbarianService
             }
             else
             {
-                if($this->getDpaDelta($dominion) > 0)
+                if($this->getDpaDeltaCurrent($dominion) > 0)
                 {
                     $logString .= "\t\t🚫 Insufficient DP:\n";
                     $logString .= "\t\t* DPA\n";
-                    $logString .= "\t\t** DPA delta: " . $this->getDpaDelta($dominion) ."\n";
+                    $logString .= "\t\t** DPA delta current: " . $this->getDpaDeltaCurrent($dominion) ."\n";
+                    $logString .= "\t\t** DPA delta paid: " . $this->getDpaDeltaPaid($dominion) ."\n";
                     $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
                     $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
                     $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
                 }
 
-                if($this->getOpaDelta($dominion) > 0)
+                if($this->getOpaDeltaAtHome($dominion) > 0)
                 {
                     $logString .= "\t\t🚫 Insufficient OP:\n";
                     $logString .= "\t\t* OPA\n";
-                    $logString .= "\t\t** OPA delta: " . $this->getOpaDelta($dominion) ."\n";
+                    $logString .= "\t\t** OPA delta at home: " . $this->getOpaDeltaAtHome($dominion) ."\n";
+                    $logString .= "\t\t** OPA delta paid: " . $this->getOpaDeltaPaid($dominion) ."\n";
                     $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
                     $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
                     $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
