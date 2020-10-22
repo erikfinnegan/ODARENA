@@ -223,6 +223,15 @@ class BarbarianService
         return $this->getOpAtHome($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
+    private function getOpaDelta(Dominion $dominion): int
+    {
+        return $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
+    }
+
+    private function getDpaDelta(Dominion $dominion): int
+    {
+        return $this->getDpaTarget($dominion) - $this->getDpaPaid($dominion);
+    }
 
 
     public function handleBarbarianTraining(Dominion $dominion): void
@@ -246,14 +255,15 @@ class BarbarianService
               'military_unit4' => 0,
             ];
 
-            $dpaDelta = $this->getDpaTarget($dominion) - $this->getDpaPaid($dominion);
-            $opaDelta = $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
+            $dpaDelta = $this->getDpaDelta($dominion);
+            $opaDelta = $this->getOpaDelta($dominion);
 
-            $logString .= "\t\tName: $dominion->name / Size: ".number_format($land)."\n";
+            $logString .= "\t\tName: $dominion->name\n";
+            $logString .= "\t\tSize: ".number_format($land)."\n";
             $logString .= "\t\t* DPA\n";
             $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
             $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
-            $logString .= "\t\t** DPA current: " . $this->getDpaPaid($dominion) ."\n";
+            $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
             $logString .= "\t\t** DPA delta: " . $dpaDelta ."\n";
 
             $logString .= "\t\t* OPA\n";
@@ -330,57 +340,72 @@ class BarbarianService
     public function handleBarbarianInvasion(Dominion $dominion): void
     {
         $invade = false;
-        $logString = "[BARBARIAN:INVASION] " . $dominion->name . ": ";
-        #echo $logString . "\n";
 
         if($dominion->race->name === 'Barbarian')
         {
+            $logString = "\n[BARBARIAN]\n\t[training]\n";
+            $logString .= "\t\tName: $dominion->name\n";
+            $logString .= "\t\tSize: ".number_format($this->landCalculator->getTotalLand($dominion))."\n";
+
             # Make sure we have the expected OPA to hit, and enough DPA at home.
             if(
                 ($this->getOpaAtHome($dominion) >= $this->getOpaTarget($dominion)) and
                 ($this->getDpaCurrent($dominion) >= $this->getDpaTarget($dominion))
               )
             {
-
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
                 $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
                 $chanceToHit = rand(1,$chanceOneIn);
 
-                $logString .= "CTH: $chanceToHit (from 1 in $chanceOneIn) | ";
+                $logString .= "\t\tChance to hit: 1 in $chanceOneIn\n";
+                $logString .= "\t\tOutcome: $chanceToHit: ";
 
                 if($chanceToHit === 1)
                 {
                     $invade = true;
-                    $logString .= "✅ Invasion confirmed to take place.";
+                    $logString .= " ✅ Invade!";
                 }
                 else
                 {
-                    $logString .= "❌ Chance of invasion did not occur.";
+                    $logString .= " ❌ No invasion";
                 }
             }
             else
             {
-                $logString .= '🚫 Insufficient OP or DP!';
-                $logString .= ' | OPA target: ' . $this->getOpaTarget($dominion);
-                $logString .= ' | OPA paid: ' .   $this->getOpaPaid($dominion);
-                $logString .= ' | OPA home: ' .   $this->getOpaAtHome($dominion);
+                if($this->getOpaAtHome($dominion) < $this->getOpaTarget($dominion))
+                {
+                    $logString .= "\t\t🚫 Insufficient OP\n";
+                    $logString .= "\t\t* OPA\n";
+                    $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
+                    $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
+                    $logString .= "\t\t** OPA current: " . $this->getOpaAtHome($dominion) ."\n";
+                    $logString .= "\t\t** OPA dela: " . $this->getOpaDelta($dominion) ."\n";
+                }
 
-                $logString .= ' | DPA target: ' . $this->getDpaTarget($dominion);
-                $logString .= ' | DPA paid: ' .   $this->getDpaPaid($dominion);
-                $logString .= ' | DPA current: ' .$this->getDpaCurrent($dominion);
-                $logString .= '.';
+                if($this->getDpaCurrent($dominion) >= $this->getDpaTarget($dominion))
+                {
+                    $logString .= "\t\t🚫 Insufficient DP\n";
+                    $logString .= "\t\t* DPA\n";
+                    $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
+                    $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
+                    $logString .= "\t\t** DPA current: " . $this->getDpaPaid($dominion) ."\n";
+                    $logString .= "\t\t** DPA dela: " . $this->getDpaDelta($dominion) ."\n";
+                }
             }
 
             if($invade === true)
             {
                 $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
 
-                $logString .= 'Land gain ratio: ' . $landGainRatio*100 . '%. ';
+
+                $logString .= "\t\t* Invasion\n";
+
+                $logString .= "\t\t**Land gain ratio: " . number_format($landGainRatio*100,2) . "% \n";
 
                 # Calculate the amount of acres to grow.
                 $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
 
-                $logString .= 'Acres gained: ' . number_format($totalLandToGain) . '. ';
+                $logString .= "\t\t**Land gained: " . number_format($totalLandToGain). "\n";
 
                 # Split the land gained evenly across all 6 land types.
                 $landGained['land_plain'] = intval($totalLandToGain/6);
@@ -397,6 +422,9 @@ class BarbarianService
                 $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/1000;
 
                 $casualtiesRatio = rand(static::CASUALTIES_MIN, static::CASUALTIES_MAX)/1000;
+
+                $logString .= "\t\t**Sent ratio: " . number_format($sentRatio*100,2). "%\n";
+                $logString .= "\t\t**Casualties ratio: " . number_format($casualtiesRatio*100,2). "%\n";
 
                 # Calculate how many Unit1 and Unit4 are sent.
                 $unitsSent['military_unit1'] = $dominion->military_unit1 * $sentRatio;
@@ -428,8 +456,8 @@ class BarbarianService
                     $unitsReturning
                 );
 
-               $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered', 'sacked'];
-               $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub', 'merchant outpost'];
+               $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered', 'sacked', 'invaded', 'laid waste to'];
+               $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub', 'merchant outpost', 'camp'];
 
                $data = [
                     'type' => $invasionTypes[rand(0,count($invasionTypes)-1)],
@@ -448,10 +476,6 @@ class BarbarianService
                 ]);
                 $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
             }
-        }
-        else
-        {
-            $logString .= 'Not a Barbarian.';
         }
 
         Log::Debug($logString);
