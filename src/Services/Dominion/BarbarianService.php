@@ -332,7 +332,6 @@ class BarbarianService
             $logString .= "\t[/training]\n[/BARBARIAN]";
 
             Log::Debug($logString);
-
         }
 
     }
@@ -343,7 +342,7 @@ class BarbarianService
 
         if($dominion->race->name === 'Barbarian')
         {
-            $logString = "\n[BARBARIAN]\n\t[training]\n";
+            $logString = "\n[BARBARIAN]\n\t[invasion]\n";
             $logString .= "\t\tName: $dominion->name\n";
             $logString .= "\t\tSize: ".number_format($this->landCalculator->getTotalLand($dominion))."\n";
 
@@ -363,11 +362,11 @@ class BarbarianService
                 if($chanceToHit === 1)
                 {
                     $invade = true;
-                    $logString .= " ✅ Invade!";
+                    $logString .= "✅ Invade!";
                 }
                 else
                 {
-                    $logString .= " ❌ No invasion";
+                    $logString .= "❌ No invasion";
                 }
             }
             else
@@ -476,6 +475,8 @@ class BarbarianService
                 ]);
                 $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
             }
+
+            $logString .= "\t[/invasion]\n[/BARBARIAN]";
         }
 
         Log::Debug($logString);
