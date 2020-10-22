@@ -414,14 +414,11 @@ class BarbarianService
             {
                 $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
 
-
                 $logString .= "\t\t* Invasion:\n";
-
                 $logString .= "\t\t**Land gain ratio: " . number_format($landGainRatio*100,2) . "% \n";
 
                 # Calculate the amount of acres to grow.
                 $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
-
                 $logString .= "\t\t**Land to gain: " . number_format($totalLandToGain). "\n";
 
                 # Split the land gained evenly across all 6 land types.
@@ -435,7 +432,7 @@ class BarbarianService
                 $logString .= "\t\t**Actual land gained: " . array_sum($landGained) . "\n";
 
                 # Add the land gained to the $dominion.
-                $dominion->stat_total_land_conquered = $totalLandToGain;
+                $dominion->stat_total_land_conquered += $totalLandToGain;
                 $dominion->stat_attacking_success += 1;
 
                 $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/1000;
@@ -549,7 +546,6 @@ class BarbarianService
 
         # Queue buildings
         $this->queueService->queueResources('construction', $dominion, $buildings, static::CONSTRUCTION_TIME);
-
     }
 
     public function createBarbarian(Round $round): void
@@ -655,13 +651,4 @@ class BarbarianService
             ]);
         }
     }
-
-    private function chanceToHit($dominion): int
-    {
-        $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-        $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
-        return rand(1,$chanceOneIn);
-    }
-
-
 }
