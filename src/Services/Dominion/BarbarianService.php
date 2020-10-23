@@ -39,6 +39,7 @@ class BarbarianService
     # Current formula returns:
     #  40% - 1.5% raw 3.0% total
     #  60% - 1.7% raw 3.4% total
+    #  65% - 2.3% raw 4.6% total
     #  75% - 3.6% raw 7.2% total
     #  85% - 4.6% raw 9.2% total
     #  95% - 5.5% raw 11.0% total
@@ -46,8 +47,8 @@ class BarbarianService
     # 120% - 8.0% raw 16.0% total
     # 133% - 9.20% raw 18.4% total
 
-    protected const LAND_GAIN_MIN = 34; # 75% hit
-    protected const LAND_GAIN_MAX = 92; # 100% hit
+    protected const LAND_GAIN_MIN = 46; # 65% hit
+    protected const LAND_GAIN_MAX = 92; # 85% hit
 
     # Send between these two values when hitting. /1000
     protected const SENT_RATIO_MIN = 800;
