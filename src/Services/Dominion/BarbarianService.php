@@ -48,7 +48,7 @@ class BarbarianService
     # 133% - 9.20% raw 18.4% total
 
     protected const LAND_GAIN_MIN = 46; # 65% hit
-    protected const LAND_GAIN_MAX = 92; # 85% hit
+    protected const LAND_GAIN_MAX = 110; # 95% hit
 
     # Send between these two values when hitting. /1000
     protected const SENT_RATIO_MIN = 800;
