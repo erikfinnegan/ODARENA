@@ -63,7 +63,6 @@ units:
       fewer_casualties: 25
       no_draftee: 1
       does_not_count_as_population: 1
-      provides_jobs: 20
       building_limit: factory,3,workshops # building, buildings per unit, imp to increase
       upkeep_platinum: 150
       upkeep_ore: 4
@@ -84,6 +83,6 @@ units:
       fewer_casualties_offense: 50
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: factory,2.5,workshops # building, buildings per unit, imp to increased
+      building_limit: factory,2,workshops # building, buildings per unit, imp to increased
       upkeep_platinum: 60
       upkeep_ore: 3
