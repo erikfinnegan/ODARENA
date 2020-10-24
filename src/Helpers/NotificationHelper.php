@@ -197,6 +197,14 @@ class NotificationHelper
                 #'route' => route('dominion.military'),
                 'iconClass' => 'ra ra-aware text-green',
             ],
+
+            # Weres
+            'spy_conversion_occurred' => [
+                'label' => 'Spy conversion occurred',
+                'defaults' => ['email' => false, 'ingame' => true],
+                #'route' => route('dominion.military'),
+                'iconClass' => 'ra ra-aware text-green',
+            ],
         ];
     }
 
@@ -413,6 +421,17 @@ class NotificationHelper
                 #    $resource
                 #);
 
+            # WERES
+
+            case 'irregular_dominion.spy_conversion_occurred':
+                $units = $data['converted'];
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+                return sprintf(
+                    'We have converted %s captured spy units from %s (# %s) to Wolverines.',
+                    number_format($units),
+                    $sourceDominion->name,
+                    $sourceDominion->realm->number
+                );
 
             case 'irregular_dominion.received_invasion':
                 $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
