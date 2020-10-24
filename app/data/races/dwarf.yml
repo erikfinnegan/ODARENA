@@ -63,7 +63,7 @@ units:
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
 
-  - name: Warrior
+  - name: Hammerer
     training_time: 12
     type:
       - living
@@ -75,3 +75,5 @@ units:
     power:
       offense: 8
       defense: 3
+    perks:
+      stuns_units: 10,2 # Stuns units up to 10 DP for 2 ticks

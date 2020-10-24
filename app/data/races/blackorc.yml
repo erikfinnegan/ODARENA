@@ -13,8 +13,6 @@ construction_materials: platinum,lumber
 perks:
   food_consumption: 20
   lumber_production: 50
-  invest_bonus: 25
-  improvements_max: 25
 
 units:
   - name: Bone Breaker
@@ -49,14 +47,15 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 800
+      platinum: 900
       ore: 0
     power:
       offense: 0
       defense: 2
     perks:
-      defense_from_victories: 0.40,8 # +0.50 DP per Victory, max +8 (at 20 Victories)
-      counts_as_wizard_on_offense: 0.2
+      defense_from_victories: 0.4,8 # +0.50 DP per Victory, max +8 (at 20 Victories)
+      counts_as_wizard_offense: 0.2
+      immortal_wizard: 1
 
   - name: Skull Crusher
     training_time: 12

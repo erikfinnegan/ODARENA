@@ -130,13 +130,11 @@ class ProductionCalculator
         // Building: Alchemy
         $platinum += ($dominion->building_alchemy * $platinumPerAlchemy);
 
-        // Unit Perk: Production Bonus (Cult)
+        // Unit Perk: Production Bonus
         $platinum += $dominion->getUnitPerkProductionBonus('platinum_production');
 
-        // Unit Perk Production Reduction (Dragon Unit: Mercenary)
-        $upkeep = $dominion->getUnitPerkProductionBonus('platinum_upkeep');
-
-
+        // Unit Perk Production Reduction
+        $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_platinum');
 
         $platinum = max(0, $platinum-$upkeep);
 

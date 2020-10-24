@@ -58,7 +58,7 @@ units:
       offense: 6
       defense: 6
     perks:
-      platinum_upkeep: 0.5
+      upkeep_platinum: 0.5
       no_draftee: 1
 
   - name: Dragon

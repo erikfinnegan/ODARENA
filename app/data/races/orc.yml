@@ -61,7 +61,7 @@ zunits:
       defense: 2
     perks:
       defense_from_prestige: 200,6 # amount, max
-      counts_as_wizard_on_offense: 0.1
+      counts_as_wizard_defense: 0.1
 
   - name: Warboss
     training_time: 12
