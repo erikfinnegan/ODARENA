@@ -672,6 +672,12 @@ class EspionageActionService
                     $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
                 }
 
+                if($target->race->getPerkValue('converts_executed_spies'))
+                {
+                    $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
+                    $this->queueService->queueResources('training', $target, ['military_unit2' => ($spiesKilled + $spyUnitsKilled)], 2);
+                }
+
                 if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
                 {
                     $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
@@ -1063,6 +1069,12 @@ class EspionageActionService
                 if($target->race == 'Demon')
                 {
                     $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
+                }
+
+                if($target->race->getPerkValue('converts_executed_spies'))
+                {
+                    $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
+                    $this->queueService->queueResources('training', $target, ['military_unit2' => ($spiesKilled + $spyUnitsKilled)], 2);
                 }
 
                 if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
