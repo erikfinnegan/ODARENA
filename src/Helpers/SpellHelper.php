@@ -355,7 +355,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Fimbulwinter',
-                'description' => '+10% defensive power, +15% casualties for yourself.',
+                'description' => '+10% defensive power, +20% offensive casualties for yourself.',
                 'key' => 'fimbulwinter',
                 'mana_cost' => 8,
                 'duration' => 12*4,

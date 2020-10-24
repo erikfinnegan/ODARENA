@@ -48,7 +48,7 @@ units:
     power:
       defense: 6.5
     perks:
-      immortal_on_fending_off: 1
+      dies_into: 3
 
   - name: Magma Giant
     training_time: 12
@@ -63,3 +63,4 @@ units:
       defense: 4
     perks:
       burns_peasants_on_attack: 0.333
+      dies_into: 1

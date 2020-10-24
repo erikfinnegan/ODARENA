@@ -978,7 +978,7 @@ class InvadeActionService
             }
         }
 
-        # Defensive conversions take 2 ticks to appear
+        # Defensive conversions take 1 tick to appear
         foreach($diesIntoNewUnits as $slot => $amount)
         {
             $unitKey = 'military_unit'.$slot;
@@ -986,7 +986,7 @@ class InvadeActionService
                 'training',
                 $target,
                 [$unitKey => $amount],
-                2
+                1
             );
         }
 

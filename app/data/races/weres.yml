@@ -15,7 +15,9 @@ perks:
   extra_barren_max_population: 5
   defense_from_forest: 0.10 # Gets 0.10% DP bonus from every 1% forest
   converts_assassinated_draftees: 1 # into slot 1
-  converts_executed_spies: 2 # into slot 1
+  converts_executed_spies: 2 # into slot 2
+  construction_cost: -10
+  increased_construction_speed: 2
 
 units:
   - name: Warg
@@ -53,7 +55,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      platinum: 900
       food: 10
     power:
       offense: 7
@@ -68,8 +70,8 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1200
-      food: 15
+      platinum: 1100
+      food: 20
     power:
       offense: 8
       defense: 6
