@@ -14,31 +14,38 @@ perks:
   max_population: 10
   food_consumption: 20
   lumber_production: 50
-units:
-  - name: Savage
-    training_time: 9
-    type:
-      - living
-      - sentient
-    cost:
-      platinum: 420
-      ore: 0
-    power:
-      offense: 4.5
-      defense: 0
+  extra_barracks_housing: 18
 
-  - name: Guard
+zunits:
+  - name: Impaler
     training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      platinum: 275
-      ore: 15
+      platinum: 500
+      ore: 50
+    power:
+      offense: 3
+      defense: 0
+    perks:
+      offense_from_pairing: 4,2,0.1 # slot, amount, num required
+
+  - name: Shieldbearer
+    training_time: 9
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      platinum: 400
+      ore: 40
     power:
       offense: 0
       defense: 3
+    perks:
+      defense_from_pairing: 4,2,0.1 # slot, amount
 
   - name: Voodoo Mage
     training_time: 12
@@ -53,19 +60,23 @@ units:
       offense: 0
       defense: 2
     perks:
-      defense_from_prestige: 150,5 # amount, max
+      defense_from_prestige: 200,6 # amount, max
+      counts_as_wizard_on_offense: 0.1
 
-  - name: Bone Breaker
+  - name: Warboss
     training_time: 12
     type:
       - living
       - sentient
       - intelligent
+      - wise
     cost:
-      platinum: 900
-      ore: 100
+      platinum: 1400
+      ore: 200
+      gem: 1
     power:
-      offense: 4
+      offense: 8
       defense: 3
     perks:
-      offense_from_victories: 0.25,4 # +0.25 OP per Victory, max +4 (at 16 Victories)
+      offense_from_pairing: 1,2,10 # slot, amount, num required
+      reduces_casualties: 1

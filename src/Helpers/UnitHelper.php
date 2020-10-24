@@ -220,6 +220,8 @@ class UnitHelper
 
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
 
+
+            'pairing_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by %4$ xx your %3$s improvements.',
             'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increased by %3$ xx your %2$s improvements.',
             'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increased by %3$ xx your %2$s improvements.',
             'spy_limit' => 'You can at most have %1$s of this unit per Spy. Increased by %3$ xx your %2$s improvements.',
@@ -332,6 +334,17 @@ class UnitHelper
                     {
                         $perkValue[2] = 1;
                     }
+                }
+
+                // Special case for pairing_limit_increasable
+                if ($perk->key === 'pairing_limit_increasable')
+                {
+                    $slot = (int)$perkValue[0];
+                    $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
+
+                    $perkValue[0] = $pairedUnit->name;
                 }
 
                 // Special case for conversions

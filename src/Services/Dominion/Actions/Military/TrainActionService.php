@@ -205,26 +205,26 @@ class TrainActionService
           if($pairingLimit)
           {
 
-            // We have pairing limit for this unit.
-            $pairingLimitedBy = intval($pairingLimit[0]);
-            $pairingLimitedTo = $pairingLimit[1];
+              // We have pairing limit for this unit.
+              $pairingLimitedBy = intval($pairingLimit[0]);
+              $pairingLimitedTo = $pairingLimit[1];
 
-            // Evaluate the limit.
+              // Evaluate the limit.
 
-            # How many of the limiting unit does the dominion have? (Only counting units at home.)
-            $pairingLimitedByTrained = $dominion->{'military_unit'. $pairingLimitedBy};
+              # How many of the limiting unit does the dominion have? (Only counting units at home.)
+              $pairingLimitedByTrained = $dominion->{'military_unit'. $pairingLimitedBy};
 
-            if( # Units trained + Units in Training + Units in Queue + Units to Train
-                (($dominion->{'military_unit' . $unitSlot} +
-                  $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $amountToTrain))
-                >
-                ($pairingLimitedByTrained * $pairingLimitedTo)
-              )
-            {
-              throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
-            }
+              if( # Units trained + Units in Training + Units in Queue + Units to Train
+                  (($dominion->{'military_unit' . $unitSlot} +
+                    $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                    $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                    $amountToTrain))
+                  >
+                  ($pairingLimitedByTrained * $pairingLimitedTo)
+                )
+              {
+                throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
+              }
           }
 
           # Pairing limit check complete.

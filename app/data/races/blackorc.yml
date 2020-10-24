@@ -11,40 +11,36 @@ converting: 1
 construction_materials: platinum,lumber
 
 perks:
-  max_population: 10
   food_consumption: 20
   lumber_production: 50
-  extra_barracks_housing: 18
-units:
-  - name: Impaler
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      platinum: 500
-      ore: 50
-    power:
-      offense: 3
-      defense: 0
-    perks:
-      offense_from_pairing: 4,2,0.1 # slot, amount, num required
+  invest_bonus: 25
+  improvements_max: 25
 
-  - name: Shieldbearer
+units:
+  - name: Bone Breaker
+    training_time: 9
+    type:
+      - living
+      - sentient
+    cost:
+      platinum: 750
+      ore: 100
+    power:
+      offense: 6
+      defense: 0
+
+  - name: Sootshield
     training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      platinum: 400
-      ore: 40
+      platinum: 600
+      ore: 100
     power:
       offense: 0
-      defense: 3
-    perks:
-      defense_from_pairing: 4,2,0.1 # slot, amount
+      defense: 6
 
   - name: Warlock
     training_time: 12
@@ -54,31 +50,25 @@ units:
       - intelligent
     cost:
       platinum: 800
-      lumber: 40
-      gem: 1
+      ore: 0
     power:
       offense: 0
-      defense: 1
+      defense: 2
     perks:
-      defense_from_prestige: 150,9 # amount, max
-      mana_production: 0.2
-      counts_as_wizard_offense: 0.20
-      counts_as_wizard_defense: 0.10
+      defense_from_victories: 0.40,8 # +0.50 DP per Victory, max +8 (at 20 Victories)
+      counts_as_wizard_on_offense: 0.2
 
-  - name: Warboss
+  - name: Skull Crusher
     training_time: 12
     type:
       - living
       - sentient
       - intelligent
-      - wise
     cost:
-      platinum: 1400
-      ore: 200
-      gem: 1
+      platinum: 1000
+      ore: 100
     power:
-      offense: 8
-      defense: 3
+      offense: 4
+      defense: 4
     perks:
-      offense_from_pairing: 1,2,10 # slot, amount, num required
-      reduces_casualties: 1
+      offense_from_victories: 0.3,6 # +0.3 OP per Victory, max +6 (at 20 Victories)

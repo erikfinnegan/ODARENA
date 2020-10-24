@@ -33,6 +33,11 @@ class RaceHelper
                 $description = 'Population from barren land';
                 $valueType = '';
                 break;
+            case 'extra_ore_mine_housing':
+                $negativeBenefit = false;
+                $description = 'Additional housing in ore mines';
+                $valueType = '';
+                break;
             case 'food_consumption':
                 $negativeBenefit = true;
                 $description = 'Food consumption';

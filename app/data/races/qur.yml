@@ -10,15 +10,12 @@ converting: 2
 
 construction_materials: platinum,lumber
 
-archmages_cost: 500,platinum
-
 perks:
   salvaging: 65
   gem_production: 20
-  max_population: 10
 
 units:
-  - name: Hunter
+  - name: Artificer
     training_time: 6
     type:
       - living
@@ -26,13 +23,12 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 600
+      platinum: 1000
     power:
-      offense: 4
-      defense: 4
+      offense: 0
+      defense: 0
     perks:
-      plunders: platinum;3,food;6
-      food_production: 1
+      tech_production: 0.025
 
   - name: Crystal
     training_time: 0
@@ -40,7 +36,7 @@ units:
       - magical
     need_boat: false
     cost:
-      gem: 5
+      gem: 20
       mana: 5
     power:
       offense: 0
@@ -50,7 +46,7 @@ units:
       does_not_count_as_population: 1
       mana_drain: 0.005
       instant_training: 1
-      archmage_limit: 4,spires,4 # amount (per AM), imp to increase, imp multiplier
+      pairing_limit_increasable: 1,4,spires,4 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
 
   - name: Chariot
     training_time: 12
@@ -59,19 +55,19 @@ units:
     need_boat: true
     cost:
       platinum: 1000
-      lumber: 200
+      lumber: 250
     power:
       offense: 0
       defense: 0
     perks:
       faster_return: 6
-      fewer_casualties: 50
       reduces_casualties: 1
       plunders: platinum;20,lumber;20
-      offense_from_pairing: 4,6,1 # slot, amount, num required
-      defense_from_pairing: 4,9,1 # slot, amount, num required
+      offense_from_pairing: 4,7,1 # slot, amount, num required
       sendable_with_zero_op: 1
       does_not_count_as_population: 1
+      no_draftee: 1
+      pairing_limit_increasable: 1,1,workshops,4 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
 
   - name: Zealot
     training_time: 12
@@ -85,8 +81,8 @@ units:
       platinum: 1000
       mana: 10
     power:
-      offense: 9
-      defense: 6
+      offense: 7
+      defense: 8
     perks:
       destroys_souls: 1
       kills_immortal: 1

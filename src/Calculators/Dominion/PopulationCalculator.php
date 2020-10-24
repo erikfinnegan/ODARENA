@@ -199,6 +199,9 @@ class PopulationCalculator
             }
 
             $population += ($dominion->{'building_' . $buildingType} * $housing);
+
+            // Extra housing from Ore Mines
+            $population += ($dominion->building_ore_mine * $dominion->race->getPerkValue('extra_ore_mine_housing'));
         }
 
         // Constructing buildings

@@ -8,13 +8,14 @@ attacking: 3
 exploring : 2
 converting: 1
 
-construction_materials: platinum,lumber
+construction_materials: platinum,ore
 
 perks:
   max_population: 20
   extra_barren_max_population: 10
   ore_improvement_points: 100
   salvaging: 25
+  extra_ore_mine_housing: 20
 
 units:
   - name: Soldier

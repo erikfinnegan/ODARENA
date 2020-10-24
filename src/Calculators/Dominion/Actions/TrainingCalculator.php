@@ -365,6 +365,21 @@ class TrainingCalculator
               $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
 
+            # Look for pairing_limit_increasable
+            if($pairingLimitedIncreasable = $dominion->race->getUnitPerkValueForUnitSlot($slot,'pairing_limit_increasable'))
+            {
+                $unitLimitedTo = (float)$pairingLimitedIncreasable[0]; # Units paired-limited to
+                $unitsPerLimitingUnit = (float)$pairingLimitedIncreasable[1]; # Number of this unit per unit paired-limited to
+                $extendingImprovement = (string)$pairingLimitedIncreasable[2]; # Improvement which can increase this limit
+                $improvementMultiplier = (float)$pairingLimitedIncreasable[3]; # Multiplier used to extend the increase from improvement
+
+                $unitsPerLimitingUnit *= 1 + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
+
+                $maxAdditionalPermittedOfThisUnit = intval($dominion->{'military_unit'.$unitLimitedTo} * $unitsPerLimitingUnit) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
+
+                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
+            }
+
             # Look for archmage_limit
             if($archmageLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'archmage_limit'))
             {
