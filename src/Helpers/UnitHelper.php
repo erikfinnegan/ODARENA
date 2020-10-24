@@ -221,7 +221,6 @@ class UnitHelper
 
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
 
-
             'pairing_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by %4$ xx your %3$s improvements.',
             'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increased by %3$ xx your %2$s improvements.',
             'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increased by %3$ xx your %2$s improvements.',
@@ -241,6 +240,7 @@ class UnitHelper
             // Other
             'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
+            'stuns_units' => 'Stuns some units with up to %1$s DP for %2$s ticks, whereafter the units return unharmed.',
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
