@@ -520,7 +520,10 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
         $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
 
-        return max(0,$lumber);
+        // Unit Perk Production Reduction
+        $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_lumber');
+
+        return max(0,$lumber - $upkeep);
     }
 
     /**
@@ -837,7 +840,10 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $ore += $dominion->getUnitPerkProductionBonus('ore_production');
 
-        return max(0,$ore);
+        // Unit Perk Production Reduction
+        $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_ore');
+
+        return max(0,$ore - $upkeep);
     }
 
     /**

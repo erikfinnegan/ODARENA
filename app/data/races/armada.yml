@@ -16,6 +16,8 @@ perks:
   cannot_build_barracks: 1
   cannot_build_homes: 1
   salvaging: 50
+  invest_bonus: 25
+
 units:
   - name: Ensign
     need_boat: true
@@ -63,8 +65,10 @@ units:
       fewer_casualties: 50
       no_draftee: 1
       does_not_count_as_population: 1
-      houses_military_units: 8
       building_limit: dock,2,harbor # building, buildings per unit, imp to increase
+      upkeep_platinum: 50
+      upkeep_ore: 1
+      upkeep_lumber: 1
 
   - name: Battleship
     need_boat: false
@@ -82,7 +86,10 @@ units:
       fewer_casualties: 75
       no_draftee: 1
       does_not_count_as_population: 1
-      houses_military_units: 100
+      houses_military_units: 200
       offense_from_pairing: 1,200,200 # slot, amount, num required
       building_limit: dock,2,harbor
-      plunders: platinum;100,gems;500
+      plunders: platinum;100,gems;50
+      upkeep_platinum: 500
+      upkeep_ore: 3
+      upkeep_lumber: 8

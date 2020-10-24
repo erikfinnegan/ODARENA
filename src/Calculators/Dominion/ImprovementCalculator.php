@@ -233,7 +233,7 @@ class ImprovementCalculator
             # Imperial Gnome: Spell (increase imp points by 10%)
             if($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
             {
-                $multiplier += 0.10;
+                $multiplier += 0.25;
             }
 
             return $multiplier;

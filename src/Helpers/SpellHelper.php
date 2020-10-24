@@ -347,7 +347,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Spiral Architecture',
-                'description' => '+10% value for investments into castle improvements performed when active.',
+                'description' => '+25% value for investments into castle improvements performed when active.',
                 'key' => 'spiral_architecture',
                 'mana_cost' => 8,
                 'duration' => 12*4,

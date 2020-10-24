@@ -65,6 +65,8 @@ units:
       does_not_count_as_population: 1
       provides_jobs: 20
       building_limit: factory,3,workshops # building, buildings per unit, imp to increase
+      upkeep_platinum: 150
+      upkeep_ore: 4
 
   - name: Airship
     training_time: 12
@@ -83,3 +85,5 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,2.5,workshops # building, buildings per unit, imp to increased
+      upkeep_platinum: 60
+      upkeep_ore: 3
