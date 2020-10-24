@@ -188,7 +188,9 @@ class UnitHelper
             'sink_boats_offense' => 'Sinks boats when attacking.',
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
-            'platinum_upkeep' => 'Costs %s platinum per tick.',
+            'upkeep_platinum' => 'Costs %s platinum per tick.',
+            'upkeep_lumber' => 'Costs %s lumber per tick.',
+            'upkeep_ore' => 'Costs %s ore per tick.',
 
             'destroys_souls' => 'Releases souls.',
 
