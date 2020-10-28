@@ -48,6 +48,7 @@ units:
     power:
       offense: 8
       defense: 8
+    perks:
       increases_prestige_gains: 100
       pairing_limit: 4,1 # Unit slot, amount (max 2 of this unit per each Unit 4)
 
@@ -57,9 +58,8 @@ units:
     type:
       - machine
     cost:
-      platinum: 12500
-      ore: 2500
-      lumber: 5000
+      platinum: 30000
+      ore: 12000
     power:
       offense: 0
       defense: 200
@@ -67,7 +67,7 @@ units:
       immortal_on_fending_off: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: dock,3,harbor # building, buildings per unit, imp to increase
+      building_limit: dock,2,harbor # building, buildings per unit, imp to increase
       upkeep_platinum: 50
       upkeep_ore: 1
       upkeep_lumber: 1
