@@ -2370,3 +2370,85 @@ conscription_level10:
     - conscription_level9
 
 # </Ladder: Drafting>
+
+# <Ladder: Offensive Power>
+
+fortifications_level1:
+  name: Fortifications
+  level: 1
+  perks:
+    defense: 2.5
+
+fortifications_level2:
+  name: Fortifications
+  level: 2
+  perks:
+    defense: 5
+  requires:
+    - fortifications_level1
+
+fortifications_level3:
+  name: Fortifications
+  level: 3
+  perks:
+    defense: 7.5
+  requires:
+    - fortifications_level2
+
+fortifications_level4:
+  name: Fortifications
+  level: 4
+  perks:
+    defense: 10
+  requires:
+    - fortifications_level4
+
+fortifications_level5:
+  name: Fortifications
+  level: 5
+  perks:
+    defense: 12.5
+  requires:
+    - fortifications_level5
+
+fortifications_level6:
+  name: Fortifications
+  level: 6
+  perks:
+    defense: 15
+  requires:
+    - fortifications_level5
+
+fortifications_level7:
+  name: Fortifications
+  level: 7
+  perks:
+    defense: 16.25
+  requires:
+    - fortifications_level6
+
+fortifications_level8:
+  name: Fortifications
+  level: 8
+  perks:
+    defense: 17.5
+  requires:
+    - fortifications_level7
+
+fortifications_level9:
+  name: Fortifications
+  level: 9
+  perks:
+    defense: 18.75
+  requires:
+    - fortifications_level8
+
+fortifications_level10:
+  name: Fortifications
+  level: 10
+  perks:
+    defense: 20
+  requires:
+    - fortifications_level9
+
+# </Ladder: Offensive Power>

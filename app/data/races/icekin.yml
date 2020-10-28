@@ -11,12 +11,13 @@ converting: 3
 construction_materials: platinum,ore
 
 
-archmages_cost: 700,platinum
+archmages_cost: 500,platinum
 
 perks:
   food_consumption: -50
-  gem_production: -25
-  ore_production: 20
+  food_decay: -90
+  title_bonus: 50
+
 units:
   - name: Icebeast
     training_time: 6
@@ -25,12 +26,12 @@ units:
       - sentient
     cost:
       platinum: 300
-      ore: 10
     power:
       offense: 3
       defense: 0
     perks:
-      offense_wizard_ratio: 4,1 # ratio%, max
+      offense_wizard_ratio: 2,2 # ratio%, max
+      offense_from_title: 1,commander # OP, title
 
   - name: Snow Witch
     training_time: 9
@@ -40,7 +41,6 @@ units:
       - intelligent
     cost:
       platinum: 350
-      ore: 35
     power:
       offense: 0
       defense: 3
@@ -49,6 +49,7 @@ units:
       counts_as_wizard_offense: 0.05
       counts_as_wizard_defense: 0.05
       defense_from_land: mountain,50,2
+      production_from_title: conjurer,mana,5 # resource, OP, title
 
   - name: Frost Mage
     training_time: 12
@@ -58,27 +59,27 @@ units:
       - intelligent
     cost:
       platinum: 1000
-      ore: 100
     power:
-      offense: 4
+      offense: 0
       defense: 4
     perks:
       defense_from_land: mountain,20,5
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
+      wizard_from_title: conjurer,0.125 # wizard power, title
+      offense_from_title: commander,6 # title, op
 
   - name: Ice Elemental
     training_time: 12
     type:
-      - living
-      - sentient
-      - intelligent
+      - magical
     cost:
-      platinum: 1000
-      mana: 15
+      platinum: 800
+      mana: 50
     power:
       offense: 4
-      defense: 1
+      defense: 2
     perks:
       offense_wizard_ratio: 1,4 # ratio%, max
       defense_from_land: mountain,20,5
+      offense_from_title: commander,1 # title, op

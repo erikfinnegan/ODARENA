@@ -44,6 +44,11 @@ class TitleHelper
                 $negativeBenefit = true;
                 $description = 'Exploration platinum costs:';
                 break;
+            case 'explore_time':
+                $negativeBenefit = true;
+                $description = 'Exploration time:';
+                $valueType = ' ticks';
+                break;
             case 'ore_production':
                 $negativeBenefit = false;
                 $description = 'Ore production:';
@@ -71,6 +76,10 @@ class TitleHelper
             case 'exchange_rate':
                 $negativeBenefit = false;
                 $description = 'Better exchange rates:';
+                break;
+            case 'mana_drain':
+                $negativeBenefit = true;
+                $description = 'Mana drain:';
                 break;
             default:
                 return null;

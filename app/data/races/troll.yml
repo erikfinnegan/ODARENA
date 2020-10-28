@@ -71,11 +71,11 @@ units:
       - sentient
       - massive
     cost:
-      platinum: 1500
-      ore: 500
+      platinum: 1600
+      ore: 525
     power:
-      offense: 12
-      defense: 12
+      offense: 13
+      defense: 13
     perks:
       eats_peasants_on_attack: 0.1 # Each Mountain Troll eats 0.1 peasant on attack.
       eats_draftees_on_attack: 0.1 # Each Mountain Troll eats 0.1 draftee on attack.

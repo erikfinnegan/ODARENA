@@ -47,7 +47,7 @@
                     <tr>
                         <td>Advancements:</td>
                         <td>{{ number_format($selectedDominion->getTechPerkMultiplier('offense') * 100, 2) }}%</td>
-                        <td>&mdash;</td>
+                        <td>{{ number_format($selectedDominion->getTechPerkMultiplier('defense') * 100, 2) }}%</td>
                     </tr>
                     <tr>
                         <td>Spell:</td>

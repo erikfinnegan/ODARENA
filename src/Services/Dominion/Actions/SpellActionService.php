@@ -516,12 +516,25 @@ class SpellActionService
 
             case 'vision':
 
-                $techs = $target->techs->sortBy(function ($tech, $key)
+                $advancements = [];
+                $techs = $target->techs->sortBy('level')->toArray();
+                foreach($techs as $tech)
                 {
-                    return $tech['name'] . str_pad($tech['level'], 2, '0', STR_PAD_LEFT);
-                });
+                    $advancement = $tech['name'];
+                    $key = $tech['key'];
+                    $level = (int)$tech['level'];
+                    $advancements[$advancement] = [
+                        'key' => $key,
+                        'name' => $advancement,
+                        'level' => (int)$level,
+                        ];
+                }
+
+                #dd($advancements);
+
                 $infoOp->data = [
-                    'techs' => $techs,#$target->techs->pluck('name', 'key')->all(),
+                    #'techs' => $techs,#$target->techs->pluck('name', 'key')->all(),
+                    'advancements' => $advancements,
                     'heroes' => []
                 ];
                 break;
@@ -602,13 +615,13 @@ class SpellActionService
         # For invasion spell, target WPA is 0.
         if(!$isInvasionSpell)
         {
-          $selfWpa = min(10,$this->militaryCalculator->getWizardRatio($dominion, 'offense'));
-          $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'defense'));
+            $selfWpa = min(10,$this->militaryCalculator->getWizardRatio($dominion, 'offense'));
+            $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'defense'));
         }
         else
         {
-          $selfWpa = 10;
-          $targetWpa = 0;
+            $selfWpa = 10;
+            $targetWpa = 0;
         }
 
         // You need at least some positive WPA to cast info ops
@@ -622,7 +635,8 @@ class SpellActionService
         {
             $successRate = $this->opsHelper->blackOperationSuccessChance($selfWpa, $targetWpa, /*static::HOSTILE_MULTIPLIER_SUCCESS_RATE,*/ $isInvasionSpell);
 
-            if (!random_chance($successRate)) {
+            if (!random_chance($successRate))
+            {
                 $wizardsKilledBasePercentage = 1;
 
                 $wizardLossSpaRatio = ($targetWpa / $selfWpa);
@@ -677,7 +691,8 @@ class SpellActionService
                 }
 
                 $unitsKilledStringParts = [];
-                foreach ($unitsKilled as $name => $amount) {
+                foreach ($unitsKilled as $name => $amount)
+                {
                     $amountLabel = number_format($amount);
                     $unitLabel = str_plural(str_singular($name), $amount);
                     $unitsKilledStringParts[] = "{$amountLabel} {$unitLabel}";
@@ -716,7 +731,7 @@ class SpellActionService
             $reflectedBy = $target;
             $target = $dominion;
             $dominion = $reflectedBy;
-            #$dominion->stat_spells_reflected += 1;
+            $dominion->stat_spells_reflected += 1;
         }
 
         if (isset($spellInfo['duration']))

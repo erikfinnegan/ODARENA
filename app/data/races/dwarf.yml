@@ -18,18 +18,22 @@ perks:
   extra_ore_mine_housing: 20
 
 units:
-  - name: Soldier
-    training_time: 9
+  - name: Thundermaul
+    training_time: 12
     type:
-      - living
-      - sentient
-      - intelligent
+      - equipment
     cost:
-      platinum: 200
-      ore: 50
+      platinum: 0
+      ore: 20000
+      mana: 500
     power:
-      offense: 3
+      offense: 0
       defense: 0
+    perks:
+      offense_from_pairing: 4,90,1 # slot, amount, num required
+      defense_from_pairing: 4,30,1 # slot, amount, num required
+      sendable_with_zero_op: 1
+      damages_improvements_on_attack: 100
 
   - name: Miner
     training_time: 9

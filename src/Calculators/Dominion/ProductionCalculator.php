@@ -136,6 +136,9 @@ class ProductionCalculator
         // Unit Perk Production Reduction
         $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_platinum');
 
+        // Unit Perk: production_from_title
+        $platinum += $dominion->getUnitPerkProductionBonusFromTitle('platinum');
+
         $platinum = max(0, $platinum-$upkeep);
 
         return $platinum;
@@ -523,6 +526,9 @@ class ProductionCalculator
         // Unit Perk Production Reduction
         $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_lumber');
 
+        // Unit Perk: production_from_title
+        $lumber += $dominion->getUnitPerkProductionBonusFromTitle('lumber');
+
         return max(0,$lumber - $upkeep);
     }
 
@@ -707,6 +713,9 @@ class ProductionCalculator
         // Unit Perk Production Bonus
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');
 
+        // Unit Perk: production_from_title
+        $mana += $dominion->getUnitPerkProductionBonusFromTitle('mana');
+
         // Perk: mana draftee production
         $mana += $dominion->military_draftees * $dominion->race->getPerkValue('draftees_produce_mana');
 
@@ -843,6 +852,9 @@ class ProductionCalculator
         // Unit Perk Production Reduction
         $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_ore');
 
+        // Unit Perk: production_from_title
+        $ore += $dominion->getUnitPerkProductionBonusFromTitle('ore');
+
         return max(0,$ore - $upkeep);
     }
 
@@ -946,6 +958,9 @@ class ProductionCalculator
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $gems += $dominion->getUnitPerkProductionBonus('gem_production');
 
+        // Unit Perk: production_from_title
+        $gems += $dominion->getUnitPerkProductionBonusFromTitle('gem');
+
         return max(0,$gems);
     }
 
@@ -1036,6 +1051,9 @@ class ProductionCalculator
 
          $tech += $dominion->getUnitPerkProductionBonus('tech_production');
 
+         // Unit Perk: production_from_title
+         $tech += $dominion->getUnitPerkProductionBonusFromTitle('tech');
+
          return max(0,$tech);
      }
 
@@ -1099,6 +1117,9 @@ class ProductionCalculator
         $docksPerBoatPerTick = 20;
 
         $boats += ($dominion->building_dock / $docksPerBoatPerTick);
+
+        // Unit Perk: production_from_title
+        $boats += $dominion->getUnitPerkProductionBonusFromTitle('boats');
 
         return max(0,$boats);
     }

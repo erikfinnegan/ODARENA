@@ -62,7 +62,7 @@ units:
     perks:
       faster_return: 6
       reduces_casualties: 1
-      plunders: platinum;20,lumber;20
+      plunders: platinum;5,lumber;5
       offense_from_pairing: 4,7,1 # slot, amount, num required
       sendable_with_zero_op: 1
       does_not_count_as_population: 1

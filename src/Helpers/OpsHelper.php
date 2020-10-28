@@ -74,6 +74,9 @@ class OpsHelper
                 return 1;
             }
 
+            $selfRatio = min(5, $selfRatio);
+            $targetRatio = min(5, $targetRatio);
+
             $ratioDifference = $selfRatio - $targetRatio;
             $ratioSum = $selfRatio + $targetRatio;
 

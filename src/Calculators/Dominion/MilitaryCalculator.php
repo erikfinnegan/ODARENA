@@ -501,6 +501,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromTimePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromSpell($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromRulerTitle($dominion, $unit, $powerType);
 
         if ($landRatio !== null) {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
@@ -1308,6 +1309,25 @@ class MilitaryCalculator
           return $powerFromPerk;
       }
 
+      protected function getUnitPowerFromRulerTitle(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+
+          $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_title", null);
+          $powerFromPerk = 0;
+
+          if (!$titlePerkData)
+          {
+              return 0;
+          }
+
+          if($dominion->title->key == $titlePerkData[0])
+          {
+              $powerFromPerk += $titlePerkData[1];
+          }
+
+          return $powerFromPerk;
+      }
+
     /**
      * Returns the Dominion's morale modifier.
      *
@@ -1343,12 +1363,15 @@ class MilitaryCalculator
         $spies = $dominion->military_spies;
 
         // Add units which count as (partial) spies (Lizardfolk Chameleon)
-        foreach ($dominion->race->units as $unit) {
-            if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense')) {
+        foreach ($dominion->race->units as $unit)
+        {
+            if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense'))
+            {
                 $spies += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_offense'));
             }
 
-            if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense')) {
+            if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense'))
+            {
                 $spies += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_defense'));
             }
         }
@@ -1421,13 +1444,28 @@ class MilitaryCalculator
         $wizards = $dominion->military_wizards + ($dominion->military_archmages * 2);
 
         // Add units which count as (partial) spies (Dark Elf Adept)
-        foreach ($dominion->race->units as $unit) {
-            if ($type === 'offense' && $unit->getPerkValue('counts_as_wizard_offense')) {
+        foreach ($dominion->race->units as $unit)
+        {
+            if ($type === 'offense' && $unit->getPerkValue('counts_as_wizard_offense'))
+            {
                 $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_offense'));
             }
 
-            if ($type === 'defense' && $unit->getPerkValue('counts_as_wizard_defense')) {
+            if ($type === 'defense' && $unit->getPerkValue('counts_as_wizard_defense'))
+            {
                 $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_defense'));
+            }
+
+            # Check for wizard_from_title
+            $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "wizard_from_title", null);
+            if($titlePerkData)
+            {
+                $titleKey = $titlePerkData[0];
+                $titlePower = $titlePerkData[1];
+                if($dominion->title->key == $titleKey)
+                {
+                    $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $titlePower);
+                }
             }
         }
 
@@ -1928,7 +1966,6 @@ class MilitaryCalculator
         {
             if($increasesPrestige = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_prestige_gains'))
             {
-                # $increasesMorale is 1 for Immortal Guard and 2 for Immortal Knight
                 $unitsIncreasingPrestige += $amount * $increasesPrestige;
             }
         }

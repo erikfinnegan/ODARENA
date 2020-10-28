@@ -217,7 +217,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Blizzard',
-                'description' => '+5% defensive strength',
+                'description' => '+5% defensive strength, immune to theft',
                 'key' => 'blizzard',
                 'mana_cost' => 8,
                 'duration' => 12*4,
@@ -337,12 +337,23 @@ class SpellHelper
                 'cooldown' => 18, # Once every 18 hours.
                 'races' => collect(['Beastfolk']),
             ],
+            /*
             [
                 'name' => 'Coastal Cannons',
                 'description' => '+1% Defensive Power for every 1% Water. Max +20%.',
                 'key' => 'coastal_cannons',
                 'mana_cost' => 10,
                 'duration' => 12*4,
+                'races' => collect(['Armada']),
+            ],
+            */
+            [
+                'name' => 'Winds of Fortune',
+                'description' => 'Units return two ticks faster.',
+                'key' => 'winds_of_fortune',
+                'mana_cost' => 10,
+                'duration' => 2,
+                'cooldown' => 96,
                 'races' => collect(['Armada']),
             ],
             [
@@ -592,19 +603,19 @@ class SpellHelper
                 'name' => 'Clear Sight',
                 'description' => 'Reveal status screen',
                 'key' => 'clear_sight',
-                'mana_cost' => 0.3,
+                'mana_cost' => 0.25,
             ],
             [
                 'name' => 'Vision',
                 'description' => 'Reveal advancements',
                 'key' => 'vision',
-                'mana_cost' => 0.5,
+                'mana_cost' => 0.25,
             ],
             [
                 'name' => 'Revelation',
                 'description' => 'Reveal active spells',
                 'key' => 'revelation',
-                'mana_cost' => 0.75,
+                'mana_cost' => 0.5,
             ],
 //            [
 //                'name' => 'Clairvoyance',

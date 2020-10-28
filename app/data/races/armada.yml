@@ -16,7 +16,6 @@ perks:
   cannot_build_barracks: 1
   cannot_build_homes: 1
   salvaging: 50
-  invest_bonus: 25
 
 units:
   - name: Ensign
@@ -35,37 +34,40 @@ units:
     perks:
       fewer_casualties_offense: 50
 
-  - name: Commodore
+  - name: Captain
     need_boat: true
-    training_time: 9
+    training_time: 12
     type:
       - living
       - sentient
       - intelligent
+      - wise
     cost:
-      platinum: 800
-      ore: 25
+      platinum: 3000
+      ore: 0
     power:
-      offense: 0
-      defense: 5
+      offense: 8
+      defense: 8
+      increases_prestige_gains: 100
+      pairing_limit: 4,1 # Unit slot, amount (max 2 of this unit per each Unit 4)
 
-  - name: Frigate
+  - name: Coastal Cannon
     need_boat: false
     training_time: 12
     type:
-      - ship
+      - machine
     cost:
       platinum: 12500
       ore: 2500
       lumber: 5000
     power:
       offense: 0
-      defense: 120
+      defense: 200
     perks:
-      fewer_casualties: 50
+      immortal_on_fending_off: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: dock,2,harbor # building, buildings per unit, imp to increase
+      building_limit: dock,3,harbor # building, buildings per unit, imp to increase
       upkeep_platinum: 50
       upkeep_ore: 1
       upkeep_lumber: 1
@@ -86,10 +88,10 @@ units:
       fewer_casualties: 75
       no_draftee: 1
       does_not_count_as_population: 1
-      houses_military_units: 200
-      offense_from_pairing: 1,200,200 # slot, amount, num required
+      houses_military_units: 300
+      offense_from_pairing: 1,300,300 # slot, amount, num required
       building_limit: dock,2,harbor
       plunders: platinum;100,gems;50
-      upkeep_platinum: 500
+      upkeep_platinum: 125
       upkeep_ore: 3
       upkeep_lumber: 8

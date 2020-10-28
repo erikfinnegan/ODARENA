@@ -187,27 +187,37 @@ class EspionageActionService
         {
             if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START)
             {
-                throw new GameException('You cannot perform resource theft during gthe first day of the round');
+                throw new GameException('You cannot perform resource theft during the first day of the round');
             }
             #if ($this->rangeCalculator->getDominionRange($dominion, $target) < 100) {
             if (!$this->rangeCalculator->isInRange($dominion, $target))
             {
                 throw new GameException('You cannot perform resource theft on targets outside of your range');
             }
-        } elseif ($this->espionageHelper->isHostileOperation($operationKey)) {
-            if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START) {
+            if ($this->spellCalculator->isSpellActive($target, 'blizzard'))
+            {
+                throw new GameException('Your spies are unable to enter the lands of ' . $target->name . ' due to an intense blizzard.');
+            }
+
+        }
+        elseif ($this->espionageHelper->isHostileOperation($operationKey))
+        {
+            if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START)
+            {
                 throw new GameException('You cannot perform black ops during the first day of the round');
             }
         }
 
-        if ($dominion->round->id !== $target->round->id) {
+        if ($dominion->round->id !== $target->round->id)
+        {
             throw new GameException('Nice try, but you cannot perform espionage operations cross-round');
         }
 
         #if($dominion->race->alignment == 'good')
         #{
         # No in-realm ops.
-          if ($dominion->realm->id === $target->realm->id) {
+          if ($dominion->realm->id === $target->realm->id)
+          {
               throw new GameException('Nice try, but you cannot perform espionage oprations on your realmies');
           }
         #}
@@ -218,7 +228,7 @@ class EspionageActionService
             {
                 if($dominion->race->name !== $target->race->name)
                 {
-                    throw new GameException('Abduction not possible. ' . $dominion->race->name . ' and ' . $target->race->name . ' are not compatible enough.');
+                    throw new GameException('Abduction not possible. ' . $dominion->race->name . ' and ' . $target->race->name . ' are not compatible.');
                 }
             }
         }
@@ -336,6 +346,7 @@ class EspionageActionService
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
                     $dominion->stat_total_spies_lost += $spiesKilled;
+                    $target->stat_total_spies_killed += $spiesKilled;
                 }
 
                 $spyUnitsKilled = 0;
@@ -357,6 +368,7 @@ class EspionageActionService
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                             $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+                            $target->stat_total_units_killed += $unitKilled;
                             $spyUnitsKilled += $unitKilled;
                         }
                     }
@@ -640,6 +652,7 @@ class EspionageActionService
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
                     $dominion->stat_total_spies_lost += $spiesKilled;
+                    $target->stat_total_spies_killed += $spiesKilled;
                 }
 
                 $spyUnitsKilled = 0;
@@ -662,6 +675,7 @@ class EspionageActionService
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
                             $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                             $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+                            $target->stat_total_units_killed += $unitKilled;
                             $spyUnitsKilled += $unitKilled;
                         }
                     }
@@ -1037,9 +1051,8 @@ class EspionageActionService
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
                     $dominion->stat_total_spies_lost += $spiesKilled;
+                    $target->stat_total_spies_killed += $spiesKilled;
                 }
-
-
 
                 $spyUnitsKilled = 0;
                 foreach ($dominion->race->units as $unit)
@@ -1061,6 +1074,7 @@ class EspionageActionService
                               $unitsKilled[strtolower($unit->name)] = $unitKilled;
                               $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
                               $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+                              $target->stat_total_units_killed += $unitKilled;
                               $spyUnitsKilled += $unitKilled;
                           }
                     }
