@@ -2517,6 +2517,11 @@ class InvadeActionService
 
               $returnTicks = $this->getUnitReturnHoursForSlot($dominion, $slot);
 
+              if($this->spellCalculator->isSpellActive($attacker, 'winds_of_fortune'))
+              {
+                  $returnTicks -= 2;
+              }
+
               # Check for faster_return_if_paired
               if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
               {
