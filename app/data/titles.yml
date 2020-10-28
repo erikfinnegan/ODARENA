@@ -23,6 +23,7 @@ investigator:
   name: Investigator
   perks:
     spy_strength: 15
+    spy_strength_recovery: 1
 
 pathfinder:
   name: Pathfinder

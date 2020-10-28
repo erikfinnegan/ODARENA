@@ -34,6 +34,8 @@ units:
       defense_from_pairing: 4,30,1 # slot, amount, num required
       sendable_with_zero_op: 1
       damages_improvements_on_attack: 100
+      does_not_count_as_population: 1
+      no_draftee: 1
 
   - name: Miner
     training_time: 9

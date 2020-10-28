@@ -81,6 +81,11 @@ class TitleHelper
                 $negativeBenefit = true;
                 $description = 'Mana drain:';
                 break;
+            case 'spy_strength_recovery':
+                $negativeBenefit = false;
+                $description = 'Spy strength recovery:';
+                $valueType = '%/tick';
+                break;
             default:
                 return null;
         }
