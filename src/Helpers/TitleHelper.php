@@ -67,7 +67,7 @@ class TitleHelper
                 break;
             case 'conversions':
                 $negativeBenefit = false;
-                $description = 'Units converted (not applicable to Vampires):';
+                $description = 'Units converted (only applicable to Spirit and Undead):';
                 break;
             case 'lumber_production':
                 $negativeBenefit = false;

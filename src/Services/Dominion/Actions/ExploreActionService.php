@@ -153,10 +153,6 @@ class ExploreActionService
             throw new GameException('Exploring that much land would lower your morale by ' . $moraleDrop . '%. You currently have ' . $dominion->morale . '% morale.');
         }
 
-        // todo: refactor. see training action service. same with other action services
-        #$newMorale = max(0, ($dominion->morale - $this->explorationCalculator->getMoraleDrop($totalLandToExplore)));
-        #$moraleDrop = ($dominion->morale - $newMorale);
-
         $newMorale = $dominion->morale - $moraleDrop;
 
         $platinumCost = ($this->explorationCalculator->getPlatinumCost($dominion) * $totalLandToExplore);
@@ -172,9 +168,13 @@ class ExploreActionService
         $researchPointsPerAcre *= (1 + $researchPointsPerAcreMultiplier);
         $researchPointsGained = $researchPointsPerAcre * $totalLandToExplore;
 
-        DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore, $researchPointsGained, $platinumCost) {
-            $this->queueService->queueResources('exploration', $dominion, $data);
-            $this->queueService->queueResources('exploration',$dominion,['resource_tech' => $researchPointsGained]);
+        # Pathfinder
+        $ticks = 12;
+        $ticks += $dominion->title->getPerkValue('explore_time');
+
+        DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore, $researchPointsGained, $platinumCost, $ticks) {
+            $this->queueService->queueResources('exploration', $dominion, $data, $ticks);
+            $this->queueService->queueResources('exploration',$dominion,['resource_tech' => $researchPointsGained], $ticks);
 
 
             $dominion->stat_total_land_explored += $totalLandToExplore;

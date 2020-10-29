@@ -17,7 +17,7 @@ surveyor:
 engineer:
   name: Engineer
   perks:
-    improvements: 5
+    improvements: 10
 
 investigator:
   name: Investigator

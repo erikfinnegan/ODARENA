@@ -71,9 +71,6 @@ class UnitHelper
             'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
-            'defense_from_title' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
-            'offense_from_title' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
-
             'offense_vs_land' => 'Offense increased by 1 against every %2$s%% %1$ss of target (max +%3$s).',
             'defense_vs_land' => 'Defense increased by 1 for every %2$s%% %1$ss of attacker (max +%3$s).',
 
@@ -127,8 +124,8 @@ class UnitHelper
             'offense_from_advancements' => 'Offense increased by %2$s if you unlock %1$s.',
             'defense_from_advancements' => 'Defense increased by %2$s if you unlock %1$s.',
 
-            'offense_from_title' => 'Offense increased by %1$s if ruled by a %2$s.',
-            'defense_from_title' => 'Defense increased by %1$s if ruled by a %2$s.',
+            'offense_from_title' => 'Offense increased by %2$s if ruled by a %1$s.',
+            'defense_from_title' => 'Defense increased by %2$s if ruled by a %1$s.',
 
             // Spy related
             'counts_as_spy_defense' => 'Counts as %s of a spy on defense.',
@@ -136,7 +133,7 @@ class UnitHelper
             'immortal_spy' => 'Immortal spy (cannot be killed when conducting espionage).',
             'minimum_spa_to_train' => 'Must have at least %s Spy Ratio (on offense) to train.',
 
-            'spy_from_title' => 'Counts as additional %1$s of a spy (offense and defense) if ruled by a %2$s.',
+            'spy_from_title' => 'Counts as additional %2$s of a spy (offense and defense) if ruled by a %1$s.',
 
             // Wizard related
             'counts_as_wizard_defense' => 'Counts as %s of a wizard on defense.',
@@ -204,7 +201,7 @@ class UnitHelper
 
             'destroys_souls' => 'Releases souls.',
 
-            'production_from_title' => 'Produces %2$s %1$s per tick if ruled by a %3$s.',
+            'production_from_title' => 'Produces %3$s %2$s per tick if ruled by a %1$s.',
 
             // Misc
             'faster_return' => 'Returns %s ticks faster from battle.',
