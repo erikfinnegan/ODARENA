@@ -7,6 +7,7 @@ playable: 1
 attacking: 1
 exploring : 2
 converting: 3
+skill_level: 2
 
 construction_materials: platinum,lumber
 
@@ -16,6 +17,7 @@ perks:
   cannot_build_barracks: 1
   cannot_build_homes: 1
   salvaging: 50
+  invest_bonus: 25
 
 units:
   - name: Ensign

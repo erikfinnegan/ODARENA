@@ -552,6 +552,11 @@ class RaceHelper
 
     public function getRacePlayStyleString(int $rating): string
     {
+
+        $playStyleString = '';
+
+        return $playStyleString;
+
         $ratings = [
           'Unplayable',
           'Difficult',
@@ -597,24 +602,6 @@ class RaceHelper
             return $race->name;
         }
     }
-
-    public function isBeginnerFriendly(Race $race)
-    {
-        $beginnerFriendlyRaces = [
-            'Halfling',
-            'Human',
-            #'Spirit',
-            'Wood Elf',
-            'Nomad',
-            'Troll',
-            'Undead',
-            'Beastfolk',
-            'Merfolk',
-            'Simian'
-        ];
-        return in_array($race->name, $beginnerFriendlyRaces);
-    }
-
 
     public function hasPeasantsAlias(Race $race): bool
     {

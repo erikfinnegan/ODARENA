@@ -11,6 +11,7 @@ draftees_alias: cocoon
 attacking: 2
 exploring : 2
 converting: 1
+skill_level: 2
 
 construction_materials: platinum,lumber
 

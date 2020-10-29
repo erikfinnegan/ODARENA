@@ -10,6 +10,7 @@ draftees_alias: antling
 attacking: 3
 exploring : 3
 converting: 3
+skill_level: 2
 
 construction_materials: platinum,lumber
 

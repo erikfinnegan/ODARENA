@@ -15,8 +15,9 @@ home_land_type: hill
 playable: 1
 
 attacking: 3
-exploring : 2
+exploring : 1
 converting: 1
+skill_level: 3
 
 construction_materials: platinum,lumber
 

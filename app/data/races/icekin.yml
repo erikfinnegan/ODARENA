@@ -7,9 +7,9 @@ playable: 1
 attacking: 1
 exploring : 3
 converting: 3
+skill_level: 2
 
 construction_materials: platinum,ore
-
 
 archmages_cost: 500,platinum
 

@@ -9,6 +9,7 @@ playable: 1
 attacking: 2
 exploring : 1
 converting: 2
+skill_level: 2
 
 construction_materials: platinum,lumber
 

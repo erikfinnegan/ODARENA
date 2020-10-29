@@ -16,6 +16,7 @@ construction_materials: food
 attacking: 2
 exploring : 0
 converting: 0
+skill_level: 2
 
 perks:
   population_growth: 200

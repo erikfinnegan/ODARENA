@@ -11,6 +11,7 @@ draftees_alias: yeti
 attacking: 2
 exploring : 2
 converting: 2
+skill_level: 3
 
 construction_materials: food,lumber
 
