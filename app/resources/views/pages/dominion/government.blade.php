@@ -45,7 +45,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <input type="number" class="form-control" name="realm_contribution" id="realm_contribution" placeholder="{{ $selectedDominion->realm->contribution }}" min=0 max=10 step=1 autocomplete="off" />
+                                            <input type="number" inputmode="numeric" pattern="[0-9]*" class="form-control" name="realm_contribution" id="realm_contribution" placeholder="{{ $selectedDominion->realm->contribution }}" min=0 max=10 step=1 autocomplete="off" />
                                         </div>
                                     </div>
                                     <div class="col-xs-offset-6 col-xs-6 col-sm-offset-8 col-sm-4 col-lg-offset-10 col-lg-2">

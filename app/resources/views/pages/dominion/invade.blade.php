@@ -137,6 +137,8 @@
                                             </td>
                                             <td class="text-center">
                                                 <input type="number"
+                                                        inputmode="numeric"
+                                                        pattern="[0-9]*"
                                                        name="unit[{{ $unitSlot }}]"
                                                        id="unit[{{ $unitSlot }}]"
                                                        class="form-control text-center"
@@ -163,6 +165,8 @@
                                             </td>
                                             <td>
                                                 <input type="number"
+                                                        inputmode="numeric"
+                                                        pattern="[0-9]*"
                                                        name="calc[{{ $buildingType }}_percent]"
                                                        class="form-control text-center"
                                                        min="0"
@@ -180,6 +184,8 @@
                                             </td>
                                             <td>
                                                 <input type="number"
+                                                        inputmode="numeric"
+                                                        pattern="[0-9]*"
                                                        name="calc[{{ $landType }}_percent]"
                                                        class="form-control text-center"
                                                        min="0"
@@ -197,6 +203,8 @@
                                             </td>
                                             <td>
                                                 <input type="number"
+                                                        inputmode="numeric"
+                                                        pattern="[0-9]*"
                                                        name="calc[prestige]"
                                                        class="form-control text-center"
                                                        min="0"
@@ -214,6 +222,8 @@
                                             </td>
                                             <td>
                                                 <input type="number"
+                                                        inputmode="numeric"
+                                                        pattern="[0-9]*"
                                                        name="calc[barren_land_percent]"
                                                        class="form-control text-center"
                                                        min="0"
@@ -231,6 +241,8 @@
                                             </td>
                                             <td>
                                                 <input type="number"
+                                                        inputmode="numeric"
+                                                        pattern="[0-9]*"
                                                        name="calc[{{ $offenseVsResource }}]"
                                                        class="form-control text-center"
                                                        min="0"
@@ -247,6 +259,8 @@
                                             </td>
                                             <td>
                                                 <input type="number"
+                                                        inputmode="numeric"
+                                                        pattern="[0-9]*"
                                                        name="calc[opposing_units]"
                                                        class="form-control text-center"
                                                        min="0"

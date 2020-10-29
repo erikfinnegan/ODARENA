@@ -35,7 +35,7 @@
                                     </td>
                                     <td class="text-center">{{ number_format($selectedDominion->military_draftees) }}</td>
                                     <td class="text-center">
-                                        <input type="number" name="release[draftees]" class="form-control text-center" placeholder="0" min="0" max="{{ $selectedDominion->military_draftees }}" value="{{ old('release.draftees') }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                        <input type="number" inputmode="numeric" pattern="[0-9]*" name="release[draftees]" class="form-control text-center" placeholder="0" min="0" max="{{ $selectedDominion->military_draftees }}" value="{{ old('release.draftees') }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                     </td>
                                 </tr>
                                 @foreach ($unitHelper->getUnitTypes() as $unitType)
@@ -48,7 +48,7 @@
                                         </td>
                                         <td class="text-center">{{ number_format($selectedDominion->{'military_' . $unitType}) }}</td>
                                         <td class="text-center">
-                                            <input type="number" name="release[{{ $unitType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $selectedDominion->{'military_' . $unitType} }}" value="{{ old('release.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            <input type="number" inputmode="numeric" pattern="[0-9]*" name="release[{{ $unitType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $selectedDominion->{'military_' . $unitType} }}" value="{{ old('release.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
                                     </tr>
                                 @endforeach

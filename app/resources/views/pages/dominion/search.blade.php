@@ -38,13 +38,13 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label text-right">Land Min:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" name="landMin" class="form-control input-sm" min="0" placeholder="0" />
+                                    <input type="number" inputmode="numeric" pattern="[0-9]*" name="landMin" class="form-control input-sm" min="0" placeholder="0" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label text-right">Land Max:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" name="landMax" class="form-control input-sm" placeholder="--" />
+                                    <input type="number" inputmode="numeric" pattern="[0-9]*" name="landMax" class="form-control input-sm" placeholder="--" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -60,13 +60,13 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label text-right">Networth Min:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" name="networthMin" class="form-control input-sm" min="0" placeholder="0" />
+                                    <input type="number" inputmode="numeric" pattern="[0-9]*" name="networthMin" class="form-control input-sm" min="0" placeholder="0" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label text-right">Networth Max:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" name="networthMax" class="form-control input-sm" placeholder="--" />
+                                    <input type="number" inputmode="numeric" pattern="[0-9]*" name="networthMax" class="form-control input-sm" placeholder="--" />
                                 </div>
                             </div>
                             <div class="form-group">
