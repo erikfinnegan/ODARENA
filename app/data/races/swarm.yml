@@ -8,9 +8,9 @@ playable: 1
 peasants_alias: larva
 draftees_alias: cocoon
 
-attacking: 2
+attacking: 3
 exploring : 2
-converting: 1
+converting: 3
 skill_level: 2
 
 construction_materials: platinum,lumber

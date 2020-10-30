@@ -4,7 +4,7 @@ description:
 home_land_type: swamp
 playable: 1
 
-attacking: 1
+attacking: 2
 exploring : 1
 converting: 1
 skill_level: 3

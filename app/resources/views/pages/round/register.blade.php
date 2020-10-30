@@ -213,25 +213,26 @@
                     <div class="col-sm-offset-3 col-sm-9">
 
                       @if($round->hasStarted())
-                      <p>This round has already started and ends {{ $round->end_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
-                      <p>When you register, you start with 84 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
-                      <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
-                      <p>To help you get going, you will get 1% extra starting resources for every hour since the round started (max +100%).</p>
+                          <p>This round has already started and ends {{ $round->end_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
+                          <p>When you register, you start with 84 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
+                          <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
+                          <p>To help you get going, you will get 1% extra starting resources for every hour since the round started (max +100%).</p>
 
-                        @if ($discordInviteLink = config('app.discord_invite_link'))
-                        <p>If you need any help or just want to chat, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
-                        @endif
+                          @if ($discordInviteLink = config('app.discord_invite_link'))
+                          <   p>If you need any help or just want to chat, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
+                          @endif
 
                       @else
-                      <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
-                      <p>When you register, you start with 84 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
-                      <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
+                          <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
+                          <p>When you register, you start with 84 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
+                          <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
 
-                        @if ($discordInviteLink = config('app.discord_invite_link'))
-                        <p>In the meantime, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
-                        @endif
+                            @if ($discordInviteLink = config('app.discord_invite_link'))
+                                <p>In the meantime, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
+                            @endif
 
                       @endif
+                      
                       <p>Head over to the <a href="https://sim.odarena.com/" target="_blank">ODARENA Simulator</a> if you want to sim protection. Click <a href="https://lounge.odarena.com/2020/02/24/odarena-sim/" target="_blank">here</a> to read about how the sim works.</p>
 
                     </div>

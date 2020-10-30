@@ -4,8 +4,8 @@ description:
 home_land_type: hill
 playable: 1
 
-attacking: 2
-exploring : 3
+attacking: 3
+exploring : 2
 converting: 3
 skill_level: 2
 

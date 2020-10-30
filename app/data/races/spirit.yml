@@ -9,12 +9,12 @@ exploring : 2
 converting: 1
 skill_level: 1
 
-construction_materials: platinum
+construction_materials: gems
 
 perks:
   food_consumption: -100
 units:
-  - name: Wisp
+  - name: Purist
     training_time: 6
     type:
       - living
@@ -23,36 +23,14 @@ units:
       - intelligent
     need_boat: false
     cost:
-      platinum: 200
-      ore: 0
+      platinum: 600
     power:
-      offense: 2
-      defense: 2
-    perks:
-      immortal: 1
-      staggered_conversion: 40;1,85;2
-
-  - name: Banshee
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - ethereal
-      - intelligent
-    need_boat: false
-    cost:
-      platinum: 500
-      ore: 0
-    power:
-      offense: 3
+      offense: 6
       defense: 3
     perks:
-      immortal: 1
-      staggered_conversion: 75;2,85;3
-      offense_from_building: alchemy,40,1 # building type, ratio%, max
-      defense_from_building: alchemy,40,1 # building type, ratio%, max
+      conversion: 4
 
-  - name: Phantom
+  - name: Aspect
     training_time: 12
     type:
       - living
@@ -61,18 +39,32 @@ units:
       - intelligent
     need_boat: false
     cost:
-      platinum: 1600
-      ore: 0
+      platinum: 1000
     power:
-      offense: 4
-      defense: 4
+      offense: 5
+      defense: 5
     perks:
-      immortal: 1
-      staggered_conversion: 75;3,85;4
-      offense_from_building: alchemy,20,2 # building type, ratio%, max
-      defense_from_building: alchemy,20,2 # building type, ratio%, max
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
 
-  - name: Spectre
+  - name: Sage
+    training_time: 9
+    type:
+      - living
+      - sentient
+      - ethereal
+      - intelligent
+    static_networth: 10
+    cost:
+      platinum: 800
+    power:
+      offense: 0
+      defense: 6
+    perks:
+      passive_conversion: 2,4,0.02,temple # slot_from, slot_to, rate
+
+  - name: Ascended
+    training_time: 12
     type:
       - living
       - sentient
@@ -88,6 +80,5 @@ units:
       defense: 10
     perks:
       immortal: 1
-      staggered_conversion: 85;3,100;4
       cannot_be_trained: 1
-      does_not_count_as_population: 1
+      conversion: 4

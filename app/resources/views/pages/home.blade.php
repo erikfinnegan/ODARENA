@@ -89,7 +89,9 @@
                             </p>
                         @else
                             <p>
-                                <em><a href="{{ route('round.register', $currentRound) }}">Join the ongoing round!</a></em>
+                                <a href="{{ route('round.register', $currentRound) }}">
+                                <button type="submit" class="btn btn-primary">Register To Join Round {{ $currentRound->number }} Now</button>
+                                </a>
                             </p>
                         @endif
                     </div>

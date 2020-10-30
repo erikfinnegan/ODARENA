@@ -932,6 +932,62 @@ class TickService
               }
 
 
+              // Spirit: Passive generation
+              if($passiveConversionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'passive_conversion'))
+              {
+                  $slotFrom = (int)$passiveConversionPerk[0];
+                  $slotTo = (int)$passiveConversionPerk[1];
+                  $rate = (float)$passiveConversionPerk[2];
+                  $building = (string)$passiveConversionPerk[3];
+
+                  $increaseFromBuilding = ($dominion->{'building_'.$building} / $this->landCalculator->getTotalLand($dominion));
+
+                  $convertingUnits = $dominion->{'military_unit'.$slot};
+
+                  $unitAmountToGenerate = (int)round($convertingUnits * $rate);
+                  if($unitAmountToGenerate >= 1)
+                  {
+                      $unitAmountToRemove = (int)round($convertingUnits / $rate);
+                  }
+
+                  dd($unitAmountToGenerate, $unitAmountToRemove);
+
+                  if($slotTo == 1)
+                  {
+                      $generatedUnit1 += $unitAmountToGenerate;
+                  }
+                  elseif($slotTo == 2)
+                  {
+                      $generatedUnit2 += $unitAmountToGenerate;
+                  }
+                  elseif($slotTo == 3)
+                  {
+                      $generatedUnit3 += $unitAmountToGenerate;
+                  }
+                  elseif($slotTo == 4)
+                  {
+                      $generatedUnit4 += $unitAmountToGenerate;
+                  }
+
+                  if($slotFrom == 1)
+                  {
+                      $attritionUnit1 += $unitAmountToRemove;
+                  }
+                  elseif($slotFrom == 2)
+                  {
+                      $attritionUnit2 += $unitAmountToRemove;
+                  }
+                  elseif($slotFrom == 3)
+                  {
+                      $attritionUnit3 += $unitAmountToRemove;
+                  }
+                  elseif($slotFrom == 4)
+                  {
+                      $attritionUnit4 += $unitAmountToRemove;
+                  }
+
+              }
+
               // Cult: Unit attrition
               if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
               {

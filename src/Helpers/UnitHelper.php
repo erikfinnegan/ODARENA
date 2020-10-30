@@ -63,6 +63,7 @@ class UnitHelper
 
             #'strength_conversion' => 'Converts some enemy casualties into %2$s if they have at least %1$s raw OP or DP.',
             'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s or, if stronger than %1$s, into %3$s.',
+            'passive_conversion' => 'Converts %3$s %1$s into 1 %2$s each tick, increased by (%4$s / Total Land)%%.',
 
             // OP/DP related
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
@@ -276,7 +277,7 @@ class UnitHelper
 
             list($type, $proficiency) = explode(' ', $helpStrings[$unitType]);
 
-            $helpStrings[$unitType] .= '<li>OP: '. $unit->power_offense . ' / DP: ' . $unit->power_defense . ' / T: ' . $unit->training_time .  '</li>';
+            $helpStrings[$unitType] .= '<li>OP: '. number_format($unit->power_offense,2) . ' / DP: ' . number_format($unit->power_defense,2) . ' / T: ' . $unit->training_time .  '</li>';
             #$helpStrings[$unitType] .= '<li>Attributes: '. $this->getUnitAttributesString($unitType, $race) . '</li>';
 
             foreach ($unit->perks as $perk)
@@ -412,6 +413,27 @@ class UnitHelper
 
                     $perkValue = [$limit, str_plural($underLimitUnit->name), str_plural($overLimitUnit->name)];
                 }
+                elseif($perk->key === 'passive_conversion')
+                {
+                    $slotFrom = (int)$perkValue[0];
+                    $slotTo = (int)$perkValue[1];
+                    $rate = (float)$perkValue[2];
+                    $building = (string)$perkValue[3];
+
+                    $unitFrom = $race->units->filter(static function ($unit) use ($slotFrom)
+                        {
+                            return ($unit->slot === $slotFrom);
+                        })->first();
+
+                    $unitTo = $race->units->filter(static function ($unit) use ($slotTo)
+                        {
+                            return ($unit->slot === $slotTo);
+                        })->first();
+
+                    $perkValue = [$unitFrom->name, $unitTo->name, $rate, $building];
+                }
+
+
 
 
                 if($perk->key === 'plunders')

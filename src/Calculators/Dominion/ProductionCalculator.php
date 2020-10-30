@@ -917,8 +917,7 @@ class ProductionCalculator
             $multiplier += 0.20;
         }
 
-
-
+        $multiplier = max(-1, $multiplier);
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -1020,6 +1019,8 @@ class ProductionCalculator
         }
 
         # /SPELLS
+
+        $multiplier = max(-1, $multiplier);
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);

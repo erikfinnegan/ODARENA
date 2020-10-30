@@ -5,8 +5,8 @@ home_land_type: forest
 playable: 1
 
 attacking: 3
-exploring : 2
-converting: 2
+exploring : 3
+converting: 3
 skill_level: 2
 
 construction_materials: platinum,lumber
