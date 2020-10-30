@@ -6,7 +6,7 @@ commander:
 conjurer:
   name: Conjurer
   perks:
-    mana_drain: -50
+    mana_drain: -25
 
 surveyor:
   name: Surveyor
