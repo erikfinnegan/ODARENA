@@ -796,9 +796,8 @@ class ProductionCalculator
         $decay += min($dominion->resource_mana, $dominion->getUnitPerkProductionBonus('mana_drain'));
 
         // Ruler title: Conjurer
-        $multiplier = $dominion->title->getPerkMultiplier('mana_drain') * $dominion->title->getPerkBonus($dominion);
 
-        dd($multiplier);
+        $decay *= (1 + $dominion->title->getPerkMultiplier('mana_drain') * $dominion->title->getPerkBonus($dominion));
 
         return $decay;
     }
