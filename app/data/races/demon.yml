@@ -75,6 +75,8 @@ units:
       - living
       - sentient
       - intelligent
+      - massive
+      - wise
     need_boat: false
     cost:
       blood: 60000
