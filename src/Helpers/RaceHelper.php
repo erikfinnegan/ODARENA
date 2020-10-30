@@ -222,7 +222,7 @@ class RaceHelper
             case 'increased_construction_speed':
                 $negativeBenefit = false;
                 $description = 'Increased construction speed';
-                $valueType = ' hours';
+                $valueType = ' ticks';
                 break;
             case 'all_units_trained_in_9hrs':
                 $negativeBenefit = false;
