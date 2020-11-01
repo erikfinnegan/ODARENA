@@ -251,7 +251,7 @@ class PopulationCalculator
         if($dominion->race->getPerkValue('population_from_alchemy'))
         {
             $multiplierFromAlchemies = ($dominion->building_alchemy / $this->landCalculator->getTotalLand($dominion)) * $dominion->race->getPerkValue('population_from_alchemy');
-            $multiplier += min(0.20, $multiplierFromAlchemies);
+            $multiplier += min(0.30, $multiplierFromAlchemies);
         }
 
         // Prestige Bonus
