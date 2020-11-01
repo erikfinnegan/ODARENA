@@ -58,7 +58,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                             {{ ucfirst($improvementType) }}
                                         </td>
                                         <td class="text-center">
-                                            <input type="tel" inputmode="numeric" pattern="[0-9]*" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            <input type="number" inputmode="numeric" pattern="[0-9]*" name="improve[{{ $improvementType }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvementType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
                                         <td>
                                             <button class="btn btn-default improve-max" data-type="{{ $improvementType }}" type="button" style="width:4em;">Max</button>
