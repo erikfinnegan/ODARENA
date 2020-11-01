@@ -62,7 +62,7 @@ units:
       - ethereal
     need_boat: false
     cost:
-      platinum: 1000
+      platinum: 1200
       mana: 10
     power:
       offense: 6
