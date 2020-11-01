@@ -290,8 +290,6 @@
                                 @endif
                                 <td class="text">
                                     <input type="number" name="draft_rate" class="form-control text-center"
-                                            inputmode="numeric"
-                                            pattern="[0-9]*"
                                            style="display: inline-block; width: 4em;" placeholder="0" min="0"
                                            max="100"
                                            value="{{ $selectedDominion->draft_rate }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>&nbsp;%

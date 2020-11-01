@@ -49,8 +49,6 @@
                                     <div class="form-group col-sm-3">
                                         <label for="amount" id="amountLabel">{{ reset($resources)['label'] }}</label>
                                         <input type="number"
-                                                inputmode="numeric"
-                                                pattern="[0-9]*"
                                                name="amount"
                                                id="amount"
                                                class="form-control text-center"
@@ -63,8 +61,6 @@
                                     <div class="form-group col-sm-6">
                                         <label for="amountSlider">Amount</label>
                                         <input type="number"
-                                                inputmode="numeric"
-                                                pattern="[0-9]*" 
                                                id="amountSlider"
                                                class="form-control slider"
                                                {{--value="0"--}}
