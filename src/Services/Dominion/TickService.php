@@ -935,6 +935,7 @@ class TickService
               // Spirit: Passive generation
               if($passiveConversionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'passive_conversion'))
               {
+                  $slotConverting = $slot;
                   $slotFrom = (int)$passiveConversionPerk[0];
                   $slotTo = (int)$passiveConversionPerk[1];
                   $rate = (float)$passiveConversionPerk[2];
@@ -942,48 +943,55 @@ class TickService
 
                   $increaseFromBuilding = ($dominion->{'building_'.$building} / $this->landCalculator->getTotalLand($dominion));
 
-                  $convertingUnits = $dominion->{'military_unit'.$slot};
+                  /*
+                  *   Determine how many units are to be passively converted:
+                  *   1. Take converting units and apply the rate.
+                  *      This gets us how many units the converting could convert.
+                  *
+                  *   2. See how many source units we have.
+                  */
 
-                  $unitAmountToGenerate = (int)round($convertingUnits * $rate);
-                  if($unitAmountToGenerate >= 1)
-                  {
-                      $unitAmountToRemove = (int)round($convertingUnits / $rate);
-                  }
+                  # 1
+                  $convertingUnits = $dominion->{'military_unit'.$slotConverting};
+                  $sourceUnits = $dominion->{'military_unit'.$slotFrom};
 
-                  dd($unitAmountToGenerate, $unitAmountToRemove);
+                  $sourceUnitsRemoved = (int)round($convertingUnits * $rate);
+                  $targetUnitsAdded = $sourceUnitsRemoved;
+
+                  #dd($sourceUnitsRemoved, $targetUnitsAdded);
 
                   if($slotTo == 1)
                   {
-                      $generatedUnit1 += $unitAmountToGenerate;
+                      $generatedUnit1 += $targetUnitsAdded;
                   }
                   elseif($slotTo == 2)
                   {
-                      $generatedUnit2 += $unitAmountToGenerate;
+                      $generatedUnit2 += $targetUnitsAdded;
                   }
                   elseif($slotTo == 3)
                   {
-                      $generatedUnit3 += $unitAmountToGenerate;
+                      $generatedUnit3 += $targetUnitsAdded;
                   }
                   elseif($slotTo == 4)
                   {
-                      $generatedUnit4 += $unitAmountToGenerate;
+                      $generatedUnit4 += $targetUnitsAdded;
                   }
 
                   if($slotFrom == 1)
                   {
-                      $attritionUnit1 += $unitAmountToRemove;
+                      $attritionUnit1 += $sourceUnitsRemoved;
                   }
                   elseif($slotFrom == 2)
                   {
-                      $attritionUnit2 += $unitAmountToRemove;
+                      $attritionUnit2 += $sourceUnitsRemoved;
                   }
                   elseif($slotFrom == 3)
                   {
-                      $attritionUnit3 += $unitAmountToRemove;
+                      $attritionUnit3 += $sourceUnitsRemoved;
                   }
                   elseif($slotFrom == 4)
                   {
-                      $attritionUnit4 += $unitAmountToRemove;
+                      $attritionUnit4 += $sourceUnitsRemoved;
                   }
 
               }

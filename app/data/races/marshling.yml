@@ -38,6 +38,7 @@ units:
     perks:
       minimum_wpa_to_train: 0.50
       wins_into: 2
+      cannot_be_released: 1
 
   - name: Slime
     type:
@@ -53,6 +54,7 @@ units:
       cannot_be_trained: 1
       wins_into: 3
       dies_into: 1
+      cannot_be_released: 1
 
   - name: Goo
     type:
@@ -69,6 +71,7 @@ units:
       cannot_be_trained: 1
       wins_into: 4
       dies_into: 2
+      cannot_be_released: 1
 
   - name: Ooze
     type:
@@ -85,3 +88,4 @@ units:
     perks:
       cannot_be_trained: 1
       dies_into_multiple: 1,2
+      cannot_be_released: 1

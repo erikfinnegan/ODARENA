@@ -16,7 +16,7 @@ perks:
   extra_barren_max_population: 10
   ore_improvement_points: 100
   salvaging: 25
-  extra_ore_mine_housing: 20
+  extra_ore_mine_housing: 15
 
 units:
   - name: Thundermaul

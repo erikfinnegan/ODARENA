@@ -2193,7 +2193,7 @@ commerce_level9:
   perks:
     exchange_rate: 37.5
   requires:
-    - commerce_level7
+    - commerce_level8
 
 commerce_level10:
   name: Commerce
@@ -2201,7 +2201,7 @@ commerce_level10:
   perks:
     exchange_rate: 40
   requires:
-    - commerce_level8
+    - commerce_level9
 
 # </Ladder: Commerce>
 
