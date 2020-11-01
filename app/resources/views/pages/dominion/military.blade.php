@@ -94,7 +94,7 @@
                                           @if ($selectedDominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'cannot_be_trained'))
                                             &mdash;
                                           @else
-                                            <input type="number" inputmode="numeric" pattern="\d" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="{{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}" min="0" max="" size="8" style="min-width:5em;" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            <input type="number" inputmode="numeric" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="{{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}" min="0" max="" size="8" style="min-width:5em;" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                           @endif
                                         </td>
 
