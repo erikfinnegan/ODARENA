@@ -577,8 +577,8 @@ class SpellHelper
                 'name' => 'Shroud',
                 'description' => 'Spies are twice as strong on offense and immortal',
                 'key' => 'shroud',
-                'mana_cost' => 4,
-                'duration' => 6,
+                'mana_cost' => 2,
+                'duration' => 24,
                 'races' => collect(['Spirit']),
             ],
         ]);
