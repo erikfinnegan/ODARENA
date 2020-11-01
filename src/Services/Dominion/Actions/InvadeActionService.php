@@ -2517,7 +2517,7 @@ class InvadeActionService
 
               $returnTicks = $this->getUnitReturnHoursForSlot($dominion, $slot);
 
-              if($this->spellCalculator->isSpellActive($attacker, 'winds_of_fortune'))
+              if($this->spellCalculator->isSpellActive($dominion, 'winds_of_fortune'))
               {
                   $returnTicks -= 2;
               }
