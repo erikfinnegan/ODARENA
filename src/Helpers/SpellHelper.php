@@ -213,7 +213,7 @@ class SpellHelper
                 'key' => 'alchemist_flame',
                 'mana_cost' => 10,
                 'duration' => 12*4,
-                'races' => collect(['Firewalker','Spirit']),
+                'races' => collect(['Firewalker']),
             ],
             [
                 'name' => 'Blizzard',
@@ -573,6 +573,14 @@ class SpellHelper
                 'races' => collect(['Legion']),
             ],
             */
+            [
+                'name' => 'Shroud',
+                'description' => 'Spies are twice as strong on offense and immortal',
+                'key' => 'shroud',
+                'mana_cost' => 4,
+                'duration' => 6,
+                'races' => collect(['Spirit']),
+            ],
         ]);
     }
 

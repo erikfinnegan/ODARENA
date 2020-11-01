@@ -1376,6 +1376,12 @@ class MilitaryCalculator
             }
         }
 
+        // Shroud
+        if($this->spellCalculator->isSpellActive($dominion, 'shroud') and $type == 'offense')
+        {
+            $spies *= 2;
+        }
+
         return ($spies / $this->landCalculator->getTotalLand($dominion));
     }
 

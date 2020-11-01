@@ -336,7 +336,7 @@ class EspionageActionService
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
                 # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies'))
+                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->isSpellActive($dominion, 'shroud'))
                 {
                     $spiesKilled = 0;
                 }
@@ -642,7 +642,7 @@ class EspionageActionService
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
                 # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies'))
+                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->isSpellActive($dominion, 'shroud'))
                 {
                     $spiesKilled = 0;
                 }
@@ -1041,7 +1041,7 @@ class EspionageActionService
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
                 # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies'))
+                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->isSpellActive($dominion, 'shroud'))
                 {
                     $spiesKilled = 0;
                 }
