@@ -45,6 +45,11 @@
                     <div class="box-body text-center">
                         <p>Registration for round {{ $currentRound->number }} is open.</p>
                         <p>The round starts in {{ $hoursUntilRoundStarts . ' ' . str_plural('hour', $hoursUntilRoundStarts) }} and lasts for {{ $currentRound->durationInDays() }} days.</p>
+
+
+                            <a href="{{ route('round.register', $currentRound) }}">
+                            <button type="submit" class="btn btn-primary">Register To Join Round {{ $currentRound->number }} Now</button>
+                            </a>
                     </div>
                 @elseif (!$currentRound->hasStarted())
                     <div class="box-body text-center" style="padding: 0; border-bottom: 1px solid #f4f4f4;">
@@ -53,6 +58,11 @@
                     <div class="box-body text-center">
                         <p>Registration for round {{ $currentRound->number }} opens on {{ $currentRound->start_date->subDays(3) }}.</p>
                         <p>The round starts on {{ $currentRound->start_date }} and lasts for {{ $currentRound->durationInDays() }} days.</p>
+
+
+                            <a href="{{ route('round.register', $currentRound) }}">
+                            <button type="submit" class="btn btn-primary">Register To Join Round {{ $currentRound->number }} Now</button>
+                            </a>
                     </div>
                 @else
                     <div class="box-body text-center" style="padding: 0;">
