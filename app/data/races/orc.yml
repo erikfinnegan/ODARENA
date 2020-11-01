@@ -25,7 +25,7 @@ zunits:
       - sentient
       - intelligent
     cost:
-      platinum: 500
+      platinum: 5000
       ore: 50
     power:
       offense: 3
