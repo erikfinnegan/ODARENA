@@ -2401,7 +2401,7 @@ fortifications_level4:
   perks:
     defense: 10
   requires:
-    - fortifications_level4
+    - fortifications_level3
 
 fortifications_level5:
   name: Fortifications
@@ -2409,7 +2409,7 @@ fortifications_level5:
   perks:
     defense: 12.5
   requires:
-    - fortifications_level5
+    - fortifications_level4
 
 fortifications_level6:
   name: Fortifications
