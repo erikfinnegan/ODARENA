@@ -106,6 +106,9 @@ class RezoningCalculator
         // Factories
         $multiplier -= ($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * 3; # 200/1000=20%x3=60%
 
+        // Faction Bonus
+        $multiplier += $dominion->race->getPerkMultiplier('rezone_cost');
+
         # Workshops
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');
 
