@@ -24,6 +24,10 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Construction cost';
                 break;
+            case 'rezoning_cost':
+                $negativeBenefit = true;
+                $description = 'Rezoning cost';
+                break;
             case 'defense':
                 $negativeBenefit = false;
                 $description = 'Defensive power';
