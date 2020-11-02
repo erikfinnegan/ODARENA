@@ -455,7 +455,7 @@ class InvadeActionService
             {
                 $offensiveConversions = $this->handleVampiricConversionOnOffense($dominion, $target, $units, $landRatio);
             }
-            elseif($dominion->race->name === 'Weres')
+            elseif($dominion->race->name === 'Weres' or $dominion->race->name === 'Spirit')
             {
                 $offensiveConversions = $this->handleStrengthConversionOnOffense($dominion, $target, $units, $landRatio);
             }
@@ -468,7 +468,7 @@ class InvadeActionService
             {
                 $defensiveConversions = $this->handleVampiricConversionOnDefense($target, $dominion, $units, $landRatio);
             }
-            elseif($target->race->name === 'Weres')
+            elseif($target->race->name === 'Weres' or $dominion->race->name === 'Spirit')
             {
                 $defensiveConversions = $this->handleStrengthConversionOnDefense($dominion, $target, $landRatio);
             }
