@@ -326,6 +326,12 @@ class DominionFactory
             $startingResources['unit4'] = 1;
         }
 
+        // Spirit: give back platinum.
+        if($race->name == 'Spirit')
+        {
+            $startingResources['platinum'] = 2000000; # Unit training costs
+        }
+
         // Monster: no one lives here.
         if($race->name == 'Monster')
         {
