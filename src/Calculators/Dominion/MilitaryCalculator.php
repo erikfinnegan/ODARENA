@@ -2025,10 +2025,10 @@ class MilitaryCalculator
 
         $landConquered *= 0.75;
 
-        return max(10, $landConquered);
+        return round(max(10, $landConquered));
     }
 
-    public function checkDiscoverLand(Dominion $attacker, Dominion $defender, int $landConquered): int
+    public function checkDiscoverLand(Dominion $attacker, Dominion $defender): int
     {
 
         if($this->getRecentlyInvadedCountByAttacker($defender,$attacker) == 0)
@@ -2050,6 +2050,11 @@ class MilitaryCalculator
             return 0;
         }
 
+        if($defender->race->name === 'Barbarian')
+        {
+            $landConquered /= 3;
+        }
+
         // Add 25% to generated if Nomad spell Campaign is enabled.
         if ($this->spellCalculator->isSpellActive($attacker, 'campaign'))
         {
@@ -2065,7 +2070,7 @@ class MilitaryCalculator
             $multiplier += min($attacker->resource_tech, 1000000) / 1000000;
         }
 
-        return $landConquered * $multiplier;
+        return round($landConquered * $multiplier);
 
     }
 
