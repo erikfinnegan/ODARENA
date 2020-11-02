@@ -26,7 +26,7 @@ units:
     cost:
       platinum: 0
       ore: 30000
-      mana: 750
+      mana: 500
     power:
       offense: 0
       defense: 0
