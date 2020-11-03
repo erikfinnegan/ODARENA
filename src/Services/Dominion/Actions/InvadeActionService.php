@@ -3051,7 +3051,10 @@ class InvadeActionService
                     $resourceToPlunder = $plunder[0];
                     $amountPlunderedPerUnit = $plunder[1];
 
-
+                    if($resourceToPlunder === 'gem')
+                    {
+                        $resourceToPlunder = 'gems';
+                    }
 
                     $amountToPlunder = intval(min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit));
                     $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
@@ -3063,6 +3066,12 @@ class InvadeActionService
             {
                 $resourceToPlunder = $plunderPerk[0];
                 $amountPlunderedPerUnit = $plunderPerk[1];
+
+                if($resourceToPlunder === 'gem')
+                {
+                    $resourceToPlunder = 'gems';
+                }
+
                 $amountToPlunder = intval(min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit));
                 $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
                 #echo '<pre>You plunder ' . $amountToPlunder . ' ' . $resourceToPlunder. '. The target has ' . $defender->{'resource_'.$resourceToPlunder} . ' ' . $resourceToPlunder. '</pre>';
