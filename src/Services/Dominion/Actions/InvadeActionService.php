@@ -81,6 +81,11 @@ class InvadeActionService
      */
     protected const MINDCONTROLLED_UNITS_CASUALTIES = 10;
 
+    /**
+     * @var float Percentage of units to be stunned
+     */
+    protected const STUN_RATIO = 1.5;
+
     /** @var BuildingCalculator */
     protected $buildingCalculator;
 
@@ -483,6 +488,9 @@ class InvadeActionService
             # Cult
             $this->handleMenticide($target, $dominion);
 
+            # Dwarf
+            $this->handleStun($dominion, $target, $units, $landRatio);
+
             $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
 
             $this->handleMoraleChanges($dominion, $target, $landRatio);
@@ -506,6 +514,7 @@ class InvadeActionService
 
             # Imperial Crypt
             $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $defensiveConversions);
+
 
             // Stat changes
             if ($this->invasionResult['result']['success'])
@@ -1067,7 +1076,7 @@ class InvadeActionService
                                 return ($unit->slot == $slot);
                             })->first();
 
-                            $rawOp += $this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') * $amount;
+                            $rawOp += $this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'offense') * $amount;
                         }
 
                         $dragonOpRatio = ($units[4] * 1000 / $rawOp);
@@ -2424,6 +2433,104 @@ class InvadeActionService
         $this->invasionResult['defender']['menticide']['newThralls'] = $newThralls;
         $cult->military_unit1 += $newThralls;
     }
+
+    protected function handleStun(Dominion $attacker, Dominion $defender, array $units, float $landRatio)
+    {
+
+
+
+        $opDpRatio = $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'];
+
+        $rawOp = 0;
+        $stunningOp = 0;
+
+        # Calculate how much of raw OP came from stunning units
+        foreach($units as $slot => $amount)
+        {
+
+            $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                return ($unit->slot == $slot);
+            })->first();
+
+            $unitsOp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense') * $amount;
+
+            $rawOp += $unitsOp;
+
+            if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'stuns_units'))
+            {
+                $stunningOp += $unitsOp;
+            }
+        }
+        $stunningOpRatio = $stunningOp / $rawOp;
+
+        $stunRatio = (static::STUN_RATIO / 100) * min($opDpRatio, 2) * min($stunningOpRatio, 1);
+
+        # Collect the stunnable units
+        $stunnableUnits = array_fill(1, 4, 0);
+
+        # Exclude certain attributes
+        $unconvertibleAttributes = [
+            'ammunition',
+            'equipment',
+            'magical',
+            'massive',
+            'machine',
+            'ship',
+          ];
+
+        foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+        {
+            if($slot !== 'draftees')
+            {
+                $amount -= $this->invasionResult['defender']['unitsLost'][$slot];
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                $unitRawDp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'defense');
+                $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+                # Only add unit to available casualties if it has none of the unconvertible unit attributes.
+                if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0 and $unitRawDp < 10)
+                {
+                    $stunnableUnits[$slot] = (int)$amount;
+                }
+            }
+            else
+            {
+                if($amount > 0)
+                {
+                    $amount -= $this->invasionResult['defender']['unitsLost'][$slot];
+                }
+                $stunnableUnits['draftees'] = (int)$amount;
+            }
+         }
+
+         foreach($stunnableUnits as $slot => $amount)
+         {
+            $amount = (int)round($amount * $stunRatio);
+            $this->invasionResult['defender']['unitsStunned'][$slot] = $amount;
+
+            # Stunned units take 2 ticks to return
+            if($slot !== 'draftees')
+            {
+                $unitKey = 'military_unit'.$slot;
+            }
+            else
+            {
+                $unitKey = 'military_draftees';
+            }
+
+            $defender->$unitKey -= $amount;
+            $this->queueService->queueResources(
+                'invasion',
+                $defender,
+                [$unitKey => $amount],
+                2
+            );
+         }
+    }
+
 
     /**
      * Handles the surviving units returning home.
