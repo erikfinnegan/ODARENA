@@ -551,7 +551,7 @@
 
                                 @slot('noPadding', true)
                                 @slot('titleExtra')
-                                    <span class="pull-right">Barren Land: {{ number_format(array_get($infoOp->data, 'barren_land')) }}</span>
+                                    <span class="pull-right">Barren Land: {{ number_format(array_get($infoOp->data, 'barren_land')) }} ({{ number_format(((array_get($infoOp->data, 'barren_land') / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)</span>
                                 @endslot
 
                                 <table class="table">

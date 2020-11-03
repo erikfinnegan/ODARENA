@@ -1108,6 +1108,7 @@ class InvadeActionService
             $landDiscovered = 0;
             if($discoverLand)
             {
+                $landDiscovered = $landLost;
                 if($target->race->name === 'Barbarian')
                 {
                     $landDiscovered = (int)round($landLost/3);
