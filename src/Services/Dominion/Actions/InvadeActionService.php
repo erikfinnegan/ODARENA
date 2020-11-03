@@ -1136,8 +1136,6 @@ class InvadeActionService
 
         $queueData = $landGainedPerLandType;
 
-        dd($this->invasionResult['attacker']['landConquered'], $this->invasionResult['attacker']['landDiscovered'], $landGainedPerLandType);
-
         $this->queueService->queueResources(
             'invasion',
             $dominion,
