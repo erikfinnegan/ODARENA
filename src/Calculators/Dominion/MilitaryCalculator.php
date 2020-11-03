@@ -1895,10 +1895,10 @@ class MilitaryCalculator
      */
     public function getGuardTowerMultiplier(Dominion $dominion): float
     {
-      $multiplier = 0;
-      $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion)) * 2;
+        $multiplier = 0;
+        $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion)) * 2;
 
-      return min($multiplier, 0.40);
+        return min($multiplier, 0.40);
     }
 
 
@@ -2040,6 +2040,7 @@ class MilitaryCalculator
         }
     }
 
+    # This relates to Observatory and Troll perk
     public function getExtraLandDiscovered(Dominion $attacker, Dominion $defender, bool $discoverLand, int $landConquered): int
     {
         $multiplier = 0;
@@ -2051,8 +2052,9 @@ class MilitaryCalculator
 
         if($defender->race->name === 'Barbarian')
         {
-            $landConquered /= 3;
+            $landConquered = (int)round($landConquered/3);
         }
+
 
         // Add 25% to generated if Nomad spell Campaign is enabled.
         if ($this->spellCalculator->isSpellActive($attacker, 'campaign'))

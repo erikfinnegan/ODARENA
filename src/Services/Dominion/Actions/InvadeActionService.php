@@ -530,7 +530,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -1104,18 +1104,18 @@ class InvadeActionService
 
             $this->invasionResult['attacker']['landConquered'][$landType] = $landLost;
 
+
+            $landDiscovered = 0;
             if($discoverLand)
             {
                 if($target->race->name === 'Barbarian')
                 {
-                    $this->invasionResult['attacker']['landDiscovered'][$landType] = intval($landLost/3);
-                }
-                else
-                {
-                    $this->invasionResult['attacker']['landDiscovered'][$landType] = $landLost;
+                    $landDiscovered = (int)round($landLost/3);
                 }
 
-                $landGainedPerLandType["land_{$landType}"] += $landLost;
+                $this->invasionResult['attacker']['landDiscovered'][$landType] = $landDiscovered;
+
+                $landGainedPerLandType["land_{$landType}"] += $landDiscovered;
             }
 
             $this->invasionResult['defender']['landLost'][$landType] = $landLost;
@@ -1135,6 +1135,8 @@ class InvadeActionService
         $this->landLost = $landConquered;
 
         $queueData = $landGainedPerLandType;
+
+        dd($this->invasionResult['attacker']['landConquered'], $this->invasionResult['attacker']['landDiscovered'], $landGainedPerLandType);
 
         $this->queueService->queueResources(
             'invasion',
@@ -2940,6 +2942,9 @@ class InvadeActionService
                 {
                     $resourceToPlunder = $plunder[0];
                     $amountPlunderedPerUnit = $plunder[1];
+
+
+
                     $amountToPlunder = intval(min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit));
                     $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
                     #echo '<pre>You plunder ' . $amountToPlunder . ' ' . $resourceToPlunder. '. The target has ' . $defender->{'resource_'.$resourceToPlunder} . ' ' . $resourceToPlunder. '</pre>';
