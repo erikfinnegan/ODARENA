@@ -2437,8 +2437,6 @@ class InvadeActionService
     protected function handleStun(Dominion $attacker, Dominion $defender, array $units, float $landRatio)
     {
 
-
-
         $opDpRatio = $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'];
 
         $rawOp = 0;
@@ -2461,74 +2459,78 @@ class InvadeActionService
                 $stunningOp += $unitsOp;
             }
         }
-        $stunningOpRatio = $stunningOp / $rawOp;
 
-        $stunRatio = min((static::STUN_RATIO / 100) * $opDpRatio * min($stunningOpRatio, 1), 2.5);
-
-        # Collect the stunnable units
-        $stunnableUnits = array_fill(1, 4, 0);
-
-        # Exclude certain attributes
-        $unconvertibleAttributes = [
-            'ammunition',
-            'equipment',
-            'magical',
-            'massive',
-            'machine',
-            'ship',
-          ];
-
-        foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+        if($stunningOp > 0)
         {
-            if($slot !== 'draftees')
-            {
-                $amount -= $this->invasionResult['defender']['unitsLost'][$slot];
-                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot === $slot);
-                })->first();
+            $stunningOpRatio = $stunningOp / $rawOp;
 
-                $unitRawDp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'defense');
-                $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+            $stunRatio = min((static::STUN_RATIO / 100) * $opDpRatio * min($stunningOpRatio, 1), 2.5);
 
-                # Only add unit to available casualties if it has none of the unconvertible unit attributes.
-                if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0 and $unitRawDp < 10)
-                {
-                    $stunnableUnits[$slot] = (int)$amount;
-                }
-            }
-            else
+            # Collect the stunnable units
+            $stunnableUnits = array_fill(1, 4, 0);
+
+            # Exclude certain attributes
+            $unconvertibleAttributes = [
+                'ammunition',
+                'equipment',
+                'magical',
+                'massive',
+                'machine',
+                'ship',
+              ];
+
+            foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
             {
-                if($amount > 0)
+                if($slot !== 'draftees')
                 {
                     $amount -= $this->invasionResult['defender']['unitsLost'][$slot];
+                    $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
+
+                    $unitRawDp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'defense');
+                    $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+                    # Only add unit to available casualties if it has none of the unconvertible unit attributes.
+                    if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0 and $unitRawDp < 10)
+                    {
+                        $stunnableUnits[$slot] = (int)$amount;
+                    }
                 }
-                $stunnableUnits['draftees'] = (int)$amount;
-            }
-         }
+                else
+                {
+                    if($amount > 0)
+                    {
+                        $amount -= $this->invasionResult['defender']['unitsLost'][$slot];
+                    }
+                    $stunnableUnits['draftees'] = (int)$amount;
+                }
+             }
 
-         foreach($stunnableUnits as $slot => $amount)
-         {
-            $amount = (int)round($amount * $stunRatio);
-            $this->invasionResult['defender']['unitsStunned'][$slot] = $amount;
+             foreach($stunnableUnits as $slot => $amount)
+             {
+                $amount = (int)round($amount * $stunRatio);
+                $this->invasionResult['defender']['unitsStunned'][$slot] = $amount;
 
-            # Stunned units take 2 ticks to return
-            if($slot !== 'draftees')
-            {
-                $unitKey = 'military_unit'.$slot;
-            }
-            else
-            {
-                $unitKey = 'military_draftees';
-            }
+                # Stunned units take 2 ticks to return
+                if($slot !== 'draftees')
+                {
+                    $unitKey = 'military_unit'.$slot;
+                }
+                else
+                {
+                    $unitKey = 'military_draftees';
+                }
 
-            $defender->$unitKey -= $amount;
-            $this->queueService->queueResources(
-                'invasion',
-                $defender,
-                [$unitKey => $amount],
-                2
-            );
-         }
+                $defender->$unitKey -= $amount;
+                $this->queueService->queueResources(
+                    'invasion',
+                    $defender,
+                    [$unitKey => $amount],
+                    2
+                );
+             }
+        }
     }
 
 
