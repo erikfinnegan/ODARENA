@@ -1685,10 +1685,10 @@ class InvadeActionService
             $availableCasualties =
                 [
                     'draftees' => ['amount' => 0, 'dp' => 0],
-                    '1' => ['amount' => 0, 'dp' => 0],
-                    '2' => ['amount' => 0, 'dp' => 0],
-                    '3' => ['amount' => 0, 'dp' => 0],
-                    '4' => ['amount' => 0, 'dp' => 0],
+                           '1' => ['amount' => 0, 'dp' => 0],
+                           '2' => ['amount' => 0, 'dp' => 0],
+                           '3' => ['amount' => 0, 'dp' => 0],
+                           '4' => ['amount' => 0, 'dp' => 0],
                 ];
 
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amount)

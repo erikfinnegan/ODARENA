@@ -43,7 +43,6 @@
                                     <td class="text-center">{{ number_format($amount) }}</td>
                                     <td class="text-center">
                                         <input name="remove[{{ $landType }}]" type="number"
-                                                pattern="[0-9]*"
                                                class="form-control text-center" placeholder="0" min="0"
                                                max="{{ $amount }}"
                                                value="{{ old('remove.' . $landType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
@@ -51,7 +50,7 @@
                                     <td class="text-center">{{ ucfirst($landType) }}</td>
                                     <td class="text-center">
                                         <input name="add[{{ $landType }}]" type="number"
-                                                
+
                                                class="form-control text-center" placeholder="0" min="0"
                                                max="{{ $rezoningCalculator->getMaxAfford($selectedDominion) }}"
                                                value="{{ old('add.' . $landType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
