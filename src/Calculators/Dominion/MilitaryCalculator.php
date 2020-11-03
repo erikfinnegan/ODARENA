@@ -2030,7 +2030,6 @@ class MilitaryCalculator
 
     public function checkDiscoverLand(Dominion $attacker, Dominion $defender): int
     {
-
         if($this->getRecentlyInvadedCountByAttacker($defender,$attacker) == 0)
         {
             return true;

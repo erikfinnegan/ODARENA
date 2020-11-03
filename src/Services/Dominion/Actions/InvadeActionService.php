@@ -3146,7 +3146,7 @@ class InvadeActionService
             elseif($whoHasCrypt == 'attacker')
             {
                 $attacker->realm->fill([
-                    'crypt' => ($defender->realm->crypt + $toTheCrypt),
+                    'crypt' => ($attacker->realm->crypt + $toTheCrypt),
                 ])->save();
             }
 
