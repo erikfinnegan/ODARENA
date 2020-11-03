@@ -468,7 +468,7 @@ class InvadeActionService
             {
                 $defensiveConversions = $this->handleVampiricConversionOnDefense($target, $dominion, $units, $landRatio);
             }
-            elseif($target->race->name === 'Weres' or $dominion->race->name === 'Spirit')
+            elseif($target->race->name === 'Weres' or $target->race->name === 'Spirit')
             {
                 $defensiveConversions = $this->handleStrengthConversionOnDefense($dominion, $target, $landRatio);
             }
@@ -530,7 +530,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -1308,7 +1308,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalDefensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope', 'Spirit', 'Undead', 'Sacred Order', 'Afflicted', 'Cult'], true)
+              !in_array($dominion->race->name, ['Undead', 'Sacred Order', 'Afflicted', 'Cult'], true)
           )
         {
             return $convertedUnits;
@@ -1498,7 +1498,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalOffensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Lycanthrope', 'Spirit', 'Undead', 'Sacred Order', 'Afflicted', 'Cult'], true)
+              !in_array($dominion->race->name, ['Undead', 'Sacred Order', 'Afflicted', 'Cult'], true)
           )
         {
             return;
