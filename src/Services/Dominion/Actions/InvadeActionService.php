@@ -84,7 +84,7 @@ class InvadeActionService
     /**
      * @var float Percentage of units to be stunned
      */
-    protected const STUN_RATIO = 1.5;
+    protected const STUN_RATIO = 1;
 
     /** @var BuildingCalculator */
     protected $buildingCalculator;
@@ -2463,7 +2463,7 @@ class InvadeActionService
         }
         $stunningOpRatio = $stunningOp / $rawOp;
 
-        $stunRatio = (static::STUN_RATIO / 100) * min($opDpRatio, 2) * min($stunningOpRatio, 1);
+        $stunRatio = min((static::STUN_RATIO / 100) * $opDpRatio * min($stunningOpRatio, 1), 2.5);
 
         # Collect the stunnable units
         $stunnableUnits = array_fill(1, 4, 0);
