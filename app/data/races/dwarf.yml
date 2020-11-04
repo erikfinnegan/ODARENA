@@ -26,7 +26,7 @@ units:
       platinum: 0
       ore: 100000
       mana: 500
-      gem: 1000
+      gem: 150
     power:
       offense: 0
       defense: 0
@@ -37,6 +37,8 @@ units:
       damages_improvements_on_attack: 100
       does_not_count_as_population: 1
       no_draftee: 1
+      fewer_casualties: 50
+      immortal_on_fending_off: 1
 
   - name: Miner
     training_time: 9
