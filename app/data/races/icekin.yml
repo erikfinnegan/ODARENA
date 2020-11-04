@@ -68,6 +68,7 @@ units:
       counts_as_wizard_defense: 0.25
       wizard_from_title: conjurer,0.125 # wizard power, title
       offense_from_title: commander,6 # title, op
+      sendable_with_zero_op: 1
 
   - name: Ice Elemental
     training_time: 12
