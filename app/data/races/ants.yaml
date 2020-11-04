@@ -4,8 +4,8 @@ description:
 home_land_type: forest
 playable: 1
 
-peasants_alias: drone
-draftees_alias: antling
+peasants_alias: ant
+draftees_alias: drone
 
 attacking: 3
 exploring : 3
@@ -15,7 +15,7 @@ skill_level: 2
 construction_materials: platinum,lumber
 
 perks:
-  max_population: 140
+  max_population: 160
   construction_cost: -25
   spy_strength: -20
   wizard_strength: -20
@@ -41,7 +41,6 @@ units:
       defense: 0
 
   - name: Worker Ant
-    need_boat: true
     training_time: 6
     type:
       - living
@@ -52,10 +51,10 @@ units:
       offense: 0
       defense: 1.5
     perks:
+      food_production: 0.25
       lumber_production: 0.5
 
   - name: Giant Ant
-    need_boat: true
     training_time: 12
     type:
       - living
@@ -75,7 +74,5 @@ units:
       platinum: 500
       ore: 0
     power:
-      offense: 2
+      offense: 3
       defense: 1.5
-    perks:
-      offense_from_building: forest_haven,10,1 # building type, ratio%, max

@@ -12,7 +12,6 @@ skill_level: 1
 construction_materials: platinum,ore
 
 perks:
-  max_population: 20
   extra_barren_max_population: 10
   ore_improvement_points: 100
   salvaging: 25
@@ -25,8 +24,9 @@ units:
       - equipment
     cost:
       platinum: 0
-      ore: 30000
+      ore: 100000
       mana: 500
+      gem: 1000
     power:
       offense: 0
       defense: 0
