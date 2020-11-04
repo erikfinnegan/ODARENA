@@ -2483,7 +2483,10 @@ class InvadeActionService
             {
                 if($slot !== 'draftees')
                 {
-                    $amount -= $this->invasionResult['defender']['unitsLost'][$slot];
+                    if($this->invasionResult['defender']['unitsLost'][$slot] > 0)
+                    {
+                        $amount -= $this->invasionResult['defender']['unitsLost'][$slot];
+                    }
                     $unit = $defender->race->units->filter(function ($unit) use ($slot) {
                         return ($unit->slot === $slot);
                     })->first();
