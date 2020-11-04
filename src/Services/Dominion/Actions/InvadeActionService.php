@@ -2483,7 +2483,7 @@ class InvadeActionService
             {
                 if($slot !== 'draftees')
                 {
-                    if($this->invasionResult['defender']['unitsLost'][$slot] > 0)
+                    if(isset($this->invasionResult['defender']['unitsLost'][$slot]) and $this->invasionResult['defender']['unitsLost'][$slot] > 0)
                     {
                         $amount -= $this->invasionResult['defender']['unitsLost'][$slot];
                     }
