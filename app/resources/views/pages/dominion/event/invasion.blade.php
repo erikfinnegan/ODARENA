@@ -579,7 +579,13 @@
                                         @foreach($event->data['defender']['unitsStunned'] as $slot => $amount)
                                             @if($amount > 0)
                                                 <tr>
-                                                    <td>{{ $event->target->race->units->where('slot', $slot)->first()->name }}:</td>
+                                                    <td>
+                                                        @if($slot === 'draftees')
+                                                            {{ $raceHelper->getDrafteesTerm($event->target) }}:
+                                                        @else
+                                                            {{ $event->target->race->units->where('slot', $slot)->first()->name }}:
+                                                        @endif
+                                                    </td>
                                                     <td><span class="text-red">{{ number_format($amount) }}</span></td>
                                                 </tr>
                                             @endif
