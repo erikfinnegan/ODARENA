@@ -323,6 +323,31 @@
                                         <td><span class="text-red">{{ number_format($event->data['defender']['menticide']['newThralls']) }}</span></td>
                                     </tr>
                                     @endif
+
+
+
+                                    @if (isset($event->data['defender']['unitsStunned']) and array_sum($event->data['defender']['unitsStunned']) > 0)
+                                    <tr>
+                                        <th colspan="2">Stunned</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">We stun some of the enemy units and they will not be able to fight for two ticks.</small></td>
+                                    </tr>
+                                        @foreach($event->data['defender']['unitsStunned'] as $slot => $amount)
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>
+                                                        @if($slot === 'draftees')
+                                                            {{ $raceHelper->getDrafteesTerm($event->target->race) }}:
+                                                        @else
+                                                            {{ $event->target->race->units->where('slot', $slot)->first()->name }}:
+                                                        @endif
+                                                    </td>
+                                                    <td><span class="text-red">{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                             @endif
@@ -574,14 +599,14 @@
                                         <th colspan="2">Stunned</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><small class="text-muted">Some of our units are stunned and will not be able to fight for two ticks.</small></td>
+                                          <td colspan="2"><small class="text-muted">Some of our units are stunned and will not be able to fight for two ticks.</small></td>
                                     </tr>
                                         @foreach($event->data['defender']['unitsStunned'] as $slot => $amount)
                                             @if($amount > 0)
                                                 <tr>
                                                     <td>
                                                         @if($slot === 'draftees')
-                                                            {{ $raceHelper->getDrafteesTerm($event->target) }}:
+                                                            {{ $raceHelper->getDrafteesTerm($event->target->race) }}:
                                                         @else
                                                             {{ $event->target->race->units->where('slot', $slot)->first()->name }}:
                                                         @endif
