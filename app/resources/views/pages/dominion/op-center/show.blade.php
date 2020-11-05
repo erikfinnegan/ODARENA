@@ -638,7 +638,7 @@
                 @else
                     @slot('noPadding', true)
                     @slot('titleExtra')
-                        <span class="pull-right">Barren Land: <strong>{{ number_format(array_get($infoOp->data, 'barren_land')) }}</strong></span>
+                        <span class="pull-right">Barren Land: <strong>{{ number_format(array_get($infoOp->data, 'barren_land')) }}</strong> ({{ number_format(((array_get($infoOp->data, 'barren_land') / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)</span>
                     @endslot
 
                     <table class="table">
@@ -650,7 +650,7 @@
                         <thead>
                             <tr>
                                 <th>Building Type</th>
-                                <th class="text-center">Number</th>
+                                <th class="text-center">Amount</th>
                                 <th class="text-center">% of land</th>
                             </tr>
                         </thead>
@@ -710,6 +710,11 @@
 
                 @slot('title', 'Incoming building breakdown')
                 @slot('titleIconClass', 'fa fa-clock-o')
+                @if(isset($infoOp->data['constructing_land']))
+                @slot('titleExtra')
+                    <span class="pull-right">Incoming Buildings: <strong>{{ number_format(array_get($infoOp->data, 'constructing_land')) }}</strong> ({{ number_format(((array_get($infoOp->data, 'constructing_land') / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)</span>
+                @endslot
+                @endif
 
                 @if ($infoOp === null)
                     <p>No recent data available.</p>

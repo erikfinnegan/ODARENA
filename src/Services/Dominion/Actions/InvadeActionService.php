@@ -3224,7 +3224,7 @@ class InvadeActionService
                   # If the attack is successful
                   if($this->invasionResult['result']['success'])
                   {
-                      # 50% of defensive and 0% of defensive bodies go to the crypt.
+                      # 50% of defensive and 0% of offensive bodies go to the crypt.
                       $defensiveBodies /= 2;
                       $offensiveBodies *= 0;
                   }
@@ -3243,7 +3243,7 @@ class InvadeActionService
                   # If the attack is successful
                   if($this->invasionResult['result']['success'])
                   {
-                      # 50% of defensive and 100% of defensive bodies go to the crypt.
+                      # 50% of defensive and 100% of offensive bodies go to the crypt.
                       $defensiveBodies /= 2;
                       $offensiveBodies *= 1;
                   }

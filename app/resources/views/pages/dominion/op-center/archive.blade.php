@@ -551,7 +551,7 @@
 
                                 @slot('noPadding', true)
                                 @slot('titleExtra')
-                                    <span class="pull-right">Barren Land: {{ number_format(array_get($infoOp->data, 'barren_land')) }} ({{ number_format(((array_get($infoOp->data, 'barren_land') / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)</span>
+                                    <span class="pull-right">Barren Land: <strong>{{ number_format(array_get($infoOp->data, 'barren_land')) }}</strong> ({{ number_format(((array_get($infoOp->data, 'barren_land') / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)</span>
                                 @endslot
 
                                 <table class="table">
@@ -563,7 +563,7 @@
                                     <thead>
                                         <tr>
                                             <th>Building Type</th>
-                                            <th class="text-center">Number</th>
+                                            <th class="text-center">Amount</th>
                                             <th class="text-center">% of land</th>
                                         </tr>
                                     </thead>
@@ -605,7 +605,17 @@
                                 @slot('title', 'Incoming building breakdown')
                                 @slot('titleIconClass', 'fa fa-clock-o')
 
+
+                                @if(isset($infoOp->data['constructing_land']))
+                                @slot('titleExtra')
+                                    <span class="pull-right">Incoming Buildings: <strong>{{ number_format(array_get($infoOp->data, 'constructing_land')) }}</strong> ({{ number_format(((array_get($infoOp->data, 'constructing_land') / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)</span>
+                                @endslot
+                                @endif
+
                                 @slot('noPadding', true)
+                                @php
+                                    $totalConstruction = array_fill(1, 13, 0);
+                                @endphp
 
                                 <table class="table">
                                     <colgroup>
@@ -639,6 +649,11 @@
                                                             {{ number_format($amount) }}
                                                         @endif
                                                     </td>
+
+
+                                                @php
+                                                    $totalConstruction[$i] += $amount;
+                                                @endphp
                                                 @endfor
                                                 <td class="text-center">
                                                     @if ($amountConstructing = array_get($infoOp->data, "constructing.{$buildingType}"))
@@ -649,6 +664,27 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+                                        {{--
+                                            <tr>
+                                                <td>Total</td>
+                                                @for ($i = 1; $i <= 12; $i++)
+                                                    <td>
+                                                    @if(isset($totalConstruction[$i]) and $totalConstruction[$i] > 0)
+                                                        {{ $totalConstruction[$i] }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                    </td>
+                                                @endfor
+                                                <td class="text-center">
+                                                    @if(isset($totalConstruction[$i]))
+                                                        {{ array_sum($totalConstruction) }}
+                                                    @else
+                                                        0
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        --}}
                                     </tbody>
                                 </table>
                             @endcomponent

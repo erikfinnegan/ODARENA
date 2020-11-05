@@ -23,15 +23,15 @@ units:
     type:
       - mindless
     cost:
-      platinum: 225
+      platinum: 0
     power:
       offense: 3
       defense: 0
     perks:
-      immortal: 1
       increases_casualties_on_offense: 1
       cannot_be_trained: 1
       does_not_count_as_population: 1
+      fixed_casualties: 100
 
   - name: Ghoul
     training_time: 9
@@ -61,7 +61,7 @@ units:
       defense: 5
     perks:
       immortal: 1
-      staggered_conversion: 60;3,85;4 # 60% and up, convert to Revenant
+
   - name: Wraith
     need_boat: false
     training_time: 12
@@ -76,5 +76,4 @@ units:
       defense: 3
     perks:
       immortal: 1
-      staggered_conversion: 60;3,85;4 # 60% and up, convert to Revenant
       offense_wizard_ratio: 1,2 # ratio%, max

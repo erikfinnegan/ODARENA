@@ -626,6 +626,7 @@
                                                     <strong>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }}</strong>
                                                 </td>
                                             </tr>
+                                            @if($selectedDominion->race->getPerkMultiplier('max_population') > -1)
                                             <tr>
                                                 <td>{{ $raceHelper->getPeasantsTerm($selectedDominion->race) }}</td>
                                                 <td>
@@ -649,6 +650,7 @@
                                                     @endif
                                                 </td>
                                             </tr>
+                                            @endif
                                             <tr>
                                                 <td>Population Multiplier:</td>
                                                 <td>

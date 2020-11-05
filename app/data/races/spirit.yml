@@ -38,7 +38,7 @@ units:
       fewer_casualties_offense: 50
       immortal_on_fending_off: 1
       reduces_casualties: 1
-      strength_conversion: 4,1,3 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
+      strength_conversion: 3,1,3 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
 
   - name: Keeper
     training_time: 9
@@ -71,7 +71,7 @@ units:
       defense: 6
     perks:
       true_immortal: 1
-      strength_conversion: 8,3,4 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
+      strength_conversion: 7,3,4 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
 
   - name: Aspect
     type:
@@ -88,4 +88,4 @@ units:
       defense: 10
     perks:
       true_immortal: 1
-      strength_conversion: 6,3,4 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
+      strength_conversion: 5,3,4 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
