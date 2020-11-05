@@ -70,9 +70,7 @@ class RoundFactory
      */
     protected function getLastRoundNumber(): int
     {
-
         $round = Round::query()->max('number');
         return $round ? $round : 0;
-
     }
 }
