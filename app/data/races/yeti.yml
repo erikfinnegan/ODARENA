@@ -3,7 +3,7 @@ alignment: independent
 description: >-
   <p>Wild yeti (<em>peasants</em>) roam the lands are turned into yetis (<em>draftees</em>) at a rate of 0.2 wild yetis into yetis per Gryphon Nest per tick.</p>
 home_land_type: mountain
-playable: 1
+playable: 0
 
 peasants_alias: wild yeti
 draftees_alias: yeti
