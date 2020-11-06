@@ -57,7 +57,7 @@ class TechHelper
             // ODA
             'prestige_gains' => '%s%% higher prestige gains',
             'improvements' => '%s%% higher improvement bonus',
-            'conversions' => '%s%% more conversions (only applicable to Afflicted, Cult, Monster, and Sacred Order)',
+            'conversions' => '%s%% more conversions (only applicable to Afflicted, Cult, and Sacred Order)',
             'barracks_housing' => '%s%% more unit housing per barracks',
             'gemcutting' => '%s%% more improvement points per gem',
             'platinum_interest' => '%s%% interest on your platinum stockpile per tick',

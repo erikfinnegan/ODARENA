@@ -80,7 +80,6 @@ units:
       pairing_limit: 1,0.12 # Unit slot, amount - 1/0.012=83, one Claw per 83 Muscles
       increases_offensive_casualties: 1
       plunders: food;2,lumber;25,ore;100,gem;10
-      conversion: 2
       offense_from_pairing: 4,3000,0.5 # slot, amount, num required - 1/0.5=2, one Head doubles OP of 2 Claws
 
   - name: Head
