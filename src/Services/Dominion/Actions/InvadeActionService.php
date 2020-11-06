@@ -1318,7 +1318,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalDefensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Undead', 'Sacred Order', 'Afflicted', 'Cult'], true)
+              !in_array($dominion->race->name, ['Undead', 'Sacred Order', 'Afflicted', 'Cult', 'Monster'], true)
           )
         {
             return $convertedUnits;
@@ -1508,7 +1508,7 @@ class InvadeActionService
           (
               $this->invasionResult['result']['overwhelmed'] or
               $totalOffensiveCasualties === 0 or
-              !in_array($dominion->race->name, ['Undead', 'Sacred Order', 'Afflicted', 'Cult'], true)
+              !in_array($dominion->race->name, ['Undead', 'Sacred Order', 'Afflicted', 'Cult', 'Monster'], true)
           )
         {
             return;

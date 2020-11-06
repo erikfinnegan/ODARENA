@@ -67,7 +67,7 @@ class TitleHelper
                 break;
             case 'conversions':
                 $negativeBenefit = false;
-                $description = 'Units converted (only applicable to Afflicted, Sacred Order, and Undead):';
+                $description = 'Units converted (only applicable to Afflicted, Cult, Monster, Sacred Order, and Undead):';
                 break;
             case 'lumber_production':
                 $negativeBenefit = false;
