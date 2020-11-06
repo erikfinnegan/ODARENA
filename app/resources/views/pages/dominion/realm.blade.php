@@ -41,16 +41,6 @@
                                 @endphp
 
                                 @if ($dominion === null)
-                                <!--
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        @if ($isOwnRealm && $selectedDominion->pack !== null)
-                                            <td colspan="5"><i>Vacant</i></td>
-                                        @else
-                                            <td colspan="4"><i>Vacant</i></td>
-                                        @endif
-                                    </tr>
-                                  -->
                                 @else
                                   @if ($dominion->is_locked == 1)
                                     <tr style="text-decoration:line-through; color: #666">
@@ -253,6 +243,7 @@
 
                             <p class="text-center"><a href="{{ route('dominion.world-news', [$realm->number]) }}">Read the News from the {{ $alignmentNoun }}</a></p>
 
+                            @if(isset($realmDominionsStats) and array_sum($realmDominionsStats) > 0)
                             <div class="col-xs-12">
                               <div class="box-body table-responsive no-padding">
                                 <table class="table">
@@ -287,8 +278,9 @@
                                     </tr>
                                 </table>
                               </div>
-
                           </div>
+                          @endif
+
                       </div>
                 </div>
                 @if (($prevRealm !== null) || ($nextRealm !== null))
