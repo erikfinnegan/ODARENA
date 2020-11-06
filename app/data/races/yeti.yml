@@ -27,7 +27,7 @@ perks:
   lumber_decay: -75
   cannot_train_wizards: 1
   cannot_train_archmages: 1
-  max_per_round: 1
+  max_per_round: 2
 
 units:
   - name: Worker Yeti
