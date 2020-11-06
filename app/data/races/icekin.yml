@@ -31,7 +31,7 @@ units:
       defense: 0
     perks:
       offense_wizard_ratio: 1,2 # ratio%, max
-      offense_from_title: 1,commander # OP, title
+      offense_from_title: commander,1 # title, op
 
   - name: Snow Witch
     training_time: 9
