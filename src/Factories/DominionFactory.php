@@ -300,6 +300,7 @@ class DominionFactory
         // Yeti: starting yetis.
         if($race->name == 'Yeti')
         {
+          $startingResources['food'] *= 2;
           $startingResources['ore'] += $startingResources['platinum'] / 2;
           $startingResources['food'] += $startingResources['platinum'] / 2;
           $startingResources['lumber'] += $startingResources['platinum'] / 2;
