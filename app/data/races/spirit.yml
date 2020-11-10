@@ -89,3 +89,4 @@ units:
     perks:
       true_immortal: 1
       strength_conversion: 6,3,4 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
+      no_draftee: 1
