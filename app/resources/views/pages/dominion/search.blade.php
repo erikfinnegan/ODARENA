@@ -52,7 +52,6 @@
                                     <button class="btn btn-default search-range" data-min="{{ ceil($landCalculator->getTotalLand($selectedDominion) * 0.40) }}" data-max="{{ floor($landCalculator->getTotalLand($selectedDominion) / 0.40) }}">40%</button>
                                     <button class="btn btn-success search-range" data-min="{{ ceil($landCalculator->getTotalLand($selectedDominion) * 0.60) }}" data-max="{{ floor($landCalculator->getTotalLand($selectedDominion) / 0.60) }}">60%</button>
                                     <button class="btn btn-warning search-range" data-min="{{ ceil($landCalculator->getTotalLand($selectedDominion) * 0.75) }}" data-max="{{ floor($landCalculator->getTotalLand($selectedDominion) / 0.75) }}">75%</button>
-                                    <button class="btn btn-info search-range" data-min="{{ ceil($landCalculator->getTotalLand($selectedDominion) * 0.85) }}" data-max="{{ floor($landCalculator->getTotalLand($selectedDominion) / 0.85) }}">85%</button>
                                 </div>
                             </div>
                         </div>
@@ -254,7 +253,7 @@
                 }
 
                 var range = $('select[name=range]').val();
-                if (range && data[5] != "true") return false;
+                if (range && data[6] != "true") return false;
 
                 return true;
             }

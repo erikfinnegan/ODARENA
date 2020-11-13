@@ -3166,7 +3166,7 @@ class InvadeActionService
                         }
                     }
 
-                    if(!$isUnitConvertible or $defender->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+                    if(!$isUnitConvertible)
                     {
                         $defensiveBodies -= $lost;
                     }
@@ -3196,7 +3196,7 @@ class InvadeActionService
                         }
                     }
 
-                    if(!$isUnitConvertible or $attacker->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+                    if(!$isUnitConvertible)
                     {
                         $offensiveBodies -= $lost;
                     }
@@ -3256,20 +3256,28 @@ class InvadeActionService
                   }
             }
 
-            $toTheCrypt = max(0, round($defensiveBodies + $offensiveBodies));
+            #dd($defensiveBodies, $offensiveBodies);
 
-            $this->invasionResult['defender']['crypt']['defensiveBodies'] = $defensiveBodies;
-            $this->invasionResult['defender']['crypt']['offensiveBodies'] = $offensiveBodies;
-            $this->invasionResult['defender']['crypt']['total'] = $toTheCrypt;
+            $toTheCrypt = max(0, round($defensiveBodies + $offensiveBodies));
 
             if($whoHasCrypt == 'defender')
             {
+
+                $this->invasionResult['defender']['crypt']['defensiveBodies'] = $defensiveBodies;
+                $this->invasionResult['defender']['crypt']['offensiveBodies'] = $offensiveBodies;
+                $this->invasionResult['defender']['crypt']['total'] = $toTheCrypt;
+
                 $defender->realm->fill([
                     'crypt' => ($defender->realm->crypt + $toTheCrypt),
                 ])->save();
             }
             elseif($whoHasCrypt == 'attacker')
             {
+
+                $this->invasionResult['attacker']['crypt']['defensiveBodies'] = $defensiveBodies;
+                $this->invasionResult['attacker']['crypt']['offensiveBodies'] = $offensiveBodies;
+                $this->invasionResult['attacker']['crypt']['total'] = $toTheCrypt;
+
                 $attacker->realm->fill([
                     'crypt' => ($attacker->realm->crypt + $toTheCrypt),
                 ])->save();
