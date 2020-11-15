@@ -16,7 +16,7 @@ construction_materials: platinum,lumber
 
 perks:
   population_growth: 25
-  max_population: 30
+  max_population: 40
   can_invest_soul: 1
   min_rounds_played: 1
   explore_cost: 15
@@ -28,9 +28,9 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 675
+      platinum: 700
       mana: 12
-      blood: 9
+      blood: 4
     power:
       offense: 6
       defense: 0

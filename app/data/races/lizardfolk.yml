@@ -53,8 +53,8 @@ units:
       offense: 4
       defense: 6
     perks:
-      counts_as_spy_offense: 0.25
-      counts_as_spy_defense: 0.25
+      counts_as_spy_offense: 0.2
+      counts_as_spy_defense: 0.2
       sink_boats_offense: 1
       sink_boats_defense: 1
 

@@ -54,8 +54,8 @@ units:
       offense: 3
       defense: 6
     perks:
-      counts_as_spy_offense: 0.25
-      counts_as_spy_defense: 0.25
+      counts_as_spy_offense: 0.2
+      counts_as_spy_defense: 0.2
       plunders: platinum;2,gems;0.1
 
   - name: Staff Master

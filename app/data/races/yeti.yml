@@ -21,13 +21,12 @@ archmages_cost: 400,food
 
 perks:
   platinum_production: -100
-  #gryphon_nests_drafts: 1
   boat_capacity: -10
   food_decay: -75
   lumber_decay: -75
   cannot_train_wizards: 1
   cannot_train_archmages: 1
-  max_per_round: 2
+  rezone_cost: -10
 
 units:
   - name: Worker Yeti

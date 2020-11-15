@@ -94,8 +94,8 @@ units:
       offense: 6
       defense: 7
     perks:
-      counts_as_wizard_offense: 1
-      counts_as_wizard_defense: 1
+      counts_as_wizard_offense: 0.333
+      counts_as_wizard_defense: 0.333
       immortal_wizard: 1
       no_draftee: 1
 

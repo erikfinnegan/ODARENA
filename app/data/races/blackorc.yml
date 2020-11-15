@@ -54,7 +54,7 @@ units:
       offense: 0
       defense: 2
     perks:
-      defense_from_victories: 0.4,8 # +0.50 DP per Victory, max +8 (at 20 Victories)
+      defense_from_net_victories: 0.4,8 # +0.50 DP per Victory, max +8 (at 20 Victories)
       counts_as_wizard_offense: 0.2
       immortal_wizard: 1
 
@@ -71,4 +71,4 @@ units:
       offense: 4
       defense: 4
     perks:
-      offense_from_victories: 0.3,6 # +0.3 OP per Victory, max +6 (at 20 Victories)
+      offense_from_net_victories: 0.3,6 # +0.3 OP per Victory, max +6 (at 20 Victories)

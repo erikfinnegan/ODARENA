@@ -637,7 +637,7 @@ class InvadeActionService
         if($countsAsVictory)
         {
             $attackerPrestigeChange += 60 * $landRatio;
-            $defenderPrestigeChange -= 10;
+            $defenderPrestigeChange -= 20 * $landRatio;
         }
 
         # Successful bottomfeeds over 60% give no prestige change.

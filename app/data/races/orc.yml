@@ -55,13 +55,13 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 800
+      platinum: 1000
       ore: 0
     power:
       offense: 0
-      defense: 2
+      defense: 8
     perks:
-      defense_from_prestige: 200,6 # amount, max
+      pairing_limit: 4,2 # Unit slot, amount (max 2 of this unit per each Unit 4)
       counts_as_wizard_defense: 0.1
 
   - name: Warboss

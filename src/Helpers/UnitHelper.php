@@ -116,6 +116,9 @@ class UnitHelper
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only successful attacks over 75%% count as victories.',
             'defense_from_victories' => 'Defense increased by %1$s for every victory (max +%2$s). Only successful attacks over 75%% count as victories.',
 
+            'offense_from_net_victories' => 'Offense increased by %1$s for every net victory (max +%2$s, min 0). Net Victories is Victories less times invaded. Only successful attacks over 75%% count as victories. Any successful invasion suffered counts as an invasion.',
+            'defense_from_net_victories' => 'Defense increased by %1$s for every net victory (max +%2$s, min 0). Net Victories is Victories less times invaded. Only successful attacks over 75%% count as victories. Any successful invasion suffered counts as an invasion.',
+
             'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
@@ -176,7 +179,7 @@ class UnitHelper
             'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
-            'dies_into_multiple_on_victory' => 'Upon death in succesful combat, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+            'dies_into_multiple_on_victory' => 'Upon death in succesful combat, returns as %2$s %1$s. If unsuccessful, returns as %3$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
             // Resource related
             'ore_production' => 'Each unit produces %s units of ore per tick.',

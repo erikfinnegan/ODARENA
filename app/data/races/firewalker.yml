@@ -9,12 +9,13 @@ exploring : 2
 converting: 1
 skill_level: 1
 
-construction_materials: platinum,lumber
+construction_materials: platinum,gem
 
 perks:
   lumber_production: -15
   damage_from_fireballs: -50
   population_from_alchemy: 1
+  gem_production: 25
 units:
   - name: Fire Sprite
     training_time: 9

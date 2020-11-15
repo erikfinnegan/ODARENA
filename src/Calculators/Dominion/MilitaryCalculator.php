@@ -998,6 +998,28 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+
+    protected function getUnitPowerFromNetVictoriesPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $victoriesPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "_from_net_victories");
+
+        if (!$victoriesPerk)
+        {
+            return 0;
+        }
+
+        $victories = $dominion->stat_attacking_success;
+        $timesInvaded = $dominion->stat_defending_failures;
+        $netVictories = max(0, $victories - $timesInvaded); # Capped at 0
+
+        $powerPerVictory = (float)$victoriesPerk[0];
+        $max = (float)$victoriesPerk[1];
+
+        $powerFromPerk = min($powerPerVictory * $victories, $max);
+
+        return $powerFromPerk;
+    }
+
     protected function getUnitPowerFromVersusResourcePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = []): float
     {
         if ($target === null && empty($calc))

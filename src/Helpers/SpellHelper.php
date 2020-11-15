@@ -98,7 +98,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Fool\'s Gold',
-                'description' => 'Platinum theft protection for 40 ticks, 22 hour recharge',
+                'description' => 'Platinum theft protection',
                 'key' => 'fools_gold',
                 'mana_cost' => 5,
                 'duration' => 10*4,
@@ -109,15 +109,23 @@ class SpellHelper
                 'description' => 'Reveals the dominion casting offensive spells or committing spy ops against you for 8 hours',
                 'key' => 'surreal_perception',
                 'mana_cost' => 4,
-                'duration' => 8*4,# * $this->militaryCalculator->getWizardRatio($target, 'defense'),
+                'duration' => 8*4,
                 'cooldown' => 0,
             ],
             [
                 'name' => 'Energy Mirror',
-                'description' => '20% chance to reflect incoming offensive spells for 8 hours',
+                'description' => '25% chance to reflect incoming offensive spells',
                 'key' => 'energy_mirror',
                 'mana_cost' => 3,
                 'duration' => 8*4,
+                'cooldown' => 0,
+            ],
+            [
+                'name' => 'Aura',
+                'description' => 'Reduces damage from offensive spells by 20%.',
+                'key' => 'aura',
+                'mana_cost' => 3,
+                'duration' => 12*2,
                 'cooldown' => 0,
             ]
         ]));
@@ -221,7 +229,7 @@ class SpellHelper
                 'key' => 'blizzard',
                 'mana_cost' => 8,
                 'duration' => 12*4,
-                'races' => collect(['Icekin', 'Snow Elf']),
+                'races' => collect(['Icekin', 'Snow Elf', 'Yeti']),
             ],
             [
                 'name' => 'Bloodrage',
@@ -396,6 +404,7 @@ class SpellHelper
                 'duration' => 6*4, # Half a day
                 'races' => collect(['Lux']),
             ],
+            /*
             [
                 'name' => 'Gryphon\'s Call',
                 'description' => 'Quadruple yeti trapping. No offensive power bonus from Gryphon Nests.',
@@ -404,6 +413,7 @@ class SpellHelper
                 'duration' => 24,
                 'races' => collect(['Yeti']),
             ],
+            */
             [
                 'name' => 'Maelstrom',
                 'description' => 'Increases offensive casualties by 50% against invading forces.',
@@ -439,16 +449,6 @@ class SpellHelper
                 'duration' => 18,
                 'races' => collect(['Myconid']),
             ],
-            /*
-            [
-                'name' => 'Chitin',
-                'description' => 'Cocoons receive 1 DP each. Unaffected by Unholy Ghost or Dragon\'s Roar.',
-                'key' => 'chitin',
-                'mana_cost' => 10,
-                'duration' => 12*4,
-                'races' => collect(['Swarm']),
-            ],
-            */
             [
                 'name' => 'Chitin',
                 'description' => '+15% defensive power if attacker is affected by Insect Swarm swarm.',
@@ -533,7 +533,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Dark Rites',
-                'description' => 'Taking bodies from the Imperial Crypt, every ten Wraith turn up to one body into a Skeleton, until the spell expires or until there are no bodies left in the crypt. Only Wraiths currently at home perform Dark Rites.',
+                'description' => 'Taking bodies from the Imperial Crypt, every ten Wraith turn up to one body into a Skeleton, until the spell expires or until there are no bodies left in the crypt. Only Wraiths at home perform the Dark Rites.',
                 'key' => 'dark_rites',
                 'mana_cost' => 10,
                 'duration' => 12*2,

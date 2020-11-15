@@ -87,5 +87,5 @@ units:
       defense: 3
     perks:
       cannot_be_trained: 1
-      dies_into_multiple: 1,2
+      dies_into_multiple_on_victory: 1,2,1 # slot, amount on victory, amount on failure
       cannot_be_released: 1

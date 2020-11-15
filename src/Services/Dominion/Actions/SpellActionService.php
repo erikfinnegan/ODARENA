@@ -725,7 +725,7 @@ class SpellActionService
         }
 
         $spellReflected = false;
-        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.2) and !$isInvasionSpell)
+        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.25) and !$isInvasionSpell)
         {
             $spellReflected = true;
             $reflectedBy = $target;
@@ -1071,26 +1071,29 @@ class SpellActionService
 
         $damageMultiplier = 0;
 
-        // Damage reduction from Towers
-        #$damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'towers');
-
         // Damage reduction from Spires
         $damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
+
+        // Damage reduction from Spires
+        if($this->spellCalculator->isSpellActive($target, 'aura')
+        {
+            $damageMultiplier -= 0.20;
+        }
 
         // Fireballs: peasants and food
         if($spellInfo['key'] == 'fireball')
         {
-          # General fireball damage modification.
-          if($target->race->getPerkMultiplier('damage_from_fireballs'))
-          {
-              $damageMultiplier += $target->race->getPerkMultiplier('damage_from_fireballs');
-          }
+            # General fireball damage modification.
+            if($target->race->getPerkMultiplier('damage_from_fireballs'))
+            {
+                $damageMultiplier += $target->race->getPerkMultiplier('damage_from_fireballs');
+            }
 
-          # Forest Havens lower damage to peasants from fireballs.
-          if($attribute == 'peasants')
-          {
-              $damageMultiplier -= ($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 0.8;
-          }
+            # Forest Havens lower damage to peasants from fireballs.
+            if($attribute == 'peasants')
+            {
+                $damageMultiplier -= ($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 0.8;
+            }
         }
 
         // Lightning Bolts: improvements

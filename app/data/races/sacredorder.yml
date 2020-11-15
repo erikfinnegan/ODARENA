@@ -16,6 +16,7 @@ perks:
   max_population: 25
   prestige_gains: 10
   salvaging: 15
+  rezone_cost: -10
 units:
   - name: Martyr
     type:

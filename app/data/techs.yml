@@ -2205,7 +2205,6 @@ commerce_level10:
 
 # </Ladder: Commerce>
 
-
 # <Ladder: Employment>
 
 craftsmanship_level1:
@@ -2371,7 +2370,7 @@ conscription_level10:
 
 # </Ladder: Drafting>
 
-# <Ladder: Offensive Power>
+# <Ladder: Defensive Power>
 
 fortifications_level1:
   name: Fortifications
@@ -2451,4 +2450,4 @@ fortifications_level10:
   requires:
     - fortifications_level9
 
-# </Ladder: Offensive Power>
+# </Ladder: Defensive Power>

@@ -15,7 +15,7 @@ perks:
   extra_barren_max_population: 10
   ore_improvement_points: 100
   salvaging: 25
-  extra_ore_mine_housing: 15
+  extra_ore_mine_housing: 8
 
 units:
   - name: Thundermaul
@@ -69,8 +69,8 @@ units:
       defense: 6
     perks:
       reduces_casualties: 1
-      counts_as_wizard_offense: 0.25
-      counts_as_wizard_defense: 0.25
+      counts_as_wizard_offense: 0.2
+      counts_as_wizard_defense: 0.2
 
   - name: Hammerer
     training_time: 12
