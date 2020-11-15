@@ -2217,7 +2217,7 @@ class InvadeActionService
             $this->invasionResult['defender']['conversion'] = $convertedUnits;
         }
 
-        $attacker->stat_total_units_converted += array_sum($convertedUnits);
+        $defender->stat_total_units_converted += array_sum($convertedUnits);
 
         # Defensive conversions take 6 ticks to appear
         foreach($convertedUnits as $slot => $amount)
@@ -3483,7 +3483,6 @@ class InvadeActionService
         }
         elseif($defender->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
         {
-
               # See if attacker has any immortal units
               foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
               {

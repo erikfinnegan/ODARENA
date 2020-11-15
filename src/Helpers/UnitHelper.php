@@ -150,14 +150,14 @@ class UnitHelper
             'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
 
-            'immortal' => 'Immortal in combat. Only dies against Divine Intervention.',
+            'immortal' => 'Immortal in combat. Only dies against Divine Intervention or Qur Zealots.',
             'true_immortal' => 'Immortal in combat.',
             'immortal_on_victory' => 'Immortal in combat if invasion is successful.',
             'immortal_on_fending_off' => 'Immortal in combat if successfully fending off invader.',
 
             'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
 
-            'kills_immortal' => 'Kills immortal units.',
+            'kills_immortal' => 'Kills immortal units..',
 
             'reduces_casualties' => 'Reduces combat losses.',
             'increases_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',
@@ -175,6 +175,8 @@ class UnitHelper
             'wins_into' => 'Upon successul invasion, returns as %s.',
             'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+
+            'dies_into_multiple_on_victory' => 'Upon death in succesful combat, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
             // Resource related
             'ore_production' => 'Each unit produces %s units of ore per tick.',

@@ -511,7 +511,7 @@
                                         <th colspan="2">Demonic Collection</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><small class="text-muted">Tearing apart the dead, the {{ $raceHelper->getRaceAdjective($event->source->race) }} units collect souls, blood, and food.</small></td>
+                                        <td colspan="2"><small class="text-muted">Tearing apart the dead, the {{ $raceHelper->getRaceAdjective($event->target->race) }} units collect souls, blood, and food.</small></td>
                                     </tr>
                                         @foreach($event->data['defender']['demonic_collection'] as $resource => $amount)
                                             @if($amount > 0)
