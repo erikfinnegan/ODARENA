@@ -7,7 +7,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Models\Dominion;
-
+use OpenDominion\Models\Race;
 
 class SpellCalculator
 {
@@ -26,12 +26,10 @@ class SpellCalculator
      * @param LandCalculator $landCalculator
      * @param SpellHelper $spellHelper
      */
-    public function __construct(
-          LandCalculator $landCalculator,
-          SpellHelper $spellHelper)
+    public function __construct()
     {
-        $this->landCalculator = $landCalculator;
-        $this->spellHelper = $spellHelper;
+        $this->landCalculator = app(LandCalculator::class);
+        $this->spellHelper = app(SpellHelper::class);
     }
 
     /**
@@ -212,6 +210,5 @@ class SpellCalculator
 
         return $spell->duration;
     }
-
 
 }

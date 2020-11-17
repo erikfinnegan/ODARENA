@@ -66,6 +66,8 @@ class RezoningCalculator
       $cost *= 0.6;
       $cost += 250;
 
+      $cost *= 0.85;
+
       $cost *= $this->getCostMultiplier($dominion);
 
       return round($cost);

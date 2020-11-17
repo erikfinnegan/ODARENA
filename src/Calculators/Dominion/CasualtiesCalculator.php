@@ -12,49 +12,20 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class CasualtiesCalculator
 {
-    /** @var LandCalculator */
-    protected $landCalculator;
 
-    /** @var PopulationCalculator */
-    private $populationCalculator;
-
-    /** @var SpellCalculator */
-    private $spellCalculator;
-
-    /** @var UnitHelper */
-    protected $unitHelper;
-
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
-    /** @var RangeCalculator */
-    protected $rangeCalculator;
-
-    /**
+    /*
      * CasualtiesCalculator constructor.
-     *
-     * @param LandCalculator $landCalculator
-     * @param PopulationCalculator $populationCalculator
-     * @param SpellCalculator $spellCalculator
-     * @param UnitHelper $unitHelper
-     * @param MilitaryCalculator $militaryCalculator
-     * @param RangeCalculator $rangeCalculator
      */
-    public function __construct(
-        LandCalculator $landCalculator,
-        PopulationCalculator $populationCalculator,
-        SpellCalculator $spellCalculator,
-        UnitHelper $unitHelper,
-        ImprovementCalculator $improvementCalculator,
-        MilitaryCalculator $militaryCalculator)
+    public function __construct()
     {
-        $this->landCalculator = $landCalculator;
-        $this->populationCalculator = $populationCalculator;
-        $this->spellCalculator = $spellCalculator;
-        $this->unitHelper = $unitHelper;
-        $this->populationCalculator = $populationCalculator;
-        $this->improvementCalculator = $improvementCalculator;
-        $this->militaryCalculator = $militaryCalculator;
+        $this->landCalculator = app(LandCalculator::class);
+        $this->populationCalculator = app(PopulationCalculator::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+        $this->unitHelper = app(UnitHelper::class);
+        $this->populationCalculator = app(PopulationCalculator::class);
+        $this->improvementCalculator = app(ImprovementCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->spellDamageCalculator = app(SpellDamageCalculator::class);
     }
 
     /**
@@ -186,7 +157,7 @@ class CasualtiesCalculator
             # Invasion Spell: Unhealing Wounds
             if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
             {
-              $multiplier += 0.50;
+              $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'unhealing_wounds', null);
             }
 
             // Techs
@@ -319,7 +290,7 @@ class CasualtiesCalculator
             # Invasion Spell: Unhealing Wounds
             if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
             {
-              $multiplier += 0.50;
+              $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'unhealing_wounds', null);
             }
 
             # Land-based reductions

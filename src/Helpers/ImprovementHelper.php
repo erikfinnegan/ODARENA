@@ -12,10 +12,9 @@ class ImprovementHelper
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
-    public function __construct(
-        ImprovementCalculator $improvementCalculator)
+    public function __construct()
     {
-        $this->improvementCalculator = $improvementCalculator;
+        $this->improvementCalculator = app(ImprovementCalculator::class);
     }
 
     public function getImprovementTypes(?Dominion $dominion): array

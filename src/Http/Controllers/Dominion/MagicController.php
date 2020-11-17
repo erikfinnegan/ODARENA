@@ -17,6 +17,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 
 class MagicController extends AbstractDominionController
 {
@@ -32,6 +33,7 @@ class MagicController extends AbstractDominionController
 
             #ODA
             'networthCalculator' => app(NetworthCalculator::class),
+            'spellDamageCalculator' => app(SpellDamageCalculator::class),
         ]);
     }
 

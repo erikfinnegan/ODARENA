@@ -26,6 +26,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 # ODA
 use OpenDominion\Models\BlackOp;
 use OpenDominion\Models\Tech;
+use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 
 class SpellActionService
 {
@@ -77,6 +78,9 @@ class SpellActionService
     /** @var SpellHelper */
     protected $spellHelper;
 
+    /** @var SpellDamageCalculator */
+    protected $spellDamageCalculator;
+
     /**
      * SpellActionService constructor.
      */
@@ -94,6 +98,7 @@ class SpellActionService
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
+        $this->spellDamageCalculator = app(SpellDamageCalculator::class);
     }
 
     public const BLACK_OPS_DAYS_AFTER_ROUND_START = 1;
@@ -824,16 +829,13 @@ class SpellActionService
             $damage = 0;
             $baseDamage = $spellInfo['percentage'] / 100;
 
-            # Calculate ratio differential.
-            $baseDamageMultiplier = $this->getSpellBaseDamageMultiplier($dominion, $target);
-
-            $baseDamage *= (1 + $baseDamageMultiplier);
+            $baseDamage *= (1 + $this->spellDamageCalculator->getSpellBaseDamageMultiplier($dominion, $target));
 
             if (isset($spellInfo['decreases']))
             {
                 foreach ($spellInfo['decreases'] as $attr)
                 {
-                    $damageMultiplier = $this->getSpellDamageMultiplier($dominion, $target, $spellInfo, $attr);
+                    $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $dominion, $spellInfo['key'], $attr);
                     $damage = $target->{$attr} * $baseDamage * (1 + $damageMultiplier);
 
                     $totalDamage += round($damage);
@@ -1039,109 +1041,5 @@ class SpellActionService
         return $base * $landRatio;
       }
     }
-
-
-    /**
-     * Returns the base damage multiplier, which is dependent on WPA difference.
-     *
-     * @param Dominion $caster
-     * @param Dominion $target
-     * @param string $spell
-     * @param string $attribute
-     * @return float|null
-     */
-    public function getSpellBaseDamageMultiplier(Dominion $caster, Dominion $target): float
-    {
-        $casterWpa = $this->militaryCalculator->getWizardRatio($caster, 'offense');
-        $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
-        return ($casterWpa - $targetWpa) / 10;
-    }
-
-    /**
-     * Returns the damage done by a spell.
-     *
-     * @param Dominion $caster
-     * @param Dominion $target
-     * @param string $spell
-     * @param string $attribute
-     * @return float|null
-     */
-    public function getSpellDamageMultiplier(Dominion $caster, Dominion $target, array $spellInfo, string $attribute): float
-    {
-
-        $damageMultiplier = 0;
-
-        // Damage reduction from Spires
-        $damageMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
-
-        // Damage reduction from Spires
-        if($this->spellCalculator->isSpellActive($target, 'aura')
-        {
-            $damageMultiplier -= 0.20;
-        }
-
-        // Fireballs: peasants and food
-        if($spellInfo['key'] == 'fireball')
-        {
-            # General fireball damage modification.
-            if($target->race->getPerkMultiplier('damage_from_fireballs'))
-            {
-                $damageMultiplier += $target->race->getPerkMultiplier('damage_from_fireballs');
-            }
-
-            # Forest Havens lower damage to peasants from fireballs.
-            if($attribute == 'peasants')
-            {
-                $damageMultiplier -= ($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 0.8;
-            }
-        }
-
-        // Lightning Bolts: improvements
-        if($spellInfo['key'] == 'lightning_bolt')
-        {
-          # General fireball damage modification.
-          if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
-          {
-              $damageMultiplier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
-          }
-
-          $damageMultiplier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
-        }
-
-        // Disband Spies: spies
-        if($spellInfo['key'] == 'disband_spies')
-        {
-            if ($target->race->getPerkValue('immortal_spies'))
-            {
-                $damageMultiplier = -1;
-            }
-        }
-
-        // Purification: only effective against Afflicted.
-        if($spellInfo['key'] == 'purification')
-        {
-          if($target->race->name !== 'Afflicted')
-          {
-            $damageMultiplier = -1;
-          }
-        }
-
-        // Solar Flare: only effective against Nox.
-        if($spellInfo['key'] == 'solar_flare')
-        {
-          if($target->race->name !== 'Nox')
-          {
-            $damageMultiplier = -1;
-          }
-        }
-
-        // Cap at -1.
-        $damageMultiplier = max(-1, $damageMultiplier);
-
-        return $damageMultiplier;
-
-    }
-
-
 
 }

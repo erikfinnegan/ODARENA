@@ -1194,7 +1194,7 @@ invocations_level9:
   perks:
     mana_production: 18.75
   requires:
-    - invocations_level6
+    - invocations_level8
 
 invocations_level10:
   name: Invocations
@@ -1202,7 +1202,7 @@ invocations_level10:
   perks:
     mana_production: 20
   requires:
-    - invocations_level7
+    - invocations_level9
 
 # </Ladder: Invocations>
 

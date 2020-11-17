@@ -9,47 +9,12 @@ use OpenDominion\Services\Dominion\QueueService;
 
 class PopulationCalculator
 {
-    /** @var BuildingHelper */
-    protected $buildingHelper;
-
-    /** @var ImprovementCalculator */
-    protected $improvementCalculator;
-
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
-    /** @var PrestigeCalculator */
-    private $prestigeCalculator;
-
-    /** @var QueueService */
-    protected $queueService;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
-    /** @var UnitHelper */
-    protected $unitHelper;
-
-    /** @var LandImprovementCalculator */
-    protected $landImprovementCalculator;
 
     /** @var bool */
     protected $forTick = false;
 
-    /**
+    /*
      * PopulationCalculator constructor.
-     *
-     * @param BuildingHelper $buildingHelper
-     * @param ImprovementCalculator $improvementCalculator
-     * @param LandCalculator $landCalculator
-     * @param MilitaryCalculator $militaryCalculator
-     * @param PrestigeCalculator $prestigeCalculator
-     * @param QueueService $queueService
-     * @param SpellCalculator $spellCalculator
-     * @param UnitHelper $unitHelper
      */
     public function __construct(
         BuildingHelper $buildingHelper,
@@ -62,15 +27,16 @@ class PopulationCalculator
         UnitHelper $unitHelper,
         LandImprovementCalculator $landImprovementCalculator
     ) {
-        $this->buildingHelper = $buildingHelper;
-        $this->improvementCalculator = $improvementCalculator;
-        $this->landCalculator = $landCalculator;
-        $this->militaryCalculator = $militaryCalculator;
-        $this->prestigeCalculator = $prestigeCalculator;
-        $this->queueService = $queueService;
-        $this->spellCalculator = $spellCalculator;
-        $this->unitHelper = $unitHelper;
-        $this->landImprovementCalculator = $landImprovementCalculator;
+          $this->buildingHelper = app(BuildingHelper::class);
+          $this->improvementCalculator = app(ImprovementCalculator::class);
+          $this->landCalculator = app(LandCalculator::class);
+          $this->landImprovementCalculator = app(LandImprovementCalculator::class);
+          $this->militaryCalculator = app(MilitaryCalculator::class);
+          $this->prestigeCalculator = app(PrestigeCalculator::class);
+          $this->queueService = app(QueueService::class);
+          $this->spellCalculator = app(SpellCalculator::class);
+          $this->spellDamageCalculator = app(SpellDamageCalculator::class);
+          $this->unitHelper = app(UnitHelper::class);
     }
 
     /**
@@ -124,8 +90,16 @@ class PopulationCalculator
       {
           if (!$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'does_not_count_as_population'))
           {
-              $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitSlot);
-              $military += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$unitSlot}");
+              $unitAmount = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitSlot);
+              $unitAmount += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$unitSlot}");
+
+              # Check for housing_count
+              if($nonStandardHousing = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'housing_count'))
+              {
+                  $unitAmount = ceil($unitAmount * $nonStandardHousing);
+              }
+
+              $military += $unitAmount;
           }
       }
 
@@ -556,13 +530,13 @@ class PopulationCalculator
         // Spell: Plague (-25%)
         if ($this->spellCalculator->isSpellActive($dominion, 'plague'))
         {
-            $multiplier -= 0.25;
+            $multiplier -= 0.25 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'plague', null);
         }
 
-        // Spell: Great Fever (-100%)
+        // Spell: Great Fever (-25%)
         if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
         {
-            $multiplier -= 0.25;
+            $multiplier -= 0.25 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'great_fever', null);
         }
 
         # /SPELLS

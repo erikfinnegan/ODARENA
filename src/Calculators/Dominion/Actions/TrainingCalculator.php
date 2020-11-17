@@ -262,11 +262,16 @@ class TrainingCalculator
 
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)
                     {
-                      $cost['draftees'] = 0;
+                        $cost['draftees'] = 0;
+                    }
+                    # Check for housing_count
+                    elseif($nonStandardHousing = $dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'housing_count'))
+                    {
+                        $cost['draftees'] = $nonStandardHousing;
                     }
                     else
                     {
-                      $cost['draftees'] = 1;
+                        $cost['draftees'] = 1;
                     }
 
                     break;

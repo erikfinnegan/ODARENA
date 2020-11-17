@@ -152,12 +152,15 @@ class TrainActionService
 
         $trainingCostsPerUnit = $this->trainingCalculator->getTrainingCostsPerUnit($dominion);
 
-        foreach ($data as $unitType => $amountToTrain) {
-            if (!$amountToTrain || $amountToTrain === 0) {
+        foreach ($data as $unitType => $amountToTrain)
+        {
+            if (!$amountToTrain || $amountToTrain === 0)
+            {
                 continue;
             }
 
-            if ($amountToTrain < 0) {
+            if ($amountToTrain < 0)
+            {
                 throw new GameException('Training aborted due to bad input.');
             }
 
@@ -165,8 +168,16 @@ class TrainActionService
 
             $costs = $trainingCostsPerUnit[$unitType];
 
-            foreach ($costs as $costType => $costAmount) {
-                $totalCosts[$costType] += ($amountToTrain * $costAmount);
+            foreach ($costs as $costType => $costAmount)
+            {
+                if($costType === 'draftees')
+                {
+                    $totalCosts[$costType] += ceil($amountToTrain * $costAmount);
+                }
+                else
+                {
+                    $totalCosts[$costType] += ($amountToTrain * $costAmount);
+                }
             }
 
             $unitsToTrain[$unitType] = $amountToTrain;
@@ -181,6 +192,7 @@ class TrainActionService
           building_limit
           minimum_wpa_to_train
           victories_limit
+          housing_count
         */
         foreach($unitsToTrain as $unitType => $amountToTrain)
         {

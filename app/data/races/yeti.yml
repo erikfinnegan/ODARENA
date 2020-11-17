@@ -26,8 +26,6 @@ perks:
   lumber_decay: -75
   cannot_train_wizards: 1
   cannot_train_archmages: 1
-  rezone_cost: -10
-
 units:
   - name: Worker Yeti
     training_time: 1

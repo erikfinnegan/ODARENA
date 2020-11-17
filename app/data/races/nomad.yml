@@ -51,7 +51,7 @@ units:
       offense: 0
       defense: 3
 
-  - name: Halberder
+  - name: Halberdier
     training_time: 12
     type:
       - living

@@ -4,9 +4,9 @@ namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
+
 # ODA
 use OpenDominion\Models\Dominion;
-
 
 class SpellHelper
 {
@@ -924,6 +924,12 @@ class SpellHelper
                 'races' => collect(['Icekin']),
             ],
           ]);
+    }
+
+
+    public function getDominionHarmfulSpellDamageModifier(Dominion $dominion, ?string $spell)
+    {
+        $modifier = 0;
     }
 
 }

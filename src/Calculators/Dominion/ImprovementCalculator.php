@@ -4,29 +4,20 @@ namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Models\Dominion;
 
-# ODA
-use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class ImprovementCalculator
 {
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
 
     /**
      * ImprovementCalculator constructor.
      *
      * @param LandCalculator $landCalculator
      */
-    public function __construct(
-        SpellCalculator $spellCalculator,
-        LandCalculator $landCalculator)
-    {
-        $this->spellCalculator = $spellCalculator;
-        $this->landCalculator = $landCalculator;
-    }
+     public function __construct()
+     {
+         $this->spellCalculator = app(SpellCalculator::class);
+         $this->landCalculator = app(LandCalculator::class);
+     }
 
     /**
      * Returns the Dominion's improvement multiplier for a given improvement type.
@@ -230,7 +221,6 @@ class ImprovementCalculator
               $multiplier += $dominion->title->getPerkMultiplier('improvements') * $dominion->title->getPerkBonus($dominion);
             }
 
-            # Imperial Gnome: Spell (increase imp points by 10%)
             if($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
             {
                 $multiplier += 0.25;

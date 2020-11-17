@@ -160,12 +160,22 @@ class ReleaseActionService
                 continue;
             }
 
-            if ($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'cannot_be_released'))
+            $slot = intval(str_replace('unit','',$unitType));
+
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'cannot_be_released'))
             {
                 throw new GameException('Cannot release that unit.');
             }
 
             $dominion->{'military_' . $unitType} -= $amount;
+
+            $drafteesAmount = $amount;
+
+            # Check for housing_count
+            if($nonStandardHousing = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'housing_count'))
+            {
+                $amount = floor($amount * $nonStandardHousing);
+            }
 
             if ($unitType === 'draftees')
             {
@@ -173,7 +183,7 @@ class ReleaseActionService
             }
 
             # Only return draftees if unit is not exempt from population.
-            elseif (!$dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'does_not_count_as_population'))
+            elseif (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population'))
             {
                 $dominion->military_draftees += $amount;
             }

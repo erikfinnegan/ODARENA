@@ -93,6 +93,7 @@ class ImproveActionService
 
         }
 
+
         if($dominion->race->getPerkValue('tissue_improvement'))
         {
             $dominion->fill([
@@ -132,7 +133,6 @@ class ImproveActionService
         $dominion->{'stat_total_' . $resourceNameForStats . '_spent_improving'} += $totalResourcesToInvest;
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
-
 
         return [
             'message' => $this->getReturnMessageString($resource, $data, $totalResourcesToInvest, $dominion),

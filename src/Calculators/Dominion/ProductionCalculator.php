@@ -11,33 +11,6 @@ use OpenDominion\Helpers\UnitHelper;
 
 class ProductionCalculator
 {
-    /** @var ImprovementCalculator */
-    protected $improvementCalculator;
-
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var PopulationCalculator */
-    protected $populationCalculator;
-
-    /** @var PrestigeCalculator */
-    private $prestigeCalculator;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
-    /** @var GuardMembershipService */
-    private $guardMembershipService;
-
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
-    /** @var LandImprovementCalculator */
-    protected $landImprovementCalculator;
-
-    /** @var UnitHelper */
-    protected $unitHelper;
-
     /**
      * ProductionCalculator constructor.
      *
@@ -49,27 +22,18 @@ class ProductionCalculator
      * @param GuardMembershipService $guardMembershipService
      * @param MilitaryCalculator $militaryCalculator
      */
-    public function __construct(
-        ImprovementCalculator $improvementCalculator,
-        LandCalculator $landCalculator,
-        PopulationCalculator $populationCalculator,
-        PrestigeCalculator $prestigeCalculator,
-        SpellCalculator $spellCalculator,
-        GuardMembershipService $guardMembershipService,
-        MilitaryCalculator $militaryCalculator,
-        LandImprovementCalculator $landImprovementCalculator,
-        UnitHelper $unitHelper
-        )
+    public function __construct()
     {
-        $this->improvementCalculator = $improvementCalculator;
-        $this->landCalculator = $landCalculator;
-        $this->populationCalculator = $populationCalculator;
-        $this->prestigeCalculator = $prestigeCalculator;
-        $this->spellCalculator = $spellCalculator;
-        $this->guardMembershipService = $guardMembershipService;
-        $this->militaryCalculator = $militaryCalculator;
-        $this->landImprovementCalculator = $landImprovementCalculator;
-        $this->unitHelper = $unitHelper;
+        $this->improvementCalculator = app(ImprovementCalculator::class);
+        $this->landCalculator = app(LandCalculator::class);
+        $this->populationCalculator = app(PopulationCalculator::class);
+        $this->prestigeCalculator = app(PrestigeCalculator::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+        $this->guardMembershipService = app(GuardMembershipService::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->landImprovementCalculator = app(LandImprovementCalculator::class);
+        $this->unitHelper = app(UnitHelper::class);
+        $this->spellDamageCalculator = app(SpellDamageCalculator::class);
     }
 
     /**
@@ -187,10 +151,10 @@ class ProductionCalculator
             $multiplier += 0.05;
         }
 
-        // Invasion Spell: Unhealing Wounds (-5% production)
+        // Invasion Spell: Great Fever (-5% production)
         if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
         {
-            $multiplier -= 0.05;
+            $multiplier -= 0.05 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'great_fever', null);
         }
 
         // Apply Morale multiplier to production multiplier
@@ -305,13 +269,13 @@ class ProductionCalculator
         // Spell [hostile]: Insect Swarm (-5%)
         if ($this->spellCalculator->isSpellActive($dominion, 'insect_swarm'))
         {
-            $multiplier -=  0.05 * (1+$dominion->race->getPerkMultiplier('damage_from_insect_swarm'));
+            $multiplier -= 0.05 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'insect_swarm', null);
         }
 
         // Invasion Spell: Great Fever (-5% food production)
         if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
         {
-            $multiplier -= 0.05;
+            $multiplier -= 0.05 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'great_fever', null);;
         }
 
         # /SPELLS
@@ -368,6 +332,14 @@ class ProductionCalculator
                       return ($unit->slot == $slot);
                   })->first();
 
+              $amount = $dominion->{'military_unit'.$slot};
+
+              # Check for housing_count
+              if($nonStandardHousing = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'housing_count'))
+              {
+                  $amount *= $nonStandardHousing;
+              }
+
               # Get the unit attributes
               $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
 
@@ -398,7 +370,7 @@ class ProductionCalculator
         // Invasion Spell: Unhealing Wounds (+10% consumption)
         if ($multiplier !== -1.00 and $this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
         {
-            $multiplier += 0.10;
+            $multiplier += 0.10 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'unhealing_wounds', null);
         }
 
         // Unit Perk: food_consumption
@@ -902,7 +874,7 @@ class ProductionCalculator
 
         if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
         {
-            $multiplier -= 0.05;
+            $multiplier -= 0.05  * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'earthquake', null);
         }
 
         // Spell: Rainy Season (-100%)
@@ -1009,7 +981,7 @@ class ProductionCalculator
         // Spell: Earthquake (-5%)
         if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
         {
-            $multiplier -= 0.05;
+            $multiplier -= 0.05 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'earthquake', null);
         }
 
         // Spell: Rainy Season (-100%)
@@ -1145,7 +1117,7 @@ class ProductionCalculator
         // Spell: Great Flood (-25%)
         if ($this->spellCalculator->isSpellActive($dominion, 'great_flood'))
         {
-            $multiplier -= 0.25;
+            $multiplier -= 0.25 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'great_flood', null);
         }
 
         // Spell: Rainy Season (-100%)
