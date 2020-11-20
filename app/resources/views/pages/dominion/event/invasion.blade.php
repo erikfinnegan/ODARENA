@@ -136,6 +136,20 @@
                                 </colgroup>
                                 <tbody>
                                     <tr>
+                                        <td>OP:</td>
+                                        <td>
+                                            @if ($event->data['result']['success'])
+                                                <span class="text-green">
+                                                    {{ number_format($event->data['attacker']['op']) }}
+                                                </span>
+                                            @else
+                                                <span class="text-red">
+                                                    {{ number_format($event->data['attacker']['op']) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Prestige:</td>
                                         <td>
                                         @if (isset($event->data['attacker']['prestigeChange']))
@@ -444,10 +458,24 @@
                             @if ($event->target->realm->id === $selectedDominion->realm->id)
                             <table class="table">
                                 <colgroup>
-                                    <col width="25%">
-                                    <col width="75%">
+                                    <col width="34%">
+                                    <col width="66%">
                                 </colgroup>
                                 <tbody>
+                                    <tr>
+                                        <td>DP:</td>
+                                        <td>
+                                            @if ($event->data['result']['success'])
+                                                <span class="text-red">
+                                                    {{ number_format($event->data['defender']['dp']) }}
+                                                </span>
+                                            @else
+                                                <span class="text-green">
+                                                    {{ number_format($event->data['defender']['dp']) }}
+                                                </span>
+                                            @endif
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>Prestige:</td>
                                         <td>
@@ -511,7 +539,7 @@
                                         <th colspan="2">Demonic Collection</th>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><small class="text-muted">Tearing apart the dead, the {{ $raceHelper->getRaceAdjective($event->target->race) }} units collect souls, blood, and food.</small></td>
+                                        <td colspan="2"><small class="text-muted">Tearing apart the dead, the {{ $raceHelper->getRaceAdjective($event->source->race) }} units collect souls, blood, and food.</small></td>
                                     </tr>
                                         @foreach($event->data['defender']['demonic_collection'] as $resource => $amount)
                                             @if($amount > 0)
@@ -689,11 +717,6 @@
                                             @endif
                                         </tr>
                                         @endforeach
-                                        <tr>
-                                            <td>Total</td>
-                                            <td>{{ number_format(array_sum($event->data['attacker']['landConquered']))  }}</td>
-                                            <td>{{ number_format(array_sum($event->data['attacker']['landDiscovered'])) }}</td>
-                                        </tr>
                                     @endif
                                 </tbody>
                             </table>
@@ -716,18 +739,12 @@
                                 </colgroup>
                                 <tbody>
                                 @if(isset($event->data['defender']['buildingsLost']))
-                                    @php
-
-                                        $totalDestroyedBuildings = 0;
-
-                                    @endphp
                                     @foreach($event->data['defender']['buildingsLost'] as $building => $details)
                                         @php
                                             $buildingName = str_replace('_',' ',$building);
                                             $buildingName = ucwords($buildingName);
 
                                             $destroyed = array_sum($details);
-                                            $totalDestroyedBuildings += $destroyed;
                                         @endphp
 
                                     <tr>
@@ -735,10 +752,6 @@
                                         <td>{{ number_format($destroyed )}}</td>
                                     </tr>
                                     @endforeach
-                                    <tr>
-                                        <td>Total</td>
-                                        <td>{{ number_format($totalDestroyedBuildings) }}</td>
-                                    </tr>
                                 @else
                                     <tr>
                                         <td colspan="2" class="text-center">
