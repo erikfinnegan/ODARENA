@@ -346,9 +346,11 @@ class ProductionCalculator
               if (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and count(array_intersect($nonConsumingUnitAttributes, $unitAttributes)) === 0)
               {
                   $consumers += $dominion->{'military_unit'.$slot};
+                  $consumers += $this->queueService->getTrainingQueueTotalByResource($selectedDominion, "military_unit{$slot}");
               }
         }
 
+        $consumers += $dominion->military_draftees;
         $consumers += $dominion->military_spies;
         $consumers += $dominion->military_wizards;
         $consumers += $dominion->military_archmages;

@@ -4,7 +4,7 @@ namespace OpenDominion\Calculators\Dominion;
 
 use DB;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Models\Race;
+#use OpenDominion\Models\Race;
 
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;

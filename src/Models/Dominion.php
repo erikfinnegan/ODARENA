@@ -191,7 +191,7 @@ class Dominion extends AbstractModel
         'royal_guard_active_at' => 'datetime',
         'eltie_guard_active_at' => 'datetime',
 
-        'is_locked' => 'boolean',
+        'is_locked' => 'integer',
 
         'most_recent_improvement_resource' => 'string',
         'most_recent_exchange_from' => 'string',
@@ -392,6 +392,21 @@ class Dominion extends AbstractModel
     public function isLocked()
     {
         return $this->is_locked || (now() >= $this->round->end_date);
+    }
+
+    public function getLockedReason(int $reason): string
+    {
+        switch ($reason)
+        {
+            case 2:
+                return "Player's request.";
+
+            case 3:
+                return "Rule violation.";
+
+            default:
+                return 'None.';
+        }
     }
 
     /**

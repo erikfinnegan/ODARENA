@@ -42,15 +42,17 @@
 
                                 @if ($dominion === null)
                                 @else
-                                  @if ($dominion->is_locked == 1)
+                                  @if ($dominion->isLocked())
                                     <tr style="text-decoration:line-through; color: #666">
                                   @else
                                     <tr>
                                   @endif
                                         <td class="text-center">{{ $i + 1 }}</td>
                                         <td>
-                                            @if ($dominion->is_locked == 1)
-                                                <i class="fa fa-ban fa-lg text-grey" title="This dominion has been locked by the administrator."></i>
+                                            @if ($dominion->isLocked())
+                                            <span data-toggle="tooltip" data-placement="top" title="This dominion has been locked.<br>Reason: <strong>{{ $dominion->getLockedReason($dominion->is_locked) }}</strong>">
+                                            <i class="fa fa-lock fa-lg text-grey" title=""></i>
+                                            </span>
                                             @endif
 
                                             @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))

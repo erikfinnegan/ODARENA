@@ -67,7 +67,7 @@ units:
       - intelligent
     cost:
       lumber: 650
-      mana: 75
+      mana: 40
     power:
       offense: 7
       defense: 3

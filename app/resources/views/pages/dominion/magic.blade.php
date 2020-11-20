@@ -236,7 +236,7 @@
                       <li>Mana: {{ number_format($selectedDominion->resource_mana) }}</li>
                       <li>Wizard Strength:  {{ floor($selectedDominion->wizard_strength) }}%</li>
                       <li>Wizard Ratio (offense): {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</li>
-                      <li>Spell damage modifier: {{ number_format($spellDamageCalculator->getDominionHarmfulSpellDamageModifier($selectedDominion, null, null, null)*100, 2) }}% <span class="text-muted">(base, may vary by spell)</span></li>
+                      <li>Spell damage modifier: {{ number_format((1-$spellDamageCalculator->getDominionHarmfulSpellDamageModifier($selectedDominion, null, null, null))*100, 2) }}% <span class="text-muted">(base, may vary by spell)</span></li>
                     </ul>
 
                     <a href="{{ route('scribes.magic') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Magic in the Scribes.</span></a>

@@ -689,6 +689,11 @@
                                             @endif
                                         </tr>
                                         @endforeach
+                                        <tr>
+                                            <td>Total</td>
+                                            <td>{{ number_format(array_sum($event->data['attacker']['landConquered']))  }}</td>
+                                            <td>{{ number_format(array_sum($event->data['attacker']['landDiscovered'])) }}</td>
+                                        </tr>
                                     @endif
                                 </tbody>
                             </table>
@@ -711,12 +716,18 @@
                                 </colgroup>
                                 <tbody>
                                 @if(isset($event->data['defender']['buildingsLost']))
+                                    @php
+
+                                        $totalDestroyedBuildings = 0;
+
+                                    @endphp
                                     @foreach($event->data['defender']['buildingsLost'] as $building => $details)
                                         @php
                                             $buildingName = str_replace('_',' ',$building);
                                             $buildingName = ucwords($buildingName);
 
                                             $destroyed = array_sum($details);
+                                            $totalDestroyedBuildings += $destroyed;
                                         @endphp
 
                                     <tr>
@@ -724,6 +735,10 @@
                                         <td>{{ number_format($destroyed )}}</td>
                                     </tr>
                                     @endforeach
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>{{ number_format($totalDestroyedBuildings) }}</td>
+                                    </tr>
                                 @else
                                     <tr>
                                         <td colspan="2" class="text-center">

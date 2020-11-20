@@ -1,7 +1,7 @@
 name: Swarm
 alignment: good
 description: >-
-  <p>Buildings under construction count as barren land for the purpose of Scarab, Arachnid, and Naga offensive power perk, except for against Barbarians.</p>
+  <p>Buildings under construction count as barren land for the purpose of Scarab, Arachnid, and Naga offensive power perk.</p>
 home_land_type: plain
 playable: 1
 
