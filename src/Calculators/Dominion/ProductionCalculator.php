@@ -4,6 +4,7 @@ namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
+use OpenDominion\Services\Dominion\QueueService;
 
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
@@ -34,6 +35,7 @@ class ProductionCalculator
         $this->landImprovementCalculator = app(LandImprovementCalculator::class);
         $this->unitHelper = app(UnitHelper::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
+        $this->queueService = app(QueueService::class);
     }
 
     /**
@@ -346,7 +348,7 @@ class ProductionCalculator
               if (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and count(array_intersect($nonConsumingUnitAttributes, $unitAttributes)) === 0)
               {
                   $consumers += $dominion->{'military_unit'.$slot};
-                  $consumers += $this->queueService->getTrainingQueueTotalByResource($selectedDominion, "military_unit{$slot}");
+                  $consumers += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
               }
         }
 
