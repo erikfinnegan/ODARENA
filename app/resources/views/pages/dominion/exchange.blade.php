@@ -97,7 +97,7 @@
                 </div>
                 <div class="box-body">
                     <p>In the Exchange, you can exchange resources with the empire. Exchanging resources processes <b>instantly</b>.</p>
-                    <p>Platinum, lumber and ore trade 2 for 1.<br>Gems trade 1:2 platinum, lumber or ore.<br>Food sells for 4 platinum, lumber or ore, or 1 gem.</p>
+                    <p>Platinum, lumber and ore trade 2 for 1.<br>Gems trade for 1:2 platinum, lumber or ore.<br>Food trades for 1:4 platinum, lumber or ore.</p>
                     <p>You have {{ number_format($selectedDominion->resource_platinum) }} platinum, {{ number_format($selectedDominion->resource_lumber) }} lumber, {{ number_format($selectedDominion->resource_ore) }} ore and {{ number_format($selectedDominion->resource_gems) }} {{ str_plural('gem', $selectedDominion->resource_gems) }}.</p>
                 </div>
             </div>
