@@ -72,5 +72,5 @@ units:
       offense: 6
       defense: 4
     perks:
-      plunder: ore;2,gems;0.15
+      plunders: ore;2,gems;0.15
       offense_from_advancements: anvils_level8;1,quarries_level8;1,infrastructure_level8;1
