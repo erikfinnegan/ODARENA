@@ -239,6 +239,7 @@ class DominionFactory
         if($constructionMaterials[0] !== 'platinum')
         {
             $startingResources[$constructionMaterials[0]] += $startingResources['platinum'] / 10;
+
             $startingResources['platinum'] = 0;
         }
 

@@ -9,7 +9,7 @@ exploring : 2
 converting: 1
 skill_level: 1
 
-construction_materials: platinum,gem
+construction_materials: platinum,gems
 
 perks:
   lumber_production: -15
