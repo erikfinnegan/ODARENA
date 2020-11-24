@@ -231,7 +231,7 @@ class UnitHelper
             'reduces_unit_costs' => 'Reduces training costs by %1$s%% for every 1%% of population consisting of this unit. Max %2$s%% reduction.',
 
             // Limits
-            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s.',
+            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to %1$s at home.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
             'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increasable by %3$s improvements.',
 

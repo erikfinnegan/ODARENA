@@ -225,6 +225,7 @@ class TrainActionService
 
               # How many of the limiting unit does the dominion have? (Only counting units at home.)
               $pairingLimitedByTrained = $dominion->{'military_unit'. $pairingLimitedBy};
+              #$pairingLimitedByTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $pairingLimitedBy))
 
               if( # Units trained + Units in Training + Units in Queue + Units to Train
                   (($dominion->{'military_unit' . $unitSlot} +
