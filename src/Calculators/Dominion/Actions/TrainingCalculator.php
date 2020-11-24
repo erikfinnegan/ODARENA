@@ -364,6 +364,7 @@ class TrainingCalculator
               $pairingLimitedTo = $pairingLimit[1];
 
               $pairingLimitedByTrained = $dominion->{'military_unit'.$pairingLimitedBy};
+              #$pairingLimitedByTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $pairingLimitedBy))
 
               $maxAdditionalPermittedOfThisUnit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
