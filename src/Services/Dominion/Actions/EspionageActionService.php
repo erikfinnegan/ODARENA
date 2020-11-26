@@ -347,30 +347,41 @@ class EspionageActionService
                     $dominion->military_spies -= $spiesKilled;
                     $dominion->stat_total_spies_lost += $spiesKilled;
                     $target->stat_total_spies_killed += $spiesKilled;
+
+                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                    {
+                        $target->crypt += $spiesKilled;
+                    }
                 }
 
                 $spyUnitsKilled = 0;
-                foreach ($dominion->race->units as $unit) {
+                foreach ($dominion->race->units as $unit)
+                {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
-                      if($unit->getPerkValue('immortal_spy'))
-                      {
-                        $unitKilled = 0;
-                      }
-                      else
-                      {
-                        $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
-                        $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
-                      }
-
-                        if ($unitKilled > 0)
+                        if($unit->getPerkValue('immortal_spy'))
                         {
-                            $unitsKilled[strtolower($unit->name)] = $unitKilled;
-                            $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
-                            $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
-                            $target->stat_total_units_killed += $unitKilled;
-                            $spyUnitsKilled += $unitKilled;
+                            $unitKilled = 0;
                         }
+                        else
+                        {
+                            $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
+                            $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
+                        }
+
+                          if ($unitKilled > 0)
+                          {
+                              $unitsKilled[strtolower($unit->name)] = $unitKilled;
+                              $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                              $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+                              $target->stat_total_units_killed += $unitKilled;
+                              $spyUnitsKilled += $unitKilled;
+
+                              if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                              {
+                                  $target->crypt += $unitKilled;
+                              }
+                          }
                     }
                 }
 
@@ -656,21 +667,26 @@ class EspionageActionService
                     $dominion->military_spies -= $spiesKilled;
                     $dominion->stat_total_spies_lost += $spiesKilled;
                     $target->stat_total_spies_killed += $spiesKilled;
+
+                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                    {
+                        $target->crypt += $spiesKilled;
+                    }
                 }
 
                 $spyUnitsKilled = 0;
-                foreach ($dominion->race->units as $unit) {
+                foreach ($dominion->race->units as $unit)
+                {
                     if ($unit->getPerkValue('counts_as_spy_offense'))
                     {
                         if($unit->getPerkValue('immortal_spy'))
                         {
-                          $unitKilled = 0;
+                            $unitKilled = 0;
                         }
                         else
                         {
-
-                          $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
-                          $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
+                            $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
+                            $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
                         }
 
                         if ($unitKilled > 0)
@@ -680,6 +696,11 @@ class EspionageActionService
                             $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
                             $target->stat_total_units_killed += $unitKilled;
                             $spyUnitsKilled += $unitKilled;
+
+                            if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                            {
+                                $target->crypt += $unitKilled;
+                            }
                         }
                     }
                 }
@@ -1055,6 +1076,11 @@ class EspionageActionService
                     $dominion->military_spies -= $spiesKilled;
                     $dominion->stat_total_spies_lost += $spiesKilled;
                     $target->stat_total_spies_killed += $spiesKilled;
+
+                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                    {
+                        $target->crypt += $spiesKilled;
+                    }
                 }
 
                 $spyUnitsKilled = 0;
@@ -1079,6 +1105,11 @@ class EspionageActionService
                               $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
                               $target->stat_total_units_killed += $unitKilled;
                               $spyUnitsKilled += $unitKilled;
+
+                              if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                              {
+                                  $target->crypt += $unitKilled;
+                              }
                           }
                     }
                 }
@@ -1147,9 +1178,9 @@ class EspionageActionService
                 if($attr == 'wizard_strength')
                 {
                     $baseDamage = $baseDamage * 100; # Because wizard_strength is stored that way (100 = 100%).
-                    $damage = $baseDamage * (1 + $baseDamageMultiplier) * (1 + $baseDamageMultiplier);
+                    $damage = round($baseDamage * (1 + $baseDamageMultiplier) * (1 + $baseDamageMultiplier));
                     $damage = min($target->{$attr}, $damage);
-                    $damage = $baseDamage;
+                    #$damage = $baseDamage; -- WTF?
                     $target->{$attr} -= round($damage);
                 }
                 else
@@ -1162,9 +1193,15 @@ class EspionageActionService
                     }
 
                     $damage = max($target->{$attr} - $damageReduction, 0) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
-                    $damage = min($target->{$attr}, $damage);
+                    $damage = round(min($target->{$attr}, $damage));
 
-                    $target->{$attr} -= round($damage);
+                    # For Empire, add burned bodies and disbanded spies to the crypt
+                    if($target->realm->alignment === 'evil' and ($attr === 'military_draftees' or $attr === 'military_wizards'))
+                    {
+                        $target->crypt += $damage;
+                    }
+
+                    $target->{$attr} -= $damage;
                 }
 
                 $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));

@@ -836,11 +836,17 @@ class SpellActionService
                 foreach ($spellInfo['decreases'] as $attr)
                 {
                     $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $dominion, $spellInfo['key'], $attr);
-                    $damage = $target->{$attr} * $baseDamage * (1 + $damageMultiplier);
+                    $damage = round($target->{$attr} * $baseDamage * (1 + $damageMultiplier));
 
-                    $totalDamage += round($damage);
-                    $target->{$attr} -= round($damage);
+                    $totalDamage += $damage;
+                    $target->{$attr} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
+
+                    # Check for immortal_spies
+                    if($attr == 'military_spies' and $target->getPerkValue('immortal_spies'))
+                    {
+                        $damage = 0;
+                    }
 
                     // Update statistics
                     if (isset($dominion->{"stat_{$spellInfo['key']}_damage"}))
@@ -850,6 +856,12 @@ class SpellActionService
                         {
                             $dominion->{"stat_{$spellInfo['key']}_damage"} += round($damage);
                         }
+                    }
+
+                    # For Empire, add burned bodies and disbanded spies to the crypt
+                    if($target->realm->alignment === 'evil' and ($attr === 'peasants' or $attr === 'military_spies'))
+                    {
+                        $target->crypt += $damage;
                     }
                 }
 

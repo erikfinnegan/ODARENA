@@ -219,7 +219,7 @@
                           <p>To help you get going, you will get 1% extra starting resources for every hour since the round started (max +100%).</p>
 
                           @if ($discordInviteLink = config('app.discord_invite_link'))
-                          <   p>If you need any help or just want to chat, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
+                          <p>If you need any help or just want to chat, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
                           @endif
 
                       @else
@@ -232,7 +232,7 @@
                             @endif
 
                       @endif
-                      
+
                       <p>Head over to the <a href="https://sim.odarena.com/" target="_blank">ODARENA Simulator</a> if you want to sim protection. Click <a href="https://lounge.odarena.com/2020/02/24/odarena-sim/" target="_blank">here</a> to read about how the sim works.</p>
 
                     </div>

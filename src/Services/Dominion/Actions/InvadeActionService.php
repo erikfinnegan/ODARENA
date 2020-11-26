@@ -539,7 +539,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -1807,6 +1807,8 @@ class InvadeActionService
         $defendingUnitsDpRatio = array_fill(1, 4, 0.0);
         $defendingUnitsTotal = array_fill(1, 4, 0);
 
+        $conversionLogString = '';
+
         if(!$this->spellCalculator->isSpellActive($defender, 'feral_hunger'))
         {
             foreach($defendingUnitsTotal as $slot => $amount)
@@ -1875,7 +1877,7 @@ class InvadeActionService
                 $amount = round($amount);
 
                 # Get the $unit
-                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
                         return ($unit->slot == $slot);
                     })->first();
 
