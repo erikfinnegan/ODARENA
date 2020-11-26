@@ -348,7 +348,7 @@ class EspionageActionService
                     $dominion->stat_total_spies_lost += $spiesKilled;
                     $target->stat_total_spies_killed += $spiesKilled;
 
-                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                     {
                         $target->crypt += $spiesKilled;
                     }
@@ -668,7 +668,7 @@ class EspionageActionService
                     $dominion->stat_total_spies_lost += $spiesKilled;
                     $target->stat_total_spies_killed += $spiesKilled;
 
-                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                     {
                         $target->crypt += $spiesKilled;
                     }
@@ -1077,7 +1077,7 @@ class EspionageActionService
                     $dominion->stat_total_spies_lost += $spiesKilled;
                     $target->stat_total_spies_killed += $spiesKilled;
 
-                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies')
+                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                     {
                         $target->crypt += $spiesKilled;
                     }

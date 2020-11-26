@@ -858,8 +858,8 @@ class SpellActionService
                         }
                     }
 
-                    # For Empire, add burned bodies and disbanded spies to the crypt
-                    if($target->realm->alignment === 'evil' and ($attr === 'peasants' or $attr === 'military_spies'))
+                    # For Empire, add burned peasants go to the crypt
+                    if($target->realm->alignment === 'evil' and $attr === 'peasants')
                     {
                         $target->crypt += $damage;
                     }
