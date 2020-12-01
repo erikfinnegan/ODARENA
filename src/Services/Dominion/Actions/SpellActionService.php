@@ -843,7 +843,7 @@ class SpellActionService
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attr, $damage));
 
                     # Check for immortal_spies
-                    if($attr == 'military_spies' and $target->getPerkValue('immortal_spies'))
+                    if($attr == 'military_spies' and $target->race->getPerkValue('immortal_spies'))
                     {
                         $damage = 0;
                     }
