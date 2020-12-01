@@ -3298,7 +3298,7 @@ class InvadeActionService
     protected function handleMetabolism(Dominion $attacker, Dominion $defender, float $landRatio): void
     {
         $food = 0;
-
+/*
         $uneatableUnitAttributes = [
           'ammunition',
           'equipment',
@@ -3382,6 +3382,7 @@ class InvadeActionService
 
               $defender->resource_food += $food;
           }
+      */
     }
 
 
