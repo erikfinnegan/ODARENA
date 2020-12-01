@@ -350,7 +350,7 @@ class EspionageActionService
 
                     if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                     {
-                        $target->crypt += $spiesKilled;
+                        $target->realm->crypt += $spiesKilled;
                     }
                 }
 
@@ -379,7 +379,7 @@ class EspionageActionService
 
                               if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                               {
-                                  $target->crypt += $unitKilled;
+                                  $target->realm->crypt += $unitKilled;
                               }
                           }
                     }
@@ -670,7 +670,7 @@ class EspionageActionService
 
                     if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                     {
-                        $target->crypt += $spiesKilled;
+                        $target->realm->crypt += $spiesKilled;
                     }
                 }
 
@@ -699,7 +699,7 @@ class EspionageActionService
 
                             if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                             {
-                                $target->crypt += $unitKilled;
+                                $target->realm->crypt += $unitKilled;
                             }
                         }
                     }
@@ -1079,7 +1079,7 @@ class EspionageActionService
 
                     if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                     {
-                        $target->crypt += $spiesKilled;
+                        $target->realm->crypt += $spiesKilled;
                     }
                 }
 
@@ -1108,7 +1108,7 @@ class EspionageActionService
 
                               if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                               {
-                                  $target->crypt += $unitKilled;
+                                  $target->realm->crypt += $unitKilled;
                               }
                           }
                     }
@@ -1198,7 +1198,7 @@ class EspionageActionService
                     # For Empire, add burned bodies and disbanded spies to the crypt
                     if($target->realm->alignment === 'evil' and ($attr === 'military_draftees' or $attr === 'military_wizards'))
                     {
-                        $target->crypt += $damage;
+                        $target->realm->crypt += $damage;
                     }
 
                     $target->{$attr} -= $damage;
