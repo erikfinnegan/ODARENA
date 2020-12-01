@@ -3368,17 +3368,17 @@ class InvadeActionService
 
                   if(count(array_intersect($uneatableUnitAttributes, $unitAttributes)) === 0)
                   {
-                      $unitsEaten[$slot] = $amount;
+                      $unitsKilled[$slot] = $amount;
                   }
               }
 
-              $opFromKilledEaten = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsEaten, 0, false, $this->isAmbush, true);
+              $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, $this->isAmbush, true);
 
               $food += $opFromKilledEaten * 4;
 
-              $this->invasionResult['attacker']['metabolism']['unitsEaten'] = $unitsEaten;
-              $this->invasionResult['attacker']['metabolism']['opFromUnitsEaten'] = $opFromKilledEaten;
-              $this->invasionResult['attacker']['metabolism']['food'] = $food;
+              $this->invasionResult['defender']['metabolism']['unitsEaten'] = $unitsKilled;
+              $this->invasionResult['defender']['metabolism']['dpFromUnitsEaten'] = $dpFromKilledUnits;
+              $this->invasionResult['defender']['metabolism']['food'] = $food;
 
               $defender->resource_food += $food;
           }
