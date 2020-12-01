@@ -73,8 +73,18 @@ class LandCalculator
         {
             return max(1,$totalLand);
         }
+    }
 
+    public function getTotalLandIncoming(Dominion $dominion): int
+    {
+        $incoming = 0;
+        foreach ($this->landHelper->getLandTypes() as $landType)
+        {
+            $incoming += $this->queueService->getExplorationQueueTotalByResource($dominion, "land_{$landType}");
+            $incoming += $this->queueService->getInvasionQueueTotalByResource($dominion, "land_{$landType}");
+        }
 
+        return $incoming;
     }
 
     /**
@@ -101,10 +111,7 @@ class LandCalculator
      */
     public function getTotalBarrenLandForSwarm(Dominion $dominion): int
     {
-        return (
-            $this->getTotalLand($dominion)
-            - $this->buildingCalculator->getTotalBuildings($dominion)
-        );
+        return ($this->getTotalLand($dominion) - $this->buildingCalculator->getTotalBuildings($dominion));
     }
 
     /**

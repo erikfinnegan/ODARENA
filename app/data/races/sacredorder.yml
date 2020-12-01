@@ -29,7 +29,7 @@ units:
       defense: 0
     perks:
       fixed_casualties: 100
-      cannot_be_trained: 1
+      housing_count: 0.25
 
   - name: Monk
     training_time: 1
@@ -65,7 +65,7 @@ units:
       no_draftee: 1
       offense_from_building: temple,5,2 # building type, ratio%, max
       defense_from_building: temple,5,2 # building type, ratio%, max
-      conversion: 1
+      displaced_peasants_conversion: 1
 
   - name: Paladin
     training_time: 10
@@ -85,4 +85,4 @@ units:
       no_draftee: 1
       offense_from_building: shrine,5,2 # building type, ratio%, max
       defense_from_building: shrine,10,1 # building type, ratio%, max
-      conversion: 1
+      displaced_peasants_conversion: 1

@@ -318,7 +318,6 @@ class ProductionCalculator
             'ammunition',
             'equipment',
             'magical',
-            'massive',
             'machine',
             'ship',
             'ethereal'

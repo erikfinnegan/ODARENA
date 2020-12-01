@@ -86,69 +86,6 @@ class InvadeActionService
      */
     protected const STUN_RATIO = 1;
 
-    /** @var BuildingCalculator */
-    protected $buildingCalculator;
-
-    /** @var CasualtiesCalculator */
-    protected $casualtiesCalculator;
-
-    /** @var GovernmentService */
-    protected $governmentService;
-
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
-    /** @var NotificationService */
-    protected $notificationService;
-
-    /** @var ProtectionService */
-    protected $protectionService;
-
-    /** @var QueueService */
-    protected $queueService;
-
-    /** @var RangeCalculator */
-    protected $rangeCalculator;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
-    /** @var ImprovementCalculator */
-    protected $improvementCalculator;
-
-    /** @var ImprovementHelper */
-    protected $improvementHelper;
-
-    /** @var SpellHelper */
-    protected $spellHelper;
-
-    /** @var SpellActionService */
-    protected $spellActionService;
-
-    /** @var UnitHelper */
-    protected $unitHelper;
-
-    /** @var TrainingCalculator */
-    protected $trainingCalculator;
-
-    /** @var GuardMembershipService */
-    protected $guardMembershipService;
-
-    /** @var ConversionCalculator */
-    protected $conversionCalculator;
-
-    /** @var PopulationCalculator */
-    protected $populationCalculator;
-
-    /** @var RaceHelpe */
-    protected $raceHelper;
-
-    // todo: use InvasionRequest class with op, dp, mods etc etc. Since now it's
-    // a bit hacky with getting new data between $dominion/$target->save()s
-
     /** @var array Invasion result array. todo: Should probably be refactored later to its own class */
     protected $invasionResult = [
         'result' => [],
@@ -159,10 +96,6 @@ class InvadeActionService
             'unitsLost' => [],
         ],
     ];
-
-    // todo: refactor
-    /** @var GameEvent */
-    protected $invasionEvent;
 
     // todo: refactor to use $invasionResult instead
     /** @var int The amount of land lost during the invasion */
@@ -185,48 +118,28 @@ class InvadeActionService
      * @param RangeCalculator $rangeCalculator
      * @param SpellCalculator $spellCalculator
      */
-    public function __construct(
-        BuildingCalculator $buildingCalculator,
-        CasualtiesCalculator $casualtiesCalculator,
-        GovernmentService $governmentService,
-        LandCalculator $landCalculator,
-        MilitaryCalculator $militaryCalculator,
-        NotificationService $notificationService,
-        ProtectionService $protectionService,
-        QueueService $queueService,
-        RangeCalculator $rangeCalculator,
-        SpellCalculator $spellCalculator,
-        ImprovementCalculator $improvementCalculator,
-        ImprovementHelper $improvementHelper,
-        SpellHelper $spellHelper,
-        SpellActionService $spellActionService,
-        UnitHelper $unitHelper,
-        TrainingCalculator $trainingCalculator,
-        GuardMembershipService $guardMembershipService,
-        ConversionCalculator $conversionCalculator,
-        PopulationCalculator $populationCalculator,
-        RaceHelper $raceHelper
-    ) {
-        $this->buildingCalculator = $buildingCalculator;
-        $this->casualtiesCalculator = $casualtiesCalculator;
-        $this->governmentService = $governmentService;
-        $this->landCalculator = $landCalculator;
-        $this->militaryCalculator = $militaryCalculator;
-        $this->notificationService = $notificationService;
-        $this->protectionService = $protectionService;
-        $this->queueService = $queueService;
-        $this->rangeCalculator = $rangeCalculator;
-        $this->spellCalculator = $spellCalculator;
-        $this->improvementCalculator = $improvementCalculator;
-        $this->improvementHelper = $improvementHelper;
-        $this->spellHelper = $spellHelper;
-        $this->spellActionService = $spellActionService;
-        $this->unitHelper = $unitHelper;
-        $this->trainingCalculator = $trainingCalculator;
-        $this->guardMembershipService = $guardMembershipService;
-        $this->conversionCalculator = $conversionCalculator;
-        $this->populationCalculator = $populationCalculator;
-        $this->raceHelper = $raceHelper;
+    public function __construct()
+    {
+        $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->casualtiesCalculator = app(CasualtiesCalculator::class);
+        $this->conversionCalculator = app(ConversionCalculator::class);
+        $this->governmentService = app(GovernmentService::class);
+        $this->guardMembershipService = app(GuardMembershipService::class);
+        $this->improvementCalculator = app(ImprovementCalculator::class);
+        $this->improvementHelper = app(ImprovementHelper::class);
+        $this->landCalculator = app(LandCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->notificationService = app(NotificationService::class);
+        $this->populationCalculator = app(PopulationCalculator::class);
+        $this->protectionService = app(ProtectionService::class);
+        $this->queueService = app(QueueService::class);
+        $this->rangeCalculator = app(RangeCalculator::class);
+        $this->spellActionService = app(SpellActionService::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+        $this->spellHelper = app(SpellHelper::class);
+        $this->trainingCalculator = app(TrainingCalculator::class);
+        $this->raceHelper = app(RaceHelper::class);
+        $this->unitHelper = app(UnitHelper::class);
     }
 
     /**
@@ -380,12 +293,6 @@ class InvadeActionService
                 throw new GameException('You cannot invade while you are in stasis.');
             }
 
-            // Peacekeepers League: can only invade if recently invaded.
-            if($this->guardMembershipService->isRoyalGuardMember($dominion) and !$this->militaryCalculator->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
-            {
-                throw new GameException('As a member of the Peacekeepers League, you can only invade other dominions if they have recently invaded your realm.');
-            }
-
             for ($slot = 1; $slot <= 4; $slot++)
             {
                 $unit = $target->race->units->filter(function ($unit) use ($slot) {
@@ -396,11 +303,13 @@ class InvadeActionService
                 {
                     $this->invasionResult['defender']['unitsDefending'][$slot] = $target->{'military_unit'.$slot};
                 }
-
             }
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $this->militaryCalculator->getRecentlyInvadedCount($target);
             $this->invasionResult['attacker']['unitsSent'] = $units;
+            $this->invasionResult['attacker']['landSize'] = $this->landCalculator->getTotalLand($dominion);
+            $this->invasionResult['defender']['landSize'] = $this->landCalculator->getTotalLand($target);
+
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
             $this->handleMindControl($target, $dominion, $units);
@@ -466,7 +375,7 @@ class InvadeActionService
             }
             else
             {
-                $offensiveConversions = $this->handleOffensiveConversions($dominion, $target, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduced_conversions'));
+                #$offensiveConversions = $this->handleOffensiveConversions($dominion, $target, $landRatio, $units, $totalDefensiveCasualties, $target->race->getPerkValue('reduced_conversions'));
             }
 
             if($target->race->name === 'Vampires')
@@ -479,8 +388,12 @@ class InvadeActionService
             }
             else
             {
-                $defensiveConversions = $this->handleDefensiveConversions($target, $landRatio, $units, $dominion);
+                #$defensiveConversions = $this->handleDefensiveConversions($target, $landRatio, $units, $dominion);
             }
+
+            $this->handleMoraleChanges($dominion, $target, $landRatio);
+            $this->handleLandGrabs($dominion, $target, $landRatio, $units);
+            $this->handleResearchPoints($dominion, $target, $units);
 
             # Qur
             $this->handleZealots($dominion, $target, $this->invasionResult['attacker']['survivingUnits']);
@@ -491,11 +404,22 @@ class InvadeActionService
             # Dwarf
             $this->handleStun($dominion, $target, $units, $landRatio);
 
-            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
+            # Conversions
+            $offensiveConversions = array_fill(1, 4, 0);
+            $defensiveConversions = array_fill(1, 4, 0);
+            $conversions = $this->conversionCalculator->getConversions($dominion, $target, $this->invasionResult, $landRatio);
+            if(array_sum($conversions['attacker']) > 0)
+            {
+                $offensiveConversions = $conversions['attacker'];
+                $this->invasionResult['attacker']['conversions'] = $offensiveConversions;
+            }
+            if(array_sum($conversions['defender']) > 0)
+            {
+                $defensiveConversions = $conversions['defender'];
+                $this->invasionResult['defender']['conversions'] = $defensiveConversions;
+            }
 
-            $this->handleMoraleChanges($dominion, $target, $landRatio);
-            $this->handleLandGrabs($dominion, $target, $landRatio, $units);
-            $this->handleResearchPoints($dominion, $target, $units);
+            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
 
             # Afflicted
             $this->handleInvasionSpells($dominion, $target);
@@ -1027,8 +951,6 @@ class InvadeActionService
         }
 
         $landRatio = $landRatio * 100;
-        $this->invasionResult['attacker']['landSize'] = $this->landCalculator->getTotalLand($dominion);
-        $this->invasionResult['defender']['landSize'] = $this->landCalculator->getTotalLand($target);
 
         # Returns an integer.
         $landConquered = $this->militaryCalculator->getLandConquered($dominion, $target, $landRatio);
@@ -1306,7 +1228,7 @@ class InvadeActionService
 
                 #var_dump($unit->name . ' is convertible:', $isUnitConvertible);
 
-                if(!$isUnitConvertible or $target->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+                if(!$isUnitConvertible)
                 {
                     $totalDefensiveCasualties -= $lost;
                 }
@@ -1494,7 +1416,7 @@ class InvadeActionService
                 }
             }
 
-            if(!$isUnitConvertible or $attacker->race->getUnitPerkValueForUnitSlot($slot, "fixed_casualties") >= 50)
+            if(!$isUnitConvertible)
             {
                 $totalOffensiveCasualties -= $lost;
             }
@@ -1832,7 +1754,7 @@ class InvadeActionService
                 $rawDp += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'defense') * $amount;
             }
 
-            # Then calculate contribution (unit raw OP / total raw OP)
+            # Then calculate contribution (unit raw DP / total raw DP)
             foreach($defendingUnitsTotal as $slot => $amount)
             {
                 $unit = $defender->race->units->filter(function ($unit) use ($slot) {

@@ -30,16 +30,12 @@ class ExplorationCalculator
      * @param LandCalculator $landCalculator
      * @param GuardMembershipService $guardMembershipService
      */
-    public function __construct(
-        LandCalculator $landCalculator,
-        GuardMembershipService $guardMembershipService,
-        SpellCalculator $spellCalculator,
-        ImprovementCalculator $improvementCalculator)
+    public function __construct()
     {
-        $this->landCalculator = $landCalculator;
-        $this->guardMembershipService = $guardMembershipService;
-        $this->spellCalculator = $spellCalculator;
-        $this->improvementCalculator = $improvementCalculator;
+          $this->landCalculator = app(LandCalculator::class);
+          $this->guardMembershipService = app(GuardMembershipService::class);
+          $this->spellCalculator = app(SpellCalculator::class);
+          $this->landImprovementCalculator = app(LandImprovementCalculator::class);
     }
 
     /**
@@ -48,23 +44,14 @@ class ExplorationCalculator
      * @param Dominion $dominion
      * @return int
      */
-     public function getPlatinumCostRaw(Dominion $dominion): int
-     {
-       $platinum = 0;
-       $totalLand = $this->landCalculator->getTotalLand($dominion);
+    public function getPlatinumCostRaw(Dominion $dominion): int
+    {
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+        $totalLand += $this->landCalculator->getTotalLandIncoming($dominion);
+        $platinum = sqrt($totalLand)*$totalLand/6-1000;
 
-       if ($totalLand < 300) {
-           $platinum += -(3 * (300 - $totalLand));
-       } else {
-           $exponent = ($totalLand ** 0.0185) / 1.05;
-           $exponent = clamp($exponent, 1.09, 1.121);
-           $platinum += (3 * (($totalLand - 300) ** $exponent));
-       }
-
-       $platinum += 1000;
-
-       return $platinum;
-     }
+        return $platinum;
+    }
 
      /**
       * Returns the Dominion's exploration platinum cost bonus.
@@ -117,18 +104,11 @@ class ExplorationCalculator
      */
     public function getDrafteeCostRaw(Dominion $dominion): int
     {
-        $draftees = 0;
+        $draftees = 5;
         $totalLand = $this->landCalculator->getTotalLand($dominion);
+        $draftees += (0.003 * (($totalLand - 300) ** 1.07));
 
-        if ($totalLand < 300) {
-            $draftees = -(300 / $totalLand);
-        } else {
-            $draftees += (0.003 * (($totalLand - 300) ** 1.07));
-        }
-
-        $draftees += 5;
-
-        return $draftees;
+        return ceil($draftees);
     }
 
     /**

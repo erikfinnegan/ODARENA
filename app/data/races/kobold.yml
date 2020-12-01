@@ -20,6 +20,7 @@ perks:
   boat_capacity: 10
   can_only_abduct_own: 1
   salvaging: 10
+  reduced_conversions: 25
 units:
   - name: Grunt
     training_time: 9

@@ -59,10 +59,11 @@ class UnitHelper
             'staggered_conversion' => 'Converts some enemy casualties into %2$s against dominions %1$s%%+ of your size.',
             'cannot_be_converted' => 'Unit cannot be converted.',
             'vampiric_conversion' => 'Spreads vampirism.',
-            #'vampiric_conversion' => 'Converts enemy casualties into %2$s.',
 
-            #'strength_conversion' => 'Converts some enemy casualties into %2$s if they have at least %1$s raw OP or DP.',
+            'displaced_peasants_conversion' => 'Converts enemy peasants formerly living on land conquered on invasion into %s.',
             'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s or, if stronger than %1$s, into %3$s.',
+            'value_conversion' => 'Pieces enemy casualties into %s.',
+
             'passive_conversion' => 'Converts %3$s %1$s into 1 %2$s each tick, increased by (%4$s / Total Land)%%.',
 
             // OP/DP related
@@ -367,7 +368,7 @@ class UnitHelper
                 }
 
                 // Special case for conversions
-                if ($perk->key === 'conversion')
+                if ($perk->key === 'conversion' or $perk->key === 'displaced_peasants_conversion')
                 {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];

@@ -27,6 +27,7 @@ perks:
   peasants_produce_food: 0.5
   unemployed_peasants_produce_platinum: 2.7
   can_only_abduct_own: 1
+  explore_cost: 25
 units:
   - name: Scarab
     training_time: 9
