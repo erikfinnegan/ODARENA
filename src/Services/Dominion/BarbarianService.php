@@ -343,7 +343,7 @@ class BarbarianService
 
             $logString .= "\t[/training]\n[/BARBARIAN]";
 
-            Log::Debug($logString);
+            #Log::Debug($logString);
         }
 
     }
@@ -497,7 +497,7 @@ class BarbarianService
             $logString .= "\t[/invasion]\n[/BARBARIAN]";
         }
 
-        Log::Debug($logString);
+        #Log::Debug($logString);
 
     }
 

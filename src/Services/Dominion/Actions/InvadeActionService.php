@@ -408,6 +408,7 @@ class InvadeActionService
             $offensiveConversions = array_fill(1, 4, 0);
             $defensiveConversions = array_fill(1, 4, 0);
             $conversions = $this->conversionCalculator->getConversions($dominion, $target, $this->invasionResult, $landRatio);
+
             if(array_sum($conversions['attacker']) > 0)
             {
                 $offensiveConversions = $conversions['attacker'];

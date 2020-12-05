@@ -38,7 +38,7 @@ units:
       defense: 0
     perks:
       conversion: 1
-      does_not_count_as_population: 1
+      housing_count: 0.1
       food_consumption: 0.15
 
   - name: Pest Rat
@@ -53,6 +53,8 @@ units:
     power:
       offense: 1
       defense: 3
+    perks:
+      housing_count: 0.5
 
   - name: Necromancer
     need_boat: true
@@ -89,4 +91,4 @@ units:
       defense: -1
     perks:
       immortal: 1
-      conversion: 1
+      value_conversions: 5,1 # [Killed]/200 = number of unit1 created

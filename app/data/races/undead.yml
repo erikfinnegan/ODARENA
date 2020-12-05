@@ -22,6 +22,7 @@ units:
     training_time: 0
     type:
       - mindless
+      - magical
     cost:
       platinum: 0
     power:
