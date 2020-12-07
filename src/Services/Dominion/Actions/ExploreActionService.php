@@ -169,8 +169,7 @@ class ExploreActionService
         $researchPointsGained = $researchPointsPerAcre * $totalLandToExplore;
 
         # Pathfinder
-        $ticks = 12;
-        $ticks += $dominion->title->getPerkValue('explore_time') * $dominion->title->getPerkBonus($dominion);
+        $ticks = $this->explorationCalculator->getExploreTime($dominion);
 
         DB::transaction(function () use ($dominion, $data, $newMorale, $newPlatinum, $newDraftees, $totalLandToExplore, $researchPointsGained, $platinumCost, $ticks) {
             $this->queueService->queueResources('exploration', $dominion, $data, $ticks);

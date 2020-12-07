@@ -376,7 +376,8 @@ class DataSyncCommand extends Command implements CommandInterface
                 // Title
                 $title = Title::firstOrNew(['key' => $titleKey])
                     ->fill([
-                        'name' => $titleData->name
+                        'name' => $titleData->name,
+                        'enabled' => (int)object_get($titleData, 'enabled', 1),
                     ]);
 
                 if (!$title->exists) {

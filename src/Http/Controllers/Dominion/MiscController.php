@@ -73,6 +73,12 @@ class MiscController extends AbstractDominionController
             throw new GameException('You cannot delete your dominion because the round has already started.');
         }
 
+        # If the round has ended or offensive actions are disabled, do not allow delete.
+        if($dominion->round->hasEnded() or $dominion->round->hasOffensiveActionsDisabled())
+        {
+            throw new GameException('You cannot delete your dominion because the round has ended.');
+        }
+
         $result = [];
         # Destroy the dominion.
 
@@ -86,6 +92,8 @@ class MiscController extends AbstractDominionController
         DB::table('dominion_queue')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('dominion_techs')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('dominion_tick')->where('dominion_id', '=', $dominion->id)->delete();
+        DB::table('dominion_tick_states')->where('dominion_id', '=', $dominion->id)->delete();
+        DB::table('realm_history')->where('dominion_id', '=', $dominion->id)->delete();
 
         DB::table('game_events')->where('source_id', '=', $dominion->id)->delete();
         DB::table('game_events')->where('target_id', '=', $dominion->id)->delete();

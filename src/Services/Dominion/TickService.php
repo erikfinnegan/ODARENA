@@ -26,6 +26,7 @@ use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Calculators\RealmCalculator;
+use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 
 class TickService
 {
@@ -90,6 +91,7 @@ class TickService
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->realmCalculator = app(RealmCalculator::class);
+        $this->spellDamageCalculator = app(SpellDamageCalculator::class);
 
         $this->barbarianService = app(BarbarianService::class);
 
@@ -127,6 +129,11 @@ class TickService
             $dominions = $round->activeDominions()->get();
             foreach($dominions as $dominion)
             {
+                if($dominion->protection_ticks === 0)
+                {
+                    $this->logDominionTickState($dominion, now());
+                }
+
                 if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
                 {
                     echo $dominion->name . " is in statis.\n";
@@ -688,9 +695,10 @@ class TickService
           {
               $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
 
-              $amountToDie = intval($dominion->peasants * 0.01);
+              $amountToDie = $dominion->peasants * 0.01 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'pestilence', null);
               $amountToDie *= $this->rangeCalculator->getDominionRange($caster, $dominion) / 100;
               $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
+              $amountToDie = (int)round($amountToDie);
 
               $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];
               $populationPeasantGrowth -= $amountToDie;
@@ -996,7 +1004,7 @@ class TickService
 
               }
 
-              // Cult: Unit attrition
+              // Unit attrition
               if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
               {
                   $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * $attritionReduction);
@@ -1221,6 +1229,7 @@ class TickService
         ));
 
         $this->precalculateTick($dominion, true);
+        $this->logDominionTickState($dominion, now());
 
             DB::transaction(function () use ($dominion)
             {
@@ -1353,7 +1362,6 @@ class TickService
                           'dominion_queue.updated_at' => $this->now,
                       ]);
 
-
             }, 10);
 
             Log::info(sprintf(
@@ -1420,6 +1428,93 @@ class TickService
             ));
 
             $this->now = now();
+        }
+
+
+        private function logDominionTickState(Dominion $dominion, Carbon $now): void
+        {
+            DB::table('dominion_tick_states')->insert([
+
+              'dominion_id' => $dominion->id,
+              'tick' => $now,
+
+              'prestige' => $dominion->prestige,
+              'peasants' => $dominion->peasants,
+              'draft_rate' => $dominion->draft_rate,
+              'morale' => $dominion->morale,
+              'spy_strength' => $dominion->spy_strength,
+              'wizard_strength' => $dominion->wizard_strength,
+
+              'resource_platinum' => $dominion->resource_platinum,
+              'resource_food' => $dominion->resource_food,
+              'resource_lumber' => $dominion->resource_lumber,
+              'resource_mana' => $dominion->resource_mana,
+              'resource_ore' => $dominion->resource_ore,
+              'resource_gems' => $dominion->resource_gems,
+              'resource_tech' => $dominion->resource_tech,
+              'resource_boats' => $dominion->resource_boats,
+              'resource_champion' => $dominion->resource_champion,
+              'resource_soul' => $dominion->resource_soul,
+              'resource_blood' => $dominion->resource_blood,
+              'resource_wild_yeti' => $dominion->resource_wild_yeti,
+
+              'improvement_markets' => $dominion->improvement_markets,
+              'improvement_keep' => $dominion->improvement_keep,
+              'improvement_spires' => $dominion->improvement_spires,
+              'improvement_forges' => $dominion->improvement_forges,
+              'improvement_walls' => $dominion->improvement_walls,
+              'improvement_harbor' => $dominion->improvement_harbor,
+              'improvement_armory' => $dominion->improvement_armory,
+              'improvement_infirmary' => $dominion->improvement_infirmary,
+              'improvement_workshops' => $dominion->improvement_workshops,
+              'improvement_observatory' => $dominion->improvement_observatory,
+              'improvement_cartography' => $dominion->improvement_cartography,
+              'improvement_hideouts' => $dominion->improvement_hideouts,
+              'improvement_forestry' => $dominion->improvement_forestry,
+              'improvement_refinery' => $dominion->improvement_refinery,
+              'improvement_granaries' => $dominion->improvement_granaries,
+              'improvement_tissue' => $dominion->improvement_tissue,
+              'military_draftees' => $dominion->military_draftees,
+              'military_unit1' => $dominion->military_unit1,
+              'military_unit2' => $dominion->military_unit2,
+              'military_unit3' => $dominion->military_unit3,
+              'military_unit4' => $dominion->military_unit4,
+              'military_spies' => $dominion->military_spies,
+              'military_wizards' => $dominion->military_wizards,
+              'military_archmages' => $dominion->military_archmages,
+
+              'land_plain' => $dominion->land_plain,
+              'land_mountain' => $dominion->land_mountain,
+              'land_swamp' => $dominion->land_swamp,
+              'land_forest' => $dominion->land_forest,
+              'land_hill' => $dominion->land_hill,
+              'land_water' => $dominion->land_water,
+
+              'building_home' => $dominion->building_home,
+              'building_alchemy' => $dominion->building_alchemy,
+              'building_farm' => $dominion->building_farm,
+              'building_smithy' => $dominion->building_smithy,
+              'building_masonry' => $dominion->building_masonry,
+              'building_ore_mine' => $dominion->building_ore_mine,
+              'building_gryphon_nest' => $dominion->building_gryphon_nest,
+              'building_tower' => $dominion->building_tower,
+              'building_wizard_guild' => $dominion->building_wizard_guild,
+              'building_temple' => $dominion->building_temple,
+              'building_diamond_mine' => $dominion->building_diamond_mine,
+              'building_school' => $dominion->building_school,
+              'building_lumberyard' => $dominion->building_lumberyard,
+              'building_forest_haven' => $dominion->building_forest_haven,
+              'building_factory' => $dominion->building_factory,
+              'building_guard_tower' => $dominion->building_guard_tower,
+              'building_shrine' => $dominion->building_shrine,
+              'building_barracks' => $dominion->building_barracks,
+              'building_dock' => $dominion->building_dock,
+
+              'protection_ticks' => $dominion->protection_ticks,
+              'is_locked' => $dominion->is_locked,
+
+            ]);
+
         }
 
 }

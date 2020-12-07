@@ -49,6 +49,7 @@ healer:
 
 embalmer:
   name: Embalmer
+  enabled: 0
   perks:
     conversions: 5
 

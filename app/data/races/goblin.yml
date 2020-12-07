@@ -17,8 +17,7 @@ perks:
   extra_barren_max_population: 5
   gem_production: 20
   invest_bonus: 20
-  explore_cost: 25
-  reduced_conversions: 25
+  explore_cost: 50
 
 units:
   - name: Kaboom

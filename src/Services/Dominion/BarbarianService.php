@@ -352,7 +352,7 @@ class BarbarianService
     {
         $invade = false;
 
-        if($dominion->race->name === 'Barbarian')
+        if($dominion->race->name === 'Barbarian' and !$dominion->round->hasOffensiveActionsDisabled())
         {
             $logString = "\n[BARBARIAN]\n\t[invasion]\n";
             $logString .= "\t\tName: $dominion->name\n";

@@ -62,7 +62,7 @@ class UnitHelper
 
             'displaced_peasants_conversion' => 'Converts enemy peasants formerly living on land conquered on invasion into %s.',
             'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s or, if stronger than %1$s, into %3$s.',
-            'value_conversion' => 'Pieces enemy casualties into %s.',
+            'value_conversion' => 'Fuses %1$sx of killed enemy raw OP or DP into %2$s.',
 
             'passive_conversion' => 'Converts %3$s %1$s into 1 %2$s each tick, increased by (%4$s / Total Land)%%.',
 
@@ -225,7 +225,7 @@ class UnitHelper
 
             'unit_production' => 'Produces %s per tick.',
 
-            'attrition' => '%1$s%% attrition rate (leaves dominion per tick).',
+            'attrition' => '%1$s%% attrition rate per tick.',
 
             'cannot_be_released' => 'Cannot be released',
 
@@ -368,7 +368,7 @@ class UnitHelper
                 }
 
                 // Special case for conversions
-                if ($perk->key === 'conversion' or $perk->key === 'displaced_peasants_conversion')
+                if ($perk->key === 'conversion' or $perk->key === 'displaced_peasants_conversion' or $perk->key === 'casualties_conversion')
                 {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
@@ -383,7 +383,7 @@ class UnitHelper
 
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
                 }
-                elseif($perk->key === 'staggered_conversion')
+                if($perk->key === 'staggered_conversion')
                 {
                     foreach ($perkValue as $index => $conversion) {
                         [$convertAboveLandRatio, $slots] = $conversion;
@@ -402,7 +402,7 @@ class UnitHelper
                         $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
                     }
                 }
-                elseif($perk->key === 'strength_conversion')
+                if($perk->key === 'strength_conversion')
                 {
                     $limit = (float)$perkValue[0];
                     $under = (int)$perkValue[1];
@@ -420,7 +420,7 @@ class UnitHelper
 
                     $perkValue = [$limit, str_plural($underLimitUnit->name), str_plural($overLimitUnit->name)];
                 }
-                elseif($perk->key === 'passive_conversion')
+                if($perk->key === 'passive_conversion')
                 {
                     $slotFrom = (int)$perkValue[0];
                     $slotTo = (int)$perkValue[1];
@@ -438,6 +438,18 @@ class UnitHelper
                         })->first();
 
                     $perkValue = [$unitFrom->name, $unitTo->name, $rate, $building];
+                }
+                if($perk->key === 'value_conversion')
+                {
+                    $multiplier = (float)$perkValue[0];
+                    $convertToSlot = (int)$perkValue[1];
+
+                    $unitToConvertTo = $race->units->filter(static function ($unit) use ($convertToSlot)
+                        {
+                            return ($unit->slot === $convertToSlot);
+                        })->first();
+
+                    $perkValue = [$multiplier, str_plural($unitToConvertTo->name)];
                 }
 
 

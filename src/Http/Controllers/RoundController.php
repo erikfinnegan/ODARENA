@@ -89,6 +89,7 @@ class RoundController extends AbstractController
 
         $titles = Title::query()
             ->with(['perks'])
+            ->where('enabled',1)
             ->orderBy('name')
             ->get();
 

@@ -66,6 +66,7 @@ units:
       offense_from_building: temple,5,2 # building type, ratio%, max
       defense_from_building: temple,5,2 # building type, ratio%, max
       displaced_peasants_conversion: 1
+      casualties_conversion: 1
 
   - name: Paladin
     training_time: 10
@@ -86,3 +87,4 @@ units:
       offense_from_building: shrine,5,2 # building type, ratio%, max
       defense_from_building: shrine,10,1 # building type, ratio%, max
       displaced_peasants_conversion: 1
+      casualties_conversion: 1

@@ -145,7 +145,8 @@ class MilitaryCalculator
     {
         $op = 0;
 
-        foreach ($attacker->race->units as $unit) {
+        foreach ($attacker->race->units as $unit)
+        {
             $powerOffense = $this->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense', $calc, $units);
             $numberOfUnits = 0;
 
@@ -503,13 +504,13 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRulerTitle($dominion, $unit, $powerType);
 
-        if ($landRatio !== null) {
+        if ($landRatio !== null)
+        {
             $unitPower += $this->getUnitPowerFromStaggeredLandRangePerk($dominion, $landRatio, $unit, $powerType);
         }
 
         if ($target !== null || !empty($calc))
         {
-            $unitPower += $this->getUnitPowerFromVersusRacePerk($dominion, $target, $unit, $powerType);
             $unitPower += $this->getUnitPowerFromVersusBuildingPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusLandPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusBarrenLandPerk($dominion, $target, $unit, $powerType, $calc);
@@ -558,7 +559,8 @@ class MilitaryCalculator
     {
         $buildingPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_building", null);
 
-        if (!$buildingPerkData) {
+        if (!$buildingPerkData)
+        {
             return 0;
         }
 
@@ -702,22 +704,6 @@ class MilitaryCalculator
         }
 
         return $powerFromPerk;
-    }
-
-    protected function getUnitPowerFromVersusRacePerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
-    {
-        if ($target === null) {
-            return 0;
-        }
-
-        $raceNameFormatted = strtolower($target->race->name);
-        $raceNameFormatted = str_replace(' ', '_', $raceNameFormatted);
-
-        $versusRacePerk = $dominion->race->getUnitPerkValueForUnitSlot(
-            $unit->slot,
-            "{$powerType}_vs_{$raceNameFormatted}");
-
-        return $versusRacePerk;
     }
 
     protected function getBonusPowerFromPairingPerk(Dominion $dominion, Unit $unit, string $powerType, array $units = null): float

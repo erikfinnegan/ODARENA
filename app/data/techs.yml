@@ -1623,12 +1623,14 @@ infrastructure_level10:
 recalling_level1:
   name: Recalling
   level: 1
+  enabled: 0
   perks:
     conversions: 2.5
 
 recalling_level2:
   name: Recalling
   level: 2
+  enabled: 0
   perks:
     conversions: 5
   requires:
@@ -1637,6 +1639,7 @@ recalling_level2:
 recalling_level3:
   name: Recalling
   level: 3
+  enabled: 0
   perks:
     conversions: 7.5
   requires:
@@ -1645,6 +1648,7 @@ recalling_level3:
 recalling_level4:
   name: Recalling
   level: 4
+  enabled: 0
   perks:
     conversions: 10
   requires:
@@ -1653,6 +1657,7 @@ recalling_level4:
 recalling_level5:
   name: Recalling
   level: 5
+  enabled: 0
   perks:
     conversions: 12.5
   requires:
@@ -1661,6 +1666,7 @@ recalling_level5:
 recalling_level6:
   name: Recalling
   level: 6
+  enabled: 0
   perks:
     conversions: 15
   requires:
@@ -1669,6 +1675,7 @@ recalling_level6:
 recalling_level7:
   name: Recalling
   level: 7
+  enabled: 0
   perks:
     conversions: 16.25
   requires:
@@ -1677,6 +1684,7 @@ recalling_level7:
 recalling_level8:
   name: Recalling
   level: 8
+  enabled: 0
   perks:
     conversions: 17.5
   requires:
@@ -1685,6 +1693,7 @@ recalling_level8:
 recalling_level9:
   name: Recalling
   level: 9
+  enabled: 0
   perks:
     conversions: 18.75
   requires:
@@ -1693,6 +1702,7 @@ recalling_level9:
 recalling_level10:
   name: Recalling
   level: 10
+  enabled: 0
   perks:
     conversions: 20
   requires:

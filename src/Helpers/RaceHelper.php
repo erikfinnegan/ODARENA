@@ -180,6 +180,11 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Cost of exploration';
                 break;
+            case 'explore_time':
+                $negativeBenefit = true;
+                $description = 'Exploration time:';
+                $valueType = ' ticks';
+                break;
             case 'reduced_conversions':
                 $negativeBenefit = false;
                 $description = 'Reduced conversions';

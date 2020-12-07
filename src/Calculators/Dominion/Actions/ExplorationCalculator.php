@@ -6,6 +6,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 # ODA
 use OpenDominion\Calculators\Dominion\SpellCalculator;
@@ -36,6 +37,7 @@ class ExplorationCalculator
           $this->guardMembershipService = app(GuardMembershipService::class);
           $this->spellCalculator = app(SpellCalculator::class);
           $this->landImprovementCalculator = app(LandImprovementCalculator::class);
+          $this->improvementCalculator = app(ImprovementCalculator::class);
     }
 
     /**
@@ -169,4 +171,21 @@ class ExplorationCalculator
 
         #return floor(($amount + 2) / 3);
     }
+
+    public function getExploreTime(Dominion $dominion): int
+    {
+        $ticks = 12;
+
+        # Title: Pathfinder
+        $ticks += $dominion->title->getPerkValue('explore_time') * $dominion->title->getPerkBonus($dominion);
+
+        # Ugly, doesn't show up in land advisor if greater than 12
+        $ticks += $dominion->race->getPerkValue('explore_time');
+
+        $ticks = min($ticks, 12);
+
+        return $ticks;
+
+    }
+
 }

@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <label for="ruler_name" class="col-sm-3 control-label">Ruler Title</label>
                     <div class="col-sm-9">
-                        <select name="title" id="title" class="form-control" required>
+                        <select name="title" id="title" class="form-control select2" required>
                         <option disabled selected>-- Select Ruler Title --</option>
                         @foreach ($titles as $title)
 

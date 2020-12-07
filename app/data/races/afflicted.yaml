@@ -37,9 +37,9 @@ units:
       offense: 2
       defense: 0
     perks:
-      conversion: 1
-      housing_count: 0.1
+      value_conversion: 2,1 # [Killed]*2 = number of unit1 created
       food_consumption: 0.15
+      attrition: 0.5 # 0.02% lost each tick.
 
   - name: Pest Rat
     need_boat: true
@@ -51,10 +51,10 @@ units:
       platinum: 300
       ore: 0
     power:
-      offense: 1
+      offense: 0
       defense: 3
     perks:
-      housing_count: 0.5
+      housing_count: 0.75
 
   - name: Necromancer
     need_boat: true
@@ -65,12 +65,12 @@ units:
       - intelligent
     cost:
       platinum: 800
-      ore: 10
+      lumber: 1
     power:
-      offense: -1
+      offense: 0
       defense: 5
     perks:
-      conversion: 4
+      casualties_conversion: 4
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.10
       fewer_casualties_offense: 80
@@ -84,11 +84,11 @@ units:
       - intelligent
     cost:
       platinum: 600
-      ore: 200
+      mana: 80
       morale: 5
     power:
       offense: 10
       defense: -1
     perks:
       immortal: 1
-      value_conversions: 5,1 # [Killed]/200 = number of unit1 created
+      value_conversion: 4,1 # [Killed]*4 = number of unit1 created
