@@ -73,7 +73,6 @@ units:
       casualties_conversion: 4
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.10
-      fewer_casualties_offense: 80
 
   - name: Reaper
     need_boat: true
@@ -84,7 +83,7 @@ units:
       - intelligent
     cost:
       platinum: 600
-      mana: 80
+      mana: 40
       morale: 5
     power:
       offense: 10
