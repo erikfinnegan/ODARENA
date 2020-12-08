@@ -369,18 +369,10 @@ class InvadeActionService
             {
                 $offensiveConversions = $this->handleVampiricConversionOnOffense($dominion, $target, $units, $landRatio);
             }
-            elseif($dominion->race->name === 'Weres' or $dominion->race->name === 'Spirit')
-            {
-            #    $offensiveConversions = $this->handleStrengthConversionOnOffense($dominion, $target, $units, $landRatio);
-            }
 
             if($target->race->name === 'Vampires')
             {
                 $defensiveConversions = $this->handleVampiricConversionOnDefense($target, $dominion, $units, $landRatio);
-            }
-            elseif($target->race->name === 'Weres' or $target->race->name === 'Spirit')
-            {
-            #    $defensiveConversions = $this->handleStrengthConversionOnDefense($dominion, $target, $landRatio);
             }
 
             $this->handleMoraleChanges($dominion, $target, $landRatio);
@@ -1192,10 +1184,6 @@ class InvadeActionService
             return $convertedUnits;
         }
 
-        $conversionMultiplier = $this->conversionCalculator->getConversionMultiplier($attacker, $defender, $units, null);
-
-        $this->invasionResult['attacker']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
-
         # Did we send any units with vampiric_conversion?
         $unitWithVampiricConversionPerk = $attacker->race->units->filter(static function (Unit $unit) use ($units)
         {
@@ -1325,10 +1313,6 @@ class InvadeActionService
 
         $convertedUnits = array_fill(1, 4, 0);
 
-        $conversionMultiplier = $this->conversionCalculator->getConversionMultiplier($defender, $attacker, $units, null);
-
-        $this->invasionResult['defender']['conversionAnalysis']['conversionMultiplier'] = $conversionMultiplier;
-
         # Did we have any units with vampiric_conversion?
         $unitWithVampiricConversionPerk = $defender->race->units->filter(static function (Unit $unit) use ($units)
         {
@@ -1417,7 +1401,7 @@ class InvadeActionService
                 }
 
                 # How many nobles are busy converting this unit?
-                $unitsConverted = $amountKilled / ($unitsPerConversion / $conversionMultiplier);
+                $unitsConverted = $amountKilled / $unitsPerConversion;
 
                 $unitsConverted /= 3;
 
