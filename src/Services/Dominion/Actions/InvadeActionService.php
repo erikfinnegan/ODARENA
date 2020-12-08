@@ -364,17 +364,6 @@ class InvadeActionService
 
             $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
 
-            # Conversions
-            if($dominion->race->name === 'Vampires')
-            {
-                $offensiveConversions = $this->handleVampiricConversionOnOffense($dominion, $target, $units, $landRatio);
-            }
-
-            if($target->race->name === 'Vampires')
-            {
-                $defensiveConversions = $this->handleVampiricConversionOnDefense($target, $dominion, $units, $landRatio);
-            }
-
             $this->handleMoraleChanges($dominion, $target, $landRatio);
             $this->handleLandGrabs($dominion, $target, $landRatio, $units);
             $this->handleResearchPoints($dominion, $target, $units);
@@ -402,6 +391,16 @@ class InvadeActionService
             {
                 $defensiveConversions = $conversions['defender'];
                 $this->invasionResult['defender']['conversions'] = $defensiveConversions;
+            }
+
+            if($dominion->race->name === 'Vampires')
+            {
+                $offensiveConversions = $this->handleVampiricConversionOnOffense($dominion, $target, $units, $landRatio);
+            }
+
+            if($target->race->name === 'Vampires')
+            {
+                $defensiveConversions = $this->handleVampiricConversionOnDefense($target, $dominion, $units, $landRatio);
             }
 
             $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
