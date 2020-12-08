@@ -30,6 +30,7 @@ units:
     perks:
       fixed_casualties: 100
       housing_count: 0.25
+      cannot_be_trained: 1
 
   - name: Monk
     training_time: 1
