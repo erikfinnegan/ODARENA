@@ -81,20 +81,22 @@ class RangeCalculator
      */
     public function checkGuardApplications(Dominion $self, Dominion $target): void
     {
-        $isRoyalGuardApplicant = $this->guardMembershipService->isRoyalGuardApplicant($self);
+        #$isRoyalGuardApplicant = $this->guardMembershipService->isRoyalGuardApplicant($self);
         $isEliteGuardApplicant = $this->guardMembershipService->isEliteGuardApplicant($self);
 
-        if ($isRoyalGuardApplicant || $isEliteGuardApplicant) {
+        if ($isEliteGuardApplicant) {
             $selfLand = $this->landCalculator->getTotalLand($self);
             $targetLand = $this->landCalculator->getTotalLand($target);
 
             // Reset Peacekeepers League (Royal Guard) application if out of range
+            /*
             if ($isRoyalGuardApplicant) {
                 $guardModifier = $this->guardMembershipService::ROYAL_GUARD_RANGE;
                 if (($targetLand < ($selfLand * $guardModifier)) || ($targetLand > ($selfLand / $guardModifier))) {
                     $this->guardMembershipService->joinRoyalGuard($self);
                 }
             }
+            */
 
             // Reset Warriors League (Elite Guard) application if out of range
             if ($isEliteGuardApplicant) {
@@ -163,9 +165,11 @@ class RangeCalculator
             return $this->guardMembershipService::ELITE_GUARD_RANGE;
         }
 
+        /*
         if ($this->guardMembershipService->isRoyalGuardMember($dominion)) {
             return $this->guardMembershipService::ROYAL_GUARD_RANGE;
         }
+        */
 
         if ($this->guardMembershipService->isBarbarianGuardMember($dominion)) {
             return $this->guardMembershipService::ROYAL_GUARD_RANGE;

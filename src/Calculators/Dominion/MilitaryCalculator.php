@@ -189,7 +189,7 @@ class MilitaryCalculator
         $multiplier += $this->getGryphonNestMultiplier($attacker);
 
         // League: Peacekeepers League
-        $multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
+        #$multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
 
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'forges');
@@ -423,7 +423,7 @@ class MilitaryCalculator
         $multiplier += $this->getGuardTowerMultiplier($dominion);
 
         // League: Peacekeepers League
-        $multiplier += $this->getLeagueMultiplier($dominion, null, 'defense');
+        #$multiplier += $this->getLeagueMultiplier($dominion, null, 'defense');
 
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
@@ -1926,6 +1926,7 @@ class MilitaryCalculator
                 }
             }
         }
+        /*
         elseif($type == 'defense')
         {
             if($this->guardMembershipService->isRoyalGuardMember($attacker))
@@ -1933,6 +1934,7 @@ class MilitaryCalculator
                 $multiplier += 0.05;
             }
         }
+        */
 
         return $multiplier;
     }

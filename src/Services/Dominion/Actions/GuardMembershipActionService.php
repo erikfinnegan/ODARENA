@@ -47,6 +47,7 @@ class GuardMembershipActionService
      * @return array
      * @throws GameException
      */
+     /*
     public function joinRoyalGuard(Dominion $dominion): array
     {
         $this->guardLockedDominion($dominion);
@@ -96,6 +97,7 @@ class GuardMembershipActionService
             'data' => []
         ];
     }
+    */
 
     /**
      * Starts elite guard application for a Dominion.
@@ -114,6 +116,7 @@ class GuardMembershipActionService
             throw new GameException('You cannot join or leave Leagues while you are in stasis.');
         }
 
+        /*
         if ($this->guardMembershipService->isRoyalGuardApplicant($dominion))
         {
             throw new GameException('You have applied to join the Peacekepers League. To join the Warriors League, you must first cancel your application to join the Peacekepers League.');
@@ -123,6 +126,7 @@ class GuardMembershipActionService
         {
             throw new GameException('You are a member of the Peacekeepers League. To join the Warriors League, you must first leave the Peacekepers League.');
         }
+        */
 
         if ($this->guardMembershipService->isEliteGuardMember($dominion))
         {
@@ -156,6 +160,7 @@ class GuardMembershipActionService
      * @return array
      * @throws GameException
      */
+     /*
     public function leaveRoyalGuard(Dominion $dominion): array
     {
         $this->guardLockedDominion($dominion);
@@ -170,6 +175,7 @@ class GuardMembershipActionService
         {
             throw new GameException('You cannot leave your League before 12 hours after joining.');
         }
+
 
         if (!$this->guardMembershipService->isRoyalGuardApplicant($dominion) && !$this->guardMembershipService->isRoyalGuardMember($dominion))
         {
@@ -192,6 +198,7 @@ class GuardMembershipActionService
             'data' => []
         ];
     }
+    */
 
     /**
      * Leaves the elite guard or cancels an application for a Dominion.

@@ -42,14 +42,14 @@ class GovernmentController extends AbstractDominionController
             'realms' => $dominion->round->realms,
             'monarch' => $dominion->realm->monarch,
             'canJoinGuards' => $guardMembershipService->canJoinGuards($dominion),
-            'isRoyalGuardApplicant' => $guardMembershipService->isRoyalGuardApplicant($dominion),
+            #'isRoyalGuardApplicant' => $guardMembershipService->isRoyalGuardApplicant($dominion),
             'isEliteGuardApplicant' => $guardMembershipService->isEliteGuardApplicant($dominion),
-            'isRoyalGuardMember' => $guardMembershipService->isRoyalGuardMember($dominion),
+            #'isRoyalGuardMember' => $guardMembershipService->isRoyalGuardMember($dominion),
             'isEliteGuardMember' => $guardMembershipService->isEliteGuardMember($dominion),
             'isGuardMember' => $guardMembershipService->isGuardMember($dominion),
-            'hoursBeforeRoyalGuardMember' => $guardMembershipService->getHoursBeforeRoyalGuardMember($dominion),
+            #'hoursBeforeRoyalGuardMember' => $guardMembershipService->getHoursBeforeRoyalGuardMember($dominion),
             'hoursBeforeEliteGuardMember' => $guardMembershipService->getHoursBeforeEliteGuardMember($dominion),
-            'hoursBeforeLeaveRoyalGuard' => $guardMembershipService->getHoursBeforeLeaveRoyalGuard($dominion),
+            #'hoursBeforeLeaveRoyalGuard' => $guardMembershipService->getHoursBeforeLeaveRoyalGuard($dominion),
             'hoursBeforeLeaveEliteGuard' => $guardMembershipService->getHoursBeforeLeaveEliteGuard($dominion),
             'hasDeclaredWar' => $governmentService->hasDeclaredWar($dominion->realm),
             'canDeclareWar' => $governmentService->canDeclareWar($dominion->realm),
@@ -97,6 +97,7 @@ class GovernmentController extends AbstractDominionController
         return redirect()->route('dominion.government');
     }
 
+    /*
     public function postJoinRoyalGuard(GuardMembershipActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
@@ -132,6 +133,7 @@ class GovernmentController extends AbstractDominionController
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.government');
     }
+    */
 
     public function postJoinEliteGuard(GuardMembershipActionRequest $request)
     {

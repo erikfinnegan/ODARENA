@@ -14,7 +14,7 @@ class AddPeasantsSpentTrainingStatsToDominions extends Migration
     public function up()
     {
         Schema::table('dominions', function (Blueprint $table) {
-            $table->integer('stat_total_peasant_spent_training')->default(0)->after('stat_total_blood_spent_training');
+            #$table->integer('stat_total_peasant_spent_training')->default(0)->after('stat_total_blood_spent_training');
         });
     }
 
@@ -27,7 +27,7 @@ class AddPeasantsSpentTrainingStatsToDominions extends Migration
     {
         Schema::table('dominions', function (Blueprint $table) {
             $table->dropColumn([
-                'stat_total_peasant_spent_training',
+                #'stat_total_peasant_spent_training',
             ]);
         });
     }

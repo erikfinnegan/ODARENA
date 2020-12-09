@@ -146,10 +146,6 @@
                                                 <span data-toggle="tooltip" data-placement="top" title="Warriors League">
                                                 <i class="ra ra-heavy-shield ra-lg text-yellow"></i>
                                                 </span>
-                                            @elseif ($guardMembershipService->isRoyalGuardMember($dominion))
-                                                <span data-toggle="tooltip" data-placement="top" title="Peacekeepers League">
-                                                <i class="ra ra-heavy-shield ra-lg text-green"></i>
-                                                </span>
                                             @elseif ($guardMembershipService->isBarbarianGuardMember($dominion))
                                                 <span data-toggle="tooltip" data-placement="top" title="Ib-Tham's Guard">
                                                 <i class="ra ra-heavy-shield ra-lg text-muted"></i>

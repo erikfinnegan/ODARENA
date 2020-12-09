@@ -295,36 +295,6 @@
                         </div>
                     @else
                     <div class="col-sm-6 text-center">
-                        <h4 class="text-green">
-                            <i class="ra ra-heavy-shield" title="Peacekeepers League"></i>
-                            The Peacekeepers League
-                        </h4>
-                        <ul class="text-left" style="padding: 0 50px;">
-                            <li>Cannot interact with Dominions less than 60% or greater than 166% of your land size.</li>
-                            <li>+5% defensive power.</li>
-                            <li>Cannot invade unless recently invaded, and then only the invader's realm.</li>
-                        </ul>
-                        @if ($isRoyalGuardApplicant || $isGuardMember)
-                            <form action="{{ route('dominion.government.royal-guard.leave') }}" method="post" role="form" style="padding-bottom: 10px;">
-                                @csrf
-                                <button type="submit" name="land" class="btn btn-danger btn-sm-lg" {{ $selectedDominion->isLocked() || $isEliteGuardApplicant || $isEliteGuardMember || $hoursBeforeLeaveRoyalGuard ? 'disabled' : null }}>
-                                    @if ($isGuardMember)
-                                        Leave Peacekeepers League
-                                    @else
-                                        Cancel Application
-                                    @endif
-                                </button>
-                            </form>
-                        @else
-                            <form action="{{ route('dominion.government.royal-guard.join') }}" method="post" role="form" style="padding-bottom: 10px;">
-                                @csrf
-                                <button type="submit" name="land" class="btn btn-primary btn-sm-lg" {{ $selectedDominion->isLocked() || !$canJoinGuards ? 'disabled' : null }}>
-                                    Apply to join the Peacekeepers League
-                                </button>
-                            </form>
-                        @endif
-                    </div>
-                    <div class="col-sm-6 text-center">
                         <h4 class="text-yellow">
                             <i class="ra ra-heavy-shield" title="Warriors League"></i>
                             The Warriors League
@@ -374,22 +344,12 @@
                     @if ($hoursBeforeLeaveEliteGuard)
                         <p>You cannot leave for {{ $hoursBeforeLeaveEliteGuard }} hours.</p>
                     @endif
-                @elseif ($isRoyalGuardMember)
-                    <p>You are a member of the <span class="text-green"><i class="ra ra-heavy-shield" title="Peacekeepers League"></i> Peacekeepers League</span>.</p>
-
-                    @if ($hoursBeforeLeaveRoyalGuard)
-                        <p class="text-red">You cannot leave for {{ $hoursBeforeLeaveRoyalGuard }} hours.</p>
-                    @endif
                 @else
-                    <p>You are <span class="text-red">NOT</span> a member of the Peacekeepers League or Warriors League. You cannot interact with dominions less than 40% or greater than 250% of your land size.</p>
+                    <p>You are <span class="text-red">not</span> a member Warriors League. You can interact with dominions less than 40% or greater than 250% of your land size, unless they are members of Warriors League in which case the range is 75-133%.</p>
                 @endif
 
                 @if ($isEliteGuardApplicant)
                     <p>You will become a member of the Warriors League in {{ $hoursBeforeEliteGuardMember }} hours.</p>
-                @endif
-
-                @if ($isRoyalGuardApplicant)
-                    <p>You will become a member of the Peacekeepers League in {{ $hoursBeforeRoyalGuardMember }} hours.</p>
                 @endif
             </div>
         </div>

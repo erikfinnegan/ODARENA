@@ -903,7 +903,7 @@ class InvadeActionService
             }
         }
 
-        # Defensive conversions take 1 tick to appear
+        # Dies into units take 1 tick to appear
         foreach($diesIntoNewUnits as $slot => $amount)
         {
             $unitKey = 'military_unit'.$slot;
@@ -2334,7 +2334,7 @@ class InvadeActionService
             $exemptibleUnitAttributes = [
                 'ammunition',
                 'equipment',
-                'magical',
+                #'magical',
                 'machine',
                 'ship',
                 'massive',

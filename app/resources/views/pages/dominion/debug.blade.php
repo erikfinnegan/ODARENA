@@ -242,7 +242,7 @@
                         {!! \OpenDominion\Http\Controllers\DebugController::printMethodValues($trainingCalculator, [
                             'getTrainingCostsPerUnit',
                             'getMaxTrainable',
-                            #'getSpecialistEliteCostMultiplier',
+                            'getSpecialistEliteCostMultiplier',
                             'getWizardCostMultiplier',
                         ]) !!}
                     </p>
@@ -257,13 +257,9 @@
                     <p>
                         {!! \OpenDominion\Http\Controllers\DebugController::printMethodValues($guardMembershipService, [
                             'canJoinGuards',
-                            'isRoyalGuardApplicant',
                             'isEliteGuardApplicant',
-                            'isRoyalGuardMember',
                             'isEliteGuardMember',
-                            'getHoursBeforeRoyalGuardMember',
                             'getHoursBeforeEliteGuardMember',
-                            'getHoursBeforeLeaveRoyalGuard',
                             'getHoursBeforeLeaveEliteGuard',
                         ]) !!}
                     </p>

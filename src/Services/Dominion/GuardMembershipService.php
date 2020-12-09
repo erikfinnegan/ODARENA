@@ -38,10 +38,12 @@ class GuardMembershipService
      * @param Dominion $dominion
      * @return Carbon
      */
+     /*
     protected function getRoyalGuardJoinDate(Dominion $dominion): Carbon
     {
         return Carbon::parse($dominion->royal_guard_active_at);
     }
+    */
 
     /**
      * Returns the Dominion's elite guard join time.
@@ -73,6 +75,7 @@ class GuardMembershipService
      * @param Dominion $dominion
      * @return bool
      */
+     /*
     public function isRoyalGuardApplicant(Dominion $dominion): bool
     {
         if ($dominion->royal_guard_active_at !== null) {
@@ -85,6 +88,7 @@ class GuardMembershipService
 
         return false;
     }
+    */
 
     /**
      * Returns the Dominion's elite guard application status.
@@ -114,7 +118,8 @@ class GuardMembershipService
     public function isGuardMember(Dominion $dominion): bool
     {
         if ($dominion->royal_guard_active_at !== null) {
-            $modifiedJoinDate = $this->getRoyalGuardJoinDate($dominion);
+            #$modifiedJoinDate = $this->getRoyalGuardJoinDate($dominion);
+            $modifiedJoinDate = $this->getEliteGuardJoinDate($dominion);
 
             if ($modifiedJoinDate <= now()) {
                 return true;
@@ -130,10 +135,13 @@ class GuardMembershipService
      * @param Dominion $dominion
      * @return bool
      */
+
     public function isRoyalGuardMember(Dominion $dominion): bool
     {
-        return $this->isGuardMember($dominion) && !$this->isEliteGuardMember($dominion);
+        return false; # As of round 36, Royal Guard/Peacekeepers League is gone
+        #return $this->isGuardMember($dominion) && !$this->isEliteGuardMember($dominion);
     }
+
 
     /**
      * Returns the Dominion's elite guard membership status.
@@ -182,6 +190,7 @@ class GuardMembershipService
      * @param Dominion $dominion
      * @return int
      */
+     /*
     public function getHoursBeforeRoyalGuardMember(Dominion $dominion): int
     {
         if (!$this->isRoyalGuardApplicant($dominion)) {
@@ -192,6 +201,7 @@ class GuardMembershipService
 
         return $modifiedJoinDate->diffInHours(now()->startOfHour());
     }
+    */
 
     /**
      * Returns the number of hours remaining before Dominion joins the royal guard.
@@ -216,6 +226,7 @@ class GuardMembershipService
      * @param Dominion $dominion
      * @return int
      */
+     /*
     public function getHoursBeforeLeaveRoyalGuard(Dominion $dominion): int
     {
         if (!$this->isRoyalGuardMember($dominion)) {
@@ -231,6 +242,7 @@ class GuardMembershipService
 
         return 0;
     }
+    */
 
     /**
      * Returns the number of hours remaining before Dominion can leave the elite guard.
@@ -260,6 +272,7 @@ class GuardMembershipService
      * @param Dominion $dominion
      * @return void
      */
+     /*
     public function joinRoyalGuard(Dominion $dominion): void
     {
         $startCountingFrom = max(now(), $dominion->round->start_date);
@@ -267,6 +280,7 @@ class GuardMembershipService
         $dominion->royal_guard_active_at = $startCountingFrom->startOfHour()->addHours(self::GUARD_JOIN_WAIT_IN_HOURS);
         $dominion->save(['event' => HistoryService::EVENT_ACTION_JOIN_ROYAL_GUARD]);
     }
+    */
 
     /**
      * Sets the Dominion's elite guard join time.
@@ -288,11 +302,13 @@ class GuardMembershipService
      * @param Dominion $dominion
      * @return void
      */
+     /*
     public function leaveRoyalGuard(Dominion $dominion): void
     {
         $dominion->royal_guard_active_at = null;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_LEAVE_ROYAL_GUARD]);
     }
+    */
 
     /**
      * Removes the Dominion's elite guard join time.
