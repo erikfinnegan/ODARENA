@@ -179,6 +179,7 @@ class GovernmentActionService
      * @throws GameException
      * @throws RuntimeException
      */
+     /*
     public function declareWar(Dominion $dominion, int $realm_number)
     {
 
@@ -239,6 +240,7 @@ class GovernmentActionService
                 ->sendNotifications($hostileDominion, 'irregular_realm');
         }
     }
+    */
 
     /**
      * Cancels the current war
@@ -246,6 +248,7 @@ class GovernmentActionService
      * @param Dominion $dominion
      * @throws GameException
      */
+     /*
     public function cancelWar(Dominion $dominion)
     {
 
@@ -278,5 +281,6 @@ class GovernmentActionService
         $dominion->realm->war_active_at = null;
         $dominion->realm->save(['event' => HistoryService::EVENT_ACTION_CANCEL_WAR]);
     }
+    */
 
 }

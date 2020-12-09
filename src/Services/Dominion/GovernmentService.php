@@ -93,9 +93,9 @@ class GovernmentService
      */
     public function hasDeclaredWar(Realm $realm): bool
     {
-        if ($realm->war_realm_id !== null) {
-            return true;
-        }
+        #if ($realm->war_realm_id !== null) {
+        #    return true;
+        #}
         return false;
     }
 
@@ -106,9 +106,9 @@ class GovernmentService
      */
     public function canDeclareWar(Realm $realm): bool
     {
-        if ($realm->war_realm_id === null) {
-            return true;
-        }
+        #if ($realm->war_realm_id === null) {
+        #    return true;
+        #}
         return false;
     }
 
