@@ -97,6 +97,7 @@ class AdvisorsController extends AbstractDominionController
                             ->orderBy('dominion_history.created_at', 'desc')
                             ->get();
 
+
         return view('pages.dominion.advisors.history', [
             'historyHelper' => app(HistoryHelper::class),
             'history' => $history
