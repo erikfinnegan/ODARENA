@@ -3,7 +3,7 @@
 namespace OpenDominion\Models;
 
 /**
- * OpenDominion\Models\Building
+ * OpenDominion\Models\Spell
  *
  * @property int $id
  * @property string $key
@@ -13,7 +13,7 @@ namespace OpenDominion\Models;
  * @property int $enabled
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\BuildingPerkType[] $perks
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\SpellPerkType[] $perks
  */
 class Spell extends AbstractModel
 {
@@ -22,9 +22,9 @@ class Spell extends AbstractModel
     protected $casts = [
         'excluded_races' => 'array',
         'exclusive_races' => 'array',
-        'scope' => 'integer',
-        'class' => 'integer',
-        'cost' => 'integer',
+        'scope' => 'string',
+        'class' => 'string',
+        'cost' => 'float',
         'duration' => 'integer',
         'cooldown' => 'integer',
     ];
@@ -32,7 +32,7 @@ class Spell extends AbstractModel
     public function perks()
     {
         return $this->belongsToMany(
-            BuildingPerkType::class,
+            SpellPerkType::class,
             'spell_perks',
             'spell_id',
             'spell_perk_type_id'
@@ -43,8 +43,8 @@ class Spell extends AbstractModel
 
     public function getPerkValue(string $key)
     {
-        $perks = $this->perks->filter(static function (BuildingPerkType $buildingPerkType) use ($key) {
-            return ($buildingPerkType->key === $key);
+        $perks = $this->perks->filter(static function (SpellPerkType $spellPerkType) use ($key) {
+            return ($spellPerkType->key === $key);
         });
 
         if ($perks->isEmpty()) {

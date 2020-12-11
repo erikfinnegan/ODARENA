@@ -190,14 +190,14 @@
                                         </td>
                                     </tr>
 
-                                    @if (isset($event->data['attacker']['conversion']))
+                                    @if (isset($event->data['attacker']['conversions']))
                                     <tr>
                                         <th colspan="2">Conversion</th>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->source->race) }} forces recall some of the dead.</small></td>
                                     </tr>
-                                        @foreach($event->data['attacker']['conversion'] as $slot => $amount)
+                                        @foreach($event->data['attacker']['conversions'] as $slot => $amount)
                                             @if($amount > 0)
                                                 <tr>
                                                     <td>{{ $event->source->race->units->where('slot', $slot)->first()->name }}:</td>
@@ -503,14 +503,14 @@
                                         @endif
                                         </td>
 
-                                    @if (isset($event->data['defender']['conversion']))
+                                    @if (isset($event->data['defender']['conversions']))
                                     <tr>
                                         <th colspan="2">Conversion</th>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->target->race) }} forces recall some of the dead.</small></td>
                                     </tr>
-                                        @foreach($event->data['defender']['conversion'] as $slot => $amount)
+                                        @foreach($event->data['defender']['conversions'] as $slot => $amount)
                                             @if($amount > 0)
                                                 <tr>
                                                     <td>{{ $event->target->race->units->where('slot', $slot)->first()->name }}:</td>

@@ -3,16 +3,16 @@
 namespace OpenDominion\Models;
 
 /**
- * OpenDominion\Models\BuildingPerk
+ * OpenDominion\Models\SpellPerk
  *
  * @property int $id
- * @property int $building_id
- * @property int $building_perk_type_id
+ * @property int $spell_id
+ * @property int $spell_perk_type_id
  * @property string $value
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \OpenDominion\Models\Building $building
- * @property-read \OpenDominion\Models\BuildingPerkType $type
+ * @property-read \OpenDominion\Models\Spell $spell
+ * @property-read \OpenDominion\Models\SpellPerkType $type
  */
 class SpellPerk extends AbstractModel
 {

@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Spell;
 
 class SpellCalculator
 {
@@ -209,6 +210,13 @@ class SpellCalculator
         })->first();
 
         return $spell->duration;
+    }
+
+
+    public function getSpellPerks(string $spellKey): ?array
+    {
+        #$spell = Spell::where('key','=',$spellKey)->first();
+        return [];
     }
 
 }
