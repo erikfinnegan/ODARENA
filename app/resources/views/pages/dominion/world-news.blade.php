@@ -67,7 +67,7 @@
                                                         <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-orange">{{ $gameEvent->source->name }}</span></a>
                                                         <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a>
                                                         invaded
-                                                          <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}" class="text-aqua">{{ $gameEvent->target->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a>
+                                                          <a href="{{ route('dominion.op-center.show', [$gameEvent->target->id]) }}" class="text-aqua">{{ $gameEvent->target->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a>
                                                         and captured
                                                         <span class="text-red text-bold">{{ number_format(array_sum($gameEvent->data['attacker']['landConquered'])) }}</span>
                                                         land.
