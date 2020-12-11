@@ -12,12 +12,13 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\SelectorService;
 
 # ODA
-#use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use Carbon\Carbon;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class ComposerServiceProvider extends AbstractServiceProvider
 {
@@ -107,6 +108,8 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $view->with('networthCalculator', app(NetworthCalculator::class));
             $view->with('dominionProtectionService', app(ProtectionService::class));
             $view->with('raceHelper', app(RaceHelper::class));
+            $view->with('landCalculator', app(LandCalculator::class));
+            $view->with('militaryCalculator', app(MilitaryCalculator::class));
         });
     }
 }
