@@ -875,9 +875,6 @@ class ProductionCalculator
             $multiplier += 0.10;
         }
 
-        // Spell: Mining Strength (+10%)
-        $multiplier += $this->spellCalculator->getSpellPerkMultiplier($dominion, 'ore_production');
-
         // Spell: Earthquake (-5%)
         if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
         {
