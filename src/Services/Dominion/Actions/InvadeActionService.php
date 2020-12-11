@@ -393,17 +393,23 @@ class InvadeActionService
                 $this->invasionResult['defender']['conversions'] = $defensiveConversions;
             }
 
+            /*
             if($dominion->race->name === 'Vampires')
             {
                 $offensiveConversions = $this->handleVampiricConversionOnOffense($dominion, $target, $units, $landRatio);
+                $this->invasionResult['attacker']['conversions'] = $offensiveConversions;
             }
 
             if($target->race->name === 'Vampires')
             {
                 $defensiveConversions = $this->handleVampiricConversionOnDefense($target, $dominion, $units, $landRatio);
+                $this->invasionResult['defender']['conversions'] = $defensiveConversions;
             }
+            */
 
-            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits']);
+            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits'], $defensiveConversions);
+            $this->handleDefensiveConversions($target, $defensiveConversions);
+
 
             # Afflicted
             $this->handleInvasionSpells($dominion, $target);
@@ -422,7 +428,6 @@ class InvadeActionService
 
             # Imperial Crypt
             $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $defensiveConversions);
-
 
             // Stat changes
             if ($this->invasionResult['result']['success'])
@@ -1406,7 +1411,7 @@ class InvadeActionService
 
                 if($this->invasionResult['result']['success'])
                 {
-                    $unitsConverted /= 3;
+                    $unitsConverted /= 9;
                 }
 
                 $convertedUnits[$slotConvertedTo] += intval(min($amountKilled, $unitsConverted));
@@ -1420,18 +1425,6 @@ class InvadeActionService
         }
 
         $defender->stat_total_units_converted += array_sum($convertedUnits);
-
-        # Defensive conversions take 6 ticks to appear
-        foreach($convertedUnits as $slot => $amount)
-        {
-            $unitKey = 'military_unit'.$slot;
-            $this->queueService->queueResources(
-                'training',
-                $defender,
-                [$unitKey => $amount],
-                6
-            );
-        }
     }
 
 
@@ -1741,12 +1734,13 @@ class InvadeActionService
 
     /**
      * Handles the surviving units returning home.
+     * Also handles "returning" defensive conversions.
      *
      * @param Dominion $dominion
      * @param array $units
      * @param array $convertedUnits
      */
-    protected function handleReturningUnits(Dominion $dominion, array $units, array $convertedUnits, array $mindControlledUnits): void
+    protected function handleReturningUnits(Dominion $dominion, array $units, array $convertedUnits, array $mindControlledUnits, array $defensiveConversions): void
     {
         $returningUnits = [
           'military_unit1' => 0,
@@ -1879,9 +1873,26 @@ class InvadeActionService
 
               $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
           }
-
       }
 
+    }
+
+    protected function handleDefensiveConversions(Dominion $defender, array $defensiveConversions): void
+    {
+        if(array_sum($defensiveConversions) > 0)
+        {
+            # Defensive conversions take 6 ticks to appear
+            foreach($defensiveConversions as $slot => $amount)
+            {
+                $unitKey = 'military_unit'.$slot;
+                $this->queueService->queueResources(
+                    'training',
+                    $defender,
+                    [$unitKey => $amount],
+                    6
+                );
+            }
+        }
     }
 
     /**
@@ -2457,8 +2468,6 @@ class InvadeActionService
                       $offensiveBodies *= 0;
                   }
             }
-
-            #dd($defensiveBodies, $offensiveBodies);
 
             $toTheCrypt = max(0, round($defensiveBodies + $offensiveBodies));
 

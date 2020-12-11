@@ -63,6 +63,7 @@ class UnitHelper
             'displaced_peasants_conversion' => 'Converts enemy peasants formerly living on land conquered on invasion into %s.',
             'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s or, if stronger than %1$s, into %3$s.',
             'value_conversion' => 'Fuses %1$sx of killed enemy raw OP or DP into %2$s.',
+            'casualties_conversion' => 'Converts enemy casualties into %s.',
 
             'passive_conversion' => 'Converts %3$s %1$s into 1 %2$s each tick, increased by (%4$s / Total Land)%%.',
 

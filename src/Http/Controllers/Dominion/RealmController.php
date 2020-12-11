@@ -143,7 +143,7 @@ class RealmController extends AbstractDominionController
         {
             $alignmentNoun = 'Barbarian';
             $alignmentAdjective = 'Barbarian';
-            $barbarianSettings = $barbarianService->getBarbarianSettings();
+            $barbarianSettings = $barbarianService->getSettings();
         }
 
         // Todo: refactor this hacky hacky navigation stuff

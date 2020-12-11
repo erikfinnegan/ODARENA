@@ -49,7 +49,14 @@ class ConstructionCalculator
         $this->raceHelper = $raceHelper;
     }
 
+    protected const SINGLE_RESOURCE_COST_DIVISOR = 5;
 
+    public function getSettings(): array
+    {
+        return $constants = [
+            'SINGLE_RESOURCE_COST_DIVISOR' => static::SINGLE_RESOURCE_COST_DIVISOR,
+        ];
+    }
 
     /**
      * Returns the Dominion's construction raw cost for the primary resource.
@@ -65,7 +72,7 @@ class ConstructionCalculator
 
         if(count($this->raceHelper->getConstructionMaterials($dominion->race)) === 1)
         {
-            $cost /= 5;
+            $cost /= static::SINGLE_RESOURCE_COST_DIVISOR;
         }
 
         return $cost;

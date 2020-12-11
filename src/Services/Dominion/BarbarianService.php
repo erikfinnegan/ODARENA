@@ -97,7 +97,7 @@ class BarbarianService
         $this->dominionFactory = app(DominionFactory::class);
     }
 
-    public function getBarbarianSettings(): array
+    public function getSettings(): array
     {
         $settings = [
             'DPA_CONSTANT' => static::DPA_CONSTANT,
@@ -127,10 +127,10 @@ class BarbarianService
         return $settings;
     }
 
-    public function getBarbarianSetting(string $setting): string
+    public function getSetting(string $setting): string
     {
         $value = null;
-        $settings = $this->getBarbarianSettings();
+        $settings = $this->getSettings();
         if(isset($settings[$setting]))
         {
             $value = $settings[$setting];
