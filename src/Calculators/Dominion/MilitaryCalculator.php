@@ -189,7 +189,7 @@ class MilitaryCalculator
         $multiplier += $this->getGryphonNestMultiplier($attacker);
 
         // League: Peacekeepers League
-        #$multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
+        $multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
 
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'forges');

@@ -18,6 +18,9 @@ use OpenDominion\Models\UnitPerkType;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\BuildingPerk;
 use OpenDominion\Models\BuildingPerkType;
+use OpenDominion\Models\Spell;
+use OpenDominion\Models\SpellPerk;
+use OpenDominion\Models\SpellPerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -59,6 +62,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncTechs();
             $this->syncBuildings();
             $this->syncTitles();
+            $this->syncSpells();
         });
     }
 
@@ -424,6 +428,76 @@ class DataSyncCommand extends Command implements CommandInterface
                 }
 
                 $title->perks()->sync($titlePerksToSync);
+            }
+        }
+
+        /**
+         * Syncs spells and perk data from .yml file to the database.
+         */
+        protected function syncSpells()
+        {
+            $fileContents = $this->filesystem->get(base_path('app/data/spells.yml'));
+
+            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+            foreach ($data as $spellKey => $spellData) {
+                // Spell
+                $spell = Spell::firstOrNew(['key' => $spellKey])
+                    ->fill([
+                        'name' => $spellData->name,
+                        'scope' => object_get($spellData, 'scope'),
+                        'class' => object_get($spellData, 'class'),
+                        'cost' => object_get($spellData, 'cost', 1),
+                        'duration' => object_get($spellData, 'duration', 48),
+                        'cooldown' => object_get($spellData, 'cooldown', 0),
+                        'excluded_races' => object_get($spellData, 'excluded_races', []),
+                        'exclusive_races' => object_get($spellData, 'exclusive_races', []),
+                    ]);
+
+                if (!$spell->exists) {
+                    $this->info("Adding spell {$spellData->name}");
+                } else {
+                    $this->info("Processing spell {$spellData->name}");
+
+                    $newValues = $spell->getDirty();
+
+                    foreach ($newValues as $key => $newValue) {
+                        $originalValue = $spell->getOriginal($key);
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                }
+
+                $spell->save();
+                $spell->refresh();
+
+                // Spell Perks
+                $spellPerksToSync = [];
+
+                foreach (object_get($spellData, 'perks', []) as $perk => $value)
+                {
+                    $value = (string)$value;
+
+                    $spellPerkType = SpellPerkType::firstOrCreate(['key' => $perk]);
+
+                    $spellPerksToSync[$spellPerkType->id] = ['value' => $value];
+
+                    $spellPerk = SpellPerk::query()
+                        ->where('spell_id', $spell->id)
+                        ->where('spell_perk_type_id', $spellPerkType->id)
+                        ->first();
+
+                    if ($spellPerk === null)
+                    {
+                        $this->info("[Add Spell Perk] {$perk}: {$value}");
+                    }
+                    elseif ($spellPerk->value != $value)
+                    {
+                        $this->info("[Change Spell Perk] {$perk}: {$spellPerk->value} -> {$value}");
+                    }
+                }
+
+                $spell->perks()->sync($spellPerksToSync);
             }
         }
 

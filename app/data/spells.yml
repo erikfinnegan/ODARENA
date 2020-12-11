@@ -1,0 +1,36 @@
+# <Production>
+
+gaias_watch:
+  name: Gaia's Watch
+  scope: self
+  class: aura
+  cost: 2
+  duration: 48
+  cooldown: 0
+  perks:
+    food_production: 10
+
+mining_strength:
+  name: Mining Strength
+  scope: self
+  class: aura
+  cost: 2
+  duration: 48
+  cooldown: 0
+  perks:
+    ore_production: 10
+
+# <Faction>
+
+feral_hunger:
+  name: Feral Hunger
+  scope: self
+  class: aura
+  cost: 2
+  duration: 48
+  cooldown: 0
+  exclusive_races:
+    - Weres
+  perks:
+    conversions: -100
+    offensive_power: 10

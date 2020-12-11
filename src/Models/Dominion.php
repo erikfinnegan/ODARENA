@@ -481,6 +481,8 @@ class Dominion extends AbstractModel
         return $bonus;
     }
 
+    # TECHS
+
     protected function getTechPerks() {
         return $this->techs->flatMap(
             function ($tech) {
@@ -513,5 +515,41 @@ class Dominion extends AbstractModel
     public function getTechPerkMultiplier(string $key): float
     {
         return ($this->getTechPerkValue($key) / 100);
+    }
+
+    # SPELLS
+
+    protected function getSpellPerks() {
+        return $this->spells->flatMap(
+            function ($spell) {
+                return $spell->perks;
+            }
+        );
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getSpellPerkValue(string $key): float
+    {
+        $perks = $this->getSpellPerks()->groupBy('key');
+        if (isset($perks[$key])) {
+            $max = (float)$perks[$key]->max('pivot.value');
+            if ($max < 0) {
+                return (float)$perks[$key]->min('pivot.value');
+            }
+            return $max;
+        }
+        return 0;
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getSpellPerkMultiplier(string $key): float
+    {
+        return ($this->getSpellPerkValue($key) / 100);
     }
 }
