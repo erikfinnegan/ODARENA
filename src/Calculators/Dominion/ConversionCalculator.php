@@ -852,7 +852,7 @@ class ConversionCalculator
             {
                 if($slot !== 'draftees')
                 {
-                    if($displacedPeasantsConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'vampiric_conversion'))
+                    if($displacedPeasantsConversionPerk = $defender->race->getUnitPerkValueForUnitSlot($slot, 'vampiric_conversion'))
                     {
                         $convertingUnits[$slot] += $amount;
 
