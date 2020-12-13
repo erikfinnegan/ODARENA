@@ -496,7 +496,7 @@ class ConversionCalculator
                     # Deduct lost units.
                     if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
-                        $convertingUnits -= $invasion['attacker']['unitsLost'][$slot];
+                        $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                     }
                 }
             }
