@@ -171,9 +171,9 @@ class ConversionCalculator
                 $convertingUnits[$slot] += $amount;
 
                 # Deduct lost units.
-                if(isset($invasion['attacker']['unitsLost']))
+                if(isset($invasion['attacker']['unitsLost'][$slot]))
                 {
-                    $convertingUnits -= $unitsLost[$slot];
+                    $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                 }
             }
         }
@@ -217,9 +217,9 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
-                    if(isset($invasion['attacker']['unitsLost']))
+                    if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
-                        $convertingUnits -= $unitsLost[$slot];
+                        $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                     }
                 }
             }
@@ -275,9 +275,9 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
-                        if(isset($invasion['defender']['unitsLost']))
+                        if(isset($invasion['defender']['unitsLost'][$slot]))
                         {
-                            $convertingUnits -= $unitsLost[$slot];
+                            $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
                         }
                     }
                 }
@@ -355,9 +355,9 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
-                    if(isset($invasion['attacker']['unitsLost']))
+                    if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
-                        $convertingUnits -= $unitsLost[$slot];
+                        $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                     }
                 }
             }
@@ -421,9 +421,9 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
-                        if(isset($invasion['defender']['unitsLost']))
+                        if(isset($invasion['defender']['unitsLost'][$slot]))
                         {
-                            $convertingUnits -= $unitsLost[$slot];
+                            $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
                         }
                     }
                 }
@@ -620,9 +620,9 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
-                        if(isset($invasion['defender']['unitsLost']))
+                        if(isset($invasion['defender']['unitsLost'][$slot]))
                         {
-                            $convertingUnits -= $unitsLost[$slot];
+                            $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
                         }
                     }
                 }
@@ -736,7 +736,7 @@ class ConversionCalculator
                     # Deduct lost units.
                     if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
-                        $convertingUnits -= $invasion['attacker']['unitsLost'][$slot];
+                        $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                     }
                 }
             }
@@ -853,9 +853,9 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
-                        if(isset($invasion['defender']['unitsLost']))
+                        if(isset($invasion['defender']['unitsLost'][$slot]))
                         {
-                            $convertingUnits -= $unitsLost[$slot];
+                            $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
                         }
                     }
                 }
