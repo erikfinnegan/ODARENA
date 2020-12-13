@@ -53,14 +53,6 @@ class SpellHelper
         })->isNotEmpty();
     }
 
-    public function isWarSpell(string $spellKey, Dominion $dominion): bool
-    {
-        return $this->getWarSpells($dominion)->merge($this->getRacialWarSpells($dominion))->filter(function ($spell) use ($spellKey) {
-            return ($spell['key'] === $spellKey);
-        })->isNotEmpty();
-    }
-
-
     public function getSpells(Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): Collection
     {
 
@@ -592,15 +584,12 @@ class SpellHelper
       {
       return $this->getInfoOpSpells()
           ->merge($this->getBlackOpSpells($dominion, $isViewOnly))
-          ->merge($this->getWarSpells($dominion, $isViewOnly))
           ->merge($this->getInvasionSpells($dominion, Null, $isViewOnly));
       }
       else
       {
         return $this->getInfoOpSpells()
-            ->merge($this->getBlackOpSpells($dominion))
-            ->merge($this->getWarSpells($dominion))
-            ->merge($this->getRacialWarSpells($dominion));
+            ->merge($this->getBlackOpSpells($dominion));
       }
     }
 
@@ -645,14 +634,11 @@ class SpellHelper
         if($isInvasionSpell or $isViewOnly)
         {
           return $this->getBlackOpSpells($dominion)
-              ->merge($this->getWarSpells($dominion))
               ->merge($this->getInvasionSpells($dominion, Null, $isViewOnly));
         }
         else
         {
-          return $this->getBlackOpSpells($dominion)
-              ->merge($this->getWarSpells($dominion))
-              ->merge($this->getRacialWarSpells($dominion));
+          return $this->getBlackOpSpells($dominion);
         }
     }
 
@@ -712,14 +698,8 @@ class SpellHelper
             $blackOpSpells = $blackOpSpells->concat($cultSpells);
         }
 
-        return $blackOpSpells;
-
-    }
-
-    # War only.
-    public function getWarSpells(?Dominion $dominion): Collection
-    {
-        $spells = collect([
+        # Formerly War spells
+        $warSpells = collect([
             [
                 'name' => 'Lightning Bolt',
                 'description' => 'Destroy the target\'s improvements (0.20% base damage).',
@@ -766,79 +746,11 @@ class SpellHelper
             ],
         ]);
 
-        return $spells;
+        $blackOpSpells = $blackOpSpells->concat($warSpells);
+
+        return $blackOpSpells;
+
     }
-
-
-    public function getRacialWarSpells(): Collection
-    {
-        return collect([
-            [
-                'name' => 'Purification',
-                'description' => 'Eradicates Abominations. Only effective against the Afflicted.',
-                'key' => 'purification',
-                'mana_cost' => 3,
-                'decreases' => [
-                    'military_unit1',
-                ],
-                'duration' => NULL,
-                'percentage' => 1,
-                'races' => collect(['Sacred Order', 'Sylvan']),
-            ],
-            [
-                'name' => 'Solar Flare',
-                'description' => 'Eradicates Imps. Only effective against the Nox.',
-                'key' => 'solar_flare',
-                'mana_cost' => 3,
-                'decreases' => [
-                    'military_unit1',
-                ],
-                'duration' => NULL,
-                'percentage' => 5,
-                'races' => collect(['Lux']),
-            ],
-            [
-                'name' => 'Proselytize',
-                'description' => 'Converts some of targets units to join you',
-                'key' => 'proselytize',
-                'mana_cost' => 0.5,
-                'duration' => NULL,
-                'percentage' => 5,
-                'races' => collect(['Cult']),
-            ],
-            [
-                'name' => 'Solar Eclipse',
-                'description' => '-20% food production, -20% mana production',
-                'key' => 'solar_eclipse',
-                'mana_cost' => 3,
-                'duration' => 12*3,
-                'percentage' => NULL,
-                'races' => collect(['Nox']),
-            ],
-            [
-                'name' => 'Frozen Shores',
-                'description' => 'Freezes water and target cannot send out boats. No food production from docks.',
-                'key' => 'frozen_shores',
-                'mana_cost' => 6,
-                'duration' => 4,
-                'percentage' => NULL,
-                'races' => collect(['Icekin']),
-            ],
-            [
-                'name' => 'Pyroclast',
-                'description' => 'Twice as affective as a Fireball and leaves a lingering forest fire reducing lumber production.',
-                'key' => 'pyroclast',
-                'mana_cost' => 3,
-                'duration' => 6,
-                'decreases' => [
-                    'peasants',
-                    'resource_food'],
-                'percentage' => 1,
-                'races' => collect(['Firewalker']),
-            ],
-          ]);
-    }
-
 
     /*
     *
@@ -927,9 +839,11 @@ class SpellHelper
     }
 
 
-    public function getDominionHarmfulSpellDamageModifier(Dominion $dominion, ?string $spell)
+
+    public function getAllSpells()
     {
-        $modifier = 0;
+        return Spell::all()->keyBy('key');
     }
+
 
 }

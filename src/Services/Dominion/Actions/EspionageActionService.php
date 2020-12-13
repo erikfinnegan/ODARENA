@@ -1031,14 +1031,6 @@ class EspionageActionService
 
         $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
-        if ($this->espionageHelper->isWarOperation($operationKey)) {
-            $warDeclared = ($dominion->realm->war_realm_id == $target->realm->id || $target->realm->war_realm_id == $dominion->realm->id);
-            if (!$warDeclared && !$this->militaryCalculator->recentlyInvadedBy($dominion, $target))
-            {
-                throw new GameException("You cannot perform {$operationInfo['name']} outside of war.");
-            }
-        }
-
         $selfSpa = $this->militaryCalculator->getSpyRatio($dominion, 'offense');
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
 

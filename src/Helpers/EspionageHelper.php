@@ -41,19 +41,11 @@ class EspionageHelper
         })->isNotEmpty();
     }
 
-    public function isWarOperation(string $operationKey): bool
-    {
-        return $this->getWarOperations()->filter(function ($operation) use ($operationKey) {
-            return ($operation['key'] === $operationKey);
-        })->isNotEmpty();
-    }
-
     public function getOperations(): Collection
     {
         return $this->getInfoGatheringOperations()
             ->merge($this->getResourceTheftOperations())
-            ->merge($this->getBlackOperations())
-            ->merge($this->getWarOperations());
+            ->merge($this->getBlackOperations());
     }
 
     public function getInfoGatheringOperations(): Collection
@@ -130,8 +122,7 @@ class EspionageHelper
 
     public function getHostileOperations(): Collection
     {
-        return $this->getBlackOperations()
-            ->merge($this->getWarOperations());
+        return $this->getBlackOperations();
     }
 
     public function getBlackOperations(): Collection
@@ -144,12 +135,6 @@ class EspionageHelper
                 'decreases' => ['military_draftees'],
                 'percentage' => 2,
             ],
-        ]);
-    }
-
-    public function getWarOperations(): Collection
-    {
-        return collect([
             [
                 'name' => 'Assassinate Wizards',
                 'description' => 'Kills wizards (2% base damage).',
@@ -173,4 +158,5 @@ class EspionageHelper
             ],
         ]);
     }
+
 }

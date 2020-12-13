@@ -171,7 +171,7 @@ class ConversionCalculator
                 $convertingUnits[$slot] += $amount;
 
                 # Deduct lost units.
-                if(isset($unitsLost[$slot]))
+                if(isset($invasion['attacker']['unitsLost']))
                 {
                     $convertingUnits -= $unitsLost[$slot];
                 }
@@ -217,7 +217,7 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
-                    if(isset($unitsLost[$slot]))
+                    if(isset($invasion['attacker']['unitsLost']))
                     {
                         $convertingUnits -= $unitsLost[$slot];
                     }
@@ -275,7 +275,7 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
-                        if(isset($unitsLost[$slot]))
+                        if(isset($invasion['defender']['unitsLost']))
                         {
                             $convertingUnits -= $unitsLost[$slot];
                         }
@@ -355,7 +355,7 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
-                    if(isset($unitsLost[$slot]))
+                    if(isset($invasion['attacker']['unitsLost']))
                     {
                         $convertingUnits -= $unitsLost[$slot];
                     }
@@ -421,7 +421,7 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
-                        if(isset($unitsLost[$slot]))
+                        if(isset($invasion['defender']['unitsLost']))
                         {
                             $convertingUnits -= $unitsLost[$slot];
                         }
@@ -494,9 +494,9 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
-                    if(isset($unitsLost[$slot]))
+                    if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
-                        $convertingUnits -= $unitsLost[$slot];
+                        $convertingUnits -= $invasion['attacker']['unitsLost'][$slot];
                     }
                 }
             }
@@ -610,7 +610,7 @@ class ConversionCalculator
                            '4' => ['amount' => 0, 'op' => 0],
                 ];
 
-            # Check that unitsSent contains strength_conversion perk
+            # Check that unitsDefending contains strength_conversion perk
             foreach($invasion['defender']['unitsDefending'] as $slot => $amount)
             {
                 if($slot !== 'draftees')
@@ -620,20 +620,19 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
-                        if(isset($unitsLost[$slot]))
+                        if(isset($invasion['defender']['unitsLost']))
                         {
                             $convertingUnits -= $unitsLost[$slot];
                         }
                     }
                 }
-
             }
 
-            # Calculate contribution (unit raw OP / total raw OP)
+            # Calculate contribution (unit raw DP / total raw DP)
             # This determines how many units were killed by each converting unit
             foreach($convertingUnits as $slot => $amount)
             {
-                $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
                     return ($unit->slot === $slot);
                 })->first();
 
@@ -652,9 +651,6 @@ class ConversionCalculator
                 {
                     $amount /= static::DEFENSIVE_CONVERSIONS_FAILED_FRACTION;
                 }
-
-                # Round it
-                #$amount = round($amount); -- Moved to later in the code
 
                 # Get the $unit
                 $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
@@ -738,7 +734,7 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
-                    if(isset($unitsLost[$slot]))
+                    if(isset($invasion['attacker']['unitsLost']))
                     {
                         $convertingUnits -= $unitsLost[$slot];
                     }
@@ -847,17 +843,17 @@ class ConversionCalculator
                            '4' => ['amount' => 0, 'op' => 0],
                 ];
 
-            # Check that unitsSent contains strength_conversion perk
+            # Check that unitsDefending contains vampiric_conversion perk
             foreach($invasion['defender']['unitsDefending'] as $slot => $amount)
             {
                 if($slot !== 'draftees')
                 {
-                    if($displacedPeasantsConversionPerk = $defender->race->getUnitPerkValueForUnitSlot($slot, 'vampiric_conversion'))
+                    if($vampiricConversionPerk = $defender->race->getUnitPerkValueForUnitSlot($slot, 'vampiric_conversion'))
                     {
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
-                        if(isset($unitsLost[$slot]))
+                        if(isset($invasion['defender']['unitsLost']))
                         {
                             $convertingUnits -= $unitsLost[$slot];
                         }
@@ -870,7 +866,7 @@ class ConversionCalculator
             # This determines how many units were killed by each converting unit
             foreach($convertingUnits as $slot => $amount)
             {
-                $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
                     return ($unit->slot === $slot);
                 })->first();
 
@@ -889,9 +885,6 @@ class ConversionCalculator
                 {
                     $amount /= static::DEFENSIVE_CONVERSIONS_FAILED_FRACTION;
                 }
-
-                # Round it
-                #$amount = round($amount); -- Moved to later in the code
 
                 # Get the $unit
                 $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
@@ -944,8 +937,6 @@ class ConversionCalculator
         }
 
         return $convertedUnits;
-
-
 
     }
 

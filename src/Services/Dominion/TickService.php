@@ -160,18 +160,11 @@ class TickService
                     }
                 }
 
-                #print_r($invasionQueueUnits);
-
                 $this->queueService->setForTick(false);
                 $units[1] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit1", $tick);
                 $units[2] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit2", $tick);
                 $units[3] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit3", $tick);
                 $units[4] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit4", $tick);
-
-
-                #dd("Units in hour $tick for {$stasisDominion->name}:", $units);
-
-                #dd($units);
 
                 foreach($units as $slot => $amount)
                 {
@@ -188,7 +181,6 @@ class TickService
                 $this->queueService->setForTick(true);
 
             }
-
 
             DB::transaction(function () use ($round, $stasisDominions)
             {

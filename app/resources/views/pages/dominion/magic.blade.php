@@ -173,43 +173,6 @@
                                             @endforeach
                                         </div>
                                     @endforeach
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label>War Spells</label>
-                                        </div>
-                                    </div>
-
-                                    @foreach ($spellHelper->getWarSpells($selectedDominion)->chunk(4) as $spells)
-                                        <div class="row">
-                                            @foreach ($spells as $spell)
-                                                @php
-                                                    $canCast = $spellCalculator->canCast($selectedDominion, $spell['key']);
-                                                @endphp
-                                                <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
-                                                    <div class="form-group">
-                                                        <button type="submit"
-                                                                name="spell"
-                                                                value="{{ $spell['key'] }}"
-                                                                class="btn btn-primary btn-block war-spell disabled"
-                                                                {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
-                                                            {{ $spell['name'] }}
-                                                        </button>
-                                                        <p>{{ $spell['description'] }}</p>
-                                                        <small>
-                                                            @if ($canCast)
-                                                                <span class="text-success">
-                                                            @else
-                                                                <span class="text-danger">
-                                                            @endif
-                                                              {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }} mana
-                                                            </span>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
                                 </div>
                             </form>
                         @endif

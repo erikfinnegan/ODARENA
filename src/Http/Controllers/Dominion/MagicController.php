@@ -18,11 +18,15 @@ use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
+use OpenDominion\Models\Spell;
 
 class MagicController extends AbstractDominionController
 {
     public function getMagic()
     {
+
+        $spells = Spell::all()->keyBy('key');
+
         return view('pages.dominion.magic', [
             'landCalculator' => app(LandCalculator::class),
             'protectionService' => app(ProtectionService::class),
@@ -34,6 +38,7 @@ class MagicController extends AbstractDominionController
             #ODA
             'networthCalculator' => app(NetworthCalculator::class),
             'spellDamageCalculator' => app(SpellDamageCalculator::class),
+            'spells' => $spells,
         ]);
     }
 
