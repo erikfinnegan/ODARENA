@@ -138,8 +138,6 @@ class SpellDamageCalculator
               $modifier = max(-1, $modifier);
           }
 
-          dd($modifier, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires'));
-
           return $modifier;
     }
 

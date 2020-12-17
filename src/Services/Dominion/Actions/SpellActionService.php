@@ -535,8 +535,6 @@ class SpellActionService
                         ];
                 }
 
-                #dd($advancements);
-
                 $infoOp->data = [
                     #'techs' => $techs,#$target->techs->pluck('name', 'key')->all(),
                     'advancements' => $advancements,
