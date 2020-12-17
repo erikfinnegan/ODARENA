@@ -829,7 +829,7 @@ class SpellActionService
                 foreach ($spellInfo['decreases'] as $attr)
                 {
                     $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $dominion, $spellInfo['key'], $attr);
-                    $damage = round($target->{$attr} * $baseDamage * (1 + $damageMultiplier));
+                    $damage = round($target->{$attr} * $baseDamage * $damageMultiplier);
 
                     $totalDamage += $damage;
                     $target->{$attr} -= $damage;
