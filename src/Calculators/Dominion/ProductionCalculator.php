@@ -87,11 +87,8 @@ class ProductionCalculator
           $platinum += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
         }
 
-        // Spell: Alchemist Flame
-        if ($this->spellCalculator->isSpellActive($dominion, 'alchemist_flame'))
-        {
-            $platinumPerAlchemy += 30;
-        }
+        // Spells
+        $platinumPerAlchemy += $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'alchemy_production');
 
         // Building: Alchemy
         $platinum += ($dominion->building_alchemy * $platinumPerAlchemy);
@@ -141,23 +138,8 @@ class ProductionCalculator
         // Land improvements
         $multiplier += $this->landImprovementCalculator->getPlatinumProductionBonus($dominion);
 
-        // Human: Call To Arms
-        if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
-        {
-            $multiplier += 0.20;
-        }
-
-        // Vampires: Fine Arts
-        if ($this->spellCalculator->isSpellActive($dominion, 'fine_arts'))
-        {
-            $multiplier += 0.05;
-        }
-
-        // Invasion Spell: Great Fever (-5% production)
-        if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
-        {
-            $multiplier -= 0.05 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'great_fever', null);
-        }
+        // Spells
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'platinum_production');
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -217,10 +199,10 @@ class ProductionCalculator
         }
 
         // Racial Spell: Metabolism (Growth) - Double food production
-        if ($this->spellCalculator->isSpellActive($dominion, 'metabolism'))
-        {
-            $food *= 2;
-        }
+        #if ($this->spellCalculator->isSpellActive($dominion, 'metabolism'))
+        #{
+            $food *= $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production_raw');
+        #}
 
         return max(0,$food);
     }
@@ -248,39 +230,8 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('food_production');
 
-        # SPELLS
-
-        // Spell:  Gaia's Blessing (+20%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'gaias_blessing'))
-        {
-            $multiplier += 0.20;
-        }
-
-        // Spell: Gaia's Watch (+10%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'gaias_watch'))
-        {
-            $multiplier += 0.10;
-        }
-
-        // Spell: Rainy Season (+50%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier += 0.50;
-        }
-
-        // Spell [hostile]: Insect Swarm (-5%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'insect_swarm'))
-        {
-            $multiplier -= 0.05 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'insect_swarm', null);
-        }
-
-        // Invasion Spell: Great Fever (-5% food production)
-        if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
-        {
-            $multiplier -= 0.05 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'great_fever', null);;
-        }
-
-        # /SPELLS
+        // Spells
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production');
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
@@ -534,20 +485,8 @@ class ProductionCalculator
             $multiplier += $dominion->title->getPerkMultiplier('lumber_production') * $dominion->title->getPerkBonus($dominion);
         }
 
-        # SPELLS
-        // Spell:  Gaia's Blessing (+20%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'gaias_blessing'))
-        {
-            $multiplier += 0.10;
-        }
-
-        // Spell: Rainy Season (+50%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier += 0.50;
-        }
-
-        # /SPELLS
+        // Spells
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'lumber_production');
 
         // Improvement: Forestry
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forestry');
@@ -714,6 +653,9 @@ class ProductionCalculator
         // Improvement: Tower
         #$multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
 
+        // Spells
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'mana_production');
+
         // Improvement: Spires
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
 
@@ -862,46 +804,14 @@ class ProductionCalculator
         // Improvement: Refinery
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
 
-        # SPELLS
-        // Spell: Miner's Sight (+10%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'miners_sight'))
-        {
-            $multiplier += 0.10;
-        }
-
-        // Spell: Mining Strength (+10%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'mining_strength'))
-        {
-            $multiplier += 0.10;
-        }
-
-        // Spell: Earthquake (-5%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
-        {
-            $multiplier -= 0.05  * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'earthquake', null);
-        }
-
-        // Spell: Rainy Season (-100%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier = -1;
-        }
-
-        // Human: Call To Arms
-        if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
-        {
-            $multiplier += 0.20;
-        }
+        // Spells
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'ore_production');
 
         $multiplier = max(-1, $multiplier);
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
-
-    //</editor-fold>
-
-    //<editor-fold desc="Gems">
 
     /**
      * Returns the Dominion's gem production.
@@ -969,32 +879,7 @@ class ProductionCalculator
             $multiplier += $dominion->title->getPerkMultiplier('gem_production') * $dominion->title->getPerkBonus($dominion);
         }
 
-        # SPELLS
-        // Spell: Miner's Sight (+5%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'miners_sight'))
-        {
-            $multiplier += 0.05;
-        }
-
-        // Vampires: Fine Arts (+5%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'fine_arts'))
-        {
-            $multiplier += 0.05;
-        }
-
-        // Spell: Earthquake (-5%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'earthquake'))
-        {
-            $multiplier -= 0.05 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'earthquake', null);
-        }
-
-        // Spell: Rainy Season (-100%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier = -1;
-        }
-
-        # /SPELLS
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'gem_production');
 
         $multiplier = max(-1, $multiplier);
 
@@ -1060,6 +945,9 @@ class ProductionCalculator
             $multiplier += $dominion->title->getPerkMultiplier('tech_production') * $dominion->title->getPerkBonus($dominion);
         }
 
+        // Spell
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'tech_production');
+
         # Observatory
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
 
@@ -1118,17 +1006,8 @@ class ProductionCalculator
     {
         $multiplier = 0;
 
-        // Spell: Great Flood (-25%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'great_flood'))
-        {
-            $multiplier -= 0.25 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'great_flood', null);
-        }
-
-        // Spell: Rainy Season (-100%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier = -1;
-        }
+        // Spells
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'boat_production');
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');

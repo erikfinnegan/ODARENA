@@ -513,33 +513,8 @@ class PopulationCalculator
             }
         }
 
-        # SPELLS
-
-        // Spell: Harmony (+50%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'harmony'))
-        {
-            $multiplier += 0.50;
-        }
-
-        // Spell: Rainy Season (+100%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-            $multiplier += 1.00;
-        }
-
-        // Spell: Plague (-25%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'plague'))
-        {
-            $multiplier -= 0.25 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'plague', null);
-        }
-
-        // Spell: Great Fever (-25%)
-        if ($this->spellCalculator->isSpellActive($dominion, 'great_fever'))
-        {
-            $multiplier -= 0.25 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'great_fever', null);
-        }
-
-        # /SPELLS
+        // Spells
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'population_growth');
 
         return (1 + $multiplier);
     }

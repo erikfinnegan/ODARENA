@@ -18,7 +18,7 @@ class CreateSpellsTable extends Migration
             $table->string('key');
             $table->string('name');
             $table->enum('scope', ['self', 'friendly', 'hostile']);
-            $table->enum('class', ['aura', 'spell']);
+            $table->enum('class', ['active', 'passive', 'invasion', 'info']);
             $table->float('cost')->default(1);
             $table->integer('duration')->default(48);
             $table->integer('cooldown')->default(0);

@@ -40,15 +40,18 @@ class SpellCalculator
      * @param string $spell
      * @return int
      */
-    public function getManaCost(Dominion $dominion, string $spell, bool $isInvasionSpell = false): int
+    public function getManaCost(Dominion $dominion, string $spellKey, bool $isInvasionSpell = false): int
     {
         if($isInvasionSpell)
         {
             return 0;
         }
 
-        $spellInfo = $this->spellHelper->getSpellInfo($spell, $dominion);
+        $spell = Spell::where('key',$spellKey)->first();
+
         $totalLand = $this->landCalculator->getTotalLand($dominion);
+
+        $baseCost = $totalLand * $spell->cost;
 
         // Cost reduction from wizard guilds (2x ratio, max 40%)
         $wizardGuildRatio = ($dominion->building_wizard_guild / $totalLand);
@@ -60,7 +63,7 @@ class SpellCalculator
             $spellCostMultiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->title->getPerkBonus($dominion);
         }
 
-        return round($spellInfo['mana_cost'] * $totalLand * $spellCostMultiplier);
+        return round($baseCost * $spellCostMultiplier);
     }
 
     /**
@@ -213,10 +216,65 @@ class SpellCalculator
     }
 
 
-    public function getSpellPerks(string $spellKey): ?array
+    public function getPassiveSpellPerkValues(Dominion $dominion, string $perkString): array
     {
-        #$spell = Spell::where('key','=',$spellKey)->first();
-        return [];
+
+        $perkValuesFromSpells = [];
+
+        # Get all active spells.
+        $activeSpells = $this->getActiveSpells($dominion);
+
+        # Check each spell for the $perk
+        foreach($activeSpells as $activeSpell)
+        {
+            $spell = Spell::where('key', $activeSpell->spell)->first();
+
+            # Does the spell have the perk we're after?
+            foreach ($spell->perks as $spellPerk)
+            {
+
+                # If it does, update $perkValue.
+                if($spellPerk->key === $perkString)
+                {
+                    $perkValuesFromSpells[] = (float)$spellPerk->pivot->value;
+                }
+            }
+        }
+
+        return $perkValuesFromSpells;
+    }
+
+    public function getPassiveSpellPerkValue(Dominion $dominion, string $perk): float
+    {
+        $perkValuesFromSpells = $this->getPassiveSpellPerkValues($dominion, $perk);
+        return array_sum($perkValuesFromSpells);
+    }
+
+    public function getPassiveSpellPerkMultiplier(Dominion $dominion, string $perk): float
+    {
+        return $this->getPassiveSpellPerkValue($dominion, $perk) / 100;
+    }
+
+    public function isSpellAvailableToDominion(Dominion $dominion, Spell $spell): bool
+    {
+        $isAvailable = true;
+
+        if(count($spell->exclusive_races) > 0 and !in_array($dominion->race->name, $spell->exclusive_races))
+        {
+            $isAvailable = false;
+        }
+
+        if(count($spell->excluded_races) > 0 and in_array($dominion->race->name, $spell->excluded_races))
+        {
+            $isAvailable = false;
+        }
+
+        return $isAvailable;
+    }
+
+    public function canCastSpell(Dominion $dominion, string $spellKey): bool
+    {
+        return true;
     }
 
 }

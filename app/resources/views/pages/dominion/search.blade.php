@@ -50,7 +50,7 @@
                             <div class="form-group">
                                 <div class="col-sm-12 text-right">
                                     <button class="btn btn-default search-range" data-min="{{ ceil($landCalculator->getTotalLand($selectedDominion) * 0.40) }}" data-max="{{ floor($landCalculator->getTotalLand($selectedDominion) / 0.40) }}">40%</button>
-                                    <button class="btn btn-success search-range" data-min="{{ ceil($landCalculator->getTotalLand($selectedDominion) * 0.60) }}" data-max="{{ floor($landCalculator->getTotalLand($selectedDominion) / 0.60) }}">60%</button>
+                                    <button class="btn btn-danger search-range" data-min="{{ ceil($landCalculator->getTotalLand($selectedDominion) * 0.60) }}" data-max="{{ floor($landCalculator->getTotalLand($selectedDominion) / 0.60) }}">60%</button>
                                     <button class="btn btn-warning search-range" data-min="{{ ceil($landCalculator->getTotalLand($selectedDominion) * 0.75) }}" data-max="{{ floor($landCalculator->getTotalLand($selectedDominion) / 0.75) }}">75%</button>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@
                 <div class="box-body">
                     <p>Use the search to find dominions matching certain criteria.</p>
                     <p>The grey button labelled 40% pre-fills the land min and land max with dominions 40%-250% your range.</p>
-                    <p>The green button labelled 60% pre-fills the land min and land max with dominions 60%-166% your range: Peacekeepers League range.</p>
+                    <p>The green button labelled 60% pre-fills the land min and land max with dominions 60%-166% your range: Barbarian range.</p>
                     <p>The orange button labelled 75% pre-fills the land min and land max with dominions 75%-133% your range: Warriors League range</p>
                     @if (!$selectedDominion->round->hasStarted())
                         <p>The current round has not started. No dominions will be listed.</p>

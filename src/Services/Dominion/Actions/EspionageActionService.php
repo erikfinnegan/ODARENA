@@ -947,10 +947,6 @@ class EspionageActionService
         array $constraints
     ): int
     {
-        if (($resource === 'platinum') && $this->spellCalculator->isSpellActive($target, 'fools_gold'))
-        {
-            return 0;
-        }
 
         // Limit to percentage of target's raw production
         # For draftee abduction, limit to 1% of target's draftees.
@@ -1006,6 +1002,13 @@ class EspionageActionService
 
             $maxTarget *= $stolenPlatinumMultiplier;
         }
+
+        if ($resource === 'platinum')
+        {
+            $maxTarget *= $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'platinum_theft');
+        }
+
+        $maxTarget *= $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'platinum_theft');
 
         return min($maxTarget, $maxDominion, $maxCarried);
     }

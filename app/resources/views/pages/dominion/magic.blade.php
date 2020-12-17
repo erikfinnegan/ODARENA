@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-
+<!--
         <div class="col-sm-12 col-md-9">
             <div class="row">
 
@@ -182,6 +182,329 @@
 
             </div>
         </div>
+-->
+
+
+
+
+
+
+        <div class="col-sm-12 col-md-9">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="ra ra-fairy-wand"></i> Self Spells</h3>
+                        </div>
+                        <form action="{{ route('dominion.magic') }}" method="post" role="form">
+                            @csrf
+                            <div class="box-body">
+                                <table class="table table-striped">
+                                    <colgroup>
+                                        <col width="180">
+                                    </colgroup>
+                                  @foreach($selfAuras as $spell)
+                                      @php
+                                          $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell->key);
+                                          #$cooldownHours = $spellCalculator->getSpellCooldown($selectedDominion, $spell->key);
+                                          $isActive = $spellCalculator->isSpellActive($selectedDominion, $spell->key);
+                                          $buttonStyle = ($isActive ? 'btn-success' : 'btn-primary');
+                                      @endphp
+                                      @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                          <tr>
+                                              <td>
+                                                <button type="submit" name="spell" value="{{ $spell->key }}" class="btn {{ $buttonStyle }} btn-block" {{ $selectedDominion->isLocked() || !$canCast || $cooldownHours ? 'disabled' : null }}>
+                                                    {{ $spell->name }}
+                                                </button>
+                                              </td>
+                                              <td>
+                                                  <ul>
+                                                      @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                          <li>{{ $effect }}</li>
+                                                      @endforeach
+
+                                                          <li>
+                                                              Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }} /
+                                                              <span data-toggle="tooltip" data-placement="top" title="Tick duration of effect">T</span>: {{ $spell->duration }}
+                                                              @if($spell->cooldown > 0)
+                                                                / <span data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">C</span>: {{ $spell->cooldown }} hours
+                                                              @endif
+                                                          </li>
+                                                  </ul>
+                                              </td>
+                                          </tr>
+                                      @endif
+                                  @endforeach
+                                  </table>
+
+                                  <table class="table table-striped">
+                                      <colgroup>
+                                          <col width="180">
+                                      </colgroup>
+                                    @foreach($selfImpacts as $spell)
+                                        @php
+                                            $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell->key);
+                                            #$cooldownHours = $spellCalculator->getSpellCooldown($selectedDominion, $spell->key);
+                                            $isActive = $spellCalculator->isSpellActive($selectedDominion, $spell->key);
+                                            $buttonStyle = ($isActive ? 'btn-success' : 'btn-primary');
+                                        @endphp
+                                        @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                            <tr>
+                                                <td>
+                                                  <button type="submit" name="spell" value="{{ $spell->key }}" class="btn {{ $buttonStyle }} btn-block" {{ $selectedDominion->isLocked() || !$canCast || $cooldownHours ? 'disabled' : null }}>
+                                                      {{ $spell->name }}
+                                                  </button>
+                                                </td>
+                                                <td>
+                                                    <ul>
+                                                        @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                            <li>{{ $effect }}</li>
+                                                        @endforeach
+
+                                                            <li>
+                                                                Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}
+                                                                @if($spell->duration > 0)
+                                                                  / <span data-toggle="tooltip" data-placement="top" title="Tick duration of effect">T</span>: {{ $spell->duration }}
+                                                                @endif
+                                                                @if($spell->cooldown > 0)
+                                                                  / <span data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">C</span>: {{ $spell->cooldown }} hours
+                                                                @endif
+                                                            </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                    </table>
+                              </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="ra ra-burning-embers"></i> Hostile Spells</h3>
+                        </div>
+
+                        <form action="{{ route('dominion.magic') }}" method="post" role="form">
+                            @csrf
+
+                            <div class="box-body">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <select name="target_dominion" id="target_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                                <option></option>
+                                                @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
+                                                    <option value="{{ $dominion->id }}"
+                                                            data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
+                                                            data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
+                                                            data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
+                                                            data-war="{{ ($selectedDominion->realm->war_realm_id == $dominion->realm->id || $dominion->realm->war_realm_id == $selectedDominion->realm->id) ? 1 : 0 }}">
+                                                        {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box-body">
+                                    <div class="col-md-6">
+                                        <table class="table">
+                                            <colgroup>
+                                                <col width="180">
+                                            </colgroup>
+                                          @foreach($hostileInfos as $spell)
+                                              @php
+                                                  $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell->key);
+                                                  #$cooldownHours = $spellCalculator->getSpellCooldown($selectedDominion, $spell->key);
+                                              @endphp
+                                              @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                                  <tr>
+                                                      <td>
+                                                        <button type="submit" name="spell" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast || $cooldownHours ? 'disabled' : null }}>
+                                                            {{ $spell->name }}
+                                                        </button>
+                                                      </td>
+                                                      <td>
+                                                          <ul>
+                                                              @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                                  <li>{{ $effect }}</li>
+                                                              @endforeach
+                                                                  <li>
+                                                                      Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}
+                                                                      @if($spell->duration > 0)
+                                                                        / <span data-toggle="tooltip" data-placement="top" title="Tick duration of effect">T</span>: {{ $spell->duration }}
+                                                                      @endif
+                                                                      @if($spell->cooldown > 0)
+                                                                        / <span data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">C</span>: {{ $spell->cooldown }} hours
+                                                                      @endif
+                                                                  </li>
+                                                          </ul>
+                                                      </td>
+                                                  </tr>
+                                              @endif
+                                          @endforeach
+                                          </table>
+                                      </div>
+                                      <div class="col-md-6">
+                                          <table class="table">
+                                              <colgroup>
+                                                  <col width="180">
+                                              </colgroup>
+                                            @foreach($hostileAuras as $spell)
+                                                @php
+                                                    $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell->key);
+                                                    #$cooldownHours = $spellCalculator->getSpellCooldown($selectedDominion, $spell->key);
+                                                @endphp
+                                                @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                                    <tr>
+                                                        <td>
+                                                          <button type="submit" name="spell" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast || $cooldownHours ? 'disabled' : null }}>
+                                                              {{ $spell->name }}
+                                                          </button>
+                                                        </td>
+                                                        <td>
+                                                            <ul>
+                                                                @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                                    <li>{{ $effect }}</li>
+                                                                @endforeach
+
+                                                                    <li>
+                                                                        Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}
+                                                                        @if($spell->duration > 0)
+                                                                          / <span data-toggle="tooltip" data-placement="top" title="Tick duration of effect">T</span>: {{ $spell->duration }}
+                                                                        @endif
+                                                                        @if($spell->cooldown > 0)
+                                                                          / <span data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">C</span>: {{ $spell->cooldown }} hours
+                                                                        @endif
+                                                                    </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endforeach
+                                            </table>
+                                        </div>
+
+                                        @foreach ($hostileImpacts->chunk(4) as $spells)
+                                            <div class="row">
+                                                @foreach ($spells as $spell)
+                                                    @php
+                                                        $canCast = $spellCalculator->canCast($selectedDominion, $spell['key']);
+                                                    @endphp
+                                                    @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                                        <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3">
+                                                            <div class="form-group">
+                                                                <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
+                                                                    {{ $spell['name'] }}
+                                                                </button>
+                                                                    <ul>
+                                                                        @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                                            <li>{{ $effect }}</li>
+                                                                        @endforeach
+
+                                                                            <li>
+                                                                                Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}
+                                                                                @if($spell->duration > 0)
+                                                                                  / <span data-toggle="tooltip" data-placement="top" title="Tick duration of effect">T</span>: {{ $spell->duration }}
+                                                                                @endif
+                                                                                @if($spell->cooldown > 0)
+                                                                                  / <span data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">C</span>: {{ $spell->cooldown }} hours
+                                                                                @endif
+                                                                            </li>
+                                                                    </ul>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                        @endforeach
+
+                                  </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+    </div>
+    <div class="row">
+
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="ra ra-burning-embers"></i> Friendly</h3>
+                        </div>
+                            <form action="{{ route('dominion.magic') }}" method="post" role="form">
+                                @csrf
+
+                                <div class="box-body">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <select name="target_dominion" id="target_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                                    <option></option>
+                                                    @foreach ($rangeCalculator->getFriendlyDominionsInRange($selectedDominion) as $dominion)
+                                                        <option value="{{ $dominion->id }}"
+                                                                data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
+                                                                data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
+                                                                data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
+                                                                data-war="{{ ($selectedDominion->realm->war_realm_id == $dominion->realm->id || $dominion->realm->war_realm_id == $selectedDominion->realm->id) ? 1 : 0 }}">
+                                                            {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @foreach ($spellHelper->getInfoOpSpells()->chunk(4) as $spells)
+                                        <div class="row">
+                                            @foreach ($spells as $spell)
+                                                @php
+                                                    $canCast = $spellCalculator->canCast($selectedDominion, $spell['key']);
+                                                @endphp
+                                                <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
+                                                    <div class="form-group">
+                                                        <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
+                                                            {{ $spell['name'] }}
+                                                        </button>
+                                                        <p>{{ $spell['description'] }}</p>
+                                                        <small>
+                                                            @if ($canCast)
+                                                                <span class="text-success">
+                                                            @else
+                                                                <span class="text-danger">
+                                                            @endif
+                                                              {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell['key'])) }} mana
+                                                            </span>
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
 
         <div class="col-sm-12 col-md-3">
             <div class="box">

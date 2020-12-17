@@ -14,6 +14,7 @@ use OpenDominion\Models\Title;
 use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Models\Tech;
+use OpenDominion\Models\Spell;
 
 class ScribesController extends AbstractController
 {
@@ -100,6 +101,14 @@ class ScribesController extends AbstractController
         return view('pages.scribes.advancements', [
             'techs' => Tech::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
             'techHelper' => app(TechHelper::class),
+        ]);
+    }
+
+    public function getSpells()
+    {
+        return view('pages.scribes.spells', [
+            'spells' => Spell::all()->keyBy('key')->sortBy('key'),
+            'spellHelper' => app(SpellHelper::class),
         ]);
     }
 

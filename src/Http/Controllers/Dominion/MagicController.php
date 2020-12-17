@@ -25,7 +25,16 @@ class MagicController extends AbstractDominionController
     public function getMagic()
     {
 
-        $spells = Spell::all()->keyBy('key');
+        $friendlyAuras = Spell::all()->where('scope','friendly')->where('class','passive')->sortBy('key');
+        $hostileAuras = Spell::all()->where('scope','hostile')->where('class','passive')->sortBy('key');
+        $selfAuras = Spell::all()->where('scope','self')->where('class','passive')->sortBy('key');
+
+        $friendlyImpacts = Spell::all()->where('scope','friendly')->where('class','active')->sortBy('key');
+        $hostileImpacts = Spell::all()->where('scope','hostile')->where('class','active')->sortBy('key');
+        $selfImpacts = Spell::all()->where('scope','self')->where('class','active')->sortBy('key');
+
+
+        $hostileInfos = Spell::all()->where('scope','hostile')->where('class','info')->sortBy('key');
 
         return view('pages.dominion.magic', [
             'landCalculator' => app(LandCalculator::class),
@@ -34,11 +43,15 @@ class MagicController extends AbstractDominionController
             'spellCalculator' => app(SpellCalculator::class),
             'spellHelper' => app(SpellHelper::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
-
-            #ODA
             'networthCalculator' => app(NetworthCalculator::class),
             'spellDamageCalculator' => app(SpellDamageCalculator::class),
-            'spells' => $spells,
+            'friendlyAuras' => $friendlyAuras,
+            'hostileAuras' => $hostileAuras,
+            'selfAuras' => $selfAuras,
+            'friendlyImpacts' => $friendlyImpacts,
+            'hostileImpacts' => $hostileImpacts,
+            'selfImpacts' => $selfImpacts,
+            'hostileInfos' => $hostileInfos,
         ]);
     }
 

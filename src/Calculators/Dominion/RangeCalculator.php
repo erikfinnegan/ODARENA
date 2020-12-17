@@ -186,66 +186,63 @@ class RangeCalculator
      */
     public function getDominionsInRange(Dominion $self): Collection
     {
-        // todo: this doesn't belong here since it touches the db. Move to RangeService?
+        return $self->round->activeDominions()
+            ->with(['realm', 'round'])
+            ->get()
+            ->filter(function ($dominion) use ($self) {
+                return (
 
-        // Allow evil (Empire) to target in-realm.
-        # Removed as of Round 11.
-        /*
-        if($self->race->alignment == 'evil')
-        {
+                    # Not in the same realm; and
+                    ($dominion->realm->id !== $self->realm->id) and
 
-          return $self->round->dominions()
-              ->with(['realm', 'round'])
-              ->get()
-              ->filter(function ($dominion) use ($self) {
-                  return (
+                    # Is in range; and
+                    $this->isInRange($self, $dominion) and
 
-                      # Not the same dominion
-                      ($dominion->id !== $self->id) &&
+                    # Is not in protection;
+                    !$this->protectionService->isUnderProtection($dominion) and
 
-                      # Is in range; and
-                      $this->isInRange($self, $dominion) &&
-
-                      # Is not in protection;
-                      !$this->protectionService->isUnderProtection($dominion)
-                  );
-              })
-              ->sortByDesc(function ($dominion) {
-                  return $this->landCalculator->getTotalLand($dominion);
-              })
-              ->values();
-
-        }
-        else
-        {
-        */
-          return $self->round->activeDominions()
-              ->with(['realm', 'round'])
-              ->get()
-              ->filter(function ($dominion) use ($self) {
-                  return (
-
-                      # Not in the same realm; and
-                      ($dominion->realm->id !== $self->realm->id) and
-
-                      # Is in range; and
-                      $this->isInRange($self, $dominion) and
-
-                      # Is not in protection;
-                      !$this->protectionService->isUnderProtection($dominion) and
-
-                      # Is not locked;
-                      $dominion->is_locked !== 1
-                  );
-              })
-              ->sortByDesc(function ($dominion) {
-                  return $this->landCalculator->getTotalLand($dominion);
-              })
-              ->values();
-        /*
-        }
-        */
-
-
+                    # Is not locked;
+                    $dominion->is_locked !== 1
+                );
+            })
+            ->sortByDesc(function ($dominion) {
+                return $this->landCalculator->getTotalLand($dominion);
+            })
+            ->values();
     }
+
+
+        /**
+         * Returns all dominions in range of a dominion.
+         *
+         * @param Dominion $self
+         * @return Collection
+         */
+        public function getFriendlyDominionsInRange(Dominion $self): Collection
+        {
+            return $self->round->activeDominions()
+                ->with(['realm', 'round'])
+                ->get()
+                ->filter(function ($dominion) use ($self) {
+                    return (
+
+                        # In the same realm; and
+                        ($dominion->realm->id === $self->realm->id) and
+
+                        # Is in range; and
+                        $this->isInRange($self, $dominion) and
+
+                        # Is not in protection;
+                        !$this->protectionService->isUnderProtection($dominion) and
+
+                        # Is not locked;
+                        $dominion->is_locked !== 1
+                    );
+                })
+                ->sortByDesc(function ($dominion) {
+                    return $this->landCalculator->getTotalLand($dominion);
+                })
+                ->values();
+        }
+
 }

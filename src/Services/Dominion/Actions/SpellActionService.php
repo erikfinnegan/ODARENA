@@ -24,7 +24,7 @@ use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
-use OpenDominion\Models\BlackOp;
+use OpenDominion\Models\Spell;
 use OpenDominion\Models\Tech;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 

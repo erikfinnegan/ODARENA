@@ -241,6 +241,7 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
     $router->get('magic')->uses('ScribesController@getMagic')->name('magic');
     $router->get('titles')->uses('ScribesController@getTitles')->name('titles');
     $router->get('advancements')->uses('ScribesController@getAdvancements')->name('advancements');
+    $router->get('spells')->uses('ScribesController@getSpells')->name('spells');
 
     $router->get('{race}')->uses('ScribesController@getRace')->name('faction');
 });
