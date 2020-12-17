@@ -588,7 +588,7 @@ class PopulationCalculator
             // Racial Spell: Swarming (Ants)
             if ($this->spellCalculator->isSpellActive($dominion, 'swarming'))
             {
-                $growthFactor = 0.02;
+                $growthFactor *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'drafting');
             }
 
             // Advancement: Conscription

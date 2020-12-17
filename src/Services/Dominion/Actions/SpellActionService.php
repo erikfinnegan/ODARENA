@@ -563,7 +563,8 @@ class SpellActionService
         }
 
         // Surreal Perception
-        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+        if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+        {
             $this->notificationService
                 ->queueNotification('received_hostile_spell', [
                     'sourceDominionId' => $dominion->id,
@@ -723,7 +724,7 @@ class SpellActionService
         }
 
         $spellReflected = false;
-        if ($this->spellCalculator->isSpellActive($target, 'energy_mirror') && random_chance(0.25) and !$isInvasionSpell)
+        if ($this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'chance_to_reflect_spells') !== 0 && random_chance($this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'chance_to_reflect_spells')) and !$isInvasionSpell)
         {
             $spellReflected = true;
             $reflectedBy = $target;
@@ -776,7 +777,8 @@ class SpellActionService
 
             // Surreal Perception
             $sourceDominionId = null;
-            if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+            if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+            {
                 $sourceDominionId = $dominion->id;
             }
 
@@ -829,7 +831,7 @@ class SpellActionService
                 foreach ($spellInfo['decreases'] as $attr)
                 {
                     $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $dominion, $spellInfo['key'], $attr);
-                    $damage = round($target->{$attr} * $baseDamage * (1 + $damageMultiplier));
+                    $damage = round($target->{$attr} * $baseDamage * $damageMultiplier);
 
                     $totalDamage += $damage;
                     $target->{$attr} -= $damage;
@@ -873,7 +875,7 @@ class SpellActionService
 
             // Surreal Perception
             $sourceDominionId = null;
-            if ($this->spellCalculator->isSpellActive($target, 'surreal_perception'))
+            if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
             {
                 $sourceDominionId = $dominion->id;
             }

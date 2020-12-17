@@ -586,7 +586,8 @@ class EspionageActionService
         }
 
         // Surreal Perception
-        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception')) {
+        if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+        {
             $this->notificationService
                 ->queueNotification('received_spy_op', [
                     'sourceDominionId' => $dominion->id,
@@ -915,7 +916,7 @@ class EspionageActionService
 
         // Surreal Perception
         $sourceDominionId = null;
-        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception'))
+        if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
         {
             $sourceDominionId = $dominion->id;
         }
@@ -1005,10 +1006,15 @@ class EspionageActionService
 
         if ($resource === 'platinum')
         {
-            $maxTarget *= $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'platinum_theft');
+            $maxTarget *= 1+$this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'platinum_theft');
         }
 
-        $maxTarget *= $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'platinum_theft');
+        if ($resource === 'mana')
+        {
+            $maxTarget *= 1+$this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'mana_theft');
+        }
+
+        $maxTarget *= 1+$this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'all_theft');
 
         return min($maxTarget, $maxDominion, $maxCarried);
     }
@@ -1216,7 +1222,7 @@ class EspionageActionService
 
         // Surreal Perception
         $sourceDominionId = null;
-        if ($this->spellCalculator->isSpellActive($target, 'surreal_perception'))
+        if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
         {
             $sourceDominionId = $dominion->id;
         }

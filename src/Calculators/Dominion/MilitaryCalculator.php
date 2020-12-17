@@ -1749,6 +1749,7 @@ class MilitaryCalculator
 
       if($power == 'offense')
       {
+          $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
         // Spell: Bloodrage (+10% OP)
         if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
         {

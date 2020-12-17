@@ -888,10 +888,12 @@ class SpellHelper
 
             // Espionage
             'disband_spies' => 'Disbands %s%% of enemy spies.',
-            'platinum_theft' => '%s%% platinum lost to theft.',
             'spy_strength' => '%s%% spy strength',
             'immortal_spies' => 'Spies become immortal',
-            'theft_suffered' => '%s%% theft suffered'
+
+
+            'platinum_theft' => '%s%% platinum lost to theft.',
+            'all_theft' => '%s%% resources lost to theft',
 
             // Conversions
             'conversions' => '%s%% conversions',

@@ -50,9 +50,24 @@ class SpellDamageCalculator
           $modifier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
 
           // Damage reduction from Aura
-          if($this->spellCalculator->isSpellActive($target, 'aura'))
+          $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_spells');
+
+          // Damage reduction from Iceshield
+          if($spell == 'fireball')
           {
-              $modifier -= 0.20;
+              $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_fireballs');
+          }
+
+          // Damage reduction from Iceshield
+          if($spell == 'lightning_bolt')
+          {
+              $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_lightning_bolts');
+          }
+
+          // Damage reduction from Insect Swarm
+          if($spell == 'insect_swarm')
+          {
+              $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_insect_swarm');
           }
 
           if(isset($spell))
@@ -83,13 +98,13 @@ class SpellDamageCalculator
               ## Lightning Bolts: improvements
               if($spell == 'lightning_bolt')
               {
-                # General fireball damage modification.
-                if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
-                {
-                    $modifier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
-                }
+                  # General fireball damage modification.
+                  if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
+                  {
+                      $modifier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
+                  }
 
-                $modifier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
+                  $modifier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
               }
 
               ## Disband Spies: spies
@@ -122,6 +137,8 @@ class SpellDamageCalculator
               // Cap at -1.
               $modifier = max(-1, $modifier);
           }
+
+          dd($modifier, $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires'));
 
           return $modifier;
     }

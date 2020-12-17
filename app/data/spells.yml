@@ -136,7 +136,7 @@ iceshield:
 birdsong:
   name: Birdsong
   scope: friendly
-  class: active
+  class: passive
   cost: 8
   duration: 24
   cooldown: 6
@@ -144,8 +144,6 @@ birdsong:
     - Sylvan
   perks:
     population_growth: 25
-
-# <Black Ops>
 
 insect_swarm:
   name: Insect Swarm
@@ -284,7 +282,7 @@ blizzard:
     - Yeti
     - Snow Elf
   perks:
-    theft_suffered: -100
+    all_theft: -100
     defensive_power: 5
 
 blood_rage:
@@ -439,7 +437,7 @@ alchemist_flame:
     alchemy_production: 30
 
 voidspell:
-  name: 𒉡𒌋𒆷
+  name: |_|-|/
   scope: self
   class: passive
   cost: 2
@@ -449,6 +447,19 @@ voidspell:
     - Void
   perks:
     immune_to_temples: 1
+
+
+voidspellmana:
+  name: ||//|\||\|
+  scope: self
+  class: passive
+  cost: 2
+  duration: 24
+  cooldown: 24
+  exclusive_races:
+    - Void
+  perks:
+    mana_theft: -100
 
 metabolism:
   name: Metabolism
