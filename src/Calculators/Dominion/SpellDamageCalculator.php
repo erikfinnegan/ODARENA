@@ -38,7 +38,12 @@ class SpellDamageCalculator
 
         $casterWpa = $this->militaryCalculator->getWizardRatio($caster, 'offense');
         $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
-        return min(1, max(0, ($casterWpa - $targetWpa) / 10));
+
+        $multiplier = 1;
+
+        $multiplier += (max(($casterWpa - $targetWpa), 0) / 10);
+
+        return max(0, $multiplier);
     }
 
     public function getDominionHarmfulSpellDamageModifier(Dominion $target, ?Dominion $caster, ?string $spell, ?string $attribute)
@@ -119,11 +124,9 @@ class SpellDamageCalculator
                   }
               }
 
-              // Cap at -1.
-              $modifier = max(-1, $modifier);
           }
 
-          return $modifier;
+          return max(0, $modifier);
     }
 
 }
