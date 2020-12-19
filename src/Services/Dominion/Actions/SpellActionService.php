@@ -822,7 +822,7 @@ class SpellActionService
             $damage = 0;
             $baseDamage = $spellInfo['percentage'] / 100;
 
-            $baseDamage *= (1 + $this->spellDamageCalculator->getSpellBaseDamageMultiplier($dominion, $target));
+            $baseDamage *= $this->spellDamageCalculator->getSpellBaseDamageMultiplier($dominion, $target);
 
             if (isset($spellInfo['decreases']))
             {

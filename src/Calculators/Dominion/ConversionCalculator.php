@@ -805,11 +805,6 @@ class ConversionCalculator
 
                      if($vampiricConversion = $attacker->race->getUnitPerkValueForUnitSlot($convertingUnitSlot,'vampiric_conversion'))
                      {
-                         /*
-                         *    0 to and including 3 --> unit1
-                         *    4 to and including 7 --> unit2
-                         *    8 or greater --> unit3
-                         */
                          $unit1Range = [0.0, (float)$vampiricConversion[0]];
                          $unit2Range = [$unit1Range[1], (float)$vampiricConversion[1]];
                          $unit3Range = [$unit2Range[1], 1000000000.0];
@@ -872,6 +867,8 @@ class ConversionCalculator
 
                 $unitRawDp = $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'defense');
 
+                #echo "<pre>[DEFENDER] $unit->name has $unitRawDp raw DP.</pre>";
+
                 $convertingUnitsDpRatio[$slot] = ($unitRawDp * $amount) / $rawDp;
              }
 
@@ -895,8 +892,19 @@ class ConversionCalculator
                 {
                     $availableCasualties[$slot]['amount'] = $amount;
                     $availableCasualties[$slot]['op'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
+                    #echo '<pre>[ATTACKER] ' . $unit->name . ' is convertible.</pre>';
                 }
+                else
+                {
+                    #echo '<pre>[ATTACKER] ' . $unit->name . ' is not convertible.</pre>';
+                }
+
+                #echo '<pre>[ATTACKER] ' . $amount . ' ' . $unit->name . '(' . $availableCasualties[$slot]['op'] . ' OP, slot ' . $slot .  ') died and are available for conversion.</pre>';
             }
+
+            #echo '<pre>';
+            #print_r($convertingUnitsDpRatio);
+            #echo '</pre>';
 
             # Loop through all available casualties
             foreach($availableCasualties as $casualty)
@@ -905,13 +913,8 @@ class ConversionCalculator
                 {
                     $casualtyAmountAvailableToUnit = $casualty['amount'] * $convertingUnitsDpRatio[$convertingUnitSlot];
 
-                    if($vampiricConversion = $attacker->race->getUnitPerkValueForUnitSlot($convertingUnitSlot,'vampiric_conversion'))
+                    if($vampiricConversion = $defender->race->getUnitPerkValueForUnitSlot($convertingUnitSlot,'vampiric_conversion'))
                     {
-                        /*
-                        *    0 to and including 3 --> unit1
-                        *    4 to and including 7 --> unit2
-                        *    8 or greater --> unit3
-                        */
                         $unit1Range = [0.0, (float)$vampiricConversion[0]];
                         $unit2Range = [$unit1Range[1], (float)$vampiricConversion[1]];
                         $unit3Range = [$unit2Range[1], 1000000000.0];
@@ -929,12 +932,15 @@ class ConversionCalculator
                             $slotConvertedTo = 3;
                         }
 
+                        #echo '<pre>Attacker ' . $slot . ' has ' . $casualty['op'] . ' raw OP is converted to ' . (int)round($casualtyAmountAvailableToUnit) . ' defender slot ' . $slotConvertedTo . '.</pre>';
+
                         $convertedUnits[$slotConvertedTo] += (int)round($casualtyAmountAvailableToUnit);
                     }
                 }
             }
 
         }
+
 
         return $convertedUnits;
 

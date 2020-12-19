@@ -38,7 +38,12 @@ class SpellDamageCalculator
 
         $casterWpa = $this->militaryCalculator->getWizardRatio($caster, 'offense');
         $targetWpa = $this->militaryCalculator->getWizardRatio($target, 'defense');
-        return min(1, max(0, ($casterWpa - $targetWpa) / 10));
+
+        $multiplier = 1;
+
+        $multiplier += (max(($casterWpa - $targetWpa), 0) / 10);
+
+        return max(0, $multiplier);
     }
 
     public function getDominionHarmfulSpellDamageModifier(Dominion $target, ?Dominion $caster, ?string $spell, ?string $attribute)
@@ -50,24 +55,9 @@ class SpellDamageCalculator
           $modifier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
 
           // Damage reduction from Aura
-          $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_spells');
-
-          // Damage reduction from Iceshield
-          if($spell == 'fireball')
+          if($this->spellCalculator->isSpellActive($target, 'aura'))
           {
-              $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_fireballs');
-          }
-
-          // Damage reduction from Iceshield
-          if($spell == 'lightning_bolt')
-          {
-              $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_lightning_bolts');
-          }
-
-          // Damage reduction from Insect Swarm
-          if($spell == 'insect_swarm')
-          {
-              $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_insect_swarm');
+              $modifier -= 0.20;
           }
 
           if(isset($spell))
@@ -98,13 +88,13 @@ class SpellDamageCalculator
               ## Lightning Bolts: improvements
               if($spell == 'lightning_bolt')
               {
-                  # General fireball damage modification.
-                  if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
-                  {
-                      $modifier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
-                  }
+                # General fireball damage modification.
+                if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
+                {
+                    $modifier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
+                }
 
-                  $modifier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
+                $modifier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
               }
 
               ## Disband Spies: spies
@@ -134,11 +124,9 @@ class SpellDamageCalculator
                   }
               }
 
-              // Cap at -1.
-              $modifier = max(-1, $modifier);
           }
 
-          return $modifier;
+          return max(0, $modifier);
     }
 
 }

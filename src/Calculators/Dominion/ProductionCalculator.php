@@ -198,11 +198,7 @@ class ProductionCalculator
           $food += $dominion->peasants * $dominion->race->getPerkValue('peasants_produce_food');
         }
 
-        // Racial Spell: Metabolism (Growth) - Double food production
-        #if ($this->spellCalculator->isSpellActive($dominion, 'metabolism'))
-        #{
-            $food *= $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production_raw');
-        #}
+        $food *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production_raw');
 
         return max(0,$food);
     }

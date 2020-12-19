@@ -139,6 +139,8 @@ class CasualtiesCalculator
             $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'offense');
             $multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'offense');
 
+            #$multilier += getPassiveSpellPerkMultiplier
+
             # Orc and Black Orc spell: increases casualties by 10%.
             if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
             {
