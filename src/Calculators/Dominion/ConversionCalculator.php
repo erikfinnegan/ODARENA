@@ -979,7 +979,7 @@ class ConversionCalculator
             # Get the unit attributes
             $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
 
-            echo '<pre>Slot ' . $slot . ' for ' . $dominion->name . ': '; print_r(array_intersect($unconvertibleAttributes, $unitAttributes)); echo '</pre>';
+            #echo '<pre>Slot ' . $slot . ' for ' . $dominion->name . ': '; print_r(array_intersect($unconvertibleAttributes, $unitAttributes)); echo '</pre>';
 
             if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0)
             {
