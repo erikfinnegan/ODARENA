@@ -136,14 +136,14 @@ iceshield:
 birdsong:
   name: Birdsong
   scope: friendly
-  class: passive
+  class: active
   cost: 8
   duration: 24
   cooldown: 6
   exclusive_races:
     - Sylvan
   perks:
-    population_growth: 25
+    increase_morale: 1
 
 insect_swarm:
   name: Insect Swarm
@@ -448,7 +448,6 @@ voidspell:
   perks:
     immune_to_temples: 1
 
-
 voidspellmana:
   name: ||//|\||\|
   scope: self
@@ -459,7 +458,7 @@ voidspellmana:
   exclusive_races:
     - Void
   perks:
-    mana_theft: -100
+    mana_theft: -80
 
 metabolism:
   name: Metabolism

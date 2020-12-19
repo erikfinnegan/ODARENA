@@ -80,7 +80,7 @@ units:
       increases_morale: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
 
   - name: Battlemage
-    training_time: 12
+    training_time: 6
     type:
       - living
       - sentient
@@ -107,8 +107,8 @@ units:
       - intelligent
       - legendary
     cost:
-      platinum: 700
-      ore: 50
+      platinum: 620
+      ore: 40
       gem: 20
       unit2: 1
     power:

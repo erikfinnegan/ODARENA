@@ -1006,15 +1006,15 @@ class EspionageActionService
 
         if ($resource === 'platinum')
         {
-            $maxTarget *= 1+$this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'platinum_theft');
+            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'platinum_theft');
         }
 
         if ($resource === 'mana')
         {
-            $maxTarget *= 1+$this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'mana_theft');
+            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'mana_theft');
         }
 
-        $maxTarget *= 1+$this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'all_theft');
+        $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'all_theft');
 
         return min($maxTarget, $maxDominion, $maxCarried);
     }

@@ -2855,7 +2855,7 @@ class InvadeActionService
         );
 
         // Void: Spell (remove DP reduction from Temples)
-        if ($this->spellCalculator->isSpellActive($target, 'voidspell'))
+        if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'immune_to_temples'))
         {
             $dpMultiplierReduction = 0;
         }

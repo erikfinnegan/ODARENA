@@ -67,7 +67,7 @@ class ConversionCalculator
                 return ($unit->slot === $slot);
             })->first();
 
-            if($this->isSlotConvertible($slot, $defender))
+            if($this->isSlotConvertible($slot, $attacker))
             {
                 $rawOpLost += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense') * $amount;
             }
@@ -399,9 +399,10 @@ class ConversionCalculator
             $offensiveCasualties = 0;
             foreach($invasion['attacker']['unitsLost'] as $slot => $amount)
             {
-                if($this->isSlotConvertible($slot, $defender))
+                if($this->isSlotConvertible($slot, $attacker))
                 {
                     $offensiveCasualties += $amount;
+                    echo '<pre>[ATTACKER] Slot ' . $slot . ' is convertible.</pre>';
                 }
             }
 
@@ -657,7 +658,7 @@ class ConversionCalculator
                         return ($unit->slot == $slot);
                     })->first();
 
-                if($this->isSlotConvertible($slot, $defender))
+                if($this->isSlotConvertible($slot, $attacker))
                 {
                     $availableCasualties[$slot]['amount'] = $amount;
                     $availableCasualties[$slot]['op'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
@@ -888,7 +889,7 @@ class ConversionCalculator
                         return ($unit->slot == $slot);
                     })->first();
 
-                if($this->isSlotConvertible($slot, $defender))
+                if($this->isSlotConvertible($slot, $attacker))
                 {
                     $availableCasualties[$slot]['amount'] = $amount;
                     $availableCasualties[$slot]['op'] = (float)$this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense');
@@ -957,10 +958,10 @@ class ConversionCalculator
                 'magical',
                 'massive',
                 'machine',
-                #'otherworldly',
                 'ship',
               ];
         }
+
 
         $isConvertible = false;
 
@@ -977,6 +978,8 @@ class ConversionCalculator
 
             # Get the unit attributes
             $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+            echo '<pre>Slot ' . $slot . ' for ' . $dominion->name . ': '; print_r(array_intersect($unconvertibleAttributes, $unitAttributes)); echo '</pre>';
 
             if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0)
             {

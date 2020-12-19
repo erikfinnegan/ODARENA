@@ -1749,54 +1749,7 @@ class MilitaryCalculator
 
       if($power == 'offense')
       {
-          $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
-        // Spell: Bloodrage (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Divine Intervention (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'divine_intervention'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Howling (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'howling'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Coastal Cannons
-        if ($this->spellCalculator->isSpellActive($dominion, 'killing_rage'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Warsong (+10% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'warsong'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Nightfall (+5% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'nightfall'))
-        {
-          $multiplier += 0.05;
-        }
-
-        // Spell: Primordial Wrath (+100% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'primordial_wrath'))
-        {
-          $multiplier += 1.00;
-        }
-
-        // Spell: Feral Hunger (+100% OP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'feral_hunger'))
-        {
-          $multiplier += 0.10;
-        }
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
 
         // Spell: Aether (+10% OP)
         # Condition: must have equal amounts of every unit.
@@ -1824,67 +1777,31 @@ class MilitaryCalculator
       }
       elseif($power == 'defense')
       {
-        # $dominion = defender
-        # $target = attacker
+          $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power');
+          # $dominion = defender
+          # $target = attacker
 
-        // Spell: Icekin Blizzard (+5% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'blizzard'))
-        {
-          $multiplier += 0.05;
-        }
+          // Spell: Aether (+10% DP)
+          # Condition: must have equal amounts of every unit.
+          if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
+          {
+            if($dominion->military_unit1 > 0
+              and $dominion->military_unit1 == $dominion->military_unit2
+              and $dominion->military_unit2 == $dominion->military_unit3
+              and $dominion->military_unit3 == $dominion->military_unit4)
+              {
+                $multiplier += 0.10;
+              }
+          }
 
-        // Spell: Halfling Defensive Frenzy (+10% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'defensive_frenzy'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Coastal Cannons
-        if ($this->spellCalculator->isSpellActive($dominion, 'coastal_cannons'))
-        {
-          $multiplierFromCoastalCannons = $dominion->{'land_water'} / $this->landCalculator->getTotalLand($dominion);
-          $multiplier += min($multiplierFromCoastalCannons,0.20);
-        }
-
-        // Spell: Norse Fimbulwinter (+10% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
-        {
-          $multiplier += 0.10;
-        }
-
-        // Spell: Simian Rainy Season (+100% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
-        {
-          $multiplier += 1.00;
-        }
-
-        // Spell: Primordial Wrath (+50% DP)
-        if ($this->spellCalculator->isSpellActive($dominion, 'primordial_wrath'))
-        {
-          $multiplier += 0.50;
-        }
-
-        // Spell: Aether (+10% DP)
-        # Condition: must have equal amounts of every unit.
-        if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
-        {
-          if($dominion->military_unit1 > 0
-            and $dominion->military_unit1 == $dominion->military_unit2
-            and $dominion->military_unit2 == $dominion->military_unit3
-            and $dominion->military_unit3 == $dominion->military_unit4)
-            {
-              $multiplier += 0.10;
-            }
-        }
-
-        // Spell: Chiting (+15% DP if attacker has Insect Swarm)
-        if(isset($target))
-        {
-            if ($this->spellCalculator->isSpellActive($dominion, 'chitin') and $this->spellCalculator->isSpellActive($target, 'insect_swarm'))
-            {
-                $multiplier += 0.15;
-            }
-        }
+          // Spell: Chitin
+          if(isset($target))
+          {
+              if ($this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power_vs_insect_swarm') and $this->spellCalculator->isSpellActive($target, 'insect_swarm'))
+              {
+                  $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power_vs_insect_swarm');
+              }
+          }
 
       }
 
@@ -2047,7 +1964,6 @@ class MilitaryCalculator
         }
     }
 
-    # This relates to Observatory and Troll perk
     public function getExtraLandDiscovered(Dominion $attacker, Dominion $defender, bool $discoverLand, int $landConquered): int
     {
         $multiplier = 0;
@@ -2059,15 +1975,10 @@ class MilitaryCalculator
 
         if($defender->race->name === 'Barbarian')
         {
-            $landConquered = (int)round($landConquered/3);
+            $landConquered /= 3;
         }
 
-
-        // Add 25% to generated if Nomad spell Campaign is enabled.
-        if ($this->spellCalculator->isSpellActive($attacker, 'campaign'))
-        {
-            $multiplier += 0.25;
-        }
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($attacker, 'land_discovered');
 
         // Improvement: Cartography
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'cartography');
