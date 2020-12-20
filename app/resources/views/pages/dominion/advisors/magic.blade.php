@@ -19,6 +19,7 @@
                             <col>
                             <col width="100">
                             <col width="200">
+                            <col width="200">
                         </colgroup>
                         <thead>
                             <tr>
@@ -26,27 +27,34 @@
                                 <th>Effect</th>
                                 <th class="text-center">Duration</th>
                                 <th class="text-center">Cast By</th>
+                                <th class="text-center">Cast At</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($spellCalculator->getActiveSpells($selectedDominion) as $spell)
+                            @foreach ($spellCalculator->getActiveSpells($selectedDominion) as $activeSpell)
                                 @php
-                                    $spellInfo = $spellHelper->getSpellInfo($spell->spell, $selectedDominion, true, true);
+                                    $spellInfo = $spellHelper->getSpellInfo($activeSpell->spell, $selectedDominion, true, true);
                                 @endphp
                                 <tr>
-                                    <td>{{ $spellInfo['name'] }}</td>
-                                    <td>{{ $spellInfo['description'] }}</td>
-                                    <td class="text-center">{{ $spell->duration }}</td>
+                                    <td>{{ $activeSpells[$activeSpell->spell]->name }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach($spellHelper->getSpellEffectsString($activeSpells[$activeSpell->spell]) as $effect)
+                                                <li>{{ $effect }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td class="text-center">{{ $activeSpell->duration }} / {{ $activeSpells[$activeSpell->spell]->duration }}</td>
                                     <td class="text-center">
-                                        @if ($spell->cast_by_dominion_id !== null)
-                                            <a href="{{ route('dominion.realm', $spell->cast_by_dominion_realm_number) }}">{{ $spell->cast_by_dominion_name }} (#{{ $spell->cast_by_dominion_realm_number }})</a>
+                                        @if ($activeSpell->cast_by_dominion_id !== null)
+                                            <a href="{{ route('dominion.realm', $activeSpell->cast_by_dominion_realm_number) }}">{{ $activeSpell->cast_by_dominion_name }} (#{{ $activeSpell->cast_by_dominion_realm_number }})</a>
                                         @else
                                             <em>Unknown</em>
                                         @endif
                                     </td>
+                                    <td class="text-center">{{ $activeSpell->created_at }}</td>
                                 </tr>
                             @endforeach
-                            {{-- todo: self-cast magic system --}}
                         </tbody>
                     </table>
                 </div>

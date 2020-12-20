@@ -473,7 +473,7 @@ class ConversionCalculator
 
         if($mode === 'offense')
         {
-            if($this->spellCalculator->isSpellActive($attacker, 'feral_hunger'))
+            if($this->spellCalculator->getPassiveSpellPerkMultiplier($attacker, 'no_conversions'))
             {
                 return $convertedUnits;
             }
@@ -598,7 +598,7 @@ class ConversionCalculator
 
         if($mode === 'defense')
         {
-            if($this->spellCalculator->isSpellActive($defender, 'feral_hunger'))
+            if($this->spellCalculator->getPassiveSpellPerkMultiplier($defender, 'no_conversions'))
             {
                 return $convertedUnits;
             }

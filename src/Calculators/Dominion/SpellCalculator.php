@@ -140,7 +140,8 @@ class SpellCalculator
     {
         $cacheKey = $dominion->id;
 
-        if (!$forceRefresh && array_has($this->activeSpells, $cacheKey)) {
+        if (!$forceRefresh && array_has($this->activeSpells, $cacheKey))
+        {
             return collect(array_get($this->activeSpells, $cacheKey));
         }
 

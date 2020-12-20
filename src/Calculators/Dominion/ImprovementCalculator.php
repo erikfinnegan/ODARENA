@@ -221,10 +221,7 @@ class ImprovementCalculator
               $multiplier += $dominion->title->getPerkMultiplier('improvements') * $dominion->title->getPerkBonus($dominion);
             }
 
-            if($this->spellCalculator->isSpellActive($dominion, 'spiral_architecture'))
-            {
-                $multiplier += 0.25;
-            }
+            $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'improvements');
 
             return $multiplier;
         }

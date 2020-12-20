@@ -171,6 +171,11 @@ class NotificationHelper
                 'defaults' => ['email' => false, 'ingame' => true],
                 'iconClass' => 'ra ra-fairy-wand text-green',
             ],
+            'received_friendly_spell' => [
+                'label' => 'Friendly spell received',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'iconClass' => 'ra ra-fairy-wand text-green',
+            ],
 
             # Cult
             'enthralling_occurred' => [
@@ -211,28 +216,6 @@ class NotificationHelper
     public function getIrregularRealmTypes(): array
     {
         return [
-            /*
-            'realmie_performed_info_ops' => [
-                'label' => 'A realmie performed info ops',
-                'defaults' => ['email' => false, 'ingame' => true],
-            ],
-            'realmie_performed_black_ops' => [
-                'label' => 'A realmie performed black ops',
-                'defaults' => ['email' => false, 'ingame' => true],
-            ],
-            'realmie_invaded_enemy_success' => [
-                'label' => 'A realmie successfuly invaded an enemy',
-                'defaults' => ['email' => false, 'ingame' => true],
-            ],
-            'realmie_invaded_enemy_fail' => [
-                'label' => 'A realmie failed to invade an enemy',
-                'defaults' => ['email' => false, 'ingame' => true],
-            ],
-            'enemy_invaded_realmie' => [
-                'label' => 'An enemy invaded a realmie',
-                'defaults' => ['email' => false, 'ingame' => true],
-            ],
-            */
             'enemy_realm_declared_war' => [
                 'label' => 'An enemy realm declared war upon our realm',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -243,20 +226,6 @@ class NotificationHelper
                 'defaults' => ['email' => false, 'ingame' => true],
                 'iconClass' => 'ra ra-crossed-axes text-red',
             ],
-            /*
-            'wonder_attacked' => [
-                'label' => 'A wonder our realm controls was attacked',
-                'defaults' => ['email' => false, 'ingame' => true],
-            ],
-            'wonder_destroyed' => [
-                'label' => 'A wonder our realm controls was destroyed',
-                'defaults' => ['email' => false, 'ingame' => true],
-            ],
-            'realmie_death' => [
-                'label' => 'A realmie has died',
-                'defaults' => ['email' => false, 'ingame' => true],
-            ],
-            */
         ];
     }
 
@@ -711,6 +680,10 @@ class NotificationHelper
                         $resultString = "A great lightning bolt crashed into our castle, destroying {$data['damageString']}.";
                         break;
 
+                    case 'pyroclast':
+                        $resultString = "Lava rains over our lands, burning {$data['damageString']}.";
+                        break;
+
                     # Invasion Spells
                     case 'pestilence':
                         $resultString = "Our population has been afflicted by the Pestilence. Some of our people are dying.";
@@ -749,6 +722,35 @@ class NotificationHelper
                 if ($sourceDominion) {
                     return sprintf(
                         "{$resultString} Our wizards have determined that %s (#%s) was responsible!",
+                        $sourceDominion->name,
+                        $sourceDominion->realm->number
+                    );
+                }
+
+                return $resultString;
+
+            case 'irregular_dominion.received_friendly_spell':
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+
+                switch ($data['spellKey'])
+                {
+                    case 'iceshield':
+                        $resultString = 'Iceshields protect our lands from fire and lightning.';
+                        break;
+
+                    case 'birdsong':
+                        $resultString = 'Sylvan birdsong restores our morale.';
+                        break;
+
+
+                    default:
+                        throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
+                }
+
+                if ($sourceDominion)
+                {
+                    return sprintf(
+                        "Thanks to wizards from %s, {$resultString}",
                         $sourceDominion->name,
                         $sourceDominion->realm->number
                     );
@@ -799,6 +801,8 @@ class NotificationHelper
                     $targetRealm->name,
                     $targetRealm->number
                 );
+
+
 
             // todo: other irregular etc
 

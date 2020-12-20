@@ -244,6 +244,10 @@ class InvadeActionService
             {
                 throw new GameException('You cannot invade during the Rainy Season.');
             }
+            if ($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'cannot_invade'))
+            {
+                throw new GameException('A spell is preventing from you invading.');
+            }
 
             // Check building_limit
             foreach($units as $unitSlot => $amount)
@@ -276,19 +280,19 @@ class InvadeActionService
             }
 
             // Dimensionalists: must have Portals open.
-            if($dominion->race->name == 'Dimensionalists' and !$this->spellCalculator->isSpellActive($dominion, 'portal'))
+            if($dominion->race->name == 'Dimensionalists' and !$this->spellCalculator->getPassiveSpellPerkValue($dominion, 'portal'))
             {
                 throw new GameException('You cannot attack unless a portal is open.');
             }
 
             // Qur: Statis cannot be invaded.
-            if($this->spellCalculator->isSpellActive($target, 'stasis'))
+            if($this->spellCalculator->getPassiveSpellPerkValue($target, 'stasis'))
             {
                 throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your units to invade.');
             }
 
             // Qur: Statis cannot invade.
-            if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+            if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
             {
                 throw new GameException('You cannot invade while you are in stasis.');
             }
@@ -438,7 +442,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -648,17 +652,7 @@ class InvadeActionService
         $targetDP = $this->invasionResult['defender']['dp'];
         $offensiveCasualtiesPercentage = (static::CASUALTIES_OFFENSIVE_BASE_PERCENTAGE / 100);
 
-        # Merfolk: Charybdis' Gape - increase offensive casualties by 50% if target has this spell on.
-        if ($this->spellCalculator->isSpellActive($target, 'maelstrom'))
-        {
-            $offensiveCasualtiesPercentage *= 1.50;
-        }
-
-        # Demon: Infernal Fury - increase offensive casualties by 20% if target has this spell on.
-        if ($this->spellCalculator->isSpellActive($target, 'infernal_fury'))
-        {
-            $offensiveCasualtiesPercentage *= 1.20;
-        }
+        $offensiveCasualtiesPercentage *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'increases_casualties_on_defense');
 
         # Dark Elf: Enchanted Blades - increase offensive casualties by offensive WPA * 0.05.
         if ($this->spellCalculator->isSpellActive($target, 'enchanted_blades'))
@@ -825,10 +819,7 @@ class InvadeActionService
         // Demon: racial spell Infernal Fury increases defensive casualties by 20%.
         $casualtiesMultiplier = 1;
 
-        if ($this->spellCalculator->isSpellActive($dominion, 'infernal_fury') and $landRatio > 75 and $this->invasionResult['result']['success'])
-        {
-            $casualtiesMultiplier += 0.2;
-        }
+        $casualtiesMultiplier *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'increases_casualties_on_offense');;
 
         # Dark Elf: Enchanted Blades - increase offensive casualties by offensive WPA * 0.05.
         if ($this->spellCalculator->isSpellActive($dominion, 'enchanted_blades'))
@@ -838,11 +829,8 @@ class InvadeActionService
 
         $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
 
-        // Afflicted: Desecration - Triples draftee casualties (capped by target's number of draftees)
-        if ($this->spellCalculator->isSpellActive($dominion, 'desecration'))
-        {
-            $drafteesLost = min($target->military_draftees, $drafteesLost * 3);
-        }
+        // Spell
+        $drafteesLost = min($target->military_draftees, $drafteesLost * (1 + $spellCalculator->getPassiveSpellPerkValue($dominion, 'increases_enemy_draftee_casualties')));
 
         if ($drafteesLost > 0)
         {
@@ -969,7 +957,7 @@ class InvadeActionService
 
                 # What are the buildings made out of?
                 $constructionMaterials = $this->raceHelper->getConstructionMaterials($target->race);
-                if (isset($constructionMaterials[1]) and $constructionMaterials[1] === 'lumber' and $this->spellCalculator->isSpellActive($dominion, 'furnace_maws'))
+                if (isset($constructionMaterials[1]) and $constructionMaterials[1] === 'lumber' and $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'burns_extra_buildings'))
                 {
                     # Ensure Dragons account for at least 85% of the raw OP sent.
                     if(isset($units[4]))
@@ -1554,10 +1542,7 @@ class InvadeActionService
 
               $returnTicks = $this->getUnitReturnHoursForSlot($dominion, $slot);
 
-              if($this->spellCalculator->isSpellActive($dominion, 'winds_of_fortune'))
-              {
-                  $returnTicks -= 2;
-              }
+              $returnTicks -= $this->SpellCalculator->getPassiveSpellPerkValue($dominion, 'faster_return');
 
               # Check for faster_return_if_paired
               if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
@@ -2244,7 +2229,7 @@ class InvadeActionService
         ];
 
         # Eat defensive casualties
-        if ($this->spellCalculator->isSpellActive($attacker, 'metabolism'))
+        if ($this->spellCalculator->getPassiveSpellPerkValue($attacker, 'convert_enemy_casualties_to_food'))
         {
                 $dpFromEatenUnits = 0;
                 $unitsEaten = array_fill(1, 4, 0);
@@ -2274,7 +2259,7 @@ class InvadeActionService
 
                 $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsEaten, 0, false, $this->isAmbush, true);
 
-                $food += $dpFromEatenUnits * 4 * 2;
+                $food += $dpFromEatenUnits * 8;
 
                 $this->invasionResult['attacker']['metabolism']['unitsEaten'] = $unitsEaten;
                 $this->invasionResult['attacker']['metabolism']['dpFromUnitsEaten'] = $dpFromEatenUnits;
@@ -2289,7 +2274,7 @@ class InvadeActionService
                 );
           }
           # Eat offensive casualties
-          elseif ($this->spellCalculator->isSpellActive($defender, 'metabolism'))
+          elseif ($this->spellCalculator->getPassiveSpellPerkValue($defender, 'convert_enemy_casualties_to_food'))
           {
               $unitsKilled = array_fill(1, 4, 0);
 
@@ -2311,7 +2296,7 @@ class InvadeActionService
 
               $opFromKilledEaten = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsEaten, 0, false, $this->isAmbush, true);
 
-              $food += $opFromKilledEaten * 4;
+              $food += $opFromKilledEaten * 8;
 
               $this->invasionResult['attacker']['metabolism']['unitsEaten'] = $unitsEaten;
               $this->invasionResult['attacker']['metabolism']['opFromUnitsEaten'] = $opFromKilledEaten;
@@ -2512,7 +2497,7 @@ class InvadeActionService
     {
         # Check for Ambush
         $this->isAmbush = false;
-        if ($this->spellCalculator->isSpellActive($attacker, 'ambush'))
+        if ($this->spellCalculator->getPassiveSpellPerkValue($attacker, 'reduces_target_raw_defense_from_land'))
         {
             $this->isAmbush = true;
         }

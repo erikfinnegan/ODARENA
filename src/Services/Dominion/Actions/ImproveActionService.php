@@ -36,7 +36,7 @@ class ImproveActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
         {
             throw new GameException('You cannot invest in improvements while you are in stasis.');
         }

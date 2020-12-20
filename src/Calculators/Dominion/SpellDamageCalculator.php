@@ -4,7 +4,7 @@ namespace OpenDominion\Calculators\Dominion;
 
 use DB;
 use OpenDominion\Models\Dominion;
-#use OpenDominion\Models\Race;
+use OpenDominion\Models\Spell;
 
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -46,7 +46,7 @@ class SpellDamageCalculator
         return max(0, $multiplier);
     }
 
-    public function getDominionHarmfulSpellDamageModifier(Dominion $target, ?Dominion $caster, ?string $spell, ?string $attribute)
+    public function getDominionHarmfulSpellDamageModifier(Dominion $target, ?Dominion $caster, ?Spell $spell, ?string $attribute)
     {
 
           $modifier = 1;
@@ -55,22 +55,20 @@ class SpellDamageCalculator
           $modifier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
 
           // Damage reduction from Aura
-          if($this->spellCalculator->isSpellActive($target, 'aura'))
-          {
-              $modifier -= 0.20;
-          }
+
+          $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_spells');
 
           if(isset($spell))
           {
               ## Insect Swarm
-              if($spell == 'insect_swarm')
+              if($spell->name == 'insect_swarm')
               {
                   # General Insect Swarm damage modification.
                   $modifier += $target->race->getPerkMultiplier('damage_from_insect_swarm');
               }
 
               ## Fireballs: peasants and food
-              if($spell == 'fireball')
+              if($spell->name == 'fireball')
               {
                   # General fireball damage modification.
                   if($target->race->getPerkMultiplier('damage_from_fireballs'))
@@ -86,7 +84,7 @@ class SpellDamageCalculator
               }
 
               ## Lightning Bolts: improvements
-              if($spell == 'lightning_bolt')
+              if($spell->name == 'lightning_bolt')
               {
                 # General fireball damage modification.
                 if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
@@ -98,7 +96,7 @@ class SpellDamageCalculator
               }
 
               ## Disband Spies: spies
-              if($spell == 'disband_spies')
+              if($spell->name == 'disband_spies')
               {
                   if ($target->race->getPerkValue('immortal_spies'))
                   {
@@ -107,7 +105,7 @@ class SpellDamageCalculator
               }
 
               ## Purification: only effective against Afflicted.
-              if($spell == 'purification')
+              if($spell->name == 'purification')
               {
                   if($target->race->name !== 'Afflicted')
                   {
@@ -116,7 +114,7 @@ class SpellDamageCalculator
               }
 
               ## Solar Flare: only effective against Nox.
-              if($spell == 'solar_flare')
+              if($spell->name == 'solar_flare')
               {
                   if($target->race->name !== 'Nox')
                   {

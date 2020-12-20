@@ -506,8 +506,6 @@ class TrainingCalculator
                 }
             }
 
-
-
         }
 
         // Title
@@ -532,11 +530,8 @@ class TrainingCalculator
         # Cap reduction at -50%
         $multiplier = max(-0.50, $multiplier);
 
-        # Human: Call to Arms, allow for total reduction of 60%
-        if ($this->spellCalculator->isSpellActive($dominion, 'call_to_arms'))
-        {
-            $multiplier -= 0.10;
-        }
+        # Spells can take reduction below 50%!
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'training_costs');
 
         return (1 + $multiplier);
     }

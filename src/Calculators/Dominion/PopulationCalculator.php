@@ -211,7 +211,7 @@ class PopulationCalculator
         $multiplier += $dominion->race->getPerkMultiplier('max_population');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('max_population');
+        #$multiplier += $dominion->getTechPerkMultiplier('max_population');
 
         // Improvement: Keep
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'keep');
@@ -231,7 +231,7 @@ class PopulationCalculator
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
-        return (1 + $multiplier) * (1 + $prestigeMultiplier);
+        return (1 + $multiplier) * (1 + $dominion->getTechPerkMultiplier('max_population')) * (1 + $prestigeMultiplier);
     }
 
     /**
@@ -572,11 +572,6 @@ class PopulationCalculator
                 $draftees += round($dominion->building_gryphon_nest * 0.2);
             }
 
-            if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
-            {
-                $draftees *= 4;
-            }
-
             $draftees = min($draftees, $dominion->peasants);
         }
         else
@@ -586,10 +581,7 @@ class PopulationCalculator
             $growthFactor = 0.01;
 
             // Racial Spell: Swarming (Ants)
-            if ($this->spellCalculator->isSpellActive($dominion, 'swarming'))
-            {
-                $growthFactor *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'drafting');
-            }
+            $growthFactor *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'drafting');
 
             // Advancement: Conscription
             $growthFactor *= 1 + $dominion->getTechPerkMultiplier('drafting');

@@ -139,23 +139,8 @@ class CasualtiesCalculator
             $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'offense');
             $multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'offense');
 
-            #$multilier += getPassiveSpellPerkMultiplier
+            $multilier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'casualties');
 
-            # Orc and Black Orc spell: increases casualties by 10%.
-            if ($this->spellCalculator->isSpellActive($dominion, 'bloodrage'))
-            {
-              $multiplier += 0.10;
-            }
-            # Norse spell: increases casualties by 15%.
-            if ($this->spellCalculator->isSpellActive($dominion, 'fimbulwinter'))
-            {
-              $multiplier += 0.20;
-            }
-            # Troll and Lizardfolk spell: decreases casualties by 25%.
-            if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
-            {
-              $multiplier -= 0.25;
-            }
             # Invasion Spell: Unhealing Wounds
             if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
             {
@@ -280,19 +265,13 @@ class CasualtiesCalculator
 
         if ($multiplier != 0)
         {
-            // Non-unit bonuses (hero, tech, wonders), capped at -80%
-            #$multiplier = $multiplier; -- Removed to not cause issues with $multiplier set by only_dies_vs_raw_power perk.
-
             // Spells
-            # Troll and Lizardfolk spell: decreases casualties by 25%.
-            if ($this->spellCalculator->isSpellActive($dominion, 'regeneration'))
-            {
-              $multiplier -= 0.25;
-            }
+            $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'casualties');
+
             # Invasion Spell: Unhealing Wounds
             if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
             {
-              $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'unhealing_wounds', null);
+                $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'unhealing_wounds', null);
             }
 
             # Land-based reductions

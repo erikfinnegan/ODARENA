@@ -44,7 +44,7 @@ perks:
   improvements_max: 35
 units:
   - name: Assassin
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -64,7 +64,7 @@ units:
       no_draftee: 1
 
   - name: Immortal Guard
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -100,20 +100,20 @@ units:
       no_draftee: 1
 
   - name: Immortal Knight
-    training_time: 12
+    training_time: 9
     type:
       - living
       - sentient
       - intelligent
       - legendary
     cost:
-      platinum: 620
-      ore: 40
+      platinum: 700
+      ore: 50
       gem: 20
       unit2: 1
     power:
       offense: 9
-      defense: 4
+      defense: 5
     perks:
       increases_morale: 2 # Morale increased by 2% for every 1% of population made up of Immortal Guards.
       increases_prestige_gains: 0.50

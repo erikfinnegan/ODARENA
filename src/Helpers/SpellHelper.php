@@ -11,7 +11,23 @@ use OpenDominion\Models\Dominion;
 
 class SpellHelper
 {
+/*
+    public function getSpellInfo(string $spellKey): array
+    {
+        $spell = Spell::where('key', $spellKey)->first();
 
+        $spellInfo = [
+            'name' => $spell->name,
+            'scope' => $spell->scope,
+            'class' => $spell->class,
+            'cost' => $spell->cost,
+            'duration' => $spell->duration,
+            'cooldown' => $spell->cooldown
+        ];
+
+        return $spellInfo;
+    }
+*/
     public function getSpellInfo(string $spellKey, Dominion $dominion, bool $isInvasionSpell = false, bool $isViewOnly = false): array
     {
         return $this->getSpells($dominion, $isInvasionSpell, $isViewOnly)->filter(function ($spell) use ($spellKey) {
@@ -867,6 +883,10 @@ class SpellHelper
 
             'faster_return' => 'Units return %s ticks faster from invasions',
 
+            'increase_morale' => 'Restores target morale by %s%% (up to maximum of 100%%).',
+
+            'kills_draftees' => 'Kills %1$s%% of the target\'s draftees.',
+
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',
 
@@ -877,7 +897,7 @@ class SpellHelper
             // Resources
             'destroys_resource' => 'Destroys %2$s%% of the target\'s %1$s.',
 
-            'resource_conversion' => 'Converts %3$s%% of your %1$s to %2$s.',
+            'resource_conversion' => 'Converts %3$s%% of your %1$s to %2$s at a rate of %4$s:1.',
 
             // Magic
             'damage_from_spells' => '%s%% damage from spells',
@@ -891,14 +911,18 @@ class SpellHelper
             'spy_strength' => '%s%% spy strength',
             'immortal_spies' => 'Spies become immortal',
 
-
             'platinum_theft' => '%s%% platinum lost to theft.',
+            'mana_theft' => '%s%% mana lost to theft.',
+            'lumber_theft' => '%s%% lumber lost to theft.',
+            'ore_theft' => '%s%% ore lost to theft.',
+            'gems_theft' => '%s%% gems lost to theft.',
             'all_theft' => '%s%% resources lost to theft',
 
             // Conversions
             'conversions' => '%s%% conversions',
             'converts_crypt_bodies' => 'Every %1$s %2$s creates %3$s %4$s.',
             'convert_enemy_casualties_to_food' => 'Enemy casualties converted to food.',
+            'no_conversions' => 'No enemy units are converted.',
 
             // Casualties
             'increases_enemy_draftee_casualties' => '%s%% enemy draftee casualties',
@@ -912,6 +936,8 @@ class SpellHelper
             // OP/DP
             'offensive_power' => '%s%% offensive power',
             'defensive_power' => '%s%% defensive power',
+
+            'offensive_power_on_retaliation' => '%s%% offensive power if target recently invaded your realm',
 
             'defensive_power_vs_insect_swarm' => '%s%% offensive power if attacker has Insect Swarm',
 

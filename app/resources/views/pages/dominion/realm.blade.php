@@ -100,7 +100,7 @@
                                                 <b>{{ $dominion->name }}</b>
                                                 </span>
                                             @else
-                                                <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }} @if($dominion->race->name === 'Barbarian') {{ '<br>NPC modifier: ' . $dominion->npc_modifier/1000 . '<br>Times invaded: ' . $dominion->stat_defending_failures }} @endif ">
+                                                <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }} @if($dominion->realm->id === $selectedDominion->realm->id) {{ '<br>Morale: ' . $dominion->morale . '%' }} @endif @if($dominion->race->name === 'Barbarian') {{ '<br>NPC modifier: ' . $dominion->npc_modifier/1000 . '<br>Times invaded: ' . $dominion->stat_defending_failures }} @endif ">
                                                 @if ($isOwnRealm)
                                                     {{ $dominion->name }}
                                                 @else

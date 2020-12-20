@@ -25,16 +25,15 @@ class MagicController extends AbstractDominionController
     public function getMagic()
     {
 
-        $friendlyAuras = Spell::all()->where('scope','friendly')->where('class','passive')->sortBy('key');
-        $hostileAuras = Spell::all()->where('scope','hostile')->where('class','passive')->sortBy('key');
-        $selfAuras = Spell::all()->where('scope','self')->where('class','passive')->sortBy('key');
+        $friendlyAuras = Spell::all()->where('scope','friendly')->where('class','passive')->where('enabled',1)->sortBy('key');
+        $hostileAuras = Spell::all()->where('scope','hostile')->where('class','passive')->where('enabled',1)->sortBy('key');
+        $selfAuras = Spell::all()->where('scope','self')->where('class','passive')->where('enabled',1)->sortBy('key');
 
-        $friendlyImpacts = Spell::all()->where('scope','friendly')->where('class','active')->sortBy('key');
-        $hostileImpacts = Spell::all()->where('scope','hostile')->where('class','active')->sortBy('key');
-        $selfImpacts = Spell::all()->where('scope','self')->where('class','active')->sortBy('key');
+        $friendlyImpacts = Spell::all()->where('scope','friendly')->where('class','active')->where('enabled',1)->sortBy('key');
+        $hostileImpacts = Spell::all()->where('scope','hostile')->where('class','active')->where('enabled',1)->sortBy('key');
+        $selfImpacts = Spell::all()->where('scope','self')->where('class','active')->where('enabled',1)->sortBy('key');
 
-
-        $hostileInfos = Spell::all()->where('scope','hostile')->where('class','info')->sortBy('key');
+        $hostileInfos = Spell::all()->where('scope','hostile')->where('class','info')->where('enabled',1)->sortBy('key');
 
         return view('pages.dominion.magic', [
             'landCalculator' => app(LandCalculator::class),
@@ -60,11 +59,24 @@ class MagicController extends AbstractDominionController
         $dominion = $this->getSelectedDominion();
         $spellActionService = app(SpellActionService::class);
 
+        $spell = Spell::where('key', $request->get('spell'))->first();
+
+        $target = null;
+
+        if($spell->scope == 'hostile' and $request->has('target_dominion'))
+        {
+            $target = Dominion::findOrFail($request->get('target_dominion'));
+        }
+        elseif($spell->scope == 'friendly' and $request->has('friendly_dominion'))
+        {
+            $target = Dominion::findOrFail($request->get('friendly_dominion'));
+        }
+
         try {
             $result = $spellActionService->castSpell(
                 $dominion,
-                $request->get('spell'),
-                ($request->has('target_dominion') ? Dominion::findOrFail($request->get('target_dominion')) : null)
+                $spell->key,
+                $target
             );
 
         } catch (GameException $e) {

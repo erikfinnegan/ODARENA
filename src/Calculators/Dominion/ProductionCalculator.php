@@ -1039,12 +1039,6 @@ class ProductionCalculator
 
             $wildYetis += intval($dominion->building_gryphon_nest * $wildYetisPerGryphonNest);
 
-            // Yeti: Spell (triples wild yeti production)
-            if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
-            {
-              $wildYetis = $wildYetis * 4;
-            }
-
             return max(0,$wildYetis);
         }
 

@@ -154,11 +154,11 @@ class EspionageActionService
         $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
         // Qur: Statis
-        if($this->spellCalculator->isSpellActive($target, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($target, 'stasis'))
         {
             throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for spies to sneak in.');
         }
-        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
         {
             throw new GameException('You cannot spy while you are in stasis.');
         }
@@ -336,7 +336,7 @@ class EspionageActionService
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
                 # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->isSpellActive($dominion, 'shroud'))
+                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'immortal_spies'))
                 {
                     $spiesKilled = 0;
                 }
@@ -657,7 +657,7 @@ class EspionageActionService
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
                 # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->isSpellActive($dominion, 'shroud'))
+                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'immortal_spies'))
                 {
                     $spiesKilled = 0;
                 }
@@ -1014,6 +1014,21 @@ class EspionageActionService
             $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'mana_theft');
         }
 
+        if ($resource === 'lumber')
+        {
+            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'llumber_theft');
+        }
+
+        if ($resource === 'ore')
+        {
+            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'ore_theft');
+        }
+
+        if ($resource === 'gems')
+        {
+            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'gems_theft');
+        }
+
         $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'all_theft');
 
         return min($maxTarget, $maxDominion, $maxCarried);
@@ -1066,7 +1081,7 @@ class EspionageActionService
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
                 # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->isSpellActive($dominion, 'shroud'))
+                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'immortal_spies'))
                 {
                     $spiesKilled = 0;
                 }

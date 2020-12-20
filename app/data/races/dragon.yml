@@ -71,7 +71,7 @@ units:
       - massive
     need_boat: false
     cost:
-      gem: 50000
+      gem: 45000
     power:
       offense: 1000
       defense: 1000

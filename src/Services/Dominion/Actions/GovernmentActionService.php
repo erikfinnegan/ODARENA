@@ -55,7 +55,7 @@ class GovernmentActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
         {
             throw new GameException('You cannot take government actions while you are in stasis.');
         }
@@ -85,7 +85,7 @@ class GovernmentActionService
         }
 
         // Qur: Statis
-        if($this->spellCalculator->isSpellActive($monarch, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($monarch, 'stasis'))
         {
             throw new GameException($monarch->name . ' is in stasis and cannot be voted for Governor.');
         }
@@ -108,7 +108,7 @@ class GovernmentActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
         {
             throw new GameException('You cannot take government actions while you are in stasis.');
         }
@@ -184,7 +184,7 @@ class GovernmentActionService
     {
 
         // Qur: Statis
-        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
         {
             throw new GameException('You cannot take government actions while you are in stasis.');
         }
@@ -253,7 +253,7 @@ class GovernmentActionService
     {
 
         // Qur: Statis
-        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
         {
             throw new GameException('You cannot take government actions while you are in stasis.');
         }

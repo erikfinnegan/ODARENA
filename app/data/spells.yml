@@ -114,11 +114,11 @@ transmogrify:
   name: Transmogrify
   scope: self
   class: active
-  cost: 8
+  cost: 10
   duration: 0
   cooldown: 6
   perks:
-    resource_conversion: ore,gems,25 # from, to, percentage
+    resource_conversion: ore,gems,25,4 # from, to, percentage
 
 iceshield:
   name: Iceshield
@@ -137,9 +137,8 @@ birdsong:
   name: Birdsong
   scope: friendly
   class: active
-  cost: 8
-  duration: 24
-  cooldown: 6
+  cost: 4
+  duration: 0
   exclusive_races:
     - Sylvan
   perks:
@@ -335,6 +334,19 @@ howling:
   perks:
     offensive_power: 10
 
+retribution:
+  name: Retribution
+  scope: self
+  class: passive
+  cost: 8
+  duration: 48
+  cooldown: 0
+  exclusive_races:
+    - Jagunii
+    - Kerranad
+  perks:
+    offensive_power_on_retaliation: 20
+
 warsong:
   name: Warsong
   scope: self
@@ -407,7 +419,7 @@ feral_hunger:
   exclusive_races:
     - Weres
   perks:
-    conversions: -100
+    no_conversions: 1
     offensive_power: 10
 
 miners_sight:
@@ -437,7 +449,7 @@ alchemist_flame:
     alchemy_production: 30
 
 voidspell:
-  name: |_|-|/
+  name: ⫷⋗⫸◬
   scope: self
   class: passive
   cost: 2
@@ -449,7 +461,7 @@ voidspell:
     immune_to_temples: 1
 
 voidspellmana:
-  name: ||//|\||\|
+  name: ◭⫸⋖⋗
   scope: self
   class: passive
   cost: 2
@@ -532,7 +544,7 @@ desecration:
   exclusive_races:
     - Afflicted
   perks:
-    increases_enemy_draftee_casualties: 300
+    increases_enemy_draftee_casualties: 200
 
 infernal_fury:
   name: Infernal Fury
@@ -544,7 +556,8 @@ infernal_fury:
   exclusive_races:
     - Demon
   perks:
-    increases_casualties_on_offense: 20
+    increases_casualties_on_offense: 25
+    increases_casualties_on_defense: 25
 
 aurora:
   name: Aurora
@@ -631,20 +644,21 @@ aether:
   scope: self
   class: passive
   cost: 12
-  duration: 96
-  cooldown: 168
+  duration: 48
+  cooldown: 0
   exclusive_races:
     - Elementals
   perks:
     offensive_power: 10
+    defensive_power: 10
 
 spawning_pool:
   name: Spawning Pool
   scope: self
   class: passive
   cost: 12
-  duration: 96
-  cooldown: 168
+  duration: 24
+  cooldown: 0
   exclusive_races:
     - Marshling
   perks:

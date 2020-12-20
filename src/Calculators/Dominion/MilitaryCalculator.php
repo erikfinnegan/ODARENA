@@ -1381,10 +1381,7 @@ class MilitaryCalculator
         }
 
         // Shroud
-        if($this->spellCalculator->isSpellActive($dominion, 'shroud') and $type == 'offense')
-        {
-            $spies *= 2;
-        }
+        $spies *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'spy_strength');
 
         return ($spies / $this->landCalculator->getTotalLand($dominion));
     }
@@ -1726,14 +1723,10 @@ class MilitaryCalculator
      */
     public function getGryphonNestMultiplier(Dominion $dominion): float
     {
-      if ($this->spellCalculator->isSpellActive($dominion, 'gryphons_call'))
-      {
-          return 0;
-      }
-      $multiplier = 0;
-      $multiplier = ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)) * 2;
+        $multiplier = 0;
+        $multiplier = ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)) * 1.85;
 
-      return min($multiplier, 0.40);
+        return min($multiplier, 0.37);
     }
 
     /**
@@ -1749,50 +1742,19 @@ class MilitaryCalculator
 
       if($power == 'offense')
       {
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
+          $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
 
-        // Spell: Aether (+10% OP)
-        # Condition: must have equal amounts of every unit.
-        if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
-        {
-          if($dominion->military_unit1 > 0
-            and $dominion->military_unit1 == $dominion->military_unit2
-            and $dominion->military_unit2 == $dominion->military_unit3
-            and $dominion->military_unit3 == $dominion->military_unit4)
-            {
-              $multiplier += 0.10;
-            }
-        }
-
-        // Spell: Retribution (+20% OP)
-        # Condition: target must have invaded $dominion's realm in the last six hours.
-        if ($this->spellCalculator->isSpellActive($dominion, 'retribution'))
-        {
-            if($this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
-            {
-                $multiplier += 0.20;
-            }
-        }
+          // Spell: Retribution (+20% OP)
+          # Condition: target must have invaded $dominion's realm in the last six hours.
+          if ($this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power_on_retaliation') and $this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
+          {
+              $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power_on_retaliation');
+          }
 
       }
       elseif($power == 'defense')
       {
           $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power');
-          # $dominion = defender
-          # $target = attacker
-
-          // Spell: Aether (+10% DP)
-          # Condition: must have equal amounts of every unit.
-          if ($this->spellCalculator->isSpellActive($dominion, 'aether'))
-          {
-            if($dominion->military_unit1 > 0
-              and $dominion->military_unit1 == $dominion->military_unit2
-              and $dominion->military_unit2 == $dominion->military_unit3
-              and $dominion->military_unit3 == $dominion->military_unit4)
-              {
-                $multiplier += 0.10;
-              }
-          }
 
           // Spell: Chitin
           if(isset($target))
@@ -1818,14 +1780,14 @@ class MilitaryCalculator
     public function getGuardTowerMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
-        $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion)) * 2;
+        $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion)) * 1.85;
 
-        return min($multiplier, 0.40);
+        return min($multiplier, 0.37);
     }
 
 
     /**
-     * Gets the dominion's bonus from Guard Towers.
+     * Gets the dominion's bonus from League.
      *
      * @param Dominion $dominion
      * @return float
@@ -1844,15 +1806,6 @@ class MilitaryCalculator
                 }
             }
         }
-        /*
-        elseif($type == 'defense')
-        {
-            if($this->guardMembershipService->isRoyalGuardMember($attacker))
-            {
-                $multiplier += 0.05;
-            }
-        }
-        */
 
         return $multiplier;
     }

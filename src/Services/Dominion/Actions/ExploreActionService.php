@@ -96,7 +96,7 @@ class ExploreActionService
         }
 
         // Qur: Statis
-        if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
         {
             throw new GameException('You cannot explore while you are in stasis.');
         }
@@ -140,6 +140,11 @@ class ExploreActionService
         if ($this->spellCalculator->isSpellActive($dominion, 'rainy_season'))
         {
             throw new GameException('You cannot explore during Rainy Season.');
+        }
+
+        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'cannot_explore'))
+        {
+              throw new GameException('A spell is preventing you from exploring.');
         }
 
         if ($dominion->morale <= static::MIN_MORALE)

@@ -134,7 +134,7 @@ class TickService
                     $this->logDominionTickState($dominion, now());
                 }
 
-                if($this->spellCalculator->isSpellActive($dominion, 'stasis'))
+                if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
                 {
                     echo $dominion->name . " is in statis.\n";
                     $stasisDominions[] = $dominion->id;
@@ -890,7 +890,7 @@ class TickService
                   $generatedLand = max($generatedLand, 0);
 
                   # Defensive Warts turn off land generation
-                  if($this->spellCalculator->isSpellActive($dominion, 'defensive_warts'))
+                  if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stop_land_generation'))
                   {
                       $generatedLand = 0;
                   }
@@ -1057,38 +1057,6 @@ class TickService
               # Prepare the bodies for removal.
               $tick->crypt_bodies_spent = $bodiesSpent;
           }
-
-          /*  Version 1 (round 30):
-          if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
-          {
-              # What portion of the Crypt bodies is available to this dominion?
-              $cryptProportion = $this->realmCalculator->getCryptBodiesProportion($dominion);
-
-              # Determine how many bodies are available to this dominion.
-              $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
-
-              $unit4PerUnit1 = 10; # How many Wraiths does it take to create a Skeleton
-              $unit3PerUnit2 = 10; # How many Reverends does it take to create a Ghoul
-
-              # Of the available bodies, how many become Skeletons (unit1) and how many become Ghouls (unit2)?
-              $unit1Ratio = $dominion->military_unit4 / ($dominion->military_unit3 + $dominion->military_unit4);
-              $unit2Ratio = 1 - $unit1Ratio;
-
-              # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
-              $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable * $unit1Ratio));
-              $unit2Created = intval(min($dominion->military_unit3 / $unit3PerUnit2, $bodiesAvailable * $unit2Ratio));
-
-              # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
-              $bodiesSpent = min($dominion->realm->crypt, intval($unit1Created + $unit2Created));
-
-              # Prepare the units for queue.
-              $tick->generated_unit1 += $unit1Created;
-              $tick->generated_unit2 += $unit2Created;
-
-              # Prepare the bodies for removal.
-              $tick->crypt_bodies_spent = $bodiesSpent;
-          }
-          */
 
           # Use decimals as probability to round up
           $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);

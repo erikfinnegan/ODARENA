@@ -20,6 +20,7 @@ use OpenDominion\Helpers\HistoryHelper;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
+use OpenDominion\Models\Spell;
 
 class AdvisorsController extends AbstractDominionController
 {
@@ -70,9 +71,21 @@ class AdvisorsController extends AbstractDominionController
 
     public function getAdvisorsMagic()
     {
+        $spellHelper = app(SpellHelper::class);
+        $spellCalculator = app(SpellCalculator::class);
+        $activeSpells = $spellCalculator->getActiveSpells($this->getSelectedDominion());
+
+        foreach($activeSpells as $spell)
+        {
+            $activeSpellKeys[] = $spell->spell;
+        }
+
+        $activeSpells = Spell::all()->whereIn('key',$activeSpellKeys)->keyBy('key');
+
         return view('pages.dominion.advisors.magic', [
-            'spellCalculator' => app(SpellCalculator::class),
-            'spellHelper' => app(SpellHelper::class),
+            'spellCalculator' => $spellCalculator,
+            'spellHelper' => $spellHelper,
+            'activeSpells' => $activeSpells,
         ]);
     }
 
