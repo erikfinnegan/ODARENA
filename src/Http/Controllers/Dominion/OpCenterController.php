@@ -39,23 +39,13 @@ class OpCenterController extends AbstractDominionController
             ->get()
             ->groupBy('target_dominion_id');
 
-        $clairvoyances = $dominion->realm->infoOps()
-            ->with('sourceDominion')
-            ->with('targetDominion')
-            ->with('targetRealm')
-            ->where('type', '=', 'clairvoyance')
-            ->where('latest', '=', true)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
         return view('pages.dominion.op-center.index', [
             'infoOpService' => app(InfoOpService::class),
             'rangeCalculator' => app(RangeCalculator::class),
             'spellHelper' => app(SpellHelper::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
-            'latestInfoOps' => $latestInfoOps,
-            'clairvoyances' => $clairvoyances
+            'latestInfoOps' => $latestInfoOps
         ]);
     }
 

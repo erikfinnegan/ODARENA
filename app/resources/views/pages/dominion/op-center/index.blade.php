@@ -98,57 +98,6 @@
                     </table>
                 </div>
             </div>
-
-            {{--
-            <div class="box box-primary">
-                <div class="box-header">
-                    <h3 class="box-title">Clairvoyance Realms</h3>
-                </div>
-                <div class="box-body table-responsive">
-                    <table class="table table-hover" id="clairvoyance-table">
-                        <colgroup>
-                            <col>
-                            <col>
-                            <col width="200">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>Realm</th>
-                                <th>Target</th>
-                                <th class="text-center">Taken</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($clairvoyances as $clairvoyance)
-                                <tr>
-                                    <td data-order="{{ $clairvoyance->targetRealm->number }}">
-                                        <a href="{{ route('dominion.op-center.clairvoyance', $clairvoyance->targetRealm->number) }}">{{ $clairvoyance->targetRealm->name }} (#{{ $clairvoyance->targetRealm->number }})</a>
-                                    </td>
-                                    <td data-order="{{ $clairvoyance->targetDominion->name }}">
-                                        <a href="{{ route('dominion.op-center.show', $clairvoyance->targetDominion->id) }}">{{ $clairvoyance->targetDominion->name }}</a>
-                                    </td>
-                                    <td class="text-center" data-search="" data-order="{{ $clairvoyance->created_at->getTimestamp() }}">
-                                        Clairvoyance by
-                                        @if ($clairvoyance->sourceDominion->id === $selectedDominion->id)
-                                            <strong>
-                                                {{ $selectedDominion->name }}
-                                            </strong>
-                                        @else
-                                            {{ $clairvoyance->sourceDominion->name }}
-                                        @endif
-                                        <br>
-                                        <span class="small">
-                                            {{ $clairvoyance->created_at->diffForHumans() }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            --}}
-
         </div>
 
         <div class="col-sm-12 col-md-3">

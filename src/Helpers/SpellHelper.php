@@ -874,6 +874,8 @@ class SpellHelper
 
             'food_production_raw' => '%s%% raw food production',
 
+            'food_production_docks' => '%s%% food production from Docks',
+
             // Military
             'drafting' => '+%s%% drafting',
             'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
@@ -888,6 +890,7 @@ class SpellHelper
             'kills_draftees' => 'Kills %1$s%% of the target\'s draftees.',
 
             'cannot_send_boats' => 'Cannot send boats.',
+            'boats_sunk' => '%s%% boats lost to sinking.',
 
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',

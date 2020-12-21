@@ -43,28 +43,19 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label>Information Gathering Operations</label>
+                                    <label>Information Operations</label>
                                 </div>
                             </div>
 
-                            @foreach ($espionageHelper->getInfoGatheringOperations()->chunk(4) as $operations)
-                                <div class="row">
-                                    @foreach ($operations as $operation)
-                                        <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
-                                            <div class="form-group">
-                                                <button type="submit" name="operation" value="{{ $operation['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$espionageCalculator->canPerform($selectedDominion, $operation['key']) ? 'disabled' : null }}>
-                                                    {{ $operation['name'] }}
-                                                </button>
-                                                <p>{{ $operation['description'] }}</p>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>Moved to <a href="{{ route('dominion.intelligence') }}"><i class="fa fa-eye fa-fw"></i> <span>Intelligence</span></a></li>.</p>
                                 </div>
-                            @endforeach
+                            </div>
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label>Resource Theft Operations</label>
+                                    <label>Resource Theft</label>
                                 </div>
                             </div>
 
@@ -89,7 +80,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label>Black Operations</label>
+                                    <label>Hostile Operations</label>
                                 </div>
                             </div>
 

@@ -112,6 +112,17 @@ transmogrify:
   perks:
     resource_conversion: ore,gems,25,4 # from, to, percentage
 
+waterwall:
+  name: Waterwall
+  scope: self
+  class: active
+  cost: 8
+  duration: 4
+  cooldown: 6
+  perks:
+    boats_sunk: -80
+    food_production_docks: -100
+
 iceshield:
   name: Iceshield
   scope: friendly

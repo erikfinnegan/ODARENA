@@ -18,6 +18,7 @@ use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\InfoOpService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -29,7 +30,20 @@ class IntelligenceController extends AbstractDominionController
 {
     public function getIntelligence()
     {
+        $dominion = $this->getSelectedDominion();
+        
         $hostileInfos = Spell::all()->where('scope','hostile')->where('class','info')->where('enabled',1)->sortBy('key');
+
+        $latestInfoOps = $dominion->realm->infoOps()
+            ->with('sourceDominion')
+            ->with('targetDominion')
+            ->with('targetDominion.race')
+            ->with('targetDominion.realm')
+            ->where('type', '!=', 'clairvoyance')
+            ->where('latest', '=', true)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy('target_dominion_id');
 
         return view('pages.dominion.intelligence', [
             'landCalculator' => app(LandCalculator::class),
@@ -42,7 +56,9 @@ class IntelligenceController extends AbstractDominionController
             'militaryCalculator' => app(MilitaryCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'spellDamageCalculator' => app(SpellDamageCalculator::class),
+            'infoOpService' => app(InfoOpService::class),
             'hostileInfos' => $hostileInfos,
+            'latestInfoOps' => $latestInfoOps,
         ]);
     }
 

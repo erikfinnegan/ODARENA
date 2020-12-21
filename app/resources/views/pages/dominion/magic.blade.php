@@ -89,7 +89,6 @@
                             @csrf
 
                             <div class="box-body">
-
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -108,37 +107,14 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>Information gathering moved to <a href="{{ route('dominion.intelligence') }}"><i class="fa fa-eye fa-fw"></i> <span>Intelligence</span></a></li>.</p>
+                                    </div>
+                                </div>
+
                                 <div class="box-body">
-                                    <div class="col-md-5">
-                                        <table class="table">
-                                            <colgroup>
-                                                <col width="180">
-                                            </colgroup>
-                                          @foreach($hostileInfos as $spell)
-                                              @php
-                                                  $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
-                                              @endphp
-                                              @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
-                                                  <tr>
-                                                      <td>
-                                                        <button type="submit" name="spell" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
-                                                            {{ $spell->name }}
-                                                        </button>
-                                                      </td>
-                                                      <td>
-                                                          <ul>
-                                                              @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
-                                                                  <li>{{ $effect }}</li>
-                                                              @endforeach
-                                                                  @include('partials.dominion.spell-basics')
-                                                          </ul>
-                                                      </td>
-                                                  </tr>
-                                              @endif
-                                          @endforeach
-                                          </table>
-                                      </div>
-                                      <div class="col-md-7">
+                                      <div class="col-md-6">
                                           <table class="table">
                                               <colgroup>
                                                   <col width="180">
@@ -155,44 +131,43 @@
                                                           </button>
                                                         </td>
                                                         <td>
-                                                            <ul>
-                                                                @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
-                                                                    <li>{{ $effect }}</li>
-                                                                @endforeach
-                                                                    @include('partials.dominion.spell-basics')
-                                                            </ul>
+                                                            @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                            {{ $effect }}<br>
+                                                            @endforeach
+                                                            @include('partials.dominion.spell-basics')
                                                         </td>
                                                     </tr>
                                                 @endif
                                             @endforeach
                                             </table>
                                         </div>
-
-                                        @foreach ($hostileImpacts->chunk(4) as $spells)
-                                            <div class="row">
-                                                @foreach ($spells as $spell)
-                                                    @php
-                                                        $canCast = $spellCalculator->canCast($selectedDominion, $spell['key']);
-                                                    @endphp
-                                                    @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
-                                                        <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3">
-                                                            <div class="form-group">
-                                                                <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
-                                                                    {{ $spell['name'] }}
-                                                                </button>
-                                                                    <ul>
-                                                                        @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
-                                                                            <li>{{ $effect }}</li>
-                                                                        @endforeach
-                                                                            @include('partials.dominion.spell-basics')
-                                                                    </ul>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            </div>
-                                        @endforeach
-
+                                        <div class="col-md-6">
+                                            <table class="table">
+                                                <colgroup>
+                                                    <col width="180">
+                                                </colgroup>
+                                              @foreach($hostileImpacts as $spell)
+                                                  @php
+                                                      $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
+                                                  @endphp
+                                                  @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                                      <tr>
+                                                          <td>
+                                                            <button type="submit" name="spell" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
+                                                                {{ $spell->name }}
+                                                            </button>
+                                                          </td>
+                                                          <td>
+                                                              @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                              {{ $effect }} <br>
+                                                              @endforeach
+                                                              @include('partials.dominion.spell-basics')
+                                                          </td>
+                                                      </tr>
+                                                  @endif
+                                              @endforeach
+                                              </table>
+                                          </div>
                                   </div>
 
                             </div>
@@ -200,16 +175,13 @@
 
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><i class="ra ra-burning-embers"></i> Friendly</h3>
+                            <h3 class="box-title"><i class="ra ra-incense"></i> Friendly Spells</h3>
                         </div>
                             <form action="{{ route('dominion.magic') }}" method="post" role="form">
                                 @csrf
-
                                 <div class="box-body">
 
                                     <div class="row">
@@ -231,7 +203,7 @@
                                     </div>
 
                                     <div class="box-body">
-                                          <div class="col-md-6">
+                                          <div class="col-md-12">
                                               <table class="table">
                                                   <colgroup>
                                                       <col width="180">
@@ -258,36 +230,29 @@
                                                         </tr>
                                                     @endif
                                                 @endforeach
-                                                </table>
-                                            </div>
-
-                                            @foreach ($friendlyImpacts->chunk(4) as $spells)
-                                                <div class="row">
-                                                    @foreach ($spells as $spell)
-                                                        @php
-                                                            $canCast = $spellCalculator->canCast($selectedDominion, $spell['key']);
-                                                        @endphp
-                                                        @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
-                                                            <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3">
-                                                                <div class="form-group">
-                                                                    <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
-                                                                        {{ $spell['name'] }}
-                                                                    </button>
-                                                                        <ul>
-                                                                            @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
-                                                                                <li>{{ $effect }}</li>
-                                                                            @endforeach
-                                                                                @include('partials.dominion.spell-basics')
-                                                                        </ul>
-                                                                </div>
+                                                @foreach ($friendlyImpacts as $spell)
+                                                    @php
+                                                        $canCast = $spellCalculator->canCast($selectedDominion, $spell['key']);
+                                                    @endphp
+                                                    @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                                        <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3">
+                                                            <div class="form-group">
+                                                                <button type="submit" name="spell" value="{{ $spell['key'] }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
+                                                                    {{ $spell['name'] }}
+                                                                </button>
+                                                                    <ul>
+                                                                        @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                                            <li>{{ $effect }}</li>
+                                                                        @endforeach
+                                                                            @include('partials.dominion.spell-basics')
+                                                                    </ul>
                                                             </div>
-                                                        @endif
-                                                    @endforeach
-                                                </div>
-                                            @endforeach
-
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                              </table>
+                                        </div>
                                       </div>
-
                                 </div>
 
                             </form>

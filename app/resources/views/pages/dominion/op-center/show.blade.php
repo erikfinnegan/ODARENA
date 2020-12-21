@@ -246,10 +246,11 @@
                     @endif
 
                     <div class="pull-right">
-                        <form action="{{ route('dominion.magic') }}" method="post" role="form">
+                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="target_dominion" value="{{ $dominion->id }}">
-                            <input type="hidden" name="spell" value="clear_sight">
+                            <input type="hidden" name="spell_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="type" value="spell">
+                            <input type="hidden" name="operation" value="clear_sight">
                             <button type="submit" class="btn btn-sm btn-primary">Clear Sight ({{ number_format($spellCalculator->getManaCost($selectedDominion, 'clear_sight')) }} mana)</button>
                         </form>
                     </div>
@@ -342,10 +343,11 @@
                     @endif
 
                     <div class="pull-right">
-                        <form action="{{ route('dominion.magic') }}" method="post" role="form">
+                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="target_dominion" value="{{ $dominion->id }}">
-                            <input type="hidden" name="spell" value="revelation">
+                            <input type="hidden" name="spell_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="type" value="spell">
+                            <input type="hidden" name="operation" value="revelation">
                             <button type="submit" class="btn btn-sm btn-primary">Revelation ({{ number_format($spellCalculator->getManaCost($selectedDominion, 'revelation')) }} mana)</button>
                         </form>
                     </div>
@@ -420,9 +422,10 @@
                     @endif
 
                     <div class="pull-right">
-                        <form action="{{ route('dominion.espionage') }}" method="post" role="form">
+                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="target_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="type" value="spell">
                             <input type="hidden" name="operation" value="castle_spy">
                             <button type="submit" class="btn btn-sm btn-primary">Castle Spy</button>
                         </form>
@@ -535,9 +538,10 @@
                     @endif
 
                     <div class="clearfix pull-right">
-                        <form action="{{ route('dominion.espionage') }}" method="post" role="form">
+                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="target_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="type" value="spell">
                             <input type="hidden" name="operation" value="barracks_spy">
                             <button type="submit" class="btn btn-sm btn-primary">Barracks Spy</button>
                         </form>
@@ -686,9 +690,10 @@
                     @endif
 
                     <div class="pull-right">
-                        <form action="{{ route('dominion.espionage') }}" method="post" role="form">
+                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="target_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="type" value="spell">
                             <input type="hidden" name="operation" value="survey_dominion">
                             <button type="submit" class="btn btn-sm btn-primary">Survey Dominion</button>
                         </form>
@@ -871,9 +876,10 @@
                     @endif
 
                     <div class="pull-right">
-                        <form action="{{ route('dominion.espionage') }}" method="post" role="form">
+                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="target_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="type" value="spell">
                             <input type="hidden" name="operation" value="land_spy">
                             <button type="submit" class="btn btn-sm btn-primary">Land Spy</button>
                         </form>
@@ -1015,9 +1021,10 @@
                     @endif
 
                     <div class="pull-right">
-                        <form action="{{ route('dominion.magic') }}" method="post" role="form">
+                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="target_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="spell_dominion" value="{{ $dominion->id }}">
+                            <input type="hidden" name="type" value="spell">
                             <input type="hidden" name="spell" value="vision">
                             <button type="submit" class="btn btn-sm btn-primary">Vision ({{ number_format($spellCalculator->getManaCost($selectedDominion, 'vision')) }} mana)</button>
                         </form>
