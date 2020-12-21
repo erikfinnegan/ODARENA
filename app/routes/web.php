@@ -148,6 +148,18 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Calculations
             $router->get('calculations')->uses('Dominion\CalculationsController@getIndex')->name('calculations');
 
+                // Intelligence
+                $router->get('intelligence')->uses('Dominion\IntelligenceController@getIntelligence')->name('intelligence');
+                $router->post('intelligence')->uses('Dominion\IntelligenceController@postIntelligence');
+
+                // Hostile Ops
+                $router->get('hostile-ops')->uses('Dominion\HostileOpsController@getHostileOps')->name('hostile-ops');
+                $router->post('hostile-ops')->uses('Dominion\HostileOpsController@postHostileOps');
+
+                // Friendly Magic
+                $router->get('friendly-magic')->uses('Dominion\FriendlyMagicController@getFriendlyMagic')->name('friendly-magic');
+                $router->post('friendly-magic')->uses('Dominion\FriendlyMagicController@postFriendlyMagic');
+
             // Magic
             $router->get('magic')->uses('Dominion\MagicController@getMagic')->name('magic');
             $router->post('magic')->uses('Dominion\MagicController@postMagic');

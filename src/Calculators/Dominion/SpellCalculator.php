@@ -90,7 +90,7 @@ class SpellCalculator
      * @param string $spell
      * @return bool
      */
-    public function isOnCooldown(Dominion $dominion, string $spell, bool $isInvasionSpell = false): bool
+    public function isOnCooldown(Dominion $dominion, Spell $spell, bool $isInvasionSpell = false): bool
     {
         if ($this->getSpellCooldown($dominion, $spell, $isInvasionSpell) > 0)
         {
@@ -106,22 +106,20 @@ class SpellCalculator
      * @param string $spell
      * @return bool
      */
-    public function getSpellCooldown(Dominion $dominion, string $spell, bool $isInvasionSpell = false): int
+    public function getSpellCooldown(Dominion $dominion, Spell $spell, bool $isInvasionSpell = false): int
     {
-        $spellInfo = $this->spellHelper->getSpellInfo($spell, $dominion, $isInvasionSpell);
-
-        if (isset($spellInfo['cooldown'])) {
+        if ($spell->cooldown > 0) {
             $spellLastCast = DB::table('dominion_history')
                 ->where('dominion_id', $dominion->id)
                 ->where('event', 'cast spell')
-                ->where('delta', 'like', "%{$spell}%")
+                ->where('delta', 'like', "%{$spell->key}%")
                 ->orderby('created_at', 'desc')
                 ->take(1)
                 ->first();
             if ($spellLastCast) {
                 $hoursSinceCast = now()->startOfHour()->diffInHours(Carbon::parse($spellLastCast->created_at)->startOfHour());
-                if ($hoursSinceCast < $spellInfo['cooldown']) {
-                    return $spellInfo['cooldown'] - $hoursSinceCast;
+                if ($hoursSinceCast < $spell->cooldown) {
+                    return $spell->cooldown - $hoursSinceCast;
                 }
             }
         }
@@ -273,9 +271,13 @@ class SpellCalculator
         return $isAvailable;
     }
 
-    public function canCastSpell(Dominion $dominion, string $spellKey): bool
+    public function canCastSpell(Dominion $dominion, Spell $spell): bool
     {
-        return true;
+        if(!$this->isOnCooldown($dominion, $spell) and $dominion->resource_mana >= $this->getManaCost($dominion, $spell->key))
+        {
+            return true;
+        }
+        return false;
     }
 
 }

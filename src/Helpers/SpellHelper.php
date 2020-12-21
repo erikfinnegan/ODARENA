@@ -887,6 +887,8 @@ class SpellHelper
 
             'kills_draftees' => 'Kills %1$s%% of the target\'s draftees.',
 
+            'cannot_send_boats' => 'Cannot send boats.',
+
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',
 

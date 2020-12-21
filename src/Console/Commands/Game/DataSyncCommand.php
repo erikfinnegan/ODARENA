@@ -450,6 +450,7 @@ class DataSyncCommand extends Command implements CommandInterface
                         'cost' => object_get($spellData, 'cost', 1),
                         'duration' => object_get($spellData, 'duration', 48),
                         'cooldown' => object_get($spellData, 'cooldown', 0),
+                        'wizard_strength' => object_get($spellData, 'wizard_strength'),
                         'excluded_races' => object_get($spellData, 'excluded_races', []),
                         'exclusive_races' => object_get($spellData, 'exclusive_races', []),
                     ]);

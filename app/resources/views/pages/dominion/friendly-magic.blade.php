@@ -7,10 +7,10 @@
         <div class="col-sm-12 col-md-9">
             <div class="row">
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><i class="ra ra-fairy-wand"></i> Self Spells</h3>
+                            <h3 class="box-title"><i class="ra ra-fairy-wand"></i> Espioinage</h3>
                         </div>
                         <form action="{{ route('dominion.magic') }}" method="post" role="form">
                             @csrf
@@ -79,10 +79,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><i class="ra ra-burning-embers"></i> Hostile Spells</h3>
+                            <h3 class="box-title"><i class="ra ra-burning-embers"></i> Magic</h3>
                         </div>
 
                         <form action="{{ route('dominion.magic') }}" method="post" role="form">

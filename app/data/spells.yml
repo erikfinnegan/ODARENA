@@ -1,11 +1,3 @@
-#
-#   Scopes: self, friendly, hostile
-#
-#
-#
-#
-
-
 # <Info>
 
 clear_sight:
@@ -132,6 +124,21 @@ iceshield:
   perks:
     damage_from_fireballs: -10
     damage_from_lightning_bolts: -10
+
+frozen_shores:
+  name: Frozen Shores
+  scope: hostile
+  class: passive
+  cost: 8
+  wizard_strength: 20
+  duration: 2
+  cooldown: 3
+  exclusive_races:
+    - Icekin
+    - Yeti
+    - Snow Elf
+  perks:
+    cannot_send_boats: 1
 
 birdsong:
   name: Birdsong

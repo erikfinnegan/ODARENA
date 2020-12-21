@@ -5,6 +5,7 @@ namespace OpenDominion\Helpers;
 use LogicException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
+use OpenDominion\Models\Spell;
 
 class NotificationHelper
 {
@@ -684,6 +685,10 @@ class NotificationHelper
                         $resultString = "Lava rains over our lands, burning {$data['damageString']}.";
                         break;
 
+                    case 'frozen_shores':
+                        $resultString = "An icy wind sweeps in and freezes our shores, preventing us from sending out boats.";
+                        break;
+
                     # Invasion Spells
                     case 'pestilence':
                         $resultString = "Our population has been afflicted by the Pestilence. Some of our people are dying.";
@@ -760,6 +765,7 @@ class NotificationHelper
 
             case 'irregular_dominion.repelled_hostile_spell':
                 $sourceDominion = Dominion::with('realm')->findOrFail($data['sourceDominionId']);
+                $spell = Spell::where('key', $data['spellKey'])->first();
 
                 $lastPart = '!';
                 if ($data['unitsKilled']) {
@@ -768,7 +774,7 @@ class NotificationHelper
 
                 return sprintf(
                     'Our wizards have repelled a %s spell attempt by %s (#%s)%s',
-                    $this->spellHelper->getSpellInfo($data['spellKey'], $sourceDominion)['name'],
+                    $spell->name,
                     $sourceDominion->name,
                     $sourceDominion->realm->number,
                     $lastPart
@@ -779,7 +785,7 @@ class NotificationHelper
 
                 return sprintf(
                     'The energy mirror protecting our dominion has reflected a %s spell back at %s (#%s).',
-                    $this->spellHelper->getSpellInfo($data['spellKey'], $sourceDominion)['name'],
+                    $spell->name,
                     $sourceDominion->name,
                     $sourceDominion->realm->number,
                 );
