@@ -280,7 +280,7 @@
                       <li>Spell damage modifier: {{ number_format((1-$spellDamageCalculator->getDominionHarmfulSpellDamageModifier($selectedDominion, null, null, null))*100, 2) }}% <span class="text-muted">(base, may vary by spell)</span></li>
                     </ul>
 
-                    <a href="{{ route('scribes.magic') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Magic in the Scribes.</span></a>
+                    <a href="{{ route('scribes.spells') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spells in the Scribes.</span></a>
                 </div>
             </div>
         </div>

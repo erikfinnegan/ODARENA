@@ -64,12 +64,13 @@
                           <tr>
                               <td>
                                   {{ $spyop->name }}
+                                  {!! $espionageHelper->getExclusivityString($spyop) !!}
                               </td>
                               <td>
                                   <ul>
-                                      {{--@foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
+                                      @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
                                           <li>{{ ucfirst($effect) }}</li>
-                                      @endforeach--}}
+                                      @endforeach
                                   <ul>
                               </td>
                           </tr>
@@ -101,12 +102,13 @@
                           <tr>
                               <td>
                                   {{ $spyop->name }}
+                                  {!! $espionageHelper->getExclusivityString($spyop) !!}
                               </td>
                               <td>
                                   <ul>
-                                      {{--@foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
+                                      @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
                                           <li>{{ ucfirst($effect) }}</li>
-                                      @endforeach--}}
+                                      @endforeach
                                   <ul>
                               </td>
                           </tr>
@@ -138,12 +140,13 @@
                           <tr>
                               <td>
                                   {{ $spyop->name }}
+                                  {!! $espionageHelper->getExclusivityString($spyop) !!}
                               </td>
                               <td>
                                   <ul>
-                                      {{--@foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
+                                      @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
                                           <li>{{ ucfirst($effect) }}</li>
-                                      @endforeach--}}
+                                      @endforeach
                                   <ul>
                               </td>
                           </tr>

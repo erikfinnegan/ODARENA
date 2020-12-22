@@ -4,7 +4,7 @@ barracks_spy:
   name: Barracks Spy
   scope: info
   perks:
-    barracks_spy: 1
+    barracks_spy: 15
 
 castle_spy:
   name: Castle Spy
@@ -12,17 +12,17 @@ castle_spy:
   perks:
     castle_spy: 1
 
-survey_dominion:
-  name: Survey Dominion
-  scope: info
-  perks:
-    survey_dominion: 1
-
 land_spy:
   name: Land Spy
   scope: info
   perks:
     land_spy: 1
+
+survey_dominion:
+  name: Survey Dominion
+  scope: info
+  perks:
+    survey_dominion: 1
 
 # <Theft>
 
