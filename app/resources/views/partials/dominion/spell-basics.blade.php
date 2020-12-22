@@ -4,7 +4,7 @@
 
 <span data-toggle="tooltip" data-placement="top" title="Mana required to cast spell">M</span>: <span class="{{ $manaAfforded }}">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}</span>
 @if($spell->duration > 0)
-  / <span data-toggle="tooltip" data-placement="top" title="Tick duration of effect">{{--T--}}<i class="ra ra-hourglass"></i>: {{ $spell->duration }}
+  / <span data-toggle="tooltip" data-placement="top" title="Tick duration of effect">{{--T--}}<i class="ra ra-hourglass"></i></span>: {{ $spell->duration }}
 @endif
 @if($spell->cooldown > 0)
   / <span data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">CD</span>:

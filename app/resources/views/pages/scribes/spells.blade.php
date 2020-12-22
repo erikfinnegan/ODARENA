@@ -69,11 +69,7 @@
                           <tr>
                               <td>
                                   {{ $spell->name }}
-                                  @if($exclusives = count($spell->exclusive_races) > 0)
-                                      @foreach($spell->exclusive_races as $race)
-                                          {{ $race }}
-                                      @endforeach
-                                  @endif
+                                  {!! $spellHelper->getExclusivityString($spell) !!}
                               </td>
                               <td>{{ $spell->cost }}x</td>
                               <td>{{ $spell->duration }} ticks</td>
@@ -124,11 +120,7 @@
                           <tr>
                               <td>
                                   {{ $spell->name }}
-                                  @if($exclusives = count($spell->exclusive_races) > 0)
-                                      @foreach($spell->exclusive_races as $race)
-                                          {{ $race }}
-                                      @endforeach
-                                  @endif
+                                  {!! $spellHelper->getExclusivityString($spell) !!}
                               </td>
                               <td>{{ $spell->cost }}x</td>
                               <td>{{ $spell->duration }} ticks</td>

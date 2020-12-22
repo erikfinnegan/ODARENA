@@ -1,0 +1,132 @@
+# <Info>
+
+barracks_spy:
+  name: Barracks Spy
+  scope: info
+  perks:
+    barracks_spy: 1
+
+castle_spy:
+  name: Castle Spy
+  scope: info
+  perks:
+    castle_spy: 1
+
+survey_dominion:
+  name: Survey Dominion
+  scope: info
+  perks:
+    survey_dominion: 1
+
+land_spy:
+  name: Land Spy
+  scope: info
+  perks:
+    land_spy: 1
+
+# <Theft>
+
+steal_platinum:
+  name: Steal Platinum
+  scope: theft
+  perks:
+    resource_theft: platinum,1,50 #rate, max per spy
+
+steal_food:
+  name: Steal Food
+  scope: theft
+  perks:
+    resource_theft: food,1,50 # resource, rate, max per spy
+
+steal_lumber:
+  name: Steal Lumber
+  scope: theft
+  perks:
+    resource_theft: lumber,1,50 # resource, rate, max per spy
+
+steal_mana:
+  name: Steal Mana
+  scope: theft
+  perks:
+    resource_theft: mana,1,50 # resource, rate, max per spy
+
+steal_ore:
+  name: Steal Ore
+  scope: theft
+  perks:
+    resource_theft: ore,1,50 # resource, rate, max per spy
+
+steal_gems:
+  name: Steal Gems
+  scope: theft
+  perks:
+    resource_theft: gems,1,50 # resource, rate, max per spy
+
+abduct_draftees:
+  name: Abduct Draftees
+  scope: theft
+  perks:
+    abduct_draftees: 1,0.5 # rate, max per spy
+
+abduct_peasants:
+  name: Abduct Peasants
+  scope: theft
+  perks:
+    abduct_peasants: 1,1 # rate, max per spy
+
+seize_boats:
+  name: Seize Boats
+  scope: theft
+  perks:
+    seize_boats: 1,0.02 # rate, max per spy
+
+# <Hostile>
+
+assassinate_draftees:
+  name: Assassinate Draftees
+  scope: hostile
+  perks:
+    kill_draftees: 2
+
+assassinate_wizards:
+  name: Assassinate Wizards
+  scope: hostile
+  perks:
+    kill_wizards: 2
+
+magic_snare:
+  name: Magic Snare
+  scope: hostile
+  perks:
+    reduce_wizard_strength: 2
+
+sabotage_boats:
+  name: Sabotage Boats
+  scope: hostile
+  perks:
+    sabotage_boats: 2
+
+sabotage_buildings:
+  name: Sabotage Buildings
+  scope: hostile
+  spy_strength: 5
+  exclusive_races:
+    - Ants
+    - Goblin
+    - Halfling
+    - Kerranad
+    - Lizardfolk
+    - Myconid
+  perks:
+    sabotage_buildings: 2 #
+
+destroy_buildings:
+  name: Destroy Buildings
+  scope: hostile
+  spy_strength: 5
+  exclusive_races:
+    - Firewalker
+    - Nomad
+    - Beastfolk
+  perks:
+    destroy_buildings: 2 #

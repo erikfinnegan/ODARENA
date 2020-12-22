@@ -747,6 +747,10 @@ class NotificationHelper
                         $resultString = 'Sylvan birdsong restores our morale.';
                         break;
 
+                    case 'lightfoots':
+                        $resultString = 'Halfling training strengthens our spies.';
+                        break;
+
 
                     default:
                         throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");

@@ -80,7 +80,16 @@ class AdvisorsController extends AbstractDominionController
             $activeSpellKeys[] = $spell->spell;
         }
 
-        $activeSpells = Spell::all()->whereIn('key',$activeSpellKeys)->keyBy('key');
+        if(count($activeSpells) > 0)
+        {
+            $activeSpells = Spell::all()->whereIn('key',$activeSpellKeys)->keyBy('key');
+        }
+        else
+        {
+            $activeSpells = null;
+        }
+
+
 
         return view('pages.dominion.advisors.magic', [
             'spellCalculator' => $spellCalculator,

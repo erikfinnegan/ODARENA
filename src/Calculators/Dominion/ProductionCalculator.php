@@ -178,7 +178,7 @@ class ProductionCalculator
         $food += ($dominion->building_farm * 80);
 
         // Building: Dock
-        $food += ($dominion->building_dock * 35);
+        $food += ($dominion->building_dock * 35 * (1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production_docks')));
 
         // Building: Tissue
         $food += ($dominion->building_tissue * 4);
@@ -205,13 +205,6 @@ class ProductionCalculator
 
     /**
      * Returns the Dominion's food production multiplier.
-     *
-     * Food production is modified by:
-     * - Racial Bonus
-     * - Spell: Gaia's Blessing (+20%) or Gaia's Watch (+10%)
-     * - Improvement: Harbor and Tissue
-     * - Tech: Farmer's Growth (+10%)
-     * - Prestige (+1% per 100 prestige, multiplicative)
      *
      * @param Dominion $dominion
      * @return float

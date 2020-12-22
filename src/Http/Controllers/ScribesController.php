@@ -15,6 +15,7 @@ use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\Spyop;
 
 class ScribesController extends AbstractController
 {
@@ -109,6 +110,14 @@ class ScribesController extends AbstractController
         return view('pages.scribes.spells', [
             'spells' => Spell::all()->keyBy('key')->sortBy('key'),
             'spellHelper' => app(SpellHelper::class),
+        ]);
+    }
+
+    public function getSpyops()
+    {
+        return view('pages.scribes.spy-ops', [
+            'spyops' => Spyop::all()->keyBy('key')->sortBy('key'),
+            'espionageHelper' => app(EspionageHelper::class),
         ]);
     }
 

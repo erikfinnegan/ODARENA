@@ -1205,11 +1205,18 @@ class EspionageActionService
                     // Damage reduction from Docks / Harbor
                     if ($attr == 'resource_boats')
                     {
-                        $damageReduction = $this->militaryCalculator->getBoatsProtected($target);
+                        $damageReduction += $this->militaryCalculator->getBoatsProtected($target);
                     }
 
                     $damage = max($target->{$attr} - $damageReduction, 0) * $baseDamage * (1 + $baseDamageMultiplier) * (1 + $damageMultiplier);
+
                     $damage = round(min($target->{$attr}, $damage));
+
+                    // Damage reduction from Waterwall
+                    if ($attr == 'resource_boats')
+                    {
+                        $damage *= (1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'boats_sunk'));
+                    }
 
                     # For Empire, add burned bodies and disbanded spies to the crypt
                     if($target->realm->alignment === 'evil' and ($attr === 'military_draftees' or $attr === 'military_wizards'))

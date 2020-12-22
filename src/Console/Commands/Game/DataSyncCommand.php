@@ -21,6 +21,9 @@ use OpenDominion\Models\BuildingPerkType;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\SpellPerk;
 use OpenDominion\Models\SpellPerkType;
+use OpenDominion\Models\Spyop;
+use OpenDominion\Models\SpyopPerk;
+use OpenDominion\Models\SpyopPerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -63,6 +66,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncBuildings();
             $this->syncTitles();
             $this->syncSpells();
+            $this->syncSpyops();
         });
     }
 
@@ -451,6 +455,7 @@ class DataSyncCommand extends Command implements CommandInterface
                         'duration' => object_get($spellData, 'duration', 48),
                         'cooldown' => object_get($spellData, 'cooldown', 0),
                         'wizard_strength' => object_get($spellData, 'wizard_strength'),
+                        'enabled' => object_get($spellData, 'enabled', 1),
                         'excluded_races' => object_get($spellData, 'excluded_races', []),
                         'exclusive_races' => object_get($spellData, 'exclusive_races', []),
                     ]);
@@ -499,6 +504,74 @@ class DataSyncCommand extends Command implements CommandInterface
                 }
 
                 $spell->perks()->sync($spellPerksToSync);
+            }
+        }
+
+        /**
+         * Syncs spells and perk data from .yml file to the database.
+         */
+        protected function syncSpyops()
+        {
+            $fileContents = $this->filesystem->get(base_path('app/data/spyops.yml'));
+
+            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+            foreach ($data as $spyopKey => $spyopData) {
+                // Spell
+                $spyop = Spyop::firstOrNew(['key' => $spyopKey])
+                    ->fill([
+                        'name' => $spyopData->name,
+                        'scope' => object_get($spyopData, 'scope'),
+                        'spy_strength' => object_get($spyopData, 'spy_strength'),
+                        'enabled' => object_get($spyopData, 'enabled', 1),
+                        'excluded_races' => object_get($spyopData, 'excluded_races', []),
+                        'exclusive_races' => object_get($spyopData, 'exclusive_races', []),
+                    ]);
+
+                if (!$spyop->exists) {
+                    $this->info("Adding spyop {$spyopData->name}");
+                } else {
+                    $this->info("Processing spyop {$spyopData->name}");
+
+                    $newValues = $spyop->getDirty();
+
+                    foreach ($newValues as $key => $newValue) {
+                        $originalValue = $spyop->getOriginal($key);
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                }
+
+                $spyop->save();
+                $spyop->refresh();
+
+                // Spyop Perks
+                $spyopPerksToSync = [];
+
+                foreach (object_get($spyopData, 'perks', []) as $perk => $value)
+                {
+                    $value = (string)$value;
+
+                    $spyopPerkType = SpyopPerkType::firstOrCreate(['key' => $perk]);
+
+                    $spyopPerksToSync[$spyopPerkType->id] = ['value' => $value];
+
+                    $spyopPerk = SpyopPerk::query()
+                        ->where('spyop_id', $spyop->id)
+                        ->where('spyop_perk_type_id', $spyopPerkType->id)
+                        ->first();
+
+                    if ($spyopPerk === null)
+                    {
+                        $this->info("[Add Spyop Perk] {$perk}: {$value}");
+                    }
+                    elseif ($spyopPerk->value != $value)
+                    {
+                        $this->info("[Change Spyop Perk] {$perk}: {$spyopPerk->value} -> {$value}");
+                    }
+                }
+
+                $spyop->perks()->sync($spyopPerksToSync);
             }
         }
 

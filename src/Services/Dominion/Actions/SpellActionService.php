@@ -753,6 +753,23 @@ class SpellActionService
                         }
                     }
 
+                    if($perk->key === 'disband_spies')
+                    {
+                        $baseDamage = (float)$spellPerkValues / 100;
+                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'spies');
+
+                        $damage = min(round($target->military_spies * $baseDamage * $damageMultiplier), $target->military_spies);
+
+                        $target->military_spies -= $damage;
+                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display('spies', $damage));
+
+                        // Update statistics
+                        if (isset($dominion->{"stat_{$spell->key}_damage"}))
+                        {
+                            $dominion->{"stat_{$spellInfo['key']}_damage"} += round($damage);
+                        }
+                    }
+
                     if($perk->key === 'destroys_resource')
                     {
                         $resource = $spellPerkValues[0];
@@ -779,7 +796,7 @@ class SpellActionService
                     $sourceDominionId = $dominion->id;
                 }
 
-                $damageString = generate_sentence_from_array($damageDealt);
+                $damageString = generate_sentence_from_array($damage);
 
                 $this->notificationService
                     ->queueNotification('received_hostile_spell', [

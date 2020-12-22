@@ -530,7 +530,7 @@ class TrainActionService
                     }
 
                     // Spell
-                    $tick += $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'training_time');
+                    $ticks += $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'training_time');
 
                     // Spell: Spawning Pool (increase units trained, for free)
                     if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unitType == 'military_unit1')

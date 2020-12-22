@@ -115,7 +115,7 @@ transmogrify:
 waterwall:
   name: Waterwall
   scope: self
-  class: active
+  class: passive
   cost: 8
   duration: 4
   cooldown: 6
@@ -242,7 +242,7 @@ disband_spies:
   name: Disband Spies
   scope: hostile
   class: active
-  cost: 4
+  cost: 2
   duration: 0
   cooldown: 0
   perks:
@@ -339,6 +339,18 @@ defensive_frenzy:
     - Halfling
   perks:
     defensive_power: 10
+
+lightfoots:
+  name: Lightfoots
+  scope: friendly
+  class: passive
+  cost: 10
+  duration: 24
+  cooldown: 12
+  exclusive_races:
+    - Halfling
+  perks:
+    spy_strength: 10
 
 howling:
   name: Howling
