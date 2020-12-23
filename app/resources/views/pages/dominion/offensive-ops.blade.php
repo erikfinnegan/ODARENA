@@ -1,6 +1,6 @@
 @extends ('layouts.master')
 
-@section('page-header', 'Intelligence')
+@section('page-header', 'Offensive Ops')
 
 @section('content')
     <div class="row">
@@ -16,7 +16,7 @@
                                 <span data-toggle="tooltip" data-placement="top" title="Spy Strength">SS</span>: {{ $selectedDominion->spy_strength }}%
                             </small>
                         </div>
-                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
+                        <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
                             @csrf
                             <input type="hidden" name="type" value="espionage">
 
@@ -30,8 +30,7 @@
                                                   <option value="{{ $dominion->id }}"
                                                           data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
                                                           data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
-                                                          data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
-                                                          data-war="{{ ($selectedDominion->realm->war_realm_id == $dominion->realm->id || $dominion->realm->war_realm_id == $selectedDominion->realm->id) ? 1 : 0 }}">
+                                                          data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
                                                       {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                                   </option>
                                               @endforeach
@@ -39,7 +38,7 @@
                                       </div>
                                   </div>
                               </div>
-                              @foreach ($infoOps->chunk(2) as $operations)
+                              @foreach ($hostileSpyops->chunk(2) as $operations)
                                   <div class="row">
                                       @foreach ($operations as $operation)
                                           @if($espionageCalculator->isSpyopAvailableToDominion($selectedDominion, $operation))
@@ -77,7 +76,7 @@
                             </small>
                         </div>
 
-                        <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
+                        <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
                             @csrf
                             <input type="hidden" name="type" value="spell">
 
@@ -101,31 +100,30 @@
                                     </div>
                                 </div>
 
-
-
-                                  @foreach ($hostileInfos->chunk(4) as $spells)
+                                  @foreach ($hostileSpells->chunk(2) as $spells)
                                       <div class="row">
                                           @foreach ($spells as $spell)
-                                              @php
-                                                  $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
-                                              @endphp
-                                              <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4 text-center">
-                                                  <div class="form-group">
-                                                      <button type="submit" name="operation" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
-                                                          {{ $spell->name }}
-                                                      </button>
-                                                      <p>
-                                                      @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
-                                                          {{ $effect }}<br>
-                                                      @endforeach
-                                                          @include('partials.dominion.spell-basics')
-                                                      </p>
+                                              @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
+                                                  @php
+                                                      $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
+                                                  @endphp
+                                                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
+                                                      <div class="form-group">
+                                                          <button type="submit" name="operation" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
+                                                              {{ $spell->name }}
+                                                          </button>
+                                                          <p>
+                                                          @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                              {{ $effect }}<br>
+                                                          @endforeach
+                                                              @include('partials.dominion.spell-basics')
+                                                          </p>
+                                                      </div>
                                                   </div>
-                                              </div>
+                                              @endif
                                           @endforeach
                                       </div>
                                   @endforeach
-
                             </div>
                         </form>
 
@@ -157,117 +155,6 @@
         </div>
 
     </div>
-
-        <div class="row">
-
-            <div class="col-sm-12 col-md-9">
-                <div class="box box-primary">
-                    <div class="box-header">
-                        <h3 class="box-title"><i class="fa fa-bullseye"></i> Op Center</h3>
-                    </div>
-                    <div class="box-body table-responsive">
-                        <table class="table table-hover" id="dominions-table">
-                            <colgroup>
-                                <col>
-                                <col width="100">
-                                {{--
-                                <col width="100">
-                                <col width="100">
-                                --}}
-                                <col width="100">
-                                <col width="100">
-                                <col>
-                                <col width="130">
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>Dominion</th>
-                                    <th class="text-center">Faction</th>
-                                    {{--
-                                    <th class="text-center">OP</th>
-                                    <th class="text-center">DP</th>
-                                    --}}
-                                    <th class="text-center">Land</th>
-                                    <th class="text-center">Networth</th>
-                                    <th class="text-center">Last Op</th>
-                                    <th class="text-center">Recent Ops</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($latestInfoOps as $targetDominionOps)
-                                    @php $lastInfoOp = $targetDominionOps->first(); @endphp
-                                    <tr>
-                                        <td>
-                                            <a href="{{ route('dominion.op-center.show', $lastInfoOp->targetDominion) }}">{{ $lastInfoOp->targetDominion->name }} (#{{ $lastInfoOp->targetDominion->realm->number }})</a>
-                                            @if ($lastInfoOp->isInvalid())
-                                                <span class="label label-danger">Invalid</span>
-                                            @elseif ($lastInfoOp->isStale())
-                                                <span class="label label-warning">Stale</span>
-                                            @endif
-                                            @if ($lastInfoOp->isInaccurate())
-                                                <span class="label label-info">Inaccurate</span>
-                                            @endif
-                                        </td>
-                                        <td class="text-center" data-search="" data-order="{{ $lastInfoOp->targetDominion->race->name }}">
-                                            {{ $lastInfoOp->targetDominion->race->name }}
-                                        </td>
-                                        {{--
-                                        <td class="text-center" data-search="" data-order="{{ $infoOpService->getOffensivePower($selectedDominion->realm, $lastInfoOp->targetDominion) }}">
-                                            {{ $infoOpService->getOffensivePowerString($selectedDominion->realm, $lastInfoOp->targetDominion) }}
-                                        </td>
-                                        <td class="text-center" data-search="" data-order="{{ $infoOpService->getDefensivePower($selectedDominion->realm, $lastInfoOp->targetDominion) }}">
-                                            {{ $infoOpService->getDefensivePowerString($selectedDominion->realm, $lastInfoOp->targetDominion) }}
-                                        </td>
-                                        --}}
-                                        <td class="text-center" data-search="" data-order="{{ $infoOpService->getLand($targetDominionOps) }}">
-                                            {{ $infoOpService->getLandString($targetDominionOps) }}
-                                            <br>
-                                            <span class="small {{ $rangeCalculator->getDominionRangeSpanClass($selectedDominion, $lastInfoOp->targetDominion) }}">
-                                                {{ number_format($rangeCalculator->getDominionRange($selectedDominion, $lastInfoOp->targetDominion), 1) }}%
-                                            </span>
-                                        </td>
-                                        <td class="text-center" data-search="" data-order="{{ $infoOpService->getNetworth($targetDominionOps) }}">
-                                            {{ $infoOpService->getNetworthString($targetDominionOps) }}
-                                        </td>
-                                        <td class="text-center" data-search="" data-order="{{ $lastInfoOp->created_at->getTimestamp() }}">
-                                            {{ $infoOpService->getInfoOpName($lastInfoOp) }}
-                                            by
-                                            @if ($lastInfoOp->sourceDominion->id === $selectedDominion->id)
-                                                <strong>
-                                                    {{ $selectedDominion->name }}
-                                                </strong>
-                                            @else
-                                                {{ $lastInfoOp->sourceDominion->name }}
-                                            @endif
-                                            <br>
-                                            <span class="small">
-                                                {{ $lastInfoOp->created_at }}
-                                            </span>
-                                        </td>
-                                        <td class="text-center" data-search="" data-order="{{ $infoOpService->getNumberOfActiveInfoOps($targetDominionOps) }}">
-                                            {{ $infoOpService->getNumberOfActiveInfoOps($targetDominionOps) }}/{{ $infoOpService->getMaxInfoOps() }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-12 col-md-3">
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Information</h3>
-                    </div>
-                    <div class="box-body">
-                        <p>Whenever you or someone else in your realm performs an information gathering espionage operation or magic spell, the information gathered is posted in the Op Center.</p>
-                        <p>Through this page, you can help one another find targets and scout threats to one another.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
 
     @push('page-styles')
         <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">

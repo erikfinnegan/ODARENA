@@ -148,17 +148,17 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Calculations
             $router->get('calculations')->uses('Dominion\CalculationsController@getIndex')->name('calculations');
 
-                // Intelligence
-                $router->get('intelligence')->uses('Dominion\IntelligenceController@getIntelligence')->name('intelligence');
-                $router->post('intelligence')->uses('Dominion\IntelligenceController@postIntelligence');
+            // Intelligence
+            $router->get('intelligence')->uses('Dominion\IntelligenceController@getIntelligence')->name('intelligence');
+            $router->post('intelligence')->uses('Dominion\IntelligenceController@postIntelligence');
 
-                // Hostile Ops
-                $router->get('hostile-ops')->uses('Dominion\HostileOpsController@getHostileOps')->name('hostile-ops');
-                $router->post('hostile-ops')->uses('Dominion\HostileOpsController@postHostileOps');
+            // Hostile Ops
+            $router->get('offensive-ops')->uses('Dominion\OffensiveOpsController@getOffensiveOps')->name('offensive-ops');
+            $router->post('offensive-ops')->uses('Dominion\OffensiveOpsController@postOffensiveOps');
 
-                // Friendly Magic
-                $router->get('friendly-magic')->uses('Dominion\FriendlyMagicController@getFriendlyMagic')->name('friendly-magic');
-                $router->post('friendly-magic')->uses('Dominion\FriendlyMagicController@postFriendlyMagic');
+            // Friendly Magic
+            $router->get('friendly-ops')->uses('Dominion\FriendlyOpsController@getFriendlyOps')->name('friendly-ops');
+            $router->post('friendly-ops')->uses('Dominion\FriendlyOpsController@postFriendlyOps');
 
             // Magic
             $router->get('magic')->uses('Dominion\MagicController@getMagic')->name('magic');

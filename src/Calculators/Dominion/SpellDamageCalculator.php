@@ -86,13 +86,13 @@ class SpellDamageCalculator
               ## Lightning Bolts: improvements
               if($spell->name == 'lightning_bolt')
               {
-                # General fireball damage modification.
-                if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
-                {
-                    $modifier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
-                }
+                  # General fireball damage modification.
+                  if($target->race->getPerkMultiplier('damage_from_lightning_bolts'))
+                  {
+                      $modifier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
+                  }
 
-                $modifier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
+                  $modifier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
               }
 
               ## Disband Spies: spies

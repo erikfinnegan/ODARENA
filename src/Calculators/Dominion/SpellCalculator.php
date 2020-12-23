@@ -273,7 +273,7 @@ class SpellCalculator
 
     public function canCastSpell(Dominion $dominion, Spell $spell): bool
     {
-        if($this->isOnCooldown($dominion, $spell) or $dominion->resource_mana < $this->getManaCost($dominion, $spell->key) or ($dominion->wizard_strength - $this->getWizardStrengthCost($spell)) < 0)
+        if($this->isOnCooldown($dominion, $spell) or $dominion->resource_mana < $this->getManaCost($dominion, $spell->key) or ($dominion->wizard_strength - $this->getWizardStrengthCost($spell)) < 0 or !$this->isSpellAvailableToDominion($dominion, $spell))
         {
             return false;
         }

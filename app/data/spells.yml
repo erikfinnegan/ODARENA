@@ -4,7 +4,7 @@ clear_sight:
   name: Clear Sight
   scope: hostile
   class: info
-  cost: 0.5
+  cost: 0.25
   duration: 0
   cooldown: 0
   perks:
@@ -14,7 +14,7 @@ vision:
   name: Vision
   scope: hostile
   class: info
-  cost: 0.5
+  cost: 0.25
   duration: 0
   cooldown: 0
   perks:
@@ -24,7 +24,7 @@ revelation:
   name: Revelation
   scope: hostile
   class: info
-  cost: 1
+  cost: 0.5
   duration: 0
   cooldown: 0
   perks:
@@ -56,7 +56,7 @@ harmony:
   name: Harmony
   scope: self
   class: passive
-  cost: 2
+  cost: 2.5
   duration: 48
   cooldown: 0
   perks:
@@ -66,9 +66,9 @@ fools_gold:
   name: Fool's Gold
   scope: self
   class: passive
-  cost: 2
-  duration: 48
-  cooldown: 0
+  cost: 5
+  duration: 36
+  cooldown: 18
   perks:
     platinum_theft: -100
 
@@ -76,8 +76,8 @@ surreal_perception:
   name: Surreal Perception
   scope: self
   class: passive
-  cost: 2
-  duration: 48
+  cost: 4
+  duration: 36
   cooldown: 0
   perks:
     reveal_ops: 1
@@ -86,8 +86,8 @@ energy_mirror:
   name: Energy Mirror
   scope: self
   class: passive
-  cost: 2
-  duration: 48
+  cost: 3
+  duration: 32
   cooldown: 0
   perks:
     chance_to_reflect_spells: 25
@@ -96,8 +96,8 @@ aura:
   name: Aura
   scope: self
   class: passive
-  cost: 2
-  duration: 48
+  cost: 3
+  duration: 24
   cooldown: 0
   perks:
     damage_from_spells: -20
@@ -279,7 +279,7 @@ killing_rage:
   name: Killing Rage
   scope: self
   class: passive
-  cost: 10
+  cost: 8
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -291,7 +291,7 @@ blizzard:
   name: Blizzard
   scope: self
   class: passive
-  cost: 10
+  cost: 8
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -303,7 +303,7 @@ blizzard:
     defensive_power: 5
 
 blood_rage:
-  name: Blood Rage
+  name: Bloodrage
   scope: self
   class: passive
   cost: 8
@@ -332,7 +332,7 @@ defensive_frenzy:
   name: Defensive Frenzy
   scope: self
   class: passive
-  cost: 10
+  cost: 8
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -344,7 +344,7 @@ lightfoots:
   name: Lightfoots
   scope: friendly
   class: passive
-  cost: 10
+  cost: 12
   duration: 24
   cooldown: 12
   exclusive_races:
@@ -356,7 +356,7 @@ howling:
   name: Howling
   scope: self
   class: passive
-  cost: 10
+  cost: 8
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -393,7 +393,7 @@ regeneration:
   name: Regeneration
   scope: self
   class: passive
-  cost: 8
+  cost: 10
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -419,8 +419,8 @@ nightfall:
   name: Nightfall
   scope: self
   class: passive
-  cost: 8
-  duration: 48
+  cost: 6
+  duration: 24
   cooldown: 0
   exclusive_races:
     - Nox
@@ -432,7 +432,7 @@ campaign:
   scope: self
   class: passive
   cost: 8
-  duration: 48
+  duration: 1
   cooldown: 0
   exclusive_races:
     - Nomad
@@ -443,7 +443,7 @@ feral_hunger:
   name: Feral Hunger
   scope: self
   class: passive
-  cost: 2
+  cost: 4
   duration: 4
   cooldown: 0
   exclusive_races:
@@ -456,7 +456,7 @@ miners_sight:
   name: Miner's Sight
   scope: self
   class: passive
-  cost: 2
+  cost: 8
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -470,7 +470,7 @@ alchemist_flame:
   name: Alchemist Flame
   scope: self
   class: passive
-  cost: 2
+  cost: 10
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -482,7 +482,7 @@ voidspell:
   name: ⫷⋗⫸◬
   scope: self
   class: passive
-  cost: 2
+  cost: 8
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -494,7 +494,7 @@ voidspellmana:
   name: ◭⫸⋖⋗
   scope: self
   class: passive
-  cost: 2
+  cost: 8
   duration: 24
   cooldown: 24
   exclusive_races:
@@ -506,7 +506,7 @@ metabolism:
   name: Metabolism
   scope: self
   class: passive
-  cost: 2
+  cost: 8
   duration: 48
   cooldown: 36
   exclusive_races:
@@ -593,8 +593,8 @@ aurora:
   name: Aurora
   scope: self
   class: passive
-  cost: 8
-  duration: 48
+  cost: 6
+  duration: 24
   cooldown: 0
   exclusive_races:
     - Lux
@@ -605,7 +605,7 @@ maelstrom:
   name: Maelstrom
   scope: self
   class: passive
-  cost: 4
+  cost: 6
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -617,7 +617,7 @@ portal:
   name: Portal
   scope: self
   class: passive
-  cost: 10
+  cost: 12
   duration: 1
   cooldown: 6
   exclusive_races:
@@ -629,7 +629,7 @@ defensive_warts:
   name: Defensive Warts
   scope: self
   class: passive
-  cost: 4
+  cost: 5
   duration: 18
   cooldown: 0
   exclusive_races:
@@ -641,7 +641,7 @@ chitin:
   name: Chitin
   scope: self
   class: passive
-  cost: 8
+  cost: 10
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -673,7 +673,7 @@ aether:
   name: Aether
   scope: self
   class: passive
-  cost: 12
+  cost: 6
   duration: 48
   cooldown: 0
   exclusive_races:
@@ -686,7 +686,7 @@ spawning_pool:
   name: Spawning Pool
   scope: self
   class: passive
-  cost: 12
+  cost: 10
   duration: 24
   cooldown: 0
   exclusive_races:
@@ -788,8 +788,8 @@ shroud:
   scope: self
   class: passive
   cost: 2
-  duration: 24
-  cooldown: 0
+  duration: 4
+  cooldown: 12
   exclusive_races:
     - Spirit
   perks:

@@ -16,6 +16,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\OpsHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\InfoOp;
 use OpenDominion\Services\Dominion\HistoryService;
@@ -58,6 +59,7 @@ class SpellActionService
         $this->protectionService = app(ProtectionService::class);
         $this->queueService = app(QueueService::class);
         $this->raceHelper = app(RaceHelper::class);
+        $this->improvementHelper = app(ImprovementHelper::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
@@ -107,6 +109,11 @@ class SpellActionService
         if ($spell->enabled !== 1)
         {
             throw new LogicException("Spell {$spell->name} is not enabled.");
+        }
+
+        if (!$this->spellCalculator->canCastSpell($dominion, $spell))
+        {
+            throw new GameException("You are not able to cast {$spell->name}.");
         }
 
         $wizardStrengthCost = $this->spellCalculator->getWizardStrengthCost($spell);
@@ -764,11 +771,38 @@ class SpellActionService
                         $ratio = (float)$spellPerkValues[1] / 100;
                         $attribute = 'resource_'.$resource;
 
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'food');
+                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $resource);
                         $damage = min(round($target->{'resource_'.$resource} * $ratio * $damageMultiplier), $target->{'resource_'.$resource});
 
                         $target->{$attribute} -= $damage;
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+                    }
+
+                    if($perk->key === 'improvements_damage')
+                    {
+                        $ratio = (float)$spellPerkValues / 100;
+
+                        foreach($this->improvementHelper->getImprovementTypes($target) as $improvement)
+                        {
+                            $improvements[] = $improvement;
+                        }
+
+                        $improvementPoints = 0;
+                        foreach($improvements as $improvement)
+                        {
+                            $improvementPoints += $target->{'improvement_'.$improvement};
+                        }
+
+                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
+                        $damage = ($improvementPoints * $ratio * $damageMultiplier);
+
+                        $totalDamage = $damage;
+                        foreach($improvements as $improvement)
+                        {
+                            $target->{'improvement_'.$improvement} -= $damage * ($target->{'improvement_'.$improvement} / $improvementPoints);
+                        }
+
+                        $damageDealt = [sprintf('%s %s', number_format($totalDamage), dominion_attr_display('improvement', $totalDamage))];
                     }
                 }
 
