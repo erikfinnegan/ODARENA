@@ -108,7 +108,7 @@ class ScribesController extends AbstractController
     public function getSpells()
     {
         return view('pages.scribes.spells', [
-            'spells' => Spell::all()->keyBy('key')->sortBy('key'),
+            'spells' => Spell::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
             'spellHelper' => app(SpellHelper::class),
         ]);
     }
@@ -116,7 +116,7 @@ class ScribesController extends AbstractController
     public function getSpyops()
     {
         return view('pages.scribes.spy-ops', [
-            'spyops' => Spyop::all()->keyBy('key')->sortBy('key'),
+            'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
             'espionageHelper' => app(EspionageHelper::class),
         ]);
     }

@@ -109,7 +109,7 @@ class SpellActionService
             throw new LogicException("Spell {$spell->name} is not enabled.");
         }
 
-        $wizardStrengthCost = $this->getWizardStrengthCost($spell);
+        $wizardStrengthCost = $this->spellCalculator->getWizardStrengthCost($spell);
 
         if ($dominion->wizard_strength <= 0 or ($dominion->wizard_strength - $wizardStrengthCost) < 0)
         {
@@ -1552,26 +1552,6 @@ class SpellActionService
 
         return $base * $landRatio;
       }
-    }
-
-    public function getWizardStrengthCost(Spell $spell)
-    {
-        # Default values
-        $scopeCost = [
-                'hostile' => 2,
-                'friendly' => 2,
-                'self' => 2,
-            ];
-        $classCost = [
-                'active' => 3,
-                'info' => -1,
-                'passive' => 2,
-            ];
-
-        $cost = $scopeCost[$spell->scope] + $classCost[$spell->class];
-
-        return $spell->wizard_strength ?? $cost;
-
     }
 
 }

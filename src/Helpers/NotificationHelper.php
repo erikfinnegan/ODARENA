@@ -561,6 +561,10 @@ class NotificationHelper
                         $where = 'from our homes';
                         break;
 
+                    case 'seize_boats':
+                        $where = 'from our docks';
+                        break;
+
                     default:
                         throw new LogicException("Resource theft op notification for operation key {$data['operationKey']} not yet implemented");
                 }

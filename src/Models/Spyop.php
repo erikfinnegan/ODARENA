@@ -52,4 +52,43 @@ class Spyop extends AbstractModel
         return $perks->first()->pivot->value;
     }
 
+    public function getSpyopPerkValues(string $spyopKey, $spyopPerkTypes, $default = 0)
+    {
+        if (!is_array($spyopPerkTypes))
+        {
+            $spyopPerkTypes = [$spyopPerkTypes];
+        }
+
+        $spyopCollection = $this->where('key', $spyopKey);
+        #if ($spyopCollection->isEmpty())
+        #{
+        #    return $default;
+        #}
+
+        $perkCollection = $spyopCollection->first()->perks->whereIn('key', $spyopPerkTypes);
+        #if ($perkCollection->isEmpty())
+        #{
+        #    return $default;
+        #}
+
+        $perkValue = $perkCollection->first()->pivot->value;
+        if (str_contains($perkValue, ','))
+        {
+            $perkValue = explode(',', $perkValue);
+
+            foreach($perkValue as $key => $value)
+            {
+                if (!str_contains($value, ';'))
+                {
+                    continue;
+                }
+
+                $perkValue[$key] = explode(';', $value);
+            }
+        }
+
+        return $perkValue;
+    }
+
+
 }

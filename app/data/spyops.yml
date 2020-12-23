@@ -30,55 +30,56 @@ steal_platinum:
   name: Steal Platinum
   scope: theft
   perks:
-    resource_theft: platinum,1,50 #rate, max per spy
+    resource_theft: platinum,0.5,16 # resource, rate, max per spy
 
 steal_food:
   name: Steal Food
   scope: theft
   perks:
-    resource_theft: food,1,50 # resource, rate, max per spy
+    resource_theft: food,0.5,24 # resource, rate, max per spy
 
 steal_lumber:
   name: Steal Lumber
   scope: theft
   perks:
-    resource_theft: lumber,1,50 # resource, rate, max per spy
+    resource_theft: lumber,1.25,12 # resource, rate, max per spy
 
 steal_mana:
   name: Steal Mana
   scope: theft
   perks:
-    resource_theft: mana,1,50 # resource, rate, max per spy
+    resource_theft: mana,1,8 # resource, rate, max per spy
 
 steal_ore:
   name: Steal Ore
   scope: theft
   perks:
-    resource_theft: ore,1,50 # resource, rate, max per spy
+    resource_theft: ore,1,12 # resource, rate, max per spy
 
 steal_gems:
   name: Steal Gems
   scope: theft
   perks:
-    resource_theft: gems,1,50 # resource, rate, max per spy
+    resource_theft: gems,1,8 # resource, rate, max per spy
 
 abduct_draftees:
   name: Abduct Draftees
   scope: theft
   perks:
-    abduct_draftees: 1,0.5 # rate, max per spy
+    abduct_draftees: 2,0.5 # rate, max per spy
 
 abduct_peasants:
   name: Abduct Peasants
   scope: theft
   perks:
-    abduct_peasants: 1,1 # rate, max per spy
+    abduct_peasants: 2,0.75 # rate, max per spy
 
 seize_boats:
   name: Seize Boats
   scope: theft
+  enabled: 0
   perks:
-    seize_boats: 1,0.02 # rate, max per spy
+    resource_theft: boats,0.25,0.02 # resource, rate, max per spy
 
 # <Hostile>
 
@@ -109,6 +110,7 @@ sabotage_boats:
 sabotage_buildings:
   name: Sabotage Buildings
   scope: hostile
+  enabled: 0
   spy_strength: 5
   exclusive_races:
     - Ants
@@ -123,6 +125,7 @@ sabotage_buildings:
 destroy_buildings:
   name: Destroy Buildings
   scope: hostile
+  enabled: 0
   spy_strength: 5
   exclusive_races:
     - Firewalker

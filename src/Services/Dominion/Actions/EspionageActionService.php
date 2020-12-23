@@ -11,6 +11,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
@@ -24,6 +25,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
+use OpenDominion\Models\Spyop;
 
 
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
@@ -47,69 +49,6 @@ class EspionageActionService
      */
     protected const INFO_MULTIPLIER_SUCCESS_RATE = 1.4;
 
-
-    /**
-     * @var float Info op spy strength cost
-     */
-    protected const SPY_STRENGTH_COST_INFO_OPS = 2;
-
-
-    /**
-     * @var float Theft op spy strength cost
-     */
-    protected const SPY_STRENGTH_COST_THEFT_OPS = 5;
-
-
-    /**
-     * @var float Hostile op spy strength cost
-     */
-    protected const SPY_STRENGTH_COST_HOSTILE_OPS = 5;
-
-    /** @var BuildingHelper */
-    protected $buildingHelper;
-
-    /** @var EspionageHelper */
-    protected $espionageHelper;
-
-    /** @var ImprovementCalculator */
-    protected $improvementCalculator;
-
-    /** @var ImprovementHelper */
-    protected $improvementHelper;
-
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var LandHelper */
-    protected $landHelper;
-
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
-    /** @var NotificationService */
-    protected $notificationService;
-
-    /** @var OpsHelper */
-    protected $opsHelper;
-
-    /** @var ProductionCalculator */
-    protected $productionCalculator;
-
-    /** @var ProtectionService */
-    protected $protectionService;
-
-    /** @var QueueService */
-    protected $queueService;
-
-    /** @var RangeCalculator */
-    protected $rangeCalculator;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
-    /** @var LandImprovementCalculator */
-    protected $landImprovementCalculator;
-
     /**
      * EspionageActionService constructor.
      */
@@ -130,9 +69,9 @@ class EspionageActionService
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->landImprovementCalculator = app(LandImprovementCalculator::class);
+        $this->espionageCalculator = app(EspionageCalculator::class);
     }
 
-    # Any changes here must also be done in espionage.blade.php.
     public const BLACK_OPS_DAYS_AFTER_ROUND_START = 1;
     public const THEFT_DAYS_AFTER_ROUND_START = 1;
 
@@ -151,7 +90,7 @@ class EspionageActionService
         $this->guardLockedDominion($dominion);
         $this->guardLockedDominion($target);
 
-        $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
+        #$operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
         // Qur: Statis
         if($this->spellCalculator->getPassiveSpellPerkValue($target, 'stasis'))
@@ -163,49 +102,45 @@ class EspionageActionService
             throw new GameException('You cannot spy while you are in stasis.');
         }
 
-        if (!$operationInfo) {
+        $spyop = Spyop::where('key', $operationKey)->first();
+
+        if (!$spyop)
+        {
             throw new LogicException("Cannot perform unknown operation '{$operationKey}'");
         }
 
-        if ($dominion->spy_strength <= 0) {
-            throw new GameException("Your spies do not have enough strength to perform {$operationInfo['name']}.");
+        if (!$this->espionageCalculator->canPerform($dominion, $spyop))
+        {
+            throw new GameException("You cannot perform {$spyop->name}.");
         }
 
-        if ($this->protectionService->isUnderProtection($dominion)) {
+        // You need at least some positive SPA to perform espionage operations
+        if ($this->militaryCalculator->getSpyRatio($dominion) === 0.0)
+        {
+            throw new GameException("You need at least one full spy to perform {$spyop->name}. Please train some more spies.");
+        }
+
+
+        $spyStrengthCost = $this->espionageCalculator->getSpyStrengthCost($spyop);
+
+        if ($dominion->spy_strength <= 0 or ($dominion->spy_strength - $spyStrengthCost) < 0)
+        {
+            throw new GameException("Your wizards to not have enough strength to perform {$spyop->name}. You need {$spyStrengthCost}% spy strength to cast this spell.");
+        }
+
+        if ($this->protectionService->isUnderProtection($dominion))
+        {
             throw new GameException('You cannot perform espionage operations while under protection');
         }
 
-        if ($this->protectionService->isUnderProtection($target)) {
+        if ($this->protectionService->isUnderProtection($target))
+        {
             throw new GameException('You cannot perform espionage operations on targets which are under protection');
         }
 
-        if (!$this->rangeCalculator->isInRange($dominion, $target)) {
+        if (!$this->rangeCalculator->isInRange($dominion, $target))
+        {
             throw new GameException('You cannot perform espionage operations on targets outside of your range');
-        }
-
-        if ($this->espionageHelper->isResourceTheftOperation($operationKey))
-        {
-            if (now()->diffInDays($dominion->round->start_date) < self::THEFT_DAYS_AFTER_ROUND_START)
-            {
-                throw new GameException('You cannot perform resource theft during the first day of the round');
-            }
-            #if ($this->rangeCalculator->getDominionRange($dominion, $target) < 100) {
-            if (!$this->rangeCalculator->isInRange($dominion, $target))
-            {
-                throw new GameException('You cannot perform resource theft on targets outside of your range');
-            }
-            if ($this->spellCalculator->isSpellActive($target, 'blizzard'))
-            {
-                throw new GameException('Your spies are unable to enter the lands of ' . $target->name . ' due to an intense blizzard.');
-            }
-
-        }
-        elseif ($this->espionageHelper->isHostileOperation($operationKey))
-        {
-            if (now()->diffInDays($dominion->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START)
-            {
-                throw new GameException('You cannot perform black ops during the first day of the round');
-            }
         }
 
         if ($dominion->round->id !== $target->round->id)
@@ -213,14 +148,10 @@ class EspionageActionService
             throw new GameException('Nice try, but you cannot perform espionage operations cross-round');
         }
 
-        #if($dominion->race->alignment == 'good')
-        #{
-        # No in-realm ops.
-          if ($dominion->realm->id === $target->realm->id)
-          {
-              throw new GameException('Nice try, but you cannot perform espionage oprations on your realmies');
-          }
-        #}
+        if ($dominion->realm->id === $target->realm->id)
+        {
+            throw new GameException('Nice try, but you cannot perform espionage oprations on your realmies');
+        }
 
         if($operationKey == 'abduct_draftees' or $operationKey == 'abduct_peasants')
         {
@@ -235,31 +166,28 @@ class EspionageActionService
 
         $result = null;
 
-        DB::transaction(function () use ($dominion, $target, $operationKey, &$result) {
-            if ($this->espionageHelper->isInfoGatheringOperation($operationKey)) {
+        DB::transaction(function () use ($dominion, $target, $operationKey, &$result, $spyStrengthCost, $spyop)
+        {
 
-                $spyStrengthLost = min(static::SPY_STRENGTH_COST_INFO_OPS, $dominion->spy_strength);
-                $dominion->spy_strength -= $spyStrengthLost;
-
+            if ($spyop->scope === 'info')
+            {
                 $result = $this->performInfoGatheringOperation($dominion, $operationKey, $target);
-
-            } elseif ($this->espionageHelper->isResourceTheftOperation($operationKey)) {
-
-                $spyStrengthLost = min(static::SPY_STRENGTH_COST_THEFT_OPS, $dominion->spy_strength);
-                $dominion->spy_strength -= $spyStrengthLost;
-
-                $result = $this->performResourceTheftOperation($dominion, $operationKey, $target);
-
-            } elseif ($this->espionageHelper->isHostileOperation($operationKey)) {
-
-                $spyStrengthLost = min(static::SPY_STRENGTH_COST_HOSTILE_OPS, $dominion->spy_strength);
-                $dominion->spy_strength -= $spyStrengthLost;
-
-                $result = $this->performHostileOperation($dominion, $operationKey, $target);
-
-            } else {
+            }
+            elseif($spyop->scope === 'theft')
+            {
+                $result = $this->performTheftOperation($dominion, $target, $spyop);
+            }
+            elseif ($spyop->scope === 'hostile')
+            {
+                #$result = $this->performHostileOperation($dominion, $operationKey, $target);
+                $result = $this->performHostileOperation($dominion, $target, $spyop);
+            }
+            else
+            {
                 throw new LogicException("Unknown type for espionage operation {$operationKey}");
             }
+
+            $dominion->spy_strength -= $spyStrengthCost;
 
             # XP Gained.
             if(isset($result['damage']))
@@ -299,11 +227,6 @@ class EspionageActionService
      */
     protected function performInfoGatheringOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
-
-        if($dominion->spy_strength <= static::SPY_STRENGTH_COST_INFO_OPS)
-        {
-            throw new GameException('You do not have enough spy strength to perform this operation.');
-        }
 
         $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
@@ -606,432 +529,358 @@ class EspionageActionService
         ];
     }
 
-    /**
-     * @param Dominion $dominion
-     * @param string $operationKey
-     * @param Dominion $target
-     * @return array
-     * @throws Exception
-     */
-    protected function performResourceTheftOperation(Dominion $dominion, string $operationKey, Dominion $target): array
+    protected function performTheftOperation(Dominion $dominion, Dominion $target, Spyop $spyop): array
     {
-
-        if($dominion->spy_strength <= static::SPY_STRENGTH_COST_THEFT_OPS)
-        {
-            throw new GameException('You do not have enough spy strength to perform this operation.');
-        }
-
-        if ($dominion->round->hasOffensiveActionsDisabled())
-        {
-            throw new GameException('Theft has been disabled for the remainder of the round.');
-        }
-
-        $operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
         $selfSpa = $this->militaryCalculator->getSpyRatio($dominion, 'offense');
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
+        $spyUnits = $this->militaryCalculator->getSpyRatioRaw($dominion) * $this->landCalculator->getTotalLand($dominion);
 
-        // You need at least some positive SPA to perform espionage operations
-        if ($selfSpa === 0.0) {
-            // Don't reduce spy strength by throwing an exception here
-            throw new GameException("Your spy force is too weak to cast {$operationInfo['name']}. Please train some more spies.");
-        }
+        if($targetSpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfSpa, $targetSpa, static::THEFT_MULTIPLIER_SUCCESS_RATE)))
+        {
+            foreach($spyop->perks as $perk)
+            {
+                $spyopPerkValues = $spyop->getSpyopPerkValues($spyop->key, $perk->key);
 
-        if ($targetSpa !== 0.0) {
-            $successRate = $this->opsHelper->operationSuccessChance(
-                $selfSpa,
-                $targetSpa,
-                static::THEFT_MULTIPLIER_SUCCESS_RATE
-            );
-
-            if (!random_chance($successRate)) {
-                // Values (percentage)
-                $spiesKilledBasePercentage = 1;
-
-                $spiesKilledMultiplier = $this->getSpyLossesReductionMultiplier($dominion);
-
-                $spyLossSpaRatio = ($targetSpa / $selfSpa);
-                $spiesKilledPercentage = clamp($spiesKilledBasePercentage * $spyLossSpaRatio, 0.5, 1.5);
-
-                $unitsKilled = [];
-                $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
-
-                # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'immortal_spies'))
+                if($perk->key === 'resource_theft')
                 {
-                    $spiesKilled = 0;
+                    $resource = $spyopPerkValues[0];
+                    $ratio = (float)$spyopPerkValues[1] / 100;
+                    $maxPerSpy = (float)$spyopPerkValues[2];
+
+                    $amountStolen = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
+
+                    $target->{'resource_'.$resource} -= $amountStolen;
+                    $dominion->{'resource_'.$resource} += $amountStolen;
                 }
 
-                if ($spiesKilled > 0)
+                if($perk->key === 'abduct_draftees' or $perk->key === 'abduct_peasants' or $perk->key === 'seize_boats')
                 {
-                    $unitsKilled['spies'] = $spiesKilled;
-                    $dominion->military_spies -= $spiesKilled;
-                    $dominion->stat_total_spies_lost += $spiesKilled;
-                    $target->stat_total_spies_killed += $spiesKilled;
-
-                    if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
+                    if($perk->key == 'abduct_draftees')
                     {
-                        $target->realm->crypt += $spiesKilled;
+                        $resource = 'draftees';
+                        $resourceString = 'military_draftees';
                     }
-                }
-
-                $spyUnitsKilled = 0;
-                foreach ($dominion->race->units as $unit)
-                {
-                    if ($unit->getPerkValue('counts_as_spy_offense'))
+                    elseif($perk->key == 'abduct_peasants')
                     {
-                        if($unit->getPerkValue('immortal_spy'))
-                        {
-                            $unitKilled = 0;
-                        }
-                        else
-                        {
-                            $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
-                            $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
-                        }
-
-                        if ($unitKilled > 0)
-                        {
-                            $unitsKilled[strtolower($unit->name)] = $unitKilled;
-                            $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
-                            $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
-                            $target->stat_total_units_killed += $unitKilled;
-                            $spyUnitsKilled += $unitKilled;
-
-                            if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
-                            {
-                                $target->realm->crypt += $unitKilled;
-                            }
-                        }
+                        $resource = 'peasants';
+                        $resourceString = $resource;
                     }
+                    elseif($perk->key == 'seize_boats')
+                    {
+                        $resource = 'boats';
+                        $resourceString = 'resource_' . $resource;
+                    }
+
+                    $ratio = (float)$spyopPerkValues[0] / 100;
+                    $maxPerSpy = (float)$spyopPerkValues[1];
+
+                    $amountStolen = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
+
+                    $target->{$resourceString} -= $amountStolen;
+                    $dominion->{$resourceString} += $amountStolen;
                 }
-
-                if($target->race == 'Demon')
-                {
-                    $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
-                }
-
-                if($target->race->getPerkValue('converts_executed_spies'))
-                {
-                    $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
-                    $this->queueService->queueResources('training', $target, ['military_unit2' => ($spiesKilled + $spyUnitsKilled)], 2);
-                }
-
-                if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
-                {
-                    $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
-                    $this->queueService->queueResources('training', $target, ['military_spies' => ($spiesKilled + $spyUnitsKilled)], 2);
-                }
-
-                $unitsKilledStringParts = [];
-                foreach ($unitsKilled as $name => $amount) {
-                    $amountLabel = number_format($amount);
-                    $unitLabel = str_plural(str_singular($name), $amount);
-                    $unitsKilledStringParts[] = "{$amountLabel} {$unitLabel}";
-                }
-                $unitsKilledString = generate_sentence_from_array($unitsKilledStringParts);
-
-                $this->notificationService
-                    ->queueNotification('repelled_resource_theft', [
-                        'sourceDominionId' => $dominion->id,
-                        'operationKey' => $operationKey,
-                        'unitsKilled' => $unitsKilledString,
-                    ])
-                    ->sendNotifications($target, 'irregular_dominion');
-
-                if ($unitsKilledString) {
-                    $message = "The enemy has prevented our {$operationInfo['name']} attempt and managed to capture $unitsKilledString.";
-                } else {
-                    $message = "The enemy has prevented our {$operationInfo['name']} attempt.";
-                }
-
-                return [
-                    'success' => false,
-                    'message' => $message,
-                    'alert-type' => 'warning',
-                ];
             }
-        }
 
-        # Spy carries - spy carry
-        switch ($operationKey) {
-            case 'steal_platinum':
-                $resource = 'platinum';
-                $constraints = [
-                    'target_amount' => 2/4,
-                    'self_production' => 0,
-                    'spy_carries' => 45/4,
-                ];
-                break;
+            $target->save([
+                'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+                'action' => $spyop->key
+            ]);
 
-            case 'steal_food':
-                $resource = 'food';
-                $constraints = [
-                    'target_amount' => 2/4,
-                    'self_production' => 0,
-                    'spy_carries' => 0,
-                ];
-                break;
+            // Surreal Perception
+            $sourceDominionId = null;
+            if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+            {
+                $sourceDominionId = $dominion->id;
+            }
 
-            case 'steal_lumber':
-                $resource = 'lumber';
-                $constraints = [
-                    'target_amount' => 5/4,
-                    'self_production' => 0,
-                    'spy_carries' => 50/4,
-                ];
-                break;
+            $this->notificationService
+                ->queueNotification('resource_theft', [
+                    'sourceDominionId' => $sourceDominionId,
+                    'operationKey' => $spyop->key,
+                    'amount' => $amountStolen,
+                    'resource' => $resource,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
 
-            case 'steal_mana':
-                $resource = 'mana';
-                $constraints = [
-                    'target_amount' => 3/4,
-                    'self_production' => 0,
-                    'spy_carries' => 50/4,
-                ];
-                break;
+            return [
+                'success' => true,
+                'message' => sprintf(
+                    'Your spies infiltrate the target\'s dominion successfully and return with %s %s.',
+                    number_format($amountStolen),
+                    $resource
+                ),
+                'redirect' => route('dominion.op-center.show', $target),
+            ];
 
-            case 'steal_ore':
-                $resource = 'ore';
-                $constraints = [
-                    'target_amount' => 5/4,
-                    'self_production' => 0,
-                    'spy_carries' => 50/4,
-                ];
-                break;
-
-            case 'steal_gems':
-                $resource = 'gems';
-                $constraints = [
-                    'target_amount' => 2/4,
-                    'self_production' => 0,
-                    'spy_carries' => 50/4,
-                ];
-                break;
-
-            case 'abduct_draftees':
-                $resource = 'draftees';
-                $constraints = [
-                    'target_amount' => 2,
-                    'self_production' => 0,
-                    'spy_carries' => 1,
-                ];
-                break;
-
-            case 'abduct_peasants':
-                $resource = 'peasants';
-                $constraints = [
-                    'target_amount' => 2,
-                    'self_production' => 0,
-                    'spy_carries' => 1,
-                ];
-                break;
-
-            default:
-                throw new LogicException("Unknown resource theft operation {$operationKey}");
-        }
-
-        $amountStolen = $this->getResourceTheftAmount($dominion, $target, $resource, $constraints);
-
-        # Amount stolen decreased by land ratio.
-        $amountStolen = $amountStolen * min(1, $this->rangeCalculator->getDominionRange($dominion, $target)/100);
-
-        # Different logic for abducting draftees or peasants.
-        if($resource == 'draftees')
-        {
-            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen, $operationKey) {
-                $dominion->{"military_{$resource}"} += $amountStolen;
-                $dominion->save([
-                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
-                    'action' => $operationKey
-                ]);
-
-                $target->{"military_{$resource}"} -= $amountStolen;
-                $dominion->stat_total_draftees_abducted += $amountStolen;
-
-                $target->save([
-                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
-                    'action' => $operationKey
-                ]);
-            });
-        }
-        elseif($resource == 'peasants')
-        {
-            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen, $operationKey) {
-                $dominion->{"{$resource}"} += $amountStolen;
-                $dominion->save([
-                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
-                    'action' => $operationKey
-                ]);
-
-                $target->{"{$resource}"} -= $amountStolen;
-                $dominion->stat_total_peasants_abducted += $amountStolen;
-
-                $target->save([
-                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
-                    'action' => $operationKey
-                ]);
-            });
         }
         else
         {
+            // Values (percentage)
+            $spiesKilledBasePercentage = 1;
 
-            # Cult: Treachery
-            # If the $dominion is under Treachery, some of stolen resources go to $cult.
-            if ($this->spellCalculator->isSpellActive($dominion, 'treachery'))
+            $spiesKilledMultiplier = $this->getSpyLossesReductionMultiplier($dominion);
+
+            $spyLossSpaRatio = ($targetSpa / $selfSpa);
+            $spiesKilledPercentage = clamp($spiesKilledBasePercentage * $spyLossSpaRatio, 0.5, 1.5);
+
+            $unitsKilled = [];
+            $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
+
+            # Immortal spies
+            if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'immortal_spies'))
             {
-                $cult = $this->spellCalculator->getCaster($dominion, 'treachery');
-                $treacherousSpies = min($cult->military_unit4/10, $dominion->military_spies);
-
-                $amountStolenPerSpy = $amountStolen / $dominion->military_spies;
-
-                $amountStolenForCult = min($treacherousSpies*$amountStolenPerSpy, $amountStolen * 0.5);
-
-                $amountStolen = max(0, $amountStolen - $amountStolenForCult);
-
-                $this->queueService->queueResources('treachery', $cult, ['resource_'.$resource => $amountStolenForCult], 2);
-                $this->notificationService->queueNotification('treachery_occurred',['sourceDominionId' => $dominion->id, 'resource' => $resource, 'amount' => $amountStolenForCult]);
-                $this->notificationService->sendNotifications($cult, 'irregular_dominion');
-
+                $spiesKilled = 0;
             }
 
-            DB::transaction(function () use ($dominion, $target, $resource, $amountStolen, $operationKey) {
-                $dominion->{"resource_{$resource}"} += $amountStolen;
-                if($resource !== 'peasants')
+            if ($spiesKilled > 0)
+            {
+                $unitsKilled['spies'] = $spiesKilled;
+                $dominion->military_spies -= $spiesKilled;
+                $dominion->stat_total_spies_lost += $spiesKilled;
+                $target->stat_total_spies_killed += $spiesKilled;
+
+                if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                 {
-                    $dominion->{"stat_total_{$resource}_stolen"} += $amountStolen;
+                    $target->realm->crypt += $spiesKilled;
                 }
-                $dominion->save([
-                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
-                    'action' => $operationKey
-                ]);
+            }
 
-                $target->{"resource_{$resource}"} -= $amountStolen;
-                $target->save([
-                    'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
-                    'action' => $operationKey
-                ]);
-            });
+            $spyUnitsKilled = 0;
+            foreach ($dominion->race->units as $unit)
+            {
+                if ($unit->getPerkValue('counts_as_spy_offense'))
+                {
+                    if($unit->getPerkValue('immortal_spy'))
+                    {
+                        $unitKilled = 0;
+                    }
+                    else
+                    {
+                        $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_spy_offense') / 2) * ($spiesKilledPercentage / 100) * $spiesKilledMultiplier;
+                        $unitKilled = (int)floor($dominion->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
+                    }
+
+                    if ($unitKilled > 0)
+                    {
+                        $unitsKilled[strtolower($unit->name)] = $unitKilled;
+                        $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
+                        $dominion->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+                        $target->stat_total_units_killed += $unitKilled;
+                        $spyUnitsKilled += $unitKilled;
+
+                        if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
+                        {
+                            $target->realm->crypt += $unitKilled;
+                        }
+                    }
+                }
+            }
+
+            if($target->race == 'Demon')
+            {
+                $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
+            }
+
+            if($target->race->getPerkValue('converts_executed_spies'))
+            {
+                $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
+                $this->queueService->queueResources('training', $target, ['military_unit2' => ($spiesKilled + $spyUnitsKilled)], 2);
+            }
+
+            if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
+            {
+                $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
+                $this->queueService->queueResources('training', $target, ['military_spies' => ($spiesKilled + $spyUnitsKilled)], 2);
+            }
+
+            $unitsKilledStringParts = [];
+            foreach ($unitsKilled as $name => $amount) {
+                $amountLabel = number_format($amount);
+                $unitLabel = str_plural(str_singular($name), $amount);
+                $unitsKilledStringParts[] = "{$amountLabel} {$unitLabel}";
+            }
+            $unitsKilledString = generate_sentence_from_array($unitsKilledStringParts);
+
+            $this->notificationService
+                ->queueNotification('repelled_resource_theft', [
+                    'sourceDominionId' => $dominion->id,
+                    'operationKey' => $spyop->key,
+                    'unitsKilled' => $unitsKilledString,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
+
+            if ($unitsKilledString)
+            {
+                $message = "The enemy has prevented our {$spyop->name} attempt and managed to capture $unitsKilledString.";
+            }
+            else
+            {
+                $message = "The enemy has prevented our {$spyop->name} attempt.";
+            }
+
+            return [
+                'success' => false,
+                'message' => $message,
+                'alert-type' => 'warning',
+            ];
+
         }
-
-        // Surreal Perception
-        $sourceDominionId = null;
-        if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
-        {
-            $sourceDominionId = $dominion->id;
-        }
-
-        $this->notificationService
-            ->queueNotification('resource_theft', [
-                'sourceDominionId' => $sourceDominionId,
-                'operationKey' => $operationKey,
-                'amount' => $amountStolen,
-                'resource' => $resource,
-            ])
-            ->sendNotifications($target, 'irregular_dominion');
-
-        return [
-            'success' => true,
-            'message' => sprintf(
-                'Your spies infiltrate the target\'s dominion successfully and return with %s %s.',
-                number_format($amountStolen),
-                $resource
-            ),
-            'redirect' => route('dominion.op-center.show', $target),
-        ];
     }
 
-    protected function getResourceTheftAmount(
-        Dominion $dominion,
-        Dominion $target,
-        string $resource,
-        array $constraints
-    ): int
+    protected function getTheftAmount(Dominion $dominion, Dominion $target, Spyop $spyop, string $resource, float $ratio, float $spyUnits, float $maxPerSpy): int
     {
+        if($spyop->scope !== 'theft')
+        {
+            return 0;
+        }
 
-        // Limit to percentage of target's raw production
-        # For draftee abduction, limit to 1% of target's draftees.
-        # For peasant abduction, limit to 0.5% of target's peasants.
-        $maxTarget = true;
         if($resource == 'draftees')
         {
-            $maxTarget = intval($target->military_draftees * 0.01);
+            $resourceString = 'military_draftees';
         }
-        elseif($resource == 'peasants')
+        elseif($resource == 'abduct_peasants')
         {
-            $maxTarget = intval($target->peasants * 0.005);
+            $resourceString = 'peasants';
         }
-        elseif ($constraints['target_amount'] > 0)
+        elseif($resource == 'seize_boats')
         {
-            $maxTarget = $target->{'resource_' . $resource} * $constraints['target_amount'] / 100;
+            $resourceString = 'boats';
+        }
+        else
+        {
+            $resourceString = 'resource_'.$resource;
         }
 
-        // Limit to percentage of dominion's raw production
-        # Does not apply abduct_draftees or abduct_peasants.
-        $maxDominion = true;
-        if ($constraints['self_production'] > 0) {
-            if ($resource === 'platinum') {
-                $maxDominion = floor($this->productionCalculator->getPlatinumProductionRaw($dominion) * $constraints['self_production'] / 100);
-            } elseif ($resource === 'food') {
-                $maxDominion = floor($this->productionCalculator->getFoodProductionRaw($dominion) * $constraints['self_production'] / 100);
-            } elseif ($resource === 'lumber') {
-                $maxDominion = floor($this->productionCalculator->getLumberProductionRaw($dominion) * $constraints['self_production'] / 100);
-            } elseif ($resource === 'mana') {
-                $maxDominion = floor($this->productionCalculator->getManaProductionRaw($dominion) * $constraints['self_production'] / 100);
-            } elseif ($resource === 'ore') {
-                $maxDominion = floor($this->productionCalculator->getOreProductionRaw($dominion) * $constraints['self_production'] / 100);
-            } elseif ($resource === 'gems') {
-                $maxDominion = floor($this->productionCalculator->getGemProductionRaw($dominion) * $constraints['self_production'] / 100);
+        $availableResource = $target->{$resourceString};
+
+        $availableResource *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, ($resource . '_theft'));
+        $availableResource *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'all_theft');
+
+        $availableResource = max(0, $availableResource);
+
+        if($resource === 'platinum')
+        {
+            // Forest Havens
+            $availableResource *= 1 - min(($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 8, 0.80);
+        }
+
+        $theftAmount = min($availableResource * $ratio, $spyUnits * $maxPerSpy) * (0.9 + $dominion->spy_strength / 1000);
+
+        return min($availableResource * $ratio, $spyUnits * $maxPerSpy);
+    }
+
+    protected function performHostileOperation(Dominion $dominion, Dominion $target, Spyop $spyop): array
+    {
+        $selfSpa = $this->militaryCalculator->getSpyRatio($dominion, 'offense');
+        $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
+        $spyUnits = $this->militaryCalculator->getSpyRatioRaw($dominion) * $this->landCalculator->getTotalLand($dominion);
+
+        if($targetSpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfSpa, $targetSpa, static::HOSTILE_MULTIPLIER_SUCCESS_RATE)))
+        {
+            foreach($spyop->perks as $perk)
+            {
+                $spyopPerkValues = $spyop->getSpyopPerkValues($spyop->key, $perk->key);
+                $damageDealt = [];
+
+                if($perk->key === 'kill_draftees')
+                {
+                    $attribute = 'military_draftees';
+                    $ratio = $spyopPerkValues / 100;
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+
+                    $target->{$attribute} -= $damage;
+
+                }
+
+                if($perk->key === 'kill_wizards')
+                {
+                    $attribute = 'military_wizards';
+                    $ratio = $spyopPerkValues / 100;
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+
+                    $target->{$attribute} -= $damage;
+                }
+
+                if($perk->key === 'reduce_wizard_strength')
+                {
+                    $attribute = 'wizard_strength';
+                    $ratio = $spyopPerkValues / 100;
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+
+                    $target->{$attribute} -= $damage;
+                }
+
+                if($perk->key === 'sabotage_boats')
+                {
+                    $attribute = 'resource_boats';
+                    $ratio = $spyopPerkValues / 100;
+
+                    $targetBoats = $target->resource_boats;
+                    $targetBoats -= min($targetBoats, $this->militaryCalculator->getBoatsProtected($target));
+
+                    $damage = $targetBoats * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+                    $damage *= (1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'boats_sunk'));
+
+                    $damage = (int)floor($boatsSunk);
+
+                    $target->{$attribute} -= $damage;
+                }
+
+                $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
             }
+
+            $target->save([
+                'event' => HistoryService::EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION,
+                'action' => $spyop->key
+            ]);
+
+            // Surreal Perception
+            $sourceDominionId = null;
+            if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+            {
+                $sourceDominionId = $dominion->id;
+            }
+
+            $damageString = generate_sentence_from_array($damageDealt);
+
+            $this->notificationService
+                ->queueNotification('received_spy_op', [
+                    'sourceDominionId' => $sourceDominionId,
+                    'operationKey' => $spyop->key,
+                    'damageString' => $damageString,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
+
+            return [
+                'success' => true,
+                'damage' => $damage,
+                'message' => sprintf(
+                    'Your spies infiltrate the target\'s dominion successfully, they lost %s.',
+                    $damageString
+                ),
+                'redirect' => route('dominion.op-center.show', $target),
+            ];
+
         }
 
-        // Limit to amount carryable by spies
-        $maxCarried = true;
-        if ($constraints['spy_carries'] > 0) {
-            // todo: refactor raw spies calculation
-            $maxCarried = $this->militaryCalculator->getSpyRatioRaw($dominion) * $this->landCalculator->getTotalLand($dominion) * $constraints['spy_carries'];
-        }
-
-        // Forest Haven reduction
-        if ($resource === 'platinum') {
-            $forestHavenStolenPlatinumReduction = 8;
-            $forestHavenStolenPlatinumReductionMax = 80;
-            $stolenPlatinumMultiplier = (1 - min(
-                    (($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * $forestHavenStolenPlatinumReduction),
-                    ($forestHavenStolenPlatinumReductionMax / 100)
-                ));
-
-            $maxTarget *= $stolenPlatinumMultiplier;
-        }
-
-        if ($resource === 'platinum')
-        {
-            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'platinum_theft');
-        }
-
-        if ($resource === 'mana')
-        {
-            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'mana_theft');
-        }
-
-        if ($resource === 'lumber')
-        {
-            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'llumber_theft');
-        }
-
-        if ($resource === 'ore')
-        {
-            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'ore_theft');
-        }
-
-        if ($resource === 'gems')
-        {
-            $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'gems_theft');
-        }
-
-        $maxTarget *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'all_theft');
-
-        return min($maxTarget, $maxDominion, $maxCarried);
     }
 
     /**
@@ -1041,9 +890,8 @@ class EspionageActionService
      * @return array
      * @throws Exception
      */
-    protected function performHostileOperation(Dominion $dominion, string $operationKey, Dominion $target): array
+    protected function XXperformHostileOperation(Dominion $dominion, string $operationKey, Dominion $target): array
     {
-
         if($dominion->spy_strength <= static::SPY_STRENGTH_COST_HOSTILE_OPS)
         {
             throw new GameException('You do not have enough spy strength to perform this operation.');
@@ -1059,7 +907,8 @@ class EspionageActionService
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
 
         // You need at least some positive SPA to perform espionage operations
-        if ($selfSpa === 0.0) {
+        if ($selfSpa === 0.0)
+        {
             // Don't reduce spy strength by throwing an exception here
             throw new GameException("Your spy force is too weak to cast {$operationInfo['name']}. Please train some more spies.");
         }
@@ -1322,7 +1171,7 @@ class EspionageActionService
 
 
     /**
-     * Returns the base damage multiplier, which is dependent on WPA difference.
+     * Returns the base damage multiplier, which is dependent on SPA difference.
      *
      * @param Dominion $caster
      * @param Dominion $target
@@ -1346,13 +1195,13 @@ class EspionageActionService
      * @param string $attribute
      * @return float|null
      */
-    public function getOpDamageMultiplier(Dominion $performer, Dominion $target, array $operationInfo, string $attribute): float
+    public function getOpDamageMultiplier(Dominion $dominion, Dominion $target, Spyop $spyop, string $attribute): float
     {
 
         $damageMultiplier = 0;
 
         // Check for immortal wizards
-        if($operationInfo['key'] == 'assassinate_wizards')
+        if($attribute === 'military_wizards')
         {
             if ($target->race->getPerkValue('immortal_wizards') != 0)
             {

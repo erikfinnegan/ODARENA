@@ -25,13 +25,15 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\Spyop;
 
 class IntelligenceController extends AbstractDominionController
 {
     public function getIntelligence()
     {
         $dominion = $this->getSelectedDominion();
-        
+
+        $infoOps = Spyop::all()->where('scope','info')->where('enabled',1)->sortBy('key');
         $hostileInfos = Spell::all()->where('scope','hostile')->where('class','info')->where('enabled',1)->sortBy('key');
 
         $latestInfoOps = $dominion->realm->infoOps()
@@ -58,6 +60,7 @@ class IntelligenceController extends AbstractDominionController
             'spellDamageCalculator' => app(SpellDamageCalculator::class),
             'infoOpService' => app(InfoOpService::class),
             'hostileInfos' => $hostileInfos,
+            'infoOps' => $infoOps,
             'latestInfoOps' => $latestInfoOps,
         ]);
     }

@@ -12,7 +12,7 @@ description: >-
   <li><b>Treachery</b> (<em>hostile spell</em>): The target's spies return some of what they steal to you.</li>
   </ul>
 home_land_type: forest
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 3

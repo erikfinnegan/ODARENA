@@ -31,8 +31,7 @@
                                                 <option value="{{ $dominion->id }}"
                                                         data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
                                                         data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
-                                                        data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
-                                                        data-war="{{ ($selectedDominion->realm->war_realm_id == $dominion->realm->id || $dominion->realm->war_realm_id == $selectedDominion->realm->id) ? 1 : 0 }}">
+                                                        data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
                                                     {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                                 </option>
                                             @endforeach
@@ -59,21 +58,26 @@
                                 </div>
                             </div>
 
-                            @foreach ($espionageHelper->getResourceTheftOperations()->chunk(4) as $operations)
+
+                            @foreach ($theftOps->chunk(4) as $operations)
                                 <div class="row">
                                     @foreach ($operations as $operation)
-                                        <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
-                                            <div class="form-group">
-                                                <button type="submit"
-                                                        name="operation"
-                                                        value="{{ $operation['key'] }}"
-                                                        class="btn btn-primary btn-block"
-                                                        {{ $selectedDominion->isLocked() || !$espionageCalculator->canPerform($selectedDominion, $operation['key']) || (now()->diffInDays($selectedDominion->round->start_date) < 1) ? 'disabled' : null }}>
-                                                    {{ $operation['name'] }}
-                                                </button>
-                                                <p>{{ $operation['description'] }}</p>
+                                        @if($espionageCalculator->isSpyopAvailableToDominion($selectedDominion, $operation))
+                                            <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                            name="operation"
+                                                            value="{{ $operation->key }}"
+                                                            class="btn btn-primary btn-block"
+                                                            {{ $selectedDominion->isLocked() || !$espionageCalculator->canPerform($selectedDominion, $operation) ? 'disabled' : null }}>
+                                                        {{ $operation->name }}
+                                                    </button>
+                                                        @foreach($espionageHelper->getSpyopEffectsString($operation) as $effect)
+                                                        {{ $effect }}<br>
+                                                        @endforeach
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             @endforeach
@@ -84,24 +88,29 @@
                                 </div>
                             </div>
 
-                            @foreach ($espionageHelper->getBlackOperations()->chunk(4) as $operations)
+                            @foreach ($hostileOps->chunk(4) as $operations)
                                 <div class="row">
                                     @foreach ($operations as $operation)
-                                        <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
-                                            <div class="form-group">
-                                                <button type="submit"
-                                                        name="operation"
-                                                        value="{{ $operation['key'] }}"
-                                                        class="btn btn-primary btn-block"
-                                                        {{ $selectedDominion->isLocked() || !$espionageCalculator->canPerform($selectedDominion, $operation['key']) || (now()->diffInDays($selectedDominion->round->start_date) < 1) ? 'disabled' : null }}>
-                                                    {{ $operation['name'] }}
-                                                </button>
-                                                <p>{{ $operation['description'] }}</p>
-                                            </div>
-                                        </div>
+                                        @if($espionageCalculator->isSpyopAvailableToDominion($selectedDominion, $operation))
+                                                <div class="col-xs-6 col-sm-3 col-md-6 col-lg-3 text-center">
+                                                    <div class="form-group">
+                                                        <button type="submit"
+                                                                name="operation"
+                                                                value="{{ $operation->key }}"
+                                                                class="btn btn-primary btn-block"
+                                                                {{ $selectedDominion->isLocked() || !$espionageCalculator->canPerform($selectedDominion, $operation) ? 'disabled' : null }}>
+                                                            {{ $operation->name }}
+                                                        </button>
+                                                            @foreach($espionageHelper->getSpyopEffectsString($operation) as $effect)
+                                                            {{ $effect }}<br>
+                                                            @endforeach
+                                                    </div>
+                                                </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             @endforeach
+
                         </div>
                     </form>
                 @endif

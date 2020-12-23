@@ -181,7 +181,6 @@ class EspionageHelper
         $effectStrings = [];
 
         $spyopEffects = [
-
             // Info
             'barracks_spy' => 'Reveal units at home (up to 15%% inaccuracy), in training, and returning',
             'castle_spy' => 'Reveal improvements',
@@ -189,19 +188,18 @@ class EspionageHelper
             'survey_dominion' => 'Reveal current and incoming buildings',
 
             // Theft
-            'resource_theft' => 'Steal %1$s (base %2$s%% stolen, max %3$s per spy).',
-            'abduct_draftees' => 'Abduct draftees (base %1$s%% abducted, max %2$s per spy).',
-            'abduct_peasants' => 'Abduct peasants (base %1$s%% abducted, max %2$s per spy).',
-            'seize_boats' => 'Seize boats (base %1$s%% stolen, max %2$s per spy).',
+            'resource_theft' => 'Steal %1$s (base %2$s%%, max %3$s per spy).',
+            'abduct_draftees' => 'Abduct draftees (base %1$s%%, max %2$s per spy).',
+            'abduct_peasants' => 'Abduct peasants (base %1$s%%, max %2$s per spy).',
+            'seize_boats' => 'Seize boats (base %1$s%%, max %2$s per spy).',
 
             // Hostile
-            'assassinate_draftees' => 'Steal %1$s (base %2$s%% stolen, max %3$s per spy).',
-            'assassinate_wizards' => 'Abduct draftees (base %1$s%% abducted, max %2$s per spy).',
-            'magic_snare' => 'Abduct peasants (base %1$s%% abducted, max %2$s per spy).',
-            'sabotage_boats' => 'Seize boats (base %1$s%% stolen, max %2$s per spy).',
-            'sabotage_buildings' => 'Seize boats (base %1$s%% stolen, max %2$s per spy).',
-            'destroy_buildings' => 'Seize boats (base %1$s%% stolen, max %2$s per spy).',
-
+            'kill_draftees' => 'Assassinate draftees (base %s%% killed).',
+            'kill_wizards' => 'Assassinate wizards (base %s%% killed).',
+            'reduce_wizard_strength' => 'Reduce wizard strength (base %s%% killed).',
+            'sabotage_boats' => 'Sink boats (base %s%% sunk).',
+            'sabotage_buildings' => 'Sabotage buildings under construction (base %1$sx[Your SPA]).',
+            'destroy_buildings' => 'Destroy  buildings (base %1$sx[Your SPA]).',
         ];
 
         foreach ($spyop->perks as $perk)
