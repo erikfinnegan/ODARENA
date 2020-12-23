@@ -2830,8 +2830,8 @@ class InvadeActionService
       ): float
     {
         // Values (percentages)
-        $dpReductionPerTemple = 2;
-        $templeMaxDpReduction = 40;
+        $dpReductionPerTemple = 1.8;
+        $templeMaxDpReduction = 36;
         $ignoreDraftees = false;
 
         $dpMultiplierReduction = min(

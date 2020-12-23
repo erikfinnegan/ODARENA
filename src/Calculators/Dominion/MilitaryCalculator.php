@@ -1724,9 +1724,9 @@ class MilitaryCalculator
     public function getGryphonNestMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
-        $multiplier = ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)) * 1.85;
+        $multiplier = ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)) * 1.8;
 
-        return min($multiplier, 0.37);
+        return min($multiplier, 0.36);
     }
 
     /**
@@ -1780,9 +1780,9 @@ class MilitaryCalculator
     public function getGuardTowerMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
-        $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion)) * 1.85;
+        $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion)) * 1.8;
 
-        return min($multiplier, 0.37);
+        return min($multiplier, 0.36);
     }
 
 
