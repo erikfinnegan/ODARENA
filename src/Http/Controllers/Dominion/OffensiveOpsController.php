@@ -11,7 +11,7 @@ use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\CastSpellRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\IntelligenceRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\OffensiveOpsRequest;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Analytics\AnalyticsEvent;
 use OpenDominion\Services\Analytics\AnalyticsService;
@@ -52,7 +52,7 @@ class OffensiveOpsController extends AbstractDominionController
         ]);
     }
 
-    public function postOffensiveOps(IntelligenceRequest $request)
+    public function postOffensiveOps(OffensiveOpsRequest $request)
     {
         if($request->type === 'spell')
         {

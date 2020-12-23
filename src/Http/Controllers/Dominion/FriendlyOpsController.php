@@ -11,7 +11,7 @@ use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\CastSpellRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\IntelligenceRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\FriendlyOpsRequest;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Analytics\AnalyticsEvent;
 use OpenDominion\Services\Analytics\AnalyticsService;
@@ -51,14 +51,14 @@ class FriendlyOpsController extends AbstractDominionController
         ]);
     }
 
-    public function postFriendlyOps(IntelligenceRequest $request)
+    public function postFriendlyOps(FriendlyOpsRequest $request)
     {
         if($request->type === 'self_spell')
         {
             $dominion = $this->getSelectedDominion();
             $spellActionService = app(SpellActionService::class);
 
-            $spell = Spell::where('key', $request->get('operation'))->first();
+            $spell = Spell::where('key', $request->get('spell'))->first();
 
             $target = null;
 
@@ -87,7 +87,7 @@ class FriendlyOpsController extends AbstractDominionController
             $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
 
             return redirect()
-                ->to($result['redirect'] ?? route('dominion.offensive-ops'))
+                ->to($result['redirect'] ?? route('dominion.friendly-ops'))
                 ->with('spell_dominion', $request->get('spell_dominion'));
         }
         elseif($request->type === 'friendly_spell')
@@ -95,7 +95,7 @@ class FriendlyOpsController extends AbstractDominionController
             $dominion = $this->getSelectedDominion();
             $spellActionService = app(SpellActionService::class);
 
-            $spell = Spell::where('key', $request->get('operation'))->first();
+            $spell = Spell::where('key', $request->get('spell'))->first();
 
             $target = Dominion::findOrFail($request->get('friendly_dominion'));
 

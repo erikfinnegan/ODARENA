@@ -19,7 +19,7 @@
                         </div>
                         <form action="{{ route('dominion.friendly-ops') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="type" value="espionage">
+                            <input type="hidden" name="type" value="self_spell">
 
                             <div class="box-body">
                                   <table class="table table-striped">
@@ -69,14 +69,14 @@
 
                         <form action="{{ route('dominion.friendly-ops') }}" method="post" role="form">
                             @csrf
-                            <input type="hidden" name="type" value="spell">
+                            <input type="hidden" name="type" value="friendly_spell">
 
                             <div class="box-body">
 
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <select name="spell_dominion" id="spell_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            <select name="friendly_dominion" id="friendly_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                                 <option></option>
                                                 @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
                                                     <option value="{{ $dominion->id }}"
@@ -201,11 +201,11 @@
 
 
         (function ($) {
-            $('#espionage_dominion').select2({
+            $('#friendly_dominion').select2({
                 templateResult: select2Template,
                 templateSelection: select2Template,
             });
-            $('#espionage_dominion').change(function(e) {
+            $('#friendly_dominion').change(function(e) {
                 var warStatus = $(this).find(":selected").data('war');
                 if (warStatus == 1) {
                     $('.war-spell').removeClass('disabled');
@@ -213,8 +213,8 @@
                     $('.war-spell').addClass('disabled');
                 }
             });
-            @if (session('espionage_dominion'))
-                $('#espionage_dominion').val('{{ session('friendly_dominion') }}').trigger('change.select2').trigger('change');
+            @if (session('friendly_dominion'))
+                $('#friendly_dominion').val('{{ session('friendly_dominion') }}').trigger('change.select2').trigger('change');
             @endif
         })(jQuery);
 
