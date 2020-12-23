@@ -238,7 +238,7 @@ class BuildingHelper
             'home' => ['Houses 30 people.'],
             'lumberyard' => ['Produces 50 lumber/tick.'],
             'masonry' => ['Improvements increased by 2.75% per 1% owned.','Lightning bolt damage reduced by 0.80% per 1% owned.'],
-            'mycelia' => ['Houses 30 people or units.','Produces 4 food/tick.']
+            'mycelia' => ['Houses 30 people or units.','Produces 4 food/tick.'],
             'ore_mine' => ['Produces 60 ore/tick.'],
             'shrine' => ['Reduces offensive casualties reduced by 5% per 1% owned, up to a maximum of -75% at 15% owned.','Reduces defensive casualties by 1% per 1% owned, up to a maximum of 15%.'],
             'smithy' => ['Reduces unit platinum and ore training costs by 2% per 1% owned.','Maximum 40% at 20% owned.','Does not affect Gnome or Imperial Gnome ore costs.'],
