@@ -133,7 +133,7 @@
                       <li>Spy Ratio (offense): {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</li>
                     </ul>
 
-                    <a href="{{ route('scribes.espionage') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Espionage in the Scribes.</span></a>
+                    <a href="{{ route('scribes.spy-ops') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spy Ops in the Scribes.</span></a>
                 </div>
             </div>
         </div>

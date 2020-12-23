@@ -778,10 +778,11 @@ class EspionageActionService
 
         if($targetSpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfSpa, $targetSpa, static::HOSTILE_MULTIPLIER_SUCCESS_RATE)))
         {
+            $damageDealt = [];
+
             foreach($spyop->perks as $perk)
             {
                 $spyopPerkValues = $spyop->getSpyopPerkValues($spyop->key, $perk->key);
-                $damageDealt = [];
 
                 if($perk->key === 'kill_draftees')
                 {
@@ -795,7 +796,7 @@ class EspionageActionService
                     $damage = (int)floor($damage);
 
                     $target->{$attribute} -= $damage;
-
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 
                 if($perk->key === 'kill_wizards')
@@ -810,6 +811,7 @@ class EspionageActionService
                     $damage = (int)floor($damage);
 
                     $target->{$attribute} -= $damage;
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 
                 if($perk->key === 'reduce_wizard_strength')
@@ -824,6 +826,7 @@ class EspionageActionService
                     $damage = (int)floor($damage);
 
                     $target->{$attribute} -= $damage;
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 
                 if($perk->key === 'sabotage_boats')
@@ -842,9 +845,9 @@ class EspionageActionService
                     $damage = (int)floor($boatsSunk);
 
                     $target->{$attribute} -= $damage;
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 
-                $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
             }
 
             $target->save([

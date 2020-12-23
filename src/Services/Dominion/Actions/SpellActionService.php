@@ -686,24 +686,27 @@ class SpellActionService
                     $caster->stat_spells_reflected += 1;
                 }
 
+                $damageDealt = [];
+
                 foreach($spell->perks as $perk)
                 {
                     $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
 
                     if($perk->key === 'kills_peasants')
                     {
+                        $attribute = 'peasants';
                         $baseDamage = (float)$spellPerkValues / 100;
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'peasants');
 
                         $damage = min(round($target->peasants * $baseDamage * $damageMultiplier), $target->peasants);
 
-                        $target->peasants -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($this->raceHelper->getPeasantsTerm($target->race), $damage));
+                        $target->{$attribute} -= $damage;
+                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
                         // Update statistics
                         if (isset($dominion->{"stat_{$spell->key}_damage"}))
                         {
-                            $dominion->{"stat_{$spellInfo['key']}_damage"} += round($damage);
+                            $dominion->{"stat_{$spell->key}_damage"} += $damage;
                         }
 
                         # For Empire, add burned peasants go to the crypt
@@ -715,18 +718,19 @@ class SpellActionService
 
                     if($perk->key === 'kills_draftees')
                     {
+                        $attribute = 'military_draftees';
                         $baseDamage = (float)$spellPerkValues / 100;
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'draftees');
 
                         $damage = min(round($target->military_draftees * $baseDamage * $damageMultiplier), $target->military_draftees);
 
-                        $target->military_draftees -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($this->raceHelper->getDrafteesTerm($target->race), $damage));
+                        $target->{$attribute} -= $damage;
+                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
                         // Update statistics
                         if (isset($dominion->{"stat_{$spell->key}_damage"}))
                         {
-                            $dominion->{"stat_{$spellInfo['key']}_damage"} += round($damage);
+                            $dominion->{"stat_{$spell->key}_damage"} += $damage;
                         }
 
                         # For Empire, add burned peasants go to the crypt
@@ -738,30 +742,14 @@ class SpellActionService
 
                     if($perk->key === 'disband_spies')
                     {
+                        $attribute = 'military_spies';
                         $baseDamage = (float)$spellPerkValues / 100;
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'spies');
 
                         $damage = min(round($target->military_spies * $baseDamage * $damageMultiplier), $target->military_spies);
 
-                        $target->military_spies -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display('spies', $damage));
-
-                        // Update statistics
-                        if (isset($dominion->{"stat_{$spell->key}_damage"}))
-                        {
-                            $dominion->{"stat_{$spellInfo['key']}_damage"} += round($damage);
-                        }
-                    }
-
-                    if($perk->key === 'disband_spies')
-                    {
-                        $baseDamage = (float)$spellPerkValues / 100;
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'spies');
-
-                        $damage = min(round($target->military_spies * $baseDamage * $damageMultiplier), $target->military_spies);
-
-                        $target->military_spies -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display('spies', $damage));
+                        $target->{$attribute} -= $damage;
+                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
                         // Update statistics
                         if (isset($dominion->{"stat_{$spell->key}_damage"}))
@@ -774,14 +762,14 @@ class SpellActionService
                     {
                         $resource = $spellPerkValues[0];
                         $ratio = (float)$spellPerkValues[1] / 100;
+                        $attribute = 'resource_'.$resource;
 
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'food');
                         $damage = min(round($target->{'resource_'.$resource} * $ratio * $damageMultiplier), $target->{'resource_'.$resource});
 
-                        $target->{'resource_'.$resource} -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($resource, $damage));
+                        $target->{$attribute} -= $damage;
+                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                     }
-
                 }
 
                 $target->save([
@@ -796,7 +784,7 @@ class SpellActionService
                     $sourceDominionId = $dominion->id;
                 }
 
-                $damageString = generate_sentence_from_array($damage);
+                $damageString = generate_sentence_from_array($damageDealt);
 
                 $this->notificationService
                     ->queueNotification('received_hostile_spell', [
