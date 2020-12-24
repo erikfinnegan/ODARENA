@@ -11,7 +11,13 @@ class EspionageCalculator
     public function canPerform(Dominion $dominion, Spyop $spyop): bool
     {
 
-        if(!$this->isSpyopAvailableToDominion($dominion, $spyop) or ($dominion->spy_strength - $this->getSpyStrengthCost($spyop)) < 0 or $dominion->round->hasOffensiveActionsDisabled())
+        if(
+          !$this->isSpyopAvailableToDominion($dominion, $spyop)
+          or ($dominion->spy_strength - $this->getSpyStrengthCost($spyop)) < 0
+          or $dominion->round->hasOffensiveActionsDisabled())
+          or !$this->isSpyopAvailableToDominion($dominion, $spell)
+          or ($spell->scope == 'hostile' and (now()->diffInDays($dominion->round->start_date) < 1)
+        )
         {
             return false;
         }
