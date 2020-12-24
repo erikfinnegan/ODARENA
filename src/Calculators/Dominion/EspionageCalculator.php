@@ -14,9 +14,9 @@ class EspionageCalculator
         if(
           !$this->isSpyopAvailableToDominion($dominion, $spyop)
           or ($dominion->spy_strength - $this->getSpyStrengthCost($spyop)) < 0
-          or $dominion->round->hasOffensiveActionsDisabled())
-          or !$this->isSpyopAvailableToDominion($dominion, $spell)
-          or ($spell->scope == 'hostile' and (now()->diffInDays($dominion->round->start_date) < 1)
+          or $dominion->round->hasOffensiveActionsDisabled()
+          or !$this->isSpyopAvailableToDominion($dominion, $spyop)
+          or ($spyop->scope == 'hostile' and (now()->diffInDays($dominion->round->start_date) < 1))
         )
         {
             return false;
