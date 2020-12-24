@@ -425,7 +425,7 @@
                         <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
                             <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
-                            <input type="hidden" name="type" value="spell">
+                            <input type="hidden" name="type" value="espionage">
                             <input type="hidden" name="operation" value="castle_spy">
                             <button type="submit" class="btn btn-sm btn-primary">Castle Spy</button>
                         </form>
@@ -541,7 +541,7 @@
                         <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
                             <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
-                            <input type="hidden" name="type" value="spell">
+                            <input type="hidden" name="type" value="espionage">
                             <input type="hidden" name="operation" value="barracks_spy">
                             <button type="submit" class="btn btn-sm btn-primary">Barracks Spy</button>
                         </form>
@@ -693,7 +693,7 @@
                         <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
                             <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
-                            <input type="hidden" name="type" value="spell">
+                            <input type="hidden" name="type" value="espionage">
                             <input type="hidden" name="operation" value="survey_dominion">
                             <button type="submit" class="btn btn-sm btn-primary">Survey Dominion</button>
                         </form>
@@ -879,7 +879,7 @@
                         <form action="{{ route('dominion.intelligence') }}" method="post" role="form">
                             @csrf
                             <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
-                            <input type="hidden" name="type" value="spell">
+                            <input type="hidden" name="type" value="espionage">
                             <input type="hidden" name="operation" value="land_spy">
                             <button type="submit" class="btn btn-sm btn-primary">Land Spy</button>
                         </form>
@@ -1025,7 +1025,7 @@
                             @csrf
                             <input type="hidden" name="spell_dominion" value="{{ $dominion->id }}">
                             <input type="hidden" name="type" value="spell">
-                            <input type="hidden" name="spell" value="vision">
+                            <input type="hidden" name="operation" value="vision">
                             <button type="submit" class="btn btn-sm btn-primary">Vision ({{ number_format($spellCalculator->getManaCost($selectedDominion, 'vision')) }} mana)</button>
                         </form>
                     </div>
