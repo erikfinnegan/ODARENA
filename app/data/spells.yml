@@ -742,7 +742,7 @@ fine_arts:
   duration: 48
   cooldown: 0
   exclusive_races:
-    - Vampire
+    - Vampires
   perks:
     platinum_production: 5
     gem_production: 5
