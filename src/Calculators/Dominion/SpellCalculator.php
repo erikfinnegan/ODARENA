@@ -274,11 +274,20 @@ class SpellCalculator
     public function canCastSpell(Dominion $dominion, Spell $spell): bool
     {
         if(
+            # Cannot be on cooldown
             $this->isOnCooldown($dominion, $spell)
+
+            # Cannot cost more mana than the dominion has
             or $dominion->resource_mana < $this->getManaCost($dominion, $spell->key)
+
+            # Cannot cost more WS than the dominion has
             or ($dominion->wizard_strength - $this->getWizardStrengthCost($spell)) < 0
+
+            # Must be available to the dominion's faction (race)
             or !$this->isSpellAvailableToDominion($dominion, $spell)
-            or ($spell->scope == 'hostile' and $spell->class !== 'info' and (now()->diffInDays($dominion->round->start_date) < 1))
+
+            # Must not be a non-information hostile spell within the first day or after offensive actions are disabled
+            or ($spell->scope == 'hostile' and $spell->class !== 'info' and ((now()->diffInDays($dominion->round->start_date) < 1) or $dominion->round->hasOffensiveActionsDisabled()))
           )
         {
             return false;

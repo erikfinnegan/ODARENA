@@ -462,6 +462,7 @@ miners_sight:
   exclusive_races:
     - Dwarf
     - Artillery
+    - Gnome
   perks:
     ore_production: 10
     gem_production: 5

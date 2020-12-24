@@ -12,11 +12,17 @@ class EspionageCalculator
     {
 
         if(
+          # Must be available to the dominion's faction (race)
           !$this->isSpyopAvailableToDominion($dominion, $spyop)
+
+          # Cannot cost more SS than the dominions has
           or ($dominion->spy_strength - $this->getSpyStrengthCost($spyop)) < 0
+
+          # Espionage cannot be performed at all after offensive actions are disabled
           or $dominion->round->hasOffensiveActionsDisabled()
-          or !$this->isSpyopAvailableToDominion($dominion, $spyop)
-          or ($spyop->scope == 'hostile' and (now()->diffInDays($dominion->round->start_date) < 1))
+
+          # Hostile ops and theft cannot be performed within the first day
+          or (($spyop->scope == 'hostile' or $spyop->scope == 'theft') and (now()->diffInDays($dominion->round->start_date) < 1))
         )
         {
             return false;
