@@ -402,7 +402,7 @@ class ConversionCalculator
                 if($this->isSlotConvertible($slot, $attacker))
                 {
                     $offensiveCasualties += $amount;
-                    echo '<pre>[ATTACKER] Slot ' . $slot . ' is convertible.</pre>';
+                    #echo '<pre>[ATTACKER] Slot ' . $slot . ' is convertible.</pre>';
                 }
             }
 

@@ -442,7 +442,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -1542,7 +1542,7 @@ class InvadeActionService
 
               $returnTicks = $this->getUnitReturnHoursForSlot($dominion, $slot);
 
-              $returnTicks -= $this->SpellCalculator->getPassiveSpellPerkValue($dominion, 'faster_return');
+              $returnTicks -= $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'faster_return');
 
               # Check for faster_return_if_paired
               if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
