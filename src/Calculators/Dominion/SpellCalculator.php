@@ -278,7 +278,7 @@ class SpellCalculator
             or $dominion->resource_mana < $this->getManaCost($dominion, $spell->key)
             or ($dominion->wizard_strength - $this->getWizardStrengthCost($spell)) < 0
             or !$this->isSpellAvailableToDominion($dominion, $spell)
-            or ($spell->scope == 'hostile' and $spell->class !== 'info' (now()->diffInDays($dominion->round->start_date) < 1))
+            or ($spell->scope == 'hostile' and $spell->class !== 'info' and (now()->diffInDays($dominion->round->start_date) < 1))
           )
         {
             return false;
