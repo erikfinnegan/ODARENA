@@ -830,7 +830,7 @@ class InvadeActionService
         $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
 
         // Spell
-        $drafteesLost = min($target->military_draftees, $drafteesLost * (1 + $spellCalculator->getPassiveSpellPerkValue($dominion, 'increases_enemy_draftee_casualties')));
+        $drafteesLost = min($target->military_draftees, $drafteesLost * (1 + $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'increases_enemy_draftee_casualties')));
 
         if ($drafteesLost > 0)
         {
