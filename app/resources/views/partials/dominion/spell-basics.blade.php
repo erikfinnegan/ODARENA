@@ -5,7 +5,7 @@
 <span data-toggle="tooltip" data-placement="top" title="Mana required to cast spell">M</span>: <span class="{{ $manaAfforded }}">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}</span>
 @if($spell->duration > 0)
   / <span data-toggle="tooltip" data-placement="top" title="Tick duration of effect">{{--T--}}<i class="ra ra-hourglass"></i></span>:
-        @if($isActive)
+        @if(isset($isActive) and $isActive)
             <span class="text-green">{{ $spellCalculator->getSpellDuration($selectedDominion, $spell->key) }}/{{ $spell->duration }}</span>
         @else
             <span class="text-muted">{{ $spell->duration }}</span>
