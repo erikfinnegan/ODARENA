@@ -78,7 +78,7 @@
                                         <div class="form-group">
                                             <select name="friendly_dominion" id="friendly_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                                 <option></option>
-                                                @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
+                                                @foreach ($rangeCalculator->getFriendlyDominionsInRange($selectedDominion) as $dominion)
                                                     <option value="{{ $dominion->id }}"
                                                             data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
                                                             data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
@@ -100,7 +100,7 @@
                                                   @endphp
                                                   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
                                                       <div class="form-group">
-                                                          <button type="submit" name="operation" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
+                                                          <button type="submit" name="spell" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
                                                               {{ $spell->name }}
                                                           </button>
                                                           <p>
@@ -143,11 +143,11 @@
                                         <td>{{ $spell->name }}</td>
                                         <td>{{ $activePassiveSpellCast->duration }} / {{ $spell->duration }}</td>
                                         <td>
-                                            <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
+                                            <form action="{{ route('dominion.friendly-ops') }}" method="post" role="form">
                                                 @csrf
                                                 <input type="hidden" name="type" value="spell">
                                                 <input type="hidden" name="spell_dominion" value="{{ $activePassiveSpellCast->target_dominion_id }}">
-                                                <button type="submit" name="operation" value="{{ $spell->key }}" class="btn btn-primary btn-block">
+                                                <button type="submit" name="spell" value="{{ $spell->key }}" class="btn btn-primary btn-block">
                                                 <i class="ra ra-cycle"></i>
                                                 </button>
                                             </form>

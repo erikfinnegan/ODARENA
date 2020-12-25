@@ -33,6 +33,7 @@ class OffensiveOpsController extends AbstractDominionController
         $dominion = $this->getSelectedDominion();
 
         $hostileSpyops = Spyop::all()->where('scope','hostile')->where('enabled',1)->sortBy('key');
+        $theftSpyops = Spyop::all()->where('scope','theft')->where('enabled',1)->sortBy('key');
         $hostileSpells = Spell::all()->where('scope','hostile')->whereIn('class',['active','passive'])->where('enabled',1)->sortBy('key');
         #$hostileAuras = Spell::all()->where('scope','hostile')->where('class','passive')->where('enabled',1)->sortBy('key');
 
@@ -48,6 +49,7 @@ class OffensiveOpsController extends AbstractDominionController
             'networthCalculator' => app(NetworthCalculator::class),
             'spellDamageCalculator' => app(SpellDamageCalculator::class),
             'hostileSpyops' => $hostileSpyops,
+            'theftSpyops' => $theftSpyops,
             'hostileSpells' => $hostileSpells
         ]);
     }
