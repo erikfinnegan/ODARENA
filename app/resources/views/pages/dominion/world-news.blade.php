@@ -87,8 +87,9 @@
                                                     @endif
                                                 @endif
                                             @elseif ($gameEvent->type === 'barbarian_invasion')
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                 <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-yellow">{{ $gameEvent->source->name }}</span></a>
-                                                <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a>
+                                                <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>
                                                 {{ $gameEvent['data']['type'] }} a nearby {{ $gameEvent['data']['target'] }} and captured <span class="text-yellow text-bold">{{ number_format($gameEvent['data']['land']) }}</span> land.
                                             @elseif ($gameEvent->type === 'war_declared')
                                                 <a href="{{ route('dominion.realm', [$gameEvent->source->number]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span> (#{{ $gameEvent->source->number }})</a> has declared <span class="text-red text-bold">WAR</span> on <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span> (#{{ $gameEvent->target->number }})</a>.
