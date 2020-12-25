@@ -118,6 +118,48 @@
                             </div>
                         </form>
 
+                        <div class="box-body">
+                            <h4>Active Friendly Spells</h4>
+                            <table class="table table-condensed">
+                                <colgroup>
+                                    <col>
+                                    <col>
+                                    <col width="100">
+                                    <col width="50">
+                                </colgroup>
+                                <tr>
+                                    <th>Dominion</th>
+                                    <th>Spell</th>
+                                    <th>Duration</th>
+                                    <th></th>
+                                </tr>
+                            @foreach($spellCalculator->getPassiveSpellsCast($selectedDominion, true) as $activePassiveSpellCast)
+                                @php
+                                    $spell = $spellCalculator->getSpellObjectFromKey($activePassiveSpellCast->spell);
+                                @endphp
+                                @if($spell->scope == 'friendly')
+                                    <tr>
+                                        <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->target_dominion_id]) }}">{{ $activePassiveSpellCast->target_dominion_name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->target_dominion_realm_number }})</a></td>
+                                        <td>{{ $spell->name }}</td>
+                                        <td>{{ $activePassiveSpellCast->duration }} / {{ $spell->duration }}</td>
+                                        <td>
+                                            <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
+                                                @csrf
+                                                <input type="hidden" name="type" value="spell">
+                                                <input type="hidden" name="spell_dominion" value="{{ $activePassiveSpellCast->target_dominion_id }}">
+                                                <button type="submit" name="operation" value="{{ $spell->key }}" class="btn btn-primary btn-block">
+                                                <i class="ra ra-cycle"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                            </table>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>

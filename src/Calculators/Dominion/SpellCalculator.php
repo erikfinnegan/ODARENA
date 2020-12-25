@@ -161,6 +161,47 @@ class SpellCalculator
         return $data;
     }
 
+
+    /**
+     * Returns a list of spells currently affecting $dominion.
+     *
+     * @param Dominion $dominion
+     * @param bool $forceRefresh
+     * @return Collection
+     */
+    public function getPassiveSpellsCast(Dominion $dominion, bool $forceRefresh = false): Collection
+    {
+        $cacheKey = $dominion->id;
+
+        if (!$forceRefresh && array_has($this->activeSpells, $cacheKey))
+        {
+            return collect(array_get($this->activeSpells, $cacheKey));
+        }
+
+        $data = DB::table('active_spells')
+            ->join('dominions', 'dominions.id', '=', 'dominion_id')
+            ->join('realms', 'realms.id', '=', 'dominions.realm_id')
+            ->where('cast_by_dominion_id', $dominion->id)
+            ->where('duration', '>', 0)
+            ->orderBy('duration', 'asc')
+            ->orderBy('created_at')
+            ->get([
+                'active_spells.*',
+                'dominions.id AS target_dominion_id',
+                'dominions.name AS target_dominion_name',
+                'realms.number AS target_dominion_realm_number',
+            ]);
+
+        array_set($this->activeSpells, $cacheKey, $data->toArray());
+
+        return $data;
+    }
+
+    public function getSpellObjectFromKey(string $spellKey): Spell
+    {
+        return Spell::where('key', $spellKey)->first();
+    }
+
     /**
      * Returns whether a particular spell is affecting $dominion right now.
      *
