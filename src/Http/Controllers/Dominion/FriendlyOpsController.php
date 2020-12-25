@@ -129,7 +129,8 @@ class FriendlyOpsController extends AbstractDominionController
         }
         else
         {
-            new GameException('Unknown action.');
+            dd('Bugggg...');
+            throw new GameException('Unknown friendly ops action.');
         }
 
     }

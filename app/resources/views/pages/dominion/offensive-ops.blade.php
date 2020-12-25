@@ -178,7 +178,8 @@
                                                 @csrf
                                                 <input type="hidden" name="type" value="spell">
                                                 <input type="hidden" name="spell_dominion" value="{{ $activePassiveSpellCast->target_dominion_id }}">
-                                                <button type="submit" name="operation" value="{{ $spell->key }}" class="btn btn-primary btn-block">
+                                                <input type="hidden" name="operation" value="{{ $spell->key }}">
+                                                <button type="submit" class="btn btn-primary btn-block">
                                                 <i class="ra ra-cycle"></i>
                                                 </button>
                                             </form>

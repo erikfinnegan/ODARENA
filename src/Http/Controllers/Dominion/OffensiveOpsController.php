@@ -128,7 +128,7 @@ class OffensiveOpsController extends AbstractDominionController
         }
         else
         {
-            new GameException('Unknown action.');
+            throw new GameException('Unknown offensive ops action.');
         }
 
     }

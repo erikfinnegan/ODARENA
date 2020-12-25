@@ -14,6 +14,7 @@ class OffensiveOpsRequest extends AbstractDominionRequest
         return [
             'type' => 'required',
             'operation' => 'required',
+            'spell_dominion' => 'string',
             'spell_dominion' => 'integer|exists:dominions,id',
             'espionage_dominion' => 'integer|exists:dominions,id',
         ];
