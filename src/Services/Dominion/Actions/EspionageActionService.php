@@ -842,7 +842,7 @@ class EspionageActionService
                     $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
                     $damage *= (1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'boats_sunk'));
 
-                    $damage = (int)floor($boatsSunk);
+                    $damage = (int)floor($damage);
 
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));

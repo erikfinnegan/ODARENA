@@ -35,7 +35,6 @@ class OffensiveOpsController extends AbstractDominionController
         $hostileSpyops = Spyop::all()->where('scope','hostile')->where('enabled',1)->sortBy('key');
         $theftSpyops = Spyop::all()->where('scope','theft')->where('enabled',1)->sortBy('key');
         $hostileSpells = Spell::all()->where('scope','hostile')->whereIn('class',['active','passive'])->where('enabled',1)->sortBy('key');
-        #$hostileAuras = Spell::all()->where('scope','hostile')->where('class','passive')->where('enabled',1)->sortBy('key');
 
         return view('pages.dominion.offensive-ops', [
             'landCalculator' => app(LandCalculator::class),
