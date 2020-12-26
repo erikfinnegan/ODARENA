@@ -1059,7 +1059,7 @@ class SpellActionService
             case 'vision':
 
                 $advancements = [];
-                $techs = $target->techs->sortBy('level')->toArray();
+                $techs = $target->techs->sortBy('key')->toArray();
                 foreach($techs as $tech)
                 {
                     $advancement = $tech['name'];
