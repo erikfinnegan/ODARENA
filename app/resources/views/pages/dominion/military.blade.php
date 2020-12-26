@@ -209,33 +209,141 @@
                 <div class="box-footer">
                     <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                       @if ($selectedDominion->race->name == 'Growth')
-                      Mutate
+                          Mutate
                       @elseif ($selectedDominion->race->name == 'Myconid')
-                      Grow
+                          Grow
                       @elseif ($selectedDominion->race->name == 'Swarm')
-                      Hatch
+                          Hatch
                       @else
-                      Train
+                          Train
                       @endif
                     </button>
                     <div class="pull-right">
                       You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ ucwords(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race))) }} available.
 
                       @if ($selectedDominion->race->name == 'Demon')
-                      <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls and <strong>{{ number_format($selectedDominion->resource_blood) }}</strong> gallons of blood.
+                          <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls and <strong>{{ number_format($selectedDominion->resource_blood) }}</strong> gallons of blood.
                       @endif
 
                       @if ($selectedDominion->race->name == 'Norse')
-                      <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions awaiting.
+                          <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions waiting.
                       @endif
 
                       @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
-                      <br> You were recently invaded, enraging your Spriggan and Leshy.
+                          <br> You were recently invaded, enraging your Spriggan and Leshy.
                       @endif
                     </div>
                 </div>
             </form>
         </div>
+
+
+            <div class="col-sm-12 col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="ra ra-sword"></i> Units in training and home</h3>
+                    </div>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table">
+                            <colgroup>
+                                <col>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <col width="20">
+                                @endfor
+                                <col width="100">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Unit</th>
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <th class="text-center">{{ $i }}</th>
+                                    @endfor
+                                    <th class="text-center">Home (Training)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($unitHelper->getUnitTypes() as $unitType)
+                                    <tr>
+                                        <td>
+
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
+                                                {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
+                                            </span>
+                                        </td>
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <td class="text-center">
+                                                @if ($queueService->getTrainingQueueAmount($selectedDominion, "military_{$unitType}", $i) === 0)
+                                                    -
+                                                @else
+                                                    {{ number_format($queueService->getTrainingQueueAmount($selectedDominion, "military_{$unitType}", $i)) }}
+                                                @endif
+                                            </td>
+                                        @endfor
+                                        <td class="text-center">
+                                            {{ number_format($selectedDominion->{'military_' . $unitType}) }}
+                                            ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-clock-o"></i> Units returning from battle</h3>
+                    </div>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table">
+                            <colgroup>
+                                <col>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <col width="20">
+                                @endfor
+                                <col width="100">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Unit</th>
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <th class="text-center">{{ $i }}</th>
+                                    @endfor
+                                    <th class="text-center">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (range(1, 4) as $slot)
+                                    @php($unitType = ('unit' . $slot))
+                                    <tr>
+                                        <td>
+
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
+                                                {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
+                                            </span>
+                                        </td>
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <td class="text-center">
+                                                @if ($queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i) === 0)
+                                                    -
+                                                @else
+                                                    {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i)) }}
+                                                @endif
+                                            </td>
+                                        @endfor
+                                        <td class="text-center">
+                                            {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
 
     </div>
 
@@ -243,31 +351,8 @@
 
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Information</h3>
-                <a href="{{ route('dominion.advisors.military') }}" class="pull-right">Military Advisor</a>
-            </div>
-            <div class="box-body">
-
-              <p>
-                  Here you can
-                  @if ($selectedDominion->race->name == 'Growth')
-                  mutate
-                  @elseif ($selectedDominion->race->name == 'Myconid')
-                  grow
-                  @elseif ($selectedDominion->race->name == 'Swarm')
-                  hatch
-                  @else
-                  train
-                  @endif
-                  military units.
-              </p>
-              {{-- <p>You have {{ number_format($selectedDominion->military_draftees) }} {{ str_plural($raceHelper->getDrafteesTerm($selectedDominion->race) , $selectedDominion->military_draftees) }}.</p> --}}
-
-              <p>You can also <a href="{{ route('dominion.military.release') }}">release units</a>.</p>
-            </div>
-
-            <div class="box-header with-border">
-                <h4 class="box-title">Drafting</h4>
+                <h3 class="box-title">Drafting</h3>
+                <a href="{{ route('dominion.advisors.military') }}" class="pull-right">Release Units</a>
             </div>
             <form action="{{ route('dominion.military.change-draft-rate') }}" method="post" role="form">
                 @csrf
@@ -310,7 +395,11 @@
         </div>
         @include('partials.dominion.military-cost-modifiers')
         @include('partials.dominion.military-power-modifiers')
+    </div>
 
+</div>
+
+<div class="row">
 
 </div>
 
