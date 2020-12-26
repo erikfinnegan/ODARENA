@@ -739,7 +739,7 @@ class EspionageActionService
         {
             $resourceString = 'military_draftees';
         }
-        elseif($resource == 'abduct_peasants')
+        elseif($resource == 'peasants')
         {
             $resourceString = 'peasants';
         }

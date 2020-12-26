@@ -338,6 +338,11 @@ class SpellActionService
                     throw new GameException("{$spell->name} is already at maximum duration.");
                 }
 
+                if ($caster->realm->id !== $target->realm->id)
+                {
+                    throw new GameException("{$target->name} is not a friendly dominion. You can only cast {$spell->name} on dominions in your realm.");
+                }
+
                 DB::table('active_spells')
                     ->where($where)
                     ->update([
