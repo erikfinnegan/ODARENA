@@ -530,7 +530,7 @@ class TrainingCalculator
         # Cap reduction at -50%
         $multiplier = max(-0.50, $multiplier);
 
-        # Spells can take reduction below 50%!
+        # Spells: can take reduction below 50%!
         $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'training_costs');
 
         return (1 + $multiplier);

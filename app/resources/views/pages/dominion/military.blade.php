@@ -73,7 +73,6 @@
                                               </td>
                                               <td class="text-center">  <!-- Trained -->
                                                   {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}
-
                                                   @if($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}") > 0)
                                                   <br>
                                                   ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
@@ -373,8 +372,7 @@
                                 @endif
                                 <td class="text">
                                     <input type="number" name="draft_rate" class="form-control text-center"
-                                           style="display: inline-block; width: 4em;" placeholder="0" min="0"
-                                           max="100"
+                                           style="display: inline-block; width: 4em;" placeholder="0" min="0" max="100"
                                            value="{{ $selectedDominion->draft_rate }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>&nbsp;%
                                 </td>
                             </tr>
