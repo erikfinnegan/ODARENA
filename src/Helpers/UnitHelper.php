@@ -71,6 +71,9 @@ class UnitHelper
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
+            'defense_from_buildings' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
+            'offense_from_buildings' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
+
             'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
@@ -453,8 +456,23 @@ class UnitHelper
                     $perkValue = [$multiplier, str_plural($unitToConvertTo->name)];
                 }
 
+                if($perk->key === 'defense_from_buildings')
+                {
 
+                    $buildings = (array)$perkValue[0];
+                    $ratio = (float)$perkValue[1];
+                    $max = (float)$perkValue[2];
 
+                    foreach ($buildings as $index => $building)
+                    {
+                        $buildings[$index] = str_plural(ucwords(str_replace('_',' ', $building)));
+                    }
+
+                    $buildingsString = generate_sentence_from_array($buildings) . ' (combined)';
+
+                    $perkValue = [$buildingsString, $ratio, $max];
+
+                }
 
                 if($perk->key === 'plunders')
                 {
@@ -549,6 +567,10 @@ class UnitHelper
                     {
                         foreach ($perkValue as $nestedKey => $nestedValue)
                         {
+                            if($perk->key == 'defense_from_buildings')
+                            {
+                                #dd($nestedKey, $nestedValue, $perkTypeStrings[$perk->key]);
+                            }
                             foreach($nestedValue as $key => $value)
                             {
                                 $nestedValue[$key] = ucwords(str_replace('level','level ',str_replace('_', ' ',$value)));
@@ -568,6 +590,10 @@ class UnitHelper
                 }
                 else
                 {
+                    if($perk->key == 'defense_from_buildings')
+                    {
+                        dd($perk->key, $perkValue, $perkTypeStrings[$perk->key]);
+                    }
                     $perkValue = str_replace('_', ' ',ucwords($perkValue));
                     $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
@@ -662,6 +688,11 @@ class UnitHelper
 
         $attributeString .= '</ul>';
         return $attributeString;
+    }
+
+    public function unitNeedsBoat(Unit $unit)
+    {
+        return !in_array('flying', $this->getUnitAttributesList('unit'.$unit->slot));
     }
 
 }

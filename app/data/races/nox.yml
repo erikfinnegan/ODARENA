@@ -9,42 +9,46 @@ exploring : 3
 converting: 2
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: platinum,mana
 
 perks:
   food_consumption: -50
-  max_population: 10
+  mana_production: 50
 units:
   - name: Imp
-    need_boat: false
     training_time: 0
+    static_networth: 5
     type:
       - magical
+      - flying
     cost:
       mana: 10
     power:
-      offense: 3
+      offense: 2
       defense: 0
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
       instant_training: 1
-      pairing_limit: 4,2 # Unit slot, amount (max 2 of this unit per each Unit 4)
-      fixed_casualties: 100
-    static_networth: 10
+      pairing_limit: 4,4 # Unit slot, amount (max 2 of this unit per each Unit 4)
+      fixed_casualties: 50
+      plunder: mana,5
 
-  - name: Gloom
+  - name: Acolyte
     training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      platinum: 350
+      platinum: 400
       mana: 5
     power:
       offense: 0
-      defense: 3
+      defense: 4
+    perks:
+      counts_as_wizard_offense: 0.1667
+      counts_as_wizard_defense: 0.1667
 
   - name: Nightshade
     training_time: 12
@@ -54,12 +58,12 @@ units:
       - intelligent
     cost:
       platinum: 800
-      mana: 15
+      mana: 10
     power:
       offense: 0
-      defense: 2
+      defense: 4
     perks:
-      defense_from_land: swamp,12,5 # land type, ratio%,max
+      defense_from_buildings: temple;wizard_guild;tower,10,4 # buildings; ratio; max
 
   - name: Lich
     training_time: 12
@@ -69,12 +73,13 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 1100
+      platinum: 1000
       mana: 15
     power:
-      offense: 6
-      defense: 3
+      offense: 3
+      defense: 4
     perks:
       fewer_casualties: 80
-      counts_as_wizard_offense: 0.1
       plunders: mana;1,gems;0.8
+      offense_wizard_ratio: 0.5,7 # ratio%, max
+      decay_protection: 500,mana

@@ -16,6 +16,7 @@ perks:
   mana_production: 10
   food_consumption: -100
   max_per_round: 1
+  wizard_training_time: 6
 units:
   - name: Skeleton
     need_boat: true
@@ -43,6 +44,7 @@ units:
       offense: 0
       defense: 3
     perks:
+      cannot_be_trained: 1
       immortal: 1
       does_not_count_as_population: 1
       pairing_limit: 3,2 # Unit slot, amount (max 2 of this unit per each Unit 4)
@@ -60,20 +62,21 @@ units:
       offense: 3
       defense: 5
     perks:
+      cannot_be_trained: 1
       immortal: 1
 
-  - name: Wraith
+  - name: Necromancer
     need_boat: false
-    training_time: 12
+    training_time: 3
     type:
       - sentient
       - intelligent
     cost:
       platinum: 1000
-      mana: 10
+      wizard: 1
     power:
       offense: 5
       defense: 3
     perks:
-      immortal: 1
-      offense_wizard_ratio: 1,2 # ratio%, max
+      counts_as_wizard_offense: 0.333
+      counts_as_wizard_defense: 0.250
