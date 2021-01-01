@@ -1720,93 +1720,35 @@ class InvadeActionService
 
         $isInvasionSpell = True;
 
-        # Attacker spells
-        # Spells the attacker casts on the defender during invasion.
-        $attackerSpells = $this->spellHelper->getInvasionSpells($attacker, $defender);
+        /*
+            Spells to check for:
+            [AFFLICTED]
+              - [ATTACKER] Pestilence: Within 50% of target's DP? Cast.
+              - [ATTACKER] Great Fever: Is Invasion successful? Cast.
+              - [DEFENDER] Unhealing Wounds: Is target Afflicted? Cast.
+            [/AFFLICTED]
+        */
 
-        # Defender spells
-        # Spells the defender casts on the attacker during invasion.
-        $defenderSpells = $this->spellHelper->getInvasionSpells($defender, $attacker);
-
-        foreach($attackerSpells as $attackerSpell)
+        if($attacker->race->name == 'Afflicted')
         {
-          # Check each possible spell conditions.
-          $spellTypeCheck = False;
-          $invasionMustBeSuccessfulCheck = False;
-          $opDpRatioCheck = False;
+            # Pestilence
+            if($this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'] >= 0.50)
+            {
+                $this->spellActionService->castSpell($defender, 'pestilence', $attacker, $isInvasionSpell);
+            }
 
-          # 1. Is this spell cast when the attacker is attacking?
-          if($attackerSpell['type'] == 'offense')
-          {
-            $spellTypeCheck = True;
-          }
-
-          # 2. Is the spell only cast when the invasion is successful, OR when the invasion is UNsuccessful, OR in any case?
-          if(
-              ($attackerSpell['invasion_must_be_successful'] == True and $this->invasionResult['result']['success'])
-              or ($attackerSpell['invasion_must_be_successful'] == False and !$this->invasionResult['result']['success'])
-              or ($attackerSpell['invasion_must_be_successful'] == Null)
-              )
-          {
-            $invasionMustBeSuccessfulCheck = True;
-          }
-
-          # 3. Is there an OP/DP ratio requirement?
-          $opDpRatio = $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'];
-          if(
-              (isset($attackerSpell['op_dp_ratio']) and $opDpRatio >= $attackerSpell['op_dp_ratio'])
-              OR $attackerSpell['op_dp_ratio'] == Null)
-          {
-            $opDpRatioCheck = True;
-          }
-
-          # If all checks are True, cast the spell.
-          if($spellTypeCheck == True and $invasionMustBeSuccessfulCheck == True and $opDpRatioCheck == True)
-          {
-            $this->spellActionService->castSpell($attacker, $attackerSpell['key'], $defender, $isInvasionSpell);
-          }
+            # Great Fever
+            if($this->invasionResult['result']['success'])
+            {
+                $this->spellActionService->castSpell($defender, 'great_fever', $attacker, $isInvasionSpell);
+            }
         }
 
-        foreach($defenderSpells as $defenderSpell)
+        if($defender->race->name == 'Afflicted')
         {
-          # Check each possible spell conditions.
-          $spellTypeCheck = False;
-          $invasionMustBeSuccessfulCheck = False;
-          $opDpRatioCheck = False;
-
-          # 1. Is this spell cast when the attacker is attacking?
-          if($defenderSpell['type'] == 'defense')
-          {
-            $spellTypeCheck = True;
-          }
-
-          # 2. Is the spell only cast when the invasion is successful, OR when the invasion is UNsuccessful, OR in any case?
-          if(
-              ($defenderSpell['invasion_must_be_successful'] == True and $this->invasionResult['result']['success'])
-              or ($defenderSpell['invasion_must_be_successful'] == False and !$this->invasionResult['result']['success'])
-              or ($defenderSpell['invasion_must_be_successful'] == Null)
-              )
-          {
-            $invasionMustBeSuccessfulCheck = True;
-          }
-
-          # 3. Is there an OP/DP ratio requirement?
-          $opDpRatio = $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'];
-          if(
-              (isset($defenderSpell['op_dp_ratio']) and $opDpRatio >= $defenderSpell['op_dp_ratio'])
-              OR $defenderSpell['op_dp_ratio'] == Null)
-          {
-            $opDpRatioCheck = True;
-          }
-
-          # If all checks are True, cast the spell.
-          if($spellTypeCheck == True and $invasionMustBeSuccessfulCheck == True and $opDpRatioCheck == True)
-          {
-            $this->spellActionService->castSpell($defender, $defenderSpell['key'], $attacker, $isInvasionSpell);
-          }
-
+            # Unhealing Wounds
+            $this->spellActionService->castSpell($defender, 'festering_wounds', $attacker, $isInvasionSpell);
         }
-
     }
 
     /**

@@ -71,8 +71,8 @@ class UnitHelper
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
 
-            'defense_from_buildings' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
-            'offense_from_buildings' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
+            'defense_from_buildings' => 'Defense increased by 1 for every %2$s%% %1$s, max +%3$s. Includes buildings under construction.',
+            'offense_from_buildings' => 'Offense increased by 1 for every %2$s%% %1$s, max +%3$s. Includes buildings under construction.',
 
             'defense_from_land' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_land' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
@@ -139,7 +139,7 @@ class UnitHelper
             // Spy related
             'counts_as_spy_defense' => 'Counts as %s of a spy on defense.',
             'counts_as_spy_offense' => 'Counts as %s of a spy on offense.',
-            'immortal_spy' => 'Immortal spy (cannot be killed when conducting espionage).',
+            'immortal_spy' => 'Immortal spy (cannot be killed when performing espionage).',
             'minimum_spa_to_train' => 'Must have at least %s Spy Ratio (on offense) to train.',
 
             'spy_from_title' => 'Counts as additional %2$s of a spy (offense and defense) if ruled by a %1$s.',
@@ -164,7 +164,7 @@ class UnitHelper
 
             'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
 
-            'kills_immortal' => 'Kills immortal units..',
+            'kills_immortal' => 'Kills immortal units.',
 
             'reduces_casualties' => 'Reduces combat losses.',
             'increases_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',
@@ -468,9 +468,10 @@ class UnitHelper
                         $buildings[$index] = str_plural(ucwords(str_replace('_',' ', $building)));
                     }
 
-                    $buildingsString = generate_sentence_from_array($buildings) . ' (combined)';
+                    $buildingsString = generate_sentence_from_array($buildings) . ' (total)';
 
                     $perkValue = [$buildingsString, $ratio, $max];
+                    $nestedArrays = false;
 
                 }
 
@@ -567,10 +568,6 @@ class UnitHelper
                     {
                         foreach ($perkValue as $nestedKey => $nestedValue)
                         {
-                            if($perk->key == 'defense_from_buildings')
-                            {
-                                #dd($nestedKey, $nestedValue, $perkTypeStrings[$perk->key]);
-                            }
                             foreach($nestedValue as $key => $value)
                             {
                                 $nestedValue[$key] = ucwords(str_replace('level','level ',str_replace('_', ' ',$value)));
@@ -583,7 +580,7 @@ class UnitHelper
                         #var_dump($perkValue);
                         foreach($perkValue as $key => $value)
                         {
-                            $perkValue[$key] = ucwords(str_replace('_', ' ',$value));
+                            $perkValue[$key] = str_replace(' And', ' and',ucwords(str_replace('_', ' ',$value)));
                         }
                         $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                     }

@@ -889,6 +889,9 @@ class SpellHelper
 
             'kills_draftees' => 'Kills %1$s%% of the target\'s draftees.',
 
+            'kills_faction_units_percentage' => 'Kills %3$s%% of %1$s %2$s.',
+            'kills_faction_units_amount' => 'Kills %3$s%s of %1$s %2$s.',
+
             'cannot_send_boats' => 'Cannot send boats.',
             'boats_sunk' => '%s%% boats lost to sinking.',
 
@@ -1195,6 +1198,27 @@ class SpellHelper
 
                 $perkValue = generate_sentence_from_array($unitNameToProduce);
             }
+
+
+            /*****/
+
+            if($perk->key === 'kills_faction_units_percentage' or $perk->key === 'kills_faction_units_amount')
+            {
+                $faction = (string)$perkValue[0];
+                $slot = (int)$perkValue[1];
+                $percentage = (float)$perkValue[2];
+
+                $race = Race::where('name', $faction)->first();
+
+                $unit = $race->units->filter(static function ($unit) use ($slot)
+                    {
+                        return ($unit->slot === $slot);
+                    })->first();
+
+                $perkValue = [$faction, str_plural($unit->name), $percentage];
+            }
+
+            /*****/
 
             if (is_array($perkValue))
             {

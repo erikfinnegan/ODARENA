@@ -134,3 +134,21 @@ destroy_buildings:
     - Beastfolk
   perks:
     destroy_buildings: 2 #
+
+consume_draftees:
+  name: Consume Draftees
+  scope: hostile
+  exclusive_races:
+    - Growth
+    - Weres
+  perks:
+    consume_draftees: 0.75,40 # rate, food amount per draftee
+
+consume_peasants:
+  name: Consume Peasants
+  scope: hostile
+  exclusive_races:
+    - Growth
+    - Weres
+  perks:
+    consume_peasants: 0.35,40 # rate, food amount per peasant

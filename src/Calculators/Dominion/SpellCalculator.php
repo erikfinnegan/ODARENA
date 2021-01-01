@@ -314,6 +314,11 @@ class SpellCalculator
 
     public function canCastSpell(Dominion $dominion, Spell $spell): bool
     {
+        if($spell->class === 'invasion')
+        {
+            return true;
+        }
+
         if(
             # Cannot be on cooldown
             $this->isOnCooldown($dominion, $spell)
@@ -338,6 +343,12 @@ class SpellCalculator
 
     public function getWizardStrengthCost(Spell $spell)
     {
+
+        if($spell->class === 'invasion')
+        {
+            return 0;
+        }
+
         # Default values
         $scopeCost = [
                 'hostile' => 2,

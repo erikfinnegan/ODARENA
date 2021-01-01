@@ -2461,3 +2461,85 @@ fortifications_level10:
     - fortifications_level9
 
 # </Ladder: Defensive Power>
+
+# <Ladder: Spy Carry>
+
+deep_pockets_level1:
+  name: Tactics
+  level: 1
+  perks:
+    amount_stolen: 5
+
+deep_pockets_level2:
+  name: Tactics
+  level: 2
+  perks:
+    amount_stolen: 10
+  requires:
+    - deep_pockets_level1
+
+deep_pockets_level3:
+  name: Tactics
+  level: 3
+  perks:
+    amount_stolen: 15
+  requires:
+    - deep_pockets_level2
+
+deep_pockets_level4:
+  name: Tactics
+  level: 4
+  perks:
+    amount_stolen: 20
+  requires:
+    - deep_pockets_level3
+
+deep_pockets_level5:
+  name: Tactics
+  level: 5
+  perks:
+    amount_stolen: 25
+  requires:
+    - deep_pockets_level4
+
+deep_pockets_level6:
+  name: Tactics
+  level: 6
+  perks:
+    amount_stolen: 30
+  requires:
+    - deep_pockets_level5
+
+deep_pockets_level7:
+  name: Tactics
+  level: 7
+  perks:
+    amount_stolen: 32.5
+  requires:
+    - deep_pockets_level6
+
+deep_pockets_level8:
+  name: Tactics
+  level: 8
+  perks:
+    amount_stolen: 35
+  requires:
+    - deep_pockets_level7
+
+deep_pockets_level9:
+  name: Tactics
+  level: 9
+  perks:
+    amount_stolen: 37.5
+  requires:
+    - deep_pockets_level8
+
+deep_pockets_level10:
+  name: Tactics
+  level: 10
+  perks:
+    amount_stolen: 40
+  requires:
+    - deep_pockets_level9
+
+# </Ladder: Spy Carry>

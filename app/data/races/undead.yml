@@ -17,10 +17,10 @@ perks:
   food_consumption: -100
   max_per_round: 1
   wizard_training_time: 6
+  converts_executed_spies: 3 # into slot 3
 units:
   - name: Skeleton
-    need_boat: true
-    training_time: 0
+    training_time: 9
     type:
       - mindless
       - magical
@@ -31,52 +31,56 @@ units:
       defense: 0
     perks:
       cannot_be_trained: 1
-      fixed_casualties: 100
-      housing_count: 0.125
+      housing_count: 0.1
 
   - name: Ghoul
     training_time: 9
     type:
       - mindless
     cost:
-      platinum: 225
+      platinum: 0
     power:
       offense: 0
       defense: 3
     perks:
       cannot_be_trained: 1
-      immortal: 1
-      does_not_count_as_population: 1
-      pairing_limit: 3,2 # Unit slot, amount (max 2 of this unit per each Unit 4)
+      housing_count: 0.1
 
-  - name: Revenant
-    need_boat: false
+  - name: Wight
     training_time: 12
     type:
       - sentient
       - intelligent
     cost:
       platinum: 1000
-      mana: 10
+      mana: 8
     power:
-      offense: 3
-      defense: 5
+      offense: 6
+      defense: 6
     perks:
-      cannot_be_trained: 1
-      immortal: 1
+      dies_into: 3
+      increases_casualties_on_offense: 1
+      increases_casualties_on_defense: 1
 
   - name: Necromancer
-    need_boat: false
-    training_time: 3
+    training_time: 9
     type:
       - sentient
       - intelligent
+      - wise
     cost:
-      platinum: 1000
+      platinum: 300
+      lumber: 1
+      mana: 18
       wizard: 1
     power:
-      offense: 5
-      defense: 3
+      offense: 0
+      defense: 6
     perks:
-      counts_as_wizard_offense: 0.333
-      counts_as_wizard_defense: 0.250
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
+      immortal_wizard: 1
+      no_draftee: 1
+      counts_as_wizard_offense: 0.125
+      counts_as_wizard_defense: 0.125
+      building_limit: wizard_guild,20,spires # building, buildings per unit, imp to increased

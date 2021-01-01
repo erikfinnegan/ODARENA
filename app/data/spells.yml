@@ -33,7 +33,7 @@ revelation:
 # <Production>
 
 gaias_watch:
-  name: Gaia's Watch
+  name: Druva's Watch
   scope: self
   class: passive
   cost: 2
@@ -181,6 +181,7 @@ earthquake:
   cooldown: 0
   perks:
     ore_production: -5
+    gem_production: -5
 
 plague:
   name: Plague
@@ -403,7 +404,7 @@ regeneration:
     casualties: -25
 
 gaias_blessing:
-  name: Gaia's Blessing
+  name: Druva's Blessing
   scope: self
   class: passive
   cost: 8
@@ -451,6 +452,18 @@ feral_hunger:
   perks:
     no_conversions: 1
     offensive_power: 10
+
+druvas_call:
+  name: Druva's Call
+  scope: self
+  class: active
+  cost: 4
+  duration: 0
+  cooldown: 24
+  exclusive_races:
+    - Weres
+  perks:
+    summon_units_from_land: 1;2,6,forest # slots, per acre, land type - unit1 and unit2, 6, forest - summon up to 6 unit1 and unit2 per 1 acre of forest
 
 miners_sight:
   name: Miner's Sight
@@ -590,6 +603,8 @@ infernal_fury:
     increases_casualties_on_offense: 25
     increases_casualties_on_defense: 25
 
+# LUX
+
 aurora:
   name: Aurora
   scope: self
@@ -601,6 +616,35 @@ aurora:
     - Lux
   perks:
     training_time: -4
+
+solar_rays:
+  name: Solar Ray
+  scope: hostile
+  class: active
+  cost: 3
+  duration: 0
+  cooldown: 0
+  exclusive_races:
+    - Lux
+  perks:
+    kills_faction_units_percentage: nox,1,2 # faction, slot, percentage
+
+purification:
+  name: Purification
+  scope: hostile
+  class: active
+  cost: 3
+  duration: 0
+  cooldown: 0
+  exclusive_races:
+    - Dwarf
+    - Kerranad
+    - Sacred Order
+    - Sylvan
+  perks:
+    kills_faction_units_percentage: afflicted,1,1 # faction, slot, percentage
+
+# MERFOLK
 
 maelstrom:
   name: Maelstrom
@@ -760,6 +804,54 @@ dark_rites:
   perks:
     converts_crypt_bodies: 10,4,1,1 # every 10 unit4 creates one unit1
 
+rites_of_zidur:
+  name: Rites of Zidur
+  scope: self
+  class: passive
+  cost: 10
+  duration: 24
+  cooldown: 0
+  exclusive_races:
+    - Undead
+  perks:
+    converts_crypt_bodies: 10,4,1,1 # every 10 unit4 creates 1 unit1
+
+curse_of_zidur:
+  name: Curse of Zidur
+  scope: hostile
+  class: passive
+  cost: 5
+  duration: 2
+  cooldown: 3
+  exclusive_races:
+    - Undead
+  perks:
+    casualties: 5
+
+rites_of_kinthys:
+  name: Rites of Kinthys
+  scope: self
+  class: passive
+  cost: 10
+  duration: 24
+  cooldown: 0
+  exclusive_races:
+    - Undead
+  perks:
+    converts_crypt_bodies: 10,4,1,2 # every 10 unit4 creates 1 unit2
+
+curse_of_kinthys:
+  name: Curse of Kinthys
+  scope: hostile
+  class: active
+  cost: 10
+  duration: 0
+  cooldown: 2
+  exclusive_races:
+    - Undead
+  perks:
+    decrease_morale: 5
+
 furnace_maws:
   name: Furnace Maws
   scope: self
@@ -796,3 +888,44 @@ shroud:
   perks:
     spy_strength: 100
     immortal_spies: 1
+
+# Invasion spells
+
+pestilence:
+  name: Pestilence
+  scope: hostile
+  class: invasion
+  cost: 0
+  duration: 0
+  cooldown: 0
+  exclusive_races:
+    - Afflicted
+  perks:
+    kills_peasants_and_converts_for_caster_unit: 1,1 # 1% die and become unit1
+
+great_fever:
+  name: Great Fever
+  scope: hostile
+  class: invasion
+  cost: 0
+  duration: 0
+  cooldown: 0
+  exclusive_races:
+    - Afflicted
+  perks:
+    population_growth: -80
+    platinum_production: -10
+    food_production: -20
+
+festering_wounds:
+  name: Festering Wounds
+  scope: hostile
+  class: invasion
+  cost: 0
+  duration: 0
+  cooldown: 0
+  exclusive_races:
+    - Afflicted
+  perks:
+    casualties: 25
+    food_consumption: 25

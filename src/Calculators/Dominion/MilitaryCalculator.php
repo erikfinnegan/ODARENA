@@ -503,6 +503,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromSpell($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRulerTitle($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromBuildingsBasedPerk($dominion, $unit, $powerType); # This perk uses multiple buildings!
 
         if ($landRatio !== null)
         {
@@ -1202,7 +1203,7 @@ class MilitaryCalculator
           }
 
           $powerFromSpell = (float)$spellPerkData[1];
-          $spell = $spellPerkData[0];
+          $spell = (string)$spellPerkData[0];
 
           if ($this->spellCalculator->isSpellActive($dominion, $spell))
           {
@@ -1293,6 +1294,35 @@ class MilitaryCalculator
           {
               $powerFromPerk += $titlePerkData[1];
           }
+
+          return $powerFromPerk;
+      }
+
+      protected function getUnitPowerFromBuildingsBasedPerk(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+          $buildingsPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_buildings", null);
+
+          if (!$buildingsPerkData)
+          {
+              return 0;
+          }
+
+          $buildingTypes = $buildingsPerkData[0];
+          $ratio = (int)$buildingsPerkData[1];
+          $max = (int)$buildingsPerkData[2];
+          $totalLand = $this->landCalculator->getTotalLand($dominion);
+          $buildingsLand = 0;
+
+          foreach($buildingTypes as $building)
+          {
+              $buildingsLand += $dominion->{'building_' . $building};
+              $buildingsLand += $this->queueService->getConstructionQueueTotalByResource($dominion, 'building_' . $building);
+          }
+
+          $landPercentage = ($buildingsLand / $totalLand) * 100;
+
+          $powerFromBuilding = $landPercentage / $ratio;
+          $powerFromPerk = min($powerFromBuilding, $max);
 
           return $powerFromPerk;
       }

@@ -21,48 +21,33 @@ perks:
   increased_construction_speed: 2
 
 units:
-  - name: Warg
-    training_time: 9
+  - name: Wolf
+    training_time: 6
     type:
       - living
       - sentient
     cost:
-      platinum: 200
-      food: 5
+      platinum: 400
+      food: 8
     power:
-      offense: 3
+      offense: 4
       defense: 0
     perks:
-      strength_conversion: 3,1,3 # threshold,under,over <=3 DP becomes Warg, 34 DP becomes Werewolf
+      strength_conversion: 4,1,4 # threshold,under,over
 
-  - name: Wolverine
-    training_time: 9
+  - name: Bear
+    training_time: 6
     type:
       - living
       - sentient
     cost:
-      platinum: 200
-      food: 5
+      platinum: 300
+      food: 12
     power:
       offense: 0
-      defense: 3
+      defense: 4
     perks:
-      strength_conversion: 3,2,3 #  threshold,under,over 3=4 DP becomes Wolverine, 34 DP becomes Werewolf
-
-  - name: Werewolf
-    training_time: 12
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      platinum: 900
-      food: 10
-    power:
-      offense: 7
-      defense: 7
-    perks:
-      strength_conversion: 5,3,4 # threshold,under,over <=6 DP becomes Werewolf, >4 DP becomes Werebear
+      strength_conversion: 4,2,3 #  threshold,under,over
 
   - name: Werebear
     training_time: 12
@@ -72,9 +57,24 @@ units:
       - intelligent
     cost:
       platinum: 1100
-      food: 20
+      food: 32
     power:
-      offense: 9
-      defense: 5
+      offense: 0
+      defense: 10
     perks:
-      strength_conversion: 5,3,4 # threshold,under,over <=6 DP becomes Werewolf, >4 DP becomes Werebear
+      strength_conversion: 3,2,3 #  threshold,under,over
+
+  - name: Werewolf
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      platinum: 1100
+      food: 16
+    power:
+      offense: 8
+      defense: 4
+    perks:
+      strength_conversion: 3,1,4 # threshold,under,over

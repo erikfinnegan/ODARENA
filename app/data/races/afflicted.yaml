@@ -8,7 +8,7 @@ description: >-
   <ul>
   <li><strong>Pestilence</strong>: 1% of peasants die and return to the Afflicted as Abominations (takes 12 ticks).</li>
   <li><strong>Great Fever</strong>: no population growth, -10% platinum production, -20% food production.</li>
-  <li><strong>Unhealing Wounds</strong>: +50% casualties, +15% food consumption.</li>
+  <li><strong>Festering Wounds</strong>: +25% casualties, +25% food consumption.</li>
   </ul>
   <p>Each spell lasts 12 ticks.</p>
 home_land_type: hill
@@ -24,6 +24,8 @@ construction_materials: platinum,lumber
 perks:
   max_population: 20
   population_growth: -5
+  converts_assassinated_draftees: 1 # into slot 1
+  converts_executed_spies: 3 # into slot 3
 units:
   - name: Abomination
     need_boat: true
@@ -39,7 +41,7 @@ units:
     perks:
       value_conversion: 2,1 # [Killed]*2 = number of unit1 created
       food_consumption: 0.15
-      attrition: 0.5 # 0.02% lost each tick.
+      attrition: 0.5 # 0.5% lost each tick.
       does_not_count_as_population: 1
 
   - name: Pest Rat
@@ -57,23 +59,17 @@ units:
     perks:
       housing_count: 0.75
 
-  - name: Necromancer
+  - name: Wretch
     need_boat: true
     training_time: 12
     type:
       - living
       - sentient
-      - intelligent
     cost:
       platinum: 800
-      lumber: 1
     power:
       offense: 0
-      defense: 5
-    perks:
-      casualties_conversion: 4
-      counts_as_wizard_offense: 0.25
-      counts_as_wizard_defense: 0.10
+      defense: 6
 
   - name: Reaper
     need_boat: true

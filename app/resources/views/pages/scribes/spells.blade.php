@@ -284,7 +284,6 @@
                                       {!! $spellHelper->getExclusivityString($spell) !!}
                                   </td>
                                   <td>{{ $spell->cost }}x</td>
-                                  <td>{{ $spell->duration }} ticks</td>
                                   <td>
                                       @if($spell->cooldown > 0)
                                           {{ $spell->cooldown }} hours

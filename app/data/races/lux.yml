@@ -20,7 +20,6 @@ perks:
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
-  invest_bonus: -10
   platinum_production: -15
   can_only_abduct_own: 1
   mana_production: 10

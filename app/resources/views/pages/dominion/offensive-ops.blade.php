@@ -38,7 +38,7 @@
                                       </div>
                                   </div>
                               </div>
-                              @foreach ($hostileSpyops->chunk(2) as $operations)
+                              @foreach ($spyops->chunk(2) as $operations)
                                   <div class="row">
                                       @foreach ($operations as $operation)
                                           @if($espionageCalculator->isSpyopAvailableToDominion($selectedDominion, $operation))
@@ -60,6 +60,7 @@
                                       @endforeach
                                   </div>
                               @endforeach
+                              {{-- Removed because everything is now in $spyops
                               @foreach ($theftSpyops->chunk(2) as $operations)
                                   <div class="row">
                                       @foreach ($operations as $operation)
@@ -82,6 +83,7 @@
                                       @endforeach
                                   </div>
                               @endforeach
+                              --}}
                             </div>
                         </form>
                     </div>

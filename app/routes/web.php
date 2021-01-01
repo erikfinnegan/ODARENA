@@ -115,6 +115,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('buildings')->uses('Dominion\BuildingController@getBuildings')->name('buildings');
             $router->post('buildings')->uses('Dominion\BuildingController@postBuildings');
 
+            # Land
+            $router->get('land')->uses('Dominion\LandController@getLand')->name('land');
+            $router->post('land')->uses('Dominion\LandController@postLand');
+
             // Rezoning
             $router->get('rezone')->uses('Dominion\RezoneController@getRezone')->name('rezone');
             $router->post('rezone')->uses('Dominion\RezoneController@postRezone');

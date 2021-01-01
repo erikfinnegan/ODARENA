@@ -21,13 +21,15 @@
                 -->
                 <li class="{{ Route::is('dominion.status') ? 'active' : null }}"><a href="{{ route('dominion.status') }}"><i class="fa fa-bar-chart fa-fw"></i> <span>Status</span></a></li>
                 <li class="{{ Route::is('dominion.advisors.*') ? 'active' : null }}"><a href="{{ route('dominion.advisors') }}"><i class="fa fa-question-circle fa-fw"></i> <span>Advisors</span></a></li>
-                <li class="{{ Route::is('dominion.bonuses') ? 'active' : null }}">
-                    <a href="{{ route('dominion.bonuses') }}">
-                        <i class="fa fa-plus fa-fw"></i>
-                        <span>Daily Bonus</span>
+
+                <li class="{{ Route::is('dominion.land') ? 'active' : null }}">
+                    <a href="{{ route('dominion.land') }}">
+                        <i class="fa fa-map fa-fw"></i>
+                        <span>Land</span>
+
                         <span class="pull-right-container">
                             @if (!$selectedDominion->daily_land and $selectedDominion->protection_ticks == 0 and $selectedDominion->round->hasStarted())
-                                <span class="label label-primary pull-right">L</span>
+                                <span class="label label-primary pull-right"><i class="fa fa-plus"></i></span>
                             @endif
                         </span>
                     </a>
@@ -36,11 +38,6 @@
                 <!--
                 <li class="header">DOMINION</li>
                 -->
-
-                <!-- Hide Explore Land from cannot_explore races -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_explore'))
-                <li class="{{ Route::is('dominion.explore') ? 'active' : null }}"><a href="{{ route('dominion.explore') }}"><i class="ra ra-telescope ra-fw"></i> <span>Explore</span></a></li>
-                @endif
 
                 <!-- Hide Construct Buildings from cannot_construct races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
@@ -52,11 +49,6 @@
                   @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
                   <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i> <span>Buildings</span> <span class="pull-right-container"><small class="label pull-right bg-green">New</small></span> </a></li>
                   @endif
-                @endif
-
-                <!-- Hide Construct Buildings from cannot_construct races -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_rezone') and !(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
-                <li class="{{ Route::is('dominion.rezone') ? 'active' : null }}"><a href="{{ route('dominion.rezone') }}"><i class="fa fa-refresh fa-fw"></i> <span>Re-zone</span></a></li>
                 @endif
 
                 <!-- Hide Castle from cannot_improve_castle races -->
@@ -84,7 +76,6 @@
                     </a></li>
 
                 @endif
-
 
                 <!--
                 <li class="header">BLACK OPS</li>

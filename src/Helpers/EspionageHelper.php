@@ -200,6 +200,9 @@ class EspionageHelper
             'sabotage_boats' => 'Sink boats (base %s%% sunk).',
             'sabotage_buildings' => 'Sabotage buildings under construction (base %1$sx[Your SPA]).',
             'destroy_buildings' => 'Destroy  buildings (base %1$sx[Your SPA]).',
+
+            'consume_draftees' => 'Kill %1$s%% of the target\'s draftees and convert each one to %2$s halms of food.',
+            'consume_peasants' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s halms of food.',
         ];
 
         foreach ($spyop->perks as $perk)

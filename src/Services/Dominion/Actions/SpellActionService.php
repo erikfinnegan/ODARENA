@@ -78,7 +78,7 @@ class SpellActionService
      * @throws GameException
      * @throws LogicException
      */
-    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null, bool $isInvasionSpell = false): array
+    public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null): array
     {
         $this->guardLockedDominion($dominion);
         if ($target !== null) {
@@ -123,7 +123,7 @@ class SpellActionService
             throw new GameException("Your wizards to not have enough strength to cast {$spell->name}. You need {$wizardStrengthCost}% wizard strength to cast this spell.");
         }
 
-        $manaCost = $this->spellCalculator->getManaCost($dominion, $spell->key, $isInvasionSpell);
+        $manaCost = $this->spellCalculator->getManaCost($dominion, $spell->key);
 
         if ($dominion->resource_mana < $manaCost)
         {
@@ -159,23 +159,16 @@ class SpellActionService
             {
                 throw new GameException('Nice try, but you cannot cast spells cross-round');
             }
-
-            if($dominion->race->alignment == 'good')
-            {
-              if ($dominion->realm->id === $target->realm->id) {
-                  throw new GameException('Nice try, but you cannot cast spells on your realmies');
-              }
-            }
         }
 
         $result = null;
 
-        DB::transaction(function () use ($dominion, $manaCost, $spellKey, &$result, $target, $isInvasionSpell, $wizardStrengthCost)
+        DB::transaction(function () use ($dominion, $manaCost, $spellKey, &$result, $target, $wizardStrengthCost)
         {
 
             $spell = Spell::where('key', $spellKey)->first();
 
-            if ($spell->scope !== 'self' and $spell->class == 'info')
+            if ($spell->class == 'info')
             {
                 $result = $this->castInfoOpSpell($dominion, $spellKey, $target, $wizardStrengthCost);
             }
@@ -187,10 +180,14 @@ class SpellActionService
             {
                 $result = $this->castPassiveSpell($dominion, $target, $spell, $wizardStrengthCost);
             }
+            elseif ($spell->class == 'invasion')
+            {
+                $this->castInvasionSpell($dominion, $target, $spell, $wizardStrengthCost);
+            }
 
             $dominion->stat_total_mana_cast += $manaCost;
 
-            if(!$isInvasionSpell)
+            if($spell->class !== 'invasion')
             {
                 $dominion->resource_mana -= $manaCost;
 
@@ -221,17 +218,24 @@ class SpellActionService
             $this->rangeCalculator->checkGuardApplications($dominion, $target);
         }
 
-        return [
-                'message' => $result['message'],
-                'data' => [
-                    'spell' => $spellKey,
-                    'manaCost' => $manaCost,
-                ],
-                'redirect' =>
-                    $this->spellHelper->isInfoOpSpell($spellKey) && $result['success']
-                        ? $result['redirect']
-                        : null,
-            ] + $result;
+        if($spell->class !== 'invasion')
+        {
+            return [
+                    'message' => $result['message'],
+                    'data' => [
+                        'spell' => $spellKey,
+                        'manaCost' => $manaCost,
+                    ],
+                    'redirect' =>
+                        $this->spellHelper->isInfoOpSpell($spellKey) && $result['success']
+                            ? $result['redirect']
+                            : null,
+                ] + $result;
+        }
+        else
+        {
+            return [];
+        }
     }
 
 
@@ -949,6 +953,126 @@ class SpellActionService
             }
 
 
+        }
+    }
+
+    /**
+     * Casts a self spell for $dominion.
+     *
+     * @param Dominion $dominion
+     * @param string $spellKey
+     * @return array
+     * @throws GameException
+     * @throws LogicException
+     */
+    protected function castInvasionSpell(Dominion $caster, ?Dominion $target = null, Spell $spell): void
+    {
+        # Self-spells self auras - Unused
+        if($spell->scope == 'self')
+        {
+            # Is it already active?
+            if ($this->spellCalculator->isSpellActive($caster, $spell->key))
+            {
+
+                $where = [
+                    'dominion_id' => $caster->id,
+                    'spell' => $spell->key,
+                ];
+
+                $activeSpell = DB::table('active_spells')
+                    ->where($where)
+                    ->first();
+
+                if ($activeSpell === null)
+                {
+                    throw new LogicException("Active spell '{$spell->key}' for dominion id {$caster->id} not found.");
+                }
+
+                if ((int)$activeSpell->duration === (int)$spell->duration)
+                {
+                    throw new GameException("{$spell->name} is already at maximum duration.");
+                }
+
+                DB::table('active_spells')
+                    ->where($where)
+                    ->update([
+                        'duration' => $spell->duration,
+                        'updated_at' => now(),
+                    ]);
+            }
+            else
+            {
+                DB::table('active_spells')
+                    ->insert([
+                        'dominion_id' => $caster->id,
+                        'spell' => $spell->key,
+                        'duration' => $spell->duration,
+                        'cast_by_dominion_id' => $caster->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+            }
+
+            $this->notificationService
+                ->queueNotification('received_hostile_spell', [
+                    'sourceDominionId' => $sourceDominionId,
+                    'spellKey' => $spell->key,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
+
+        }
+        # Hostile aura - Afflicted
+        elseif($spell->scope == 'hostile')
+        {
+            if ($this->spellCalculator->isSpellActive($target, $spell->key))
+            {
+                $where = [
+                    'dominion_id' => $target->id,
+                    'spell' => $spell->key,
+                ];
+
+                $activeSpell = DB::table('active_spells')
+                    ->where($where)
+                    ->first();
+
+                if ($activeSpell === null)
+                {
+                    throw new LogicException("Active spell '{$spell->key}' for dominion id {$target->id} not found");
+                }
+
+                DB::table('active_spells')
+                    ->where($where)
+                    ->update([
+                        'duration' => $spell->duration,
+                        'cast_by_dominion_id' => $caster->id,
+                        'updated_at' => now(),
+                    ]);
+            }
+            else
+            {
+                DB::table('active_spells')
+                    ->insert([
+                        'dominion_id' => $target->id,
+                        'spell' => $spell->key,
+                        'duration' => $spell->duration,
+                        'cast_by_dominion_id' => $caster->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+            }
+
+            // Update statistics
+            if (isset($caster->{"stat_{$spell->key}_hours"}))
+            {
+                $caster->{"stat_{$spell->key}_hours"} += $spell->duration;
+            }
+
+            $this->notificationService
+                ->queueNotification('received_hostile_spell', [
+                    'sourceDominionId' => $caster->id,
+                    'spellKey' => $spell->key,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
         }
     }
 

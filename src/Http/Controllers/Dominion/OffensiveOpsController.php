@@ -34,6 +34,7 @@ class OffensiveOpsController extends AbstractDominionController
 
         $hostileSpyops = Spyop::all()->where('scope','hostile')->where('enabled',1)->sortBy('key');
         $theftSpyops = Spyop::all()->where('scope','theft')->where('enabled',1)->sortBy('key');
+        $spyops = $hostileSpyops->merge($theftSpyops);
         $hostileSpells = Spell::all()->where('scope','hostile')->whereIn('class',['active','passive'])->where('enabled',1)->sortBy('key');
 
         return view('pages.dominion.offensive-ops', [
@@ -47,8 +48,9 @@ class OffensiveOpsController extends AbstractDominionController
             'militaryCalculator' => app(MilitaryCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'spellDamageCalculator' => app(SpellDamageCalculator::class),
-            'hostileSpyops' => $hostileSpyops,
-            'theftSpyops' => $theftSpyops,
+            #'hostileSpyops' => $hostileSpyops,
+            #'theftSpyops' => $theftSpyops,
+            'spyops' => $spyops,
             'hostileSpells' => $hostileSpells
         ]);
     }

@@ -848,6 +848,21 @@ class EspionageActionService
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 
+                if($perk->key === 'consume_draftees')
+                {
+                    $attribute = 'military_draftees';
+                    $ratio = $spyopPerkValues / 100;
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+
+                    $target->{$attribute} -= $damage;
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+                }
+
             }
 
             $target->save([
