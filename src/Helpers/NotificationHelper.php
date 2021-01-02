@@ -71,6 +71,12 @@ class NotificationHelper
                 'route' => route('dominion.military'),
                 'iconClass' => 'ra ra-muscle-up text-green',
             ],
+            'sabotage_completed' => [
+                'label' => 'Sabotage restored',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.improvements'),
+                'iconClass' => 'fa fa-arrow-up fa-fw text-green',
+            ],
             'returning_completed' => [
                 'label' => 'Units returned from battle',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -278,6 +284,14 @@ class NotificationHelper
                     str_plural('unit', $units)
                 );
 
+            case 'hourly_dominion.sabotage_completed':
+                $improvements = array_sum($data);
+
+                return sprintf(
+                    'Sabotage of %s improvements has been restored',
+                    number_format($improvements)
+                );
+
             case 'hourly_dominion.returning_completed':
                 $units = collect($data)->filter(
                     function ($value, $key) {
@@ -461,6 +475,12 @@ class NotificationHelper
                         $resultString = "{$data['damageString']} have sunk mysteriously while docked.";
                         break;
 
+                    case 'sabotage_forges':
+                    case 'sabotage_walls':
+                    case 'sabotage_harbor':
+                        $resultString = "{$data['damageString']} have been temporarily destroyed.";
+                        break;
+
                     default:
                         throw new LogicException("Received spy op notification for operation key {$data['operationKey']} not yet implemented");
                 }
@@ -509,6 +529,12 @@ class NotificationHelper
 
                     case 'sabotage_boats':
                         $where = 'attempting to sabotage our boats';
+                        break;
+
+                    case 'sabotage_walls':
+                    case 'sabotage_forges':
+                    case 'sabotage_harbor':
+                        $where = 'attempting to sabotage our improvements';
                         break;
 
                     default:

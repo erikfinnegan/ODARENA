@@ -35,8 +35,8 @@ units:
       platinum: 950
       mana: 5
     power:
-      offense: 5
-      defense: 5
+      offense: 6
+      defense: 6
     perks:
       burns_peasants_on_attack: 0.25
       counts_as_wizard_offense: 0.25
@@ -52,8 +52,8 @@ units:
       platinum: 950
       mana: 5
     power:
-      offense: 5
-      defense: 5
+      offense: 6
+      defense: 6
     perks:
       offense_from_land: water,10,1 # land type, ratio%, max
       counts_as_spy_defense: 0.25
@@ -68,8 +68,8 @@ units:
       platinum: 950
       mana: 5
     power:
-      offense: 5
-      defense: 5
+      offense: 6
+      defense: 6
     perks:
       offense_vs_barren_land: 10,1 # ratio%, max
       counts_as_wizard_defense: 0.25
@@ -84,8 +84,8 @@ units:
       platinum: 950
       mana: 5
     power:
-      offense: 5
-      defense: 5
+      offense: 6
+      defense: 6
     perks:
       reduces_casualties: 1
       counts_as_spy_offense: 0.25

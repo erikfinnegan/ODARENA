@@ -13,8 +13,8 @@ construction_materials: platinum,lumber
 
 perks:
   food_consumption: -25
-  lumber_production: 25
-  salvaging: 65
+  lumber_production: 100
+  salvaging: 100
 units:
   - name: Leshy
     training_time: 9
@@ -23,12 +23,13 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 250
+      platinum: 300
+      lumber: 25
     power:
-      offense: 3
+      offense: 4
       defense: 0
     perks:
-      offense_if_recently_invaded: 1
+      offense_if_recently_invaded: 2
 
   - name: Sprite
     training_time: 9
@@ -52,7 +53,7 @@ units:
       mana: 10
     power:
       offense: 0
-      defense: 3
+      defense: 4
     perks:
       counts_as_wizard_offense: 0.333
       counts_as_wizard_defense: 0.250
@@ -66,8 +67,8 @@ units:
       - sentient
       - intelligent
     cost:
-      lumber: 650
-      mana: 40
+      lumber: 600
+      mana: 36
     power:
       offense: 7
       defense: 3

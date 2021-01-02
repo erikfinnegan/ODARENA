@@ -201,6 +201,8 @@ class EspionageHelper
             'sabotage_buildings' => 'Sabotage buildings under construction (base %1$sx[Your SPA]).',
             'destroy_buildings' => 'Destroy  buildings (base %1$sx[Your SPA]).',
 
+            'sabotage_improvement' => 'Sabotage %1$s improvements (base %2$s%%, max %3$s damage per spy).',
+
             'consume_draftees' => 'Kill %1$s%% of the target\'s draftees and convert each one to %2$s halms of food.',
             'consume_peasants' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s halms of food.',
         ];

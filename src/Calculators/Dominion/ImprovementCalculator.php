@@ -233,6 +233,7 @@ class ImprovementCalculator
         $resourceWorthMultiplier = $this->getResourceWorthMultipler($resource, $dominion);
 
         return $resourceWorthRaw * (1 + $resourceWorthMultiplier);
-
     }
+
+
 }

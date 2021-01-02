@@ -152,3 +152,27 @@ consume_peasants:
     - Weres
   perks:
     consume_peasants: 0.35,40 # rate, food amount per peasant
+
+sabotage_walls:
+  name: Sabotage Walls
+  scope: hostile
+  exclusive_races:
+    - Lizardfolk
+  perks:
+    sabotage_improvement: walls,3 # resource, rate, max per spy
+
+sabotage_forges:
+  name: Sabotage Forges
+  scope: hostile
+  exclusive_races:
+    - Lizardfolk
+  perks:
+    sabotage_improvement: forges,3 # resource, rate, max per spy
+
+sabotage_harbor:
+  name: Sabotage Harbour
+  scope: hostile
+  exclusive_races:
+    - Lizardfolk
+  perks:
+    sabotage_improvement: harbor,5 # resource, rate, max per spy

@@ -18,7 +18,7 @@ perks:
   min_rounds_played: 5
   cannot_construct: 1
   max_population: -100
-  exchange_bonus: 25
+  exchange_bonus: 50
   cannot_join_guards: 1
   cannot_vote: 1
   food_consumption: -100

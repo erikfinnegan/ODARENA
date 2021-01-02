@@ -242,16 +242,16 @@
             </div>
             <div class="box-body">
                 <div class="row">
-                    <div class="col-md-6 text-center">
+                    <div class="col-md-3 text-center">
                         <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support ODARENA on Ko-fi', '#dd4b39', 'P5P526XK1');kofiwidget2.draw();</script>
                     </div>
-                    <div class="col-md-6 text-center">
-                        <a href="https://www.patreon.com/bePatron?u=10125735" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+                    <div class="col-md-9">
+                        <p>In addition to be free open source software, ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
+                        <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind is highly appreciated.</p>
                     </div>
                 </div>
 
-                <p>In addition to be free open source software, ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
-                <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind is highly appreciated.</p>
+
             </div>
         </div>
     </div>

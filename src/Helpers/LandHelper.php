@@ -98,7 +98,7 @@ class LandHelper
             'forest_haven' => 'forest',
             'factory' => 'hill',
             'guard_tower' => 'hill',
-            'shrine' => 'hill',
+            'shrine' => 'forest',
             'barracks' => 'hill',
             'dock' => 'water',
         ];

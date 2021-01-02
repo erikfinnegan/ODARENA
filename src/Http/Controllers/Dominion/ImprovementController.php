@@ -10,16 +10,17 @@ use OpenDominion\Http\Requests\Dominion\Actions\ImproveActionRequest;
 use OpenDominion\Services\Analytics\AnalyticsEvent;
 use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\Actions\ImproveActionService;
+use OpenDominion\Services\Dominion\QueueService;
 
 class ImprovementController extends AbstractDominionController
 {
     public function getImprovements(Request $request)
     {
-
         return view('pages.dominion.improvements', [
             'improvementCalculator' => app(ImprovementCalculator::class),
             'improvementHelper' => app(ImprovementHelper::class),
             'selectedResource' => $request->query('resource', 'gems'),
+            'queueService' => app(QueueService::class)
         ]);
     }
 

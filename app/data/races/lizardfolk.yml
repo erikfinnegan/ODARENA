@@ -68,10 +68,10 @@ units:
     cost:
       platinum: 2800
     power:
-      offense: 12
-      defense: 8
+      offense: 14
+      defense: 10
     perks:
       sink_boats_offense: 1
       sink_boats_defense: 1
       food_consumption: 0.75
-      reduces_casualties: 1
+      only_dies_vs_raw_power: 7 # >=

@@ -96,11 +96,11 @@ class BuildingHelper
           'forest' => [
               'lumberyard',
               'forest_haven',
+              'shrine',
           ],
           'hill' => [
               'factory',
               'guard_tower',
-              'shrine',
               'barracks',
           ],
           'water' => [

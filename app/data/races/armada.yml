@@ -69,7 +69,7 @@ units:
       immortal_on_fending_off: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: dock,2,harbor # building, buildings per unit, imp to increase
+      building_limit: dock,3,harbor # building, buildings per unit, imp to increase
       upkeep_platinum: 50
       upkeep_ore: 1
       upkeep_lumber: 1

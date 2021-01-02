@@ -76,6 +76,21 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                         <td colspan="4" class="text-right"><strong>Total</strong></td>
                                         <td class="text-center">{{ number_format($totalImprovementPoints) }}</td>
                                     </tr>
+
+                                @php
+                                    $totalSabotaged = 0;
+                                @endphp
+                                @foreach($queueService->getSabotageQueue($selectedDominion) as $sabotage)
+                                  @php
+                                  $totalSabotaged += $sabotage->amount;
+                                  @endphp
+                                @endforeach
+                                @if($totalSabotaged > 0)
+                                    <tr>
+                                        <td colspan="4" class="text-right"><strong>Sabotaged</strong><br><small class="text-muted">Will be restored automatically</small></td>
+                                        <td class="text-center">{{ number_format($totalSabotaged) }}</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>
