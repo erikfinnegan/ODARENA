@@ -2465,13 +2465,13 @@ fortifications_level10:
 # <Ladder: Spy Carry>
 
 deep_pockets_level1:
-  name: Tactics
+  name: Deep Pockets
   level: 1
   perks:
     amount_stolen: 5
 
 deep_pockets_level2:
-  name: Tactics
+  name: Deep Pockets
   level: 2
   perks:
     amount_stolen: 10
@@ -2479,7 +2479,7 @@ deep_pockets_level2:
     - deep_pockets_level1
 
 deep_pockets_level3:
-  name: Tactics
+  name: Deep Pockets
   level: 3
   perks:
     amount_stolen: 15
@@ -2487,7 +2487,7 @@ deep_pockets_level3:
     - deep_pockets_level2
 
 deep_pockets_level4:
-  name: Tactics
+  name: Deep Pockets
   level: 4
   perks:
     amount_stolen: 20
@@ -2495,7 +2495,7 @@ deep_pockets_level4:
     - deep_pockets_level3
 
 deep_pockets_level5:
-  name: Tactics
+  name: Deep Pockets
   level: 5
   perks:
     amount_stolen: 25
@@ -2503,7 +2503,7 @@ deep_pockets_level5:
     - deep_pockets_level4
 
 deep_pockets_level6:
-  name: Tactics
+  name: Deep Pockets
   level: 6
   perks:
     amount_stolen: 30
@@ -2511,7 +2511,7 @@ deep_pockets_level6:
     - deep_pockets_level5
 
 deep_pockets_level7:
-  name: Tactics
+  name: Deep Pockets
   level: 7
   perks:
     amount_stolen: 32.5
@@ -2519,7 +2519,7 @@ deep_pockets_level7:
     - deep_pockets_level6
 
 deep_pockets_level8:
-  name: Tactics
+  name: Deep Pockets
   level: 8
   perks:
     amount_stolen: 35
@@ -2527,7 +2527,7 @@ deep_pockets_level8:
     - deep_pockets_level7
 
 deep_pockets_level9:
-  name: Tactics
+  name: Deep Pockets
   level: 9
   perks:
     amount_stolen: 37.5
@@ -2535,7 +2535,7 @@ deep_pockets_level9:
     - deep_pockets_level8
 
 deep_pockets_level10:
-  name: Tactics
+  name: Deep Pockets
   level: 10
   perks:
     amount_stolen: 40

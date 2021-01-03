@@ -4,6 +4,7 @@ namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\QueueService;
 
@@ -30,6 +31,7 @@ class PopulationCalculator
           $this->buildingHelper = app(BuildingHelper::class);
           $this->improvementCalculator = app(ImprovementCalculator::class);
           $this->landCalculator = app(LandCalculator::class);
+          $this->landHelper = app(LandHelper::class);
           $this->landImprovementCalculator = app(LandImprovementCalculator::class);
           $this->militaryCalculator = app(MilitaryCalculator::class);
           $this->prestigeCalculator = app(PrestigeCalculator::class);
@@ -185,8 +187,21 @@ class PopulationCalculator
         $population += ($this->queueService->getConstructionQueueTotal($dominion) * 15);
 
         // Barren land
-        $housingPerBarrenLand = (5 + $dominion->race->getPerkValue('extra_barren_max_population'));
-        $population += ($this->landCalculator->getTotalBarrenLand($dominion) * $housingPerBarrenLand);
+        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        {
+            $barrenHousing = 5;
+
+            if($dominion->race->getPerkValue('extra_barren_max_population'))
+            {
+                $barrenHousing += $dominion->race->getPerkValue('extra_barren_max_population');
+            }
+            elseif($dominion->race->getPerkValue('extra_barren_' . $landType . '_max_population'))
+            {
+                $barrenHousing += $dominion->race->getPerkValue('extra_barren_' . $landType . '_max_population');
+            }
+
+            $population += $this->landCalculator->getTotalBarrenLand($dominion, $landType) * $barrenHousing;
+        }
 
         return $population;
     }

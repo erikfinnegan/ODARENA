@@ -8,35 +8,33 @@
         </div>
         <div class="box-body">
             <div class="row">
-                <div class="col-md-12 col-md-9">
-
+                <div class="col-md-12 col-md-8">
                     <div class="row">
                         <div class="col-md-12 col-md-12">
 
-                        @if($race->description)
-                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Important</h4>
-                            {!! $race->description !!}
-                        @endif
+                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Information</h4>
+                            @if($race->description)
+                                {!! $race->description !!}
+                            @endif
 
-                        @php
-                            $factionUrlName = str_replace(' ','-',strtolower($race->name));
-                            $alignments = ['good' => 'commonwealth', 'evil' => 'empire', 'independent' => 'independent', 'npc' => 'barbarian-horde'];
-                            $alignment = $alignments[$race->alignment];
-                        @endphp
-                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0"> Chronicles</h4>
-                            <p><a href="https://lounge.odarena.com/chronicles/factions/{{ $alignment }}/{{ $factionUrlName }}/" target="_blank"><i class="fa fa-book"></i> Click here to read the history and lore of {{ $race->name }} in the Chronicles.</a></p>
+                            @php
+                                $factionUrlName = str_replace(' ','-',strtolower($race->name));
+                                $alignments = ['good' => 'commonwealth', 'evil' => 'empire', 'independent' => 'independent', 'npc' => 'barbarian-horde'];
+                                $alignment = $alignments[$race->alignment];
+                            @endphp
+                            <p><a href="https://lounge.odarena.com/chronicles/factions/{{ $alignment }}/{{ $factionUrlName }}/" target="_blank"><i class="fa fa-book"></i> Read the history and lore of {{ $race->name }} in the Chronicles.</a></p>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 col-md-3">
+                        <div class="col-md-12 col-md-6">
                             {{-- Home land --}}
                             <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Home land</h4>
                             <p>
                                 {!! $landHelper->getLandTypeIconHtml($race->home_land_type) !!} {{ ucfirst($race->home_land_type) }}
                             </p>
                         </div>
-                        <div class="col-md-12 col-md-3">
+                        <div class="col-md-12 col-md-6">
                             {{-- Home land --}}
                             <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Construction Materials</h4>
                             <p>
@@ -55,33 +53,17 @@
                                 @endif
                             </p>
                         </div>
-                        <div class="col-md-12 col-md-6">
-                            {{-- Racial Spell --}}
-                            <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Unique Spell</h4>
-                            @php
-                                $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
-                            @endphp
-
-                            <p>
-                                <strong>{{ $racialSpell['name'] }}</strong>: {{ $racialSpell['description'] }}<br>
-                                <strong>Cost:</strong> {{ $racialSpell['mana_cost']}}x<br>
-                                <strong>Duration:</strong> {{ $racialSpell['duration']}} ticks<br>
-                                @if(isset($racialSpell['cooldown']))
-                                  <strong>Cooldown:</strong> {{ $racialSpell['cooldown']}} hours<br>
-                                @endif
-                            </p>
-                        </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-md-3">
+                <div class="col-md-12 col-md-4">
                     <table class="table table-striped">
                         <colgroup>
                             <col>
-                            <col width="50px">
+                            <col>
                         </colgroup>
                         <thead>
                             <tr>
-                                <th>{{ $race->name }} Perks</th>
+                                <th>Perk</th>
                                 <th>Value</th>
                             </tr>
                         </thead>
@@ -94,7 +76,7 @@
                                     <td>
                                         {!! $perkDescription['description'] !!}
                                     </td>
-                                    <td class="text-center">
+                                    <td>
                                         {!! $perkDescription['value']  !!}
                                     </td>
                                 </tr>
@@ -105,17 +87,14 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    {{-- Military Units --}}
-                    <h4 style="border-bottom: 1px solid #f4f4f4; margin-top: 0; padding: 10px 0">Military Units</h4>
-
-                    <table class="table table-striped">
+                    <table class="table table-responsive table-striped">
                         <colgroup>
-                            <col width="150px">
-                            <col width="50px">
-                            <col width="50px">
+                            <col width="150">
+                            <col width="50">
+                            <col width="50">
                             <col>
-                            <col width="125px">
-                            <col width="100px">
+                            <col width="100">
+                            <col width="100">
                         </colgroup>
                         <thead>
                             <tr>
@@ -229,7 +208,7 @@
                                     <td>
                                         {!! $unitHelper->getUnitAttributesList("unit{$unit->slot}", $race) !!}
                                     </td>
-                                    <td class="text-center">
+                                    <td>
                                         {{ $unitCostString }}
                                     </td>
                                 </tr>
@@ -243,7 +222,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center">{{ number_format($spyCost['amount']) . ' ' . $spyCost['resource'] }}</td>
+                                <td>{{ number_format($spyCost['amount']) . ' ' . $spyCost['resource'] }}</td>
                             </tr>
                             <tr>
                                 <td>Wizards</td>
@@ -254,7 +233,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td class="text-center">{{ number_format($wizCost['amount']) . ' ' . $wizCost['resource'] }}</td>
+                                <td>{{ number_format($wizCost['amount']) . ' ' . $wizCost['resource'] }}</td>
                             </tr>
                             <tr>
                                 <td>Archmages</td>
@@ -265,12 +244,12 @@
                                 <td></td>
                                 <td>
                                     <ul>
-                                        <li>Twice as powerful as a wizard.</li>
+                                        <li>Counts as two wizards.</li>
                                         <li>Immortal. Does not die on any failed spells and cannot be assassinated.</li>
                                     </ul>
                                 </td>
                                 <td></td>
-                                <td class="text-center">{{ number_format($archmageCost['amount']) . ' ' . $archmageCost['resource'] }}, 1 Wizard</td>
+                                <td>{{ number_format($archmageCost['amount']) . ' ' . $archmageCost['resource'] }}, 1 Wizard</td>
                             </tr>
                         </tbody>
                     </table>

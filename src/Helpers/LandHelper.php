@@ -35,8 +35,7 @@ class LandHelper
           'ore_mine' => 'mountain',
           'diamond_mine' => 'mountain',
           'lumberyard' => 'forest',
-          'barracks' => 'hill',
-          'dock' => 'water',
+          'guard_tower' => 'hill',
         ];
       }
       elseif($race->name == 'Merfolk')

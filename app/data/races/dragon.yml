@@ -1,7 +1,7 @@
 name: Dragon
 alignment: evil
 description: >-
-  <p>Dragon can only build Homes, Farms, Towers, Ore Mines, Diamond Mines, Lumberyards, Barracks, and Docks.</p>
+  <p>Dragon can only build Homes, Farms, Towers, Ore Mines, Diamond Mines, Lumberyards, Guard Towers, and Docks.</p>
 home_land_type: mountain
 playable: 1
 
@@ -19,7 +19,7 @@ perks:
     cannot_explore: 1
 units:
 
-  - name: Militia
+  - name: Farmer
     training_time: 2
     type:
       - living
@@ -27,24 +27,28 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 80
-      ore: 10
+      platinum: 120
+      lumber: 10
     power:
       offense: 2
       defense: 0
+    perks:
+      food_production: 1
 
-  - name: Lookout
+  - name: Driller
     training_time: 2
     type:
       - living
       - sentient
       - intelligent
     cost:
-      platinum: 100
-      ore: 35
+      platinum: 120
+      ore: 20
     power:
       offense: 0
-      defense: 3
+      defense: 2
+    perks:
+      gem_production: 1
 
   - name: Mercenary
     training_time: 12
@@ -54,12 +58,12 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 500
+      platinum: 250
     power:
-      offense: 6
+      offense: 0
       defense: 6
     perks:
-      upkeep_platinum: 0.5
+      upkeep_platinum: 5
       no_draftee: 1
 
   - name: Dragon

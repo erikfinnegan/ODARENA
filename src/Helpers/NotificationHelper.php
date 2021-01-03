@@ -56,7 +56,7 @@ class NotificationHelper
             'exploration_completed' => [
                 'label' => 'Land exploration completed',
                 'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.explore'),
+                'route' => route('dominion.land'),
                 'iconClass' => 'fa fa-search text-green',
             ],
             'construction_completed' => [
@@ -81,12 +81,6 @@ class NotificationHelper
                 'label' => 'Units returned from battle',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'route' => route('dominion.military'),
-                'iconClass' => 'ra ra-player-dodge text-green',
-            ],
-            'invading_completed' => [
-                'label' => 'Units have arrived at their destination',
-                'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.advisors.military'),
                 'iconClass' => 'ra ra-boot-stomp text-green',
             ],
             'beneficial_magic_dissipated' => [
@@ -103,18 +97,15 @@ class NotificationHelper
             'starvation_occurred' => [
                 'label' => 'Starvation occurred',
                 'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.advisors.production'),
-                #'iconClass' => 'ra ra-knife-fork text-red',
+                'route' => route('dominion.resources'),
                 'iconClass' => 'ra ra-apple text-red',
             ],
-
             'attrition_occurred' => [
                 'label' => 'Attrition occurred',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'route' => route('dominion.military'),
                 'iconClass' => 'ra ra-interdiction text-orange',
             ],
-
             'treachery_completed' => [
                 'label' => 'Resources from treasonous spies have arrived.',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -781,7 +772,6 @@ class NotificationHelper
                         $resultString = 'Halfling training strengthens our spies.';
                         break;
 
-
                     default:
                         throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
                 }
@@ -842,22 +832,11 @@ class NotificationHelper
                     $targetRealm->number
                 );
 
-
-
             // todo: other irregular etc
 
             default:
                 throw new LogicException("Unknown WebNotification message for {$category}.{$type}");
         }
-
-        // exploration/construction/training/returning = sum
-        // spell = spell name
-        // invasion/spyop/spell = other dom name
-        // scripted = sum/amount of acres
-        // realmie invasion = instigator, target
-        // war = other realm name
-        // wonder = wondername, attacker
-        // realmie death = realmie dom name
     }
 
     // todo: remove

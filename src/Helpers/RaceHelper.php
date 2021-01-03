@@ -37,6 +37,22 @@ class RaceHelper
                 $description = 'Population from barren land';
                 $valueType = '';
                 break;
+            case 'extra_barren_forest_max_population':
+                $negativeBenefit = false;
+                $description = 'Population from barren forest';
+                $valueType = '';
+                break;
+            case 'extra_barren_forest_jobs':
+                $negativeBenefit = false;
+                $description = 'Jobs from barren forest';
+                $valueType = '';
+                break;
+            case 'barren_forest_lumber_production':
+                $negativeBenefit = false;
+                $description = 'Lumber production from barren forest';
+                $booleanValue = 'static';
+                $valueType = ' lumber/tick';
+                break;
             case 'extra_ore_mine_housing':
                 $negativeBenefit = false;
                 $description = 'Additional housing in ore mines';

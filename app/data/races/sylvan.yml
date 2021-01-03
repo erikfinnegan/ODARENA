@@ -13,7 +13,9 @@ construction_materials: platinum,lumber
 
 perks:
   food_consumption: -25
-  lumber_production: 100
+  extra_barren_forest_max_population: 10
+  extra_barren_forest_jobs: 20
+  barren_forest_lumber_production: 100
   salvaging: 100
 units:
   - name: Leshy

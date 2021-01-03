@@ -157,7 +157,7 @@
                         </div>
                         <div class="box-footer">
                           @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
-                              <span class="label label-warning">{{ str_plural($selectedDominion->race->name) }} cannot explore</span>
+                              <span class="label label-warning">{{ $selectedDominion->race->name }} dominions cannot explore</span>
                           @elseif ($guardMembershipService->isEliteGuardMember($selectedDominion))
                               <span class="label label-warning">Members of the Warrior League cannot explore</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))

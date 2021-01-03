@@ -93,13 +93,9 @@
 
                 @endif
 
-                <!--
-                <li class="header">BLACK OPS</li>
-                -->
                 <li class="{{ Route::is('dominion.military') ? 'active' : null }}"><a href="{{ route('dominion.military') }}"><i class="ra ra-sword ra-fw"></i> <span>Military</span></a></li>
 
-                <li class="{{ Route::is('dominion.calculations') ? 'active' : null }}"><a href="{{ route('dominion.calculations') }}"><i class="ra ra-gears ra-fw"></i> <span>Calculations</span>
-                  <span class="pull-right-container"><small class="label pull-right">Beta</small></span></a></li> </li>
+
 
                 <!-- Hide Invade from cannot_invade races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_invade'))
@@ -107,8 +103,8 @@
                 @endif
 
                 <li class="{{ Route::is('dominion.intelligence') ? 'active' : null }}"><a href="{{ route('dominion.intelligence') }}"><i class="fa fa-eye fa-fw"></i> <span>Op Center</span></a></li>
-                <li class="{{ Route::is('dominion.offensive-ops') ? 'active' : null }}"><a href="{{ route('dominion.offensive-ops') }}"><i class="ra ra-skull ra-fw"></i> <span>Offensive Ops</span></a></li>
-                <li class="{{ Route::is('dominion.friendly-ops') ? 'active' : null }}"><a href="{{ route('dominion.friendly-ops') }}"><i class="ra ra-two-hearts ra-fw"></i> <span>Friendly Ops</span></a></li>
+                <li class="{{ Route::is('dominion.offensive-ops') ? 'active' : null }}"><a href="{{ route('dominion.offensive-ops') }}"><i class="ra ra-skull ra-fw"></i> <span>Spells &amp; Spy Ops</span></a></li>
+                <li class="{{ Route::is('dominion.friendly-ops') ? 'active' : null }}"><a href="{{ route('dominion.friendly-ops') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Friendly Magic</span></a></li>
 
                 {{--
                 <li class="{{ Route::is('dominion.magic') ? 'active' : null }}"><a href="{{ route('dominion.magic') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Magic</span></a></li>
@@ -144,7 +140,15 @@
                 <li class="{{ Route::is('dominion.rankings') ? 'active' : null }}"><a href="{{ route('dominion.rankings') }}"><i class="fa fa-trophy ra-fw"></i> <span>Rankings</span></a></li>
 
                 <li class="{{ Route::is('dominion.notes') ? 'active' : null }}"><a href="{{ route('dominion.notes') }}"><i class="ra ra-quill-ink ra-fw"></i> <span>Notes</span></a></li>
-
+                <li class="{{ Route::is('dominion.calculations') ? 'active' : null }}">
+                    <a href="{{ route('dominion.calculations') }}">
+                        <i class="ra ra-gears ra-fw"></i>
+                        <span>Calculations</span>
+                        <span class="pull-right-container">
+                            <small class="label pull-right">Beta</small>
+                        </span>
+                    </a>
+                </li>
 
                 {{--<li class="header">MISC</li>--}}
 

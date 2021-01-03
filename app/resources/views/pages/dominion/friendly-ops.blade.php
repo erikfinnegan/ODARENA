@@ -1,7 +1,7 @@
 @extends ('layouts.master')
 
 {{--
-@section('page-header', 'Offensive Ops')
+@section('page-header', 'Friendly Magic')
 --}}
 
 @section('content')
@@ -175,15 +175,8 @@
                     <a href="{{ route('dominion.advisors.magic') }}" class="pull-right">Magic Advisor</a>
                 </div>
                 <div class="box-body">
-                    <p>This is where you collect information about other dominions through Espionage and Magic.</p>
-                    <p>Successfully obtained information is saved in the <a href="{{ route('dominion.intelligence') }}">Op Center</a>.</p>
-                    <ul>
-                      <li>Spy Strength:  {{ floor($selectedDominion->spy_strength) }}%</li>
-                      <li>Spy Ratio (offense): {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</li>
-                      <li>Wizard Strength:  {{ floor($selectedDominion->wizard_strength) }}%</li>
-                      <li>Wizard Ratio (offense): {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</li>
-                      <li>Mana: {{ number_format($selectedDominion->resource_mana) }}</li>
-                    </ul>
+                    <p>You can cast spells on yourself and some factions can even cast spells on friendly dominions. These spells are always successful.</p>
+                    <p>For information gathering, see <a href="{{ route('dominion.intelligence') }}"><span><i class="fa fa-eye"></i> Op Center</span></a>.</p>
 
                     <a href="{{ route('scribes.spells') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spells in the Scribes.</span></a>
                 </div>
