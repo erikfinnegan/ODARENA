@@ -1,6 +1,8 @@
 @extends ('layouts.master')
 
+{{--
 @section('page-header', 'Offensive Ops')
+--}}
 
 @section('content')
     <div class="row">
@@ -201,20 +203,16 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Information</h3>
-                    <a href="{{ route('dominion.advisors.magic') }}" class="pull-right">Intelligence Advisor</a>
+                    <a href="{{ route('dominion.advisors.magic') }}" class="pull-right">Magic Advisor</a>
                 </div>
                 <div class="box-body">
-                    <p>This is where you collect information about other dominions through Espionage and Magic.</p>
-                    <p>Successfully obtained information is saved in the <a href="{{ route('dominion.op-center') }}">Op Center</a>.</p>
-                    <ul>
-                      <li>Spy Strength:  {{ floor($selectedDominion->spy_strength) }}%</li>
-                      <li>Spy Ratio (offense): {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</li>
-                      <li>Wizard Strength:  {{ floor($selectedDominion->wizard_strength) }}%</li>
-                      <li>Wizard Ratio (offense): {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</li>
-                      <li>Mana: {{ number_format($selectedDominion->resource_mana) }}</li>
-                    </ul>
-
-                    <a href="{{ route('scribes.spells') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spells in the Scribes.</span></a>
+                    <p>Offensive spy-ops and spells are used to damage or weaken hostile dominions.</p>
+                    <p>The total damage you do depends on the base damage and can be further increased or decreased by how strong your spies or wizards are relative to the target's and whether the target has any damage reductions.</p>
+                    <p>For information gathering, see <a href="{{ route('dominion.intelligence') }}"><span><i class="fa fa-eye"></i> Op Center</span></a>.</p>
+                    <p>
+                        <a href="{{ route('scribes.spells') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spells in the Scribes.</span></a><br>
+                        <a href="{{ route('scribes.spy-ops') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spy Ops in the Scribes.</span></a>
+                    </p>
                 </div>
             </div>
         </div>

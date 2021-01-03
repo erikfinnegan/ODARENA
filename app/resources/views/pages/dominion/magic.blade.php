@@ -1,6 +1,8 @@
 @extends ('layouts.master')
 
+{{--
 @section('page-header', 'Magic')
+--}}
 
 @section('content')
     <div class="row">

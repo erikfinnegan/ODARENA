@@ -1,6 +1,7 @@
 @extends('layouts.master')
-
+{{--
 @section('page-header', 'Buildings')
+--}}
 
 @section('content')
 

@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'Destroy Buildings')
+--}}
 
 @section('content')
 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))

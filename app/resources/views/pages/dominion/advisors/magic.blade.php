@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'Magic Advisor')
+--}}
 
 @section('content')
     @include('partials.dominion.advisor-selector')

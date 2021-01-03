@@ -20,7 +20,13 @@
                 <li class="header">GENERAL</li>
                 -->
                 <li class="{{ Route::is('dominion.status') ? 'active' : null }}"><a href="{{ route('dominion.status') }}"><i class="fa fa-bar-chart fa-fw"></i> <span>Status</span></a></li>
+
+
+                <li class="{{ Route::is('dominion.resources') ? 'active' : null }}"><a href="{{ route('dominion.resources') }}"><i class="ra ra-mining-diamonds ra-fw"></i> <span>Resources</span></a></li>
+
+                {{--
                 <li class="{{ Route::is('dominion.advisors.*') ? 'active' : null }}"><a href="{{ route('dominion.advisors') }}"><i class="fa fa-question-circle fa-fw"></i> <span>Advisors</span></a></li>
+                --}}
 
                 <li class="{{ Route::is('dominion.land') ? 'active' : null }}">
                     <a href="{{ route('dominion.land') }}">
@@ -76,12 +82,6 @@
                 </li>
                 @endif
 
-                <!-- NATIONAL BANK -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_exchange'))
-                <li class="{{ Route::is('dominion.exchange') ? 'active' : null }}"><a href="{{ route('dominion.exchange') }}">
-                <i class="fa fa-money fa-fw"></i> <span>Exchange</span></a></li>
-                @endif
-
                 <!-- TECHS -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))
                 <li class="{{ Route::is('dominion.advancements') ? 'active' : null }}"><a href="{{ route('dominion.advancements') }}"><i class="fa fa-flask fa-fw"></i> <span>Advancements</span>
@@ -106,7 +106,7 @@
                 <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
                 @endif
 
-                <li class="{{ Route::is('dominion.intelligence') ? 'active' : null }}"><a href="{{ route('dominion.intelligence') }}"><i class="fa fa-eye fa-fw"></i> <span>Intelligence</span></a></li>
+                <li class="{{ Route::is('dominion.intelligence') ? 'active' : null }}"><a href="{{ route('dominion.intelligence') }}"><i class="fa fa-eye fa-fw"></i> <span>Op Center</span></a></li>
                 <li class="{{ Route::is('dominion.offensive-ops') ? 'active' : null }}"><a href="{{ route('dominion.offensive-ops') }}"><i class="ra ra-skull ra-fw"></i> <span>Offensive Ops</span></a></li>
                 <li class="{{ Route::is('dominion.friendly-ops') ? 'active' : null }}"><a href="{{ route('dominion.friendly-ops') }}"><i class="ra ra-two-hearts ra-fw"></i> <span>Friendly Ops</span></a></li>
 
@@ -131,7 +131,9 @@
                         Council
                     @endif
                 </span> {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
+                {{--
                 <li class="{{ Route::is('dominion.op-center*') ? 'active' : null }}"><a href="{{ route('dominion.op-center') }}"><i class="fa fa-bullseye ra-fw"></i> <span>Op Center</span></a></li>
+                --}}
                 <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
 
                 <!--

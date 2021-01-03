@@ -1,6 +1,8 @@
 @extends ('layouts.master')
 
-@section('page-header', 'Intelligence')
+{{--
+@section('page-header', 'Op Center')
+--}}
 
 @section('content')
 <div class="row">
@@ -141,7 +143,7 @@
             </div>
             <div class="box-body">
                 <p>This is where you collect information about other dominions through Espionage and Magic.</p>
-                <p>Successfully obtained information is saved in the <a href="{{ route('dominion.op-center') }}">Op Center</a>.</p>
+                <p>Successfully obtained information is saved in the Op Center.</p>
                 <ul>
                   <li>Spy Strength:  {{ floor($selectedDominion->spy_strength) }}%</li>
                   <li>Spy Ratio (offense): {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</li>

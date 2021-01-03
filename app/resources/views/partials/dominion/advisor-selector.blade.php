@@ -5,11 +5,11 @@
     <div class="box-body text-center">
 
         <a href="{{ route('dominion.advisors.production') }}" class="btn btn-app">
-            <i class="fa fa-industry"></i> Production
+            <i class="ra ra-mining-diamonds"></i> Production
         </a>
 
         <a href="{{ route('dominion.advisors.magic') }}" class="btn btn-app">
-            <i class="ra ra-burning-embers"></i> Magic
+            <i class="ra ra-fairy-wand"></i> Magic
         </a>
 
         <a href="{{ route('dominion.advisors.statistics') }}" class="btn btn-app">

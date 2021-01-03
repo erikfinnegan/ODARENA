@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'Release Troops')
+--}}
 
 @section('content')
     <div class="row">

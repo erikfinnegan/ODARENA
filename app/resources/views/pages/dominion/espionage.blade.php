@@ -1,6 +1,8 @@
 @extends ('layouts.master')
 
+{{--
 @section('page-header', 'Espionage')
+--}}
 
 @section('content')
     <div class="row">
@@ -125,7 +127,7 @@
                 </div>
                 <div class="box-body">
                     <p>Here you can perform espionage operations on hostile dominions to win important information for you and your realmies.</p>
-                    <p>Any obtained data after successfully performing an information gathering operation gets posted to the <a href="{{ route('dominion.op-center') }}">Op Center</a> for your realmies.</p>
+                    <p>Any obtained data after successfully performing an information gathering operation gets posted to the <a href="{{ route('dominion.intelligence') }}">Op Center</a> for your realmies.</p>
                     <p>Performing espionage operations spends some spy strength, but it regenerates a bit every tick.</p>
                     <p>You have {{ floor($selectedDominion->spy_strength) }}% spy strength.</p>
                     <ul>

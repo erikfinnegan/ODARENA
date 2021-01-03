@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'Rezone Land')
+--}}
 
 @section('content')
 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_rezone'))

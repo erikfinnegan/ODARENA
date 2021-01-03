@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'Technological Advances')
+--}}
 
 @section('content')
     @php

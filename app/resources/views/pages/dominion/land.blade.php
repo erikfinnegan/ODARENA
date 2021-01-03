@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'Land')
+--}}
 
 @section('content')
 <div class="row">
@@ -9,7 +11,7 @@
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-refresh"></i> Re-zone Land</h3>
+                        <h3 class="box-title"><i class="fa fa-refresh"></i> Rezone Land</h3>
                     </div>
                     <form action="{{ route('dominion.land') }}" method="post" role="form">
                         @csrf
@@ -24,7 +26,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th>Land type</th>
+                                        <th>Land Type</th>
                                         <th class="text-center">Barren</th>
                                         <th class="text-center">Rezone From</th>
                                         <th class="text-center">Rezone Into</th>
@@ -57,7 +59,7 @@
                             </table>
                         </div>
                         <div class="box-footer">
-                            <button class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Re-Zone</button>
+                            <button class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Rezone</button>
                         </div>
                     </form>
                 </div>
@@ -85,7 +87,7 @@
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th>Terrain</th>
+                                        <th>Land Type</th>
                                         <th class="text-center">Owned</th>
                                         <th class="text-center">Barren</th>
                                         <th class="text-center">Incoming</th>
@@ -155,16 +157,16 @@
                         </div>
                         <div class="box-footer">
                           @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
-                              <p><strong>Your faction is not able to explore.</strong></p>
+                              <span class="label label-warning">{{ str_plural($selectedDominion->race->name) }} cannot explore</span>
                           @elseif ($guardMembershipService->isEliteGuardMember($selectedDominion))
-                              <p><strong>As a member of the Warriors League, you cannot explore.</strong></p>
+                              <span class="label label-warning">Members of the Warrior League cannot explore</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
-                              <p><strong>Your cannot explore during the Rainy Season.</strong></p>
+                              <span class="label label-primary">You cannot explore during the Rainy Season</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
-                              <p><strong>You cannot explore while you are in stasis.</strong></p>
+                              <span class="label label-warning">You cannot explore while you are in stasis</span>
                           @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
-                              <p><strong>Due to starvation, you cannot explore until you have more food.</strong></p>
-                              <p><strong>Go to the <a href="{{ route('dominion.exchange') }}">Exchange</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</strong></p>
+                              <span class="label label-danger">Due to starvation, you cannot explore until you have more food!</span>
+                              <small class="text-muted">Go to the <a href="{{ route('dominion.exchange') }}">Exchange</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</smallp>
                           @else
                             <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
                           @endif

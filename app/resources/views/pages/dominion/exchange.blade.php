@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'Exchange')
+--}}
 
 @section('content')
     @php($resources = $bankingCalculator->getResources($selectedDominion))

@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'History')
+--}}
 
 @section('content')
 <div class="row">

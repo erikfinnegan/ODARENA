@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
+{{--
 @section('page-header', 'Search Dominions')
+--}}
 
 @section('content')
     <div class="row">

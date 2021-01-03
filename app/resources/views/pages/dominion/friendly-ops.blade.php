@@ -1,6 +1,8 @@
 @extends ('layouts.master')
 
+{{--
 @section('page-header', 'Offensive Ops')
+--}}
 
 @section('content')
     <div class="row">
@@ -170,11 +172,11 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Information</h3>
-                    <a href="{{ route('dominion.advisors.magic') }}" class="pull-right">Intelligence Advisor</a>
+                    <a href="{{ route('dominion.advisors.magic') }}" class="pull-right">Magic Advisor</a>
                 </div>
                 <div class="box-body">
                     <p>This is where you collect information about other dominions through Espionage and Magic.</p>
-                    <p>Successfully obtained information is saved in the <a href="{{ route('dominion.op-center') }}">Op Center</a>.</p>
+                    <p>Successfully obtained information is saved in the <a href="{{ route('dominion.intelligence') }}">Op Center</a>.</p>
                     <ul>
                       <li>Spy Strength:  {{ floor($selectedDominion->spy_strength) }}%</li>
                       <li>Spy Ratio (offense): {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</li>
