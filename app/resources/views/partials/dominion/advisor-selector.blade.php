@@ -8,18 +8,6 @@
             <i class="fa fa-industry"></i> Production
         </a>
 
-        <a href="{{ route('dominion.advisors.military') }}" class="btn btn-app">
-            <i class="ra ra-sword"></i> Military
-        </a>
-
-        <a href="{{ route('dominion.advisors.land') }}" class="btn btn-app">
-            <i class="ra ra-honeycomb"></i> Land
-        </a>
-
-        <a href="{{ route('dominion.advisors.construct') }}" class="btn btn-app">
-            <i class="fa fa-home"></i> Construction
-        </a>
-
         <a href="{{ route('dominion.advisors.magic') }}" class="btn btn-app">
             <i class="ra ra-burning-embers"></i> Magic
         </a>

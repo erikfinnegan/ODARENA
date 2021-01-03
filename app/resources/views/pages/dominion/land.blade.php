@@ -11,8 +11,9 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-refresh"></i> Re-zone Land</h3>
                     </div>
-                    <form action="{{ route('dominion.rezone') }}" method="post" role="form">
+                    <form action="{{ route('dominion.land') }}" method="post" role="form">
                         @csrf
+                        <input type="hidden" name="action" value="rezone">
                         <div class="box-body table-responsive no-padding">
                             <table class="table">
                                 <colgroup>
@@ -67,8 +68,9 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="ra ra-telescope"></i> Explore Land</h3>
                     </div>
-                    <form action="{{ route('dominion.explore') }}" method="post" role="form">
+                    <form action="{{ route('dominion.land') }}" method="post" role="form">
                         @csrf
+                        <input type="hidden" name="action" value="explore">
                         <div class="box-body table-responsive no-padding">
                             <table class="table">
                                 <colgroup>
@@ -177,12 +179,10 @@
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Information</h3>
-                <a href="{{ route('dominion.advisors.land') }}" class="pull-right">Land Advisor</a>
             </div>
             <div class="box-body">
-                <p>Land rezoning is the art of converting barren land of one type into another type. Rezoning is instant.</p>
-
-                <p>Each acre costs {{ number_format($rezoningCalculator->getRezoningCost($selectedDominion)) }} {{ $rezoningCalculator->getRezoningMaterial($selectedDominion) }} to rezone.</p>
+                <h4>Rezone</h4>
+                <p>You can convert barren land of one type into another. Rezoning is instant. Each acre costs <strong>{{ number_format($rezoningCalculator->getRezoningCost($selectedDominion)) }} {{ $rezoningCalculator->getRezoningMaterial($selectedDominion) }}</strong> to rezone.</p>
 
                 @if (1-$rezoningCalculator->getCostMultiplier($selectedDominion) !== 0)
                   <p>Your rezoning costs are
@@ -199,9 +199,117 @@
 
                 <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
                   and you can afford to re-zone <b>{{ number_format($rezoningCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $rezoningCalculator->getMaxAfford($selectedDominion)) }}</b>.</p>
+
+
+                <h4>Explore</h4>
+                <p>You can explore land to grow your dominion. It takes <b>{{ $explorationCalculator->getExploreTime($selectedDominion) }}  ticks</b> to explore.</p>
+                <p>The cost for exploring one acre is {{ number_format($explorationCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($explorationCalculator->getDrafteeCost($selectedDominion)) }} {{ str_plural('draftee', $explorationCalculator->getDrafteeCost($selectedDominion)) }}. Additionally, for every 1% of your current size you explore, you lose 8% morale.</p>
+
+                @if ($explorationCalculator->getPlatinumCostBonus($selectedDominion) !== 1 or $explorationCalculator->getDrafteeCostModifier($selectedDominion) !== 0)
+                  <p>Bonuses are
+
+                  @if (1-$explorationCalculator->getPlatinumCostBonus($selectedDominion) > 0)
+                    decreasing
+                  @else
+                    increasing
+                  @endif
+
+                   your exploring platinum costs by <strong>{{ number_format((abs(1-$explorationCalculator->getPlatinumCostBonus($selectedDominion)))*100, 2) }}%</strong>
+
+                  and
+
+                  @if (1-$explorationCalculator->getDrafteeCostModifier($selectedDominion) > 0)
+                    decreasing
+                  @else
+                    increasing
+                  @endif
+
+                   your draftee costs by <strong>{{ number_format(abs($explorationCalculator->getDrafteeCostModifier($selectedDominion))) }}</strong>.</p>
+
+                @endif
+
+                <p>You can afford to explore for <b>{{ number_format($explorationCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $explorationCalculator->getMaxAfford($selectedDominion)) }}</b>.</p>
             </div>
         </div>
     </div>
+</div>
+
+<div class="row">
+
+    <div class="col-sm-12 col-md-9">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-clock-o"></i> Incoming Land</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table">
+                    <colgroup>
+                        <col width="100">
+                        @for ($i = 1; $i <= 12; $i++)
+                            <col>
+                        @endfor
+                        <col width="100">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Land Type</th>
+                            @for ($i = 1; $i <= 12; $i++)
+                                <th class="text-center">{{ $i }}</th>
+                            @endfor
+                            <th class="text-center">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @php
+                        $incomingLandPerTick = array_fill(1,12,0);
+                    @endphp
+                    @foreach ($landHelper->getLandTypes() as $landType)
+                        <tr>
+                            <td>
+                                {{ ucfirst($landType) }}
+                                @if ($landType === $selectedDominion->race->home_land_type)
+                                    <small class="text-muted"><i>(home)</i></small>
+                                @endif
+                            </td>
+                            @for ($i = 1; $i <= 12; $i++)
+                                @php
+                                    $land = (
+                                        $queueService->getExplorationQueueAmount($selectedDominion, "land_{$landType}", $i) +
+                                        $queueService->getInvasionQueueAmount($selectedDominion, "land_{$landType}", $i)
+                                    );
+                                    $incomingLandPerTick[$i] += $land;
+                                @endphp
+                                <td class="text-center">
+                                    @if ($land === 0)
+                                        -
+                                    @else
+                                        {{ number_format($land) }}
+                                    @endif
+                                </td>
+                            @endfor
+                            <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
+                        </tr>
+                    @endforeach
+                        <tr>
+                            <td><em>Total</em></td>
+                            @for ($i = 1; $i <= 12; $i++)
+                                <td class="text-center">
+                                  <em>
+                                @if($incomingLandPerTick[$i] !== 0)
+                                    {{ number_format($incomingLandPerTick[$i]) }}
+                                @else
+                                    -
+                                @endif
+                                </em>
+                                </td>
+                            @endfor
+                            <td class="text-center"><em>{{ number_format(array_sum($incomingLandPerTick)) }}</em></td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="row">
@@ -212,21 +320,22 @@
             </div>
             <div class="box-body">
                 <div class="row">
-                    <div class="col-xs-6">
-                        <p>The Daily Land Bonus instantly gives you some barren acres of <strong>{{ $selectedDominion->race->home_land_type }}</strong>.</p>
-                        <p>You have a 0.50% chance to get 100 acres, and a 99.50% chance to get a random amount between 10 and 40 acres.</p>
-                        @if ($selectedDominion->protection_ticks > 0 or !$selectedDominion->round->hasStarted())
-                        <p><strong>You cannot claim daily bonus while you are in protection or before the round has started.</strong></p>
-                        @endif
-                    </div>
-                    <div class="col-xs-6">
-                        <form action="{{ route('dominion.bonuses.land') }}" method="post" role="form">
+                    <div class="col-xs-3 text-center">
+                        <form action="{{ route('dominion.land') }}" method="post" role="form">
                             @csrf
+                            <input type="hidden" name="action" value="daily_land">
                             <button type="submit" name="land" class="btn btn-primary btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_land || $selectedDominion->protection_ticks > 0 || !$selectedDominion->round->hasStarted() ? 'disabled' : null }}>
                                 <i class="ra ra-compass ra-fw"></i>
                                 Claim Daily Land Bonus
                             </button>
                         </form>
+                    </div>
+                    <div class="col-xs-9">
+                        <p>The Daily Land Bonus instantly gives you some barren acres of <strong>{{ $selectedDominion->race->home_land_type }}</strong>.</p>
+                        <p>You have a 0.50% chance to get 100 acres, and a 99.50% chance to get a random amount between 10 and 40 acres.</p>
+                        @if ($selectedDominion->protection_ticks > 0 or !$selectedDominion->round->hasStarted())
+                        <p><strong>You cannot claim daily bonus while you are in protection or before the round has started.</strong></p>
+                        @endif
                     </div>
                 </div>
             </div>

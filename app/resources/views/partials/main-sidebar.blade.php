@@ -29,7 +29,7 @@
 
                         <span class="pull-right-container">
                             @if (!$selectedDominion->daily_land and $selectedDominion->protection_ticks == 0 and $selectedDominion->round->hasStarted())
-                                <span class="label label-primary pull-right"><i class="fa fa-plus"></i></span>
+                                <small class="label label-primary pull-right"><i class="fa fa-plus"></i></small>
                             @endif
                         </span>
                     </a>
@@ -39,17 +39,33 @@
                 <li class="header">DOMINION</li>
                 -->
 
+
+
                 <!-- Hide Construct Buildings from cannot_construct races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
-                <li class="{{ Route::is('dominion.construct') ? 'active' : null }}"><a href="{{ route('dominion.construct') }}"><i class="fa fa-home fa-fw"></i> <span>Buildings</span></a></li>
+                <li class="{{ Route::is('dominion.construct') ? 'active' : null }}">
+                    <a href="{{ route('dominion.construct') }}">
+                        <i class="fa fa-home fa-fw"></i>
+                        <span>Buildings</span>
+                        {{--
+                    <span class="pull-right-container">
+                        @if ($landCalculator->getTotalBarrenLand($selectedDominion))
+                            <small class="label label-gray pull-right">{{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }}</small>
+                        @endif
+                    </span>
+                      --}}
+                    </a>
+                </li>
                 @endif
 
+                {{--
                 @if (app()->environment() !== 'production')
-                  <!-- Hide Buildings from cannot_construct races -->
-                  @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
-                  <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i> <span>Buildings</span> <span class="pull-right-container"><small class="label pull-right bg-green">New</small></span> </a></li>
-                  @endif
+                    <!-- Hide Buildings from cannot_construct races -->
+                    @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
+                    <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i> <span>Buildings</span> <span class="pull-right-container"><small class="label pull-right bg-green">New</small></span> </a></li>
+                    @endif
                 @endif
+                --}}
 
                 <!-- Hide Castle from cannot_improve_castle races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
@@ -106,13 +122,13 @@
                 <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fa fa-group ra-fw"></i>
                   <span>
                     @if($selectedDominion->realm->alignment == 'evil')
-                      Senate
+                        Senate
                     @elseif($selectedDominion->realm->alignment == 'good')
-                      Parliament
+                        Parliament
                     @elseif($selectedDominion->realm->alignment == 'independent')
-                      Assembly
+                        Assembly
                     @else
-                      Council
+                        Council
                     @endif
                 </span> {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
                 <li class="{{ Route::is('dominion.op-center*') ? 'active' : null }}"><a href="{{ route('dominion.op-center') }}"><i class="fa fa-bullseye ra-fw"></i> <span>Op Center</span></a></li>
