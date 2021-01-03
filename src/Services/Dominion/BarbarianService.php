@@ -518,7 +518,7 @@ class BarbarianService
             if($landType === 'mountain')
             {
                 $buildings['building_ore_mine'] = (int)floor($acres * 0.50);
-                $buildings['building_diamond_mine'] = (int)floor($acres * 0.50);
+                $buildings['building_gem_mine'] = (int)floor($acres * 0.50);
             }
 
             if($landType === 'swamp')

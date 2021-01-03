@@ -24,7 +24,7 @@ class BuildingHelper
           'tower',
           'wizard_guild',
           'temple',
-          'diamond_mine',
+          'gem_mine',
           #'school',
           'lumberyard',
           'forest_haven',
@@ -41,11 +41,11 @@ class BuildingHelper
           if($dominion->race->name == 'Dragon')
           {
             #$forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
-            $buildings = ['home','farm','tower','diamond_mine','lumberyard', 'ore_mine','guard_tower'];
+            $buildings = ['home','farm','tower','gem_mine','lumberyard', 'ore_mine','guard_tower'];
           }
           if($dominion->race->name == 'Merfolk')
           {
-            $buildings = ['home','farm','tower','diamond_mine','temple','shrine'];
+            $buildings = ['home','farm','tower','gem_mine','temple','shrine'];
           }
           if($dominion->race->name == 'Void')
           {
@@ -82,7 +82,7 @@ class BuildingHelper
           'mountain' => [
               'ore_mine',
               'gryphon_nest',
-              'diamond_mine',
+              'gem_mine',
           ],
           'swamp' => [
               'tower',
@@ -90,7 +90,7 @@ class BuildingHelper
               'temple',
           ],/*
           'cavern' => [
-              'diamond_mine',
+              'gem_mine',
               'school',
           ],*/
           'forest' => [
@@ -118,7 +118,7 @@ class BuildingHelper
                     'tower',
                     'farm',
                     'ore_mine',
-                    'diamond_mine',
+                    'gem_mine',
                 ],
                 'swamp' => [],
                 'forest' => [
@@ -142,7 +142,7 @@ class BuildingHelper
                   'farm',
                   'tower',
                   'temple',
-                  'diamond_mine',
+                  'gem_mine',
                   'shrine',
                 ],
             ];
@@ -226,7 +226,7 @@ class BuildingHelper
         $helpStrings = [
             'alchemy' => ['Produces 45 platinum/tick.'],
             'barracks' => ['Houses 36 trained or training military units, including units in training.','Not affected by population bonuses.'],
-            'diamond_mine' => ['Produces 15 gems/tick.'],
+            'gem_mine' => ['Produces 15 gems/tick.'],
             'dock' => ['Produces 1 boat every 20 ticks.','Produces 35 food/tick.','Protects 2.5 boats from being sunk.'],
             'farm' => ['Produces 80 food/tick.'],
             'factory' => ['Construction costs reduced by 4% per 1% owned (maximum of 80% at 20% owned).','Rezoning costs reduced by 3% per 1% owned (maximum of 60% at 20% owned).'],

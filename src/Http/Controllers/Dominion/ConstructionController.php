@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\BuildingHelper;
+use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\ConstructActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\DestroyActionRequest;
 use OpenDominion\Services\Analytics\AnalyticsEvent;
@@ -29,6 +30,7 @@ class ConstructionController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'queueService' => app(QueueService::class),
             'raceHelper' => app(RaceHelper::class),
+            'landHelper' => app(LandHelper::class),
         ]);
     }
 

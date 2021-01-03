@@ -827,11 +827,8 @@ class ProductionCalculator
     {
         $gems = 0;
 
-        // Values
-        $gemsPerDiamondMine = 15;
-
-        // Building: Diamond Mine
-        $gems += ($dominion->building_diamond_mine * $gemsPerDiamondMine);
+        // Building: Gem Mine
+        $gems += $dominion->building_gem_mine * 15;
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $gems += $dominion->getUnitPerkProductionBonus('gem_production');
@@ -1095,7 +1092,7 @@ class ProductionCalculator
             }
             elseif($resource == 'gems' or $resource == 'gem')
             {
-                $max = 96 * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
+                $max = 96 * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
                 if($dominion->race->name == 'Myconid')
                 {
                   $max += $dominion->getUnitPerkProductionBonus('tech_production') * 10;

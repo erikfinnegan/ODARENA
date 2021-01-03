@@ -603,7 +603,6 @@ class UnitHelper
 
         }
 
-
         if(strlen($helpStrings[$unitType]) == 0)
         {
           $helpStrings[$unitType] = '<i>No special abilities</i>';

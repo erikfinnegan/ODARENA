@@ -70,7 +70,7 @@ $factory->define(\OpenDominion\Models\Dominion::class, function (Faker $faker) {
         'building_tower' => 0,
         'building_wizard_guild' => 0,
         'building_temple' => 0,
-        'building_diamond_mine' => 0,
+        'building_gem_mine' => 0,
         'building_school' => 0,
         'building_lumberyard' => 20,
         'building_forest_haven' => 0,

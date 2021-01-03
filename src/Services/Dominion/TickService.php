@@ -261,7 +261,7 @@ class TickService
                         'dominions.building_tower' => DB::raw('dominions.building_tower + dominion_tick.building_tower'),
                         'dominions.building_wizard_guild' => DB::raw('dominions.building_wizard_guild + dominion_tick.building_wizard_guild'),
                         'dominions.building_temple' => DB::raw('dominions.building_temple + dominion_tick.building_temple'),
-                        'dominions.building_diamond_mine' => DB::raw('dominions.building_diamond_mine + dominion_tick.building_diamond_mine'),
+                        'dominions.building_gem_mine' => DB::raw('dominions.building_gem_mine + dominion_tick.building_gem_mine'),
                         'dominions.building_school' => DB::raw('dominions.building_school + dominion_tick.building_school'),
                         'dominions.building_lumberyard' => DB::raw('dominions.building_lumberyard + dominion_tick.building_lumberyard'),
                         'dominions.building_forest_haven' => DB::raw('dominions.building_forest_haven + dominion_tick.building_forest_haven'),
@@ -723,7 +723,7 @@ class TickService
           #$maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35) + $dominion->getUnitPerkProductionBonus('food_production'));
           $maxStorage['lumber'] = max($acres * 100, $maxStorageTicks * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production')));
           $maxStorage['ore'] = max($acres * 100, $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production')));
-          $maxStorage['gems'] = max($acres * 50, $maxStorageTicks * ($dominion->building_diamond_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production')));
+          $maxStorage['gems'] = max($acres * 50, $maxStorageTicks * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production')));
           if($dominion->race->name == 'Myconid')
           {
             $maxStorage['gems'] += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
@@ -1305,7 +1305,7 @@ class TickService
                         'dominions.building_tower' => DB::raw('dominions.building_tower + dominion_tick.building_tower'),
                         'dominions.building_wizard_guild' => DB::raw('dominions.building_wizard_guild + dominion_tick.building_wizard_guild'),
                         'dominions.building_temple' => DB::raw('dominions.building_temple + dominion_tick.building_temple'),
-                        'dominions.building_diamond_mine' => DB::raw('dominions.building_diamond_mine + dominion_tick.building_diamond_mine'),
+                        'dominions.building_gem_mine' => DB::raw('dominions.building_gem_mine + dominion_tick.building_gem_mine'),
                         'dominions.building_school' => DB::raw('dominions.building_school + dominion_tick.building_school'),
                         'dominions.building_lumberyard' => DB::raw('dominions.building_lumberyard + dominion_tick.building_lumberyard'),
                         'dominions.building_forest_haven' => DB::raw('dominions.building_forest_haven + dominion_tick.building_forest_haven'),
@@ -1495,7 +1495,7 @@ class TickService
               'building_tower' => $dominion->building_tower,
               'building_wizard_guild' => $dominion->building_wizard_guild,
               'building_temple' => $dominion->building_temple,
-              'building_diamond_mine' => $dominion->building_diamond_mine,
+              'building_gem_mine' => $dominion->building_gem_mine,
               'building_school' => $dominion->building_school,
               'building_lumberyard' => $dominion->building_lumberyard,
               'building_forest_haven' => $dominion->building_forest_haven,

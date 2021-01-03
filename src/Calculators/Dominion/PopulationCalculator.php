@@ -669,7 +669,7 @@ class PopulationCalculator
                 + $dominion->building_tower
                 + $dominion->building_wizard_guild
                 + $dominion->building_temple
-                + $dominion->building_diamond_mine
+                + $dominion->building_gem_mine
                 + $dominion->building_school
                 + $dominion->building_lumberyard
                 + $dominion->building_forest_haven

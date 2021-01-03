@@ -475,7 +475,7 @@ class DominionFactory
             'building_tower' => $startingBuildings['tower'],
             'building_wizard_guild' => $startingBuildings['wizard_guild'],
             'building_temple' => $startingBuildings['temple'],
-            'building_diamond_mine' => $startingBuildings['diamond_mine'],
+            'building_gem_mine' => $startingBuildings['gem_mine'],
             'building_school' => 0,
             'building_lumberyard' => $startingBuildings['lumberyard'],
             'building_forest_haven' => $startingBuildings['forest_haven'],
@@ -684,7 +684,7 @@ class DominionFactory
                 'home' => 0,
                 'forest_haven' => 0,
                 'ore_mine' => 0,
-                'diamond_mine' => 0,
+                'gem_mine' => 0,
                 'barracks' => 0,
                 'wizard_guild' => 0,
                 'temple' => 0,
@@ -705,7 +705,7 @@ class DominionFactory
               'home' => 0,
               'forest_haven' => 0,
               'ore_mine' => 0,
-              'diamond_mine' => 0,
+              'gem_mine' => 0,
               'barracks' => 0,
               'wizard_guild' => 0,
               'temple' => 0,
@@ -726,7 +726,7 @@ class DominionFactory
               'home' => 0,
               'forest_haven' => 0,
               'ore_mine' => 0,
-              'diamond_mine' => 0,
+              'gem_mine' => 0,
               'barracks' => 0,
               'wizard_guild' => 0,
               'temple' => 0,
@@ -747,7 +747,7 @@ class DominionFactory
               'home' => 0,
               'forest_haven' => 0,
               'ore_mine' => 0,
-              'diamond_mine' => 0,
+              'gem_mine' => 0,
               'barracks' => 0,
               'wizard_guild' => 0,
               'temple' => 0,
@@ -768,7 +768,7 @@ class DominionFactory
               'home' => 0,
               'forest_haven' => 0,
               'ore_mine' => 0,
-              'diamond_mine' => 0,
+              'gem_mine' => 0,
               'barracks' => 0,
               'wizard_guild' => 0,
               'temple' => 0,
@@ -787,7 +787,7 @@ class DominionFactory
               'forest_haven' => 25,
 
               'ore_mine' => 100,
-              'diamond_mine' => 300,
+              'gem_mine' => 300,
 
               'barracks' => 0,
 
@@ -814,7 +814,7 @@ class DominionFactory
               'forest_haven' => floor($acresBase*0.06),
 
               'ore_mine' => floor($acresBase*0.10),
-              'diamond_mine' => floor($acresBase*0.10),
+              'gem_mine' => floor($acresBase*0.10),
 
               'barracks' => floor($acresBase*0.20),
 
@@ -843,7 +843,7 @@ class DominionFactory
               'home' => 0,
               'forest_haven' => 0,
               'ore_mine' => 0,
-              'diamond_mine' => 0,
+              'gem_mine' => 0,
               'barracks' => 0,
               'wizard_guild' => 0,
               'temple' => 0,
@@ -867,7 +867,7 @@ class DominionFactory
     {
         $startingLand = [
             'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'] + $startingBuildings['smithy'],
-            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ziggurat'] + $startingBuildings['ore_mine'] + $startingBuildings['diamond_mine'],
+            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ziggurat'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'],
             'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'] + $startingBuildings['tissue'],
             'cavern' => $startingBarrenLand['cavern'],
             'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['forest_haven'] + $startingBuildings['mycelia'],

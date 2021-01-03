@@ -47,7 +47,7 @@ use OpenDominion\Models\AbstractModel;
  * @property int $building_tower
  * @property int $building_wizard_guild
  * @property int $building_temple
- * @property int $building_diamond_mine
+ * @property int $building_gem_mine
  * @property int $building_school
  * @property int $building_lumberyard
  * @property int $building_forest_haven
@@ -101,7 +101,7 @@ class Tick extends AbstractModel
         'building_tower' => 'integer',
         'building_wizard_guild' => 'integer',
         'building_temple' => 'integer',
-        'building_diamond_mine' => 'integer',
+        'building_gem_mine' => 'integer',
         'building_school' => 'integer',
         'building_lumberyard' => 'integer',
         'building_forest_haven' => 'integer',

@@ -131,7 +131,7 @@ class TickTest extends AbstractBrowserKitTestCase
         $dominion->resource_mana = 0;
         $dominion->save();
 
-        $queueService->queueResources('construction', $dominion, ['building_diamond_mine' => 20], 1);
+        $queueService->queueResources('construction', $dominion, ['building_gem_mine' => 20], 1);
         $queueService->queueResources('construction', $dominion, ['building_tower' => 20], 1);
         // Manually precalculate when queuing for next hour
         $tickService->precalculateTick($dominion);

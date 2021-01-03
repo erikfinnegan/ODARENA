@@ -12,7 +12,6 @@ class LandHelper
             'plain',
             'mountain',
             'swamp',
-            #'cavern',
             'forest',
             'hill',
             'water',
@@ -33,7 +32,7 @@ class LandHelper
           'tower' => 'mountain',
           'farm' => 'mountain',
           'ore_mine' => 'mountain',
-          'diamond_mine' => 'mountain',
+          'gem_mine' => 'mountain',
           'lumberyard' => 'forest',
           'guard_tower' => 'hill',
         ];
@@ -44,7 +43,7 @@ class LandHelper
           'farm' => 'water',
           'tower' => 'water',
           'temple' => 'water',
-          'diamond_mine' => 'water',
+          'gem_mine' => 'water',
           'shrine' => 'water',
         ];
       }
@@ -66,19 +65,6 @@ class LandHelper
           'mycelia' => 'forest'
         ];
       }
-      /*
-      elseif($race->name == 'Swarm')
-      {
-        $buildings = [
-            'tunnels' => 'plain',
-            'tunnels' => 'mountain',
-            'tunnels' => 'swamp',
-            'tunnels' => 'forest',
-            'tunnels' => 'hill',
-            'tunnels' => 'water',
-        ];
-      }
-      */
       else
       {
         $buildings = [
@@ -91,8 +77,7 @@ class LandHelper
             'tower' => 'swamp',
             'wizard_guild' => 'swamp',
             'temple' => 'swamp',
-            'diamond_mine' => 'mountain',
-            #'school' => 'cavern',
+            'gem_mine' => 'mountain',
             'lumberyard' => 'forest',
             'forest_haven' => 'forest',
             'factory' => 'hill',
@@ -119,10 +104,6 @@ class LandHelper
 
             case 'swamp':
                 return '<i class="ra ra-skull text-black"></i>';
-
-            #case 'cavern':
-            #    return '<i class="ra ra-mining-diamonds text-blue"></i>';
-
             case 'forest':
                 return '<i class="ra ra-pine-tree text-green"></i>';
 
@@ -130,7 +111,7 @@ class LandHelper
                 return '<i class="ra ra-grass text-green"></i>';
 
             case 'water':
-                return '<i class="ra ra-water-drop text-light-blue"></i>';
+                return '<i class="fas fa-waves text-light-blue"></i>';
 
             default:
                 return '';

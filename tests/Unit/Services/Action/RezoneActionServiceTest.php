@@ -142,7 +142,7 @@ class RezoneActionServiceTest extends AbstractBrowserKitTestCase
     public function testRemovingMoreThanBarrenLand()
     {
         $this->dominion->land_cavern = 20;
-        $this->dominion->building_diamond_mine = 15;
+        $this->dominion->building_gem_mine = 15;
 
         $this->assertEquals(5, $this->landCalculator->getTotalBarrenLandByLandType($this->dominion, 'cavern'));
 
