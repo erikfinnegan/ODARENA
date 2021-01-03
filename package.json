@@ -25,6 +25,7 @@
     "postcss": "^8.1",
     "resolve-url-loader": "^3.1.2",
     "sass": "^1.32.0",
-    "sass-loader": "8.*"
+    "sass-loader": "8.*",
+    "webpack-cli": "^4.3.1"
   }
 }
