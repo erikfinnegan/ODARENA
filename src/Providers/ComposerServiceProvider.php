@@ -111,5 +111,10 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $view->with('landCalculator', app(LandCalculator::class));
             $view->with('militaryCalculator', app(MilitaryCalculator::class));
         });
+
+        view()->composer('partials.styles', function (View $view) {
+            $version = (Cache::has('version') ? Cache::get('version') : 'unknown');
+            $view->with('version', $version);
+        });
     }
 }
