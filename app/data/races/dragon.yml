@@ -33,10 +33,10 @@ units:
       offense: 2
       defense: 0
     perks:
-      food_production: 1
+      food_production: 5
 
   - name: Driller
-    training_time: 2
+    training_time: 3
     type:
       - living
       - sentient
@@ -51,7 +51,7 @@ units:
       gem_production: 1
 
   - name: Mercenary
-    training_time: 12
+    training_time: 4
     type:
       - living
       - sentient
@@ -75,7 +75,7 @@ units:
       - massive
     need_boat: false
     cost:
-      gem: 45000
+      gem: 50000
     power:
       offense: 1000
       defense: 1000
