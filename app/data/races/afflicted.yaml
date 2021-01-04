@@ -12,7 +12,7 @@ description: >-
   </ul>
   <p>Each spell lasts 12 ticks.</p>
 home_land_type: hill
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 0

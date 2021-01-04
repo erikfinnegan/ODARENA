@@ -31,7 +31,7 @@ units:
       does_not_count_as_population: 1
       no_draftee: 1
       instant_training: 1
-      pairing_limit_increasable: 4,4,spires,1 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
+      pairing_limit_increasable: 4,2,spires,1 # Unit slot, amount (max 4 of this unit per each Unit 4), imp to increase, imp multiplier
       fixed_casualties: 75
       plunder: mana,2.5
 
