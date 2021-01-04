@@ -16,6 +16,7 @@ perks:
   mana_production: 50
 units:
   - name: Imp
+    need_boats: false
     training_time: 0
     static_networth: 5
     type:
