@@ -14,7 +14,6 @@ construction_materials: platinum,lumber
 perks:
   population_growth: 25
   extra_barren_max_population: 5
-  defense_from_forest: 0.125 # Gets 0.10% DP bonus from every 1% forest
   converts_assassinated_draftees: 1 # into slot 1
   converts_executed_spies: 2 # into slot 2
   construction_cost: -10

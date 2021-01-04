@@ -59,6 +59,10 @@
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Release</button>
+
+                        <span class="pull-right">
+                        <a href="{{ route('dominion.military') }}" class="btn btn-primary">Cancel</a>
+                        </span>
                     </div>
                 </form>
             </div>

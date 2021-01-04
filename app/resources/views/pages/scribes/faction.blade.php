@@ -188,7 +188,7 @@
                               <col>
                           </colgroup>
                           <tbody>
-                              @foreach ($race->perks as $perk)
+                              @foreach ($race->perks->sort() as $perk)
                                   @php
                                       $perkDescription = $raceHelper->getPerkDescriptionHtmlWithValue($perk);
                                   @endphp
@@ -266,7 +266,7 @@
                     <h3 class="box-title">Spells</h3>
                 </div>
                 <div class="box-body">
-                    <p>Not yet implemented. For now, see <a href="{{ route('scribes.spells', str_slug($race['name'])) }}">Spells</a>.</p>
+                    <p>See <a href="{{ route('scribes.spells', str_slug($race['name'])) }}">Spells</a>.</p>
                 </div>
             </div>
         </div>
@@ -277,7 +277,7 @@
                     <h3 class="box-title">Spy Ops</h3>
                 </div>
                 <div class="box-body">
-                    <p>Not yet implemented. For now, see <a href="{{ route('scribes.spy-ops', str_slug($race['name'])) }}">Spy Ops</a>.</p>
+                    <p>See <a href="{{ route('scribes.spy-ops', str_slug($race['name'])) }}">Spy Ops</a>.</p>
                 </div>
             </div>
         </div>

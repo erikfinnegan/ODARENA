@@ -522,7 +522,7 @@ class TrainActionService
 
                     if(isset($unit))
                     {
-                        $ticks = intval($unit->training_time);
+                        $ticks = $unit->training_time;
                     }
                     else
                     {
@@ -539,8 +539,9 @@ class TrainActionService
                         $amountToTrain = floor($amountToTrain * (1 + $amountToTrainMultiplier));
                     }
 
-
                     $dominion->{'stat_total_' . $unitStatsName . '_trained'} += $amountToTrain;
+
+                    $ticks = (int)intval($ticks);
 
                     // Look for instant training.
                     if($ticks === 0 and $amountToTrain > 0)

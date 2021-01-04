@@ -35,6 +35,7 @@
                                 @foreach ($landCalculator->getBarrenLandByLandType($selectedDominion) as $landType => $amount)
                                     <tr>
                                         <td>
+                                          {!! $landHelper->getLandTypeIconHtml($landType) !!}
                                           {{ ucfirst($landType) }}
                                           @if ($landType === $selectedDominion->race->home_land_type)
                                               <small class="text-muted"><span title="This is the land type where {{ ($selectedDominion->race->name) }} constructs home buildings."><i class="fa fa-home"></span></i></small>
@@ -104,6 +105,7 @@
                                     @foreach ($landHelper->getLandTypes() as $landType)
                                         <tr>
                                             <td>
+                                                {!! $landHelper->getLandTypeIconHtml($landType) !!}
                                                 {{ ucfirst($landType) }}
                                                 @if ($landType === $selectedDominion->race->home_land_type)
                                                     <small class="text-muted"><span title="This is the land type where {{ ($selectedDominion->race->name) }} constructs home buildings."><i class="fa fa-home"></span></i></small>

@@ -14,6 +14,7 @@
         <thead>
             <tr>
                 <th colspan="3">
+                    <span class="pull-left barren-land">{!! $landHelper->getLandTypeIconHtml($landType) !!}</span>
                     <span class="pull-right barren-land">Barren: <strong>{{ number_format($landCalculator->getTotalBarrenLandByLandType($selectedDominion, $landType)) }}</strong></span>
                     <h4>{{ ucfirst($landType) }}</h4>
                 </th>

@@ -44,6 +44,10 @@
                     </div>
                     <div class="box-footer">
                         <button type="submit" class="btn btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Destroy</button>
+
+                        <span class="pull-right">
+                        <a href="{{ route('dominion.construct') }}" class="btn btn-primary">Cancel</a>
+                        </span>
                     </div>
                 </form>
             </div>
@@ -58,6 +62,8 @@
                     <p><b>Warning</b>: You are about to destroy buildings to reclaim barren land.</p>
                     <p>Any platinum and lumber used to construct any destroyed buildings <b>will be lost</b>.</p>
                     <p>Destroying buildings processes <b>instantly</b>.</p>
+                </div>
+                <div class="box-footer">
                 </div>
             </div>
         </div>

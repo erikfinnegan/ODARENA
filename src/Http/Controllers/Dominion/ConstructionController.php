@@ -58,7 +58,7 @@ class ConstructionController extends AbstractDominionController
         ));
 
         $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.construct');
+        return redirect()->route('dominion.land');
     }
 
     public function getDestroy()
@@ -67,6 +67,7 @@ class ConstructionController extends AbstractDominionController
             'buildingCalculator' => app(BuildingCalculator::class),
             'buildingHelper' => app(BuildingHelper::class),
             'landCalculator' => app(LandCalculator::class),
+            'landHelper' => app(LandHelper::class),
         ]);
     }
 
@@ -94,6 +95,6 @@ class ConstructionController extends AbstractDominionController
         ));
 
         $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.destroy');
+        return redirect()->route('dominion.land');
     }
 }
