@@ -498,12 +498,12 @@ class RaceHelper
                 break;
           case 'converts_assassinated_draftees':
                 $negativeBenefit = false;
-                $description = 'Converts assassinated draftees into Warg';
+                $description = 'Converts assassinated draftees';
                 $booleanValue = true;
                 break;
           case 'converts_executed_spies':
                 $negativeBenefit = false;
-                $description = 'Converts captured spies into Wolverine';
+                $description = 'Converts captured spies';
                 $booleanValue = true;
                 break;
 

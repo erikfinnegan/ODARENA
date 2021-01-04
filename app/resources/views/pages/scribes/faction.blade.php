@@ -12,6 +12,11 @@
             <div class="box-header with-border">
                 <h2 class="box-title">{{ $race->name }}</h2>
             </div>
+            @if($race->description)
+                <div class="box-body">
+                {!! $race->description !!}
+                </div>
+            @endif
         </div>
     </div>
 </div>
@@ -219,24 +224,41 @@
 </div>
 <div class="row">
 
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-5">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Spells and Spy Ops</h3>
+                    <h3 class="box-title">Spells</h3>
                 </div>
-                <div class="box-body table-responsive no-padding">
-                    ...
+                <div class="box-body">
+                    <p>TBD</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-4">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-clock-o"></i> Units returning from battle</h3>
+                    <h3 class="box-title">Spy Ops</h3>
                 </div>
-                <div class="box-body table-responsive no-padding">
-                    ...
+                <div class="box-body">
+                    <p>TBD</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Chronicles</h3>
+                </div>
+                <div class="box-body">
+                  @php
+                      $factionUrlName = str_replace(' ','-',strtolower($race->name));
+                      $alignments = ['good' => 'commonwealth', 'evil' => 'empire', 'independent' => 'independent', 'npc' => 'barbarian-horde'];
+                      $alignment = $alignments[$race->alignment];
+                  @endphp
+                  <p><a href="https://lounge.odarena.com/chronicles/factions/{{ $alignment }}/{{ $factionUrlName }}/" target="_blank"><i class="fa fa-book"></i> Read the history of {{ $race->name }} in the Chronicles.</a></p>
+
                 </div>
             </div>
         </div>
