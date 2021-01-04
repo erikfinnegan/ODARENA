@@ -11,7 +11,7 @@
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-refresh"></i> Rezone Land</h3>
+                        <h3 class="box-title"><i class="fas fa-redo-alt"></i> Rezone Land</h3>
                     </div>
                     <form action="{{ route('dominion.land') }}" method="post" role="form">
                         @csrf
