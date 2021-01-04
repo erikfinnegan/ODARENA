@@ -220,7 +220,7 @@
                           <tbody>
                               <tr>
                                   <td>Home land type:</td>
-                                  <td>{{ ucwords($race->home_land_type) }}<td>
+                                  <td>{!! $landHelper->getLandTypeIconHtml($race->home_land_type) !!} {{ ucwords($race->home_land_type) }}<td>
                               </tr>
                               @php
                                   $constructionMaterials = $raceHelper->getConstructionMaterials($race);
