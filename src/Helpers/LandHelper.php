@@ -100,18 +100,19 @@ class LandHelper
                 return '<i class="ra ra-grass-patch text-green"></i>';
 
             case 'mountain':
-                return '<i class="ra ra-mountains text-red"></i>';
+                return '<i class="fa fa-mountain text-blue"></i>';
 
             case 'swamp':
                 return '<i class="ra ra-skull text-black"></i>';
+
             case 'forest':
-                return '<i class="ra ra-pine-tree text-green"></i>';
+                return '<i class="fa fa-tree text-green"></i>';
 
             case 'hill':
                 return '<i class="ra ra-grass text-green"></i>';
 
             case 'water':
-                return '<i class="fas fa-water"></i>';
+                return '<i class="fas fa-water text-aqua"></i>';
 
             default:
                 return '';

@@ -19,7 +19,7 @@
                 <!--
                 <li class="header">GENERAL</li>
                 -->
-                <li class="{{ Route::is('dominion.status') ? 'active' : null }}"><a href="{{ route('dominion.status') }}"><i class="fa fa-bar-chart fa-fw"></i> <span>Status</span></a></li>
+                <li class="{{ Route::is('dominion.status') ? 'active' : null }}"><a href="{{ route('dominion.status') }}"><i class="fas fa-map-pin fa-fw"></i> <span>Status</span></a></li>
 
 
                 <li class="{{ Route::is('dominion.resources') ? 'active' : null }}"><a href="{{ route('dominion.resources') }}"><i class="ra ra-mining-diamonds ra-fw"></i> <span>Resources</span></a></li>
@@ -115,7 +115,7 @@
                 <!--
                 <li class="header">COMMS</li>
                 -->
-                <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fa fa-group ra-fw"></i>
+                <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fas fa-comments ra-fw"></i>
                   <span>
                     @if($selectedDominion->realm->alignment == 'evil')
                         Senate
@@ -135,8 +135,16 @@
                 <!--
                 <li class="header">REALM</li>
                 -->
-                <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="ra ra-circle-of-circles ra-fw"></i> <span>The World</span></a></li>
-                <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}"><a href="{{ route('dominion.world-news') }}"><i class="fa fa-newspaper-o ra-fw"></i> <span>World News</span> {!! $newsUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $newsUnreadCount . '</small></span>') : null !!}</a></li>
+                <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a></li>
+
+                <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}">
+                    <a href="{{ route('dominion.world-news') }}">
+                        <i class="far fa-newspaper fa-fw"></i>
+                        <span>World News</span>
+                        {!! $newsUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $newsUnreadCount . '</small></span>') : null !!}
+                    </a>
+                </li>
+
                 <li class="{{ Route::is('dominion.rankings') ? 'active' : null }}"><a href="{{ route('dominion.rankings') }}"><i class="fa fa-trophy ra-fw"></i> <span>Rankings</span></a></li>
 
                 <li class="{{ Route::is('dominion.notes') ? 'active' : null }}"><a href="{{ route('dominion.notes') }}"><i class="ra ra-quill-ink ra-fw"></i> <span>Notes</span></a></li>

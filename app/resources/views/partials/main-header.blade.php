@@ -10,7 +10,11 @@
     <nav class="navbar navbar-static-top" role="navigation">
 
         <!-- Sidebar toggle button -->
-        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <a href="#" data-toggle="push-menu" role="button">
+            <button>
+                <i class="fas fa-compress"></i>
+            </button>
+
             <span class="sr-only">Toggle navigation</span>
         </a>
 
@@ -18,7 +22,6 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 @include('partials.staff-nav')
-                @include('partials.wiki-nav')
                 @include('partials.scribes-nav')
                 @include('partials.lounge-nav')
                 @include('partials.notification-nav')
