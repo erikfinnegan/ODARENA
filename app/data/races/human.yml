@@ -16,7 +16,7 @@ perks:
   food_production: 15
   research_points_per_acre: 100
   salvaging: 75
-  construction_costs: -20
+  construction_cost: -20
   rezone_cost: -20
   increased_construction_speed: 4
 

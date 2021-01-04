@@ -42,7 +42,7 @@
                             <th class="text-center">OP / DP</th>
                             <th>Special Abilities</th>
                             <th>Attributes</th>
-                            <th class="text-center">Cost</th>
+                            <th>Cost</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,106 +79,92 @@
                                   {!! $unitHelper->getUnitAttributesList("unit{$unit->slot}", $race) !!}
                               </td>
 
-                              <td class="text-center">  <!-- Cost -->
-                                  @php
-                                      // todo: move this shit to view presenter or something
-                                      $labelParts = [];
+                              <td>  <!-- Cost -->
+                                    @php
+                                        $unitCostString = (number_format($unit->cost_platinum) . ' platinum');
 
-                                      foreach ($trainingCalculator->getTrainingCostsPerUnit($selectedDominion)[$unitType] as $costType => $value) {
+                                        if ($unit->cost_ore > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_ore) . ' ore');
+                                        }
 
-                                        # Only show resource if there is a corresponding cost
-                                        if($value !== 0)
-                                        {
+                                        if ($unit->cost_lumber > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_lumber) . ' lumber');
+                                        }
 
-                                          switch ($costType) {
-                                              case 'platinum':
-                                                  $labelParts[] = number_format($value) . ' platinum';
-                                                  break;
+                                        if ($unit->cost_food > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_food) . ' food');
+                                        }
 
-                                              case 'ore':
-                                                  $labelParts[] = number_format($value) . ' ore';
-                                                  break;
+                                        if ($unit->cost_mana > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_mana) . ' mana');
+                                        }
 
-                                              case 'food':
-                                                  $labelParts[] =  number_format($value) . ' food';
-                                                  break;
+                                        if ($unit->cost_gem > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_gem) . ' gem');
+                                        }
 
-                                              case 'mana':
-                                                  $labelParts[] =  number_format($value) . ' mana';
-                                                  break;
+                                        if ($unit->cost_prestige > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_prestige) . ' Prestige');
+                                        }
 
-                                              case 'lumber':
-                                                  $labelParts[] =  number_format($value) . ' lumber';
-                                                  break;
+                                        if ($unit->cost_boat > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_boat) . ' boat');
+                                        }
 
-                                              case 'gem':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural('gem', $value);
-                                                  break;
+                                        if ($unit->cost_champion > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_champion) . ' Champion');
+                                        }
 
-                                              case 'prestige':
-                                                  $labelParts[] =  number_format($value) . ' Prestige';
-                                                  break;
+                                        if ($unit->cost_soul > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Soul');
+                                        }
 
-                                              case 'boat':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural('boat', $value);
-                                                  break;
+                                        if ($unit->cost_blood > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_blood) . ' blood');
+                                        }
 
-                                              case 'champion':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural('Champion', $value);
-                                                  break;
+                                        if ($unit->cost_unit1 > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_unit1) . ' ' . $unitHelper->getUnitName('unit1', $race));
+                                        }
 
-                                              case 'soul':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural('Soul', $value);
-                                                  break;
+                                        if ($unit->cost_unit2 > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_unit2) . ' ' . $unitHelper->getUnitName('unit2', $race));
+                                        }
 
-                                              case 'blood':
-                                                  $labelParts[] =  number_format($value) . ' blood';
-                                                  break;
+                                        if ($unit->cost_unit3 > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_unit3) . ' ' . $unitHelper->getUnitName('unit3', $race));
+                                        }
 
-                                              case 'unit1':
-                                              case 'unit2':
-                                              case 'unit3':
-                                              case 'unit4':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $race), $value);
-                                                  break;
+                                        if ($unit->cost_unit4 > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_unit4) . ' ' . $unitHelper->getUnitName('unit4', $race));
+                                        }
 
-                                              case 'morale':
-                                                  $labelParts[] =  number_format($value) . '% morale';
-                                                  break;
+                                        if ($unit->cost_morale !== 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_morale) . '% morale');
+                                        }
 
-                                              case 'peasant':
-                                                  $labelParts[] =  number_format($value) . ' peasant';
-                                                  break;
+                                        if ($unit->cost_peasant > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_peasant) . ' peasant');
+                                        }
 
-                                              case 'wild_yeti':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural('wild yeti', $value);
-                                                  break;
+                                        if ($unit->cost_wild_yeti > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_wild_yeti) . '  wild yeti');
+                                        }
 
-                                              case 'spy':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural('Spy', $value);
-                                                  break;
+                                        if ($unit->cost_spy > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_spy) . '  Spy');
+                                        }
 
-                                              case 'wizard':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural('Wizard', $value);
-                                                  break;
+                                        if ($unit->cost_wizard > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_wizard) . '  Wizard');
+                                        }
 
-                                              case 'archmage':
-                                                  $labelParts[] =  number_format($value) . ' ' . str_plural('Archmage', $value);
-                                                  break;
+                                        if ($unit->cost_archmage > 0) {
+                                            $unitCostString .= (', ' . number_format($unit->cost_archmage) . '  ArchMage');
+                                        }
 
-                                              case 'wizards':
-                                                  $labelParts[] = '1 Wizard';
-                                                  break;
-
-                                              default:
-                                                  break;
-                                              }
-
-                                          } #ENDIF
-                                      }
-
-                                      echo implode(',<br>', $labelParts);
-                                  @endphp
+                                    @endphp
+                                    {{ $unitCostString }}
                               </td>
                           </tr>
                       @endforeach
@@ -189,37 +175,87 @@
         </div>
       </div>
 
-        <div class="col-sm-12 col-md-3">
+      <div class="col-sm-12 col-md-3 no-padding">
+          <div class="col-sm-12 col-md-12">
+              <div class="box">
+                  <div class="box-header with-border">
+                      <h3 class="box-title">Perks</h3>
+                  </div>
+                  <div class="box-body table-responsive no-padding">
+                      <table class="table table-striped">
+                          <colgroup>
+                              <col>
+                              <col>
+                          </colgroup>
+                          <tbody>
+                              @foreach ($race->perks as $perk)
+                                  @php
+                                      $perkDescription = $raceHelper->getPerkDescriptionHtmlWithValue($perk);
+                                  @endphp
+                                  <tr>
+                                      <td>
+                                          {!! $perkDescription['description'] !!}
+                                      </td>
+                                      <td>
+                                          {!! $perkDescription['value']  !!}
+                                      </td>
+                                  </tr>
+                              @endforeach
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          <div class="col-sm-12 col-md-12">
+              <div class="box">
+                  <div class="box-header with-border">
+                      <h3 class="box-title">Lands</h3>
+                  </div>
+                  <div class="box-body table-responsive no-padding">
+                      <table class="table table-striped">
+                          <colgroup>
+                              <col>
+                              <col>
+                          </colgroup>
+                          <tbody>
+                              <tr>
+                                  <td>Home land type:</td>
+                                  <td>{{ ucwords($race->home_land_type) }}<td>
+                              </tr>
+                              @php
+                                  $constructionMaterials = $raceHelper->getConstructionMaterials($race);
+                                  $materials = count($constructionMaterials);
+                              @endphp
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Perks</h3>
-                </div>
-                <div class="box-body table-responsive no-padding">
-                    <table class="table table-striped">
-                        <colgroup>
-                            <col>
-                            <col>
-                        </colgroup>
-                        <tbody>
-                            @foreach ($race->perks as $perk)
-                                @php
-                                    $perkDescription = $raceHelper->getPerkDescriptionHtmlWithValue($perk);
-                                @endphp
-                                <tr>
-                                    <td>
-                                        {!! $perkDescription['description'] !!}
-                                    </td>
-                                    <td>
-                                        {!! $perkDescription['value']  !!}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                                  <tr>
+                                      <td colspan="3" class="text-center"><b>Construction Materials</b></th>
+                                  </tr>
+
+                              @if($race->getPerkValue('cannot_construct'))
+                                  <tr>
+                                      <td colspan="3" class="text-center">Cannot construct buildings.</td>
+                                  </tr>
+                              @elseif($materials === 1)
+                                  <tr>
+                                      <td>Resource:</td>
+                                      <td>{{ ucwords($constructionMaterials[0]) }}<td>
+                                  </tr>
+                              @else
+                                  <tr>
+                                      <td>Primary:</td>
+                                      <td>{{ ucwords($constructionMaterials[0]) }}<td>
+                                  </tr>
+                                  <tr>
+                                      <td>Secondary:</td>
+                                      <td>{{ ucwords($constructionMaterials[1]) }}<td>
+                                  </tr>
+                              @endif
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
 
 </div>
 <div class="row">
@@ -230,7 +266,7 @@
                     <h3 class="box-title">Spells</h3>
                 </div>
                 <div class="box-body">
-                    <p>TBD</p>
+                    <p>Not yet implemented. For now, see <a href="{{ route('scribes.spells', str_slug($race['name'])) }}">Spells</a>.</p>
                 </div>
             </div>
         </div>
@@ -241,7 +277,7 @@
                     <h3 class="box-title">Spy Ops</h3>
                 </div>
                 <div class="box-body">
-                    <p>TBD</p>
+                    <p>Not yet implemented. For now, see <a href="{{ route('scribes.spy-ops', str_slug($race['name'])) }}">Spy Ops</a>.</p>
                 </div>
             </div>
         </div>
