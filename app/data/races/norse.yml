@@ -30,6 +30,7 @@ units:
       defense: 0
     perks:
       afterlife_norse: 1
+      housing_count: 0.5
 
   - name: Norn
     training_time: 9

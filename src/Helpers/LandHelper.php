@@ -111,7 +111,7 @@ class LandHelper
                 return '<i class="ra ra-grass text-green"></i>';
 
             case 'water':
-                return '<i class="fas fa-waves text-light-blue"></i>';
+                return '<i class="fas fa-water"></i>';
 
             default:
                 return '';

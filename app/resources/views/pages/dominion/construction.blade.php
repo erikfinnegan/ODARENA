@@ -10,7 +10,7 @@
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-home"></i> Construct Buildings</h3>
+                <h3 class="box-title"><i class="fa fa-home"></i> Construct Buildings <i class="fas fa-water"></i></h3>
             </div>
             <form action="{{ route('dominion.construct') }}" method="post" role="form">
                 @csrf
