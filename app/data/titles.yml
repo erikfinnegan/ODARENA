@@ -53,7 +53,7 @@ embalmer:
   perks:
     conversions: 5
 
-forester:
+warden:
   name: Warden
   enabled: 0
   perks:
