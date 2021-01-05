@@ -54,6 +54,12 @@ embalmer:
     conversions: 5
 
 forester:
+  name: Warden
+  enabled: 0
+  perks:
+    lumber_production: 10
+
+forester:
   name: Forester
   perks:
     lumber_production: 10

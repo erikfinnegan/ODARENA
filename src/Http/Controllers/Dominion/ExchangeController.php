@@ -47,6 +47,6 @@ class ExchangeController extends AbstractDominionController
         ));
 
         $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.exchange');
+        return redirect()->route('dominion.resources');
     }
 }
