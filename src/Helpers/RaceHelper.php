@@ -581,22 +581,6 @@ class RaceHelper
         return $result;
     }
 
-    public function getRacePlayStyleString(int $rating): string
-    {
-
-        $playStyleString = '';
-
-        return $playStyleString;
-
-        $ratings = [
-          'Unplayable',
-          'Difficult',
-          'Challenging',
-          'Apt'
-        ];
-        return $ratings[$rating];
-    }
-
     public function getRaceAdjective(Race $race): string
     {
         $adjectives = [
@@ -618,7 +602,7 @@ class RaceHelper
             'Orc' => 'Orcish',
             'Qur' => 'Qurrian',
             'Snow Elf' => 'Snow Elven',
-            'Sylvan' => 'Sylvana',
+            'Sylvan' => 'Sylvan',
             'Vampires' => 'Vampiric',
             'Weres' => 'Weren',
             'Wood Elf' => 'Wood Elven',
@@ -646,13 +630,10 @@ class RaceHelper
 
     public function getPeasantsTerm(Race $race): string
     {
+        $term = 'peasant';
         if($this->hasPeasantsAlias($race))
         {
             $term = $race->peasants_alias;
-        }
-        else
-        {
-            $term = 'peasant';
         }
 
         return ucwords($term);
@@ -660,16 +641,13 @@ class RaceHelper
 
     public function getDrafteesTerm(Race $race): string
     {
-      if($this->hasDrafteesAlias($race))
-      {
-          $term = $race->draftees_alias;
-      }
-      else
-      {
-          $term = 'draftee';
-      }
+        $term = 'draftee';
+        if($this->hasDrafteesAlias($race))
+        {
+            $term = $race->draftees_alias;
+        }
 
-      return ucwords($term);
+        return ucwords($term);
     }
 
 

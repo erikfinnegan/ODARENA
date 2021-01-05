@@ -57,6 +57,14 @@
                                     </div>
                                 </div>
 
+                                {{-- Barbarian Events --}}
+                                <div class="form-group">
+                                    <label for="skin" class="col-sm-3 control-label">Hide Barbarian events from the World News <small class="pull-right text-muted">&nbsp;NYI</small></label>
+                                    <div class="col-sm-9">
+                                        <input type="checkbox" name="settings[hide_barbarian_world_news]" value=1>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="col-md-6">
 
@@ -139,87 +147,62 @@
                                 @endforeach
 
                             </div>
-                            {{--<div class="col-sm-6">
-
-                                <h2 class="page-header">Notification Settings</h2>--}}
-
-                                {{-- Disable email notifications --}}
-                                {{--<div class="checkbox">
-                                    <label>
-                                        <input type="checkbox">
-                                        Disable email notifications
-                                    </label>
-                                    <p class="help-text">foo</p>
-                                </div>--}}
-
-                                {{-- Digest Email --}}
-                                {{--<div class="form-group">
-                                    <label>Digest Irregular Email Notifications</label>
-                                    <br>
-                                    <div class="btn-group" data-toggle="buttons">
-                                        @foreach ([
-                                            'off' => 'Off',
-                                            '5min' => '5 Min',
-                                            'hourly' => 'Hourly',
-                                            'daily' => 'Daily',
-                                        ] as $notificationKey => $label)
-                                            @php
-                                            if ($user->getSetting('notification_digest') === null) {
-                                                $isActive = ($notificationKey === 'hourly');
-                                            } else {
-                                                $isActive = ($user->getSetting('notification_digest')  === $notificationKey);
-                                            }
-                                            @endphp
-                                            <label class="btn btn-default {{ $isActive ? 'active' : null }}">
-                                                <input type="radio" name="notification_digest" value="{{ $notificationKey }}" autocomplete="off" {{ $isActive ? 'checked' : null }}>
-                                                {{ $label }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                    <p class="help-text">Having a low digest setting can result in a lot of emails.</p>
-                                </div>
-
-                            </div>--}}
-
                         </div>
                     </div>
 
-                    <div class="tab-pane" id="settings">
+                    <div class="tab-pane" id="notifications">
                         <div class="row">
                             <div class="col-sm-6">
 
                                 <h2 class="page-header">Settings</h2>
 
-                                <table class="table table-striped table-hover">
-                                    <colgroup>
-                                        <col>
-                                        <col width="100">
-                                    </colgroup>
-                                    <thead>
-                                        <tr>
-                                            <th>Setting</th>
-                                            <th class="text-center">Email</th>
-                                            <th class="text-center">Ingame</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Display spells in Overview screen</td>
-                                            <td class="text-center">
-                                                <input type="checkbox">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Allow in-realm info-ops</td>
-                                            <td class="text-center">
-                                                <input type="checkbox">
-                                            </td>
-                                        </tr>
-                                      </tbody>
+                                @foreach ($settingHelper->getNotificationCategories() as $category => $settings)
+                                    <table class="table table-striped table-hover">
+                                        <colgroup>
+                                            <col>
+                                            <col width="100">
+                                            <col width="100">
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>{{ $settingHelper->getNotificationTypeLabel($category) }}</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Ingame</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><em>All {{ $settingHelper->getNotificationTypeLabel($category) }}</em></td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" data-check-all data-check-all-type="email" {{ collect($notificationSettings[$category] ?? [])->map(function ($notification) { return $notification['email'] ?? false; })->reduce(function ($carry, $item) { return (($carry || ($carry === null)) && $item); }) ? 'checked' : null }}>
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" data-check-all data-check-all-type="ingame" {{ collect($notificationSettings[$category] ?? [])->map(function ($notification) { return $notification['ingame'] ?? false; })->reduce(function ($carry, $item) { return (($carry || ($carry === null)) && $item); }) ? 'checked' : null }}>
+                                                </td>
+                                            </tr>
+                                            @foreach ($settings as $type => $setting)
+                                                <tr>
+                                                    <td>{{ $setting['label'] }}</td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" name="notifications[{{ $category }}][{{ $type }}][email]" {{ array_get($notificationSettings, "{$category}.{$type}.email", $notification['defaults']['email']) ? 'checked' : null }} data-check-all-type="email">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if ($setting['onlyemail'] ?? false)
+                                                            &nbsp;
+                                                        @else
+                                                            <input type="checkbox" name="notifications[{{ $category }}][{{ $type }}][ingame]" {{ array_get($notificationSettings, "{$category}.{$type}.ingame", $notification['defaults']['ingame']) ? 'checked' : null }} data-check-all-type="ingame">
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
                                     </table>
-                                </div>
-                          </div>
+                                @endforeach
+
+                            </div>
+                        </div>
                     </div>
+
                     <button type="submit" class="btn btn-primary">Update Settings</button>
                 </div>
             </div>

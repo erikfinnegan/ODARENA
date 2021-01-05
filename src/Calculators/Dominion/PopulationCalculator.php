@@ -678,8 +678,18 @@ class PopulationCalculator
                 $fromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs');
             }
         }
+
+        $jobsFromBarren = 0;
+        $jobsPerBarrenAcre = 0;
+        $jobsPerBarrenAcre += $dominion->race->getPerkValue('extra_barren_jobs');
+
+        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        {
+            $jobsFromBarren += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * ($jobsPerBarrenAcre + $dominion->race->getPerkValue('extra_barren_' . $landType . '_jobs'));
+        }
+
         # Does not include Homes, Barracks, Ziggurats, Tissue, and Mycelia
-        return ($fromBuildings + $fromUnits);
+        return ($fromBuildings + $fromUnits + $jobsFromBarren);
     }
 
     /**
