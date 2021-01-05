@@ -9,6 +9,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Helpers\LandHelper;
 
 class ProductionCalculator
 {
@@ -27,6 +28,7 @@ class ProductionCalculator
     {
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
+        $this->landHelper = app(LandHelper::class);
         $this->populationCalculator = app(PopulationCalculator::class);
         $this->prestigeCalculator = app(PrestigeCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
@@ -443,6 +445,12 @@ class ProductionCalculator
 
         // Unit Perk: production_from_title
         $lumber += $dominion->getUnitPerkProductionBonusFromTitle('lumber');
+
+        // Faction Perk: barren_forest_lumber_production
+        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        {
+            $lumber += $this->landCalculator->getTotalBarrenLand($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_lumber_production');
+        }
 
         return max(0,$lumber - $upkeep);
     }

@@ -187,20 +187,12 @@ class PopulationCalculator
         $population += ($this->queueService->getConstructionQueueTotal($dominion) * 15);
 
         // Barren land
+        $housingPerBarrenAcre = 5;
+        $housingPerBarrenAcre += $dominion->race->getPerkValue('extra_barren_max_population');
+
         foreach ($this->landHelper->getLandTypes($dominion) as $landType)
         {
-            $barrenHousing = 5;
-
-            if($dominion->race->getPerkValue('extra_barren_max_population'))
-            {
-                $barrenHousing += $dominion->race->getPerkValue('extra_barren_max_population');
-            }
-            elseif($dominion->race->getPerkValue('extra_barren_' . $landType . '_max_population'))
-            {
-                $barrenHousing += $dominion->race->getPerkValue('extra_barren_' . $landType . '_max_population');
-            }
-
-            $population += $this->landCalculator->getTotalBarrenLand($dominion, $landType) * $barrenHousing;
+            $population += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * ($housingPerBarrenAcre + $dominion->race->getPerkValue('extra_barren_' . $landType . '_max_population'));
         }
 
         return $population;
