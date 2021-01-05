@@ -1090,7 +1090,7 @@ class ProductionCalculator
             }
             elseif($resource == 'lumber')
             {
-                $max = 96 * ($dominion->building_lumberyard * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
+                $max = 96 * ($dominion->land_forest * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
                 $max = max($max, $land * 100);
             }
             elseif($resource == 'ore')

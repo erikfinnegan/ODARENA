@@ -719,11 +719,10 @@ class TickService
           $maxPlatinumPerAcre = 10000;
 
           $maxStorage = [];
-          $maxStorage['platinum'] = $acres * $maxPlatinumPerAcre;
-          #$maxStorage['food'] = $maxStorageTicks * (($dominion->building_farm * 80) + ($dominion->building_dock * 35) + $dominion->getUnitPerkProductionBonus('food_production'));
-          $maxStorage['lumber'] = max($acres * 100, $maxStorageTicks * ($dominion->land_forest * 50 + $dominion->getUnitPerkProductionBonus('lumber_production')));
-          $maxStorage['ore'] = max($acres * 100, $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production')));
-          $maxStorage['gems'] = max($acres * 50, $maxStorageTicks * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production')));
+          $maxStorage['platinum'] = $this->productionCalculator->getMaxStorage($dominion, 'platinum');
+          $maxStorage['lumber'] = $this->productionCalculator->getMaxStorage($dominion, 'lumber');
+          $maxStorage['ore'] = $this->productionCalculator->getMaxStorage($dominion, 'ore');
+          $maxStorage['gems'] = $this->productionCalculator->getMaxStorage($dominion, 'gems');
           if($dominion->race->name == 'Myconid')
           {
             $maxStorage['gems'] += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
