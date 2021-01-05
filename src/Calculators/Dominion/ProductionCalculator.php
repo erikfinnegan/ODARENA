@@ -1082,35 +1082,27 @@ class ProductionCalculator
         public function getMaxStorage(Dominion $dominion, string $resource): int
         {
             $max = 0;
+            $maxStorageTicks = 96;
             $land = $this->landCalculator->getTotalLand($dominion);
 
             if($resource == 'platinum')
             {
-                $max = $land * 10000;
+                $max = $land * 10000 + $dominion->getUnitPerkProductionBonus('platinum_production');
             }
             elseif($resource == 'lumber')
             {
-                $max = 96 * ($dominion->land_forest * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
-                $max = max($max, $land * 100);
+                $max = $maxStorageTicks * ($dominion->land_forest * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
+                #$max = max($max, $land * 100);
             }
             elseif($resource == 'ore')
             {
-                $max = 96 * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
-                $max = max($max, $land * 100);
+                $max = $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
+                #$max = max($max, $land * 100);
             }
             elseif($resource == 'gems' or $resource == 'gem')
             {
-                $max = 96 * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
-                if($dominion->race->name == 'Myconid')
-                {
-                  $max += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
-                }
-                $max = max($max, $land * 50);
-
-            }
-            else
-            {
-              $max = 0;
+                $max = $maxStorageTicks * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
+                #$max = max($max, $land * 50);
             }
 
             return $max;

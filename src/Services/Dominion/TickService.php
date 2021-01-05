@@ -723,10 +723,6 @@ class TickService
           $maxStorage['lumber'] = $this->productionCalculator->getMaxStorage($dominion, 'lumber');
           $maxStorage['ore'] = $this->productionCalculator->getMaxStorage($dominion, 'ore');
           $maxStorage['gems'] = $this->productionCalculator->getMaxStorage($dominion, 'gems');
-          if($dominion->race->name == 'Myconid')
-          {
-            $maxStorage['gems'] += $dominion->getUnitPerkProductionBonus('tech_production') * 10;
-          }
 
           $tick->resource_platinum += min($this->productionCalculator->getPlatinumProduction($dominion), max(0, ($maxStorage['platinum'] - $dominion->resource_platinum)));
 
