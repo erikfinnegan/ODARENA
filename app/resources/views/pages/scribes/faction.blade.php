@@ -1,10 +1,7 @@
 @extends('layouts.topnav')
 
-{{--
-@section('page-header', 'Military')
---}}
-
 @section('content')
+    @include('partials.scribes.nav')
 <div class="row">
 
     <div class="col-sm-12 col-md-12">

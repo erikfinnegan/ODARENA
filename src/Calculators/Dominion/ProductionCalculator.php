@@ -1081,7 +1081,6 @@ class ProductionCalculator
          */
         public function getMaxStorage(Dominion $dominion, string $resource): int
         {
-            $max = 0;
             $maxStorageTicks = 96;
             $land = $this->landCalculator->getTotalLand($dominion);
 
@@ -1092,17 +1091,17 @@ class ProductionCalculator
             elseif($resource == 'lumber')
             {
                 $max = $maxStorageTicks * ($dominion->land_forest * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
-                #$max = max($max, $land * 100);
+                $max = max($max, $land * 100);
             }
             elseif($resource == 'ore')
             {
                 $max = $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
-                #$max = max($max, $land * 100);
+                $max = max($max, $land * 100);
             }
             elseif($resource == 'gems' or $resource == 'gem')
             {
                 $max = $maxStorageTicks * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
-                #$max = max($max, $land * 50);
+                $max = max($max, $land * 50);
             }
 
             return $max;

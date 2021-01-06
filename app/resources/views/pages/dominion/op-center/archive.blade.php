@@ -43,7 +43,7 @@
                 <div class="col-sm-12 col-md-9">
                     @component('partials.dominion.op-center.box')
                         @slot('title', ('Status Screen (' . $dominion->name . ')'))
-                        @slot('titleIconClass', 'fa fa-bar-chart')
+                        @slot('titleIconClass', 'fa fa-chart-bar')
 
                         @slot('tableResponsive', false)
                         @slot('noPadding', true)

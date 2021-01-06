@@ -11,7 +11,7 @@
                 @endphp
 
                 @slot('title', ('Status Screen (' . $dominion->name . ')'))
-                @slot('titleIconClass', 'fa fa-bar-chart')
+                @slot('titleIconClass', 'fa fa-chart-bar')
 
                 @if ($infoOp === null)
                     <p>No recent data available.</p>

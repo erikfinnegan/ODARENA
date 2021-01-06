@@ -9,10 +9,10 @@
 
     <div class="row">
 
-        <div class="col-md-12 col-md-9">
+        <div class="col-md-12 col-md-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-bar-chart"></i> Statistics Advisor</h3>
+                    <h3 class="box-title"><i class="fa fa-chart-bar"></i> Statistics Advisor</h3>
                 </div>
                 <div class="box-body no-padding">
                     <div class="row">
@@ -630,7 +630,7 @@
                                             </tr>
                                             @if($selectedDominion->race->getPerkMultiplier('max_population') > -1)
                                             <tr>
-                                                <td>{{ $raceHelper->getPeasantsTerm($selectedDominion->race) }}</td>
+                                                <td>{{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}</td>
                                                 <td>
                                                     <strong>{{ number_format($selectedDominion->peasants) }}</strong>
                                                     <small class="text-muted">({{ number_format((($selectedDominion->peasants / $populationCalculator->getPopulation($selectedDominion)) * 100), 2) }}%)</small>
@@ -666,17 +666,6 @@
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12 col-md-3">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Information</h3>
-                </div>
-                <div class="box-body">
-                    <p>The statistics advisor gives you statistics regarding your current dominion state.</p>
-                    <p>Ratio numbers are total number of units per acre of land.</p>
                 </div>
             </div>
         </div>

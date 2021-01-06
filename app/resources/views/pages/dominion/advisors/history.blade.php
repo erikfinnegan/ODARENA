@@ -8,12 +8,11 @@
     @include('partials.dominion.advisor-selector')
 
 <div class="row">
-  <div class="col-sm-12 col-md-9">
+  <div class="col-sm-12 col-md-12">
       <div class="box box-primary">
           <div class="box-header with-border">
               <h3 class="box-title"><i class="ra ra-book ra-fw"></i> History</h3>
           </div>
-
               <div class="box-body table-responsive no-padding">
                   <table class="table">
                       <colgroup>

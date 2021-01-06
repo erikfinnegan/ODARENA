@@ -99,8 +99,26 @@ class ScribesController extends AbstractController
 
     public function getAdvancements()
     {
+
+        $techs = Tech::all()->where('enabled',1)->keyBy('key');
+
+
+        $techs = $techs->sortBy(function ($tech, $key)
+        {
+            return $tech['name'] . str_pad($tech['level'], 2, '0', STR_PAD_LEFT);
+        });
+
+
+        foreach($techs as $tech)
+        {
+            $techNames[] = $tech['name'];
+        }
+
+        $techNames = array_unique($techNames);
+
         return view('pages.scribes.advancements', [
-            'techs' => Tech::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
+            'techs' => $techs,
+            'techNames' => $techNames,
             'techHelper' => app(TechHelper::class),
         ]);
     }

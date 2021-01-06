@@ -16,7 +16,6 @@
           </div>
           <div class="box-body no-padding">
               <div class="row">
-
                   <div class="col-xs-12 col-sm-4">
                       <table class="table">
                           <colgroup>
@@ -318,8 +317,6 @@
                   <a href="{{ route('dominion.advisors.production') }}" class="pull-right"><span>Production Advisor</span></a>
               </div>
               <div class="box-body">
-                  <p>
-                    <b>Population and Jobs</b>
                     <table class="table">
                         <colgroup>
                             <col width="50%">
@@ -330,7 +327,7 @@
                           <td><span data-toggle="tooltip" data-placement="top" title="Total population:<br>Current / Available">Population:</span></td>
                           <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                         </tr>
-                        </tr>
+                        <tr>
                           <td>{{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}:</td>
                           <td>{{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                               @if ($selectedDominion->peasants_last_hour < 0)
@@ -340,15 +337,15 @@
                               @endif
                           </td>
                         </tr>
-                        </tr>
+                        <tr>
                           <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks:<br>Filled / Available">Barracks housing:</span></td>
                           <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
                         </tr>
-                        </tr>
+                        <tr>
                           <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens:<br>Filled / Available">Spy housing:</span></td>
                           <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>
                         </tr>
-                        </tr>
+                        <tr>
                           <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds:<br>Filled / Available">Wizard housing:</span></td>
                           <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
                         </tr>

@@ -10,7 +10,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-bar-chart"></i> The Dominion of {{ $selectedDominion->name }}</h3>
+                    <h3 class="box-title"><i class="fa fa-chart-bar"></i> The Dominion of {{ $selectedDominion->name }}</h3>
                 </div>
                 <div class="box-body no-padding">
                     <div class="row">
@@ -228,18 +228,109 @@
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-3">
+        <div class="col-md-12 col-md-3">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Information</h3>
+                    <h3 class="box-title">Statistics</h3>
+                    <a href="{{ route('dominion.advisors.statistics') }}" class="pull-right"><span>Statistics Advisor</span></a>
                 </div>
                 <div class="box-body">
-                    <p>This section gives you a quick overview of your dominion.</p>
-                    <p>Your total land size is {{ number_format($landCalculator->getTotalLand($selectedDominion)) }} and networth is {{ number_format($networthCalculator->getDominionNetworth($selectedDominion)) }}.</p>
-                    <p><a href="{{ route('dominion.rankings', 'land') }}">My Rankings</a></p>
+                      <table class="table">
+                          <colgroup>
+                              <col width="50%">
+                              <col width="50%">
+                          </colgroup>
+                        <tbody>
+                            <tr>
+                                <td colspan="2" class="text-center"><strong>Military</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Your current Defensive Power (DP)">Defensive Power:</span></td>
+                                <td>
+                                    {{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}
+                                    @if ($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) !== 1.0)
+                                        <small class="text-muted">({{ number_format(($militaryCalculator->getDefensivePowerRaw($selectedDominion))) }} raw)</small>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Your current Offensive Power (OP)">Offensive Power:</span></td>
+                                <td>
+                                    {{ number_format($militaryCalculator->getOffensivePower($selectedDominion)) }}
+                                    @if ($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) !== 1.0)
+                                        <small class="text-muted">({{ number_format(($militaryCalculator->getOffensivePowerRaw($selectedDominion))) }} raw)</small>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Your current Spies Per Acre (SPA) on offense">Offensive Spy Ratio:</span></td>
+                                <td>
+                                    {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}
+                                    @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
+                                        <small class="text-muted">({{ number_format(($militaryCalculator->getSpyRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><span data-toggle="tooltip" data-placement="top" title="Your current Wizards Per Acre (WPA) on offense">Offensive Wizard Ratio:</span></td>
+                                <td>
+                                    {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}
+                                    @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
+                                        <small class="text-muted">({{ number_format(($militaryCalculator->getWizardRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
+                                    @endif
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" class="text-center"><strong>Population</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Current Population:</td>
+                                <td>
+                                    {{ number_format($populationCalculator->getPopulation($selectedDominion)) }}
+                                </td>
+                            </tr>
+                            @if($selectedDominion->race->getPerkMultiplier('max_population') > -1)
+                            <tr>
+                                <td>{{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}:</td>
+                                <td>
+                                    {{ number_format($selectedDominion->peasants) }}
+                                    <small class="text-muted">({{ number_format((($selectedDominion->peasants / $populationCalculator->getPopulation($selectedDominion)) * 100), 2) }}%)</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Military Population:</td>
+                                <td>
+                                    {{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                                    <small class="text-muted">({{ number_format((100 - ($selectedDominion->peasants / $populationCalculator->getPopulation($selectedDominion)) * 100), 2) }}%)</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Max Population:</td>
+                                <td>
+                                    {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}
+                                    @if ($populationCalculator->getMaxPopulationMultiplier($selectedDominion) !== 1.0)
+                                        <small class="text-muted">({{ number_format($populationCalculator->getMaxPopulationRaw($selectedDominion)) }} raw)</small>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <td>Population Multiplier:</td>
+                                <td>
+                                    {{ number_string((($populationCalculator->getMaxPopulationMultiplier($selectedDominion) - 1) * 100), 3, true) }}%
+                                </td>
+                            </tr>
+
+
+
+                        </tbody>
+                      </table>
+
                 </div>
             </div>
         </div>
+
 
         @if ($selectedDominion->realm->motd && ($selectedDominion->realm->motd_updated_at > now()->subDays(3)))
             <div class="col-sm-12 col-md-9">

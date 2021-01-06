@@ -5,7 +5,7 @@
     <div class="box-body text-center">
 
         <a href="{{ route('dominion.mentor') }}" class="btn btn-app disabled">
-            <i class="fa fa-bar-chart"></i> General
+            <i class="fa fa-chart-bar"></i> General
         </a>
 
         <a href="{{ route('dominion.mentor.advancements') }}" class="btn btn-app">

@@ -13,7 +13,7 @@
         </a>
 
         <a href="{{ route('dominion.advisors.statistics') }}" class="btn btn-app">
-            <i class="fa fa-bar-chart"></i> Statistics
+            <i class="fa fa-chart-bar"></i> Statistics
         </a>
 
         <a href="{{ route('dominion.advisors.history') }}" class="btn btn-app">
