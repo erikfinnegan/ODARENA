@@ -1611,12 +1611,12 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return int
      */
-    public function getRecentlyInvadedCount(Dominion $dominion): int
+    public function getRecentlyInvadedCount(Dominion $dominion, int $hours = 6): int
     {
         // todo: this touches the db. should probably be in invasion or military service instead
         $invasionEvents = GameEvent::query()
             #->where('created_at', '>=', now()->subDay(1))
-            ->where('created_at', '>=', now()->subHours(6))
+            ->where('created_at', '>=', now()->subHours($hours))
             ->where([
                 'target_type' => Dominion::class,
                 'target_id' => $dominion->id,

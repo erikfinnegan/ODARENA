@@ -43,7 +43,7 @@
                                                 </td>
                                                 <td>
                                                     <ul>
-                                                        @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                        @foreach($spellHelper->getSpellEffectsString($spell, $selectedDominion->race) as $effect)
                                                             <li>{{ $effect }}</li>
                                                         @endforeach
                                                             @include('partials.dominion.spell-basics')

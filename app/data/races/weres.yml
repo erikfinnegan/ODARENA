@@ -33,6 +33,7 @@ units:
       defense: 0
     perks:
       strength_conversion: 4,1,4 # threshold,under,over
+      no_draftee: 1
 
   - name: Bear
     training_time: 6
@@ -47,6 +48,7 @@ units:
       defense: 4
     perks:
       strength_conversion: 4,2,3 #  threshold,under,over
+      no_draftee: 1
 
   - name: Werebear
     training_time: 12

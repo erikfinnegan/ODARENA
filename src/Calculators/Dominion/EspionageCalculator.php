@@ -7,7 +7,6 @@ use OpenDominion\Models\Spyop;
 
 class EspionageCalculator
 {
-    // todo: clean this up
     public function canPerform(Dominion $dominion, Spyop $spyop): bool
     {
 

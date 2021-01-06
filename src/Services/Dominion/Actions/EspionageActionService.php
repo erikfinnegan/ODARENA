@@ -853,7 +853,6 @@ class EspionageActionService
                     $attribute = 'improvements';
                     $improvement = (string)$spyopPerkValues[0];
                     $ratio = (float)$spyopPerkValues[1] / 100;
-                    $maxPerSpy = (int)$spyopPerkValues[2];
 
                     $targetImps = $target->{'improvement_' . $improvement};
 

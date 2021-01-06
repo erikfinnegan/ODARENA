@@ -459,7 +459,7 @@ druvas_call:
   class: active
   cost: 4
   duration: 0
-  cooldown: 24
+  cooldown: 0
   exclusive_races:
     - Weres
   perks:

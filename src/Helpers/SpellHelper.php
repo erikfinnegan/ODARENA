@@ -895,6 +895,8 @@ class SpellHelper
             'cannot_send_boats' => 'Cannot send boats.',
             'boats_sunk' => '%s%% boats lost to sinking.',
 
+            'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
+
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',
 
@@ -1216,6 +1218,34 @@ class SpellHelper
                     })->first();
 
                 $perkValue = [$faction, str_plural($unit->name), $percentage];
+            }
+
+            if($perk->key === 'summon_units_from_land')
+            {
+                $unitSlots = (array)$perkValue[0];
+                $maxPerAcre = (float)$perkValue[1];
+                $landType = (string)$perkValue[2];
+
+                // Rue the day this perk is used for other factions.
+                $race = Race::where('name', 'Weres')->firstOrFail();
+
+                foreach ($unitSlots as $index => $slot)
+                {
+                    $slot = (int)$slot;
+                    $unit = $race->units->filter(static function ($unit) use ($slot)
+                        {
+                            return ($unit->slot === $slot);
+                        })->first();
+
+
+                    $units[$index] = str_plural($unit->name);
+                }
+
+                $unitsString = generate_sentence_from_array($units);
+
+                $perkValue = [$unitsString, $maxPerAcre, $landType];
+                $nestedArrays = false;
+
             }
 
             /*****/

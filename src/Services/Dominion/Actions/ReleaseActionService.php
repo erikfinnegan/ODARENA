@@ -122,9 +122,9 @@ class ReleaseActionService
             }
 
             # Cannot release if recently invaded.
-            if ($this->militaryCalculator->getRecentlyInvadedCount($dominion))
+            if ($this->militaryCalculator->getRecentlyInvadedCount($dominion, 3))
             {
-                throw new GameException('You cannot release military units with defensive power if you have been recently invaded.');
+                throw new GameException('You cannot release military units with defensive power if you have been invaded in the last three hours.');
             }
 
             # Cannot release if units returning from invasion.
@@ -183,7 +183,7 @@ class ReleaseActionService
             }
 
             # Only return draftees if unit is not exempt from population.
-            elseif (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population'))
+            elseif (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'no_draftee'))
             {
                 $dominion->military_draftees += $amount;
             }
@@ -236,10 +236,13 @@ class ReleaseActionService
         if (isset($troopsReleased['draftees']))
         {
             $amount = $troopsReleased['draftees'];
-            $stringParts[] = sprintf('%s %s into %s',
-                number_format($amount),
-                str_plural($this->raceHelper->getDrafteesTerm($dominion->race), $amount),
-                str_plural($this->raceHelper->getPeasantsTerm($dominion->race), $amount));
+            if($troopsReleased['draftees'] > 0)
+            {
+                $stringParts[] = sprintf('%s %s into %s',
+                    number_format($amount),
+                    str_plural($this->raceHelper->getDrafteesTerm($dominion->race), $amount),
+                    str_plural($this->raceHelper->getPeasantsTerm($dominion->race), $amount));
+            }
         }
 
         // Troops into draftees

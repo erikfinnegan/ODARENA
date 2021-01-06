@@ -613,6 +613,8 @@ class SpellActionService
         # Self-spells self impact spells
         if($spell->scope == 'self')
         {
+            $extraLine = '';
+
             foreach($spell->perks as $perk)
             {
                 $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
@@ -631,13 +633,34 @@ class SpellActionService
                     $caster->{'resource_'.$from} -= $amountRemoved;
                     $caster->{'resource_'.$to} += $amountAdded;
                 }
+
+                # Summon units
+                if($perk->key === 'summon_units_from_land')
+                {
+                    $unitSlots = (array)$spellPerkValues[0];
+                    $maxPerAcre = (float)$spellPerkValues[1];
+                    $landType = (string)$spellPerkValues[2];
+
+                    $totalUnitsSummoned = 0;
+
+                    foreach($unitSlots as $slot)
+                    {
+                        $amountPerAcre = rand(1, $maxPerAcre);
+                        $unitsSummoned = floor($amountPerAcre * $caster->{'land_' . $landType});
+                        $caster->{'military_unit' . $slot} += $unitsSummoned;
+                        $totalUnitsSummoned += $unitsSummoned;
+                    }
+
+                    $extraLine = ', summoning ' . number_format($totalUnitsSummoned) . ' new units to our military';
+                }
             }
 
             return [
                 'success' => true,
                 'message' => sprintf(
-                    'Your wizards cast %s successfully',
-                    $spell->name
+                    'Your wizards cast %s successfully%s',
+                    $spell->name,
+                    $extraLine
                 )
             ];
         }
@@ -675,7 +698,7 @@ class SpellActionService
             return [
                 'success' => true,
                 'message' => sprintf(
-                    'Your wizards successfully cast %s on %s.',
+                    'Your wizards successfully cast %s on %s',
                     $spell->name,
                     $target->name
                 )
@@ -1183,7 +1206,12 @@ class SpellActionService
             case 'vision':
 
                 $advancements = [];
-                $techs = $target->techs->sortBy('key')->toArray();
+                $techs = $target->techs->sortBy('key');
+                $techs = $techs->sortBy(function ($tech, $key)
+                {
+                    return $tech['name'] . str_pad($tech['level'], 2, '0', STR_PAD_LEFT);
+                });
+
                 foreach($techs as $tech)
                 {
                     $advancement = $tech['name'];

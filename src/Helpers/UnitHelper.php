@@ -587,10 +587,6 @@ class UnitHelper
                 }
                 else
                 {
-                    if($perk->key == 'defense_from_buildings')
-                    {
-                        dd($perk->key, $perkValue, $perkTypeStrings[$perk->key]);
-                    }
                     $perkValue = str_replace('_', ' ',ucwords($perkValue));
                     $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
