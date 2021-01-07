@@ -87,26 +87,36 @@ seize_boats:
 assassinate_draftees:
   name: Assassinate Draftees
   scope: hostile
+  excluded_races:
+    - Demon
   perks:
     kill_draftees: 2
 
 assassinate_wizards:
   name: Assassinate Wizards
   scope: hostile
+  excluded_races:
+    - Demon
   perks:
     kill_wizards: 2
 
 slaughter_draftees:
   name: Slaughter Draftees
   scope: hostile
+  exclusive_races:
+    - Growth
+    - Weres
   perks:
-    consume_draftees: 0.75,40 # ratio, food per killed unit
+    slaughter_draftees: 0.75,40 # ratio, food per killed unit
 
 slaughter_peasants:
   name: Slaughter Peasants
   scope: hostile
+  exclusive_races:
+    - Growth
+    - Weres
   perks:
-    consume_peasants: 0.35,40 # ratio, food per killed unit
+    slaughter_peasants: 0.35,40 # ratio, food per killed unit
 
 magic_snare:
   name: Magic Snare

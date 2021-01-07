@@ -457,9 +457,9 @@ druvas_call:
   name: Druva's Call
   scope: self
   class: active
-  cost: 4
+  cost: 8
   duration: 0
-  cooldown: 0
+  cooldown: 24
   exclusive_races:
     - Weres
   perks:
