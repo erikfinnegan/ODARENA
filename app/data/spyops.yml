@@ -96,6 +96,18 @@ assassinate_wizards:
   perks:
     kill_wizards: 2
 
+slaughter_draftees:
+  name: Slaughter Draftees
+  scope: hostile
+  perks:
+    consume_draftees: 0.75,40 # ratio, food per killed unit
+
+slaughter_peasants:
+  name: Slaughter Peasants
+  scope: hostile
+  perks:
+    consume_peasants: 0.35,40 # ratio, food per killed unit
+
 magic_snare:
   name: Magic Snare
   scope: hostile

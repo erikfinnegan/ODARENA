@@ -797,6 +797,12 @@ class EspionageActionService
 
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                    # Demon: collect souls
+                    if($dominion->race->name === 'Demon')
+                    {
+                        $dominion->resource_soul += $damage;
+                    }
                 }
 
                 if($perk->key === 'kill_wizards')
@@ -812,6 +818,12 @@ class EspionageActionService
 
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                    # Demon: collect souls
+                    if($dominion->race->name === 'Demon')
+                    {
+                        $dominion->resource_soul += $damage;
+                    }
                 }
 
                 if($perk->key === 'reduce_wizard_strength')

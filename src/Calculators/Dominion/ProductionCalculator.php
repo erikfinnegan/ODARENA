@@ -237,7 +237,14 @@ class ProductionCalculator
         $multiplier += $this->landImprovementCalculator->getFoodProductionBonus($dominion);
 
         // Apply Morale multiplier to production multiplier
-        return ((1 + $multiplier) * (1 + $prestigeMultiplier)) * $this->militaryCalculator->getMoraleMultiplier($dominion);
+
+        $moraleMultiplier = $this->militaryCalculator->getMoraleMultiplier($dominion);
+        if($this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production') > 0)
+        {
+            $moraleMultiplier = max(1, $moraleMultiplier);
+        }
+
+        return ((1 + $multiplier) * (1 + $prestigeMultiplier)) * $moraleMultiplier;
     }
 
     /**

@@ -116,9 +116,12 @@ class SpellCalculator
                 ->orderby('created_at', 'desc')
                 ->take(1)
                 ->first();
-            if ($spellLastCast) {
+            if ($spellLastCast)
+            {
+                $spellLastCast = max($spellLastCast, $dominion->round->start_date);
                 $hoursSinceCast = now()->startOfHour()->diffInHours(Carbon::parse($spellLastCast->created_at)->startOfHour());
-                if ($hoursSinceCast < $spell->cooldown) {
+                if ($hoursSinceCast < $spell->cooldown)
+                {
                     return $spell->cooldown - $hoursSinceCast;
                 }
             }
