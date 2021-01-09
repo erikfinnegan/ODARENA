@@ -886,6 +886,8 @@ class SpellHelper
             'faster_return' => 'Units return %s ticks faster from invasions',
 
             'increase_morale' => 'Restores target morale by %s%% (up to maximum of 100%%).',
+            'decrease_morale' => 'Lowers target morale by %s%% (minimum 0%%).',
+
 
             'kills_draftees' => 'Kills %1$s%% of the target\'s draftees.',
 

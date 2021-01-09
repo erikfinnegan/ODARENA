@@ -89,6 +89,8 @@ assassinate_draftees:
   scope: hostile
   excluded_races:
     - Demon
+    - Growth
+    - Weres
   perks:
     kill_draftees: 2
 
@@ -97,8 +99,12 @@ assassinate_wizards:
   scope: hostile
   excluded_races:
     - Demon
+    - Growth
+    - Weres
   perks:
     kill_wizards: 2
+
+# WERES/GROWTH SLAUGHTER
 
 slaughter_draftees:
   name: Slaughter Draftees
@@ -107,7 +113,7 @@ slaughter_draftees:
     - Growth
     - Weres
   perks:
-    slaughter_draftees: 0.75,40 # ratio, food per killed unit
+    slaughter_draftees: 1.5,40 # ratio, souls, blood, food per killed unit
 
 slaughter_peasants:
   name: Slaughter Peasants
@@ -116,7 +122,36 @@ slaughter_peasants:
     - Growth
     - Weres
   perks:
-    slaughter_peasants: 0.35,40 # ratio, food per killed unit
+    slaughter_peasants: 0.35,1,8,40 # ratio, souls, blood, food per killed unit
+
+# /WERES/GROWTH SLAUGHTER
+# DEMONIC BUTCHER
+
+butcher_draftees:
+  name: Butcher Draftees
+  scope: hostile
+  exclusive_races:
+    - Demon
+  perks:
+    butcher_draftees: 1.25,1,12,40 # ratio, souls, blood, food per killed unit
+
+butcher_peasants:
+  name: Butcher Peasants
+  scope: hostile
+  exclusive_races:
+    - Demon
+  perks:
+    butcher_peasants: 0.25,1,8,40 # ratio, souls, blood, food per killed unit
+
+butcher_wizards:
+  name: Butcher Wizards
+  scope: hostile
+  exclusive_races:
+    - Demon
+  perks:
+    butcher_wizards: 1.25,1,6,40 # ratio, souls, blood, food per killed unit
+
+# /DEMONIC BUTCHER
 
 magic_snare:
   name: Magic Snare

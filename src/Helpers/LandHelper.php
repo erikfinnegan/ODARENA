@@ -95,24 +95,25 @@ class LandHelper
 
     public function getLandTypeIconHtml(string $landType): string
     {
-        switch ($landType) {
+        switch ($landType)
+        {
             case 'plain':
-                return '<i class="ra ra-grass-patch text-green"></i>';
+                return '<i class="ra ra-grass-patch ra-fw text-green"></i>';
 
             case 'mountain':
-                return '<i class="fa fa-mountain text-blue"></i>';
+                return '<i class="fa fa-mountain fa-fw text-blue"></i>';
 
             case 'swamp':
-                return '<i class="fas fa-frog text-purple"></i>';
+                return '<i class="fas fa-frog fa-fw text-purple"></i>';
 
             case 'forest':
-                return '<i class="fa fa-tree text-green"></i>';
+                return '<i class="fa fa-tree fa-fw text-green"></i>';
 
             case 'hill':
-                return '<i class="ra ra-grass text-green"></i>';
+                return '<i class="ra ra-grass fa-fw text-green"></i>';
 
             case 'water':
-                return '<i class="fas fa-water text-aqua"></i>';
+                return '<i class="fas fa-water fa-fw text-aqua"></i>';
 
             default:
                 return '';

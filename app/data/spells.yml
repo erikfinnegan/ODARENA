@@ -799,6 +799,7 @@ dark_rites:
   cost: 10
   duration: 24
   cooldown: 0
+  enabled: 0
   exclusive_races:
     - Undead
   perks:
@@ -846,11 +847,11 @@ curse_of_kinthys:
   class: active
   cost: 10
   duration: 0
-  cooldown: 2
+  cooldown: 6
   exclusive_races:
     - Undead
   perks:
-    decrease_morale: 5
+    decrease_morale: 25
 
 furnace_maws:
   name: Furnace Maws

@@ -203,8 +203,12 @@ class EspionageHelper
 
             'sabotage_improvement' => 'Sabotage %1$s improvements (base %2$s%%).',
 
-            'consume_draftees' => 'Kill %1$s%% of the target\'s draftees and convert each one to %2$s halms of food.',
-            'consume_peasants' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s halms of food.',
+            'slaughter_draftees' => 'Kill %1$s%% of the target\'s draftees and convert each one to %2$s halms of food.',
+            'slaughter_peasants' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s halms of food.',
+
+            'butcher_peasants' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s soul, %3$s blood, and %4$s food.',
+            'butcher_draftees' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s soul, %3$s blood, and %4$s food.',
+            'butcher_wizards' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s soul, %3$s blood, and %4$s food.',
         ];
 
         foreach ($spyop->perks as $perk)
@@ -469,7 +473,7 @@ class EspionageHelper
     public function getExclusivityString(Spyop $spyop): string
     {
 
-        $exclusivityString = '<br><small class="text-muted">';
+        $exclusivityString = '<br><small class="text-muted"><em>';
 
         if($exclusives = count($spyop->exclusive_races))
         {
@@ -487,15 +491,23 @@ class EspionageHelper
         }
         elseif($excludes = count($spyop->excluded_races))
         {
-            $exclusivityString .= 'All except ';
+            $exclusivityString .= 'All factions except ';
             foreach($spyop->excluded_races as $raceName)
             {
                 $exclusivityString .= $raceName;
-                $exclusives--;
+                if($excludes > 1)
+                {
+                    $exclusivityString .= ', ';
+                }
+                $excludes--;
             }
         }
+        else
+        {
+            $exclusivityString .= 'All factions';
+        }
 
-        $exclusivityString .= '</small>';
+        $exclusivityString .= '</em></small>';
 
         return $exclusivityString;
 

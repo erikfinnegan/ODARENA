@@ -784,6 +784,8 @@ class EspionageActionService
             {
                 $spyopPerkValues = $spyop->getSpyopPerkValues($spyop->key, $perk->key);
 
+                # Regular killing of draftees and wizards
+
                 if($perk->key === 'kill_draftees')
                 {
                     $attribute = 'military_draftees';
@@ -797,12 +799,6 @@ class EspionageActionService
 
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
-
-                    # Demon: collect souls
-                    if($dominion->race->name === 'Demon')
-                    {
-                        $dominion->resource_soul += $damage;
-                    }
                 }
 
                 if($perk->key === 'kill_wizards')
@@ -818,15 +814,122 @@ class EspionageActionService
 
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
-
-                    # Demon: collect souls
-                    if($dominion->race->name === 'Demon')
-                    {
-                        $dominion->resource_soul += $damage;
-                    }
                 }
 
-                if($perk->key === 'reduce_wizard_strength')
+                # Slaughter (kill and convert to food) of draftees and peasants
+
+                if($perk->key === 'slaughter_draftees')
+                {
+                    $attribute = 'military_draftees';
+                    $ratio = $spyopPerkValues[0] / 100;
+                    $foodPerUnitKilled = $spyopPerkValues[1];
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+                    $target->{$attribute} -= $damage;
+
+                    $food = floor($damage * $foodPerUnitKilled);
+                    $dominion->resource_food += $food;
+
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+                }
+
+                if($perk->key === 'slaughter_peasants')
+                {
+                    $attribute = 'military_wizards';
+                    $ratio = $spyopPerkValues[0] / 100;
+                    $foodPerUnitKilled = $spyopPerkValues[1];
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+                    $target->{$attribute} -= $damage;
+
+                    $food = floor($damage * $foodPerUnitKilled);
+                    $dominion->resource_food += $food;
+
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+                }
+
+                # Butcher (kill and convert to food, soul, and blood) of draftees, peasants, and wizards
+
+                if($perk->key === 'butcher_draftees')
+                {
+                    $attribute = 'military_draftees';
+                    $ratio = $spyopPerkValues[0] / 100;
+                    $foodPerUnitKilled = $spyopPerkValues[1];
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+                    $target->{$attribute} -= $damage;
+
+                    $soul = floor($damage * $soulsPerUnitKilled);
+                    $blood = floor($damage * $bloodPerUnitKilled);
+                    $food = floor($damage * $foodPerUnitKilled);
+                    $dominion->resource_soul += $soul;
+                    $dominion->resource_blood += $blood;
+                    $dominion->resource_food += $food;
+
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+                }
+
+                if($perk->key === 'butcher_peasants')
+                {
+                    $attribute = 'peasants';
+                    $ratio = $spyopPerkValues[0] / 100;
+                    $soulsPerUnitKilled = $spyopPerkValues[1];
+                    $bloodPerUnitKilled = $spyopPerkValues[2];
+                    $foodPerUnitKilled = $spyopPerkValues[3];
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+                    $target->{$attribute} -= $damage;
+
+                    $soul = floor($damage * $soulsPerUnitKilled);
+                    $blood = floor($damage * $bloodPerUnitKilled);
+                    $food = floor($damage * $foodPerUnitKilled);
+                    $dominion->resource_soul += $soul;
+                    $dominion->resource_blood += $blood;
+                    $dominion->resource_food += $food;
+
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+                }
+
+                if($perk->key === 'butcher_peasants')
+                {
+                    $attribute = 'military_wizards';
+                    $ratio = $spyopPerkValues[0] / 100;
+                    $foodPerUnitKilled = $spyopPerkValues[1];
+
+                    $damage = $target->{$attribute} * $ratio;
+                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
+                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
+
+                    $damage = (int)floor($damage);
+                    $target->{$attribute} -= $damage;
+
+                    $soul = floor($damage * $soulsPerUnitKilled);
+                    $blood = floor($damage * $bloodPerUnitKilled);
+                    $food = floor($damage * $foodPerUnitKilled);
+                    $dominion->resource_soul += $soul;
+                    $dominion->resource_blood += $blood;
+                    $dominion->resource_food += $food;
+
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+                }
+
+                if($perk->key === 'butcher_wizards')
                 {
                     $attribute = 'wizard_strength';
                     $ratio = $spyopPerkValues / 100;

@@ -1055,14 +1055,14 @@ class TickService
           }
           */
 
-          # Version 1.2 (Round 38)
-          if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
-          {
-              # What portion of the Crypt bodies is available to this dominion?
-              $cryptProportion = $this->realmCalculator->getCryptBodiesProportion($dominion);
+          $tick->crypt_bodies_spent = 0;
 
+          # Version 1.2 (Round 38)
+          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
+          {
+              $bodiesSpent = 0;
               # Determine how many bodies are available to this dominion.
-              $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
+              $bodiesAvailable = floor($dominion->realm->crypt);
 
               $unit4PerUnit1 = 10; # How many Wraiths does it take to create a Skeleton
 
@@ -1074,18 +1074,36 @@ class TickService
               {
                   $bodiesSpent = min($dominion->realm->crypt, $unit1Created);
               }
-              else
-              {
-                  $bodiesSpent = 0;
-              }
-
-              #$bodiesSpent = min($dominion->realm->crypt, $unit1Created);
 
               # Prepare the units for queue.
               $tick->generated_unit1 += $unit1Created;
 
               # Prepare the bodies for removal.
-              $tick->crypt_bodies_spent = $bodiesSpent;
+              $tick->crypt_bodies_spent += $bodiesSpent;
+          }
+
+          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_kinthys') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
+          {
+              $bodiesSpent = 0;
+              # Determine how many bodies are available to this dominion.
+              $bodiesAvailable = floor($dominion->realm->crypt);
+
+              $unit4PerUnit2 = 10; # How many Wraiths does it take to create a Skeleton
+
+              # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
+              $unit2Created = intval(min($dominion->military_unit4 / $unit4PerUnit2, $bodiesAvailable));
+
+              # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
+              if($unit1Created > 0)
+              {
+                  $bodiesSpent = min($dominion->realm->crypt, $unit1Created);
+              }
+
+              # Prepare the units for queue.
+              $tick->generated_unit2 += $unit2Created;
+
+              # Prepare the bodies for removal.
+              $tick->crypt_bodies_spent += $bodiesSpent;
           }
 
           # Use decimals as probability to round up
