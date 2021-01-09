@@ -862,7 +862,9 @@ class EspionageActionService
                 {
                     $attribute = 'military_draftees';
                     $ratio = $spyopPerkValues[0] / 100;
-                    $foodPerUnitKilled = $spyopPerkValues[1];
+                    $soulsPerUnitKilled = $spyopPerkValues[1];
+                    $bloodPerUnitKilled = $spyopPerkValues[2];
+                    $foodPerUnitKilled = $spyopPerkValues[3];
 
                     $damage = $target->{$attribute} * $ratio;
                     $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
@@ -910,7 +912,9 @@ class EspionageActionService
                 {
                     $attribute = 'military_wizards';
                     $ratio = $spyopPerkValues[0] / 100;
-                    $foodPerUnitKilled = $spyopPerkValues[1];
+                    $soulsPerUnitKilled = $spyopPerkValues[1];
+                    $bloodPerUnitKilled = $spyopPerkValues[2];
+                    $foodPerUnitKilled = $spyopPerkValues[3];
 
                     $damage = $target->{$attribute} * $ratio;
                     $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
