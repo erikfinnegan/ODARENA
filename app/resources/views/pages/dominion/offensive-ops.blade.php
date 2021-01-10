@@ -62,30 +62,6 @@
                                       @endforeach
                                   </div>
                               @endforeach
-                              {{-- Removed because everything is now in $spyops
-                              @foreach ($theftSpyops->chunk(2) as $operations)
-                                  <div class="row">
-                                      @foreach ($operations as $operation)
-                                          @if($espionageCalculator->isSpyopAvailableToDominion($selectedDominion, $operation))
-                                                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-                                                      <div class="form-group">
-                                                          <button type="submit"
-                                                                  name="operation"
-                                                                  value="{{ $operation->key }}"
-                                                                  class="btn btn-primary btn-block"
-                                                                  {{ $selectedDominion->isLocked() || !$espionageCalculator->canPerform($selectedDominion, $operation) ? 'disabled' : null }}>
-                                                              {{ $operation->name }}
-                                                          </button>
-                                                              @foreach($espionageHelper->getSpyopEffectsString($operation) as $effect)
-                                                              {{ $effect }}<br>
-                                                              @endforeach
-                                                      </div>
-                                                  </div>
-                                          @endif
-                                      @endforeach
-                                  </div>
-                              @endforeach
-                              --}}
                             </div>
                         </form>
                     </div>

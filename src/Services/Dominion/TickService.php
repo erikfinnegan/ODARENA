@@ -1058,15 +1058,16 @@ class TickService
           $tick->crypt_bodies_spent = 0;
 
           # Version 1.2 (Round 38)
-          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
+          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur') and $dominion->military_unit4 > 0)
           {
               $bodiesSpent = 0;
-              # Determine how many bodies are available to this dominion.
-              $bodiesAvailable = floor($dominion->realm->crypt);
 
-              $unit4PerUnit1 = 10; # How many Wraiths does it take to create a Skeleton
+              # Check bodies available in the crypt
+              $bodiesAvailable = floor($dominion->realm->crypt - $tick->crypt_bodies_spent);
 
-              # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
+              $unit4PerUnit1 = 10; # How many Necromancers does it take to create a Skeleton
+
+              # Units created is the lowest of Necromancers/10 or [Bodies Available].
               $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable));
 
               # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
@@ -1082,21 +1083,22 @@ class TickService
               $tick->crypt_bodies_spent += $bodiesSpent;
           }
 
-          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_kinthys') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
+          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_kinthys') and $dominion->military_unit4 > 0)
           {
               $bodiesSpent = 0;
-              # Determine how many bodies are available to this dominion.
-              $bodiesAvailable = floor($dominion->realm->crypt);
 
-              $unit4PerUnit2 = 10; # How many Wraiths does it take to create a Skeleton
+              # Check bodies available in the crypt
+              $bodiesAvailable = floor($dominion->realm->crypt - $tick->crypt_bodies_spent);
+
+              $unit4PerUnit2 = 10; # How many Necromancers does it take to create a Ghoul
 
               # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
               $unit2Created = intval(min($dominion->military_unit4 / $unit4PerUnit2, $bodiesAvailable));
 
               # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
-              if($unit1Created > 0)
+              if($unit2Created > 0)
               {
-                  $bodiesSpent = min($dominion->realm->crypt, $unit1Created);
+                  $bodiesSpent = min($dominion->realm->crypt, $unit2Created);
               }
 
               # Prepare the units for queue.
@@ -1118,7 +1120,6 @@ class TickService
           $tick->attrition_unit2 += intval($attritionUnit2);
           $tick->attrition_unit3 += intval($attritionUnit3);
           $tick->attrition_unit4 += intval($attritionUnit4);
-
 
           foreach ($incomingQueue as $row)
           {

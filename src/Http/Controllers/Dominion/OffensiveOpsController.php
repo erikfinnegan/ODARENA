@@ -32,10 +32,10 @@ class OffensiveOpsController extends AbstractDominionController
     {
         $dominion = $this->getSelectedDominion();
 
-        $hostileSpyops = Spyop::all()->where('scope','hostile')->where('enabled',1)->sortBy('key');
-        $theftSpyops = Spyop::all()->where('scope','theft')->where('enabled',1)->sortBy('key');
+        $hostileSpyops = Spyop::all()->where('scope','hostile')->where('enabled',1)->sortBy('name');
+        $theftSpyops = Spyop::all()->where('scope','theft')->where('enabled',1)->sortBy('name');
         $spyops = $hostileSpyops->merge($theftSpyops);
-        $hostileSpells = Spell::all()->where('scope','hostile')->whereIn('class',['active','passive'])->where('enabled',1)->sortBy('key');
+        $hostileSpells = Spell::all()->where('scope','hostile')->whereIn('class',['active','passive'])->where('enabled',1)->sortBy('name');
 
         return view('pages.dominion.offensive-ops', [
             'landCalculator' => app(LandCalculator::class),

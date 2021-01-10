@@ -460,11 +460,43 @@ class SettingHelper
                         break;
 
                     case 'assassinate_draftees':
-                        $resultString = "{$data['damageString']} were killed while they slept in our barracks.";
+                        $resultString = "{$data['damageString']} were assassinated while they slept in our barracks.";
                         break;
 
                     case 'assassinate_wizards':
-                        $resultString = "{$data['damageString']} were killed while they slept in our towers.";
+                        $resultString = "{$data['damageString']} were assassinated while they slept in our towers.";
+                        break;
+
+                    case 'slaughter_draftees':
+                        $resultString = "{$data['damageString']} were slaughtered while they slept in our barracks.";
+                        break;
+
+                    case 'slaughter_peasants':
+                        $resultString = "{$data['damageString']} were slaughtered while they slept in our barracks.";
+                        break;
+
+                    case 'slaughter_wizards':
+                        $resultString = "{$data['damageString']} were slaughtered while they slept in our towers.";
+                        break;
+
+                    case 'butcher_draftees':
+                        $resultString = "{$data['damageString']} were butchered while they slept in our barracks.";
+                        break;
+
+                    case 'butcher_peasants':
+                        $resultString = "{$data['damageString']} were butchered while they slept in our barracks.";
+                        break;
+
+                    case 'butcher_wizards':
+                        $resultString = "{$data['damageString']} were butchered while they slept in our towers.";
+                        break;
+
+                    case 'magic_snare':
+                        $resultString = 'Our wizards have sensed their power diminish.';
+                        break;
+
+                    case 'sabotage_boats':
+                        $resultString = "{$data['damageString']} have sunk mysteriously while docked.";
                         break;
 
                     case 'magic_snare':

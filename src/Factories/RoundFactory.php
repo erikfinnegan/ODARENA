@@ -8,7 +8,6 @@ use OpenDominion\Models\RoundLeague;
 
 class RoundFactory
 {
-    private const ROUND_DURATION_IN_DAYS = 14;
 
     /**
      * Creates and returns a new Round in a RoundLeague.
@@ -30,7 +29,7 @@ class RoundFactory
         bool $mixedAlignment
     ): Round {
         $number = $this->getLastRoundNumber() + 1;
-        $endDate = (clone $startDate)->addDays(static::ROUND_DURATION_IN_DAYS);
+        $endDate = (clone $startDate)->addDays(14);
 
         if($number % 2 === 0)
         {

@@ -30,8 +30,8 @@ units:
       platinum: 120
       lumber: 10
     power:
-      offense: 2
-      defense: 0
+      offense: 0
+      defense: 2
     perks:
       food_production: 5
 

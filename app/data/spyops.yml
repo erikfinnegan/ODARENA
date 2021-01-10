@@ -122,7 +122,7 @@ slaughter_peasants:
     - Growth
     - Weres
   perks:
-    slaughter_peasants: 0.35,1,8,40 # ratio, souls, blood, food per killed unit
+    slaughter_peasants: 0.35,40 # ratio, souls, blood, food per killed unit
 
 # /WERES/GROWTH SLAUGHTER
 # DEMONIC BUTCHER
@@ -191,24 +191,6 @@ destroy_buildings:
     - Beastfolk
   perks:
     destroy_buildings: 2 #
-
-consume_draftees:
-  name: Consume Draftees
-  scope: hostile
-  exclusive_races:
-    - Growth
-    - Weres
-  perks:
-    consume_draftees: 0.75,40 # rate, food amount per draftee
-
-consume_peasants:
-  name: Consume Peasants
-  scope: hostile
-  exclusive_races:
-    - Growth
-    - Weres
-  perks:
-    consume_peasants: 0.35,40 # rate, food amount per peasant
 
 sabotage_walls:
   name: Sabotage Walls

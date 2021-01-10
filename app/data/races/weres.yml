@@ -14,7 +14,6 @@ construction_materials: platinum,lumber
 perks:
   population_growth: 25
   extra_barren_max_population: 5
-  converts_assassinated_draftees: 1 # into slot 1
   converts_executed_spies: 2 # into slot 2
   construction_cost: -10
   increased_construction_speed: 2
@@ -27,7 +26,7 @@ units:
       - sentient
     cost:
       platinum: 400
-      food: 8
+      food: 20
     power:
       offense: 4
       defense: 0
@@ -42,7 +41,7 @@ units:
       - sentient
     cost:
       platinum: 300
-      food: 12
+      food: 20
     power:
       offense: 0
       defense: 4
@@ -58,7 +57,7 @@ units:
       - intelligent
     cost:
       platinum: 1100
-      food: 32
+      food: 50
     power:
       offense: 0
       defense: 10
@@ -73,7 +72,7 @@ units:
       - intelligent
     cost:
       platinum: 1100
-      food: 16
+      food: 35
     power:
       offense: 8
       defense: 4

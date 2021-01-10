@@ -932,7 +932,7 @@ class SpellHelper
 
             // Conversions
             'conversions' => '%s%% conversions',
-            'converts_crypt_bodies' => 'Every %1$s %2$s creates %3$s %4$s.',
+            'converts_crypt_bodies' => 'Every %1$s %2$s raise %3$s %4$s from the Crypt per tick (limited to bodies available in the Crypt).',
             'convert_enemy_casualties_to_food' => 'Enemy casualties converted to food.',
             'no_conversions' => 'No enemy units are converted.',
 
@@ -1249,6 +1249,35 @@ class SpellHelper
                 $nestedArrays = false;
 
             }
+
+            if($perk->key === 'converts_crypt_bodies')
+            {
+                $race = Race::where('name', 'Undead')->firstOrFail();
+
+                $performingUnits = (int)$perkValue[0];
+                $performingUnitSlot = (int)$perkValue[1];
+                $unitsCreated = (int)$perkValue[2];
+                $unitCreatedSlot = (int)$perkValue[3];
+
+                # Get the performing unit
+                $performingUnit = $race->units->filter(static function ($unit) use ($performingUnitSlot)
+                        {
+                            return ($unit->slot === $performingUnitSlot);
+                        })->first();
+
+                # Get the performing unit
+                $createdUnit = $race->units->filter(static function ($unit) use ($unitCreatedSlot)
+                        {
+                            return ($unit->slot === $unitCreatedSlot);
+                        })->first();
+                #$unitsString = generate_sentence_from_array([$createdUnit, $createdUnit]);
+
+                $perkValue = [$performingUnits, $performingUnit->name, $unitsCreated, $createdUnit->name];
+
+                #$perkValue = [$unitsString, $maxPerAcre, $landType];
+            }
+
+
 
             /*****/
 

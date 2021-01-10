@@ -350,7 +350,7 @@
 
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Drafting</h3>
+                <h3 class="box-title">Housing</h3>
                 <a href="{{ route('dominion.military.release') }}" class="pull-right">Release Units</a>
             </div>
             <form action="{{ route('dominion.military.change-draft-rate') }}" method="post" role="form">
@@ -379,6 +379,18 @@
                                 </td>
                             </tr>
                             @endif
+                            <tr>
+                              <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks:<br>Filled / Available">Barracks housing:</span></td>
+                              <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
+                            </tr>
+                            <tr>
+                              <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens:<br>Filled / Available">Spy housing:</span></td>
+                              <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>
+                            </tr>
+                            <tr>
+                              <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds:<br>Filled / Available">Wizard housing:</span></td>
+                              <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
