@@ -897,7 +897,7 @@ pestilence:
   scope: hostile
   class: invasion
   cost: 0
-  duration: 0
+  duration: 12
   cooldown: 0
   exclusive_races:
     - Afflicted
@@ -909,7 +909,7 @@ great_fever:
   scope: hostile
   class: invasion
   cost: 0
-  duration: 0
+  duration: 12
   cooldown: 0
   exclusive_races:
     - Afflicted
@@ -923,7 +923,7 @@ festering_wounds:
   scope: hostile
   class: invasion
   cost: 0
-  duration: 0
+  duration: 12
   cooldown: 0
   exclusive_races:
     - Afflicted

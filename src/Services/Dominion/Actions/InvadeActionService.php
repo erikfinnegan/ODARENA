@@ -1731,16 +1731,17 @@ class InvadeActionService
 
         if($attacker->race->name == 'Afflicted')
         {
+            #dd($this->invasionResult['attacker']['op'], $this->invasionResult['defender']['dp'], $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'], $this->invasionResult['result']['success']);
             # Pestilence
             if($this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'] >= 0.50)
             {
-                $this->spellActionService->castSpell($defender, 'pestilence', $attacker, $isInvasionSpell);
+                $this->spellActionService->castSpell($attacker, 'pestilence', $defender, $isInvasionSpell);
             }
 
             # Great Fever
             if($this->invasionResult['result']['success'])
             {
-                $this->spellActionService->castSpell($defender, 'great_fever', $attacker, $isInvasionSpell);
+                $this->spellActionService->castSpell($attacker, 'great_fever', $defender, $isInvasionSpell);
             }
         }
 

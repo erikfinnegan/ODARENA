@@ -761,7 +761,7 @@ class SettingHelper
                         break;
 
                     case 'unhealing_wounds':
-                        $resultString = "Our units report having unhealing wounds, increasing casualties and food consumption.";
+                        $resultString = "Festering wounds are spreading across our people, increasing casualties and food consumption.";
                         break;
 
                     case 'purification':

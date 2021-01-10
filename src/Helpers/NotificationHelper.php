@@ -761,8 +761,8 @@ class NotificationHelper
                         $resultString = "Our population has been afflicted by the Great Fever. Population has stopped growing and food and platinum production are slowed.";
                         break;
 
-                    case 'unhealing_wounds':
-                        $resultString = "Our units report having unhealing wounds, increasing casualties and food consumption.";
+                    case 'festering_wounds':
+                        $resultString = "Festering wounds are spreading across our people, increasing casualties and food consumption.";
                         break;
 
                     case 'purification':
