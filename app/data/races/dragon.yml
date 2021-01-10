@@ -33,7 +33,7 @@ units:
       offense: 0
       defense: 2
     perks:
-      food_production: 5
+      food_production: 6
 
   - name: Driller
     training_time: 3
