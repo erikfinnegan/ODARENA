@@ -24,6 +24,7 @@ use OpenDominion\Services\Dominion\Actions\DailyBonusesActionService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
 
 class LandController extends AbstractDominionController
 {
@@ -36,6 +37,7 @@ class LandController extends AbstractDominionController
             'landHelper' => app(LandHelper::class),
             'queueService' => app(QueueService::class),
             'spellCalculator' => app(SpellCalculator::class),
+            'productionCalculator' => app(ProductionCalculator::class),
             'guardMembershipService' => app(GuardMembershipService::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
         ]);

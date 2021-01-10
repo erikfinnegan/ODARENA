@@ -161,14 +161,11 @@
                           @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
                               <span class="label label-warning">{{ $selectedDominion->race->name }} dominions cannot explore</span>
                           @elseif ($guardMembershipService->isEliteGuardMember($selectedDominion))
-                              <span class="label label-warning">Members of the Warrior League cannot explore</span>
+                              <span class="label label-warning">Members of the Warriors League cannot explore</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
                               <span class="label label-primary">You cannot explore during the Rainy Season</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
                               <span class="label label-warning">You cannot explore while you are in stasis</span>
-                          @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
-                              <span class="label label-danger">Due to starvation, you cannot explore until you have more food!</span>
-                              <small class="text-muted">Go to the <a href="{{ route('dominion.exchange') }}">Exchange</a> to convert other resources to food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</smallp>
                           @else
                             <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
                           @endif

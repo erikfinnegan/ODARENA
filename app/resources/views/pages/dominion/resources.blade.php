@@ -395,7 +395,7 @@
             <div class="box-header with-border">
               <h3 class="box-title"><i class="fas fa-exchange-alt"></i> Exchange</h3>
             </div>
-            <form action="{{ route('dominion.exchange') }}" method="post" {{--class="form-inline" --}}role="form">
+            <form action="{{ route('dominion.resources') }}" method="post" {{--class="form-inline" --}}role="form">
                 @csrf
                 <div class="box-body">
                     <div class="row">
