@@ -118,8 +118,8 @@ class SpellCalculator
                 ->first();
             if ($spellLastCast)
             {
-                $spellLastCast = max($spellLastCast, $dominion->round->start_date);
-                $hoursSinceCast = now()->startOfHour()->diffInHours(Carbon::parse($spellLastCast)->startOfHour());
+                #$spellLastCast = max($spellLastCast, $dominion->round->start_date);
+                $hoursSinceCast = now()->startOfHour()->diffInHours(Carbon::parse($spellLastCast->created_at)->startOfHour());
                 if ($hoursSinceCast < $spell->cooldown)
                 {
                     return $spell->cooldown - $hoursSinceCast;
