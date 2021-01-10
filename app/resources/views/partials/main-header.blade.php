@@ -11,6 +11,7 @@
 
         <!-- Sidebar toggle button -->
         <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <i class="fa fa-bars"></i>
             <span class="sr-only">Toggle navigation</span>
         </a>
 
