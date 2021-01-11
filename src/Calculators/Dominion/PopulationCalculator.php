@@ -372,7 +372,7 @@ class PopulationCalculator
 
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') !== 1)
+            if(!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population'))
             {
                 $units += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
                 $units += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
@@ -421,7 +421,7 @@ class PopulationCalculator
 
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            if(($dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense')) and $dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') !== 1)
+            if(($dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense')) and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population'))
             {
                 if(!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_offense') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_defense'))
                 {

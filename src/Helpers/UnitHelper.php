@@ -194,7 +194,7 @@ class UnitHelper
             'tech_production' => 'Each unit produces %s experience points per tick.',
             'platinum_production' => 'Each unit produces %s platinum points per tick.',
 
-            'food_consumption' => 'Eats %s bushels of food extra.',
+            'food_consumption' => 'Eats %s halms of food extra.',
 
             'decay_protection' => 'Each units protects %1$s %2$s per tick from decay.',
 
@@ -273,7 +273,7 @@ class UnitHelper
 
             // Demonic
             'kills_peasants' => 'Eats %s peasants per tick.',
-            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, 1.5 gallons of blood, and 2 bushels of food per peasant.',
+            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, 1.5 gallons of blood, and 2 halms of food per peasant.',
 
             // Myconid
             'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion by 0.50%% for every 1%% of total military made up of this unit.',

@@ -4,7 +4,16 @@
 @section('page-header', 'Construction')
 --}}
 
+
 @section('content')
+
+@if(isset($_POST))
+<audio autoplay>
+    <source src="{{ asset('assets/app/sounds/hammering.ogg') }}" type="audio/ogg">
+    <source src="{{ asset('assets/app/sounds/hammering.mp3') }}" type="audio/mpeg">
+</audio>
+@endif
+
 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
 <div class="row">
     <div class="col-sm-12 col-md-9">

@@ -132,9 +132,16 @@ class MiscController extends AbstractDominionController
         *   Conditions for allowing abandoning:
         *   - Round must be active
         *   - The dominion belongs to the logged in user.
+        *   - Must have zero protection ticks
         */
 
         $dominion = $this->getSelectedDominion();
+
+        # Can only delete your own dominion.
+        if($dominion->protection_ticks !== 0)
+        {
+            throw new LogicException('You cannot abandon a dominion which is still under protection.');
+        }
 
         # Can only delete your own dominion.
         if($dominion->isLocked())
