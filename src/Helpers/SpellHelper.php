@@ -686,7 +686,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Earthquake',
-                'description' => 'Slows ore and diamond mine production by 5%.',
+                'description' => 'Slows ore and gem production by 5%.',
                 'key' => 'earthquake',
                 'mana_cost' => 3,
                 'duration' => 12*2,

@@ -832,7 +832,7 @@ class ProductionCalculator
      * Returns the Dominion's raw gem production.
      *
      * Gems are produced by:
-     * - Building: Diamond Mine (15 per)
+     * - Building: Gem Mine (15 per)
      * - Dwarf Unit: Miner (0.5 per)
      *
      * @param Dominion $dominion

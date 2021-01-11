@@ -670,7 +670,7 @@ class SettingHelper
                         break;
 
                     case 'steal_gems':
-                        $where = 'within our diamond mines';
+                        $where = 'within our gem mines';
                         break;
 
                     case 'abduct_draftees':

@@ -1,7 +1,7 @@
 name: Dragon
 alignment: evil
 description: >-
-  <p>Dragon can only build Homes, Farms, Towers, Ore Mines, Diamond Mines, Lumberyards, Guard Towers, and Docks.</p>
+  <p>Dragon can only build Homes, Farms, Towers, Ore Mines, Gem Mines, Lumberyards, and Guard Towers.</p>
 home_land_type: mountain
 playable: 1
 

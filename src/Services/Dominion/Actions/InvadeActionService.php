@@ -397,8 +397,6 @@ class InvadeActionService
                 $this->invasionResult['defender']['conversions'] = $defensiveConversions;
             }
 
-            dd($defensiveConversions);
-
             $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits'], $defensiveConversions);
             $this->handleDefensiveConversions($target, $defensiveConversions);
 
