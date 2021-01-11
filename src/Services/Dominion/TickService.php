@@ -687,7 +687,7 @@ class TickService
           {
               $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
 
-              $amountToDie = $dominion->peasants * 0.01 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'pestilence', null);
+              $amountToDie = $dominion->peasants * 0.01 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, Spell::where('key', 'pestilence')->first(), null);
               $amountToDie *= $this->rangeCalculator->getDominionRange($caster, $dominion) / 100;
               $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
               $amountToDie = (int)round($amountToDie);
