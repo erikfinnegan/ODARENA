@@ -389,9 +389,21 @@ class Dominion extends AbstractModel
      *
      * @return bool
      */
-    public function isLocked()
+    public function isLocked(): bool
     {
         return $this->is_locked || (now() >= $this->round->end_date);
+    }
+
+    public function isAbandoned(): bool
+    {
+        if($this->user_id === null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public function getLockedReason(int $reason): string

@@ -52,9 +52,9 @@
                                         <td class="text-center">{{ $i + 1 }}</td>
                                         <td>
                                             @if ($dominion->isLocked())
-                                            <span data-toggle="tooltip" data-placement="top" title="This dominion has been locked.<br>Reason: <strong>{{ $dominion->getLockedReason($dominion->is_locked) }}</strong>">
-                                            <i class="fa fa-lock fa-lg text-grey" title=""></i>
-                                            </span>
+                                                <span data-toggle="tooltip" data-placement="top" title="This dominion has been locked.<br>Reason: <strong>{{ $dominion->getLockedReason($dominion->is_locked) }}</strong>">
+                                                <i class="fa fa-lock fa-lg text-grey" title=""></i>
+                                                </span>
                                             @endif
 
                                             @if ($spellCalculator->isSpellActive($dominion, 'rainy_season'))
@@ -111,8 +111,12 @@
                                                 </span>
                                             @endif
 
-                                            @if ($isOwnRealm && $dominion->round->isActive() && $dominion->user->isOnline() and $dominion->id !== $selectedDominion->id)
-                                                <span class="label label-success">Online</span>
+                                            @if($dominion->isAbandoned())
+                                                <span data-toggle="tooltip" data-placement="top" title="This dominion has been abandoned by its ruler" class="label label-warning"><span>Abandoned</span></span>
+                                            @else
+                                                @if ($isOwnRealm && $dominion->round->isActive() && $dominion->user->isOnline() and $dominion->id !== $selectedDominion->id)
+                                                    <span class="label label-success">Online</span>
+                                                @endif
                                             @endif
                                         </td>
                                         <td class="text-center">

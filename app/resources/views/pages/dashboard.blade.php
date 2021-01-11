@@ -83,6 +83,19 @@
                                             @if($dominion->isLocked())
                                                 <span class="label label-info">Finished</span>
                                             @endif
+
+                                            @if($dominion->round->hasStarted() and !$dominion->isLocked())
+                                                <div class="col-sm-6 pull-right">
+                                                    <p>If you wish to abandon your dominion {{ $dominion->name }} in round {{ $dominion->round->number }}, you can do so here by checking confirm and then pressing the button. <em>This action cannot be undone.</em></p>
+                                                    <form action="{{ route('dominion.abandon', $dominion) }}" method="post">
+                                                        @csrf
+                                                        <label>
+                                                            <input type="checkbox" name="remember" required> Confirm abandon
+                                                        </label>
+                                                        <button type="submit" class="btn btn-danger btn-xs">Abandon dominion</button>
+                                                    </form>
+                                                </div>
+                                            @endif
                                         </td>
                                         <td class="text-center">
                                             {{ $dominion->race->name }}

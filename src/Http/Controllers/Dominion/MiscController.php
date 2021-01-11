@@ -8,6 +8,7 @@ use LogicException;
 use DB;
 use Auth;
 use Log;
+use OpenDominion\Exceptions\GameException;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\SelectorService;
 
@@ -64,23 +65,26 @@ class MiscController extends AbstractDominionController
         # Can only delete your own dominion.
         if($dominion->user_id !== Auth::user()->id)
         {
-            throw new GameException('You cannot delete other dominions than your own.');
+            throw new LogicException('You cannot delete other dominions than your own.');
         }
 
         # If the round has started, can only delete if protection ticks > 0.
         if($dominion->round->hasStarted() and $dominion->protection_ticks <= 0 and request()->getHost() !== 'sim.odarena.com')
         {
-            throw new GameException('You cannot delete your dominion because the round has already started.');
+            throw new LogicException('You cannot delete your dominion because the round has already started.');
         }
 
         # If the round has ended or offensive actions are disabled, do not allow delete.
         if($dominion->round->hasEnded() or $dominion->round->hasOffensiveActionsDisabled())
         {
-            throw new GameException('You cannot delete your dominion because the round has ended.');
+            throw new LogicException('You cannot delete your dominion because the round has ended.');
         }
 
         $result = [];
         # Destroy the dominion.
+
+        # Remove votes
+        DB::table('dominions')->where('monarchy_vote_for_dominion_id', '=', $dominion->id)->update(['monarchy_vote_for_dominion_id' => null]);
 
         DB::table('active_spells')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('active_spells')->where('cast_by_dominion_id', '=', $dominion->id)->delete();
@@ -118,6 +122,60 @@ class MiscController extends AbstractDominionController
             ->with(
                 'alert-success',
                 'Your dominion has been deleted.'
+            );
+    }
+
+    public function postAbandonDominion()
+    {
+
+        /*
+        *   Conditions for allowing abandoning:
+        *   - Round must be active
+        *   - The dominion belongs to the logged in user.
+        */
+
+        $dominion = $this->getSelectedDominion();
+
+        # Can only delete your own dominion.
+        if($dominion->isLocked())
+        {
+            throw new LogicException('You cannot delete a dominion that is locked or after a round is over.');
+        }
+
+        # Can only delete your own dominion.
+        if($dominion->user_id !== Auth::user()->id)
+        {
+            throw new LogicException('You cannot abandon other dominions than your own.');
+        }
+
+        $result = [];
+        # Abandon the dominion.
+
+        # Remove votes
+        DB::table('dominions')->where('monarchy_vote_for_dominion_id', '=', $dominion->id)->update(['monarchy_vote_for_dominion_id' => null]);
+
+        # Change the ruler title
+        DB::table('dominions')->where('id', '=', $dominion->id)->where('user_id', '=', Auth::user()->id)->update(['ruler_name' => ('Formerly ' . $dominion->ruler_name)]);
+
+        DB::table('dominions')->where('id', '=', $dominion->id)->where('user_id', '=', Auth::user()->id)->update(['user_id' => null, 'former_user_id' => Auth::user()->id]);
+
+
+
+        $this->dominionSelectorService->unsetUserSelectedDominion();
+
+        Log::info(sprintf(
+            'The dominion %s (ID %s) was abandoned by user %s (ID %s).',
+            $dominion->name,
+            $dominion->id,
+            Auth::user()->display_name,
+            Auth::user()->id
+        ));
+
+        return redirect()
+            ->to(route('dashboard'))
+            ->with(
+                'alert-danger',
+                'Your dominion has been abandoned.'
             );
     }
 

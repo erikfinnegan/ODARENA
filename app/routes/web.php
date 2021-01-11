@@ -65,6 +65,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
         // Dominion Select
 //        $router->get('{dominion}/select')->uses(function () { return redirect()->route('dashboard'); });
         $router->post('{dominion}/select')->uses('Dominion\SelectController@postSelect')->name('select');
+        $router->post('{dominion}/abandon')->uses('Dominion\MiscController@postAbandonDominion')->name('abandon');
 
         // Dominion
         $router->group(['middleware' => 'dominionselected'], static function (Router $router) {
