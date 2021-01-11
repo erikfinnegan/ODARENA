@@ -1,10 +1,5 @@
 @extends('layouts.master')
 
-{{--
-@section('page-header', 'Construction')
---}}
-
-
 @section('content')
 
 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))

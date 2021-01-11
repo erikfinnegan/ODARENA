@@ -411,7 +411,7 @@ class SettingHelper
                 $units = $data['converted'];
                 $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
                 return sprintf(
-                    'We have converted %s captured spy units from %s (# %s) to Wolverines.',
+                    'We have converted %s captured spy units from %s (# %s).',
                     number_format($units),
                     $sourceDominion->name,
                     $sourceDominion->realm->number
