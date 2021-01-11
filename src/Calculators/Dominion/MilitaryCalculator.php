@@ -498,6 +498,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromNetVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromTimePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromSpell($dominion, $unit, $powerType);
@@ -1001,7 +1002,7 @@ class MilitaryCalculator
         $powerPerVictory = (float)$victoriesPerk[0];
         $max = (float)$victoriesPerk[1];
 
-        $powerFromPerk = min($powerPerVictory * $victories, $max);
+        $powerFromPerk = min($powerPerVictory * $netVictories, $max);
 
         return $powerFromPerk;
     }
