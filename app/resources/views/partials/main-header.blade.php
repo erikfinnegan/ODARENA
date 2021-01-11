@@ -18,6 +18,7 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 @include('partials.staff-nav')
+                @include('partials.ticker-nav')
                 @include('partials.scribes-nav')
                 @include('partials.lounge-nav')
                 @include('partials.notification-nav')
