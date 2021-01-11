@@ -73,6 +73,7 @@
                                                 <form action="{{ route('dominion.select', $dominion) }}" method="post">
                                                     @csrf
                                                     <button type="submit" class="btn btn-link" style="padding: 0;">{{ $dominion->name }}</button>
+                                                </form>
                                             @endif
 
                                             @if (!$dominion->round->hasStarted())
