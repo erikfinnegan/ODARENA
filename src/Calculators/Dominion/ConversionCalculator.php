@@ -490,7 +490,7 @@ class ConversionCalculator
             # Check that unitsSent contains strength_conversion perk
             foreach($invasion['attacker']['unitsSent'] as $slot => $amount)
             {
-                if($displacedPeasantsConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'strength_conversion'))
+                if($strengthBasedConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'strength_conversion'))
                 {
                     $convertingUnits[$slot] += $amount;
 
@@ -616,7 +616,7 @@ class ConversionCalculator
             {
                 if($slot !== 'draftees')
                 {
-                    if($displacedPeasantsConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'strength_conversion'))
+                    if($strengthBasedConversionPerk = $defender->race->getUnitPerkValueForUnitSlot($slot, 'strength_conversion'))
                     {
                         $convertingUnits[$slot] += $amount;
 
