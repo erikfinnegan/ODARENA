@@ -638,17 +638,32 @@ class TrainActionService
         $unitsToTrainString = generate_sentence_from_array($unitsToTrainStringParts);
 
         $trainingCostsStringParts = [];
-        foreach ($totalCosts as $costType => $cost) {
-            if ($cost === 0) {
+        foreach ($totalCosts as $costType => $cost)
+        {
+            if ($cost === 0)
+            {
                 continue;
             }
 
             $costType = str_singular($costType);
+
+            if(in_array($costType, ['unit1','unit2','unit3','unit4']))
+            {
+                $slot = (int)str_replace('unit','',$costType);
+
+                $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                $costType = str_plural($unit->name, $cost);
+            }
+
 #            if (!\in_array($costType, ['platinum', 'ore'], true)) {
             if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
             {
                 $costType = str_plural($costType, $cost);
             }
+
             $trainingCostsStringParts[] = (number_format($cost) . ' ' . $costType);
 
         }

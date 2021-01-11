@@ -442,7 +442,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -1731,7 +1731,6 @@ class InvadeActionService
 
         if($attacker->race->name == 'Afflicted')
         {
-            #dd($this->invasionResult['attacker']['op'], $this->invasionResult['defender']['dp'], $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'], $this->invasionResult['result']['success']);
             # Pestilence
             if($this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'] >= 0.50)
             {
