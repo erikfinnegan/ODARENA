@@ -765,6 +765,14 @@ class NotificationHelper
                         $resultString = "Festering wounds are spreading across our people, increasing casualties and food consumption.";
                         break;
 
+                    case 'curse_of_kinthys':
+                        $resultString = "A Curse of Kinthys has befallen us.";
+                        break;
+
+                    case 'curse_of_zidur':
+                        $resultString = "A Curse of Zidur has been placed upon our lands.";
+                        break;
+
                     case 'purification':
                         $resultString = "{$data['damageString']} die from Purification.";
                         break;

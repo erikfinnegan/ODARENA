@@ -760,12 +760,20 @@ class SettingHelper
                         $resultString = "Our population has been afflicted by the Great Fever. Population has stopped growing and food and platinum production are slowed.";
                         break;
 
-                    case 'unhealing_wounds':
+                    case 'festinger_wounds':
                         $resultString = "Festering wounds are spreading across our people, increasing casualties and food consumption.";
                         break;
 
                     case 'purification':
                         $resultString = "{$data['damageString']} die from Purification.";
+                        break;
+
+                    case 'curse_of_zidur':
+                        $resultString = "A Curse of Zidur has been placed upon our lands.";
+                        break;
+
+                    case 'curse_of_kinthys':
+                        $resultString = "A Curse of Kinthys has befallen us.";
                         break;
 
                     # Faction spells

@@ -671,7 +671,7 @@ class SpellActionService
             {
                 $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
 
-                # Resource conversion
+                # Increase morale
                 if($perk->key === 'increase_morale')
                 {
                     $moraleAdded = (int)$spellPerkValues;
@@ -795,6 +795,23 @@ class SpellActionService
                         {
                             $dominion->{"stat_{$spellInfo['key']}_damage"} += round($damage);
                         }
+                    }
+
+
+
+                    # Increase morale
+                    if($perk->key === 'decrease_morale')
+                    {
+                        $attribute = 'morale';
+                        $baseDamage = (int)$spellPerkValues / 100;
+
+                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $attribute);
+
+                        $damage = min(round($target->{$attribute} * $baseDamage * $damageMultiplier), $target->military_spies);
+
+                        $target->{$attribute} -= $damage;
+                        $damageDealt[] = sprintf('%s%% %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
                     }
 
                     if($perk->key === 'destroys_resource')

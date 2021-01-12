@@ -456,10 +456,10 @@ class PopulationCalculator
     {
 
         $growthFactor = 0;
-        // Growth only if food > 0 or race doesn't eat food.
+        // Growth only if net food > 0 or race doesn't eat food.
         if($dominion->resource_food > 0 or $dominion->race->getPerkMultiplier('food_consumption') == -1)
         {
-          $growthFactor = 0.03;
+            $growthFactor = 0.03;
         }
 
         // Population births

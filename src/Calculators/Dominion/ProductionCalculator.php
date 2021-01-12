@@ -410,6 +410,11 @@ class ProductionCalculator
         return round($this->getFoodProduction($dominion) - $this->getFoodConsumption($dominion) - $this->getFoodDecay($dominion));
     }
 
+    public function isOnBrinkOfStarvation(Dominion $dominion): bool
+    {
+        return $this->getFoodNetChange($dominion) > $dominion->resource_food;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Lumber">
