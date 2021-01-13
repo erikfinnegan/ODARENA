@@ -311,15 +311,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($infoOp->data as $spell)
+                            @foreach ($infoOp->data as $spellOpInfo)
                                 @php
-                                    $spellInfo = $spellHelper->getSpellInfo($spell['spell'], $dominion, true, true);
-                                    $castByDominion = OpenDominion\Models\Dominion::with('realm')->findOrFail($spell['cast_by_dominion_id']);
+                                    $spell = OpenDominion\Models\Spell::where('key', $spellOpInfo['spell'])->first();
+                                    $castByDominion = OpenDominion\Models\Dominion::with('realm')->findOrFail($spellOpInfo['cast_by_dominion_id']);
                                 @endphp
                                 <tr>
-                                    <td>{{ $spellInfo['name'] }}</td>
-                                    <td>{{ $spellInfo['description'] }}</td>
-                                    <td class="text-center">{{ $spell['duration'] }}</td>
+                                    <td>{{ $spell->name }}</td>
+                                    <td>
+                                        <ul>
+                                        @foreach($spellHelper->getSpellEffectsString($spell, $selectedDominion->race) as $effect)
+                                            <li>{{ $effect }}</li>
+                                        @endforeach
+                                        <ul>
+                                    </td>
+                                    <td class="text-center">{{ $spellOpInfo['duration'] }} / {{ $spell->duration }} ticks</td>
                                     <td class="text-center">
                                         <a href="{{ route('dominion.realm', $castByDominion->realm->number) }}">{{ $castByDominion->name }} (#{{ $castByDominion->realm->number }})</a>
                                     </td>

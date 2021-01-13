@@ -797,8 +797,6 @@ class SpellActionService
                         }
                     }
 
-
-
                     # Increase morale
                     if($perk->key === 'decrease_morale')
                     {
