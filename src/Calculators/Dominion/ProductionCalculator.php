@@ -244,7 +244,7 @@ class ProductionCalculator
             $moraleMultiplier = max(1, $moraleMultiplier);
         }
 
-        return ((1 + $multiplier) * (1 + $prestigeMultiplier)) * $moraleMultiplier;
+        return max(-1, ((1 + $multiplier) * (1 + $prestigeMultiplier)) * $moraleMultiplier);
     }
 
     /**
