@@ -147,12 +147,12 @@ class SpellActionService
 
             if ($this->protectionService->isUnderProtection($target))
             {
-                throw new GameException('You cannot cast offensive spells to targets which are under protection');
+                throw new GameException('You cannot cast offensive spells on targets which are under protection');
             }
 
-            if (!$this->rangeCalculator->isInRange($dominion, $target))
+            if (!$this->rangeCalculator->isInRange($dominion, $target) and $spell->class !== 'invasion')
             {
-                throw new GameException('You cannot cast offensive spells to targets outside of your range');
+                throw new GameException('You cannot cast offensive spells on targets outside of your range');
             }
 
             if ($dominion->round->id !== $target->round->id)
