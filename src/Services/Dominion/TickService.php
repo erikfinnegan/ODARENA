@@ -432,7 +432,6 @@ class TickService
 
             foreach($realms as $realm)
             {
-
                 if($realm->crypt > 0)
                 {
                     # Imperial Crypt: handle decay (handleDecay)
@@ -449,6 +448,7 @@ class TickService
                                  ->first();
 
                      $bodiesToRemove = intval($bodiesDecayed + $bodiesSpent->cryptBodiesSpent);
+                     $bodiesToRemove = min($bodiesToRemove, $realm->crypt);
 
                      $cryptLogString = '[CRYPT] ';
                      $cryptLogString .= "Bodies current: " . $realm->crypt . ". ";
@@ -456,7 +456,6 @@ class TickService
                      $cryptLogString .= "Bodies spent: " . $bodiesSpent->cryptBodiesSpent . ". ";
                      $cryptLogString .= "Bodies to remove: " . $bodiesToRemove . ". ";
 
-                     $bodiesToRemove = min($bodiesToRemove, $realm->crypt);
 
                     $realm->fill([
                         'crypt' => ($realm->crypt - $bodiesToRemove),
