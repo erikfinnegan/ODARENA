@@ -432,8 +432,8 @@ class TickService
 
             foreach($realms as $realm)
             {
-                if($realm->crypt > 0)
-                {
+                #if($realm->crypt > 0)
+                #{
                     # Imperial Crypt: handle decay (handleDecay)
                     $bodiesDecayed = $this->realmCalculator->getCryptBodiesDecayed($realm);
 
@@ -462,7 +462,7 @@ class TickService
                     ])->save();
 
                     Log::info($cryptLogString);
-                }
+                #}
             }
 
             Log::info(sprintf(
