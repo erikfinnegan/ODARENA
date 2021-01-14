@@ -1,7 +1,5 @@
 @extends('layouts.master')
 
-@section('page-header', 'Invasion Result')
-
 @section('content')
     @php
         $boxColor = ($event->data['result']['success'] ? 'success' : 'danger');
@@ -362,6 +360,19 @@
                                             @endif
                                         @endforeach
                                     @endif
+
+                                    @if (isset($event->data['attacker']['crypt']) and $event->data['attacker']['crypt']['total'] > 0)
+                                    <tr>
+                                        <th colspan="2">Crypt</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Dead bodies are immediately added to the Imperial Crypt.</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bodies:</td>
+                                        <td><span class="text-green">+{{ number_format($event->data['attacker']['crypt']['total']) }}</span></td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                             @endif
@@ -643,6 +654,20 @@
                                                 </tr>
                                             @endif
                                         @endforeach
+
+                                        @if (isset($event->data['defender']['crypt']) and $event->data['defender']['crypt']['total'] > 0)
+                                        <tr>
+                                            <th colspan="2">Crypt</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><small class="text-muted">Dead bodies are immediately added to the Imperial Crypt.</small></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bodies:</td>
+                                            <td><span class="text-green">+{{ number_format($event->data['defender']['crypt']['total']) }}</span></td>
+                                        </tr>
+                                        @endif
+
                                     @endif
                                 </tbody>
                             </table>
