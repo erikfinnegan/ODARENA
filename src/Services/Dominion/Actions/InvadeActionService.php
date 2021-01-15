@@ -86,6 +86,11 @@ class InvadeActionService
      */
     protected const STUN_RATIO = 1;
 
+    /**
+     * @var float Percentage of units to be stunned
+     */
+    protected const MINIMUM_DPA = 10;
+
     /** @var array Invasion result array. todo: Should probably be refactored later to its own class */
     protected $invasionResult = [
         'result' => [],
@@ -217,6 +222,10 @@ class InvadeActionService
 */
             if (!$this->passes43RatioRule($dominion, $target, $landRatio, $units)) {
                 throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
+            }
+
+            if (!$this->passesMinimumDpaCheck($dominion, $target, $landRatio, $units)) {
+                throw new GameException('You are sending less than the lowest possible DP of the target. Minimum DPA (Defense Per Acre) is ' . static::MINIMUM_DPA . '. Double check your calculations and units sent.');
             }
 
             foreach($units as $amount)
@@ -2719,6 +2728,21 @@ class InvadeActionService
 
         return ($attackingForceOP <= $attackingForceMaxOP);
     }
+
+    /**
+     * Check if an invasion passes the 4:3-rule.
+     *
+     * @param Dominion $dominion
+     * @param array $units
+     * @return bool
+     */
+    protected function passesMinimumDpaCheck(Dominion $dominion, Dominion $target, float $landRatio, array $units): bool
+    {
+        $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
+
+        return ($attackingForceOP > $this->landCalculator->getTotalLand($target) * static::MINIMUM_DPA);
+    }
+
 
     /**
      * Returns the amount of hours a military unit (with a specific slot) takes

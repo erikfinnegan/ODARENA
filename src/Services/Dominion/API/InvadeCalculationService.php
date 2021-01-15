@@ -32,6 +32,7 @@ class InvadeCalculationService
         'away_defense' => 0,
         'away_offense' => 0,
         'home_defense' => 0,
+        'home_defense_raw' => 0,
         'home_offense' => 0,
         'home_dpa' => 0,
         'max_op' => 0,
@@ -140,6 +141,7 @@ class InvadeCalculationService
         ];
 
         $this->calculationResult['home_defense'] = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome);
+        $this->calculationResult['home_defense_raw'] = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $unitsHome);
         $this->calculationResult['home_offense'] = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $unitsHome, $calc);
         $this->calculationResult['home_dpa'] = $this->calculationResult['home_defense'] / $this->landCalculator->getTotalLand($dominion);
 

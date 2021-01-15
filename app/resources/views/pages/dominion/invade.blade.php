@@ -405,9 +405,15 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>DP:</td>
+                                                <td>Mod DP:</td>
                                                 <td id="home-forces-dp" data-original="{{ $militaryCalculator->getDefensivePower($selectedDominion) }}" data-amount="0">
                                                     {{ number_format($militaryCalculator->getDefensivePower($selectedDominion), 2) }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Raw DP:</td>
+                                                <td id="home-forces-dp-raw" data-original="{{ $militaryCalculator->getDefensivePowerRaw($selectedDominion) }}" data-amount="0">
+                                                    {{ number_format($militaryCalculator->getDefensivePowerRaw($selectedDominion), 2) }}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -498,6 +504,7 @@
             var invasionForceMaxOPElement = $('#invasion-force-max-op');
             var homeForcesOPElement = $('#home-forces-op');
             var homeForcesDPElement = $('#home-forces-dp');
+            var homeForcesDPRawElement = $('#home-forces-dp-raw');
             var homeForcesBoatsElement = $('#home-forces-boats');
             var homeForcesMinDPElement = $('#home-forces-min-dp');
             var homeForcesDPAElement = $('#home-forces-dpa');
@@ -554,6 +561,7 @@
                             invasionLandConqueredElement.data('amount', response.land_conquered);
                             homeForcesOPElement.data('amount', response.home_offense);
                             homeForcesDPElement.data('amount', response.home_defense);
+                            homeForcesDPRawElement.data('amount', response.home_defense_raw);
                             homeForcesBoatsElement.data('amount', response.boats_remaining);
                             homeForcesMinDPElement.data('amount', response.min_dp);
                             homeForcesDPAElement.data('amount', response.home_dpa);
@@ -566,6 +574,7 @@
                             invasionLandConqueredElement.text(response.land_conquered.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesOPElement.text(response.home_offense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPElement.text(response.home_defense.toLocaleString(undefined, {maximumFractionDigits: 2}));
+                            homeForcesDPRawElement.text(response.home_defense_raw.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesBoatsElement.text(response.boats_remaining.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesMinDPElement.text(response.min_dp.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPAElement.text(response.home_dpa.toLocaleString(undefined, {maximumFractionDigits: 3}));
