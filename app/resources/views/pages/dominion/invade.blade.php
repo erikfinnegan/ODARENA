@@ -406,14 +406,14 @@
                                             </tr>
                                             <tr>
                                                 <td>Mod DP:</td>
-                                                <td id="home-forces-dp" data-original="{{ $militaryCalculator->getDefensivePower($selectedDominion) }}" data-amount="0">
-                                                    {{ number_format($militaryCalculator->getDefensivePower($selectedDominion), 2) }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Raw DP:</td>
-                                                <td id="home-forces-dp-raw" data-original="{{ $militaryCalculator->getDefensivePowerRaw($selectedDominion) }}" data-amount="0">
-                                                    {{ number_format($militaryCalculator->getDefensivePowerRaw($selectedDominion), 2) }}
+                                                <td>
+                                                    <span id="home-forces-dp" data-original="{{ $militaryCalculator->getDefensivePower($selectedDominion) }}" data-amount="0">
+                                                        {{ number_format($militaryCalculator->getDefensivePower($selectedDominion), 2) }}
+                                                    </span>
+
+                                                    <small class="text-muted">
+                                                        (<span id="home-forces-dp-raw" data-original="{{ $militaryCalculator->getDefensivePowerRaw($selectedDominion) }}" data-amount="0">{{ number_format($militaryCalculator->getDefensivePowerRaw($selectedDominion), 2) }}</span> raw)
+                                                    </small>
                                                 </td>
                                             </tr>
                                             <tr>

@@ -181,7 +181,6 @@ class RoundController extends AbstractController
                         throw new GameException('You must have played at least ' . number_format($race->getPerkValue('min_rounds_played')) .  ' rounds to play ' . $race->name . '.');
                     }
 
-
                     if ($race->getPerkValue('max_per_round') and isset($countRaces[$race->name]))
                     {
                         if($countRaces[$race->name] >= $race->getPerkValue('max_per_round'))
@@ -229,6 +228,12 @@ class RoundController extends AbstractController
                 }
 
                 $dominionName = $request->get('dominion_name');
+
+
+                if(!$this->allowedDominionName($dominionName))
+                {
+                    throw new GameException('To avoid confusion, ' . $dominionName . ' is not a permitted dominion name. It contains a name reserved for Barbarians.');
+                }
 
                 $dominion = $this->dominionFactory->create(
                     $user,
@@ -324,5 +329,25 @@ class RoundController extends AbstractController
         }
     }
 
+    protected function allowedDominionName(string $dominionName): bool
+    {
+        $barbarianUsers = DB::table('users')
+            ->where('users.email', 'like', 'bandit%@lykanthropos.com')
+            ->pluck('users.id')
+            ->toArray();
+
+        foreach($barbarianUsers as $barbarianUserId)
+        {
+            $barbarianUser = User::findorfail($barbarianUserId);
+
+            if(stristr($dominionName, $barbarianUser->display_name))
+            {
+                return false;
+            }
+
+        }
+
+        return true;
+    }
 
 }
