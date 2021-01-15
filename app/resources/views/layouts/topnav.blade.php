@@ -58,11 +58,11 @@
                         <li class="{{ Route::is('home') ? 'active' : null }}"><a href="{{ route('home') }}">Home</a></li>
                         <li class="{{ Route::is('valhalla.*') ? 'active' : null }}"><a href="{{ route('valhalla.index') }}">Valhalla</a></li>
                         <li class="{{ Route::is('scribes.*') ? 'active' : null }}"><a href="{{ route('scribes.factions') }}"><i class="ra ra-scroll-unfurled"></i> Scribes</a></li>
-                        
-                        @include('partials.ticker-nav')
+
+
                         @auth
                             @if ($selectorService->hasUserSelectedDominion())
-                                <li><a href="{{ route('dominion.status') }}"><b>Play</b></a></li>
+                                <li><a href="{{ route('dominion.status') }}"><b>Return To The Game</b></a></li>
                             @else
                                 <li><a href="{{ route('dashboard') }}"><b>Dashboard</b></a></li>
                             @endif
@@ -73,6 +73,7 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                        @include('partials.ticker-nav')
                         @include('partials.auth-user-nav')
                     </ul>
                 </div>
@@ -83,7 +84,6 @@
 
     <!-- Content -->
     <div class="content-wrapper">
-        @include('partials.beta-indicator')
 
         <div class="container">
 
