@@ -39,6 +39,7 @@ class TechHelper
             'spy_losses' => '%s%% spy losses on failed operations',
             'spy_strength' => '%s%% spy strength',
             'spy_strength_recovery' => '%s spy strength per hour',
+            'amount_stolen' => '%s%% amount stolen',
 
             // Wizard related
             'spell_cost' => '%s%% cost of spells',
