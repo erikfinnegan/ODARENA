@@ -529,6 +529,11 @@ class TrainActionService
                         $ticks = 12; # WTF?
                     }
 
+                    if($unitType == 'military_wizards' and $dominion->race->getPerkValue('wizard_training_time'))
+                    {
+                        $ticks = $dominion->race->getPerkValue('wizard_training_time');
+                    }
+
                     // Spell
                     $ticks += $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'training_time');
 
