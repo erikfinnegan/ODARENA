@@ -74,6 +74,12 @@
                                         <td>Victories:</td>
                                         <td>{{ number_format($selectedDominion->stat_attacking_success) }}</td>
                                     </tr>
+                                    @if($selectedDominion->race->name == 'Black Orc')
+                                    <tr>
+                                        <td>Net Victories:</td>
+                                        <td>{{ number_format($militaryCalculator->getNetVictories($selectedDominion)) }}</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>

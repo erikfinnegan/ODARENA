@@ -71,6 +71,12 @@
                                         <td>Victories:</td>
                                         <td>{{ number_format($infoOp->data['victories']) }}</td>
                                     </tr>
+                                    @if(isset($infoOp->data['net_victories']))
+                                    <tr>
+                                        <td>Net Victories:</td>
+                                        <td>{{ number_format($infoOp->data['net_victories']) }}</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>

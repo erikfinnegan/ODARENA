@@ -994,15 +994,13 @@ class MilitaryCalculator
         {
             return 0;
         }
-
-        $victories = $dominion->stat_attacking_success;
-        $timesInvaded = $dominion->stat_defending_failures;
-        $netVictories = max(0, $victories - $timesInvaded); # Capped at 0
+        $netVictories = $this->getNetVictories($dominion);
+        $netVictoriesForPerk = max(0, $netVictories);
 
         $powerPerVictory = (float)$victoriesPerk[0];
         $max = (float)$victoriesPerk[1];
 
-        $powerFromPerk = min($powerPerVictory * $netVictories, $max);
+        $powerFromPerk = min($powerPerVictory * $netVictoriesForPerk, $max);
 
         return $powerFromPerk;
     }
@@ -1951,5 +1949,9 @@ class MilitaryCalculator
         return $multiplier;
     }
 
+    public function getNetVictories(Dominion $dominion): int
+    {
+        return $dominion->stat_attacking_success - $dominion->stat_defending_failures;
+    }
 
 }

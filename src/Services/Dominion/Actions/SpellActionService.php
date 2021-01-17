@@ -1183,6 +1183,7 @@ class SpellActionService
                       'networth' => $this->networthCalculator->getDominionNetworth($target),
                       'prestige' => $target->prestige,
                       'victories' => $target->stat_attacking_success,
+                      'net_victories' => $this->militaryCalculator->getNetVictories($target),
 
                       'resource_platinum' => $target->resource_platinum * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                       'resource_food' => $target->resource_food * $this->opsHelper->getInfoOpsAccuracyModifier($target),
