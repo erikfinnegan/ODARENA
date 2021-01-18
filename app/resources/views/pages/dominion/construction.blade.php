@@ -8,6 +8,9 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title"><i class="fa fa-home"></i> Construct Buildings </h3>
+                <small class="pull-right text-muted">
+                    <span data-toggle="tooltip" data-placement="top" title="How many buildings you can afford to explore right now">Max buildable</span>: {{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $constructionCalculator->getMaxAfford($selectedDominion)) }}
+                </small>
             </div>
             <form action="{{ route('dominion.construct') }}" method="post" role="form">
                 @csrf
