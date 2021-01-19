@@ -531,7 +531,7 @@ class TrainingCalculator
         $multiplier = max(-0.50, $multiplier);
 
         # Spells: can take reduction below 50%!
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'training_costs');
+        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'unit_' . $resourceType . '_costs');
 
         return (1 + $multiplier);
     }

@@ -306,6 +306,15 @@ class TickService
                           'active_spells.updated_at' => $this->now,
                       ]);
 
+                  DB::table('dominion_spells')
+                      ->join('dominions', 'dominion_spells.dominion_id', '=', 'dominions.id')
+                      ->where('dominions.round_id', $round->id)
+                      ->where('dominions.protection_ticks', '=', 0)
+                      ->update([
+                          'duration' => DB::raw('`duration` - 1'),
+                          'dominion_spells.updated_at' => $this->now,
+                      ]);
+
                 // Update invasion queues
                   DB::table('dominion_queue')
                       ->join('dominions', 'dominion_queue.dominion_id', '=', 'dominions.id')
@@ -524,7 +533,7 @@ class TickService
 
     protected function cleanupActiveSpells(Dominion $dominion)
     {
-        $finished = DB::table('active_spells')
+        $finished = DB::table('dominion_spells')
             ->where('dominion_id', $dominion->id)
             ->where('duration', '<=', 0)
             ->get();
@@ -534,17 +543,20 @@ class TickService
 
         foreach ($finished as $row)
         {
-            if ($row->cast_by_dominion_id == $dominion->id)
+            $spell = Spell::where('id', $row->spell_id)->first();
+
+            if ($row->caster_id == $dominion->id)
             {
-                $beneficialSpells[] = $row->spell;
+                $beneficialSpells[] = $spell->key;
             }
             else
             {
-                $harmfulSpells[] = $row->spell;
+                $harmfulSpells[] = $spell->key;
             }
         }
 
-        if (!empty($beneficialSpells)){
+        if (!empty($beneficialSpells))
+        {
             $this->notificationService->queueNotification('beneficial_magic_dissipated', $beneficialSpells);
         }
 
@@ -553,7 +565,7 @@ class TickService
             $this->notificationService->queueNotification('harmful_magic_dissipated', $harmfulSpells);
         }
 
-        DB::table('active_spells')
+        DB::table('dominion_spells')
             ->where('dominion_id', $dominion->id)
             ->where('duration', '<=', 0)
             ->delete();
@@ -1361,6 +1373,14 @@ class TickService
                           'duration' => DB::raw('`duration` - 1'),
                           'active_spells.updated_at' => $this->now,
                       ]);
+
+                DB::table('dominion_spells')
+                    ->join('dominions', 'dominion_spells.dominion_id', '=', 'dominions.id')
+                    ->where('dominions.id', $dominion->id)
+                    ->update([
+                        'duration' => DB::raw('`duration` - 1'),
+                        'dominion_spells.updated_at' => $this->now,
+                    ]);
 
                 // Update queues
                   DB::table('dominion_queue')

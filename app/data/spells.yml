@@ -774,7 +774,8 @@ call_to_arms:
   exclusive_races:
     - Human
   perks:
-    training_costs: -10
+    unit_platinum_costs: -10
+    unit_ore_costs: -10
     training_time: -6
     ore_production: 20
     platinum_production: 20

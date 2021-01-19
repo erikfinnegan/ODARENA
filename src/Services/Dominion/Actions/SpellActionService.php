@@ -18,7 +18,8 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Models\InfoOp;
+use OpenDominion\Models\DominionSpell;
+#use OpenDominion\Models\InfoOp;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -264,47 +265,40 @@ class SpellActionService
         # Self-spells self auras
         if($spell->scope == 'self')
         {
-            # Is it already active?
             if ($this->spellCalculator->isSpellActive($caster, $spell->key))
             {
-
-                $where = [
-                    'dominion_id' => $caster->id,
-                    'spell' => $spell->key,
-                ];
-
-                $activeSpell = DB::table('active_spells')
-                    ->where($where)
-                    ->first();
-
-                if ($activeSpell === null)
-                {
-                    throw new LogicException("Active spell '{$spell->key}' for dominion id {$caster->id} not found.");
-                }
-
-                if ((int)$activeSpell->duration === (int)$spell->duration)
+                if($this->spellCalculator->getSpellDuration($caster, $spell->key) == $spell->duration)
                 {
                     throw new GameException("{$spell->name} is already at maximum duration.");
                 }
 
-                DB::table('active_spells')
-                    ->where($where)
-                    ->update([
-                        'duration' => $spell->duration,
-                        'updated_at' => now(),
+                DB::transaction(function () use ($caster, $spell)
+                {
+                    $dominionSpell = DominionSpell::where('dominion_id', $caster->id)->where('spell_id', $spell->id)
+                    ->update(['duration' => $spell->duration]);
+
+                    $caster->save([
+                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                        'action' => $spell->key
                     ]);
+                });
             }
             else
             {
-                DB::table('active_spells')
-                    ->insert([
+                DB::transaction(function () use ($caster, $target, $spell)
+                {
+                    DominionSpell::create([
                         'dominion_id' => $caster->id,
-                        'spell' => $spell->key,
-                        'duration' => $spell->duration,
-                        'cast_by_dominion_id' => $caster->id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
+                        'caster_id' => $caster->id,
+                        'spell_id' => $spell->id,
+                        'duration' => $spell->duration
                     ]);
+
+                    $caster->save([
+                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                        'action' => $spell->key
+                    ]);
+                });
             }
 
             return [
@@ -319,52 +313,41 @@ class SpellActionService
         # Friendly spells, friendly auras
         elseif($spell->scope == 'friendly')
         {
-            # Is it already active?
+
             if ($this->spellCalculator->isSpellActive($target, $spell->key))
             {
-
-                $where = [
-                    'dominion_id' => $target->id,
-                    'spell' => $spell->key,
-                ];
-
-                $activeSpell = DB::table('active_spells')
-                    ->where($where)
-                    ->first();
-
-                if ($activeSpell === null)
-                {
-                    throw new LogicException("Active spell '{$spell->key}' for dominion id {$target->id} not found.");
-                }
-
-                if ((int)$activeSpell->duration === (int)$spell->duration)
+                if($this->spellCalculator->getSpellDuration($target, $spell->key) == $spell->duration)
                 {
                     throw new GameException("{$spell->name} is already at maximum duration.");
                 }
 
-                if ($caster->realm->id !== $target->realm->id)
+                DB::transaction(function () use ($caster, $target, $spell)
                 {
-                    throw new GameException("{$target->name} is not a friendly dominion. You can only cast {$spell->name} on dominions in your realm.");
-                }
+                    $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
+                    ->update(['duration' => $spell->duration]);
 
-                DB::table('active_spells')
-                    ->where($where)
-                    ->update([
-                        'duration' => $spell->duration,
-                        'updated_at' => now(),
+                    $target->save([
+                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                        'action' => $spell->key
                     ]);
+                });
             }
             else
             {
-                DB::table('active_spells')
-                    ->insert([
+                DB::transaction(function () use ($caster, $target, $spell)
+                {
+                    DominionSpell::create([
                         'dominion_id' => $target->id,
-                        'spell' => $spell->key,
-                        'duration' => $spell->duration,
-                        'cast_by_dominion_id' => $caster->id,
-                        'created_at' => now(),
-                        'updated_at' => now(),
+                        'caster_id' => $caster->id,
+                        'spell_id' => $spell->id,
+                        'duration' => $spell->duration
                     ]);
+
+                    $caster->save([
+                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                        'action' => $spell->key
+                    ]);
+                });
             }
 
             $this->notificationService
@@ -377,7 +360,7 @@ class SpellActionService
             return [
                 'success' => true,
                 'message' => sprintf(
-                    'Your wizards cast %s successfully, and it will continue to affect your dominion for the next %s ticks.',
+                    'Your wizards cast %s successfully, and it will continue to affect ' . $target->name . ' for the next %s ticks.',
                     $spell->name,
                     $spell->duration
                 )
@@ -407,39 +390,33 @@ class SpellActionService
 
                 if ($this->spellCalculator->isSpellActive($target, $spell->key))
                 {
-                    $where = [
-                        'dominion_id' => $target->id,
-                        'spell' => $spell->key,
-                    ];
-
-                    $activeSpell = DB::table('active_spells')
-                        ->where($where)
-                        ->first();
-
-                    if ($activeSpell === null)
+                    DB::transaction(function () use ($caster, $target, $spell)
                     {
-                        throw new LogicException("Active spell '{$spell->key}' for dominion id {$target->id} not found");
-                    }
+                        $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
+                        ->update(['duration' => $spell->duration]);
 
-                    DB::table('active_spells')
-                        ->where($where)
-                        ->update([
-                            'duration' => $spell->duration,
-                            'cast_by_dominion_id' => $caster->id,
-                            'updated_at' => now(),
+                        $target->save([
+                            'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                            'action' => $spell->key
                         ]);
+                    });
                 }
                 else
                 {
-                    DB::table('active_spells')
-                        ->insert([
+                    DB::transaction(function () use ($caster, $target, $spell)
+                    {
+                        DominionSpell::create([
                             'dominion_id' => $target->id,
-                            'spell' => $spell->key,
-                            'duration' => $spell->duration,
-                            'cast_by_dominion_id' => $caster->id,
-                            'created_at' => now(),
-                            'updated_at' => now(),
+                            'caster_id' => $caster->id,
+                            'spell_id' => $spell->id,
+                            'duration' => $spell->duration
                         ]);
+
+                        $caster->save([
+                            'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                            'action' => $spell->key
+                        ]);
+                    });
                 }
 
                 // Update statistics

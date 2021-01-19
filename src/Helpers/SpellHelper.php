@@ -808,7 +808,7 @@ class SpellHelper
               [
                   'name' => 'Unhealing Wounds',
                   'description' => '+50% casualties, +15% food consumption.',
-                  'key' => 'unhealing_wounds',
+                  'key' => 'festering_wounds',
                   'type' => 'defense',
                   'invasion_must_be_successful' => Null,
                   'op_dp_ratio' => Null,
@@ -879,7 +879,10 @@ class SpellHelper
             // Military
             'drafting' => '+%s%% drafting',
             'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
-            'training_costs' => '+%s%% unit training costs',
+            'training_costs' => '+%s%% military unit training costs',
+            'unit_platinum_costs' => '%s%% military unit platinum costs',
+            'unit_ore_costs' => '%s%% military unit ore costs',
+            'unit_lumber_costs' => '%s%% military unit lumber costs',
 
             'additional_units_trained_from_land' => '1%% extra %1$s%% for every %3$s%% %2$s.',
 
@@ -887,7 +890,6 @@ class SpellHelper
 
             'increase_morale' => 'Restores target morale by %s%% (up to maximum of 100%%).',
             'decrease_morale' => 'Lowers target morale by %s%% (minimum 0%%).',
-
 
             'kills_draftees' => 'Kills %1$s%% of the target\'s draftees.',
 

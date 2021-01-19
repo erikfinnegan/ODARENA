@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
+use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\Spell;
 
 class SpellCalculator
@@ -138,33 +139,10 @@ class SpellCalculator
      * @param bool $forceRefresh
      * @return Collection
      */
-    public function getActiveSpells(Dominion $dominion, bool $forceRefresh = false): Collection
+    public function getActiveSpells(Dominion $dominion): Collection
     {
-        $cacheKey = $dominion->id;
-
-        if (!$forceRefresh && array_has($this->activeSpells, $cacheKey))
-        {
-            return collect(array_get($this->activeSpells, $cacheKey));
-        }
-
-        $data = DB::table('active_spells')
-            ->join('dominions', 'dominions.id', '=', 'cast_by_dominion_id')
-            ->join('realms', 'realms.id', '=', 'dominions.realm_id')
-            ->where('dominion_id', $dominion->id)
-            ->where('duration', '>', 0)
-            ->orderBy('duration', 'desc')
-            ->orderBy('created_at')
-            ->get([
-                'active_spells.*',
-                'dominions.name AS cast_by_dominion_name',
-                'realms.number AS cast_by_dominion_realm_number',
-            ]);
-
-        array_set($this->activeSpells, $cacheKey, $data->toArray());
-
-        return $data;
+        return DominionSpell::where('caster_id',$dominion->id)->get();
     }
-
 
     /**
      * Returns a list of spells currently affecting $dominion.
@@ -213,30 +191,11 @@ class SpellCalculator
      * @param string $spell
      * @return bool
      */
-    public function isSpellActive(Dominion $dominion, string $spell): bool
+    public function isSpellActive(Dominion $dominion, string $spellKey): bool
     {
-        return $this->getActiveSpells($dominion)->contains(function ($value) use ($spell) {
-            return ($value->spell === $spell);
-        });
+        $spell = Spell::where('key', $spellKey)->first();
+        return DominionSpell::where('spell_id',$spell->id)->first() ? true : false;
     }
-
-
-    /**
-     * Returns the cast of a spell.
-     *
-     * @param Dominion $dominion
-     * @param string $spell
-     * @return Dominion
-     */
-    public function getCaster(Dominion $dominion, string $spell): Dominion
-    {
-        $spell = $this->getActiveSpells($dominion)->filter(function ($value) use ($spell) {
-            return ($value->spell === $spell);
-        })->first();
-
-        return Dominion::findOrFail($spell->cast_by_dominion_id);
-    }
-
 
     /**
      * Returns the remaining duration (in ticks) of a spell affecting $dominion.
@@ -246,19 +205,18 @@ class SpellCalculator
      * @param string $spell
      * @return int|null
      */
-    public function getSpellDuration(Dominion $dominion, string $spell): ?int
+    public function getSpellDuration(Dominion $dominion, string $spellKey): ?int
     {
-        if (!$this->isSpellActive($dominion, $spell)) {
+        if (!$this->isSpellActive($dominion, $spellKey))
+        {
             return null;
         }
 
-        $spell = $this->getActiveSpells($dominion)->filter(function ($value) use ($spell) {
-            return ($value->spell === $spell);
-        })->first();
+        $spell = Spell::where('key', $spellKey)->first();
+        $dominionSpell = DominionSpell::where('spell_id',$spell->id)->first();
 
-        return $spell->duration;
+        return $dominionSpell->duration;
     }
-
 
     public function getPassiveSpellPerkValues(Dominion $dominion, string $perkString): array
     {
@@ -269,20 +227,9 @@ class SpellCalculator
         $activeSpells = $this->getActiveSpells($dominion);
 
         # Check each spell for the $perk
-        foreach($activeSpells as $activeSpell)
+        foreach($activeSpells as $spell)
         {
-            $spell = Spell::where('key', $activeSpell->spell)->first();
-
-            # Does the spell have the perk we're after?
-            foreach ($spell->perks as $spellPerk)
-            {
-
-                # If it does, update $perkValue.
-                if($spellPerk->key === $perkString)
-                {
-                    $perkValuesFromSpells[] = (float)$spellPerk->pivot->value;
-                }
-            }
+            #$perkValuesFromSpells[] = $spell->getPerkValue($perkString);
         }
 
         return $perkValuesFromSpells;

@@ -142,9 +142,9 @@ class CasualtiesCalculator
             $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'casualties');
 
             # Invasion Spell: Unhealing Wounds
-            if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
+            if ($this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
             {
-              $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'unhealing_wounds', null);
+              $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'festering_wounds', null);
             }
 
             // Techs
@@ -269,9 +269,9 @@ class CasualtiesCalculator
             $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'casualties');
 
             # Invasion Spell: Unhealing Wounds
-            if ($this->spellCalculator->isSpellActive($dominion, 'unhealing_wounds'))
+            if ($this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
             {
-                $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'unhealing_wounds', null);
+                $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'festering_wounds', null);
             }
 
             # Land-based reductions
