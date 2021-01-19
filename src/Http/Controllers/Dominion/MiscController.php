@@ -85,8 +85,17 @@ class MiscController extends AbstractDominionController
             throw new LogicException('You cannot delete your dominion because the round has ended.');
         }
 
-        $result = [];
         # Destroy the dominion.
+        $abandonDominionEvent = GameEvent::create([
+          'round_id' => $dominion->round_id,
+          'source_type' => Dominion::class,
+          'source_id' => $dominion->id,
+          'target_type' => NULL,
+          'target_id' => NULL,
+          'type' => 'delete_dominion',
+          'data' => NULL,
+        ]);
+        $dominion->realm->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
 
         # Remove votes
         DB::table('dominions')->where('monarchy_vote_for_dominion_id', '=', $dominion->id)->update(['monarchy_vote_for_dominion_id' => null]);
