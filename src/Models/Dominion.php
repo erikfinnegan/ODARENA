@@ -281,11 +281,11 @@ class Dominion extends AbstractModel
     {
         return $this->hasManyThrough(
             Spell::class,
-            NULL,
+            DominionSpell::class,
             'dominion_id',
             'id',
             'id',
-            'building_id'
+            'spell_id'
         );
     }
 
@@ -412,10 +412,8 @@ class Dominion extends AbstractModel
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public function getLockedReason(int $reason): string
@@ -507,7 +505,8 @@ class Dominion extends AbstractModel
 
     # TECHS
 
-    protected function getTechPerks() {
+    protected function getTechPerks()
+    {
         return $this->techs->flatMap(
             function ($tech) {
                 return $tech->perks;
@@ -543,7 +542,8 @@ class Dominion extends AbstractModel
 
     # SPELLS
 
-    protected function getSpellPerks() {
+    protected function getSpellPerks()
+    {
         return $this->spells->flatMap(
             function ($spell) {
                 return $spell->perks;

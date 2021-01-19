@@ -276,7 +276,7 @@ class RoundController extends AbstractController
         } catch (QueryException $e) {
 
             # Useful for debugging.
-            dd($e->getMessage());
+            #dd($e->getMessage());
 
             return redirect()->back()
                 ->withInput($request->all())
@@ -303,7 +303,7 @@ class RoundController extends AbstractController
 
         $request->session()->flash(
             'alert-success',
-            ("You have successfully registered to round {$round->number} ({$round->name}). You have been placed in realm {$realm->number} ({$realm->name}) with " . ($realm->dominions()->count() - 1) . ' other dominion(s).')
+            ("You have successfully registered to round {$round->number} ({$round->name})! You have been placed in realm {$realm->number} ({$realm->name}) with " . ($realm->dominions()->count() - 1) . ' other ' . str_plural('dominion', ($realm->dominions()->count() - 1)) . '.')
         );
 
         return redirect()->route('dominion.status');

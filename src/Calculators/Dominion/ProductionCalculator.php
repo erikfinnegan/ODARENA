@@ -90,7 +90,7 @@ class ProductionCalculator
         }
 
         // Spells
-        $platinumPerAlchemy += $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'alchemy_production');
+        $platinumPerAlchemy += $dominion->getSpellPerkMultiplier('alchemy_production');
 
         // Building: Alchemy
         $platinum += ($dominion->building_alchemy * $platinumPerAlchemy);
@@ -141,7 +141,7 @@ class ProductionCalculator
         $multiplier += $this->landImprovementCalculator->getPlatinumProductionBonus($dominion);
 
         // Spells
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'platinum_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('platinum_production');
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -200,7 +200,7 @@ class ProductionCalculator
           $food += $dominion->peasants * $dominion->race->getPerkValue('peasants_produce_food');
         }
 
-        $food *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production_raw');
+        $food *= 1 + $dominion->getSpellPerkMultiplier('food_production_raw');
 
         return max(0,$food);
     }
@@ -222,7 +222,7 @@ class ProductionCalculator
         $multiplier += $dominion->getTechPerkMultiplier('food_production');
 
         // Spells
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('food_production');
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
@@ -239,7 +239,7 @@ class ProductionCalculator
         // Apply Morale multiplier to production multiplier
 
         $moraleMultiplier = $this->militaryCalculator->getMoraleMultiplier($dominion);
-        if($this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production') > 0)
+        if($dominion->getSpellPerkMultiplier('food_production') > 0)
         {
             $moraleMultiplier = max(1, $moraleMultiplier);
         }
@@ -495,7 +495,7 @@ class ProductionCalculator
         }
 
         // Spells
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'lumber_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('lumber_production');
 
         // Improvement: Forestry
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forestry');
@@ -663,7 +663,7 @@ class ProductionCalculator
         #$multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
 
         // Spells
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'mana_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('mana_production');
 
         // Improvement: Spires
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
@@ -814,7 +814,7 @@ class ProductionCalculator
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
 
         // Spells
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'ore_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('ore_production');
 
         $multiplier = max(-1, $multiplier);
 
@@ -1013,7 +1013,7 @@ class ProductionCalculator
         $multiplier = 0;
 
         // Spells
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'boat_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('boat_production');
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
