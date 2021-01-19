@@ -253,7 +253,7 @@ class InvadeActionService
             {
                 throw new GameException('You cannot invade during the Rainy Season.');
             }
-            if ($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'cannot_invade'))
+            if ($dominion->getSpellPerkValue('cannot_invade'))
             {
                 throw new GameException('A spell is preventing from you invading.');
             }
@@ -289,7 +289,7 @@ class InvadeActionService
             }
 
             // Dimensionalists: must have Portals open.
-            if($dominion->race->name == 'Dimensionalists' and !$this->spellCalculator->getPassiveSpellPerkValue($dominion, 'portal'))
+            if($dominion->race->name == 'Dimensionalists' and !$dominion->getSpellPerkValue('portal'))
             {
                 throw new GameException('You cannot attack unless a portal is open.');
             }
@@ -301,7 +301,7 @@ class InvadeActionService
             }
 
             // Qur: Statis cannot invade.
-            if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+            if($dominion->getSpellPerkValue('stasis'))
             {
                 throw new GameException('You cannot invade while you are in stasis.');
             }
@@ -838,7 +838,7 @@ class InvadeActionService
         $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
 
         // Spell
-        $drafteesLost = min($target->military_draftees, $drafteesLost * (1 + $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'increases_enemy_draftee_casualties')));
+        $drafteesLost = min($target->military_draftees, $drafteesLost * (1 + $dominion->getSpellPerkMultiplier('increases_enemy_draftee_casualties')));
 
         if ($drafteesLost > 0)
         {
@@ -965,7 +965,7 @@ class InvadeActionService
 
                 # What are the buildings made out of?
                 $constructionMaterials = $this->raceHelper->getConstructionMaterials($target->race);
-                if (isset($constructionMaterials[1]) and $constructionMaterials[1] === 'lumber' and $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'burns_extra_buildings'))
+                if (isset($constructionMaterials[1]) and $constructionMaterials[1] === 'lumber' and $dominion->getSpellPerkValue('burns_extra_buildings'))
                 {
                     # Ensure Dragons account for at least 85% of the raw OP sent.
                     if(isset($units[4]))
@@ -1550,7 +1550,7 @@ class InvadeActionService
 
               $returnTicks = $this->getUnitReturnHoursForSlot($dominion, $slot);
 
-              $returnTicks -= $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'faster_return');
+              $returnTicks -= $dominion->getSpellPerkValue('faster_return');
 
               # Check for faster_return_if_paired
               if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
@@ -1866,7 +1866,7 @@ class InvadeActionService
     protected function handleSalvagingAndPlundering(Dominion $attacker, Dominion $defender, array $survivingUnits): void
     {
 
-        $result['attacker']['plunder']['platinum'] = 0;
+        $result['attacker']['plunder']['gold'] = 0;
         $result['attacker']['plunder']['mana'] = 0;
         $result['attacker']['plunder']['food'] = 0;
         $result['attacker']['plunder']['ore'] = 0;

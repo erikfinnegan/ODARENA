@@ -9,7 +9,7 @@ exploring : 1
 converting: 1
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   max_population: 30
@@ -26,7 +26,7 @@ units:
       - mindless
       - magical
     cost:
-      platinum: 0
+      gold: 0
     power:
       offense: 3
       defense: 0
@@ -39,7 +39,7 @@ units:
     type:
       - mindless
     cost:
-      platinum: 0
+      gold: 0
     power:
       offense: 0
       defense: 3
@@ -53,7 +53,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
       mana: 8
     power:
       offense: 6
@@ -70,7 +70,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 300
+      gold: 300
       lumber: 1
       mana: 18
       wizard: 1

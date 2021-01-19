@@ -35,17 +35,17 @@
                             </thead>
                             <tbody>
                                   <tr>
-                                      <td>Platinum</td>
-                                      <td>{{ number_format($productionCalculator->getPlatinumProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getPlatinumProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
+                                      <td>Gold</td>
+                                      <td>{{ number_format($productionCalculator->getGoldProduction($selectedDominion)) }}</td>
+                                      <td>{{ number_format($productionCalculator->getGoldProductionRaw($selectedDominion)) }}</td>
+                                      <td>{{ number_format(($productionCalculator->getGoldProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
                                       <td>&mdash;</td>
-                                      <td>{{ number_format($productionCalculator->getPlatinumProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($selectedDominion->resource_platinum) }}</td>
-                                      <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'platinum')) }}</td>
-                                      <td>{{ number_format(($selectedDominion->resource_platinum/$productionCalculator->getMaxStorage($selectedDominion, 'platinum')) * 100, 2) }}%</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_production) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</td>
+                                      <td>{{ number_format($productionCalculator->getGoldProduction($selectedDominion)) }}</td>
+                                      <td>{{ number_format($selectedDominion->resource_gold) }}</td>
+                                      <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'gold')) }}</td>
+                                      <td>{{ number_format(($selectedDominion->resource_gold/$productionCalculator->getMaxStorage($selectedDominion, 'gold')) * 100, 2) }}%</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_production) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_stolen) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Food</td>
@@ -207,14 +207,14 @@
                             </thead>
                             <tbody>
                                   <tr>
-                                      <td>Platinum</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_training) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_building) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_rezoning) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_exploring) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_spent_improving) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_bought) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_platinum_sold) }}</td>
+                                      <td>Gold</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_training) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_building) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_rezoning) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_exploring) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_improving) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_bought) }}</td>
+                                      <td>{{ number_format($selectedDominion->stat_total_gold_sold) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Food</td>

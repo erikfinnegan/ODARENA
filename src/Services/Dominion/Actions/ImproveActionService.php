@@ -36,7 +36,7 @@ class ImproveActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot invest in improvements while you are in stasis.');
         }
@@ -52,7 +52,7 @@ class ImproveActionService
             throw new GameException('Investment aborted due to bad input.');
         }
 
-        if (!\in_array($resource, ['platinum','lumber','ore', 'gems','mana','food','soul'], true))
+        if (!\in_array($resource, ['gold','lumber','ore', 'gems','mana','food','soul'], true))
         {
             throw new GameException('Investment aborted due to bad resource type.');
         }

@@ -39,41 +39,55 @@ gaias_watch:
   cost: 2
   duration: 48
   cooldown: 0
+  excluded_races:
+    - Afflicted
+    - Sylvan
   perks:
     food_production: 10
 
 mining_strength:
-  name: Mining Strength
+  name: Mirnon's Strength
   scope: self
   class: passive
   cost: 2
   duration: 48
   cooldown: 0
+  excluded_races:
+    - Afflicted
+    - Dwarf
+    - Artillery
+    - Gnome
   perks:
     ore_production: 10
 
 harmony:
-  name: Harmony
+  name: Druva's Chant
   scope: self
   class: passive
   cost: 2.5
   duration: 48
   cooldown: 0
+  excluded_races:
+    - Afflicted
   perks:
     population_growth: 50
 
 fools_gold:
-  name: Fool's Gold
+  name: Mirnon's Vault
   scope: self
   class: passive
   cost: 5
   duration: 36
   cooldown: 18
+  excluded_races:
+    - Afflicted
   perks:
-    platinum_theft: -100
+    gold_theft: -100
+    gems_theft: -100d
+    ore_theft: -100
 
 surreal_perception:
-  name: Surreal Perception
+  name: Sazal's Perception
   scope: self
   class: passive
   cost: 4
@@ -83,7 +97,7 @@ surreal_perception:
     reveal_ops: 1
 
 energy_mirror:
-  name: Energy Mirror
+  name: Sazal's Mirror
   scope: self
   class: passive
   cost: 3
@@ -93,7 +107,7 @@ energy_mirror:
     chance_to_reflect_spells: 25
 
 aura:
-  name: Aura
+  name: Sazal's Shield
   scope: self
   class: passive
   cost: 3
@@ -113,7 +127,7 @@ transmogrify:
     resource_conversion: ore,gems,25,4 # from, to, percentage
 
 waterwall:
-  name: Waterwall
+  name: Glimj's Wall
   scope: self
   class: passive
   cost: 8
@@ -264,7 +278,7 @@ swarming:
     drafting: 100
 
 divine_intervention:
-  name: Divine Intervention
+  name: Tiranthael's Blade
   scope: self
   class: passive
   cost: 10
@@ -413,7 +427,7 @@ gaias_blessing:
   exclusive_races:
     - Sylvan
   perks:
-    food_production: 20
+    food_production: 30
     lumber_production: 10
 
 nightfall:
@@ -466,7 +480,7 @@ druvas_call:
     summon_units_from_land: 1;2,6,forest # slots, per acre, land type - unit1 and unit2, 6, forest - summon up to 6 unit1 and unit2 per 1 acre of forest
 
 miners_sight:
-  name: Miner's Sight
+  name: Mirnon's Fortitude
   scope: self
   class: passive
   cost: 8
@@ -477,7 +491,7 @@ miners_sight:
     - Artillery
     - Gnome
   perks:
-    ore_production: 10
+    ore_production: 20
     gem_production: 5
 
 alchemist_flame:
@@ -630,7 +644,7 @@ solar_rays:
     kills_faction_units_percentage: nox,1,2 # faction, slot, percentage
 
 purification:
-  name: Purification
+  name: Tiranthael's Justice
   scope: hostile
   class: active
   cost: 3
@@ -752,6 +766,8 @@ primordial_wrath:
     offensive_power: 100
     defensive_power: 50
 
+# CULT
+
 mind_control:
   name: Mind Control
   scope: self
@@ -764,6 +780,20 @@ mind_control:
   perks:
     mind_control: 1
 
+enthralling:
+  name: Enthralling
+  scope: hostile
+  class: passive
+  cost: 20
+  duration: 4
+  cooldown: 0
+  exclusive_races:
+    - Cult
+  perks:
+    enthralling: 1
+
+# /CULT
+
 call_to_arms:
   name: Call To Arms
   scope: self
@@ -774,11 +804,11 @@ call_to_arms:
   exclusive_races:
     - Human
   perks:
-    unit_platinum_costs: -10
+    unit_gold_costs: -10
     unit_ore_costs: -10
     training_time: -6
     ore_production: 20
-    platinum_production: 20
+    gold_production: 20
 
 fine_arts:
   name: Fine Arts
@@ -790,7 +820,7 @@ fine_arts:
   exclusive_races:
     - Vampires
   perks:
-    platinum_production: 5
+    gold_production: 5
     gem_production: 5
 
 dark_rites:
@@ -916,7 +946,7 @@ great_fever:
     - Afflicted
   perks:
     population_growth: -80
-    platinum_production: -10
+    gold_production: -10
     food_production: -20
 
 festering_wounds:

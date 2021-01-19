@@ -12,7 +12,7 @@ exploring : 3
 converting: 3
 skill_level: 3
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   population_growth: 25
@@ -28,7 +28,7 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 700
+      gold: 700
       mana: 12
       blood: 4
     power:
@@ -46,7 +46,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 800
+      gold: 800
       mana: 16
       blood: 12
     power:

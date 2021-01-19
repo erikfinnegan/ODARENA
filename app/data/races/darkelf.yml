@@ -9,7 +9,7 @@ exploring : 3
 converting: 2
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   gem_production: 10
@@ -23,7 +23,7 @@ units:
       - intelligent
     need_boat: false
     cost:
-      platinum: 350
+      gold: 350
       ore: 30
     power:
       offense: 4
@@ -38,7 +38,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 320
+      gold: 320
       ore: 30
     power:
       offense: 0
@@ -52,7 +52,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 1200
+      gold: 1200
       ore: 0
     power:
       offense: 3
@@ -73,7 +73,7 @@ units:
       - wise
     need_boat: false
     cost:
-      platinum: 1000
+      gold: 1000
       mana: 25
     power:
       offense: 5

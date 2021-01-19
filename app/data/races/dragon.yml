@@ -10,7 +10,7 @@ exploring : 0
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
     gem_production: 10
@@ -27,7 +27,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 120
+      gold: 120
       lumber: 10
     power:
       offense: 0
@@ -42,7 +42,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 120
+      gold: 120
       ore: 20
     power:
       offense: 0
@@ -58,12 +58,12 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 250
+      gold: 250
     power:
       offense: 0
       defense: 6
     perks:
-      upkeep_platinum: 5
+      upkeep_gold: 5
       no_draftee: 1
 
   - name: Dragon

@@ -9,7 +9,7 @@ namespace OpenDominion\Models;
  * @property int $race_id
  * @property int $slot
  * @property string $name
- * @property int $cost_platinum
+ * @property int $cost_gold
  * @property int $cost_ore
  * @property float $power_offense
  * @property float $power_defense
@@ -27,7 +27,7 @@ class Unit extends AbstractModel
 {
     protected $casts = [
         'slot' => 'integer',
-        'cost_platinum' => 'integer',
+        'cost_gold' => 'integer',
         'cost_ore' => 'integer',
         'power_offense' => 'float',
         'power_defense' => 'float',

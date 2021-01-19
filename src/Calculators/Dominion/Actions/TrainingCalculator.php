@@ -115,7 +115,7 @@ class TrainingCalculator
                 default:
                     $unitSlot = (((int)str_replace('unit', '', $unitType)) - 1);
 
-                    $platinum = $units[$unitSlot]->cost_platinum;
+                    $gold = $units[$unitSlot]->cost_gold;
                     $ore = $units[$unitSlot]->cost_ore;
 
                     // New unit cost resources
@@ -141,8 +141,8 @@ class TrainingCalculator
                     $wizard = $units[$unitSlot]->cost_wizard;
                     $archmage = $units[$unitSlot]->cost_archmage;
 
-                    #if ($platinum > 0) {
-                        $cost['platinum'] = (int)ceil($platinum * $this->getSpecialistEliteCostMultiplier($dominion, 'platinum'));
+                    #if ($gold > 0) {
+                        $cost['gold'] = (int)ceil($gold * $this->getSpecialistEliteCostMultiplier($dominion, 'gold'));
                     #}
 
                     #if ($ore > 0) {
@@ -294,7 +294,7 @@ class TrainingCalculator
         $trainable = [];
 
         $fieldMapping = [
-            'platinum' => 'resource_platinum',
+            'gold' => 'resource_gold',
             'ore' => 'resource_ore',
             'draftees' => 'military_draftees',
             'wizards' => 'military_wizards',
@@ -447,16 +447,16 @@ class TrainingCalculator
         $smithiesReduction = 2;
         $smithiesReductionMax = 40;
 
-        # Smithies: discount Platinum (for all) and Ore (for non-Gnomes)
-        # Armory: discounts Platinum and Ore (for all)
-        # Techs: discounts Platinum, Ore, and Lumber (for all); Food ("Lean Mass" techs); Mana ("Magical Weapons" techs)
+        # Smithies: discount Gold (for all) and Ore (for non-Gnomes)
+        # Armory: discounts Gold and Ore (for all)
+        # Techs: discounts Gold, Ore, and Lumber (for all); Food ("Lean Mass" techs); Mana ("Magical Weapons" techs)
 
         // Only discount these resources.
-        $discountableResourceTypesBySmithies = ['platinum', 'ore'];
-        $discountableResourceTypesByArmory = ['platinum', 'ore'];
-        $discountableResourceTypesByTech = ['platinum', 'ore', 'lumber'];
-        $discountableResourceTypesByTitle = ['platinum', 'ore', 'lumber', 'mana', 'food'];
-        $discountableResourceTypesByUnitBonus = ['platinum', 'ore', 'lumber', 'mana', 'food'];
+        $discountableResourceTypesBySmithies = ['gold', 'ore'];
+        $discountableResourceTypesByArmory = ['gold', 'ore'];
+        $discountableResourceTypesByTech = ['gold', 'ore', 'lumber'];
+        $discountableResourceTypesByTitle = ['gold', 'ore', 'lumber', 'mana', 'food'];
+        $discountableResourceTypesByUnitBonus = ['gold', 'ore', 'lumber', 'mana', 'food'];
 
         $discountableResourceTypesByTechFood = ['food'];
         $discountableResourceTypesByTechMana = ['mana'];
@@ -540,7 +540,7 @@ class TrainingCalculator
     }
 
     /**
-     * Returns the Dominion's training platinum cost multiplier for spies.
+     * Returns the Dominion's training gold cost multiplier for spies.
      *
      * @param Dominion $dominion
      * @return float
@@ -559,7 +559,7 @@ class TrainingCalculator
     }
 
     /**
-     * Returns the Dominion's training platinum cost multiplier for wizards and archmages.
+     * Returns the Dominion's training gold cost multiplier for wizards and archmages.
      *
      * @param Dominion $dominion
      * @return float

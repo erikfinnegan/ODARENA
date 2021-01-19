@@ -9,14 +9,14 @@ exploring : 1
 converting: 1
 skill_level: 3
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 peasants_alias: bubbler
 draftees_alias: blob
 
 perks:
   cannot_build_barracks: 1
-  platinum_production: -50
+  gold_production: -50
   max_population: 25
   can_only_abduct_own: 1
 units:
@@ -46,7 +46,7 @@ units:
     need_boat: true
     static_networth: 5
     cost:
-      platinum: 0
+      gold: 0
     power:
       offense: 3
       defense: 3
@@ -63,7 +63,7 @@ units:
     need_boat: true
     static_networth: 7
     cost:
-      platinum: 0
+      gold: 0
     power:
       offense: 4
       defense: 5
@@ -81,7 +81,7 @@ units:
     need_boat: true
     static_networth: 8
     cost:
-      platinum: 0
+      gold: 0
     power:
       offense: 6
       defense: 3

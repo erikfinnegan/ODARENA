@@ -81,7 +81,7 @@ class ReleaseActionService
         */
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot release units while you are in stasis.');
         }

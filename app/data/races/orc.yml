@@ -9,7 +9,7 @@ exploring : 1
 converting: 1
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   max_population: 10
@@ -25,7 +25,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 500
+      gold: 500
       ore: 50
     power:
       offense: 3
@@ -40,7 +40,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 400
+      gold: 400
       ore: 40
     power:
       offense: 0
@@ -55,7 +55,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
       ore: 0
     power:
       offense: 0
@@ -72,7 +72,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 1400
+      gold: 1400
       ore: 200
       gem: 1
     power:

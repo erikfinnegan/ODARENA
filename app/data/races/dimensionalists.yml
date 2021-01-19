@@ -10,7 +10,7 @@ exploring : 1
 converting: 2
 skill_level: 3
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   construction_cost: 15
@@ -27,7 +27,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 3000
+      gold: 3000
       archmage: 1
     power:
       offense: 0

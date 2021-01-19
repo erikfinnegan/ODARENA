@@ -397,9 +397,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Platinum stolen:</td>
+                                        <td>Gold stolen:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_platinum_stolen) }}</strong>
+                                            <strong>{{ number_format($selectedDominion->stat_total_gold_stolen) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>

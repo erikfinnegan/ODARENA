@@ -96,8 +96,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Platinum:</td>
-                                        <td>{{ number_format($selectedDominion->resource_platinum) }}</td>
+                                        <td>Gold:</td>
+                                        <td>{{ number_format($selectedDominion->resource_gold) }}</td>
                                     </tr>
                                     <tr>
                                         <td>Food:</td>

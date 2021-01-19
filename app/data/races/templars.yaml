@@ -10,7 +10,7 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   gem_production: 10
@@ -19,7 +19,7 @@ units:
     training_time: 9
     need_boat: true
     cost:
-      platinum: 350
+      gold: 350
       ore: 35
     power:
       offense: 3
@@ -31,7 +31,7 @@ units:
     training_time: 6
     need_boat: true
     cost:
-      platinum: 0
+      gold: 0
       ore: 0
     power:
       offense: 0
@@ -44,7 +44,7 @@ units:
     training_time: 12
     need_boat: true
     cost:
-      platinum: 900
+      gold: 900
       ore: 90
     power:
       offense: 0
@@ -53,7 +53,7 @@ units:
   - name: Paladin
     training_time: 12
     cost:
-      platinum: 1150
+      gold: 1150
       ore: 100
     power:
       offense: 5

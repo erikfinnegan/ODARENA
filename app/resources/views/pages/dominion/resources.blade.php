@@ -29,15 +29,15 @@
                           </thead>
                           <tbody>
                               <tr>
-                                  <td>Platinum:</td>
+                                  <td>Gold:</td>
                                   <td>
-                                      @if ($platinumProduction = $productionCalculator->getPlatinumProduction($selectedDominion))
-                                          <span class="text-green">+{{ number_format($platinumProduction) }}</span>
+                                      @if ($goldProduction = $productionCalculator->getGoldProduction($selectedDominion))
+                                          <span class="text-green">+{{ number_format($goldProduction) }}</span>
                                       @else
                                           0
                                       @endif
 
-                                      <small class="text-muted">({{ number_format(($productionCalculator->getPlatinumProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
+                                      <small class="text-muted">({{ number_format(($productionCalculator->getGoldProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</span>
                                   </td>
                               </tr>
                               <tr>
@@ -373,11 +373,11 @@
                         @endif
                         <tr>
                           <td>Lost income:</td>
-                          <td>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) }} platinum</td>
+                          <td>{{ number_format(2.7 * abs($jobsNeeded) * $productionCalculator->getGoldProductionMultiplier($selectedDominion)) }} gold</td>
                         </tr>
                         <tr>
                           <td>Per {{ $raceHelper->getPeasantsTerm($selectedDominion->race) }}:</td>
-                          <td>{{ number_format((2.7 * abs($jobsNeeded) * $productionCalculator->getPlatinumProductionMultiplier($selectedDominion)) / max(1, abs($jobsNeeded)), 3) }} platinum</td>
+                          <td>{{ number_format((2.7 * abs($jobsNeeded) * $productionCalculator->getGoldProductionMultiplier($selectedDominion)) / max(1, abs($jobsNeeded)), 3) }} gold</td>
                         </tr>
                       </tbody>
                     </table>
@@ -481,9 +481,9 @@
             <div class="box-body">
                 <p>You can exchange resources with the empire. Exchanging resources processes <b>instantly</b>.</p>
                 <ul>
-                    <li>Platinum, lumber and ore trade 2 for 1.</li>
-                    <li>Gems trade for 1:2 platinum, lumber or ore.</li>
-                    <li>Food trades for 1:4 platinum, lumber or ore.</li>
+                    <li>Gold, lumber and ore trade 2 for 1.</li>
+                    <li>Gems trade for 1:2 gold, lumber or ore.</li>
+                    <li>Food trades for 1:4 gold, lumber or ore.</li>
                 </ul>
             </div>
         </div>

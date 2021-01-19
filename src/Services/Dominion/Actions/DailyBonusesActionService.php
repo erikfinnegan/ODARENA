@@ -22,13 +22,13 @@ class DailyBonusesActionService
     }
 
     /**
-     * Claims the daily platinum bonus for a Dominion.
+     * Claims the daily gold bonus for a Dominion.
      *
      * @param Dominion $dominion
      * @return array
      * @throws GameException
      */
-    public function claimPlatinum(Dominion $dominion): array
+    public function claimGold(Dominion $dominion): array
     {
         throw new GameException('The resource bonus has been removed.');
 
@@ -47,7 +47,7 @@ class DailyBonusesActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot explore while you are in stasis.');
         }

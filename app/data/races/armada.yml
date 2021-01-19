@@ -9,7 +9,7 @@ exploring : 2
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   exchange_bonus: 25
@@ -28,7 +28,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 300
+      gold: 300
       ore: 10
     power:
       offense: 3
@@ -45,7 +45,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 3000
+      gold: 3000
       ore: 0
     power:
       offense: 8
@@ -60,7 +60,7 @@ units:
     type:
       - machine
     cost:
-      platinum: 30000
+      gold: 30000
       ore: 12000
     power:
       offense: 0
@@ -70,7 +70,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: dock,3,harbor # building, buildings per unit, imp to increase
-      upkeep_platinum: 50
+      upkeep_gold: 50
       upkeep_ore: 1
       upkeep_lumber: 1
 
@@ -80,7 +80,7 @@ units:
     type:
       - ship
     cost:
-      platinum: 60000
+      gold: 60000
       ore: 15000
       lumber: 35000
     power:
@@ -93,7 +93,7 @@ units:
       houses_military_units: 300
       offense_from_pairing: 1,300,300 # slot, amount, num required
       building_limit: dock,2,harbor
-      plunders: platinum;100,gems;50
-      upkeep_platinum: 125
+      plunders: gold;100,gems;50
+      upkeep_gold: 125
       upkeep_ore: 3
       upkeep_lumber: 8

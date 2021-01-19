@@ -9,7 +9,7 @@ exploring : 3
 converting: 1
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   max_population: 100
@@ -26,7 +26,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 80
+      gold: 80
       peasant: 1
     power:
       offense: 2
@@ -42,7 +42,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 350
+      gold: 350
       ore: 20
     power:
       offense: 0
@@ -59,14 +59,14 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 500
+      gold: 500
       ore: 40
     power:
       offense: 3
       defense: 2
     perks:
-      plunders: platinum;1,gems;0.35
-      offense_vs_resource: platinum,300000,3 # +1 OP per 20,000 gems, max +3
+      plunders: gold;1,gems;0.35
+      offense_vs_resource: gold,300000,3 # +1 OP per 20,000 gems, max +3
 
   - name: Wolf Rider
     training_time: 12
@@ -75,7 +75,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 700
+      gold: 700
       ore: 100
     power:
       offense: 5

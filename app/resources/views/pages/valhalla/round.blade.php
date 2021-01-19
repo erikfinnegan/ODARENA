@@ -47,7 +47,7 @@
                 <div class="col-sm-6 text-center">
                     <h4>Spies</h4>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-espionage-success']) }}">Most Successful Spies</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-stolen']) }}">Top Platinum Thieves</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-stolen']) }}">Top Gold Thieves</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-food-stolen']) }}">Top Food Thieves</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-lumber-stolen']) }}">Top Lumber Thieves</a><br>
                     <a href="{{ route('valhalla.round.type', [$round, 'stat-total-mana-stolen']) }}">Top Mana Thieves</a><br>
@@ -79,17 +79,17 @@
             </div>
             <div class="row form-group text-center">
                 <div class="col-sm-4 text-center">
-                    <h4>Platinum</h4>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-spent-training']) }}">Most Spent Training</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-spent-building']) }}">Most Spent Building</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-spent-rezoning']) }}">Most Spent Rezoning</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-spent-exploring']) }}">Most Spent Exploring</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-spent-improving']) }}">Most Spent Improving</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-plundered']) }}">Most Plundered</a><br>
-                    {{--<a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-salvaged']) }}">Most Salvaged</a><br>--}}
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-stolen']) }}">Most Stolen</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-sold']) }}">Most Sold</a><br>
-                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-platinum-bought']) }}">Most Bought</a><br>
+                    <h4>Gold</h4>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-spent-training']) }}">Most Spent Training</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-spent-building']) }}">Most Spent Building</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-spent-rezoning']) }}">Most Spent Rezoning</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-spent-exploring']) }}">Most Spent Exploring</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-spent-improving']) }}">Most Spent Improving</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-plundered']) }}">Most Plundered</a><br>
+                    {{--<a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-salvaged']) }}">Most Salvaged</a><br>--}}
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-stolen']) }}">Most Stolen</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-sold']) }}">Most Sold</a><br>
+                    <a href="{{ route('valhalla.round.type', [$round, 'stat-total-gold-bought']) }}">Most Bought</a><br>
                 </div>
                 <div class="col-sm-4 text-center">
                     <h4>Food</h4>

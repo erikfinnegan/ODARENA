@@ -40,7 +40,7 @@ units:
       - living
     need_boat: false
     cost:
-      platinum: 0
+      gold: 0
       ore: 0
       food: 65
     power:
@@ -55,7 +55,7 @@ units:
     type:
       - living
     cost:
-      platinum: 0
+      gold: 0
       ore: 0
       food: 65
     power:
@@ -70,7 +70,7 @@ units:
     type:
       - living
     cost:
-      platinum: 0
+      gold: 0
       ore: 0
       food: 150
     power:
@@ -86,7 +86,7 @@ units:
       - living
     need_boat: false
     cost:
-      platinum: 0
+      gold: 0
       ore: 0
       food: 160
     power:

@@ -20,8 +20,8 @@
                 </div>
                 <div class="col-xs-2">
                     <div class="row">
-                        <div class="col-lg-6"><b>Platinum:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_platinum) }}</div>
+                        <div class="col-lg-6"><b>Gold:</b></div>
+                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_gold) }}</div>
                     </div>
                 </div>
                 <div class="col-xs-2">

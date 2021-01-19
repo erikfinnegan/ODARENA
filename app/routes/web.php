@@ -103,7 +103,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
 
             // Daily
             $router->get('bonuses')->uses('Dominion\DailyBonusesController@getBonuses')->name('bonuses');
-            $router->post('bonuses/platinum')->uses('Dominion\DailyBonusesController@postBonusesPlatinum')->name('bonuses.platinum');
+            $router->post('bonuses/gold')->uses('Dominion\DailyBonusesController@postBonusesGold')->name('bonuses.gold');
             $router->post('bonuses/land')->uses('Dominion\DailyBonusesController@postBonusesLand')->name('bonuses.land');
 
             // Exploration

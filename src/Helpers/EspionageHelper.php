@@ -80,9 +80,9 @@ class EspionageHelper
     {
         return collect([
             [
-                'name' => 'Steal Platinum',
-                'description' => 'Steal platinum from target',
-                'key' => 'steal_platinum',
+                'name' => 'Steal Gold',
+                'description' => 'Steal gold from target',
+                'key' => 'steal_gold',
             ],
             [
                 'name' => 'Steal Food',

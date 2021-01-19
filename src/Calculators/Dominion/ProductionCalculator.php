@@ -41,107 +41,107 @@ class ProductionCalculator
     }
 
     /**
-     * Returns the Dominion's platinum production.
+     * Returns the Dominion's gold production.
      *
      * @param Dominion $dominion
      * @return int
      */
-    public function getPlatinumProduction(Dominion $dominion): int
+    public function getGoldProduction(Dominion $dominion): int
     {
-        $platinum = 0;
+        $gold = 0;
 
-        $platinum = floor($this->getPlatinumProductionRaw($dominion) * $this->getPlatinumProductionMultiplier($dominion));
+        $gold = floor($this->getGoldProductionRaw($dominion) * $this->getGoldProductionMultiplier($dominion));
 
-        return max(0,$platinum);
+        return max(0,$gold);
     }
 
     /**
-     * Returns the Dominion's raw platinum production.
+     * Returns the Dominion's raw gold production.
      *
-     * Platinum is produced by:
+     * Gold is produced by:
      * - Employed Peasants (2.7 per)
      * - Building: Alchemy (45 per, or 60 with Alchemist Flame racial spell active)
      *
      * @param Dominion $dominion
      * @return float
      */
-    public function getPlatinumProductionRaw(Dominion $dominion): float
+    public function getGoldProductionRaw(Dominion $dominion): float
     {
-        $platinum = 0;
+        $gold = 0;
 
         // Values
         $peasantTax = 2.7;
-        $platinumPerAlchemy = 45;
+        $goldPerAlchemy = 45;
 
         // Race specialty: Swarm peasants
-        if($dominion->race->getPerkValue('unemployed_peasants_produce_platinum'))
+        if($dominion->race->getPerkValue('unemployed_peasants_produce_gold'))
         {
-            $platinum += $dominion->peasants * $dominion->race->getPerkValue('unemployed_peasants_produce_platinum');
+            $gold += $dominion->peasants * $dominion->race->getPerkValue('unemployed_peasants_produce_gold');
         }
         // Myconid: no plat from peasants
         elseif($dominion->race->name == 'Myconid')
         {
-          $platinum = 0;
+          $gold = 0;
         }
         else
         {
           // Peasant Tax
-          $platinum += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
+          $gold += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
         }
 
         // Spells
-        $platinumPerAlchemy += $dominion->getSpellPerkMultiplier('alchemy_production');
+        $goldPerAlchemy += $dominion->getSpellPerkValue('alchemy_production');
 
         // Building: Alchemy
-        $platinum += ($dominion->building_alchemy * $platinumPerAlchemy);
+        $gold += ($dominion->building_alchemy * $goldPerAlchemy);
 
         // Unit Perk: Production Bonus
-        $platinum += $dominion->getUnitPerkProductionBonus('platinum_production');
+        $gold += $dominion->getUnitPerkProductionBonus('gold_production');
 
         // Unit Perk Production Reduction
-        $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_platinum');
+        $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_gold');
 
         // Unit Perk: production_from_title
-        $platinum += $dominion->getUnitPerkProductionBonusFromTitle('platinum');
+        $gold += $dominion->getUnitPerkProductionBonusFromTitle('gold');
 
-        $platinum = max(0, $platinum-$upkeep);
+        $gold = max(0, $gold-$upkeep);
 
-        return $platinum;
+        return $gold;
     }
 
     /**
-     * Returns the Dominion's platinum production multiplier.
+     * Returns the Dominion's gold production multiplier.
      *
-     * Platinum production is modified by:
+     * Gold production is modified by:
      * - Racial Bonus
      * - Spell: Midas Touch (+10%)
      * - Improvement: Science
      * - Guard Tax (-2%)
      * - Tech: Treasure Hunt (+12.5%) or Banker's Foresight (+5%)
      *
-     * Platinum production multiplier is capped at +50%.
+     * Gold production multiplier is capped at +50%.
      *
      * @param Dominion $dominion
      * @return float
      */
-    public function getPlatinumProductionMultiplier(Dominion $dominion): float
+    public function getGoldProductionMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
 
         // Racial Bonus
-        $multiplier += $dominion->race->getPerkMultiplier('platinum_production');
+        $multiplier += $dominion->race->getPerkMultiplier('gold_production');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('platinum_production');
+        $multiplier += $dominion->getTechPerkMultiplier('gold_production');
 
         // Improvement: Markets
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
 
         // Land improvements
-        $multiplier += $this->landImprovementCalculator->getPlatinumProductionBonus($dominion);
+        $multiplier += $this->landImprovementCalculator->getGoldProductionBonus($dominion);
 
         // Spells
-        $multiplier += $dominion->getSpellPerkMultiplier('platinum_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('gold_production');
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -876,6 +876,9 @@ class ProductionCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('gem_production');
 
+        // Spell
+        $multiplier += $dominion->getSpellPerkMultiplier('gem_production');
+
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('gem_production');
 
@@ -1096,9 +1099,9 @@ class ProductionCalculator
             $maxStorageTicks = 96;
             $land = $this->landCalculator->getTotalLand($dominion);
 
-            if($resource == 'platinum')
+            if($resource == 'gold')
             {
-                $max = $land * 10000 + $dominion->getUnitPerkProductionBonus('platinum_production');
+                $max = $land * 10000 + $dominion->getUnitPerkProductionBonus('gold_production');
             }
             elseif($resource == 'lumber')
             {

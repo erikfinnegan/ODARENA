@@ -62,14 +62,14 @@ class ImprovementHelper
     public function getImprovementRatingString(string $improvementType): string
     {
         $ratingStrings = [
-            'markets' => '+%s%% platinum production',
+            'markets' => '+%s%% gold production',
             'keep' => '+%s%% max population',
             #'towers' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells, +%1$s%% Wizard Guild wizard housing',
             'spires' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells, +%1$s%% Wizard Guild wizard housing',
             'forges' => '+%s%% offensive power',
             'walls' => '+%s%% defensive power',
             'harbor' => '+%s%% food production, boat production & protection',
-            'armory' => '-%s%% military training platinum and ore costs',
+            'armory' => '-%s%% military training gold and ore costs',
             'infirmary' => '-%s%% casualties in battle',
             'workshops' => '-%s%% construction and rezoning costs',
             'observatory' => '+%1$s%% experience points gained through invasions, exploration, and production',
@@ -87,18 +87,18 @@ class ImprovementHelper
     public function getImprovementHelpString(string $improvementType, Dominion $dominion): string
     {
         $helpStrings = [
-            'markets' => 'Markets increase your platinum production.<br><br>Max +',
+            'markets' => 'Markets increase your gold production.<br><br>Max +',
             'keep' => 'Keep increases population housing of barren land and all buildings except for Barracks.<br><br>Max +',
             #'towers' => 'Towers increase your wizard power, mana production, reduce damage from offensive spells, and increase Wizard Guild housing.<br><br>Max +',
             'spires' => 'Spires increase your wizard power, mana production, reduce damage from offensive spells, and increase Wizard Guild housing.<br><br>Max +',
             'forges' => 'Forges increase your offensive power.<br><br>Max +',
             'walls' => 'Walls increase your defensive power.<br><br>Max +',
             'harbor' => 'Harbor increases your food and boat production and protects boats from sinking.<br><br>Max +',
-            'armory' => 'Armory decreases your unit platinum and ore training costs.<br><br>Max ',
+            'armory' => 'Armory decreases your unit gold and ore training costs.<br><br>Max ',
             'infirmary' => 'Infirmary reduces casualties suffered in battle (offensive and defensive).<br><br>Max ',
             'workshops' => 'Workshop reduces construction and rezoning costs.<br><br>Max ',
             'observatory' => 'Observatory increases experience points gained through invasions, exploration, and production.<br><br>Max ',
-            'cartography' => 'Cartography increases land discovered on attacks and reduces platinum cost of exploring.<br><br>Max ',
+            'cartography' => 'Cartography increases land discovered on attacks and reduces gold cost of exploring.<br><br>Max ',
             'hideouts' => 'Hidehouts increase your spy power, reduce spy losses, and increase Forest Haven housing.<br><br>Max ',
             'forestry' => 'Forestry increases your lumber production.<br><br>Max ',
             'refinery' => 'Refinery increases your ore production.<br><br>Max ',

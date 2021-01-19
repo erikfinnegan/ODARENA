@@ -352,13 +352,13 @@ scounts_level1:
   name: Scouts
   level: 1
   perks:
-    explore_platinum_cost: -5
+    explore_gold_cost: -5
 
 scounts_level2:
   name: Scouts
   level: 2
   perks:
-    explore_platinum_cost: -10
+    explore_gold_cost: -10
   requires:
     - scounts_level1
 
@@ -366,7 +366,7 @@ scounts_level3:
   name: Scouts
   level: 3
   perks:
-    explore_platinum_cost: -15
+    explore_gold_cost: -15
   requires:
     - scounts_level2
 
@@ -374,7 +374,7 @@ scounts_level4:
   name: Scouts
   level: 4
   perks:
-    explore_platinum_cost: -20
+    explore_gold_cost: -20
   requires:
     - scounts_level3
 
@@ -382,7 +382,7 @@ scounts_level5:
   name: Scouts
   level: 5
   perks:
-    explore_platinum_cost: -25
+    explore_gold_cost: -25
   requires:
     - scounts_level4
 
@@ -390,7 +390,7 @@ scounts_level6:
   name: Scouts
   level: 6
   perks:
-    explore_platinum_cost: -30
+    explore_gold_cost: -30
   requires:
     - scounts_level5
 
@@ -398,7 +398,7 @@ scounts_level7:
   name: Scouts
   level: 7
   perks:
-    explore_platinum_cost: -32.5
+    explore_gold_cost: -32.5
   requires:
     - scounts_level6
 
@@ -406,7 +406,7 @@ scounts_level8:
   name: Scouts
   level: 8
   perks:
-    explore_platinum_cost: -35
+    explore_gold_cost: -35
   requires:
     - scounts_level7
 
@@ -414,7 +414,7 @@ scounts_level9:
   name: Scouts
   level: 9
   perks:
-    explore_platinum_cost: -37.5
+    explore_gold_cost: -37.5
   requires:
     - scounts_level8
 
@@ -422,7 +422,7 @@ scounts_level10:
   name: Scouts
   level: 10
   perks:
-    explore_platinum_cost: -40
+    explore_gold_cost: -40
   requires:
     - scounts_level9
 
@@ -1294,13 +1294,13 @@ minting_level1:
   name: Minting
   level: 1
   perks:
-    platinum_production: 2.5
+    gold_production: 2.5
 
 minting_level2:
   name: Minting
   level: 2
   perks:
-    platinum_production: 5
+    gold_production: 5
   requires:
     - minting_level1
 
@@ -1308,7 +1308,7 @@ minting_level3:
   name: Minting
   level: 3
   perks:
-    platinum_production: 7.5
+    gold_production: 7.5
   requires:
     - minting_level2
 
@@ -1316,7 +1316,7 @@ minting_level4:
   name: Minting
   level: 4
   perks:
-    platinum_production: 10
+    gold_production: 10
   requires:
     - minting_level3
 
@@ -1324,7 +1324,7 @@ minting_level5:
   name: Minting
   level: 5
   perks:
-    platinum_production: 12.5
+    gold_production: 12.5
   requires:
     - minting_level4
 
@@ -1332,7 +1332,7 @@ minting_level6:
   name: Minting
   level: 6
   perks:
-    platinum_production: 15
+    gold_production: 15
   requires:
     - minting_level5
 
@@ -1340,7 +1340,7 @@ minting_level7:
   name: Minting
   level: 7
   perks:
-    platinum_production: 16.25
+    gold_production: 16.25
   requires:
     - minting_level6
 
@@ -1348,7 +1348,7 @@ minting_level8:
   name: Minting
   level: 8
   perks:
-    platinum_production: 17.5
+    gold_production: 17.5
   requires:
     - minting_level7
 
@@ -1356,7 +1356,7 @@ minting_level9:
   name: Minting
   level: 9
   perks:
-    platinum_production: 18.75
+    gold_production: 18.75
   requires:
     - minting_level8
 
@@ -1364,7 +1364,7 @@ minting_level10:
   name: Minting
   level: 10
   perks:
-    platinum_production: 20
+    gold_production: 20
   requires:
     - minting_level9
 
@@ -1878,93 +1878,93 @@ gemcutting_level10:
 
 # <Ladder: Interest>
 
-platinum_interest_level1:
+gold_interest_level1:
   name: Interest
   level: 1
   enabled: 0
   perks:
-    platinum_interest: 0.1
+    gold_interest: 0.1
 
-platinum_interest_level2:
+gold_interest_level2:
   name: Interest
   level: 2
   enabled: 0
   perks:
-    platinum_interest: 0.2
+    gold_interest: 0.2
   requires:
-    - platinum_interest_level1
+    - gold_interest_level1
 
-platinum_interest_level3:
+gold_interest_level3:
   name: Interest
   level: 3
   enabled: 0
   perks:
-    platinum_interest: 0.3
+    gold_interest: 0.3
   requires:
-    - platinum_interest_level2
+    - gold_interest_level2
 
-platinum_interest_level4:
+gold_interest_level4:
   name: Interest
   level: 4
   enabled: 0
   perks:
-    platinum_interest: 0.4
+    gold_interest: 0.4
   requires:
-    - platinum_interest_level3
+    - gold_interest_level3
 
-platinum_interest_level5:
+gold_interest_level5:
   name: Interest
   level: 5
   enabled: 0
   perks:
-    platinum_interest: 0.5
+    gold_interest: 0.5
   requires:
-    - platinum_interest_level4
+    - gold_interest_level4
 
-platinum_interest_level6:
+gold_interest_level6:
   name: Interest
   level: 6
   enabled: 0
   perks:
-    platinum_interest: 0.6
+    gold_interest: 0.6
   requires:
-    - platinum_interest_level5
+    - gold_interest_level5
 
-platinum_interest_level7:
+gold_interest_level7:
   name: Interest
   level: 7
   enabled: 0
   perks:
-    platinum_interest: 0.65
+    gold_interest: 0.65
   requires:
-    - platinum_interest_level6
+    - gold_interest_level6
 
-platinum_interest_level8:
+gold_interest_level8:
   name: Interest
   level: 8
   enabled: 0
   perks:
-    platinum_interest: 0.7
+    gold_interest: 0.7
   requires:
-    - platinum_interest_level7
+    - gold_interest_level7
 
-platinum_interest_level9:
+gold_interest_level9:
   name: Interest
   level: 9
   enabled: 0
   perks:
-    platinum_interest: 0.75
+    gold_interest: 0.75
   requires:
-    - platinum_interest_level8
+    - gold_interest_level8
 
-platinum_interest_level10:
+gold_interest_level10:
   name: Interest
   level: 10
   enabled: 0
   perks:
-    platinum_interest: 0.8
+    gold_interest: 0.8
   requires:
-    - platinum_interest_level9
+    - gold_interest_level9
 
 # </Ladder: Interest>
 

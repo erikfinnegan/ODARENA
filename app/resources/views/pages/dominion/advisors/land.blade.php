@@ -51,7 +51,7 @@
                                               @if($landType == 'plain')
                                                   +{{ number_format($landImprovementCalculator->getOffensivePowerBonus($selectedDominion)*100,2) }}% Offensive Power
                                               @elseif($landType == 'mountain')
-                                                  +{{ number_format($landImprovementCalculator->getPlatinumProductionBonus($selectedDominion)*100,2) }}% Platinum Production
+                                                  +{{ number_format($landImprovementCalculator->getGoldProductionBonus($selectedDominion)*100,2) }}% Gold Production
                                               @elseif($landType == 'swamp')
                                                   +{{ number_format($landImprovementCalculator->getWizardPowerBonus($selectedDominion)*100,2) }}% Wizard Strength
                                               @elseif($landType == 'forest')

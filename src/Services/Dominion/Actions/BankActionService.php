@@ -48,7 +48,7 @@ class BankActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot exchange resources while you are in stasis.');
         }

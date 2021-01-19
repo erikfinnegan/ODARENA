@@ -28,10 +28,10 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
-  platinum_production: 10
+  gold_production: 10
   ore_production: 25
   cannot_rezone: 1
   can_sell_food: 1
@@ -50,7 +50,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 100
+      gold: 100
       ore: 10
       spy: 1
     power:
@@ -70,7 +70,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 400
+      gold: 400
       ore: 100
       gem: 10
     power:
@@ -87,7 +87,7 @@ units:
       - intelligent
       - legendary
     cost:
-      platinum: 800
+      gold: 800
       ore: 50
       wizard: 1
     power:
@@ -107,7 +107,7 @@ units:
       - intelligent
       - legendary
     cost:
-      platinum: 700
+      gold: 700
       ore: 50
       gem: 20
       unit2: 1

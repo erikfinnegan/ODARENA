@@ -135,7 +135,7 @@ class TickService
                     $this->logDominionTickState($dominion, now());
                 }
 
-                if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+                if($dominion->getSpellPerkValue('stasis'))
                 {
                     echo $dominion->name . " is in statis.\n";
                     $stasisDominions[] = $dominion->id;
@@ -200,7 +200,7 @@ class TickService
                         'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
                         'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
-                        'dominions.resource_platinum' => DB::raw('dominions.resource_platinum + dominion_tick.resource_platinum'),
+                        'dominions.resource_gold' => DB::raw('dominions.resource_gold + dominion_tick.resource_gold'),
                         'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food - dominion_tick.resource_food_contribution + dominion_tick.resource_food_contributed'),
                         'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber - dominion_tick.resource_lumber_contribution + dominion_tick.resource_lumber_contributed'),
                         'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
@@ -276,7 +276,7 @@ class TickService
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
 
-                        'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
+                        'dominions.stat_total_gold_production' => DB::raw('dominions.stat_total_gold_production + dominion_tick.resource_gold'),
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
                         'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
                         'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
@@ -520,7 +520,7 @@ class TickService
 
                 // toBase required to prevent ambiguous updated_at column in query
                 $round->dominions()->toBase()->update([
-                    'daily_platinum' => false,
+                    'daily_gold' => false,
                     'daily_land' => false,
                 ], [
                     'event' => 'tick',
@@ -728,15 +728,15 @@ class TickService
           # Max storage
           $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
           $acres = $this->landCalculator->getTotalLand($dominion);
-          $maxPlatinumPerAcre = 10000;
+          $maxGoldPerAcre = 10000;
 
           $maxStorage = [];
-          $maxStorage['platinum'] = $this->productionCalculator->getMaxStorage($dominion, 'platinum');
+          $maxStorage['gold'] = $this->productionCalculator->getMaxStorage($dominion, 'gold');
           $maxStorage['lumber'] = $this->productionCalculator->getMaxStorage($dominion, 'lumber');
           $maxStorage['ore'] = $this->productionCalculator->getMaxStorage($dominion, 'ore');
           $maxStorage['gems'] = $this->productionCalculator->getMaxStorage($dominion, 'gems');
 
-          $tick->resource_platinum += min($this->productionCalculator->getPlatinumProduction($dominion), max(0, ($maxStorage['platinum'] - $dominion->resource_platinum)));
+          $tick->resource_gold += min($this->productionCalculator->getGoldProduction($dominion), max(0, ($maxStorage['gold'] - $dominion->resource_gold)));
 
           $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
           $tick->resource_lumber += min($this->productionCalculator->getLumberNetChange($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
@@ -897,7 +897,7 @@ class TickService
                   $generatedLand = max($generatedLand, 0);
 
                   # Defensive Warts turn off land generation
-                  if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stop_land_generation'))
+                  if($dominion->getSpellPerkValue('stop_land_generation'))
                   {
                       $generatedLand = 0;
                   }
@@ -1269,7 +1269,7 @@ class TickService
                         'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
                         'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
-                        'dominions.resource_platinum' => DB::raw('dominions.resource_platinum + dominion_tick.resource_platinum'),
+                        'dominions.resource_gold' => DB::raw('dominions.resource_gold + dominion_tick.resource_gold'),
                         'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food'),
                         'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
                         'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
@@ -1345,7 +1345,7 @@ class TickService
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
 
-                        'dominions.stat_total_platinum_production' => DB::raw('dominions.stat_total_platinum_production + dominion_tick.resource_platinum'),
+                        'dominions.stat_total_gold_production' => DB::raw('dominions.stat_total_gold_production + dominion_tick.resource_gold'),
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
                         'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
                         'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
@@ -1474,7 +1474,7 @@ class TickService
               'spy_strength' => $dominion->spy_strength,
               'wizard_strength' => $dominion->wizard_strength,
 
-              'resource_platinum' => $dominion->resource_platinum,
+              'resource_gold' => $dominion->resource_gold,
               'resource_food' => $dominion->resource_food,
               'resource_lumber' => $dominion->resource_lumber,
               'resource_mana' => $dominion->resource_mana,

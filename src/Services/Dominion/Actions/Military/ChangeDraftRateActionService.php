@@ -38,7 +38,7 @@ class ChangeDraftRateActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot change your draft rate while you are in stasis.');
         }

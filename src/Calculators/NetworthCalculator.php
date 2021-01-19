@@ -105,7 +105,7 @@ class NetworthCalculator
         }
         else
         {
-          return ($unit->cost_platinum
+          return ($unit->cost_gold
                   + $unit->cost_ore*1.25
                   + $unit->cost_lumber*1.5
                   + $unit->cost_food*1.5

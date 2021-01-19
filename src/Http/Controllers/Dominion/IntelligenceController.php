@@ -33,8 +33,8 @@ class IntelligenceController extends AbstractDominionController
     {
         $dominion = $this->getSelectedDominion();
 
-        $infoOps = Spyop::all()->where('scope','info')->where('enabled',1)->sortBy('key');
-        $hostileInfos = Spell::all()->where('scope','hostile')->where('class','info')->where('enabled',1)->sortBy('key');
+        $infoOps = Spyop::all()->where('scope','info')->where('enabled',1)->sortBy('name');
+        $hostileInfos = Spell::all()->where('scope','hostile')->where('class','info')->where('enabled',1)->sortBy('name');
 
         $latestInfoOps = $dominion->realm->infoOps()
             ->with('sourceDominion')

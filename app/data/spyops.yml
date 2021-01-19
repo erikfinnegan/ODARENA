@@ -26,11 +26,11 @@ survey_dominion:
 
 # <Theft>
 
-steal_platinum:
-  name: Steal Platinum
+steal_gold:
+  name: Steal Gold
   scope: theft
   perks:
-    resource_theft: platinum,0.5,16 # resource, rate, max per spy
+    resource_theft: gold,0.5,16 # resource, rate, max per spy
 
 steal_food:
   name: Steal Food

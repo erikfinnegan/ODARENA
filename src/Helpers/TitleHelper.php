@@ -18,7 +18,7 @@ class TitleHelper
             case 'military_cost':
                 $negativeBenefit = true;
                 $description = 'Training costs:';
-                $valueType = '% platinum, ore, lumber, food, and mana costs';
+                $valueType = '% gold, ore, lumber, food, and mana costs';
                 break;
             case 'spell_cost':
                 $negativeBenefit = true;
@@ -42,7 +42,7 @@ class TitleHelper
                 break;
             case 'explore_cost':
                 $negativeBenefit = true;
-                $description = 'Exploration platinum costs:';
+                $description = 'Exploration gold costs:';
                 break;
             case 'explore_time':
                 $negativeBenefit = true;

@@ -224,13 +224,13 @@ class BuildingHelper
     public function getBuildingHelpString(string $buildingType): string
     {
         $helpStrings = [
-            'alchemy' => ['Produces 45 platinum/tick.'],
+            'alchemy' => ['Produces 45 gold/tick.'],
             'barracks' => ['Houses 36 trained or training military units, including units in training.','Not affected by population bonuses.'],
             'gem_mine' => ['Produces 15 gems/tick.'],
             'dock' => ['Produces 1 boat every 20 ticks.','Produces 35 food/tick.','Protects 2.5 boats from being sunk.'],
             'farm' => ['Produces 80 food/tick.'],
             'factory' => ['Construction costs reduced by 4% per 1% owned (maximum of 80% at 20% owned).','Rezoning costs reduced by 3% per 1% owned (maximum of 60% at 20% owned).'],
-            'forest_haven' => ['Houses 40 spies and units that count as spies, including units in training. Not affected by population bonuses. Increased by Hideouts improvements.','Failed spy ops losses reduced by 3% per 1% owned, up to a maximum of 30% at 10% owned.','Fireball damage and platinum theft reduced by 8% per 1% owned.'],
+            'forest_haven' => ['Houses 40 spies and units that count as spies, including units in training. Not affected by population bonuses. Increased by Hideouts improvements.','Failed spy ops losses reduced by 3% per 1% owned, up to a maximum of 30% at 10% owned.','Fireball damage and gold theft reduced by 8% per 1% owned.'],
             'gryphon_nest' => ['Offensive power increased by +1.8% per 1% owned.', 'Maximum +36% OP at 20% owned.'],
             'guard_tower' => ['Defensive power increased by +1.8% per 1% owned.', 'Maximum +36% DP at 20% owned.'],
             'home' => ['Houses 30 people.'],
@@ -239,7 +239,7 @@ class BuildingHelper
             'mycelia' => ['Houses 30 people or units.','Produces 4 food/tick.'],
             'ore_mine' => ['Produces 60 ore/tick.'],
             'shrine' => ['Reduces offensive casualties reduced by 5% per 1% owned, up to a maximum of -75% at 15% owned.','Reduces defensive casualties by 1% per 1% owned, up to a maximum of 15%.'],
-            'smithy' => ['Reduces unit platinum and ore training costs by 2% per 1% owned.','Maximum 40% at 20% owned.','Does not affect Gnome or Imperial Gnome ore costs.'],
+            'smithy' => ['Reduces unit gold and ore training costs by 2% per 1% owned.','Maximum 40% at 20% owned.','Does not affect Gnome or Imperial Gnome ore costs.'],
             'temple' => ['Population growth increased by 6% per 1% owned.','Defensive bonuses reduced by 1.8% per 1% owned (maximum of 36% at 20% owned).'],
             'tissue' => ['Houses 160 cells, amoeba, or units.','Produces 4 food/tick.'],
             'tower' => ['Produces 25 mana/tick.'],
@@ -270,7 +270,7 @@ class BuildingHelper
             'military_housing' => 'Houses %s military units.',
 
             # Production
-            'platinum_production' => 'Produces %s platinum per tick.',
+            'gold_production' => 'Produces %s gold per tick.',
             'food_production' => 'Produces %s food per tick.',
             'lumber_production' => 'Produces %s lumber per tick.',
             'ore_production' => 'Produces %s ore per tick.',
@@ -285,7 +285,7 @@ class BuildingHelper
             'defensive_modifier_reduction' => 'Reduces target\'s defensive modifiers by by %2$s%% for every %1$s%% (max %3$s%% reduction or 0%% defensive modifiers).',
             'offensive_casualties' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'unit_cost' => 'Unit platinum and ore costs %2$s%% for every %1$s%% (max %3$s%% reduction). No ore cost reduction for Gnome or Imperial Gnome.',
+            'unit_cost' => 'Unit gold and ore costs %2$s%% for every %1$s%% (max %3$s%% reduction). No ore cost reduction for Gnome or Imperial Gnome.',
             'construction_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'rezone_cost' => 'Rezoning costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
@@ -297,7 +297,7 @@ class BuildingHelper
             'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'fireball_damage' => 'Damage from fireballs reduced by %2$s%% for every %1$s%%.',
             'lightning_bolt_damage' => 'Damage from lightning bolts reduced by %2$s%% for every %1$s%%.',
-            'platinum_theft_reduction' => 'Platinum stolen from you reduced by %2$s%% for every %1$s%%.',
+            'gold_theft_reduction' => 'Gold stolen from you reduced by %2$s%% for every %1$s%%.',
             'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 

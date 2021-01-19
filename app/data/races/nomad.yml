@@ -9,7 +9,7 @@ exploring : 3
 converting: 3
 skill_level: 1
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   food_consumption: -15
@@ -28,7 +28,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 300
+      gold: 300
       ore: 15
     power:
       offense: 3
@@ -36,7 +36,7 @@ units:
     perks:
       faster_return: 3
       fewer_casualties: 25
-      plunders: platinum;2,gems;0.1
+      plunders: gold;2,gems;0.1
 
   - name: Sabrer
     training_time: 9
@@ -45,7 +45,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 275
+      gold: 275
       ore: 35
     power:
       offense: 0
@@ -58,7 +58,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
       ore: 100
     power:
       offense: 0
@@ -73,7 +73,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1200
+      gold: 1200
       ore: 50
     power:
       offense: 8
@@ -81,4 +81,4 @@ units:
     perks:
       faster_return: 3
       fewer_casualties_offense: 50
-      plunders: platinum;1,gems;0.25,ore;0.5
+      plunders: gold;1,gems;0.25,ore;0.5

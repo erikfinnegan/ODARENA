@@ -591,7 +591,7 @@ class NotificationHelper
                 $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
 
                 switch ($data['operationKey']) {
-                    case 'steal_platinum':
+                    case 'steal_gold':
                         $where = 'from our vaults';
                         break;
 
@@ -650,7 +650,7 @@ class NotificationHelper
                 $sourceDominion = Dominion::with('realm')->findOrFail($data['sourceDominionId']);
 
                 switch ($data['operationKey']) {
-                    case 'steal_platinum':
+                    case 'steal_gold':
                         $where = 'within our vaults';
                         break;
 
@@ -758,7 +758,7 @@ class NotificationHelper
                         break;
 
                     case 'great_fever':
-                        $resultString = "Our population has been afflicted by the Great Fever. Population has stopped growing and food and platinum production are slowed.";
+                        $resultString = "Our population has been afflicted by the Great Fever. Population has stopped growing and food and gold production are slowed.";
                         break;
 
                     case 'festering_wounds':

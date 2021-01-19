@@ -34,7 +34,7 @@ class DestroyActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot destroy buildings while you are in stasis.');
         }

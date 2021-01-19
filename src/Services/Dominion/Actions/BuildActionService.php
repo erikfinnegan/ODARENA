@@ -63,7 +63,7 @@ class BuildActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot build while you are in stasis');
         }
@@ -91,7 +91,7 @@ class BuildActionService
         $maxAfford = $this->constructionCalculator->getMaxAfford($dominion);
 
         if ($totalBuildingsToConstruct > $maxAfford) {
-            throw new GameException("You do not have enough platinum and/or lumber to construct {$totalBuildingsToConstruct} buildings.");
+            throw new GameException("You do not have enough gold and/or lumber to construct {$totalBuildingsToConstruct} buildings.");
         }
 
         $buildingsByLandType = [];
@@ -125,7 +125,7 @@ class BuildActionService
         }
 
 
-        $platinumCost = $this->constructionCalculator->getTotalPlatinumCost($dominion, $totalBuildingsToConstruct);
+        $goldCost = $this->constructionCalculator->getTotalGoldCost($dominion, $totalBuildingsToConstruct);
         $lumberCost = $this->constructionCalculator->getTotalLumberCost($dominion, $totalBuildingsToConstruct);
         $manaCost = $this->constructionCalculator->getTotalManaCost($dominion, $totalBuildingsToConstruct);
         $foodCost = $this->constructionCalculator->getTotalFoodCost($dominion, $totalBuildingsToConstruct);
@@ -137,14 +137,14 @@ class BuildActionService
             ]);
 
             # Deduct construction costs.
-            $dominion->resource_platinum -= $platinumCost;
+            $dominion->resource_gold -= $goldCost;
             $dominion->resource_lumber -= $lumberCost;
             $dominion->resource_mana -= $manaCost;
             $dominion->resource_food -= $foodCost;
             #$dominion->discounted_land -= min($dominion->discounted_land, $totalBuildingsToConstruct);
 
             # Update spending statistics.
-            $dominion->stat_total_platinum_spent_building += $platinumCost;
+            $dominion->stat_total_gold_spent_building += $goldCost;
             $dominion->stat_total_food_spent_building += $foodCost;
             $dominion->stat_total_lumber_spent_building += $lumberCost;
             $dominion->stat_total_mana_spent_building += $manaCost;
@@ -179,7 +179,7 @@ class BuildActionService
             ]);
         });
 /*
-        DB::transaction(function () use ($dominion, $data, $platinumCost, $lumberCost, $manaCost, $foodCost, $totalBuildingsToConstruct) {
+        DB::transaction(function () use ($dominion, $data, $goldCost, $lumberCost, $manaCost, $foodCost, $totalBuildingsToConstruct) {
             $hours = 12;
             # Gnome: increased construction speed
             if($dominion->race->getPerkValue('increased_construction_speed'))
@@ -190,7 +190,7 @@ class BuildActionService
             $this->queueService->queueResources('construction', $dominion, $data, $hours);
 
             $dominion->fill([
-                'resource_platinum' => ($dominion->resource_platinum - $platinumCost),
+                'resource_gold' => ($dominion->resource_gold - $goldCost),
                 'resource_lumber' => ($dominion->resource_lumber - $lumberCost),
                 'resource_mana' => ($dominion->resource_mana - $manaCost),
                 'resource_food' => ($dominion->resource_food - $foodCost),
@@ -198,29 +198,29 @@ class BuildActionService
             ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
         });
 */
-        if($platinumCost > 0 and $lumberCost > 0)
+        if($goldCost > 0 and $lumberCost > 0)
         {
           $return = [
               'message' => sprintf(
-                  'Construction started at a cost of %s platinum and %s lumber.',
-                  number_format($platinumCost),
+                  'Construction started at a cost of %s gold and %s lumber.',
+                  number_format($goldCost),
                   number_format($lumberCost)
               ),
               'data' => [
-                  'platinumCost' => $platinumCost,
+                  'goldCost' => $goldCost,
                   'lumberCost' => $lumberCost,
               ],
           ];
         }
-        elseif($platinumCost > 0)
+        elseif($goldCost > 0)
         {
           $return = [
               'message' => sprintf(
-                  'Construction started at a cost of %s platinum.',
-                  number_format($platinumCost)
+                  'Construction started at a cost of %s gold.',
+                  number_format($goldCost)
               ),
               'data' => [
-                  'platinumCost' => $platinumCost
+                  'goldCost' => $goldCost
               ],
           ];
         }
@@ -232,7 +232,7 @@ class BuildActionService
                   number_format($manaCost)
               ),
               'data' => [
-                  'platinumCost' => $manaCost
+                  'goldCost' => $manaCost
               ],
           ];
         }
@@ -244,7 +244,7 @@ class BuildActionService
                   number_format($foodCost)
               ),
               'data' => [
-                  'platinumCost' => $foodCost
+                  'goldCost' => $foodCost
               ],
           ];
         }

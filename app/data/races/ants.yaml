@@ -12,7 +12,7 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   max_population: 160
@@ -21,7 +21,7 @@ perks:
   wizard_strength: -20
   food_consumption: -50
   boat_capacity: 70
-  platinum_production: -15
+  gold_production: -15
   explore_cost: 25
   reduced_conversions: 35
   draftee_dp: 0.1
@@ -34,7 +34,7 @@ units:
     type:
       - living
     cost:
-      platinum: 50
+      gold: 50
       ore: 0
     power:
       offense: 1
@@ -45,7 +45,7 @@ units:
     type:
       - living
     cost:
-      platinum: 150
+      gold: 150
       ore: 0
     power:
       offense: 0
@@ -59,7 +59,7 @@ units:
     type:
       - living
     cost:
-      platinum: 320
+      gold: 320
       ore: 0
     power:
       offense: 0
@@ -71,7 +71,7 @@ units:
     type:
       - living
     cost:
-      platinum: 500
+      gold: 500
       ore: 0
     power:
       offense: 3

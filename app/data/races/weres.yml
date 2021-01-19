@@ -9,7 +9,7 @@ exploring : 2
 converting: 1
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   population_growth: 25
@@ -25,7 +25,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 400
+      gold: 400
       food: 20
     power:
       offense: 4
@@ -40,7 +40,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 300
+      gold: 300
       food: 20
     power:
       offense: 0
@@ -56,7 +56,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1100
+      gold: 1100
       food: 50
     power:
       offense: 0
@@ -71,7 +71,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1100
+      gold: 1100
       food: 35
     power:
       offense: 8

@@ -47,7 +47,7 @@
                         <p>Your offensive power should consist of only Nightmares, other than exceptional circumstances where Fallen may be needed to quickly boost your OP for a specific goal.</p>
 
                     @elseif($selectedDominion->race->name === 'Sacred Order')
-                        <p>Keep a steady supply of Monks. They produce XP which helps you gain advancements faster. However, every Monk also means one peasant not earning you 2.7 platinum each tick (plus bonuses), so don't keep too high of a supply.</p>
+                        <p>Keep a steady supply of Monks. They produce XP which helps you gain advancements faster. However, every Monk also means one peasant not earning you 2.7 gold each tick (plus bonuses), so don't keep too high of a supply.</p>
                         <p>Fanatics and Paladins are the only active military units that you can train. Make sure you maintain 10% Temples and Shrines at all times to max out their powers. A little extra is good so you don't drop under 10% if you gain new land.</p>
                         <p>You cannot train Martyrs. They can only be obtained by invading other dominions.</p>
 

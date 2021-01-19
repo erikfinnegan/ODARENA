@@ -9,7 +9,7 @@ exploring : 3
 converting: 2
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   max_population: 50
@@ -28,14 +28,14 @@ units:
       - living
       - sentient
     cost:
-      platinum: 200
+      gold: 200
       ore: 20
     power:
       offense: 2
       defense: 0
     perks:
       offense_from_pairing: 4,0.5,1 # slot, amount, num required
-      plunders: platinum;0.1,gems;0.01
+      plunders: gold;0.1,gems;0.01
 
   - name: Underling
     training_time: 9
@@ -43,7 +43,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 200
+      gold: 200
       ore: 20
     power:
       offense: 0
@@ -58,7 +58,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 600
+      gold: 600
       ore: 80
     power:
       offense: 0
@@ -73,7 +73,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 800
+      gold: 800
       ore: 100
     power:
       offense: 5

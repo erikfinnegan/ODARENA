@@ -32,8 +32,8 @@ class FriendlyOpsController extends AbstractDominionController
     {
         $dominion = $this->getSelectedDominion();
 
-        $selfSpells = Spell::all()->where('scope','self')->where('enabled',1)->sortBy('key');
-        $friendlySpells = Spell::all()->where('scope','friendly')->where('enabled',1)->sortBy('key');
+        $selfSpells = Spell::all()->where('scope','self')->where('enabled',1)->sortBy('name');
+        $friendlySpells = Spell::all()->where('scope','friendly')->where('enabled',1)->sortBy('name');
 
         return view('pages.dominion.friendly-ops', [
             'landCalculator' => app(LandCalculator::class),

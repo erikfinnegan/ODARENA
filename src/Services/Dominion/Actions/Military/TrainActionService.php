@@ -87,7 +87,7 @@ class TrainActionService
         $this->guardLockedDominion($dominion);
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot train while you are in stasis.');
         }
@@ -119,7 +119,7 @@ class TrainActionService
         }
 
         $totalCosts = [
-            'platinum' => 0,
+            'gold' => 0,
             'ore' => 0,
             'draftees' => 0,
             'wizards' => 0,
@@ -349,9 +349,9 @@ class TrainActionService
           }
         }
 
-        if($totalCosts['platinum'] > $dominion->resource_platinum)
+        if($totalCosts['gold'] > $dominion->resource_gold)
         {
-          throw new GameException('Training failed due to insufficient platinum.');
+          throw new GameException('Training failed due to insufficient gold.');
         }
         if($totalCosts['ore'] > $dominion->resource_ore)
         {
@@ -453,7 +453,7 @@ class TrainActionService
         }
 
         DB::transaction(function () use ($dominion, $data, $totalCosts, $unitSlot, $unitAmountToTrain) {
-            $dominion->resource_platinum -= $totalCosts['platinum'];
+            $dominion->resource_gold -= $totalCosts['gold'];
             $dominion->resource_ore -= $totalCosts['ore'];
             $dominion->military_draftees -= $totalCosts['draftees'];
             $dominion->military_wizards -= $totalCosts['wizards'];
@@ -482,7 +482,7 @@ class TrainActionService
             $dominion->military_archmages -= $totalCosts['archmage'];
 
             # Update spending statistics.
-            $dominion->stat_total_platinum_spent_training += $totalCosts['platinum'];
+            $dominion->stat_total_gold_spent_training += $totalCosts['gold'];
             $dominion->stat_total_food_spent_training += $totalCosts['food'];
             $dominion->stat_total_lumber_spent_training += $totalCosts['lumber'];
             $dominion->stat_total_mana_spent_training += $totalCosts['mana'];
@@ -535,7 +535,7 @@ class TrainActionService
                     }
 
                     // Spell
-                    $ticks += $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'training_time');
+                    $ticks += $dominion->getSpellPerkValue('training_time');
 
                     // Spell: Spawning Pool (increase units trained, for free)
                     if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unitType == 'military_unit1')
@@ -663,8 +663,8 @@ class TrainActionService
                 $costType = str_plural($unit->name, $cost);
             }
 
-#            if (!\in_array($costType, ['platinum', 'ore'], true)) {
-            if (!\in_array($costType, ['platinum', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
+#            if (!\in_array($costType, ['gold', 'ore'], true)) {
+            if (!\in_array($costType, ['gold', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
             {
                 $costType = str_plural($costType, $cost);
             }

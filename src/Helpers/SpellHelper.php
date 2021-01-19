@@ -107,7 +107,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Fool\'s Gold',
-                'description' => 'Platinum theft protection',
+                'description' => 'Gold theft protection',
                 'key' => 'fools_gold',
                 'mana_cost' => 5,
                 'duration' => 10*4,
@@ -226,7 +226,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Alchemist Flame',
-                'description' => '+30 alchemy platinum production',
+                'description' => '+30 alchemy gold production',
                 'key' => 'alchemist_flame',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -525,7 +525,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Call To Arms',
-                'description' => 'Training costs reduced by 10%, training times reduced by six ticks, and +20% ore and platinum production.',
+                'description' => 'Training costs reduced by 10%, training times reduced by six ticks, and +20% ore and gold production.',
                 'key' => 'call_to_arms',
                 'mana_cost' => 10,
                 'duration' => 12,
@@ -534,7 +534,7 @@ class SpellHelper
             ],
             [
                 'name' => 'Fine Arts',
-                'description' => '+5% platinum production, +5% gem production',
+                'description' => '+5% gold production, +5% gem production',
                 'key' => 'fine_arts',
                 'mana_cost' => 10,
                 'duration' => 12*4,
@@ -797,7 +797,7 @@ class SpellHelper
               ],
               [
                   'name' => 'Great Fever',
-                  'description' => 'No population growth, -10% platinum production, -20% food production.',
+                  'description' => 'No population growth, -10% gold production, -20% food production.',
                   'key' => 'great_fever',
                   'type' => 'offense',
                   'invasion_must_be_successful' => True,
@@ -866,11 +866,11 @@ class SpellHelper
             'lumber_production' => '%s%% lumber production',
             'food_production' => '%s%% food production',
             'gem_production' => '%s%% gem production',
-            'platinum_production' => '%s%% platinum production',
+            'gold_production' => '%s%% gold production',
             'boat_production' => '%s%% boat production',
             'tech_production' => '%s%% XP generation',
 
-            'alchemy_production' => '+%s platinum production per alchemy',
+            'alchemy_production' => '+%s gold production per alchemy',
 
             'food_production_raw' => '%s%% raw food production',
 
@@ -880,7 +880,7 @@ class SpellHelper
             'drafting' => '+%s%% drafting',
             'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
             'training_costs' => '+%s%% military unit training costs',
-            'unit_platinum_costs' => '%s%% military unit platinum costs',
+            'unit_gold_costs' => '%s%% military unit gold costs',
             'unit_ore_costs' => '%s%% military unit ore costs',
             'unit_lumber_costs' => '%s%% military unit lumber costs',
 
@@ -925,7 +925,7 @@ class SpellHelper
             'spy_strength' => '%s%% spy strength',
             'immortal_spies' => 'Spies become immortal',
 
-            'platinum_theft' => '%s%% platinum lost to theft.',
+            'gold_theft' => '%s%% gold lost to theft.',
             'mana_theft' => '%s%% mana lost to theft.',
             'lumber_theft' => '%s%% lumber lost to theft.',
             'ore_theft' => '%s%% ore lost to theft.',

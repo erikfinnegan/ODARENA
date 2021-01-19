@@ -9,7 +9,7 @@ exploring : 2
 converting: 3
 skill_level: 1
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   food_consumption: -25
@@ -23,7 +23,7 @@ units:
     need_boat: false
     training_time: 9
     cost:
-      platinum: 250
+      gold: 250
     power:
       offense: 3
       defense: 0
@@ -35,7 +35,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 250
+      gold: 250
     power:
       offense: 0
       defense: 3
@@ -48,7 +48,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 900
+      gold: 900
     power:
       offense: 4
       defense: 6
@@ -66,7 +66,7 @@ units:
       - sentient
       - massive
     cost:
-      platinum: 2800
+      gold: 2800
     power:
       offense: 14
       defense: 10

@@ -60,7 +60,7 @@
                 </div>
                 <div class="box-body">
                     <p><b>Warning</b>: You are about to destroy buildings to reclaim barren land.</p>
-                    <p>Any platinum and lumber used to construct any destroyed buildings <b>will be lost</b>.</p>
+                    <p>Any gold and lumber used to construct any destroyed buildings <b>will be lost</b>.</p>
                     <p>Destroying buildings processes <b>instantly</b>.</p>
                 </div>
                 <div class="box-footer">

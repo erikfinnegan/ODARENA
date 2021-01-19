@@ -88,7 +88,7 @@ class ImprovementCalculator
     public function getImprovementMaximum(string $improvementType, Dominion $dominion): float
     {
         $maximumPercentages = [
-            'markets' => 25, # Increases platinum production
+            'markets' => 25, # Increases gold production
             'keep' => 20, # Increases max population
             'towers' => 45, # Increases wizard strength, mana production, and reduces damage form black-ops
             'spires' => 45, # Increases wizard strength, mana production, and reduces damage form black-ops
@@ -155,7 +155,7 @@ class ImprovementCalculator
     {
         # Standard values;
         $worth = [
-                    'platinum' => 1,
+                    'gold' => 1,
                     'lumber' => 2,
                     'ore' => 2,
                     'gems' => 12,

@@ -129,7 +129,7 @@
 
                               <td>  <!-- Cost -->
                                     @php
-                                        $unitCostString = (number_format($unit->cost_platinum) . ' platinum');
+                                        $unitCostString = (number_format($unit->cost_gold) . ' gold');
 
                                         if ($unit->cost_ore > 0) {
                                             $unitCostString .= (', ' . number_format($unit->cost_ore) . ' ore');

@@ -77,7 +77,7 @@ class ConstructActionService
         $totalBuildingsToConstruct = array_sum($data);
 
         // Qur: Statis
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot build while you are in stasis.');
         }

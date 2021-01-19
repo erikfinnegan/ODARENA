@@ -4,7 +4,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\DailyBonusesLandActionRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\DailyBonusesPlatinumActionRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\DailyBonusesGoldActionRequest;
 use OpenDominion\Services\Dominion\Actions\DailyBonusesActionService;
 
 class DailyBonusesController extends AbstractDominionController
@@ -14,13 +14,13 @@ class DailyBonusesController extends AbstractDominionController
         return view('pages.dominion.bonuses');
     }
 /*
-    public function postBonusesPlatinum(DailyBonusesPlatinumActionRequest $request)
+    public function postBonusesGold(DailyBonusesGoldActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
         $dailyBonusesActionService = app(DailyBonusesActionService::class);
 
         try {
-            $result = $dailyBonusesActionService->claimPlatinum($dominion);
+            $result = $dailyBonusesActionService->claimGold($dominion);
         } catch (GameException $e) {
             return redirect()->back()
                 ->withInput($request->all())

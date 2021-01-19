@@ -9,7 +9,7 @@ exploring : 2
 converting: 2
 skill_level: 1
 
-construction_materials: platinum,ore
+construction_materials: gold,ore
 
 perks:
   extra_barren_max_population: 10
@@ -23,7 +23,7 @@ units:
     type:
       - equipment
     cost:
-      platinum: 0
+      gold: 0
       ore: 100000
       mana: 500
       gem: 150
@@ -47,7 +47,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 300
+      gold: 300
       ore: 75
     power:
       offense: 0
@@ -62,7 +62,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
       ore: 100
     power:
       offense: 4
@@ -79,7 +79,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
       ore: 200
     power:
       offense: 8

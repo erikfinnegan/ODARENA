@@ -58,7 +58,7 @@ class LandImprovementCalculator
     }
 
     # Plat bonus from Mountains
-    public function getPlatinumProductionBonus(Dominion $dominion): float
+    public function getGoldProductionBonus(Dominion $dominion): float
     {
         $bonus = 0;
         if($dominion->race->getPerkValue('land_improvements'))

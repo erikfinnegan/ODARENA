@@ -97,7 +97,7 @@ class EspionageActionService
         {
             throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for spies to sneak in.');
         }
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot spy while you are in stasis.');
         }
@@ -258,7 +258,7 @@ class EspionageActionService
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
                 # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'immortal_spies'))
+                if($dominion->race->getPerkValue('immortal_spies') or $dominion->getSpellPerkValue('immortal_spies'))
                 {
                     $spiesKilled = 0;
                 }
@@ -469,7 +469,7 @@ class EspionageActionService
                 if($target->race->getPerkValue('land_improvements'))
                 {
                     $data['land_improvements']['plain'] = $this->landImprovementCalculator->getOffensivePowerBonus($target);
-                    $data['land_improvements']['mountain'] = $this->landImprovementCalculator->getPlatinumProductionBonus($target);
+                    $data['land_improvements']['mountain'] = $this->landImprovementCalculator->getGoldProductionBonus($target);
                     $data['land_improvements']['swamp'] = $this->landImprovementCalculator->getWizardPowerBonus($target);
                     $data['land_improvements']['forest'] = $this->landImprovementCalculator->getPopulationBonus($target);
                     $data['land_improvements']['hill'] = $this->landImprovementCalculator->getDefensivePowerBonus($target);
@@ -628,7 +628,7 @@ class EspionageActionService
             $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
             # Immortal spies
-            if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'immortal_spies'))
+            if($dominion->race->getPerkValue('immortal_spies') or $dominion->getSpellPerkValue('immortal_spies'))
             {
                 $spiesKilled = 0;
             }
@@ -760,7 +760,7 @@ class EspionageActionService
 
         $availableResource = max(0, $availableResource);
 
-        if($resource === 'platinum')
+        if($resource === 'gold')
         {
             // Forest Havens
             $availableResource *= 1 - min(($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 8, 0.80);
@@ -1037,7 +1037,7 @@ class EspionageActionService
             $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
             # Immortal spies
-            if($dominion->race->getPerkValue('immortal_spies') or $this->spellCalculator->getPassiveSpellPerkValue($dominion, 'immortal_spies'))
+            if($dominion->race->getPerkValue('immortal_spies') or $dominion->getSpellPerkValue('immortal_spies'))
             {
                 $spiesKilled = 0;
             }

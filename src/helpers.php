@@ -81,7 +81,7 @@ if (!function_exists('dominion_attr_display')) {
             'morale' => 'morale',
             'spy_strength' => 'percent spy strength',
             'wizard_strength' => 'percent wizard strength',
-            'resource_platinum' => 'platinum',
+            'resource_gold' => 'gold',
             'resource_food' => 'food',
             'resource_lumber' => 'lumber',
             'resource_mana' => 'mana',

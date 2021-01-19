@@ -133,7 +133,7 @@
                                                       @if($landType == 'plain')
                                                           +{{ number_format($landImprovementCalculator->getOffensivePowerBonus($selectedDominion)*100,2) }}% Offensive Power
                                                       @elseif($landType == 'mountain')
-                                                          +{{ number_format($landImprovementCalculator->getPlatinumProductionBonus($selectedDominion)*100,2) }}% Platinum Production
+                                                          +{{ number_format($landImprovementCalculator->getGoldProductionBonus($selectedDominion)*100,2) }}% Gold Production
                                                       @elseif($landType == 'swamp')
                                                           +{{ number_format($landImprovementCalculator->getWizardPowerBonus($selectedDominion)*100,2) }}% Wizard Strength
                                                       @elseif($landType == 'forest')
@@ -210,18 +210,18 @@
 
                 <h4>Explore</h4>
                 <p>You can explore land to grow your dominion. It takes <b>{{ $explorationCalculator->getExploreTime($selectedDominion) }}  ticks</b> to explore.</p>
-                <p>The cost for exploring one acre is {{ number_format($explorationCalculator->getPlatinumCost($selectedDominion)) }} platinum and {{ number_format($explorationCalculator->getDrafteeCost($selectedDominion)) }} {{ str_plural('draftee', $explorationCalculator->getDrafteeCost($selectedDominion)) }}. Additionally, for every 1% of your current size you explore, you lose 8% morale.</p>
+                <p>The cost for exploring one acre is {{ number_format($explorationCalculator->getGoldCost($selectedDominion)) }} gold and {{ number_format($explorationCalculator->getDrafteeCost($selectedDominion)) }} {{ str_plural('draftee', $explorationCalculator->getDrafteeCost($selectedDominion)) }}. Additionally, for every 1% of your current size you explore, you lose 8% morale.</p>
 
-                @if ($explorationCalculator->getPlatinumCostBonus($selectedDominion) !== 1 or $explorationCalculator->getDrafteeCostModifier($selectedDominion) !== 0)
+                @if ($explorationCalculator->getGoldCostBonus($selectedDominion) !== 1 or $explorationCalculator->getDrafteeCostModifier($selectedDominion) !== 0)
                   <p>Bonuses are
 
-                  @if (1-$explorationCalculator->getPlatinumCostBonus($selectedDominion) > 0)
+                  @if (1-$explorationCalculator->getGoldCostBonus($selectedDominion) > 0)
                     decreasing
                   @else
                     increasing
                   @endif
 
-                   your exploring platinum costs by <strong>{{ number_format((abs(1-$explorationCalculator->getPlatinumCostBonus($selectedDominion)))*100, 2) }}%</strong>
+                   your exploring gold costs by <strong>{{ number_format((abs(1-$explorationCalculator->getGoldCostBonus($selectedDominion)))*100, 2) }}%</strong>
 
                   and
 

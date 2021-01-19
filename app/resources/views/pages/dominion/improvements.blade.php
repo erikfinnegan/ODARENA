@@ -114,7 +114,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                         <option value="gems" data-amount="{{ $selectedDominion->resource_gems }}" {{ $selectedDominion->most_recent_improvement_resource  === 'gems' ? 'selected' : ''}}>Gems</option>
                                         <option value="lumber" data-amount="{{ $selectedDominion->resource_lumber }}" {{ $selectedDominion->most_recent_improvement_resource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
                                         <option value="ore" data-amount="{{ $selectedDominion->resource_ore }}" {{ $selectedDominion->most_recent_improvement_resource  === 'ore' ? 'selected' : ''}}>Ore</option>
-                                        <option value="platinum" data-amount="{{ $selectedDominion->resource_platinum }}" {{ $selectedDominion->most_recent_improvement_resource === 'platinum' ? 'selected' : ''}}>Platinum</option>
+                                        <option value="gold" data-amount="{{ $selectedDominion->resource_gold }}" {{ $selectedDominion->most_recent_improvement_resource === 'gold' ? 'selected' : ''}}>Gold</option>
                                     @endif
                                 @endif
                             </select>
@@ -212,10 +212,10 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                               <td>{{ $improvementCalculator->getResourceWorthMultipler('ore', $selectedDominion)*100 }}%</td>
                             </tr>
                             <tr>
-                              <td>Platinum</td>
-                              <td>{{ number_format($improvementCalculator->getResourceWorth('platinum', $selectedDominion),2) }}</td>
-                              <td>{{ $improvementCalculator->getResourceWorthRaw('platinum', $selectedDominion) }}</td>
-                              <td>{{ $improvementCalculator->getResourceWorthMultipler('platinum', $selectedDominion)*100 }}%</td>
+                              <td>Gold</td>
+                              <td>{{ number_format($improvementCalculator->getResourceWorth('gold', $selectedDominion),2) }}</td>
+                              <td>{{ $improvementCalculator->getResourceWorthRaw('gold', $selectedDominion) }}</td>
+                              <td>{{ $improvementCalculator->getResourceWorthMultipler('gold', $selectedDominion)*100 }}%</td>
                             </tr>
                         @endif
                       </tbody>

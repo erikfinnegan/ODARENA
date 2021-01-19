@@ -9,7 +9,7 @@ exploring : 1
 converting: 1
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   exchange_bonus: 10
@@ -23,7 +23,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 320
+      gold: 320
       ore: 10
     power:
       offense: 3
@@ -39,7 +39,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 500
+      gold: 500
       mana: 20
     power:
       offense: 0
@@ -55,7 +55,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
       ore: 200
       mana: 25
     power:
@@ -75,7 +75,7 @@ units:
       - intelligent
     need_boat: false
     cost:
-      platinum: 0
+      gold: 0
       ore: 0
       mana: 15
       champion: 1

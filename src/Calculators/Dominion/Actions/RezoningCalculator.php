@@ -52,7 +52,7 @@ class RezoningCalculator
     }
 
     /**
-     * Returns the Dominion's rezoning platinum cost (per acre of land).
+     * Returns the Dominion's rezoning gold cost (per acre of land).
      *
      * @param Dominion $dominion
      * @return int

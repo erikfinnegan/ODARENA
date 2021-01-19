@@ -13,7 +13,7 @@ exploring : 2
 converting: 1
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   max_population: 20
@@ -34,7 +34,7 @@ units:
     need_boat: true
     static_networth: 5
     cost:
-      platinum: 0
+      gold: 0
       ore: 0
     power:
       offense: 2
@@ -50,7 +50,7 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 820
+      gold: 820
       ore: 80
     power:
       offense: 4
@@ -65,7 +65,7 @@ units:
       - sentient
     need_boat: false
     cost:
-      platinum: 820
+      gold: 820
       ore: 80
     power:
       offense: 4
@@ -80,7 +80,7 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 820
+      gold: 820
       ore: 80
     power:
       offense: 4

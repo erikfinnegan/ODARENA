@@ -192,7 +192,7 @@ class UnitHelper
             'food_production' => 'Each unit produces %s food per tick.',
             'gem_production' => 'Each unit mines %s gems per tick.',
             'tech_production' => 'Each unit produces %s experience points per tick.',
-            'platinum_production' => 'Each unit produces %s platinum points per tick.',
+            'gold_production' => 'Each unit produces %s gold points per tick.',
 
             'food_consumption' => 'Eats %s halms of food extra.',
 
@@ -205,7 +205,7 @@ class UnitHelper
             'sink_boats_offense' => 'Sinks boats when attacking.',
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
-            'upkeep_platinum' => 'Costs %s platinum per tick.',
+            'upkeep_gold' => 'Costs %s gold per tick.',
             'upkeep_lumber' => 'Costs %s lumber per tick.',
             'upkeep_ore' => 'Costs %s ore per tick.',
 

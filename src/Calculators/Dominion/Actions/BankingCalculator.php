@@ -27,11 +27,11 @@ class BankingCalculator
         }
 
         $resources = [
-            'resource_platinum' => [
-                'label' => 'Platinum',
+            'resource_gold' => [
+                'label' => 'Gold',
                 'buy' => 1.0,
                 'sell' => 0.5,
-                'max' => $dominion->resource_platinum,
+                'max' => $dominion->resource_gold,
             ],
             'resource_lumber' => [
                 'label' => 'Lumber',
@@ -76,7 +76,7 @@ class BankingCalculator
           // Ruler Title: Merchant
           $bonus += $dominion->title->getPerkMultiplier('exchange_rate') * $dominion->title->getPerkBonus($dominion);
 
-          $resources['resource_platinum']['sell'] *= $bonus;
+          $resources['resource_gold']['sell'] *= $bonus;
           $resources['resource_lumber']['sell'] *= $bonus;
           $resources['resource_ore']['sell'] *= $bonus;
           $resources['resource_gems']['sell'] *= $bonus;

@@ -7,7 +7,7 @@ description: >-
   <hr />
   <ul>
   <li><strong>Pestilence</strong>: 1% of peasants die and return to the Afflicted as Abominations (takes 12 ticks).</li>
-  <li><strong>Great Fever</strong>: no population growth, -10% platinum production, -20% food production.</li>
+  <li><strong>Great Fever</strong>: no population growth, -10% gold production, -20% food production.</li>
   <li><strong>Festering Wounds</strong>: +25% casualties, +25% food consumption.</li>
   </ul>
   <p>Each spell lasts 12 ticks.</p>
@@ -19,7 +19,7 @@ exploring : 0
 converting: 0
 skill_level: 3
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   max_population: 20
@@ -51,7 +51,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 300
+      gold: 300
       ore: 0
     power:
       offense: 0
@@ -66,7 +66,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 800
+      gold: 800
     power:
       offense: 0
       defense: 6
@@ -79,7 +79,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 600
+      gold: 600
       mana: 40
       morale: 5
     power:

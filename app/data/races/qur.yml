@@ -9,7 +9,7 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   salvaging: 65
@@ -24,7 +24,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 1000
+      gold: 1000
     power:
       offense: 0
       defense: 0
@@ -55,7 +55,7 @@ units:
       - machine
     need_boat: true
     cost:
-      platinum: 1000
+      gold: 1000
       lumber: 250
     power:
       offense: 0
@@ -63,7 +63,7 @@ units:
     perks:
       faster_return: 6
       reduces_casualties: 1
-      plunders: platinum;5,lumber;5
+      plunders: gold;5,lumber;5
       offense_from_pairing: 4,7,1 # slot, amount, num required
       sendable_with_zero_op: 1
       does_not_count_as_population: 1
@@ -79,7 +79,7 @@ units:
       - wise
     need_boat: true
     cost:
-      platinum: 1000
+      gold: 1000
       mana: 10
     power:
       offense: 7

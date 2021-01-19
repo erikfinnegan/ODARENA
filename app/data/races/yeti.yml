@@ -19,7 +19,7 @@ wizards_cost: 200,food
 archmages_cost: 400,food
 
 perks:
-  platinum_production: -100
+  gold_production: -100
   boat_capacity: -10
   food_decay: -75
   lumber_decay: -75

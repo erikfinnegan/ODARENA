@@ -17,7 +17,7 @@ class TechHelper
             // Military related
             'defense' => '%s%% defensive power',
             'offense' => '%s%% offensive power',
-            'military_cost' => '%s%% military training platinum, ore, and lumber costs',
+            'military_cost' => '%s%% military training gold, ore, and lumber costs',
 
 
             'military_cost_food' => '%s%% military training food costs',
@@ -30,7 +30,7 @@ class TechHelper
             // Logistics
             'construction_cost' => '%s%% construction costs',
             'explore_draftee_cost' => '%s draftee per acre explore cost (min 3)',
-            'explore_platinum_cost' => '%s%% exploring platinum cost',
+            'explore_gold_cost' => '%s%% exploring gold cost',
             'max_population' => '%s%% maximum population (multiplicative bonus)',
             'rezone_cost' => '%s%% rezoning costs',
 
@@ -53,7 +53,7 @@ class TechHelper
             'lumber_production' => '%s%% lumber production',
             'mana_production' => '%s%% mana production',
             'ore_production' => '%s%% ore production',
-            'platinum_production' => '%s%% platinum production',
+            'gold_production' => '%s%% gold production',
 
             // ODA
             'prestige_gains' => '%s%% higher prestige gains',
@@ -61,7 +61,7 @@ class TechHelper
             'conversions' => '%s%% more conversions (only applicable to Afflicted, Cult, and Sacred Order)',
             'barracks_housing' => '%s%% more unit housing per barracks',
             'gemcutting' => '%s%% more improvement points per gem',
-            'platinum_interest' => '%s%% interest on your platinum stockpile per tick',
+            'gold_interest' => '%s%% interest on your gold stockpile per tick',
             'exchange_rate' => '%s%% better exchange rates',
             'jobs_per_building' => '%s%% more jobs per building',
             'drafting' => '%s%% drafting',

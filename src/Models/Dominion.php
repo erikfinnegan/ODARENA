@@ -25,9 +25,9 @@ use OpenDominion\Services\Dominion\SelectorService;
  * @property int $morale
  * @property float $spy_strength
  * @property float $wizard_strength
- * @property bool $daily_platinum
+ * @property bool $daily_gold
  * @property bool $daily_land
- * @property int $resource_platinum
+ * @property int $resource_gold
  * @property int $resource_food
  * @property int $resource_lumber
  * @property int $resource_mana
@@ -118,7 +118,7 @@ class Dominion extends AbstractModel
         'spy_strength' => 'float',
         'wizard_strength' => 'float',
 
-        'resource_platinum' => 'integer',
+        'resource_gold' => 'integer',
         'resource_food' => 'integer',
         'resource_lumber' => 'integer',
         'resource_mana' => 'integer',
@@ -185,7 +185,7 @@ class Dominion extends AbstractModel
         'building_barracks' => 'integer',
         'building_dock' => 'integer',
 
-        'daily_platinum' => 'boolean',
+        'daily_gold' => 'boolean',
         'daily_land' => 'boolean',
 
         'royal_guard_active_at' => 'datetime',

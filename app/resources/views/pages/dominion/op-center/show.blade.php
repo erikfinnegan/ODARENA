@@ -93,8 +93,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Platinum:</td>
-                                        <td>{{ number_format($infoOp->data['resource_platinum']) }}</td>
+                                        <td>Gold:</td>
+                                        <td>{{ number_format($infoOp->data['resource_gold']) }}</td>
                                     </tr>
                                     <tr>
                                         <td>Food:</td>
@@ -846,7 +846,7 @@
                                               @if($landType == 'plain')
                                                   Offensive Power
                                               @elseif($landType == 'mountain')
-                                                  Platinum Production
+                                                  Gold Production
                                               @elseif($landType == 'swamp')
                                                    Wizard Strength
                                               @elseif($landType == 'forest')

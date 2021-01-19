@@ -13,7 +13,7 @@ exploring : 2
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   extra_barren_max_population: 27
@@ -25,7 +25,7 @@ perks:
   damage_from_insect_swarm: -100
   draftees_produce_mana: 1.5
   peasants_produce_food: 0.5
-  unemployed_peasants_produce_platinum: 2.7
+  unemployed_peasants_produce_gold: 2.7
   can_only_abduct_own: 1
   explore_cost: 25
   explore_time: 2
@@ -39,7 +39,7 @@ units:
       - intelligent
     need_boat: false
     cost:
-      platinum: 250
+      gold: 250
     power:
       offense: 3
       defense: 0
@@ -52,7 +52,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 375
+      gold: 375
     power:
       offense: 0
       defense: 4
@@ -68,7 +68,7 @@ units:
       - intelligent
     need_boat: false
     cost:
-      platinum: 1000
+      gold: 1000
     power:
       offense: 4
       defense: 7
@@ -85,7 +85,7 @@ units:
       - intelligent
     need_boat: false
     cost:
-      platinum: 700
+      gold: 700
     power:
       offense: 5
       defense: 3

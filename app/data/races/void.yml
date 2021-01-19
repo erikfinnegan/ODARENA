@@ -41,7 +41,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 0
+      gold: 0
       mana: 50
     power:
       offense: 3
@@ -55,7 +55,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 0
+      gold: 0
       mana: 50
     power:
       offense: 0
@@ -71,7 +71,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 0
+      gold: 0
       mana: 175
     power:
       offense: 0
@@ -88,7 +88,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 0
+      gold: 0
       mana: 500
     power:
       offense: 5

@@ -13,7 +13,7 @@ $factory->define(\OpenDominion\Models\Dominion::class, function (Faker $faker) {
         'morale' => 100,
         'spy_strength' => 100,
         'wizard_strength' => 100,
-        'resource_platinum' => 100000,
+        'resource_gold' => 100000,
         'resource_food' => 15000,
         'resource_lumber' => 15000,
         'resource_mana' => 0,

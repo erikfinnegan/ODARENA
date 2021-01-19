@@ -9,7 +9,7 @@ exploring : 2
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,ore
+construction_materials: gold,ore
 
 perks:
   food_consumption: -15
@@ -25,7 +25,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 350
+      gold: 350
       ore: 65
     power:
       offense: 4
@@ -41,7 +41,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 420
+      gold: 420
       ore: 80
     power:
       offense: 0
@@ -55,7 +55,7 @@ units:
     type:
       - machine
     cost:
-      platinum: 60000
+      gold: 60000
       ore: 22000
     power:
       offense: 0
@@ -65,7 +65,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,3,workshops # building, buildings per unit, imp to increase
-      upkeep_platinum: 50
+      upkeep_gold: 50
       upkeep_ore: 4
 
   - name: Airship
@@ -74,7 +74,7 @@ units:
       - machine
     need_boat: false
     cost:
-      platinum: 33000
+      gold: 33000
       ore: 4000
       gem: 275
     power:
@@ -85,5 +85,5 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,2.5,workshops # building, buildings per unit, imp to increased
-      upkeep_platinum: 25
+      upkeep_gold: 25
       upkeep_ore: 3

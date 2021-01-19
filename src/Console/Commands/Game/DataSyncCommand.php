@@ -97,9 +97,9 @@ class DataSyncCommand extends Command implements CommandInterface
                     'peasants_alias' => object_get($data, 'peasants_alias', null),
                     'draftees_alias' => object_get($data, 'draftees_alias', null),
 
-                    'spies_cost' => object_get($data, 'spies_cost', '500,platinum'),
-                    'wizards_cost' => object_get($data, 'wizards_cost', '500,platinum'),
-                    'archmages_cost' => object_get($data, 'archmages_cost', '1000,platinum'),
+                    'spies_cost' => object_get($data, 'spies_cost', '500,gold'),
+                    'wizards_cost' => object_get($data, 'wizards_cost', '500,gold'),
+                    'archmages_cost' => object_get($data, 'archmages_cost', '1000,gold'),
                 ]);
 
             if (!$race->exists) {
@@ -167,7 +167,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 $unit->fill([
                     'name' => $unitName,
-                    'cost_platinum' => object_get($unitData, 'cost.platinum', 0),
+                    'cost_gold' => object_get($unitData, 'cost.gold', 0),
                     'cost_ore' => object_get($unitData, 'cost.ore', 0),
                     'power_offense' => object_get($unitData, 'power.offense', 0),
                     'power_defense' => object_get($unitData, 'power.defense', 0),

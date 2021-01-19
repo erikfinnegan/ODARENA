@@ -9,7 +9,7 @@ exploring : 0
 converting: 0
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   salvaging: 80
@@ -24,7 +24,7 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 500
+      gold: 500
       ore: 80
     power:
       offense: 4
@@ -40,7 +40,7 @@ units:
       - sentient
     need_boat: true
     cost:
-      platinum: 500
+      gold: 500
       ore: 80
     power:
       offense: 0
@@ -57,7 +57,7 @@ units:
       - wise
     need_boat: false
     cost:
-      platinum: 0
+      gold: 0
       ore: 0
     power:
       offense: 6
@@ -74,7 +74,7 @@ units:
       - wise
     need_boat: true
     cost:
-      platinum: 2000
+      gold: 2000
       unit3: 1
       morale: -24
     power:

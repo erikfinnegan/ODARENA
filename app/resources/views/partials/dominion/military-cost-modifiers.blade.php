@@ -17,8 +17,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Platinum:</td>
-                        <td>{{ number_format(($trainingCalculator->getSpecialistEliteCostMultiplier($selectedDominion, 'platinum')-1) * 100, 2) }}%</td>
+                        <td>Gold:</td>
+                        <td>{{ number_format(($trainingCalculator->getSpecialistEliteCostMultiplier($selectedDominion, 'gold')-1) * 100, 2) }}%</td>
                     </tr>
                     <tr>
                         <td>Ore:</td>

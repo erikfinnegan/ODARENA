@@ -3,7 +3,7 @@ alignment: independent
 description:
   <p>Instead of traditional improvements, Beastfolk use natural resources (land types) to strengthen their dominion.</p>
   <ul>
-  <li>Platinum production increased by 0.75 x Mountains %.</li>
+  <li>Gold production increased by 0.75 x Mountains %.</li>
   <li>Max population increased by 0.75 x Forest %.</li>
   <li>Wizard Strength increased by 2 x Swamp %.</li>
   <li>Defensive Power increased by 0.65 x Hills %.</li>
@@ -19,7 +19,7 @@ exploring : 2
 converting: 2
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   extra_barren_max_population: 10
@@ -35,7 +35,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 265
+      gold: 265
       ore: 25
     power:
       offense: 3
@@ -47,7 +47,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 325
+      gold: 325
       ore: 25
     power:
       offense: 0
@@ -59,7 +59,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
       ore: 0
     power:
       offense: 1
@@ -76,7 +76,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1200
+      gold: 1200
       ore: 90
     power:
       offense: 4

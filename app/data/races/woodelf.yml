@@ -9,7 +9,7 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   wizard_strength: 20
@@ -26,7 +26,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 300
+      gold: 300
       lumber: 25
     power:
       offense: 3
@@ -39,7 +39,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 400
+      gold: 400
       lumber: 25
     power:
       offense: 0
@@ -52,7 +52,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
       lumber: 100
     power:
       offense: 0
@@ -67,7 +67,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1200
+      gold: 1200
       lumber: 150
     power:
       offense: 3

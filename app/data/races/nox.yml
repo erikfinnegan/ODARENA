@@ -9,7 +9,7 @@ exploring : 3
 converting: 2
 skill_level: 2
 
-construction_materials: platinum,mana
+construction_materials: gold,mana
 
 perks:
   food_consumption: -50
@@ -42,7 +42,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 300
+      gold: 300
       mana: 5
     power:
       offense: 0
@@ -59,7 +59,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 500
+      gold: 500
       mana: 10
       unit2: 1
     power:
@@ -78,7 +78,7 @@ units:
       - intelligent
       - wise
     cost:
-      platinum: 1000
+      gold: 1000
       mana: 15
     power:
       offense: 3

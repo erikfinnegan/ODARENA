@@ -116,9 +116,9 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Ore production';
                 break;
-            case 'platinum_production':
+            case 'gold_production':
                 $negativeBenefit = false;
-                $description = 'Platinum production';
+                $description = 'Gold production';
                 break;
             case 'spy_strength':
                 $negativeBenefit = false;
@@ -217,7 +217,7 @@ class RaceHelper
                 break;
             case 'guard_tax_exemption':
                 $negativeBenefit = false;
-                $description = 'Exempt from guard platinum tax';
+                $description = 'Exempt from guard gold tax';
                 $booleanValue = true;
                 break;
           case 'tissue_improvement':
@@ -308,9 +308,9 @@ class RaceHelper
                 $description = 'Cannot level up advancements';
                 $booleanValue = true;
                 break;
-            case 'construction_cost_only_platinum':
+            case 'construction_cost_only_gold':
                 $negativeBenefit = false;
-                $description = 'Buildings only cost platinum';
+                $description = 'Buildings only cost gold';
                 $booleanValue = true;
                 break;
             case 'construction_cost_only_mana':
@@ -383,10 +383,10 @@ class RaceHelper
                 $valueType = ' food/tick';
                 $booleanValue = false;
                 break;
-            case 'unemployed_peasants_produce_platinum':
+            case 'unemployed_peasants_produce_gold':
                 $negativeBenefit = true;
-                $description = 'Unemployed peasants produce platinum';
-                $valueType = ' platinum/tick';
+                $description = 'Unemployed peasants produce gold';
+                $valueType = ' gold/tick';
                 $booleanValue = false;
                 break;
             case 'draftees_produce_mana':

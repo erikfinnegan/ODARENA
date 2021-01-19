@@ -9,7 +9,7 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   research_points_per_acre: 25
@@ -27,7 +27,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 250
+      gold: 250
       ore: 5
       lumber: 5
     power:
@@ -42,7 +42,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 250
+      gold: 250
       ore: 5
       lumber: 5
     power:
@@ -58,7 +58,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      platinum: 2400
+      gold: 2400
     power:
       offense: 0
       defense: 8

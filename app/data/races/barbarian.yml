@@ -9,11 +9,11 @@ exploring : 3
 converting: 3
 skill_level: 3
 
-construction_materials: platinum,lumber
+construction_materials: gold,lumber
 
 perks:
   food_consumption: -100
-  platinum_production: -100
+  gold_production: -100
   food_production: -100
   lumber_production: -100
   mana_production: -100
@@ -28,7 +28,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 225
+      gold: 225
       ore: 0
     power:
       offense: 3
@@ -40,7 +40,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 225
+      gold: 225
       ore: 0
     power:
       offense: 0
@@ -52,7 +52,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 600
+      gold: 600
       ore: 0
     power:
       offense: 0
@@ -64,7 +64,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 720
+      gold: 720
       ore: 0
     power:
       offense: 5

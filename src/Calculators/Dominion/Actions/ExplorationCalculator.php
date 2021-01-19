@@ -41,32 +41,32 @@ class ExplorationCalculator
     }
 
     /**
-     * Returns the Dominion's exploration platinum cost (raw).
+     * Returns the Dominion's exploration gold cost (raw).
      *
      * @param Dominion $dominion
      * @return int
      */
-    public function getPlatinumCostRaw(Dominion $dominion): int
+    public function getGoldCostRaw(Dominion $dominion): int
     {
         $totalLand = $this->landCalculator->getTotalLand($dominion);
         $totalLand += $this->landCalculator->getTotalLandIncoming($dominion);
-        $platinum = sqrt($totalLand)*$totalLand/6-1000;
+        $gold = sqrt($totalLand)*$totalLand/6-1000;
 
-        return $platinum;
+        return $gold;
     }
 
      /**
-      * Returns the Dominion's exploration platinum cost bonus.
+      * Returns the Dominion's exploration gold cost bonus.
       *
       * @param Dominion $dominion
       * @return int
       */
-      public function getPlatinumCostBonus(Dominion $dominion): float
+      public function getGoldCostBonus(Dominion $dominion): float
       {
         $multiplier = 0;
 
         // Techs (returns negative value)
-        $multiplier += $dominion->getTechPerkMultiplier('explore_platinum_cost');
+        $multiplier += $dominion->getTechPerkMultiplier('explore_gold_cost');
 
         // Title (returns negative value)
         if(isset($dominion->title))
@@ -88,14 +88,14 @@ class ExplorationCalculator
       }
 
    /**
-    * Returns the Dominion's exploration platinum cost.
+    * Returns the Dominion's exploration gold cost.
     *
     * @param Dominion $dominion
     * @return int
     */
-    public function getPlatinumCost(Dominion $dominion): int
+    public function getGoldCost(Dominion $dominion): int
     {
-      return $this->getPlatinumCostRaw($dominion) * $this->getPlatinumCostBonus($dominion);
+      return $this->getGoldCostRaw($dominion) * $this->getGoldCostBonus($dominion);
     }
 
     /**
@@ -130,7 +130,7 @@ class ExplorationCalculator
     }
 
     /**
-     * Returns the Dominion's exploration platinum cost.
+     * Returns the Dominion's exploration gold cost.
      *
      * @param Dominion $dominion
      * @return int
@@ -150,7 +150,7 @@ class ExplorationCalculator
     public function getMaxAfford(Dominion $dominion): int
     {
         return min(
-            floor($dominion->resource_platinum / $this->getPlatinumCost($dominion)),
+            floor($dominion->resource_gold / $this->getGoldCost($dominion)),
             floor($dominion->military_draftees / $this->getDrafteeCost($dominion)),
             floor($this->landCalculator->getTotalLand($dominion) * (($dominion->morale/100)/8))
         );

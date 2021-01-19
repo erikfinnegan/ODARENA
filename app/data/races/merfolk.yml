@@ -1,7 +1,7 @@
 name: Merfolk
 alignment: independent
 description: >-
-  <p>Merfolk can only build Homes, Farms, Towers, Temples, Gem Mines, and Shrines, all of which are built in water and only cost platinum to construct.</p>
+  <p>Merfolk can only build Homes, Farms, Towers, Temples, Gem Mines, and Shrines, all of which are built in water and only cost gold to construct.</p>
 home_land_type: water
 playable: 1
 
@@ -10,11 +10,11 @@ exploring : 3
 converting: 3
 skill_level: 1
 
-construction_materials: platinum
+construction_materials: gold
 
 perks:
   gem_production: -10
-  platinum_production: -10
+  gold_production: -10
   mana_production: -10
   max_population: -15
   damage_from_fireballs: -100
@@ -29,7 +29,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 300
+      gold: 300
     power:
       offense: 3
       defense: 0
@@ -43,7 +43,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 300
+      gold: 300
     power:
       offense: 0
       defense: 3
@@ -58,7 +58,7 @@ units:
       - intelligent
       - massive
     cost:
-      platinum: 2800
+      gold: 2800
     power:
       offense: 0
       defense: 22
@@ -75,7 +75,7 @@ units:
       - intelligent
       - massive
     cost:
-      platinum: 1650
+      gold: 1650
     power:
       offense: 12
       defense: 7

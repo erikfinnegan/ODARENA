@@ -9,7 +9,7 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,ore
+construction_materials: gold,ore
 
 perks:
   extra_barren_max_population: 5
@@ -26,7 +26,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 225
+      gold: 225
       ore: 55
     power:
       offense: 4.5
@@ -41,7 +41,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 300
+      gold: 300
       ore: 5
     power:
       offense: 0
@@ -52,7 +52,7 @@ units:
     type:
       - machine
     cost:
-      platinum: 550
+      gold: 550
       ore: 350
     power:
       offense: 0
@@ -66,7 +66,7 @@ units:
     type:
       - machine
     cost:
-      platinum: 750
+      gold: 750
       ore: 500
     power:
       offense: 6

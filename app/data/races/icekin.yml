@@ -9,9 +9,9 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: platinum,ore
+construction_materials: gold,ore
 
-archmages_cost: 500,platinum
+archmages_cost: 500,gold
 
 perks:
   food_consumption: -50
@@ -25,7 +25,7 @@ units:
       - living
       - sentient
     cost:
-      platinum: 300
+      gold: 300
     power:
       offense: 3
       defense: 0
@@ -40,7 +40,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 350
+      gold: 350
     power:
       offense: 0
       defense: 3
@@ -58,7 +58,7 @@ units:
       - sentient
       - intelligent
     cost:
-      platinum: 1000
+      gold: 1000
     power:
       offense: 0
       defense: 4
@@ -75,7 +75,7 @@ units:
     type:
       - magical
     cost:
-      platinum: 800
+      gold: 800
       mana: 50
     power:
       offense: 4

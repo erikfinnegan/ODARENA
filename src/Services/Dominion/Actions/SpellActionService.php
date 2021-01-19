@@ -91,7 +91,7 @@ class SpellActionService
         {
             throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your wizards to cast spells on them.');
         }
-        if($this->spellCalculator->getPassiveSpellPerkValue($dominion, 'stasis'))
+        if($dominion->getSpellPerkValue('stasis'))
         {
             throw new GameException('You cannot cast spells while you are in stasis.');
         }
@@ -1162,7 +1162,7 @@ class SpellActionService
                       'victories' => $target->stat_attacking_success,
                       'net_victories' => $this->militaryCalculator->getNetVictories($target),
 
-                      'resource_platinum' => $target->resource_platinum * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                      'resource_gold' => $target->resource_gold * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                       'resource_food' => $target->resource_food * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                       'resource_lumber' => $target->resource_lumber * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                       'resource_mana' => $target->resource_mana * $this->opsHelper->getInfoOpsAccuracyModifier($target),

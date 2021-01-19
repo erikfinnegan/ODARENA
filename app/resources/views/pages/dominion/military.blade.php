@@ -111,8 +111,8 @@
                                                   {
 
                                                     switch ($costType) {
-                                                        case 'platinum':
-                                                            $labelParts[] = number_format($value) . ' platinum';
+                                                        case 'gold':
+                                                            $labelParts[] = number_format($value) . ' gold';
                                                             break;
 
                                                         case 'ore':

@@ -136,9 +136,9 @@
                 <div class="box-body">
                     <p>
                         {!! \OpenDominion\Http\Controllers\DebugController::printMethodValues($productionCalculator, [
-                            'getPlatinumProduction',
-                            'getPlatinumProductionRaw',
-                            'getPlatinumProductionMultiplier',
+                            'getGoldProduction',
+                            'getGoldProductionRaw',
+                            'getGoldProductionMultiplier',
                             'getFoodProduction',
                             'getFoodProductionRaw',
                             'getFoodProductionMultiplier',
@@ -192,9 +192,9 @@
                 <div class="box-body">
                     <p>
                         {!! \OpenDominion\Http\Controllers\DebugController::printMethodValues($constructionCalculator, [
-                            'getPlatinumCost',
-                            'getPlatinumCostRaw',
-                            'getPlatinumCostMultiplier',
+                            'getGoldCost',
+                            'getGoldCostRaw',
+                            'getGoldCostMultiplier',
                             'getLumberCost',
                             'getLumberCostRaw',
                             'getLumberCostMultiplier',
@@ -212,7 +212,7 @@
                 <div class="box-body">
                     <p>
                         {!! \OpenDominion\Http\Controllers\DebugController::printMethodValues($explorationCalculator, [
-                            'getPlatinumCost',
+                            'getGoldCost',
                             'getDrafteeCost',
                             'getMaxAfford',
                         ]) !!}
@@ -227,7 +227,7 @@
                 <div class="box-body">
                     <p>
                         {!! \OpenDominion\Http\Controllers\DebugController::printMethodValues($rezoningCalculator, [
-                            'getPlatinumCost',
+                            'getGoldCost',
                             'getMaxAfford',
                             'getCostMultiplier',
                         ]) !!}
