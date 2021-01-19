@@ -12,6 +12,11 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\SelectorService;
 
+use OpenDominion\Models\Dominion;
+use OpenDominion\Models\GameEvent;
+use OpenDominion\Models\Realm;
+use OpenDominion\Services\Dominion\HistoryService;
+
 // misc functions, probably could use a refactor later
 class MiscController extends AbstractDominionController
 {
@@ -155,8 +160,23 @@ class MiscController extends AbstractDominionController
             throw new LogicException('You cannot abandon other dominions than your own.');
         }
 
-        $result = [];
+        $data = [
+            'ruler_name' => $dominion->ruler_name,
+            'ruler_title' => $dominion->title->name
+        ];
+
+
         # Abandon the dominion.
+        $abandonDominionEvent = GameEvent::create([
+          'round_id' => $dominion->round_id,
+          'source_type' => Dominion::class,
+          'source_id' => $dominion->id,
+          'target_type' => NULL,
+          'target_id' => NULL,
+          'type' => 'abandon_dominion',
+          'data' => $data,
+        ]);
+        $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
 
         # Remove votes
         DB::table('dominions')->where('monarchy_vote_for_dominion_id', '=', $dominion->id)->update(['monarchy_vote_for_dominion_id' => null]);
@@ -165,8 +185,6 @@ class MiscController extends AbstractDominionController
         DB::table('dominions')->where('id', '=', $dominion->id)->where('user_id', '=', Auth::user()->id)->update(['ruler_name' => ('Formerly ' . $dominion->ruler_name)]);
 
         DB::table('dominions')->where('id', '=', $dominion->id)->where('user_id', '=', Auth::user()->id)->update(['user_id' => null, 'former_user_id' => Auth::user()->id]);
-
-
 
         $this->dominionSelectorService->unsetUserSelectedDominion();
 

@@ -117,7 +117,7 @@
                                                 elseif($gameEvent->target->alignment == 'npc')
                                                 {
                                                     $alignment = 'Barbarian Horde';
-                                                    $verb = 'been spotted in';
+                                                    $verb = 'was spotted in';
                                                 }
                                                 else
                                                 {
@@ -126,7 +126,7 @@
 
                                                 @endphp
 
-                                                The {{ $raceHelper->getRaceAdjective($gameEvent->source->race) }} dominion of <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a>, led by <em>{{ $gameEvent->source->title->name }}</em> {{ $gameEvent->source->ruler_name }}, has {{ $verb }} the
+                                                The {{ $raceHelper->getRaceAdjective($gameEvent->source->race) }} dominion of <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a>, led by <em>{{ $gameEvent->source->title->name }}</em> {{ $gameEvent->source->ruler_name }}, {{ $verb }} the
                                                 <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}">
                                                   @if ($gameEvent->target->id == $selectedDominion->realm_id)
                                                     <span class="text-green">
@@ -134,20 +134,14 @@
                                                     <span class="text-red">
                                                   @endif
                                                   {{ $alignment }}</span></a>.
-                                            @elseif($gameEvent->type === 'send_units' and $gameEvent->source->realm->id === $selectedDominion->realm->id)
-                                                Units from <span class="text-aqua">{{ $gameEvent->source->name }} <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> have been sent to invade <span class="text-orange">{{ $gameEvent->target->name }}</span>
-                                                <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a>.
+                                            @elseif($gameEvent->type === 'abandon_dominion')
+                                                The dominion <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> was abandoned by <em>{{ $gameEvent->data['ruler_title'] }}</em> {{ $gameEvent->data['ruler_name'] }}.
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            @if ($gameEvent->type === 'invasion')
-                                                @if ($gameEvent->source->realm_id == $selectedDominion->realm->id or $gameEvent->target->realm_id == $selectedDominion->realm->id)
-                                                    <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="ra ra-crossed-swords ra-fw"></i></a>
-                                                @endif
-                                            @endif
-                                            @if($gameEvent->type === 'send_units' and $gameEvent->source->realm->id === $selectedDominion->realm->id)
-                                                    <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="ra ra-boot-stomp ra-fw"></i></a>
-                                            @endif
+                                        @if ($gameEvent->source->realm_id == $selectedDominion->realm->id or $gameEvent->target->realm_id == $selectedDominion->realm->id)
+                                            <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="ra ra-crossed-swords ra-fw"></i></a>
+                                        @endif
                                         </td>
                                     </tr>
                                 @endif
