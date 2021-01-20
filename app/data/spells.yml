@@ -443,7 +443,7 @@ nightfall:
     offensive_power: 5
 
 campaign:
-  name: Campaign
+  name: Bregon's Campaign
   scope: self
   class: passive
   cost: 8
@@ -795,23 +795,35 @@ enthralling:
 # /CULT
 
 call_to_arms:
-  name: Call To Arms
+  name: Bregon's Arsenal
   scope: self
   class: passive
-  cost: 20
+  cost: 12
   duration: 12
   cooldown: 24
   exclusive_races:
     - Human
   perks:
-    unit_gold_costs: -10
-    unit_ore_costs: -10
+    unit_gold_costs: -15
+    unit_ore_costs: -15
     training_time: -6
-    ore_production: 20
-    gold_production: 20
+
+bregons_call:
+  name: Bregon's Call
+  scope: self
+  class: passive
+  cost: 10
+  duration: 12
+  cooldown: 0
+  exclusive_races:
+    - Human
+    - Nomad
+  perks:
+    defensive_power_from_peasants: 1
+    no_drafting: 1
 
 fine_arts:
-  name: Fine Arts
+  name: Mirnon's Delights
   scope: self
   class: passive
   cost: 10
