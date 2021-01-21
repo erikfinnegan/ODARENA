@@ -901,6 +901,8 @@ class SpellHelper
 
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
 
+            'no_drafting' => 'No draftees are drafted.',
+
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',
 
@@ -960,6 +962,8 @@ class SpellHelper
             'increases_casualties_on_offense_from_wizard_ratio' => 'Enemy casualties increased by %s%% for every 1 wizard ratio.',
 
             'immune_to_temples' => 'Defensive modifiers are not affected by Temples.',
+
+            'defensive_power_from_peasants' => '%s raw defensive power per peasant',
 
             // Improvements
             'improvements' => '%s%% improvement points from investments made while spell is active',

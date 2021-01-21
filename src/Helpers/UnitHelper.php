@@ -115,6 +115,7 @@ class UnitHelper
             'defense_vs_resource' => 'Defense increased by 1 for every %2$s %1$s attacker has (max +%3$s).',
 
             'offense_from_resource' => 'Offense increased by 1 for every %2$s %1$s (no max).',
+            'offense_from_resource_exhausting' => 'Offense increased by 1 for every %2$s %1$s (no max). All %1$s is spent when the unit attacks.',
             'defense_from_resource' => 'Defense increased by 1 for every %2$s %1$s (max +%3$s).',
 
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
@@ -239,6 +240,7 @@ class UnitHelper
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to %1$s at home.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
             'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increasable by %3$s improvements.',
+            'building_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by %4$ xx your %3$s improvements.',
 
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
 

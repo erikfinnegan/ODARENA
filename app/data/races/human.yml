@@ -21,7 +21,6 @@ perks:
   increased_construction_speed: 4
 
 units:
-
   - name: Man-at-Arms
     training_time: 9
     type:

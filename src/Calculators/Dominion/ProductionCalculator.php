@@ -305,11 +305,6 @@ class ProductionCalculator
         $consumers += $dominion->military_wizards;
         $consumers += $dominion->military_archmages;
 
-        if($dominion->race->getPerkValue('gryphon_nests_drafts'))
-        {
-            $consumers -= $dominion->peasants;
-        }
-
         // Values
         $populationConsumption = 0.25;
 

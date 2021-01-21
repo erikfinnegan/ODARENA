@@ -280,6 +280,27 @@ class InvadeActionService
                         throw new GameException('You can at most send ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To send more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your ' . ucwords(str_plural($buildingLimit[2], 3)) . '.');
                     }
                 }
+
+                $buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit_increasable');
+                if($buildingLimit)
+                {
+                    // We have building limit for this unit.
+                    $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
+                    $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
+                    $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
+                    $improvementMultiplier = (float)$buildingLimit[3]; # Multiplier of the improvement
+
+                    $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease)) * $improvementMultiplier;
+
+                    $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
+
+                    $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
+
+                    if($amount > $upperLimit)
+                    {
+                        throw new GameException('You can at most send ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To send more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your ' . ucwords(str_plural($buildingLimit[2], 3)) . '.');
+                    }
+                }
             }
 
             // Cannot invade until round has started.
@@ -2287,7 +2308,7 @@ class InvadeActionService
         $immortalAttackersDeaths = array_fill(1, 4, 0);
 
         $zealots = 0;
-        $immortalsKilledPerZealot = 2;
+        $immortalsKilledPerZealot = 1.5;
         $soulsDestroyedPerZealot = 2;
 
         if($attacker->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
@@ -2317,7 +2338,7 @@ class InvadeActionService
                 }
             }
 
-            $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalDefenders) * 0.04);
+            $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalDefenders) * 0.03);
 
             # Determine ratio of each immortal defender to kill.
             if(array_sum($immortalDefenders) > 0)
@@ -2393,7 +2414,7 @@ class InvadeActionService
                   }
               }
 
-              $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalAttackers) * 0.04);
+              $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalAttackers) * 0.03);
 
               # Determine ratio of each immortal defender to kill.
               if(array_sum($immortalAttackers) > 0)

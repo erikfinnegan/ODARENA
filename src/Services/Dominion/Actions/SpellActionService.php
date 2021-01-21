@@ -379,7 +379,7 @@ class SpellActionService
             {
                 # Is the spell reflected?
                 $spellReflected = false;
-                if (random_chance($this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'chance_to_reflect_spells')) and !$isInvasionSpell)
+                if (random_chance($target->getSpellPerkMultiplier('chance_to_reflect_spells')) and !$isInvasionSpell)
                 {
                     $spellReflected = true;
                     $reflectedBy = $target;

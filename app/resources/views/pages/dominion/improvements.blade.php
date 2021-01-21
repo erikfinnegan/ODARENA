@@ -104,18 +104,17 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                 @else
                                     @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                                         <option value="mana" data-amount="{{ $selectedDominion->resource_mana }}" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
-                                    @else
-                                          @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
-                                              <option value="soul" data-amount="{{ $selectedDominion->resource_soul }}" {{ $selectedResource  === 'soul' ? 'selected' : ''}}>Soul</option>
-                                          @endif
-                                          @if ((bool)$selectedDominion->race->getPerkValue('can_invest_food'))
-                                              <option value="food" data-amount="{{ $selectedDominion->resource_food }}" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
-                                          @endif
-                                        <option value="gems" data-amount="{{ $selectedDominion->resource_gems }}" {{ $selectedDominion->most_recent_improvement_resource  === 'gems' ? 'selected' : ''}}>Gems</option>
-                                        <option value="lumber" data-amount="{{ $selectedDominion->resource_lumber }}" {{ $selectedDominion->most_recent_improvement_resource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
-                                        <option value="ore" data-amount="{{ $selectedDominion->resource_ore }}" {{ $selectedDominion->most_recent_improvement_resource  === 'ore' ? 'selected' : ''}}>Ore</option>
-                                        <option value="gold" data-amount="{{ $selectedDominion->resource_gold }}" {{ $selectedDominion->most_recent_improvement_resource === 'gold' ? 'selected' : ''}}>Gold</option>
                                     @endif
+                                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_soul'))
+                                        <option value="soul" data-amount="{{ $selectedDominion->resource_soul }}" {{ $selectedResource  === 'soul' ? 'selected' : ''}}>Soul</option>
+                                    @endif
+                                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_food'))
+                                        <option value="food" data-amount="{{ $selectedDominion->resource_food }}" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
+                                    @endif
+                                    <option value="gems" data-amount="{{ $selectedDominion->resource_gems }}" {{ $selectedDominion->most_recent_improvement_resource  === 'gems' ? 'selected' : ''}}>Gems</option>
+                                    <option value="lumber" data-amount="{{ $selectedDominion->resource_lumber }}" {{ $selectedDominion->most_recent_improvement_resource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
+                                    <option value="ore" data-amount="{{ $selectedDominion->resource_ore }}" {{ $selectedDominion->most_recent_improvement_resource  === 'ore' ? 'selected' : ''}}>Ore</option>
+                                    <option value="gold" data-amount="{{ $selectedDominion->resource_gold }}" {{ $selectedDominion->most_recent_improvement_resource === 'gold' ? 'selected' : ''}}>Gold</option>
                                 @endif
                             </select>
                         </div>

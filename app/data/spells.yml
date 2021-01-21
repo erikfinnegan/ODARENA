@@ -83,7 +83,7 @@ fools_gold:
     - Afflicted
   perks:
     gold_theft: -100
-    gems_theft: -100d
+    gems_theft: -100
     ore_theft: -100
 
 surreal_perception:
@@ -127,7 +127,7 @@ transmogrify:
     resource_conversion: ore,gems,25,4 # from, to, percentage
 
 waterwall:
-  name: Glimj's Wall
+  name: Glimj's Favour
   scope: self
   class: passive
   cost: 8
@@ -278,7 +278,7 @@ swarming:
     drafting: 100
 
 divine_intervention:
-  name: Tiranthael's Blade
+  name: Tiranthael's Blessing
   scope: self
   class: passive
   cost: 10
@@ -548,8 +548,8 @@ ambush:
   scope: self
   class: passive
   cost: 2
-  duration: 4
-  cooldown: 18
+  duration: 1
+  cooldown: 6
   exclusive_races:
     - Beastfolk
   perks:

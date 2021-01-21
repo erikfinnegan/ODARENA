@@ -51,7 +51,8 @@ class LandImprovementCalculator
         if($dominion->race->getPerkValue('land_improvements'))
         {
             $bonus = 1;
-            $bonus += $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+            $bonus += $dominion->getTechPerkMultiplier('improvements');
+            $bonus *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
         }
 
         return $bonus;
@@ -135,7 +136,7 @@ class LandImprovementCalculator
         return $bonus;
     }
 
-    # Food bonus from Water
+    # Boat bonus from Water
     public function getBoatProductionBonus(Dominion $dominion): float
     {
         $bonus = 0;

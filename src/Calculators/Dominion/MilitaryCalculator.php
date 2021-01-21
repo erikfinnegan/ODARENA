@@ -500,6 +500,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromNetVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromResourceExhaustingPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromTimePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromSpell($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
@@ -1089,6 +1090,23 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+    protected function getUnitPowerFromResourceExhaustingPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+
+        $fromResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_resource_exhausting", null);
+
+        if(!$fromResourcePerkData)
+        {
+            return 0;
+        }
+
+        $resource = (string)$fromResourcePerkData[0];
+        $ratio = (float)$fromResourcePerkData[1];
+
+        $powerFromPerk = $targetResources = $dominion->{'resource_' . $resource};
+
+        return $powerFromPerk;
+    }
 
       protected function getUnitPowerFromMob(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType, ?array $calc = [], array $units = null, array $invadingUnits = null): float
       {

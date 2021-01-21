@@ -19,6 +19,7 @@ perks:
   mana_drain: -50
   max_population: -20
   morale_on_successful_invasion_from_gryphon_nests: 1
+  gryphon_nests_generate_gryphons: 1
 units:
   - name: Arbalist
     training_time: 9
@@ -26,50 +27,15 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
     cost:
-      gold: 650
+      gold: 720
       ore: 75
       lumber: 25
     power:
       offense: 0
-      defense: 6
-
-  - name: Ice Boulder
-    training_time: 6
-    type:
-      - ammunition
-    need_boat: false
-    cost:
-      gold: 500
-      mana: 100
-    power:
-      offense: 0
-      defense: 0
+      defense: 7
     perks:
-      does_not_count_as_population: 1
-      no_draftee: 1
-      offense_from_pairing: 3,30 # slot, amount
-      fixed_casualties: 100
-      sendable_with_zero_op: 1
-
-  - name: Trebuchet
-    need_boat: false
-    training_time: 12
-    type:
-      - machine
-    cost:
-      gold: 1000
-      lumber: 150
-      mana: 10
-    power:
-      offense: 0
-      defense: 0
-    perks:
-      no_draftee: 1
-      does_not_count_as_population: 1
-      true_immortal: 1
-      sendable_with_zero_op: 1
+      immortal_on_fending_off: 1
 
   - name: Ballista
     need_boat: false
@@ -88,3 +54,41 @@ units:
       immortal_on_fending_off: 1
       provides_jobs: 1
       plunder: mana,10
+
+  - name: Hailstorm Cannon
+    need_boat: false
+    training_time: 12
+    type:
+      - machine
+    cost:
+      gold: 1000000
+      ore: 400000
+      lumber: 200000
+      mana: 200000
+    power:
+      offense: 0
+      defense: 0
+    perks:
+      offense_from_resource_exhausting: mana,4 # +1 OP per 4 mana, no max, exhausts mana upon firing
+      amount_limit: 1
+      does_not_count_as_population: 1
+      sendable_with_zero_op: 1
+      provides_jobs: 1
+
+  - name: Gryphon
+    need_boat: false
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      food: 100
+    power:
+      offense: 120
+      defense: 90
+    perks:
+      cannot_be_trained: 1
+      no_draftee: 1
+      does_not_count_as_population: 1
+      building_limit_increasable: gryphon_nest,1,spires,2 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier

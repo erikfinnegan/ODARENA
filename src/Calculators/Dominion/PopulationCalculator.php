@@ -442,8 +442,35 @@ class PopulationCalculator
      */
     public function getPopulationBirth(Dominion $dominion): int
     {
-        $populationBirth = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
+        $populationBirth = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationGrowthRate($dominion));
         return $populationBirth;
+    }
+
+    public function getPopulationGrowthRate(Dominion $dominion): float
+    {
+          $growthRate = 0;
+          $multiplier = 0;
+
+          // Growth only if net food > 0 or race doesn't eat food.
+          if($dominion->resource_food > 0 or $dominion->race->getPerkMultiplier('food_consumption') == -1)
+          {
+              $growthRate = 0.03;
+          }
+
+          // Temples
+          $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * 6);
+
+          // Racial Perk
+          $multiplier += $dominion->race->getPerkMultiplier('population_growth');
+
+          // Spell
+          $multiplier += $dominion->getSpellPerkMultiplier('population_growth');
+
+          // Tech
+          $multiplier += $dominion->getTechPerkMultiplier('population_growth');
+
+          return $growthRate * (1 + $multiplier);
+
     }
 
     /**
@@ -501,6 +528,7 @@ class PopulationCalculator
      * @param Dominion $dominion
      * @return float
      */
+     /*
     public function getPopulationBirthMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
@@ -525,6 +553,7 @@ class PopulationCalculator
 
         return (1 + $multiplier);
     }
+    */
 
     /**
      * Returns the Dominion's population peasant growth.
@@ -572,33 +601,25 @@ class PopulationCalculator
 
         $draftees = 0;
 
-        if($dominion->race->getPerkValue('gryphon_nests_drafts'))
+        if($dominion->getSpellPerkValue('no_drafting'))
         {
-            if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
-            {
-                $draftees += round($dominion->building_gryphon_nest * 0.2);
-            }
-
-            $draftees = min($draftees, $dominion->peasants);
+            return $draftees;
         }
-        else
+
+        // Values (percentages)
+        $growthFactor = 0.01;
+
+        // Advancement: Conscription
+        $growthFactor *= 1 + $dominion->getTechPerkMultiplier('drafting');
+
+        // Spell
+        $growthFactor *= 1 + $dominion->getSpellPerkMultiplier('drafting');
+
+        if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
         {
-
-            // Values (percentages)
-            $growthFactor = 0.01;
-
-            // Racial Spell: Swarming (Ants)
-            $growthFactor *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'drafting');
-
-            // Advancement: Conscription
-            $growthFactor *= 1 + $dominion->getTechPerkMultiplier('drafting');
-
-            if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
-            {
-                $draftees += round($dominion->peasants * $growthFactor);
-            }
-
+            $draftees += round($dominion->peasants * $growthFactor);
         }
+
 
         return $draftees;
     }

@@ -238,12 +238,9 @@ class EspionageActionService
             throw new GameException("Your spy force is too weak to cast {$operationInfo['name']}. Please train some more spies.");
         }
 
-        if ($targetSpa !== 0.0) {
-            $successRate = $this->opsHelper->operationSuccessChance(
-                $selfSpa,
-                $targetSpa,
-                static::INFO_MULTIPLIER_SUCCESS_RATE
-            );
+        if ($targetSpa !== 0.0)
+        {
+            $successRate = $this->opsHelper->operationSuccessChance($selfSpa, $targetSpa, static::INFO_MULTIPLIER_SUCCESS_RATE);
 
             if (!random_chance($successRate)) {
                 // Values (percentage)

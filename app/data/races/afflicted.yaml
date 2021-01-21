@@ -23,7 +23,7 @@ construction_materials: gold,lumber
 
 perks:
   max_population: 20
-  population_growth: -5
+  population_growth: 25
   converts_assassinated_draftees: 1 # into slot 1
   converts_executed_spies: 3 # into slot 3
 units:
@@ -40,7 +40,7 @@ units:
       defense: 0
     perks:
       value_conversion: 2,1 # [Killed]*2 = number of unit1 created
-      food_consumption: 0.15
+      food_consumption: 0.125
       attrition: 0.5 # 0.5% lost each tick.
       does_not_count_as_population: 1
 

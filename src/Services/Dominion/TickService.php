@@ -396,7 +396,7 @@ class TickService
                     $this->queueService->queueResources('exploration', $dominion, [$homeLandType => $dominion->tick->generated_land], 12);
                 }
 
-                // Myconid and Cult: Unit generation
+                // Unit generation
                 if(!empty($dominion->tick->generated_unit1) and $dominion->protection_ticks == 0)
                 {
                     $this->queueService->queueResources('training', $dominion, ['military_unit1' => $dominion->tick->generated_unit1], 12);
@@ -1030,42 +1030,7 @@ class TickService
               }
           }
 
-          # Imperial Crypt: Dark Rites units
-
-          # Version 1.1 (Round 31):
-          /*
-          if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites') and ($dominion->military_unit3 + $dominion->military_unit4) > 0)
-          {
-              # What portion of the Crypt bodies is available to this dominion?
-              $cryptProportion = $this->realmCalculator->getCryptBodiesProportion($dominion);
-
-              # Determine how many bodies are available to this dominion.
-              $bodiesAvailable = floor($dominion->realm->crypt * $cryptProportion);
-
-              $unit4PerUnit1 = 10; # How many Wraiths does it take to create a Skeleton
-
-              # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
-              $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable));
-
-              # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
-              if($unit1Created > 0)
-              {
-                  $bodiesSpent = min($dominion->realm->crypt, $unit1Created);
-              }
-              else
-              {
-                  $bodiesSpent = 0;
-              }
-
-              #$bodiesSpent = min($dominion->realm->crypt, $unit1Created);
-
-              # Prepare the units for queue.
-              $tick->generated_unit1 += $unit1Created;
-
-              # Prepare the bodies for removal.
-              $tick->crypt_bodies_spent = $bodiesSpent;
-          }
-          */
+          # Imperial Crypt: Rites of Zidur, Rites of Kinthys
 
           $tick->crypt_bodies_spent = 0;
 
@@ -1118,6 +1083,31 @@ class TickService
 
               # Prepare the bodies for removal.
               $tick->crypt_bodies_spent += $bodiesSpent;
+          }
+
+          # Snow Elf: Gryphon Nests generate Gryphons
+          if($dominion->race->getPerkValue('gryphon_nests_generate_gryphons'))
+          {
+              $gryphonSlot = 4;
+              $newGryphons = 0;
+              $maxGryphonNestsPercentage = 0.20;
+              $gryphonNestsPercentage = min($maxGryphonNestsPercentage, ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)));
+
+              $gryphonNests = floor($gryphonNestsPercentage * $this->landCalculator->getTotalLand($dominion));
+              $gryphonsMax = $gryphonNests * 1;
+
+              $gryphonsCurrent = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $gryphonSlot);
+              $gryphonsCurrent += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$gryphonSlot);
+
+              $availableNestHousing = $gryphonsMax - $gryphonsCurrent;
+
+              if($availableNestHousing > 0)
+              {
+                  $newGryphons = min($gryphonNests * 0.1, $availableNestHousing);
+              }
+
+              $tick->generated_unit4 = $newGryphons;
+
           }
 
           # Use decimals as probability to round up

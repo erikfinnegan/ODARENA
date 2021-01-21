@@ -557,10 +557,14 @@ class Dominion extends AbstractModel
      */
     public function getSpellPerkValue(string $key): float
     {
+        $value = 0;
         $perks = $this->getSpellPerks()->groupBy('key');
-        if (isset($perks[$key])) {
+
+        if (isset($perks[$key]))
+        {
             $max = (float)$perks[$key]->max('pivot.value');
-            if ($max < 0) {
+            if ($max < 0)
+            {
                 return (float)$perks[$key]->min('pivot.value');
             }
             return $max;

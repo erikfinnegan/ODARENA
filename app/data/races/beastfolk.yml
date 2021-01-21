@@ -62,7 +62,7 @@ units:
       gold: 1000
       ore: 0
     power:
-      offense: 1
+      offense: 2
       defense: 3
     perks:
       offense_vs_land: plain,10,3 # land type, ratio%, max
@@ -80,7 +80,7 @@ units:
       ore: 90
     power:
       offense: 4
-      defense: 1
+      defense: 2
     perks:
       offense_vs_land: plain,10,3 # land type, ratio%, max
       defense_from_land: forest,10,3 # land type, ratio%, max

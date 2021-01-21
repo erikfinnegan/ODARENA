@@ -68,7 +68,7 @@ units:
     cost:
       gold: 2800
     power:
-      offense: 14
+      offense: 16
       defense: 10
     perks:
       sink_boats_offense: 1

@@ -230,16 +230,6 @@ class RaceHelper
                 $description = 'Does not kill units.';
                 $booleanValue = true;
                 break;
-          case 'gryphon_nests_generate_wild_yetis':
-                $negativeBenefit = false;
-                $description = 'Wild yeti population';
-                $booleanValue = true;
-                break;
-          case 'gryphon_nests_drafts':
-                $negativeBenefit = false;
-                $description = 'Wild yetis turn into yetis';
-                $booleanValue = true;
-                break;
             case 'prestige_gains':
                 $negativeBenefit = false;
                 $description = 'Prestige gains';
@@ -499,8 +489,14 @@ class RaceHelper
                 break;
             case 'morale_on_successful_invasion_from_gryphon_nests':
                 $negativeBenefit = false;
-                $description = '+1% morale on successful invasions for every 1% Gryphon Nests owned (max +20%)';
+                $description = '+1% morale on successful invasions for every 1% Gryphon Nests (max 20%)';
                 $booleanValue = true;
+                break;
+          case 'gryphon_nests_generate_gryphons':
+                $negativeBenefit = false;
+                $description = 'Gryphon Nests produce Gryphons';
+                $valueType = ' per tick (max 20% of your land as nests are populated)';
+                $booleanValue = 'static';
                 break;
           case 'converts_assassinated_draftees':
                 $negativeBenefit = false;

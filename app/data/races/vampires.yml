@@ -38,7 +38,6 @@ units:
     perks:
       cannot_be_trained: 1
       does_not_count_as_population: 1
-      extra_food_consumption: 0.025
       vampiric_conversion: 4,7 # <=3: unit1, >3 <=7: unit2, >7: unit3
 
   - name: Gnarl
@@ -55,7 +54,6 @@ units:
     perks:
       cannot_be_trained: 1
       fewer_casualties: 50
-      extra_food_consumption: 0.1
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,1 # Between the hours 18:00 and 06:00, gains +1 OP
       vampiric_conversion: 4,7
@@ -71,7 +69,7 @@ units:
     cost:
       gold: 0
     power:
-      offense: 10
+      offense: 14
       defense: 8
     perks:
       cannot_be_trained: 1
@@ -99,5 +97,3 @@ units:
       offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
       counts_as_spy_defense: 0.125
       faster_return: 4
-      increases_casualties_on_offense: 1
-      increases_casualties_on_defense: 1
