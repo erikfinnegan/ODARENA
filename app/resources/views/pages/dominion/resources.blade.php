@@ -328,7 +328,7 @@
                           <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                         </tr>
                         <tr>
-                          <td><span data-toggle="tooltip" data-placement="top" title="{{ number_format($populationCalculator->getPopulationGrowthRate($selectedDominion) * 100,2) }}% growth per tick">{{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}</span>:</td>
+                          <td><span data-toggle="tooltip" data-placement="top" title="{{ round($populationCalculator->getPopulationBirthRaw($selectedDominion) * $populationCalculator->getPopulationBirthMultiplier($selectedDominion)) }}% growth per tick">{{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}</span>:</td>
                           <td>{{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                               @if ($selectedDominion->peasants_last_hour < 0)
                                   <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>

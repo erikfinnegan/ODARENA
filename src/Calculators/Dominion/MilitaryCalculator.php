@@ -1103,7 +1103,7 @@ class MilitaryCalculator
         $resource = (string)$fromResourcePerkData[0];
         $ratio = (float)$fromResourcePerkData[1];
 
-        $powerFromPerk = $targetResources = $dominion->{'resource_' . $resource};
+        $powerFromPerk = $dominion->{'resource_' . $resource} / $ratio;
 
         return $powerFromPerk;
     }

@@ -442,7 +442,7 @@ class PopulationCalculator
      */
     public function getPopulationBirth(Dominion $dominion): int
     {
-        $populationBirth = round($this->getPopulationBirthRaw($dominion) * (1 + $this->getPopulationGrowthRate($dominion)));
+        $populationBirth = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
         return $populationBirth;
     }
 
@@ -450,12 +450,6 @@ class PopulationCalculator
     {
           $growthRate = 0;
           $multiplier = 0;
-
-          // Growth only if net food > 0 or race doesn't eat food.
-          if($dominion->resource_food > 0 or $dominion->race->getPerkMultiplier('food_consumption') == -1)
-          {
-              $growthRate = 0.03;
-          }
 
           // Temples
           $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * 6);
@@ -528,7 +522,7 @@ class PopulationCalculator
      * @param Dominion $dominion
      * @return float
      */
-     /*
+
     public function getPopulationBirthMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
@@ -539,6 +533,12 @@ class PopulationCalculator
         // Temples
         $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * 6);
 
+        // Spells
+        $multiplier += $dominion->getSpellPerkMultiplier('population_growth');
+
+        // Advancement
+        $multiplier += $dominion->getTechPerkMultiplier('population_growth');
+
         # Look for population_growth in units
         for ($slot = 1; $slot <= 4; $slot++)
         {
@@ -548,12 +548,9 @@ class PopulationCalculator
             }
         }
 
-        // Spells
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'population_growth');
-
         return (1 + $multiplier);
     }
-    */
+
 
     /**
      * Returns the Dominion's population peasant growth.
