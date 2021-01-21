@@ -1,0 +1,40 @@
+
+bregons_hammer:
+  name: Bregon's Hammer
+  description: This hammer was wielded by Bregon to forge armours and weapons.
+  rarity: 50 # out of 100
+  perks:
+    unit_gold_costs: -5
+    unit_ore_costs: -5
+
+druvas_harp:
+  name: Druva's Harp
+  description: The harp seems to play gentle melodies on its own.
+  rarity: 50 # out of 100
+  excluded_races:
+    - Afflicted
+  perks:
+    population_growth: 25
+    max_population: 5
+
+glimjs_compass:
+  name: Glimj's Kelp
+  description: The kelp fortifies the waters 
+  rarity: 50 # out of 100
+  perks:
+    food_production_from_water: 5,5 # +5% food production
+
+sazals_scrolls:
+  name: Sazal's Scrolls
+  description: The scrolls show pathways into the magic energies that help wizards cast spells with greater proficiency.
+  rarity: 50 # out of 100
+  perks:
+    wizard_strength_cost: -1
+
+
+sazals_staff:
+  name: Sazal's Staff
+  description: Once placed
+  rarity: 50 # out of 100
+  perks:
+    spell_cost: -50

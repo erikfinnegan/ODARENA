@@ -9,8 +9,8 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\ConstructActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\DestroyActionRequest;
-use OpenDominion\Services\Analytics\AnalyticsEvent;
-use OpenDominion\Services\Analytics\AnalyticsService;
+
+
 use OpenDominion\Services\Dominion\Actions\ConstructActionService;
 use OpenDominion\Services\Dominion\Actions\DestroyActionService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -49,15 +49,6 @@ class BuildingController extends AbstractDominionController
                 ->withErrors([$e->getMessage()]);
         }
 
-        // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'construct',
-            '',
-            array_sum($request->get('construct')) // todo: get from $result
-        ));
-
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.construct');
     }
@@ -84,15 +75,6 @@ class BuildingController extends AbstractDominionController
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);
         }
-
-        // todo: laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'destroy',
-            '',
-            $result['data']['totalBuildingsDestroyed']
-        ));
 
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.destroy');

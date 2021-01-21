@@ -7,8 +7,8 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\ImproveActionRequest;
-use OpenDominion\Services\Analytics\AnalyticsEvent;
-use OpenDominion\Services\Analytics\AnalyticsService;
+
+
 use OpenDominion\Services\Dominion\Actions\ImproveActionService;
 use OpenDominion\Services\Dominion\QueueService;
 
@@ -41,15 +41,6 @@ class ImprovementController extends AbstractDominionController
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);
         }
-
-        // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'improve',
-            null,
-            array_sum($request->get('improve'))
-        ));
 
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.improvements', [

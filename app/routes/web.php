@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Routing\Router;
-use Spatie\Honeypot\ProtectAgainstSpam;
+#use Spatie\Honeypot\ProtectAgainstSpam;
 
 /** @var Router $router */
 $router->get('/')->uses('HomeController@getIndex')->name('home');

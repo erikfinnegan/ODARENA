@@ -7,8 +7,8 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\TechActionRequest;
 use OpenDominion\Models\Tech;
-use OpenDominion\Services\Analytics\AnalyticsEvent;
-use OpenDominion\Services\Analytics\AnalyticsService;
+
+
 use OpenDominion\Services\Dominion\Actions\TechActionService;
 
 class TechController extends AbstractDominionController
@@ -45,14 +45,6 @@ class TechController extends AbstractDominionController
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);
         }
-
-        // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'tech',
-            $request->get('key')
-        ));
 
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.advancements');

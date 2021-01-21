@@ -9,8 +9,8 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\CastSpellRequest;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Services\Analytics\AnalyticsEvent;
-use OpenDominion\Services\Analytics\AnalyticsService;
+
+
 use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
@@ -84,15 +84,6 @@ class MagicController extends AbstractDominionController
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);
         }
-
-        // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'magic.cast',
-            $result['data']['spell'],
-            $result['data']['manaCost']
-        ));
 
         $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
 

@@ -12,7 +12,6 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use OpenDominion\Notifications\User\ResetPasswordNotification;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * OpenDominion\Models\User
@@ -43,7 +42,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends AbstractModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword, HasRoles, Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
     protected $casts = [
         'settings' => 'array',

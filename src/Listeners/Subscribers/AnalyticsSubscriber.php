@@ -7,8 +7,6 @@ use OpenDominion\Events\UserActivatedEvent;
 use OpenDominion\Events\UserLoggedInEvent;
 use OpenDominion\Events\UserLoggedOutEvent;
 use OpenDominion\Events\UserRegisteredEvent;
-use OpenDominion\Services\Analytics\AnalyticsService;
-use OpenDominion\Services\Analytics\HasAnalyticsEvent;
 
 class AnalyticsSubscriber implements SubscriberInterface
 {
@@ -24,22 +22,10 @@ class AnalyticsSubscriber implements SubscriberInterface
     ];
 
     /**
-     * AnalyticsSubscriber constructor.
-     *
-     * @param AnalyticsService $analyticsService
-     */
-    public function __construct(AnalyticsService $analyticsService)
-    {
-        $this->analyticsService = $analyticsService;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen($this->events, function (HasAnalyticsEvent $event) {
-            $this->analyticsService->queueFlashEvent($event->getAnalyticsEvent());
-        });
+        // Nothiing
     }
 }

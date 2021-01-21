@@ -38,7 +38,7 @@ class Kernel extends HttpKernel
 
             Middleware\UpdateUserLastOnline::class,
             Middleware\ShareSelectedDominion::class,
-            Middleware\FireAnalyticsFlashEvents::class,
+            #Middleware\FireAnalyticsFlashEvents::class,
         ],
 
         'api' => [

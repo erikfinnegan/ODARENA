@@ -152,7 +152,6 @@ return [
          */
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Ipunkt\LaravelAnalytics\AnalyticsServiceProvider::class,
         Superbalist\LaravelGoogleCloudStorage\GoogleCloudStorageServiceProvider::class,
 
         /*
@@ -163,7 +162,7 @@ return [
         // OpenDominion\Providers\BroadcastServiceProvider::class,
         OpenDominion\Providers\ComposerServiceProvider::class,
         OpenDominion\Providers\EventServiceProvider::class,
-        OpenDominion\Providers\TelescopeServiceProvider::class,
+        // OpenDominion\Providers\TelescopeServiceProvider::class,
         OpenDominion\Providers\RouteServiceProvider::class,
 
     ],
@@ -216,7 +215,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
-        'Analytics' => Ipunkt\LaravelAnalytics\AnalyticsFacade::class,
         'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
         'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
         'Image' => Intervention\Image\Facades\Image::class,

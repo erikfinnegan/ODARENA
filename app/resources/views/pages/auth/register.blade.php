@@ -10,7 +10,6 @@
                 </div>
                 <form action="{{ route('auth.register') }}" method="post" class="form-horizontal" role="form">
                     @csrf
-                    @honeypot
 
                     <div class="box-body">
 

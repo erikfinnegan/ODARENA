@@ -10,8 +10,8 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\Military\ChangeDraftRateActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\Military\TrainActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\ReleaseActionRequest;
-use OpenDominion\Services\Analytics\AnalyticsEvent;
-use OpenDominion\Services\Analytics\AnalyticsService;
+
+
 use OpenDominion\Services\Dominion\Actions\Military\ChangeDraftRateActionService;
 use OpenDominion\Services\Dominion\Actions\Military\TrainActionService;
 use OpenDominion\Services\Dominion\Actions\ReleaseActionService;
@@ -56,15 +56,6 @@ class MilitaryController extends AbstractDominionController
                 ->withErrors([$e->getMessage()]);
         }
 
-        // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'military.change-draft-rate',
-            '',
-            $result['data']['draftRate']
-        ));
-
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.military');
     }
@@ -82,15 +73,6 @@ class MilitaryController extends AbstractDominionController
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);
         }
-
-        // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'military.train',
-            '',
-            null //$result['totalUnits']
-        ));
 
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.military');
@@ -117,15 +99,6 @@ class MilitaryController extends AbstractDominionController
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);
         }
-
-        // todo: laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'release',
-            null, // todo: make null everywhere where ''
-            $result['data']['totalTroopsReleased']
-        ));
 
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.military.release');

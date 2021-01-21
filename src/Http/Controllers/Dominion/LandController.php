@@ -6,8 +6,8 @@ use OpenDominion\Calculators\Dominion\Actions\RezoningCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\RezoneActionRequest;
-use OpenDominion\Services\Analytics\AnalyticsEvent;
-use OpenDominion\Services\Analytics\AnalyticsService;
+
+
 use OpenDominion\Services\Dominion\Actions\RezoneActionService;
 
 use OpenDominion\Calculators\Dominion\Actions\ExplorationCalculator;
@@ -62,15 +62,6 @@ class LandController extends AbstractDominionController
                     ->withErrors([$e->getMessage()]);
             }
 
-            // todo: fire laravel event
-            $analyticsService = app(AnalyticsService::class);
-            $analyticsService->queueFlashEvent(new AnalyticsEvent(
-                'dominion',
-                'explore',
-                '', // todo: make null?
-                array_sum($request->get('explore'))
-            ));
-
             $request->session()->flash('alert-success', $result['message']);
             return redirect()->route('dominion.land');
         }
@@ -91,15 +82,6 @@ class LandController extends AbstractDominionController
                     ->withInput($request->all())
                     ->withErrors([$e->getMessage()]);
             }
-
-            // todo: fire laravel event
-            $analyticsService = app(AnalyticsService::class);
-            $analyticsService->queueFlashEvent(new AnalyticsEvent(
-                'dominion',
-                'rezone',
-                '', // todo: make null?
-                array_sum($request->get('remove'))
-            ));
 
             $request->session()->flash('alert-success', $result['message']);
             return redirect()->route('dominion.land');
