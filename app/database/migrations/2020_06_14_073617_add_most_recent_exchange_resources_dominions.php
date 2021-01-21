@@ -14,8 +14,8 @@ class AddMostRecentExchangeResourcesDominions extends Migration
     public function up()
     {
         Schema::table('dominions', function (Blueprint $table) {
-            $table->string('most_recent_exchange_from')->after('most_recent_improvement_resource')->default('platinum');
-            $table->string('most_recent_exchange_to')->after('most_recent_exchange_from')->default('platinum');
+            $table->string('most_recent_exchange_from')->after('most_recent_improvement_resource')->default('gold');
+            $table->string('most_recent_exchange_to')->after('most_recent_exchange_from')->default('gold');
         });
     }
 
