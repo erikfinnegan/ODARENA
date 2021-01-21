@@ -442,7 +442,7 @@ class PopulationCalculator
      */
     public function getPopulationBirth(Dominion $dominion): int
     {
-        $populationBirth = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationGrowthRate($dominion));
+        $populationBirth = round($this->getPopulationBirthRaw($dominion) * (1 + $this->getPopulationGrowthRate($dominion)));
         return $populationBirth;
     }
 
@@ -490,7 +490,7 @@ class PopulationCalculator
         }
 
         // Population births
-        $birth = (($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * $growthFactor);
+        $birth = ($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * $growthFactor;
 
         // In case of 0 peasants:
         if($dominion->peasants === 0)
