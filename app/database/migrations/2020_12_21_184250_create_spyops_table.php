@@ -17,7 +17,7 @@ class CreateSpyopsTable extends Migration
             $table->increments('id');
             $table->string('key');
             $table->string('name');
-            $table->enum('scope', ['info', 'theft', 'hostile']);
+            $table->string('scope');
             $table->text('excluded_races')->nullable();
             $table->text('exclusive_races')->nullable();
             $table->integer('enabled')->default(1);

@@ -16,7 +16,7 @@ class CreateRealmsTable extends Migration
             $table->increments('id');
             $table->integer('round_id')->unsigned();
             $table->integer('monarch_dominion_id')->unsigned()->nullable();
-            $table->enum('alignment', ['good', 'neutral', 'evil','npc','independent']);
+            $table->string('alignment');
             $table->integer('number');
             $table->string('name')->nullable();
             $table->timestamps();

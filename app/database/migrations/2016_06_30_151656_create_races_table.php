@@ -15,8 +15,8 @@ class CreateRacesTable extends Migration
         Schema::create('races', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->enum('alignment', ['good', 'neutral', 'evil', 'npc', 'other', 'independent']);
-            $table->enum('home_land_type', ['plain', 'mountain', 'swamp',/* 'cavern', */'forest', 'hill', 'water']);
+            $table->string('alignment');
+            $table->string('home_land_type');
 
             # ODA
             #$table->integer('playable');
