@@ -1,8 +1,7 @@
 name: Snow Elf
 alignment: good
 description:
-  <p>Each Trebuchet can throw one Ice Boulder, which is destroyed upon impact. It takes one tick for the Trebuchet to be able to throw another Ice Boulder.</p>
-  <p>It takes six ticks to reload Ballistas.</p>
+  <p>Gryphons can only be obtained by building Gryphon Nests.</p>
 home_land_type: mountain
 playable: 1
 
