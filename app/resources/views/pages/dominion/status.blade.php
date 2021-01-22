@@ -167,7 +167,11 @@
                                         <td>{{ number_format($selectedDominion->morale) }}%</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
+                                                {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
+                                            </span>
+                                        </td>
                                         <td>{{ number_format($selectedDominion->military_draftees) }}</td>
                                     </tr>
                                     <tr>

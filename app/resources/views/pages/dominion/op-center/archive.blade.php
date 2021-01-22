@@ -196,7 +196,11 @@
                                             <td>{{ number_format($infoOp->data['morale']) }}%</td>
                                         </tr>
                                         <tr>
-                                            <td>{{ str_plural($raceHelper->getPeasantsTerm($dominion->race)) }}:</td>
+                                            <td>
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
+                                                    {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
+                                                </span>
+                                            </td>
                                             <td>{{ number_format($infoOp->data['military_draftees']) }}</td>
                                         </tr>
                                         <tr>

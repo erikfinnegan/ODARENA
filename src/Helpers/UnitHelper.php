@@ -43,7 +43,7 @@ class UnitHelper
     {
 
         $helpStrings = [
-            'draftees' => 'Used for exploring and training other units. Provides 1 DP.',
+            'draftees' => 'Used for exploring and training other units.',
             'unit1' => ' ',
             'unit2' => ' ',
             'unit3' => ' ',
@@ -682,6 +682,16 @@ class UnitHelper
 
         $attributeString .= '</ul>';
         return $attributeString;
+    }
+
+    public function getDrafteeHelpString(Race $race): ?string
+    {
+        $drafteeDp = 1;
+
+        $drafteeDp = $race->getPerkValue('draftee_dp') ? $race->getPerkValue('draftee_dp') : 1;
+
+        return '<ul><li>DP: ' . $drafteeDp . '</li></ul>';
+
     }
 
     public function unitNeedsBoat(Unit $unit)

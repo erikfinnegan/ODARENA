@@ -21,7 +21,7 @@ archmages_cost: 2000,mana
 
 perks:
   food_consumption: -100
-  can_invest_mana: 1
+  can_invest_mana: 3
   improvements_max: 100
   improvements_decay: 0.1
   population_growth: 40

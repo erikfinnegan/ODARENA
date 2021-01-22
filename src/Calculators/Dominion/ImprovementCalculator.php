@@ -164,7 +164,7 @@ class ImprovementCalculator
         # Void: only sees mana
         if($dominion->race->getPerkValue('can_invest_mana'))
         {
-          $worth['mana'] = 3;
+          $worth['mana'] = $dominion->race->getPerkValue('can_invest_mana');
         }
         # (Growth only sees food)
         if($dominion->race->getPerkValue('tissue_improvement') or $dominion->race->getPerkValue('can_invest_food'))

@@ -1,7 +1,7 @@
 name: Snow Elf
 alignment: good
 description:
-  <p>Gryphons can only be obtained by building Gryphon Nests.</p>
+  <p>While Gryphons cannot be tried, Gryphon Nests attract 0.1 Gryphon per tick. Each Gryphon Nest can host one Gryphon, up to a maximum of 20% of your land being Gryphon Nests.</p>
 home_land_type: mountain
 playable: 1
 
@@ -18,7 +18,9 @@ perks:
   mana_drain: -50
   max_population: -20
   morale_on_successful_invasion_from_gryphon_nests: 1
-  gryphon_nests_generate_gryphons: 1
+  gryphon_nests_generate_gryphons: 0.1
+  can_invest_mana: 0.08
+
 units:
   - name: Arbalist
     training_time: 9

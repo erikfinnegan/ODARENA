@@ -141,7 +141,8 @@ class RaceHelper
             case 'can_invest_mana':
                 $negativeBenefit = false;
                 $description = 'Can use mana for improvements';
-                $booleanValue = true;
+                $valueType = ' point(s) per mana';
+                $booleanValue = 'static';
                 break;
             case 'can_invest_soul':
                 $negativeBenefit = false;

@@ -407,7 +407,11 @@
                                     @endphp
 
                                     <tr>
-                                        <td>Draftees</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
+                                                {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
+                                            </span>
+                                        </td>
                                         <td>
                                             @if ($event->target->realm->id === $selectedDominion->realm->id)
                                                 {{ number_format($draftees) }}

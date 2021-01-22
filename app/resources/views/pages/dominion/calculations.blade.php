@@ -106,7 +106,9 @@
                                     <thead>
                                         <tr>
                                             <td>
-                                                Draftees
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
+                                                    {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
+                                                </span>
                                             </td>
                                             <td>
                                                 1
