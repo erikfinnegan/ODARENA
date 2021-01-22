@@ -24,6 +24,7 @@ units:
     type:
       - living
       - sentient
+      - wild
     cost:
       gold: 400
       food: 20
@@ -39,6 +40,7 @@ units:
     type:
       - living
       - sentient
+      - wild
     cost:
       gold: 300
       food: 20

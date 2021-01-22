@@ -11,6 +11,7 @@ use Log;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
@@ -84,6 +85,7 @@ class TickService
         $this->networthCalculator = app(NetworthCalculator::class);
         $this->notificationService = app(NotificationService::class);
         $this->populationCalculator = app(PopulationCalculator::class);
+        $this->prestigeCalculator = app(PrestigeCalculator::class);
         $this->productionCalculator = app(ProductionCalculator::class);
         $this->queueService = app(QueueService::class);
         $this->spellCalculator = app(SpellCalculator::class);
@@ -1095,7 +1097,7 @@ class TickService
               $gryphonNestsPercentage = min($maxGryphonNestsPercentage, ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)));
 
               $gryphonNests = floor($gryphonNestsPercentage * $this->landCalculator->getTotalLand($dominion));
-              $gryphonsMax = $gryphonNests * 1;
+              $gryphonsMax = $gryphonNests * 1 * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion));
 
               $gryphonsCurrent = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $gryphonSlot);
               $gryphonsCurrent += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$gryphonSlot);

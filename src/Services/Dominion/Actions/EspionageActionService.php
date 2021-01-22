@@ -752,8 +752,11 @@ class EspionageActionService
 
         $availableResource = $target->{$resourceString};
 
-        $availableResource *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, ($resource . '_theft'));
-        $availableResource *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'all_theft');
+        $availableResource *= 1 + $target->getSpellPerkMultiplier($resource . '_theft');
+        $availableResource *= 1 + $target->getSpellPerkMultiplier('all_theft');
+
+
+        $availableResource *= 1 + $dominion->getTechPerkMultiplier('amount_stolen');
 
         $availableResource = max(0, $availableResource);
 

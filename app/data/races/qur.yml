@@ -56,7 +56,7 @@ units:
     need_boat: true
     cost:
       gold: 1000
-      lumber: 250
+      lumber: 375
     power:
       offense: 0
       defense: 0

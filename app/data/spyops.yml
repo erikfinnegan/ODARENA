@@ -65,12 +65,41 @@ steal_gems:
 abduct_draftees:
   name: Abduct Draftees
   scope: theft
+  exclusive_races:
+    - Afflicted
+    - Armada
+    - Cult
+    - Demon
+    - Dimensionalists
+    - Dragon
+    - Human
+    - Jagunii
+    - Kerranad
+    - Nomad
+    - Norse
+    - Sacred Order
+    - Vampires
   perks:
     abduct_draftees: 2,0.5 # rate, max per spy
 
 abduct_peasants:
   name: Abduct Peasants
   scope: theft
+  exclusive_races:
+    - Afflicted
+    - Armada
+    - Artillery
+    - Cult
+    - Demon
+    - Dimensionalists
+    - Dragon
+    - Human
+    - Jagunii
+    - Kerranad
+    - Nomad
+    - Norse
+    - Sacred Order
+    - Vampires
   perks:
     abduct_peasants: 2,0.75 # rate, max per spy
 
