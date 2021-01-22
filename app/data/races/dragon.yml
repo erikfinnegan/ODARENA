@@ -87,3 +87,4 @@ units:
       food_consumption: 55
       burns_peasants_on_attack: 20
       plunders: food;50,gems;100
+      protects_resource_from_theft: gems,50000

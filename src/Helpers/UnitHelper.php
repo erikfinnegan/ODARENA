@@ -146,6 +146,8 @@ class UnitHelper
 
             'spy_from_title' => 'Counts as additional %2$s of a spy (offense and defense) if ruled by a %1$s.',
 
+            'protects_resource_from_theft' => 'Protects %2$s %1$s from theft when at home.',
+
             // Wizard related
             'counts_as_wizard_defense' => 'Counts as %s of a wizard on defense.',
             'counts_as_wizard_offense' => 'Counts as %s of a wizard on offense.',

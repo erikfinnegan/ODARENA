@@ -752,23 +752,34 @@ class EspionageActionService
 
         $availableResource = $target->{$resourceString};
 
-        $availableResource *= 1 + $target->getSpellPerkMultiplier($resource . '_theft');
-        $availableResource *= 1 + $target->getSpellPerkMultiplier('all_theft');
-
-
-        $availableResource *= 1 + $dominion->getTechPerkMultiplier('amount_stolen');
+        // Unit theft protection
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            $theftProtection = $target->getUnitPerkValueForUnitSlot('protects_resource_from_theft', $slot))
+            if($theftProtection[0] == $resource)
+            {
+                $availableResource -= $target->{'military_unit'.$slot} * $theftProtection[1];
+            }
+        }
 
         $availableResource = max(0, $availableResource);
+
+        $theftAmount = min($availableResource * $ratio, $spyUnits * $maxPerSpy) * (0.9 + $dominion->spy_strength / 1000);
+
+        $theftAmount *= 1 + $dominion->getTechPerkMultiplier('amount_stolen');
+
+        $theftAmount *= 1 + $target->getSpellPerkMultiplier($resource . '_theft');
+        $theftAmount *= 1 + $target->getSpellPerkMultiplier('all_theft');
 
         if($resource === 'gold')
         {
             // Forest Havens
-            $availableResource *= 1 - min(($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 8, 0.80);
+            $theftAmount *= 1 - min(($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 8, 0.80);
         }
 
-        $theftAmount = min($availableResource * $ratio, $spyUnits * $maxPerSpy) * (0.9 + $dominion->spy_strength / 1000);
+        $theftAmount = min(max(0, $theftAmount), $target->{$resourceString});
 
-        return min($availableResource * $ratio, $spyUnits * $maxPerSpy);
+        return $theftAmount;
     }
 
     protected function performHostileOperation(Dominion $dominion, Dominion $target, Spyop $spyop): array
