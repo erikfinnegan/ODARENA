@@ -1245,109 +1245,121 @@ class InvadeActionService
      */
     protected function handleDuringInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units): void
     {
-      # Ignore if attacker is overwhelmed.
-      if(!$this->invasionResult['result']['overwhelmed'])
-      {
-        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+        # Snow Elf: Hailstorm Cannon exhausts all mana
+        for ($slot = 1; $slot <= 4; $slot++)
         {
-          // Firewalker, Artillery, Elementals: burns_peasants
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and isset($units[$unitSlot]))
-          {
-            $burningUnits = $units[$unitSlot];
-            $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
-
-            # If target has less than 1000 peasants, we don't burn any.
-            if($target->peasants < 1000)
+            if($exhaustingPerk = $dominion->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting'))
             {
-              $burnedPeasants = 0;
+                $resource = $exhaustingPerk[0];
+
+                $this->invasionResult['attacker']['mana_exhausted']['peasants'] = $dominion->{'resource_'$resource};
+
+                $dominion->{'resource_'$resource} = 0;
             }
-            else
-            {
-              $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit;
-              $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
-            }
-            $target->peasants -= $burnedPeasants;
-            $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
-            $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
-
-          }
-
-          // Artillery: damages_improvements_on_attack
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
-          {
-            $castleToBeDamaged = [];
-
-            $damageReductionFromMasonries = 1 - (($dominion->building_masonry * 0.75) / $this->landCalculator->getTotalLand($dominion));
-
-            $damagingUnits = $units[$unitSlot];
-            $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
-            $damageDone = $damagingUnits * $damagePerUnit * $damageReductionFromMasonries;
-
-
-            # Calculate target's total imp points, where imp points > 0.
-            foreach ($this->improvementHelper->getImprovementTypes($target) as $type)
-            {
-              if($target->{'improvement_' . $type} > 0)
-              {
-                $castleToBeDamaged[$type] = $target->{'improvement_' . $type};
-              }
-            }
-            $castleTotal = array_sum($castleToBeDamaged);
-
-            # Calculate how much of damage should be applied to each type.
-            foreach ($castleToBeDamaged as $type => $points)
-            {
-              # The ratio this improvement type is of the total amount of imp points.
-              $typeDamageRatio = $points / $castleTotal;
-
-              # The ratio is applied to the damage done.
-              $typeDamageDone = intval($damageDone * $typeDamageRatio);
-
-              # Do the damage.
-              $target->{'improvement_' . $type} -= min($target->{'improvement_' . $type}, $typeDamageDone);
-            }
-
-            $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damageDone;
-            $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damageDone;
-          }
-
-          // Troll: eats_peasants_on_attack
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
-          {
-            $eatingUnits = $units[$unitSlot];
-            $peasantsEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
-
-            # If target has less than 1000 peasants, we don't eat any.
-            if($target->peasants < 1000)
-            {
-              $eatenPeasants = 0;
-            }
-            else
-            {
-              $eatenPeasants = $eatingUnits * $peasantsEatenPerUnit;
-              $eatenPeasants = min(($target->peasants-1000), $eatenPeasants);
-            }
-            $target->peasants -= $eatenPeasants;
-            $this->invasionResult['attacker']['peasants_eaten']['peasants'] = $eatenPeasants;
-            $this->invasionResult['defender']['peasants_eaten']['peasants'] = $eatenPeasants;
-          }
-
-          // Troll: eats_draftees_on_attack
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack') and isset($units[$unitSlot]))
-          {
-            $eatingUnits = $units[$unitSlot];
-            $drafteesEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
-
-            $eatenDraftees = $eatingUnits * $drafteesEatenPerUnit;
-            $eatenDraftees = min(($target->peasants-1000), $eatenDraftees);
-
-            $target->peasants -= $eatenPeasants;
-            $this->invasionResult['attacker']['draftees_eaten']['draftees'] = $eatenPeasants;
-            $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenPeasants;
-          }
-
         }
-      }
+
+        # Ignore if attacker is overwhelmed.
+        if(!$this->invasionResult['result']['overwhelmed'])
+        {
+            for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+            {
+                // burns_peasants
+                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and isset($units[$unitSlot]))
+                {
+                  $burningUnits = $units[$unitSlot];
+                  $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
+
+                  # If target has less than 1000 peasants, we don't burn any.
+                  if($target->peasants < 1000)
+                  {
+                      $burnedPeasants = 0;
+                  }
+                  else
+                  {
+                      $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit;
+                      $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
+                  }
+                  $target->peasants -= $burnedPeasants;
+                  $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
+                  $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
+
+                }
+
+                // Artillery: damages_improvements_on_attack
+                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
+                {
+                  $castleToBeDamaged = [];
+
+                  $damageReductionFromMasonries = 1 - (($dominion->building_masonry * 0.75) / $this->landCalculator->getTotalLand($dominion));
+
+                  $damagingUnits = $units[$unitSlot];
+                  $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
+                  $damageDone = $damagingUnits * $damagePerUnit * $damageReductionFromMasonries;
+
+
+                  # Calculate target's total imp points, where imp points > 0.
+                  foreach ($this->improvementHelper->getImprovementTypes($target) as $type)
+                  {
+                    if($target->{'improvement_' . $type} > 0)
+                    {
+                      $castleToBeDamaged[$type] = $target->{'improvement_' . $type};
+                    }
+                  }
+                  $castleTotal = array_sum($castleToBeDamaged);
+
+                  # Calculate how much of damage should be applied to each type.
+                  foreach ($castleToBeDamaged as $type => $points)
+                  {
+                    # The ratio this improvement type is of the total amount of imp points.
+                    $typeDamageRatio = $points / $castleTotal;
+
+                    # The ratio is applied to the damage done.
+                    $typeDamageDone = intval($damageDone * $typeDamageRatio);
+
+                    # Do the damage.
+                    $target->{'improvement_' . $type} -= min($target->{'improvement_' . $type}, $typeDamageDone);
+                  }
+
+                  $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damageDone;
+                  $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damageDone;
+                }
+
+                // Troll: eats_peasants_on_attack
+                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
+                {
+                  $eatingUnits = $units[$unitSlot];
+                  $peasantsEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
+
+                  # If target has less than 1000 peasants, we don't eat any.
+                  if($target->peasants < 1000)
+                  {
+                    $eatenPeasants = 0;
+                  }
+                  else
+                  {
+                    $eatenPeasants = $eatingUnits * $peasantsEatenPerUnit;
+                    $eatenPeasants = min(($target->peasants-1000), $eatenPeasants);
+                  }
+                  $target->peasants -= $eatenPeasants;
+                  $this->invasionResult['attacker']['peasants_eaten']['peasants'] = $eatenPeasants;
+                  $this->invasionResult['defender']['peasants_eaten']['peasants'] = $eatenPeasants;
+                }
+
+                // Troll: eats_draftees_on_attack
+                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack') and isset($units[$unitSlot]))
+                {
+                  $eatingUnits = $units[$unitSlot];
+                  $drafteesEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
+
+                  $eatenDraftees = $eatingUnits * $drafteesEatenPerUnit;
+                  $eatenDraftees = min(($target->peasants-1000), $eatenDraftees);
+
+                  $target->peasants -= $eatenPeasants;
+                  $this->invasionResult['attacker']['draftees_eaten']['draftees'] = $eatenPeasants;
+                  $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenPeasants;
+                }
+            }
+        }
 
     }
 

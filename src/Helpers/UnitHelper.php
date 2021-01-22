@@ -4,6 +4,7 @@ namespace OpenDominion\Helpers;
 
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Unit;
+use OpenDominion\Models\Tech;
 
 class UnitHelper
 {
@@ -236,6 +237,8 @@ class UnitHelper
 
             'reduces_unit_costs' => 'Reduces training costs by %1$s%% for every 1%% of population consisting of this unit. Max %2$s%% reduction.',
 
+            'advancements_required_to_train' => 'Must have %1$s to train this unit.',
+
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to %1$s at home.',
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
@@ -460,7 +463,6 @@ class UnitHelper
 
                 if($perk->key === 'defense_from_buildings')
                 {
-
                     $buildings = (array)$perkValue[0];
                     $ratio = (float)$perkValue[1];
                     $max = (float)$perkValue[2];
@@ -474,6 +476,25 @@ class UnitHelper
 
                     $perkValue = [$buildingsString, $ratio, $max];
                     $nestedArrays = false;
+
+                }
+
+                if($perk->key === 'advancements_required_to_train')
+                {
+                    $advancementKeys = explode(';',$perkValue);
+                    $advancements = [];
+
+                    foreach ($advancementKeys as $index => $advancementKey)
+                    {
+                        $advancement = Tech::where('key', $advancementKey)->firstOrFail();
+
+                        $advancements[$index] = $advancement->name . ' level ' . $advancement->level;
+                    }
+
+                    $advancementsString = generate_sentence_from_array($advancements);
+
+                    $perkValue = $advancementsString;
+                    #$nestedArrays = false;
 
                 }
 
@@ -572,7 +593,7 @@ class UnitHelper
                         {
                             foreach($nestedValue as $key => $value)
                             {
-                                $nestedValue[$key] = ucwords(str_replace('level','level ',str_replace('_', ' ',$value)));
+                                $nestedValue[$key] = str_replace('Level','level',str_replace('And','and',ucwords(str_replace('level','level ',str_replace('_', ' ',$value)))));
                             }
                             $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
                         }
@@ -582,14 +603,14 @@ class UnitHelper
                         #var_dump($perkValue);
                         foreach($perkValue as $key => $value)
                         {
-                            $perkValue[$key] = str_replace(' And', ' and',ucwords(str_replace('_', ' ',$value)));
+                            $perkValue[$key] = str_replace('Level','level',str_replace(' And', ' and',ucwords(str_replace('_', ' ',$value))));
                         }
                         $helpStrings[$unitType] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                     }
                 }
                 else
                 {
-                    $perkValue = str_replace('_', ' ',ucwords($perkValue));
+                    $perkValue = str_replace('Level','level',str_replace('And','and',str_replace('_', ' ',ucwords($perkValue))));
                     $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
             }

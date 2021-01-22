@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Tech;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
@@ -18,38 +19,12 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Helpers\RaceHelper;
 
 class TrainActionService
 {
     use DominionGuardsTrait;
-
-    /** @var QueueService */
-    protected $queueService;
-
-    /** @var TrainingCalculator */
-    protected $trainingCalculator;
-
-    /** @var UnitHelper */
-    protected $unitHelper;
-
-    /** @var ImprovementCalculator */
-    protected $improvementCalculator;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var PopulationCalculator */
-    protected $populationCalculator;
-
-    /** @var RaceHelper */
-    protected $raceHelper;
 
     /**
      * TrainActionService constructor.
@@ -59,7 +34,8 @@ class TrainActionService
         SpellCalculator $spellCalculator,
         MilitaryCalculator $militaryCalculator,
         LandCalculator $landCalculator,
-        PopulationCalculator $populationCalculator
+        PopulationCalculator $populationCalculator,
+        TechCalculator $techCalculator
         )
     {
         $this->queueService = app(QueueService::class);
@@ -72,6 +48,7 @@ class TrainActionService
         $this->militaryCalculator = $militaryCalculator;
         $this->landCalculator = $landCalculator;
         $this->populationCalculator = $populationCalculator;
+        $this->techCalculator = $techCalculator;
     }
 
     /**
@@ -193,39 +170,66 @@ class TrainActionService
           minimum_wpa_to_train
           victories_limit
           housing_count
+          advancements_required_to_train
         */
         foreach($unitsToTrain as $unitType => $amountToTrain)
         {
-          if (!$amountToTrain)
-          {
-              continue;
-          }
+            if (!$amountToTrain)
+            {
+                continue;
+            }
 
-          $unitSlot = intval(str_replace('unit', '', $unitType));
+            $unitSlot = intval(str_replace('unit', '', $unitType));
 
-          # Cannot be trained
-          if($dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'cannot_be_trained') and $amountToTrain > 0)
-          {
-            throw new GameException('This unit cannot be trained.');
-          }
+            # Cannot be trained
+            if($dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'cannot_be_trained') and $amountToTrain > 0)
+            {
+              throw new GameException('This unit cannot be trained.');
+            }
 
-          # OK, unit can be trained. Let's check for pairing limits.
-          $pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit');
-          # [0] = unit limited by
-          # [1] = limit
+            # OK, unit can be trained. Let's check for pairing limits.
+            $pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit');
+            # [0] = unit limited by
+            # [1] = limit
 
-          if($pairingLimit)
-          {
+            if($pairingLimit)
+            {
 
-              // We have pairing limit for this unit.
-              $pairingLimitedBy = intval($pairingLimit[0]);
-              $pairingLimitedTo = $pairingLimit[1];
+                // We have pairing limit for this unit.
+                $pairingLimitedBy = intval($pairingLimit[0]);
+                $pairingLimitedTo = $pairingLimit[1];
 
-              // Evaluate the limit.
+                // Evaluate the limit.
 
-              # How many of the limiting unit does the dominion have? (Only counting units at home.)
-              $pairingLimitedByTrained = $dominion->{'military_unit'. $pairingLimitedBy};
-              #$pairingLimitedByTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $pairingLimitedBy))
+                # How many of the limiting unit does the dominion have? (Only counting units at home.)
+                $pairingLimitedByTrained = $dominion->{'military_unit'. $pairingLimitedBy};
+                #$pairingLimitedByTrained = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $pairingLimitedBy))
+
+                if( # Units trained + Units in Training + Units in Queue + Units to Train
+                    (($dominion->{'military_unit' . $unitSlot} +
+                      $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $amountToTrain))
+                    >
+                    ($pairingLimitedByTrained * $pairingLimitedTo)
+                  )
+                {
+                  throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
+                }
+            }
+
+            # Pairing limit check complete.
+            # Check for land limit.
+            $landLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'land_limit');
+            if($landLimit)
+            {
+              // We have land limit for this unit.
+              $landLimitedToLandType = 'land_'.$landLimit[0]; # Land type
+              $landLimitedToAcres = (float)$landLimit[1]; # Acres per unit
+
+              $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
+
+              $upperLimit = intval($acresOfLimitingLandType / $landLimitedToAcres);
 
               if( # Units trained + Units in Training + Units in Queue + Units to Train
                   (($dominion->{'military_unit' . $unitSlot} +
@@ -233,120 +237,112 @@ class TrainActionService
                     $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                     $amountToTrain))
                   >
-                  ($pairingLimitedByTrained * $pairingLimitedTo)
+                  $upperLimit
                 )
               {
-                throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
+                throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. ucwords(str_plural($buildingLimit[0], 2)) .'s.');
               }
-          }
-
-          # Pairing limit check complete.
-          # Check for land limit.
-          $landLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'land_limit');
-          if($landLimit)
-          {
-            // We have land limit for this unit.
-            $landLimitedToLandType = 'land_'.$landLimit[0]; # Land type
-            $landLimitedToAcres = (float)$landLimit[1]; # Acres per unit
-
-            $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
-
-            $upperLimit = intval($acresOfLimitingLandType / $landLimitedToAcres);
-
-            if( # Units trained + Units in Training + Units in Queue + Units to Train
-                (($dominion->{'military_unit' . $unitSlot} +
-                  $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $amountToTrain))
-                >
-                $upperLimit
-              )
-            {
-              throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. ucwords(str_plural($buildingLimit[0], 2)) .'s.');
             }
-          }
-          # Land limit check complete.
-          # Check for amount limit.
-          $amountLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'amount_limit');
-          if($amountLimit)
-          {
-
-            if( # Units trained + Units in Training + Units in Queue + Units to Train
-                (($dominion->{'military_unit' . $unitSlot} +
-                  $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $amountToTrain))
-                >
-                $amountLimit
-              )
+            # Land limit check complete.
+            # Check for amount limit.
+            $amountLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'amount_limit');
+            if($amountLimit)
             {
-              throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
-            }
-          }
 
-          # Amount limit check complete.
-          # Check for building limit.
-          $buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit');
-          if($buildingLimit)
-          {
-            // We have building limit for this unit.
-            $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
-            $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-            $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
-
-            $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
-
-            $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
-
-            $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
-
-            if( # Units trained + Units in Training + Units in Queue + Units to Train
-                (($dominion->{'military_unit' . $unitSlot} +
-                  $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $amountToTrain))
-                >
-                $upperLimit
-              )
-            {
-              throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your ' . ucwords(str_plural($buildingLimit[2], 3)) . '.');
-            }
-          }
-          # Building limit check complete.
-          # Check for minimum WPA to train.
-          $minimumWpaToTrain = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'minimum_wpa_to_train');
-          if($minimumWpaToTrain)
-          {
-              if($this->militaryCalculator->getWizardRatio($dominion, 'offense') < $minimumWpaToTrain)
+              if( # Units trained + Units in Training + Units in Queue + Units to Train
+                  (($dominion->{'military_unit' . $unitSlot} +
+                    $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                    $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                    $amountToTrain))
+                  >
+                  $amountLimit
+                )
               {
-                throw new GameException('You need at least ' . $minimumWpaToTrain . ' wizard ratio (on offense) to train this unit. You only have ' . $this->militaryCalculator->getWizardRatio($dominion) . '.');
+                throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
               }
-          }
-          # Minimum WPA check complete.
-          # Check for victories limit.
-          $victoriesLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'victories_limit');
-          if($victoriesLimit)
-          {
-            // We have building limit for this unit.
-            $victoriesLimit = (int)$victoriesLimit[0]; # How many Victories we need
-            $unitsPerVictories = (int)$victoriesLimit[1]; # Number of units per Victories number
-
-            $victories = $dominion->stat_attacking_success;
-
-            $upperLimit = intval($victories / $victoriesLimit);
-
-            if( # Units trained + Units in Training + Units in Queue + Units to Train
-                (($dominion->{'military_unit' . $unitSlot} +
-                  $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                  $amountToTrain))
-                >
-                $upperLimit
-              )
-            {
-              throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must be more victorious (successful invasions over 75%).');
             }
-          }
+
+            # Amount limit check complete.
+            # Check for building limit.
+            $buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit');
+            if($buildingLimit)
+            {
+                // We have building limit for this unit.
+                $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
+                $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
+                $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
+
+                $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+
+                $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
+
+                $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
+
+                if( # Units trained + Units in Training + Units in Queue + Units to Train
+                    (($dominion->{'military_unit' . $unitSlot} +
+                      $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $amountToTrain))
+                    >
+                    $upperLimit
+                  )
+                {
+                  throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your ' . ucwords(str_plural($buildingLimit[2], 3)) . '.');
+                }
+            }
+            # Building limit check complete.
+            # Check for minimum WPA to train.
+            $minimumWpaToTrain = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'minimum_wpa_to_train');
+            if($minimumWpaToTrain)
+            {
+                if($this->militaryCalculator->getWizardRatio($dominion, 'offense') < $minimumWpaToTrain)
+                {
+                  throw new GameException('You need at least ' . $minimumWpaToTrain . ' wizard ratio (on offense) to train this unit. You only have ' . $this->militaryCalculator->getWizardRatio($dominion) . '.');
+                }
+            }
+            # Minimum WPA check complete.
+            # Check for victories limit.
+            $victoriesLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'victories_limit');
+            if($victoriesLimit)
+            {
+              // We have building limit for this unit.
+              $victoriesLimit = (int)$victoriesLimit[0]; # How many Victories we need
+              $unitsPerVictories = (int)$victoriesLimit[1]; # Number of units per Victories number
+
+              $victories = $dominion->stat_attacking_success;
+
+              $upperLimit = intval($victories / $victoriesLimit);
+
+              if( # Units trained + Units in Training + Units in Queue + Units to Train
+                  (($dominion->{'military_unit' . $unitSlot} +
+                    $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                    $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                    $amountToTrain))
+                  >
+                  $upperLimit
+                )
+              {
+                throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must be more victorious (successful invasions over 75%).');
+              }
+            }
+            # Victories limit check complete.
+            # Check for advancements required limit.
+            $advancementssLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'advancements_required_to_train');
+            if($advancementssLimit)
+            {
+                $advancementKeys = explode(';',$advancementssLimit);
+                $advancements = [];
+
+                foreach ($advancementKeys as $index => $advancementKey)
+                {
+                    $advancement = Tech::where('key', $advancementKey)->firstOrFail();
+                    if(!$this->techCalculator->hasTech($dominion, $advancement))
+                    {
+                        throw new GameException('You do not have the required advancements to train this unit.');
+                    }
+                }
+            }
+            # Advancements check complete.
         }
 
         if($totalCosts['gold'] > $dominion->resource_gold)
