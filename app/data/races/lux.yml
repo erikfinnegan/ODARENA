@@ -21,7 +21,6 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   gold_production: -15
-  can_only_abduct_own: 1
   mana_production: 10
 units:
   - name: Essence

@@ -476,12 +476,7 @@ class PopulationCalculator
     public function getPopulationBirthRaw(Dominion $dominion): float
     {
 
-        $growthFactor = 0;
-        // Growth only if net food > 0 or race doesn't eat food.
-        if($dominion->resource_food > 0 or $dominion->race->getPerkMultiplier('food_consumption') == -1)
-        {
-            $growthFactor = 0.03;
-        }
+        $growthFactor = 0.03 * ($dominion->morale / 100);
 
         // Population births
         $birth = ($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * $growthFactor;
@@ -506,13 +501,14 @@ class PopulationCalculator
         $peasantsSacrificed = 0;
         for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
         {
-          if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants'))
-          {
-            $sacrificingUnits = $dominion->{"military_unit".$unitSlot};
-            $peasantsSacrificedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants');
-            $peasantsSacrificed += floor($sacrificingUnits * $peasantsSacrificedPerUnit);
-          }
+            if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants'))
+            {
+                $sacrificingUnits = $dominion->{"military_unit".$unitSlot};
+                $peasantsSacrificedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants');
+                $peasantsSacrificed += floor($sacrificingUnits * $peasantsSacrificedPerUnit);
+            }
         }
+
         return min($dominion->peasants, $peasantsSacrificed);
     }
 

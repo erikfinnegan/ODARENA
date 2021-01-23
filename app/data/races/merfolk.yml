@@ -19,7 +19,6 @@ perks:
   max_population: -15
   damage_from_fireballs: -100
   damage_from_lightning_bolts: -50
-  can_only_abduct_own: 1
 units:
   - name: Merman
     need_boat: false

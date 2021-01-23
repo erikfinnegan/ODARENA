@@ -153,14 +153,12 @@ class EspionageActionService
             throw new GameException('Nice try, but you cannot perform espionage oprations on your realmies');
         }
 
+        # If abducting, the target must also be a faction that can abduct.
         if($operationKey == 'abduct_draftees' or $operationKey == 'abduct_peasants')
         {
-            if($dominion->race->getPerkValue('can_only_abduct_own') or $target->race->getPerkValue('can_only_abduct_own'))
+            if(!$this->espionageCalculator->isSpyopAvailableToDominion($target, $spyop))
             {
-                if($dominion->race->name !== $target->race->name)
-                {
-                    throw new GameException('Abduction not possible. ' . $dominion->race->name . ' and ' . $target->race->name . ' are not compatible.');
-                }
+                throw new GameException('Abduction not possible. Your population is not compatible with ' . $target->race->name . '. You can only abduct from other factions that can also abduct.');
             }
         }
 
@@ -755,7 +753,7 @@ class EspionageActionService
         // Unit theft protection
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            $theftProtection = $target->getUnitPerkValueForUnitSlot('protects_resource_from_theft', $slot))
+            $theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft');
             if($theftProtection[0] == $resource)
             {
                 $availableResource -= $target->{'military_unit'.$slot} * $theftProtection[1];

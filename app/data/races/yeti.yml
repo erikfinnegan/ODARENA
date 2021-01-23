@@ -63,7 +63,6 @@ units:
       counts_as_wizard_defense: 0.25
       immortal_wizard: 1
       food_consumption: 0.25
-      can_only_abduct_own: 1
 
   - name: Guard Yeti
     training_time: 9

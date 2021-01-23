@@ -32,7 +32,6 @@ perks:
   draftee_dp: 0.01
   peasants_produce_food: 0.5
   food_decay: -100
-  can_only_abduct_own: 1
 units:
   - name: Abscess
     training_time: 9

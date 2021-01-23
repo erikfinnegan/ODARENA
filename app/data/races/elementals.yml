@@ -22,7 +22,6 @@ perks:
   cannot_train_archmages: 1
   food_consumption: -10
   cannot_build_homes: 1
-  can_only_abduct_own: 1
 units:
   - name: Fire
     training_time: 9
