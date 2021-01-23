@@ -631,6 +631,12 @@ class InvadeActionService
         $attackerPrestigeChange = round($attackerPrestigeChange);
         $defenderPrestigeChange = round($defenderPrestigeChange);
 
+        # Cap prestige gain at 0 for abandoned dominions.
+        if($target->isAbandoned())
+        {
+            $attackerPrestigeChange = max($attackerPrestigeChange, 0);
+        }
+
         if ($attackerPrestigeChange !== 0)
         {
             if (!$this->invasionResult['result']['success'])

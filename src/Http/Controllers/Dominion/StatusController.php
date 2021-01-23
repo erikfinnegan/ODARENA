@@ -8,6 +8,7 @@ use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Helpers\NotificationHelper;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
@@ -33,6 +34,7 @@ class StatusController extends AbstractDominionController
             'networthCalculator' => app(NetworthCalculator::class),
             'notificationHelper' => app(NotificationHelper::class),
             'populationCalculator' => app(PopulationCalculator::class),
+            'prestigeCalculator' => app(PrestigeCalculator::class),
             'queueService' => app(QueueService::class),
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),

@@ -1922,7 +1922,7 @@ class MilitaryCalculator
 
     public function checkDiscoverLand(Dominion $attacker, Dominion $defender): int
     {
-        if($this->getRecentlyInvadedCountByAttacker($defender,$attacker) == 0)
+        if($this->getRecentlyInvadedCountByAttacker($defender,$attacker) == 0 and !$defender->isAbandoned())
         {
             return true;
         }
@@ -1946,7 +1946,7 @@ class MilitaryCalculator
             $landConquered /= 3;
         }
 
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($attacker, 'land_discovered');
+        $multiplier += $attacker->getSpellPerkMultiplier('land_discovered');
 
         // Improvement: Cartography
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'cartography');

@@ -63,7 +63,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="<p>Prestige increases your offensive power, food production, and population. Each prestige produces 1 XP per tick.</p>">
+                                            <span data-toggle="tooltip" data-placement="top" title="<ul><li>Prestige increases your offensive power, food production, and population.</li><li>Each prestige produces 1 XP per tick.</li><li>Multiplier: {{ 1+$prestigeCalculator->getPrestigeMultiplier($selectedDominion) }}x</li></ul>">
                                               Prestige:
                                             </span>
                                         </td>
@@ -73,12 +73,10 @@
                                         <td>Victories:</td>
                                         <td>{{ number_format($selectedDominion->stat_attacking_success) }}</td>
                                     </tr>
-                                    @if($selectedDominion->race->name == 'Black Orc')
                                     <tr>
                                         <td>Net Victories:</td>
                                         <td>{{ number_format($militaryCalculator->getNetVictories($selectedDominion)) }}</td>
                                     </tr>
-                                    @endif
                                 </tbody>
                             </table>
                         </div>

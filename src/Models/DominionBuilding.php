@@ -21,7 +21,7 @@ class DominionBuilding extends AbstractModel
         return $this->belongsTo(Dominion::class, 'dominion_id');
     }
 
-    public function tech()
+    public function building()
     {
         return $this->belongsTo(Building::class, 'building_id');
     }

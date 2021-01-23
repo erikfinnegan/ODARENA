@@ -94,4 +94,5 @@ units:
       cannot_be_trained: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit_prestige: gryphon_nest,1,spires,2 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
+      building_limit_prestige: gryphon_nest,1 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
+      food_consumption: 0.75

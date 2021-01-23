@@ -547,6 +547,8 @@ class EspionageActionService
 
                     $target->{'resource_'.$resource} -= $amountStolen;
                     $dominion->{'resource_'.$resource} += $amountStolen;
+
+                    $dominion->{'stat_total_' . $resource .  '_stolen'} += $amountStolen;
                 }
 
                 if($perk->key === 'abduct_draftees' or $perk->key === 'abduct_peasants' or $perk->key === 'seize_boats')
@@ -574,6 +576,8 @@ class EspionageActionService
 
                     $target->{$resourceString} -= $amountStolen;
                     $dominion->{$resourceString} += $amountStolen;
+
+                    $dominion->{'stat_total_' . $resource . '_abducted'} += $amountStolen;
                 }
             }
 
@@ -808,6 +812,7 @@ class EspionageActionService
                     $damage = (int)floor($damage);
 
                     $target->{$attribute} -= $damage;
+                    $dominion->stat_assassinate_draftees_damage += $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 
@@ -823,6 +828,7 @@ class EspionageActionService
                     $damage = (int)floor($damage);
 
                     $target->{$attribute} -= $damage;
+                    $dominion->stat_assassinate_wizards_damage += $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 
@@ -843,6 +849,7 @@ class EspionageActionService
 
                     $food = floor($damage * $foodPerUnitKilled);
                     $dominion->resource_food += $food;
+                    $dominion->stat_assassinate_draftees_damage += $damage;
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
@@ -889,6 +896,7 @@ class EspionageActionService
                     $dominion->resource_soul += $soul;
                     $dominion->resource_blood += $blood;
                     $dominion->resource_food += $food;
+                    $dominion->stat_assassinate_draftees_damage += $damage;
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
@@ -939,6 +947,7 @@ class EspionageActionService
                     $dominion->resource_soul += $soul;
                     $dominion->resource_blood += $blood;
                     $dominion->resource_food += $food;
+                    $dominion->stat_assassinate_wizards_damage += $damage;
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
@@ -959,6 +968,7 @@ class EspionageActionService
                     $damage = (int)floor($damage);
 
                     $target->{$attribute} -= $damage;
+                    $dominion->stat_sabotage_boats_damage += $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 
@@ -994,6 +1004,7 @@ class EspionageActionService
                     $damage = (int)floor($damage);
 
                     $target->{$attribute} -= $damage;
+                    $dominion->stat_assassinate_draftees_damage += $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
                 }
 

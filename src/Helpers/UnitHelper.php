@@ -246,6 +246,7 @@ class UnitHelper
             'land_limit' => 'You can at most have 1 of this unit per %2$s acres of %1$s.',
             'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increasable by %3$s improvements.',
             'building_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by %4$ xx your %3$s improvements.',
+            'building_limit_prestige' => 'You can at most have %2$s of this unit per %1$s. Increased by prestige multiplier.',
 
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
 
