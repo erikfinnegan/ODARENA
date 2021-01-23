@@ -476,7 +476,7 @@ class PopulationCalculator
     public function getPopulationBirthRaw(Dominion $dominion): float
     {
 
-        $growthFactor = 0.03 * ($dominion->morale / 100);
+        $growthFactor = 0.03 * $this->militaryCalculator->getMoraleMultiplier($dominion);
 
         // Population births
         $birth = ($dominion->peasants - $this->getPopulationDrafteeGrowth($dominion)) * $growthFactor;
