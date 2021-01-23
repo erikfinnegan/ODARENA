@@ -452,7 +452,7 @@ campaign:
   exclusive_races:
     - Nomad
   perks:
-    land_discovered: 25
+    land_discovered: 50
 
 feral_hunger:
   name: Feral Hunger

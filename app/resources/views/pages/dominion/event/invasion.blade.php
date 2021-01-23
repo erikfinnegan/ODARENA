@@ -373,6 +373,19 @@
                                         <td><span class="text-green">+{{ number_format($event->data['attacker']['crypt']['total']) }}</span></td>
                                     </tr>
                                     @endif
+
+                                    @if (isset($event->data['attacker']['mana_exhausted']) and $event->data['attacker']['mana_exhausted'] > 0)
+                                    <tr>
+                                        <th colspan="2">Mana Exhaustion</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Firing the Hailstorm Cannon depletes our mana supplies.</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mana:</td>
+                                        <td><span class="text-red">-{{ number_format($event->data['attacker']['mana_exhausted']) }}</span></td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                             @endif
@@ -397,30 +410,57 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if(isset($event->data['defender']['unitsLost']['peasants']) and $event->data['defender']['unitsLost']['peasants'] > 0)
+
+                                        @php
+                                        if(!isset($event->data['defender']['unitsDefending']['peasants']))
+                                            $peasants = 0;
+                                        else
+                                            $peasants = $event->data['defender']['unitsDefending']['peasants'];
+                                        @endphp
+
+                                        <tr>
+                                            <td>
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
+                                                    {{ $raceHelper->getPeasantsTerm($selectedDominion->race) }}:
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if ($event->target->realm->id === $selectedDominion->realm->id)
+                                                    {{ number_format($peasants) }}
+                                                @else
+                                                    <span class="text-muted">?</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ number_format($event->data['defender']['unitsLost']['peasants']) }}</td>
+                                        </tr>
+
+                                    @endif
+
                                     @if(isset($event->data['defender']['unitsLost']['draftees']) and $event->data['defender']['unitsLost']['draftees'] > 0)
 
-                                    @php
-                                    if(!isset($event->data['defender']['unitsDefending']['draftees']))
-                                        $draftees = 0;
-                                    else
-                                        $draftees = $event->data['defender']['unitsDefending']['draftees'];
-                                    @endphp
+                                        @php
+                                        if(!isset($event->data['defender']['unitsDefending']['draftees']))
+                                            $draftees = 0;
+                                        else
+                                            $draftees = $event->data['defender']['unitsDefending']['draftees'];
+                                        @endphp
 
-                                    <tr>
-                                        <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
-                                                {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
-                                            </span>
-                                        </td>
-                                        <td>
-                                            @if ($event->target->realm->id === $selectedDominion->realm->id)
-                                                {{ number_format($draftees) }}
-                                            @else
-                                                <span class="text-muted">?</span>
-                                            @endif
-                                        </td>
-                                        <td>{{ number_format($event->data['defender']['unitsLost']['draftees']) }}</td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
+                                                    {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if ($event->target->realm->id === $selectedDominion->realm->id)
+                                                    {{ number_format($draftees) }}
+                                                @else
+                                                    <span class="text-muted">?</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ number_format($event->data['defender']['unitsLost']['draftees']) }}</td>
+                                        </tr>
 
                                     @endif
                                     @for ($slot = 1; $slot <= 4; $slot++)

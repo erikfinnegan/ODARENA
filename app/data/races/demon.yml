@@ -20,6 +20,7 @@ perks:
   can_invest_soul: 1
   min_rounds_played: 1
   explore_cost: 15
+
 units:
   - name: Hellhound
     training_time: 6
@@ -30,7 +31,7 @@ units:
     cost:
       gold: 700
       mana: 12
-      blood: 4
+      blood: 3
     power:
       offense: 6
       defense: 0
@@ -48,7 +49,7 @@ units:
     cost:
       gold: 800
       mana: 16
-      blood: 12
+      blood: 9
     power:
       offense: 3
       defense: 6
@@ -64,7 +65,7 @@ units:
       - intelligent
     need_boat: true
     cost:
-      blood: 9
+      blood: 7
     power:
       offense: 0
       defense: 1

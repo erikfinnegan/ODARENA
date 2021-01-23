@@ -471,7 +471,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -864,9 +864,23 @@ class InvadeActionService
         if ($drafteesLost > 0)
         {
             $target->military_draftees -= $drafteesLost;
-
-            $this->unitsLost += $drafteesLost; // todo: refactor
+            $this->unitsLost += $drafteesLost;
             $this->invasionResult['defender']['unitsLost']['draftees'] = $drafteesLost;
+        }
+
+        if($target->getSpellPerkValue('defensive_power_from_peasants'))
+        {
+            $peasantsLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
+        }
+
+        // Spell
+        $drafteesLost = min($target->military_draftees, $drafteesLost * (1 + $dominion->getSpellPerkMultiplier('increases_enemy_draftee_casualties')));
+
+        if($peasantsLost > 0)
+        {
+            $target->peasants -= $peasantsLost;
+            $this->unitsLost += $drafteesLost;
+            $this->invasionResult['defender']['unitsLost']['peasants'] = $peasantsLost;
         }
 
         // Non-draftees
@@ -1248,13 +1262,13 @@ class InvadeActionService
         # Snow Elf: Hailstorm Cannon exhausts all mana
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            if($exhaustingPerk = $dominion->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting'))
+            if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting'))
             {
                 $resource = $exhaustingPerk[0];
 
-                $this->invasionResult['attacker']['mana_exhausted']['peasants'] = $dominion->{'resource_'$resource};
+                $this->invasionResult['attacker']['mana_exhausted'] = $dominion->{'resource_' . $resource};
 
-                $dominion->{'resource_'$resource} = 0;
+                $dominion->{'resource_' . $resource} = 0;
             }
         }
 
@@ -1920,7 +1934,7 @@ class InvadeActionService
             $unitCosts = $this->trainingCalculator->getTrainingCostsPerUnit($defender);
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amountLost)
             {
-                if($slot !== 'draftees')
+                if($slot !== 'draftees' and $slot !== 'peasants')
                 {
                     $unitType = 'unit'.$slot;
                     $unitOreCost = $unitCosts[$unitType]['ore'];
@@ -2069,7 +2083,7 @@ class InvadeActionService
             # Loop through defensive casualties and remove units that don't qualify.
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
             {
-                if($slot !== 'draftees')
+                if($slot !== 'draftees' and $slot !== 'peasants')
                 {
                     $isUnitConvertible = true;
 

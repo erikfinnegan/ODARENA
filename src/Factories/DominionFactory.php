@@ -204,7 +204,7 @@ class DominionFactory
         }
 
         // Boat-free races: no boats
-        $boatFreeRaces = array('Lux','Merfolk','Myconid','Spirit','Swarm','Dimensionalists','Growth','Lizardfolk','Void');
+        $boatFreeRaces = array('Lux','Merfolk','Myconid','Snow Elf','Spirit','Swarm','Dimensionalists','Growth','Lizardfolk','Void');
         if(in_array($race->name, $boatFreeRaces))
         {
           $startingResources['boats'] = 0;
@@ -293,7 +293,7 @@ class DominionFactory
         // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
         if($race->name == 'Dimensionalists')
         {
-          $startingResources['unit1'] = 33;
+          $startingResources['unit1'] = 600;
           $startingResources['mana'] *= 2;
         }
 

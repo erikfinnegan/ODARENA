@@ -327,6 +327,9 @@ class MilitaryCalculator
           $ignoreDraftees = True;
         }
 
+        // Peasants
+        $dp += $defender->peasants * $defender->getSpellPerkValue('defensive_power_from_peasants');
+
         // Military
         foreach ($defender->race->units as $unit)
         {

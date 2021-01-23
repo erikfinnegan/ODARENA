@@ -69,7 +69,6 @@ abduct_draftees:
     - Afflicted
     - Armada
     - Cult
-    - Demon
     - Dimensionalists
     - Dragon
     - Human
@@ -90,7 +89,6 @@ abduct_peasants:
     - Armada
     - Artillery
     - Cult
-    - Demon
     - Dimensionalists
     - Dragon
     - Human
