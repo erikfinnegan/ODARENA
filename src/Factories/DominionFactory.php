@@ -293,7 +293,7 @@ class DominionFactory
         // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
         if($race->name == 'Dimensionalists')
         {
-          $startingResources['unit1'] = 600;
+          $startingResources['unit1'] = 400;
           $startingResources['mana'] *= 2;
         }
 
