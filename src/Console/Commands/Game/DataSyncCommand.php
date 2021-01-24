@@ -322,6 +322,7 @@ class DataSyncCommand extends Command implements CommandInterface
                         'land_type' => object_get($buildingData, 'land_type'),
                         'excluded_races' => object_get($buildingData, 'excluded_races', []),
                         'exclusive_races' => object_get($buildingData, 'exclusive_races', []),
+                        'enabled' => (int)object_get($buildingData, 'enabled', 1),
                     ]);
 
                 if (!$building->exists) {

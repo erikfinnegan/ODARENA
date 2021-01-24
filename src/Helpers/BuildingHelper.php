@@ -366,7 +366,7 @@ class BuildingHelper
     */
     public function getBuildingsByRace(Race $race): array
     {
-      $allBuildings = Building::all()->keyBy('key');
+      $allBuildings = Building::all()->keyBy('key')->sortBy('name')->sortBy('land_type')->where('enabled',1);
 
       $buildings = [];
       foreach($allBuildings as $building)

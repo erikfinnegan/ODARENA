@@ -211,8 +211,6 @@ class Dominion extends AbstractModel
         return $this->hasMany(Council\Thread::class);
     }
 
-    // todo: info op target/source?
-
     public function gameEventsSource()
     {
         return $this->morphMany(GameEvent::class, 'source');
@@ -267,14 +265,14 @@ class Dominion extends AbstractModel
 
     public function buildings()
     {
-        return $this->hasManyThrough(
+        return $this->belongsToMany(
             Building::class,
-            DominionBuilding::class,
+            'dominion_buildings',
             'dominion_id',
-            'id',
-            'id',
             'building_id'
-        );
+        )
+            ->withTimestamps()
+            ->withPivot('owned');
     }
 
     public function spells()

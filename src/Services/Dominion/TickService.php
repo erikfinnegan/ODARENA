@@ -135,41 +135,6 @@ class TickService
             $stasisDominions = [];
             $dominions = $round->activeDominions()->get();
 
-            $excludedAttributes = [
-                'id',
-                'dominion_id',
-                'pestilence_units',
-                'starvation_casualties',
-                'updated_at',
-                'generated_land',
-                'generated_unit1',
-                'generated_unit2',
-                'generated_unit3',
-                'generated_unit4',
-                'attrition_unit1',
-                'attrition_unit2',
-                'attrition_unit3',
-                'attrition_unit4',
-                'updated_at',
-                'resource_food_production',
-                'resource_lumber_production',
-                'resource_mana_production',
-                'resource_wild_yeti_production',
-                'peasants_sacrificed',
-                'resource_food_consumption',
-                'resource_food_decay',
-                'resource_food_consumption',
-                'resource_lumber_rot',
-                'resource_mana_drain',
-                'resource_food_contribution',
-                'resource_lumber_contribution',
-                'resource_ore_contribution',
-                'resource_food_contributed',
-                'resource_lumber_contributed',
-                'resource_ore_contributed',
-                'crypt_bodies_spent',
-                ];
-
             foreach($dominions as $dominion)
             {
                 if($dominion->protection_ticks === 0)
@@ -185,43 +150,17 @@ class TickService
                 /*
                 This is probably terrible?
                 */
-
-                $tick = DB::table('dominion_tick')->where('dominion_id',$dominion->id)->first();
-
-                foreach($tick as $attribute => $value)
+                $finishedBuildingsInQueue = DB::table('dominion_queue')
+                                                ->where('dominion_id',$dominion->id)
+                                                ->where('resource', 'like', 'building%')
+                                                ->where('hours',1)
+                                                ->get();
+                foreach($finishedBuildingsInQueue as $finishedBuildingInQueue)
                 {
-                    $queueResource = explode("_", $attribute);
-                    if($queueResource[0] == 'building')
-                    {
-                        $buildingKey = str_replace('building_','',$attribute);
-                        $amount = intval($value);
-                        if($value > 0)
-                        {
-                              $building = Building::where('key', $buildingKey)->first();
-
-                              if($this->buildingCalculator->dominionHasBuilding($dominion, $building->key))
-                              {
-                                  # Does this dominion already have some of this building?
-                                  DB::transaction(function () use ($dominion, $building, $amount)
-                                  {
-                                      $dominionSpell = DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
-                                      ->increment(['owned', $amount]);
-                                  });
-                              }
-                              else
-                              {
-                                  # If not, create DominionBuilding
-                                  DB::transaction(function () use ($dominion, $building, $amount)
-                                  {
-                                      DominionBuilding::create([
-                                          'dominion_id' => $dominion->id,
-                                          'building_id' => $building->id,
-                                          'owned' => $amount
-                                      ]);
-                                  });
-                              }
-                        }
-                    }
+                    $buildingKey = str_replace('building_', '', $finishedBuildingInQueue->resource);
+                    $amount = intval($finishedBuildingInQueue->amount);
+                    $building = Building::where('key', $buildingKey)->first();
+                    $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
                 }
             }
 
@@ -1323,6 +1262,20 @@ class TickService
 
         $this->precalculateTick($dominion, true);
         $this->logDominionTickState($dominion, now());
+
+
+
+        /*
+        This is probably terrible?
+        */
+        $finishedBuildingsInQueue = DB::table('dominion_queue')->where('dominion_id',$dominion->id)->where('resource', 'like', 'building%')->where('hours',1)->get();
+        foreach($finishedBuildingsInQueue as $finishedBuildingInQueue)
+        {
+            $buildingKey = str_replace('building_', '', $finishedBuildingInQueue->resource);
+            $amount = intval($finishedBuildingInQueue->amount);
+            $building = Building::where('key', $buildingKey)->first();
+            $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey]);
+        }
 
         DB::transaction(function () use ($dominion)
         {

@@ -25,6 +25,8 @@ class BuildingController extends AbstractDominionController
 {
     public function getBuildings()
     {
+        $dominion = $this->getSelectedDominion();
+
         return view('pages.dominion.buildings', [
             'buildingCalculator' => app(BuildingCalculator::class),
             'buildingHelper' => app(BuildingHelper::class),

@@ -64,14 +64,12 @@
                 </li>
                 @endif
 
-                {{--
                 @if (app()->environment() !== 'production')
                     <!-- Hide Buildings from cannot_construct races -->
                     @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
-                    <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i> <span>Buildings</span> <span class="pull-right-container"><small class="label pull-right bg-green">New</small></span> </a></li>
+                    <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i> <span>Buildings</span> <span class="pull-right-container"><small class="label pull-right label-danger">Beta</small></span> </a></li>
                     @endif
                 @endif
-                --}}
 
                 <!-- Hide Castle from cannot_improve_castle races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))

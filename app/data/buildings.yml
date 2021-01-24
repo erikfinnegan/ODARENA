@@ -61,6 +61,7 @@ ore_mine:
 
 diamond_mine:
   name: Diamond Mine
+  enabled: 0
   excluded_races:
     - Growth
     - Myconid
@@ -88,7 +89,7 @@ tower:
     - Myconid
     - Void
     - Swarm
-  land_type: mountain
+  land_type: swamp
   perks:
     mana_production: 15
 
@@ -130,8 +131,20 @@ masonry:
     improvements: 1,2.75 # Every 1% gives 2.75% higher imps
     lightning_bolt_damage: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
 
+gryphon_nest:
+  name: Gryphon Nest
+  excluded_races:
+    - Growth
+    - Myconid
+    - Void
+    - Swarm
+  land_type: mountain
+  perks:
+    offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
+
 military_academy:
   name: Military Academy
+  enabled: 0
   excluded_races:
     - Growth
     - Myconid
@@ -139,7 +152,7 @@ military_academy:
     - Swarm
   land_type: hill
   perks:
-    offensive_power: 1,2,40 # Every 1% gives 2% OP, max +40% OP
+    offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
 
 guard_tower:
   name: Guard Tower
@@ -150,7 +163,7 @@ guard_tower:
     - Swarm
   land_type: hill
   perks:
-    defensive_power: 1,2,40 # Every 1% gives 2% DP, max +40% DP
+    defensive_power: 1,1.8,36 # Every 1% gives 2% DP, max +40% DP
 
 temple:
   name: Temple
@@ -159,9 +172,9 @@ temple:
     - Myconid
     - Void
     - Swarm
-  land_type: forest
+  land_type: swamp
   perks:
-    defensive_modifier_reduction: 1,2,40 # Every 1% gives -2% DP mods, max -40% DP mods
+    defensive_modifier_reduction: 1,1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
 
 shrine:
   name: Shrine
@@ -170,7 +183,7 @@ shrine:
     - Myconid
     - Void
     - Swarm
-  land_type: home
+  land_type: forest
   perks:
     defensive_casualties: 1,1,10 # 1% gives -1% max -10%
     offensive_casualties: 1,5,50 # 1% gives -5%, max -50%
@@ -222,7 +235,7 @@ wizard_guild:
     - Myconid
     - Void
     - Swarm
-  land_type: mountain
+  land_type: swamp
   perks:
     wizard_strength_recovery: 1,0.1,2 # Every 1% gives +0.1% WS recovery per tick, max +2%/tick
     wizard_cost: 1,2,40 # Every 1% gives 2% cost reduction, max 40% reduction
@@ -257,6 +270,7 @@ mycelia:
 
 camp:
   name: Camp
+  enabled: 0
   exclusive_races:
     - Beastfolk
   land_type: forest

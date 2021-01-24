@@ -22,7 +22,8 @@ class Building extends AbstractModel
     protected $casts = [
         'excluded_races' => 'array',
         'exclusive_races' => 'array',
-        'owned' => 'integer',
+        'enabled' => 'integer',
+        'land_type' => 'string',
     ];
 
     public function perks()

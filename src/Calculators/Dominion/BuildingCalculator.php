@@ -2,6 +2,8 @@
 
 namespace OpenDominion\Calculators\Dominion;
 
+use DB;
+use Illuminate\Support\Collection;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
@@ -149,6 +151,58 @@ class BuildingCalculator
     {
         $building = Building::where('key', $buildingKey)->first();
         return DominionBuilding::where('building_id',$building->id)->where('dominion_id',$dominion->id)->first() ? true : false;
+    }
+
+    public function createOrIncrementBuildings(Dominion $dominion, array $buildingKeys): void
+    {
+        foreach($buildingKeys as $buildingKey => $amount)
+        {
+            $building = Building::where('key', $buildingKey)->first();
+            $amount = intval(max(0, $amount));
+
+            if($this->dominionHasBuilding($dominion, $buildingKey))
+            {
+                DB::transaction(function () use ($dominion, $building, $amount)
+                {
+                    DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
+                    ->increment('owned', $amount);
+                });
+            }
+            else
+            {
+                DB::transaction(function () use ($dominion, $building, $amount)
+                {
+                    DominionBuilding::create([
+                        'dominion_id' => $dominion->id,
+                        'building_id' => $building->id,
+                        'owned' => $amount
+                    ]);
+                });
+            }
+        }
+    }
+
+    public function removeBuildings(Dominion $dominion, array $buildingKeys): void
+    {
+        foreach($buildingKeys as $buildingKey => $amount)
+        {
+            $building = Building::where('key', $buildingKey)->first();
+            $amount = intval($amount);
+
+            if($this->dominionHasBuilding($dominion, $buildingKey))
+            {
+                DB::transaction(function () use ($dominion, $building, $amount)
+                {
+                    DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
+                    ->decrement('owned', $amount);
+                });
+            }
+        }
+    }
+
+    public function getDominionBuildings(Dominion $dominion): Collection
+    {
+        return DominionBuilding::where('dominion_id',$dominion->id)->get();
     }
 
 }
