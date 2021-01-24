@@ -477,7 +477,7 @@ druvas_call:
   exclusive_races:
     - Weres
   perks:
-    summon_units_from_land: 1;2,6,forest # slots, per acre, land type - unit1 and unit2, 6, forest - summon up to 6 unit1 and unit2 per 1 acre of forest
+    summon_units_from_land: 1;2,8,forest # slots, per acre, land type - unit1 and unit2, 6, forest - summon up to 6 unit1 and unit2 per 1 acre of forest
 
 miners_sight:
   name: Mirnon's Fortitude

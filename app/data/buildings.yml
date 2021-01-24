@@ -70,6 +70,17 @@ diamond_mine:
   perks:
     gem_production: 15
 
+gem_mine:
+  name: Gem Mine
+  excluded_races:
+    - Growth
+    - Myconid
+    - Void
+    - Swarm
+  land_type: mountain
+  perks:
+    gem_production: 15
+
 tower:
   name: Tower
   excluded_races:

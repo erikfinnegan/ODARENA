@@ -4,6 +4,8 @@ description:
 home_land_type: water
 playable: 1
 
+draftees_alias: cadet
+
 attacking: 1
 exploring : 2
 converting: 3

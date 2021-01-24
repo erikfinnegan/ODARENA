@@ -955,7 +955,6 @@ class ConversionCalculator
 
     }
 
-
     private function isSlotConvertible($slot, Dominion $dominion, array $unconvertibleAttributes = []): bool
     {
         if(empty($unconvertibleAttributes))
@@ -966,7 +965,7 @@ class ConversionCalculator
                 'magical',
                 'massive',
                 'machine',
-                'ship',
+                'ship'
               ];
         }
 
@@ -989,7 +988,7 @@ class ConversionCalculator
 
             #echo '<pre>Slot ' . $slot . ' for ' . $dominion->name . ': '; print_r(array_intersect($unconvertibleAttributes, $unitAttributes)); echo '</pre>';
 
-            if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0)
+            if(count(array_intersect($unconvertibleAttributes, $unitAttributes)) === 0 and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
             {
                 $isConvertible = true;
             }

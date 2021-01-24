@@ -140,7 +140,7 @@ slaughter_draftees:
     - Growth
     - Weres
   perks:
-    slaughter_draftees: 1.5,40 # ratio, souls, blood, food per killed unit
+    slaughter_draftees: 1.5,40 # ratio, food per killed unit
 
 slaughter_peasants:
   name: Slaughter Peasants
@@ -149,7 +149,7 @@ slaughter_peasants:
     - Growth
     - Weres
   perks:
-    slaughter_peasants: 0.35,40 # ratio, souls, blood, food per killed unit
+    slaughter_peasants: 0.35,40 # ratio, food per killed unit
 
 # /WERES/GROWTH SLAUGHTER
 # DEMONIC BUTCHER

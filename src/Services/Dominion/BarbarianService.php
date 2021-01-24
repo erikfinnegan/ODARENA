@@ -613,7 +613,7 @@ class BarbarianService
               'Crooks',
               'Junta',
               'Bruisers',
-              'Guerilla',
+              'Guerrillas',
               'Posse',
               'Herd',
               'Hooligans',

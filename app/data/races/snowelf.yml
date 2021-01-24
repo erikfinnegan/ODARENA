@@ -85,6 +85,7 @@ units:
       - sentient
       - intelligent
       - wild
+      - massive
     cost:
       food: 100
     power:
