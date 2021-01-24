@@ -68,7 +68,7 @@ units:
       offense: 0
       defense: 10
     perks:
-      casualties_conversion: 5,4,3 #  threshold,under,over
+      strength_conversion: 5,4,3 #  threshold,under,over
 
   - name: Werewolf
     training_time: 12
