@@ -95,6 +95,8 @@ class ProductionCalculator
         // Building: Alchemy
         $gold += ($dominion->building_alchemy * $goldPerAlchemy);
 
+        #$gold += $dominion->getBuildingProduction('gold_production');
+
         // Unit Perk: Production Bonus
         $gold += $dominion->getUnitPerkProductionBonus('gold_production');
 
@@ -187,6 +189,8 @@ class ProductionCalculator
 
         // Building: Mycelia
         $food += ($dominion->building_mycelia * 4);
+
+        #$food += $dominion->getBuildingProduction('food_production');
 
         // Unit Perk: Production Bonus (Growth Unit)
         $food += $dominion->getUnitPerkProductionBonus('food_production');
@@ -443,6 +447,7 @@ class ProductionCalculator
 
         // Building: Lumberyard
         $lumber += ($dominion->building_lumberyard * $lumberPerLumberyard);
+        #$lumber += $dominion->getBuildingProduction('lumber_production');
 
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
         $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
@@ -621,6 +626,7 @@ class ProductionCalculator
 
         // Building: Tower
         $mana += ($dominion->building_tower * 25);
+        #$mana += $dominion->getBuildingProduction('mana_production');
 
         // Building: Ziggurat
         if($dominion->race->getPerkValue('mana_per_ziggurat'))
@@ -770,6 +776,7 @@ class ProductionCalculator
 
         // Building: Ore Mine
         $ore += ($dominion->building_ore_mine * $orePerOreMine);
+        #$ore += $dominion->getBuildingProduction('ore_production');
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $ore += $dominion->getUnitPerkProductionBonus('ore_production');
@@ -844,6 +851,7 @@ class ProductionCalculator
 
         // Building: Gem Mine
         $gems += $dominion->building_gem_mine * 15;
+        #$gems += $dominion->getBuildingProduction('gem_production');
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $gems += $dominion->getUnitPerkProductionBonus('gem_production');
@@ -990,6 +998,8 @@ class ProductionCalculator
         $docksPerBoatPerTick = 20;
 
         $boats += ($dominion->building_dock / $docksPerBoatPerTick);
+
+        #$boats += $dominion->getBuildingProduction('boat_production');
 
         // Unit Perk: production_from_title
         $boats += $dominion->getUnitPerkProductionBonusFromTitle('boats');

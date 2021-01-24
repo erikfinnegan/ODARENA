@@ -13,11 +13,6 @@
               <h3 class="box-title"><i class="fa fa-home"></i> Buildings</h3>
               <span class="label label-danger pull-right">Beta</span></a>
           </div>
-
-          @foreach($selectedDominion->buildings as $building)
-            {{ $building->name }}: {{ var_dump($building->pivot->owned) }}
-          @endforeach
-
           <form action="{{ route('dominion.buildings') }}" method="post" role="form">
               @csrf
               <div class="box-body table-responsive no-padding">

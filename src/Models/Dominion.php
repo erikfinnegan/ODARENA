@@ -538,6 +538,48 @@ class Dominion extends AbstractModel
         return ($this->getTechPerkValue($key) / 100);
     }
 
+    # BUILDINGS
+
+    protected function getBuildingPerks()
+    {
+        return $this->buildings->flatMap(
+            function ($building)
+            {
+                return $building->perks;
+            }
+        );
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+     public function getBuildingProduction(string $resourceType): float
+     {
+         $production = 0;
+
+         foreach ($this->buildings as $building)
+         {
+             $perkValue = $building->getPerkValue($resourceType);
+
+             if ($perkValue !== 0)
+             {
+                 $production = $building->pivot->owned * $perkValue;
+             }
+         }
+
+         return $production;
+     }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getBuildingPerkMultiplier(string $key): float
+    {
+        return ($this->getBuildingPerkValue($key) / 100);
+    }
+
     # SPELLS
 
     protected function getSpellPerks()

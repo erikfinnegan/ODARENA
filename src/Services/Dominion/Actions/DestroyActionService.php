@@ -8,6 +8,7 @@ use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 
 class DestroyActionService
 {
@@ -19,6 +20,7 @@ class DestroyActionService
         public function __construct()
         {
             $this->spellCalculator = app(SpellCalculator::class);
+            $this->buildingCalculator = app(BuildingCalculator::class);
         }
 
     /**
@@ -60,6 +62,8 @@ class DestroyActionService
                 throw new GameException('The destruction was not completed due to bad input.');
             }
         }
+
+        $this->buildingCalculator->removeBuildings($dominion, $data);
 
         foreach ($data as $buildingType => $amount) {
             $dominion->{'building_' . $buildingType} -= $amount;

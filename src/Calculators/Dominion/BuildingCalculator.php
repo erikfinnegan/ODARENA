@@ -157,27 +157,30 @@ class BuildingCalculator
     {
         foreach($buildingKeys as $buildingKey => $amount)
         {
-            $building = Building::where('key', $buildingKey)->first();
-            $amount = intval(max(0, $amount));
+            if($amount > 0)
+            {
+                $building = Building::where('key', $buildingKey)->first();
+                $amount = intval(max(0, $amount));
 
-            if($this->dominionHasBuilding($dominion, $buildingKey))
-            {
-                DB::transaction(function () use ($dominion, $building, $amount)
+                if($this->dominionHasBuilding($dominion, $buildingKey))
                 {
-                    DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
-                    ->increment('owned', $amount);
-                });
-            }
-            else
-            {
-                DB::transaction(function () use ($dominion, $building, $amount)
+                    DB::transaction(function () use ($dominion, $building, $amount)
+                    {
+                        DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
+                        ->increment('owned', $amount);
+                    });
+                }
+                else
                 {
-                    DominionBuilding::create([
-                        'dominion_id' => $dominion->id,
-                        'building_id' => $building->id,
-                        'owned' => $amount
-                    ]);
-                });
+                    DB::transaction(function () use ($dominion, $building, $amount)
+                    {
+                        DominionBuilding::create([
+                            'dominion_id' => $dominion->id,
+                            'building_id' => $building->id,
+                            'owned' => $amount
+                        ]);
+                    });
+                }
             }
         }
     }
@@ -186,16 +189,19 @@ class BuildingCalculator
     {
         foreach($buildingKeys as $buildingKey => $amount)
         {
-            $building = Building::where('key', $buildingKey)->first();
-            $amount = intval($amount);
-
-            if($this->dominionHasBuilding($dominion, $buildingKey))
+            if($amount > 0)
             {
-                DB::transaction(function () use ($dominion, $building, $amount)
+                $building = Building::where('key', $buildingKey)->first();
+                $amount = intval($amount);
+
+                if($this->dominionHasBuilding($dominion, $buildingKey))
                 {
-                    DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
-                    ->decrement('owned', $amount);
-                });
+                    DB::transaction(function () use ($dominion, $building, $amount)
+                    {
+                        DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
+                        ->decrement('owned', $amount);
+                    });
+                }
             }
         }
     }

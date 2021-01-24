@@ -41,33 +41,17 @@
                     </a>
                 </li>
 
-                <!--
-                <li class="header">DOMINION</li>
-                -->
-
-
-
                 <!-- Hide Construct Buildings from cannot_construct races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
-                <li class="{{ Route::is('dominion.construct') ? 'active' : null }}">
-                    <a href="{{ route('dominion.construct') }}">
-                        <i class="fa fa-home fa-fw"></i>
-                        <span>Buildings</span>
-                        {{--
-                    <span class="pull-right-container">
-                        @if ($landCalculator->getTotalBarrenLand($selectedDominion))
-                            <small class="label label-gray pull-right">{{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }}</small>
-                        @endif
-                    </span>
-                      --}}
-                    </a>
-                </li>
-                @endif
+                    <li class="{{ Route::is('dominion.construct') ? 'active' : null }}">
+                        <a href="{{ route('dominion.construct') }}">
+                            <i class="fa fa-home fa-fw"></i>
+                            <span>Buildings</span>
+                        </a>
+                    </li>
 
-                @if (app()->environment() !== 'production')
-                    <!-- Hide Buildings from cannot_construct races -->
-                    @if (!(bool)$selectedDominion->race->getPerkValue('cannot_construct'))
-                    <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i> <span>Buildings</span> <span class="pull-right-container"><small class="label pull-right label-danger">Beta</small></span> </a></li>
+                    @if(request()->getHost() !== 'odarena.com')
+                        <li class="{{ Route::is('dominion.buildings') ? 'active' : null }}"><a href="{{ route('dominion.buildings') }}"><i class="fa fa-home fa-fw"></i> <span>Buildings</span> <span class="pull-right-container"><small class="label pull-right label-danger">Beta</small></span> </a></li>
                     @endif
                 @endif
 

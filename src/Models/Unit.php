@@ -33,45 +33,25 @@ class Unit extends AbstractModel
         'power_defense' => 'float',
         'need_boat' => 'boolean',
         'type' => 'array',
-        // Unit food cost
         'cost_food' => 'integer',
-        // Unit mana cost
         'cost_mana' => 'integer',
-        // Unit gem cost
         'cost_gem' => 'integer',
-        // Unit lumber cost
         'cost_lumber' => 'integer',
-        // Unit prestige cost
         'cost_prestige' => 'integer',
-        // Unit boat cost
         'cost_boat' => 'integer',
-        // Unit champion cost
         'cost_champion' => 'integer',
-        // Unit soul cost
         'cost_soul' => 'integer',
-        // Unit soul cost
         'cost_blood' => 'integer',
-        // Unit unit 1 cost
         'cost_unit1' => 'integer',
-        // Unit unit 2 cost
         'cost_unit2' => 'integer',
-        // Unit unit 3 cost
         'cost_unit3' => 'integer',
-        // Unit unit 4 cost
         'cost_unit4' => 'integer',
-        // Unit morale cost
         'cost_morale' => 'integer',
-        // Unit peasant cost
         'cost_peasant' => 'integer',
-        // Unit wild yeti cost
         'cost_wild_yeti' => 'integer',
-        // Unit spy cost
         'cost_spy' => 'integer',
-        // Unit wizard cost
         'cost_wizard' => 'integer',
-        // Unit archmage cost
         'cost_archmage' => 'integer',
-        // For cases when a unit's NW needs to be manually set
         'static_networth' => 'integer',
     ];
 
