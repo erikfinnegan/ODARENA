@@ -190,45 +190,39 @@ class TickService
 
                 foreach($tick as $attribute => $value)
                 {
-                    if($dominion->name === 'Dark Elf')
+                    $queueResource = explode("_", $attribute);
+                    if($queueResource[0] == 'building')
                     {
-                        $queueResource = explode("_", $attribute);
-                        if($queueResource[0] == 'building')
+                        $buildingKey = str_replace('building_','',$attribute);
+                        $amount = intval($value);
+                        if($value > 0)
                         {
-                            $buildingKey = str_replace('building_','',$attribute);
-                            $amount = intval($value);
-                            if($value > 0)
-                            {
-                                  $building = Building::where('key', $buildingKey)->first();
+                              $building = Building::where('key', $buildingKey)->first();
 
-                                  if($this->buildingCalculator->dominionHasBuilding($dominion, $building->key))
+                              if($this->buildingCalculator->dominionHasBuilding($dominion, $building->key))
+                              {
+                                  # Does this dominion already have some of this building?
+                                  DB::transaction(function () use ($dominion, $building, $amount)
                                   {
-                                      # Does this dominion already have some of this building?
-                                      DB::transaction(function () use ($dominion, $building, $amount)
-                                      {
-                                          $dominionSpell = DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
-                                          ->increment(['owned', $amount]);
-                                      });
-                                  }
-                                  else
+                                      $dominionSpell = DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
+                                      ->increment(['owned', $amount]);
+                                  });
+                              }
+                              else
+                              {
+                                  # If not, create DominionBuilding
+                                  DB::transaction(function () use ($dominion, $building, $amount)
                                   {
-                                      # If not, create DominionBuilding
-                                      DB::transaction(function () use ($dominion, $building, $amount)
-                                      {
-                                          DominionBuilding::create([
-                                              'dominion_id' => $dominion->id,
-                                              'building_id' => $building->id,
-                                              'owned' => $amount
-                                          ]);
-                                      });
-                                  }
-                            }
+                                      DominionBuilding::create([
+                                          'dominion_id' => $dominion->id,
+                                          'building_id' => $building->id,
+                                          'owned' => $amount
+                                      ]);
+                                  });
+                              }
                         }
                     }
                 }
-
-                $dominion->save();
-
             }
 
             unset($dominions);
