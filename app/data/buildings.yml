@@ -240,6 +240,7 @@ wizard_guild:
     wizard_strength_recovery: 1,0.1,2 # Every 1% gives +0.1% WS recovery per tick, max +2%/tick
     wizard_cost: 1,2,40 # Every 1% gives 2% cost reduction, max 40% reduction
     spell_cost: 1,2,40 # Every 1% gives 2% cost reduction, max 40% reduction
+    wizard_housing: 40
 
 # Racial Buildings/Faction Buildings
 

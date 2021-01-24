@@ -300,6 +300,8 @@ class BuildingHelper
             'gold_theft_reduction' => 'Gold stolen from you reduced by %2$s%% for every %1$s%%.',
             'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'wizard_housing' => 'Houses %1$s wizards and units that count as wizards.',
+            'spy_housing' => 'Houses %1$s spies and units that count as spies.',
 
         ];
 

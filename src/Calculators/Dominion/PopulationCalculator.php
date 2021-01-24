@@ -241,55 +241,6 @@ class PopulationCalculator
         return (1 + $multiplier) * (1 + $dominion->getTechPerkMultiplier('max_population')) * (1 + $prestigeMultiplier);
     }
 
-    /**
-     * Returns the Dominion's max population military bonus.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-/*
-    public function getMaxPopulationMilitaryBonus(Dominion $dominion): float
-    {
-        $housingFromBarracks = 0;
-        $housingFromUnits = 0;
-
-        $troopsPerBarracks = 36;
-
-        # BARRACKS
-        // Race
-        if($dominion->race->getPerkValue('extra_barracks_housing'))
-        {
-            $troopsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
-        }
-
-        // Tech
-        if($dominion->getTechPerkMultiplier('barracks_housing'))
-        {
-            $troopsPerBarracks *= (1 + $dominion->getTechPerkMultiplier('barracks_housing'));
-        }
-
-        $housingFromBarracks = $dominion->building_barracks * $troopsPerBarracks;
-
-        # UNITS: Look for houses_military_units
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units'))
-            {
-                $housingFromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units');
-            }
-        }
-
-        $militaryHousing = $housingFromBarracks + $housingFromUnits;
-        #$militaryHousing -= $this->getUnitsHousedInForestHavens($dominion);
-        #$militaryHousing -= $this->getUnitsHousedInWizardGuilds($dominion);
-
-        return min(
-            ($this->getPopulationMilitary($dominion) - $dominion->military_draftees),
-            $militaryHousing
-          );
-    }
-*/
-
     /*
     *   Calculate how many units can be fit in this Dominion's Barracks.
     */
@@ -320,6 +271,8 @@ class PopulationCalculator
         $spyUnitsPerForestHaven *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts'));
 
         return ($dominion->building_forest_haven * $spyUnitsPerForestHaven);
+
+        #return $dominion->getBuildingProduction('spy_housing');
     }
 
     /*
@@ -329,10 +282,11 @@ class PopulationCalculator
     {
         $wizUnitsPerWizardGuild = 40;
 
-        #$wizUnitsPerWizardGuild *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers'));
         $wizUnitsPerWizardGuild *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires'));
 
         return ($dominion->building_wizard_guild * $wizUnitsPerWizardGuild);
+
+        #return $dominion->getBuildingProduction('wizard_housing');
     }
 
     /*

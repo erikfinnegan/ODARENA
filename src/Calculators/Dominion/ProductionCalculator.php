@@ -95,7 +95,7 @@ class ProductionCalculator
         // Building: Alchemy
         $gold += ($dominion->building_alchemy * $goldPerAlchemy);
 
-        #$gold += $dominion->getBuildingProduction('gold_production');
+        #$gold += $dominion->getBuildingPerkValue('gold_production');
 
         // Unit Perk: Production Bonus
         $gold += $dominion->getUnitPerkProductionBonus('gold_production');
@@ -190,7 +190,7 @@ class ProductionCalculator
         // Building: Mycelia
         $food += ($dominion->building_mycelia * 4);
 
-        #$food += $dominion->getBuildingProduction('food_production');
+        #$food += $dominion->getBuildingPerkValue('food_production');
 
         // Unit Perk: Production Bonus (Growth Unit)
         $food += $dominion->getUnitPerkProductionBonus('food_production');
@@ -447,7 +447,7 @@ class ProductionCalculator
 
         // Building: Lumberyard
         $lumber += ($dominion->building_lumberyard * $lumberPerLumberyard);
-        #$lumber += $dominion->getBuildingProduction('lumber_production');
+        #$lumber += $dominion->getBuildingPerkValue('lumber_production');
 
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
         $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
@@ -626,7 +626,7 @@ class ProductionCalculator
 
         // Building: Tower
         $mana += ($dominion->building_tower * 25);
-        #$mana += $dominion->getBuildingProduction('mana_production');
+        #$mana += $dominion->getBuildingPerkValue('mana_production');
 
         // Building: Ziggurat
         if($dominion->race->getPerkValue('mana_per_ziggurat'))
@@ -775,8 +775,8 @@ class ProductionCalculator
         $orePerOreMine = 60;
 
         // Building: Ore Mine
-        $ore += ($dominion->building_ore_mine * $orePerOreMine);
-        #$ore += $dominion->getBuildingProduction('ore_production');
+        #$ore += ($dominion->building_ore_mine * $orePerOreMine);
+        #$ore += $dominion->getBuildingPerkValue('ore_production');
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $ore += $dominion->getUnitPerkProductionBonus('ore_production');
@@ -851,7 +851,7 @@ class ProductionCalculator
 
         // Building: Gem Mine
         $gems += $dominion->building_gem_mine * 15;
-        #$gems += $dominion->getBuildingProduction('gem_production');
+        #$gems += $dominion->getBuildingPerkValue('gem_production');
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $gems += $dominion->getUnitPerkProductionBonus('gem_production');
@@ -999,7 +999,7 @@ class ProductionCalculator
 
         $boats += ($dominion->building_dock / $docksPerBoatPerTick);
 
-        #$boats += $dominion->getBuildingProduction('boat_production');
+        #$boats += $dominion->getBuildingPerkValue('boat_production');
 
         // Unit Perk: production_from_title
         $boats += $dominion->getUnitPerkProductionBonusFromTitle('boats');

@@ -571,6 +571,27 @@ class Dominion extends AbstractModel
          return $production;
      }
 
+     /**
+      * @param string $key
+      * @return float
+      */
+      public function getBuildingPerkValue(string $resourceType): float
+      {
+          $production = 0;
+
+          foreach ($this->buildings as $building)
+          {
+              $perkValue = $building->getPerkValue($resourceType);
+
+              if ($perkValue !== 0)
+              {
+                  $production = $building->pivot->owned * $perkValue;
+              }
+          }
+
+          return $production;
+      }
+
     /**
      * @param string $key
      * @return float
