@@ -15,8 +15,7 @@
           </div>
 
           @foreach($selectedDominion->buildings as $building)
-            {{ dd($building->name, $building->pivot->owned, $building->perks) }}
-            {{ $building->name }}: {{ var_dump($building->pivot->owned) }} {{ var_dump($building->perks) }}
+            {{ $building->name }}: {{ var_dump($building->pivot->owned) }}
           @endforeach
 
           <form action="{{ route('dominion.buildings') }}" method="post" role="form">
@@ -50,7 +49,7 @@
                               <td>
                                   @if($dominionBuildings->contains('building_id', $building->id))
                                       {{ $dominionBuildings->where('building_id', $building->id)->first()->owned }}
-                                      <small>({{ number_format(($dominionBuildings->building->owned / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>
+                                      <small>({{ number_format(($dominionBuildings->where('building_id', $building->id)->first()->owned / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>
                                   @else
                                       0 <small>(0%)</small>
                                   @endif
