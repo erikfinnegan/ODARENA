@@ -1208,6 +1208,11 @@ class SpellActionService
             throw new GameException($spell->name . ' is not active.');
         }
 
+        if($spell->class == 'invasion')
+        {
+            throw new GameException($spell->name . ' cannot be broken.');
+        }
+
         $wizardStrengthCost = 5;#$this->spellCalculator->getWizardStrengthCost($spell);
 
         if ($target->wizard_strength <= 0 or ($target->wizard_strength - $wizardStrengthCost) < 0)
@@ -1232,7 +1237,7 @@ class SpellActionService
 
         $casterWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'defense'));
         $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'offense'));
-  
+
         if ($casterWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($targetWpa, $casterWpa)))
         {
               DB::transaction(function () use ($target, $spell)
