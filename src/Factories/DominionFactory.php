@@ -394,7 +394,7 @@ class DominionFactory
             }
         }
 
-        dd($startingBuildings);
+        #dd($startingBuildings);
 
         return Dominion::create([
             'user_id' => $user->id,
