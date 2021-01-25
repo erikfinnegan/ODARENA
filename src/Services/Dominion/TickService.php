@@ -1268,13 +1268,17 @@ class TickService
         /*
         This is probably terrible?
         */
-        $finishedBuildingsInQueue = DB::table('dominion_queue')->where('dominion_id',$dominion->id)->where('resource', 'like', 'building%')->where('hours',1)->get();
+        $finishedBuildingsInQueue = DB::table('dominion_queue')
+                                        ->where('dominion_id',$dominion->id)
+                                        ->where('resource', 'like', 'building%')
+                                        ->where('hours',1)
+                                        ->get();
         foreach($finishedBuildingsInQueue as $finishedBuildingInQueue)
         {
             $buildingKey = str_replace('building_', '', $finishedBuildingInQueue->resource);
             $amount = intval($finishedBuildingInQueue->amount);
             $building = Building::where('key', $buildingKey)->first();
-            $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey]);
+            $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
         }
 
         DB::transaction(function () use ($dominion)
