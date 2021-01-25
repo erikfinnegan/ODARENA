@@ -307,48 +307,82 @@
 
 </div>
 <div class="row">
-
-        <div class="col-sm-12 col-md-5">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Spells</h3>
-                </div>
-                <div class="box-body">
-                    <p>See <a href="{{ route('scribes.spells', str_slug($race['name'])) }}">Spells</a>.</p>
-                </div>
+    <div class="col-sm-12 col-md-5">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Spells</h3>
+            </div>
+            <div class="box-body">
+                <p>See <a href="{{ route('scribes.spells', str_slug($race['name'])) }}">Spells</a>.</p>
             </div>
         </div>
-
-        <div class="col-sm-12 col-md-4">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Spy Ops</h3>
-                </div>
-                <div class="box-body">
-                    <p>See <a href="{{ route('scribes.spy-ops', str_slug($race['name'])) }}">Spy Ops</a>.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-12 col-md-3">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Chronicles</h3>
-                </div>
-                <div class="box-body">
-                  @php
-                      $factionUrlName = str_replace(' ','-',strtolower($race->name));
-                      $alignments = ['good' => 'commonwealth', 'evil' => 'empire', 'independent' => 'independent', 'npc' => 'barbarian-horde'];
-                      $alignment = $alignments[$race->alignment];
-                  @endphp
-                  <p><a href="https://lounge.odarena.com/chronicles/factions/{{ $alignment }}/{{ $factionUrlName }}/" target="_blank"><i class="fa fa-book"></i> Read the history of {{ $race->name }} in the Chronicles.</a></p>
-
-                </div>
-            </div>
-        </div>
-
     </div>
 
+    <div class="col-sm-12 col-md-4">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Spy Ops</h3>
+            </div>
+            <div class="box-body">
+                <p>See <a href="{{ route('scribes.spy-ops', str_slug($race['name'])) }}">Spy Ops</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Chronicles</h3>
+            </div>
+            <div class="box-body">
+              @php
+                  $factionUrlName = str_replace(' ','-',strtolower($race->name));
+                  $alignments = ['good' => 'commonwealth', 'evil' => 'empire', 'independent' => 'independent', 'npc' => 'barbarian-horde'];
+                  $alignment = $alignments[$race->alignment];
+              @endphp
+              <p><a href="https://lounge.odarena.com/chronicles/factions/{{ $alignment }}/{{ $factionUrlName }}/" target="_blank"><i class="fa fa-book"></i> Read the history of {{ $race->name }} in the Chronicles.</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Buildings</h3>
+            </div>
+
+            <div class="box-body table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped">
+                          <colgroup>
+                              <col width="200">
+                              <col width="100">
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>Building</th>
+                                  <th>Land Type</th>
+                                  <th>Perks</th>
+                              </tr>
+                          </thead>
+                          @foreach ($buildings as $building)
+                              <tr>
+                                  <td>{{ $building->name }}</td>
+                                  <td>{{ ucwords($building->land_type) }}</td>
+                                  <td>{!! $buildingHelper->getBuildingDescription($building) !!}</td>
+                              </tr>
+                          @endforeach
+                      </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 </div>

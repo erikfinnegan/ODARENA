@@ -268,6 +268,10 @@ class BuildingHelper
             # Housing
             'housing' => 'Houses %s people.',
             'military_housing' => 'Houses %s military units.',
+            'wizard_housing' => 'Houses %1$s wizards and units that count as wizards.',
+            'spy_housing' => 'Houses %1$s spies and units that count as spies.',
+            'draftee_housing' => 'Houses %s draftees.',
+            'peasant_housing' => 'Houses %s peasants.',
 
             # Production
             'gold_production' => 'Produces %s gold per tick.',
@@ -278,20 +282,30 @@ class BuildingHelper
             'mana_production' => 'Produces %s mana per tick.',
             'boat_production' => 'Produces %s boats per tick.',
 
-            # Mods
-            'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',
+            # Military
+            'offensive_casualties' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+
+            'boat_protection' => 'Protects %s boats from sabotage.',
+
+            'unit_gold_costs' => 'Unit gold costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'unit_ore_costs' => 'Unit ore costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'unit_lumber_costs' => 'Unit lumber costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'unit_mana_costs' => 'Unit mana costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'unit_blood_costs' => 'Unit blood costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
+
+            # OP/DP
+            'raw_defense' => 'Provides %s raw defensive power.',
             'offensive_power' => 'Offenive power increased by %2$s%% for every %1$s%% (max +%3$s%% OP)',
             'defensive_power' => 'Defensive power increased by %2$s%% for every %1$s%% (max +%3$s%% DP).',
             'defensive_modifier_reduction' => 'Reduces target\'s defensive modifiers by by %2$s%% for every %1$s%% (max %3$s%% reduction or 0%% defensive modifiers).',
-            'offensive_casualties' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'unit_cost' => 'Unit gold and ore costs %2$s%% for every %1$s%% (max %3$s%% reduction). No ore cost reduction for Gnome or Imperial Gnome.',
+
+            # Improvements
+            'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',
+
+            # Construction and Rezoning
             'construction_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'rezone_cost' => 'Rezoning costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-
-            # Other
-            'boat_protection' => 'Protects %s boats from sabotage.',
-            'raw_defense' => 'Provides %s raw defensive power.',
 
             # Espionage and Wizardry
             'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
@@ -300,8 +314,6 @@ class BuildingHelper
             'gold_theft_reduction' => 'Gold stolen from you reduced by %2$s%% for every %1$s%%.',
             'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'wizard_housing' => 'Houses %1$s wizards and units that count as wizards.',
-            'spy_housing' => 'Houses %1$s spies and units that count as spies.',
 
         ];
 

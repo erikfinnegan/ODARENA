@@ -66,6 +66,14 @@
                                             {{ $dominion->round->number }}
                                         </td>
                                         <td>
+                                            @if (!$dominion->round->hasStarted())
+                                                <span class="label label-success">Starting soon</span>
+                                            @endif
+
+                                            @if($dominion->isLocked())
+                                                <span class="label label-info">Finished</span>
+                                            @endif
+
                                             @if ($dominion->isSelectedByAuthUser())
                                                 <a href="{{ route('dominion.status') }}">{{ $dominion->name }}</a>
                                                 <span class="label label-success">Selected</span>
@@ -74,14 +82,6 @@
                                                     @csrf
                                                     <button type="submit" class="btn btn-link" style="padding: 0;">{{ $dominion->name }}</button>
                                                 </form>
-                                            @endif
-
-                                            @if (!$dominion->round->hasStarted())
-                                                <span class="label label-success">Starting soon</span>
-                                            @endif
-
-                                            @if($dominion->isLocked())
-                                                <span class="label label-info">Finished</span>
                                             @endif
 
                                             @if($dominion->round->hasStarted() and !$dominion->isLocked())

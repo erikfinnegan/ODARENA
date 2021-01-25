@@ -394,6 +394,8 @@ class DominionFactory
             }
         }
 
+        dd($startingBuildings);
+
         return Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,
