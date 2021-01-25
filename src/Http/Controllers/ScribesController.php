@@ -9,6 +9,7 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Models\Building;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Title;
 use OpenDominion\Helpers\TitleHelper;
@@ -71,6 +72,17 @@ class ScribesController extends AbstractController
             'buildingTypeWithLandType' => $buildingTypeWithLandType,
             'buildingHelper' => $buildingHelper,
             'landHelper' => app(LandHelper::class),
+        ]);
+    }
+
+    public function getBuildings()
+    {
+        $buildingHelper = app(BuildingHelper::class);
+
+        return view('pages.scribes.buildings', [
+            'buildingHelper' => $buildingHelper,
+            'landHelper' => app(LandHelper::class),
+            'buildings' => Building::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
         ]);
     }
 

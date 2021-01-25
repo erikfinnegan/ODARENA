@@ -68,26 +68,26 @@ class OpsHelper
     }
 
     public function blackOperationSuccessChance(float $selfRatio, float $targetRatio, bool $isInvasionSpell = false): float
+    {
+        if ($isInvasionSpell)
         {
-            if ($isInvasionSpell)
-            {
-                return 1;
-            }
-
-            #$selfRatio = min(5, $selfRatio);
-            #$targetRatio = min(5, $targetRatio);
-
-            $ratioDifference = $selfRatio - $targetRatio;
-            $ratioSum = $selfRatio + $targetRatio;
-
-            $steepness = 1 / (2 + sqrt($ratioSum)/2);
-            $shift = 0;
-            $slimChance = 0.02;
-
-            $successRate = ($this->erf(($ratioDifference - $shift) * $steepness) + 1) * (0.5 - $slimChance) + $slimChance;
-
-            return clamp($successRate, 0, 1);
+            return 1;
         }
+
+        #$selfRatio = min(5, $selfRatio);
+        #$targetRatio = min(5, $targetRatio);
+
+        $ratioDifference = $selfRatio - $targetRatio;
+        $ratioSum = $selfRatio + $targetRatio;
+
+        $steepness = 1 / (2 + sqrt($ratioSum)/2);
+        $shift = 0;
+        $slimChance = 0.02;
+
+        $successRate = ($this->erf(($ratioDifference - $shift) * $steepness) + 1) * (0.5 - $slimChance) + $slimChance;
+
+        return clamp($successRate, 0, 1);
+    }
 
       public function getInfoOpsInaccuracy(Dominion $dominion): float
       {

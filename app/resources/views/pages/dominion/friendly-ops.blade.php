@@ -121,7 +121,7 @@
                         </form>
 
                         <div class="box-body">
-                            <h4>Active Friendly Spells</h4>
+                            <h4>Friendly Spells You Have Cast</h4>
                             <table class="table table-condensed">
                                 <colgroup>
                                     <col>
@@ -130,33 +130,53 @@
                                     <col width="50">
                                 </colgroup>
                                 <tr>
-                                    <th>Dominion</th>
+                                    <th>Cast On</th>
                                     <th>Spell</th>
                                     <th>Duration</th>
                                     <th></th>
                                 </tr>
-                            @foreach($spellCalculator->getPassiveSpellsCast($selectedDominion, true) as $activePassiveSpellCast)
-                                @php
-                                    $spell = $spellCalculator->getSpellObjectFromKey($activePassiveSpellCast->spell);
-                                @endphp
-                                @if($spell->scope == 'friendly')
+                            @foreach($spellCalculator->getPassiveSpellsCastByDominion($selectedDominion, 'friendly') as $activePassiveSpellCast)
                                     <tr>
-                                        <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->target_dominion_id]) }}">{{ $activePassiveSpellCast->target_dominion_name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->target_dominion_realm_number }})</a></td>
-                                        <td>{{ $spell->name }}</td>
-                                        <td>{{ $activePassiveSpellCast->duration }} / {{ $spell->duration }}</td>
+                                        <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
+                                        <td>{{ $activePassiveSpellCast->spell->name }}</td>
+                                        <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
                                         <td>
                                             <form action="{{ route('dominion.friendly-ops') }}" method="post" role="form">
                                                 @csrf
                                                 <input type="hidden" name="type" value="friendly_spell">
                                                 <input type="hidden" name="friendly_dominion" value="{{ $activePassiveSpellCast->target_dominion_id }}">
-                                                <input type="hidden" name="spell" value="{{ $spell->key }}">
+                                                <input type="hidden" name="spell" value="{{ $activePassiveSpellCast->spell->key }}">
                                                 <button type="submit" class="btn btn-primary btn-block">
                                                 <i class="ra ra-cycle"></i>
                                                 </button>
                                             </form>
                                         </td>
                                     </tr>
-                                @endif
+                            @endforeach
+                            </table>
+
+
+                            <h4>Friendly Spells Cast On You</h4>
+                            <table class="table table-condensed">
+                                <colgroup>
+                                    <col>
+                                    <col>
+                                    <col width="100">
+                                    <col width="50">
+                                </colgroup>
+                                <tr>
+                                    <th>Cast By</th>
+                                    <th>Spell</th>
+                                    <th>Duration</th>
+                                    <th></th>
+                                </tr>
+                            @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'friendly') as $activePassiveSpellCast)
+                                    <tr>
+                                        <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->caster->id]) }}">{{ $activePassiveSpellCast->caster->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->caster->realm->number }})</a></td>
+                                        <td>{{ $activePassiveSpellCast->spell->name }}</td>
+                                        <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
+                                        <td></td>
+                                    </tr>
                             @endforeach
                             </table>
                         </div>

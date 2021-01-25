@@ -144,39 +144,42 @@ class SpellCalculator
         return DominionSpell::where('caster_id',$dominion->id)->get();
     }
 
-    /**
-     * Returns a list of spells currently affecting $dominion.
-     *
-     * @param Dominion $dominion
-     * @param bool $forceRefresh
-     * @return Collection
-     */
-    public function getPassiveSpellsCast(Dominion $dominion, bool $forceRefresh = false): Collection
-    {
-        $cacheKey = $dominion->id;
 
-        if (!$forceRefresh && array_has($this->activeSpells, $cacheKey))
+    public function getPassiveSpellsCastByDominion(Dominion $caster, string $scope)#: Collection
+    {
+
+        $spells = collect([]);
+
+        $dominionSpells = DominionSpell::where('caster_id',$caster->id)->get();
+
+        foreach($dominionSpells as $dominionSpell)
         {
-            return collect(array_get($this->activeSpells, $cacheKey));
+            if($dominionSpell->spell->scope === $scope)
+            {
+                $spells->prepend($dominionSpell);
+            }
         }
 
-        $data = DB::table('active_spells')
-            ->join('dominions', 'dominions.id', '=', 'dominion_id')
-            ->join('realms', 'realms.id', '=', 'dominions.realm_id')
-            ->where('cast_by_dominion_id', $dominion->id)
-            ->where('duration', '>', 0)
-            ->orderBy('duration', 'asc')
-            ->orderBy('created_at')
-            ->get([
-                'active_spells.*',
-                'dominions.id AS target_dominion_id',
-                'dominions.name AS target_dominion_name',
-                'realms.number AS target_dominion_realm_number',
-            ]);
+        return $spells;
+    }
 
-        array_set($this->activeSpells, $cacheKey, $data->toArray());
 
-        return $data;
+    public function getPassiveSpellsCastOnDominion(Dominion $caster, string $scope)#: Collection
+    {
+
+        $spells = collect([]);
+
+        $dominionSpells = DominionSpell::where('dominion_id',$caster->id)->get();
+
+        foreach($dominionSpells as $dominionSpell)
+        {
+            if($dominionSpell->spell->scope === $scope)
+            {
+                $spells->prepend($dominionSpell);
+            }
+        }
+
+        return $spells;
     }
 
     public function getSpellObjectFromKey(string $spellKey): Spell

@@ -130,7 +130,7 @@
                         </form>
 
                         <div class="box-body">
-                            <h4>Active Hostile Spells</h4>
+                            <h4>Hostile Spells You Have Cast</h4>
                             <table class="table table-condensed">
                                 <colgroup>
                                     <col>
@@ -139,35 +139,68 @@
                                     <col width="50">
                                 </colgroup>
                                 <tr>
-                                    <th>Dominion</th>
+                                    <th>Cast On</th>
                                     <th>Spell</th>
                                     <th>Duration</th>
                                     <th></th>
                                 </tr>
-                            @foreach($spellCalculator->getPassiveSpellsCast($selectedDominion, true) as $activePassiveSpellCast)
-                                @php
-                                    $spell = $spellCalculator->getSpellObjectFromKey($activePassiveSpellCast->spell);
-                                @endphp
-                                @if($spell->scope == 'hostile')
+                                @foreach($spellCalculator->getPassiveSpellsCastByDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
+                                        <tr>
+                                            <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
+                                            <td>{{ $activePassiveSpellCast->spell->name }}</td>
+                                            <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
+                                            <td>
+                                                <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
+                                                    @csrf
+                                                    <input type="hidden" name="type" value="spell">
+                                                    <input type="hidden" name="spell_dominion" value="{{ $activePassiveSpellCast->dominion->id }}">
+                                                    <input type="hidden" name="operation" value="{{ $spell->key }}">
+                                                    <span data-toggle="tooltip" data-placement="top" title="Cast this spell again on the same target">
+                                                        <button type="submit" class="btn btn-primary btn-block">
+                                                            <i class="ra ra-cycle"></i>
+                                                        </button>
+                                                    </span>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                @endforeach
+                                </table>
+
+                                <h4>Hostile Spells Cast On You</h4>
+                                <table class="table table-condensed">
+                                    <colgroup>
+                                        <col>
+                                        <col>
+                                        <col width="100">
+                                        <col width="50">
+                                    </colgroup>
                                     <tr>
-                                        <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->target_dominion_id]) }}">{{ $activePassiveSpellCast->target_dominion_name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->target_dominion_realm_number }})</a></td>
-                                        <td>{{ $spell->name }}</td>
-                                        <td>{{ $activePassiveSpellCast->duration }} / {{ $spell->duration }}</td>
-                                        <td>
-                                            <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
-                                                @csrf
-                                                <input type="hidden" name="type" value="spell">
-                                                <input type="hidden" name="spell_dominion" value="{{ $activePassiveSpellCast->target_dominion_id }}">
-                                                <input type="hidden" name="operation" value="{{ $spell->key }}">
-                                                <button type="submit" class="btn btn-primary btn-block">
-                                                <i class="ra ra-cycle"></i>
-                                                </button>
-                                            </form>
-                                        </td>
+                                        <th>Cast By</th>
+                                        <th>Spell</th>
+                                        <th>Duration</th>
+                                        <th></th>
                                     </tr>
-                                @endif
-                            @endforeach
-                            </table>
+                                @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
+                                        <tr>
+                                            <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->caster->id]) }}">{{ $activePassiveSpellCast->caster->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->caster->realm->number }})</a></td>
+                                            <td>{{ $activePassiveSpellCast->spell->name }}</td>
+                                            <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
+                                            <td>
+                                                <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
+                                                    @csrf
+                                                    <input type="hidden" name="type" value="break_spell">
+                                                    <input type="hidden" name="operation" value="{{ $activePassiveSpellCast->spell->key }}">
+                                                    <span data-toggle="tooltip" data-placement="top" title="Try to break this spell<br><ul><li>Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}</li><li>Wizard Strength: 5%</li></ul>">
+                                                        <button type="submit" class="btn btn-danger btn-block">
+                                                            <i class="ra ra-explosive-materials"></i>
+                                                        </button>
+                                                    </span>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                @endforeach
+                                </table>
+
                         </div>
 
                     </div>

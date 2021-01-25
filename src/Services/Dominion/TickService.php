@@ -1390,14 +1390,6 @@ class TickService
                 ]);
 
             // Update spells
-            DB::table('active_spells')
-                ->join('dominions', 'active_spells.dominion_id', '=', 'dominions.id')
-                ->where('dominions.id', $dominion->id)
-                ->update([
-                    'duration' => DB::raw('`duration` - 1'),
-                    'active_spells.updated_at' => $this->now,
-                ]);
-
             DB::table('dominion_spells')
                 ->join('dominions', 'dominion_spells.dominion_id', '=', 'dominions.id')
                 ->where('dominions.id', $dominion->id)

@@ -385,4 +385,43 @@ class BuildingHelper
       return $buildings;
     }
 
+    public function getExclusivityString(Building $building): string
+    {
+
+        $exclusivityString = '<br><small class="text-muted">';
+
+        if($exclusives = count($building->exclusive_races))
+        {
+            foreach($building->exclusive_races as $raceName)
+            {
+                $exclusivityString .= $raceName;
+                if($exclusives > 1)
+                {
+                    $exclusivityString .= ', ';
+                }
+                $exclusives--;
+            }
+
+            $exclusivityString .= ' only';
+        }
+        elseif($excludes = count($building->excluded_races))
+        {
+            $exclusivityString .= 'All except ';
+            foreach($building->excluded_races as $raceName)
+            {
+                $exclusivityString .= $raceName;
+                if($excludes > 1)
+                {
+                    $exclusivityString .= ', ';
+                }
+                $excludes--;
+            }
+        }
+
+        $exclusivityString .= '</small>';
+
+        return $exclusivityString;
+
+    }
+
 }

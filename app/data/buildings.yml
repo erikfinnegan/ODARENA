@@ -195,7 +195,6 @@ smithy:
     - Myconid
     - Void
     - Swarm
-    - Beastfolk
   land_type: plain
   perks:
     unit_cost: 1,2,40 # Every 1% gives 2% reduction, max -40% plat and ore (no ore reduction for IG/Gnome)

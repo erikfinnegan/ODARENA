@@ -999,6 +999,7 @@ class InvadeActionService
             $this->invasionResult['defender']['totalBuildingsLost'] += $landLost;
 
             // Destroy buildings
+            $this->buildingCalculator->($dominion, $buildingsLostForLandType);
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
             {
 

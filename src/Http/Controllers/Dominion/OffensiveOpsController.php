@@ -100,7 +100,6 @@ class OffensiveOpsController extends AbstractDominionController
             $espionageActionService = app(EspionageActionService::class);
 
             try {
-                /** @noinspection PhpParamsInspection */
                 $result = $espionageActionService->performOperation(
                     $dominion,
                     $request->get('operation'),
@@ -126,6 +125,30 @@ class OffensiveOpsController extends AbstractDominionController
             return redirect()
                 ->to($result['redirect'] ?? route('dominion.offensive-ops'))
                 ->with('espionage_dominion', $request->get('espionage_dominion'));
+        }
+        elseif($request->type === 'break_spell')
+        {
+            $dominion = $this->getSelectedDominion();
+            $spellActionService = app(SpellActionService::class);
+
+            $spell = Spell::where('key', $request->get('operation'))->first();
+
+            try {
+                $result = $spellActionService->breakSpell(
+                    $dominion,
+                    $spell->key
+                );
+
+            } catch (GameException $e) {
+                return redirect()->back()
+                    ->withInput($request->all())
+                    ->withErrors([$e->getMessage()]);
+            }
+
+            $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+
+            return redirect()
+                ->to($result['redirect'] ?? route('dominion.offensive-ops'));
         }
         else
         {
