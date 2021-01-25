@@ -23,7 +23,7 @@ construction_materials: gold,lumber
 
 perks:
   max_population: 20
-  population_growth: 25
+  population_growth: 30
   converts_assassinated_draftees: 1 # into slot 1
   converts_executed_spies: 3 # into slot 3
 units:
@@ -89,4 +89,4 @@ units:
       immortal: 1
       value_conversion: 4,1 # [Killed]*4 = number of unit1 created
       counts_as_spy_offense: 0.5
-      counts_as_spy_defense: 0.125
+      counts_as_spy_defense: 0.25
