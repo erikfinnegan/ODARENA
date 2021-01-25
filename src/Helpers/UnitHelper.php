@@ -161,7 +161,7 @@ class UnitHelper
             'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
 
-            'immortal' => 'Immortal in combat. Only dies against Divine Intervention or Qur Zealots.',
+            'immortal' => 'Immortal in combat. Only dies against Tiranthael\'s Blessing or Qur Zealots.',
             'true_immortal' => 'Immortal in combat.',
             'immortal_on_victory' => 'Immortal in combat if invasion is successful.',
             'immortal_on_fending_off' => 'Immortal in combat if successfully fending off invader.',

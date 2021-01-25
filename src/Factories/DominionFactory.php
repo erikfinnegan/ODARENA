@@ -14,20 +14,20 @@ use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\User;
 
-# ODA
 use Illuminate\Support\Carbon;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 
 class DominionFactory
 {
-    /** @var RaceHelper */
-    protected $raceHelper;
+
 
     public function __construct(
         RaceHelper $raceHelper
     )
     {
-        $this->raceHelper = $raceHelper;
+        $this->raceHelper = app(RaceHelper::class);
+        $this->buildingCalculator = app(BuildingCalculator::class);
     }
 
     /**
@@ -394,9 +394,7 @@ class DominionFactory
             }
         }
 
-        #dd($startingBuildings);
-
-        return Dominion::create([
+        $dominion = Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,
             'realm_id' => $realm->id,
@@ -497,6 +495,10 @@ class DominionFactory
 
             'barbarian_guard_active_at' => $startingResources['barbarian_guard_active_at'],
         ]);
+
+        $this->buildingCalculator->createOrIncrementBuildings($dominion, $startingBuildings);
+
+        return $dominion;
 
     }
 
