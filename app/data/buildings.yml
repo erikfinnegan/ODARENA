@@ -16,10 +16,15 @@ home:
 barracks:
   name: Barracks
   excluded_races:
+    - Armada
     - Growth
+    - Jagunii
+    - Marshling
     - Myconid
-    - Void
+    - Nomad
     - Swarm
+    - Vampires
+    - Void
   land_type: hill
   perks:
     military_housing: 36
@@ -91,7 +96,7 @@ tower:
     - Swarm
   land_type: swamp
   perks:
-    mana_production: 15
+    mana_production: 25
 
 lumberyard:
   name: Lumberyard
@@ -102,7 +107,7 @@ lumberyard:
     - Swarm
   land_type: forest
   perks:
-    lumber_production: 60
+    lumber_production: 50
 
 dock:
   name: Dock
@@ -113,7 +118,7 @@ dock:
     - Swarm
   land_type: water
   perks:
-    boat_production: 1
+    boat_production: 0.05
     boat_protection: 2.5
 
 ## Mod Buildings
@@ -222,10 +227,10 @@ forest_haven:
     - Swarm
   land_type: forest
   perks:
-    raw_defense: 15
     spy_losses: 1,3,30 # 1% gives -3% spy losses, max -30
     fireball_damage: 1,8  # Every 1% reduces damage from FBs by 8%
     gold_theft_reduction: 1,8  # Every 1% reduces plat stolen by 8%
+    spy_housing: 40
 
 wizard_guild:
   name: Wizard Guild
@@ -250,7 +255,7 @@ ziggurat:
   land_type: mountain
   perks:
     raw_defense: 4
-    mana_production: 60
+    mana_production: 30
 
 tissue:
   name: Tissue
@@ -259,6 +264,7 @@ tissue:
   land_type: swamp
   perks:
     food_production: 4
+    housing: 160
 
 mycelia:
   name: Mycelia
@@ -266,6 +272,7 @@ mycelia:
     - Myconid
   land_type: forest
   perks:
+    housing: 30
     food_production: 4
 
 camp:

@@ -1230,12 +1230,10 @@ class SpellActionService
             $target->resource_mana -= $manaCost;
         }
 
-        $selfWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'offense'));
-        $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'defense'));
-
-        # Are we successful?
-        ## If yes
-        if ($targetWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($selfWpa, $targetWpa)))
+        $casterWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'defense'));
+        $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'offense'));
+  
+        if ($casterWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($targetWpa, $casterWpa)))
         {
               DB::transaction(function () use ($target, $spell)
               {
