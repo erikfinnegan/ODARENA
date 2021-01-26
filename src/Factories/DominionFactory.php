@@ -345,6 +345,7 @@ class DominionFactory
             $startingResources['lumber'] = 0;
             $startingResources['gems'] = 0;
             $startingResources['boats'] = 0;
+            $startingResources['tech'] = 50000;
 
             $startingResources['unit1'] = 333;
             $startingResources['unit2'] = 6;

@@ -224,7 +224,7 @@
                                 </tbody>
                             </table>
                           @else
-                            <p><em>As decided by the realm's Governor, you contribute <strong>{{ $selectedDominion->realm->contribution }}%</strong> of your ore, lumber, and food stockpile to the monster.</em></p>
+                            <p><em>As decided by the realm's Governor, you contribute <strong>{{ $selectedDominion->realm->contribution }}%</strong> of your food and mana production to the monster.</em></p>
                             <table class="table">
                                 <colgroup>
                                     <col width="50%">
@@ -242,12 +242,8 @@
                                         <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'food')) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Lumber:</td>
-                                        <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'lumber')) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ore:</td>
-                                        <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'ore')) }}</td>
+                                        <td>Mana:</td>
+                                        <td>{{ number_format($productionCalculator->getContribution($selectedDominion, 'mana')) }}</td>
                                     </tr>
                                 </tbody>
                             </table>

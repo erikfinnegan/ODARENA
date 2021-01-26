@@ -632,7 +632,7 @@ class InvadeActionService
         $defenderPrestigeChange = round($defenderPrestigeChange);
 
         # Cap prestige gain at 0 for abandoned dominions.
-        if($target->isAbandoned())
+        if($defender->isAbandoned())
         {
             $attackerPrestigeChange = max($attackerPrestigeChange, 0);
         }
@@ -876,17 +876,18 @@ class InvadeActionService
 
         if($target->getSpellPerkValue('defensive_power_from_peasants'))
         {
-            $peasantsLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
-        }
+            $peasantsLost = (int)floor($target->military_peasants * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
 
-        // Spell
-        $drafteesLost = min($target->military_draftees, $drafteesLost * (1 + $dominion->getSpellPerkMultiplier('increases_enemy_draftee_casualties')));
+            // Spell
+            $peasantsLost = min($target->military_draftees, $peasantsLost * (1 + $dominion->getSpellPerkMultiplier('increases_enemy_draftee_casualties')));
 
-        if($peasantsLost > 0)
-        {
-            $target->peasants -= $peasantsLost;
-            $this->unitsLost += $drafteesLost;
-            $this->invasionResult['defender']['unitsLost']['peasants'] = $peasantsLost;
+            if($peasantsLost > 0)
+            {
+                $target->peasants -= $peasantsLost;
+                $this->unitsLost += $drafteesLost;
+                $this->invasionResult['defender']['unitsLost']['peasants'] = $peasantsLost;
+            }
+
         }
 
         // Non-draftees
@@ -999,9 +1000,10 @@ class InvadeActionService
             $this->invasionResult['defender']['totalBuildingsLost'] += $landLost;
 
             // Destroy buildings
-            $this->buildingCalculator->($dominion, $buildingsLostForLandType);
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
             {
+
+                $this->buildingCalculator->removeBuildings($buildingType => $buildingsLost);
 
                 $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
 

@@ -24,13 +24,10 @@ class RealmCalculator
      * @param ProductionCalculator $productionCalculator
      * @param SpellCalculator $productionCalculator
      */
-    public function __construct(
-        ProductionCalculator $productionCalculator,
-        SpellCalculator $spellCalculator
-    )
+    public function __construct()
     {
-        $this->productionCalculator = $productionCalculator;
-        $this->spellCalculator = $spellCalculator;
+        $this->productionCalculator = app(ProductionCalculator::class);
+        #$this->spellCalculator = app(SpellCalculator::class);
     }
 
     /**
@@ -92,8 +89,7 @@ class RealmCalculator
     {
         $contributions = [
             'food' => 0,
-            'lumber' => 0,
-            'ore' => 0
+            'mana' => 0,
           ];
 
         if($this->hasMonster($realm))
@@ -135,13 +131,15 @@ class RealmCalculator
 
     /**
      * Calculate the ratio of crypt bodies available to the $dominion.
+     * ROUND 39: Only one Undead is allowed so the ratio is always 1.
      *
      * @param Realm $realm
      * @return int
      */
     public function getCryptBodiesProportion($dominion): float
     {
-
+        return 1;
+        /*
         if ($this->spellCalculator->isSpellActive($dominion, 'dark_rites'))
         {
           $dominionDarkRiteUnits = $dominion->military_unit3 + $dominion->military_unit4;
@@ -174,6 +172,7 @@ class RealmCalculator
         {
             return 0.0;
         }
+        */
 
     }
 

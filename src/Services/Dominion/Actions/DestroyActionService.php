@@ -49,7 +49,8 @@ class DestroyActionService
             throw new GameException('The destruction was not completed due to bad input.');
         }
 
-        foreach ($data as $buildingType => $amount) {
+        foreach ($data as $buildingType => $amount)
+        {
             if ($amount === 0) {
                 continue;
             }
@@ -63,9 +64,11 @@ class DestroyActionService
             }
         }
 
+        # BV2
         $this->buildingCalculator->removeBuildings($dominion, $data);
 
-        foreach ($data as $buildingType => $amount) {
+        foreach ($data as $buildingType => $amount)
+        {
             $dominion->{'building_' . $buildingType} -= $amount;
         }
 

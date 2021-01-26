@@ -224,9 +224,9 @@ class TickService
 
                         'dominions.resource_gold' => DB::raw('dominions.resource_gold + dominion_tick.resource_gold'),
                         'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food - dominion_tick.resource_food_contribution + dominion_tick.resource_food_contributed'),
-                        'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber - dominion_tick.resource_lumber_contribution + dominion_tick.resource_lumber_contributed'),
-                        'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
-                        'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore - dominion_tick.resource_ore_contribution + dominion_tick.resource_ore_contributed'),
+                        'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
+                        'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana - dominion_tick.resource_mana_contribution + dominion_tick.resource_mana_contributed'),
+                        'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                         'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
@@ -763,7 +763,7 @@ class TickService
           $tick->resource_lumber += min($this->productionCalculator->getLumberNetChange($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
 
           $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
-          $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
+          $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion) - $tick->resource_mana_contribution;
 
           $tick->resource_ore += min($this->productionCalculator->getOreProduction($dominion), max(0, ($maxStorage['ore'] - $dominion->resource_ore)));
 
@@ -771,10 +771,6 @@ class TickService
 
           $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
           $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
-
-          # ODA: wild yeti production
-          $tick->resource_wild_yeti_production += $this->productionCalculator->getWildYetiProduction($dominion);
-          $tick->resource_wild_yeti += $this->productionCalculator->getWildYetiNetChange($dominion);
 
           $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
           $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
@@ -787,22 +783,16 @@ class TickService
 
           # Contribution: how much is LOST (GIVEN AWAY)
           $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
-          $tick->resource_lumber_contribution = $this->productionCalculator->getContribution($dominion, 'lumber');
-          $tick->resource_ore_contribution = $this->productionCalculator->getContribution($dominion, 'ore');
+          $tick->resource_mana_contribution = $this->productionCalculator->getContribution($dominion, 'mana');
 
           # Contributed: how much is RECEIVED (GIVEN TO)
+          $tick->resource_food_contributed = 0;
+          $tick->resource_mana_contributed = 0;
           if($dominion->race->name == 'Monster')
           {
               $totalContributions = $this->realmCalculator->getTotalContributions($dominion->realm);
               $tick->resource_food_contributed = $totalContributions['food'];
-              $tick->resource_lumber_contributed = $totalContributions['lumber'];
-              $tick->resource_ore_contributed = $totalContributions['ore'];
-          }
-          else
-          {
-              $tick->resource_food_contributed = 0;
-              $tick->resource_lumber_contributed = 0;
-              $tick->resource_ore_contributed = 0;
+              $tick->resource_mana_contributed = $totalContributions['mana'];
           }
 
           // Check for starvation before adjusting food

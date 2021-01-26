@@ -3,6 +3,7 @@
 namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\QueueService;
 
@@ -13,17 +14,6 @@ use OpenDominion\Helpers\LandHelper;
 
 class ProductionCalculator
 {
-    /**
-     * ProductionCalculator constructor.
-     *
-     * @param ImprovementCalculator $improvementCalculator
-     * @param LandCalculator $landCalculator
-     * @param PopulationCalculator $populationCalculator
-     * @param PrestigeCalculator $prestigeCalculator
-     * @param SpellCalculator $spellCalculator
-     * @param GuardMembershipService $guardMembershipService
-     * @param MilitaryCalculator $militaryCalculator
-     */
     public function __construct()
     {
         $this->improvementCalculator = app(ImprovementCalculator::class);
@@ -359,7 +349,7 @@ class ProductionCalculator
 
         $decayProtection = 0;
         $multiplier = 0;
-        $food = $dominion->resource_food - $this->getContribution($dominion, 'food');
+        $food = $dominion->resource_food;
 
         # Check for decay protection
         for ($slot = 1; $slot <= 4; $slot++)
@@ -504,33 +494,6 @@ class ProductionCalculator
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
-
-    /**
-     * Returns the Dominion's contribution.
-     *
-     * Set by Governor to feed the Monster.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getContribution(Dominion $dominion, string $resourceType): float
-    {
-        $contributed = 0;
-        $contribution = $dominion->realm->contribution / 100;
-
-        # Cap contribution to 0-10%, in case something is screwy with $realm->contribution.
-        $contribution = min(max($contribution, 0), 0.10);
-
-        if(in_array($resourceType, ['lumber','ore','food']))
-        {
-            $contributed = $dominion->{'resource_'.$resourceType} * $contribution;
-        }
-
-        $contributed = min($dominion->{'resource_'.$resourceType}, $contributed);
-
-        return $contributed;
-    }
-
     /**
      * Returns the Dominion's lumber decay.
      *
@@ -546,7 +509,7 @@ class ProductionCalculator
 
         $multiplier = 0;
         $decayProtection = 0;
-        $lumber = $dominion->resource_lumber - $this->getContribution($dominion, 'lumber');
+        $lumber = $dominion->resource_lumber;
 
         # Check for decay protection
         for ($slot = 1; $slot <= 4; $slot++)
@@ -1033,101 +996,85 @@ class ProductionCalculator
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
+    /**
+     * Returns the Dominion's soul production, based on peasants sacrificed.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getSoulProduction(Dominion $dominion): float
+    {
+        return $this->populationCalculator->getPeasantsSacrificed($dominion) * 1;
+    }
 
-        /**
-         * Returns the Dominion's wild yeti production per hour.
-         *
-         * Boats are produced by:
-         * - Building: Gryphon Nest (1 per)
-         *
-         * @param Dominion $dominion
-         * @return float
-         */
-        public function getWildYetiProduction(Dominion $dominion): float
+    /**
+     * Returns the Dominion's blood production, based on peasants sacrificed.
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getBloodProduction(Dominion $dominion): float
+    {
+        return $this->populationCalculator->getPeasantsSacrificed($dominion) * 1.5;
+    }
+
+    /**
+     * Returns the Dominion's max storage for a specific resource.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getMaxStorage(Dominion $dominion, string $resource): int
+    {
+        $maxStorageTicks = 96;
+        $land = $this->landCalculator->getTotalLand($dominion);
+
+        if($resource == 'gold')
         {
-            if(!$dominion->race->getPerkValue('gryphon_nests_generate_wild_yetis'))
-            {
-                return 0;
-            }
-
-            $wildYetis = 0;
-
-            // Values
-            $wildYetisPerGryphonNest = 0.1;
-
-            $wildYetis += intval($dominion->building_gryphon_nest * $wildYetisPerGryphonNest);
-
-            return max(0,$wildYetis);
+            $max = $land * 10000 + $dominion->getUnitPerkProductionBonus('gold_production');
+        }
+        elseif($resource == 'lumber')
+        {
+            $max = $maxStorageTicks * ($dominion->land_forest * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
+            $max = max($max, $land * 100);
+        }
+        elseif($resource == 'ore')
+        {
+            $max = $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
+            $max = max($max, $land * 100);
+        }
+        elseif($resource == 'gems' or $resource == 'gem')
+        {
+            $max = $maxStorageTicks * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
+            $max = max($max, $land * 50);
         }
 
-        /**
-         * Returns the Dominion's net wild yeti change.
-         *
-         * @param Dominion $dominion
-         * @return int
-         */
-        public function getWildYetiNetChange(Dominion $dominion): int
+        return $max;
+
+    }
+
+
+    public function getContributionRate(Realm $realm): float
+    {
+        return max(min($realm->contribution / 100, 0.10),0);
+    }
+
+    public function getContribution(Dominion $dominion, string $resource): float
+    {
+        if($resource === 'food')
         {
-            return intval($this->getWildYetiProduction($dominion));
+            return $this->getFoodProduction($dominion) * $this->getContributionRate($dominion->realm);
         }
-
-        /**
-         * Returns the Dominion's soul production, based on peasants sacrificed.
-         *
-         * @param Dominion $dominion
-         * @return float
-         */
-        public function getSoulProduction(Dominion $dominion): float
+        elseif($resource === 'mana')
         {
-            return $this->populationCalculator->getPeasantsSacrificed($dominion) * 1;
+            return $this->getManaProduction($dominion) * $this->getContributionRate($dominion->realm);
         }
-
-        /**
-         * Returns the Dominion's blood production, based on peasants sacrificed.
-         *
-         * @param Dominion $dominion
-         * @return float
-         */
-        public function getBloodProduction(Dominion $dominion): float
+        else
         {
-            return $this->populationCalculator->getPeasantsSacrificed($dominion) * 1.5;
-        }
-
-        /**
-         * Returns the Dominion's max storage for a specific resource.
-         *
-         * @param Dominion $dominion
-         * @return int
-         */
-        public function getMaxStorage(Dominion $dominion, string $resource): int
-        {
-            $maxStorageTicks = 96;
-            $land = $this->landCalculator->getTotalLand($dominion);
-
-            if($resource == 'gold')
-            {
-                $max = $land * 10000 + $dominion->getUnitPerkProductionBonus('gold_production');
-            }
-            elseif($resource == 'lumber')
-            {
-                $max = $maxStorageTicks * ($dominion->land_forest * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
-                $max = max($max, $land * 100);
-            }
-            elseif($resource == 'ore')
-            {
-                $max = $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
-                $max = max($max, $land * 100);
-            }
-            elseif($resource == 'gems' or $resource == 'gem')
-            {
-                $max = $maxStorageTicks * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
-                $max = max($max, $land * 50);
-            }
-
-            return $max;
-
+            return 0;
         }
 
 
+    }
 
 }
