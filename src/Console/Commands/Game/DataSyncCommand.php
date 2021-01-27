@@ -335,7 +335,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     foreach ($newValues as $key => $newValue) {
                         $originalValue = $building->getOriginal($key);
 
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                        #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
                 }
 
