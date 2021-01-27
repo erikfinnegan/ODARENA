@@ -520,7 +520,8 @@ class RaceHelper
                 $booleanValue = true;
                 break;
             default:
-                $description = 'Undefined perk (' . $perkKey->key .')';
+                #$description = 'Undefined perk (' . $perkKey->key .')';
+                dd($perkType);
                 break;
                 #return null;
         }
