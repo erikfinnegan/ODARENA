@@ -49,12 +49,6 @@ units:
     power:
       offense: 10
       defense: 5
-    perks:
-      faster_return: 6
-      immortal_on_victory: 1
-      immortal_on_fending_off: 1
-      provides_jobs: 1
-      plunder: mana,10
 
   - name: Hailstorm Cannon
     need_boat: false
