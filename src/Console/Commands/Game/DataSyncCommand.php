@@ -203,7 +203,6 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     foreach ($newValues as $key => $newValue) {
                         $originalValue = $unit->getOriginal($key);
-
                         $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
                 }
