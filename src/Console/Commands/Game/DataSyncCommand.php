@@ -112,7 +112,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 foreach ($newValues as $key => $newValue) {
                     $originalValue = $race->getOriginal($key);
 
-                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
             }
 
@@ -137,7 +137,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 if ($racePerk === null) {
                     $this->info("[Add Race Perk] {$perk}: {$value}");
                 } elseif ($racePerk->value != $value) {
-                    $this->info("[Change Race Perk] {$perk}: {$racePerk->value} -> {$value}");
+                    #$this->info("[Change Race Perk] {$perk}: {$racePerk->value} -> {$value}");
                 }
             }
 
@@ -203,7 +203,8 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     foreach ($newValues as $key => $newValue) {
                         $originalValue = $unit->getOriginal($key);
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+
+                        #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
                 }
 
@@ -228,11 +229,11 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     if ($unitPerk === null)
                     {
-                        $this->info("[Add Unit Perk] {$perk}: {$value}");
+                        #$this->info("[Add Unit Perk] {$perk}: {$value}");
                     }
                     elseif ($unitPerk->value != $value)
                     {
-                        $this->info("[Change Unit Perk] {$perk}: {$unitPerk->value} -> {$value}");
+                        #$this->info("[Change Unit Perk] {$perk}: {$unitPerk->value} -> {$value}");
                     }
                 }
 
@@ -270,7 +271,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 foreach ($newValues as $key => $newValue) {
                     $originalValue = $tech->getOriginal($key);
 
-                    $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
             }
 
@@ -295,7 +296,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 if ($techPerk === null) {
                     $this->info("[Add Tech Perk] {$perk}: {$value}");
                 } elseif ($techPerk->value != $value) {
-                    $this->info("[Change Tech Perk] {$perk}: {$techPerk->value} -> {$value}");
+                    #$this->info("[Change Tech Perk] {$perk}: {$techPerk->value} -> {$value}");
                 }
             }
 
@@ -334,7 +335,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     foreach ($newValues as $key => $newValue) {
                         $originalValue = $building->getOriginal($key);
 
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                        #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
                 }
 
@@ -363,7 +364,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     }
                     elseif ($buildingPerk->value != $value)
                     {
-                        $this->info("[Change Building Perk] {$perk}: {$buildingPerk->value} -> {$value}");
+                        #$this->info("[Change Building Perk] {$perk}: {$buildingPerk->value} -> {$value}");
                     }
                 }
 
@@ -398,7 +399,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     foreach ($newValues as $key => $newValue) {
                         $originalValue = $title->getOriginal($key);
 
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                        #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
                 }
 
@@ -427,7 +428,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     }
                     elseif ($titlePerk->value != $value)
                     {
-                        $this->info("[Change Title Perk] {$perk}: {$titlePerk->value} -> {$value}");
+                        #$this->info("[Change Title Perk] {$perk}: {$titlePerk->value} -> {$value}");
                     }
                 }
 
@@ -470,7 +471,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     foreach ($newValues as $key => $newValue) {
                         $originalValue = $spell->getOriginal($key);
 
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                        #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
                 }
 
@@ -538,7 +539,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     foreach ($newValues as $key => $newValue) {
                         $originalValue = $spyop->getOriginal($key);
 
-                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                        #$this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
                 }
 
@@ -567,7 +568,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     }
                     elseif ($spyopPerk->value != $value)
                     {
-                        $this->info("[Change Spyop Perk] {$perk}: {$spyopPerk->value} -> {$value}");
+                        #$this->info("[Change Spyop Perk] {$perk}: {$spyopPerk->value} -> {$value}");
                     }
                 }
 
