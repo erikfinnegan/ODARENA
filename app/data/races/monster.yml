@@ -18,7 +18,6 @@ perks:
   min_rounds_played: 5
   cannot_construct: 1
   no_population: 1
-  exchange_bonus: 40
   cannot_join_guards: 1
   cannot_vote: 1
   no_food_consumption: 1
@@ -34,8 +33,8 @@ units:
       - massive
       - mindless
     cost:
-      food: 4000
-      mana: 2000
+      food: 2000
+      mana: 500
     power:
       offense: 0
       defense: 0
@@ -49,8 +48,8 @@ units:
       - massive
       - mindless
     cost:
-      food: 10000
-      mana: 10000
+      food: 20000
+      mana: 3000
     power:
       offense: 0
       defense: 6000
@@ -66,8 +65,8 @@ units:
       - mindless
     need_boat: false
     cost:
-      food: 65000
-      mana: 30000
+      food: 15000
+      mana: 2000
     power:
       offense: 3000
       defense: 1000
@@ -88,8 +87,8 @@ units:
       - intelligent
     need_boat: false
     cost:
-      food: 125000
-      mana: 10000
+      food: 30000
+      mana: 5000
     power:
       offense: 0
       defense: 0
@@ -100,5 +99,5 @@ units:
       pairing_limit: 1,0.007 # Unit slot, amount - 1/0.007=142, one Head per 142 Muscles
       tech_production: 100
       mana_production: 25
-      plunders: food;10000,mana;10000
+      plunders: food;1000,mana;1000
       decay_protection: 10000,mana
