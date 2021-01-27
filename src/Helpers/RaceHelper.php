@@ -519,15 +519,16 @@ class RaceHelper
                 $description = 'Converts captured spies';
                 $booleanValue = true;
                 break;
-
-
-
-
             default:
-                return null;
+                $description = 'Undefined perk (' . $perkKey->key .')';
+                break;
+                #return null;
         }
 
         $result = ['description' => $description, 'value' => ''];
+
+        return $result;
+
         $valueString = "{$perkType->pivot->value}{$valueType}";
 
         if ($perkType->pivot->value < 0)
