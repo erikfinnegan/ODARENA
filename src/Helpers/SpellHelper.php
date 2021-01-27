@@ -876,6 +876,15 @@ class SpellHelper
 
             'food_production_docks' => '%s%% food production from Docks',
 
+
+            'no_gold_production' => 'No gold production or revenue',
+            'no_ore_production' => 'No ore production',
+            'no_lumber_production' => 'No lumber production',
+            'no_mana_production' => 'No mana production',
+            'no_food_production' => 'No food production',
+            'no_boat_production' => 'No boat production',
+            'no_gem_production' => 'No gem production',
+
             // Military
             'drafting' => '+%s%% drafting',
             'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',

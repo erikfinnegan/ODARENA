@@ -1757,26 +1757,26 @@ class MilitaryCalculator
 
       if($power == 'offense')
       {
-          $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
+          $multiplier += $dominion->getSpellPerkMultiplier('offensive_power');# $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power');
 
           // Spell: Retribution (+20% OP)
           # Condition: target must have invaded $dominion's realm in the last six hours.
-          if ($this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power_on_retaliation') and $this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
+          if ($dominion->getSpellPerkValue('offensive_power_on_retaliation') and $this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
           {
-              $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'offensive_power_on_retaliation');
+              $multiplier += $dominion->getSpellPerkValue('offensive_power_on_retaliation');
           }
 
       }
       elseif($power == 'defense')
       {
-          $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power');
+          $multiplier += $dominion->getSpellPerkMultiplier('defensive_power');# $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power');
 
           // Spell: Chitin
           if(isset($target))
           {
-              if ($this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power_vs_insect_swarm') and $this->spellCalculator->isSpellActive($target, 'insect_swarm'))
+              if ($dominion->getSpellPerkValue('defensive_power_vs_insect_swarm') and $this->spellCalculator->isSpellActive($target, 'insect_swarm'))
               {
-                  $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power_vs_insect_swarm');
+                  $multiplier += $dominion->getSpellPerkValue('defensive_power_vs_insect_swarm');
               }
           }
 

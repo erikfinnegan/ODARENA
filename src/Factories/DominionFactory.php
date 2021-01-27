@@ -198,7 +198,7 @@ class DominionFactory
         }
 
         // Food-free races: no food
-        if($race->getPerkMultiplier('food_consumption') == -1)
+        if($race->getPerkValue('no_food_consumption'))
         {
           $startingResources['food'] = 0;
         }

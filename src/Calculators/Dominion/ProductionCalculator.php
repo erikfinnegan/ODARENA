@@ -59,6 +59,11 @@ class ProductionCalculator
     {
         $gold = 0;
 
+        if($dominion->getSpellPerkValue('no_gold_production'))
+        {
+            return $gold;
+        }
+
         // Values
         $peasantTax = 2.7;
         $goldPerAlchemy = 45;
@@ -168,6 +173,11 @@ class ProductionCalculator
     {
         $food = 0;
 
+        if($dominion->getSpellPerkValue('no_food_production') or $dominion->race->getPerkValue('no_food_consumption'))
+        {
+            return $food;
+        }
+
         // Building: Farm
         $food += ($dominion->building_farm * 80);
 
@@ -256,6 +266,11 @@ class ProductionCalculator
         $consumers = 0;
         $consumption = 0;
         $multiplier = 0;
+
+        if($dominion->race->getPerkValue('no_food_consumption'))
+        {
+            return 0;
+        }
 
         $nonConsumingUnitAttributes = [
             'ammunition',
@@ -432,6 +447,11 @@ class ProductionCalculator
     {
         $lumber = 0;
 
+        if($dominion->getSpellPerkValue('no_lumber_production'))
+        {
+            return $lumber;
+        }
+
         // Values
         $lumberPerLumberyard = 50;
 
@@ -587,6 +607,11 @@ class ProductionCalculator
     {
         $mana = 0;
 
+        if($dominion->getSpellPerkValue('no_mana_production'))
+        {
+            return $mana;
+        }
+
         // Building: Tower
         $mana += ($dominion->building_tower * 25);
         #$mana += $dominion->getBuildingPerkValue('mana_production');
@@ -734,6 +759,11 @@ class ProductionCalculator
     {
         $ore = 0;
 
+        if($dominion->getSpellPerkValue('no_ore_production'))
+        {
+            return $ore;
+        }
+
         // Values
         $orePerOreMine = 60;
 
@@ -812,6 +842,11 @@ class ProductionCalculator
     {
         $gems = 0;
 
+        if($dominion->getSpellPerkValue('no_gem_production'))
+        {
+            return $gems;
+        }
+
         // Building: Gem Mine
         $gems += $dominion->building_gem_mine * 15;
         #$gems += $dominion->getBuildingPerkValue('gem_production');
@@ -888,6 +923,12 @@ class ProductionCalculator
      */
      public function getTechProductionRaw(Dominion $dominion): float
      {
+
+         if($dominion->getSpellPerkValue('no_tech_production'))
+         {
+             return 0;
+         }
+
          $tech = max(0, $dominion->prestige);
 
          $tech += $dominion->getUnitPerkProductionBonus('tech_production');
@@ -956,6 +997,11 @@ class ProductionCalculator
     public function getBoatProductionRaw(Dominion $dominion): float
     {
         $boats = 0;
+
+        if($dominion->getSpellPerkValue('no_boat_production'))
+        {
+            return $boats;
+        }
 
         // Values
         $docksPerBoatPerTick = 20;

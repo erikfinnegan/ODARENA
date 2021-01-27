@@ -20,7 +20,7 @@ skill_level: 2
 
 perks:
   population_growth: 200
-  food_consumption: -100
+  no_food_consumption: 1
   can_only_build_tissue: 1
   cannot_build_homes: 1
   cannot_explore: 1

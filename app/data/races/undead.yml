@@ -14,8 +14,7 @@ construction_materials: gold,lumber
 perks:
   max_population: 30
   mana_production: 10
-  food_consumption: -100
-  food_production: -100
+  no_food_consumption: 1
   max_per_round: 1
   wizard_training_time: 6
   converts_executed_spies: 3 # into slot 3

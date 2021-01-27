@@ -62,6 +62,11 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Food consumption';
                 break;
+            case 'no_food_consumption':
+                $negativeBenefit = false;
+                $description = 'Does not eat food';
+                $booleanValue = true;
+                break;
             case 'food_production':
                 $negativeBenefit = false;
                 $description = 'Food production';
@@ -107,6 +112,11 @@ class RaceHelper
             case 'max_population':
                 $negativeBenefit = false;
                 $description = 'Max population';
+                break;
+            case 'no_population':
+                $negativeBenefit = false;
+                $description = 'No population';
+                $booleanValue = true;
                 break;
             case 'offense':
                 $negativeBenefit = false;

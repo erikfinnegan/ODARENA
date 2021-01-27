@@ -724,9 +724,9 @@ rainy_season:
     lumber_production: 50
     cannot_invade: 1
     cannot_explore: 1
-    boat_production: -100
-    ore_production: -100
-    gem_production: -100
+    no_boat_production: 1
+    no_ore_production: 1
+    no_gem_production: 1
 
 aether:
   name: Aether

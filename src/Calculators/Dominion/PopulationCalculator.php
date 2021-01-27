@@ -59,6 +59,10 @@ class PopulationCalculator
      */
     public function getPopulation(Dominion $dominion): int
     {
+        if($dominion->race->getPerkValue('no_population'))
+        {
+            return 0;
+        }
         return ($dominion->peasants + $this->getPopulationMilitary($dominion));
     }
 

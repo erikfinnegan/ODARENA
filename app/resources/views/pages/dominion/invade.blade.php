@@ -340,7 +340,7 @@
                                   @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
                                     <p><strong><em>You cannot invade while you are in stasis.</em></strong></p>
 
-                                  @elseif ($selectedDominion->resource_food <= 0 and $selectedDominion->race->getPerkMultiplier('food_consumption') != -1)
+                                  @elseif ($selectedDominion->resource_food <= 0 and !$selectedDominion->race->getPerkMultiplier('no_food_consumption'))
                                       <p><strong><em>Due to starvation, you cannot invade until you have more food.</em></strong></p>
                                       <p><strong><em>Go to the <a href="{{ route('dominion.resources') }}">Exchange</a> to buy food or <a href="{{ route('dominion.construct') }}">build more farms</a>.</em></strong></p>
 

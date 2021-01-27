@@ -13,16 +13,44 @@ class AmendContributionToBeManaAndFoodInTick extends Migration
      */
     public function up()
     {
-        Schema::table('dominion_tick', function (Blueprint $table) {
-            $table->dropColumn([
-                'resource_lumber_contribution',
-                'resource_ore_contribution',
-                'resource_lumber_contributed',
-                'resource_ore_contributed',
-            ]);
+        if(Schema::hasColumn('dominion_tick','resource_lumber_contribution'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->dropColumn('resource_lumber_contribution');
+            });
+        }
+        if(Schema::hasColumn('dominion_tick','resource_ore_contribution'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->dropColumn('resource_ore_contribution');
+            });
+        }
+        if(Schema::hasColumn('dominion_tick','resource_lumber_contributed'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->dropColumn('resource_lumber_contributed');
+            });
+        }
+        if(Schema::hasColumn('dominion_tick','resource_ore_contributed'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->dropColumn('resource_ore_contributed');
+            });
+        }
 
-            $table->integer('resource_mana_contributed')->default(1)->after('resource_food_contribution');
-        });
+        if(!Schema::hasColumn('dominion_tick','resource_mana_contributed'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->integer('resource_mana_contributed')->default(0)->after('resource_food_contribution');
+            });
+        }
+
+        if(!Schema::hasColumn('dominion_tick','resource_mana_contribution'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->integer('resource_mana_contribution')->default(0)->after('resource_food_contribution');
+            });
+        }
     }
 
     /**
@@ -32,14 +60,44 @@ class AmendContributionToBeManaAndFoodInTick extends Migration
      */
     public function down()
     {
-        Schema::table('dominion_tick', function (Blueprint $table) {
-            $table->unsignedInteger('resource_food_contribution')->after('resource_mana_drain')->default(0);
-            $table->unsignedInteger('resource_lumber_contribution')->after('resource_food_contribution')->default(0);
-            $table->unsignedInteger('resource_ore_contribution')->after('resource_lumber_contribution')->default(0);
+        if(!Schema::hasColumn('dominion_tick','resource_lumber_contribution'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->integer('resource_lumber_contribution')->default(0)->after('resource_food_contribution');
+            });
+        }
+        if(!Schema::hasColumn('dominion_tick','resource_ore_contribution'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->integer('resource_ore_contribution')->default(0)->after('resource_food_contribution');
+            });
+        }
+        if(!Schema::hasColumn('dominion_tick','resource_lumber_contributed'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->integer('resource_lumber_contributed')->default(0)->after('resource_food_contribution');
+            });
+        }
+        if(!Schema::hasColumn('dominion_tick','resource_ore_contributed'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->integer('resource_ore_contributed')->default(0)->after('resource_food_contribution');
+            });
+        }
 
-            $table->dropColumn([
-                'resource_mana_contributed',
-            ]);
-        });
+        if(Schema::hasColumn('dominion_tick','resource_mana_contributed'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->dropColumn('resource_mana_contributed');
+            });
+        }
+
+        if(Schema::hasColumn('dominion_tick','resource_mana_contribution'))
+        {
+            Schema::table('dominion_tick', function (Blueprint $table) {
+                $table->dropColumn('resource_mana_contribution');
+            });
+        }
     }
+
 }

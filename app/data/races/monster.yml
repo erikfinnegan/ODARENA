@@ -17,11 +17,11 @@ perks:
   max_per_round: 1
   min_rounds_played: 5
   cannot_construct: 1
-  max_population: -100
+  no_population: 1
   exchange_bonus: 40
   cannot_join_guards: 1
   cannot_vote: 1
-  food_consumption: -100
+  no_food_consumption: 1
   research_points_per_acre: 200
   cannot_explore: 1
   cannot_train_spies: 1
@@ -35,8 +35,7 @@ units:
       - mindless
     cost:
       food: 4000
-      lumber: 2000
-      ore: 2000
+      mana: 2000
     power:
       offense: 0
       defense: 0
