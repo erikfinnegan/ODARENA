@@ -519,13 +519,12 @@ class RaceHelper
                 $description = 'Converts captured spies';
                 $booleanValue = true;
                 break;
-            default:
+
+          default:
                 return null;
         }
 
         $result = ['description' => $description, 'value' => ''];
-
-        return $result;
 
         $valueString = "{$perkType->pivot->value}{$valueType}";
 
