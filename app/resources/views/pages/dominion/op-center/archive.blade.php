@@ -465,7 +465,9 @@
                                                         $unitsAtHome = (int)array_get($infoOp->data, "units.home.{$unitType}");
                                                     @endphp
 
-                                                    @if ($unitsAtHome !== 0)
+                                                    @if (in_array($unitType, ['spies', 'wizards', 'archmages']))
+                                                        ???
+                                                    @elseif ($unitsAtHome !== 0)
                                                         {{ number_format($unitsAtHome) }}
                                                     @else
                                                         0
