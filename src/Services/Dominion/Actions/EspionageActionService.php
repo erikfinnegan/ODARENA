@@ -92,6 +92,11 @@ class EspionageActionService
 
         #$operationInfo = $this->espionageHelper->getOperationInfo($operationKey);
 
+        if(!$dominion->round->hasStarted())
+        {
+            throw new GameException('You cannot perfrm spy ops until the round has started.');
+        }
+
         // Qur: Statis
         if($this->spellCalculator->getPassiveSpellPerkValue($target, 'stasis'))
         {

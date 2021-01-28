@@ -286,6 +286,9 @@ class SpellCalculator
             # Must be available to the dominion's faction (race)
             or !$this->isSpellAvailableToDominion($dominion, $spell)
 
+            # Round must have started for info ops to be castable
+            or (!$dominion->round->hasStarted() and $spell->class == 'info')
+
             # Must not be a non-information hostile spell within the first day or after offensive actions are disabled
             or ($spell->scope == 'hostile' and $spell->class !== 'info' and ((now()->diffInDays($dominion->round->start_date) < 1) or $dominion->round->hasOffensiveActionsDisabled()))
           )

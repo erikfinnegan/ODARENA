@@ -20,6 +20,9 @@ class EspionageCalculator
           # Espionage cannot be performed at all after offensive actions are disabled
           or $dominion->round->hasOffensiveActionsDisabled()
 
+          # Round must have started
+          or !$dominion->round->hasStarted()
+
           # Hostile ops and theft cannot be performed within the first day
           or (($spyop->scope == 'hostile' or $spyop->scope == 'theft') and (now()->diffInDays($dominion->round->start_date) < 1))
         )

@@ -1035,6 +1035,12 @@ class SpellActionService
 
     protected function castInfoOpSpell(Dominion $dominion, string $spellKey, Dominion $target, int $wizardStrengthCost): array
     {
+
+        if(!$dominion->round->hasStarted())
+        {
+            throw new GameException('You cannot cast info spells until the round has started.');
+        }
+
         $spellInfo = $this->spellHelper->getSpellInfo($spellKey, $dominion);
 
         $selfWpa = $this->militaryCalculator->getWizardRatio($dominion, 'offense');
