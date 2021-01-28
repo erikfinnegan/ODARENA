@@ -182,7 +182,7 @@ class EspionageHelper
 
         $spyopEffects = [
             // Info
-            'barracks_spy' => 'Reveal units at home (up to 15%% inaccuracy), in training, and returning',
+            'barracks_spy' => 'Reveal units at home, in training, and returning',
             'castle_spy' => 'Reveal improvements',
             'land_spy' => 'Reveal current and incoming lands',
             'survey_dominion' => 'Reveal current and incoming buildings',
