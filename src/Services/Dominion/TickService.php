@@ -1114,7 +1114,7 @@ class TickService
 
               if($availableNestHousing > 0)
               {
-                  $newGryphons = min($gryphonNests * 0.1, $availableNestHousing);
+                  $newGryphons = min($gryphonNests * 0.05, $availableNestHousing);
               }
 
               $tick->generated_unit4 = $newGryphons;
