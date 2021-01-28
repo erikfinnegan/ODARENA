@@ -12,7 +12,7 @@
 
     @if (!$selectedDominion->round->hasStarted())
         <div class="alert alert-warning">
-            <p><i class="fa fa-warning"></i> The round has not yet started, but you can still tick through protection.</p>
+            <p><i class="fa fa-warning"></i> The round has not yet started, but you can still tick through protection. You cannot take any actions against other dominions during this time.</p>
         </div>
     @endif
 @endif
