@@ -465,10 +465,8 @@
                                                         $unitsAtHome = (int)array_get($infoOp->data, "units.home.{$unitType}");
                                                     @endphp
 
-                                                    @if (in_array($unitType, ['spies', 'wizards', 'archmages']))
-                                                        ???
-                                                    @elseif ($unitsAtHome !== 0)
-                                                        ~{{ number_format($unitsAtHome) }}
+                                                    @if ($unitsAtHome !== 0)
+                                                        {{ number_format($unitsAtHome) }}
                                                     @else
                                                         0
                                                     @endif
@@ -542,7 +540,7 @@
                                                 @endfor
                                                 <td class="text-center">
                                                     @if ($amountTraining = array_get($infoOp->data, "units.returning.{$unitType}"))
-                                                        ~{{ number_format(array_sum($amountTraining)) }}
+                                                        {{ number_format(array_sum($amountTraining)) }}
                                                     @else
                                                         0
                                                     @endif

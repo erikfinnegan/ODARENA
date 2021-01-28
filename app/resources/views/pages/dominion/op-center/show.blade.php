@@ -495,7 +495,7 @@
                                 <td>Draftees</td>
                                 <td colspan="12">&nbsp;</td>
                                 <td class="text-center">
-                                    ~{{ number_format(array_get($infoOp->data, 'units.home.draftees', 0)) }}
+                                    {{ number_format(array_get($infoOp->data, 'units.home.draftees', 0)) }}
                                 </td>
                             </tr>
                             @foreach ($unitHelper->getUnitTypes() as $unitType)
@@ -522,10 +522,8 @@
                                             $unitsAtHome = (int)array_get($infoOp->data, "units.home.{$unitType}");
                                         @endphp
 
-                                        @if (in_array($unitType, ['spies', 'wizards', 'archmages']))
-                                            ???
-                                        @elseif ($unitsAtHome !== 0)
-                                            ~{{ number_format($unitsAtHome) }}
+                                        @if ($unitsAtHome !== 0)
+                                            {{ number_format($unitsAtHome) }}
                                         @else
                                             0
                                         @endif
@@ -627,7 +625,7 @@
                                     @endfor
                                     <td class="text-center">
                                         @if ($amountTraining = array_get($infoOp->data, "units.returning.{$unitType}"))
-                                            ~{{ number_format(array_sum($amountTraining)) }}
+                                            {{ number_format(array_sum($amountTraining)) }}
                                         @else
                                             0
                                         @endif
