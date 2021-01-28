@@ -372,6 +372,31 @@ class EspionageActionService
                     ],
                 ];
 
+
+                // Units at home
+                array_set($data, 'units.home.draftees',$target->military_draftees);
+                array_set($data, 'units.home.spies',$target->military_draftees);
+                array_set($data, 'units.home.wizards',$target->military_draftees);
+                array_set($data, 'units.home.archmages',$target->military_draftees);
+                array_set($data, 'units.home.draftees',$target->military_draftees);
+
+                foreach (range(1, 4) as $slot)
+                {
+                    array_set($data, "units.home.unit{$slot}", $target->{'military_unit' . $slot});
+                }
+
+                // Units returning (85% accurate)
+                $this->queueService->getInvasionQueue($target)->each(static function ($row) use (&$data)
+                {
+                    if (!starts_with($row->resource, 'military_')) {
+                        return; // continue
+                    }
+
+                    $unitType = str_replace('military_', '', $row->resource);
+                    array_set($data, "units.returning.{$unitType}.{$row->hours}", $row->amount);
+                });
+
+                /*
                 // Units at home (85% accurate)
                 array_set($data, 'units.home.draftees', random_int(
                     round($target->military_draftees * 0.85),
@@ -421,6 +446,7 @@ class EspionageActionService
 
                     array_set($data, "units.returning.{$unitType}.{$row->hours}", $amount);
                 });
+                */
 
                 // Units in training (100% accurate)
                 $this->queueService->getTrainingQueue($target)->each(static function ($row) use (&$data) {

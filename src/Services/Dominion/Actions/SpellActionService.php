@@ -19,7 +19,7 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionSpell;
-#use OpenDominion\Models\InfoOp;
+use OpenDominion\Models\InfoOp;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;

@@ -804,6 +804,18 @@ cogency:
   perks:
     cogency: 1
 
+persuasion:
+  name: Persuasion
+  scope: hostile
+  class: passive
+  cost: 20
+  duration: 4
+  cooldown: 0
+  exclusive_races:
+    - Cult
+  perks:
+    persuasion: 1
+
 # /CULT
 
 call_to_arms:
