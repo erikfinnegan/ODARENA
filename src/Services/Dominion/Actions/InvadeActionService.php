@@ -471,7 +471,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult, $units);
             }
 
             // todo: move to GameEventService
@@ -1271,7 +1271,7 @@ class InvadeActionService
         # Snow Elf: Hailstorm Cannon exhausts all mana
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting'))
+            if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting') and isset($units[$slot]))
             {
                 $resource = $exhaustingPerk[0];
 
