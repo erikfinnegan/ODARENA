@@ -310,7 +310,7 @@ class InvadeActionService
             }
 
             // Dimensionalists: must have Portals open.
-            if($dominion->race->name == 'Dimensionalists' and !$dominion->getSpellPerkValue('portal'))
+            if($dominion->race->name == 'Dimensionalists' and !$dominion->getSpellPerkValue('opens_portal'))
             {
                 throw new GameException('You cannot attack unless a portal is open.');
             }

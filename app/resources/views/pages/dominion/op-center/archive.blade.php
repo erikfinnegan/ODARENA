@@ -312,7 +312,7 @@
                                 @foreach ($infoOp->data as $spellOpInfo)
                                     @php
                                         $spell = OpenDominion\Models\Spell::where('id', $spellOpInfo['spell_id'])->first();
-                                        $castByDominion = OpenDominion\Models\Dominion::with('realm')->findOrFail($spellOpInfo['cast_by_dominion_id']);
+                                        $castByDominion = OpenDominion\Models\Dominion::with('realm')->findOrFail($spellOpInfo['caster_id']);
                                     @endphp
                                     <tr>
                                         <td>{{ $spell->name }}</td>
