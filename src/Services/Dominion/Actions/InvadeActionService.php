@@ -1003,7 +1003,7 @@ class InvadeActionService
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
             {
 
-                $this->buildingCalculator->removeBuildings([$buildingType => $buildingsLost]);
+                #$this->buildingCalculator->removeBuildings([$buildingType => $buildingsLost]);
 
                 $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
 
