@@ -75,7 +75,6 @@ units:
       counts_as_wizard_offense: 0.16666
       counts_as_wizard_defense: 0.16666
       unit_production: 1,0.0003
-      decreases_info_ops_accuracy: 1
       gem_production: 0.222
 
   - name: Amanita
