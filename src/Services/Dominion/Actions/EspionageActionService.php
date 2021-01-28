@@ -378,6 +378,21 @@ class EspionageActionService
                     round($target->military_draftees / 0.85)
                 ));
 
+                array_set($data, 'units.home.spies', random_int(
+                    round($target->military_spies * 0.85),
+                    round($target->military_spies / 0.85)
+                ));
+
+                array_set($data, 'units.home.wizards', random_int(
+                    round($target->military_wizards * 0.85),
+                    round($target->military_wizards / 0.85)
+                ));
+
+                array_set($data, 'units.home.archmages', random_int(
+                    round($target->military_archmages * 0.85),
+                    round($target->military_archmages / 0.85)
+                ));
+
                 foreach (range(1, 4) as $slot) {
                     $amountAtHome = $target->{'military_unit' . $slot};
 
