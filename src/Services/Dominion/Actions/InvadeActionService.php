@@ -471,7 +471,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult, $units);
+                dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -2346,6 +2346,8 @@ class InvadeActionService
         $immortalsKilledPerZealot = 1.5;
         $soulsDestroyedPerZealot = 2;
 
+        $unkillableAttributes = ['machine', 'ship', 'ammunition'];
+
         if($attacker->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
         {
             # See if target has any immortal units
@@ -2357,7 +2359,7 @@ class InvadeActionService
                         return ($unit->slot == $slot);
                     })->first();
 
-                    if($unit->power_defense !== 0 and ($defender->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $defender->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal')))
+                    if($unit->power_defense !== 0 and ($defender->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $defender->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal')) and !$this->unitHelper->unitSlotHasAttributes($defender->race, $slot, $unkillableAttributes))
                     {
                         $immortalDefenders[$slot] += $defender->{'military_unit'.$slot};
                     }
@@ -2425,7 +2427,7 @@ class InvadeActionService
                 $defender->{'stat_total_soul_destroyed'} += $soulsDestroyed;
             }
         }
-        elseif($defender->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
+        elseif($defender->race->name === 'Qur')
         {
               # See if attacker has any immortal units
               foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
@@ -2434,7 +2436,7 @@ class InvadeActionService
                       return ($unit->slot == $slot);
                   })->first();
 
-                  if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $attacker->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
+                  if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $attacker->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal') and !$this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, $unkillableAttributes))
                   {
                       $immortalAttackers[$slot] += $defender->{'military_unit'.$slot};
                   }

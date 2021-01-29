@@ -76,6 +76,7 @@ units:
       sendable_with_zero_op: 1
       provides_jobs: 1
       advancements_required_to_train: invocations_level4;anvils_level4;architecture_level4
+      true_immortal: 1
 
   - name: Gryphon
     need_boat: false

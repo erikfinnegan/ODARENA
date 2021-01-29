@@ -723,4 +723,25 @@ class UnitHelper
         return !in_array('flying', $this->getUnitAttributesList('unit'.$unit->slot));
     }
 
+
+    public function unitSlotHasAttributes(Race $race, int $slot, array $searchAttributes): bool
+    {
+        # Get the $unit
+        $unit = $race->units->filter(function ($unit) use ($slot) {
+                return ($unit->slot == $slot);
+            })->first();
+
+        # Get the unit attributes
+        $unitAttributes = $this->getUnitAttributes($unit);
+
+        if(count(array_intersect($searchAttributes, $unitAttributes)) > 0)
+        {
+            return true;
+        }
+
+        return false;
+
+    }
+
+
 }

@@ -3,6 +3,7 @@
 namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Race;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
 use Log;
