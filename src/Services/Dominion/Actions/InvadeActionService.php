@@ -2100,16 +2100,9 @@ class InvadeActionService
                             return ($unit->slot == $slot);
                         })->first();
 
-                    $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-
-                    # Is it convertible?
-                    foreach($exemptibleUnitAttributes as $exemptibleUnitAttribute)
+                    if($this->unitHelper->unitSlotHasAttributes($defender->race, $slot, $unkillableAttributes))
                     {
-                        if(in_array($exemptibleUnitAttribute, $unitAttributes))
-                        {
-                            $isUnitConvertible = false;
-                            break;
-                        }
+                        $isUnitConvertible = false;
                     }
 
                     if(!$isUnitConvertible)
@@ -2130,16 +2123,9 @@ class InvadeActionService
                             return ($unit->slot == $slot);
                         })->first();
 
-                    $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-
-                    # Is it convertible?
-                    foreach($exemptibleUnitAttributes as $exemptibleUnitAttribute)
+                    if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, $unkillableAttributes))
                     {
-                        if(in_array($exemptibleUnitAttribute, $unitAttributes))
-                        {
-                            $isUnitConvertible = false;
-                            break;
-                        }
+                        $isUnitConvertible = false;
                     }
 
                     if(!$isUnitConvertible)

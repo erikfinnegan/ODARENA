@@ -803,10 +803,12 @@ class EspionageActionService
         // Unit theft protection
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            $theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft');
-            if($theftProtection[0] == $resource)
+            if($theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
             {
-                $availableResource -= $target->{'military_unit'.$slot} * $theftProtection[1];
+                if($theftProtection[0] == $resource)
+                {
+                    $availableResource -= $target->{'military_unit'.$slot} * $theftProtection[1];
+                }
             }
         }
 
