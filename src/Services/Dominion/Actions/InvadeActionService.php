@@ -2078,7 +2078,7 @@ class InvadeActionService
             $exemptibleUnitAttributes = [
                 'ammunition',
                 'equipment',
-                #'magical',
+                'magical',
                 'machine',
                 'ship',
                 'massive',
