@@ -2075,7 +2075,7 @@ class InvadeActionService
         {
 
             # Units with these attributes do not go in the Crypt.
-            $exemptibleUnitAttributes = [
+            $unkillableAttributes = [
                 'ammunition',
                 'equipment',
                 'magical',
