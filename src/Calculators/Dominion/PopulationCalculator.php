@@ -120,6 +120,10 @@ class PopulationCalculator
      */
     public function getMaxPopulation(Dominion $dominion): int
     {
+        if($dominion->race->getPerkValue('no_population'))
+        {
+            return 0;
+        }
         return round(
             ($this->getMaxPopulationRaw($dominion) * $this->getMaxPopulationMultiplier($dominion))
             + $this->getUnitsHousedInForestHavens($dominion)
