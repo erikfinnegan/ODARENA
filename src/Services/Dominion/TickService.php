@@ -804,7 +804,7 @@ class TickService
           $tick->starvation_casualties = 0;
           if (($dominion->resource_food + $foodNetChange) < 0)
           {
-              echo $dominion->name 'is starving.';
+              echo $dominion->name . 'is starving.';
               $tick->starvation_casualties = 1;
               $tick->resource_food = max(0, $tick->resource_food);
           }
