@@ -798,17 +798,13 @@ class TickService
           // Check for starvation before adjusting food
           $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion) - $tick->resource_food_contribution;
 
-          if($foodNetChange < 0)
-          {
-              $foodNetChange = max($foodNetChange, ($dominion->resource_food)*-1);
-          }
-
           $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
 
           // Starvation
           $tick->starvation_casualties = 0;
           if (($dominion->resource_food + $foodNetChange) < 0)
           {
+              echo $dominion->name 'is starving.';
               $tick->starvation_casualties = 1;
               $tick->resource_food = max(0, $tick->resource_food);
           }
@@ -817,6 +813,7 @@ class TickService
               // Food production
               $tick->resource_food += $foodNetChange;
           }
+
 
           // Morale
           $baseMorale = 100;
