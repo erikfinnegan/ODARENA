@@ -317,6 +317,8 @@ class EspionageActionService
                     $targetUnit = 'military_unit' . $target->race->getPerkValue('converts_executed_spies');
                     $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
                     $this->queueService->queueResources('training', $target, [$targetUnit => ($spiesKilled + $spyUnitsKilled)], 2);
+
+                    $target->stat_total_units_converted += ($spiesKilled + $spyUnitsKilled);
                 }
 
                 if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
@@ -732,6 +734,8 @@ class EspionageActionService
                 $targetUnit = 'military_unit' . $target->race->getPerkValue('converts_executed_spies');
                 $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
                 $this->queueService->queueResources('training', $target, [$targetUnit => ($spiesKilled + $spyUnitsKilled)], 2);
+
+                $target->stat_total_units_converted += ($spiesKilled + $spyUnitsKilled);
             }
 
             if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
@@ -805,7 +809,7 @@ class EspionageActionService
         {
             if($theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
             {
-              
+
                 if($theftProtection[0] == $resource)
                 {
                     $availableResource -= $target->{'military_unit'.$slot} * $theftProtection[1];
@@ -1167,6 +1171,8 @@ class EspionageActionService
                 $targetUnit = 'military_unit' . $target->race->getPerkValue('converts_executed_spies');
                 $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
                 $this->queueService->queueResources('training', $target, [$targetUnit => ($spiesKilled + $spyUnitsKilled)], 2);
+
+                $target->stat_total_units_converted += ($spiesKilled + $spyUnitsKilled);
             }
 
             if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
