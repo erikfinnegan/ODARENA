@@ -1107,6 +1107,9 @@ class ProductionCalculator
 
     public function getContribution(Dominion $dominion, string $resource): float
     {
+
+        $contribution = 0;
+
         if($resource === 'food')
         {
             $contribution = $this->getFoodProduction($dominion) * $this->getContributionRate($dominion->realm);
@@ -1117,10 +1120,15 @@ class ProductionCalculator
         }
         else
         {
-            $contribution = 0;
+            return $contribution;
         }
 
-        return max(0, $contribution);
+        if($contribution > $dominion->{'resource_'.$resource})
+        {
+            $contribution = ($dominion->{'resource_'.$resource} / 2);
+        }
+
+        return floor(max(0, $contribution));
 
     }
 

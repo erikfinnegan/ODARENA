@@ -438,12 +438,20 @@ class TickService
                 {
                     #echo "Ticking $dominion->name.\n";
                     # Send starvation notification.
-                    if($dominion->tick->starvation_casualties > 0)
+                    if(isset($dominion->tick->starvation_casualties) and $dominion->tick->starvation_casualties > 0)
                     {
                         $this->notificationService->queueNotification('starvation_occurred');
                     }
 
-                    if(array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0)
+                    if(
+                        (
+                          isset($dominion->tick->attrition_unit1) or
+                          isset($dominion->tick->attrition_unit2) or
+                          isset($dominion->tick->attrition_unit3) or
+                          isset($dominion->tick->attrition_unit4)
+                        )
+                        and array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0
+                      )
                     {
                         $this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
                     }
