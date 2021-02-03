@@ -801,9 +801,13 @@ class SpellActionService
                         $damage = ($improvementPoints * $ratio * $damageMultiplier);
 
                         $totalDamage = $damage;
-                        foreach($improvements as $improvement)
+
+                        if($damage > 0)
                         {
-                            $target->{'improvement_'.$improvement} -= $damage * ($target->{'improvement_'.$improvement} / $improvementPoints);
+                            foreach($improvements as $improvement)
+                            {
+                                $target->{'improvement_'.$improvement} -= $damage * ($target->{'improvement_'.$improvement} / $improvementPoints);
+                            }
                         }
 
                         $damageDealt = [sprintf('%s %s', number_format($totalDamage), dominion_attr_display('improvement', $totalDamage))];
