@@ -25,7 +25,8 @@ class HistoryHelper
           'tech' => 'fa fa-flask fa-fw',
           'tick' => 'ra ra-hourglass ra-fw',
           'train' => 'ra ra-sword ra-fw',
-          'update notes' => 'ra ra-sword ra-quill-ink',
+          'update notes' => 'ra ra-quill-ink ra-fw',
+          'join warriors league' => 'ra ra-heavy-shield ra-fw',
         ];
 
         return $icons[$event];

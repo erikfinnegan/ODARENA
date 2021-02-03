@@ -642,9 +642,6 @@ class TickService
                 ->delete();
         }, 10);
 
-
-
-
     }
 
     public function precalculateTick(Dominion $dominion, ?bool $saveHistory = false): void
@@ -691,7 +688,7 @@ class TickService
 
           // Hacky refresh for dominion
           $dominion->refresh();
-          $this->spellCalculator->getActiveSpells($dominion, true);
+          #$this->spellCalculator->getActiveSpells($dominion, true);
 
           // Queues
           $incomingQueue = DB::table('dominion_queue')
@@ -810,7 +807,7 @@ class TickService
 
           // Starvation
           $tick->starvation_casualties = 0;
-          if (($dominion->resource_food + $foodNetChange) < 0)
+          if (($dominion->resource_food + $tick->resource_food_production + $foodNetChange) < 0)
           {
               $tick->starvation_casualties = 1;
               $tick->resource_food = max(0, $tick->resource_food);
@@ -818,7 +815,7 @@ class TickService
           else
           {
               // Food production
-              $tick->resource_food += $foodNetChange;
+              $tick->resource_food = $foodNetChange;
           }
 
           // Morale
@@ -833,11 +830,11 @@ class TickService
               $starvationMoraleChange = -10;
               if(($dominion->morale + $starvationMoraleChange) < 0)
               {
-                $tick->morale = -$dominion->morale;
+                  $tick->morale = -$dominion->morale;
               }
               else
               {
-                $tick->morale = $starvationMoraleChange;
+                  $tick->morale = $starvationMoraleChange;
               }
           }
           else

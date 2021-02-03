@@ -100,7 +100,6 @@ class RealmCalculator
             {
                 foreach($dominions as $dominion)
                 {
-                    #echo '<p>' . $dominion->name . ' contributes ' . $this->productionCalculator->getContribution($dominion, $resource) . ' ' . $resource . '</p>';
                     $contributions[$resource] += $this->productionCalculator->getContribution($dominion, $resource);
                 }
             }

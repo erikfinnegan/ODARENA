@@ -1112,11 +1112,11 @@ class ProductionCalculator
 
         if($resource === 'food')
         {
-            $contribution = $this->getFoodProduction($dominion) * $this->getContributionRate($dominion->realm);
+            $contribution = $this->getFoodNetChange($dominion) * $this->getContributionRate($dominion->realm);
         }
         elseif($resource === 'mana')
         {
-            $contribution = $this->getManaProduction($dominion) * $this->getContributionRate($dominion->realm);
+            $contribution = $this->getManaNetChange($dominion) * $this->getContributionRate($dominion->realm);
         }
         else
         {
