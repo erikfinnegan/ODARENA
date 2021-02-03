@@ -411,7 +411,7 @@ class ProductionCalculator
      */
     public function getFoodNetChange(Dominion $dominion): int
     {
-        return round($this->getFoodProduction($dominion) - $this->getFoodConsumption($dominion) - $this->getFoodDecay($dominion));
+        return round($this->getFoodProduction($dominion) - $this->getFoodConsumption($dominion) - $this->getFoodDecay($dominion) - $this->getContribution($dominion, 'food'));
     }
 
     public function isOnBrinkOfStarvation(Dominion $dominion): bool
@@ -727,7 +727,7 @@ class ProductionCalculator
     {
         $manaDecay = $this->getManaDecay($dominion);
 
-        return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion));
+        return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion) - $this->getContribution($dominion, 'mana'));
     }
 
     //</editor-fold>
@@ -1112,11 +1112,11 @@ class ProductionCalculator
 
         if($resource === 'food')
         {
-            $contribution = $this->getFoodNetChange($dominion) * $this->getContributionRate($dominion->realm);
+            $contribution = $this->getFoodProduction($dominion) * $this->getContributionRate($dominion->realm);
         }
         elseif($resource === 'mana')
         {
-            $contribution = $this->getManaNetChange($dominion) * $this->getContributionRate($dominion->realm);
+            $contribution = $this->getManaProduction($dominion) * $this->getContributionRate($dominion->realm);
         }
         else
         {

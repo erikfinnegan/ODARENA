@@ -223,9 +223,9 @@ class TickService
                         'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
                         'dominions.resource_gold' => DB::raw('dominions.resource_gold + dominion_tick.resource_gold'),
-                        'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food - dominion_tick.resource_food_contribution + dominion_tick.resource_food_contributed'),
+                        'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food + dominion_tick.resource_food_contributed'),
                         'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
-                        'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana - dominion_tick.resource_mana_contribution + dominion_tick.resource_mana_contributed'),
+                        'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana + dominion_tick.resource_mana_contributed'),
                         'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
