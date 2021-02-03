@@ -815,7 +815,7 @@ class TickService
           else
           {
               // Food production
-              $tick->resource_food = $foodNetChange;
+              $tick->resource_food = max(0, $foodNetChange);
           }
 
           // Morale
