@@ -818,6 +818,11 @@ class TickService
               $tick->resource_food = max(0, $foodNetChange);
           }
 
+          if($tick->resource_food < 0)
+          {
+              $tick->resource_food = max($tick->resource_food, $dominion->resource_food*-1);
+          }
+
           // Morale
           $baseMorale = 100;
           $baseMoraleModifier = $this->militaryCalculator->getBaseMoraleModifier($dominion, $this->populationCalculator->getPopulation($dominion));
