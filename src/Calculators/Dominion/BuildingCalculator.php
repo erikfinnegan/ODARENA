@@ -61,7 +61,8 @@ class BuildingCalculator
 
     public function getBuildingTypesToDestroy(Dominion $dominion, int $totalBuildingsToDestroy, string $landType): array
     {
-        if($totalBuildingsToDestroy <= 0) {
+        if($totalBuildingsToDestroy <= 0)
+        {
             return [];
         }
 
@@ -187,12 +188,12 @@ class BuildingCalculator
 
     public function removeBuildings(Dominion $dominion, array $buildingKeys): void
     {
-        foreach($buildingKeys as $buildingKey => $amount)
+        foreach($buildingKeys as $buildingKey => $amountToDestroy)
         {
-            if($amount > 0)
+            if($amountToDestroy['builtBuildingsToDestroy'] > 0)
             {
                 $building = Building::where('key', $buildingKey)->first();
-                $amount = intval($amount);
+                $amount = intval($amountToDestroy['builtBuildingsToDestroy']);
 
                 if($this->dominionHasBuilding($dominion, $buildingKey))
                 {
@@ -201,6 +202,10 @@ class BuildingCalculator
                         DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
                         ->decrement('owned', $amount);
                     });
+                }
+                else
+                {
+                    dd($dominion->name . " ain't got any " . $buildingKey);
                 }
             }
         }
