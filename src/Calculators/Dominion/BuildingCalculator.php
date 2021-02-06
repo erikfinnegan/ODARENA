@@ -72,7 +72,8 @@ class BuildingCalculator
 
         $totalBuildingsForLandType = 0;
 
-        foreach($buildingTypesForLandType as $buildingType) {
+        foreach($buildingTypesForLandType as $buildingType)
+        {
             $resourceName = "building_{$buildingType}";
             $buildingsForType = $dominion->$resourceName;
             $totalBuildingsForLandType += $buildingsForType;
@@ -202,10 +203,6 @@ class BuildingCalculator
                         DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
                         ->decrement('owned', $amount);
                     });
-                }
-                else
-                {
-                    dd($dominion->name . " ain't got any " . $buildingKey);
                 }
             }
         }
