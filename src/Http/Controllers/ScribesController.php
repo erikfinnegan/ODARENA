@@ -108,7 +108,7 @@ class ScribesController extends AbstractController
 
     public function getTitles()
     {
-        $titles = collect(Title::orderBy('name')->get());
+        $titles = Title::all()->where('enabled',1)->keyBy('key')->sortBy('key');
         return view('pages.scribes.titles', [
             'titles' => $titles,
             'titleHelper' => app(TitleHelper::class),

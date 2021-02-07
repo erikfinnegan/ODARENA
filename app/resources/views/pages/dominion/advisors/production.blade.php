@@ -27,8 +27,6 @@
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much (if any) is lost of this resource per tick in upkeep">Loss/tick</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="Net change per tick">Net/tick</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you currently have">Current</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="The maximum amount of the resource you can have stored">Max Storage</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much of max storage you are currently using">Storage %</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have produced this round">Total Produced</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you have stolen this round">Total Stolen</span></th>
                                   </tr>
@@ -42,8 +40,6 @@
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getGoldProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($selectedDominion->resource_gold) }}</td>
-                                      <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'gold')) }}</td>
-                                      <td>{{ number_format(($selectedDominion->resource_gold/$productionCalculator->getMaxStorage($selectedDominion, 'gold')) * 100, 2) }}%</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gold_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gold_stolen) }}</td>
                                   </tr>
@@ -52,7 +48,7 @@
                                       <td>{{ number_format($productionCalculator->getFoodProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($productionCalculator->getFoodProductionRaw($selectedDominion)) }}</td>
                                       <td>{{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td><span data-toggle="tooltip" data-placement="top" title="Food decay plus food consumption" class="text-red">-{{ number_format($productionCalculator->getFoodDecay($selectedDominion) + $productionCalculator->getFoodConsumption($selectedDominion)) }}</span></td>
+                                      <td><span data-toggle="tooltip" data-placement="top" title="Food consumption" class="text-red">-{{ number_format($productionCalculator->getFoodConsumption($selectedDominion)) }}</span></td>
                                       <td>
                                           @if($productionCalculator->getFoodNetChange($selectedDominion) > 0)
                                               <span class="text-green">
@@ -73,19 +69,17 @@
                                       <td>{{ number_format($productionCalculator->getLumberProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($productionCalculator->getLumberProductionRaw($selectedDominion)) }}</td>
                                       <td>{{ number_format(($productionCalculator->getLumberProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td><span data-toggle="tooltip" data-placement="top" title="Lumber rot" class="text-red">-{{ number_format($productionCalculator->getLumberDecay($selectedDominion)) }}</span></td>
+                                      <td>&mdash;</td>
                                       <td>
-                                          @if($productionCalculator->getLumberNetChange($selectedDominion) > 0)
+                                          @if($productionCalculator->getLumberProduction($selectedDominion) > 0)
                                               <span class="text-green">
                                           @else
                                               <span class="text-red">
                                           @endif
-                                          {{ number_format($productionCalculator->getLumberNetChange($selectedDominion)) }}
+                                          {{ number_format($productionCalculator->getLumberProduction($selectedDominion)) }}
                                           </span>
                                       </td>
                                       <td>{{ number_format($selectedDominion->resource_lumber) }}</td>
-                                      <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'lumber')) }}</td>
-                                      <td>{{ number_format(($selectedDominion->resource_lumber/$productionCalculator->getMaxStorage($selectedDominion, 'lumber')) * 100, 2) }}%</td>
                                       <td>{{ number_format($selectedDominion->stat_total_lumber_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_lumber_stolen) }}</td>
                                   </tr>
@@ -94,7 +88,13 @@
                                       <td>{{ number_format($productionCalculator->getManaProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($productionCalculator->getManaProductionRaw($selectedDominion)) }}</td>
                                       <td>{{ number_format(($productionCalculator->getManaProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td><span data-toggle="tooltip" data-placement="top" title="Lumber drain"  class="text-red">-{{ number_format($productionCalculator->getManaDecay($selectedDominion)) }}</span></td>
+                                      <td>
+                                            @if($productionCalculator->getContribution($selectedDominion, 'mana'))
+                                                <span class="text-red">-{{ number_format(($productionCalculator->getContribution($selectedDominion, 'mana'))) }}</span>
+                                            @else
+                                            &mdash;
+                                            @endif
+                                      </td>
                                       <td>
                                           @if($productionCalculator->getManaNetChange($selectedDominion) > 0)
                                               <span class="text-green">
@@ -117,8 +117,6 @@
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getOreProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($selectedDominion->resource_ore) }}</td>
-                                      <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'ore')) }}</td>
-                                      <td>{{ number_format(($selectedDominion->resource_ore/$productionCalculator->getMaxStorage($selectedDominion, 'ore')) * 100, 2) }}%</td>
                                       <td>{{ number_format($selectedDominion->stat_total_ore_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_ore_stolen) }}</td>
                                   </tr>
@@ -130,8 +128,6 @@
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getGemProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($selectedDominion->resource_gems) }}</td>
-                                      <td>{{ number_format($productionCalculator->getMaxStorage($selectedDominion, 'gem')) }}</td>
-                                      <td>{{ number_format(($selectedDominion->resource_gems/$productionCalculator->getMaxStorage($selectedDominion, 'gem')) * 100, 2) }}%</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gem_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gem_stolen) }}</td>
                                   </tr>

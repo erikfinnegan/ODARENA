@@ -6,15 +6,15 @@
     $dominionBuildings = $buildingCalculator->getDominionBuildings($selectedDominion)->sortBy('name');
 @endphp
 
-<form action="{{ route('dominion.buildings') }}" method="post" role="form">
+<form action="{{ route('dominion.demolish') }}" method="post" role="form">
 @csrf
 
 
 <div class="row">
     <div class="col-sm-12 col-md-9">
-        <div class="box box-primary">
+        <div class="box box-danger">
             <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-home"></i> Buildings </h3>
+                <h3 class="box-title"><i class="ra ra-groundbreaker"></i> Demolish Buildings</h3>
                 <small class="pull-right text-muted">
                     <span data-toggle="tooltip" data-placement="top" title="How many buildings you can afford to explore right now">Max buildable</span>: {{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('acre', $constructionCalculator->getMaxAfford($selectedDominion)) }}
                 </small>
@@ -324,7 +324,11 @@
         </form>
 
         <div class="box-footer">
-            <button type="submit" class="btn btn-primary pull-right">Build</button>
+            <button type="submit" class="btn btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Demolish</button>
+
+            <span class="pull-right">
+            <a href="{{ route('dominion.buildings') }}" class="btn btn-primary">Cancel</a>
+            </span>
         </div>
 
     </div>
@@ -335,44 +339,11 @@
             <h3 class="box-title">Information</h3>
         </div>
         <div class="box-body">
-
-            <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
-            @php
-                $constructionMaterials = $raceHelper->getConstructionMaterials($selectedDominion->race);
-                $primaryCost = $constructionCalculator->getConstructionCostPrimary($selectedDominion);
-                $secondaryCost = $constructionCalculator->getConstructionCostSecondary($selectedDominion);
-                $multiplier = $constructionCalculator->getCostMultiplier($selectedDominion);
-
-                if(count($constructionMaterials) == 2)
-                {
-                    $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . ' and ' . number_format($secondaryCost) . ' ' . $constructionMaterials[1] . '.';
-                }
-                else
-                {
-                    $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . '.';
-                }
-
-            @endphp
-
-            <p>
-                {{ $costString }}
-
-                @if($multiplier !== 1)
-                    Your construction costs are
-                    @if($multiplier > 1)
-                        increased
-                    @else
-                        decreased
-                    @endif
-                    by <strong>{{ number_format(abs(($multiplier-1)*100),2) }}%</strong>.
-                @endif
-            </p>
-
-            <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
-              and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
-            <p>You may also <a href="{{ route('dominion.demolish') }}">demolish buildings</a> if you wish.</p>
-
-            <a href="{{ route('scribes.construction') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Buildings in the Scribes.</span></a>
+            <p><b>Warning</b>: You are about to destroy buildings to reclaim barren land.</p>
+            <p>Any gold and lumber used to construct any destroyed buildings <b>will be lost</b>.</p>
+            <p>Destroying buildings processes <b>instantly</b>.</p>
+        </div>
+        <div class="box-footer">
         </div>
     </div>
 </div>

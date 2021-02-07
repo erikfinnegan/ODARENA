@@ -67,11 +67,6 @@ class DestroyActionService
         # BV2
         $this->buildingCalculator->removeBuildings($dominion, $data);
 
-        foreach ($data as $buildingType => $amount)
-        {
-            $dominion->{'building_' . $buildingType} -= $amount;
-        }
-
         $dominion->save(['event' => HistoryService::EVENT_ACTION_DESTROY]);
 
         return [

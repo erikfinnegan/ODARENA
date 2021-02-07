@@ -119,6 +119,8 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             # Buildings
             $router->get('buildings')->uses('Dominion\BuildingController@getBuildings')->name('buildings');
             $router->post('buildings')->uses('Dominion\BuildingController@postBuildings');
+            $router->get('demolish')->uses('Dominion\BuildingController@getDemolish')->name('demolish');
+            $router->post('demolish')->uses('Dominion\BuildingController@postDemolish');
 
             # Land
             $router->get('land')->uses('Dominion\LandController@getLand')->name('land');

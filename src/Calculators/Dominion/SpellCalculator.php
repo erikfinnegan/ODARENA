@@ -64,6 +64,8 @@ class SpellCalculator
             $spellCostMultiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->title->getPerkBonus($dominion);
         }
 
+        $spellCostMultiplier = max(0.1, $spellCostMultiplier);
+
         return round($baseCost * $spellCostMultiplier);
     }
 

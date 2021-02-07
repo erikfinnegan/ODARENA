@@ -1,12 +1,17 @@
 commander:
   name: Commander
   perks:
-    military_cost: -2
+    unit_gold_cost: -5
+    unit_ore_cost: -5
+    unit_lumber_cost: -2
+    unit_mana_cost: -2
+    unit_food_cost: -2
 
 conjurer:
   name: Conjurer
   perks:
-    mana_drain: -25
+    spell_cost: -50
+    unit_mana_cost: -7.5
 
 surveyor:
   name: Surveyor
@@ -34,8 +39,8 @@ pathfinder:
 excavator:
   name: Excavator
   perks:
-    ore_production: 5
-    gem_production: 5
+    ore_production: 10
+    gem_production: 10
 
 researcher:
   name: Researcher
@@ -68,3 +73,9 @@ merchant:
   name: Merchant
   perks:
     exchange_rate: 10
+
+general:
+  name: General
+  perks:
+    prestige_gains: 25
+    morale_gains: 25

@@ -496,6 +496,7 @@ miners_sight:
 
 alchemist_flame:
   name: Alchemist Flame
+  enabled: 0
   scope: self
   class: passive
   cost: 10

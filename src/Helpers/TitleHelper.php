@@ -20,6 +20,31 @@ class TitleHelper
                 $description = 'Training costs:';
                 $valueType = '% gold, ore, lumber, food, and mana costs';
                 break;
+            case 'military_cost':
+                $negativeBenefit = true;
+                $description = 'Training costs:';
+                $valueType = '% gold, ore, lumber, food, and mana costs';
+                break;
+            case 'unit_gold_cost':
+                $negativeBenefit = true;
+                $description = 'Unit gold costs:';
+                break;
+            case 'unit_ore_cost':
+                $negativeBenefit = true;
+                $description = 'Unit ore costs:';
+                break;
+            case 'unit_lumber_cost':
+                $negativeBenefit = true;
+                $description = 'Unit lumber costs:';
+                break;
+            case 'unit_mana_cost':
+                $negativeBenefit = true;
+                $description = 'Unit mana costs:';
+                break;
+            case 'unit_food_cost':
+                $negativeBenefit = true;
+                $description = 'Unit food costs:';
+                break;
             case 'spell_cost':
                 $negativeBenefit = true;
                 $description = 'Spell costs:';
@@ -85,6 +110,15 @@ class TitleHelper
                 $negativeBenefit = false;
                 $description = 'Spy strength recovery:';
                 $valueType = '%/tick';
+                break;
+            case 'prestige_gains':
+                $negativeBenefit = false;
+                $description = 'Prestige gains:';
+                break;
+            case 'morale_gains':
+                $negativeBenefit = false;
+                $description = 'Morale gains:';
+                $valueType = '%';
                 break;
             default:
                 return null;

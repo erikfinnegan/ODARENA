@@ -95,7 +95,7 @@ class SettingHelper
             'beneficial_magic_dissipated' => [
                 'label' => 'Beneficial magic effect dissipated',
                 'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.magic'),
+                'route' => route('dominion.friendly-ops'),
                 'iconClass' => 'ra ra-fairy-wand text-orange',
             ],
             'harmful_magic_dissipated' => [

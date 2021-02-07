@@ -2,17 +2,20 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
+use Illuminate\Support\Collection;
+
 use OpenDominion\Calculators\Dominion\Actions\ConstructionCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\BuildingHelper;
+use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\ConstructActionRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\DestroyActionRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\DemolishActionRequest;
 use OpenDominion\Services\Analytics\AnalyticsEvent;
 use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\Actions\ConstructActionService;
-use OpenDominion\Services\Dominion\Actions\DestroyActionService;
+use OpenDominion\Services\Dominion\Actions\DemolishActionService;
 use OpenDominion\Services\Dominion\QueueService;
 
 
@@ -34,6 +37,7 @@ class BuildingController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'queueService' => app(QueueService::class),
             'raceHelper' => app(RaceHelper::class),
+            'landHelper' => app(LandHelper::class),
         ]);
     }
 
@@ -61,25 +65,29 @@ class BuildingController extends AbstractDominionController
         ));
 
         $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.construct');
+        return redirect()->route('dominion.buildings');
     }
 
-    public function getDestroy()
+    public function getDemolish()
     {
-        return view('pages.dominion.destroy', [
+        return view('pages.dominion.demolish', [
             'buildingCalculator' => app(BuildingCalculator::class),
             'buildingHelper' => app(BuildingHelper::class),
+            'constructionCalculator' => app(ConstructionCalculator::class),
             'landCalculator' => app(LandCalculator::class),
+            'queueService' => app(QueueService::class),
+            'raceHelper' => app(RaceHelper::class),
+            'landHelper' => app(LandHelper::class),
         ]);
     }
 
-    public function postDestroy(DestroyActionRequest $request)
+    public function postDemolish(DemolishActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
-        $destroyActionService = app(DestroyActionService::class);
+        $demolishActionService = app(DemolishActionService::class);
 
         try {
-            $result = $destroyActionService->destroy($dominion, $request->get('destroy'));
+            $result = $demolishActionService->demolish($dominion, $request->get('demolish'));
 
         } catch (GameException $e) {
             return redirect()->back()
@@ -87,16 +95,7 @@ class BuildingController extends AbstractDominionController
                 ->withErrors([$e->getMessage()]);
         }
 
-        // todo: laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'destroy',
-            '',
-            $result['data']['totalBuildingsDestroyed']
-        ));
-
         $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.destroy');
+        return redirect()->route('dominion.demolish');
     }
 }

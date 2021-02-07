@@ -186,8 +186,8 @@ class MilitaryCalculator
     {
         $multiplier = 0;
 
-        // Building: Gryphon Nests
-        $multiplier += $this->getGryphonNestMultiplier($attacker);
+        // Buildings
+        $multiplier += $attacker->getBuildingPerkMultiplier('offensive_power');
 
         // League: Peacekeepers League
         $multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
@@ -376,9 +376,8 @@ class MilitaryCalculator
 
         if (!$ignoreRawDpFromBuildings)
         {
-
-            // Building: Ziggurats
-            $dp += $defender->building_ziggurat * $defender->race->getPerkValue('defense_per_ziggurat');
+            // Buildings
+            $dp += $defender->getBuildingPerkValue('raw_defense');
         }
 
         // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10%, which get by doing $forestRatio/5)
@@ -423,11 +422,8 @@ class MilitaryCalculator
     {
         $multiplier = 0;
 
-        // Building: Guard Towers
-        $multiplier += $this->getGuardTowerMultiplier($dominion);
-
-        // League: Peacekeepers League
-        #$multiplier += $this->getLeagueMultiplier($dominion, null, 'defense');
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('defensive_power');
 
         // Improvement: Forges
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
@@ -1601,7 +1597,8 @@ class MilitaryCalculator
     public function getBoatsProtected(Dominion $dominion): float
     {
         // Docks
-        $boatsProtected = static::BOATS_PROTECTED_PER_DOCK * $dominion->building_dock;
+        #$boatsProtected = static::BOATS_PROTECTED_PER_DOCK * $dominion->building_dock;
+        $boatsProtected = $dominion->buildings->getPerkValue('boat_protection');
         // Habor
         $boatsProtected *= 1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
         return $boatsProtected;
@@ -1732,20 +1729,6 @@ class MilitaryCalculator
     }
 
     /**
-     * Gets the dominion's bonus from Gryphon Nests.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getGryphonNestMultiplier(Dominion $dominion): float
-    {
-        $multiplier = 0;
-        $multiplier = ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)) * 1.8;
-
-        return min($multiplier, 0.36);
-    }
-
-    /**
      * Gets the dominion's OP or DP ($power) bonus from spells.
      *
      * @param Dominion $dominion
@@ -1786,21 +1769,6 @@ class MilitaryCalculator
       return $multiplier;
 
     }
-
-    /**
-     * Gets the dominion's bonus from Guard Towers.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getGuardTowerMultiplier(Dominion $dominion): float
-    {
-        $multiplier = 0;
-        $multiplier = ($dominion->building_guard_tower / $this->landCalculator->getTotalLand($dominion)) * 1.8;
-
-        return min($multiplier, 0.36);
-    }
-
 
     /**
      * Gets the dominion's bonus from League.

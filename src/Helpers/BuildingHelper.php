@@ -1,7 +1,7 @@
 <?php
 
 namespace OpenDominion\Helpers;
-
+use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Dominion;
 
@@ -378,23 +378,22 @@ class BuildingHelper
     /*
     *   Returns buildings available for the race.
     */
-    public function getBuildingsByRace(Race $race): array
+    public function getBuildingsByRace(Race $race): Collection
     {
-      $allBuildings = Building::all()->keyBy('key')->sortBy('name')->sortBy('land_type')->where('enabled',1);
+        $buildings = collect(Building::all()->keyBy('key')->sortBy('name')->sortBy('land_type')->where('enabled',1));
 
-      $buildings = [];
-      foreach($allBuildings as $building)
-      {
-        if(
-              (count($building->excluded_races) > 0 and !in_array($race->name, $building->excluded_races)) or
-              (count($building->exclusive_races) > 0 and in_array($race->name, $building->exclusive_races))
-          )
+        foreach($buildings as $building)
         {
-          $buildings[] = $building;
+          if(
+                (count($building->excluded_races) > 0 and in_array($race->name, $building->excluded_races)) or
+                (count($building->exclusive_races) > 0 and !in_array($race->name, $building->exclusive_races))
+            )
+          {
+              $buildings->forget($building->key);
+          }
         }
-      }
 
-      return $buildings;
+        return $buildings;
     }
 
     public function getExclusivityString(Building $building): string

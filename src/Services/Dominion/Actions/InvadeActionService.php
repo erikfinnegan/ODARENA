@@ -569,12 +569,10 @@ class InvadeActionService
 
         # LDA mitigation
         $victoriesRatioMultiplier = 1;
-        if($attacker->stat_attacking_success >= 10)
+        if($attacker->stat_defending_failures >= 10)
         {
             $victoriesRatioMultiplier = $attacker->stat_attacking_success / ($attacker->stat_attacking_success + $attacker->stat_defending_failures);
         }
-
-
 
         # Successful hits over 75% give prestige to attacker and remove prestige from defender
         if($countsAsVictory)
@@ -621,6 +619,12 @@ class InvadeActionService
 
         // Tech
         $attackerPrestigeChangeMultiplier += $attacker->getTechPerkMultiplier('prestige_gains');
+
+        // Building
+        $attackerPrestigeChangeMultiplier += $attacker->getBuildingPerkMultiplier('prestige_gains');
+
+        // Title
+        $attackerPrestigeChangeMultiplier += $attacker->title->getTechPerkMultiplier('prestige_gains') * $dominion->title->getPerkBonus($dominion);
 
         $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
 
@@ -932,6 +936,14 @@ class InvadeActionService
 
                 $diesIntoNewUnits[$slot] += intval($casualties * $amount);
             }
+
+            if(!$this->invasionResult['result']['success'] and $diesIntoMultiplePerkOnVictory = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_victory'))
+            {
+                $slot = (int)$diesIntoMultiplePerkOnVictory[0];
+                $amount = (int)$diesIntoMultiplePerkOnVictory[1];
+
+                $diesIntoNewUnits[$slot] += intval($casualties * $amount);
+            }
         }
 
         # Dies into units take 1 tick to appear
@@ -1152,10 +1164,11 @@ class InvadeActionService
                 $defenderMoraleChange = 0;
             }
 
-            if($dominion->race->getPerkValue('morale_on_successful_invasion_from_gryphon_nests'))
-            {
-                $attackerMoraleChange += intval(($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)) * 100);
-            }
+            $attackerMoraleChangeMultiplier = 0;
+            $attackerMoraleChangeMultiplier += $dominion->getBuildingPerkMultiplier('morale_gains');
+            $attackerMoraleChangeMultiplier += $attacker->title->getPerkMultiplier('morale_gains') * $dominion->title->getPerkBonus($dominion);
+
+            $attackerMoraleChange *= (1 + $attackerMoraleChangeMultiplier);
 
         }
         # For failed invasions...
@@ -1589,6 +1602,17 @@ class InvadeActionService
                 # Which unit do they die into?
                 $newUnitSlot = $diesIntoMultiplePerk[0];
                 $newUnitAmount = $diesIntoMultiplePerk[1];
+
+                $newUnitKey = "military_unit{$newUnitSlot}";
+
+                $returningUnits[$newUnitKey] += floor($casualties * $newUnitAmount);
+            }
+
+            if($this->invasionResult['result']['success'] and $diesIntoMultiplePerkOnVictory = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_victory'))
+            {
+                # Which unit do they die into?
+                $newUnitSlot = $diesIntoMultiplePerkOnVictory[0];
+                $newUnitAmount = $diesIntoMultiplePerkOnVictory[1];
 
                 $newUnitKey = "military_unit{$newUnitSlot}";
 
@@ -2859,10 +2883,7 @@ class InvadeActionService
         $templeMaxDpReduction = 36;
         $ignoreDraftees = false;
 
-        $dpMultiplierReduction = min(
-            (($dpReductionPerTemple * $attacker->building_temple) / $this->landCalculator->getTotalLand($attacker)),
-            ($templeMaxDpReduction / 100)
-        );
+        $dpMultiplierReduction = $attacker->getBuildingPerkMultiplier('defensive_modifier_reduction');
 
         // Void: Spell (remove DP reduction from Temples)
         if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'immune_to_temples'))

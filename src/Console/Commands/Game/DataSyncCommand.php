@@ -325,6 +325,7 @@ class DataSyncCommand extends Command implements CommandInterface
                         'enabled' => (int)object_get($buildingData, 'enabled', 1),
                     ]);
 
+
                 if (!$building->exists) {
                     $this->info("Adding building {$buildingData->name}");
                 } else {
@@ -332,8 +333,18 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     $newValues = $building->getDirty();
 
-                    foreach ($newValues as $key => $newValue) {
+                    foreach ($newValues as $key => $newValue)
+                    {
                         $originalValue = $building->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
 
                         $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }

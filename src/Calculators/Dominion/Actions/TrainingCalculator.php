@@ -513,7 +513,8 @@ class TrainingCalculator
         {
             if(in_array($resourceType,$discountableResourceTypesByTitle))
             {
-              $multiplier += $dominion->title->getPerkMultiplier('military_cost') * $dominion->title->getPerkBonus($dominion);
+                #$multiplier += $dominion->title->getPerkMultiplier('military_cost') * $dominion->title->getPerkBonus($dominion);
+                $multiplier += $dominion->title->getPerkMultiplier('unit_' . $resourceType . '_costs') * $dominion->title->getPerkBonus($dominion);
             }
         }
 

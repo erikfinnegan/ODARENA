@@ -67,7 +67,6 @@ units:
       defense: 4
     perks:
       defense_from_buildings: home;temple;wizard_guild;tower,10,6 # buildings; ratio; max
-      decay_protection: 500,mana
       no_draftee: 1
 
   - name: Lich

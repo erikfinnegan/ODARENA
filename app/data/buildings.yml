@@ -33,6 +33,7 @@ barracks:
 
 alchemy:
   name: Alchemy
+  enabled: 0
   excluded_races:
     - Growth
     - Myconid
@@ -41,6 +42,17 @@ alchemy:
   land_type: plain
   perks:
     gold_production: 45
+
+gold_mine:
+  name: Gold Mine
+  excluded_races:
+    - Growth
+    - Myconid
+    - Void
+    - Swarm
+  land_type: plain
+  perks:
+    gold_production: 50
 
 farm:
   name: Farm
@@ -118,8 +130,22 @@ dock:
     - Swarm
   land_type: water
   perks:
+    food_production: 35
     boat_production: 0.05
     boat_protection: 2.5
+
+shipyard:
+  name: Shipyard
+  exclusive_races:
+    - Armada
+    - Black Orc
+    - Human
+    - Kerranad
+    - Orc
+  land_type: water
+  perks:
+    boat_production: 1
+    boat_protection: 10
 
 ## Mod Buildings
 
@@ -138,23 +164,21 @@ masonry:
 
 gryphon_nest:
   name: Gryphon Nest
-  excluded_races:
-    - Growth
-    - Myconid
-    - Void
-    - Swarm
+  exclusive_races:
+    - Snow Elf
   land_type: mountain
   perks:
     offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
+    morale_gains: 1,1,20 # Every 1% GN gives +1% morale, max +20
 
 military_academy:
   name: Military Academy
-  enabled: 0
   excluded_races:
     - Growth
     - Myconid
-    - Void
+    - Snow Elf
     - Swarm
+    - Void
   land_type: hill
   perks:
     offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
@@ -190,7 +214,7 @@ shrine:
     - Swarm
   land_type: forest
   perks:
-    defensive_casualties: 1,1,10 # 1% gives -1% max -10%
+    defensive_casualties: 1,5,10 # 1% gives -1% max -10%
     offensive_casualties: 1,5,50 # 1% gives -5%, max -50%
 
 smithy:
@@ -207,14 +231,22 @@ smithy:
     unit_gold_costs: 1,2,40 # ratio, perk, max
     unit_ore_costs: 1,2,40 # ratio, perk, max
 
-ore_mill:
-  name: Smithy
+gnomish_smithy:
+  name: Gnomish Smithy
   exclusive_races:
     - Gnome
     - Imperial Gnome
   land_type: plain
   perks:
     unit_gold_costs: 1,2,40 # ratio, perk, max
+
+blast_furnace:
+  name: Blast Furnace
+  exclusive_races:
+    - Firewalker
+  land_type: mountain
+  perks:
+    extra_units_trained: 1,1,25 # ratio, perk, max
 
 factory:
   name: Factory
@@ -289,10 +321,11 @@ mycelia:
 
 camp:
   name: Camp
-  enabled: 0
+  enabled: 1
   exclusive_races:
     - Beastfolk
   land_type: forest
   perks:
-    unit_cost: 1,2.5,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_gold_costs: 1,2.5,50 # ratio, perk, max
+    unit_ore_costs: 1,2,40 # ratio, perk, max
     military_housing: 8

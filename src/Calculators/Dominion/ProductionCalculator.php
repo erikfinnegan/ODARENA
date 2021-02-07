@@ -66,7 +66,6 @@ class ProductionCalculator
 
         // Values
         $peasantTax = 2.7;
-        $goldPerAlchemy = 45;
 
         // Race specialty: Swarm peasants
         if($dominion->race->getPerkValue('unemployed_peasants_produce_gold'))
@@ -76,21 +75,16 @@ class ProductionCalculator
         // Myconid: no plat from peasants
         elseif($dominion->race->name == 'Myconid')
         {
-          $gold = 0;
+            $gold = 0;
         }
         else
         {
-          // Peasant Tax
-          $gold += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
+            // Peasant Tax
+            $gold += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
         }
 
-        // Spells
-        $goldPerAlchemy += $dominion->getSpellPerkValue('alchemy_production');
-
         // Building: Alchemy
-        $gold += ($dominion->building_alchemy * $goldPerAlchemy);
-
-        #$gold += $dominion->getBuildingPerkValue('gold_production');
+        $gold += $dominion->getBuildingPerkValue('gold_production');
 
         // Unit Perk: Production Bonus
         $gold += $dominion->getUnitPerkProductionBonus('gold_production');
@@ -178,19 +172,8 @@ class ProductionCalculator
             return $food;
         }
 
-        // Building: Farm
-        $food += ($dominion->building_farm * 80);
-
-        // Building: Dock
-        $food += ($dominion->building_dock * 35 * (1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'food_production_docks')));
-
-        // Building: Tissue
-        $food += ($dominion->building_tissue * 4);
-
-        // Building: Mycelia
-        $food += ($dominion->building_mycelia * 4);
-
-        #$food += $dominion->getBuildingPerkValue('food_production');
+        // Building
+        $food += $dominion->getBuildingPerkValue('food_production');
 
         // Unit Perk: Production Bonus (Growth Unit)
         $food += $dominion->getUnitPerkProductionBonus('food_production');
@@ -350,60 +333,6 @@ class ProductionCalculator
     }
 
     /**
-     * Returns the Dominion's food decay.
-     *
-     * Food decays 1% per hour.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getFoodDecay(Dominion $dominion): float
-    {
-        $decay = 0;
-        $foodDecay = 0.01;
-
-        $decayProtection = 0;
-        $multiplier = 0;
-        $food = $dominion->resource_food;
-
-        # Check for decay protection
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            if($decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection'))
-            {
-                $amountPerUnit = $decayProtectionPerk[0];
-                $resource = $decayProtectionPerk[1];
-
-                if($resource == 'food' and $amountPerUnit > 0)
-                {
-                    $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
-                }
-            }
-        }
-
-        $food = max(0, $food - $decayProtection);
-
-        // Improvement: Granaries (max -100% decay)
-        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
-
-        // Perk: decay reduction
-        if($dominion->race->getPerkMultiplier('food_decay'))
-        {
-            $multiplier += $dominion->race->getPerkMultiplier('food_decay');
-        }
-
-        $multiplier = min(0, $multiplier);
-
-        $foodDecay *= (1 + $multiplier);
-
-        $decay += $food * $foodDecay;
-
-        $decay = max(0, $decay);
-
-        return $decay;
-    }
-
-    /**
      * Returns the Dominion's net food change.
      *
      * @param Dominion $dominion
@@ -411,12 +340,16 @@ class ProductionCalculator
      */
     public function getFoodNetChange(Dominion $dominion): int
     {
-        return round($this->getFoodProduction($dominion) - $this->getFoodConsumption($dominion) - $this->getFoodDecay($dominion) - $this->getContribution($dominion, 'food'));
+        return round($this->getFoodProduction($dominion) - $this->getFoodConsumption($dominion) - $this->getContribution($dominion, 'food'));
     }
 
     public function isOnBrinkOfStarvation(Dominion $dominion): bool
     {
-        return $this->getFoodNetChange($dominion) > $dominion->resource_food;
+        if($dominion->resource_food + $this->getFoodNetChange($dominion) < 0)
+        {
+            return true;
+        }
+        return false;
     }
 
     //</editor-fold>
@@ -456,8 +389,7 @@ class ProductionCalculator
         $lumberPerLumberyard = 50;
 
         // Building: Lumberyard
-        $lumber += ($dominion->building_lumberyard * $lumberPerLumberyard);
-        #$lumber += $dominion->getBuildingPerkValue('lumber_production');
+        $lumber += $dominion->getBuildingPerkValue('lumber_production');
 
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
         $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
@@ -515,75 +447,6 @@ class ProductionCalculator
     }
 
     /**
-     * Returns the Dominion's lumber decay.
-     *
-     * Lumber decays 1% per hour.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getLumberDecay(Dominion $dominion): float
-    {
-        $decay = 0;
-        $lumberDecay = 0.01;
-
-        $multiplier = 0;
-        $decayProtection = 0;
-        $lumber = $dominion->resource_lumber;
-
-        # Check for decay protection
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            if($decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection'))
-            {
-                $amountPerUnit = $decayProtectionPerk[0];
-                $resource = $decayProtectionPerk[1];
-
-                if($resource == 'lumber' and $amountPerUnit > 0)
-                {
-                    $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
-                }
-            }
-        }
-
-        $lumber = max(0, $lumber - $decayProtection);
-
-        // Improvement: Granaries
-        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'granaries');
-
-        // Perk: decay reduction
-        if($dominion->race->getPerkMultiplier('lumber_decay'))
-        {
-            $multiplier += $dominion->race->getPerkMultiplier('lumber_decay');
-        }
-
-        $multiplier = min(0, $multiplier);
-
-        $lumberDecay *= (1 + $multiplier);
-
-        $decay += $lumber * $lumberDecay;
-
-        $decay = max(0, $decay);
-
-        return $decay;
-    }
-
-    /**
-     * Returns the Dominion's net lumber change.
-     *
-     * @param Dominion $dominion
-     * @return int
-     */
-    public function getLumberNetChange(Dominion $dominion): int
-    {
-        return round($this->getLumberProduction($dominion) - $this->getLumberDecay($dominion));
-    }
-
-    //</editor-fold>
-
-    //<editor-fold desc="Mana">
-
-    /**
      * Returns the Dominion's mana production.
      *
      * @param Dominion $dominion
@@ -592,6 +455,11 @@ class ProductionCalculator
     public function getManaProduction(Dominion $dominion): int
     {
         return floor($this->getManaProductionRaw($dominion) * $this->getManaProductionMultiplier($dominion));
+    }
+
+    public function getManaNetChange(Dominion $dominion): int
+    {
+        return round($this->getManaProduction($dominion) - $this->getContribution($dominion, 'mana'));
     }
 
     /**
@@ -612,15 +480,8 @@ class ProductionCalculator
             return $mana;
         }
 
-        // Building: Tower
-        $mana += ($dominion->building_tower * 25);
-        #$mana += $dominion->getBuildingPerkValue('mana_production');
-
-        // Building: Ziggurat
-        if($dominion->race->getPerkValue('mana_per_ziggurat'))
-        {
-            $mana += $dominion->building_ziggurat * $dominion->race->getPerkValue('mana_per_ziggurat');
-        }
+        // Buildings
+        $mana += $dominion->getBuildingPerkValue('mana_production');
 
         // Unit Perk Production Bonus
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');
@@ -667,74 +528,6 @@ class ProductionCalculator
     }
 
     /**
-     * Returns the Dominion's mana decay.
-     *
-     * Mana decays 2% per hour.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getManaDecay(Dominion $dominion): float
-    {
-        $decay = 0;
-
-        $manaDecay = 0.02;
-
-        if($dominion->race->getPerkMultiplier('mana_drain'))
-        {
-            $manaDecay *= (1 + $dominion->race->getPerkMultiplier('mana_drain'));
-        }
-
-        $decayProtection = 0;
-        $mana = $dominion->resource_mana;
-
-        # Check for decay protection
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            if($decayProtectionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'decay_protection'))
-            {
-                $amountPerUnit = $decayProtectionPerk[0];
-                $resource = $decayProtectionPerk[1];
-
-                if($resource == 'mana' and $amountPerUnit > 0)
-                {
-                    $decayProtection += $dominion->{"military_unit".$slot} * $amountPerUnit;
-                }
-            }
-        }
-
-        $mana = max(0, $mana - $decayProtection);
-
-        $decay += ($mana * $manaDecay);
-
-        // Unit Perk Production Bonus (Dimensionalists Units)
-        $decay += min($dominion->resource_mana, $dominion->getUnitPerkProductionBonus('mana_drain'));
-
-        // Ruler title: Conjurer
-
-        $decay *= (1 + $dominion->title->getPerkMultiplier('mana_drain') * $dominion->title->getPerkBonus($dominion));
-
-        return $decay;
-    }
-
-    /**
-     * Returns the Dominion's net mana change.
-     *
-     * @param Dominion $dominion
-     * @return int
-     */
-    public function getManaNetChange(Dominion $dominion): int
-    {
-        $manaDecay = $this->getManaDecay($dominion);
-
-        return round($this->getManaProduction($dominion) - $this->getManaDecay($dominion) - $this->getContribution($dominion, 'mana'));
-    }
-
-    //</editor-fold>
-
-    //<editor-fold desc="Ore">
-
-    /**
      * Returns the Dominion's ore production.
      *
      * @param Dominion $dominion
@@ -767,9 +560,8 @@ class ProductionCalculator
         // Values
         $orePerOreMine = 60;
 
-        // Building: Ore Mine
-        $ore += ($dominion->building_ore_mine * $orePerOreMine);
-        #$ore += $dominion->getBuildingPerkValue('ore_production');
+        // Building
+        $ore += $dominion->getBuildingPerkValue('ore_production');
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $ore += $dominion->getUnitPerkProductionBonus('ore_production');
@@ -847,9 +639,8 @@ class ProductionCalculator
             return $gems;
         }
 
-        // Building: Gem Mine
-        $gems += $dominion->building_gem_mine * 15;
-        #$gems += $dominion->getBuildingPerkValue('gem_production');
+        // Buildings
+        $gems += $dominion->getBuildingPerkValue('gem_production');
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $gems += $dominion->getUnitPerkProductionBonus('gem_production');
@@ -1003,12 +794,8 @@ class ProductionCalculator
             return $boats;
         }
 
-        // Values
-        $docksPerBoatPerTick = 20;
-
-        $boats += ($dominion->building_dock / $docksPerBoatPerTick);
-
-        #$boats += $dominion->getBuildingPerkValue('boat_production');
+        // Buildings
+        $boats += $dominion->getBuildingPerkValue('boat_production');
 
         // Unit Perk: production_from_title
         $boats += $dominion->getUnitPerkProductionBonusFromTitle('boats');
@@ -1063,42 +850,6 @@ class ProductionCalculator
     {
         return $this->populationCalculator->getPeasantsSacrificed($dominion) * 1.5;
     }
-
-    /**
-     * Returns the Dominion's max storage for a specific resource.
-     *
-     * @param Dominion $dominion
-     * @return int
-     */
-    public function getMaxStorage(Dominion $dominion, string $resource): int
-    {
-        $maxStorageTicks = 96;
-        $land = $this->landCalculator->getTotalLand($dominion);
-
-        if($resource == 'gold')
-        {
-            $max = $land * 10000 + $dominion->getUnitPerkProductionBonus('gold_production');
-        }
-        elseif($resource == 'lumber')
-        {
-            $max = $maxStorageTicks * ($dominion->land_forest * 50 + $dominion->getUnitPerkProductionBonus('lumber_production'));
-            $max = max($max, $land * 100);
-        }
-        elseif($resource == 'ore')
-        {
-            $max = $maxStorageTicks * ($dominion->building_ore_mine * 60 + $dominion->getUnitPerkProductionBonus('ore_production'));
-            $max = max($max, $land * 100);
-        }
-        elseif($resource == 'gems' or $resource == 'gem')
-        {
-            $max = $maxStorageTicks * ($dominion->building_gem_mine * 15 + $dominion->getUnitPerkProductionBonus('gem_production'));
-            $max = max($max, $land * 50);
-        }
-
-        return $max;
-
-    }
-
 
     public function getContributionRate(Realm $realm): float
     {

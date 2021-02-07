@@ -50,4 +50,5 @@ class Building extends AbstractModel
 
         return $perks->first()->pivot->value;
     }
+
 }

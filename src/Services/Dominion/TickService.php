@@ -752,6 +752,7 @@ class TickService
           // Resources
 
           # Max storage
+          /*
           $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
           $acres = $this->landCalculator->getTotalLand($dominion);
           $maxGoldPerAcre = 10000;
@@ -761,18 +762,26 @@ class TickService
           $maxStorage['lumber'] = $this->productionCalculator->getMaxStorage($dominion, 'lumber');
           $maxStorage['ore'] = $this->productionCalculator->getMaxStorage($dominion, 'ore');
           $maxStorage['gems'] = $this->productionCalculator->getMaxStorage($dominion, 'gems');
+          */
 
-          $tick->resource_gold += min($this->productionCalculator->getGoldProduction($dominion), max(0, ($maxStorage['gold'] - $dominion->resource_gold)));
+          #$tick->resource_gold += min($this->productionCalculator->getGoldProduction($dominion), max(0, ($maxStorage['gold'] - $dominion->resource_gold)));
+          $tick->resource_gold += $this->productionCalculator->getGoldProduction($dominion);
 
           $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
-          $tick->resource_lumber += min($this->productionCalculator->getLumberNetChange($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
+          #$tick->resource_lumber += min($this->productionCalculator->getLumberProduction($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
+          $tick->resource_lumber += $this->productionCalculator->getLumberProduction($dominion);
 
           $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
-          $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion) - $tick->resource_mana_contribution;
+          $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
 
-          $tick->resource_ore += min($this->productionCalculator->getOreProduction($dominion), max(0, ($maxStorage['ore'] - $dominion->resource_ore)));
+          $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
+          $tick->resource_food += $this->productionCalculator->getFoodNetChange($dominion);
 
-          $tick->resource_gems += min($this->productionCalculator->getGemProduction($dominion), max(0, ($maxStorage['gems'] - $dominion->resource_gems)));
+          #$tick->resource_ore += min($this->productionCalculator->getOreProduction($dominion), max(0, ($maxStorage['ore'] - $dominion->resource_ore)));
+          $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
+
+          #$tick->resource_gems += min($this->productionCalculator->getGemProduction($dominion), max(0, ($maxStorage['gems'] - $dominion->resource_gems)));
+          $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
 
           $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
           $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
@@ -782,9 +791,9 @@ class TickService
 
           # Decay, rot, drain
           $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
-          $tick->resource_food_decay += $this->productionCalculator->getFoodDecay($dominion);
-          $tick->resource_lumber_rot += $this->productionCalculator->getLumberDecay($dominion);
-          $tick->resource_mana_drain += $this->productionCalculator->getManaDecay($dominion);
+          $tick->resource_food_decay += 0;#$this->productionCalculator->getFoodDecay($dominion);
+          $tick->resource_lumber_rot += 0;#$this->productionCalculator->getLumberDecay($dominion);
+          $tick->resource_mana_drain += 0;#$this->productionCalculator->getManaDecay($dominion);
 
           # Contribution: how much is LOST (GIVEN AWAY)
           $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
@@ -800,27 +809,11 @@ class TickService
               $tick->resource_mana_contributed = $totalContributions['mana'];
           }
 
-          // Check for starvation before adjusting food
-          $foodNetChange = $this->productionCalculator->getFoodNetChange($dominion) - $tick->resource_food_contribution;
-
-          $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
-
           // Starvation
           $tick->starvation_casualties = 0;
-          if (($dominion->resource_food + $tick->resource_food_production + $foodNetChange) < 0)
+          if (($dominion->resource_food + $tick->resource_food) < 0)
           {
               $tick->starvation_casualties = 1;
-              $tick->resource_food = max(0, $tick->resource_food);
-          }
-          else
-          {
-              // Food production
-              $tick->resource_food = max(0, $foodNetChange);
-          }
-
-          if($tick->resource_food < 0)
-          {
-              $tick->resource_food = max($tick->resource_food, $dominion->resource_food*-1);
           }
 
           // Morale

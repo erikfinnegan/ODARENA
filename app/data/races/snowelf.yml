@@ -17,7 +17,6 @@ perks:
   invest_bonus: 20
   mana_drain: -50
   max_population: -20
-  morale_on_successful_invasion_from_gryphon_nests: 1
   gryphon_nests_generate_gryphons: 0.1
   can_invest_mana: 0.08
 

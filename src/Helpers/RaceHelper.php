@@ -264,7 +264,7 @@ class RaceHelper
             case 'extra_barracks_housing':
                 $negativeBenefit = false;
                 $description = 'Barracks housing';
-                $valueType = ' units';
+                $valueType = '%';
                 break;
             case 'cannot_build_homes':
                 $negativeBenefit = true;
@@ -496,11 +496,6 @@ class RaceHelper
             case 'yeti_wizards':
                 $negativeBenefit = false;
                 $description = 'Wizards trained from wild yeti';
-                $booleanValue = true;
-                break;
-            case 'morale_on_successful_invasion_from_gryphon_nests':
-                $negativeBenefit = false;
-                $description = '+1% morale on successful invasions for every 1% Gryphon Nests (max 20%)';
                 $booleanValue = true;
                 break;
           case 'gryphon_nests_generate_gryphons':

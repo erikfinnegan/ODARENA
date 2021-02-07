@@ -144,52 +144,7 @@ class PopulationCalculator
     {
         $population = 0;
 
-        // Constructed buildings
-        foreach ($this->buildingHelper->getBuildingTypes($dominion) as $buildingType)
-        {
-            switch ($buildingType)
-            {
-                case 'home':
-                    $housing = 30;
-                    break;
-
-                case 'barracks':
-                    $housing = 0;
-                    break;
-
-                case 'wizard_guild':
-                    $housing = 0;
-                    break;
-
-                case 'forest_haven':
-                    $housing = 0;
-                    break;
-
-                case 'tissue':
-                    $housing = 160;
-                    break;
-
-                case 'mycelia':
-                    $housing = 30;
-                    break;
-
-                case 'ziggurat':
-                    $housing = 18;
-                    break;
-
-                default:
-                    $housing = 15;
-                    break;
-            }
-
-            if($dominion->race->getPerkValue('extra_' . $buildingType . '_housing'))
-            {
-                $housing += $dominion->race->getPerkValue('extra_' . $buildingType . '_housing');
-            }
-
-            $population += ($dominion->{'building_' . $buildingType} * $housing);
-
-        }
+        $population += $dominion->getBuildingPerkValue('housing');
 
         // Constructing buildings
         $population += ($this->queueService->getConstructionQueueTotal($dominion) * 15);
@@ -237,12 +192,6 @@ class PopulationCalculator
         // Land improvements
         $multiplier += $this->landImprovementCalculator->getPopulationBonus($dominion);
 
-        if($dominion->race->getPerkValue('population_from_alchemy'))
-        {
-            $multiplierFromAlchemies = ($dominion->building_alchemy / $this->landCalculator->getTotalLand($dominion)) * $dominion->race->getPerkValue('population_from_alchemy');
-            $multiplier += min(0.30, $multiplierFromAlchemies);
-        }
-
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
 
@@ -254,19 +203,13 @@ class PopulationCalculator
     */
     public function getAvailableHousingFromBarracks(Dominion $dominion): int
     {
-        $unitsPerBarracks = 36;
 
-        if($dominion->race->getPerkValue('extra_barracks_housing'))
-        {
-            $unitsPerBarracks += $dominion->race->getPerkValue('extra_barracks_housing');
-        }
+        $militaryHousingMultiplier = 0;
+        $militaryHousingMultiplier += $dominion->race->getPerkMultiplier('extra_barracks_housing');
+        $militaryHousingMultiplier += $dominion->getTechPerkMultiplier('barracks_housing');
 
-        if($dominion->getTechPerkMultiplier('barracks_housing'))
-        {
-            $unitsPerBarracks *= (1 + $dominion->getTechPerkMultiplier('barracks_housing'));
-        }
+        return round($dominion->getBuildingPerkValue('military_housing') * (1 + $militaryHousingMultiplier));
 
-        return ($dominion->building_barracks * $unitsPerBarracks) + $this->getAvailableHousingFromUnits($dominion);
     }
 
     /*
@@ -274,13 +217,7 @@ class PopulationCalculator
     */
     public function getAvailableHousingFromForestHavens(Dominion $dominion): int
     {
-        $spyUnitsPerForestHaven = 40;
-
-        $spyUnitsPerForestHaven *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts'));
-
-        return ($dominion->building_forest_haven * $spyUnitsPerForestHaven);
-
-        #return $dominion->getBuildingProduction('spy_housing');
+        return $dominion->getBuildingProduction('spy_housing');
     }
 
     /*
@@ -288,13 +225,7 @@ class PopulationCalculator
     */
     public function getAvailableHousingFromWizardGuilds(Dominion $dominion): int
     {
-        $wizUnitsPerWizardGuild = 40;
-
-        $wizUnitsPerWizardGuild *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires'));
-
-        return ($dominion->building_wizard_guild * $wizUnitsPerWizardGuild);
-
-        #return $dominion->getBuildingProduction('wizard_housing');
+        return $dominion->getBuildingProduction('wizard_housing');
     }
 
     /*
@@ -620,52 +551,19 @@ class PopulationCalculator
     public function getEmploymentJobs(Dominion $dominion): int
     {
 
-        $fromBuildings = 0;
-        $fromUnits = 0;
+        $jobs = 0;
 
-        $jobsPerBuilding = 20;
-
-        $jobsPerBuilding *= 1 + $dominion->getTechPerkMultiplier('jobs_per_building');
-
-        $fromBuildings += ($jobsPerBuilding * (
-                $dominion->building_alchemy
-                + $dominion->building_farm
-                + $dominion->building_smithy
-                + $dominion->building_masonry
-                + $dominion->building_ore_mine
-                + $dominion->building_gryphon_nest
-                + $dominion->building_tower
-                + $dominion->building_wizard_guild
-                + $dominion->building_temple
-                + $dominion->building_gem_mine
-                + $dominion->building_school
-                + $dominion->building_lumberyard
-                + $dominion->building_forest_haven
-                + $dominion->building_factory
-                + $dominion->building_guard_tower
-                + $dominion->building_shrine
-                + $dominion->building_dock
-            ));
+        $jobs += $dominion->getBuildingPerkValue('jobs');
 
         for ($slot = 1; $slot <= 4; $slot++)
         {
             if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs'))
             {
-                $fromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs');
+                $jobs += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs');
             }
         }
 
-        $jobsFromBarren = 0;
-        $jobsPerBarrenAcre = 0;
-        $jobsPerBarrenAcre += $dominion->race->getPerkValue('extra_barren_jobs');
-
-        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
-        {
-            $jobsFromBarren += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * ($jobsPerBarrenAcre + $dominion->race->getPerkValue('extra_barren_' . $landType . '_jobs'));
-        }
-
-        # Does not include Homes, Barracks, Ziggurats, Tissue, and Mycelia
-        return ($fromBuildings + $fromUnits + $jobsFromBarren);
+        return $jobs;
     }
 
     /**

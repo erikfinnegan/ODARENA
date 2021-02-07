@@ -13,6 +13,7 @@ use OpenDominion\Services\Dominion\SelectorService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
@@ -38,6 +39,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $selectorService = app(SelectorService::class);
             #$landCalculator = app(LandCalculator::class);
             $techCalculator = app(TechCalculator::class);
+            $productionCalculator = app(ProductionCalculator::class);
 
             if (!$selectorService->hasUserSelectedDominion()) {
                 return;
@@ -79,6 +81,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('newsUnreadCount', $newsUnreadCount);
             $view->with('techCalculator', $techCalculator);
+            $view->with('productionCalculator', $productionCalculator);
         });
 
         view()->composer('partials.main-footer', function (View $view)

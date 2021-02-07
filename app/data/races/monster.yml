@@ -100,4 +100,3 @@ units:
       tech_production: 100
       mana_production: 25
       plunders: food;1000,mana;1000
-      decay_protection: 10000,mana

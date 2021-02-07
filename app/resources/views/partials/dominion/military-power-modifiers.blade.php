@@ -56,8 +56,8 @@
                     </tr>
                     <tr>
                         <td>Buildings:</td>
-                        <td>{{ number_format($militaryCalculator->getGryphonNestMultiplier($selectedDominion) * 100, 2) }}%</td>
-                        <td>{{ number_format($militaryCalculator->getGuardTowerMultiplier($selectedDominion) * 100, 2) }}%</td>
+                        <td>{{ number_format($selectedDominion->getBuildingPerkMultiplier('offensive_power') * 100, 2) }}%</td>
+                        <td>{{ number_format($selectedDominion->getBuildingPerkMultiplier('defensive_power') * 100, 2) }}%</td>
                     </tr>
                     <tr>
                         <td>Faction bonus:</td>
