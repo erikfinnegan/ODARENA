@@ -147,9 +147,7 @@ class TickService
                     $stasisDominions[] = $dominion->id;
                 }
 
-                /*
-                This is probably terrible?
-                */
+                # Take buildings that are one tick away from finished and create or increment DominionBuildings.
                 $finishedBuildingsInQueue = DB::table('dominion_queue')
                                                 ->where('dominion_id',$dominion->id)
                                                 ->where('resource', 'like', 'building%')
@@ -273,6 +271,7 @@ class TickService
                         'dominions.land_hill' => DB::raw('dominions.land_hill + dominion_tick.land_hill'),
                         'dominions.land_water' => DB::raw('dominions.land_water + dominion_tick.land_water'),
 
+                        /*
                         'dominions.discounted_land' => DB::raw('dominions.discounted_land + dominion_tick.discounted_land'),
                         'dominions.building_home' => DB::raw('dominions.building_home + dominion_tick.building_home'),
                         'dominions.building_alchemy' => DB::raw('dominions.building_alchemy + dominion_tick.building_alchemy'),
@@ -297,6 +296,7 @@ class TickService
                         'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
+                        */
 
                         'dominions.stat_total_gold_production' => DB::raw('dominions.stat_total_gold_production + dominion_tick.resource_gold'),
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
@@ -626,13 +626,6 @@ class TickService
             $this->notificationService->queueNotification($notificationType, $resources);
         }
 
-        // Cleanup
-        /*
-        DB::table('dominion_queue')
-            ->where('dominion_id', $dominion->id)
-            ->where('hours', '<=', 0)
-            ->delete();
-        */
 
         DB::transaction(function () use ($dominion)
         {
@@ -698,9 +691,12 @@ class TickService
 
           foreach ($incomingQueue as $row)
           {
-              $tick->{$row->resource} += $row->amount;
-              // Temporarily add next hour's resources for accurate calculations
-              $dominion->{$row->resource} += $row->amount;
+              if(substr($row->resource, 0, strlen('building_')) !== 'building_')
+              {
+                  $tick->{$row->resource} += $row->amount;
+                  // Temporarily add next hour's resources for accurate calculations
+                  $dominion->{$row->resource} += $row->amount;
+              }
           }
 
           # NPC Barbarian: training
@@ -952,71 +948,6 @@ class TickService
                   $availablePopulation -= $unitAmountToGenerate;
               }
 
-
-              // Spirit: Passive generation
-              if($passiveConversionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'passive_conversion'))
-              {
-                  $slotConverting = $slot;
-                  $slotFrom = (int)$passiveConversionPerk[0];
-                  $slotTo = (int)$passiveConversionPerk[1];
-                  $rate = (float)$passiveConversionPerk[2];
-                  $building = (string)$passiveConversionPerk[3];
-
-                  $increaseFromBuilding = ($dominion->{'building_'.$building} / $this->landCalculator->getTotalLand($dominion));
-
-                  /*
-                  *   Determine how many units are to be passively converted:
-                  *   1. Take converting units and apply the rate.
-                  *      This gets us how many units the converting could convert.
-                  *
-                  *   2. See how many source units we have.
-                  */
-
-                  # 1
-                  $convertingUnits = $dominion->{'military_unit'.$slotConverting};
-                  $sourceUnits = $dominion->{'military_unit'.$slotFrom};
-
-                  $sourceUnitsRemoved = (int)round($convertingUnits * $rate);
-                  $targetUnitsAdded = $sourceUnitsRemoved;
-
-                  #dd($sourceUnitsRemoved, $targetUnitsAdded);
-
-                  if($slotTo == 1)
-                  {
-                      $generatedUnit1 += $targetUnitsAdded;
-                  }
-                  elseif($slotTo == 2)
-                  {
-                      $generatedUnit2 += $targetUnitsAdded;
-                  }
-                  elseif($slotTo == 3)
-                  {
-                      $generatedUnit3 += $targetUnitsAdded;
-                  }
-                  elseif($slotTo == 4)
-                  {
-                      $generatedUnit4 += $targetUnitsAdded;
-                  }
-
-                  if($slotFrom == 1)
-                  {
-                      $attritionUnit1 += $sourceUnitsRemoved;
-                  }
-                  elseif($slotFrom == 2)
-                  {
-                      $attritionUnit2 += $sourceUnitsRemoved;
-                  }
-                  elseif($slotFrom == 3)
-                  {
-                      $attritionUnit3 += $sourceUnitsRemoved;
-                  }
-                  elseif($slotFrom == 4)
-                  {
-                      $attritionUnit4 += $sourceUnitsRemoved;
-                  }
-
-              }
-
               // Unit attrition
               if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
               {
@@ -1256,11 +1187,6 @@ class TickService
         $this->precalculateTick($dominion, true);
         $this->logDominionTickState($dominion, now());
 
-
-
-        /*
-        This is probably terrible?
-        */
         $finishedBuildingsInQueue = DB::table('dominion_queue')
                                         ->where('dominion_id',$dominion->id)
                                         ->where('resource', 'like', 'building%')
@@ -1341,6 +1267,7 @@ class TickService
                     'dominions.land_hill' => DB::raw('dominions.land_hill + dominion_tick.land_hill'),
                     'dominions.land_water' => DB::raw('dominions.land_water + dominion_tick.land_water'),
 
+                    /*
                     'dominions.discounted_land' => DB::raw('dominions.discounted_land + dominion_tick.discounted_land'),
                     'dominions.building_home' => DB::raw('dominions.building_home + dominion_tick.building_home'),
                     'dominions.building_alchemy' => DB::raw('dominions.building_alchemy + dominion_tick.building_alchemy'),
@@ -1365,6 +1292,7 @@ class TickService
                     'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
                     'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                     'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
+                    */
 
                     'dominions.stat_total_gold_production' => DB::raw('dominions.stat_total_gold_production + dominion_tick.resource_gold'),
                     'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
@@ -1532,25 +1460,25 @@ class TickService
           'land_hill' => $dominion->land_hill,
           'land_water' => $dominion->land_water,
 
-          'building_home' => $dominion->building_home,
-          'building_alchemy' => $dominion->building_alchemy,
-          'building_farm' => $dominion->building_farm,
-          'building_smithy' => $dominion->building_smithy,
-          'building_masonry' => $dominion->building_masonry,
-          'building_ore_mine' => $dominion->building_ore_mine,
-          'building_gryphon_nest' => $dominion->building_gryphon_nest,
-          'building_tower' => $dominion->building_tower,
-          'building_wizard_guild' => $dominion->building_wizard_guild,
-          'building_temple' => $dominion->building_temple,
-          'building_gem_mine' => $dominion->building_gem_mine,
-          'building_school' => $dominion->building_school,
-          'building_lumberyard' => $dominion->building_lumberyard,
-          'building_forest_haven' => $dominion->building_forest_haven,
-          'building_factory' => $dominion->building_factory,
-          'building_guard_tower' => $dominion->building_guard_tower,
-          'building_shrine' => $dominion->building_shrine,
-          'building_barracks' => $dominion->building_barracks,
-          'building_dock' => $dominion->building_dock,
+          'building_home' => 0,#$dominion->building_home,
+          'building_alchemy' => 0,#$dominion->building_alchemy,
+          'building_farm' => 0,#$dominion->building_farm,
+          'building_smithy' => 0,#$dominion->building_smithy,
+          'building_masonry' => 0,#$dominion->building_masonry,
+          'building_ore_mine' => 0,#$dominion->building_ore_mine,
+          'building_gryphon_nest' => 0,#$dominion->building_gryphon_nest,
+          'building_tower' => 0,#$dominion->building_tower,
+          'building_wizard_guild' => 0,#$dominion->building_wizard_guild,
+          'building_temple' => 0,#$dominion->building_temple,
+          'building_gem_mine' => 0,#$dominion->building_gem_mine,
+          'building_school' => 0,#$dominion->building_school,
+          'building_lumberyard' => 0,#$dominion->building_lumberyard,
+          'building_forest_haven' => 0,#$dominion->building_forest_haven,
+          'building_factory' => 0,#$dominion->building_factory,
+          'building_guard_tower' => 0,#$dominion->building_guard_tower,
+          'building_shrine' => 0,#$dominion->building_shrine,
+          'building_barracks' => 0,#$dominion->building_barracks,
+          'building_dock' => 0,#$dominion->building_dock,
 
           'protection_ticks' => $dominion->protection_ticks,
           'is_locked' => $dominion->is_locked,

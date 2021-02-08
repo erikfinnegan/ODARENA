@@ -3,6 +3,7 @@
 namespace OpenDominion\Helpers;
 
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Building;
 
 class LandHelper
 {

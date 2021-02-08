@@ -222,16 +222,14 @@ class LandCalculator
      */
     public function getTotalLandForRealm(Realm $realm): int
     {
-      $networth = 0;
+      $land = 0;
 
-      // todo: fix line below which generates this query:
-      // select * from "dominions" where "dominions"."realm_id" = '1' and "dominions"."realm_id" is not null
       foreach ($realm->dominions as $dominion)
       {
-          $networth += $this->getTotalLand($dominion);
+          $land += $this->getTotalLand($dominion);
       }
 
-      return $networth;
+      return $land;
   }
 
 }

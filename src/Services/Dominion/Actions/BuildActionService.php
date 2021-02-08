@@ -9,6 +9,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Building;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
@@ -64,13 +65,13 @@ class BuildActionService
      * @return array
      * @throws GameException
      */
-    public function construct(Dominion $dominion, array $data): array
+    public function build(Dominion $dominion, array $data): array
     {
         $this->guardLockedDominion($dominion);
 
         $data = array_only($data, array_map(function ($value) {
             return "building_{$value}";
-        }, $this->buildingHelper->getBuildingTypes($dominion)));
+        }, $this->buildingHelper->getBuildingKeys($dominion)->toArray()));
 
         $data = array_map('\intval', $data);
 
@@ -99,26 +100,33 @@ class BuildActionService
 
         $buildingsByLandType = [];
 
-        foreach ($data as $buildingType => $amount)
+        foreach ($data as $buildingKey => $amount)
         {
-            if ($amount === 0) {
+            if ($amount === 0)
+            {
                 continue;
             }
 
-            if ($amount < 0) {
+            if ($amount < 0)
+            {
                 throw new GameException('Construction was not completed due to bad input.');
             }
 
-            $landType = $this->landHelper->getLandTypeForBuildingByRace(
-                str_replace('building_', '', $buildingType),
-                $dominion->race
-            );
+            $buildingKey = str_replace('building_', '', $buildingKey);
 
-            if (!isset($buildingsByLandType[$landType])) {
-                $buildingsByLandType[$landType] = 0;
+            $building = Building::where('key', $buildingKey)->first();
+            $landType = $building->land_type;
+
+            if(!isset($buildingsByLandType[$landType]))
+            {
+                $buildingsByLandType[$landType] = $amount;
+            }
+            else
+            {
+                $buildingsByLandType[$landType] += $amount;
             }
 
-            $buildingsByLandType[$landType] += $amount;
+
         }
 
         # Get construction materials

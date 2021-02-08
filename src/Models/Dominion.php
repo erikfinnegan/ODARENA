@@ -582,7 +582,6 @@ class Dominion extends AbstractModel
       {
           $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
           $perk = 0;
-          $effect = 0;
 
           foreach ($this->buildings as $building)
           {
@@ -602,7 +601,21 @@ class Dominion extends AbstractModel
 
               if($perkValueString)
               {
+                  # Basic production
                   if(
+                          $perkKey == 'gold_production'
+                          or $perkKey == 'food_production'
+                          or $perkKey == 'ore_production'
+                          or $perkKey == 'lumber_production'
+                          or $perkKey == 'mana_production'
+                          or $perkKey == 'boat_production'
+                          or $perkKey == 'tech_production'
+                      )
+                  {
+                      $perk = (float)$perkValueString;
+                  }
+                  # Mods with ratio, multiplier, and max
+                  elseif(
                           # OP/DP mods
                           $perkKey == 'defensive_power'
                           or $perkKey == 'offensive_power'
@@ -644,7 +657,7 @@ class Dominion extends AbstractModel
                   }
               }
 
-              if ($perkValueString !== 0 and !isset($effect))
+              if (!isset($effect))
               {
                   $perk += $building->pivot->owned * $perkValueString;
               }

@@ -47,22 +47,13 @@ class BuildingController extends AbstractDominionController
         $buildActionService = app(BuildActionService::class);
 
         try {
-            $result = $buildActionService->construct($dominion, $request->get('construct'));
+            $result = $buildActionService->build($dominion, $request->get('build'));
 
         } catch (GameException $e) {
             return redirect()->back()
                 ->withInput($request->all())
                 ->withErrors([$e->getMessage()]);
         }
-
-        // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'construct',
-            '',
-            array_sum($request->get('construct')) // todo: get from $result
-        ));
 
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.buildings');

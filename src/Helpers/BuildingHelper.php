@@ -10,6 +10,13 @@ use OpenDominion\Models\Building;
 class BuildingHelper
 {
 
+    public function getBuildingKeys(Dominion $dominion = null): Collection
+    {
+        return Building::where('enabled',1)->pluck('key');
+    }
+
+
+
     public function getBuildingTypes(Dominion $dominion = null): array
     {
 

@@ -15,10 +15,6 @@
 
         <ul class="sidebar-menu" data-widget="tree">
             @if (isset($selectedDominion))
-
-                <!--
-                <li class="header">GENERAL</li>
-                -->
                 <li class="{{ Route::is('dominion.status') ? 'active' : null }}"><a href="{{ route('dominion.status') }}"><i class="fas fa-map-pin fa-fw"></i> <span>Status</span></a></li>
 
 
@@ -31,10 +27,6 @@
                         @endif
                     </a>
                 </li>
-
-                {{--
-                <li class="{{ Route::is('dominion.advisors.*') ? 'active' : null }}"><a href="{{ route('dominion.advisors') }}"><i class="fa fa-question-circle fa-fw"></i> <span>Advisors</span></a></li>
-                --}}
 
                 <li class="{{ Route::is('dominion.land') ? 'active' : null }}">
                     <a href="{{ route('dominion.land') }}">
@@ -60,7 +52,7 @@
                     </li>
                 @endif
 
-                <!-- Hide Castle from cannot_improve_castle races -->
+                <!-- Hide Improvements from cannot_improve_castle races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
                 <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}">
                   <a href="{{ route('dominion.improvements') }}">
@@ -82,8 +74,6 @@
 
                 <li class="{{ Route::is('dominion.military') ? 'active' : null }}"><a href="{{ route('dominion.military') }}"><i class="ra ra-sword ra-fw"></i> <span>Military</span></a></li>
 
-
-
                 <!-- Hide Invade from cannot_invade races -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_invade'))
                 <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
@@ -99,9 +89,6 @@
                 --}}
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>
 
-                <!--
-                <li class="header">COMMS</li>
-                -->
                 <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fas fa-comments ra-fw"></i>
                   <span>
                     @if($selectedDominion->realm->alignment == 'evil')
@@ -114,14 +101,9 @@
                         Council
                     @endif
                 </span> {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
-                {{--
-                <li class="{{ Route::is('dominion.op-center*') ? 'active' : null }}"><a href="{{ route('dominion.op-center') }}"><i class="fa fa-bullseye ra-fw"></i> <span>Op Center</span></a></li>
-                --}}
+
                 <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
 
-                <!--
-                <li class="header">REALM</li>
-                -->
                 <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a></li>
 
                 <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}">
@@ -132,8 +114,8 @@
                     </a>
                 </li>
 
+                {{--
                 <li class="{{ Route::is('dominion.rankings') ? 'active' : null }}"><a href="{{ route('dominion.rankings') }}"><i class="fa fa-trophy ra-fw"></i> <span>Rankings</span></a></li>
-
                 <li class="{{ Route::is('dominion.notes') ? 'active' : null }}"><a href="{{ route('dominion.notes') }}"><i class="ra ra-quill-ink ra-fw"></i> <span>Notes</span></a></li>
                 <li class="{{ Route::is('dominion.calculations') ? 'active' : null }}">
                     <a href="{{ route('dominion.calculations') }}">
@@ -144,11 +126,9 @@
                         </span>
                     </a>
                 </li>
-
-                {{--<li class="header">MISC</li>--}}
+                --}}
 
                 @if (app()->environment() !== 'production')
-                    <li class="header">SECRET</li>
                     <li class="{{ Request::is('dominion/debug') ? 'active' : null }}"><a href="{{ url('dominion/debug') }}"><i class="ra ra-dragon ra-fw"></i> <span>Debug Page</span></a></li>
                 @endif
 
@@ -157,9 +137,6 @@
                 <li class="{{ Route::is('dashboard') ? 'active' : null }}"><a href="{{ route('dashboard') }}"><i class="ra ra-capitol ra-fw"></i> <span>Select your Dominion</span></a></li>
 
             @endif
-
-{{--            <li class="{{ Route::is('dashboard') ? 'active' : null }}"><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> <span>Dashboard</span></a></li>--}}
         </ul>
-
     </section>
 </aside>

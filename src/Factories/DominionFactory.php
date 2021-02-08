@@ -152,6 +152,8 @@ class DominionFactory
         $startingResources['blood'] = 0;
         $startingResources['wild_yeti'] = 0;
 
+        $startingResources['tech'] = 400 * $hoursSinceRoundStarted;
+
         $startingResources['morale'] = 100;
 
         $startingResources['prestige'] = intval($acresBase/2);
@@ -321,12 +323,6 @@ class DominionFactory
             $startingResources['improvement_harbor'] = 591000;
         }
 
-        // Legion: starting legate.
-        if($race->name == 'Legion')
-        {
-            $startingResources['unit4'] = 1;
-        }
-
         // Spirit: give back gold.
         if($race->name == 'Spirit')
         {
@@ -421,7 +417,7 @@ class DominionFactory
             'resource_mana' => intval($startingResources['mana'] * $startingResourcesMultiplier),
             'resource_ore' => intval($startingResources['ore'] * $startingResourcesMultiplier),
             'resource_gems' => intval($startingResources['gems'] * $startingResourcesMultiplier),
-            'resource_tech' => intval(400 * $hoursSinceRoundStarted),
+            'resource_tech' => intval($startingResources['tech']),
             'resource_boats' => intval($startingResources['boats'] * $startingResourcesMultiplier),
 
             # New resources
@@ -466,6 +462,31 @@ class DominionFactory
             'land_hill' => $startingLand['hill'],
             'land_water' => $startingLand['water'],
 
+
+            'building_home' => 0,
+            'building_alchemy' => 0,
+            'building_farm' => 0,
+            'building_smithy' => 0,
+            'building_masonry' => 0,
+            'building_ore_mine' => 0,
+            'building_gryphon_nest' => 0,
+            'building_tower' => 0,
+            'building_wizard_guild' => 0,
+            'building_temple' => 0,
+            'building_gem_mine' => 0,
+            'building_school' => 0,
+            'building_lumberyard' => 0,
+            'building_forest_haven' => 0,
+            'building_factory' => 0,
+            'building_guard_tower' => 0,
+            'building_shrine' => 0,
+            'building_barracks' => 0,
+            'building_dock' => 0,
+            'building_ziggurat' => 0,
+            'building_tissue' => 0,
+            'building_mycelia' => 0,
+
+            /*
             'building_home' => $startingBuildings['home'],
             'building_alchemy' => 0,
             'building_farm' => $startingBuildings['farm'],
@@ -489,6 +510,7 @@ class DominionFactory
             'building_ziggurat' => $startingBuildings['ziggurat'],
             'building_tissue' => $startingBuildings['tissue'],
             'building_mycelia' => $startingBuildings['mycelia'],
+            */
 
             'npc_modifier' => $startingResources['npc_modifier'],
 
