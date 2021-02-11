@@ -166,6 +166,7 @@ tavern:
   exclusive_races:
     - Dwarf
     - Gnome
+    - Goblin
     - Halfling
     - Human
     - Kerranad

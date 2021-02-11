@@ -693,20 +693,19 @@ class DominionFactory
     {
         # Default
         $startingBuildings = [
-            'tower' => 0,
             'farm' => 0,
-            'lumberyard' => 0,
-            'ziggurat' => 0,
-            'tissue' => 0,
-            'mycelia' => 0,
             'smithy' => 0,
+            'residence' => 0,
+            'lumberyard' => 0,
             'forest_haven' => 0,
             'ore_mine' => 0,
             'gem_mine' => 0,
             'barracks' => 0,
+            'tower' => 0,
             'wizard_guild' => 0,
             'temple' => 0,
             'dock' => 0,
+            'shed' => 0,
         ];
 
         if($race->name == 'Kerranad')
@@ -715,24 +714,15 @@ class DominionFactory
               'farm' => 50,
               'smithy' => 200,
               'residence' => 100,
-
               'lumberyard' => 50,
               'forest_haven' => 25,
-
               'ore_mine' => 100,
               'gem_mine' => 300,
-
               'barracks' => 0,
-
               'tower' => 50,
               'wizard_guild' => 25,
               'temple' => 50,
-
               'dock' => 50,
-
-              'ziggurat' => 0,
-              'tissue' => 0,
-              'mycelia' => 0,
           ];
         }
         # Kerranad
@@ -756,10 +746,6 @@ class DominionFactory
               'temple' => floor($acresBase*0.06),
 
               'dock' => floor($acresBase*0.10),
-
-              'ziggurat' => 0,
-              'tissue' => 0,
-              'mycelia' => 0,
           ];
         }
 
@@ -779,10 +765,10 @@ class DominionFactory
     {
         $startingLand = [
             'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'] + $startingBuildings['smithy'],
-            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ziggurat'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'],
-            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'] + $startingBuildings['tissue'],
+            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'],
+            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'],
             'cavern' => $startingBarrenLand['cavern'],
-            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['forest_haven'] + $startingBuildings['mycelia'],
+            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['forest_haven'],
             'hill' => $startingBarrenLand['hill'] + $startingBuildings['barracks'],
             'water' => $startingBarrenLand['water'] + $startingBuildings['dock'],
         ];
