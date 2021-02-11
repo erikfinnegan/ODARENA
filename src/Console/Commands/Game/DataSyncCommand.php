@@ -109,8 +109,18 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 $newValues = $race->getDirty();
 
-                foreach ($newValues as $key => $newValue) {
-                    $originalValue = $race->getOriginal($key);
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $building->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
 
                     $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
@@ -201,8 +211,18 @@ class DataSyncCommand extends Command implements CommandInterface
                 if ($unit->exists) {
                     $newValues = $unit->getDirty();
 
-                    foreach ($newValues as $key => $newValue) {
-                        $originalValue = $unit->getOriginal($key);
+                    foreach ($newValues as $key => $newValue)
+                    {
+                        $originalValue = $building->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
 
                         $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
@@ -268,8 +288,18 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 $newValues = $tech->getDirty();
 
-                foreach ($newValues as $key => $newValue) {
-                    $originalValue = $tech->getOriginal($key);
+                foreach ($newValues as $key => $newValue)
+                {
+                    $originalValue = $building->getOriginal($key);
+
+                    if(is_array($originalValue))
+                    {
+                        $originalValue = implode(',', $originalValue);
+                    }
+                    if(is_array($newValue))
+                    {
+                        $newValue = implode(',', $newValue);
+                    }
 
                     $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
@@ -479,8 +509,18 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     $newValues = $spell->getDirty();
 
-                    foreach ($newValues as $key => $newValue) {
-                        $originalValue = $spell->getOriginal($key);
+                    foreach ($newValues as $key => $newValue)
+                    {
+                        $originalValue = $building->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
 
                         $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
@@ -547,8 +587,18 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     $newValues = $spyop->getDirty();
 
-                    foreach ($newValues as $key => $newValue) {
-                        $originalValue = $spyop->getOriginal($key);
+                    foreach ($newValues as $key => $newValue)
+                    {
+                        $originalValue = $building->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
 
                         $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
