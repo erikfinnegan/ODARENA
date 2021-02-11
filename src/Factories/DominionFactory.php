@@ -700,7 +700,6 @@ class DominionFactory
             'tissue' => 0,
             'mycelia' => 0,
             'smithy' => 0,
-            'home' => 0,
             'forest_haven' => 0,
             'ore_mine' => 0,
             'gem_mine' => 0,
@@ -742,7 +741,7 @@ class DominionFactory
           $startingBuildings = [
               'farm' => floor($acresBase*0.10),
               'smithy' => floor($acresBase*0.10),
-              'home' => 0,
+              'shed' => 0,
 
               'lumberyard' => floor($acresBase*0.06),
               'forest_haven' => floor($acresBase*0.06),
@@ -788,7 +787,7 @@ class DominionFactory
             'water' => $startingBarrenLand['water'] + $startingBuildings['dock'],
         ];
 
-        $startingLand[$race->home_land_type] += $startingBuildings['home'];
+        $startingLand[$race->home_land_type] += $startingBuildings['residence'] + $startingBuildings['shed'];
 
         return $startingLand;
     }

@@ -161,6 +161,22 @@ temple:
     defensive_modifier_reduction: 1,1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
     population_growth: 1,6 # Every 1%, gives 6%
 
+tavern:
+  name: Tavern
+  exclusive_races:
+    - Dwarf
+    - Gnome
+    - Halfling
+    - Human
+    - Kerranad
+    - Kobold
+    - Norse
+    - Orc
+    - Vampires
+  land_type: plain
+  perks:
+    base_morale: 1,4,30
+
 shrine:
   name: Shrine
   excluded_races:
