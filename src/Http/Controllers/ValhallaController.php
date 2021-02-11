@@ -288,7 +288,7 @@ class ValhallaController extends AbstractController
                 $data = [
                     '#' => null,
                     'dominion' => $dominion->name,
-                    'player' => $dominion->user->display_name,
+                    'player' => $dominion->isAbandoned() ? $dominion->ruler_name . ' (abandoned)' : $dominion->user->display_name,
                 ];
 
                 if ($race === null) {
@@ -529,7 +529,7 @@ class ValhallaController extends AbstractController
                 $data = [
                     '#' => null,
                     'dominion' => $dominion->name,
-                    'player' => $dominion->user->display_name,
+                    'player' => $dominion->isAbandoned() ? $dominion->ruler_name . ' (abandoned)' : $dominion->user->display_name,
                     'faction' => $dominion->race->name,
                     'realm' => $dominion->realm->number,
                     'value' => $dominion->{$stat},
