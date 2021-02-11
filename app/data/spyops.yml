@@ -202,7 +202,7 @@ sabotage_buildings:
     - Goblin
     - Halfling
     - Kerranad
-    - Lizardfolk
+    - Reptilians
     - Myconid
   perks:
     sabotage_buildings: 2 #
@@ -223,7 +223,7 @@ sabotage_walls:
   name: Sabotage Walls
   scope: hostile
   exclusive_races:
-    - Lizardfolk
+    - Reptilians
   perks:
     sabotage_improvement: walls,3 # resource, rate, max per spy
 
@@ -231,7 +231,7 @@ sabotage_forges:
   name: Sabotage Forges
   scope: hostile
   exclusive_races:
-    - Lizardfolk
+    - Reptilians
   perks:
     sabotage_improvement: forges,3 # resource, rate, max per spy
 
@@ -239,6 +239,6 @@ sabotage_harbor:
   name: Sabotage Harbour
   scope: hostile
   exclusive_races:
-    - Lizardfolk
+    - Reptilians
   perks:
     sabotage_improvement: harbor,5 # resource, rate, max per spy

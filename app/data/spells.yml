@@ -413,7 +413,7 @@ regeneration:
   cooldown: 0
   exclusive_races:
     - Troll
-    - Lizardfolk
+    - Reptilians
   perks:
     casualties: -25
 
