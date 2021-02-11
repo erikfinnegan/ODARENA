@@ -413,7 +413,7 @@ class ValhallaController extends AbstractController
                 $data = [
                     '#' => null,
                     'dominion' => $dominion->name,
-                    'player' => $dominion->user->display_name,
+                    'player' => $dominion->user->display_name ? $dominion->user->display_name : 'abandoned',
                 ];
 
                 if ($race === null) {

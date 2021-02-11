@@ -267,6 +267,14 @@ camp:
     unit_cost: 1,2.5,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
     military_housing: 8
 
+blast_furnace:
+  name: Blast Furnace
+  exclusive_races:
+    - Firewalker
+  land_type: mountain
+  perks:
+    extra_units_trained: 1,1,10 # Every 1% gives 1% extra units, mx +10
+
 # HOME ALTERNATIVES
 
 barracks:
