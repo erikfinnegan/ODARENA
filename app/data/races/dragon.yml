@@ -1,7 +1,6 @@
 name: Dragon
 alignment: evil
-description: >-
-  <p>Dragon can only build Homes, Farms, Towers, Ore Mines, Gem Mines, Lumberyards, and Guard Towers.</p>
+description:
 home_land_type: mountain
 playable: 1
 
@@ -10,7 +9,7 @@ exploring : 0
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
+construction_materials: gold,ore
 
 perks:
     gem_production: 10
@@ -88,3 +87,5 @@ units:
       burns_peasants_on_attack: 20
       plunders: food;50,gems;100
       protects_resource_from_theft: gems,50000
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1

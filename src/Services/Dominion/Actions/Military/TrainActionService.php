@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Building;
 use OpenDominion\Models\Tech;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -18,6 +19,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Helpers\RaceHelper;
@@ -42,6 +44,7 @@ class TrainActionService
         $this->trainingCalculator = app(TrainingCalculator::class);
         $this->unitHelper = app(UnitHelper::class);
         $this->raceHelper = app(RaceHelper::class);
+        $this->buildingCalculator = app(BuildingCalculator::class);
 
         $this->improvementCalculator = $improvementCalculator;
         $this->spellCalculator = $spellCalculator;
@@ -268,13 +271,17 @@ class TrainActionService
             if($buildingLimit)
             {
                 // We have building limit for this unit.
-                $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
+                $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
                 $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-                $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
+                # Resource that can raise the limit
+                if(isset($buildingLimit[2]))
+                {
+                    $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $buildingLimit[2]));
+                }
 
-                $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
-
-                $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
+                $building = Building::where('key', $buildingKeyLimitedTo)->first();
+                $dominionBuildings = $this->buildingCalculator->getDominionBuildings($dominion);
+                $amountOfLimitingBuilding = $dominionBuildings->where('building_id', $building->id)->first()->owned;
 
                 $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
 

@@ -923,6 +923,7 @@ curse_of_kinthys:
 
 furnace_maws:
   name: Furnace Maws
+  enabled: 0
   scope: self
   class: passive
   cost: 6

@@ -18,8 +18,6 @@ perks:
   increased_construction_speed: 2
   salvaging: 65
   offense_from_barren: 1 # Gets 1% OP bonus from every 1% barren
-  cannot_build_homes: 1
-  cannot_build_barracks: 1
 units:
   - name: Light Cavalry
     training_time: 9

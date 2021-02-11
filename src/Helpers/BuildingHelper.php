@@ -10,12 +10,20 @@ use OpenDominion\Models\Building;
 class BuildingHelper
 {
 
-    public function getBuildingKeys(Dominion $dominion = null): Collection
+    public function getBuildingKeys(): Collection
     {
         return Building::where('enabled',1)->pluck('key');
     }
 
+    public function getBuildingLandType(Building $building, Race $race): string
+    {
+        if($building->land_type === 'home')
+        {
+            return $race->home_land_type;
+        }
 
+        return $building->land_type;
+    }
 
     public function getBuildingTypes(Dominion $dominion = null): array
     {
@@ -44,32 +52,28 @@ class BuildingHelper
 
         if($dominion !== null)
         {
-          // Ugly, but works.
-          if($dominion->race->name == 'Dragon')
-          {
-            #$forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
-            $buildings = ['home','farm','tower','gem_mine','lumberyard', 'ore_mine','guard_tower'];
-          }
-          if($dominion->race->name == 'Merfolk')
-          {
-            $buildings = ['home','farm','tower','gem_mine','temple','shrine'];
-          }
-          if($dominion->race->name == 'Void')
-          {
-            $buildings = ['ziggurat'];
-          }
-          if($dominion->race->name == 'Growth')
-          {
-            $buildings = ['tissue'];
-          }
-          if($dominion->race->name == 'Myconid')
-          {
-            $buildings = ['mycelia'];
-          }
-          #if($dominion->race->name == 'Swarm')
-          #{
-          #  $buildings = ['tunnels'];
-          #}
+            // Ugly, but works.
+            if($dominion->race->name == 'Dragon')
+            {
+              #$forbiddenBuildings = ['alchemy', 'smithy', 'masonry', 'ore_mine', 'gryphon_nest', 'wizard_guild', 'temple', 'school', 'forest_haven', 'factory', 'guard_tower', 'shrine', 'barracks', 'dock'];
+              $buildings = ['home','farm','tower','gem_mine','lumberyard', 'ore_mine','guard_tower'];
+            }
+            if($dominion->race->name == 'Merfolk')
+            {
+              $buildings = ['home','farm','tower','gem_mine','temple','shrine'];
+            }
+            if($dominion->race->name == 'Void')
+            {
+              $buildings = ['ziggurat'];
+            }
+            if($dominion->race->name == 'Growth')
+            {
+              $buildings = ['tissue'];
+            }
+            if($dominion->race->name == 'Myconid')
+            {
+              $buildings = ['mycelia'];
+            }
         }
 
       return $buildings;
@@ -280,6 +284,8 @@ class BuildingHelper
             'draftee_housing' => 'Houses %s draftees.',
             'peasant_housing' => 'Houses %s peasants.',
 
+            'jobs' => 'Provides %s jobs.',
+
             # Production
             'gold_production' => 'Produces %s gold per tick.',
             'food_production' => 'Produces %s food per tick.',
@@ -300,6 +306,10 @@ class BuildingHelper
             'unit_lumber_costs' => 'Unit lumber costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'unit_mana_costs' => 'Unit mana costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'unit_blood_costs' => 'Unit blood costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
+
+            'morale_gains' => 'Morale gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'base_morale' => 'Base morale increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'prestige_gains' => 'Prestige gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
 
             # OP/DP
             'raw_defense' => 'Provides %s raw defensive power.',

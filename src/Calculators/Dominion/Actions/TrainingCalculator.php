@@ -5,7 +5,9 @@ namespace OpenDominion\Calculators\Dominion\Actions;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Building;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -54,7 +56,8 @@ class TrainingCalculator
           QueueService $queueService,
           SpellCalculator $spellCalculator,
           RaceHelper $raceHelper,
-          PopulationCalculator $populationCalculator
+          PopulationCalculator $populationCalculator,
+          BuildingCalculator $buildingCalculator
           )
     {
         $this->landCalculator = $landCalculator;
@@ -65,6 +68,7 @@ class TrainingCalculator
         $this->spellCalculator = $spellCalculator;
         $this->raceHelper = $raceHelper;
         $this->populationCalculator = $populationCalculator;
+        $this->buildingCalculator = $buildingCalculator;
     }
 
     /**
@@ -344,17 +348,22 @@ class TrainingCalculator
             # Look for building_limit
             if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'building_limit'))
             {
-              $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
-              $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-              $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
+                $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
+                $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
 
-              $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+                # Resource that can raise the limit
+                if(isset($buildingLimit[2]))
+                {
+                    $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $buildingLimit[2]));
+                }
 
-              $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
+                $building = Building::where('key', $buildingKeyLimitedTo)->first();
+                $dominionBuildings = $this->buildingCalculator->getDominionBuildings($dominion);
+                $amountOfLimitingBuilding = $dominionBuildings->where('building_id', $building->id)->first()->owned;
 
-              $maxAdditionalPermittedOfThisUnit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
+                $maxAdditionalPermittedOfThisUnit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
-              $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
+                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
 
             # Look for pairing_limit
@@ -463,21 +472,8 @@ class TrainingCalculator
 
         $racesExemptFromOreDiscountBySmithies = ['Gnome', 'Imperial Gnome'];
 
-        // Smithies
-        if(in_array($resourceType,$discountableResourceTypesBySmithies))
-        {
-          if($resourceType == 'ore' and in_array($dominion->race->name, $racesExemptFromOreDiscountBySmithies))
-          {
-            $multiplier = 0;
-          }
-          elseif($resourceType !== 'lumber')
-          {
-            $multiplier -= min(
-                (($dominion->building_smithy / $this->landCalculator->getTotalLand($dominion)) * $smithiesReduction),
-                ($smithiesReductionMax / 100)
-            );
-          }
-        }
+        // Buildings
+        $multiplier -= $dominion->getBuildingPerkMultiplier('unit_' . $resourceType . '_costs');
 
         // Armory
         if(in_array($resourceType,$discountableResourceTypesByArmory))
@@ -553,6 +549,9 @@ class TrainingCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('spy_cost');
 
+        // Buildings
+        $multiplier -= $dominion->getBuildingPerkMultiplier('spy_cost');
+
         // Cap $multiplier at -50%
         $multiplier = max($multiplier, -0.50);
 
@@ -572,15 +571,11 @@ class TrainingCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('wizard_cost');
 
-        // Values (percentages)
-        $wizardGuildReduction = 2;
-        $wizardGuildReductionMax = 40;
+        // Buildings
+        $multiplier -= $dominion->getBuildingPerkMultiplier('wizard_cost');
 
-        // Wizard Guilds
-        $multiplier -= min(
-            (($dominion->building_wizard_guild / $this->landCalculator->getTotalLand($dominion)) * $wizardGuildReduction),
-            ($wizardGuildReductionMax / 100)
-        );
+        // Cap $multiplier at -100%
+        $multiplier = max($multiplier, -1);
 
         return (1 + $multiplier);
     }

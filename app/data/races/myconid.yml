@@ -22,7 +22,6 @@ perks:
   cannot_invade: 1
   cannot_explore: 1
   can_only_build_mycelia: 1
-  cannot_build_homes: 1
   cannot_join_guards: 1
   peasants_produce_food: 2
   food_decay: -100

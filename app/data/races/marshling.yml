@@ -15,7 +15,6 @@ peasants_alias: bubbler
 draftees_alias: blob
 
 perks:
-  cannot_build_barracks: 1
   gold_production: -50
   max_population: 25
 units:

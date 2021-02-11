@@ -15,9 +15,7 @@ construction_materials: gold,lumber
 perks:
   construction_cost: 15
   max_population: -50
-  cannot_build_homes: 1
   food_consumption: -80
-  cannot_build_wizard_guilds: 1
 units:
 
   - name: Summoner

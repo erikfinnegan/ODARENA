@@ -134,22 +134,11 @@ class LandCalculator
      */
     public function getBarrenLandByLandType(Dominion $dominion): array
     {
-        $buildingTypesbyLandType = $this->buildingHelper->getBuildingTypesByRace($dominion);
+        $landTypes = $this->landHelper->getLandTypes();
+        $availableBuildings = $this->buildingHelper->getBuildingsByRace($dominion->race);
 
-        $return = [];
+        return [];
 
-        foreach ($buildingTypesbyLandType as $landType => $buildingTypes) {
-            $barrenLand = $dominion->{'land_' . $landType};
-
-            foreach ($buildingTypes as $buildingType) {
-                $barrenLand -= $dominion->{"building_{$buildingType}"};
-                $barrenLand -= $this->queueService->getConstructionQueueTotalByResource($dominion, "building_{$buildingType}");
-            }
-
-            $return[$landType] = $barrenLand;
-        }
-
-        return $return;
     }
 
     public function getLandByLandType(Dominion $dominion): array

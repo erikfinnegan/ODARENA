@@ -29,7 +29,6 @@ perks:
   can_only_build_ziggurat: 1
   defense_per_ziggurat: 4
   mana_per_ziggurat: 30
-  cannot_build_homes: 1
 
 units:
   - name: Fallen

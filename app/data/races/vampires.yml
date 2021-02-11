@@ -22,7 +22,6 @@ perks:
   max_population: 40
   food_consumption: -80
   title_bonus: 100
-  cannot_build_barracks: 1
 units:
   - name: Servant
     type:

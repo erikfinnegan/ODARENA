@@ -1803,6 +1803,7 @@ class MilitaryCalculator
      */
     public function getBaseMoraleModifier(Dominion $dominion, int $population): float
     {
+        $modifier = 0;
         $unitsIncreasingMorale = 0;
         $population = max($population, 1);
         # Look for increases_morale
@@ -1815,7 +1816,11 @@ class MilitaryCalculator
             }
         }
 
-        return $unitsIncreasingMorale / $population;
+        $modifier += $unitsIncreasingMorale / $population;
+
+        $modifier += $dominion->getBuildingPerkMultiplier('base_morale');
+
+        return $modifier;
 
     }
 

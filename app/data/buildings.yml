@@ -5,10 +5,16 @@
 home:
   name: Home
   excluded_races:
+    - Armada
+    - Artillery
+    - Dimensionalists
+    - Dragon
+    - Jagunii
     - Growth
     - Myconid
-    - Void
+    - Nomad
     - Swarm
+    - Void
   land_type: home
   perks:
     housing: 30
@@ -17,6 +23,7 @@ barracks:
   name: Barracks
   excluded_races:
     - Armada
+    - Dragon
     - Growth
     - Jagunii
     - Marshling
@@ -46,6 +53,7 @@ alchemy:
 gold_mine:
   name: Gold Mine
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -57,13 +65,33 @@ gold_mine:
 farm:
   name: Farm
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
+    - Reptilians
     - Void
     - Swarm
   land_type: plain
   perks:
     food_production: 80
+
+farmstead:
+  name: Farmstead
+  exclusive_races:
+    - Dragon
+  land_type: mountain
+  perks:
+    food_production: 80
+    housing: 30
+    jobs: 30
+
+bog:
+  name: Bog
+  exclusive_races:
+    - Reptilians
+  land_type: swamp
+  perks:
+    food_production: 100
 
 ore_mine:
   name: Ore Mine
@@ -102,21 +130,31 @@ gem_mine:
 tower:
   name: Tower
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
-    - Void
     - Swarm
+    - Void
   land_type: swamp
   perks:
     mana_production: 25
 
+mast:
+  name: Mast
+  exclusive_races:
+    - Dragon
+  land_type: mountain
+  perks:
+    mana_production: 15
+
 lumberyard:
   name: Lumberyard
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
-    - Void
     - Swarm
+    - Void
   land_type: forest
   perks:
     lumber_production: 50
@@ -124,10 +162,11 @@ lumberyard:
 dock:
   name: Dock
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
-    - Void
     - Swarm
+    - Void
   land_type: water
   perks:
     food_production: 35
@@ -152,6 +191,7 @@ shipyard:
 masonry:
   name: Masonry
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -174,6 +214,7 @@ gryphon_nest:
 military_academy:
   name: Military Academy
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Snow Elf
@@ -186,6 +227,7 @@ military_academy:
 guard_tower:
   name: Guard Tower
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -194,9 +236,19 @@ guard_tower:
   perks:
     defensive_power: 1,1.8,36 # Every 1% gives 2% DP, max +40% DP
 
+stone_wall:
+  name: Stone Wall
+  exclusive_races:
+    - Dragon
+  land_type: mountain
+  perks:
+    defensive_power: 1,1.5,60 # Every 1% gives 1.5% DP, max +40% DP
+    raw_defense: 100
+
 temple:
   name: Temple
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -208,6 +260,7 @@ temple:
 shrine:
   name: Shrine
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -220,6 +273,7 @@ shrine:
 smithy:
   name: Smithy
   excluded_races:
+    - Dragon
     - Gnome
     - Growth
     - Imperial Gnome
@@ -251,6 +305,7 @@ blast_furnace:
 factory:
   name: Factory
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -260,11 +315,29 @@ factory:
     construction_cost: 1,4,80 # 1% gives -4% construction cost, max -80%
     rezone_cost: 1,2,40 # 1% gives -2% construction cost, max -40%
 
+tavern:
+  name: Tavern
+  exclusive_races:
+    - Dwarf
+    - Gnome
+    - Goblin
+    - Halfling
+    - Human
+    - Kerranad
+    - Kobold
+    - Norse
+    - Orc
+    - Vampires
+  land_type: plain
+  perks:
+    base_morale: 1,4,30 # 1% gives +5% construction cost, max +25%
+
 ## Other Buildings
 
 forest_haven:
   name: Forest Haven
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -279,6 +352,8 @@ forest_haven:
 wizard_guild:
   name: Wizard Guild
   excluded_races:
+    - Dragon
+    - Dimensionalists
     - Growth
     - Myconid
     - Void

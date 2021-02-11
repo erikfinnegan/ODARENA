@@ -162,7 +162,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Morale:</td>
-                                        <td>{{ number_format($selectedDominion->morale) }}%</td>
+                                        <td>{{ number_format($selectedDominion->morale) }}% / {{ number_format(100 * (1 + $militaryCalculator->getBaseMoraleModifier($selectedDominion, $populationCalculator->getPopulation($selectedDominion)))) }}%</td>                                 </td>
                                     </tr>
                                     <tr>
                                         <td>

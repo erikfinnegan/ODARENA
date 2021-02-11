@@ -12,6 +12,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Building;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
 use OpenDominion\Services\Dominion\GovernmentService;
@@ -261,28 +262,30 @@ class InvadeActionService
             // Check building_limit
             foreach($units as $unitSlot => $amount)
             {
-                $buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit');
-                if($buildingLimit)
+                if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit')
                 {
-                    // We have building limit for this unit.
-                    $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
+                    $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
                     $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-                    $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
 
-                    $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+                    # Resource that can raise the limit
+                    if(isset($buildingLimit[2]))
+                    {
+                        $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $buildingLimit[2]));
+                    }
 
-                    $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
+                    $building = Building::where('key', $buildingKeyLimitedTo)->first();
+                    $dominionBuildings = $this->buildingCalculator->getDominionBuildings($dominion);
+                    $amountOfLimitingBuilding = $dominionBuildings->where('building_id', $building->id)->first()->owned;
 
-                    $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
+                    $maxSendableOfThisUnit = $amountOfLimitingBuilding * $unitsPerBuilding;
 
-                    if($amount > $upperLimit)
+                    if($amount > $maxSendableOfThisUnit)
                     {
                         throw new GameException('You can at most send ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To send more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your ' . ucwords(str_plural($buildingLimit[2], 3)) . '.');
                     }
                 }
 
-                $buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit_increasable');
-                if($buildingLimit)
+                if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit_increasable'))
                 {
                     // We have building limit for this unit.
                     $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
@@ -860,7 +863,7 @@ class InvadeActionService
         // Demon: racial spell Infernal Fury increases defensive casualties by 20%.
         $casualtiesMultiplier = 1;
 
-        $casualtiesMultiplier *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'increases_casualties_on_offense');;
+        $casualtiesMultiplier *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'increases_casualties_on_offense');
 
         # Dark Elf: Enchanted Blades - increase offensive casualties by offensive WPA * 0.05.
         if ($this->spellCalculator->isSpellActive($dominion, 'enchanted_blades'))

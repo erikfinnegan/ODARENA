@@ -14,9 +14,7 @@ construction_materials: gold,lumber
 perks:
   research_points_per_acre: 25
   prestige_gains: 25
-  cannot_build_homes: 1
   gem_production: 30
-  cannot_build_barracks: 1
   salvaging: 25
 units:
   - name: Javelineer

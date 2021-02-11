@@ -51,8 +51,8 @@
                                                   </span>
                                               </td>
                                               <td class="text-center">
-                                                    @if($dominionBuildings->contains('building_id', $building->id))
-                                                        {{ $dominionBuildings->where('building_id', $building->id)->first()->owned }}
+                                                    @if($buildingCalculator->getBuildingAmountOwned($selectedDominion, $building))
+                                                        {{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}
                                                         <small class="text-muted">({{ number_format(($dominionBuildings->where('building_id', $building->id)->first()->owned / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>
                                                     @else
                                                         0 <small class="text-muted">(0%)</small>
@@ -101,13 +101,13 @@
                                                   </span>
                                               </td>
                                               <td class="text-center">
-                                                    @if($dominionBuildings->contains('building_id', $building->id))
-                                                        {{ $dominionBuildings->where('building_id', $building->id)->first()->owned }}
+                                                    @if($buildingCalculator->getBuildingAmountOwned($selectedDominion, $building))
+                                                        {{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}
                                                         <small class="text-muted">({{ number_format(($dominionBuildings->where('building_id', $building->id)->first()->owned / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>
                                                     @else
                                                         0 <small class="text-muted">(0%)</small>
                                                     @endif
-
+                                                    
                                                     @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
                                                         <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
                                                     @endif
@@ -154,8 +154,8 @@
                                                   </span>
                                               </td>
                                               <td class="text-center">
-                                                    @if($dominionBuildings->contains('building_id', $building->id))
-                                                        {{ $dominionBuildings->where('building_id', $building->id)->first()->owned }}
+                                                    @if($buildingCalculator->getBuildingAmountOwned($selectedDominion, $building))
+                                                        {{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}
                                                         <small class="text-muted">({{ number_format(($dominionBuildings->where('building_id', $building->id)->first()->owned / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>
                                                     @else
                                                         0 <small class="text-muted">(0%)</small>
@@ -204,8 +204,8 @@
                                                   </span>
                                               </td>
                                               <td class="text-center">
-                                                    @if($dominionBuildings->contains('building_id', $building->id))
-                                                        {{ $dominionBuildings->where('building_id', $building->id)->first()->owned }}
+                                                    @if($buildingCalculator->getBuildingAmountOwned($selectedDominion, $building))
+                                                        {{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}
                                                         <small class="text-muted">({{ number_format(($dominionBuildings->where('building_id', $building->id)->first()->owned / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>
                                                     @else
                                                         0 <small class="text-muted">(0%)</small>
@@ -257,8 +257,8 @@
                                                   </span>
                                               </td>
                                               <td class="text-center">
-                                                    @if($dominionBuildings->contains('building_id', $building->id))
-                                                        {{ $dominionBuildings->where('building_id', $building->id)->first()->owned }}
+                                                    @if($buildingCalculator->getBuildingAmountOwned($selectedDominion, $building))
+                                                        {{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}
                                                         <small class="text-muted">({{ number_format(($dominionBuildings->where('building_id', $building->id)->first()->owned / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>
                                                     @else
                                                         0 <small class="text-muted">(0%)</small>
@@ -307,8 +307,8 @@
                                                   </span>
                                               </td>
                                               <td class="text-center">
-                                                    @if($dominionBuildings->contains('building_id', $building->id))
-                                                        {{ $dominionBuildings->where('building_id', $building->id)->first()->owned }}
+                                                    @if($buildingCalculator->getBuildingAmountOwned($selectedDominion, $building))
+                                                        {{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}
                                                         <small class="text-muted">({{ number_format(($dominionBuildings->where('building_id', $building->id)->first()->owned / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>
                                                     @else
                                                         0 <small class="text-muted">(0%)</small>
@@ -334,54 +334,105 @@
         </div>
 
     </div>
-</div>
-<div class="col-sm-12 col-md-3">
-    <div class="box">
-        <div class="box-header with-border">
-            <h3 class="box-title">Information</h3>
-        </div>
-        <div class="box-body">
+    </div>
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Information</h3>
+            </div>
+            <div class="box-body">
 
-            <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
-            @php
-                $constructionMaterials = $raceHelper->getConstructionMaterials($selectedDominion->race);
-                $primaryCost = $constructionCalculator->getConstructionCostPrimary($selectedDominion);
-                $secondaryCost = $constructionCalculator->getConstructionCostSecondary($selectedDominion);
-                $multiplier = $constructionCalculator->getCostMultiplier($selectedDominion);
+                <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
+                @php
+                    $constructionMaterials = $raceHelper->getConstructionMaterials($selectedDominion->race);
+                    $primaryCost = $constructionCalculator->getConstructionCostPrimary($selectedDominion);
+                    $secondaryCost = $constructionCalculator->getConstructionCostSecondary($selectedDominion);
+                    $multiplier = $constructionCalculator->getCostMultiplier($selectedDominion);
 
-                if(count($constructionMaterials) == 2)
-                {
-                    $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . ' and ' . number_format($secondaryCost) . ' ' . $constructionMaterials[1] . '.';
-                }
-                else
-                {
-                    $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . '.';
-                }
+                    if(count($constructionMaterials) == 2)
+                    {
+                        $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . ' and ' . number_format($secondaryCost) . ' ' . $constructionMaterials[1] . '.';
+                    }
+                    else
+                    {
+                        $costString = 'Each building costs ' . number_format($primaryCost) . ' ' . $constructionMaterials[0] . '.';
+                    }
 
-            @endphp
+                @endphp
 
-            <p>
-                {{ $costString }}
+                <p>
+                    {{ $costString }}
 
-                @if($multiplier !== 1)
-                    Your construction costs are
-                    @if($multiplier > 1)
-                        increased
-                    @else
-                        decreased
+                    @if($multiplier !== 1)
+                        Your construction costs are
+                        @if($multiplier > 1)
+                            increased
+                        @else
+                            decreased
+                        @endif
+                        by <strong>{{ number_format(abs(($multiplier-1)*100),2) }}%</strong>.
                     @endif
-                    by <strong>{{ number_format(abs(($multiplier-1)*100),2) }}%</strong>.
-                @endif
-            </p>
+                </p>
 
-            <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
-              and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
-            <p>You may also <a href="{{ route('dominion.demolish') }}">demolish buildings</a> if you wish.</p>
+                <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
+                  and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
+                <p>You may also <a href="{{ route('dominion.demolish') }}">demolish buildings</a> if you wish.</p>
 
-            <a href="{{ route('scribes.construction') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Buildings in the Scribes.</span></a>
+                <a href="{{ route('scribes.construction') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Buildings in the Scribes.</span></a>
+            </div>
         </div>
     </div>
 </div>
+
+<div class="row">
+  <div class="col-sm-12 col-md-9">
+      <div class="box">
+          <div class="box-header with-border">
+              <h3 class="box-title"><i class="fa fa-clock-o"></i> Incoming Buildings</h3>
+          </div>
+          <div class="box-body table-responsive no-padding">
+              <table class="table">
+                  <colgroup>
+                      <col width="200">
+                      @for ($i = 1; $i <= 12; $i++)
+                          <col>
+                      @endfor
+                      <col width="100">
+                  </colgroup>
+                  <thead>
+                      <tr>
+                          <th>Building Type</th>
+                          @for ($i = 1; $i <= 12; $i++)
+                              <th class="text-center">{{ $i }}</th>
+                          @endfor
+                          <th class="text-center">Total</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($availableBuildings as $building)
+                          <tr>
+                              <td>
+                                  <span data-toggle="tooltip" data-placement="top" title="{!! $buildingHelper->getBuildingDescription($building) !!}">
+                                      {{ $building->name }}
+                                  </span>
+                              </td>
+                              @for ($i = 1; $i <= 12; $i++)
+                                  <td class="text-center">
+                                      @if ($queueService->getConstructionQueueAmount($selectedDominion, "building_{$building->key}", $i) === 0)
+                                          -
+                                      @else
+                                          {{ number_format($queueService->getConstructionQueueAmount($selectedDominion, "building_{$building->key}", $i)) }}
+                                      @endif
+                                  </td>
+                              @endfor
+                              <td class="text-center">{{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }}</td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
 </div>
 
 @endsection

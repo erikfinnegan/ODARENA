@@ -624,6 +624,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'offensive_casualties'
 
                           or $perkKey == 'morale_gains'
+                          or $perkKey == 'base_morale'
 
                           # Unit costs
                           or $perkKey == 'unit_gold_costs'
@@ -654,6 +655,20 @@ class Dominion extends AbstractModel
                       $owned = $building->pivot->owned;
 
                       $effect = min($owned / $landSize * $ratio * $multiplier, $max);
+                  }
+                  # Mods with ratio, multiplier, and no max
+                  elseif(
+                          # OP/DP mods
+                          $perkKey == 'improvements'
+                          or $perkKey == 'lightning_bolt_damage'
+                      )
+                  {
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+                      $ratio = (float)$perkValues[0];
+                      $multiplier = (float)$perkValues[1];
+                      $owned = $building->pivot->owned;
+
+                      $effect = $owned / $landSize * $ratio * $multiplier;
                   }
               }
 

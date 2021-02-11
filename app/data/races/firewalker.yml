@@ -12,10 +12,9 @@ skill_level: 1
 construction_materials: gold
 
 perks:
-  lumber_production: -15
-  damage_from_fireballs: -50
-  gem_production: 25
-  max_population: 10
+  damage_from_fireballs: -100
+  max_population: 15
+
 units:
   - name: Fire Sprite
     training_time: 9

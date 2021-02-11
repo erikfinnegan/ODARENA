@@ -304,8 +304,46 @@
               </div>
           </div>
       </div>
-
 </div>
+
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Buildings</h3>
+            </div>
+
+            <div class="box-body table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped">
+                          <colgroup>
+                              <col width="200">
+                              <col width="100">
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>Building</th>
+                                  <th>Land Type</th>
+                                  <th>Perks</th>
+                              </tr>
+                          </thead>
+                          @foreach ($buildings as $building)
+                              <tr>
+                                  <td>{{ $building->name }}</td>
+                                  <td>{{ ucwords($building->land_type) }}</td>
+                                  <td>{!! $buildingHelper->getBuildingDescription($building) !!}</td>
+                              </tr>
+                          @endforeach
+                      </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-sm-12 col-md-5">
         <div class="box">
@@ -343,43 +381,6 @@
               <p><a href="https://lounge.odarena.com/chronicles/factions/{{ $alignment }}/{{ $factionUrlName }}/" target="_blank"><i class="fa fa-book"></i> Read the history of {{ $race->name }} in the Chronicles.</a></p>
 
             </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-12 col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Buildings</h3>
-            </div>
-
-            <div class="box-body table-responsive">
-                <div class="row">
-                    <div class="col-md-12">
-                      <table class="table table-striped">
-                          <colgroup>
-                              <col width="200">
-                              <col width="100">
-                          </colgroup>
-                          <thead>
-                              <tr>
-                                  <th>Building</th>
-                                  <th>Land Type</th>
-                                  <th>Perks</th>
-                              </tr>
-                          </thead>
-                          @foreach ($buildings as $building)
-                              <tr>
-                                  <td>{{ $building->name }}</td>
-                                  <td>{{ ucwords($building->land_type) }}</td>
-                                  <td>{!! $buildingHelper->getBuildingDescription($building) !!}</td>
-                              </tr>
-                          @endforeach
-                      </table>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>

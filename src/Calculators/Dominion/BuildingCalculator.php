@@ -30,23 +30,6 @@ class BuildingCalculator
         $this->queueService = $queueService;
     }
 
-    /**
-     * Returns the Dominion's total number of constructed buildings.
-     *
-     * @param Dominion $dominion
-     * @return int
-     */
-    public function getTotalBuildings(Dominion $dominion): int
-    {
-        $totalBuildings = 0;
-
-        foreach ($this->buildingHelper->getBuildingTypes($dominion) as $buildingType) {
-            $totalBuildings += $dominion->{"building_{$buildingType}"};
-        }
-
-        return $totalBuildings;
-    }
-
     public function getTotalBuildingsForLandType(Dominion $dominion, string $landType): int
     {
         $totalBuildings = 0;
@@ -149,6 +132,23 @@ class BuildingCalculator
     }
 
     # BUILDINGS VERSION 2
+     public function getTotalBuildings(Dominion $dominion): int
+     {
+         $totalBuildings = 0;
+         $dominionBuildings = $this->getDominionBuildings($dominion);
+
+         foreach ($this->buildingHelper->getBuildingKeys($dominion) as $buildingKey)
+         {
+             $buildingId = Building::where('key', $buildingKey)->pluck('id')->first();
+             if($dominionBuildings->contains('building_id', $buildingId))
+             {
+                 $totalBuildings += $dominionBuildings->where('building_id', $buildingId)->first()->owned;
+             }
+         }
+
+         return $totalBuildings;
+     }
+
     public function dominionHasBuilding(Dominion $dominion, string $buildingKey): bool
     {
         $building = Building::where('key', $buildingKey)->first();
@@ -211,6 +211,47 @@ class BuildingCalculator
     public function getDominionBuildings(Dominion $dominion): Collection
     {
         return DominionBuilding::where('dominion_id',$dominion->id)->get();
+    }
+
+    /*
+    *   Returns an integer ($owned) of how many of this building the dominion has.
+    *   Three arguments are permitted and evaluated in order:
+    *   Building $building - if we pass a Building object
+    *   string $buildingKey - if we pass a building key
+    *   int $buildingId - if we pass a building ID
+    *
+    */
+    public function getBuildingAmountOwned(Dominion $dominion, Building $building = null, string $buildingKey = null, int $buildingId = null): int
+    {
+        $owned = 0;
+
+        $dominionBuildings = $this->getDominionBuildings($dominion);
+
+        if($building)
+        {
+            $building = $building;
+        }
+        elseif($buildingKey)
+        {
+            $buildingKey = str_replace('building_', '', $buildingType); # Legacy, in case of building_something is provided
+            $building = Building::where('key', $buildingKey)->first();
+
+        }
+        elseif($buildingId)
+        {
+            $building = Building::where('id', $buildingId)->first();
+        }
+
+        if($dominionBuildings->contains('building_id', $building->id))
+        {
+            return $dominionBuildings->where('building_id', $building->id)->first()->owned;
+        }
+        else
+        {
+            return 0;
+        }
+
+
     }
 
 }

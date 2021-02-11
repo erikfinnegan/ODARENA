@@ -93,7 +93,7 @@ class DominionFactory
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
 
-        $startingResources['protection_ticks'] = 84;
+        $startingResources['protection_ticks'] = 96;
 
         /*  ROUND 17: New Protection:
 
@@ -130,7 +130,6 @@ class DominionFactory
             Cost of building 1,000 acres:
             Gold: 1000 * (1000-250*0.06+250) = 1,235,000
 
-
         */
 
         # RESOURCES
@@ -158,12 +157,9 @@ class DominionFactory
 
         $startingResources['prestige'] = intval($acresBase/2);
 
-        if($race->name !== 'Barbarian')
+        if(Auth::user()->display_name == $rulerName and $race->name !== 'Barbarian')
         {
-            if(Auth::user()->display_name == $rulerName)
-            {
-                $startingResources['prestige'] += 100;
-            }
+            $startingResources['prestige'] += 100;
         }
 
         $startingResources['barbarian_guard_active_at'] = NULL;
@@ -190,48 +186,48 @@ class DominionFactory
         $startingResources['improvement_observatory'] = 0;
         $startingResources['improvement_harbor'] = 0;
 
-        # RACE/FACTION SPECIFIC RESOURCES
+        # FACTION SPECIFIC RESOURCES
 
         // Ore-free races: no ore
         $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Marshling','Qur','Simian','Vampires','Void','Weres');
         if(in_array($race->name, $oreFreeRaces))
         {
-          $startingResources['ore'] = 0;
+            $startingResources['ore'] = 0;
         }
 
         // Food-free races: no food
         if($race->getPerkValue('no_food_consumption'))
         {
-          $startingResources['food'] = 0;
+            $startingResources['food'] = 0;
         }
 
         // Boat-free races: no boats
         $boatFreeRaces = array('Lux','Merfolk','Myconid','Snow Elf','Spirit','Swarm','Dimensionalists','Growth','Lizardfolk','Void');
         if(in_array($race->name, $boatFreeRaces))
         {
-          $startingResources['boats'] = 0;
+            $startingResources['boats'] = 0;
         }
 
         // Mana-cost races: triple Mana
         $manaCostRaces = array('Elementals','Demon','Dimensionalists','Lux','Norse','Snow Elf','Nox','Undead','Void','Icekin','Marshling');
         if(in_array($race->name, $manaCostRaces))
         {
-          $startingResources['mana'] = $startingResources['mana']*3;
+            $startingResources['mana'] = $startingResources['mana']*3;
         }
 
         // For cannot_improve_castle races: replace Gems with Gold.
         if((bool)$race->getPerkValue('cannot_improve_castle'))
         {
-          $startingResources['gold'] += $startingResources['gems'] * 2;
-          $startingResources['gems'] = 0;
+            $startingResources['gold'] += $startingResources['gems'] * 2;
+            $startingResources['gems'] = 0;
         }
 
         // For cannot_construct races: replace half of Lumber with Gold.
         // Still gets plat for troops.
         if((bool)$race->getPerkValue('cannot_construct'))
         {
-          $startingResources['gold'] += $startingResources['lumber'] / 2;
-          $startingResources['lumber'] = 0;
+            $startingResources['gold'] += $startingResources['lumber'] / 2;
+            $startingResources['lumber'] = 0;
         }
 
         # Check construction materials
@@ -254,61 +250,61 @@ class DominionFactory
         // Growth: extra food, no gold, no gems, no lumber, and higher draft rate.
         if($race->name == 'Growth')
         {
-          $startingResources['gold'] = 0;
-          $startingResources['lumber'] = 0;
-          $startingResources['gems'] = 0;
-          $startingResources['food'] = $acresBase * 400;
-          $startingResources['draft_rate'] = 100;
+            $startingResources['gold'] = 0;
+            $startingResources['lumber'] = 0;
+            $startingResources['gems'] = 0;
+            $startingResources['food'] = $acresBase * 400;
+            $startingResources['draft_rate'] = 100;
         }
 
         // Myconid: extra food, no gold; and gets enough Psilocybe for mana production equivalent to 40 Towers
         if($race->name == 'Myconid')
         {
-          $startingResources['gold'] = 0;
-          $startingResources['lumber'] = 0;
-          $startingResources['food'] = $acresBase * 40;
+            $startingResources['gold'] = 0;
+            $startingResources['lumber'] = 0;
+            $startingResources['food'] = $acresBase * 40;
         }
 
         // Demon: extra morale.
         if($race->name == 'Demon')
         {
-          $startingResources['blood'] = 140000;
-          $startingResources['unit4'] = 1;
+            $startingResources['blood'] = 140000;
+            $startingResources['unit4'] = 1;
         }
 
         // Void: gets acres * 4000 mana (as of round 20)
         if($race->name == 'Void')
         {
-          $startingResources['mana'] = 175 * $acresBase;
-          $startingResources['gold'] = 0;
-          $startingResources['mana'] = $acresBase * 3500;
-          $startingResources['lumber'] = 0;
-          $startingResources['gems'] = 0;
+            $startingResources['mana'] = 175 * $acresBase;
+            $startingResources['gold'] = 0;
+            $startingResources['mana'] = $acresBase * 3500;
+            $startingResources['lumber'] = 0;
+            $startingResources['gems'] = 0;
         }
 
         // Lux: double starting mana.
         if($race->name == 'Lux')
         {
-          $startingResources['mana'] *= 2;
+            $startingResources['mana'] *= 2;
         }
 
         // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
         if($race->name == 'Dimensionalists')
         {
-          $startingResources['unit1'] = 400;
-          $startingResources['mana'] *= 2;
+            $startingResources['unit1'] = 400;
+            $startingResources['mana'] *= 2;
         }
 
         // Yeti: starting yetis.
         if($race->name == 'Yeti')
         {
-          $startingResources['food'] *= 2;
-          $startingResources['ore'] += $startingResources['gold'] / 2;
-          $startingResources['food'] += $startingResources['gold'] / 2;
-          $startingResources['lumber'] += $startingResources['gold'] / 2;
-          $startingResources['gold'] = 0;
+            $startingResources['food'] *= 2;
+            $startingResources['ore'] += $startingResources['gold'] / 2;
+            $startingResources['food'] += $startingResources['gold'] / 2;
+            $startingResources['lumber'] += $startingResources['gold'] / 2;
+            $startingResources['gold'] = 0;
 
-          $startingResources['draft_rate'] = 100;
+            $startingResources['draft_rate'] = 100;
         }
 
         // Kerranad: starting imps.
@@ -417,10 +413,8 @@ class DominionFactory
             'resource_mana' => intval($startingResources['mana'] * $startingResourcesMultiplier),
             'resource_ore' => intval($startingResources['ore'] * $startingResourcesMultiplier),
             'resource_gems' => intval($startingResources['gems'] * $startingResourcesMultiplier),
-            'resource_tech' => intval($startingResources['tech']),
+            'resource_tech' => intval($startingResources['tech'] * $startingResourcesMultiplier),
             'resource_boats' => intval($startingResources['boats'] * $startingResourcesMultiplier),
-
-            # New resources
             'resource_champion' => 0,
             'resource_soul' => intval($startingResources['soul'] * $startingResourcesMultiplier),
             'resource_wild_yeti' => intval($startingResources['wild_yeti'] * $startingResourcesMultiplier),
@@ -584,7 +578,7 @@ class DominionFactory
         {
           return [
               'plain' => 0,
-              'mountain' => 0,
+              'mountain' => $acresBase,
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
@@ -597,6 +591,18 @@ class DominionFactory
           return [
               'plain' => 0,
               'mountain' => 0,
+              'swamp' => $acresBase,
+              'cavern' => 0,
+              'forest' => 0,
+              'hill' => 0,
+              'water' => 0,
+          ];
+        }
+        elseif($race->name == 'Dragon')
+        {
+          return [
+              'plain' => 0,
+              'mountain' => $acresBase,
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
@@ -611,7 +617,7 @@ class DominionFactory
               'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
-              'forest' => 0,
+              'forest' => $acresBase,
               'hill' => 0,
               'water' => 0,
           ];
@@ -625,7 +631,7 @@ class DominionFactory
               'cavern' => 0,
               'forest' => 0,
               'hill' => 0,
-              'water' => intval($acresBase-($acresBase*0.08)-($acresBase*0.05)),
+              'water' => $acresBase,
           ];
         }
         elseif($race->name == 'Swarm')
@@ -652,18 +658,6 @@ class DominionFactory
               'water' => 0,
           ];
         }
-        elseif($race->name == 'Monster')
-        {
-          return [
-              'plain' => 175,
-              'mountain' => 175,
-              'swamp' => 175,
-              'cavern' => 0,
-              'forest' => 175,
-              'hill' => 150,
-              'water' => 150,
-          ];
-        }
         elseif($race->name == 'Barbarian')
         {
           return [
@@ -679,13 +673,13 @@ class DominionFactory
         else
         {
             return [
-                'plain' => intval($acresBase*0.2-$acresBase*0.08),
-                'mountain' => intval($acresBase*0.2),
-                'swamp' => intval($acresBase*0.15-$acresBase*0.05),
+                'plain' => 175,
+                'mountain' => 175,
+                'swamp' => 175,
                 'cavern' => 0,
-                'forest' => intval($acresBase*0.150-$acresBase*0.05),
-                'hill' => intval($acresBase*0.2),
-                'water' => intval($acresBase*0.1),
+                'forest' => 175,
+                'hill' => 150,
+                'water' => 150,
             ];
         }
     }
@@ -697,113 +691,26 @@ class DominionFactory
      */
     protected function getStartingBuildings($race, $acresBase): array
     {
-        # Non-construction races (Swarm)
-        if($race->getPerkValue('cannot_construct'))
-        {
-            $startingBuildings = [
-                'tower' => 0,
-                'farm' => 0,
-                'lumberyard' => 0,
-                'ziggurat' => 0,
-                'tissue' => 0,
-                'mycelia' => 0,
-                'smithy' => 0,
-                'home' => 0,
-                'forest_haven' => 0,
-                'ore_mine' => 0,
-                'gem_mine' => 0,
-                'barracks' => 0,
-                'wizard_guild' => 0,
-                'temple' => 0,
-                'dock' => 0,
-            ];
-        }
-        # Void
-        elseif($race->getPerkValue('can_only_build_ziggurat'))
-        {
-          $startingBuildings = [
-              'tower' => 0,
-              'farm' => 0,
-              'lumberyard' => 0,
-              'ziggurat' => $acresBase,
-              'tissue' => 0,
-              'mycelia' => 0,
-              'smithy' => 0,
-              'home' => 0,
-              'forest_haven' => 0,
-              'ore_mine' => 0,
-              'gem_mine' => 0,
-              'barracks' => 0,
-              'wizard_guild' => 0,
-              'temple' => 0,
-              'dock' => 0,
-          ];
-        }
-        # Growth
-        elseif($race->getPerkValue('can_only_build_tissue'))
-        {
-          $startingBuildings = [
-              'tower' => 0,
-              'farm' => 0,
-              'lumberyard' => 0,
-              'ziggurat' => 0,
-              'tissue' => $acresBase,
-              'mycelia' => 0,
-              'smithy' => 0,
-              'home' => 0,
-              'forest_haven' => 0,
-              'ore_mine' => 0,
-              'gem_mine' => 0,
-              'barracks' => 0,
-              'wizard_guild' => 0,
-              'temple' => 0,
-              'dock' => 0,
-          ];
-        }
-        # Myconid
-        elseif($race->getPerkValue('can_only_build_mycelia'))
-        {
-          $startingBuildings = [
-              'tower' => 0,
-              'farm' => 0,
-              'lumberyard' => 0,
-              'ziggurat' => 0,
-              'tissue' => 0,
-              'mycelia' => $acresBase,
-              'smithy' => 0,
-              'home' => 0,
-              'forest_haven' => 0,
-              'ore_mine' => 0,
-              'gem_mine' => 0,
-              'barracks' => 0,
-              'wizard_guild' => 0,
-              'temple' => 0,
-              'dock' => 0,
-          ];
-        }
-        # Merfolk
-        elseif($race->name == 'Merfolk')
-        {
-          $startingBuildings = [
-              'tower' => intval($acresBase*0.05),
-              'farm' => intval($acresBase*0.08),
-              'lumberyard' => 0,
-              'ziggurat' => 0,
-              'tissue' => 0,
-              'mycelia' => 0,
-              'smithy' => 0,
-              'home' => 0,
-              'forest_haven' => 0,
-              'ore_mine' => 0,
-              'gem_mine' => 0,
-              'barracks' => 0,
-              'wizard_guild' => 0,
-              'temple' => 0,
-              'dock' => 0,
-          ];
-        }
-        # Kerranad
-        elseif($race->name == 'Kerranad')
+        # Default
+        $startingBuildings = [
+            'tower' => 0,
+            'farm' => 0,
+            'lumberyard' => 0,
+            'ziggurat' => 0,
+            'tissue' => 0,
+            'mycelia' => 0,
+            'smithy' => 0,
+            'home' => 0,
+            'forest_haven' => 0,
+            'ore_mine' => 0,
+            'gem_mine' => 0,
+            'barracks' => 0,
+            'wizard_guild' => 0,
+            'temple' => 0,
+            'dock' => 0,
+        ];
+
+        if($race->name == 'Kerranad')
         {
           $startingBuildings = [
               'farm' => 50,
@@ -854,27 +761,6 @@ class DominionFactory
               'ziggurat' => 0,
               'tissue' => 0,
               'mycelia' => 0,
-          ];
-        }
-        # Default
-        else
-        {
-          $startingBuildings = [
-              'tower' => intval($acresBase*0.05),
-              'farm' => intval($acresBase*0.08),
-              'lumberyard' => intval($acresBase*0.05),
-              'ziggurat' => 0,
-              'tissue' => 0,
-              'mycelia' => 0,
-              'smithy' => 0,
-              'home' => 0,
-              'forest_haven' => 0,
-              'ore_mine' => 0,
-              'gem_mine' => 0,
-              'barracks' => 0,
-              'wizard_guild' => 0,
-              'temple' => 0,
-              'dock' => 0,
           ];
         }
 

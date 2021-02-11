@@ -1,10 +1,7 @@
 name: Growth
 alignment: independent
 description: >-
-  <ul>
-  <li>Unique building: Tissue - houses 160 and produces 2 food/tick. Starts with 1,000 Tissue.</li>
-  <li>Unique improvement: Tissue - increases population and food production.</li>
-  </ul>
+  <p>Unique improvement: Tissue - increases population and food production.</p>
 home_land_type: swamp
 playable: 1
 
@@ -21,8 +18,6 @@ skill_level: 2
 perks:
   population_growth: 200
   no_food_consumption: 1
-  can_only_build_tissue: 1
-  cannot_build_homes: 1
   cannot_explore: 1
   cannot_train_spies: 1
   cannot_train_wizards: 1

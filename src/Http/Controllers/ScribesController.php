@@ -39,7 +39,7 @@ class ScribesController extends AbstractController
 
         $buildingHelper = app(BuildingHelper::class);
 
-        $buildings = $buildingHelper->getBuildingsByRace($race);
+        $buildings = $buildingHelper->getBuildingsByRace($race)->sortBy('name');
 
         return view('pages.scribes.faction', [
             'landHelper' => app(LandHelper::class),
@@ -83,12 +83,10 @@ class ScribesController extends AbstractController
 
     public function getBuildings()
     {
-        $buildingHelper = app(BuildingHelper::class);
-
         return view('pages.scribes.buildings', [
-            'buildingHelper' => $buildingHelper,
+            'buildingHelper' => app(BuildingHelper::class),
             'landHelper' => app(LandHelper::class),
-            'buildings' => Building::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
+            'buildings' => Building::all()->where('enabled',1)->sortBy('name'),
         ]);
     }
 

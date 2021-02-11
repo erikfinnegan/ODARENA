@@ -8,10 +8,6 @@
             <i class="ra ra-mining-diamonds"></i> Production
         </a>
 
-        <a href="{{ route('dominion.advisors.magic') }}" class="btn btn-app">
-            <i class="ra ra-fairy-wand"></i> Magic
-        </a>
-
         <a href="{{ route('dominion.advisors.statistics') }}" class="btn btn-app">
             <i class="fa fa-chart-bar"></i> Statistics
         </a>
