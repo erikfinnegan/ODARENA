@@ -4,6 +4,7 @@
 
 alchemy:
   name: Alchemy
+  enabled: 0
   excluded_races:
     - Growth
     - Myconid
