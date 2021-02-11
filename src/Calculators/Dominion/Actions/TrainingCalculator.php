@@ -359,7 +359,11 @@ class TrainingCalculator
 
                 $building = Building::where('key', $buildingKeyLimitedTo)->first();
                 $dominionBuildings = $this->buildingCalculator->getDominionBuildings($dominion);
-                $amountOfLimitingBuilding = $dominionBuildings->where('building_id', $building->id)->first()->owned;
+                $amountOfLimitingBuilding = 0;
+                if(isset($dominionBuildings->where('building_id', $building->id)->first()->owned))
+                {
+                    $amountOfLimitingBuilding = $dominionBuildings->where('building_id', $building->id)->first()->owned;
+                }
 
                 $maxAdditionalPermittedOfThisUnit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 

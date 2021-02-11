@@ -79,7 +79,8 @@ units:
       - sentient
       - massive
     cost:
-      gold: 10000
+      gold: 100000
+      mana: 10000
     power:
       offense: 600
       defense: 800
