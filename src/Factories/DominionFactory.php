@@ -189,7 +189,7 @@ class DominionFactory
         # FACTION SPECIFIC RESOURCES
 
         // Ore-free races: no ore
-        $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Lizardfolk','Nox','Undead','Marshling','Qur','Simian','Vampires','Void','Weres');
+        $oreFreeRaces = array('Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Reptilians','Nox','Undead','Marshling','Qur','Simian','Vampires','Void','Weres');
         if(in_array($race->name, $oreFreeRaces))
         {
             $startingResources['ore'] = 0;
@@ -202,7 +202,7 @@ class DominionFactory
         }
 
         // Boat-free races: no boats
-        $boatFreeRaces = array('Lux','Merfolk','Myconid','Snow Elf','Spirit','Swarm','Dimensionalists','Growth','Lizardfolk','Void');
+        $boatFreeRaces = array('Lux','Merfolk','Myconid','Snow Elf','Spirit','Swarm','Dimensionalists','Growth','Reptilians','Void');
         if(in_array($race->name, $boatFreeRaces))
         {
             $startingResources['boats'] = 0;
@@ -715,7 +715,7 @@ class DominionFactory
           $startingBuildings = [
               'farm' => 50,
               'smithy' => 200,
-              'home' => 100,
+              'residence' => 100,
 
               'lumberyard' => 50,
               'forest_haven' => 25,

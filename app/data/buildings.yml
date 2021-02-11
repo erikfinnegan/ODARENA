@@ -470,7 +470,7 @@ monastery:
     military_housing: 10
 
 residence:
-  name: Plain
+  name: Residence
   exclusive_races:
     - Human
     - Kerranad
