@@ -109,11 +109,8 @@ masonry:
 
 gryphon_nest:
   name: Gryphon Nest
-  excluded_races:
-    - Growth
-    - Myconid
-    - Void
-    - Swarm
+  exclusive_races:
+    - Snow Elf
   land_type: mountain
   perks:
     offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
