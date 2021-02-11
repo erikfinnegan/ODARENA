@@ -17,13 +17,23 @@ alchemy:
 farm:
   name: Farm
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
-    - Void
+    - Reptilians
     - Swarm
+    - Void
   land_type: plain
   perks:
     food_production: 80
+
+bog:
+  name: bog
+  exclusive_races:
+    - Reptilians
+  land_type: swamp
+  perks:
+    food_production: 100
 
 ore_mine:
   name: Ore Mine

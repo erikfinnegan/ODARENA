@@ -2,7 +2,7 @@ name: Lizardfolk
 alignment: evil
 description:
 home_land_type: water
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 2
