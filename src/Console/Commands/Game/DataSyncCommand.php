@@ -111,7 +111,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 foreach ($newValues as $key => $newValue)
                 {
-                    $originalValue = $building->getOriginal($key);
+                    $originalValue = $race->getOriginal($key);
 
                     if(is_array($originalValue))
                     {
@@ -213,7 +213,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     foreach ($newValues as $key => $newValue)
                     {
-                        $originalValue = $building->getOriginal($key);
+                        $originalValue = $unit->getOriginal($key);
 
                         if(is_array($originalValue))
                         {
@@ -290,7 +290,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 foreach ($newValues as $key => $newValue)
                 {
-                    $originalValue = $building->getOriginal($key);
+                    $originalValue = $tech->getOriginal($key);
 
                     if(is_array($originalValue))
                     {
@@ -437,8 +437,18 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     $newValues = $title->getDirty();
 
-                    foreach ($newValues as $key => $newValue) {
+                    foreach ($newValues as $key => $newValue)
+                    {
                         $originalValue = $title->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
 
                         $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
@@ -511,7 +521,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     foreach ($newValues as $key => $newValue)
                     {
-                        $originalValue = $building->getOriginal($key);
+                        $originalValue = $spell->getOriginal($key);
 
                         if(is_array($originalValue))
                         {
@@ -589,7 +599,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     foreach ($newValues as $key => $newValue)
                     {
-                        $originalValue = $building->getOriginal($key);
+                        $originalValue = $spyop->getOriginal($key);
 
                         if(is_array($originalValue))
                         {
