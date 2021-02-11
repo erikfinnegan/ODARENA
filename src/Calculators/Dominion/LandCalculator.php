@@ -134,10 +134,29 @@ class LandCalculator
      */
     public function getBarrenLandByLandType(Dominion $dominion): array
     {
+        $barrenLandByLandType = [];
         $landTypes = $this->landHelper->getLandTypes();
         $availableBuildings = $this->buildingHelper->getBuildingsByRace($dominion->race);
+        $dominionBuildings = $this->buildingCalculator->getDominionBuildings($dominion);
 
-        return [];
+        foreach ($landTypes as $landType)
+        {
+            $barrenLandByLandType[$landType] = 0;
+
+            $barren = $dominion->{'land_' . $landType};
+            foreach($availableBuildings->where('land_type',$landType) as $building)
+            {
+                if(isset($dominionBuildings->where('building_id', $building->id)->first()->owned) and $dominionBuildings->where('building_id', $building->id)->first()->owned > 0)
+                {
+                    $barren -= $dominionBuildings->where('building_id', $building->id)->first()->owned;
+                }
+
+            }
+
+            $barrenLandByLandType[$landType] += $barren;
+        }
+
+        return $barrenLandByLandType;
 
     }
 

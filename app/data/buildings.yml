@@ -1,46 +1,9 @@
 # Standard Buildings
 
-## Housing Buildings
-
-home:
-  name: Home
-  excluded_races:
-    - Armada
-    - Artillery
-    - Dimensionalists
-    - Dragon
-    - Jagunii
-    - Growth
-    - Myconid
-    - Nomad
-    - Swarm
-    - Void
-  land_type: home
-  perks:
-    housing: 30
-
-barracks:
-  name: Barracks
-  excluded_races:
-    - Armada
-    - Dragon
-    - Growth
-    - Jagunii
-    - Marshling
-    - Myconid
-    - Nomad
-    - Swarm
-    - Vampires
-    - Void
-  land_type: hill
-  perks:
-    military_housing: 36
-
 ## Production Buildings
 
 alchemy:
   name: Alchemy
-  enabled: 0
   excluded_races:
     - Growth
     - Myconid
@@ -50,48 +13,16 @@ alchemy:
   perks:
     gold_production: 45
 
-gold_mine:
-  name: Gold Mine
-  excluded_races:
-    - Dragon
-    - Growth
-    - Myconid
-    - Void
-    - Swarm
-  land_type: plain
-  perks:
-    gold_production: 50
-
 farm:
   name: Farm
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
-    - Reptilians
     - Void
     - Swarm
   land_type: plain
   perks:
     food_production: 80
-
-farmstead:
-  name: Farmstead
-  exclusive_races:
-    - Dragon
-  land_type: mountain
-  perks:
-    food_production: 80
-    housing: 30
-    jobs: 30
-
-bog:
-  name: Bog
-  exclusive_races:
-    - Reptilians
-  land_type: swamp
-  perks:
-    food_production: 100
 
 ore_mine:
   name: Ore Mine
@@ -130,31 +61,21 @@ gem_mine:
 tower:
   name: Tower
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
-    - Swarm
     - Void
+    - Swarm
   land_type: swamp
   perks:
     mana_production: 25
 
-mast:
-  name: Mast
-  exclusive_races:
-    - Dragon
-  land_type: mountain
-  perks:
-    mana_production: 15
-
 lumberyard:
   name: Lumberyard
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
-    - Swarm
     - Void
+    - Swarm
   land_type: forest
   perks:
     lumber_production: 50
@@ -162,36 +83,20 @@ lumberyard:
 dock:
   name: Dock
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
-    - Swarm
     - Void
+    - Swarm
   land_type: water
   perks:
-    food_production: 35
     boat_production: 0.05
     boat_protection: 2.5
-
-shipyard:
-  name: Shipyard
-  exclusive_races:
-    - Armada
-    - Black Orc
-    - Human
-    - Kerranad
-    - Orc
-  land_type: water
-  perks:
-    boat_production: 1
-    boat_protection: 10
 
 ## Mod Buildings
 
 masonry:
   name: Masonry
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
     - Void
@@ -204,22 +109,23 @@ masonry:
 
 gryphon_nest:
   name: Gryphon Nest
-  exclusive_races:
-    - Snow Elf
+  excluded_races:
+    - Growth
+    - Myconid
+    - Void
+    - Swarm
   land_type: mountain
   perks:
     offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
-    morale_gains: 1,1,20 # Every 1% GN gives +1% morale, max +20
 
 military_academy:
   name: Military Academy
+  enabled: 0
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
-    - Snow Elf
-    - Swarm
     - Void
+    - Swarm
   land_type: hill
   perks:
     offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
@@ -227,7 +133,6 @@ military_academy:
 guard_tower:
   name: Guard Tower
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
     - Void
@@ -236,19 +141,9 @@ guard_tower:
   perks:
     defensive_power: 1,1.8,36 # Every 1% gives 2% DP, max +40% DP
 
-stone_wall:
-  name: Stone Wall
-  exclusive_races:
-    - Dragon
-  land_type: mountain
-  perks:
-    defensive_power: 1,1.5,60 # Every 1% gives 1.5% DP, max +40% DP
-    raw_defense: 100
-
 temple:
   name: Temple
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
     - Void
@@ -256,24 +151,23 @@ temple:
   land_type: swamp
   perks:
     defensive_modifier_reduction: 1,1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
+    population_growth: 1,6 # Every 1%, gives 6%
 
 shrine:
   name: Shrine
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
     - Void
     - Swarm
   land_type: forest
   perks:
-    defensive_casualties: 1,5,10 # 1% gives -1% max -10%
+    defensive_casualties: 1,1,10 # 1% gives -1% max -10%
     offensive_casualties: 1,5,50 # 1% gives -5%, max -50%
 
 smithy:
   name: Smithy
   excluded_races:
-    - Dragon
     - Gnome
     - Growth
     - Imperial Gnome
@@ -285,8 +179,8 @@ smithy:
     unit_gold_costs: 1,2,40 # ratio, perk, max
     unit_ore_costs: 1,2,40 # ratio, perk, max
 
-gnomish_smithy:
-  name: Gnomish Smithy
+ore_mill:
+  name: Smithy
   exclusive_races:
     - Gnome
     - Imperial Gnome
@@ -294,18 +188,9 @@ gnomish_smithy:
   perks:
     unit_gold_costs: 1,2,40 # ratio, perk, max
 
-blast_furnace:
-  name: Blast Furnace
-  exclusive_races:
-    - Firewalker
-  land_type: mountain
-  perks:
-    extra_units_trained: 1,1,25 # ratio, perk, max
-
 factory:
   name: Factory
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
     - Void
@@ -315,29 +200,11 @@ factory:
     construction_cost: 1,4,80 # 1% gives -4% construction cost, max -80%
     rezone_cost: 1,2,40 # 1% gives -2% construction cost, max -40%
 
-tavern:
-  name: Tavern
-  exclusive_races:
-    - Dwarf
-    - Gnome
-    - Goblin
-    - Halfling
-    - Human
-    - Kerranad
-    - Kobold
-    - Norse
-    - Orc
-    - Vampires
-  land_type: plain
-  perks:
-    base_morale: 1,4,30 # 1% gives +5% construction cost, max +25%
-
 ## Other Buildings
 
 forest_haven:
   name: Forest Haven
   excluded_races:
-    - Dragon
     - Growth
     - Myconid
     - Void
@@ -352,8 +219,6 @@ forest_haven:
 wizard_guild:
   name: Wizard Guild
   excluded_races:
-    - Dragon
-    - Dimensionalists
     - Growth
     - Myconid
     - Void
@@ -396,11 +261,227 @@ mycelia:
 
 camp:
   name: Camp
-  enabled: 1
+  enabled: 0
   exclusive_races:
     - Beastfolk
   land_type: forest
   perks:
-    unit_gold_costs: 1,2.5,50 # ratio, perk, max
-    unit_ore_costs: 1,2,40 # ratio, perk, max
+    unit_cost: 1,2.5,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
     military_housing: 8
+
+# HOME ALTERNATIVES
+
+barracks:
+  name: Barracks
+  excluded_races:
+    - Armada
+    - Growth
+    - Jagunii
+    - Marshling
+    - Myconid
+    - Nomad
+    - Swarm
+    - Vampires
+    - Void
+  land_type: hill
+  perks:
+    military_housing: 36
+
+home:
+  name: Home
+  enabled: 0
+  land_type: plain
+  perks:
+    housing: 30
+
+abode:
+  name: Abode
+  exclusive_races:
+    - Nox
+  land_type: swamp
+  perks:
+    housing: 30
+
+beacon:
+  name: Beacon
+  exclusive_races:
+    - Lux
+  land_type: water
+  perks:
+    housing: 30
+
+cave:
+  name: Cave
+  exclusive_races:
+    - Troll
+    - Yeti
+  land_type: mountain
+  perks:
+    housing: 30
+
+chamber:
+  name: Chamber
+  exclusive_races:
+    - Dark Elf
+    - Demon
+    - Dwarf
+    - Gnome
+    - Imperial Gnome
+  land_type: mountain
+  perks:
+    housing: 30
+
+colony:
+  name: Colony
+  exclusive_races:
+    - Ants
+  land_type: forest
+  perks:
+    housing: 30
+
+coral_reef:
+  name: Coral Reef
+  exclusive_races:
+    - Merfolk
+  land_type: water
+  perks:
+    housing: 30
+
+dwelling:
+  name: Dwelling
+  exclusive_races:
+    - Afflicted
+    - Goblin
+    - Halfling
+    - Kobold
+  land_type: hill
+  perks:
+    housing: 30
+
+estate:
+  name: Estate
+  exclusive_races:
+    - Cult
+    - Qur
+  land_type: forest
+  perks:
+    housing: 30
+    jobs: 10
+
+farmstead:
+  name: Farmstead
+  exclusive_races:
+    - Dragon
+  land_type: mountain
+  perks:
+    housing: 30
+    jobs: 30
+    food_production: 80
+
+grove:
+  name: Grove
+  exclusive_races:
+    - Beastfolk
+    - Simian
+    - Sylvan
+    - Weres
+    - Wood Elf
+  land_type: forest
+  perks:
+    housing: 30
+
+hall:
+  name: Hall
+  exclusive_races:
+    - Icekin
+    - Snow Elf
+  land_type: mountain
+  perks:
+    housing: 30
+
+incinerator:
+  name: Incinerator
+  exclusive_races:
+    - Firewalker
+  land_type: mountain
+  perks:
+    housing: 30
+    population_growth: 1,3 # Every 1%, gives 3%
+
+orcish_longhouse:
+  name: Longhouse
+  exclusive_races:
+    - Orc
+    - Black Orc
+  land_type: forest
+  perks:
+    housing: 20
+    military_housing: 20
+
+norse_longhouse:
+  name: Longhouse
+  exclusive_races:
+    - Norse
+  land_type: forest
+  perks:
+    housing: 20
+    military_housing: 20
+
+mansion:
+  name: Mansion
+  exclusive_races:
+    - Vampires
+  land_type: forest
+  perks:
+    housing: 30
+    jobs: 10
+
+mire:
+  name: Mire
+  exclusive_races:
+    - Reptilians
+  land_type: swamp
+  perks:
+    housing: 30
+
+monastery:
+  name: Monastery
+  exclusive_races:
+    - Sacred Order
+  land_type: plain
+  perks:
+    housing: 30
+    military_housing: 10
+
+residence:
+  name: Plain
+  exclusive_races:
+    - Human
+    - Kerranad
+  land_type: plain
+  perks:
+    housing: 30
+
+sanctuary:
+  name: Sanctuary
+  exclusive_races:
+    - Spirit
+  land_type: water
+  perks:
+    housing: 30
+
+shed:
+  name: Shed
+  exclusive_races:
+    - Barbarian
+  land_type: forest
+  perks:
+    housing: 30
+
+tomb:
+  name: Tomb
+  exclusive_races:
+    - Undead
+  land_type: swamp
+  perks:
+    housing: 30
