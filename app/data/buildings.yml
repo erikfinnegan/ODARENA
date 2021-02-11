@@ -28,7 +28,7 @@ farm:
     food_production: 80
 
 bog:
-  name: bog
+  name: Bog
   exclusive_races:
     - Reptilians
   land_type: swamp
