@@ -149,6 +149,7 @@ class LandCalculator
                 if(isset($dominionBuildings->where('building_id', $building->id)->first()->owned) and $dominionBuildings->where('building_id', $building->id)->first()->owned > 0)
                 {
                     $barren -= $dominionBuildings->where('building_id', $building->id)->first()->owned;
+                    $barren -= $this->queueService->getConstructionQueueTotalByResource($dominion, "building_{$building->key}");
                 }
 
             }
