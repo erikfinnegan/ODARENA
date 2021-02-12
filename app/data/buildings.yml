@@ -85,6 +85,7 @@ gem_mine:
 tower:
   name: Tower
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -104,6 +105,7 @@ mast:
 lumberyard:
   name: Lumberyard
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -115,6 +117,7 @@ lumberyard:
 dock:
   name: Dock
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -129,6 +132,7 @@ dock:
 masonry:
   name: Masonry
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -150,6 +154,7 @@ gryphon_nest:
 military_academy:
   name: Military Academy
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Swarm
@@ -161,6 +166,7 @@ military_academy:
 guard_tower:
   name: Guard Tower
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -172,6 +178,7 @@ guard_tower:
 temple:
   name: Temple
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -210,6 +217,7 @@ stone_wall:
 shrine:
   name: Shrine
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -222,6 +230,7 @@ shrine:
 smithy:
   name: Smithy
   excluded_races:
+    - Dragon
     - Gnome
     - Growth
     - Imperial Gnome
@@ -245,6 +254,7 @@ ore_mill:
 factory:
   name: Factory
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -259,6 +269,7 @@ factory:
 forest_haven:
   name: Forest Haven
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -273,6 +284,7 @@ forest_haven:
 wizard_guild:
   name: Wizard Guild
   excluded_races:
+    - Dragon
     - Growth
     - Myconid
     - Void
@@ -337,6 +349,7 @@ barracks:
   name: Barracks
   excluded_races:
     - Armada
+    - Dragon
     - Growth
     - Jagunii
     - Marshling
