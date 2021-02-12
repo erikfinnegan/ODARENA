@@ -140,9 +140,9 @@ class DominionFactory
 
         $startingResources['gems'] = 20000;
 
-        $startingResources['lumber'] = 200000; # For buildings
+        $startingResources['lumber'] = 200000 * 1.5; # For buildings | Round 40: 1.5x
 
-        $startingResources['food'] = 50000; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later.
+        $startingResources['food'] = 50000 * 2.5; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later. | Round 40: 2.5x
         $startingResources['mana'] = 20000; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
 
         $startingResources['boats'] = 100;
