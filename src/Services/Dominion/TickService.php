@@ -1037,7 +1037,8 @@ class TickService
               $gryphonSlot = 4;
               $newGryphons = 0;
               $maxGryphonNestsPercentage = 0.20;
-              $gryphonNestsPercentage = min($maxGryphonNestsPercentage, ($dominion->building_gryphon_nest / $this->landCalculator->getTotalLand($dominion)));
+              $gryphonNestsOwned = $this->buildingCalculator->getBuildingAmountOwned($dominion, null, 'gryphon_nest', null);
+              $gryphonNestsPercentage = min($maxGryphonNestsPercentage, ($gryphonNestsOwned / $this->landCalculator->getTotalLand($dominion)));
 
               $gryphonNests = floor($gryphonNestsPercentage * $this->landCalculator->getTotalLand($dominion));
               $gryphonsMax = $gryphonNests * 1 * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion));

@@ -20,6 +20,7 @@ gold_mine:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -32,6 +33,7 @@ farm:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Reptilians
     - Swarm
@@ -92,6 +94,7 @@ gem_mine:
   name: Gem Mine
   excluded_races:
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -99,11 +102,54 @@ gem_mine:
   perks:
     gem_production: 15
 
+pearl_farm:
+  name: Pearl Farm
+  exclusive_races:
+    - Merfolk
+  land_type: water
+  perks:
+    gem_production: 15
+
+algae_bloom:
+  name: Algae Bloom
+  exclusive_races:
+    - Merfolk
+  land_type: water
+  perks:
+    food_production: 80
+
+sunken_shrine:
+  name: Sunken Shrine
+  exclusive_races:
+    - Merfolk
+  land_type: water
+  perks:
+    defensive_casualties: 1,5,50 # 1% gives -5%, max -50%
+    offensive_casualties: 1,5,50 # 1% gives -5%, max -50%
+
+water_temple:
+  name: Water Temple
+  exclusive_races:
+    - Merfolk
+  land_type: water
+  perks:
+    defensive_casualties: 1,5,50 # 1% gives -5%, max -50%
+    offensive_casualties: 1,5,50 # 1% gives -5%, max -50%
+
+mana_spring:
+  name: Mana Spring
+  exclusive_races:
+    - Merfolk
+  land_type: water
+  perks:
+    mana_production: 25
+
 tower:
   name: Tower
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -122,8 +168,14 @@ mast:
 lumberyard:
   name: Lumberyard
   excluded_races:
+    - Dwarf
     - Dragon
+    - Firewalker
+    - Gnome
     - Growth
+    - Icekin
+    - Imperial Gnome
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -153,6 +205,7 @@ masonry:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -175,6 +228,7 @@ military_academy:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Snow Elf
     - Swarm
@@ -188,6 +242,7 @@ guard_tower:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -200,6 +255,7 @@ temple:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -239,12 +295,13 @@ shrine:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
   land_type: forest
   perks:
-    defensive_casualties: 1,1,10 # 1% gives -1% max -10%
+    defensive_casualties: 1,5,50 # 1% gives -1% max -10%
     offensive_casualties: 1,5,50 # 1% gives -5%, max -50%
 
 smithy:
@@ -254,6 +311,7 @@ smithy:
     - Gnome
     - Growth
     - Imperial Gnome
+    - Merfolk
     - Myconid
     - Swarm
     - Void
@@ -276,6 +334,7 @@ factory:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -291,6 +350,7 @@ forest_haven:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -306,6 +366,7 @@ wizard_guild:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
     - Void
     - Swarm
@@ -373,6 +434,7 @@ barracks:
     - Growth
     - Jagunii
     - Marshling
+    - Merfolk
     - Myconid
     - Nomad
     - Swarm

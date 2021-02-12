@@ -1,7 +1,6 @@
 name: Merfolk
 alignment: independent
-description: >-
-  <p>Merfolk can only build Homes, Farms, Towers, Temples, Gem Mines, and Shrines, all of which are built in water and only cost gold to construct.</p>
+description: 
 home_land_type: water
 playable: 1
 

@@ -233,7 +233,7 @@ class BuildingCalculator
         }
         elseif($buildingKey)
         {
-            $buildingKey = str_replace('building_', '', $buildingType); # Legacy, in case of building_something is provided
+            $buildingKey = str_replace('building_', '', $buildingKey); # Legacy, in case of building_something is provided
             $building = Building::where('key', $buildingKey)->first();
 
         }
