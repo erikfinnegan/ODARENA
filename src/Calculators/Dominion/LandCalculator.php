@@ -149,8 +149,8 @@ class LandCalculator
                 if(isset($dominionBuildings->where('building_id', $building->id)->first()->owned) and $dominionBuildings->where('building_id', $building->id)->first()->owned > 0)
                 {
                     $barren -= $dominionBuildings->where('building_id', $building->id)->first()->owned;
-                    $barren -= $this->queueService->getConstructionQueueTotalByResource($dominion, "building_{$building->key}");
                 }
+                $barren -= $this->queueService->getConstructionQueueTotalByResource($dominion, "building_{$building->key}");
 
             }
 
@@ -164,7 +164,8 @@ class LandCalculator
     public function getLandByLandType(Dominion $dominion): array
     {
         $return = [];
-        foreach ($this->landHelper->getLandTypes() as $landType) {
+        foreach ($this->landHelper->getLandTypes() as $landType)
+        {
             $return[$landType] = $dominion->{"land_{$landType}"};
         }
 
