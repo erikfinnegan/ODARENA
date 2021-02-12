@@ -706,6 +706,10 @@ class DominionFactory
             'temple' => 0,
             'dock' => 0,
             'shed' => 0,
+
+            'tissue' => 0,
+            'mycelia' => 0,
+            'ziggurat' => 0,
         ];
 
         if($race->name == 'Kerranad')
@@ -725,27 +729,37 @@ class DominionFactory
               'dock' => 50,
           ];
         }
-        # Kerranad
+        elseif($race->name == 'Growth')
+        {
+          $startingBuildings['tissue'] = $acresBase;
+        }
+        elseif($race->name == 'Myconid')
+        {
+          $startingBuildings['mycelia'] = $acresBase;
+        }
+        elseif($race->name == 'Void')
+        {
+          $startingBuildings['ziggurat'] = $acresBase;
+        }
         elseif($race->name == 'Barbarian')
         {
           $startingBuildings = [
               'farm' => floor($acresBase*0.10),
               'smithy' => floor($acresBase*0.10),
               'shed' => 0,
-
               'lumberyard' => floor($acresBase*0.06),
               'forest_haven' => floor($acresBase*0.06),
-
               'ore_mine' => floor($acresBase*0.10),
               'gem_mine' => floor($acresBase*0.10),
-
               'barracks' => floor($acresBase*0.20),
-
               'tower' => floor($acresBase*0.06),
               'wizard_guild' => 0,
               'temple' => floor($acresBase*0.06),
-
               'dock' => floor($acresBase*0.10),
+
+              'tissue' => 0,
+              'mycelia' => 0,
+              'ziggurat' => 0,
           ];
         }
 

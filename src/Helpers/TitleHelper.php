@@ -20,28 +20,28 @@ class TitleHelper
                 $description = 'Training costs:';
                 $valueType = '% gold, ore, lumber, food, and mana costs';
                 break;
-            case 'military_cost':
+            case 'military_costs':
                 $negativeBenefit = true;
                 $description = 'Training costs:';
                 $valueType = '% gold, ore, lumber, food, and mana costs';
                 break;
-            case 'unit_gold_cost':
+            case 'unit_gold_costs':
                 $negativeBenefit = true;
                 $description = 'Unit gold costs:';
                 break;
-            case 'unit_ore_cost':
+            case 'unit_ore_costs':
                 $negativeBenefit = true;
                 $description = 'Unit ore costs:';
                 break;
-            case 'unit_lumber_cost':
+            case 'unit_lumber_costs':
                 $negativeBenefit = true;
                 $description = 'Unit lumber costs:';
                 break;
-            case 'unit_mana_cost':
+            case 'unit_mana_costs':
                 $negativeBenefit = true;
                 $description = 'Unit mana costs:';
                 break;
-            case 'unit_food_cost':
+            case 'unit_food_costs':
                 $negativeBenefit = true;
                 $description = 'Unit food costs:';
                 break;

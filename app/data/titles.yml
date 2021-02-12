@@ -1,11 +1,11 @@
 commander:
   name: Commander
   perks:
-    unit_gold_cost: -5
-    unit_ore_cost: -5
-    unit_lumber_cost: -2
-    unit_mana_cost: -2
-    unit_food_cost: -2
+    unit_gold_costs: -5
+    unit_ore_costs: -5
+    unit_lumber_costs: -2
+    unit_mana_costs: -2
+    unit_food_costs: -2
 
 conjurer:
   name: Conjurer

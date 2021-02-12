@@ -468,7 +468,6 @@ class TrainingCalculator
         $discountableResourceTypesBySmithies = ['gold', 'ore'];
         $discountableResourceTypesByArmory = ['gold', 'ore'];
         $discountableResourceTypesByTech = ['gold', 'ore', 'lumber'];
-        $discountableResourceTypesByTitle = ['gold', 'ore', 'lumber', 'mana', 'food'];
         $discountableResourceTypesByUnitBonus = ['gold', 'ore', 'lumber', 'mana', 'food'];
 
         $discountableResourceTypesByTechFood = ['food'];
@@ -511,11 +510,7 @@ class TrainingCalculator
         // Title
         if(isset($dominion->title))
         {
-            if(in_array($resourceType,$discountableResourceTypesByTitle))
-            {
-                #$multiplier += $dominion->title->getPerkMultiplier('military_cost') * $dominion->title->getPerkBonus($dominion);
-                $multiplier += $dominion->title->getPerkMultiplier('unit_' . $resourceType . '_costs') * $dominion->title->getPerkBonus($dominion);
-            }
+            $multiplier += $dominion->title->getPerkMultiplier('unit_' . $resourceType . '_costs') * $dominion->title->getPerkBonus($dominion);
         }
 
         if(in_array($resourceType,$discountableResourceTypesByTechFood))
