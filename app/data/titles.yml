@@ -77,5 +77,5 @@ merchant:
 general:
   name: General
   perks:
-    prestige_gains: 25
+    prestige_gains: 10
     morale_gains: 25

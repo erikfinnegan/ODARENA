@@ -58,7 +58,7 @@
                                                         <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
                                                     @endif
                                               </td>
-                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
+                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
                                           </tr>
                                       @endforeach
                                 </tbody>
@@ -107,7 +107,7 @@
                                                         <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
                                                     @endif
                                               </td>
-                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
+                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
                                           </tr>
                                       @endforeach
                                 </tbody>
@@ -159,7 +159,7 @@
                                                         <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
                                                     @endif
                                               </td>
-                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
+                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
                                           </tr>
                                       @endforeach
                                 </tbody>
@@ -208,7 +208,7 @@
                                                         <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
                                                     @endif
                                               </td>
-                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
+                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
                                           </tr>
                                       @endforeach
                                 </tbody>
@@ -260,7 +260,7 @@
                                                         <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
                                                     @endif
                                               </td>
-                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
+                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
                                           </tr>
                                       @endforeach
                                 </tbody>
@@ -309,7 +309,7 @@
                                                         <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
                                                     @endif
                                               </td>
-                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
+                                              <td class="text-center"><input type="number" name="demolish[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building) }}" value="{{ old('demolish.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
                                           </tr>
                                       @endforeach
                                 </tbody>
