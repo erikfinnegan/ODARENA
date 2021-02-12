@@ -95,7 +95,7 @@ tower:
 
 mast:
   name: Mast
-  excluded_races:
+  exclusive_races:
     - Dragon
   land_type: mountain
   perks:
@@ -198,9 +198,9 @@ tavern:
   perks:
     base_morale: 1,4,30
 
-guard_tower:
+stone_wall:
   name: Stone Wall
-  excluded_races:
+  exclusive_races:
     - Dragon
   land_type: mountain
   perks:
