@@ -35,7 +35,7 @@
                                     <tr>
                                         <th>Building</th>
                                         <th class="text-center">Owned<br>(Constructing)</th>
-                                        <th class="text-center">Build</th>
+                                        <th class="text-center">Demolish</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,7 +84,7 @@
                                     <tr>
                                         <th>Building</th>
                                         <th class="text-center">Owned<br>(Constructing)</th>
-                                        <th class="text-center">Build</th>
+                                        <th class="text-center">Demolish</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -136,7 +136,7 @@
                                     <tr>
                                         <th>Building</th>
                                         <th class="text-center">Owned<br>(Constructing)</th>
-                                        <th class="text-center">Build</th>
+                                        <th class="text-center">Demolish</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -185,7 +185,7 @@
                                     <tr>
                                         <th>Building</th>
                                         <th class="text-center">Owned<br>(Constructing)</th>
-                                        <th class="text-center">Build</th>
+                                        <th class="text-center">Demolish</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -237,7 +237,7 @@
                                     <tr>
                                         <th>Building</th>
                                         <th class="text-center">Owned<br>(Constructing)</th>
-                                        <th class="text-center">Build</th>
+                                        <th class="text-center">Demolish</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -286,7 +286,7 @@
                                     <tr>
                                         <th>Building</th>
                                         <th class="text-center">Owned<br>(Constructing)</th>
-                                        <th class="text-center">Build</th>
+                                        <th class="text-center">Demolish</th>
                                     </tr>
                                 </thead>
                                 <tbody>
