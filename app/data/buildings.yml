@@ -51,10 +51,27 @@ bog:
 ore_mine:
   name: Ore Mine
   excluded_races:
+    - Ants
+    - Demon
+    - Dimensionalists
+    - Elementals
+    - Firewalker
     - Growth
+    - Lux
+    - Marshling
+    - Merfolk
     - Myconid
-    - Void
+    - Nox
+    - Qur
+    - Reptilians
+    - Simian
+    - Sylvan
     - Swarm
+    - Undead
+    - Vampires
+    - Void
+    - Weres
+    - Wood Elf
   land_type: mountain
   perks:
     ore_production: 60
@@ -119,7 +136,9 @@ dock:
   excluded_races:
     - Dragon
     - Growth
+    - Merfolk
     - Myconid
+    - Reptilians
     - Void
     - Swarm
   land_type: water
