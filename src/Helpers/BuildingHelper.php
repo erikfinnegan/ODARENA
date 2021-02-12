@@ -307,6 +307,8 @@ class BuildingHelper
             'unit_mana_costs' => 'Unit mana costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'unit_blood_costs' => 'Unit blood costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
+            'extra_units_trained' => '%2$s%% additional units trained for free for every %1$s%% (max %3$s%% extra units).',
+
             'morale_gains' => 'Morale gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
             'base_morale' => 'Base morale increased by %2$s%% for every %1$s%% (max +%3$s%%)',
             'prestige_gains' => 'Prestige gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',

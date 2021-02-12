@@ -14,6 +14,19 @@ alchemy:
   perks:
     gold_production: 45
 
+gold_mine:
+  name: Gold Mine
+  enabled: 1
+  excluded_races:
+    - Dragon
+    - Growth
+    - Myconid
+    - Void
+    - Swarm
+  land_type: plain
+  perks:
+    gold_production: 50
+
 farm:
   name: Farm
   excluded_races:
@@ -299,7 +312,7 @@ blast_furnace:
     - Firewalker
   land_type: mountain
   perks:
-    extra_units_trained: 1,1,10 # Every 1% gives 1% extra units, mx +10
+    extra_units_trained: 1,1,20 # Every 1% gives 1% extra units, mx +10
 
 # HOME ALTERNATIVES
 
