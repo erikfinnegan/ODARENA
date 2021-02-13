@@ -414,8 +414,8 @@ camp:
     - Beastfolk
   land_type: forest
   perks:
-    unit_gold_cost: 1,2.5,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
-    unit_ore_cost: 1,2.5,40 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_gold_costs: 1,2.5,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_ore_costs: 1,2.5,40 # Every 1% gives 2.5% reduction, max -50% plat and ore
     military_housing: 8
 
 blast_furnace:
