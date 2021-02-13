@@ -831,8 +831,7 @@ class EspionageActionService
         if($resource === 'gold')
         {
             // Forest Havens
-            $theftAmount *= 1 - min(($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 8, 0.80);
-        }
+            $theftAmount *= 1 - $target->getBuildingPerkMultiplier('gold_theft_reduction');}
 
         $theftAmount = min(max(0, $theftAmount), $target->{$resourceString});
 
@@ -1250,7 +1249,7 @@ class EspionageActionService
 
       $spiesKilledMultiplier = 1;
       # Forest Havens
-      $spiesKilledMultiplier -= ($dominion->building_forest_haven / $this->landCalculator->getTotalLand($dominion)) * 3;
+      $spiesKilledMultiplier -= $dominion->getBuildingPerkMultiplier('spy_losses');
       # Techs
       $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
       # Hideouts
@@ -1305,7 +1304,7 @@ class EspionageActionService
         // Check for Masonries
         if($attribute === 'improvements')
         {
-            $damageMultiplier -= ($target->building_masonries / $this->landCalculator->getTotalLand($target)) * 0.8;
+            $damageMultiplier -= $target->getBuildingPerkMultiplier('lightning_bolt_damage');
         }
 
         // Cap at -1.

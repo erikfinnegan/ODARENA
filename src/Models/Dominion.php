@@ -646,6 +646,9 @@ class Dominion extends AbstractModel
                           # Construction/Rezoning
                           or $perkKey == 'construction_cost'
                           or $perkKey == 'rezone_cost'
+
+                          # Espionage
+                          or $perkKey == 'gold_theft_reduction'
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);

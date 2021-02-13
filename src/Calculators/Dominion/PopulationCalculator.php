@@ -344,8 +344,8 @@ class PopulationCalculator
           $growthRate = 0;
           $multiplier = 0;
 
-          // Temples
-          $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * 6);
+          // Buildings
+          $multiplier += $dominion->getBuildingPerkMultiplier('population_growth');
 
           // Racial Perk
           $multiplier += $dominion->race->getPerkMultiplier('population_growth');
@@ -420,7 +420,7 @@ class PopulationCalculator
         $multiplier += $dominion->race->getPerkMultiplier('population_growth');
 
         // Temples
-        $multiplier += (($dominion->building_temple / $this->landCalculator->getTotalLand($dominion)) * 6);
+        $multiplier += $dominion->getBuildingPerkMultiplier('population_growth');
 
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('population_growth');

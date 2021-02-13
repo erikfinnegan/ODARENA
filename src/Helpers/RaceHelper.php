@@ -263,7 +263,7 @@ class RaceHelper
                 break;
             case 'extra_barracks_housing':
                 $negativeBenefit = false;
-                $description = 'Barracks housing';
+                $description = 'Military housing in buildings that provide military housing';
                 $valueType = '%';
                 break;
             case 'cannot_build_homes':

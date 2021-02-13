@@ -359,7 +359,7 @@ forest_haven:
   perks:
     spy_losses: 1,3,30 # 1% gives -3% spy losses, max -30
     fireball_damage: 1,8  # Every 1% reduces damage from FBs by 8%
-    gold_theft_reduction: 1,8  # Every 1% reduces plat stolen by 8%
+    gold_theft_reduction: 1,8,100  # Every 1% reduces plat stolen by 8%, max 100% reduction
     spy_housing: 40
 
 wizard_guild:

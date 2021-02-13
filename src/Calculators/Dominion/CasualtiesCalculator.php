@@ -129,11 +129,8 @@ class CasualtiesCalculator
         if ($multiplier != 0)
         {
 
-            // Non-Unit bonuses
-            #$multiplier = $multiplier; -- Removed to not cause issues with $multiplier set by only_dies_vs_raw_power perk.
-
-            # Shrines
-            $multiplier -= $this->getOffensiveCasualtiesReductionFromShrines($dominion);
+            # Buildings
+            $multiplier -= $dominion->getBuildingPerkMultiplier('offensive_casualties');
 
             # Land-based reductions
             $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'offense');
@@ -278,8 +275,8 @@ class CasualtiesCalculator
             $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'defense');
             #$multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'defense'); -- Doesn't make sense in this context (attacker has no defensive casualties).
 
-            # Shrines
-            $multiplier -= $this->getDefensiveCasualtiesReductionFromShrines($dominion);
+            // Buildings
+            $multiplier -= $dominion->getBuildingPerkMultiplier('defensive_casualties');
 
             // Techs
             $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_defense');
@@ -310,48 +307,6 @@ class CasualtiesCalculator
             $multiplier = max(0.10, $multiplier);
         }
         return $multiplier;
-    }
-
-    /**
-     * Returns the Dominion's offensive casualties reduction from shrines.
-     *
-     * This number is in the 0 - 0.8 range, where 0 is no casualty reduction
-     * (0%) and 0.8 is full (-80%). Used additive in a multiplier formula.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getOffensiveCasualtiesReductionFromShrines(Dominion $dominion): float
-    {
-        // Values (percentage)
-        $casualtyReductionPerShrine = 5;
-        $maxCasualtyReductionFromShrines = 75;
-
-        return min(
-            (($casualtyReductionPerShrine * $dominion->building_shrine) / $this->landCalculator->getTotalLand($dominion)),
-            ($maxCasualtyReductionFromShrines / 100)
-        );
-    }
-
-    /**
-     * Returns the Dominion's defensive casualties reduction from shrines.
-     *
-     * This number is in the 0 - 0.8 range, where 0 is no casualty reduction
-     * (0%) and 0.8 is full (-80%). Used additive in a multiplier formula.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getDefensiveCasualtiesReductionFromShrines(Dominion $dominion): float
-    {
-        // Values (percentage)
-        $casualtyReductionPerShrine = 1;
-        $maxCasualtyReductionFromShrines = 15;
-
-        return min(
-            (($casualtyReductionPerShrine * $dominion->building_shrine) / $this->landCalculator->getTotalLand($dominion)),
-            ($maxCasualtyReductionFromShrines / 100)
-        );
     }
 
     /**

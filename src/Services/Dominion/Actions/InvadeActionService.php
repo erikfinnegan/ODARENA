@@ -1331,7 +1331,7 @@ class InvadeActionService
                 {
                   $castleToBeDamaged = [];
 
-                  $damageReductionFromMasonries = 1 - (($dominion->building_masonry * 0.75) / $this->landCalculator->getTotalLand($dominion));
+                  $damageReductionFromMasonries = 1 - $target->getBuildingPerkMultiplier('lightning_bolt_damage');
 
                   $damagingUnits = $units[$unitSlot];
                   $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');

@@ -55,7 +55,6 @@ class SpellDamageCalculator
           $modifier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
 
           // Damage reduction from Aura
-
           $modifier += $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'damage_from_spells');
 
           if(isset($spell))
@@ -68,7 +67,7 @@ class SpellDamageCalculator
               }
 
               ## Fireballs: peasants and food
-              if($spell->name == 'fireball')
+              if($spell->name == 'fireball' or $spell->name == 'pyroclast')
               {
                   # General fireball damage modification.
                   if($target->race->getPerkMultiplier('damage_from_fireballs'))
@@ -79,7 +78,7 @@ class SpellDamageCalculator
                   # Forest Havens lower damage to peasants from fireballs.
                   if($attribute == 'peasants')
                   {
-                      $modifier -= ($target->building_forest_haven / $this->landCalculator->getTotalLand($target)) * 0.8;
+                      $modifier += $target->getBuildingPerkMultiplier('fireball_damage');
                   }
               }
 
@@ -92,7 +91,7 @@ class SpellDamageCalculator
                       $modifier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
                   }
 
-                  $modifier -= ($target->building_masonry / $this->landCalculator->getTotalLand($target)) * 0.8;
+                  $modifier -= $target->getBuildingPerkMultiplier('lightning_bolt_damage');
               }
 
               ## Disband Spies: spies
