@@ -396,6 +396,7 @@ tissue:
   perks:
     food_production: 4
     housing: 160
+    jobs: 0
 
 mycelia:
   name: Mycelia
