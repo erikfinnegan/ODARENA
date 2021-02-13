@@ -11,7 +11,7 @@ conjurer:
   name: Conjurer
   perks:
     spell_cost: -50
-    unit_mana_cost: -7.5
+    unit_mana_costs: -7.5
 
 surveyor:
   name: Surveyor

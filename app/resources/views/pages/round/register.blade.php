@@ -36,6 +36,7 @@
                                   @php
                                       $perkDescription = $titleHelper->getPerkDescriptionHtmlWithValue($perk);
                                   @endphp
+                                      {!! $perkDescription['description'] !!} {!! $perkDescription['value']  !!}
                               @endforeach)
                         </option>
 
