@@ -169,9 +169,9 @@ class ConstructionCalculator
 
         $maxReduction = -0.90;
 
-        // Factories
-        $multiplier -= ($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * 4; # 200/1000=20%x4=80%
-
+        // Buildings
+        $multiplier += $dominion->race->getPerkMultiplier('construction_cost');
+        
         // Faction Bonus
         $multiplier += $dominion->race->getPerkMultiplier('construction_cost');
 

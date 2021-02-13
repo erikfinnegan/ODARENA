@@ -35,7 +35,8 @@ class BuildingCalculator
         $totalBuildings = 0;
         $buildingTypesForLandType = $this->buildingHelper->getBuildingTypesByRace($dominion)[$landType];
 
-        foreach ($buildingTypesForLandType as $buildingType) {
+        foreach ($buildingTypesForLandType as $buildingType)
+        {
             $totalBuildings += $dominion->{"building_{$buildingType}"};
         }
 

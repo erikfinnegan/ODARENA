@@ -105,8 +105,8 @@ class RezoningCalculator
 
         $maxReduction = -0.90;
 
-        // Factories
-        $multiplier -= ($dominion->building_factory / $this->landCalculator->getTotalLand($dominion)) * 3; # 200/1000=20%x3=60%
+        // Buildings
+        $multiplier += $dominion->race->getPerkMultiplier('rezone_cost');
 
         // Faction Bonus
         $multiplier += $dominion->race->getPerkMultiplier('rezone_cost');
