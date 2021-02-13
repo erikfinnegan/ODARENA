@@ -465,7 +465,6 @@ class TrainingCalculator
         # Techs: discounts Gold, Ore, and Lumber (for all); Food ("Lean Mass" techs); Mana ("Magical Weapons" techs)
 
         // Only discount these resources.
-        $discountableResourceTypesBySmithies = ['gold', 'ore'];
         $discountableResourceTypesByArmory = ['gold', 'ore'];
         $discountableResourceTypesByTech = ['gold', 'ore', 'lumber'];
         $discountableResourceTypesByUnitBonus = ['gold', 'ore', 'lumber', 'mana', 'food'];

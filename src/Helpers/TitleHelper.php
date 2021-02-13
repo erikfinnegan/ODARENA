@@ -15,11 +15,6 @@ class TitleHelper
         $valueType = '%';
         $booleanValue = false;
         switch($perkType->key) {
-            case 'military_cost':
-                $negativeBenefit = true;
-                $description = 'Training costs:';
-                $valueType = '% gold, ore, lumber, food, and mana costs';
-                break;
             case 'military_costs':
                 $negativeBenefit = true;
                 $description = 'Training costs:';

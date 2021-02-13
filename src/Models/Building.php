@@ -45,7 +45,7 @@ class Building extends AbstractModel
         });
 
         if ($perks->isEmpty()) {
-            return 0; // todo: change to null instead, also add return type and docblock(s)
+            return null; // todo: change to null instead, also add return type and docblock(s)
         }
 
         return $perks->first()->pivot->value;
