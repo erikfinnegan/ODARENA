@@ -661,6 +661,8 @@ class Dominion extends AbstractModel
                           # OP/DP mods
                           $perkKey == 'improvements'
                           or $perkKey == 'lightning_bolt_damage'
+                          or $perkKey == 'fireball_damage'
+                          or $perkKey == 'population_growth'
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);

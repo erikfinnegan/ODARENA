@@ -574,17 +574,17 @@ orcish_longhouse:
     - Black Orc
   land_type: forest
   perks:
-    housing: 20
-    military_housing: 20
+    housing: 30
+    military_housing: 10
 
 norse_longhouse:
   name: Longhouse
   exclusive_races:
     - Norse
-  land_type: forest
+  land_type: water
   perks:
-    housing: 20
-    military_housing: 20
+    housing: 30
+    military_housing: 10
 
 mansion:
   name: Mansion

@@ -286,6 +286,8 @@ class BuildingHelper
 
             'jobs' => 'Provides %s jobs.',
 
+            'population_growth' => 'Population growth rate increased by %2$s%% for every %1$s%%.',
+
             # Production
             'gold_production' => 'Produces %s gold per tick.',
             'food_production' => 'Produces %s food per tick.',
