@@ -1321,7 +1321,7 @@ class MilitaryCalculator
           $buildingsLand = 0;
 
           foreach($buildingTypes as $building)
-
+          {
               $buildingsLand += $this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingType);
               $buildingsLand += $this->queueService->getConstructionQueueTotalByResource($dominion, 'building_' . $building);
           }
