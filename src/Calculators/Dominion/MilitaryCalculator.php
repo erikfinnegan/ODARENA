@@ -560,7 +560,8 @@ class MilitaryCalculator
         $ratio = (int)$buildingPerkData[1];
         $max = (int)$buildingPerkData[2];
         $totalLand = $this->landCalculator->getTotalLand($dominion);
-        $landPercentage = ($dominion->{"building_{$buildingType}"} / $totalLand) * 100;
+        #$landPercentage = ($dominion->{"building_{$buildingType}"} / $totalLand) * 100;
+        $landPercentage = ($this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingType) / $totalLand) * 100;
 
         $powerFromBuilding = $landPercentage / $ratio;
         $powerFromPerk = min($powerFromBuilding, $max);
@@ -758,7 +759,7 @@ class MilitaryCalculator
             }
         } elseif ($target !== null) {
             $totalLand = $this->landCalculator->getTotalLand($target);
-            $landPercentage = ($target->{"building_{$buildingType}"} / $totalLand) * 100;
+            $landPercentage = ($this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingType) / $totalLand) * 100;
         }
 
         $powerFromBuilding = $landPercentage / $ratio;
@@ -1320,8 +1321,8 @@ class MilitaryCalculator
           $buildingsLand = 0;
 
           foreach($buildingTypes as $building)
-          {
-              $buildingsLand += $dominion->{'building_' . $building};
+
+              $buildingsLand += $this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingType);
               $buildingsLand += $this->queueService->getConstructionQueueTotalByResource($dominion, 'building_' . $building);
           }
 
