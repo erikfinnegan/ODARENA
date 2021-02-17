@@ -217,7 +217,7 @@ class PopulationCalculator
     */
     public function getAvailableHousingFromForestHavens(Dominion $dominion): int
     {
-        return $dominion->getBuildingProduction('spy_housing');
+        return $dominion->getBuildingProduction('spy_housing') * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts'));
     }
 
     /*
@@ -225,7 +225,7 @@ class PopulationCalculator
     */
     public function getAvailableHousingFromWizardGuilds(Dominion $dominion): int
     {
-        return $dominion->getBuildingProduction('wizard_housing');
+        return $dominion->getBuildingProduction('wizard_housing') * (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires'));
     }
 
     /*

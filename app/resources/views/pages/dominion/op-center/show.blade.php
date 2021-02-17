@@ -675,17 +675,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($buildingHelper->getBuildingTypes($dominion) as $buildingType)
+                            @foreach ($buildingHelper->getBuildingsByRace($dominion->race) as $building)
                                 @php
-                                    $amount = array_get($infoOp->data, "constructed.{$buildingType}");
+                                    $amount = array_get($infoOp->data, "constructed.{$building->key}");
                                 @endphp
                                 <tr>
                                     <td>
-                                        {{ ucwords(str_replace('_', ' ', $buildingType)) }}
-                                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="{{ $buildingHelper->getBuildingHelpString($buildingType) }}"></i>
+                                        {{ $building->name }}
+                                        <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title=""></i>
                                     </td>
                                     <td class="text-center">{{ number_format($amount) }}</td>
-                                    <td class="text-center">{{ number_format((($amount / array_get($infoOp->data, "total_land", $landCalculator->getTotalLand($dominion))) * 100), 2) }}%</td>
+                                    <td class="text-center">{{ number_format((($amount / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -761,12 +761,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($buildingHelper->getBuildingTypes($dominion) as $buildingType)
+                            @foreach ($buildingHelper->getBuildingsByRace($dominion->race) as $building)
                                 <tr>
-                                    <td>{{ ucwords(str_replace('_', ' ', $buildingType)) }}</td>
+                                    <td>{{ $building->name }}</td>
                                     @for ($i = 1; $i <= 12; $i++)
                                         @php
-                                            $amount = array_get($infoOp->data, "constructing.{$buildingType}.{$i}", 0);
+                                            $amount = array_get($infoOp->data, "constructing.{$building->key}.{$i}", 0);
                                         @endphp
                                         <td class="text-center">
                                             @if ($amount === 0)
@@ -777,7 +777,7 @@
                                         </td>
                                     @endfor
                                     <td class="text-center">
-                                        @if ($amountConstructing = array_get($infoOp->data, "constructing.{$buildingType}"))
+                                        @if ($amountConstructing = array_get($infoOp->data, "constructing.{$building->key}"))
                                             {{ number_format(array_sum($amountConstructing)) }}
                                         @else
                                             0

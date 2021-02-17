@@ -11,6 +11,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\BuildingHelper;
@@ -55,6 +56,7 @@ class EspionageActionService
     public function __construct()
     {
         $this->buildingHelper = app(BuildingHelper::class);
+        $this->buildingCalculator = app(BuildingCalculator::class);
         $this->espionageHelper = app(EspionageHelper::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
@@ -475,15 +477,14 @@ class EspionageActionService
             case 'survey_dominion':
                 $data = [];
 
-                foreach ($this->buildingHelper->getBuildingTypes($target) as $buildingType) {
-                    array_set($data, "constructed.{$buildingType}", $target->{'building_' . $buildingType});
+                foreach ($this->buildingHelper->getBuildingsByRace($target->race) as $building)
+                {
+                    array_set($data, "constructed.{$building->key}", $this->buildingCalculator->getBuildingAmountOwned($target, $building));
                 }
 
                 $totalConstructingLand = 0;
                 $this->queueService->getConstructionQueue($target)->each(static function ($row) use (&$data, &$totalConstructingLand) {
-                    $buildingType = str_replace('building_', '', $row->resource);
-
-                    array_set($data, "constructing.{$buildingType}.{$row->hours}", $row->amount);
+                    array_set($data, "constructing.{$building->key}.{$row->hours}", $row->amount);
                     $totalConstructingLand += (int)$row->amount;
                 });
 
