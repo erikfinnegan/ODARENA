@@ -779,15 +779,15 @@ class DominionFactory
     {
         $startingLand = [
             'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'] + $startingBuildings['smithy'],
-            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'],
-            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'],
-            'cavern' => $startingBarrenLand['cavern'],
-            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['forest_haven'],
+            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'] + $startingBuildings['ziggurat'],
+            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'] + $startingBuildings['tissue'],
+            'cavern' => 0,
+            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['forest_haven'] + $startingBuildings['mycelia'],
             'hill' => $startingBarrenLand['hill'] + $startingBuildings['barracks'],
             'water' => $startingBarrenLand['water'] + $startingBuildings['dock'],
         ];
 
-        $startingLand[$race->home_land_type] += $startingBuildings['residence'] + $startingBuildings['shed'];
+        $startingLand[$race->home_land_type] += $startingBuildings['shed'];
 
         return $startingLand;
     }
