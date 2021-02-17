@@ -869,10 +869,7 @@ class TickService
               $wizardStrengthPerWizardGuild = 0.1;
               $wizardStrengthPerWizardGuildMax = 2;
 
-              $wizardStrengthAdded += min(
-                  (($dominion->building_wizard_guild / $this->landCalculator->getTotalLand($dominion)) * (100 * $wizardStrengthPerWizardGuild)),
-                  $wizardStrengthPerWizardGuildMax
-              );
+              $wizardStrengthAdded += $dominion->getBuildingPerkMultiplier('wizard_strength_recovery');
 
               $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
 

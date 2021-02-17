@@ -29,7 +29,7 @@ class BuildingCalculator
         $this->buildingHelper = $buildingHelper;
         $this->queueService = $queueService;
     }
-
+    /*
     public function getTotalBuildingsForLandType(Dominion $dominion, string $landType): int
     {
         $totalBuildings = 0;
@@ -42,6 +42,7 @@ class BuildingCalculator
 
         return $totalBuildings;
     }
+    */
 
     public function getBuildingTypesToDestroy(Dominion $dominion, int $totalBuildingsToDestroy, string $landType): array
     {

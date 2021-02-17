@@ -560,7 +560,6 @@ class MilitaryCalculator
         $ratio = (int)$buildingPerkData[1];
         $max = (int)$buildingPerkData[2];
         $totalLand = $this->landCalculator->getTotalLand($dominion);
-        #$landPercentage = ($dominion->{"building_{$buildingType}"} / $totalLand) * 100;
         $landPercentage = ($this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingType) / $totalLand) * 100;
 
         $powerFromBuilding = $landPercentage / $ratio;

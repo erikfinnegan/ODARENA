@@ -1026,6 +1026,7 @@ class InvadeActionService
 
                 # What are the buildings made out of?
                 $constructionMaterials = $this->raceHelper->getConstructionMaterials($target->race);
+                /*
                 if (isset($constructionMaterials[1]) and $constructionMaterials[1] === 'lumber' and $dominion->getSpellPerkValue('burns_extra_buildings'))
                 {
                     # Ensure Dragons account for at least 85% of the raw OP sent.
@@ -1050,6 +1051,7 @@ class InvadeActionService
                         }
                     }
                 }
+                */
 
                 $resourceName = "building_{$buildingType}";
                 $target->$resourceName -= $builtBuildingsToDestroy;
