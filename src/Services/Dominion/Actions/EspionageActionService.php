@@ -483,8 +483,12 @@ class EspionageActionService
                 }
 
                 $totalConstructingLand = 0;
+
+                dd($this->queueService->getConstructionQueue($target));
+
                 $this->queueService->getConstructionQueue($target)->each(static function ($row) use (&$data, &$totalConstructingLand) {
-                    array_set($data, "constructing.{$building->key}.{$row->hours}", $row->amount);
+                    $buildingKey = str_replace('building_', '', $row->resource);
+                    array_set($data, "constructing.{$buildingKey}.{$row->hours}", $row->amount);
                     $totalConstructingLand += (int)$row->amount;
                 });
 
