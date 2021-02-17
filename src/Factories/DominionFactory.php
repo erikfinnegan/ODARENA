@@ -157,9 +157,12 @@ class DominionFactory
 
         $startingResources['prestige'] = intval($acresBase/2);
 
-        if(Auth::user()->display_name == $rulerName and $race->name !== 'Barbarian')
+        if($race->name !== 'Barbarian')
         {
-            $startingResources['prestige'] += 100;
+            if(Auth::user()->display_name == $rulerName)
+            {
+                $startingResources['prestige'] += 100;
+            }
         }
 
         $startingResources['barbarian_guard_active_at'] = NULL;
