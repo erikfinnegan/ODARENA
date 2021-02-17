@@ -406,7 +406,7 @@ class TrainActionService
         }
         if($totalCosts['peasant'] > 0 and $totalCosts['peasant'] > ($dominion->peasants-1000))
         {
-          throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '. You must always leave at least 1,000 peasants.');
+          throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '. You must always leave at least 1,000 ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '.');
         }
         if(
             $totalCosts['unit1'] > $dominion->military_unit1 OR
