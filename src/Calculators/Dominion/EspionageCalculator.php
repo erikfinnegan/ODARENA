@@ -14,6 +14,9 @@ class EspionageCalculator
           # Must be available to the dominion's faction (race)
           !$this->isSpyopAvailableToDominion($dominion, $spyop)
 
+          # Cannot cast disabled spells
+          or $spyop->enabled !== 1
+
           # Cannot cost more SS than the dominions has
           or ($dominion->spy_strength - $this->getSpyStrengthCost($spyop)) < 0
 

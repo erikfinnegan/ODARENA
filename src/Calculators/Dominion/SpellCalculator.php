@@ -279,6 +279,9 @@ class SpellCalculator
             # Cannot be on cooldown
             $this->isOnCooldown($dominion, $spell)
 
+            # Cannot cast disabled spells
+            or $spell->enabled !== 1
+
             # Cannot cost more mana than the dominion has
             or $dominion->resource_mana < $this->getManaCost($dominion, $spell->key)
 

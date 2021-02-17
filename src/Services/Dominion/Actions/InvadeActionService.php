@@ -1026,32 +1026,6 @@ class InvadeActionService
 
                 # What are the buildings made out of?
                 $constructionMaterials = $this->raceHelper->getConstructionMaterials($target->race);
-                /*
-                if (isset($constructionMaterials[1]) and $constructionMaterials[1] === 'lumber' and $dominion->getSpellPerkValue('burns_extra_buildings'))
-                {
-                    # Ensure Dragons account for at least 85% of the raw OP sent.
-                    if(isset($units[4]))
-                    {
-                        $rawOp = 0;
-                        foreach($units as $slot => $amount)
-                        {
-                            $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
-                                return ($unit->slot == $slot);
-                            })->first();
-
-                            $rawOp += $this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'offense') * $amount;
-                        }
-
-                        $dragonOpRatio = ($units[4] * 1000 / $rawOp);
-
-                        if($dragonOpRatio > 0.90)
-                        {
-                            $this->invasionResult['attacker']['furnace_maws'] = true;
-                            $builtBuildingsToDestroy = min($builtBuildingsToDestroy * 1.10, $target->{'building_'.$buildingType});
-                        }
-                    }
-                }
-                */
 
                 $resourceName = "building_{$buildingType}";
                 $target->$resourceName -= $builtBuildingsToDestroy;

@@ -115,6 +115,12 @@ class BuildActionService
             $buildingKey = str_replace('building_', '', $buildingKey);
 
             $building = Building::where('key', $buildingKey)->first();
+
+            if ($building->enabled !== 1)
+            {
+                throw new GameException('Cannot build ' . $building->name . ' because it is not enabled.');
+            }
+
             $landType = $building->land_type;
 
             if(!isset($buildingsByLandType[$landType]))

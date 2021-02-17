@@ -205,7 +205,7 @@ class DominionFactory
         }
 
         // Boat-free races: no boats
-        $boatFreeRaces = array('Lux','Merfolk','Myconid','Snow Elf','Spirit','Swarm','Dimensionalists','Growth','Reptilians','Void');
+        $boatFreeRaces = array('Lux','Merfolk','Myconid','Snow Elf','Spirit','Swarm','Dimensionalists','Growth','Reptilians','Void','Artillery');
         if(in_array($race->name, $boatFreeRaces))
         {
             $startingResources['boats'] = 0;

@@ -280,8 +280,7 @@ class TrainActionService
                 }
 
                 $building = Building::where('key', $buildingKeyLimitedTo)->first();
-                $dominionBuildings = $this->buildingCalculator->getDominionBuildings($dominion);
-                $amountOfLimitingBuilding = $dominionBuildings->where('building_id', $building->id)->first()->owned;
+                $amountOfLimitingBuilding = $this->buildingCalculator->getBuildingAmountOwned($dominion, $building);
 
                 $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
 
