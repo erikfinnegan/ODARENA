@@ -288,14 +288,14 @@ class InvadeActionService
                 if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit_increasable'))
                 {
                     // We have building limit for this unit.
-                    $buildingLimitedTo = 'building_'.$buildingLimit[0]; # Land type
+                    $buildingLimitedTo = $buildingLimit[0]; # Land type
                     $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
                     $improvementToIncrease = $buildingLimit[2]; # Resource that can raise the limit
                     $improvementMultiplier = (float)$buildingLimit[3]; # Multiplier of the improvement
 
                     $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease)) * $improvementMultiplier;
 
-                    $amountOfLimitingBuilding = $dominion->{$buildingLimitedTo};
+                    $amountOfLimitingBuilding = $this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingLimitedTo);
 
                     $upperLimit = intval($amountOfLimitingBuilding * $unitsPerBuilding);
 
