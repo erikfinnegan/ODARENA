@@ -195,6 +195,7 @@ dock:
     - Swarm
   land_type: water
   perks:
+    food_production: 40
     boat_production: 0.05
     boat_protection: 2.5
 
