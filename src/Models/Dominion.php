@@ -614,7 +614,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'tech_production'
                       )
                   {
-                      $perk = (float)$perkValueString;
+                      $perk += (float)$perkValueString;
                   }
                   # Mods with ratio, multiplier, and max
                   elseif(
