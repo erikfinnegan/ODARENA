@@ -138,10 +138,6 @@ class ProductionCalculator
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
-    //</editor-fold>
-
-    //<editor-fold desc="Food">
-
     /**
      * Returns the Dominion's food production.
      *

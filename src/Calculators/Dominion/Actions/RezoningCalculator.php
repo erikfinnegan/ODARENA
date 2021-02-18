@@ -106,7 +106,7 @@ class RezoningCalculator
         $maxReduction = -0.90;
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('rezone_cost');
+        $multiplier -= $dominion->getBuildingPerkMultiplier('rezone_cost');
 
         // Faction Bonus
         $multiplier += $dominion->race->getPerkMultiplier('rezone_cost');
