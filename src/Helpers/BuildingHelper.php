@@ -24,7 +24,7 @@ class BuildingHelper
 
         return $building->land_type;
     }
-
+    /*
     public function getBuildingTypes(Dominion $dominion = null): array
     {
 
@@ -79,7 +79,8 @@ class BuildingHelper
       return $buildings;
 
     }
-
+    */
+    /*
     public function getBuildingTypesByRace(Dominion $dominion = null): array
     {
 
@@ -99,11 +100,11 @@ class BuildingHelper
               'tower',
               'wizard_guild',
               'temple',
-          ],/*
-          'cavern' => [
-              'gem_mine',
-              'school',
-          ],*/
+          ],
+          #'cavern' => [
+          #    'gem_mine',
+          #    'school',
+          #],
           'forest' => [
               'lumberyard',
               'forest_haven',
@@ -191,19 +192,6 @@ class BuildingHelper
               'water' => [],
           ];
           }
-          /*
-          elseif($dominion->race->name == 'Swarm')
-          {
-          $buildings = [
-              'plain' => ['tunnels'],
-              'mountain' => ['tunnels'],
-              'swamp' => ['tunnels'],
-              'forest' => ['tunnels'],
-              'hill' => ['tunnels'],
-              'water' => ['tunnels'],
-          ];
-          }
-          */
 
           if(!$dominion->race->getPerkValue('cannot_build_homes'))
           {
@@ -231,6 +219,7 @@ class BuildingHelper
 
         return $buildings;
     }
+    */
 
     public function getBuildingHelpString(string $buildingType): string
     {
@@ -398,10 +387,16 @@ class BuildingHelper
 
     /*
     *   Returns buildings available for the race.
+    *   If $landType is present, only return buildings for the race for that land type.
     */
-    public function getBuildingsByRace(Race $race): Collection
+    public function getBuildingsByRace(Race $race, string $landType = null): Collection
     {
         $buildings = collect(Building::all()->keyBy('key')->sortBy('name')->sortBy('land_type')->where('enabled',1));
+
+        if($landType)
+        {
+            $buildings = $buildings->where('land_type', $landType);
+        }
 
         foreach($buildings as $building)
         {

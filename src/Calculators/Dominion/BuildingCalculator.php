@@ -44,30 +44,31 @@ class BuildingCalculator
     }
     */
 
-    public function getBuildingTypesToDestroy(Dominion $dominion, int $totalBuildingsToDestroy, string $landType): array
+    public function getBuildingsToDestroy(Dominion $dominion, int $totalBuildingsToDestroy, string $landType): array
     {
         if($totalBuildingsToDestroy <= 0)
         {
             return [];
         }
 
-        $buildingTypesForLandType = $this->buildingHelper->getBuildingTypesByRace($dominion)[$landType];
+        $raceBuildingsForLandType = $this->buildingHelper->getBuildingsByRace($dominion->race, $landType);
 
         $buildingsPerType = [];
 
         $totalBuildingsForLandType = 0;
 
-        foreach($buildingTypesForLandType as $buildingType)
+        foreach($raceBuildingsForLandType as $building)
         {
-            $resourceName = "building_{$buildingType}";
-            $buildingsForType = $dominion->$resourceName;
-            $totalBuildingsForLandType += $buildingsForType;
+            $resourceName = "building_{$building->key}";
+            $buildingsOwned = $this->getBuildingAmountOwned($dominion, $building);
+
+            $totalBuildingsForLandType += $buildingsOwned;
 
             $buildingsInQueueForType = $this->queueService->getConstructionQueueTotalByResource($dominion, $resourceName);
             $totalBuildingsForLandType += $buildingsInQueueForType;
 
-            $buildingsPerType[$buildingType] = [
-                'constructedBuildings' => $buildingsForType,
+            $buildingsPerType[$building->key] = [
+                'constructedBuildings' => $buildingsOwned,
                 'buildingsInQueue' => $buildingsInQueueForType];
         }
 
@@ -83,7 +84,8 @@ class BuildingCalculator
         $buildingsLeftToDestroy = $totalBuildingsToDestroy;
         $buildingsToDestroyByType = [];
         foreach($buildingsPerType as $buildingType => $buildings) {
-            if($buildingsLeftToDestroy == 0) {
+            if($buildingsLeftToDestroy == 0)
+            {
                 break;
             }
 
@@ -210,9 +212,24 @@ class BuildingCalculator
         }
     }
 
-    public function getDominionBuildings(Dominion $dominion): Collection
+    public function getDominionBuildings(Dominion $dominion, string $landType = null): Collection
     {
-        return DominionBuilding::where('dominion_id',$dominion->id)->get();
+        $dominionBuildings = DominionBuilding::where('dominion_id',$dominion->id)->get();
+
+        if($landType)
+        {
+            foreach($dominionBuildings as $dominionBuilding)
+            {
+                $building = Building::where('id', $dominionBuilding->building_id)->first();
+
+                if($building->land_type !== $landType)
+                {
+                    $dominionBuildings->forget($dominionBuilding->building_id);
+                }
+            }
+        }
+
+        return $dominionBuildings;#DominionBuilding::where('dominion_id',$dominion->id)->get();
     }
 
     /*

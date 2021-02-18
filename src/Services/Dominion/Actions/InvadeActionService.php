@@ -262,7 +262,7 @@ class InvadeActionService
             // Check building_limit
             foreach($units as $unitSlot => $amount)
             {
-                if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit')
+                if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit'))
                 {
                     $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
                     $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
@@ -627,7 +627,7 @@ class InvadeActionService
         $attackerPrestigeChangeMultiplier += $attacker->getBuildingPerkMultiplier('prestige_gains');
 
         // Title
-        $attackerPrestigeChangeMultiplier += $attacker->title->getTechPerkMultiplier('prestige_gains') * $dominion->title->getPerkBonus($dominion);
+        $attackerPrestigeChangeMultiplier += $attacker->title->getPerkMultiplier('prestige_gains') * $attacker->title->getPerkBonus($attacker);
 
         $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
 
@@ -1010,7 +1010,7 @@ class InvadeActionService
         {
             $buildingsToDestroy = $landAndBuildingsLost['buildingsToDestroy'];
             $landLost = $landAndBuildingsLost['landLost'];
-            $buildingsLostForLandType = $this->buildingCalculator->getBuildingTypesToDestroy($target, $buildingsToDestroy, $landType);
+            $buildingsLostForLandType = $this->buildingCalculator->getBuildingsToDestroy($target, $buildingsToDestroy, $landType);
 
             // Remove land
             $target->{"land_$landType"} -= $landLost;
@@ -1019,20 +1019,13 @@ class InvadeActionService
             // Destroy buildings
             foreach ($buildingsLostForLandType as $buildingType => $buildingsLost)
             {
-
                 $this->buildingCalculator->removeBuildings($target, [$buildingType => $buildingsLost]);
 
                 $builtBuildingsToDestroy = $buildingsLost['builtBuildingsToDestroy'];
 
-                # What are the buildings made out of?
-                $constructionMaterials = $this->raceHelper->getConstructionMaterials($target->race);
-
                 $resourceName = "building_{$buildingType}";
-                $target->$resourceName -= $builtBuildingsToDestroy;
 
                 $this->invasionResult['defender']['buildingsLost'][$buildingType] = $buildingsLost;
-
-
 
                 $buildingsInQueueToRemove = $buildingsLost['buildingsInQueueToRemove'];
 
@@ -1145,7 +1138,7 @@ class InvadeActionService
 
             $attackerMoraleChangeMultiplier = 0;
             $attackerMoraleChangeMultiplier += $dominion->getBuildingPerkMultiplier('morale_gains');
-            $attackerMoraleChangeMultiplier += $attacker->title->getPerkMultiplier('morale_gains') * $dominion->title->getPerkBonus($dominion);
+            $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->title->getPerkBonus($dominion);
 
             $attackerMoraleChange *= (1 + $attackerMoraleChangeMultiplier);
 
