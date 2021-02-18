@@ -164,7 +164,7 @@ class Dominion extends AbstractModel
         'land_forest' => 'integer',
         'land_hill' => 'integer',
         'land_water' => 'integer',
-
+        /*
         'building_home' => 'integer',
         'building_alchemy' => 'integer',
         'building_farm' => 'integer',
@@ -184,6 +184,7 @@ class Dominion extends AbstractModel
         'building_shrine' => 'integer',
         'building_barracks' => 'integer',
         'building_dock' => 'integer',
+        */
 
         'daily_gold' => 'boolean',
         'daily_land' => 'boolean',
