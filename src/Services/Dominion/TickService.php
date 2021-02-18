@@ -685,19 +685,15 @@ class TickService
           // Queues
           $incomingQueue = DB::table('dominion_queue')
               ->where('dominion_id', $dominion->id)
+              ->where('source', '!=', 'construction')
               ->where('hours', '=', 1)
               ->get();
 
           foreach ($incomingQueue as $row)
           {
-              #if(substr($row->resource, 0, strlen('building_')) !== 'building_')
-              if(substr_compare($row->resource, 'building_', 0))
-              {
-                  $tick->{$row->resource} += $row->amount;
-                  // Temporarily add next hour's resources for accurate calculations
-                  $dominion->{$row->resource} += $row->amount;
-
-              }
+              $tick->{$row->resource} += $row->amount;
+              // Temporarily add next hour's resources for accurate calculations
+              $dominion->{$row->resource} += $row->amount;
           }
 
           # NPC Barbarian: training
