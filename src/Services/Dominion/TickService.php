@@ -681,7 +681,6 @@ class TickService
 
           // Hacky refresh for dominion
           $dominion->refresh();
-          #$this->spellCalculator->getActiveSpells($dominion, true);
 
           // Queues
           $incomingQueue = DB::table('dominion_queue')
@@ -691,11 +690,13 @@ class TickService
 
           foreach ($incomingQueue as $row)
           {
-              if(substr($row->resource, 0, strlen('building_')) !== 'building_')
+              #if(substr($row->resource, 0, strlen('building_')) !== 'building_')
+              if(substr_compare($row->resource, 'building_', 0))
               {
                   $tick->{$row->resource} += $row->amount;
                   // Temporarily add next hour's resources for accurate calculations
                   $dominion->{$row->resource} += $row->amount;
+
               }
           }
 

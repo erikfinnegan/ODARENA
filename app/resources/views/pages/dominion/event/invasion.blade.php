@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
                             <div class="text-center">
-                            <h4>Attacker's Forces</h4>
+                            <h4>{{ $event->source->name }}'s Army</h4>
                             @if (isset($event->data['result']['overwhelmed']) && $event->data['result']['overwhelmed'])
                                 <p class="text-center text-red">
                                     @if ($event->source->id === $selectedDominion->id)
@@ -394,7 +394,7 @@
 
                         <div class="col-xs-12 col-sm-4">
                             <div class="text-center">
-                            <h4>Defender's Forces</h4>
+                            <h4>{{ $event->target->name }}'s Army</h4>
                             </div>
                             <table class="table">
                                 <colgroup>

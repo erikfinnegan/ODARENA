@@ -107,10 +107,12 @@ class HistoryService
         $newAttributes = collect($dominion->getAttributes())
             ->intersectByKeys(array_flip($attributeKeys));
 
-        return $newAttributes->map(function ($value, $key) use ($dominion, $oldAttributes) {
+        return $newAttributes->map(function ($value, $key) use ($dominion, $oldAttributes)
+        {
             $attributeType = gettype($dominion->getAttribute($key));
 
-            switch ($attributeType) {
+            switch ($attributeType)
+            {
                 case 'boolean':
                     return (bool)$value;
                     break;
