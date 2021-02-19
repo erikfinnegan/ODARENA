@@ -1319,10 +1319,10 @@ class MilitaryCalculator
           $totalLand = $this->landCalculator->getTotalLand($dominion);
           $buildingsLand = 0;
 
-          foreach($buildingTypes as $building)
+          foreach($buildingTypes as $buildingKey)
           {
-              $buildingsLand += $this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingType);
-              $buildingsLand += $this->queueService->getConstructionQueueTotalByResource($dominion, 'building_' . $building);
+              $buildingsLand += $this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingKey);
+              $buildingsLand += $this->queueService->getConstructionQueueTotalByResource($dominion, 'building_' . $buildingKey);
           }
 
           $landPercentage = ($buildingsLand / $totalLand) * 100;
