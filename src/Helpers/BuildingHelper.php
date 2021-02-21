@@ -391,7 +391,7 @@ class BuildingHelper
     */
     public function getBuildingsByRace(Race $race, string $landType = null): Collection
     {
-        $buildings = collect(Building::all()->keyBy('key')->sortBy('name')->sortBy('land_type')->where('enabled',1));
+        $buildings = collect(Building::all()->keyBy('key')->sortBy('land_type')->sortBy('name')->where('enabled',1));
 
         if($landType)
         {

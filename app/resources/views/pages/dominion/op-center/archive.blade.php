@@ -590,8 +590,9 @@
                                             @endphp
                                             <tr>
                                                 <td>
-                                                    {{ $building->name }}
-                                                    <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title=""></i>
+                                                    <span data-toggle="tooltip" data-placement="top" title="{!! $buildingHelper->getBuildingDescription($building) !!}">
+                                                        {{ $building->name }}
+                                                    </span>
                                                 </td>
                                                 <td class="text-center">{{ number_format($amount) }}</td>
                                                 <td class="text-center">{{ number_format((($amount / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%</td>
@@ -651,12 +652,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($buildingHelper->getBuildingTypes($dominion) as $buildingType)
+                                        @foreach ($buildingHelper->getBuildingsByRace($dominion->race) as $building)
                                             <tr>
-                                                <td>{{ ucwords(str_replace('_', ' ', $buildingType)) }}</td>
+                                                <td>
+                                                    <span data-toggle="tooltip" data-placement="top" title="{!! $buildingHelper->getBuildingDescription($building) !!}">
+                                                        {{ $building->name }}
+                                                    </span>
+                                                </td>
                                                 @for ($i = 1; $i <= 12; $i++)
                                                     @php
-                                                        $amount = array_get($infoOp->data, "constructing.{$buildingType}.{$i}", 0);
+                                                        $amount = array_get($infoOp->data, "constructing.{$building->key}.{$i}", 0);
                                                     @endphp
                                                     <td class="text-center">
                                                         @if ($amount === 0)
@@ -672,7 +677,7 @@
                                                 @endphp
                                                 @endfor
                                                 <td class="text-center">
-                                                    @if ($amountConstructing = array_get($infoOp->data, "constructing.{$buildingType}"))
+                                                    @if ($amountConstructing = array_get($infoOp->data, "constructing.{$building->key}"))
                                                         {{ number_format(array_sum($amountConstructing)) }}
                                                     @else
                                                         0
