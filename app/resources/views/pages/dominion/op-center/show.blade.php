@@ -170,8 +170,8 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
-                                                {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $dominion->race) }}">
+                                                {{ $raceHelper->getDrafteesTerm($dominion->race) }}:
                                             </span>
                                         </td>
                                         <td>{{ number_format($infoOp->data['military_draftees']) }}</td>
