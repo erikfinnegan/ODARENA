@@ -139,7 +139,6 @@
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Information</h3>
-                <a href="{{ route('dominion.advisors.magic') }}" class="pull-right">Intelligence Advisor</a>
             </div>
             <div class="box-body">
                 <p>This is where you collect information about other dominions through Espionage and Magic.</p>

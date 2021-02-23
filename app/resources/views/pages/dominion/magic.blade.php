@@ -267,7 +267,6 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Information</h3>
-                    <a href="{{ route('dominion.advisors.magic') }}" class="pull-right">Magic Advisor</a>
                 </div>
                 <div class="box-body">
                     <p>Here you may cast spells which temporarily benefit your dominion or hinder opposing dominions. You can also perform information gathering operations with magic.</p>

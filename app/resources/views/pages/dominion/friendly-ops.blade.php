@@ -192,7 +192,6 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Information</h3>
-                    <a href="{{ route('dominion.advisors.magic') }}" class="pull-right">Magic Advisor</a>
                 </div>
                 <div class="box-body">
                     <p>You can cast spells on yourself and some factions can even cast spells on friendly dominions. These spells are always successful.</p>

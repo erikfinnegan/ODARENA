@@ -107,7 +107,7 @@
                                                     @else
                                                         0 <small class="text-muted">(0%)</small>
                                                     @endif
-                                                    
+
                                                     @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
                                                         <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
                                                     @endif
@@ -378,7 +378,7 @@
                   and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
                 <p>You may also <a href="{{ route('dominion.demolish') }}">demolish buildings</a> if you wish.</p>
 
-                <a href="{{ route('scribes.construction') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Buildings in the Scribes.</span></a>
+                <a href="{{ route('scribes.buildings') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Buildings in the Scribes.</span></a>
             </div>
         </div>
     </div>
