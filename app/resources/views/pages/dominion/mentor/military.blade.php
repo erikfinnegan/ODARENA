@@ -64,7 +64,6 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Your Current Military</h3>
-                    <a href="{{ route('dominion.advisors.military') }}" class="pull-right">Military Advisor</a>
                 </div>
 
 

@@ -62,7 +62,7 @@ class NotificationHelper
             'construction_completed' => [
                 'label' => 'Building construction completed',
                 'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.construct'),
+                'route' => route('dominion.buildings'),
                 'iconClass' => 'fa fa-home text-green',
             ],
             'training_completed' => [
@@ -109,7 +109,7 @@ class NotificationHelper
             'treachery_completed' => [
                 'label' => 'Resources from treasonous spies have arrived.',
                 'defaults' => ['email' => false, 'ingame' => true],
-                'route' => route('dominion.advisors.military'),
+                'route' => route('dominion.resources'),
                 'iconClass' => 'ra ra-aware text-green',
             ],
         ];
