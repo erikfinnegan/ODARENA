@@ -83,10 +83,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Advisors
             $router->get('advisors')->uses('Dominion\AdvisorsController@getAdvisors')->name('advisors');
             $router->get('advisors/production')->uses('Dominion\AdvisorsController@getAdvisorsProduction')->name('advisors.production');
-            $router->get('advisors/military')->uses('Dominion\AdvisorsController@getAdvisorsMilitary')->name('advisors.military');
-            $router->get('advisors/land')->uses('Dominion\AdvisorsController@getAdvisorsLand')->name('advisors.land');
-            $router->get('advisors/construct')->uses('Dominion\AdvisorsController@getAdvisorsConstruction')->name('advisors.construct');
-            $router->get('advisors/magic')->uses('Dominion\AdvisorsController@getAdvisorsMagic')->name('advisors.magic');
+            #$router->get('advisors/military')->uses('Dominion\AdvisorsController@getAdvisorsMilitary')->name('advisors.military');
+            #$router->get('advisors/land')->uses('Dominion\AdvisorsController@getAdvisorsLand')->name('advisors.land');
+            #$router->get('advisors/construct')->uses('Dominion\AdvisorsController@getAdvisorsConstruction')->name('advisors.construct');
+            #$router->get('advisors/magic')->uses('Dominion\AdvisorsController@getAdvisorsMagic')->name('advisors.magic');
             $router->get('advisors/statistics')->uses('Dominion\AdvisorsController@getAdvisorsStatistics')->name('advisors.statistics');
             $router->get('advisors/history')->uses('Dominion\AdvisorsController@getHistory')->name('advisors.history');
 
@@ -111,10 +111,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('explore')->uses('Dominion\ExplorationController@postExplore');
 
             // Construction
-            $router->get('construct')->uses('Dominion\ConstructionController@getConstruction')->name('construct');
-            $router->post('construct')->uses('Dominion\ConstructionController@postConstruction');
-            $router->get('destroy')->uses('Dominion\ConstructionController@getDestroy')->name('destroy');
-            $router->post('destroy')->uses('Dominion\ConstructionController@postDestroy');
+            #$router->get('construct')->uses('Dominion\ConstructionController@getConstruction')->name('construct');
+            #$router->post('construct')->uses('Dominion\ConstructionController@postConstruction');
+            #$router->get('destroy')->uses('Dominion\ConstructionController@getDestroy')->name('destroy');
+            #$router->post('destroy')->uses('Dominion\ConstructionController@postDestroy');
 
             # Buildings
             $router->get('buildings')->uses('Dominion\BuildingController@getBuildings')->name('buildings');
@@ -259,7 +259,7 @@ $router->group(['prefix' => 'about', 'as' => 'about.'], static function (Router 
 // Scribes
 $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Router $router) {
     $router->get('factions')->uses('ScribesController@getRaces')->name('factions');
-    $router->get('construction')->uses('ScribesController@getConstruction')->name('construction');
+    #$router->get('construction')->uses('ScribesController@getConstruction')->name('construction');
     $router->get('buildings')->uses('ScribesController@getBuildings')->name('buildings');
     $router->get('espionage')->uses('ScribesController@getEspionage')->name('espionage');
     #$router->get('magic')->uses('ScribesController@getMagic')->name('magic');
