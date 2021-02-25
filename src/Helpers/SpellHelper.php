@@ -908,7 +908,7 @@ class SpellHelper
             'cannot_send_boats' => 'Cannot send boats.',
             'boats_sunk' => '%s%% boats lost to sinking.',
 
-            'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
+            'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3%% per hour into the round.',
 
             'no_drafting' => 'No draftees are drafted.',
 

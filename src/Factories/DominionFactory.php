@@ -390,6 +390,11 @@ class DominionFactory
             }
         }
 
+        # Round 41: reduce gold, ore, and lumber by 50%
+        $startingResources['gold'] /= 2;
+        $startingResources['ore'] /= 2;
+        $startingResources['lumber'] /= 2;
+
         $dominion = Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,

@@ -610,6 +610,29 @@ class SpellActionService
 
                     $extraLine = ', summoning ' . number_format($totalUnitsSummoned) . ' new units to our military';
                 }
+
+                # Summon units (increased hourly)
+                if($perk->key === 'summon_units_from_land_by_time')
+                {
+                    $unitSlots = (array)$spellPerkValues[0];
+                    $basePerAcre = (float)$spellPerkValues[1];
+                    $hourlyPercentIncrease = (float)$spellPerkValues[2] / 100;
+                    $landType = (string)$spellPerkValues[3];
+
+                    $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($caster->round->start_date)->startOfHour());
+
+                    $totalUnitsSummoned = 0;
+
+                    foreach($unitSlots as $slot)
+                    {
+                        $amountPerAcre = $maxPerAcre * (1 + $hoursIntoTheRound * $hourlyPercentIncrease);
+                        $unitsSummoned = floor($amountPerAcre * $caster->{'land_' . $landType});
+                        $caster->{'military_unit' . $slot} += $unitsSummoned;
+                        $totalUnitsSummoned += $unitsSummoned;
+                    }
+
+                    $extraLine = ', summoning ' . number_format($totalUnitsSummoned) . ' new units to our military';
+                }
             }
 
             return [

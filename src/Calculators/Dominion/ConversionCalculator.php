@@ -481,7 +481,7 @@ class ConversionCalculator
 
         if($mode === 'offense')
         {
-            if($this->spellCalculator->getPassiveSpellPerkMultiplier($attacker, 'no_conversions'))
+            if($attacker->getSpellPerkValue('no_conversions'))
             {
                 return $convertedUnits;
             }
@@ -606,7 +606,7 @@ class ConversionCalculator
 
         if($mode === 'defense')
         {
-            if($this->spellCalculator->getPassiveSpellPerkMultiplier($defender, 'no_conversions'))
+            if($defender->getSpellPerkValue('no_conversions'))
             {
                 return $convertedUnits;
             }

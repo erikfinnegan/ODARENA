@@ -362,6 +362,7 @@ forest_haven:
     fireball_damage: 1,8  # Every 1% reduces damage from FBs by 8%
     gold_theft_reduction: 1,8,100  # Every 1% reduces plat stolen by 8%, max 100% reduction
     spy_housing: 40
+    housing: 0
 
 wizard_guild:
   name: Wizard Guild
@@ -378,6 +379,7 @@ wizard_guild:
     wizard_cost: 1,2,40 # Every 1% gives 2% cost reduction, max 40% reduction
     spell_cost: 1,2,40 # Every 1% gives 2% cost reduction, max 40% reduction
     wizard_housing: 40
+    housing: 0
 
 # Racial Buildings/Faction Buildings
 
