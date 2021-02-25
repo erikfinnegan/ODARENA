@@ -5,6 +5,7 @@ namespace OpenDominion\Services\Dominion\Actions;
 use DB;
 use Exception;
 use LogicException;
+use Illuminate\Support\Carbon;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -625,7 +626,7 @@ class SpellActionService
 
                     foreach($unitSlots as $slot)
                     {
-                        $amountPerAcre = $maxPerAcre * (1 + $hoursIntoTheRound * $hourlyPercentIncrease);
+                        $amountPerAcre = $basePerAcre * (1 + $hoursIntoTheRound * $hourlyPercentIncrease);
                         $unitsSummoned = floor($amountPerAcre * $caster->{'land_' . $landType});
                         $caster->{'military_unit' . $slot} += $unitsSummoned;
                         $totalUnitsSummoned += $unitsSummoned;

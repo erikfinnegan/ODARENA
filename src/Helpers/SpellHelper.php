@@ -908,7 +908,8 @@ class SpellHelper
             'cannot_send_boats' => 'Cannot send boats.',
             'boats_sunk' => '%s%% boats lost to sinking.',
 
-            'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3%% per hour into the round.',
+            'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
+            'summon_units_from_land_by_time' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3$s%%  per hour into the round.',
 
             'no_drafting' => 'No draftees are drafted.',
 
@@ -1261,6 +1262,35 @@ class SpellHelper
                 $unitsString = generate_sentence_from_array($units);
 
                 $perkValue = [$unitsString, $maxPerAcre, $landType];
+                $nestedArrays = false;
+
+            }
+
+            if($perk->key === 'summon_units_from_land_by_time')
+            {
+                $unitSlots = (array)$perkValue[0];
+                $basePerAcre = (float)$perkValue[1];
+                $hourlyPercentIncrease = (float)$perkValue[2];
+                $landType = (string)$perkValue[3];
+
+                // Rue the day this perk is used for other factions.
+                $race = Race::where('name', 'Weres')->firstOrFail();
+
+                foreach ($unitSlots as $index => $slot)
+                {
+                    $slot = (int)$slot;
+                    $unit = $race->units->filter(static function ($unit) use ($slot)
+                        {
+                            return ($unit->slot === $slot);
+                        })->first();
+
+
+                    $units[$index] = str_plural($unit->name);
+                }
+
+                $unitsString = generate_sentence_from_array($units);
+
+                $perkValue = [$unitsString, $basePerAcre, $hourlyPercentIncrease, $landType];
                 $nestedArrays = false;
 
             }

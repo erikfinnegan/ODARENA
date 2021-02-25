@@ -19,6 +19,7 @@ perks:
   construction_cost: -20
   rezone_cost: -20
   increased_construction_speed: 4
+  prestige_gains: 30
 
 units:
   - name: Man-at-Arms

@@ -85,7 +85,7 @@ class RaceHelper
                 break;
             case 'tech_production':
                 $negativeBenefit = false;
-                $description = 'XP production';
+                $description = 'XP generation';
                 break;
             case 'immortal_wizards':
                 $negativeBenefit = false;

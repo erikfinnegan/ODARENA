@@ -59,13 +59,12 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1000
+      gold: 900
       ore: 0
     power:
-      offense: 2
+      offense: 5
       defense: 3
     perks:
-      offense_vs_land: plain,10,3 # land type, ratio%, max
       defense_from_land: forest,10,3 # land type, ratio%, max
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
@@ -76,11 +75,10 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1200
-      ore: 90
+      gold: 1000
+      ore: 100
     power:
-      offense: 4
+      offense: 7
       defense: 2
     perks:
-      offense_vs_land: plain,10,3 # land type, ratio%, max
       defense_from_land: forest,10,3 # land type, ratio%, max

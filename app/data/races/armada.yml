@@ -15,7 +15,6 @@ construction_materials: gold,lumber
 
 perks:
   exchange_bonus: 25
-  can_sell_food: 1
   salvaging: 50
   invest_bonus: 25
 

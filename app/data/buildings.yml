@@ -161,9 +161,10 @@ mast:
   name: Mast
   exclusive_races:
     - Dragon
+    - Icekin
   land_type: mountain
   perks:
-    mana_production: 25
+    mana_production: 15
 
 lumberyard:
   name: Lumberyard
@@ -177,8 +178,9 @@ lumberyard:
     - Imperial Gnome
     - Merfolk
     - Myconid
-    - Void
     - Swarm
+    - Sylvan
+    - Void
   land_type: forest
   perks:
     lumber_production: 50
@@ -399,7 +401,7 @@ tissue:
   land_type: swamp
   perks:
     food_production: 4
-    housing: 160
+    housing: 176
     jobs: 0
 
 mycelia:

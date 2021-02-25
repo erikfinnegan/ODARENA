@@ -828,15 +828,20 @@ class EspionageActionService
 
         $theftAmount = min($availableResource * $ratio, $spyUnits * $maxPerSpy) * (0.9 + $dominion->spy_strength / 1000);
 
-        $theftAmount *= 1 + $dominion->getTechPerkMultiplier('amount_stolen');
+        # The stealer can increase
+        $theftModifier = 1;
+        $theftModifier += $dominion->getTechPerkMultiplier('amount_stolen');
+        $theftModifier += $dominion->race->getPerkMultiplier('amount_stolen');
 
-        $theftAmount *= 1 + $target->getSpellPerkMultiplier($resource . '_theft');
-        $theftAmount *= 1 + $target->getSpellPerkMultiplier('all_theft');
+        $theftAmount *= (1 + $theftModifier);
 
-        if($resource === 'gold')
-        {
-            // Forest Havens
-            $theftAmount *= 1 - $target->getBuildingPerkMultiplier('gold_theft_reduction');}
+        # But the target can decrease, which comes afterwards
+        $theftModifier = 1;
+        $theftModifier += $target->getSpellPerkMultiplier($resource . '_theft');
+        $theftModifier += $target->getSpellPerkMultiplier('all_theft');
+        $theftModifier += $target->getBuildingPerkMultiplier($resource . '_theft_reduction');
+
+        $theftAmount *= (1 + $theftModifier);
 
         $theftAmount = min(max(0, $theftAmount), $target->{$resourceString});
 

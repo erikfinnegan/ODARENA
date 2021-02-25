@@ -12,65 +12,62 @@ skill_level: 2
 construction_materials: gold,ore
 
 perks:
-  extra_barren_max_population: 5
   food_consumption: -25
-  gem_production: 10
   construction_cost: -25
   increased_construction_speed: 6
   salvaging: 50
+  tech_production: 10
 units:
-  - name: Bomb Squad
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 225
-      ore: 55
-    power:
-      offense: 4.5
-      defense: 0
-    perks:
-      fixed_casualties: 50
-
-  - name: Tinker
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 300
-      ore: 5
-    power:
-      offense: 0
-      defense: 3
-
-  - name: Rockapult
+  - name: Mortar
+    need_boat: false
     training_time: 12
     type:
       - machine
     cost:
-      gold: 500
-      ore: 350
+      gold: 100
+      ore: 200
+    power:
+      offense: 6
+      defense: 0
+    perks:
+      faster_return: 8
+
+  - name: Oreguard
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 50
+      ore: 300
     power:
       offense: 0
-      defense: 3
+      defense: 6
+
+  - name: Automaton
+    training_time: 12
+    type:
+      - machine
+    cost:
+      gold: 1000
+      ore: 1000
+    power:
+      offense: 0
+      defense: 0
     perks:
-      defense_from_land: mountain,20,5 # land type, ratio%, max
-      defense_from_advancements: anvils_level8;0.5,quarries_level8;0.5,infrastructure_level8;0.5
+      defense_from_advancements: anvils_level6;2,architecture_level6;2,craftsmanship_level6;2,drills_level6;2,fortifications_level6;2,gemcutting_level6;2,infrastructure_level6;2,quarries_level6;2,strategy_level6;2,tactics_level6;2
 
   - name: Juggernaut
     training_time: 12
     type:
       - machine
     cost:
-      gold: 650
-      ore: 550
+      gold: 1000
+      ore: 1000
     power:
-      offense: 6
-      defense: 4
+      offense: 0
+      defense: 0
     perks:
-      plunders: ore;2,gems;0.15
-      offense_from_advancements: anvils_level8;1,quarries_level8;1,infrastructure_level8;1
+      offense_from_advancements: anvils_level6;2,architecture_level6;2,craftsmanship_level6;2,drills_level6;2,fortifications_level6;2,gemcutting_level6;2,infrastructure_level6;2,quarries_level6;2,strategy_level6;2,tactics_level6;2
+      defense_from_advancements: anvils_level6;1,architecture_level6;1,craftsmanship_level6;1,drills_level6;1,fortifications_level6;1,gemcutting_level6;1,infrastructure_level6;1,quarries_level6;1,strategy_level6;1,tactics_level6;1

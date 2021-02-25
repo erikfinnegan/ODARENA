@@ -15,12 +15,9 @@ class BankingCalculator
     public function getResources(Dominion $dominion): array
     {
 
-        $foodSell = 0;
         $manaSell = 0;
-        if($dominion->race->getPerkMultiplier('can_sell_food'))
-        {
-          $foodSell = 0.50;
-        }
+        $foodSell = 0.10;
+
         if($dominion->race->getPerkMultiplier('can_sell_mana'))
         {
           $manaSell = 0.10;

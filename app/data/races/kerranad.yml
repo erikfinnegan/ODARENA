@@ -34,7 +34,6 @@ perks:
   gold_production: 10
   ore_production: 25
   cannot_rezone: 1
-  can_sell_food: 1
   salvaging: 95
   max_per_round: 1
   min_rounds_played: 5
