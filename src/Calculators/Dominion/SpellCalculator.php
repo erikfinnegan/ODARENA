@@ -328,4 +328,17 @@ class SpellCalculator
         return $spell->wizard_strength ?? $cost;
     }
 
+    public function getCaster(Dominion $target, string $spellKey): Dominion
+    {
+        if (!$this->isSpellActive($dominion, $spellKey))
+        {
+            return null;
+        }
+
+        $spell = Spell::where('key', $spellKey)->first();
+
+        $dominionSpell = DominionSpell::where('spell_id',$spell->id)->where('dominion_id',$target->id)->first();
+        return Dominion::findorfail($dominionSpell->caster_id);
+    }
+
 }
