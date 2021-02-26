@@ -586,7 +586,7 @@ class DominionFactory
         {
           return [
               'plain' => 0,
-              'mountain' => $acresBase,
+              'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
@@ -599,7 +599,7 @@ class DominionFactory
           return [
               'plain' => 0,
               'mountain' => 0,
-              'swamp' => $acresBase,
+              'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
               'hill' => 0,
@@ -625,7 +625,7 @@ class DominionFactory
               'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
-              'forest' => $acresBase,
+              'forest' => 0,
               'hill' => 0,
               'water' => 0,
           ];
