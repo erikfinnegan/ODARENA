@@ -412,6 +412,7 @@ mycelia:
   perks:
     housing: 30
     food_production: 4
+    jobs: 0
 
 camp:
   name: Camp
@@ -450,6 +451,7 @@ barracks:
   land_type: hill
   perks:
     military_housing: 36
+    jobs: 0
 
 home:
   name: Home
@@ -457,6 +459,7 @@ home:
   land_type: plain
   perks:
     housing: 30
+    jobs: 0
 
 abode:
   name: Abode
@@ -465,6 +468,7 @@ abode:
   land_type: swamp
   perks:
     housing: 30
+    jobs: 0
 
 beacon:
   name: Beacon
@@ -473,6 +477,7 @@ beacon:
   land_type: water
   perks:
     housing: 30
+    jobs: 0
 
 cave:
   name: Cave
@@ -482,6 +487,7 @@ cave:
   land_type: mountain
   perks:
     housing: 30
+    jobs: 0
 
 chamber:
   name: Chamber
@@ -510,6 +516,7 @@ coral_reef:
   land_type: water
   perks:
     housing: 30
+    jobs: 0
 
 dwelling:
   name: Dwelling
@@ -521,6 +528,7 @@ dwelling:
   land_type: hill
   perks:
     housing: 30
+    jobs: 0
 
 estate:
   name: Estate
@@ -553,6 +561,7 @@ grove:
   land_type: forest
   perks:
     housing: 30
+    jobs: 0
 
 hall:
   name: Hall
@@ -562,6 +571,7 @@ hall:
   land_type: mountain
   perks:
     housing: 30
+    jobs: 0
 
 incinerator:
   name: Incinerator
@@ -571,6 +581,7 @@ incinerator:
   perks:
     housing: 30
     population_growth: 1,3 # Every 1%, gives 3%
+    jobs: 0
 
 orcish_longhouse:
   name: Longhouse
@@ -581,6 +592,7 @@ orcish_longhouse:
   perks:
     housing: 30
     military_housing: 10
+    jobs: 0
 
 norse_longhouse:
   name: Longhouse
@@ -590,6 +602,7 @@ norse_longhouse:
   perks:
     housing: 30
     military_housing: 10
+    jobs: 0
 
 mansion:
   name: Mansion
@@ -607,6 +620,7 @@ mire:
   land_type: swamp
   perks:
     housing: 30
+    jobs: 0
 
 monastery:
   name: Monastery
@@ -616,6 +630,7 @@ monastery:
   perks:
     housing: 30
     military_housing: 10
+    jobs: 0
 
 residence:
   name: Residence
@@ -625,6 +640,7 @@ residence:
   land_type: plain
   perks:
     housing: 30
+    jobs: 0
 
 sanctuary:
   name: Sanctuary
@@ -641,6 +657,7 @@ shed:
   land_type: forest
   perks:
     housing: 30
+    jobs: 0
 
 tomb:
   name: Tomb
@@ -649,3 +666,4 @@ tomb:
   land_type: swamp
   perks:
     housing: 30
+    jobs: 0
