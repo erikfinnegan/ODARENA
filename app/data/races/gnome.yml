@@ -16,7 +16,6 @@ perks:
   construction_cost: -25
   increased_construction_speed: 6
   salvaging: 50
-  tech_production: 10
 units:
   - name: Mortar
     need_boat: false
