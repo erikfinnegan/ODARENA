@@ -557,7 +557,7 @@ class EspionageActionService
         }
 
         // Surreal Perception
-        if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+        if ($target->getSpellPerkValue('reveal_ops'))
         {
             $this->notificationService
                 ->queueNotification('received_spy_op', [
@@ -641,7 +641,7 @@ class EspionageActionService
 
             // Surreal Perception
             $sourceDominionId = null;
-            if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+            if ($target->getSpellPerkValue('reveal_ops'))
             {
                 $sourceDominionId = $dominion->id;
             }
@@ -1081,7 +1081,7 @@ class EspionageActionService
 
             // Surreal Perception
             $sourceDominionId = null;
-            if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+            if ($target->getSpellPerkValue('reveal_ops'))
             {
                 $sourceDominionId = $dominion->id;
             }

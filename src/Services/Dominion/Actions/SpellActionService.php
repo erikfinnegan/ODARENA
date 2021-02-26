@@ -417,7 +417,7 @@ class SpellActionService
 
                 // Surreal Perception
                 $sourceDominionId = null;
-                if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+                if ($target->getSpellPerkValue('reveal_ops'))
                 {
                     $sourceDominionId = $caster->id;
                 }
@@ -845,7 +845,7 @@ class SpellActionService
 
                 // Surreal Perception
                 $sourceDominionId = null;
-                if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+                if ($target->getSpellPerkValue('reveal_ops'))
                 {
                     $sourceDominionId = $dominion->id;
                 }
@@ -1205,7 +1205,7 @@ class SpellActionService
         }
 
         // Surreal Perception
-        if ($this->spellCalculator->getPassiveSpellPerkValue($target, 'reveal_ops'))
+        if ($target->getSpellPerkValue('reveal_ops'))
         {
             $this->notificationService
                 ->queueNotification('received_hostile_spell', [
