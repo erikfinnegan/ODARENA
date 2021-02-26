@@ -595,13 +595,13 @@ class Dominion extends AbstractModel
               }
 
               # Default value for housing.
-              if($perkKey == 'housing' and $perkValueString !== 0.0)
+              if($perkKey == 'housing' and !is_numeric($perkValueString))
               {
                   $perkValueString = 15;
               }
 
               # Default value for jobs.
-              if($perkKey == 'jobs' and $perkValueString !== 0.0)
+              if($perkKey == 'jobs' and !is_numeric($perkValueString))
               {
                   $perkValueString = 20;
               }
