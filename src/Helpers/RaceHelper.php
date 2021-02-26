@@ -356,6 +356,12 @@ class RaceHelper
                 $description = 'Can only build Ziggurats';
                 $booleanValue = true;
                 break;
+                break;
+            case 'no_gold_production':
+                $negativeBenefit = false;
+                $description = 'No gold production';
+                $booleanValue = true;
+                break;
             case 'defense_per_ziggurat':
                 $negativeBenefit = false;
                 $description = 'Raw DP per Ziggurat';

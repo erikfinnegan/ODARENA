@@ -59,7 +59,7 @@ class ProductionCalculator
     {
         $gold = 0;
 
-        if($dominion->getSpellPerkValue('no_gold_production') or ($dominion->race->getPerkValue('peasants_produce_food') and $dominion->race->name === 'Growth'))
+        if($dominion->getSpellPerkValue('no_gold_production') or $dominion->race->getPerkValue('no_gold_production') or ($dominion->race->getPerkValue('peasants_produce_food') and $dominion->race->name === 'Growth'))
         {
             return $gold;
         }
