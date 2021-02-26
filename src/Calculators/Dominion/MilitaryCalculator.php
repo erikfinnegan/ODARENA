@@ -1586,7 +1586,7 @@ class MilitaryCalculator
     public function getBoatsProtected(Dominion $dominion): float
     {
         // Docks
-        $boatsProtected = $dominion->buildings->getPerkValue('boat_protection');
+        $boatsProtected = $dominion->getBuildingPerkValue('boat_protection');
         // Habor
         $boatsProtected *= 1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
         return $boatsProtected;
