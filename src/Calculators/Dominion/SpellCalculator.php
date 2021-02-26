@@ -330,7 +330,7 @@ class SpellCalculator
 
     public function getCaster(Dominion $target, string $spellKey): Dominion
     {
-        if (!$this->isSpellActive($dominion, $spellKey))
+        if (!$this->isSpellActive($target, $spellKey))
         {
             return null;
         }
