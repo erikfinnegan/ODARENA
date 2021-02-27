@@ -1072,7 +1072,7 @@ class SpellActionService
         $selfWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'offense'));
         $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'defense'));
 
-        if ($targetWpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfWpa, $targetWpa)))
+        if ($targetWpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfWpa, $targetWpa, static::INFO_MULTIPLIER_SUCCESS_RATE)))
         {
             # Is the spell reflected?
             $spellReflected = false;

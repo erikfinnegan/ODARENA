@@ -6,7 +6,7 @@ description: >-
   <p>Anyone invading the Afflicted will bring back with them a terrible disease called <strong>Festering Wounds</strong>.</p>
   <hr />
   <ul>
-  <li><strong>Pestilence</strong>: 1% of peasants die and return to the Afflicted as Abominations (takes 12 ticks).</li>
+  <li><strong>Pestilence</strong>: (1% * [Land Ratio]) of target's peasants die and return to the Afflicted as Abominations (takes 12 ticks).</li>
   <li><strong>Great Fever</strong>: no population growth, -10% gold production, -20% food production.</li>
   <li><strong>Festering Wounds</strong>: +25% casualties, +25% food consumption.</li>
   </ul>
