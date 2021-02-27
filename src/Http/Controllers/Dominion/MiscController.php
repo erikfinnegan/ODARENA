@@ -16,6 +16,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 // misc functions, probably could use a refactor later
 class MiscController extends AbstractDominionController
@@ -28,9 +29,13 @@ class MiscController extends AbstractDominionController
      *
      * @param SelectorService $dominionSelectorService
      */
-    public function __construct(SelectorService $dominionSelectorService)
+    public function __construct(
+        SelectorService $dominionSelectorService,
+        MilitaryCalculator $militaryCalculator
+        )
     {
         $this->dominionSelectorService = $dominionSelectorService;
+        $this->ilitaryCalculator = $militaryCalculator;
     }
 
     public function postClearNotifications()
@@ -176,17 +181,17 @@ class MiscController extends AbstractDominionController
           'type' => 'abandon_dominion',
           'data' => $data,
         ]);
-        $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
 
         # Remove votes
         DB::table('dominions')->where('monarchy_vote_for_dominion_id', '=', $dominion->id)->update(['monarchy_vote_for_dominion_id' => null]);
 
         # Change the ruler title
         DB::table('dominions')->where('id', '=', $dominion->id)->where('user_id', '=', Auth::user()->id)->update(['ruler_name' => ('Formerly ' . $dominion->ruler_name)]);
-
         DB::table('dominions')->where('id', '=', $dominion->id)->where('user_id', '=', Auth::user()->id)->update(['user_id' => null, 'former_user_id' => Auth::user()->id]);
 
         $this->dominionSelectorService->unsetUserSelectedDominion();
+
+        $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
 
         Log::info(sprintf(
             'The dominion %s (ID %s) was abandoned by user %s (ID %s).',
