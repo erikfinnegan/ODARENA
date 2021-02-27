@@ -1185,7 +1185,7 @@ class SpellActionService
                 $this->notificationService
                     ->queueNotification('received_hostile_spell', [
                         'sourceDominionId' => $caster->id,
-                        'spellKey' => $spellKey,
+                        'spellKey' => $spell->key,
                     ])
                     ->sendNotifications($target, 'irregular_dominion');
             }
