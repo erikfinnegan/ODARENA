@@ -563,6 +563,8 @@ class PopulationCalculator
             }
         }
 
+        $jobs *= 1 + $dominion->getTechPerkMultiplier('jobs_per_building');
+
         return $jobs;
     }
 
