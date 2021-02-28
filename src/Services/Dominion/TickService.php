@@ -436,9 +436,7 @@ class TickService
 
                 DB::transaction(function () use ($dominion)
                 {
-                    #echo "Ticking $dominion->name.\n";
-                    # Send starvation notification.
-                    if(isset($dominion->tick->starvation_casualties) and $dominion->tick->starvation_casualties > 0)
+                    if($dominion->tick->starvation_casualties > 0)
                     {
                         $this->notificationService->queueNotification('starvation_occurred');
                     }
@@ -803,8 +801,9 @@ class TickService
           }
 
           // Starvation
+
           $tick->starvation_casualties = 0;
-          if (($dominion->resource_food + $tick->resource_food) < 0)
+          if($dominion->resource_food + $this->productionCalculator->getFoodNetChange($dominion) < 0)
           {
               $tick->resource_food = ($dominion->resource_food*-1);
               $tick->starvation_casualties = 1;
