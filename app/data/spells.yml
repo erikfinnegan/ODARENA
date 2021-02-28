@@ -642,7 +642,7 @@ solar_rays:
   exclusive_races:
     - Lux
   perks:
-    kills_faction_units_percentage: nox,1,2 # faction, slot, percentage
+    kills_faction_units_percentage: Nox,1,2 # faction, slot, percentage
 
 purification:
   name: Tiranthael's Justice
@@ -657,7 +657,7 @@ purification:
     - Sacred Order
     - Sylvan
   perks:
-    kills_faction_units_percentage: afflicted,1,1 # faction, slot, percentage
+    kills_faction_units_percentage: Afflicted,1,1 # faction, slot, percentage
 
 # MERFOLK
 

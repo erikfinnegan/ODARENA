@@ -756,6 +756,30 @@ class SpellActionService
                         }
                     }
 
+                    if($perk->key === 'kills_faction_units_percentage')
+                    {
+                        $faction = $spellPerkValues[0];
+                        $slot = (int)$spellPerkValues[1];
+                        $ratio = (float)$spellPerkValues[2] / 100;
+
+                        $attribute = 'military_unit'.$slot;
+
+                        if($target->race->name !== $faction)
+                        {
+                            $ratio = 0;
+                        }
+
+                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $attribute);
+
+                        $damage = round($target->{'military_unit'.$slot} * $ratio);
+
+                        $target->{$attribute} -= $damage;
+                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                        $caster->stat_total_units_killed += $damage;
+                        $target->{'stat_total_unit' . $slot . '_lost'} += $damage;
+                    }
+
                     if($perk->key === 'disband_spies')
                     {
                         $attribute = 'military_spies';
