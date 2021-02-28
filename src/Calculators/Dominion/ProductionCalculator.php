@@ -305,7 +305,8 @@ class ProductionCalculator
         // Invasion Spell: Unhealing Wounds (+10% consumption)
         if ($multiplier !== -1.00 and $this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
         {
-            $multiplier += 0.10 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'festering_wounds', null);
+            $spell = Spell::where('key', 'festering_wounds')->first();
+            $multiplier += 0.10 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, $spell, null);
         }
 
         // Unit Perk: food_consumption
