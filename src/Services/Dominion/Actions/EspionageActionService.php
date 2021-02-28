@@ -829,19 +829,19 @@ class EspionageActionService
         $theftAmount = min($availableResource * $ratio, $spyUnits * $maxPerSpy) * (0.9 + $dominion->spy_strength / 1000);
 
         # The stealer can increase
-        $theftModifier = 1;
-        $theftModifier += $dominion->getTechPerkMultiplier('amount_stolen');
-        $theftModifier += $dominion->race->getPerkMultiplier('amount_stolen');
+        $thiefModifier = 0;
+        $thiefModifier += $dominion->getTechPerkMultiplier('amount_stolen');
+        $thiefModifier += $dominion->race->getPerkMultiplier('amount_stolen');
 
-        $theftAmount *= (1 + $theftModifier);
+        $theftAmount *= (1 + $thiefModifier);
 
         # But the target can decrease, which comes afterwards
-        $theftModifier = 1;
-        $theftModifier += $target->getSpellPerkMultiplier($resource . '_theft');
-        $theftModifier += $target->getSpellPerkMultiplier('all_theft');
-        $theftModifier += $target->getBuildingPerkMultiplier($resource . '_theft_reduction');
+        $targetModifier = 0;
+        $targetModifier += $target->getSpellPerkMultiplier($resource . '_theft');
+        $targetModifier += $target->getSpellPerkMultiplier('all_theft');
+        $targetModifier += $target->getBuildingPerkMultiplier($resource . '_theft_reduction');
 
-        $theftAmount *= (1 + $theftModifier);
+        $theftAmount *= (1 + $targetModifier);
 
         $theftAmount = min(max(0, $theftAmount), $target->{$resourceString});
 
