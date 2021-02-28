@@ -1199,6 +1199,28 @@ class SpellActionService
                 'redirect' => route('dominion.op-center.show', $target),
             ];
         }
+        # Are we successful?
+        ## If no
+        else
+        {
+
+            // Inform target that they repelled a hostile spell
+            $this->notificationService
+                ->queueNotification('repelled_hostile_spell', [
+                    'sourceDominionId' => $caster->id,
+                    'spellKey' => $spell->key,
+                    'unitsKilled' => null,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
+
+            // Return here, thus completing the spell cast and reducing the caster's mana
+            return [
+                'success' => false,
+                'message' => "The enemy wizards have repelled our {$spell->name} attempt.",
+                'wizardStrengthCost' => 2,
+                'alert-type' => 'warning',
+            ];
+        }
 
     }
     /*
