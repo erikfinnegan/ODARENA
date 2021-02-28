@@ -136,7 +136,8 @@ class CasualtiesCalculator
             $multiplier -= $this->getCasualtiesReductionFromLand($dominion, $slot, 'offense');
             $multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'offense');
 
-            $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'casualties');
+            // Spells
+            $multiplier += $dominion->getSpellPerkMultiplier('casualties');
 
             # Invasion Spell: Unhealing Wounds
             if ($this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
