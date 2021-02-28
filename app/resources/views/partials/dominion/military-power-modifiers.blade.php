@@ -69,6 +69,12 @@
                         <td>{{ number_format($militaryCalculator->getLeagueMultiplier($selectedDominion, null, 'offense') * 100, 2) }}%</td>
                         <td>{{ number_format($militaryCalculator->getLeagueMultiplier($selectedDominion, null, 'defense') * 100, 2) }}%</td>
                     </tr>
+                    @if($selectedDominion->getSpellPerkValue('reduces_target_raw_defense_from_land'))
+                    <tr>
+                        <td>Ambush:</td>
+                        <td colspan="2">-{{ number_format($militaryCalculator->getRawDefenseAmbushReductionRatio($selectedDominion) * 100, 2) }}% target raw DP</td>
+                    </tr>
+                    @endif
                 </tbody>
             </table>
         </div>

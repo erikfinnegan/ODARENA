@@ -6,6 +6,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
+use OpenDominion\Models\Spell;
 use Log;
 
 use OpenDominion\Services\Dominion\GovernmentService;
@@ -384,13 +385,8 @@ class MilitaryCalculator
         if($isAmbush)
         {
             #echo "<pre>\tAmbush!\t";
-            $forestRatio = $attacker->land_forest / $this->landCalculator->getTotalLand($attacker);
-            $forestRatioModifier = $forestRatio / 5;
-            $ambushReduction = min($forestRatioModifier, 0.10);
-
-            #echo "Reduction: $ambushReduction (" . $ambushReduction*100 .'%), lowering $dp from '. $dp;
-
-            $dp = $dp * (1 - $ambushReduction);
+            #echo 'Reduction: ' . $this->getRawDefenseAmbushReductionRatio($attacker) . '%, lowering $dp from '. $dp;
+            $dp = $dp * (1 - $this->getRawDefenseAmbushReductionRatio($attacker));
             #echo ' to '. $dp . '</pre>';
         }
 
@@ -1921,6 +1917,32 @@ class MilitaryCalculator
 
         return round($landConquered * $multiplier);
 
+    }
+
+    public function getRawDefenseAmbushReductionRatio(Dominion $attacker): float
+    {
+        $ambushSpellKey = 'ambush';
+        $ambushReductionRatio = 0.0;
+
+        if(!$this->spellCalculator->isSpellActive($attacker, $ambushSpellKey))
+        {
+            return $ambushReductionRatio;
+        }
+
+        $spell = Spell::where('key', $ambushSpellKey)->first();
+
+        $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'reduces_target_raw_defense_from_land');
+
+        $reduction = $spellPerkValues[0];
+        $ratio = $spellPerkValues[1];
+        $landType = $spellPerkValues[2];
+        $max = $spellPerkValues[3] / 100;
+
+        $landTypeRatio = $attacker->{'land_' . $landType} / $this->landCalculator->getTotalLand($attacker);
+
+        $ambushReductionRatio = min(($landTypeRatio / $ratio) * $reduction, $max);
+
+        return $ambushReductionRatio;
     }
 
     public function getDefensivePowerModifierFromLandType(Dominion $dominion, string $landType): float

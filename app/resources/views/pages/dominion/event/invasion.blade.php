@@ -27,7 +27,7 @@
                         unsuccessfully
                         @endif
 
-                        @if($event->data['result']['isAmbush'])
+                        @if($event->data['attacker']['ambush'])
                         ambushed
                         @else
                         invaded

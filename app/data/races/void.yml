@@ -1,10 +1,6 @@
 name: Void
 alignment: independent
-description: >-
-  <ul>
-  <li>Unique building: Ziggurat.</li>
-  <li>Can only build Ziggurat.</li>
-  </ul>
+description:
 home_land_type: mountain
 playable: 1
 

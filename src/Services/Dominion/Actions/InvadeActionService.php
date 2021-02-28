@@ -2503,12 +2503,13 @@ class InvadeActionService
     {
         # Check for Ambush
         $this->isAmbush = false;
-        if ($this->spellCalculator->getPassiveSpellPerkValue($attacker, 'reduces_target_raw_defense_from_land'))
+
+        if($this->militaryCalculator->getRawDefenseAmbushReductionRatio($attacker) > 0)
         {
             $this->isAmbush = true;
         }
 
-        $this->invasionResult['result']['isAmbush'] = $this->isAmbush;
+        $this->invasionResult['attacker']['ambush'] = $this->isAmbush;
     }
 
     /**
