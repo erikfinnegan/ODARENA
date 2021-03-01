@@ -54,7 +54,7 @@ class SettingsController extends AbstractController
         $this->updateUser($request->input());
         $this->updateNotifications($request->input());
         $this->updateSettings($request->input());
-//        $this->updateNotificationSettings($request->input());
+        $this->updateNotificationSettings($request->input());
 
         $request->session()->flash('alert-success', 'Your settings have been updated.');
         return redirect()->route('settings');
@@ -155,8 +155,6 @@ class SettingsController extends AbstractController
             return;
         }
 
-        dd($data);
-
         $user = Auth::user();
 
         $settingHelper = app(SettingsHelper::class);
@@ -213,6 +211,12 @@ class SettingsController extends AbstractController
         $user = Auth::user();
 
         $settings = ($user->settings ?? []);
+
+        if(!isset($data['notification_digest']))
+        {
+            $data['notification_digest'] = 'hourly';
+        }
+
         $settings['notification_digest'] = $data['notification_digest'];
 
         $user->settings = $settings;

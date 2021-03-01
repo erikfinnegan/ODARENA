@@ -53,7 +53,6 @@ class NotificationService
 
         if(!$dominion->isAbandoned())
         {
-
             $user = $dominion->user;
 
             $emailNotifications = [];
