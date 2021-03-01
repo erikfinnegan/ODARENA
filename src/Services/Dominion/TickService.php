@@ -667,7 +667,7 @@ class TickService
           // Reset tick values
           foreach ($tick->getAttributes() as $attr => $value)
           {
-              if (!in_array($attr, ['id', 'dominion_id', 'updated_at','starvation_casualties','pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
+              if (!in_array($attr, ['id', 'dominion_id', 'updated_at','pestilence_units', 'generated_land', 'generated_unit1', 'generated_unit2', 'generated_unit3', 'generated_unit4'], true))
               {
                     $tick->{$attr} = 0;
               }
@@ -806,7 +806,7 @@ class TickService
           if($dominion->resource_food + $this->productionCalculator->getFoodNetChange($dominion) < 0)
           {
               $tick->resource_food = ($dominion->resource_food*-1);
-              $tick->starvation_casualties = 1;
+              $tick->starvation_casualties = 10;
           }
 
           // Morale
