@@ -774,7 +774,12 @@ class SpellActionService
                         $damage = round($target->{'military_unit'.$slot} * $ratio);
 
                         $target->{$attribute} -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                        $unit = $target->race->units->filter(function ($unit) use ($slot) {
+                            return ($unit->slot == $slot);
+                        })->first();
+
+                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($unit->name, $damage));
 
                         $caster->stat_total_units_killed += $damage;
                         $target->{'stat_total_unit' . $slot . '_lost'} += $damage;

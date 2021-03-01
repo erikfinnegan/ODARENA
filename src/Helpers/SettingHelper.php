@@ -765,7 +765,7 @@ class SettingHelper
                         break;
 
                     case 'purification':
-                        $resultString = "{$data['damageString']} die from Purification.";
+                        $resultString = "{$data['damageString']} die from Tiranthael's Justice.";
                         break;
 
                     case 'curse_of_zidur':
