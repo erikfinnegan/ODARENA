@@ -31,9 +31,9 @@ class NotificationHelper
     {
         return [
             'general' => 'General Notifications',
-            'hourly_dominion' => 'Hourly Dominion Notifications',
-            'irregular_dominion' => 'Irregular Dominion Notifications',
-            'irregular_realm' => 'Irregular Realm Notifications',
+            'hourly_dominion' => 'Tick Notifications',
+            'irregular_dominion' => 'Event Notifications',
+            'irregular_realm' => 'Realm Notifications',
         ][$key];
     }
 

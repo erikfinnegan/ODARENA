@@ -212,9 +212,11 @@ class SettingsController extends AbstractController
 
         $settings = ($user->settings ?? []);
 
+        dd($settings, $data);
+
         if(!isset($data['notification_digest']))
         {
-            $data['notification_digest'] = 'hourly';
+        #    $data['notification_digest'] = 'hourly';
         }
 
         $settings['notification_digest'] = $data['notification_digest'];

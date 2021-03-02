@@ -436,7 +436,7 @@ class TickService
 
                 DB::transaction(function () use ($dominion)
                 {
-                    if($dominion->tick->starvation_casualties > 0)
+                    if($dominion->tick->starvation_casualties > 0 and !$dominion->isAbandoned())
                     {
                         $this->notificationService->queueNotification('starvation_occurred');
                     }
@@ -449,6 +449,7 @@ class TickService
                           isset($dominion->tick->attrition_unit4)
                         )
                         and array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0
+                        and !$dominion->isAbandoned()
                       )
                     {
                         $this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
@@ -581,12 +582,12 @@ class TickService
             }
         }
 
-        if (!empty($beneficialSpells))
+        if (!empty($beneficialSpells) and !$dominion->isAbandoned())
         {
             $this->notificationService->queueNotification('beneficial_magic_dissipated', $beneficialSpells);
         }
 
-        if (!empty($harmfulSpells))
+        if (!empty($harmfulSpells) and !$dominion->isAbandoned())
         {
             $this->notificationService->queueNotification('harmful_magic_dissipated', $harmfulSpells);
         }
@@ -606,22 +607,25 @@ class TickService
 
         foreach ($finished->groupBy('source') as $source => $group)
         {
-            $resources = [];
-            foreach ($group as $row)
+            if(!$dominion->isAbandoned())
             {
-                $resources[$row->resource] = $row->amount;
-            }
+                $resources = [];
+                foreach ($group as $row)
+                {
+                    $resources[$row->resource] = $row->amount;
+                }
 
-            if ($source === 'invasion')
-            {
-                $notificationType = 'returning_completed';
-            }
-            else
-            {
-                $notificationType = "{$source}_completed";
-            }
+                if ($source === 'invasion')
+                {
+                    $notificationType = 'returning_completed';
+                }
+                else
+                {
+                    $notificationType = "{$source}_completed";
+                }
 
-            $this->notificationService->queueNotification($notificationType, $resources);
+                $this->notificationService->queueNotification($notificationType, $resources);
+            }
         }
 
 
@@ -1341,12 +1345,12 @@ class TickService
         DB::transaction(function () use ($dominion)
         {
             # Send starvation notification.
-            if($dominion->tick->starvation_casualties > 0)
+            if($dominion->tick->starvation_casualties > 0 and !$dominion->isAbandoned())
             {
                 $this->notificationService->queueNotification('starvation_occurred');
             }
 
-            if(array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0)
+            if(array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0 and !$dominion->isAbandoned())
             {
                 $this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
             }
