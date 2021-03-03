@@ -31,7 +31,7 @@ units:
     training_time: 3
     type:
       - living
-    need_boat: false
+    
     cost:
       food: 25
     power:

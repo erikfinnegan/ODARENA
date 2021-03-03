@@ -77,8 +77,8 @@
                 </div>
                 <div class="col-xs-2">
                     <div class="row">
-                        <div class="col-lg-6"><b>Boats:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_boats) }}</div>
+                        <div class="col-lg-6"></div>
+                        <div class="col-lg-6"></div>
                     </div>
                 </div>
             </div>

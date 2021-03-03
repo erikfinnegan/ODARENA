@@ -36,7 +36,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: false
+    
     cost:
       gold: 250
     power:
@@ -65,7 +65,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: false
+    
     cost:
       gold: 1000
     power:
@@ -82,7 +82,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: false
+    
     cost:
       gold: 700
     power:

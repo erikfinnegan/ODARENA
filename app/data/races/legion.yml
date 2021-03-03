@@ -22,7 +22,7 @@ units:
     type:
       - living
       - sentient
-    need_boat: true
+    
     cost:
       gold: 500
       ore: 80
@@ -38,7 +38,7 @@ units:
     type:
       - living
       - sentient
-    need_boat: true
+    
     cost:
       gold: 500
       ore: 80
@@ -55,7 +55,7 @@ units:
       - living
       - sentient
       - wise
-    need_boat: false
+    
     cost:
       gold: 0
       ore: 0
@@ -72,7 +72,7 @@ units:
       - living
       - sentient
       - wise
-    need_boat: true
+    
     cost:
       gold: 2000
       unit3: 1

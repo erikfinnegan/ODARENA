@@ -39,7 +39,7 @@ units:
       defense: 0
 
   - name: Hex
-    need_boat: false
+    
     training_time: 9
     type:
       - living
@@ -61,7 +61,7 @@ units:
       counts_as_wizard_defense: 0.03
 
   - name: Vex
-    need_boat: false
+    
     training_time: 9
     type:
       - living
@@ -83,7 +83,7 @@ units:
       counts_as_spy_defense: 0.03
 
   - name: Pax
-    need_boat: false
+    
     training_time: 12
     type:
       - living

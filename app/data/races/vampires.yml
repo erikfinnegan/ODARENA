@@ -27,7 +27,7 @@ units:
     type:
       - living
       - mindless
-    need_boat: true
+    
     static_networth: 5
     cost:
       food: 0
@@ -43,7 +43,7 @@ units:
     type:
       - living
       - sentient
-    need_boat: true
+    
     static_networth: 10
     cost:
       gold: 0
@@ -63,7 +63,7 @@ units:
       - sentient
       - massive
       - intelligent
-    need_boat: false
+    
     static_networth: 18
     cost:
       gold: 0
@@ -83,7 +83,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
+    
     cost:
       gold: 900
     power:

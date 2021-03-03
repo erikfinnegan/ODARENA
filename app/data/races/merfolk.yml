@@ -1,6 +1,6 @@
 name: Merfolk
 alignment: independent
-description: 
+description:
 home_land_type: water
 playable: 1
 
@@ -20,7 +20,7 @@ perks:
   damage_from_lightning_bolts: -50
 units:
   - name: Merman
-    need_boat: false
+    
     training_time: 9
     type:
       - living
@@ -31,8 +31,6 @@ units:
     power:
       offense: 3
       defense: 0
-    perks:
-      sink_boats_offense: 1
 
   - name: Siren
     training_time: 9
@@ -45,8 +43,6 @@ units:
     power:
       offense: 0
       defense: 3
-    perks:
-      sink_boats_defense: 1
 
   - name: Leviathan
     training_time: 12
@@ -61,11 +57,10 @@ units:
       offense: 0
       defense: 22
     perks:
-      sink_boats_defense: 1
       food_consumption: 1
 
   - name: Kraken
-    need_boat: false
+    
     training_time: 12
     type:
       - living
@@ -78,6 +73,4 @@ units:
       offense: 12
       defense: 7
     perks:
-      sink_boats_offense: 1
-      sink_boats_defense: 1
       food_consumption: 0.75

@@ -16,7 +16,7 @@ perks:
   max_population: 10
 units:
   - name: Reptile
-    need_boat: false
+    
     type:
       - living
       - sentient
@@ -41,7 +41,7 @@ units:
       defense: 3
 
   - name: Chameleon
-    need_boat: false
+    
     training_time: 12
     type:
       - living
@@ -59,7 +59,7 @@ units:
       sink_boats_defense: 1
 
   - name: Archaesaur
-    need_boat: false
+    
     training_time: 12
     type:
       - living

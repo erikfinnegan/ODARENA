@@ -209,9 +209,9 @@ class InvadeActionService
                 throw new GameException('You don\'t have enough units at home to send this many units.');
             }
 
-            if (!$this->hasEnoughBoats($dominion, $units)) {
-                throw new GameException('You do not have enough boats to send this many units.');
-            }
+            #if (!$this->hasEnoughBoats($dominion, $units)) {
+            #    throw new GameException('You do not have enough boats to send this many units.');
+            #}
 
             if ($dominion->morale < static::MIN_MORALE) {
                 throw new GameException('You do not have enough morale to invade.');
@@ -392,7 +392,7 @@ class InvadeActionService
 
             $this->rangeCalculator->checkGuardApplications($dominion, $target);
 
-            $this->handleBoats($dominion, $target, $units);
+            #$this->handleBoats($dominion, $target, $units);
             $this->handlePrestigeChanges($dominion, $target, $units, $landRatio, $countsAsVictory, $countsAsBottomfeed, $countsAsFailure, $countsAsRaze);
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
@@ -1677,6 +1677,7 @@ class InvadeActionService
      * @param Dominion $target
      * @param array $units
      */
+     /*
     protected function handleBoats(Dominion $dominion, Dominion $target, array $units): void
     {
         $unitsTotal = 0;
@@ -1770,6 +1771,7 @@ class InvadeActionService
             $this->invasionResult['attacker']['boatsLost'] = $attackerBoatsSunk;
         }
     }
+    */
 
     /**
      * Handles spells cast after invasion.
@@ -2702,6 +2704,7 @@ class InvadeActionService
      * @param array $units
      * @return bool
      */
+     /*
     protected function hasEnoughBoats(Dominion $dominion, array $units): bool
     {
         $unitsThatNeedBoats = 0;
@@ -2718,6 +2721,7 @@ class InvadeActionService
 
         return ($dominion->resource_boats >= ceil($unitsThatNeedBoats / $dominion->race->getBoatCapacity()));
     }
+    */
 
     /**
      * Check if an invasion passes the 33%-rule.

@@ -23,7 +23,6 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
     cost:
       gold: 350
       ore: 65
@@ -39,7 +38,6 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
     cost:
       gold: 420
       ore: 80
@@ -72,7 +70,6 @@ units:
     training_time: 12
     type:
       - machine
-    need_boat: false
     cost:
       gold: 33000
       ore: 4000

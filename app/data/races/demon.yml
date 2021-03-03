@@ -27,7 +27,7 @@ units:
     type:
       - living
       - sentient
-    need_boat: true
+    
     cost:
       gold: 700
       mana: 12
@@ -45,7 +45,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
+    
     cost:
       gold: 800
       mana: 16
@@ -63,7 +63,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
+    
     cost:
       blood: 7
     power:
@@ -82,7 +82,7 @@ units:
       - intelligent
       - massive
       - wise
-    need_boat: false
+    
     cost:
       blood: 60000
       mana: 100000

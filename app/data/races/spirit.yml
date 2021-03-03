@@ -24,7 +24,7 @@ units:
       - living
       - sentient
       - ethereal
-    need_boat: false
+    
     cost:
       gold: 400
       mana: 5
@@ -45,7 +45,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: false
+    
     cost:
       gold: 500
       ore: 0
@@ -61,7 +61,7 @@ units:
       - living
       - sentient
       - ethereal
-    need_boat: false
+    
     cost:
       gold: 1200
       mana: 10
@@ -77,7 +77,7 @@ units:
       - living
       - sentient
       - ethereal
-    need_boat: false
+    
     static_networth: 20
     cost:
       unit3: 2

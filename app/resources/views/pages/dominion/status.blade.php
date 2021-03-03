@@ -125,10 +125,6 @@
                                         </td>
                                         <td>{{ number_format($selectedDominion->resource_tech) }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Boats:</td>
-                                        <td>{{ number_format(floor($selectedDominion->resource_boats + $queueService->getInvasionQueueTotalByResource($selectedDominion, "resource_boats"))) }}</td>
-                                    </tr>
                                     @if ($selectedDominion->race->name == 'Norse')
                                     <tr>
                                         <td>Champions:</td>

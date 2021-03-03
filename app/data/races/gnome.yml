@@ -18,7 +18,7 @@ perks:
   salvaging: 50
 units:
   - name: Mortar
-    need_boat: false
+    
     training_time: 12
     type:
       - machine

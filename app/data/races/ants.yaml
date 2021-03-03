@@ -29,7 +29,6 @@ perks:
 
 units:
   - name: Soldier Ant
-    need_boat: true
     training_time: 6
     type:
       - living
@@ -66,7 +65,6 @@ units:
       defense: 3
 
   - name: Flying Ant
-    need_boat: false
     training_time: 12
     type:
       - living

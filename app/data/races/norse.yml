@@ -21,7 +21,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
+    
     cost:
       gold: 320
       ore: 10
@@ -48,7 +48,7 @@ units:
       true_immortal: 1
 
   - name: Valkyrja
-    need_boat: false
+    
     training_time: 12
     type:
       - living
@@ -73,7 +73,7 @@ units:
       - sentient
       - legendary
       - intelligent
-    need_boat: false
+    
     cost:
       gold: 0
       ore: 0

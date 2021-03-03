@@ -53,7 +53,7 @@ units:
     training_time: 12
     type:
       - equipment
-    need_boat: false
+    
     cost:
       ore: 300
       gem: 50

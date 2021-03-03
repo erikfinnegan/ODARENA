@@ -227,7 +227,7 @@ class TickService
                         'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
-                        'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
+                        'dominions.resource_boats' => 0,#DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
 
                         # Improvements
                         'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
@@ -306,7 +306,7 @@ class TickService
                         'dominions.stat_total_ore_production' => DB::raw('dominions.stat_total_ore_production + dominion_tick.resource_ore'),
                         'dominions.stat_total_gem_production' => DB::raw('dominions.stat_total_gem_production + dominion_tick.resource_gems'),
                         'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
-                        'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
+                        'dominions.stat_total_boat_production' => 0,#DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
 
                         'dominions.stat_total_food_decayed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_decay'),
                         'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_consumed + dominion_tick.resource_food_consumption'),
@@ -779,7 +779,7 @@ class TickService
           $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
 
           $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
-          $tick->resource_boats += $this->productionCalculator->getBoatProduction($dominion);
+          $tick->resource_boats += 0; #$this->productionCalculator->getBoatProduction($dominion);
 
           $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
           $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
@@ -1222,7 +1222,7 @@ class TickService
                     'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                     'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                     'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
-                    'dominions.resource_boats' => DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
+                    'dominions.resource_boats' => 0, #DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
 
                     # Improvements
                     'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
@@ -1301,7 +1301,7 @@ class TickService
                     'dominions.stat_total_ore_production' => DB::raw('dominions.stat_total_ore_production + dominion_tick.resource_ore'),
                     'dominions.stat_total_gem_production' => DB::raw('dominions.stat_total_gem_production + dominion_tick.resource_gems'),
                     'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
-                    'dominions.stat_total_boat_production' => DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
+                    'dominions.stat_total_boat_production' => 0, #DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
 
                     'dominions.stat_total_food_decayed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_decay'),
                     'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_consumed + dominion_tick.resource_food_consumption'),

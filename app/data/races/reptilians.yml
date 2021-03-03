@@ -19,7 +19,7 @@ perks:
     extra_barren_max_population: 5
 units:
   - name: Horned One
-    need_boat: false
+    
     training_time: 4
     type:
       - living
@@ -33,8 +33,6 @@ units:
     perks:
       counts_as_spy_offense: 0.25
       counts_as_spy_defense: 0.25
-      sink_boats_offense: 1
-      sink_boats_defense: 1
 
   - name: Scaled One
     training_time: 6
@@ -49,11 +47,10 @@ units:
       offense: 0
       defense: 6
     perks:
-      sink_boats_defense: 1
       reduces_casualties: 1
 
   - name: Blessed One
-    need_boat: false
+    
     training_time: 9
     type:
       - living
@@ -68,11 +65,9 @@ units:
     perks:
       counts_as_wizard_offense: 0.25
       counts_as_wizard_defense: 0.25
-      sink_boats_offense: 1
-      sink_boats_defense: 1
 
   - name: Ancient One
-    need_boat: false
+    
     training_time: 12
     type:
       - living

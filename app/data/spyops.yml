@@ -188,6 +188,7 @@ magic_snare:
 
 sabotage_boats:
   name: Sabotage Boats
+  enabled: 0
   scope: hostile
   perks:
     sabotage_boats: 2

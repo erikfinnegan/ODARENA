@@ -120,10 +120,6 @@
                                         <td>Experience Points:</td>
                                         <td>{{ number_format($infoOp->data['resource_tech']) }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Boats:</td>
-                                        <td>{{ number_format($infoOp->data['resource_boats']) }}</td>
-                                    </tr>
 
                                     @if ($dominion->race->name == 'Norse' and isset($infoOp->data['resource_champion']))
                                     <tr>

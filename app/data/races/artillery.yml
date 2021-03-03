@@ -30,7 +30,6 @@ units:
     training_time: 9
     type:
       - machine
-    need_boat: false
     cost:
       gold: 500
       ore: 500
@@ -50,7 +49,6 @@ units:
     training_time: 12
     type:
       - ammunition
-    need_boat: false
     cost:
       gold: 50
       ore: 100
@@ -69,7 +67,6 @@ units:
     training_time: 12
     type:
       - ammunition
-    need_boat: false
     cost:
       gold: 100
       ore: 200

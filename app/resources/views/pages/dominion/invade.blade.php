@@ -150,7 +150,6 @@
                                                        data-amount="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
                                                        data-op="{{ $unit->power_offense }}"
                                                        data-dp="{{ $unit->power_defense }}"
-                                                       data-need-boat="{{ (int)$unit->need_boat }}"
                                                        {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             </td>
                                             <td class="text-center" id="unit{{ $unitSlot }}_stats">
@@ -305,14 +304,6 @@
                                             </tr>
                                           -->
                                             <tr>
-                                                <td>Boats:</td>
-                                                <td>
-                                                    <span id="invasion-force-boats" data-amount="0">0</span>
-                                                    /
-                                                    {{ number_format(floor($selectedDominion->resource_boats)) }}
-                                                </td>
-                                            </tr>
-                                            <tr>
                                                 <td>
                                                     Max OP:
                                                     <i class="fa fa-question-circle"
@@ -413,12 +404,6 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Boats:</td>
-                                                <td id="home-forces-boats" data-original="{{ floor($selectedDominion->resource_boats) }}" data-amount="0">
-                                                    {{ number_format(floor($selectedDominion->resource_boats)) }}
-                                                </td>
-                                            </tr>
-                                            <tr>
                                                 <td>
                                                     Min DP:
                                                     <i class="fa fa-question-circle"
@@ -496,12 +481,10 @@
         (function ($) {
             var invasionForceOPElement = $('#invasion-force-op');
             var invasionForceDPElement = $('#invasion-force-dp');
-            var invasionForceBoatsElement = $('#invasion-force-boats');
             var invasionForceMaxOPElement = $('#invasion-force-max-op');
             var homeForcesOPElement = $('#home-forces-op');
             var homeForcesDPElement = $('#home-forces-dp');
             var homeForcesDPRawElement = $('#home-forces-dp-raw');
-            var homeForcesBoatsElement = $('#home-forces-boats');
             var homeForcesMinDPElement = $('#home-forces-min-dp');
             var homeForcesDPAElement = $('#home-forces-dpa');
             var invasionLandConqueredElement = $('#invasion-land-conquered');
@@ -552,26 +535,22 @@
                             // Update OP / DP data attributes
                             invasionForceOPElement.data('amount', response.away_offense);
                             invasionForceDPElement.data('amount', response.away_defense);
-                            invasionForceBoatsElement.data('amount', response.boats_needed);
                             invasionForceMaxOPElement.data('amount', response.max_op);
                             invasionLandConqueredElement.data('amount', response.land_conquered);
                             homeForcesOPElement.data('amount', response.home_offense);
                             homeForcesDPElement.data('amount', response.home_defense);
                             homeForcesDPRawElement.data('amount', response.home_defense_raw);
-                            homeForcesBoatsElement.data('amount', response.boats_remaining);
                             homeForcesMinDPElement.data('amount', response.min_dp);
                             homeForcesDPAElement.data('amount', response.home_dpa);
 
                             // Update OP / DP display
                             invasionForceOPElement.text(response.away_offense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             invasionForceDPElement.text(response.away_defense.toLocaleString(undefined, {maximumFractionDigits: 2}));
-                            invasionForceBoatsElement.text(response.boats_needed.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             invasionForceMaxOPElement.text(response.max_op.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             invasionLandConqueredElement.text(response.land_conquered.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesOPElement.text(response.home_offense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPElement.text(response.home_defense.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPRawElement.text(response.home_defense_raw.toLocaleString(undefined, {maximumFractionDigits: 2}));
-                            homeForcesBoatsElement.text(response.boats_remaining.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesMinDPElement.text(response.min_dp.toLocaleString(undefined, {maximumFractionDigits: 2}));
                             homeForcesDPAElement.text(response.home_dpa.toLocaleString(undefined, {maximumFractionDigits: 3}));
 
@@ -597,35 +576,6 @@
                     unitStatsElement.find('.dp').text(totalUnitDP.toLocaleString(undefined, {maximumFractionDigits: 2}));
                 });
 
-                // Check if we have enough of these bad bois
-                /*                __--___
-                                 >_'--'__'
-                                _________!__________
-                               /   /   /   /   /   /
-                              /   /   /   /   /   /
-                             |   |   |   |   |   |
-                        __^  |   |   |   |   |   |
-                      _/@  \  \   \   \   \   \   \
-                     S__   |   \   \   \   \   \   \         __
-                    (   |  |    \___\___\___\___\___\       /  \
-                        |   \             |                |  |\|
-                        \    \____________!________________/  /
-                         \ _______OOOOOOOOOOOOOOOOOOO________/
-                          \________\\\\\\\\\\\\\\\\\\_______/
-                %%%^^^^^%%%%%^^^^!!^%%^^^^%%%%%!!!!^^^^^^!%^^^%%%%!!^^
-                ^^!!!!%%%%^^^^!!^^%%%%%^^!!!^^%%%%%!!!%%%%^^^!!^^%%%!!
-
-                Shamelessly stolen from http://www.asciiworld.com/-Boats-.html */
-
-                var hasEnoughBoats = parseInt(invasionForceBoatsElement.data('amount')) <= {{ floor($selectedDominion->resource_boats) }};
-                if (!hasEnoughBoats) {
-                    invasionForceBoatsElement.addClass('text-danger');
-                    homeForcesBoatsElement.addClass('text-danger');
-                } else {
-                    invasionForceBoatsElement.removeClass('text-danger');
-                    homeForcesBoatsElement.removeClass('text-danger');
-                }
-
                 // Check 33% rule
                 var minDefenseRule = parseFloat(homeForcesDPElement.data('amount')) < parseFloat(homeForcesMinDPElement.data('amount'));
                 if (minDefenseRule) {
@@ -643,7 +593,7 @@
                 }
 
                 // Check if invade button should be disabled
-                if (!hasEnoughBoats || minDefenseRule || maxOffenseRule) {
+                if (minDefenseRule || maxOffenseRule) {
                     invadeButtonElement.attr('disabled', 'disabled');
                 } else {
                     invadeButtonElement.removeAttr('disabled');

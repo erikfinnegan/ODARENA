@@ -17,7 +17,7 @@ perks:
 units:
   - name: Crusader
     training_time: 9
-    need_boat: true
+    
     cost:
       gold: 350
       ore: 35
@@ -29,7 +29,7 @@ units:
 
   - name: Follower
     training_time: 6
-    need_boat: true
+    
     cost:
       gold: 0
       ore: 0
@@ -42,7 +42,7 @@ units:
 
   - name: Pikeman
     training_time: 12
-    need_boat: true
+    
     cost:
       gold: 900
       ore: 90

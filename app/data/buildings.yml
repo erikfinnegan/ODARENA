@@ -198,8 +198,6 @@ dock:
   land_type: water
   perks:
     food_production: 40
-    boat_production: 0.05
-    boat_protection: 2.5
 
 ## Mod Buildings
 
@@ -385,6 +383,63 @@ wizard_guild:
 
 # Racial Buildings/Faction Buildings
 
+# VOID SETUP
+
+arc:
+  name: Arc
+  exclusive_races:
+    - Void
+  land_type: hill
+  perks:
+    defensive_casualties: 1,4,100 # 1% gives -4%, max -100%
+    offensive_casualties: 1,4,100 # 1% gives -4%, max -100%
+    mana_production: -5
+
+helix:
+  name: Helix
+  exclusive_races:
+    - Void
+  land_type: swamp
+  perks:
+    offensive_power: 1,2,200 # Every 1% gives 2% OP, max +200% OP
+    mana_production: -2
+
+oculus:
+  name: Oculus
+  exclusive_races:
+    - Void
+  land_type: mountain
+  perks:
+    wizard_strength: 1,2,200 # Every 1% gives 2% WPA, max +200% OP
+    spy_strength: 1,2,200 # Every 1% gives 2% SPA, max +200% OP
+    mana_production: -1
+
+mosaic:
+  name: Mosaic
+  exclusive_races:
+    - Void
+  land_type: plain
+  perks:
+    land_generated: 1,2,200 # Every 1% gives 2% land discovered, max +200%
+    mana_production: -2
+
+pillar:
+  name: Pillar
+  exclusive_races:
+    - Void
+  land_type: hill
+  perks:
+    defensive_power: 1,2,200 # Every 1% gives 2% DP, max +200% DP
+    mana_production: -2
+
+tesseract:
+  name: Tesseract
+  exclusive_races:
+    - Void
+  land_type: mountain
+  perks:
+    military_housing: 48
+
 ziggurat:
   name: Ziggurat
   exclusive_races:
@@ -394,7 +449,62 @@ ziggurat:
     raw_defense: 4
     mana_production: 30
 
+# END VOID
+
+# GROWTH TISSUES
+
 tissue:
+  name: Tissue
+  enabled: 0
+  exclusive_races:
+    - Growth
+  land_type: swamp
+  perks:
+    food_production: 4
+    housing: 176
+    jobs: 0
+
+tissue_plain:
+  name: Tissue
+  exclusive_races:
+    - Growth
+  land_type: plain
+  perks:
+    food_production: 4
+    housing: 176
+    jobs: 0
+
+tissue_forest:
+  name: Tissue
+  exclusive_races:
+    - Growth
+  land_type: forest
+  perks:
+    food_production: 4
+    housing: 176
+    jobs: 0
+
+tissue_mountain:
+  name: Tissue
+  exclusive_races:
+    - Growth
+  land_type: mountain
+  perks:
+    food_production: 4
+    housing: 176
+    jobs: 0
+
+tissue_hill:
+  name: Tissue
+  exclusive_races:
+    - Growth
+  land_type: hill
+  perks:
+    food_production: 4
+    housing: 176
+    jobs: 0
+
+tissue_swamp:
   name: Tissue
   exclusive_races:
     - Growth
@@ -403,6 +513,18 @@ tissue:
     food_production: 4
     housing: 176
     jobs: 0
+
+tissue_water:
+  name: Tissue
+  exclusive_races:
+    - Growth
+  land_type: water
+  perks:
+    food_production: 4
+    housing: 176
+    jobs: 0
+
+# END GROWTH
 
 mycelia:
   name: Mycelia

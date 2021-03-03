@@ -32,7 +32,6 @@ units:
     type:
       - living
       - mindless
-    need_boat: true
     cost:
       gold: 0
       ore: 0
@@ -48,7 +47,6 @@ units:
     training_time: 9
     type:
       - living
-    need_boat: true
     cost:
       gold: 300
       mana: 8
@@ -62,7 +60,6 @@ units:
     type:
       - living
       - sentient
-    need_boat: true
     cost:
       gold: 800
       mana: 8

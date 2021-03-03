@@ -157,18 +157,6 @@
                                         <small class="text-muted">({{ number_format(($productionCalculator->getTechProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>Boats:</td>
-                                    <td>
-                                        @if ($boatProduction = $productionCalculator->getBoatProduction($selectedDominion))
-                                            <span class="text-green">{{ number_format($boatProduction, 2) }}</span>
-                                        @else
-                                            0
-                                        @endif
-
-                                        <small class="text-muted">({{ number_format(($productionCalculator->getBoatProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
-                                    </td>
-                                </tr>
                                 @if ($selectedDominion->race->name == 'Demon')
                                 <tr>
                                     <td>Souls:</td>

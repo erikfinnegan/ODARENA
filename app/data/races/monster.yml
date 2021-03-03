@@ -63,7 +63,7 @@ units:
     type:
       - massive
       - mindless
-    need_boat: false
+    
     cost:
       food: 15000
       mana: 2000
@@ -85,7 +85,7 @@ units:
       - living
       - massive
       - intelligent
-    need_boat: false
+    
     cost:
       food: 30000
       mana: 5000

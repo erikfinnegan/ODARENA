@@ -28,7 +28,6 @@ perks:
   converts_executed_spies: 3 # into slot 3
 units:
   - name: Abomination
-    need_boat: true
     training_time: 9
     type:
       - living
@@ -45,7 +44,6 @@ units:
       does_not_count_as_population: 1
 
   - name: Pest Rat
-    need_boat: true
     training_time: 9
     type:
       - living
@@ -60,7 +58,6 @@ units:
       housing_count: 0.75
 
   - name: Wretch
-    need_boat: true
     training_time: 12
     type:
       - living
@@ -72,7 +69,6 @@ units:
       defense: 6
 
   - name: Reaper
-    need_boat: true
     training_time: 12
     type:
       - living

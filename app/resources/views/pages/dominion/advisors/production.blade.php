@@ -144,19 +144,6 @@
                                       <td>{{ number_format($selectedDominion->stat_total_tech_production) }}</td>
                                       <td>&mdash;</td>
                                   </tr>
-                                  </tr>
-                                      <td>Boats</td>
-                                      <td>{{ number_format($productionCalculator->getBoatProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getBoatProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getBoatProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td>&mdash;</td>
-                                      <td>{{ number_format($productionCalculator->getBoatProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($selectedDominion->resource_boats) }}</td>
-                                      <td>&mdash;</td>
-                                      <td>&mdash;</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_boat_production) }}</td>
-                                      <td>&mdash;</td>
-                                  </tr>
                             </tbody>
                         </table>
                     </div>

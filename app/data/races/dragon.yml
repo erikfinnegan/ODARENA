@@ -24,7 +24,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
+    
     cost:
       gold: 120
       ore: 10
@@ -48,6 +48,7 @@ units:
       defense: 2
     perks:
       gem_production: 1
+      building_limit: gem_mine,20,workshops # building, buildings per unit, imp to increase
 
   - name: Mercenary
     training_time: 4
@@ -55,7 +56,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
+    
     cost:
       gold: 250
     power:
@@ -72,7 +73,7 @@ units:
       - sentient
       - intelligent
       - massive
-    need_boat: false
+    
     cost:
       gem: 50000
     power:

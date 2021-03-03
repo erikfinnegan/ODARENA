@@ -181,7 +181,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'cost_ore' => object_get($unitData, 'cost.ore', 0),
                     'power_offense' => object_get($unitData, 'power.offense', 0),
                     'power_defense' => object_get($unitData, 'power.defense', 0),
-                    'need_boat' => (int)object_get($unitData, 'need_boat', true),
+                    'need_boat' => (int)object_get($unitData, 'need_boat', false),
                     'training_time' => (int)object_get($unitData, 'training_time', null),
                     'type' => object_get($unitData, 'type'),
 

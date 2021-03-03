@@ -25,8 +25,8 @@ class InvadeCalculationService
     /** @var array Calculation result array. */
     protected $calculationResult = [
         'result' => 'success',
-        'boats_needed' => 0,
-        'boats_remaining' => 0,
+        #'boats_needed' => 0,
+        #'boats_remaining' => 0,
         'dp_multiplier' => 0,
         'op_multiplier' => 0,
         'away_defense' => 0,
@@ -98,7 +98,7 @@ class InvadeCalculationService
         }
 
         // Calculate unit stats
-        $unitsThatNeedBoats = 0;
+        #$unitsThatNeedBoats = 0;
         foreach ($dominion->race->units as $unit) {
             $this->calculationResult['units'][$unit->slot]['dp'] = $this->militaryCalculator->getUnitPowerWithPerks(
                 $dominion,
@@ -116,14 +116,14 @@ class InvadeCalculationService
                 $calc
             );
             // Calculate boats needed
-            if (isset($units[$unit->slot]) && $unit->need_boat) {
-                $unitsThatNeedBoats += (int)$units[$unit->slot];
-            }
+            #if (isset($units[$unit->slot]) && $unit->need_boat) {
+            #    $unitsThatNeedBoats += (int)$units[$unit->slot];
+            #}
         }
         $this->calculationResult['units_sent'] = array_sum($units);
 
-        $this->calculationResult['boats_needed'] = ceil($unitsThatNeedBoats / $dominion->race->getBoatCapacity());
-        $this->calculationResult['boats_remaining'] = floor($dominion->resource_boats - $this->calculationResult['boats_needed']);
+        #$this->calculationResult['boats_needed'] = ceil($unitsThatNeedBoats / $dominion->race->getBoatCapacity());
+        #$this->calculationResult['boats_remaining'] = floor($dominion->resource_boats - $this->calculationResult['boats_needed']);
 
         // Calculate total offense and defense
         $this->calculationResult['dp_multiplier'] = $this->militaryCalculator->getDefensivePowerMultiplier($dominion);

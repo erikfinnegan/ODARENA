@@ -20,7 +20,6 @@ perks:
 
 units:
   - name: Ensign
-    need_boat: true
     training_time: 9
     type:
       - living
@@ -36,7 +35,6 @@ units:
       fewer_casualties_offense: 50
 
   - name: Captain
-    need_boat: true
     training_time: 12
     type:
       - living
@@ -54,7 +52,6 @@ units:
       pairing_limit: 4,1 # Unit slot, amount (max 2 of this unit per each Unit 4)
 
   - name: Coastal Cannon
-    need_boat: false
     training_time: 12
     type:
       - machine
@@ -74,7 +71,6 @@ units:
       upkeep_lumber: 1
 
   - name: Battleship
-    need_boat: false
     training_time: 12
     type:
       - ship

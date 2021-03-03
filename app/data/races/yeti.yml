@@ -32,7 +32,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
+    
     cost:
       food: 24
       ore: 2
@@ -71,7 +71,7 @@ units:
       - sentient
       - intelligent
       - wise
-    need_boat: true
+    
     cost:
       food: 300
       lumber: 200
@@ -90,7 +90,7 @@ units:
       - sentient
       - intelligent
       - wise
-    need_boat: true
+    
     cost:
       food: 200
       lumber: 200

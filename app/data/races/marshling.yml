@@ -24,7 +24,7 @@ units:
     type:
       - living
       - mindless
-    need_boat: true
+    
     static_networth: 3
     cost:
       food: 100
@@ -41,7 +41,7 @@ units:
   - name: Slime
     type:
       - living
-    need_boat: true
+    
     static_networth: 5
     cost:
       gold: 0
@@ -58,7 +58,7 @@ units:
     type:
       - living
       - sentient
-    need_boat: true
+    
     static_networth: 7
     cost:
       gold: 0
@@ -76,7 +76,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: true
+    
     static_networth: 8
     cost:
       gold: 0

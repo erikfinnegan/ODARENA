@@ -205,9 +205,6 @@ class UnitHelper
             'plunders' => 'Plunders up to %2$s %1$s on attack.', # Multiple resources
             'plunder' => 'Plunders up to %2$s %1$s on attack.', # Single resource
 
-            'sink_boats_defense' => 'Sinks boats when defending.',
-            'sink_boats_offense' => 'Sinks boats when attacking.',
-
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'upkeep_gold' => 'Costs %s gold per tick.',
             'upkeep_lumber' => 'Costs %s lumber per tick.',
@@ -617,12 +614,6 @@ class UnitHelper
                     $helpStrings[$unitType] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
                 }
             }
-
-            if ($unit->need_boat === false)
-            {
-                $helpStrings[$unitType] .= ('<li>No boats needed.</li>');
-            }
-
         }
 
         if(strlen($helpStrings[$unitType]) == 0)
@@ -717,12 +708,6 @@ class UnitHelper
         return '<ul><li>DP: ' . $drafteeDp . '</li></ul>';
 
     }
-
-    public function unitNeedsBoat(Unit $unit)
-    {
-        return !in_array('flying', $this->getUnitAttributesList('unit'.$unit->slot));
-    }
-
 
     public function unitSlotHasAttributes(Race $race, int $slot, array $searchAttributes): bool
     {

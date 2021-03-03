@@ -21,7 +21,7 @@ units:
       - living
       - sentient
       - intelligent
-    need_boat: false
+    
     cost:
       gold: 350
       ore: 30
@@ -71,7 +71,7 @@ units:
       - sentient
       - intelligent
       - wise
-    need_boat: false
+    
     cost:
       gold: 1000
       mana: 25

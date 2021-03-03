@@ -42,6 +42,7 @@ gaias_watch:
   excluded_races:
     - Afflicted
     - Sylvan
+    - Void
   perks:
     food_production: 10
 
@@ -57,6 +58,7 @@ mining_strength:
     - Dwarf
     - Artillery
     - Gnome
+    - Void
   perks:
     ore_production: 10
 
@@ -69,6 +71,7 @@ harmony:
   cooldown: 0
   excluded_races:
     - Afflicted
+    - Void
   perks:
     population_growth: 50
 
@@ -81,6 +84,7 @@ fools_gold:
   cooldown: 18
   excluded_races:
     - Afflicted
+    - Void
   perks:
     gold_theft: -100
     gems_theft: -100
@@ -93,6 +97,8 @@ surreal_perception:
   cost: 4
   duration: 36
   cooldown: 0
+  excluded_races:
+    - Void
   perks:
     reveal_ops: 1
 
@@ -103,6 +109,8 @@ energy_mirror:
   cost: 3
   duration: 32
   cooldown: 0
+  excluded_races:
+    - Void
   perks:
     chance_to_reflect_spells: 25
 
@@ -113,6 +121,8 @@ aura:
   cost: 3
   duration: 24
   cooldown: 0
+  excluded_races:
+    - Void
   perks:
     damage_from_spells: -20
 
@@ -123,11 +133,14 @@ transmogrify:
   cost: 10
   duration: 0
   cooldown: 6
+  excluded_races:
+    - Void
   perks:
     resource_conversion: ore,gems,25,4 # from, to, percentage
 
 waterwall:
   name: Glimj's Favour
+  enabled: 0
   scope: self
   class: passive
   cost: 8
@@ -152,6 +165,7 @@ iceshield:
 
 frozen_shores:
   name: Frozen Shores
+  enabled: 0
   scope: hostile
   class: passive
   cost: 8
@@ -308,7 +322,6 @@ blizzard:
   class: passive
   cost: 8
   duration: 24
-  cooldown: 24
   exclusive_races:
     - Icekin
     - Yeti
@@ -530,6 +543,33 @@ voidspellmana:
     - Void
   perks:
     mana_theft: -80
+
+voidspellperception:
+  name: ◬◬◬⋗
+  scope: self
+  class: passive
+  cost: 8
+  duration: 24
+  cooldown: 0
+  exclusive_races:
+    - Void
+  perks:
+    reveal_ops: 1
+
+voidspellmagicprotection:
+  name: ⫸⋗⫸◬
+  scope: self
+  class: passive
+  cost: 8
+  duration: 24
+  cooldown: 0
+  exclusive_races:
+    - Void
+  perks:
+    chance_to_reflect_spells: 50
+    damage_from_spells: -50
+
+
 
 metabolism:
   name: Metabolism

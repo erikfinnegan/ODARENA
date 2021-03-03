@@ -422,7 +422,7 @@ class DominionFactory
             'resource_ore' => intval($startingResources['ore'] * $startingResourcesMultiplier),
             'resource_gems' => intval($startingResources['gems'] * $startingResourcesMultiplier),
             'resource_tech' => intval($startingResources['tech'] * $startingResourcesMultiplier),
-            'resource_boats' => intval($startingResources['boats'] * $startingResourcesMultiplier),
+            'resource_boats' => 0,
             'resource_champion' => 0,
             'resource_soul' => intval($startingResources['soul'] * $startingResourcesMultiplier),
             'resource_wild_yeti' => intval($startingResources['wild_yeti'] * $startingResourcesMultiplier),
@@ -484,35 +484,9 @@ class DominionFactory
             'building_shrine' => 0,
             'building_barracks' => 0,
             'building_dock' => 0,
-            'building_ziggurat' => 0,
             'building_tissue' => 0,
             'building_mycelia' => 0,
-
-            /*
-            'building_home' => $startingBuildings['home'],
-            'building_alchemy' => 0,
-            'building_farm' => $startingBuildings['farm'],
-            'building_smithy' => $startingBuildings['smithy'],
-            'building_masonry' => 0,
-            'building_ore_mine' => $startingBuildings['ore_mine'],
-            'building_gryphon_nest' => 0,
-            'building_tower' => $startingBuildings['tower'],
-            'building_wizard_guild' => $startingBuildings['wizard_guild'],
-            'building_temple' => $startingBuildings['temple'],
-            'building_gem_mine' => $startingBuildings['gem_mine'],
-            'building_school' => 0,
-            'building_lumberyard' => $startingBuildings['lumberyard'],
-            'building_forest_haven' => $startingBuildings['forest_haven'],
-            'building_factory' => 0,
-            'building_guard_tower' => 0,
-            'building_shrine' => 0,
-            'building_barracks' => $startingBuildings['barracks'],
-            'building_dock' => $startingBuildings['dock'],
-
-            'building_ziggurat' => $startingBuildings['ziggurat'],
-            'building_tissue' => $startingBuildings['tissue'],
-            'building_mycelia' => $startingBuildings['mycelia'],
-            */
+            'building_ziggurat' => 0,
 
             'npc_modifier' => $startingResources['npc_modifier'],
 
@@ -585,12 +559,12 @@ class DominionFactory
         if($race->name == 'Void')
         {
           return [
-              'plain' => 0,
-              'mountain' => 0,
-              'swamp' => 0,
+              'plain' => 100,
+              'mountain' => 500,
+              'swamp' => 200,
               'cavern' => 0,
               'forest' => 0,
-              'hill' => 0,
+              'hill' => 200,
               'water' => 0,
           ];
         }
@@ -715,7 +689,7 @@ class DominionFactory
             'dock' => 0,
             'shed' => 0,
 
-            'tissue' => 0,
+            'tissue_swamp' => 0,
             'mycelia' => 0,
             'ziggurat' => 0,
         ];
@@ -739,35 +713,25 @@ class DominionFactory
         }
         elseif($race->name == 'Growth')
         {
-          $startingBuildings['tissue'] = $acresBase;
+          $startingBuildings['tissue_swamp'] = $acresBase;
         }
         elseif($race->name == 'Myconid')
         {
           $startingBuildings['mycelia'] = $acresBase;
-        }
-        elseif($race->name == 'Void')
-        {
-          $startingBuildings['ziggurat'] = $acresBase;
         }
         elseif($race->name == 'Barbarian')
         {
           $startingBuildings = [
               'farm' => floor($acresBase*0.10),
               'smithy' => floor($acresBase*0.10),
-              'shed' => 0,
               'lumberyard' => floor($acresBase*0.06),
               'forest_haven' => floor($acresBase*0.06),
               'ore_mine' => floor($acresBase*0.10),
               'gem_mine' => floor($acresBase*0.10),
               'barracks' => floor($acresBase*0.20),
               'tower' => floor($acresBase*0.06),
-              'wizard_guild' => 0,
               'temple' => floor($acresBase*0.06),
               'dock' => floor($acresBase*0.10),
-
-              'tissue' => 0,
-              'mycelia' => 0,
-              'ziggurat' => 0,
           ];
         }
 
@@ -787,8 +751,8 @@ class DominionFactory
     {
         $startingLand = [
             'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'] + $startingBuildings['smithy'],
-            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'] + $startingBuildings['ziggurat'],
-            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'] + $startingBuildings['tissue'],
+            'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'],
+            'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'] + $startingBuildings['tissue_swamp'],
             'cavern' => 0,
             'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['forest_haven'] + $startingBuildings['mycelia'],
             'hill' => $startingBarrenLand['hill'] + $startingBuildings['barracks'],

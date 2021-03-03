@@ -17,19 +17,14 @@ archmages_cost: 2000,mana
 
 perks:
   no_food_consumption: 1
-  can_invest_mana: 3
-  improvements_max: 100
-  improvements_decay: 0.1
   population_growth: 40
   reduced_conversions: 100
-  can_only_build_ziggurat: 1
-  defense_per_ziggurat: 4
-  mana_per_ziggurat: 30
   no_gold_production: 1
+  cannot_improve_castle: 1
 
 units:
-  - name: Fallen
-    need_boat: false
+  - name: Figure
+    
     training_time: 9
     type:
       - living
@@ -56,8 +51,6 @@ units:
     power:
       offense: 0
       defense: 3
-    perks:
-      mana_production: 1
 
   - name: Vision
     training_time: 12
@@ -75,8 +68,8 @@ units:
     perks:
       mana_production: 1
 
-  - name: Nightmare
-    need_boat: false
+  - name: Distortion
+    
     training_time: 12
     type:
       - living
