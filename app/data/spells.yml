@@ -784,6 +784,7 @@ aether:
 
 spawning_pool:
   name: Spawning Pool
+  enabled: 0
   scope: self
   class: passive
   cost: 10

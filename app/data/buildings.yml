@@ -198,6 +198,45 @@ dock:
   land_type: water
   perks:
     food_production: 40
+    tech_production_modifier: 1,5,25 #Every 1% gives +5% XP production, max +25%
+    exchange_rate: 1,4,20 # Every 1% gives +4% exchange rate, max +20%
+
+watermill:
+  name: Watermill
+  excluded_races:
+    - Dragon
+    - Growth
+    - Merfolk
+    - Myconid
+    - Reptilians
+    - Void
+    - Swarm
+  land_type: water
+  perks:
+    gem_production_modifier: 1,4,20 # Every 1% gives +4% gem production, max +20%
+    ore_production_modifier: 1,4,20 # Every 1% gives +4% ore production, max +20%
+
+aqueduct:
+  name: Aqueduct
+  excluded_races:
+    - Dragon
+    - Growth
+    - Merfolk
+    - Myconid
+    - Reptilians
+    - Void
+    - Swarm
+  land_type: water
+  perks:
+    food_production_modifier: 1,8,40 # Every 1% gives +4% gem production, max +20%
+
+shipyard:
+  name: Shipyard
+  exclusive_races:
+    - Armada
+  land_type: water
+  perks:
+    unit_lumber_costs: 1,1,40 # Every 1% gives 1% reduction, max 20%
 
 ## Mod Buildings
 
@@ -420,7 +459,7 @@ mosaic:
     - Void
   land_type: plain
   perks:
-    land_generated: 1,2,200 # Every 1% gives 2% land discovered, max +200%
+    land_discovered: 1,2,200 # Every 1% gives 2% land discovered, max +200%
     mana_production: -2
 
 pillar:
@@ -552,7 +591,15 @@ blast_furnace:
     - Firewalker
   land_type: mountain
   perks:
-    extra_units_trained: 1,1,20 # Every 1% gives 1% extra units, mx +10
+    extra_units_trained: 1,1,20 # Every 1% gives 1% extra units, max +20%
+
+spawning_pool:
+  name: Spawning Pool
+  exclusive_races:
+    - Marshling
+  land_type: swamp
+  perks:
+    extra_units_trained: 1,1,100 # Every 1% gives 1% extra units, max +100%
 
 # HOME ALTERNATIVES
 

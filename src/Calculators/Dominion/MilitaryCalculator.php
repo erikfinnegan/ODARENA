@@ -1402,6 +1402,9 @@ class MilitaryCalculator
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('spy_strength');
 
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('spy_strength');
+
         // Title
         if(isset($dominion->title))
         {
@@ -1489,14 +1492,14 @@ class MilitaryCalculator
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('wizard_strength');
 
-        // Improvement: Towers
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
-
         // Improvement: Spires
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
 
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('wizard_strength');
+
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('wizard_strength');
 
         // Land improvements
         $multiplier += $this->landImprovementCalculator->getWizardPowerBonus($dominion);
@@ -1904,9 +1907,13 @@ class MilitaryCalculator
             $landConquered /= 3;
         }
 
+        // Spells
         $multiplier += $attacker->getSpellPerkMultiplier('land_discovered');
 
-        // Improvement: Cartography
+        // Buildings
+        $multiplier += $attacker->getBuildingPerkMultiplier('land_discovered');
+
+        // Improvement
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'cartography');
 
         // Resource: XP (max +100% from 1,000,000 XP) – only for factions which cannot take advancements (Troll)

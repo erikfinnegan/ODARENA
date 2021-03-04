@@ -34,7 +34,6 @@ units:
     training_time: 9
     type:
       - living
-    
     cost:
       gold: 0
       ore: 0
@@ -80,7 +79,6 @@ units:
     training_time: 12
     type:
       - living
-    
     cost:
       gold: 0
       ore: 0

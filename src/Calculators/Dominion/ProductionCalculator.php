@@ -126,6 +126,9 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('gold_production');
 
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('gold_production_modifier');
+
         // Improvement: Markets
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
 
@@ -207,6 +210,9 @@ class ProductionCalculator
 
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('food_production');
+
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('gold_production_modifier');
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
@@ -428,6 +434,9 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('lumber_production');
 
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('lumber_production_modifier');
+
         // Title
         if(isset($dominion->title))
         {
@@ -522,6 +531,9 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('mana_production');
 
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('mana_production_modifier');
+
         return (1 + $multiplier);
     }
 
@@ -588,6 +600,9 @@ class ProductionCalculator
 
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('ore_production');
+
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('ore_production_modifier');
 
         // Title
         if(isset($dominion->title))
@@ -672,6 +687,9 @@ class ProductionCalculator
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('gem_production');
 
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('gem_production_modifier');
+
         // Title
         if(isset($dominion->title))
         {
@@ -743,6 +761,9 @@ class ProductionCalculator
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('tech_production');
+
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('tech_production_modifier');
 
         // Title
         if(isset($dominion->title))

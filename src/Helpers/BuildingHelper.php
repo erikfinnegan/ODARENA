@@ -52,6 +52,16 @@ class BuildingHelper
             'mana_production' => 'Produces %s mana per tick.',
             'boat_production' => 'Produces %s boats per tick.',
 
+            'gold_production_modifier' => 'Gold production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'food_production_modifier' => 'Food production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'lumber_production_modifier' => 'Lumber production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'ore_production_modifier' => 'Ore production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'gem_production_modifier' => 'Gem production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'mana_production_modifier' => 'Mana production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'tech_production_modifier' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+
+            'exchange_rate' => 'Resource exchange rates improved by %2$s%% for every %1$s%% (max +%3$s%%).',
+
             # Military
             'offensive_casualties' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
@@ -70,7 +80,7 @@ class BuildingHelper
             'base_morale' => 'Base morale increased by %2$s%% for every %1$s%% (max +%3$s%%)',
             'prestige_gains' => 'Prestige gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
 
-            'land_generated' => 'Land discovered during invasions increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'land_discovered' => 'Land discovered during invasions increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             # OP/DP
             'raw_defense' => 'Provides %s raw defensive power.',

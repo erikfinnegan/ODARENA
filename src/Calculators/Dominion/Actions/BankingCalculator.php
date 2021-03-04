@@ -70,8 +70,16 @@ class BankingCalculator
           // Techs
           $bonus += $dominion->getTechPerkMultiplier('exchange_rate');
 
+          // Spells
+          $bonus += $dominion->getSpellPerkMultiplier('exchange_rate');
+
+          // Buildings
+          $bonus += $dominion->getBuildingPerkMultiplier('exchange_rate');
+
           // Ruler Title: Merchant
           $bonus += $dominion->title->getPerkMultiplier('exchange_rate') * $dominion->title->getPerkBonus($dominion);
+
+          $bonus = min($bonus, 2);
 
           $resources['resource_gold']['sell'] *= $bonus;
           $resources['resource_lumber']['sell'] *= $bonus;

@@ -61,7 +61,7 @@ units:
       gold: 1000
     power:
       offense: 0
-      defense: 4
+      defense: 5
     perks:
       defense_from_land: mountain,20,5
       counts_as_wizard_offense: 0.25

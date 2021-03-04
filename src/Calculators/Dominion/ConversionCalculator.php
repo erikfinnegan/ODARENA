@@ -259,7 +259,7 @@ class ConversionCalculator
                       $conversionMultiplier = (float)$valueConversionPerk[0];
                       $convertedSlot = (int)$valueConversionPerk[1];
 
-                      $convertedUnits[$convertedSlot] += (int)round(($rawDpLost  * (1 - $defender->race->getPerkMultiplier('reduced_conversions')) * $convertingUnitsOpRatio[$slot]) * $conversionMultiplier);
+                      $convertedUnits[$convertedSlot] += (int)round(($rawDpLost * $convertingUnitsOpRatio[$slot]) * $conversionMultiplier);
                   }
              }
 
