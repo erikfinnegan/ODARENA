@@ -602,7 +602,7 @@ winds_of_fortune:
   scope: self
   class: passive
   cost: 10
-  duration: 4
+  duration: 1
   cooldown: 96
   exclusive_races:
     - Armada
