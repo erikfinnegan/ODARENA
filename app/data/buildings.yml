@@ -440,7 +440,7 @@ helix:
     - Void
   land_type: swamp
   perks:
-    offensive_power: 1,2,200 # Every 1% gives 2% OP, max +200% OP
+    offensive_power: 1,1.5,150 # Every 1% gives 2% OP, max +200% OP
     mana_production: -2
 
 oculus:
@@ -468,7 +468,7 @@ pillar:
     - Void
   land_type: hill
   perks:
-    defensive_power: 1,2,200 # Every 1% gives 2% DP, max +200% DP
+    defensive_power: 1,1.5,150 # Every 1% gives 2% DP, max +200% DP
     mana_production: -2
 
 tesseract:
