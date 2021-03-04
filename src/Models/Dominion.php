@@ -633,6 +633,16 @@ class Dominion extends AbstractModel
                           or $perkKey == 'morale_gains'
                           or $perkKey == 'base_morale'
 
+                          # Production mods
+                          or $perkKey == 'gold_production_modifier'
+                          or $perkKey == 'food_production_modifier'
+                          or $perkKey == 'lumber_production_modifier'
+                          or $perkKey == 'ore_production_modifier'
+                          or $perkKey == 'gem_production_modifier'
+                          or $perkKey == 'mana_production_modifier'
+                          or $perkKey == 'tech_production_modifier'
+                          or $perkKey == 'exchange_rate'
+
                           # Unit costs
                           or $perkKey == 'unit_gold_costs'
                           or $perkKey == 'unit_ore_costs'
