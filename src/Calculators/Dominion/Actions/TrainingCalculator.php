@@ -366,7 +366,7 @@ class TrainingCalculator
             }
 
             # Look for building_limit
-            if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'land_limit'))
+            if($landLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'land_limit'))
             {
                 $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
                 $unitsPerAcre = (float)$landLimit[1]; # Units per
