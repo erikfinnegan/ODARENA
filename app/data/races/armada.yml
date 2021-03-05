@@ -65,7 +65,7 @@ units:
       immortal_on_fending_off: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      land_limit: water,2.5 # building, buildings per unit, imp to increase
+      land_limit: water,2.5 # land type, max per land type
 
   - name: Battleship
     training_time: 12
