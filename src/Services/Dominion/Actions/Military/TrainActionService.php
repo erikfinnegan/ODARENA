@@ -228,23 +228,23 @@ class TrainActionService
             {
               // We have land limit for this unit.
               $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
-              $landLimitedToAcres = (float)$landLimit[1]; # Units per acre
+              $unitsPerAcre = (float)$landLimit[1]; # Units per acre
 
               $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
-              $upperLimit = round($acresOfLimitingLandType * $landLimitedToAcres);
+              $upperLimit = round($acresOfLimitingLandType * $unitsPerAcre);
 
               if( # Units trained + Units in Training + Units in Queue + Units to Train
                   (($dominion->{'military_unit' . $unitSlot} +
                     $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                     $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                     $amountToTrain))
-                  >
-                  $upperLimit
+                    >
+                    $upperLimit
                 )
-              {
-                throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. ucwords(str_plural($buildingLimit[0], 2)) .'s.');
-              }
+                {
+                  throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. ucwords(str_plural($buildingLimit[0], 2)) .'s.');
+                }
             }
             # Land limit check complete.
             # Check for amount limit.
@@ -257,12 +257,12 @@ class TrainActionService
                     $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                     $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
                     $amountToTrain))
-                  >
-                  $amountLimit
+                    >
+                    $amountLimit
                 )
-              {
-                throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
-              }
+                {
+                  throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
+                }
             }
 
             # Amount limit check complete.

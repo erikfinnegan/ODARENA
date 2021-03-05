@@ -365,6 +365,19 @@ class TrainingCalculator
                 $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
 
+            # Look for building_limit
+            if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'land_limit'))
+            {
+                $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
+                $unitsPerAcre = (float)$landLimit[1]; # Units per
+
+                $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
+
+                $maxAdditionalPermittedOfThisUnit = intval($acresOfLimitingLandType * $unitsPerAcre) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
+
+                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
+            }
+
             # Look for pairing_limit
             if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'pairing_limit'))
             {
