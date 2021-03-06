@@ -925,7 +925,7 @@ rites_of_zidur:
   exclusive_races:
     - Undead
   perks:
-    converts_crypt_bodies: 10,4,1,2 # every 10 unit4 creates 1 unit1
+    converts_crypt_bodies: 10,4,1 # every 10 unit4 creates 1 unit1
 
 curse_of_zidur:
   name: Curse of Zidur
@@ -949,7 +949,7 @@ rites_of_kinthys:
   exclusive_races:
     - Undead
   perks:
-    converts_crypt_bodies: 10,4,1,2 # every 10 unit4 creates 1 unit2
+    converts_crypt_bodies: 10,4,2 # every 10 unit4 creates 1 unit2
 
 curse_of_kinthys:
   name: Curse of Kinthys

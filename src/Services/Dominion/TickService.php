@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Log;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
@@ -84,6 +85,7 @@ class TickService
     {
         $this->now = now();
         $this->casualtiesCalculator = app(CasualtiesCalculator::class);
+        $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
         $this->networthCalculator = app(NetworthCalculator::class);
         $this->notificationService = app(NotificationService::class);
@@ -982,62 +984,70 @@ class TickService
           # Version 1.3 (Round 42, Spells 2.0 compatible-r)
           if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur'))
           {
-              $bodiesSpent = 0;
-              $raisingUnits = 0;
-              $unitsRaised = 0;
-          }
+              $spell = Spell::where('key', 'rites_of_zidur')->first();
 
-          # Version 1.2 (Round 38)
-          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur') and $dominion->military_unit4 > 0)
-          {
-              $bodiesSpent = 0;
+              $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
 
               # Check bodies available in the crypt
               $bodiesAvailable = floor($dominion->realm->crypt - $tick->crypt_bodies_spent);
 
-              $unit4PerUnit1 = 10; # How many Necromancers does it take to create a Skeleton
+              # Break down the spell perk
+              $raisersPerRaisedUnit = (int)$spellPerkValues[0];
+              $raisingUnitSlot = (int)$spellPerkValues[1];
+              $unitRaisedSlot = (int)$spellPerkValues[2];
 
-              # Units created is the lowest of Necromancers/10 or [Bodies Available].
-              $unit1Created = intval(min($dominion->military_unit4 / $unit4PerUnit1, $bodiesAvailable));
+              $unitsRaised = $dominion->{'military_unit' . $raisingUnitSlot} / $raisersPerRaisedUnit;
 
-              # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
-              if($unit1Created > 0)
-              {
-                  $bodiesSpent = min($dominion->realm->crypt, $unit1Created);
-              }
+              # Check the pairing limit
+              $pairingLimitedIncreasable = $dominion->race->getUnitPerkValueForUnitSlot($unitRaisedSlot, 'pairing_limit_increasable');
 
-              # Prepare the units for queue.
-              $tick->generated_unit1 += $unit1Created;
+              $unitLimitedTo = (float)$pairingLimitedIncreasable[0]; # Units paired-limited to
+              $unitsPerLimitingUnit = (float)$pairingLimitedIncreasable[1]; # Number of this unit per unit paired-limited to
+              $extendingImprovement = (string)$pairingLimitedIncreasable[2]; # Improvement which can increase this limit
+              $improvementMultiplier = (float)$pairingLimitedIncreasable[3]; # Multiplier used to extend the increase from improvement
+              $unitsPerLimitingUnit *= 1 + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
 
-              # Prepare the bodies for removal.
-              $tick->crypt_bodies_spent += $bodiesSpent;
+              $maxAdditionalPermittedOfThisUnit = round($dominion->{'military_unit'.$unitLimitedTo} * $unitsPerLimitingUnit);
+              $maxAdditionalPermittedOfThisUnit -= $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitRaisedSlot);
+              $maxAdditionalPermittedOfThisUnit -= $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$unitRaisedSlot);
+
+              $unitsRaised = min($unitsRaised, $maxAdditionalPermittedOfThisUnit, $bodiesAvailable);
+
+              $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
+              $tick->crypt_bodies_spent += $unitsRaised;
           }
-
-          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_kinthys') and $dominion->military_unit4 > 0)
+          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_kinthys'))
           {
-              $bodiesSpent = 0;
+              $spell = Spell::where('key', 'rites_of_kinthys')->first();
 
-              # Check bodies available in the crypt
-              $bodiesAvailable = floor($dominion->realm->crypt - $tick->crypt_bodies_spent);
+              $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
 
-              $unit4PerUnit2 = 10; # How many Necromancers does it take to create a Ghoul
+              # Break down the spell perk
+              $raisersPerRaisedUnit = (int)$spellPerkValues[0];
+              $raisingUnitSlot = (int)$spellPerkValues[1];
+              $unitRaisedSlot = (int)$spellPerkValues[2];
 
-              # Units created is the lowest of Wraiths/10 or the [Ratio of Skeletons created] * [Bodies Available].
-              $unit2Created = intval(min($dominion->military_unit4 / $unit4PerUnit2, $bodiesAvailable));
+              $unitsRaised = $dominion->{'military_unit' . $raisingUnitSlot} / $raisersPerRaisedUnit;
 
-              # Calculate how many bodies were spent, with sanity check to make sure we don't get negative values for crypt (for example due to strange rounding).
-              if($unit2Created > 0)
-              {
-                  $bodiesSpent = min($dominion->realm->crypt, $unit2Created);
-              }
+              # Check the pairing limit
+              $pairingLimitedIncreasable = $dominion->race->getUnitPerkValueForUnitSlot($unitRaisedSlot, 'pairing_limit_increasable');
 
-              # Prepare the units for queue.
-              $tick->generated_unit2 += $unit2Created;
+              $unitLimitedTo = (float)$pairingLimitedIncreasable[0]; # Units paired-limited to
+              $unitsPerLimitingUnit = (float)$pairingLimitedIncreasable[1]; # Number of this unit per unit paired-limited to
+              $extendingImprovement = (string)$pairingLimitedIncreasable[2]; # Improvement which can increase this limit
+              $improvementMultiplier = (float)$pairingLimitedIncreasable[3]; # Multiplier used to extend the increase from improvement
+              $unitsPerLimitingUnit *= 1 + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
 
-              # Prepare the bodies for removal.
-              $tick->crypt_bodies_spent += $bodiesSpent;
+              $maxAdditionalPermittedOfThisUnit = round($dominion->{'military_unit'.$unitLimitedTo} * $unitsPerLimitingUnit);
+              $maxAdditionalPermittedOfThisUnit -= $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitRaisedSlot);
+              $maxAdditionalPermittedOfThisUnit -= $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$unitRaisedSlot);
+
+              $unitsRaised = min($unitsRaised, $maxAdditionalPermittedOfThisUnit);
+
+              $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
+              $tick->crypt_bodies_spent += $unitsRaised;
           }
-
+          
           # Snow Elf: Gryphon Nests generate Gryphons
           if($dominion->race->getPerkValue('gryphon_nests_generate_gryphons'))
           {

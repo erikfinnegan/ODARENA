@@ -167,7 +167,7 @@ class ProductionCalculator
     {
         $food = 0;
 
-        if($dominion->getSpellPerkValue('no_food_production'))
+        if($dominion->getSpellPerkValue('no_food_production') or $dominion->getSpellPerkValue('no_food_consumption'))
         {
             return $food;
         }

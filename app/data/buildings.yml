@@ -372,7 +372,7 @@ smithy:
     unit_ore_costs: 1,2,40 # ratio, perk, max
 
 ore_mill:
-  name: Smithy
+  name: Gnomish Smithy
   exclusive_races:
     - Gnome
     - Imperial Gnome

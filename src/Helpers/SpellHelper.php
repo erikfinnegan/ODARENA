@@ -946,7 +946,7 @@ class SpellHelper
 
             // Conversions
             'conversions' => '%s%% conversions',
-            'converts_crypt_bodies' => 'Every %1$s %2$s raise %3$s %4$s from the Crypt per tick (limited to bodies available in the Crypt).',
+            'converts_crypt_bodies' => 'Every %1$s %2$ss raise dead a body from the crypt into one %3$s per tick.',
             'convert_enemy_casualties_to_food' => 'Enemy casualties converted to food.',
             'no_conversions' => 'No enemy units are converted.',
 
@@ -1299,25 +1299,24 @@ class SpellHelper
             {
                 $race = Race::where('name', 'Undead')->firstOrFail();
 
-                $performingUnits = (int)$perkValue[0];
-                $performingUnitSlot = (int)$perkValue[1];
-                $unitsCreated = (int)$perkValue[2];
-                $unitCreatedSlot = (int)$perkValue[3];
+                $raisingUnits = (int)$perkValue[0];
+                $raisingUnitsSlot = (int)$perkValue[1];
+                $unitsRaisedSlot = (int)$perkValue[2];
 
-                # Get the performing unit
-                $performingUnit = $race->units->filter(static function ($unit) use ($performingUnitSlot)
+                # Get the raising unit
+                $raisingUnit = $race->units->filter(static function ($unit) use ($raisingUnitsSlot)
                         {
-                            return ($unit->slot === $performingUnitSlot);
+                            return ($unit->slot === $raisingUnitsSlot);
                         })->first();
 
-                # Get the performing unit
-                $createdUnit = $race->units->filter(static function ($unit) use ($unitCreatedSlot)
+                # Get the raised unit
+                $raisedUnit = $race->units->filter(static function ($unit) use ($unitsRaisedSlot)
                         {
-                            return ($unit->slot === $unitCreatedSlot);
+                            return ($unit->slot === $unitsRaisedSlot);
                         })->first();
                 #$unitsString = generate_sentence_from_array([$createdUnit, $createdUnit]);
 
-                $perkValue = [$performingUnits, $performingUnit->name, $unitsCreated, $createdUnit->name];
+                $perkValue = [$raisingUnits, $raisingUnit->name, $raisedUnit->name];
 
                 #$perkValue = [$unitsString, $maxPerAcre, $landType];
             }
