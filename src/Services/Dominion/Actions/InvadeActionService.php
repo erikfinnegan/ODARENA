@@ -1138,7 +1138,7 @@ class InvadeActionService
 
             $attackerMoraleChangeMultiplier = 0;
             $attackerMoraleChangeMultiplier += $dominion->getBuildingPerkMultiplier('morale_gains');
-            $attackerMoraleChangeMultiplier += $dominion->race->getPerkValue('morale_change_invasion');
+            $attackerMoraleChangeMultiplier += $dominion->race->getPerkMultiplier('morale_change_invasion');
             $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->title->getPerkBonus($dominion);
 
             $attackerMoraleChange *= (1 + $attackerMoraleChangeMultiplier);
