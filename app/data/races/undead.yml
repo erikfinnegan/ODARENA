@@ -2,7 +2,7 @@ name: Undead
 alignment: evil
 description:
 home_land_type: swamp
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 1
