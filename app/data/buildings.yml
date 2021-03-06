@@ -237,7 +237,7 @@ aqueduct:
     - Swarm
   land_type: water
   perks:
-    food_production_modifier: 1,8,40 # Every 1% gives +4% gem production, max +20%
+    food_production_modifier: 1,8,40 # Every 1% gives +8% food production, max +20%
 
 shipyard:
   name: Shipyard

@@ -212,7 +212,7 @@ class ProductionCalculator
         $multiplier += $dominion->getSpellPerkMultiplier('food_production');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('gold_production_modifier');
+        $multiplier += $dominion->getBuildingPerkMultiplier('food_production_modifier');
 
         // Improvement: Harbor
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
