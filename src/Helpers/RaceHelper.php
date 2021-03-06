@@ -270,7 +270,17 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Amount stolen';
                 $valueType = '%';
-                break;            
+                break;
+            case 'morale_change_tick':
+                $negativeBenefit = true;
+                $description = 'Morale normalisation per tick';
+                $valueType = '% normal rate if current morale is over base';
+                break;
+            case 'morale_change_invasion':
+                $negativeBenefit = false;
+                $description = 'Morale changes on invasion';
+                $valueType = '% (gains and losses)';
+                break;
             case 'cannot_build_homes':
                 $negativeBenefit = true;
                 $description = 'Cannot build Homes';

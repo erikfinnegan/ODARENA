@@ -20,6 +20,9 @@ perks:
   boat_capacity: 10
   salvaging: 10
   reduced_conversions: 25
+  morale_change_tick: -50
+  morale_change_invasion: 100
+
 units:
   - name: Grunt
     training_time: 9
@@ -35,6 +38,7 @@ units:
     perks:
       offense_from_pairing: 4,0.5,1 # slot, amount, num required
       plunders: gold;0.1,gems;0.01
+      housing: 0.5
 
   - name: Underling
     training_time: 9
@@ -49,6 +53,7 @@ units:
       defense: 2
     perks:
       defense_from_pairing: 3,1,1 # slot, amount, num required
+      housing: 0.5
 
   - name: Beast
     training_time: 12

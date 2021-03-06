@@ -696,20 +696,17 @@ class DominionFactory
 
         if($race->name == 'Kerranad')
         {
-          $startingBuildings = [
-              'farm' => 50,
-              'smithy' => 200,
-              'residence' => 100,
-              'lumberyard' => 50,
-              'forest_haven' => 25,
-              'ore_mine' => 100,
-              'gem_mine' => 300,
-              'barracks' => 0,
-              'tower' => 50,
-              'wizard_guild' => 25,
-              'temple' => 50,
-              'dock' => 50,
-          ];
+            $startingBuildings['farm'] = 50;
+            $startingBuildings['smithy'] = 200;
+            $startingBuildings['residence'] = 100;
+            $startingBuildings['lumberyard'] = 50;
+            $startingBuildings['forest_haven'] = 25;
+            $startingBuildings['ore_mine'] = 100;
+            $startingBuildings['gem_mine'] = 300;
+            $startingBuildings['tower'] = 50;
+            $startingBuildings['wizard_guild'] = 25;
+            $startingBuildings['temple'] = 50;
+            $startingBuildings['dock'] = 50;
         }
         elseif($race->name == 'Growth')
         {
@@ -721,18 +718,16 @@ class DominionFactory
         }
         elseif($race->name == 'Barbarian')
         {
-          $startingBuildings = [
-              'farm' => floor($acresBase*0.10),
-              'smithy' => floor($acresBase*0.10),
-              'lumberyard' => floor($acresBase*0.06),
-              'forest_haven' => floor($acresBase*0.06),
-              'ore_mine' => floor($acresBase*0.10),
-              'gem_mine' => floor($acresBase*0.10),
-              'barracks' => floor($acresBase*0.20),
-              'tower' => floor($acresBase*0.06),
-              'temple' => floor($acresBase*0.06),
-              'dock' => floor($acresBase*0.10),
-          ];
+            $startingBuildings['farm'] = floor($acresBase*0.10);
+            $startingBuildings['smithy'] = floor($acresBase*0.10);
+            $startingBuildings['lumberyard'] = floor($acresBase*0.06);
+            $startingBuildings['forest_haven'] = floor($acresBase*0.06);
+            $startingBuildings['ore_mine'] = floor($acresBase*0.10);
+            $startingBuildings['gem_mine'] = floor($acresBase*0.10);
+            $startingBuildings['barracks'] = floor($acresBase*0.20);
+            $startingBuildings['tower'] = floor($acresBase*0.06);
+            $startingBuildings['temple'] = floor($acresBase*0.06);
+            $startingBuildings['dock'] = floor($acresBase*0.10);
         }
 
         return $startingBuildings;
@@ -750,7 +745,7 @@ class DominionFactory
     protected function getStartingLand(Race $race, array $startingBarrenLand, array $startingBuildings): array
     {
         $startingLand = [
-            'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'] + $startingBuildings['smithy'],
+            'plain' => $startingBarrenLand['plain'] + $startingBuildings['farm'] + $startingBuildings['smithy'] + $startingBuildings['residence'],
             'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'],
             'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'] + $startingBuildings['tissue_swamp'],
             'cavern' => 0,

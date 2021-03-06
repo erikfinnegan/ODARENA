@@ -819,6 +819,8 @@ class TickService
           $baseMorale *= (1 + $baseMoraleModifier);
           $baseMorale = intval($baseMorale);
 
+          $moraleChangeModifier = (1 + $dominion->race->getPerkValue('morale_change'));
+
           if($tick->starvation_casualties > 0)
           {
               # Lower morale by 10.
@@ -836,7 +838,7 @@ class TickService
           {
               if ($dominion->morale < 35)
               {
-                $tick->morale = 7;
+                  $tick->morale = 7;
               }
               elseif ($dominion->morale < 70)
               {
@@ -848,7 +850,7 @@ class TickService
               }
               elseif($dominion->morale > $baseMorale)
               {
-                $tick->morale -= min(2, $dominion->morale - $baseMorale);
+                  $tick->morale -= min(2 * $moraleChangeModifier, $dominion->morale - $baseMorale);
               }
           }
 

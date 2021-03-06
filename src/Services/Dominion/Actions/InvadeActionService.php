@@ -1138,9 +1138,14 @@ class InvadeActionService
 
             $attackerMoraleChangeMultiplier = 0;
             $attackerMoraleChangeMultiplier += $dominion->getBuildingPerkMultiplier('morale_gains');
+            $attackerMoraleChangeMultiplier += $dominion->race->getPerkValue('morale_change_invasion');
             $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->title->getPerkBonus($dominion);
 
             $attackerMoraleChange *= (1 + $attackerMoraleChangeMultiplier);
+
+            $defenderMoraleChangeMultiplier += $dominion->race->getPerkValue('morale_change_invasion');
+
+            $defenderMoraleChange *= (1 + $defenderMoraleChangeMultiplier);
 
         }
         # For failed invasions...
@@ -1165,7 +1170,7 @@ class InvadeActionService
         // Make sure it doesn't go below 0.
         if(($dominion->morale + $attackerMoraleChange) < 0)
         {
-          $attackerMoraleChange = 0;
+            $attackerMoraleChange = 0;
         }
         $dominion->morale += $attackerMoraleChange;
 
@@ -1174,7 +1179,7 @@ class InvadeActionService
         // Make sure it doesn't go below 0.
         if(($target->morale + $defenderMoraleChange) < 0)
         {
-          $defenderMoraleChange = 0;
+            $defenderMoraleChange = 0;
         }
         $target->morale += $defenderMoraleChange;
 
