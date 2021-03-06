@@ -80,13 +80,13 @@ ore_mine:
     ore_production: 60
 
 dwarven_ore_mine:
-  name: Ore Mine
+  name: Dwarven Ore Mine
   exclusive_races:
     - Dwarf
   land_type: mountain
   perks:
     ore_production: 60
-    housing: 8
+    housing: 23
 
 diamond_mine:
   name: Diamond Mine
