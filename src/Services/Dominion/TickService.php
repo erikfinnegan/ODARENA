@@ -1022,6 +1022,9 @@ class TickService
 
               $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
 
+              # Check bodies available in the crypt
+              $bodiesAvailable = floor($dominion->realm->crypt - $tick->crypt_bodies_spent);
+
               # Break down the spell perk
               $raisersPerRaisedUnit = (int)$spellPerkValues[0];
               $raisingUnitSlot = (int)$spellPerkValues[1];
@@ -1042,12 +1045,12 @@ class TickService
               $maxAdditionalPermittedOfThisUnit -= $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitRaisedSlot);
               $maxAdditionalPermittedOfThisUnit -= $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$unitRaisedSlot);
 
-              $unitsRaised = min($unitsRaised, $maxAdditionalPermittedOfThisUnit);
+              $unitsRaised = min($unitsRaised, $maxAdditionalPermittedOfThisUnit, $bodiesAvailable);
 
               $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
               $tick->crypt_bodies_spent += $unitsRaised;
           }
-          
+
           # Snow Elf: Gryphon Nests generate Gryphons
           if($dominion->race->getPerkValue('gryphon_nests_generate_gryphons'))
           {
