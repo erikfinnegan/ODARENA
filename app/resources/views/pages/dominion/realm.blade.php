@@ -236,7 +236,7 @@
                                     <td>Networth:</td>
                                     <td>{{ number_format($networthCalculator->getRealmNetworth($realm)) }}</td>
                                   </tr>
-                                  @if($realm->alignment === 'evil' and $realm->id === $selectedDominion->realm->id)
+                                  @if($realm->alignment === 'evil')
                                   <tr>
                                     <td>Imperial Crypt:</td>
                                     <td>{{ number_format($selectedDominion->realm->crypt) }} bodies</td>
