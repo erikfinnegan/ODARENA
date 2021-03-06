@@ -232,7 +232,7 @@ class TrainActionService
 
               $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
-              $upperLimit = round($acresOfLimitingLandType * $unitsPerAcre);
+              $upperLimit = floor($acresOfLimitingLandType * $unitsPerAcre);
 
               if( # Units trained + Units in Training + Units in Queue + Units to Train
                   (($dominion->{'military_unit' . $unitSlot} +
@@ -243,7 +243,7 @@ class TrainActionService
                     $upperLimit
                 )
                 {
-                  throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more acres of '. ucwords(str_plural($buildingLimit[0], 2)) .'s.');
+                  throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more ' . $landLimit[0] . '.');
                 }
             }
             # Land limit check complete.
