@@ -792,7 +792,8 @@ class ProductionCalculator
      */
     public function getBoatProduction(Dominion $dominion): float
     {
-        return ($this->getBoatProductionRaw($dominion) * $this->getBoatProductionMultiplier($dominion));
+        return 0;
+        #return ($this->getBoatProductionRaw($dominion) * $this->getBoatProductionMultiplier($dominion));
     }
 
     /**
