@@ -979,6 +979,14 @@ class TickService
 
           $tick->crypt_bodies_spent = 0;
 
+          # Version 1.3 (Round 42, Spells 2.0 compatible-r)
+          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur'))
+          {
+              $bodiesSpent = 0;
+              $raisingUnits = 0;
+              $unitsRaised = 0;
+          }
+
           # Version 1.2 (Round 38)
           if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur') and $dominion->military_unit4 > 0)
           {
