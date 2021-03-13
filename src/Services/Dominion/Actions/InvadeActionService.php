@@ -1341,44 +1341,39 @@ class InvadeActionService
                   $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damageDone;
                 }
 
-                // Troll: eats_peasants_on_attack
-                if ($dominion->race->name === 'Troll')
+
+                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
                 {
+                    $eatingUnits = $units[$unitSlot];
+                    $peasantsEatenPerUnit = (float)$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
 
-                    if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
+                    # If target has less than 1000 peasants, we don't eat any.
+                    if($target->peasants < 1000)
                     {
-                      $eatingUnits = $units[$unitSlot];
-                      $peasantsEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
-
-                      # If target has less than 1000 peasants, we don't eat any.
-                      if($target->peasants < 1000)
-                      {
-                        $eatenPeasants = 0;
-                      }
-                      else
-                      {
-                        $eatenPeasants = $eatingUnits * $peasantsEatenPerUnit;
+                      $eatenPeasants = 0;
+                    }
+                    else
+                    {
+                        $eatenPeasants = round($eatingUnits * $peasantsEatenPerUnit);
                         $eatenPeasants = min(($target->peasants-1000), $eatenPeasants);
-                      }
-                      $target->peasants -= $eatenPeasants;
-                      $this->invasionResult['attacker']['peasants_eaten']['peasants'] = $eatenPeasants;
-                      $this->invasionResult['defender']['peasants_eaten']['peasants'] = $eatenPeasants;
                     }
+                    $target->peasants -= $eatenPeasants;
+                    $this->invasionResult['attacker']['peasants_eaten']['peasants'] = $eatenPeasants;
+                    $this->invasionResult['defender']['peasants_eaten']['peasants'] = $eatenPeasants;
+                }
 
-                    // Troll: eats_draftees_on_attack
-                    if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack') and isset($units[$unitSlot]))
-                    {
-                        $eatingUnits = $units[$unitSlot];
-                        $drafteesEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
+                // Troll: eats_draftees_on_attack
+                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack') and isset($units[$unitSlot]))
+                {
+                    $eatingUnits = $units[$unitSlot];
+                    $drafteesEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
 
-                        $eatenDraftees = $eatingUnits * $drafteesEatenPerUnit;
-                        $eatenDraftees = min(($target->peasants-1000), $eatenDraftees);
+                    $eatenDraftees = round($eatingUnits * $drafteesEatenPerUnit);
+                    $eatenDraftees = min($target->military_draftees, $eatenDraftees);
 
-                        $target->peasants -= $eatenPeasants;
-                        $this->invasionResult['attacker']['draftees_eaten']['draftees'] = $eatenPeasants;
-                        $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenPeasants;
-                    }
-
+                    $target->military_draftees -= $eatenDraftees;
+                    $this->invasionResult['attacker']['draftees_eaten']['draftees'] = $eatenDraftees;
+                    $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenDraftees;
                 }
             }
         }
