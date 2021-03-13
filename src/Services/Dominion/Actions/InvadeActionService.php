@@ -1342,38 +1342,43 @@ class InvadeActionService
                 }
 
                 // Troll: eats_peasants_on_attack
-                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
+                if ($dominion->race->name === 'Troll')
                 {
-                  $eatingUnits = $units[$unitSlot];
-                  $peasantsEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
 
-                  # If target has less than 1000 peasants, we don't eat any.
-                  if($target->peasants < 1000)
-                  {
-                    $eatenPeasants = 0;
-                  }
-                  else
-                  {
-                    $eatenPeasants = $eatingUnits * $peasantsEatenPerUnit;
-                    $eatenPeasants = min(($target->peasants-1000), $eatenPeasants);
-                  }
-                  $target->peasants -= $eatenPeasants;
-                  $this->invasionResult['attacker']['peasants_eaten']['peasants'] = $eatenPeasants;
-                  $this->invasionResult['defender']['peasants_eaten']['peasants'] = $eatenPeasants;
-                }
+                    if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
+                    {
+                      $eatingUnits = $units[$unitSlot];
+                      $peasantsEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
 
-                // Troll: eats_draftees_on_attack
-                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack') and isset($units[$unitSlot]))
-                {
-                  $eatingUnits = $units[$unitSlot];
-                  $drafteesEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
+                      # If target has less than 1000 peasants, we don't eat any.
+                      if($target->peasants < 1000)
+                      {
+                        $eatenPeasants = 0;
+                      }
+                      else
+                      {
+                        $eatenPeasants = $eatingUnits * $peasantsEatenPerUnit;
+                        $eatenPeasants = min(($target->peasants-1000), $eatenPeasants);
+                      }
+                      $target->peasants -= $eatenPeasants;
+                      $this->invasionResult['attacker']['peasants_eaten']['peasants'] = $eatenPeasants;
+                      $this->invasionResult['defender']['peasants_eaten']['peasants'] = $eatenPeasants;
+                    }
 
-                  $eatenDraftees = $eatingUnits * $drafteesEatenPerUnit;
-                  $eatenDraftees = min(($target->peasants-1000), $eatenDraftees);
+                    // Troll: eats_draftees_on_attack
+                    if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack') and isset($units[$unitSlot]))
+                    {
+                        $eatingUnits = $units[$unitSlot];
+                        $drafteesEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
 
-                  $target->peasants -= $eatenPeasants;
-                  $this->invasionResult['attacker']['draftees_eaten']['draftees'] = $eatenPeasants;
-                  $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenPeasants;
+                        $eatenDraftees = $eatingUnits * $drafteesEatenPerUnit;
+                        $eatenDraftees = min(($target->peasants-1000), $eatenDraftees);
+
+                        $target->peasants -= $eatenPeasants;
+                        $this->invasionResult['attacker']['draftees_eaten']['draftees'] = $eatenPeasants;
+                        $this->invasionResult['defender']['draftees_eaten']['draftees'] = $eatenPeasants;
+                    }
+
                 }
             }
         }
