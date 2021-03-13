@@ -2870,7 +2870,7 @@ class InvadeActionService
         $dpMultiplierReduction = $attacker->getBuildingPerkMultiplier('defensive_modifier_reduction');
 
         // Void: Spell (remove DP reduction from Temples)
-        if ($$target->getSpellPerkValue('immune_to_temples'))
+        if ($target->getSpellPerkValue('immune_to_temples'))
         {
             $dpMultiplierReduction = 0;
         }
