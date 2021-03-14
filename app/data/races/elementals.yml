@@ -19,7 +19,6 @@ perks:
   cannot_construct: 1
   cannot_rezone: 1
   no_food_consumption: 1
-  land_production: 1
   peasants_produce_mana: 2
   draftees_produce_mana: 1
 
