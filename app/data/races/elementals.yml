@@ -12,7 +12,11 @@ exploring : 3
 converting: 3
 skill_level: 1
 
-construction_materials: lumber
+construction_materials: mana
+
+spies_cost: 1000,mana
+wizards_cost: 1000,mana
+archmages_cost: 2000,mana
 
 perks:
   cannot_improve_castle: 1

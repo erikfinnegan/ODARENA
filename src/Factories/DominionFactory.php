@@ -282,7 +282,7 @@ class DominionFactory
         }
 
         // Elementals: remove lumber
-        if($race->name == 'Void')
+        if($race->name == 'Elementals')
         {
             $startingResources['lumber'] = 0;
         }
