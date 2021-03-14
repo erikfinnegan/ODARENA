@@ -22,6 +22,7 @@ perks:
   no_gold_production: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
+  construction_cost: -50
 units:
   - name: Worker Yeti
     training_time: 1

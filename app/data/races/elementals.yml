@@ -25,7 +25,7 @@ perks:
   no_food_consumption: 1
   peasants_produce_mana: 2
   draftees_produce_mana: 1
-  extra_barren_max_population: 10
+  extra_barren_max_population: 5
 
 units:
   - name: Fire
@@ -91,4 +91,3 @@ units:
       immortal_on_victory: 1
       immortal_on_fending_off: 1
       damages_improvements_on_attack: 4
-      housing_count: 0.5
