@@ -60,6 +60,7 @@ mining_strength:
     - Firewalker
     - Demon
     - Dimensionalists
+    - Elementals
     - Growth
     - Dwarf
     - Gnome
@@ -159,6 +160,7 @@ transmogrify:
     - Firewalker
     - Demon
     - Dimensionalists
+    - Elementals
     - Growth
     - Dwarf
     - Gnome
