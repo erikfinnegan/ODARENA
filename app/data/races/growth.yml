@@ -29,6 +29,7 @@ perks:
   food_decay: -100
   cannot_rezone: 1
   cannot_release_units: 1
+
 units:
   - name: Abscess
     training_time: 9

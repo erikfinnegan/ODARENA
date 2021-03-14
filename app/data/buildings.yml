@@ -233,8 +233,9 @@ aqueduct:
     - Merfolk
     - Myconid
     - Reptilians
-    - Void
     - Swarm
+    - Void
+    - Yeti
   land_type: water
   perks:
     food_production_modifier: 1,8,40 # Every 1% gives +8% food production, max +20%
@@ -337,7 +338,7 @@ stone_wall:
   land_type: mountain
   perks:
     defensive_power: 1,1.5,60 # Every 1% gives 2% DP, max +40% DP
-    raw_defense: 100
+    raw_defense: 85
 
 shrine:
   name: Shrine
@@ -609,7 +610,7 @@ spawning_pool:
   land_type: swamp
   perks:
     extra_units_trained: 1,1,100 # Every 1% gives 1% extra units, max +100%
-    housing: 50
+    housing: 62
 
 # HOME ALTERNATIVES
 
@@ -758,7 +759,7 @@ incinerator:
     - Firewalker
   land_type: mountain
   perks:
-    housing: 30
+    housing: 34
     population_growth: 1,3 # Every 1%, gives 3%
     jobs: 0
 

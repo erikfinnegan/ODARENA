@@ -24,14 +24,14 @@ perks:
   can_only_build_mycelia: 1
   cannot_join_guards: 1
   peasants_produce_food: 2
-  food_decay: -100
   min_rounds_played: 1
+
 units:
   - name: Fruitbody
     training_time: 3
     type:
       - living
-    
+
     cost:
       food: 25
     power:

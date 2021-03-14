@@ -324,21 +324,6 @@ class RaceHelper
                 $description = 'Cannot level up advancements';
                 $booleanValue = true;
                 break;
-            case 'construction_cost_only_gold':
-                $negativeBenefit = false;
-                $description = 'Buildings only cost gold';
-                $booleanValue = true;
-                break;
-            case 'construction_cost_only_mana':
-                $negativeBenefit = false;
-                $description = 'Buildings only cost mana';
-                $booleanValue = true;
-                break;
-            case 'construction_cost_only_food':
-                $negativeBenefit = false;
-                $description = 'Buildings only cost food';
-                $booleanValue = true;
-                break;
             case 'ore_improvement_points':
                 $negativeBenefit = false;
                 $description = 'Improvement points from ore';
@@ -366,37 +351,9 @@ class RaceHelper
                 $description = 'Effect from Insect Swarm';
                 $booleanValue = false;
                 break;
-            case 'can_only_build_ziggurat':
-                $negativeBenefit = false;
-                $description = 'Can only build Ziggurats';
-                $booleanValue = true;
-                break;
-                break;
             case 'no_gold_production':
                 $negativeBenefit = false;
                 $description = 'No gold production';
-                $booleanValue = true;
-                break;
-            case 'defense_per_ziggurat':
-                $negativeBenefit = false;
-                $description = 'Raw DP per Ziggurat';
-                $booleanValue = 'static';
-                $valueType = '';
-                break;
-            case 'mana_per_ziggurat':
-                $negativeBenefit = false;
-                $description = 'Ziggurat mana production';
-                $valueType = ' mana/tick';
-                $booleanValue = 'static';
-                break;
-            case 'can_only_build_tissue':
-                $negativeBenefit = false;
-                $description = 'Can only build Tissue';
-                $booleanValue = true;
-                break;
-            case 'can_only_build_mycelia':
-                $negativeBenefit = false;
-                $description = 'Can only build Mycelia';
                 $booleanValue = true;
                 break;
             case 'peasants_produce_food':
@@ -405,15 +362,15 @@ class RaceHelper
                 $valueType = ' food/tick';
                 $booleanValue = false;
                 break;
-            case 'unemployed_peasants_produce_gold':
-                $negativeBenefit = true;
-                $description = 'Unemployed peasants produce gold';
-                $valueType = ' gold/tick';
-                $booleanValue = false;
-                break;
             case 'draftees_produce_mana':
                 $negativeBenefit = false;
                 $description = 'Draftees produce mana';
+                $valueType = ' mana/tick';
+                $booleanValue = false;
+                break;
+            case 'peasants_produce_mana':
+                $negativeBenefit = false;
+                $description = 'Peasants produce mana';
                 $valueType = ' mana/tick';
                 $booleanValue = false;
                 break;

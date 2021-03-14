@@ -4,87 +4,86 @@ description:
 home_land_type: water
 playable: 1
 
-peasants_alias: drone
-draftees_alias: prime
+peasants_alias: aether
+draftees_alias: entity
 
 attacking: 3
 exploring : 3
 converting: 3
 skill_level: 1
 
-construction_materials: gold,lumber
+construction_materials: lumber
 
 perks:
-  max_population: 15
-  extra_barren_max_population: 25
-  cannot_train_wizards: 1
-  cannot_train_spies: 1
-  cannot_train_archmages: 1
-  food_consumption: -10
+  cannot_improve_castle: 1
+  cannot_construct: 1
+  cannot_rezone: 1
+  no_food_consumption: 1
+  land_production: 1
+  peasants_produce_mana: 2
+  draftees_produce_mana: 1
+
 units:
   - name: Fire
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
-    
     cost:
-      gold: 950
-      mana: 5
+      mana: 280
     power:
-      offense: 6
-      defense: 6
+      offense: 20
+      defense: 8
     perks:
-      burns_peasants_on_attack: 0.25
+      burns_peasants_on_attack: 2
       counts_as_wizard_offense: 0.25
       immortal_wizard: 1
+
   - name: Water
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
-    
     cost:
-      gold: 950
-      mana: 5
+      mana: 220
     power:
-      offense: 6
-      defense: 6
+      offense: 0
+      defense: 0
     perks:
-      offense_from_land: water,10,1 # land type, ratio%, max
-      counts_as_spy_defense: 0.25
+      defense_from_land: water,5,20 # land type, ratio%, max
+
   - name: Earth
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
-    
     cost:
-      gold: 950
-      mana: 5
+      mana: 200
     power:
-      offense: 6
-      defense: 6
+      offense: 8
+      defense: 8
     perks:
-      offense_vs_barren_land: 10,1 # ratio%, max
-      counts_as_wizard_defense: 0.25
+      defense_from_land: hill,5,20 # land type, ratio%, max
+      offense_from_land: mountain,5,20 # land type, ratio%, max
+
   - name: Air
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
-    
     cost:
-      gold: 950
-      mana: 5
+      mana: 140
     power:
       offense: 6
-      defense: 6
+      defense: 8
     perks:
-      reduces_casualties: 1
-      counts_as_spy_offense: 0.25
+      counts_as_spy_offense: 0.50
+      counts_as_spy_defense: 0.25
       immortal_spy: 1
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
+      damages_improvements_on_attack: 4

@@ -421,7 +421,7 @@
 
                                         <tr>
                                             <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $event->source->race) }}">
                                                     {{ $raceHelper->getPeasantsTerm($selectedDominion->race) }}:
                                                 </span>
                                             </td>
@@ -448,8 +448,8 @@
 
                                         <tr>
                                             <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
-                                                    {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $event->source->race->race) }}">
+                                                    {{ $raceHelper->getDrafteesTerm($event->source->race->race) }}:
                                                 </span>
                                             </td>
                                             <td>

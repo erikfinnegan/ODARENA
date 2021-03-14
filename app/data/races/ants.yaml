@@ -15,7 +15,6 @@ skill_level: 2
 construction_materials: gold,lumber
 
 perks:
-  max_population: 160
   construction_cost: -25
   spy_strength: -20
   wizard_strength: -20
@@ -33,7 +32,7 @@ units:
     type:
       - living
     cost:
-      gold: 50
+      gold: 0
       ore: 0
     power:
       offense: 1

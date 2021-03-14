@@ -205,11 +205,7 @@ class DominionFactory
         }
 
         // Boat-free races: no boats
-        $boatFreeRaces = array('Lux','Merfolk','Myconid','Snow Elf','Spirit','Swarm','Dimensionalists','Growth','Reptilians','Void','Artillery');
-        if(in_array($race->name, $boatFreeRaces))
-        {
-            $startingResources['boats'] = 0;
-        }
+        $startingResources['boats'] = 0;
 
         // Mana-cost races: triple Mana
         $manaCostRaces = array('Elementals','Demon','Dimensionalists','Lux','Norse','Snow Elf','Nox','Undead','Void','Icekin','Marshling');
@@ -626,6 +622,18 @@ class DominionFactory
               'forest' => 0,
               'hill' => 0,
               'water' => 0,
+          ];
+        }
+        elseif($race->name == 'Elementals')
+        {
+          return [
+              'plain' => 170,
+              'mountain' => 166,
+              'swamp' => 166,
+              'cavern' => 0,
+              'forest' => 166,
+              'hill' => 166,
+              'water' => 166,
           ];
         }
         elseif($race->name == 'Kerranad')
