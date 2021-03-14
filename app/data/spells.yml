@@ -783,7 +783,7 @@ elementals_hill:
     rezone_all_land: 10,hill # rezone 10% of your land to hills
 
 elementals_mountain:
-  name: Druva's Reach
+  name: Druva's Crest
   scope: self
   class: active
   cost: 6
