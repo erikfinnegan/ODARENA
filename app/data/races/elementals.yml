@@ -68,7 +68,7 @@ units:
       mana: 200
     power:
       offense: 8
-      defense: 8
+      defense: 6
     perks:
       defense_from_land: hill,5,20 # land type, ratio%, max
       offense_from_land: mountain,5,20 # land type, ratio%, max
