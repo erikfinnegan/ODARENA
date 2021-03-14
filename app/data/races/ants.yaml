@@ -16,15 +16,14 @@ construction_materials: gold,lumber
 
 perks:
   construction_cost: -25
-  spy_strength: -20
-  wizard_strength: -20
   food_consumption: -50
   boat_capacity: 70
   gold_production: -15
   explore_cost: 25
   reduced_conversions: 35
   draftee_dp: 0.1
-  gem_production: -10
+  population_growth: 50
+
 
 units:
   - name: Soldier Ant

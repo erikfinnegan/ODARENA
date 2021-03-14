@@ -55,10 +55,29 @@ mining_strength:
   cooldown: 0
   excluded_races:
     - Afflicted
-    - Dwarf
+    - Ants
     - Artillery
+    - Firewalker
+    - Demon
+    - Dimensionalists
+    - Growth
+    - Dwarf
     - Gnome
+    - Lux
+    - Merfolk
+    - Myconid
+    - Nox
+    - Qur
+    - Reptilians
+    - Simian
+    - Spirit
+    - Sylvan
+    - Swarm
+    - Undead
+    - Vampires
     - Void
+    - Weres
+    - Wood Elf
   perks:
     ore_production: 10
 
@@ -134,7 +153,30 @@ transmogrify:
   duration: 0
   cooldown: 6
   excluded_races:
+    - Afflicted
+    - Ants
+    - Artillery
+    - Firewalker
+    - Demon
+    - Dimensionalists
+    - Growth
+    - Dwarf
+    - Gnome
+    - Lux
+    - Merfolk
+    - Myconid
+    - Nox
+    - Qur
+    - Reptilians
+    - Simian
+    - Spirit
+    - Sylvan
+    - Swarm
+    - Undead
+    - Vampires
     - Void
+    - Weres
+    - Wood Elf
   perks:
     resource_conversion: ore,gems,25,4 # from, to, percentage
 
@@ -223,6 +265,7 @@ plague:
 
 great_flood:
   name: Great Flood
+  enabled: 0
   scope: hostile
   class: passive
   cost: 4

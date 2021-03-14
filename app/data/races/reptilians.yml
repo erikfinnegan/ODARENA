@@ -19,7 +19,7 @@ perks:
     extra_barren_max_population: 5
 units:
   - name: Horned One
-    
+
     training_time: 4
     type:
       - living
@@ -50,7 +50,7 @@ units:
       reduces_casualties: 1
 
   - name: Blessed One
-    
+
     training_time: 9
     type:
       - living
@@ -67,7 +67,7 @@ units:
       counts_as_wizard_defense: 0.25
 
   - name: Ancient One
-    
+
     training_time: 12
     type:
       - living
@@ -83,4 +83,4 @@ units:
       building_limit: temple,1,spires # building, buildings per unit, imp to increased
       fewer_casualties: 90
       no_draftee: 1
-      housing: 2
+      housing_count: 2

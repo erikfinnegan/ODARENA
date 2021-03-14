@@ -21,6 +21,7 @@ perks:
   no_food_consumption: 1
   peasants_produce_mana: 2
   draftees_produce_mana: 1
+  extra_barren_max_population: 10
 
 units:
   - name: Fire
@@ -46,7 +47,7 @@ units:
       - sentient
       - intelligent
     cost:
-      mana: 220
+      mana: 160
     power:
       offense: 0
       defense: 0
@@ -86,4 +87,4 @@ units:
       immortal_on_victory: 1
       immortal_on_fending_off: 1
       damages_improvements_on_attack: 4
-      housing: 0.5
+      housing_count: 0.5
