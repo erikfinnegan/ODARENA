@@ -104,6 +104,7 @@ fools_gold:
   cooldown: 18
   excluded_races:
     - Afflicted
+    - Elementals
     - Void
   perks:
     gold_theft: -100
