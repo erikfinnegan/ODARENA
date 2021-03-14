@@ -17,7 +17,6 @@ perks:
   food_consumption: -25
   spy_strength: -10
   wizard_strength: -10
-  boat_capacity: 10
   salvaging: 10
   reduced_conversions: 25
   morale_change_tick: -50

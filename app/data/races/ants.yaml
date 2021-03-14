@@ -17,7 +17,6 @@ construction_materials: gold,lumber
 perks:
   construction_cost: -25
   food_consumption: -50
-  boat_capacity: 70
   gold_production: -15
   explore_cost: 25
   reduced_conversions: 35

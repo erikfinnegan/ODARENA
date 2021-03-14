@@ -19,10 +19,7 @@ wizards_cost: 200,food
 archmages_cost: 400,food
 
 perks:
-  gold_production: -100
-  boat_capacity: -10
-  food_decay: -75
-  lumber_decay: -75
+  no_gold_production: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
 units:
@@ -32,7 +29,7 @@ units:
       - living
       - sentient
       - intelligent
-    
+
     cost:
       food: 24
       ore: 2
@@ -71,7 +68,7 @@ units:
       - sentient
       - intelligent
       - wise
-    
+
     cost:
       food: 300
       lumber: 200
@@ -90,7 +87,7 @@ units:
       - sentient
       - intelligent
       - wise
-    
+
     cost:
       food: 200
       lumber: 200

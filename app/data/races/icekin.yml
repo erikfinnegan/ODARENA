@@ -15,7 +15,6 @@ archmages_cost: 500,gold
 
 perks:
   food_consumption: -50
-  food_decay: -90
   title_bonus: 50
 
 units:

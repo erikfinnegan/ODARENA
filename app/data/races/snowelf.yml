@@ -15,7 +15,6 @@ construction_materials: gold,lumber
 perks:
   food_consumption: -25
   invest_bonus: 30
-  mana_drain: -50
   max_population: -20
   gryphon_nests_generate_gryphons: 0.1
   can_invest_mana: 0.08
@@ -38,7 +37,7 @@ units:
       immortal_on_fending_off: 1
 
   - name: Ballista
-    
+
     training_time: 12
     type:
       - machine
@@ -56,7 +55,7 @@ units:
       plunder: mana,10
 
   - name: Hailstorm Cannon
-    
+
     training_time: 12
     type:
       - machine
@@ -78,7 +77,7 @@ units:
       true_immortal: 1
 
   - name: Gryphon
-    
+
     training_time: 12
     type:
       - living
