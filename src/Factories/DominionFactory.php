@@ -281,6 +281,12 @@ class DominionFactory
             $startingResources['gems'] = 0;
         }
 
+        // Elementals: remove lumber
+        if($race->name == 'Void')
+        {
+            $startingResources['lumber'] = 0;
+        }
+
         // Lux: double starting mana.
         if($race->name == 'Lux')
         {

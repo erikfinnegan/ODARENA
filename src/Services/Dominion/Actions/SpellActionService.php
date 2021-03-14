@@ -16,6 +16,7 @@ use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\OpsHelper;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Models\Dominion;
@@ -56,6 +57,7 @@ class SpellActionService
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->networthCalculator = app(NetworthCalculator::class);
         $this->notificationService = app(NotificationService::class);
+        $this->landHelper = app(LandHelper::class);
         $this->opsHelper = app(OpsHelper::class);
         $this->populationCalculator = app(PopulationCalculator::class);
         $this->protectionService = app(ProtectionService::class);
@@ -629,6 +631,27 @@ class SpellActionService
                     }
 
                     $extraLine = ', summoning ' . number_format($totalUnitsSummoned) . ' new units to our military';
+                }
+
+                # Rezone all land
+                if($perk->key === 'rezone_all_land')
+                {
+                    $toLandType = (string)$spellPerkValues[1];
+                    $ratio = $spellPerkValues[0] / 100;
+
+                    $acresRezoned = 0;
+
+                    foreach($this->landHelper->getLandTypes() as $landType)
+                    {
+                        if($landType !== $toLandType)
+                        {
+                            $toRezone = floor($caster->{'land_' . $landType} * $ratio);
+                            $caster->{'land_' . $landType} -= $toRezone;
+                            $acresRezoned += $toRezone;
+                        }                        
+                    }
+
+                    $caster->{'land_'.$toLandType} += $acresRezoned;
                 }
             }
 

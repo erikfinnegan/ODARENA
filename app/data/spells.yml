@@ -770,18 +770,42 @@ rainy_season:
     no_ore_production: 1
     no_gem_production: 1
 
-aether:
-  name: Aether
+elementals_hill:
+  name: Druva's Rising
   scope: self
-  class: passive
+  class: active
   cost: 6
-  duration: 48
-  cooldown: 0
+  duration: 0
+  cooldown: 24
   exclusive_races:
     - Elementals
   perks:
-    offensive_power: 10
-    defensive_power: 10
+    rezone_all_land: 10,hill # rezone 10% of your land to hills
+
+elementals_mountain:
+  name: Druva's Reach
+  scope: self
+  class: active
+  cost: 6
+  duration: 0
+  cooldown: 24
+  exclusive_races:
+    - Elementals
+  perks:
+    rezone_all_land: 10,mountain # rezone 10% of your land to mountains
+
+elementals_water:
+  name: Druva's Flow
+  scope: self
+  class: active
+  cost: 6
+  duration: 0
+  cooldown: 24
+  exclusive_races:
+    - Elementals
+  perks:
+    rezone_all_land: 10,water # rezone 10% of your land to mountains
+
 
 spawning_pool:
   name: Spawning Pool
