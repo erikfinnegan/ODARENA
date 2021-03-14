@@ -687,7 +687,7 @@ colony:
     - Ants
   land_type: forest
   perks:
-    housing: 140
+    housing: 180
 
 coral_reef:
   name: Coral Reef
