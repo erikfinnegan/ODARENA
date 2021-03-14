@@ -66,7 +66,7 @@ class CasualtiesCalculator
         // casualties will then always be 0 anyway
 
         // General "Almost never dies" type of immortality.
-        if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
+        if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal'))
         {
             if (!$this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'can_kill_immortal'))
             {
@@ -74,10 +74,9 @@ class CasualtiesCalculator
             }
         }
 
-        // True immortality: only dies when overwhelmed.
+        // True immortality (cannot be overridden)
         if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
         {
-            // For now the same as SPUD-style immortal, but separate in code for future usage.
             $multiplier = 0;
         }
 
@@ -197,14 +196,18 @@ class CasualtiesCalculator
         if ($slot !== null)
         {
             // Global immortality
-            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
             {
                 if (!$this->spellCalculator->getPassiveSpellPerkMultiplier($attacker, 'can_kill_immortal'))
                 {
                     $multiplier = 0;
                 }
             }
-            if ((bool)$dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and !$isInvasionSuccessful)
+            {
+                $multiplier = 0;
+            }
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
                 // Note: true_immortal is used for non-SPUD races to be exempt from Divine Intervention.
                 $multiplier = 0;

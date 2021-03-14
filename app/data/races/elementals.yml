@@ -86,3 +86,4 @@ units:
       immortal_on_victory: 1
       immortal_on_fending_off: 1
       damages_improvements_on_attack: 4
+      housing: 0.5

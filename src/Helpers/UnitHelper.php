@@ -163,6 +163,7 @@ class UnitHelper
 
             'immortal' => 'Immortal in combat. Only dies against Tiranthael\'s Blessing or Qur Zealots.',
             'true_immortal' => 'Immortal in combat.',
+            'spirit_immortal' => 'Immortal on offense and on succesful defense. Dies if successfully invaded.',
             'immortal_on_victory' => 'Immortal in combat if invasion is successful.',
             'immortal_on_fending_off' => 'Immortal in combat if successfully fending off invader.',
 
