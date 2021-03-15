@@ -188,28 +188,28 @@ class ImprovementCalculator
         {
             $multiplier = 0;
 
-            ## Extra Ore imp points
-            if($resource == 'ore' and $dominion->race->getPerkValue('ore_improvement_points'))
+            ## Extra imp points
+            if($dominion->race->getPerkValue($resource . '_improvement_points'))
             {
-              $multiplier += $dominion->race->getPerkValue('ore_improvement_points') / 100;
+                $multiplier += $dominion->race->getPerkValue($resource . '_improvement_points') / 100;
             }
 
-            ## Extra Lumber imp points
-            if($resource == 'lumber' and $dominion->race->getPerkValue('lumber_improvement_points'))
-            {
-              $multiplier += $dominion->race->getPerkValue('lumber_improvement_points') / 100;
-            }
-
-            ## Extra gem imp points (from Gemcutting)
+            # Techs
             if($resource == 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
             {
-              $multiplier += $dominion->getTechPerkMultiplier('gemcutting');
+                $multiplier += $dominion->getTechPerkMultiplier('gemcutting');
             }
+
+            # Spells
+            $multiplier += $dominion->getSpellPerkMultiplier('improvements');
+
+            # Buildings
+            $multiplier += $dominion->getBuildingPerkMultiplier('improvement_points');
 
             ## Extra imp points from racial improvements bonus
             if($dominion->race->getPerkMultiplier('invest_bonus'))
             {
-              $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
+                $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
             }
 
             # Title: improvements (Engineer)
