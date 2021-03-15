@@ -173,6 +173,7 @@
                                             </span>
                                         @endif
                                         </td>
+                                    </tr>
                                     <tr>
                                         <td>XP:</td>
                                         <td>
@@ -180,6 +181,33 @@
                                             <span class="text-green">
                                                 +{{ number_format($event->data['attacker']['researchPoints']) }}
                                             </span>
+                                        @else
+                                            <span class="text-muted">
+                                                0
+                                            </span>
+                                        @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Morale:</td>
+                                        <td>
+                                        @if (isset($event->data['attacker']['moraleChange']))
+                                            @php
+                                                $moraleChange = $event->data['attacker']['moraleChange'];
+                                            @endphp
+                                            @if ($moraleChange < 0)
+                                                <span class="text-red">
+                                                    {{ number_format($moraleChange) }}
+                                                </span>
+                                            @elseif ($moraleChange > 0)
+                                                <span class="text-green">
+                                                    +{{ number_format($moraleChange) }}
+                                                </span>
+                                            @else
+                                                <span class="text-muted">
+                                                    0
+                                                </span>
+                                            @endif
                                         @else
                                             <span class="text-muted">
                                                 0
@@ -557,6 +585,34 @@
                                             </span>
                                         @endif
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Morale:</td>
+                                        <td>
+                                        @if (isset($event->data['defender']['moraleChange']))
+                                            @php
+                                                $moraleChange = $event->data['defender']['moraleChange'];
+                                            @endphp
+                                            @if ($moraleChange < 0)
+                                                <span class="text-red">
+                                                    {{ number_format($moraleChange) }}
+                                                </span>
+                                            @elseif ($moraleChange > 0)
+                                                <span class="text-green">
+                                                    +{{ number_format($moraleChange) }}
+                                                </span>
+                                            @else
+                                                <span class="text-muted">
+                                                    0
+                                                </span>
+                                            @endif
+                                        @else
+                                            <span class="text-muted">
+                                                0
+                                            </span>
+                                        @endif
+                                        </td>
+                                    </tr>
 
                                     @if (isset($event->data['defender']['conversions']))
                                     <tr>

@@ -63,7 +63,7 @@ class RezoneActionService
 
         if ($dominion->race->getPerkValue('cannot_rezone'))
         {
-            throw new GameException('Your faction is unable to rezone land.');
+            throw new GameException($dominion->race->name . ' cannot rezone land.');
         }
 
         // Level out rezoning going to the same type.
