@@ -197,20 +197,20 @@
                                             @endphp
                                             @if ($moraleChange < 0)
                                                 <span class="text-red">
-                                                    {{ number_format($moraleChange) }}
+                                                    {{ number_format($moraleChange) }}%
                                                 </span>
                                             @elseif ($moraleChange > 0)
                                                 <span class="text-green">
-                                                    +{{ number_format($moraleChange) }}
+                                                    +{{ number_format($moraleChange) }}%
                                                 </span>
                                             @else
                                                 <span class="text-muted">
-                                                    0
+                                                    0%
                                                 </span>
                                             @endif
                                         @else
                                             <span class="text-muted">
-                                                0
+                                                0%
                                             </span>
                                         @endif
                                         </td>
@@ -595,7 +595,7 @@
                                             @endphp
                                             @if ($moraleChange < 0)
                                                 <span class="text-red">
-                                                    {{ number_format($moraleChange) }}
+                                                    {{ number_format($moraleChange) }}%
                                                 </span>
                                             @elseif ($moraleChange > 0)
                                                 <span class="text-green">
@@ -603,12 +603,12 @@
                                                 </span>
                                             @else
                                                 <span class="text-muted">
-                                                    0
+                                                    0%
                                                 </span>
                                             @endif
                                         @else
                                             <span class="text-muted">
-                                                0
+                                                0%
                                             </span>
                                         @endif
                                         </td>
