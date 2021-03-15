@@ -40,7 +40,7 @@ units:
       offense: 20
       defense: 8
     perks:
-      burns_peasants_on_attack: 2
+      burns_peasants_on_attack: 0.5
       counts_as_wizard_offense: 0.25
       immortal_wizard: 1
 
