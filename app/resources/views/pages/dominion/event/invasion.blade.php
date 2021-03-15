@@ -448,7 +448,7 @@
 
                                         <tr>
                                             <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $event->source->race->race) }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $event->source->race) }}">
                                                     {{ $raceHelper->getDrafteesTerm($event->source->race) }}:
                                                 </span>
                                             </td>
