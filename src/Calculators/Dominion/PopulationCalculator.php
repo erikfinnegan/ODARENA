@@ -208,7 +208,7 @@ class PopulationCalculator
         $militaryHousingMultiplier += $dominion->race->getPerkMultiplier('extra_barracks_housing');
         $militaryHousingMultiplier += $dominion->getTechPerkMultiplier('barracks_housing');
 
-        return round($dominion->getBuildingPerkValue('military_housing') * (1 + $militaryHousingMultiplier));
+        return round($dominion->getBuildingPerkValue('military_housing') * (1 + $militaryHousingMultiplier) + $this->getAvailableHousingFromUnits($dominion));
 
     }
 
