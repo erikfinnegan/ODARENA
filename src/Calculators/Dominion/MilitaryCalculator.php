@@ -1734,7 +1734,7 @@ class MilitaryCalculator
           # Condition: target must have invaded $dominion's realm in the last six hours.
           if ($dominion->getSpellPerkValue('offensive_power_on_retaliation') and $this->isOwnRealmRecentlyInvadedByTarget($dominion, $target))
           {
-              $multiplier += $dominion->getSpellPerkValue('offensive_power_on_retaliation');
+              $multiplier += $dominion->getSpellPerkMultiplier('offensive_power_on_retaliation');
           }
 
       }
