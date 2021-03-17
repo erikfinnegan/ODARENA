@@ -648,7 +648,7 @@ class SpellActionService
                             $toRezone = floor($caster->{'land_' . $landType} * $ratio);
                             $caster->{'land_' . $landType} -= $toRezone;
                             $acresRezoned += $toRezone;
-                        }                        
+                        }
                     }
 
                     $caster->{'land_'.$toLandType} += $acresRezoned;
@@ -1132,7 +1132,6 @@ class SpellActionService
             {
                 $spellReflected = true;
                 $reflectedBy = $target;
-                $target = $dominion;
                 $caster = $reflectedBy;
                 $target->stat_spells_reflected += 1;
             }

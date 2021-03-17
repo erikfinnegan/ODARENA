@@ -17,6 +17,7 @@ use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Services\Dominion\QueueService;
 
 // misc functions, probably could use a refactor later
 class MiscController extends AbstractDominionController
@@ -31,11 +32,13 @@ class MiscController extends AbstractDominionController
      */
     public function __construct(
         SelectorService $dominionSelectorService,
-        MilitaryCalculator $militaryCalculator
+        MilitaryCalculator $militaryCalculator,
+        QueueService $queueService
         )
     {
         $this->dominionSelectorService = $dominionSelectorService;
-        $this->ilitaryCalculator = $militaryCalculator;
+        $this->militaryCalculator = $militaryCalculator;
+        $this->queueService = $queueService;
     }
 
     public function postClearNotifications()
@@ -163,6 +166,17 @@ class MiscController extends AbstractDominionController
         if($dominion->user_id !== Auth::user()->id)
         {
             throw new LogicException('You cannot abandon other dominions than your own.');
+        }
+
+        # Cannot release if units returning from invasion.
+        $totalUnitsReturning = 0;
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+          $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
+        }
+        if ($totalUnitsReturning !== 0)
+        {
+            throw new GameException('You cannot abandon your dominion while you have units returning from battle.');
         }
 
         $data = [
