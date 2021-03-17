@@ -201,7 +201,7 @@ class InvadeActionService
                 throw new GameException('You need to send at least some units.');
             }
 
-            if (!$this->allUnitsHaveOP($dominion, $units)) {
+            if (!$this->allUnitsHaveOP($dominion, $units, $target)) {
                 throw new GameException('You cannot send units that have no offensive power.');
             }
 
@@ -2667,7 +2667,7 @@ class InvadeActionService
      * @param array $units
      * @return bool
      */
-    protected function allUnitsHaveOP(Dominion $dominion, array $units): bool
+    protected function allUnitsHaveOP(Dominion $dominion, array $units, Dominion $target): bool
     {
         foreach ($dominion->race->units as $unit) {
             if (!isset($units[$unit->slot]) || ((int)$units[$unit->slot] === 0)) {
