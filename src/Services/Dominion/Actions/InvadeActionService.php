@@ -197,6 +197,19 @@ class InvadeActionService
             $units = array_map('intval', array_filter($units));
             $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
 
+            # Populate units defending
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                $unit = $target->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                  if($this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $unit, 'defense') !== 0.0)
+                  {
+                      $this->invasionResult['defender']['unitsDefending'][$slot] = $target->{'military_unit'.$slot};
+                  }
+            }
+
             if (!$this->hasAnyOP($dominion, $units)) {
                 throw new GameException('You need to send at least some units.');
             }
@@ -328,18 +341,6 @@ class InvadeActionService
             if($dominion->getSpellPerkValue('stasis'))
             {
                 throw new GameException('You cannot invade while you are in stasis.');
-            }
-
-            for ($slot = 1; $slot <= 4; $slot++)
-            {
-                $unit = $target->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot === $slot);
-                })->first();
-
-                if($this->militaryCalculator->getUnitPowerWithPerks($target, null, null, $unit, 'defense') !== 0.0)
-                {
-                    $this->invasionResult['defender']['unitsDefending'][$slot] = $target->{'military_unit'.$slot};
-                }
             }
 
             $this->invasionResult['defender']['recentlyInvadedCount'] = $this->militaryCalculator->getRecentlyInvadedCount($target);
@@ -2674,7 +2675,7 @@ class InvadeActionService
                 continue;
             }
 
-            if ($this->militaryCalculator->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'offense', null, $units, $this->invasionResult['attacker']['unitsDefending']) === 0.0 and $unit->getPerkValue('sendable_with_zero_op') != 1)
+            if ($this->militaryCalculator->getUnitPowerWithPerks($dominion, $target, $landRatio, $unit, 'offense', null, $units, $this->invasionResult['defender']['unitsDefending']) === 0.0 and $unit->getPerkValue('sendable_with_zero_op') != 1)
             {
                 return false;
             }
