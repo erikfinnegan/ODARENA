@@ -903,7 +903,7 @@ class InvadeActionService
         foreach ($target->race->units as $unit)
         {
 
-            if ($this->getUnitPowerWithPerks($target, $attacker, $landRatio, $unit, 'defense', null, $units, $this->invasionResult['attacker']['unitsSent']) === 0.0)
+            if ($this->militaryCalculator->getUnitPowerWithPerks($target, $attacker, $landRatio, $unit, 'defense', null, $units, $this->invasionResult['attacker']['unitsSent']) === 0.0)
             {
                 continue;
             }
@@ -2674,7 +2674,7 @@ class InvadeActionService
                 continue;
             }
 
-            if ($this->getUnitPowerWithPerks($attacker, $target, $landRatio, $unit, 'offense', null, $units, $this->invasionResult['attacker']['unitsDefending']) === 0.0 and $unit->getPerkValue('sendable_with_zero_op') != 1)
+            if ($this->militaryCalculator->getUnitPowerWithPerks($attacker, $target, $landRatio, $unit, 'offense', null, $units, $this->invasionResult['attacker']['unitsDefending']) === 0.0 and $unit->getPerkValue('sendable_with_zero_op') != 1)
             {
                 return false;
             }
