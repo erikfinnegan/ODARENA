@@ -201,7 +201,7 @@ class InvadeActionService
                 throw new GameException('You need to send at least some units.');
             }
 
-            if (!$this->allUnitsHaveOP($dominion, $units, $target)) {
+            if (!$this->allUnitsHaveOP($dominion, $units, $target, $landRatio)) {
                 throw new GameException('You cannot send units that have no offensive power.');
             }
 
