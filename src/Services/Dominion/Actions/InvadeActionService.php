@@ -2667,7 +2667,7 @@ class InvadeActionService
      * @param array $units
      * @return bool
      */
-    protected function allUnitsHaveOP(Dominion $dominion, array $units, Dominion $target): bool
+    protected function allUnitsHaveOP(Dominion $dominion, array $units, Dominion $target, float $landRatio): bool
     {
         foreach ($dominion->race->units as $unit) {
             if (!isset($units[$unit->slot]) || ((int)$units[$unit->slot] === 0)) {
