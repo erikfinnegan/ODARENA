@@ -231,7 +231,7 @@ class CasualtiesCalculator
         # This means that Defensive CASUALTIES are zero when INVADED BY a Lux.
         if($attacker->race->getPerkValue('does_not_kill') == 1)
         {
-          $multiplier = 0;
+            $multiplier = 0;
         }
 
         # CHECK ONLY DIES VS X RAW POWER
