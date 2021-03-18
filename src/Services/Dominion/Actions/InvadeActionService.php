@@ -2670,8 +2670,10 @@ class InvadeActionService
      */
     protected function allUnitsHaveOP(Dominion $dominion, array $units, Dominion $target, float $landRatio): bool
     {
-        foreach ($dominion->race->units as $unit) {
-            if (!isset($units[$unit->slot]) || ((int)$units[$unit->slot] === 0)) {
+        foreach ($dominion->race->units as $unit)
+        {
+            if (!isset($units[$unit->slot]) || ((int)$units[$unit->slot] === 0))
+            {
                 continue;
             }
 
@@ -2693,12 +2695,15 @@ class InvadeActionService
      */
     protected function hasEnoughUnitsAtHome(Dominion $dominion, array $units): bool
     {
-        foreach ($dominion->race->units as $unit) {
-            if (!isset($units[$unit->slot]) || ((int)$units[$unit->slot] === 0)) {
+        foreach ($dominion->race->units as $unit)
+        {
+            if (!isset($units[$unit->slot]) || ((int)$units[$unit->slot] === 0))
+            {
                 continue;
             }
 
-            if ($units[$unit->slot] > $dominion->{'military_unit' . $unit->slot}) {
+            if ($units[$unit->slot] > $dominion->{'military_unit' . $unit->slot})
+            {
                 return false;
             }
         }
