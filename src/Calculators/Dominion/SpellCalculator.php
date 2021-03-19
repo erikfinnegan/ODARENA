@@ -111,6 +111,7 @@ class SpellCalculator
      */
     public function getSpellCooldown(Dominion $dominion, Spell $spell, bool $isInvasionSpell = false): int
     {
+
         if ($spell->cooldown > 0) {
             $spellLastCast = DB::table('dominion_history')
                 ->where('dominion_id', $dominion->id)
@@ -122,11 +123,11 @@ class SpellCalculator
             if ($spellLastCast)
             {
                 $hoursSinceCast = now()->startOfHour()->diffInHours(Carbon::parse($spellLastCast->created_at)->startOfHour());
-                $hoursUntilRoundStarts = max(0, now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()));
+                $hoursUntilRoundStarts = min(0, now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()));
 
                 if ($hoursSinceCast < $spell->cooldown)
                 {
-                    return $spell->cooldown - $hoursSinceCast + $hoursUntilRoundStarts;
+                    return $spell->cooldown - ($hoursSinceCast + $hoursUntilRoundStarts);
                 }
             }
         }
