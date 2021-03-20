@@ -59,8 +59,6 @@
                                           </span>
                                       </td>
                                       <td>{{ number_format($selectedDominion->resource_food) }}</td>
-                                      <td>&mdash;</td>
-                                      <td>&mdash;</td>
                                       <td>{{ number_format($selectedDominion->stat_total_food_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_food_stolen) }}</td>
                                   </tr>
@@ -105,11 +103,10 @@
                                           </span>
                                       </td>
                                       <td>{{ number_format($selectedDominion->resource_mana) }}</td>
-                                      <td>&mdash;</td>
-                                      <td>&mdash;</td>
                                       <td>{{ number_format($selectedDominion->stat_total_mana_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_mana_stolen) }}</td>
                                   </tr>
+                                  <tr>
                                       <td>Ore</td>
                                       <td>{{ number_format($productionCalculator->getOreProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($productionCalculator->getOreProductionRaw($selectedDominion)) }}</td>
@@ -120,7 +117,7 @@
                                       <td>{{ number_format($selectedDominion->stat_total_ore_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_ore_stolen) }}</td>
                                   </tr>
-                                  </tr>
+                                  <tr>
                                       <td>Gems</td>
                                       <td>{{ number_format($productionCalculator->getGemProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($productionCalculator->getGemProductionRaw($selectedDominion)) }}</td>
@@ -131,7 +128,7 @@
                                       <td>{{ number_format($selectedDominion->stat_total_gem_production) }}</td>
                                       <td>{{ number_format($selectedDominion->stat_total_gem_stolen) }}</td>
                                   </tr>
-                                  </tr>
+                                  <tr>
                                       <td>XP</td>
                                       <td>{{ number_format($productionCalculator->getTechProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($productionCalculator->getTechProductionRaw($selectedDominion)) }}</td>
@@ -139,8 +136,6 @@
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getTechProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($selectedDominion->resource_tech) }}</td>
-                                      <td>&mdash;</td>
-                                      <td>&mdash;</td>
                                       <td>{{ number_format($selectedDominion->stat_total_tech_production) }}</td>
                                       <td>&mdash;</td>
                                   </tr>
