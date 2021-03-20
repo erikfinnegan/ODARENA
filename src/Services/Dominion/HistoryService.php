@@ -28,6 +28,7 @@ class HistoryService
     public const EVENT_ACTION_JOIN_ELITE_GUARD = 'join warriors league';
     public const EVENT_ACTION_LEAVE_ROYAL_GUARD = 'leave peacekeepers league';
     public const EVENT_ACTION_LEAVE_ELITE_GUARD = 'leave warriors league';
+    public const EVENT_ROUND_VICTORY = 'round victory';
 
     public const EVENT_ACTION_NOTE = 'update notes';
     public const EVENT_ACTION_SEND_UNITS = 'units sent';

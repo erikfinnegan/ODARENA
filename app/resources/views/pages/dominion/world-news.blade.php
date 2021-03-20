@@ -136,6 +136,8 @@
                                                   {{ $alignment }}</span></a>.
                                             @elseif($gameEvent->type === 'abandon_dominion')
                                                 The dominion <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> was abandoned by <em>{{ $gameEvent->data['ruler_title'] }}</em> {{ $gameEvent->data['ruler_name'] }}.
+                                            @elseif($gameEvent->type === 'round_victory')
+                                                The dominion <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> has won the round!
                                             @endif
                                         </td>
                                         <td class="text-center">

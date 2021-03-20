@@ -139,7 +139,12 @@ class Round extends AbstractModel
      */
     public function hasEnded()
     {
-        return ($this->end_date <= now());
+        if(GameEvent::where('round_id', $this->id)->where('type','round_victory')->first())
+        {
+            return true;
+        }
+        return false;
+        #return ($this->end_date <= now());
     }
 
     /**

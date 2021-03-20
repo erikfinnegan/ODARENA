@@ -18,6 +18,7 @@ use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Realm;
 use OpenDominion\Models\Dominion\Tick;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
@@ -130,6 +131,7 @@ class TickService
 
         $activeRounds = Round::active()->get();
 
+
         foreach ($activeRounds as $round)
         {
 
@@ -161,6 +163,20 @@ class TickService
                     $amount = intval($finishedBuildingInQueue->amount);
                     $building = Building::where('key', $buildingKey)->first();
                     $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
+                }
+
+                if($this->landCalculator->getTotalLand($dominion) >= 10000)
+                {
+                  $victoryEvent = GameEvent::create([
+                      'round_id' => $dominion->round_id,
+                      'source_type' => Dominion::class,
+                      'source_id' => $dominion->id,
+                      'target_type' => Realm::class,
+                      'target_id' => $dominion->realm_id,
+                      'type' => 'round_victory',
+                      'data' => NULL,
+                  ]);
+                  $dominion->save(['event' => HistoryService::EVENT_ROUND_VICTORY]);
                 }
             }
 
