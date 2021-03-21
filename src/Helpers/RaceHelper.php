@@ -455,6 +455,11 @@ class RaceHelper
                 $description = 'Cannot rezone';
                 $booleanValue = true;
                 break;
+            case 'cannot_release_units':
+                $negativeBenefit = true;
+                $description = 'Cannot release units';
+                $booleanValue = true;
+                break;
             case 'max_per_round':
                 $negativeBenefit = true;
                 $description = 'Max dominions of this faction per round';
