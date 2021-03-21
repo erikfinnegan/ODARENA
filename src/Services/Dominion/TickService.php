@@ -37,6 +37,10 @@ use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 
 class TickService
 {
+
+    protected const LAND_TO_TRIGGER_COUNTDOWN = 10000;
+    protected const COUNTDOWN_DURATION_HOURS = 12;
+
     /** @var Carbon */
     protected $now;
 
@@ -131,7 +135,6 @@ class TickService
 
         $activeRounds = Round::active()->get();
 
-
         foreach ($activeRounds as $round)
         {
 
@@ -165,18 +168,27 @@ class TickService
                     $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
                 }
 
-                if($this->landCalculator->getTotalLand($dominion) >= 10000)
+                # If we don't already have a countdown, see if any dominion triggers it.
+                if(!$round->hasCountdown())
                 {
-                  $victoryEvent = GameEvent::create([
-                      'round_id' => $dominion->round_id,
-                      'source_type' => Dominion::class,
-                      'source_id' => $dominion->id,
-                      'target_type' => Realm::class,
-                      'target_id' => $dominion->realm_id,
-                      'type' => 'round_victory',
-                      'data' => NULL,
-                  ]);
-                  $dominion->save(['event' => HistoryService::EVENT_ROUND_VICTORY]);
+                    if($this->landCalculator->getTotalLand($dominion) >= static::LAND_TO_TRIGGER_COUNTDOWN)
+                    {
+                        $hoursEndingIn = static::COUNTDOWN_DURATION_HOURS + 1;
+                        $roundEnd = Carbon::now()->addHours($hoursEndingIn)->startOfHour();
+
+                        $countdownEvent = GameEvent::create([
+                            'round_id' => $dominion->round_id,
+                            'source_type' => Dominion::class,
+                            'source_id' => $dominion->id,
+                            'target_type' => Realm::class,
+                            'target_id' => $dominion->realm_id,
+                            'type' => 'round_countdown',
+                            'data' => ['end_date' => $roundEnd],
+                        ]);
+                        $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
+                        $round->end_date = $roundEnd;
+                        $round->save();
+                    }
                 }
             }
 
@@ -994,7 +1006,6 @@ class TickService
           }
 
           # Imperial Crypt: Rites of Zidur, Rites of Kinthys
-
           $tick->crypt_bodies_spent = 0;
 
           # Version 1.3 (Round 42, Spells 2.0 compatible-r)
@@ -1090,7 +1101,6 @@ class TickService
               }
 
               $tick->generated_unit4 = $newGryphons;
-
           }
 
           # Use decimals as probability to round up
@@ -1105,6 +1115,42 @@ class TickService
           $tick->attrition_unit2 += intval($attritionUnit2);
           $tick->attrition_unit3 += intval($attritionUnit3);
           $tick->attrition_unit4 += intval($attritionUnit4);
+
+          # Norse Ragnarök
+          if($dominion->getSpellPerkValue('convert_peasants_to_champions'))
+          {
+              $peasants = $dominion->peasants;
+              $dominion->peasants = 0;
+
+              $tick->resource_champion += $peasants;
+          }
+
+          if($dominion->getSpellPerkValue('buildings_destroyed'))
+          {
+              $ratio = $dominion->getSpellPerkValue('buildings_destroyed') / 100;
+              foreach($buildings as $building)
+              {
+
+              }
+          }
+
+          if($dominion->getSpellPerkValue('barren_land_rezoned'))
+          {
+              $toLandType = $dominion->getSpellPerkValue('barren_land_rezoned');
+              $acresRezoned = 0;
+
+              foreach($this->landHelper->getLandTypes() as $landType)
+              {
+                  if($landType !== $toLandType)
+                  {
+                      $toRezone = floor($caster->{'land_' . $landType});
+                      $dominion->{'land_' . $landType} -= $toRezone;
+                      $acresRezoned += $toRezone;
+                  }
+              }
+
+              $dominion->{'land_' . $toLandType} += $acresRezoned;
+          }
 
           foreach ($incomingQueue as $row)
           {

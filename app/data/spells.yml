@@ -672,13 +672,32 @@ fimbulwinter:
   scope: self
   class: passive
   cost: 8
-  duration: 48
+  duration: 24
   cooldown: 0
   exclusive_races:
     - Norse
   perks:
     defensive_power: 10
     offensive_casualties: 20
+
+ragnarok:
+  name: Ragnarök
+  scope: self
+  class: passive
+  cost: 20
+  duration: 10000
+  cooldown: 10000
+  exclusive_races:
+    - Norse
+  perks:
+    cannot_build: 1
+    no_drafting: 1
+    convert_peasants_to_champions: 1
+    buildings_destroyed: 5 # 10% of buildings destroyed per tick
+    barren_land_rezoned: water # All barren land becomes water
+    offensive_casualties: 100
+    increases_casualties_on_defense: 100
+
 
 desecration:
   name: Desecration

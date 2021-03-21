@@ -44,7 +44,7 @@
                     </div>
                     <div class="box-body text-center">
                         <p>Registration for round {{ $currentRound->number }} is open.</p>
-                        <p>The round starts in {{ $hoursUntilRoundStarts . ' ' . str_plural('hour', $hoursUntilRoundStarts) }} and lasts for {{ $currentRound->durationInDays() }} days.</p>
+                        <p>The round starts in {{ $hoursUntilRoundStarts . ' ' . str_plural('hour', $hoursUntilRoundStarts) }}.</p>
 
 
                             <a href="{{ route('round.register', $currentRound) }}">

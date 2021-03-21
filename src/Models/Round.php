@@ -87,8 +87,16 @@ class Round extends AbstractModel
     {
         $now = new Carbon();
 
-        return $query->where('start_date', '<=', $now)
-            ->where('end_date', '>', $now);
+        if($this->end_date == Null)
+        {
+            return $query->where('start_date', '<=', $now);
+        }
+        else
+        {
+            return $query->where('start_date', '<=', $now)
+                ->where('end_date', '>', $now);
+        }
+
     }
 
     /**
@@ -98,7 +106,8 @@ class Round extends AbstractModel
      */
     public function openForRegistration()
     {
-        return ($this->start_date <= new Carbon('+30 days midnight'));
+        return $this->hasEnded() ? false : true;
+        #return ($this->start_date <= new Carbon('+30 days midnight'));
     }
 
     /**
@@ -137,14 +146,30 @@ class Round extends AbstractModel
      *
      * @return bool
      */
-    public function hasEnded()
+    public function hasCountdown()
     {
-        if(GameEvent::where('round_id', $this->id)->where('type','round_victory')->first())
+        if(GameEvent::where('round_id', $this->id)->where('type','round_countdown')->first())
         {
             return true;
         }
         return false;
-        #return ($this->end_date <= now());
+    }
+
+    /**
+     * Returns whether a round has ended.
+     *
+     * @return bool
+     */
+    public function hasEnded()
+    {
+        if($this->end_date === NULL)
+        {
+            return false;
+        }
+        else
+        {
+            return ($this->end_date <= now());
+        }
     }
 
     /**
@@ -172,7 +197,14 @@ class Round extends AbstractModel
      */
     public function isActive()
     {
-        return ($this->hasStarted() && !$this->hasEnded());
+        if($this->end_date == Null)
+        {
+            return true;
+        }
+        else
+        {
+            return ($this->hasStarted() && !$this->hasEnded());
+        }
     }
 
     /**
@@ -186,13 +218,41 @@ class Round extends AbstractModel
     }
 
     /**
+     * Returns the amount in days until the round starts.
+     *
+     * @return int
+     */
+    public function hoursUntilStart()
+    {
+        return $this->start_date->diffInHours(now());
+    }
+
+    /**
      * Returns the amount in days until the round ends.
      *
      * @return int
      */
     public function daysUntilEnd()
     {
-        return $this->end_date->diffInDays(today());
+        if($this->end_date !== Null)
+        {
+            return $this->end_date->diffInDays(today());
+        }
+        return 'unknown';
+    }
+
+    /**
+     * Returns the amount in days until the round ends.
+     *
+     * @return int
+     */
+    public function hoursUntilEnd()
+    {
+        if($this->end_date !== Null)
+        {
+            return $this->end_date->diffInHours(now());
+        }
+        return 'unknown';
     }
 
     /**

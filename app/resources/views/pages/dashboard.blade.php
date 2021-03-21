@@ -181,7 +181,7 @@
                                                 <abbr title="Ended at {{ $round->end_date }}">Ended</abbr>
                                             @elseif ($round->isActive())
                                                 <abbr title="Ending at {{ $round->end_date }}">
-                                                    Ending in {{ $round->daysUntilEnd() }} {{ str_plural('day', $round->daysUntilEnd()) }}
+                                                    Ending in {{ $round->hoursUntilEnd() }} {{ str_plural('hour', $round->hoursUntilEnd()) }}
                                                 </abbr>
                                             @else
                                                 <abbr title="Starting at {{ $round->start_date }}">

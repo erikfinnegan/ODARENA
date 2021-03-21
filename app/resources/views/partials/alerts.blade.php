@@ -9,6 +9,11 @@
             @endif
         </div>
     @endif
+    @if ($selectedDominion->round->hasCountdown() and !$selectedDominion->round->hasEnded())
+        <div class="alert alert-info">
+                <p><i class="fas fa-hourglass-end"></i> <em>The end is nigh!</em> Round ends at <strong>{{ $selectedDominion->round->end_date }}</strong>.</p>
+        </div>
+    @endif
 
     @if (!$selectedDominion->round->hasStarted())
         <div class="alert alert-warning">

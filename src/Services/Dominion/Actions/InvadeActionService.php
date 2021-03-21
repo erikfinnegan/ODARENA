@@ -443,7 +443,7 @@ class InvadeActionService
             $this->handleSoulBloodFoodCollection($dominion, $target, $landRatio);
 
             # Norse
-            $this->handleChampionCreation($dominion, $target, $units, $landRatio, $this->invasionResult['result']['success']);
+            $this->handleChampionCreation($dominion, $target, $units, $landRatio);
 
             # Salvage and Plunder
             $this->handleSalvagingAndPlundering($dominion, $target, $this->invasionResult['attacker']['survivingUnits']);
@@ -1910,9 +1910,10 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
-    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units, float $landRatio, bool $isInvasionSuccessful): void
+    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units, float $landRatio): void
     {
         $champions = 0;
+
         if ($attacker->race->name == 'Norse')
         {
             if($landRatio >= 0.75 and $isInvasionSuccessful and isset($this->invasionResult['attacker']['unitsLost']['1']) and $this->invasionResult['attacker']['unitsLost']['1'] > 0)
@@ -1928,6 +1929,18 @@ class InvadeActionService
                         'resource_champion' => $champions,
                     ]
                 );
+            }
+        }
+
+        if ($defender->race->name == 'Norse')
+        {
+            if(!$isInvasionSuccessful and isset($this->invasionResult['defender']['unitsLost']['1']) and $this->invasionResult['defender']['unitsLost']['1'] > 0)
+            {
+                $champions = $this->invasionResult['defender']['unitsLost']['1'];
+
+                $this->invasionResult['defender']['champion']['champions'] = $champions;
+
+                $defender->resource_champion += $champions;
             }
         }
     }

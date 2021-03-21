@@ -29,17 +29,17 @@ class RoundFactory
         bool $mixedAlignment
     ): Round {
         $number = $this->getLastRoundNumber() + 1;
-        $endDate = (clone $startDate)->addDays(14);
+        $endDate = NULL;#(clone $startDate)->addDays(14);
 
         if($number % 2 === 0)
         {
             $startDate = (clone $startDate)->addHours(16);
-            $endDate = (clone $endDate)->addHours(16);
+            #$endDate = (clone $endDate)->addHours(16);
         }
         else
         {
             $startDate = (clone $startDate)->addHours(4);
-            $endDate = (clone $endDate)->addHours(4);
+            #$endDate = (clone $endDate)->addHours(4);
         }
 
         # End offensive actions between 180 and 360 minutes before round end

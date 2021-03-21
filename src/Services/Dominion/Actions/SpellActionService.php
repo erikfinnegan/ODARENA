@@ -651,7 +651,7 @@ class SpellActionService
                         }
                     }
 
-                    $caster->{'land_'.$toLandType} += $acresRezoned;
+                    $caster->{'land_' . $toLandType} += $acresRezoned;
                 }
             }
 

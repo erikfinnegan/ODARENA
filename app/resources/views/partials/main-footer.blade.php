@@ -4,20 +4,24 @@
 
       @if (isset($selectedDominion) and $selectedDominion->round->isActive())
           @php
-          $diff = $selectedDominion->round->start_date->subDays(1)->diff(now());
-          $roundDay = $selectedDominion->round->start_date->subDays(1)->diffInDays(now());
-          $roundDurationInDays = $selectedDominion->round->durationInDays();
-          $currentHour = ($diff->h + 1);
-          $currentTick = 1+floor(intval(Date('i')) / 15);
+              $diff = $selectedDominion->round->start_date->subDays(1)->diff(now());
+              $roundDay = $selectedDominion->round->start_date->subDays(1)->diffInDays(now());
+              $currentHour = ($diff->h + 1);
+              $currentTick = 1+floor(intval(Date('i')) / 15);
           @endphp
 
-          Day <strong>{{ $roundDay }}</strong>/{{ $roundDurationInDays }}, hour <strong>{{ $currentHour }}</strong>, tick <strong>{{ $currentTick }}</strong>.
+          Day <strong>{{ $roundDay }}</strong>{{-- , hour <strong>{{ $currentHour }}</strong>, tick <strong>{{ $currentTick }}</strong>.--}}
+
+          @if ($selectedDominion->round->hasCountdown())
+              | Round ends in <strong><span data-toggle="tooltip" data-placement="top" title="The round ends at {{ $selectedDominion->round->end_date }}">{{ number_format($hoursUntilRoundEnds) . ' ' . str_plural('hour', $hoursUntilRoundEnds) }}</span></strong>.
+          @endif
 
       @elseif (isset($selectedDominion) and !$selectedDominion->round->hasStarted())
 
-          Round <strong>{{ $selectedDominion->round->number }}</strong> starts in <strong>{{ number_format($hoursUntilRoundStarts) . ' ' . str_plural('hour', $hoursUntilRoundStarts) }}</strong>.
+          Round <strong>{{ $selectedDominion->round->number }}</strong> starts in <strong><span data-toggle="tooltip" data-placement="top" title="The starts ends at {{ $selectedDominion->round->start_date }}">{{ number_format($hoursUntilRoundStarts) . ' ' . str_plural('hour', $hoursUntilRoundStarts) }}</span></strong>.
 
       @endif
+
       <br>
 
     </div>

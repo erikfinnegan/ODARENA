@@ -43,7 +43,7 @@
                                 @foreach ($gameEvents as $gameEvent)
                                 @if($gameEvent->type !== 'send_units' or ($gameEvent->type == 'send_units' and $gameEvent->source->realm->id === $selectedDominion->realm->id))
                                     <tr>
-                                        <td>
+                                        <td style="vertical-align: top;">
                                             <span>{{ $gameEvent->created_at }}</span>
                                         </td>
                                         <td>
@@ -136,8 +136,9 @@
                                                   {{ $alignment }}</span></a>.
                                             @elseif($gameEvent->type === 'abandon_dominion')
                                                 The dominion <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> was abandoned by <em>{{ $gameEvent->data['ruler_title'] }}</em> {{ $gameEvent->data['ruler_name'] }}.
-                                            @elseif($gameEvent->type === 'round_victory')
-                                                The dominion <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> has won the round!
+                                            @elseif($gameEvent->type === 'round_countdown')
+                                                <p><span class="label label-danger"><i class="fas fa-hourglass-end"></i></span> The dominion <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> has reached 10,000 land and the countdown has started.</p>
+                                                The round ends at the end of the 12th hour from now, at {{ $selectedDominion->round->end_date }}.
                                             @endif
                                         </td>
                                         <td class="text-center">

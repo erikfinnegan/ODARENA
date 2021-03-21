@@ -623,6 +623,7 @@ class TrainActionService
                     'berserk' => 'berserkir',
                     'valkyrja' => 'valkyrjur',
                     'einherjar' => 'einherjar',
+                    'jötunn' => 'jötnar',
                     'hex' => 'hex',
                     'vex' => 'vex',
                     'pax' => 'pax',

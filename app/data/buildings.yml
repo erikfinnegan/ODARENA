@@ -781,8 +781,17 @@ norse_longhouse:
   land_type: water
   perks:
     housing: 30
-    military_housing: 10
+    military_housing: 30
     jobs: 0
+
+ringfort:
+  name: Ringfort
+  exclusive_races:
+    - Norse
+  land_type: plain
+  perks:
+    raw_defense: 60
+    ore_production: -5
 
 mansion:
   name: Mansion
@@ -847,3 +856,4 @@ tomb:
   perks:
     housing: 30
     jobs: 0
+    crypt_bodies_decay_protection: 30

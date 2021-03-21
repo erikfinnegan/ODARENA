@@ -14,75 +14,72 @@ construction_materials: gold,lumber
 perks:
   exchange_bonus: 10
   lumber_production: 10
+  draftee_dp: 2
+  reduced_conversions: 100
 units:
   - name: Berserk
-    training_time: 9
+    training_time: 3
     type:
       - living
       - sentient
       - intelligent
-    
     cost:
-      gold: 320
-      ore: 10
+      gold: 300
+      ore: 20
     power:
-      offense: 3
-      defense: 0
+      offense: 4
+      defense: 3
     perks:
       afterlife_norse: 1
       housing_count: 0.5
 
-  - name: Norn
-    training_time: 9
+  - name: Valkyrja
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 500
-      mana: 20
+      champion: 1
     power:
       offense: 0
-      defense: 5
+      defense: 8
     perks:
       true_immortal: 1
+      no_draftee: 1
+      does_not_count_as_population: 1
 
-  - name: Valkyrja
-    
+  - name: Jötunn
     training_time: 12
     type:
       - living
-      - sentient
-      - intelligent
+      - massive
     cost:
-      gold: 1000
-      ore: 200
-      mana: 25
+      gold: 10000
+      gem: 10000
     power:
-      offense: 1
-      defense: 1
+      offense: 800
+      defense: 800
     perks:
-      fewer_casualties: 25
-      defense_from_prestige: 150,7 # amount, max
-      offense_from_prestige: 150,7 # amount, max
+      only_dies_vs_raw_power: 100 # >=
+      pairing_limit: 4,0.02 # slot, factor
+      no_draftee: 1
+      does_not_count_as_population: 1
 
   - name: Einherjar
-    training_time: 3
+    training_time: 6
     type:
       - living
       - sentient
       - legendary
       - intelligent
-    
+
     cost:
-      gold: 0
-      ore: 0
-      mana: 15
       champion: 1
     power:
       offense: 8
-      defense: 0
+      defense: 4
     perks:
-      no_draftee: 1
       true_immortal: 1
+      no_draftee: 1
       does_not_count_as_population: 1
