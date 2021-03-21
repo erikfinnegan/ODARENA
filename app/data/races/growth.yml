@@ -26,7 +26,6 @@ perks:
   tissue_improvement: 1
   draftee_dp: 0.01
   peasants_produce_food: 0.5
-  food_decay: -100
   cannot_rezone: 1
   cannot_release_units: 1
 
