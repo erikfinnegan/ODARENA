@@ -895,7 +895,7 @@ class SpellActionService
                 $sourceDominionId = null;
                 if ($target->getSpellPerkValue('reveal_ops'))
                 {
-                    $sourceDominionId = $dominion->id;
+                    $sourceDominionId = $caster->id;
                 }
 
                 $damageString = generate_sentence_from_array($damageDealt);
