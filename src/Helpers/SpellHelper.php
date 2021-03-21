@@ -139,6 +139,8 @@ class SpellHelper
             'convert_enemy_casualties_to_food' => 'Enemy casualties converted to food.',
             'no_conversions' => 'No enemy units are converted.',
 
+            'convert_peasants_to_champions' => 'All peasants converted to champions each tick.',
+
             // Casualties
             'increases_enemy_draftee_casualties' => '%s%% enemy draftee casualties',
             'increases_casualties_on_offense' => '%s%% enemy casualties when invading',
@@ -170,6 +172,10 @@ class SpellHelper
             // Explore
             'land_discovered' => '%s%% land discovered on successful invasions',
             'stop_land_generation' => 'Stops land generation from units',
+
+            // Buildings and Land
+            'buildings_destroyed' => '%s%% of all buildings destroyed per tick',
+            'barren_land_rezoned' => 'All barren land becomes %1$s',
 
             // Special
             'opens_portal' => 'Opens a portal required to teleport otherwordly units to enemy lands',

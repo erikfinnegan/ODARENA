@@ -1128,9 +1128,13 @@ class TickService
           if($dominion->getSpellPerkValue('buildings_destroyed'))
           {
               $ratio = $dominion->getSpellPerkValue('buildings_destroyed') / 100;
+
+              $buildings = $this->buildingCalculator->getDominionBuildings($selectedDominion);
+
               foreach($buildings as $building)
               {
-
+                  $toRemove = floor($building->pivot->owned * $ratio);
+                  $this->buildingCalculator->
               }
           }
 

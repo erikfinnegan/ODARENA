@@ -126,6 +126,12 @@
                                                 </span>
                                             @endif
 
+                                            @if ($spellCalculator->isSpellActive($dominion, 'ragnarok'))
+                                                <span data-toggle="tooltip" data-placement="top" title="Ragnarök">
+                                                <i class="ra ra-blast fa-lg text-red" title=""></i>
+                                                </span>
+                                            @endif
+
                                             @if ($spellCalculator->isSpellActive($dominion, 'stasis'))
                                                 <span data-toggle="tooltip" data-placement="top" title="Stasis">
                                                 <i class="ra ra-emerald fa-lg text-red"</i>

@@ -43,7 +43,7 @@ units:
       champion: 1
     power:
       offense: 0
-      defense: 8
+      defense: 12
     perks:
       true_immortal: 1
       no_draftee: 1
@@ -77,8 +77,8 @@ units:
     cost:
       champion: 1
     power:
-      offense: 8
-      defense: 4
+      offense: 12
+      defense: 6
     perks:
       true_immortal: 1
       no_draftee: 1

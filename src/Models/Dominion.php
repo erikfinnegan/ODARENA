@@ -748,6 +748,7 @@ class Dominion extends AbstractModel
      * @param string $key
      * @return float
      */
+     /*
     public function getSpellPerkValue(string $key): float
     {
         $value = 0;
@@ -763,7 +764,123 @@ class Dominion extends AbstractModel
             return $max;
         }
         return 0;
-    }
+    }*/
+
+    /**
+     * @param string $key
+     * @return float
+     */
+
+     public function getSpellPerkValue(string $perkKey): float
+     {
+         $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
+         $perk = 0;
+
+         foreach ($this->spells as $spell)
+         {
+             $perkValueString = $spell->getPerkValue($perkKey);
+
+             if($perkValueString and (is_numeric($perkValueString) and !is_array($perkValueString)))
+             {
+                 # Single value numeric perks
+                 if(
+                         $perkKey == 'gold_production'
+                         or $perkKey == 'food_production'
+                         or $perkKey == 'ore_production'
+                         or $perkKey == 'lumber_production'
+                         or $perkKey == 'mana_production'
+                         or $perkKey == 'tech_production'
+
+                         or $perkKey == 'no_gold_production'
+                         or $perkKey == 'no_food_production'
+                         or $perkKey == 'no_ore_production'
+                         or $perkKey == 'no_lumber_production'
+                         or $perkKey == 'no_mana_production'
+                         or $perkKey == 'no_tech_production'
+
+                         or $perkKey == 'unit_gold_cost'
+                         or $perkKey == 'unit_ore_cost'
+                         or $perkKey == 'unit_lumber_cost'
+
+                         or $perkKey == 'food_production_raw'
+
+                         or $perkKey == 'population_growth'
+                         or $perkKey == 'improvements'
+
+                         or $perkKey == 'cannot_build'
+                         or $perkKey == 'cannot_invade'
+                         or $perkKey == 'cannot_explore'
+                         or $perkKey == 'no_drafting'
+
+                         or $perkKey == 'gold_theft'
+                         or $perkKey == 'gems_theft'
+                         or $perkKey == 'ore_theft'
+                         or $perkKey == 'mana_theft'
+                         or $perkKey == 'all_theft'
+
+                         or $perkKey == 'reveal_ops'
+                         or $perkKey == 'chance_to_reflect_spells'
+                         or $perkKey == 'damage_from_spells'
+                         or $perkKey == 'damage_from_fireballs'
+                         or $perkKey == 'damage_from_lightning_bolts'
+
+
+                         or $perkKey == 'offensive_power'
+                         or $perkKey == 'defensive_power'
+                         or $perkKey == 'drafting'
+                         or $perkKey == 'can_kill_immortal'
+                         or $perkKey == 'defensive_power_from_peasants'
+                         or $perkKey == 'faster_return'
+                         or $perkKey == 'training_time'
+
+                         or $perkKey == 'casualties'
+                         or $perkKey == 'offensive_casualties'
+                         or $perkKey == 'defensive_casualties'
+                         or $perkKey == 'increases_casualties_on_defense'
+                         or $perkKey == 'increases_casualties_on_offense'
+                         or $perkKey == 'increases_enemy_draftee_casualties'
+
+                         or $perkKey == 'no_conversions'
+                         or $perkKey == 'convert_enemy_casualties_to_food'
+                         or $perkKey == 'convert_peasants_to_champions'
+
+                         or $perkKey == 'increases_casualties_on_offense_from_wizard_ratio'
+                         or $perkKey == 'offensive_power_on_retaliation'
+                         or $perkKey == 'immune_to_temples'
+
+                         or $perkKey == 'spy_strength'
+                         or $perkKey == 'wizard_strength'
+                         or $perkKey == 'immortal_spies'
+                         or $perkKey == 'immortal_wizards'
+
+                         or $perkKey == 'land_discovered'
+                         or $perkKey == 'buildings_destroyed'
+                         or $perkKey == 'barren_land_rezoned'
+
+                         or $perkKey == 'opens_portal'
+                         or $perkKey == 'stop_land_generation'
+                         or $perkKey == 'defensive_power_vs_insect_swarm'
+
+                         or $perkKey == 'stasis'
+
+                         # Cult
+                         or $perkKey == 'mind_control'
+                         or $perkKey == 'enthralling'
+                         or $perkKey == 'cogency'
+                         or $perkKey == 'persuasion'
+                     )
+                 {
+                     $perk += (float)$perkValueString;
+                 }
+                 elseif($perkValueString and (!is_numeric($perkValueString) and !is_array($perkValueString)))
+                 {
+                    $perk = (string)$perkValueString;
+                 }
+             }
+         }
+
+         return $perk;
+     }
 
     /**
      * @param string $key

@@ -1916,7 +1916,7 @@ class InvadeActionService
 
         if ($attacker->race->name == 'Norse')
         {
-            if($landRatio >= 0.75 and $isInvasionSuccessful and isset($this->invasionResult['attacker']['unitsLost']['1']) and $this->invasionResult['attacker']['unitsLost']['1'] > 0)
+            if($landRatio >= 0.75 and $this->invasionResult['result']['success'] and isset($this->invasionResult['attacker']['unitsLost']['1']) and $this->invasionResult['attacker']['unitsLost']['1'] > 0)
             {
                 $champions = $this->invasionResult['attacker']['unitsLost']['1'];
 
@@ -1934,7 +1934,7 @@ class InvadeActionService
 
         if ($defender->race->name == 'Norse')
         {
-            if(!$isInvasionSuccessful and isset($this->invasionResult['defender']['unitsLost']['1']) and $this->invasionResult['defender']['unitsLost']['1'] > 0)
+            if(!$this->invasionResult['result']['success'] and isset($this->invasionResult['defender']['unitsLost']['1']) and $this->invasionResult['defender']['unitsLost']['1'] > 0)
             {
                 $champions = $this->invasionResult['defender']['unitsLost']['1'];
 

@@ -616,8 +616,6 @@ voidspellmagicprotection:
     chance_to_reflect_spells: 50
     damage_from_spells: -50
 
-
-
 metabolism:
   name: Metabolism
   scope: self
@@ -695,7 +693,7 @@ ragnarok:
     convert_peasants_to_champions: 1
     buildings_destroyed: 5 # 10% of buildings destroyed per tick
     barren_land_rezoned: water # All barren land becomes water
-    offensive_casualties: 100
+    offensive_casualties: 200
     increases_casualties_on_defense: 100
 
 
@@ -831,7 +829,6 @@ rainy_season:
     lumber_production: 50
     cannot_invade: 1
     cannot_explore: 1
-    no_boat_production: 1
     no_ore_production: 1
     no_gem_production: 1
 
@@ -870,7 +867,6 @@ elementals_water:
     - Elementals
   perks:
     rezone_all_land: 10,water # rezone 10% of your land to mountains
-
 
 spawning_pool:
   name: Spawning Pool
