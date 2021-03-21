@@ -371,9 +371,9 @@ class SpellActionService
                 {
                     $spellReflected = true;
                     $reflectedBy = $target;
-                    $target = $dominion;
-                    $dominion = $reflectedBy;
-                    $dominion->stat_spells_reflected += 1;
+                    $target = $caster;
+                    $caster = $reflectedBy;
+                    $target->stat_spells_reflected += 1;
                 }
 
                 if ($this->spellCalculator->isSpellActive($target, $spell->key))
