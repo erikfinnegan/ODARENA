@@ -682,20 +682,16 @@ ragnarok:
   name: Ragnarök
   scope: self
   class: passive
-  cost: 20
-  duration: 10000
-  cooldown: 10000
+  cost: 8
+  duration: 24
+  cooldown: 48
   exclusive_races:
     - Norse
   perks:
     cannot_build: 1
     no_drafting: 1
-    convert_peasants_to_champions: 1
-    buildings_destroyed: 5 # 10% of buildings destroyed per tick
-    barren_land_rezoned: water # All barren land becomes water
     offensive_casualties: 200
     increases_casualties_on_defense: 100
-
 
 desecration:
   name: Desecration

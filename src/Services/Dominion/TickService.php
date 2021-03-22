@@ -1116,46 +1116,6 @@ class TickService
           $tick->attrition_unit3 += intval($attritionUnit3);
           $tick->attrition_unit4 += intval($attritionUnit4);
 
-          # Norse Ragnarök
-          if($dominion->getSpellPerkValue('convert_peasants_to_champions'))
-          {
-              $peasants = $dominion->peasants;
-              $dominion->peasants = 0;
-
-              $tick->resource_champion += $peasants;
-          }
-
-          if($dominion->getSpellPerkValue('buildings_destroyed'))
-          {
-              $ratio = $dominion->getSpellPerkValue('buildings_destroyed') / 100;
-
-              $buildings = $this->buildingCalculator->getDominionBuildings($selectedDominion);
-
-              foreach($buildings as $building)
-              {
-                  $toRemove = floor($building->pivot->owned * $ratio);
-                  $this->buildingCalculator->
-              }
-          }
-
-          if($dominion->getSpellPerkValue('barren_land_rezoned'))
-          {
-              $toLandType = $dominion->getSpellPerkValue('barren_land_rezoned');
-              $acresRezoned = 0;
-
-              foreach($this->landHelper->getLandTypes() as $landType)
-              {
-                  if($landType !== $toLandType)
-                  {
-                      $toRezone = floor($caster->{'land_' . $landType});
-                      $dominion->{'land_' . $landType} -= $toRezone;
-                      $acresRezoned += $toRezone;
-                  }
-              }
-
-              $dominion->{'land_' . $toLandType} += $acresRezoned;
-          }
-
           foreach ($incomingQueue as $row)
           {
               // Reset current resources in case object is saved later
