@@ -618,6 +618,7 @@ barracks:
   name: Barracks
   excluded_races:
     - Armada
+    - Black Orc
     - Dragon
     - Growth
     - Jagunii
@@ -625,6 +626,7 @@ barracks:
     - Merfolk
     - Myconid
     - Nomad
+    - Orc
     - Swarm
     - Vampires
     - Void
@@ -784,7 +786,6 @@ garrison:
     housing: 0
     military_housing: 60
     jobs: 0
-
 
 norse_longhouse:
   name: Longhouse

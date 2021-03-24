@@ -15,7 +15,6 @@ perks:
   max_population: 10
   food_consumption: 20
   lumber_production: 50
-  extra_barracks_housing: 50
 
 units:
   - name: Impaler

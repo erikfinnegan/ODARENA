@@ -546,11 +546,11 @@ class TrainActionService
                         $amountToTrain = floor($amountToTrain * (1 + $amountToTrainMultiplier));
                     }
 
-                    if(in_arry($slot, [1,2,3,4])
+                    if(in_array($slot, [1,2,3,4]))
                     {
                         $amountToTrain *= (1 + $dominion->getBuildingPerkMultiplier('extra_units_trained'));
                     }
-                    
+
                     $dominion->{'stat_total_' . $unitStatsName . '_trained'} += $amountToTrain;
 
                     $ticks = (int)intval($ticks);
