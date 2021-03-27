@@ -27,13 +27,13 @@ units:
     type:
       - living
       - mindless
-    
+
     static_networth: 5
     cost:
       food: 0
     power:
       offense: 0
-      defense: 4
+      defense: 6
     perks:
       cannot_be_trained: 1
       does_not_count_as_population: 1
@@ -43,13 +43,13 @@ units:
     type:
       - living
       - sentient
-    
+
     static_networth: 10
     cost:
       gold: 0
     power:
-      offense: 6
-      defense: 6
+      offense: 9
+      defense: 9
     perks:
       cannot_be_trained: 1
       fewer_casualties: 50
@@ -63,13 +63,13 @@ units:
       - sentient
       - massive
       - intelligent
-    
+
     static_networth: 18
     cost:
       gold: 0
     power:
-      offense: 14
-      defense: 8
+      offense: 22
+      defense: 12
     perks:
       cannot_be_trained: 1
       fewer_casualties: 75
@@ -83,12 +83,12 @@ units:
       - living
       - sentient
       - intelligent
-    
+
     cost:
-      gold: 900
+      gold: 1350
     power:
-      offense: 4
-      defense: 4
+      offense: 6
+      defense: 6
     perks:
       fewer_casualties: 50
       vampiric_conversion: 4,7

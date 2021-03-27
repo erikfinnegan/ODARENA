@@ -271,7 +271,7 @@ class TrainingCalculator
                     # Check for housing_count
                     elseif($nonStandardHousing = $dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'housing_count'))
                     {
-                        $cost['draftees'] = $nonStandardHousing;
+                        $cost['draftees'] = min($nonStandardHousing, 1);
                     }
                     else
                     {

@@ -118,7 +118,7 @@ pearl_farm:
     - Merfolk
   land_type: water
   perks:
-    gem_production: 15
+    gem_production: 14
 
 algae_bloom:
   name: Algae Bloom
@@ -152,7 +152,7 @@ mana_spring:
     - Merfolk
   land_type: water
   perks:
-    mana_production: 25
+    mana_production: 18
 
 tower:
   name: Tower

@@ -12,15 +12,12 @@ skill_level: 1
 construction_materials: gold
 
 perks:
-  gem_production: -10
-  gold_production: -10
-  mana_production: -10
   max_population: -15
   damage_from_fireballs: -100
   damage_from_lightning_bolts: -50
 units:
   - name: Merman
-    
+
     training_time: 9
     type:
       - living
@@ -52,15 +49,15 @@ units:
       - intelligent
       - massive
     cost:
-      gold: 2800
+      gold: 300000
     power:
       offense: 0
-      defense: 22
+      defense: 2200
     perks:
-      food_consumption: 1
+      food_consumption: 60
+      housing_count: 80
 
   - name: Kraken
-    
     training_time: 12
     type:
       - living
@@ -68,9 +65,10 @@ units:
       - intelligent
       - massive
     cost:
-      gold: 1650
+      gold: 200000
     power:
-      offense: 12
-      defense: 7
+      offense: 1200
+      defense: 700
     perks:
-      food_consumption: 0.75
+      food_consumption: 50
+      housing_count: 80
