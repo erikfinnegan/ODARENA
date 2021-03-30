@@ -1,7 +1,7 @@
 name: Dark Elf
 alignment: evil
 description:
-home_land_type: swamp
+home_land_type: mountain
 playable: 1
 
 attacking: 3
@@ -21,7 +21,7 @@ units:
       - living
       - sentient
       - intelligent
-    
+
     cost:
       gold: 350
       ore: 30
@@ -71,7 +71,7 @@ units:
       - sentient
       - intelligent
       - wise
-    
+
     cost:
       gold: 1000
       mana: 25

@@ -532,7 +532,7 @@ sinew:
   perks:
     defensive_casualties: 1,5,90 # 1% gives -2% max -100%
     offensive_casualties: 1,5,90 # 1% gives -2%, max -100%
-    housing: 44
+    housing: 88
     jobs: 0
 
 tissue_forest:
@@ -552,7 +552,7 @@ tendon:
   land_type: forest
   perks:
     improvements: 1,4 # Every 1% gives 2.5% higher imps
-    housing: 0
+    housing: 88
     jobs: 0
 
 tissue_mountain:
@@ -571,8 +571,8 @@ cartilage:
     - Growth
   land_type: mountain
   perks:
-    raw_defense: 100
-    housing: 44
+    raw_defense: 112
+    housing: 88
     jobs: 0
 
 tissue_hill:
@@ -612,7 +612,7 @@ sac:
   land_type: swamp
   perks:
     food_production_modifier: 1,10,1000 # Every 1% gives +8% food production, max +20%
-    housing: 0
+    housing: 44
     jobs: 0
 
 tissue_water:
@@ -632,7 +632,7 @@ gill:
   land_type: water
   perks:
     unit_food_costs: 1,4,40 # ratio, perk, max
-    housing: 44
+    housing: 88
     jobs: 0
 
 # END GROWTH
@@ -673,6 +673,16 @@ spawning_pool:
   perks:
     extra_units_trained: 1,1,100 # Every 1% gives 1% extra units, max +100%
     housing: 62
+
+altar:
+  name: Altar
+  exclusive_races:
+    - Demon
+  land_type: swamp
+  perks:
+    unit_blood_costs: 1,1,100 # Every 1% gives 1% extra units, max +100%
+    housing: 62
+
 
 # HOME ALTERNATIVES
 
