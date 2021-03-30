@@ -63,7 +63,11 @@
                             </table>
                         </div>
                         <div class="box-footer">
-                            <button class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Rezone</button>
+                          @if ((bool)$selectedDominion->race->getPerkValue('cannot rezone'))
+                              <span class="label label-danger">{{ $selectedDominion->race->name }} dominions cannot rezone</span>
+                          @else
+                            <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
+                          @endif
                         </div>
                     </form>
                 </div>
@@ -165,13 +169,13 @@
                         </div>
                         <div class="box-footer">
                           @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
-                              <span class="label label-warning">{{ $selectedDominion->race->name }} dominions cannot explore</span>
+                              <span class="label label-danger">{{ $selectedDominion->race->name }} dominions cannot explore</span>
                           @elseif ($guardMembershipService->isEliteGuardMember($selectedDominion))
-                              <span class="label label-warning">Members of the Warriors League cannot explore</span>
+                              <span class="label label-danger">Members of the Warriors League cannot explore</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
                               <span class="label label-primary">You cannot explore during the Rainy Season</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
-                              <span class="label label-warning">You cannot explore while you are in stasis</span>
+                              <span class="label label-danger">You cannot explore while you are in stasis</span>
                           @else
                             <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
                           @endif
