@@ -103,6 +103,7 @@ diamond_mine:
 gem_mine:
   name: Gem Mine
   excluded_races:
+    - Beastfolk
     - Growth
     - Merfolk
     - Myconid
@@ -337,7 +338,7 @@ stone_wall:
     - Dragon
   land_type: mountain
   perks:
-    defensive_power: 1,1.5,60 # Every 1% gives 2% DP, max +40% DP
+    defensive_power: 1,1.5,60 # Every 1% gives 1.5% DP, max +60% DP
     raw_defense: 85
 
 shrine:
@@ -513,17 +514,6 @@ tissue:
     housing: 176
     jobs: 0
 
-sac:
-  name: Sac
-  enabled: 0
-  exclusive_races:
-    - Growth
-  land_type: swamp
-  perks:
-    food_production_modifier: 1,10,1000 # Every 1% gives +8% food production, max +20%
-    housing: 0
-    jobs: 0
-
 tissue_plain:
   name: Tissue
   exclusive_races:
@@ -540,18 +530,19 @@ sinew:
     - Growth
   land_type: plain
   perks:
-    food_production: 4
-    housing: 176
+    defensive_casualties: 1,5,90 # 1% gives -2% max -100%
+    offensive_casualties: 1,5,90 # 1% gives -2%, max -100%
+    housing: 44
     jobs: 0
 
-tissue_forest:
-  name: Tissue
+tendon:
+  name: Tendon
   exclusive_races:
     - Growth
   land_type: forest
   perks:
-    food_production: 4
-    housing: 176
+    improvements: 1,4 # Every 1% gives 2.5% higher imps
+    housing: 0
     jobs: 0
 
 tissue_mountain:
@@ -564,6 +555,16 @@ tissue_mountain:
     housing: 176
     jobs: 0
 
+cartilage:
+  name: Cartilage
+  exclusive_races:
+    - Growth
+  land_type: mountain
+  perks:
+    raw_defense: 100
+    housing: 44
+    jobs: 0
+
 tissue_hill:
   name: Tissue
   exclusive_races:
@@ -572,6 +573,16 @@ tissue_hill:
   perks:
     food_production: 4
     housing: 176
+    jobs: 0
+
+incisor:
+  name: Incisor
+  exclusive_races:
+    - Growth
+  land_type: hill
+  perks:
+    offensive_power: 1,1,100 # Every 1% gives 1% OP, max +40% OP
+    housing: 88
     jobs: 0
 
 tissue_swamp:
@@ -584,6 +595,17 @@ tissue_swamp:
     housing: 176
     jobs: 0
 
+sac:
+  name: Sac
+  enabled: 0
+  exclusive_races:
+    - Growth
+  land_type: swamp
+  perks:
+    food_production_modifier: 1,10,1000 # Every 1% gives +8% food production, max +20%
+    housing: 0
+    jobs: 0
+
 tissue_water:
   name: Tissue
   exclusive_races:
@@ -592,6 +614,17 @@ tissue_water:
   perks:
     food_production: 4
     housing: 176
+    jobs: 0
+
+gill:
+  name: Gill
+  enabled: 0
+  exclusive_races:
+    - Growth
+  land_type: water
+  perks:
+    unit_food_costs: 1,4,40 # ratio, perk, max
+    housing: 44
     jobs: 0
 
 # END GROWTH
@@ -730,7 +763,7 @@ dwelling:
     - Kobold
   land_type: hill
   perks:
-    housing: 30
+    housing: 38
     jobs: 0
 
 estate:
@@ -872,6 +905,7 @@ sanctuary:
   land_type: water
   perks:
     housing: 30
+    mana_production: 5
 
 shed:
   name: Shed
