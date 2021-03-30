@@ -63,10 +63,10 @@
                             </table>
                         </div>
                         <div class="box-footer">
-                          @if ((bool)$selectedDominion->race->getPerkValue('cannot rezone'))
+                          @if ((bool)$selectedDominion->race->getPerkValue('cannot_rezone'))
                               <span class="label label-danger">{{ $selectedDominion->race->name }} dominions cannot rezone</span>
                           @else
-                            <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Explore</button>
+                            <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>rezone</button>
                           @endif
                         </div>
                     </form>
