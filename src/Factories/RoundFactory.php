@@ -45,7 +45,7 @@ class RoundFactory
         # End offensive actions between 180 and 360 minutes before round end
         $minutesBeforeRoundEnd = rand(180, 360);
 
-        $offensiveActionsEndDate = (clone $endDate)->subMinutes($minutesBeforeRoundEnd);
+        $offensiveActionsEndDate = NULL;#(clone $endDate)->subMinutes($minutesBeforeRoundEnd);
 
         return Round::create([
             'round_league_id' => $league->id,
