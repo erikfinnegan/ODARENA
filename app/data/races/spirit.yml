@@ -34,9 +34,7 @@ units:
       defense: 2
     perks:
       no_draftee: 1
-      fewer_casualties_offense: 50
       spirit_immortal: 1
-      reduces_casualties: 1
       strength_conversion: 4,1,3 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
 
   - name: Keeper

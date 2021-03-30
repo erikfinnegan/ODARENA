@@ -513,8 +513,29 @@ tissue:
     housing: 176
     jobs: 0
 
+sac:
+  name: Sac
+  enabled: 0
+  exclusive_races:
+    - Growth
+  land_type: swamp
+  perks:
+    food_production_modifier: 1,10,1000 # Every 1% gives +8% food production, max +20%
+    housing: 0
+    jobs: 0
+
 tissue_plain:
   name: Tissue
+  exclusive_races:
+    - Growth
+  land_type: plain
+  perks:
+    food_production: 4
+    housing: 176
+    jobs: 0
+
+sinew:
+  name: Sinew
   exclusive_races:
     - Growth
   land_type: plain

@@ -542,6 +542,7 @@ class TickService
         }
 
         // Update rankings
+        /*
         if (($this->now->hour === 0 or $this->now->hour === 12) and $this->now->minute < 15)
         {
             foreach ($activeRounds as $round)
@@ -557,6 +558,7 @@ class TickService
                 $this->now = now();
             }
         }
+        */
     }
 
     /**
@@ -1125,6 +1127,7 @@ class TickService
           $tick->save();
     }
 
+    /*
     protected function updateDailyRankings(Collection $activeDominions): void
     {
         $dominionIds = $activeDominions->pluck('id')->toArray();
@@ -1217,6 +1220,7 @@ class TickService
             }
         }
     }
+    */
 
     # SINGLE DOMINION TICKS, MANUAL TICK
     /**

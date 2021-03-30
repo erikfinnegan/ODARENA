@@ -2147,12 +2147,14 @@ magical_weapons_level10:
 
 commerce_level1:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 1
   perks:
     exchange_rate: 5
 
 commerce_level2:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 2
   perks:
     exchange_rate: 10
@@ -2161,6 +2163,7 @@ commerce_level2:
 
 commerce_level3:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 3
   perks:
     exchange_rate: 15
@@ -2169,6 +2172,7 @@ commerce_level3:
 
 commerce_level4:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 4
   perks:
     exchange_rate: 20
@@ -2177,6 +2181,7 @@ commerce_level4:
 
 commerce_level5:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 5
   perks:
     exchange_rate: 25
@@ -2185,6 +2190,7 @@ commerce_level5:
 
 commerce_level6:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 6
   perks:
     exchange_rate: 30
@@ -2193,6 +2199,7 @@ commerce_level6:
 
 commerce_level7:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 7
   perks:
     exchange_rate: 32.5
@@ -2201,6 +2208,7 @@ commerce_level7:
 
 commerce_level8:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 8
   perks:
     exchange_rate: 35
@@ -2209,6 +2217,7 @@ commerce_level8:
 
 commerce_level9:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 9
   perks:
     exchange_rate: 37.5
@@ -2217,6 +2226,7 @@ commerce_level9:
 
 commerce_level10:
   name: Commerce
+  enabled: 0 # Erik's fault
   level: 10
   perks:
     exchange_rate: 40

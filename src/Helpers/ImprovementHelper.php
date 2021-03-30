@@ -68,7 +68,7 @@ class ImprovementHelper
             'spires' => '+%1$s%% wizard power, +%1$s%% mana production, -%1$s%% damage from spells, +%1$s%% Wizard Guild wizard housing',
             'forges' => '+%s%% offensive power',
             'walls' => '+%s%% defensive power',
-            'harbor' => '+%s%% food production, boat production & protection',
+            'harbor' => '+%s%% food production',
             'armory' => '-%s%% military training gold and ore costs',
             'infirmary' => '-%s%% casualties in battle',
             'workshops' => '-%s%% construction and rezoning costs',

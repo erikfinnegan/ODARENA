@@ -21,6 +21,9 @@ use OpenDominion\Models\BuildingPerkType;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\SpellPerk;
 use OpenDominion\Models\SpellPerkType;
+use OpenDominion\Models\Improvement;
+use OpenDominion\Models\ImprovementPerk;
+use OpenDominion\Models\ImprovementPerkType;
 use OpenDominion\Models\Spyop;
 use OpenDominion\Models\SpyopPerk;
 use OpenDominion\Models\SpyopPerkType;
@@ -67,6 +70,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncTitles();
             $this->syncSpells();
             $this->syncSpyops();
+            $this->syncImprovements();
         });
     }
 
@@ -644,6 +648,83 @@ class DataSyncCommand extends Command implements CommandInterface
                 }
 
                 $spyop->perks()->sync($spyopPerksToSync);
+            }
+        }
+
+        /**
+         * Syncs improvements and perk data from .yml file to the database.
+         */
+        protected function syncImprovements()
+        {
+            $fileContents = $this->filesystem->get(base_path('app/data/improvements.yml'));
+
+            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+            foreach ($data as $improvementKey => $improvementData) {
+                // Spell
+                $improvement = Improvement::firstOrNew(['key' => $improvementKey])
+                    ->fill([
+                        'name' => $improvementData->name,
+                        'coefficient' => object_get($improvementData, 'coefficient'),
+                        'enabled' => object_get($improvementData, 'enabled', 1),
+                        'excluded_races' => object_get($improvementData, 'excluded_races', []),
+                        'exclusive_races' => object_get($improvementData, 'exclusive_races', []),
+                    ]);
+
+                if (!$improvement->exists) {
+                    $this->info("Adding improvement {$improvementData->name}");
+                } else {
+                    $this->info("Processing improvement {$improvementData->name}");
+
+                    $newValues = $improvement->getDirty();
+
+                    foreach ($newValues as $key => $newValue)
+                    {
+                        $originalValue = $improvement->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                }
+
+                $improvement->save();
+                $improvement->refresh();
+
+                // Spell Perks
+                $improvementPerksToSync = [];
+
+                foreach (object_get($improvementData, 'perks', []) as $perk => $value)
+                {
+                    $value = (string)$value;
+
+                    $improvementPerkType = ImprovementPerkType::firstOrCreate(['key' => $perk]);
+
+                    $improvementPerksToSync[$improvementPerkType->id] = ['value' => $value];
+
+                    $improvementPerk = ImprovementPerk::query()
+                        ->where('improvement_id', $improvement->id)
+                        ->where('improvement_perk_type_id', $improvementPerkType->id)
+                        ->first();
+
+                    if ($improvementPerk === null)
+                    {
+                        $this->info("[Add Improvement Perk] {$perk}: {$value}");
+                    }
+                    elseif ($improvementPerk->value != $value)
+                    {
+                        $this->info("[Change Improvement Perk] {$perk}: {$improvementPerk->value} -> {$value}");
+                    }
+                }
+
+                $improvement->perks()->sync($improvementPerksToSync);
             }
         }
 
