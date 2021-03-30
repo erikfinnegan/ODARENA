@@ -535,6 +535,16 @@ sinew:
     housing: 44
     jobs: 0
 
+tissue_forest:
+  name: Tissue
+  exclusive_races:
+    - Growth
+  land_type: forest
+  perks:
+    food_production: 4
+    housing: 176
+    jobs: 0
+
 tendon:
   name: Tendon
   exclusive_races:
