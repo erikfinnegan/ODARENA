@@ -47,7 +47,6 @@
                         <a href="{{ route('dominion.buildings') }}">
                             <i class="fa fa-home fa-fw"></i>
                             <span>Buildings</span>
-                            <small class="label pull-right label-warning">Beta</small>
                         </a>
                     </li>
                 @endif
