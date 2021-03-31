@@ -137,6 +137,7 @@ class TickService
 
         foreach ($activeRounds as $round)
         {
+            Log::debug('Tick for round ' . $round->number . ' started at ' . $tickTime . '.');
 
             # Get dominions IDs with Stasis active
             $stasisDominions = [];
