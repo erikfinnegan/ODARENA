@@ -2,7 +2,7 @@
 
     <div class="pull-right">
 
-      @if (isset($selectedDominion) and !$selectedDominion->round->hasStarted())
+      @if (isset($selectedDominion) and $selectedDominion->round->isActive())
           @php
               $diff = $selectedDominion->round->start_date->subDays(1)->diff(now());
               $roundDay = $selectedDominion->round->start_date->subDays(1)->diffInDays(now());
