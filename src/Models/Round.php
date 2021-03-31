@@ -89,12 +89,30 @@ class Round extends AbstractModel
 
         if($this->end_date == Null)
         {
-            return $query->where('start_date', '<=', $now);
+            if($query->where('start_date', '<=', $now))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            #return $query->where('start_date', '<=', $now);
         }
         else
         {
-            return $query->where('start_date', '<=', $now)
-                ->where('end_date', '>', $now);
+            if($query->where('start_date', '<=', $now)->where('end_date', '>', $now))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+            #return $query->where('start_date', '<=', $now)
+            #    ->where('end_date', '>', $now);
         }
 
     }
