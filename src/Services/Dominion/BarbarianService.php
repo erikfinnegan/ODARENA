@@ -440,7 +440,7 @@ class BarbarianService
                     }
                     else
                     {
-                        $logString .=    echo ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion));
+                        $logString .= ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion));
                     }
 
                 }
