@@ -416,8 +416,6 @@ class BarbarianService
                 }
             }
 
-            $invade = true;
-
             if($invade)
             {
                 $invadePlayer = false;
