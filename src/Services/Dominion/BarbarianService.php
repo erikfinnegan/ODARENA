@@ -18,6 +18,9 @@ use OpenDominion\Factories\DominionFactory;
 
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Http\Requests\Dominion\Actions\InvadeActionRequest;
+use OpenDominion\Services\Dominion\Actions\InvadeActionService;
 
 class BarbarianService
 {
@@ -94,6 +97,8 @@ class BarbarianService
         $this->landCalculator = app(LandCalculator::class);
         $this->queueService = app(QueueService::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->landCalculator = app(LandCalculator::class);
+        $this->rangeCalculator = app(RangeCalculator::class);
         $this->dominionFactory = app(DominionFactory::class);
     }
 
@@ -352,7 +357,7 @@ class BarbarianService
     {
         $invade = false;
 
-        if($dominion->race->name === 'Barbarian' and !$dominion->round->hasOffensiveActionsDisabled())
+        if($dominion->race->name === 'Barbarian')
         {
             $logString = "\n[BARBARIAN]\n\t[invasion]\n";
             $logString .= "\t\tName: $dominion->name\n";
@@ -411,87 +416,131 @@ class BarbarianService
                 }
             }
 
-            if($invade === true)
+            $invade = true;
+
+            if($invade)
             {
-                $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
+                $invadePlayer = false;
+                # First, look for human players
+                $targetsInRange = $this->rangeCalculator->getDominionsInRange($dominion);
 
-                $logString .= "\t\t* Invasion:\n";
-                $logString .= "\t\t**Land gain ratio: " . number_format($landGainRatio*100,2) . "% \n";
+                foreach($targetsInRange as $target)
+                {
+                    $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+                    $units = [1 => $dominion->military_unit1, 4 => $dominion->military_unit4];
+                    $targetDp = $this->militaryCalculator->getDefensivePower($target, $dominion, $landRatio);
 
-                # Calculate the amount of acres to grow.
-                $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
-                $logString .= "\t\t**Land to gain: " . number_format($totalLandToGain). "\n";
 
-                # Split the land gained evenly across all 6 land types.
-                $landGained['land_plain'] = intval($totalLandToGain/6);
-                $landGained['land_mountain'] = intval($totalLandToGain/6);
-                $landGained['land_forest'] = intval($totalLandToGain/6);
-                $landGained['land_swamp'] = intval($totalLandToGain/6);
-                $landGained['land_hill'] = intval($totalLandToGain/6);
-                $landGained['land_water'] = intval($totalLandToGain/6);
+                    $logString .= $dominion->name . ' is checking ' . $target->name . ': ';
+                    if($this->getOpCurrent($dominion) >= $targetDp * 0.85)
+                    {
+                        $logString .= ' ✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion));
+                        $invadePlayer = $target;
+                        break;
+                    }
+                    else
+                    {
+                        $logString .=    echo ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion));
+                    }
 
-                $logString .= "\t\t**Actual land gained: " . array_sum($landGained) . "\n";
+                }
 
-                # Add the land gained to the $dominion.
-                $dominion->stat_total_land_conquered += $totalLandToGain;
-                $dominion->stat_attacking_success += 1;
+                # Chicken out: 11/12 chance that the Barbarians won't hit.
+                if(rand(1, 12) !== 1)
+                {
+                    $invadePlayer = false;
+                }
 
-                $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/1000;
+                if($invadePlayer)
+                {
+                    #dd($dominion->name . ' is going to invade ' . $target->name . '.');
+                    $invasionActionService = app(InvadeActionService::class);
+                    $invasionActionService->invade($dominion, $target, $units);
+                }
+                else
+                {
+                    $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
 
-                $casualtiesRatio = rand(static::CASUALTIES_MIN, static::CASUALTIES_MAX)/1000;
+                    $logString .= "\t\t* Invasion:\n";
+                    $logString .= "\t\t**Land gain ratio: " . number_format($landGainRatio*100,2) . "% \n";
 
-                $logString .= "\t\t**Sent ratio: " . number_format($sentRatio*100,2). "%\n";
-                $logString .= "\t\t**Casualties ratio: " . number_format($casualtiesRatio*100,2). "%\n";
+                    # Calculate the amount of acres to grow.
+                    $totalLandToGain = intval($this->landCalculator->getTotalLand($dominion) * $landGainRatio);
+                    $logString .= "\t\t**Land to gain: " . number_format($totalLandToGain). "\n";
 
-                # Calculate how many Unit1 and Unit4 are sent.
-                $unitsSent['military_unit1'] = $dominion->military_unit1 * $sentRatio;
-                $unitsSent['military_unit4'] = $dominion->military_unit4 * $sentRatio;
+                    # Split the land gained evenly across all 6 land types.
+                    $landGained['land_plain'] = intval($totalLandToGain/6);
+                    $landGained['land_mountain'] = intval($totalLandToGain/6);
+                    $landGained['land_forest'] = intval($totalLandToGain/6);
+                    $landGained['land_swamp'] = intval($totalLandToGain/6);
+                    $landGained['land_hill'] = intval($totalLandToGain/6);
+                    $landGained['land_water'] = intval($totalLandToGain/6);
 
-                # Remove the sent units from the dominion.
-                $dominion->military_unit1 -= $unitsSent['military_unit1'];
-                $dominion->military_unit4 -= $unitsSent['military_unit4'];
+                    $logString .= "\t\t**Actual land gained: " . array_sum($landGained) . "\n";
 
-                # Calculate losses by applying casualties ratio to units sent.
-                $unitsLost['military_unit1'] = $unitsSent['military_unit1'] * $casualtiesRatio;
-                $unitsLost['military_unit4'] = $unitsSent['military_unit4'] * $casualtiesRatio;
+                    # Add the land gained to the $dominion.
+                    $dominion->stat_total_land_conquered += $totalLandToGain;
+                    $dominion->stat_attacking_success += 1;
 
-                # Calculate amount of returning units.
-                $unitsReturning['military_unit1'] = intval(max($unitsSent['military_unit1'] - $unitsLost['military_unit1'],0));
-                $unitsReturning['military_unit4'] = intval(max($unitsSent['military_unit4'] - $unitsLost['military_unit4'],0));
+                    $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/1000;
 
-                # Queue the incoming land.
-                $this->queueService->queueResources(
-                    'invasion',
-                    $dominion,
-                    $landGained
-                );
+                    $casualtiesRatio = rand(static::CASUALTIES_MIN, static::CASUALTIES_MAX)/1000;
 
-                # Queue the returning units.
-                $this->queueService->queueResources(
-                    'invasion',
-                    $dominion,
-                    $unitsReturning
-                );
+                    $logString .= "\t\t**Sent ratio: " . number_format($sentRatio*100,2). "%\n";
+                    $logString .= "\t\t**Casualties ratio: " . number_format($casualtiesRatio*100,2). "%\n";
 
-               $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered', 'sacked', 'invaded', 'laid waste to'];
-               $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub', 'merchant outpost', 'camp'];
+                    # Calculate how many Unit1 and Unit4 are sent.
+                    $unitsSent['military_unit1'] = $dominion->military_unit1 * $sentRatio;
+                    $unitsSent['military_unit4'] = $dominion->military_unit4 * $sentRatio;
 
-               $data = [
-                    'type' => $invasionTypes[rand(0,count($invasionTypes)-1)],
-                    'target' => $invasionTargets[rand(0,count($invasionTargets)-1)],
-                    'land' => $totalLandToGain,
-                  ];
+                    # Remove the sent units from the dominion.
+                    $dominion->military_unit1 -= $unitsSent['military_unit1'];
+                    $dominion->military_unit4 -= $unitsSent['military_unit4'];
 
-                $barbarianInvasionEvent = GameEvent::create([
-                    'round_id' => $dominion->round_id,
-                    'source_type' => Dominion::class,
-                    'source_id' => $dominion->id,
-                    'target_type' => Realm::class,
-                    'target_id' => $dominion->realm_id,
-                    'type' => 'barbarian_invasion',
-                    'data' => $data,
-                ]);
-                $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
+                    # Calculate losses by applying casualties ratio to units sent.
+                    $unitsLost['military_unit1'] = $unitsSent['military_unit1'] * $casualtiesRatio;
+                    $unitsLost['military_unit4'] = $unitsSent['military_unit4'] * $casualtiesRatio;
+
+                    # Calculate amount of returning units.
+                    $unitsReturning['military_unit1'] = intval(max($unitsSent['military_unit1'] - $unitsLost['military_unit1'],0));
+                    $unitsReturning['military_unit4'] = intval(max($unitsSent['military_unit4'] - $unitsLost['military_unit4'],0));
+
+                    # Queue the incoming land.
+                    $this->queueService->queueResources(
+                        'invasion',
+                        $dominion,
+                        $landGained
+                    );
+
+                    # Queue the returning units.
+                    $this->queueService->queueResources(
+                        'invasion',
+                        $dominion,
+                        $unitsReturning
+                    );
+
+                    $invasionTypes = ['attacked', 'raided', 'pillaged', 'ransacked', 'looted', 'devastated', 'plundered', 'sacked', 'invaded', 'laid waste to'];
+                    $invasionTargets = ['settlement', 'village', 'town', 'hamlet', 'plot of unclaimed land', 'community', 'trading hub', 'merchant outpost', 'camp'];
+
+                    $data = [
+                        'type' => $invasionTypes[rand(0,count($invasionTypes)-1)],
+                        'target' => $invasionTargets[rand(0,count($invasionTargets)-1)],
+                        'land' => $totalLandToGain,
+                      ];
+
+                    $barbarianInvasionEvent = GameEvent::create([
+                        'round_id' => $dominion->round_id,
+                        'source_type' => Dominion::class,
+                        'source_id' => $dominion->id,
+                        'target_type' => Realm::class,
+                        'target_id' => $dominion->realm_id,
+                        'type' => 'barbarian_invasion',
+                        'data' => $data,
+                    ]);
+                    $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
+                }
+
+
             }
 
             $logString .= "\t[/invasion]\n[/BARBARIAN]";

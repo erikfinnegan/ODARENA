@@ -164,9 +164,9 @@ class InvadeActionService
 
         DB::transaction(function () use ($dominion, $target, $units) {
             // Checks
-            if ($dominion->round->hasOffensiveActionsDisabled()) {
-                throw new GameException('Invasions have been disabled for the remainder of the round.');
-            }
+            #if ($dominion->round->hasOffensiveActionsDisabled()) {
+            #    throw new GameException('Invasions have been disabled for the remainder of the round.');
+            #}
 
             if ($this->protectionService->isUnderProtection($dominion)) {
                 throw new GameException('You cannot invade while under protection');
@@ -226,20 +226,23 @@ class InvadeActionService
             #    throw new GameException('You do not have enough boats to send this many units.');
             #}
 
-            if ($dominion->morale < static::MIN_MORALE) {
-                throw new GameException('You do not have enough morale to invade.');
-            }
-/*
-            if (!$this->passes33PercentRule($dominion, $target, $units)) {
-                throw new GameException('You need to leave at least 1/3 of your total defensive power at home (33% rule).');
-            }
-*/
-            if (!$this->passes43RatioRule($dominion, $target, $landRatio, $units)) {
-                throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
-            }
+            if ($dominion->race->name !== 'Barbarian')
+            {
+                if ($dominion->morale < static::MIN_MORALE)
+                {
+                    throw new GameException('You do not have enough morale to invade.');
+                }
 
-            if (!$this->passesMinimumDpaCheck($dominion, $target, $landRatio, $units)) {
-                throw new GameException('You are sending less than the lowest possible DP of the target. Minimum DPA (Defense Per Acre) is ' . static::MINIMUM_DPA . '. Double check your calculations and units sent.');
+                if (!$this->passes43RatioRule($dominion, $target, $landRatio, $units))
+                {
+                    throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
+                }
+
+                if (!$this->passesMinimumDpaCheck($dominion, $target, $landRatio, $units))
+                {
+                    throw new GameException('You are sending less than the lowest possible DP of the target. Minimum DPA (Defense Per Acre) is ' . static::MINIMUM_DPA . '. Double check your calculations and units sent.');
+                }
+
             }
 
             foreach($units as $amount)
