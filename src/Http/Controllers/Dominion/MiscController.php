@@ -88,7 +88,7 @@ class MiscController extends AbstractDominionController
         }
 
         # If the round has ended or offensive actions are disabled, do not allow delete.
-        if($dominion->round->hasEnded() or $dominion->round->hasOffensiveActionsDisabled())
+        if($dominion->round->hasEnded())
         {
             throw new LogicException('You cannot delete your dominion because the round has ended.');
         }

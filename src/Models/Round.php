@@ -87,6 +87,7 @@ class Round extends AbstractModel
     {
         $now = new Carbon();
 
+<<<<<<< Updated upstream
         if($this->end_date == Null)
         {
             return $query->where('start_date', '<=', $now)
@@ -97,6 +98,11 @@ class Round extends AbstractModel
             return $query->where('start_date', '<=', $now)
                   ->where('end_date', '>', $now);
         }
+=======
+        dd($this->start_date);
+
+        return $query->where('start_date', '<=', $now)->where('end_date', '>', $now);
+>>>>>>> Stashed changes
 
     }
 
