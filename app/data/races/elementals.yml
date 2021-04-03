@@ -51,12 +51,12 @@ units:
       - sentient
       - intelligent
     cost:
-      mana: 160
+      mana: 12000
     power:
       offense: 0
-      defense: 0
+      defense: 900
     perks:
-      defense_from_land: water,5,20 # land type, ratio%, max
+      land_limit: water,1
 
   - name: Earth
     training_time: 6

@@ -451,7 +451,6 @@ class BarbarianService
 
                 if($invadePlayer)
                 {
-                    #dd($dominion->name . ' is going to invade ' . $target->name . '.');
                     $invasionActionService = app(InvadeActionService::class);
                     $invasionActionService->invade($dominion, $target, $units);
                 }

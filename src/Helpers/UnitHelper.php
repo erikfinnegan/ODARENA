@@ -242,7 +242,7 @@ class UnitHelper
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to %1$s at home.',
             'land_limit' => 'You can at most have %2$s of this unit per acre of %1$s.',
-            'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increasable by %3$s improvements.',
+            'building_limit' => 'You can at most have %2$s of this unit per %1$s',
             'building_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by %4$ xx your %3$s improvements.',
             'building_limit_prestige' => 'You can at most have %2$s of this unit per %1$s. Increased by prestige multiplier.',
 
@@ -325,6 +325,20 @@ class UnitHelper
 
                         $nestedArrays = true;
                         $perkValue[$key] = explode(';', $value);
+                    }
+                }
+
+                // building_limit
+                if ($perk->key === 'building_limit')
+                {
+                    $perkValue[1] = ' of this unit per ' . $perkValue[0];
+                    if(isset($perkValue[2]))
+                    {
+                        $perkValue[1] .= ', increased by ' . $perkValue[2] . ' improvements.';
+                    }
+                    else
+                    {
+                        $perkValue[1] .= '.';
                     }
                 }
 

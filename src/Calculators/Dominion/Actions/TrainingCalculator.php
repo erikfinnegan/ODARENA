@@ -351,7 +351,7 @@ class TrainingCalculator
                 $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
                 $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
 
-                # Resource that can raise the limit
+                # Improvement that can raise the limit
                 if(isset($buildingLimit[2]))
                 {
                     $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $buildingLimit[2]));
@@ -365,7 +365,7 @@ class TrainingCalculator
                 $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
             }
 
-            # Look for building_limit
+            # Look for land_limit
             if($landLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'land_limit'))
             {
                 $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
