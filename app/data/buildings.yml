@@ -113,6 +113,19 @@ gem_mine:
   perks:
     gem_production: 15
 
+deep_mine:
+  name: Deep Mine
+  excluded_races:
+    - Dwarf
+    - Gnome
+    - Imperial Gnome
+  land_type: mountain
+  perks:
+    ore_production: 60
+    gem_production: 15
+    mana_production: 1
+    housing: 0
+
 pearl_farm:
   name: Pearl Farm
   exclusive_races:
