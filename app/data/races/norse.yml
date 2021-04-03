@@ -31,7 +31,6 @@ units:
       defense: 3
     perks:
       afterlife_norse: 1
-      housing_count: 0.5
 
   - name: Valkyrja
     training_time: 6
@@ -47,7 +46,6 @@ units:
     perks:
       true_immortal: 1
       no_draftee: 1
-      does_not_count_as_population: 1
 
   - name: Jötunn
     training_time: 12
@@ -82,4 +80,3 @@ units:
     perks:
       true_immortal: 1
       no_draftee: 1
-      does_not_count_as_population: 1

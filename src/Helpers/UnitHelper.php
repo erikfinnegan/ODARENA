@@ -225,7 +225,7 @@ class UnitHelper
             'cannot_be_trained' => 'Cannot be trained.',
             'instant_training' => 'Appears immediately.',
 
-            'afterlife_norse' => 'Upon honourable death (successful invasions over 75%% or successfully fending off any invader), becomes a legendary champion.',
+            'afterlife_norse' => 'Upon honourable death (successfully invading another dominion over 75%% your size or successfully fending off any invader), becomes a legendary champion.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
 

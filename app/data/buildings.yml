@@ -339,7 +339,7 @@ stone_wall:
   land_type: mountain
   perks:
     defensive_power: 1,1.5,60 # Every 1% gives 1.5% DP, max +60% DP
-    raw_defense: 85
+    raw_defense: 50
 
 shrine:
   name: Shrine

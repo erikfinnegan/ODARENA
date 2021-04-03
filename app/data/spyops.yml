@@ -131,13 +131,12 @@ assassinate_wizards:
   perks:
     kill_wizards: 2
 
-# WERES/GROWTH SLAUGHTER
+# WERES SLAUGHTER
 
 slaughter_draftees:
   name: Slaughter Draftees
   scope: hostile
   exclusive_races:
-    - Growth
     - Weres
   perks:
     slaughter_draftees: 1.5,40 # ratio, food per killed unit
@@ -146,12 +145,32 @@ slaughter_peasants:
   name: Slaughter Peasants
   scope: hostile
   exclusive_races:
-    - Growth
     - Weres
   perks:
     slaughter_peasants: 0.35,40 # ratio, food per killed unit
 
-# /WERES/GROWTH SLAUGHTER
+# /WERES SLAUGHTER
+
+# GROWTH CONSUME
+
+consume_draftees:
+  name: Consume Draftees
+  scope: hostile
+  exclusive_races:
+    - Growth
+  perks:
+  slaughter_draftees: 1,400 # ratio, food per killed unit
+
+consume_peasants:
+  name: Consume Peasants
+  scope: hostile
+  exclusive_races:
+    - Growth
+  perks:
+  slaughter_peasants: 0.25,100 # ratio, food per killed unit
+
+# /GROWTH CONSUME
+
 # DEMONIC BUTCHER
 
 butcher_draftees:

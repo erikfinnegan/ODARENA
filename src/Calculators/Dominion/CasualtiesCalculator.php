@@ -136,12 +136,19 @@ class CasualtiesCalculator
             $multiplier -= $this->getCasualtiesReductionVersusLand($dominion, $target, $slot, 'offense');
 
             // Spells
+            # 1. Attacker's general casualty modifier
+            # 2. Attacker's specifically offensive casualties modifier
+            # 3. Target's general casualty modifier for invader
+            # 4. Target's general specific defensive modifier for invader
             $multiplier += $dominion->getSpellPerkMultiplier('casualties');
+            $multiplier += $dominion->getSpellPerkMultiplier('offensive_casualties');
+            $multiplier += $target->getSpellPerkMultiplier('increases_casualties');
+            $multiplier += $target->getSpellPerkMultiplier('increases_casualties_on_defense');
 
             # Invasion Spell: Unhealing Wounds
             if ($this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
             {
-              $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'festering_wounds', null);
+                $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'festering_wounds', null);
             }
 
             // Techs
@@ -268,6 +275,15 @@ class CasualtiesCalculator
         {
             // Spells
             $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'casualties');
+
+            # 1. Target's general casualty modifier
+            # 2. Target's specifically offensive casualties modifier
+            # 3. Attacker's general casualty modifier for invader
+            # 4. Attacker's general specific defensive modifier for invader
+            $multiplier += $dominion->getSpellPerkMultiplier('casualties');
+            $multiplier += $dominion->getSpellPerkMultiplier('defensive_casualties');
+            $multiplier += $attacker->getSpellPerkMultiplier('increases_casualties');
+            $multiplier += $attacker->getSpellPerkMultiplier('increases_casualties_on_offense');
 
             # Invasion Spell: Unhealing Wounds
             if ($this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
@@ -492,33 +508,35 @@ class CasualtiesCalculator
         return $powerFromPerk;
       }
 
+
       protected function getCasualtiesReductionVersusLand(Dominion $dominion, Dominion $target, int $slot = NULL, string $powerType): float
       {
-        if ($target === null or $slot == NULL)
-        {
-            return 0;
-        }
+          if ($target === null or $slot == NULL)
+          {
+              return 0;
+          }
 
-        $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_vs_land", null);
+          $versusLandPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_vs_land", null);
 
-        if(!$versusLandPerkData)
-        {
-            return 0;
-        }
+          if(!$versusLandPerkData)
+          {
+              return 0;
+          }
 
-        $landType = $versusLandPerkData[0];
-        $ratio = (float)$versusLandPerkData[1];
-        $max = (float)$versusLandPerkData[2];
+          $landType = $versusLandPerkData[0];
+          $ratio = (float)$versusLandPerkData[1];
+          $max = (float)$versusLandPerkData[2];
 
-        $totalLand = $this->landCalculator->getTotalLand($target);
-        $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
+          $totalLand = $this->landCalculator->getTotalLand($target);
+          $landPercentage = ($target->{"land_{$landType}"} / $totalLand) * 100;
 
-        $powerFromLand = $landPercentage / $ratio;
+          $powerFromLand = $landPercentage / $ratio;
 
-        $powerFromPerk = min($powerFromLand, $max)/100;
+          $powerFromPerk = min($powerFromLand, $max)/100;
 
-        return $powerFromPerk;
+          return $powerFromPerk;
       }
+      
 
       /**
       *   Calculates reduces_casualties or increases_casualties.

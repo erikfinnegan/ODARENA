@@ -46,7 +46,7 @@ units:
       offense: 0
       defense: 0
     perks:
-      gem_production: 1
+      gem_production: 1.2
       building_limit: gem_mine,20,workshops # building, buildings per unit, imp to increase
 
   - name: Mercenary
