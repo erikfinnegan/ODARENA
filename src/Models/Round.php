@@ -87,16 +87,7 @@ class Round extends AbstractModel
     {
         $now = new Carbon();
 
-        if($this->end_date == Null)
-        {
-            return $query->where('start_date', '<=', $now)
-                  ->whereNull('end_date');
-        }
-        else
-        {
-            return $query->where('start_date', '<=', $now)
-                  ->where('end_date', '>', $now);
-        }
+        return $query->where('start_date', '<=', $now)->where('end_date', '>', $now);
 
     }
 
@@ -108,7 +99,6 @@ class Round extends AbstractModel
     public function openForRegistration()
     {
         return $this->hasEnded() ? false : true;
-        #return ($this->start_date <= new Carbon('+30 days midnight'));
     }
 
     /**
