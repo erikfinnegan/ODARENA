@@ -159,7 +159,7 @@ consume_draftees:
   exclusive_races:
     - Growth
   perks:
-  slaughter_draftees: 1,400 # ratio, food per killed unit
+    slaughter_draftees: 1,400 # ratio, food per killed unit
 
 consume_peasants:
   name: Consume Peasants
@@ -167,7 +167,7 @@ consume_peasants:
   exclusive_races:
     - Growth
   perks:
-  slaughter_peasants: 0.25,100 # ratio, food per killed unit
+    slaughter_peasants: 0.25,100 # ratio, food per killed unit
 
 # /GROWTH CONSUME
 
