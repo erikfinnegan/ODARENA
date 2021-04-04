@@ -115,7 +115,7 @@ gem_mine:
 
 deep_mine:
   name: Deep Mine
-  excluded_races:
+  exclusive_races:
     - Dwarf
     - Gnome
     - Imperial Gnome
