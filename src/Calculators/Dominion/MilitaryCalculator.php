@@ -1402,6 +1402,9 @@ class MilitaryCalculator
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('spy_strength');
 
+        // Spells
+        $multiplier += $dominion->getSpellPerkMultiplier('spy_strength');
+
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('spy_strength');
 
@@ -1497,6 +1500,9 @@ class MilitaryCalculator
 
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('wizard_strength');
+
+        // Spells
+        $multiplier += $dominion->getSpellPerkMultiplier('wizard_strength');
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('wizard_strength');
