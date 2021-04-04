@@ -1,9 +1,9 @@
 <?php
 
 namespace OpenDominion\Helpers;
-
-# ODA
+use Illuminate\Support\Collection;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Race;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 use OpenDominion\Models\Improvement;
@@ -179,6 +179,7 @@ class ImprovementHelper
 
             'spy_strength' => 'Spy strength (max +%1$s%%)',
             'spy_losses' => 'Reduced spy losses (max +%1$s%%)',
+            'forest_haven_housing' => 'Forest Haven housing (max +%1$s%%)',
 
             'wizard_strength' => 'Wizard strength (max +%1$s%%)',
             'wizard_losses' => 'Reduced wizard losses (max +%1$s%%)',
@@ -245,6 +246,28 @@ class ImprovementHelper
         }
 
         return $helpStrings[$improvement->name] ?: null;
+    }
+
+    /*
+    *   Returns buildings available for the race.
+    *   If $landType is present, only return buildings for the race for that land type.
+    */
+    public function getImprovementsByRace(Race $race): Collection
+    {
+        $improvements = collect(Improvement::all()->keyBy('key')->sortBy('name')->where('enabled',1));
+
+        foreach($improvements as $improvement)
+        {
+          if(
+                (count($improvement->excluded_races) > 0 and in_array($race->name, $improvement->excluded_races)) or
+                (count($improvement->exclusive_races) > 0 and !in_array($race->name, $improvement->exclusive_races))
+            )
+          {
+              $improvements->forget($improvement->key);
+          }
+        }
+
+        return $improvements;
     }
 
     public function getExclusivityString(Improvement $improvement): string

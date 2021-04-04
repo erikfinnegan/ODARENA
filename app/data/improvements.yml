@@ -37,6 +37,7 @@ espionage:
   perks:
     spy_strength: 45
     spy_losses: 45
+    forest_haven_housing: 45
 
 # Forges
 offense:
