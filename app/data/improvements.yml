@@ -103,6 +103,7 @@ research:
     - Growth
   perks:
     tech_production: 25
+    tech_gains: 25
 
 # Cartography
 cartography:
@@ -111,7 +112,8 @@ cartography:
   excluded_races:
     - Growth
   perks:
-    tech_production: 35
+    explore_gold_cost: 35
+    land_discovered: 35
 
 # Forestry
 logging:

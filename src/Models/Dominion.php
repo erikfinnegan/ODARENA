@@ -276,6 +276,18 @@ class Dominion extends AbstractModel
             ->withPivot('owned');
     }
 
+    public function improvements()
+    {
+        return $this->belongsToMany(
+            Improveent::class,
+            'dominion_improvements',
+            'dominion_id',
+            'improvement_id'
+        )
+            ->withTimestamps()
+            ->withPivot('invested');
+    }
+
     public function spells()
     {
         return $this->hasManyThrough(

@@ -6,6 +6,8 @@ namespace OpenDominion\Helpers;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
+use OpenDominion\Models\Improvement;
+
 class ImprovementHelper
 {
 
@@ -132,6 +134,156 @@ class ImprovementHelper
         ];
 
         return $icons[$improvement];
+    }
+
+
+    # BUILDINGS 2.0
+
+    public function getImprovementDescription(Improvement $improvement): ?string
+    {
+
+        $helpStrings[$improvement->name] = '';
+
+        $perkTypeStrings = [
+            'gold_production' => 'Gold production (max +%1$s%%)',
+            'ore_production' => 'Ore production (max +%1$s%%)',
+            'lumber_production' => 'Lumber production (max +%1$s%%)',
+            'gem_production' => 'Gem production (max +%1$s%%)',
+            'mana_production' => 'Mana production (max +%1$s%%)',
+            'food_production' => 'Food production (max +%1$s%%)',
+            'tech_production' => 'XP generation (max +%1$s%%)',
+
+            'tech_gains' => 'XP gained (max +%1$s%%)',
+
+            'population' => 'Population (max +%1$s%%)',
+            'population_growth' => 'Population growth (max +%1$s%%)',
+
+            'construction_cost' => 'Reduced construction costs (max +%1$s%%)',
+            'rezone_cost' => 'Reduced rezoning costs (max +%1$s%%)',
+
+            'explore_gold_cost' => 'Reduced exploration gold costs (max +%1$s%%)',
+            'land_discovered' => 'Land discovered (max +%1$s%%)',
+
+            'unit_gold_costs' => 'Reduced unit gold costs (max +%1$s%%)',
+            'unit_ore_costs' => 'Reduced unit ore costs (max +%1$s%%)',
+            'unit_lumber_costs' => 'Reduced unit lumber costs (max +%1$s%%)',
+            'unit_gem_costs' => 'Reduced unit gem costs (max +%1$s%%)',
+            'unit_mana_costs' => 'Reduced unit mana costs (max +%1$s%%)',
+            'unit_food_costs' => 'Reduced unit food costs (max +%1$s%%)',
+
+            'offensive_power' => 'Offensive power (max +%1$s%%)',
+            'defensive_power' => 'Defensive power (max +%1$s%%)',
+            'casualties' => 'Reduced casualties (max +%1$s%%)',
+            'offensive_casualties' => 'Reduced offensive casualties (max +%1$s%%)',
+            'defensive_casualties' => 'Reduced defensive casualties (max +%1$s%%)',
+
+            'spy_strength' => 'Spy strength (max +%1$s%%)',
+            'spy_losses' => 'Reduced spy losses (max +%1$s%%)',
+
+            'wizard_strength' => 'Wizard strength (max +%1$s%%)',
+            'wizard_losses' => 'Reduced wizard losses (max +%1$s%%)',
+            'spell_damage' => 'Reduced spell damage (max +%1$s%%)',
+            'wizard_guild_housing' => 'Wizard Guild housing (max +%1$s%%)',
+
+        ];
+
+
+        foreach ($improvement->perks as $perk)
+        {
+            if (!array_key_exists($perk->key, $perkTypeStrings))
+            {
+                continue;
+            }
+
+            $perkValue = $perk->pivot->value;
+
+            $nestedArrays = false;
+            if (str_contains($perkValue, ','))
+            {
+                $perkValue = explode(',', $perkValue);
+
+                foreach ($perkValue as $key => $value)
+                {
+                    if (!str_contains($value, ';'))
+                    {
+                        continue;
+                    }
+
+                    $nestedArrays = true;
+                    $perkValue[$key] = explode(';', $value);
+                }
+            }
+
+            if (is_array($perkValue))
+            {
+                if ($nestedArrays)
+                {
+                    foreach ($perkValue as $nestedKey => $nestedValue)
+                    {
+                        $helpStrings[$improvement->name] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
+                    }
+                }
+                else
+                {
+                    $helpStrings[$improvement->name] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+                }
+            }
+            else
+            {
+                $helpStrings[$improvement->name] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
+            }
+        }
+
+
+        if(strlen($helpStrings[$improvement->name]) == 0)
+        {
+          $helpStrings[$improvement->name] = '<i>No special abilities</i>';
+        }
+        else
+        {
+          $helpStrings[$improvement->name] = '<ul>' . $helpStrings[$improvement->name] . '</ul>';
+        }
+
+        return $helpStrings[$improvement->name] ?: null;
+    }
+
+    public function getExclusivityString(Improvement $improvement): string
+    {
+
+        $exclusivityString = '<br><small class="text-muted">';
+
+        if($exclusives = count($improvement->exclusive_races))
+        {
+            foreach($improvement->exclusive_races as $raceName)
+            {
+                $exclusivityString .= $raceName;
+                if($exclusives > 1)
+                {
+                    $exclusivityString .= ', ';
+                }
+                $exclusives--;
+            }
+
+            $exclusivityString .= ' only';
+        }
+        elseif($excludes = count($improvement->excluded_races))
+        {
+            $exclusivityString .= 'All except ';
+            foreach($improvement->excluded_races as $raceName)
+            {
+                $exclusivityString .= $raceName;
+                if($excludes > 1)
+                {
+                    $exclusivityString .= ', ';
+                }
+                $excludes--;
+            }
+        }
+
+        $exclusivityString .= '</small>';
+
+        return $exclusivityString;
+
     }
 
 }

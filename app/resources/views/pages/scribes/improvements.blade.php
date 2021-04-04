@@ -4,7 +4,7 @@
     @include('partials.scribes.nav')
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title">Buildings</h3>
+            <h3 class="box-title">Improvements</h3>
         </div>
         <div class="box-body">
             <div class="row">
@@ -14,7 +14,7 @@
 
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Buildings</h3>
+            <h3 class="box-title">Improvements</h3>
         </div>
 
         <div class="box-body table-responsive">
@@ -24,23 +24,24 @@
                       <colgroup>
                           <col width="200">
                           <col width="50">
+                          <col>
                       </colgroup>
                       <thead>
                           <tr>
-                              <th>Building</th>
-                              <th>Land Type</th>
+                              <th>Improvement</th>
+                              <th>Coefficient</th>
                               <th>Perks</th>
                           </tr>
                       </thead>
-                      @foreach ($buildings as $building)
+                      @foreach ($improvements as $improvement)
                           <tr>
                               <td>
-                                  {{ $building->name }}
-                                  {!! $buildingHelper->getExclusivityString($building) !!}
+                                  {{ $improvement->name }}
+                                  {!! $improvementHelper->getExclusivityString($improvement) !!}
                               </td>
-                              <td>{{ ucwords($building->land_type) }}</td>
+                              <td>{{ number_format($improvement->coefficient) }}</td>
                               <td>
-                                  {!! $buildingHelper->getBuildingDescription($building) !!}
+                                  {!! $improvementHelper->getImprovementDescription($improvement) !!}
                               </td>
                           </tr>
                       @endforeach

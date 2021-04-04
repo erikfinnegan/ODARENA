@@ -259,14 +259,13 @@ $router->group(['prefix' => 'about', 'as' => 'about.'], static function (Router 
 // Scribes
 $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Router $router) {
     $router->get('factions')->uses('ScribesController@getRaces')->name('factions');
-    #$router->get('construction')->uses('ScribesController@getConstruction')->name('construction');
     $router->get('buildings')->uses('ScribesController@getBuildings')->name('buildings');
     $router->get('espionage')->uses('ScribesController@getEspionage')->name('espionage');
-    #$router->get('magic')->uses('ScribesController@getMagic')->name('magic');
     $router->get('titles')->uses('ScribesController@getTitles')->name('titles');
     $router->get('advancements')->uses('ScribesController@getAdvancements')->name('advancements');
     $router->get('spells')->uses('ScribesController@getSpells')->name('spells');
     $router->get('spy-ops')->uses('ScribesController@getSpyops')->name('spy-ops');
+    $router->get('improvements')->uses('ScribesController@getImprovements')->name('improvements');
 
     $router->get('{race}')->uses('ScribesController@getRace')->name('faction');
 });

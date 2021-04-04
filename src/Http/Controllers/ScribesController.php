@@ -17,6 +17,8 @@ use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Spyop;
+use OpenDominion\Models\Improvement;
+use OpenDominion\Helpers\ImprovementHelper;
 
 class ScribesController extends AbstractController
 {
@@ -87,6 +89,14 @@ class ScribesController extends AbstractController
             'buildingHelper' => app(BuildingHelper::class),
             'landHelper' => app(LandHelper::class),
             'buildings' => Building::all()->where('enabled',1)->sortBy('name'),
+        ]);
+    }
+
+    public function getImprovements()
+    {
+        return view('pages.scribes.improvements', [
+            'improvementHelper' => app(ImprovementHelper::class),
+            'improvements' => Improvement::all()->where('enabled',1)->sortBy('name'),
         ]);
     }
 
