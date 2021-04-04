@@ -74,7 +74,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                 @endforeach
                                     <tr>
                                         <td colspan="4" class="text-right"><strong>Total</strong></td>
-                                        <td class="text-center">?</td>
+                                        <td class="text-center">{{ number_format($improvementCalculator->getDominionImprovementTotalAmountInvested($selectedDominion)) }}</td>
                                     </tr>
 
                                 @php

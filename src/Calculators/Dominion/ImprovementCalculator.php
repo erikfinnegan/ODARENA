@@ -339,5 +339,18 @@ class ImprovementCalculator
             return 0;
         }
     }
+    public function getDominionImprovementTotalAmountInvested(Dominion $dominion, Improvement $improvement = null, string $improvementKey = null, int $improvementId = null): int
+    {
+
+        $totalAmountInvested = 0;
+        $dominionImprovements = $this->getDominionImprovements($dominion);
+
+        foreach($dominionImprovements as $dominionImprovement)
+        {
+            
+        }
+
+
+    }
 
 }

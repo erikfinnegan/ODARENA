@@ -171,6 +171,8 @@ class CasualtiesCalculator
             # Unit Perk: Reduces or increases casualties.
             $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($dominion, $target, $units, $landRatio, 'offensive', $isAmbush);
 
+            #dd($unitCasualtiesPerk);
+
             $multiplier += $unitCasualtiesPerk['defender']['increases_casualties_on_defense'];
             $multiplier -= $unitCasualtiesPerk['attacker']['reduces_casualties'];
 
@@ -536,7 +538,7 @@ class CasualtiesCalculator
 
           return $powerFromPerk;
       }
-      
+
 
       /**
       *   Calculates reduces_casualties or increases_casualties.

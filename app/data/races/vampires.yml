@@ -8,7 +8,7 @@ description: >-
   <li>Average units (4 to 7 OP/DP) become Gnarls.</li>
   <li>Strong units (greater than 7 OP/DP) become Ravagers.</li>
   </ul>
-home_land_type: plain
+home_land_type: forest
 playable: 1
 
 attacking: 3

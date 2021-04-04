@@ -902,4 +902,172 @@ class Dominion extends AbstractModel
     {
         return ($this->getSpellPerkValue($key) / 100);
     }
+
+    # IMPROVEMENTS
+
+    protected function getImprovementPerks()
+    {
+        return $this->improvements->flatMap(
+            function ($improvement)
+            {
+                return $improvement->perks;
+            }
+        );
+    }
+
+     /**
+      * @param string $key
+      * @return float
+      */
+      public function getImprovementPerkValue(string $perkKey): float
+      {
+          $perk = 0;
+
+          foreach ($this->improvements as $improvement)
+          {
+              $perkValueString = $improvement->getPerkValue($perkKey);
+
+              if(is_numeric($perkValueString))
+              {
+                  $perkValueString = (float)$perkValueString;
+              }
+
+              # Default value for housing.
+              if($perkKey == 'housing' and !is_numeric($perkValueString))
+              {
+                  $perkValueString = 15;
+              }
+
+              # Default value for jobs.
+              if($perkKey == 'jobs' and !is_numeric($perkValueString))
+              {
+                  $perkValueString = 20;
+              }
+
+              if($perkValueString)
+              {
+                  # Basic production
+                  if(
+                          $perkKey == 'gold_production'
+                          or $perkKey == 'food_production'
+                          or $perkKey == 'ore_production'
+                          or $perkKey == 'lumber_production'
+                          or $perkKey == 'mana_production'
+                          or $perkKey == 'boat_production'
+                          or $perkKey == 'tech_production'
+                      )
+                  {
+                      $perk += (float)$perkValueString;
+                  }
+                  # Mods with ratio, multiplier, and max
+                  elseif(
+                          # OP/DP mods
+                          $perkKey == 'defensive_power'
+                          or $perkKey == 'offensive_power'
+                          or $perkKey == 'defensive_modifier_reduction'
+                          or $perkKey == 'defensive_casualties'
+                          or $perkKey == 'offensive_casualties'
+
+                          or $perkKey == 'morale_gains'
+                          or $perkKey == 'base_morale'
+
+                          # Production mods
+                          or $perkKey == 'gold_production_modifier'
+                          or $perkKey == 'food_production_modifier'
+                          or $perkKey == 'lumber_production_modifier'
+                          or $perkKey == 'ore_production_modifier'
+                          or $perkKey == 'gem_production_modifier'
+                          or $perkKey == 'mana_production_modifier'
+                          or $perkKey == 'tech_production_modifier'
+                          or $perkKey == 'exchange_rate'
+
+                          # Unit costs
+                          or $perkKey == 'unit_gold_costs'
+                          or $perkKey == 'unit_ore_costs'
+                          or $perkKey == 'unit_lumber_costs'
+                          or $perkKey == 'unit_mana_costs'
+                          or $perkKey == 'unit_food_costs'
+
+                          # Unit training
+                          or $perkKey == 'extra_units_trained'
+
+                          # Spy/wizard
+                          or $perkKey == 'spy_losses'
+                          or $perkKey == 'wizard_losses'
+                          or $perkKey == 'wizard_strength_recovery'
+                          or $perkKey == 'wizard_cost'
+                          or $perkKey == 'spell_cost'
+
+                          # Construction/Rezoning
+                          or $perkKey == 'construction_cost'
+                          or $perkKey == 'rezone_cost'
+
+                          # Espionage
+                          or $perkKey == 'gold_theft_reduction'
+                      )
+                  {
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+                      $ratio = (float)$perkValues[0];
+                      $multiplier = (float)$perkValues[1];
+                      $max = (float)$perkValues[2] / 100;
+                      $owned = $building->pivot->owned;
+
+                      $effect = min($owned / $landSize * $ratio * $multiplier, $max);
+                  }
+                  # Mods with ratio, multiplier, and no max
+                  elseif(
+                          # OP/DP mods
+                          $perkKey == 'improvements'
+                          or $perkKey == 'lightning_bolt_damage'
+                          or $perkKey == 'fireball_damage'
+                          or $perkKey == 'population_growth'
+                      )
+                  {
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+                      $ratio = (float)$perkValues[0];
+                      $multiplier = (float)$perkValues[1];
+                      $owned = $building->pivot->owned;
+
+                      $effect = $owned / $landSize * $ratio * $multiplier;
+                  }
+              }
+
+              if (!isset($effect))
+              {
+                  $perk += $building->pivot->owned * $perkValueString;
+              }
+              else
+              {
+                  $perk = $effect * 100;
+              }
+          }
+
+          return $perk;
+      }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getImprovementPerkMultiplier(string $key): float
+    {
+        return ($this->getImprovementPerkValue($key) / 100);
+    }
+
+    public function extractImprovementPerkValues(string $perkValue)
+    {
+        if (str_contains($perkValue, ',')) {
+            $perkValues = explode(',', $perkValue);
+
+            foreach($perkValues as $key => $value) {
+                if (!str_contains($value, ';')) {
+                    continue;
+                }
+
+                $perkValues[$key] = explode(';', $value);
+            }
+        }
+
+        return $perkValues;
+    }
 }
