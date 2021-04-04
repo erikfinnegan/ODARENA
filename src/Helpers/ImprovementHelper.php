@@ -188,7 +188,6 @@ class ImprovementHelper
 
         ];
 
-
         foreach ($improvement->perks as $perk)
         {
             if (!array_key_exists($perk->key, $perkTypeStrings))
@@ -268,6 +267,11 @@ class ImprovementHelper
         }
 
         return $improvements;
+    }
+
+    public function getImprovementKeys(): array
+    {
+        $improvements = collect(Improvement::all()->keyBy('key')->sortBy('name')->where('enabled',1));
     }
 
     public function getExclusivityString(Improvement $improvement): string

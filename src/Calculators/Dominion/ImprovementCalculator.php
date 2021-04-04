@@ -2,8 +2,11 @@
 
 namespace OpenDominion\Calculators\Dominion;
 
+use DB;
+use Illuminate\Support\Collection;
 use OpenDominion\Models\Dominion;
-
+use OpenDominion\Models\Improvement;
+use OpenDominion\Models\DominionImprovement;
 
 class ImprovementCalculator
 {
@@ -232,5 +235,107 @@ class ImprovementCalculator
         return $resourceWorthRaw * (1 + $resourceWorthMultiplier);
     }
 
+
+    # IMPS 2.0
+
+   public function dominionHasImprovement(Dominion $dominion, string $improvementKey): bool
+   {
+       $improvement = Improvement::where('key', $improvementKey)->first();
+       return DominionImprovement::where('improvement_id',$improvement->id)->where('dominion_id',$dominion->id)->first() ? true : false;
+   }
+
+    public function createOrIncrementImprovements(Dominion $dominion, array $improvements): void
+    {
+        foreach($improvements as $improvementKey => $amount)
+        {
+            if($amount > 0)
+            {
+                $improvement = Improvement::where('key', $improvementKey)->first();
+                $amount = intval(max(0, $amount));
+
+                if($this->dominionHasImprovement($dominion, $improvementKey))
+                {
+                    DB::transaction(function () use ($dominion, $improvement, $amount)
+                    {
+                        DominionImprovement::where('dominion_id', $dominion->id)->where('improvement_id', $improvement->id)
+                        ->increment('invested', $amount);
+                    });
+                }
+                else
+                {
+                    DB::transaction(function () use ($dominion, $improvement, $amount)
+                    {
+                        DominionImprovement::create([
+                            'dominion_id' => $dominion->id,
+                            'improvement_id' => $improvement->id,
+                            'invested' => $amount
+                        ]);
+                    });
+                }
+            }
+        }
+    }
+
+    public function removeImprovements(Dominion $dominion, array $improvements): void
+    {
+        foreach($improvements as $improvementKey => $amountToRemove)
+        {
+            if($amountToRemove > 0)
+            {
+                $improvement = Improvement::where('key', $improvementKey)->first();
+                $amount = intval($amountToRemove);
+
+                if($this->dominionHasImprovement($dominion, $improvementKey))
+                {
+                    DB::transaction(function () use ($dominion, $improvement, $amount)
+                    {
+                        DominionImprovement::where('dominion_id', $dominion->id)->where('improvement_id', $improvement->id)
+                        ->decrement('invested', $amount);
+                    });
+                }
+            }
+        }
+    }
+
+    public function getDominionImprovements(Dominion $dominion): Collection
+    {
+        return DominionImprovement::where('dominion_id',$dominion->id)->get();
+    }
+
+    /*
+    *   Returns an integer of how much this dominion has invested in this this improvement.
+    *   Three arguments are permitted and evaluated in order:
+    *   Improvement $improvement - if we pass an Improvement object
+    *   string $improvementKey - if we pass an improvement key
+    *   int $improvementId - if we pass an improvement ID
+    *
+    */
+    public function getDominionImprovementAmountInvested(Dominion $dominion, Improvement $improvement = null, string $improvementKey = null, int $improvementId = null): int
+    {
+
+        $dominionImprovements = $this->getDominionImprovements($dominion);
+
+        if($improvement)
+        {
+            $improvement = $improvement;
+        }
+        elseif($buildingKey)
+        {
+            $improvement = Improvement::where('key', $improvementKey)->first();
+        }
+        elseif($buildingId)
+        {
+            $improvement = Improvement::where('id', $improvementId)->first();
+        }
+
+        if($dominionImprovements->contains('improvement_id', $improvement->id))
+        {
+            return $dominionImprovements->where('improvement_id', $improvement->id)->first()->invested;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
 }

@@ -2,33 +2,30 @@
 
 namespace OpenDominion\Services\Dominion\Actions;
 
+use DB;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Traits\DominionGuardsTrait;
-
-// ODA
+use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class ImproveActionService
 {
     use DominionGuardsTrait;
-
-    // ODA
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
     /** @var SpellCalculator */
     protected $spellCalculator;
 
-    public function __construct(
-        ImprovementCalculator $improvementCalculator,
-        SpellCalculator $spellCalculator
-    )
+    public function __construct()
     {
-        $this->improvementCalculator = $improvementCalculator;
-        $this->spellCalculator = $spellCalculator;
+        $this->improvementCalculator = app(ImprovementCalculator::class);
+        $this->improvementHelper = app(ImprovementHelper::class);
+        $this->landCalculator = app(LandCalculator::class);
     }
 
     public function improve(Dominion $dominion, string $resource, array $data): array
@@ -128,7 +125,7 @@ class ImproveActionService
         $resourceNameForStats = $resource;
         if($resourceNameForStats == 'gems')
         {
-          $resourceNameForStats = 'gem';
+            $resourceNameForStats = 'gem';
         }
         $dominion->{'stat_total_' . $resourceNameForStats . '_spent_improving'} += $totalResourcesToInvest;
 
@@ -175,4 +172,99 @@ class ImproveActionService
             $investmentString
         );
     }
+
+    # IMPS 2.0
+
+
+
+    public function improve2(Dominion $dominion, string $resource, array $data): array
+    {
+        $this->guardLockedDominion($dominion);
+
+        // Qur: Statis
+        if($dominion->getSpellPerkValue('stasis'))
+        {
+            throw new GameException('You cannot invest in improvements while you are in stasis.');
+        }
+
+        $data = array_map('\intval', $data);
+
+        $totalResourcesToInvest = array_sum($data);
+
+        $worth = $this->improvementCalculator->getResourceWorth($resource, $dominion);
+
+        if ($totalResourcesToInvest < 0)
+        {
+            throw new GameException('Investment aborted due to bad input.');
+        }
+
+        if (!\in_array($resource, ['gold', 'lumber', 'ore', 'gems', 'mana', 'food', 'soul'], true))
+        {
+            throw new GameException('Investment aborted due to bad resource type.');
+        }
+
+        if($resource == 'mana' and !$dominion->race->getPerkValue('can_invest_mana'))
+        {
+            throw new GameException('You cannot use mana for improvements.');
+        }
+
+        if($resource == 'food' and !$dominion->race->getPerkValue('can_invest_food'))
+        {
+            throw new GameException('You cannot use food for improvements.');
+        }
+
+        if ($dominion->race->getPerkValue('cannot_improve_castle') == 1)
+        {
+            throw new GameException($dominion->race->name . ' cannot use improvements.');
+        }
+
+        if ($totalResourcesToInvest > $dominion->{'resource_' . $resource})
+        {
+            throw new GameException("You do not have enough {$resource} to invest.");
+        }
+
+        foreach ($data as $improvementKey => $amount)
+        {
+            if ($amount === 0)
+            {
+                continue;
+            }
+
+            if ($amount < 0)
+            {
+                throw new GameException('Investment aborted due to bad input.');
+            }
+
+            if(!$this->improvementHelper->getImprovementsByRace($dominion->race)->where('key', $improvementKey))
+            {
+                throw new GameException('Improvement key ' . $improvementKey .  ' not available to ' . $dominion->race->name . '.');
+            }
+
+            $points = $amount * $worth;
+
+        }
+
+        $this->improvementCalculator->createOrIncrementImprovements($dominion, $data);
+
+        $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
+        $dominion->most_recent_improvement_resource = $resource;
+
+        $resourceNameForStats = $resource;
+        if($resourceNameForStats == 'gems')
+        {
+            $resourceNameForStats = 'gem';
+        }
+        $dominion->{'stat_total_' . $resourceNameForStats . '_spent_improving'} += $totalResourcesToInvest;
+
+        $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
+
+        return [
+            'message' => $this->getReturnMessageString($resource, $data, $totalResourcesToInvest, $dominion),
+            'data' => [
+                'totalResourcesInvested' => $totalResourcesToInvest,
+                'resourceInvested' => $resource,
+            ],
+        ];
+    }
+
 }

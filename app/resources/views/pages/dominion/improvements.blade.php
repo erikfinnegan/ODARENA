@@ -25,6 +25,9 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
         </div>
     </div>
 @elseif(request()->getHost() == 'odarena.local')
+    @php
+      $dominionImprovements = $improvementCalculator->getDominionImprovements($selectedDominion)->sortBy('name');
+    @endphp
     <div class="row">
 
         <div class="col-sm-12 col-md-9">
@@ -35,6 +38,9 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
 
                 <form action="{{ route('dominion.improvements') }}" method="post" role="form">
                     @csrf
+
+                    <input type="hidden" name="imps2" value=1 />
+
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>
@@ -63,7 +69,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                             <button class="btn btn-default improve-max" data-type="{{ $improvement->key }}" type="button" style="width:4em;">Max</button>
                                         </td>
                                         <td></td>
-                                        <td class="text-center">123</td>
+                                        <td class="text-center">{{ $improvementCalculator->getDominionImprovementAmountInvested($selectedDominion, $improvement) }}</td>
                                     </tr>
                                 @endforeach
                                     <tr>
@@ -232,6 +238,9 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
 
                 <form action="{{ route('dominion.improvements') }}" method="post" role="form">
                     @csrf
+
+                    <input type="hidden" name="imps2" value=0 />
+
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
                             <colgroup>

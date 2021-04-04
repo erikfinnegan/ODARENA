@@ -174,8 +174,6 @@ class BuildActionService
         $primaryCostTotal = array_sum($primaryCostPerLandType);
         $secondaryCostTotal = array_sum($secondaryCostPerLandType);
 
-        #dd($primaryCostPerLandType, $secondaryCostPerLandType);
-
         DB::transaction(function () use ($dominion, $data, $primaryCostTotal, $secondaryCostTotal, $primaryResource, $secondaryResource, $totalBuildingsToConstruct)
         {
             $ticks = 12;

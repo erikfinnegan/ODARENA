@@ -29,27 +29,47 @@ class ImprovementController extends AbstractDominionController
         $dominion = $this->getSelectedDominion();
         $improveActionService = app(ImproveActionService::class);
 
-        try {
-            $result = $improveActionService->improve(
-                $dominion,
-                $request->get('resource'),
-                $request->get('improve')
-            );
+        if($request->get('imps2') == 1)
+        {
+          try {
+              $result = $improveActionService->improve2(
+                  $dominion,
+                  $request->get('resource'),
+                  $request->get('improve')
+              );
 
-        } catch (GameException $e) {
-            return redirect()->back()
-                ->withInput($request->all())
-                ->withErrors([$e->getMessage()]);
+          } catch (GameException $e) {
+              return redirect()->back()
+                  ->withInput($request->all())
+                  ->withErrors([$e->getMessage()]);
+          }
+        }
+        else
+        {
+
+            try {
+                $result = $improveActionService->improve(
+                    $dominion,
+                    $request->get('resource'),
+                    $request->get('improve')
+                );
+
+            } catch (GameException $e) {
+                return redirect()->back()
+                    ->withInput($request->all())
+                    ->withErrors([$e->getMessage()]);
+            }
+
         }
 
         // todo: fire laravel event
-        $analyticsService = app(AnalyticsService::class);
-        $analyticsService->queueFlashEvent(new AnalyticsEvent(
-            'dominion',
-            'improve',
-            null,
-            array_sum($request->get('improve'))
-        ));
+        #$analyticsService = app(AnalyticsService::class);
+        #$analyticsService->queueFlashEvent(new AnalyticsEvent(
+        #    'dominion',
+        #    'improve',
+        #    null,
+        #    array_sum($request->get('improve'))
+        #));
 
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.improvements', [
