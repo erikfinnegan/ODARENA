@@ -69,7 +69,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                             <button class="btn btn-default improve-max" data-type="{{ $improvement->key }}" type="button" style="width:4em;">Max</button>
                                         </td>
                                         <td></td>
-                                        <td class="text-center">{{ $improvementCalculator->getDominionImprovementAmountInvested($selectedDominion, $improvement) }}</td>
+                                        <td class="text-center">{{ number_format($improvementCalculator->getDominionImprovementAmountInvested($selectedDominion, $improvement)) }}</td>
                                     </tr>
                                 @endforeach
                                     <tr>

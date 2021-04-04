@@ -159,8 +159,8 @@ class ImproveActionService
                 continue;
             }
 
-            $points = ($amount * $worth);
-            $investmentStringParts[] = (number_format($points) . ' ' . $improvementType);
+            #$points = ($amount * $worth);
+            $investmentStringParts[] = (number_format($amount) . ' ' . $improvementType);
         }
 
         $investmentString = generate_sentence_from_array($investmentStringParts);
@@ -203,14 +203,12 @@ class ImproveActionService
             throw new GameException('Investment aborted due to bad resource type.');
         }
 
-        if($resource == 'mana' and !$dominion->race->getPerkValue('can_invest_mana'))
+        if(
+              ($resource == 'mana' and !$dominion->race->getPerkValue('can_invest_mana')) or
+              ($resource == 'food' and !$dominion->race->getPerkValue('can_invest_food'))
+          )
         {
-            throw new GameException('You cannot use mana for improvements.');
-        }
-
-        if($resource == 'food' and !$dominion->race->getPerkValue('can_invest_food'))
-        {
-            throw new GameException('You cannot use food for improvements.');
+            throw new GameException('You cannot use ' . $resource .  ' for improvements.');
         }
 
         if ($dominion->race->getPerkValue('cannot_improve_castle') == 1)
@@ -220,7 +218,7 @@ class ImproveActionService
 
         if ($totalResourcesToInvest > $dominion->{'resource_' . $resource})
         {
-            throw new GameException("You do not have enough {$resource} to invest.");
+            throw new GameException("You do not have enough {$resource} to invest this much. You have " . number_format($dominion->{'resource_' . $resource}) . ' ' . $resource . ' and tried to invest ' . number_format($totalResourcesToInvest) . '.');
         }
 
         foreach ($data as $improvementKey => $amount)
@@ -241,6 +239,7 @@ class ImproveActionService
             }
 
             $points = $amount * $worth;
+            $data[$improvementKey] = $points;
 
         }
 
