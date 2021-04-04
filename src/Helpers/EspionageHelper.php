@@ -491,7 +491,7 @@ class EspionageHelper
         }
         elseif($excludes = count($spyop->excluded_races))
         {
-            $exclusivityString .= 'All factions except ';
+            $exclusivityString .= 'All except ';
             foreach($spyop->excluded_races as $raceName)
             {
                 $exclusivityString .= $raceName;

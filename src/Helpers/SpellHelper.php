@@ -578,7 +578,11 @@ class SpellHelper
             foreach($spell->excluded_races as $raceName)
             {
                 $exclusivityString .= $raceName;
-                $exclusives--;
+                if($excludes > 1)
+                {
+                    $exclusivityString .= ', ';
+                }
+                $excludes--;
             }
         }
 
