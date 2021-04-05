@@ -290,7 +290,8 @@ class CasualtiesCalculator
             # Invasion Spell: Unhealing Wounds
             if ($this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
             {
-                $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, 'festering_wounds', null);
+                $festeringWounds = Spell::where('key', 'festering_wounds')->first();
+                $multiplier += 0.50 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, $festeringWounds, null);
             }
 
             # Land-based reductions
