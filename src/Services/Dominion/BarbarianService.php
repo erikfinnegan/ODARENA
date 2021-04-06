@@ -437,13 +437,13 @@ class BarbarianService
 
                     if($this->getOpCurrent($dominion) >= $targetDp * 0.85)
                     {
-                        $logString .= ' ✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . ' | ';
+                        $logString .= ' ✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
                         $invadePlayer = $target;
                         break;
                     }
                     else
                     {
-                        $logString .= ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . ' | ';
+                        $logString .= ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
                     }
 
                     $logString .= "\n";
@@ -453,6 +453,7 @@ class BarbarianService
                 # Chicken out: 11/12 chance that the Barbarians won't hit.
                 if(rand(1, 12) !== 1)
                 {
+                    $logString .= "\n";
                     $logString .= "\t\t** " . $dominion->name . ' chickens out from invading ' . $target->name . "! 🐤\n";
                     $invadePlayer = false;
                 }
