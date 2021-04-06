@@ -446,8 +446,6 @@ class BarbarianService
                         $logString .= ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
                     }
 
-                    $logString .= "\n";
-
                 }
 
                 # Chicken out: 11/12 chance that the Barbarians won't hit.
