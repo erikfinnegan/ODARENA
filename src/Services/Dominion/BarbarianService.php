@@ -422,6 +422,10 @@ class BarbarianService
                 # First, look for human players
                 $targetsInRange = $this->rangeCalculator->getDominionsInRange($dominion);
 
+
+                $logString .= "\t\t* Find Target:\n";
+                $logString .= "\t\t**Looking for human targets in range:\n";
+
                 foreach($targetsInRange as $target)
                 {
                     $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
@@ -429,28 +433,33 @@ class BarbarianService
                     $targetDp = $this->militaryCalculator->getDefensivePower($target, $dominion, $landRatio);
 
 
-                    $logString .= $dominion->name . ' is checking ' . $target->name . ': ';
+                    $logString .= "\t\t** " . $dominion->name . ' is checking ' . $target->name . ': ';
+
                     if($this->getOpCurrent($dominion) >= $targetDp * 0.85)
                     {
-                        $logString .= ' ✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion));
+                        $logString .= ' ✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . ' | ';
                         $invadePlayer = $target;
                         break;
                     }
                     else
                     {
-                        $logString .= ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion));
+                        $logString .= ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . ' | ';
                     }
+
+                    $logString .= "\n";
 
                 }
 
                 # Chicken out: 11/12 chance that the Barbarians won't hit.
                 if(rand(1, 12) !== 1)
                 {
+                    $logString .= "\t\t** " . $dominion->name . ' chickens out from invading ' . $target->name . "! 🐤\n";
                     $invadePlayer = false;
                 }
 
                 if($invadePlayer)
                 {
+                    $logString .= "\t\t** " . $dominion->name . ' is invading ' . $target->name . "! ⚔️\n";
                     $invasionActionService = app(InvadeActionService::class);
                     $invasionActionService->invade($dominion, $target, $units);
                 }
