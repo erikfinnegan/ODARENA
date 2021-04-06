@@ -459,27 +459,24 @@ class NotificationHelper
                         break;
 
                     case 'slaughter_draftees':
-                        $resultString = "{$data['damageString']} were slaughtered while they slept in our barracks.";
-                        break;
-
                     case 'slaughter_peasants':
-                        $resultString = "{$data['damageString']} were slaughtered while they slept in our barracks.";
-                        break;
-
+                    case 'slaughter_spies':
                     case 'slaughter_wizards':
-                        $resultString = "{$data['damageString']} were slaughtered while they slept in our towers.";
+                        $resultString = "{$data['damageString']} were slaughtered.";
                         break;
 
                     case 'butcher_draftees':
-                        $resultString = "{$data['damageString']} were butchered while they slept in our barracks.";
-                        break;
-
                     case 'butcher_peasants':
-                        $resultString = "{$data['damageString']} were butchered while they slept in our barracks.";
+                    case 'butcher_spies':
+                    case 'butcher_wizards':
+                        $resultString = "{$data['damageString']} were butchered.";
                         break;
 
-                    case 'butcher_wizards':
-                        $resultString = "{$data['damageString']} were butchered while they slept in our towers.";
+                    case 'consume_draftees':
+                    case 'consume_peasants':
+                    case 'consume_spies':
+                    case 'consume_wizards':
+                        $resultString = "{$data['damageString']} were consumed.";
                         break;
 
                     case 'magic_snare':
@@ -547,7 +544,15 @@ class NotificationHelper
                     case 'butcher_peasants':
                     case 'butcher_draftees':
                     case 'butcher_wizards':
+                    case 'butcher_spies':
                         $where = 'attempting to butcher our units';
+                        break;
+
+                    case 'consume_peasants':
+                    case 'consume_draftees':
+                    case 'consume_wizards':
+                    case 'consume_spies':
+                        $where = 'attempting to consume our units';
                         break;
 
                     case 'sabotage_walls':
