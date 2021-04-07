@@ -424,7 +424,7 @@ class BarbarianService
 
 
                 $logString .= "\t\t* Find Target:\n";
-                $logString .= "\t\t**Looking for human targets in range:\n";
+                $logString .= "\t\t** Looking for human targets in range:\n";
 
                 foreach($targetsInRange as $target)
                 {
@@ -437,13 +437,14 @@ class BarbarianService
 
                     if($this->getOpCurrent($dominion) >= $targetDp * 0.85)
                     {
-                        $logString .= ' ✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
+                        $logString .= '✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
                         $invadePlayer = $target;
                         break;
                     }
                     else
                     {
-                        $logString .= ' 🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
+                        $logString .= '🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
+                        $invadePlayer = false;
                     }
 
                 }
