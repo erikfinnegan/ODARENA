@@ -450,7 +450,7 @@ class BarbarianService
                 }
 
                 # Chicken out: 11/12 chance that the Barbarians won't hit.
-                if(rand(1, 12) !== 1)
+                if(rand(1, 8) !== 1)
                 {
                     $logString .= "\n";
                     $logString .= "\t\t** " . $dominion->name . ' chickens out from invading ' . $target->name . "! 🐤\n";
