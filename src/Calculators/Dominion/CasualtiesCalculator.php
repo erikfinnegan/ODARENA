@@ -115,7 +115,7 @@ class CasualtiesCalculator
                 # If the raw DP on the unit is enough, add it to $dpFromUnitsThatKill.
                 if($this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') >= $minPowerToKill)
                 {
-                  $dpFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') * $target->{"military_unit" . $unit->slot};
+                    $dpFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense') * $target->{"military_unit" . $unit->slot};
                 }
             }
 
