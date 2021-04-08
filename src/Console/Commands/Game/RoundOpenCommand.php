@@ -126,7 +126,7 @@ class RoundOpenCommand extends Command implements CommandInterface
             $mixedAlignments
         );
 
-        $this->info("Round {$round->number} created in Era {$roundLeague->key}. The round starts at {$round->start_date} and ends at {$round->end_date}.");
+        $this->info("Round {$round->number} created in Era {$roundLeague->key}. The round starts at {$round->start_date}.");
 
         // Prepopulate round with #1 Barbarian, #2 Commonwealth, #3 Empire, #4 Independent
         $this->realmFactory->create($round, 'npc');

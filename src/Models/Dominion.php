@@ -319,9 +319,11 @@ class Dominion extends AbstractModel
 
     public function scopeActive(Builder $query)
     {
+
         return $query->whereHas('round', function (Builder $query) {
-            $query->where('start_date', '<=', now())
-                ->where('end_date', '>', now());
+            #$query->where('start_date', '<=', now())
+            #    ->where('end_date', '>', now());
+            $query->whereRaw('start_date <= NOW() and (end_date IS NULL or end_date > NOW())')
         });
     }
 
