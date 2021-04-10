@@ -20,10 +20,13 @@ gold_mine:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
+    - Sylvan
     - Swarm
+    - Wood Elf
   land_type: plain
   perks:
     gold_production: 50
@@ -33,11 +36,14 @@ farm:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Reptilians
     - Swarm
+    - Sylvan
     - Void
+    - Wood Elf
   land_type: plain
   perks:
     food_production: 80
@@ -96,6 +102,8 @@ diamond_mine:
     - Myconid
     - Void
     - Swarm
+    - Sylvan
+    - Wood Elf
   land_type: mountain
   perks:
     gem_production: 15
@@ -109,6 +117,8 @@ gem_mine:
     - Myconid
     - Void
     - Swarm
+    - Sylvan
+    - Wood Elf
   land_type: mountain
   perks:
     gem_production: 15
@@ -173,10 +183,13 @@ tower:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
     - Swarm
+    - Sylvan
+    - Wood Elf
   land_type: swamp
   perks:
     mana_production: 25
@@ -213,6 +226,7 @@ dock:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Reptilians
@@ -229,11 +243,14 @@ watermill:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Reptilians
     - Void
     - Swarm
+    - Sylvan
+    - Wood Elf
   land_type: water
   perks:
     gem_production_modifier: 1,4,20 # Every 1% gives +4% gem production, max +20%
@@ -244,12 +261,15 @@ aqueduct:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Reptilians
     - Swarm
     - Void
     - Yeti
+    - Sylvan
+    - Wood Elf
   land_type: water
   perks:
     food_production_modifier: 1,8,40 # Every 1% gives +8% food production, max +20%
@@ -269,11 +289,14 @@ masonry:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
     - Swarm
     - Beastfolk
+    - Sylvan
+    - Wood Elf
   land_type: plain
   perks:
     improvements: 1,2.75 # Every 1% gives 2.75% higher imps
@@ -292,11 +315,14 @@ military_academy:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Snow Elf
     - Swarm
+    - Sylvan
     - Void
+    - Wood Elf
   land_type: hill
   perks:
     offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
@@ -306,10 +332,13 @@ guard_tower:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
     - Swarm
+    - Sylvan
+    - Wood Elf
   land_type: hill
   perks:
     defensive_power: 1,1.8,36 # Every 1% gives 2% DP, max +40% DP
@@ -319,10 +348,13 @@ temple:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
     - Swarm
+    - Sylvan
+    - Wood Elf
   land_type: swamp
   perks:
     defensive_modifier_reduction: 1,1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
@@ -359,6 +391,7 @@ shrine:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
@@ -376,10 +409,13 @@ smithy:
     - Gnome
     - Growth
     - Imperial Gnome
+    - Icekin
     - Merfolk
     - Myconid
     - Swarm
     - Void
+    - Sylvan
+    - Wood Elf
   land_type: plain
   perks:
     unit_gold_costs: 1,2,40 # ratio, perk, max
@@ -399,10 +435,13 @@ factory:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
     - Swarm
+    - Sylvan
+    - Wood Elf
   land_type: hill
   perks:
     construction_cost: 1,4,80 # 1% gives -4% construction cost, max -80%
@@ -415,6 +454,7 @@ forest_haven:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
@@ -432,10 +472,13 @@ wizard_guild:
   excluded_races:
     - Dragon
     - Growth
+    - Icekin
     - Merfolk
     - Myconid
     - Void
     - Swarm
+    - Sylvan
+    - Wood Elf
   land_type: swamp
   perks:
     wizard_strength_recovery: 1,0.1,2 # Every 1% gives +0.1% WS recovery per tick, max +2%/tick
@@ -650,6 +693,59 @@ gill:
 
 # END GROWTH
 
+# BEGIN WOOD ELF AND SYLVAN
+
+mana_tree:
+  name: Mana Tree
+  exclusive_races:
+    - Sylvan
+    - Wood Elf
+  land_type: forest
+  perks:
+    mana_production: 35
+
+garden:
+  name: Garden
+  exclusive_races:
+    - Sylvan
+    - Wood Elf
+  land_type: forest
+  perks:
+    food_production: 60
+
+orchard:
+  name: Orchard
+  exclusive_races:
+    - Sylvan
+    - Wood Elf
+  land_type: forest
+  perks:
+    food_production_modifier: 1,5,25
+    lumber_production_modifier: 1,5,25
+
+rootforge:
+  name: Rootforge
+  exclusive_races:
+    - Sylvan
+    - Wood Elf
+  land_type: forest
+  perks:
+    unit_gold_costs: 1,2,40 # ratio, perk, max
+    unit_lumber_costs: 1,1,20 # ratio, perk, max
+
+outpost:
+  name: Rootforge
+  exclusive_races:
+    - Sylvan
+    - Wood Elf
+  land_type: forest
+  perks:
+    unit_gold_costs: 1,2,40 # ratio, perk, max
+    unit_lumber_costs: 1,1,20 # ratio, perk, max
+
+
+# END WOOD ELF AND SYLVAN
+
 mycelia:
   name: Mycelia
   exclusive_races:
@@ -696,7 +792,6 @@ altar:
     unit_blood_costs: 1,1,100 # Every 1% gives 1% extra units, max +100%
     housing: 62
 
-
 # HOME ALTERNATIVES
 
 barracks:
@@ -706,6 +801,7 @@ barracks:
     - Black Orc
     - Dragon
     - Growth
+    - Icekin
     - Jagunii
     - Marshling
     - Merfolk
@@ -713,8 +809,10 @@ barracks:
     - Nomad
     - Orc
     - Swarm
+    - Sylvan
     - Vampires
     - Void
+    - Wood Elf
   land_type: hill
   perks:
     military_housing: 36

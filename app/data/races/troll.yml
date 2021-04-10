@@ -53,7 +53,7 @@ units:
     training_time: 12
     type:
       - equipment
-    
+
     cost:
       ore: 300
       gem: 50

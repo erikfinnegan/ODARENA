@@ -139,6 +139,7 @@ class UnitHelper
             'defense_from_title' => 'Defense increased by %2$s if ruled by a %1$s.',
 
             // Spy related
+            'counts_as_spy' => 'Counts as %s spy.',
             'counts_as_spy_defense' => 'Counts as %s of a spy on defense.',
             'counts_as_spy_offense' => 'Counts as %s of a spy on offense.',
             'immortal_spy' => 'Immortal spy (cannot be killed when performing espionage).',
@@ -149,6 +150,7 @@ class UnitHelper
             'protects_resource_from_theft' => 'Protects %2$s %1$s from theft when at home.',
 
             // Wizard related
+            'counts_as_wizard' => 'Counts as %s wizard.',
             'counts_as_wizard_defense' => 'Counts as %s of a wizard on defense.',
             'counts_as_wizard_offense' => 'Counts as %s of a wizard on offense.',
             'immortal_wizard' => 'Immortal wizard (cannot be killed when casting spells).',
@@ -160,6 +162,7 @@ class UnitHelper
             'fewer_casualties_defense' => '%s%% fewer casualties on defense.',
             'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
+            'fewer_casualties_from_title' => '%2$s% fewer casualties if ruled by a %1$s.',
 
             'immortal' => 'Immortal in combat. Only dies against Tiranthael\'s Blessing or Qur Zealots.',
             'true_immortal' => 'Immortal in combat.',

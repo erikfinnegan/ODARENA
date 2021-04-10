@@ -237,12 +237,13 @@ class ImprovementHelper
 
         if(strlen($helpStrings[$improvement->name]) == 0)
         {
-          $helpStrings[$improvement->name] = '<i>No special abilities</i>';
+            $helpStrings[$improvement->name] = '<i>No special abilities</i>';
         }
         else
         {
-          $helpStrings[$improvement->name] = '<ul>' . $helpStrings[$improvement->name] . '</ul>';
+            $helpStrings[$improvement->name] = '<ul>' . $helpStrings[$improvement->name] . '</ul>';
         }
+
 
         return $helpStrings[$improvement->name] ?: null;
     }

@@ -6,7 +6,7 @@ description: >-
   <li>Plains: 50 farms, 200 smithies</li>
   <li>Forest: 50 lumberyards, 25 forest havens</li>
   <li>Mountain: 100 ore mines, 300 gem mines</li>
-  <li>Hill: 100 homes</li>
+  <li>Hill: 100 residences</li>
   <li>Swamp: 50 towers, 50 temples, 25 wizard guilds</li>
   <li>Water: 50 docks</li>
   </ul>
@@ -56,8 +56,7 @@ units:
       offense: 4
       defense: 0
     perks:
-      counts_as_spy_offense: 1
-      counts_as_spy_defense: 1
+      counts_as_spy: 1
       increases_defensive_casualties: 1
       immortal_on_victory: 1
       no_draftee: 1

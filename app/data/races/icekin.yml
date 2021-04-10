@@ -16,70 +16,72 @@ archmages_cost: 500,gold
 perks:
   food_consumption: -50
   title_bonus: 50
+  wizard_training_time: 6
 
 units:
-  - name: Icebeast
+  - name: Ice Beast
     training_time: 6
     type:
       - living
       - sentient
     cost:
-      gold: 300
+      mana: 10
+      food: 10
     power:
-      offense: 3
+      offense: 4
       defense: 0
     perks:
-      offense_wizard_ratio: 1,2 # ratio%, max
-      offense_from_title: commander,1 # title, op
+      offense_from_title: commander,2 # title, op
+      fewer_casualties_from_title: conjurer,50 # title, op
 
   - name: Snow Witch
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 350
+      gold: 0
+      wizard: 1
     power:
       offense: 0
-      defense: 3
+      defense: 8
     perks:
-      reduces_casualties: 1
-      counts_as_wizard_offense: 0.05
-      counts_as_wizard_defense: 0.05
-      defense_from_land: mountain,50,2
+      counts_as_wizard_offense: 1
+      counts_as_wizard_defense: 0.25
+      immortal_wizard: 1
       production_from_title: conjurer,mana,5 # resource, OP, title
 
   - name: Frost Mage
-    training_time: 12
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 1000
+      gold: 0
+      wizard: 1
     power:
       offense: 0
-      defense: 5
+      defense: 8
     perks:
-      defense_from_land: mountain,20,5
-      counts_as_wizard_offense: 0.25
-      counts_as_wizard_defense: 0.25
-      wizard_from_title: conjurer,0.125 # wizard power, title
-      offense_from_title: commander,6 # title, op
-      sendable_with_zero_op: 1
+      counts_as_wizard_offense: 0.333
+      counts_as_wizard_defense: 0.5
+      immortal_wizard: 1
+      wizard_from_title: conjurer,0.25 # wizard power, title
 
-  - name: Ice Elemental
+  - name: Ice Drake
     training_time: 12
     type:
       - magical
     cost:
       gold: 800
-      mana: 50
+      mana: 80
     power:
-      offense: 4
-      defense: 2
+      offense: 6
+      defense: 6
     perks:
-      offense_wizard_ratio: 1,4 # ratio%, max
-      defense_from_land: mountain,20,5
-      offense_from_title: commander,1 # title, op
+      offense_from_title: commander,2 # title, op
+      offense_from_wizard_ratio: 1
+      plunder: mana,20
+      fewer_casualties_from_title: conjurer,50 # title, reduction

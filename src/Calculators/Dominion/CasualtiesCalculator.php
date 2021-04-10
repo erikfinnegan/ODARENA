@@ -171,6 +171,19 @@ class CasualtiesCalculator
             # Unit Perk: Fewer Casualties
             $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
 
+            # Unit Perk: Fewer Casualties From Title
+            $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null);
+            if($titlePerkData)
+            {
+                $titleKey = $titlePerkData[0];
+                $titlePower = $titlePerkData[1];
+                if($dominion->title->key == $titleKey)
+                {
+                    $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title') / 100);
+                }
+            }
+
+
             # Unit Perk: Reduces or increases casualties.
             $unitCasualtiesPerk = $this->getUnitCasualtiesPerk($dominion, $target, $units, $landRatio, 'offensive', $isAmbush);
 
@@ -321,6 +334,18 @@ class CasualtiesCalculator
             if ($slot)
             {
                 $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_defense']) / 100);
+            }
+
+            # Unit Perk: Fewer Casualties From Title
+            $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null);
+            if($titlePerkData)
+            {
+                $titleKey = $titlePerkData[0];
+                $titlePower = $titlePerkData[1];
+                if($dominion->title->key == $titleKey)
+                {
+                    $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title') / 100);
+                }
             }
 
             # Unit Perk: Reduces or increases casualties.

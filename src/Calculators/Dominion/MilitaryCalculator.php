@@ -564,6 +564,26 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+    protected function getUnitPowerFromWizardRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $wizardRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_from_wizard_ratio");
+
+        if (!$wizardRatioPerk) {
+            return 0;
+        }
+
+        $ratio = (float)$wizardRatioPerk[0];
+
+        $wizardRawRatio = $this->getWizardRatioRaw($dominion, 'offense');
+        $powerFromWizardRatio = $wizardRawRatio * $ratio;
+
+        return $powerFromPerk;
+    }
+
+
+
     protected function getUnitPowerFromRawWizardRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
         $wizardRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
@@ -1375,6 +1395,11 @@ class MilitaryCalculator
             {
                 $spies += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_defense'));
             }
+
+            if ($unit->getPerkValue('counts_as_spy'))
+            {
+                $spies += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy'));
+            }
         }
 
         // Shroud
@@ -1466,6 +1491,11 @@ class MilitaryCalculator
                 $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_defense'));
             }
 
+            if ($unit->getPerkValue('counts_as_wizard'))
+            {
+                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard'));
+            }
+
             # Check for wizard_from_title
             $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "wizard_from_title", null);
             if($titlePerkData)
@@ -1551,6 +1581,11 @@ class MilitaryCalculator
             {
                 $wizardPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_defense'));
             }
+
+            if ($unit->getPerkValue('counts_as_wizard'))
+            {
+                $wizardPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard'));
+            }
         }
 
         return $wizardPoints * $this->getWizardRatioMultiplier($dominion);
@@ -1570,12 +1605,17 @@ class MilitaryCalculator
         {
             if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense'))
             {
-                $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_offense'));
+                $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_offense'));
             }
 
             if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense'))
             {
                 $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_defense'));
+            }
+
+            if ($unit->getPerkValue('counts_as_spy'))
+            {
+                $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy'));
             }
         }
 

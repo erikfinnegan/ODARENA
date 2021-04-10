@@ -665,7 +665,6 @@ class DataSyncCommand extends Command implements CommandInterface
                 $improvement = Improvement::firstOrNew(['key' => $improvementKey])
                     ->fill([
                         'name' => $improvementData->name,
-                        'coefficient' => object_get($improvementData, 'coefficient'),
                         'enabled' => object_get($improvementData, 'enabled', 1),
                         'excluded_races' => object_get($improvementData, 'excluded_races', []),
                         'exclusive_races' => object_get($improvementData, 'exclusive_races', []),

@@ -55,11 +55,10 @@ units:
       mana: 10
     power:
       offense: 0
-      defense: 4
+      defense: 8
     perks:
       counts_as_wizard_offense: 0.333
       counts_as_wizard_defense: 0.250
-      defense_from_land: forest,20,5 # land type, ratio%, max
 
   - name: Spriggan
     training_time: 12

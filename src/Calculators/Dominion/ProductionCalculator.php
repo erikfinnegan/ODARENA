@@ -288,7 +288,7 @@ class ProductionCalculator
               # Get the unit attributes
               $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
 
-              if (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and count(array_intersect($nonConsumingUnitAttributes, $unitAttributes)) === 0)
+              if (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_consume_food') and count(array_intersect($nonConsumingUnitAttributes, $unitAttributes)) === 0)
               {
                   $consumers += $dominion->{'military_unit'.$slot};
                   $consumers += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");

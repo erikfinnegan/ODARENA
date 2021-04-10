@@ -23,13 +23,11 @@
                   <table class="table table-striped">
                       <colgroup>
                           <col width="200">
-                          <col width="50">
                           <col>
                       </colgroup>
                       <thead>
                           <tr>
                               <th>Improvement</th>
-                              <th>Coefficient</th>
                               <th>Perks</th>
                           </tr>
                       </thead>
@@ -39,7 +37,6 @@
                                   {{ $improvement->name }}
                                   {!! $improvementHelper->getExclusivityString($improvement) !!}
                               </td>
-                              <td>{{ number_format($improvement->coefficient) }}</td>
                               <td>
                                   {!! $improvementHelper->getImprovementDescription($improvement) !!}
                               </td>
