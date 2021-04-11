@@ -77,6 +77,8 @@ class BuildingHelper
 
             'extra_units_trained' => '%2$s%% additional units trained for free for every %1$s%% (max %3$s%% extra units).',
 
+            'faster_return' =>  '%2$s%% of units sent on invasion return %4$s ticks faster for every %1$s%% (max %3$s%% of all units).',
+
             'morale_gains' => 'Morale gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
             'base_morale' => 'Base morale increased by %2$s%% for every %1$s%% (max +%3$s%%)',
             'prestige_gains' => 'Prestige gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
@@ -88,6 +90,8 @@ class BuildingHelper
             'offensive_power' => 'Offensive power increased by %2$s%% for every %1$s%% (max +%3$s%% OP)',
             'defensive_power' => 'Defensive power increased by %2$s%% for every %1$s%% (max +%3$s%% DP).',
             'defensive_modifier_reduction' => 'Reduces target\'s defensive modifiers by by %2$s%% for every %1$s%% (max %3$s%% reduction or 0%% defensive modifiers).',
+
+            'reduces_offensive_power' => 'Invading force\'s total offensive power reduced by by %2$s%% for every %1$s%% (max -%3$s%% OP).',
 
             # Improvements
             'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',

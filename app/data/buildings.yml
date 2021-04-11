@@ -245,7 +245,6 @@ dock:
   excluded_races:
     - Dragon
     - Growth
-    - Icekin
     - Merfolk
     - Myconid
     - Reptilians
@@ -262,7 +261,6 @@ watermill:
   excluded_races:
     - Dragon
     - Growth
-    - Icekin
     - Merfolk
     - Myconid
     - Reptilians
