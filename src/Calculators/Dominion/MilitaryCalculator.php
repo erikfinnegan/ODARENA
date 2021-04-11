@@ -491,11 +491,8 @@ class MilitaryCalculator
 
         $unitPower += $this->getUnitPowerFromLandBasedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromBuildingBasedPerk($dominion, $unit, $powerType);
-        $unitPower += $this->getUnitPowerFromRawWizardRatioPerk($dominion, $unit, $powerType);
-        $unitPower += $this->getUnitPowerFromRawSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromWizardRatioPerk($dominion, $unit, $powerType);
-        $unitPower += $this->getUnitPowerFromModWizardRatioPerk($dominion, $unit, $powerType);
-        $unitPower += $this->getUnitPowerFromModSpyRatioPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
@@ -581,16 +578,28 @@ class MilitaryCalculator
             return 0;
         }
 
-        $ratio = (float)$wizardRatioPerk[0];
+        $powerFromPerk = (float)$wizardRatioPerk * $this->getWizardRatio($dominion, 'offense');
 
-        $wizardRawRatio = $this->getWizardRatioRaw($dominion, 'offense');
-        $powerFromWizardRatio = $wizardRawRatio * $ratio;
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromSpyRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $spyRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_from_spy_ratio");
+
+        if (!$spyRatioPerk) {
+            return 0;
+        }
+
+        $powerFromPerk = (float)$spyRatioPerk * $this->getSpyRatio($dominion, 'offense');
 
         return $powerFromPerk;
     }
 
 
-
+    /*
     protected function getUnitPowerFromRawWizardRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
         $wizardRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
@@ -672,6 +681,7 @@ class MilitaryCalculator
 
         return $powerFromPerk;
     }
+    */
 
     protected function getUnitPowerFromPrestigePerk(Dominion $dominion, Unit $unit, string $powerType): float
     {

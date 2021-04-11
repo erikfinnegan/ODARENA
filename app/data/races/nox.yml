@@ -16,7 +16,7 @@ perks:
   mana_production: 50
 units:
   - name: Imp
-    
+
     training_time: 0
     static_networth: 5
     type:
@@ -84,4 +84,4 @@ units:
       defense: 4
     perks:
       true_immortal: 1
-      offense_wizard_ratio: 2,6 # ratio%, max
+      offense_wizard_ratio: 2 # ratio%, max

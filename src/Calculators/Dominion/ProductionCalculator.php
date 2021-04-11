@@ -403,8 +403,6 @@ class ProductionCalculator
 
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
         $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
-
-        // Unit Perk Production Reduction
         $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_lumber');
 
         // Unit Perk: production_from_title

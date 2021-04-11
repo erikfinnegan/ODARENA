@@ -95,12 +95,9 @@ class UnitHelper
 
             'offense_staggered_land_range' => 'Offense increased by %2$s against dominions %1$s%%+ of your size.',
 
-            'offense_raw_wizard_ratio' => 'Offense increased by %1$s * Raw Wizard Ratio (max +%2$s).',
-            'offense_wizard_ratio' => 'Offense increased by %1$s * Wizard Ratio (max +%2$s).',
-            'offense_from_wizard_ratio' => 'Offense increased by %1$s * Wizard Ratio.',
+            'offense_from_wizard_ratio' => 'Offense increased by %1$s * Wizard Ratio (offensive).',
 
-            'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
-            'offense_spy_ratio' => 'Offense increased by %1$s * Spy Ratio (max +%2$s).',
+            'offense_from_spy_ratio' => 'Offense increased by %1$s * Spy Ratio (offensive).',
 
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',

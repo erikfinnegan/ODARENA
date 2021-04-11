@@ -72,4 +72,4 @@ units:
       offense: 5
       defense: 3
     perks:
-      offense_spy_ratio: 0.85,3 # ratio%, max
+      offense_from_spy_ratio: 0.85 # ratio%, max
