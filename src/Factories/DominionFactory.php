@@ -618,14 +618,26 @@ class DominionFactory
               'water' => $acresBase,
           ];
         }
-        elseif($race->name == 'Swarm')
+        elseif($race->name == 'Icekin')
         {
           return [
-              'plain' => $acresBase,
-              'mountain' => 0,
+              'plain' => 0,
+              'mountain' => $acresBase,
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
+              'hill' => 0,
+              'water' => 0,
+          ];
+        }
+        elseif($race->name == 'Sylvan' or $race->name == 'Wood Elf')
+        {
+          return [
+              'plain' => 0,
+              'mountain' => 0,
+              'swamp' => 0,
+              'cavern' => 0,
+              'forest' => $acresBase,
               'hill' => 0,
               'water' => 0,
           ];

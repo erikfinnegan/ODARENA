@@ -772,8 +772,8 @@ burrow:
     - Swarm
   land_type: mountain
   perks:
-    raw_defense: 20
-    gem_production: 5
+    gem_production: 12
+    mana_production: 8
 
 cavern:
   name: Cavern
