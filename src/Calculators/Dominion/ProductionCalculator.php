@@ -187,6 +187,12 @@ class ProductionCalculator
           $food += $dominion->peasants * $dominion->race->getPerkValue('peasants_produce_food');
         }
 
+        // Faction Perk: barren_forest_lumber_production
+        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        {
+            $food += $this->landCalculator->getTotalBarrenLand($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_food_production');
+        }
+
         $food *= 1 + $dominion->getSpellPerkMultiplier('food_production_raw');
 
         return max(0,$food);
@@ -584,6 +590,12 @@ class ProductionCalculator
 
         // Unit Perk: production_from_title
         $ore += $dominion->getUnitPerkProductionBonusFromTitle('ore');
+
+        // Faction Perk: barren_forest_lumber_production
+        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        {
+            $ore += $this->landCalculator->getTotalBarrenLand($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_ore_production');
+        }
 
         return max(0,$ore - $upkeep);
     }

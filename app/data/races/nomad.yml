@@ -18,6 +18,9 @@ perks:
   increased_construction_speed: 2
   salvaging: 65
   offense_from_barren: 1 # Gets 1% OP bonus from every 1% barren
+  barren_forest_lumber_production: 30
+  barren_mountain_lumber_production: 30
+  barren_food_lumber_production: 30
 units:
   - name: Light Cavalry
     training_time: 9

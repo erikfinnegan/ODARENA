@@ -116,7 +116,7 @@ surreal_perception:
   scope: self
   class: passive
   cost: 4
-  duration: 36
+  duration: 24
   cooldown: 0
   excluded_races:
     - Void
@@ -128,7 +128,7 @@ energy_mirror:
   scope: self
   class: passive
   cost: 3
-  duration: 32
+  duration: 24
   cooldown: 0
   excluded_races:
     - Void
@@ -207,6 +207,18 @@ iceshield:
   perks:
     damage_from_fireballs: -10
     damage_from_lightning_bolts: -10
+
+windchill:
+  name: Windchill
+  scope: hostile
+  class: passive
+  cost: 6
+  duration: 24
+  cooldown: 6
+  exclusive_races:
+    - Icekin
+  perks:
+    wizard_strength: -50
 
 frozen_shores:
   name: Frozen Shores
@@ -680,6 +692,7 @@ fimbulwinter:
 
 ragnarok:
   name: Ragnarök
+  enabled: 0
   scope: self
   class: passive
   cost: 8

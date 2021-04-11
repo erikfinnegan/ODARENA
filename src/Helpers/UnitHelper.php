@@ -97,6 +97,7 @@ class UnitHelper
 
             'offense_raw_wizard_ratio' => 'Offense increased by %1$s * Raw Wizard Ratio (max +%2$s).',
             'offense_wizard_ratio' => 'Offense increased by %1$s * Wizard Ratio (max +%2$s).',
+            'offense_from_wizard_ratio' => 'Offense increased by %1$s * Wizard Ratio.',
 
             'offense_raw_spy_ratio' => 'Offense increased by %1$s * Raw Spy Ratio (max +%2$s).',
             'offense_spy_ratio' => 'Offense increased by %1$s * Spy Ratio (max +%2$s).',
@@ -162,7 +163,7 @@ class UnitHelper
             'fewer_casualties_defense' => '%s%% fewer casualties on defense.',
             'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
-            'fewer_casualties_from_title' => '%2$s% fewer casualties if ruled by a %1$s.',
+            'fewer_casualties_from_title' => '%2$s%% fewer casualties if ruled by a %1$s.',
 
             'immortal' => 'Immortal in combat. Only dies against Tiranthael\'s Blessing or Qur Zealots.',
             'true_immortal' => 'Immortal in combat.',
@@ -251,6 +252,7 @@ class UnitHelper
             'building_limit_prestige' => 'You can at most have %2$s of this unit per %1$s. Increased by prestige multiplier.',
 
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
+            'net_victories_limit' => 'You can at most have %2$s of this unit per %1$s net victories.',
 
             'pairing_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by %4$ xx your %3$s improvements.',
             'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increased by %3$ xx your %2$s improvements.',

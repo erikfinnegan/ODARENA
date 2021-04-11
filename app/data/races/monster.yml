@@ -4,7 +4,7 @@ description: >-
   <p>If the Monster is present, the Governor is tasked with setting a contribution rate of 0% to 10%. All Imperial dominions must contribute this amount of their food, ore, and lumber stockpile every tick to the Monster.</p>
   <p>The Monster starts with 333 Muscles, six Carapaces, two Claws, and one Head.</p>
 home_land_type: plain
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 0
@@ -63,7 +63,7 @@ units:
     type:
       - massive
       - mindless
-    
+
     cost:
       food: 15000
       mana: 2000
@@ -85,7 +85,7 @@ units:
       - living
       - massive
       - intelligent
-    
+
     cost:
       food: 30000
       mana: 5000

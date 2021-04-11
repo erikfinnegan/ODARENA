@@ -124,7 +124,13 @@ class MilitaryCalculator
     {
         $op = ($this->getOffensivePowerRaw($attacker, $defender, $landRatio, $units, $calc, $mindControlledUnits) * $this->getOffensivePowerMultiplier($attacker, $defender));
 
-        return ($op * $this->getMoraleMultiplier($attacker));
+        $op *= $this->getMoraleMultiplier($attacker);
+
+        $op *= $this->getOffensivePowerReduction($defender);
+
+        return $op;
+
+        #return ($op * $this->getMoraleMultiplier($attacker));
     }
 
     /**
@@ -1360,6 +1366,17 @@ class MilitaryCalculator
     public function getMoraleMultiplier(Dominion $dominion): float
     {
         return 0.90 + $dominion->morale / 1000;
+    }
+
+    # Icekin: Glacier
+    public function getOffensivePowerReduction(?Dominion $defender): float
+    {
+        $base = 1;
+        if($defender)
+        {
+            return $base - $defender->getBuildingPerkMultiplier('reduces_offensive_power');
+        }
+        return $base;
     }
 
     /**

@@ -22,7 +22,6 @@ units:
       - living
       - sentient
       - intelligent
-    
     cost:
       gold: 1000
     power:
@@ -35,7 +34,6 @@ units:
     training_time: 0
     type:
       - magical
-    
     cost:
       gem: 20
       mana: 5
@@ -53,7 +51,6 @@ units:
     training_time: 12
     type:
       - machine
-    
     cost:
       gold: 1000
       lumber: 475
@@ -77,7 +74,6 @@ units:
       - sentient
       - intelligent
       - wise
-    
     cost:
       gold: 1000
       mana: 10

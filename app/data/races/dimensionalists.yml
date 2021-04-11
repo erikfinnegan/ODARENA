@@ -31,12 +31,11 @@ units:
       offense: 0
       defense: 0
     perks:
-        no_draftee: 1
-        counts_as_wizard: 0.5
-        immortal_wizard: 1
+      no_draftee: 1
+      counts_as_wizard: 0.5
+      immortal_wizard: 1
 
   - name: Tl'Tl
-
     training_time: 9
     type:
       - living
@@ -77,7 +76,6 @@ units:
       - living
       - sentient
       - otherworldly
-
     cost:
       mana: 240
     power:

@@ -640,6 +640,7 @@ class Dominion extends AbstractModel
                           # OP/DP mods
                           $perkKey == 'defensive_power'
                           or $perkKey == 'offensive_power'
+                          or $perkKey == 'reduces_offensive_power'
                           or $perkKey == 'defensive_modifier_reduction'
                           or $perkKey == 'defensive_casualties'
                           or $perkKey == 'offensive_casualties'

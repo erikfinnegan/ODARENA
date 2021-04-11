@@ -266,6 +266,11 @@ class RaceHelper
                 $description = 'Military housing in buildings that provide military housing';
                 $valueType = '%';
                 break;
+            case 'drafting':
+                $negativeBenefit = false;
+                $description = 'Peasants drafted per tick:';
+                $valueType = '%';
+                break;
             case 'amount_stolen':
                 $negativeBenefit = false;
                 $description = 'Amount stolen';

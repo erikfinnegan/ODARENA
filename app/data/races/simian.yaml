@@ -23,6 +23,7 @@ perks:
   lumber_improvement_points: 50
   increased_construction_speed: 3
   max_population: 20
+
 units:
   - name: Chimpanzee
     training_time: 9

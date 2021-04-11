@@ -2,7 +2,7 @@ name: Norse
 alignment: good
 description:
 home_land_type: plain
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 1
@@ -14,8 +14,6 @@ construction_materials: gold,lumber
 perks:
   exchange_bonus: 10
   lumber_production: 10
-  draftee_dp: 2
-  reduced_conversions: 100
 units:
   - name: Berserk
     training_time: 3
@@ -71,7 +69,6 @@ units:
       - sentient
       - legendary
       - intelligent
-
     cost:
       champion: 1
     power:

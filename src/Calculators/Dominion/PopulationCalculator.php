@@ -495,11 +495,16 @@ class PopulationCalculator
         // Values (percentages)
         $growthFactor = 0.01;
 
+        $multiplier = 1;
+
         // Advancement: Conscription
-        $growthFactor *= 1 + $dominion->getTechPerkMultiplier('drafting');
+        $multiplier += $dominion->getTechPerkMultiplier('drafting');
 
         // Spell
-        $growthFactor *= 1 + $dominion->getSpellPerkMultiplier('drafting');
+        $multiplier += $dominion->getSpellPerkMultiplier('drafting');
+
+        // Perk
+        $multiplier += $dominion->race->getPerkMultiplier('drafting');
 
         if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
         {

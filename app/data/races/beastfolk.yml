@@ -66,7 +66,7 @@ units:
       defense: 3
     perks:
       defense_from_land: forest,10,3 # land type, ratio%, max
-      counts_as_wizard_offense: 0.25
+      counts_as_wizard_offense: 0.50
       counts_as_wizard_defense: 0.25
   - name: Minotaur
     training_time: 12
