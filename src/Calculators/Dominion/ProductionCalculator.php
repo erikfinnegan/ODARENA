@@ -84,8 +84,9 @@ class ProductionCalculator
             $gold += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
         }
 
-        // Building: Alchemy
+        // Buildings
         $gold += $dominion->getBuildingPerkValue('gold_production');
+        $gold += $dominion->getBuildingPerkValue('gold_production_depleting');
 
         // Unit Perk: Production Bonus
         $gold += $dominion->getUnitPerkProductionBonus('gold_production');

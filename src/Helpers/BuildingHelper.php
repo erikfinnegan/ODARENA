@@ -60,6 +60,14 @@ class BuildingHelper
             'mana_production_modifier' => 'Mana production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'tech_production_modifier' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
+
+            'gold_production_depleting' => 'Produces %1$s gold per tick (reduced by %2$s per hour of the round down to 0).',
+            'food_production_depleting' => 'Produces %1$s food per tick (reduced by %2$s per hour of the round down to 0).',
+            'lumber_production_depleting' => 'Produces %1$s lumber per tick (reduced by %2$s per hour of the round down to 0).',
+            'ore_production_depleting' => 'Produces %1$s ore per tick (reduced by %2$s per hour of the round down to 0).',
+            'gem_production_depleting' => 'Produces %1$s gems per tick (reduced by %2$s per hour of the round down to 0).',
+            'mana_production_depleting' => 'Produces %1$s mana per tick (reduced by %2$s per hour of the round down to 0).',
+
             'exchange_rate' => 'Resource exchange rates improved by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             # Military

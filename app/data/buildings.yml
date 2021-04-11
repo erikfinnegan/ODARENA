@@ -48,25 +48,6 @@ farm:
   perks:
     food_production: 80
 
-terrace:
-  name: Terrace
-  exclusive_races:
-    - Icekin
-  land_type: mountain
-  perks:
-    food_production: 50
-    jobs: 30
-
-glacier:
-  name: Glacier
-  exclusive_races:
-    - Icekin
-  land_type: mountain
-  perks:
-    military_housing: 30
-    jobs: 0
-    reduces_offensive_power: 1,0.5,10
-
 bog:
   name: Bog
   exclusive_races:
@@ -85,6 +66,7 @@ ore_mine:
     - Elementals
     - Firewalker
     - Growth
+    - Icekin
     - Lux
     - Marshling
     - Merfolk
@@ -761,6 +743,37 @@ outpost:
     unit_lumber_costs: 1,1,20 # ratio, perk, max
 
 # END WOOD ELF AND SYLVAN
+
+# ICEKIN
+glacier:
+  name: Glacier
+  exclusive_races:
+    - Icekin
+  land_type: mountain
+  perks:
+    military_housing: 30
+    jobs: 0
+    reduces_offensive_power: 1,0.5,10
+
+gold_vein:
+  name: Gold Vein
+  exclusive_races:
+    - Icekin
+  land_type: mountain
+  perks:
+    gold_production_depleting: 100,0.4 # Produces 100 gold, reduced by 4 per day of the round (min 0)
+
+terrace:
+  name: Terrace
+  exclusive_races:
+    - Icekin
+  land_type: mountain
+  perks:
+    food_production: 50
+    jobs: 30
+
+
+# END ICEKIN
 
 # SWARM
 

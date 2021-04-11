@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\SelectorService;
+use Illuminate\Support\Carbon;
 
 /**
  * OpenDominion\Models\Dominion
@@ -706,6 +707,25 @@ class Dominion extends AbstractModel
                       $owned = $building->pivot->owned;
 
                       $effect = $owned / $landSize * $ratio * $multiplier;
+                  }
+                  # Production depleting
+                  elseif(
+                          # OP/DP mods
+                          $perkKey == 'gold_production_depleting'
+                          or $perkKey == 'gem_production_depleting'
+                          or $perkKey == 'ore_production_depleting'
+                          or $perkKey == 'mana_production_depleting'
+                          or $perkKey == 'lumber_production_depleting'
+                          or $perkKey == 'food_production_depleting'
+                      )
+                  {
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+                      $production = (float)$perkValues[0];
+                      $hourlyReduction = (float)$perkValues[1];
+                      $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($this->round->start_date)->startOfHour());
+
+                      $effect = max(0, ($production - ($hourlyReduction * $hoursSinceRoundStarted)));
+
                   }
               }
 

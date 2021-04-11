@@ -9,7 +9,7 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: gold,ore
+construction_materials: gold,mana
 
 archmages_cost: 500,gold
 
