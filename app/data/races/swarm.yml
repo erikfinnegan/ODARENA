@@ -26,8 +26,6 @@ perks:
   damage_from_insect_swarm: -100
   draftees_produce_mana: 1.5
   peasants_produce_food: 0.5
-  explore_cost: 25
-  explore_time: 2
 
 units:
   - name: Scarab
