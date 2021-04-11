@@ -24,6 +24,11 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Construction cost';
                 break;
+            case 'no_construction_costs':
+                $negativeBenefit = true;
+                $description = 'Free construction';
+                $booleanValue = true;
+                break;
             case 'rezone_cost':
                 $negativeBenefit = true;
                 $description = 'Rezoning cost';
@@ -52,6 +57,18 @@ class RaceHelper
                 $description = 'Lumber production from barren forest';
                 $booleanValue = 'static';
                 $valueType = ' lumber/tick';
+                break;
+            case 'barren_water_food_production':
+                $negativeBenefit = false;
+                $description = 'Food production from barren water';
+                $booleanValue = 'static';
+                $valueType = ' food/tick';
+                break;
+            case 'barren_mountain_ore_production':
+                $negativeBenefit = false;
+                $description = 'Ore production from barren mountains';
+                $booleanValue = 'static';
+                $valueType = ' ore/tick';
                 break;
             case 'extra_ore_mine_housing':
                 $negativeBenefit = false;

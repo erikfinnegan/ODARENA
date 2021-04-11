@@ -67,6 +67,12 @@ class ConstructionCalculator
     public function getConstructionCostPrimaryRaw(Dominion $dominion): float
     {
         $cost = 0;
+
+        if($dominion->race->getPerkValue('no_construction_costs'))
+        {
+            return $cost;
+        }
+
         $cost = 250 + ($this->landCalculator->getTotalLand($dominion) * 1.5);
         $cost /= 2;
 
@@ -98,6 +104,12 @@ class ConstructionCalculator
     public function getConstructionCostSecondaryRaw(Dominion $dominion): float
     {
         $cost = 0;
+
+        if($dominion->race->getPerkValue('no_construction_costs'))
+        {
+            return $cost;
+        }
+
         $cost = 100 + (($this->landCalculator->getTotalLand($dominion) - 250) * (pi()/10));
         $cost /= 2;
         return $cost;
@@ -125,6 +137,11 @@ class ConstructionCalculator
 
         $constructionMaterials = $this->raceHelper->getConstructionMaterials($dominion->race);
         $barrenLand = $this->landCalculator->getTotalBarrenLand($dominion);
+
+        if($dominion->race->getPerkValue('no_construction_costs'))
+        {
+            return $barrenLand;
+        }
 
         #if(isset($constructionMaterials[0]))
         #{

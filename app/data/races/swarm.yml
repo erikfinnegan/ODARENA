@@ -17,7 +17,7 @@ construction_materials: gold,lumber
 
 perks:
   extra_barren_max_population: 27
-  construction_cost: -100
+  no_construction_costs: 1
   cannot_rezone: 1
   food_consumption: -50
   immortal_spies: 1
