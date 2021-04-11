@@ -53,6 +53,7 @@ units:
       production_from_title: conjurer,mana,5 # resource, OP, title
       fewer_casualties_from_title: conjurer,75 # title, reduction
       defense_from_title: commander,1 # title, dp
+      no_draftee: 1
 
   - name: Frost Mage
     training_time: 6
@@ -73,6 +74,7 @@ units:
       wizard_from_title: conjurer,0.25 # wizard power, title
       fewer_casualties_from_title: conjurer,75 # title, reduction
       defense_from_title: commander,1 # title, dp
+      no_draftee: 1
 
   - name: Ice Drake
     training_time: 12
