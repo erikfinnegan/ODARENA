@@ -805,7 +805,7 @@ nest:
 tunnel:
   name: Tunnel
   exclusive_races:
-    - Growth
+    - Swarm
   land_type: hill
   perks:
     faster_return: 1,5,100,6 # per %, ratio, max, ticks reduced
