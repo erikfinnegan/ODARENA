@@ -36,7 +36,7 @@ units:
       food: 100
     power:
       offense: 2
-      defense: 0
+      defense: 1
     perks:
       value_conversion: 2,1 # [Killed]*2 = number of unit1 created
       food_consumption: 0.125
