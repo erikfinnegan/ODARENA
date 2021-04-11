@@ -493,6 +493,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromBuildingBasedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRawWizardRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRawSpyRatioPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromWizardRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromModWizardRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromModSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
