@@ -45,10 +45,9 @@ units:
       wizard: 1
     power:
       offense: 0
-      defense: 8
+      defense: 6
     perks:
       counts_as_wizard_offense: 1
-      counts_as_wizard_defense: 0.25
       immortal_wizard: 1
       production_from_title: conjurer,mana,5 # resource, OP, title
       fewer_casualties_from_title: conjurer,75 # title, reduction

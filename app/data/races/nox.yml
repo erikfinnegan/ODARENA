@@ -84,4 +84,4 @@ units:
       defense: 4
     perks:
       true_immortal: 1
-      offense_wizard_ratio: 2 # ratio%, max
+      offense_from_wizard_ratio: 2 # ratio%, max
