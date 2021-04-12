@@ -722,10 +722,16 @@ class Dominion extends AbstractModel
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);
                       $production = (float)$perkValues[0];
                       $hourlyReduction = (float)$perkValues[1];
-                      $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($this->round->start_date)->startOfHour());
+                      $hoursSinceRoundStarted = max(0, now()->startOfHour()->diffInHours(Carbon::parse($this->round->start_date)->startOfHour()));
 
-                      $effect = max(0, ($production - ($hourlyReduction * $hoursSinceRoundStarted)));
+                      if(!$this->round->hasStarted())
+                      {
+                          $hoursSinceRoundStarted = 0;
+                      }
 
+                      $perkValueString = max(0, ($production - ($hourlyReduction * $hoursSinceRoundStarted)));
+
+                      #dd($perkKey, $production, $hourlyReduction, $hoursSinceRoundStarted, $perkValueString);
                   }
               }
 
