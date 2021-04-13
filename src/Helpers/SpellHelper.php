@@ -156,7 +156,8 @@ class SpellHelper
 
             'offensive_power_on_retaliation' => '%s%% offensive power if target recently invaded your realm',
 
-            'defensive_power_vs_insect_swarm' => '%s%% offensive power if attacker has Insect Swarm',
+            'defensive_power_vs_insect_swarm' => '%s%% defensive power if attacker has Insect Swarm',
+            'offensive_power_vs_insect_swarm' => '%s%% offensive power if target has Insect Swarm',
 
             'reduces_target_raw_defense_from_land' => 'Targets raw defensive power lowered by %1$s%% for every %3$s%% forest, max %4$s%% reduction ',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
 

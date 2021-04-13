@@ -78,7 +78,7 @@
                                 <tr>
                                     <td class="text-center">Day:</td>
                                     <td class="text-center">
-                                        {{ number_format($currentRound->start_date->subDays(1)->diffInDays(now())) }} / {{ number_format($currentRound->durationInDays()) }}
+                                        {{ number_format($currentRound->start_date->subDays(1)->diffInDays(now())) }}
                                     </td>
                                 </tr>
                                 <tr>
