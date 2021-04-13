@@ -412,7 +412,7 @@ class ProductionCalculator
         // Faction Perk: barren_forest_lumber_production
         foreach ($this->landHelper->getLandTypes($dominion) as $landType)
         {
-            $lumber += $this->landCalculator->getTotalBarrenLand($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_lumber_production');
+            $lumber += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_lumber_production');
         }
 
         return max(0,$lumber - $upkeep);
