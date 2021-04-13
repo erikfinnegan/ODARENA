@@ -112,7 +112,7 @@ logging:
     - Sylvan
     - Wood Elf
   perks:
-    ore_production: 25,4000
+    lumber_production: 25,4000
 
 # Refinery
 mining:

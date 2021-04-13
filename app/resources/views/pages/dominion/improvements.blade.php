@@ -26,7 +26,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
     </div>
 @elseif(request()->getHost() == 'odarena.local')
     @php
-      $dominionImprovements = $improvementCalculator->getDominionImprovements($selectedDominion)->sortBy('name');
+        $dominionImprovements = $improvementCalculator->getDominionImprovements($selectedDominion)->sortBy('name');
     @endphp
     <div class="row">
 
@@ -68,7 +68,13 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                         <td>
                                             <button class="btn btn-default improve-max" data-type="{{ $improvement->key }}" type="button" style="width:4em;">Max</button>
                                         </td>
-                                        <td></td>
+                                        <td>
+                                            @foreach($improvement->perks as $perk)
+
+                                                {{ $selectedDominion->getImprovementPerkValue($perk->key) }}
+
+                                            @endforeach
+                                        </td>
                                         <td class="text-center">{{ number_format($improvementCalculator->getDominionImprovementAmountInvested($selectedDominion, $improvement)) }}</td>
                                     </tr>
                                 @endforeach

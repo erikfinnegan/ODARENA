@@ -46,6 +46,7 @@ class Improvement extends AbstractModel
         });
 
         if ($perks->isEmpty()) {
+            dd($key . ' is empty:', $perks);
             return 0;
         }
 

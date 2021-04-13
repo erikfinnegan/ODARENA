@@ -820,7 +820,7 @@ chitin:
   exclusive_races:
     - Swarm
   perks:
-    defensive_power_vs_insect_swarm: 1
+    defensive_power_vs_insect_swarm: 10
 
 rainy_season:
   name: Rainy Season
