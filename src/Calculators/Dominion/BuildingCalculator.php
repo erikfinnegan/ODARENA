@@ -198,15 +198,35 @@ class BuildingCalculator
             if($amountToDestroy['builtBuildingsToDestroy'] > 0)
             {
                 $building = Building::where('key', $buildingKey)->first();
-                $amount = intval($amountToDestroy['builtBuildingsToDestroy']);
+                $amountToDestroy = intval($amountToDestroy['builtBuildingsToDestroy']);
+                $owned = $this->getBuildingAmountOwned($dominion, $building);
 
                 if($this->dominionHasBuilding($dominion, $buildingKey))
                 {
-                    DB::transaction(function () use ($dominion, $building, $amount)
+                    # Are we destroying some or all?
+
+                    # Some...
+                    if($amountToDestroy < $owned)
                     {
-                        DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
-                        ->decrement('owned', $amount);
-                    });
+                        DB::transaction(function () use ($dominion, $building, $amountToDestroy)
+                        {
+                            DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
+                            ->decrement('owned', $amountToDestroy);
+                        });
+                    }
+                    # All
+                    elseif($amountToDestroy == $owned)
+                    {
+                        DB::transaction(function () use ($dominion, $building, $amountToDestroy)
+                        {
+                            DominionBuilding::where('dominion_id', $dominion->id)->where('building_id', $building->id)
+                            ->delete();
+                        });
+                    }
+                    else
+                    {
+                        // Do nothing.
+                    }
                 }
             }
         }

@@ -391,29 +391,40 @@ class ProductionCalculator
     {
         $lumber = 0;
 
+        echo '<pre>';
+
         if($dominion->getSpellPerkValue('no_lumber_production'))
         {
             return $lumber;
         }
 
-        // Values
-        $lumberPerLumberyard = 50;
-
         // Building: Lumberyard
         $lumber += $dominion->getBuildingPerkValue('lumber_production');
+        echo "Lumber with buildings: $lumber\n";
 
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
         $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
         $upkeep = $dominion->getUnitPerkProductionBonus('upkeep_lumber');
 
+        echo "Lumber with unit perks: $lumber\n";
+
         // Unit Perk: production_from_title
         $lumber += $dominion->getUnitPerkProductionBonusFromTitle('lumber');
+
+        echo "Lumber with production from title: $lumber\n";
 
         // Faction Perk: barren_forest_lumber_production
         foreach ($this->landHelper->getLandTypes($dominion) as $landType)
         {
             $lumber += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_lumber_production');
+            if($dominion->race->getPerkValue('barren_' . $landType . '_lumber_production'))
+            {
+                echo "Lumber from barren $landType (" . $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) . " acres): " . $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_lumber_production') . "\n";              
+            }
         }
+
+        echo "Lumber: $lumber\n";
+        echo '</pre>';
 
         return max(0,$lumber - $upkeep);
     }
