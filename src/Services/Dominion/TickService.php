@@ -840,7 +840,7 @@ class TickService
           // Starvation
 
           $tick->starvation_casualties = 0;
-          if($dominion->resource_food + $this->productionCalculator->getFoodNetChange($dominion) < 0)
+          if($dominion->resource_food + $tick->resource_food < 0)
           {
               $tick->resource_food = ($dominion->resource_food*-1);
               $tick->starvation_casualties = 10;
