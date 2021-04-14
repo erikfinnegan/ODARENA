@@ -733,14 +733,14 @@ rootforge:
     unit_lumber_costs: 1,1,20 # ratio, perk, max
 
 outpost:
-  name: Rootforge
+  name: Outpost
+  enabled: 0
   exclusive_races:
     - Sylvan
     - Wood Elf
-  land_type: forest
+  land_type: hill
   perks:
-    unit_gold_costs: 1,2,40 # ratio, perk, max
-    unit_lumber_costs: 1,1,20 # ratio, perk, max
+    military_housing: 36 # ratio, perk, max
 
 # END WOOD ELF AND SYLVAN
 
