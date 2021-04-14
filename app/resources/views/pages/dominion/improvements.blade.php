@@ -70,7 +70,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                         </td>
                                         <td>
                                             @foreach($improvement->perks as $perk)
-
+                                            
                                                 {{ $selectedDominion->getImprovementPerkValue($perk->key) }}
 
                                             @endforeach

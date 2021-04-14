@@ -665,6 +665,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'unit_lumber_costs'
                           or $perkKey == 'unit_mana_costs'
                           or $perkKey == 'unit_food_costs'
+                          or $perkKey == 'unit_blood_costs'
 
                           # Unit training
                           or $perkKey == 'extra_units_trained'
@@ -844,6 +845,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'unit_lumber_costs'
                          or $perkKey == 'unit_mana_costs'
                          or $perkKey == 'unit_food_costs'
+                         or $perkKey == 'unit_blood_costs'
 
                          or $perkKey == 'unit_gold_cost'
                          or $perkKey == 'unit_ore_cost'
@@ -950,29 +952,29 @@ class Dominion extends AbstractModel
         );
     }
 
-     /**
-      * @param string $key
-      * @return float
-      */
-      public function getImprovementPerkValue(string $perkKey): float
-      {
-          $perk = 0;
-          $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
+   /**
+    * @param string $key
+    * @return float
+    */
+    public function getImprovementPerkValue(string $perkKey): float
+    {
+        $perk = 0;
+        $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
 
-          foreach ($this->improvements as $improvement)
-          {
-              $perkValueString = $improvement->getPerkValue($perkKey);
+        foreach ($this->improvements as $improvement)
+        {
+            $perkValueString = $improvement->getPerkValue($perkKey);
 
-              $perkValues = $this->extractImprovementPerkValues($perkValueString);
-              $max = (float)$perkValues[1];
-              $coefficient = (float)$perkValues[0];
-              $invested = $improvement->pivot->invested;
+            $perkValues = $this->extractImprovementPerkValues($perkValueString);
+            $max = (float)$perkValues[1];
+            $coefficient = (float)$perkValues[0];
+            $invested = $improvement->pivot->invested;
 
-              $perk += $max * (1 - exp(-$invested / $coefficient * $landSize + 15000));
-          }
+            $perk += $max * (1 - exp(-$invested / $coefficient * $landSize + 15000));
+        }
 
-          return $perk;
-      }
+        return $perk;
+    }
 
     /**
      * @param string $key

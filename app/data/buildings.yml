@@ -873,7 +873,7 @@ altar:
     - Demon
   land_type: swamp
   perks:
-    unit_blood_costs: 1,1,100 # Every 1% gives 1% extra units, max +100%
+    unit_blood_costs: 1,1,100 # ratio, perk, ma
     housing: 62
 
 # HOME ALTERNATIVES

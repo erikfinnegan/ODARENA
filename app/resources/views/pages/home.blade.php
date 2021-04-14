@@ -93,9 +93,9 @@
                         </table>
                     </div>
                     <div class="box-footer text-center">
-                        @if ($currentRound->daysUntilEnd() < 1)
+                        @if ($currentRound->hasCountDown())
                             <p>
-                                <em class="text-red">The round ends in {{ $currentRound->daysUntilEnd() }} {{ str_plural('day', $currentRound->daysUntilEnd()) }}.</em>
+                                <em class="text-red">The round ends in {{ $currentRound->hoursUntilEnd() }} {{ str_plural('hour', $currentRound->hoursUntilEnd()) }}.</em>
                             </p>
                         @else
                             <p>
@@ -107,55 +107,7 @@
                     </div>
                 @endif
             </div>
-            @if ($currentRound !== null)
-                <div class="box">
-                    <div class="box-header with-border text-center">
-                        <h3 class="box-title">
-                            {{ $currentRound->hasStarted() && !$currentRound->hasEnded() ? 'Current' : 'Previous' }} Round Rankings
-                        </h3>
-                        <div class="box-body table-responsive no-padding">
-                            @if ($currentRankings !== null && !$currentRankings->isEmpty())
-                                <table class="table">
-                                    <colgroup>
-                                        <col>
-                                        <col>
-                                        <col>
-                                        <col>
-                                    </colgroup>
-                                    <thead>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($currentRankings as $row)
-                                            <tr>
-                                                <td class="text-center">{{ $row->land_rank }}</td>
-                                                <td>
-                                                    {{ $row->dominion_name }} (#{{ $row->realm_number }})
-                                                </td>
-                                                <td class="text-center">{{ number_format($row->land) }}</td>
-                                                <td class="text-center">
-                                                    @php
-                                                        $rankChange = (int)$row->land_rank_change;
-                                                    @endphp
-                                                    @if ($rankChange > 0)
-                                                        <span class="text-success"><i class="fa fa-caret-up"></i> {{ $rankChange }}</span>
-                                                    @elseif ($rankChange === 0)
-                                                        <span class="text-warning">-</span>
-                                                    @else
-                                                        <span class="text-danger"><i class="fa fa-caret-down"></i> {{ abs($rankChange) }}</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                No rankings recorded yet.
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
+        </div>
         <div class="col-sm-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
