@@ -61,7 +61,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 300
+      gold: 350
       wizard: 1
     power:
       offense: 0
