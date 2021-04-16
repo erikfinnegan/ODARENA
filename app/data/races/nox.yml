@@ -66,7 +66,7 @@ units:
       offense: 0
       defense: 4
     perks:
-      defense_from_buildings: home;temple;wizard_guild;tower,10,6 # buildings; ratio; max
+      defense_from_buildings: abode;temple;wizard_guild;tower,10,6 # buildings; ratio; max
       no_draftee: 1
 
   - name: Lich
