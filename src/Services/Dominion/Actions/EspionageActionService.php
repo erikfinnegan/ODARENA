@@ -827,11 +827,11 @@ class EspionageActionService
         $theftAmount = min($availableResource * $ratio, $spyUnits * $maxPerSpy) * (0.9 + $dominion->spy_strength / 1000);
 
         # The stealer can increase
-        $thiefModifier = 0;
+        $thiefModifier = 1;
         $thiefModifier += $dominion->getTechPerkMultiplier('amount_stolen');
         $thiefModifier += $dominion->race->getPerkMultiplier('amount_stolen');
 
-        $theftAmount *= (1 + $thiefModifier);
+        $theftAmount *= $thiefModifier;
 
         # But the target can decrease, which comes afterwards
         $targetModifier = 0;

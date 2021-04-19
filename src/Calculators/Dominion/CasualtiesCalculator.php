@@ -175,11 +175,11 @@ class CasualtiesCalculator
             if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null))
             {
                 $titleKey = $titlePerkData[0];
-                $titlePower = $titlePerkData[1];
+                $titlePowerRatio = $titlePerkData[1] / 100;
 
                 if($dominion->title->key == $titleKey)
                 {
-                    $multiplier -= $titlePower/100;
+                    $multiplier -= $titlePowerRatio;
                 }
             }
 
@@ -334,16 +334,16 @@ class CasualtiesCalculator
             if ($slot)
             {
                 $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_defense']) / 100);
-
+                
                 # Unit Perk: Fewer Casualties From Title
-                $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null);
-                if($titlePerkData)
+                if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null))
                 {
                     $titleKey = $titlePerkData[0];
-                    $titlePower = $titlePerkData[1];
+                    $titlePowerRatio = $titlePerkData[1] / 100;
+
                     if($dominion->title->key == $titleKey)
                     {
-                        $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title') / 100);
+                        $multiplier -= $titlePowerRatio;
                     }
                 }
             }

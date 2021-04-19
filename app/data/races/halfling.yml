@@ -16,7 +16,7 @@ perks:
   extra_barren_max_population: 10
   food_consumption: -30
   salvaging: 25
-  amount_stolen: 200
+  amount_stolen: 100
 units:
 
   - name: Slinger
