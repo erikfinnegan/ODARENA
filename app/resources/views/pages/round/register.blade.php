@@ -60,24 +60,38 @@
                     <div class="col-sm-6">
                         <select name="race" id="faction" class="form-control select2" data-placeholder="Select a faction" required>
                             <option></option>
-                            <option value="random_any">Random</option>
+                            <option value="random_any"
+                                      data-current="{{ array_sum($countAlignment) }}">
+                                  Random
+                            </option>
 
                             <optgroup label="The Commonwealth">
-                                <option value="random_commonwealth">Random Commonwealth</option>
+                                <option value="random_commonwealth"
+                                          data-current="{{ isset($countAlignment['good']) ? number_format($countAlignment['good']) : 0 }}"
+                                          data-alignment="Commonwealth">
+                                      Random Commonwealth
+                                </option>
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
                                     <option value="{{ $race->id }}"
-                                          class="faction"
-                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}">
+                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
+                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') ? number_format($race->getPerkValue('max_per_round')) : 0 }}"
+                                          data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
                                         {{ $race->name }}
                                     </option>
                                 @endforeach
                             </optgroup>
 
                             <optgroup label="The Empire">
-                                <option value="random_empire">Random Imperial</option>
+                                <option value="random_empire"
+                                          data-current="{{ isset($countAlignment['evil']) ? number_format($countAlignment['evil']) : 0 }}"
+                                          data-alignment="Imperial">
+                                      Random Imperial
+                                </option>
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
                                     <option value="{{ $race->id }}"
-                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}">
+                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
+                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') ? number_format($race->getPerkValue('max_per_round')) : 0 }}"
+                                          data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
                                         {{ $race->name }}
                                     </option>
                                 @endforeach
@@ -85,19 +99,22 @@
 
                             <optgroup label="The Independent">
                                 <option value="random_independent"
-                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}">
+                                          data-current="{{ isset($countAlignment['independent']) ? number_format($countAlignment['independent']) : 0 }}"
+                                          data-alignment="Independent">
                                       Random Independent
                                 </option>
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
                                     <option value="{{ $race->id }}"
-                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}">
+                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
+                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') ? number_format($race->getPerkValue('max_per_round')) : 0 }}"
+                                          data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
                                         {{ $race->name }}
                                     </option>
                                 @endforeach
                             </optgroup>
 
                       </select>
-                        <p class="help-block">Check The Scribes for details about each faction.</p>
+                        <p class="help-block">Consult <a href="{{ route('scribes.factions') }}" target="_blank">The Scribes</a> for details about each faction.</p>
                     </div>
                 </div>
 
@@ -188,30 +205,40 @@
             @endif
         })(jQuery);
 
-        function select2Template(state) {
+        function select2Template(state)
+        {
             if (!state.id)
             {
                 return state.text;
             }
 
+            const current = state.element.dataset.current;
+
             var xId = state.id;
 
-            if(xId.startsWith("random"))
+            if(xId.startsWith("random") && state.id !== 'random_any')
             {
-
+                const alignment = state.element.dataset.alignment;
                 return $(`
                     <div class="pull-left">${state.text}</div>
+                    <div class="pull-right">${current} total dominion(s) in the ${alignment} realm</div>
                     <div style="clear: both;"></div>
                 `);
-
             }
 
-
-            const current = state.element.dataset.current;
+            if(state.id == 'random_any')
+            {
+                const alignment = state.element.dataset.alignment;
+                return $(`
+                    <div class="pull-left">${state.text}</div>
+                    <div class="pull-right">${current} total dominion(s) registered</div>
+                    <div style="clear: both;"></div>
+                `);
+            }
 
             return $(`
                 <div class="pull-left">${state.text}</div>
-                <div class="pull-right">${current} currently</div>
+                <div class="pull-right">${current} dominion(s)</div>
                 <div style="clear: both;"></div>
             `);
         }
