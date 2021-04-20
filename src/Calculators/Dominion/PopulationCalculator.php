@@ -506,6 +506,8 @@ class PopulationCalculator
         // Perk
         $multiplier += $dominion->race->getPerkMultiplier('drafting');
 
+        $growthFactor *= $multiplier;
+
         if ($this->getPopulationMilitaryPercentage($dominion) < $dominion->draft_rate)
         {
             $draftees += round($dominion->peasants * $growthFactor);
