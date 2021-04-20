@@ -16,7 +16,7 @@
                 <!-- Dominion Name -->
                 <div class="form-group">
                     <label for="dominion_name" class="col-sm-3 control-label">Dominion Name</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <input type="text" name="dominion_name" id="dominion_name" class="form-control" placeholder="Dominion Name" value="{{ old('dominion_name') }}" maxlength="50" required autofocus>
                         <p class="help-block">Your dominion name is shown when viewing and interacting with other players.</p>
                     </div>
@@ -24,22 +24,21 @@
 
                 <!-- Title -->
                 <div class="form-group">
-                    <label for="ruler_name" class="col-sm-3 control-label">Ruler Title</label>
-                    <div class="col-sm-9">
-                        <select name="title" id="title" class="form-control select2" required>
-                        <option disabled selected>-- Select Ruler Title --</option>
-                        @foreach ($titles as $title)
+                    <label for="title" class="col-sm-3 control-label">Ruler Title</label>
+                    <div class="col-sm-6">
+                        <select name="title" id="title" class="form-control select2" data-placeholder="Select a title" required>
+                          <option></option>
+                            @foreach ($titles as $title)
 
-                        <option value="{{ $title->id }}">
-                              {{ $title->name }}
-                              (@foreach ($title->perks as $perk)
-                                  @php
-                                      $perkDescription = $titleHelper->getPerkDescriptionHtmlWithValue($perk);
-                                  @endphp
-                                      {!! $perkDescription['description'] !!} {!! $perkDescription['value']  !!}
-                              @endforeach)
-                        </option>
-
+                            <option value="{{ $title->id }}">
+                                  {{ $title->name }}
+                                  (@foreach ($title->perks as $perk)
+                                      @php
+                                          $perkDescription = $titleHelper->getPerkDescriptionHtmlWithValue($perk);
+                                      @endphp
+                                          {!! $perkDescription['description'] !!} {!! $perkDescription['value']  !!}
+                                  @endforeach)
+                            </option>
                         @endforeach
                       </select>
                         <p class="help-block">This is the title you will go by. Select one that complements your intended strategy.</p>
@@ -49,7 +48,7 @@
                 <!-- Ruler Name -->
                 <div class="form-group">
                     <label for="ruler_name" class="col-sm-3 control-label">Ruler Name</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <input type="text" name="ruler_name" id="ruler_name" class="form-control" placeholder="{{ Auth::user()->display_name }}" value="{{ old('ruler_name') }}">
                         <p class="help-block">If you leave it as default ({{ Auth::user()->display_name }}), you get 100 extra prestige for playing under your real display name.</p>
                     </div>
@@ -57,151 +56,57 @@
 
                 <!-- Race -->
                 <div class="form-group">
-                    <label for="race" class="col-sm-3 control-label">Faction</label>
-                    <div class="col-sm-9">
-                        <div class="row">
+                    <label for="faction" class="col-sm-3 control-label">Faction</label>
+                    <div class="col-sm-6">
+                        <select name="race" id="faction" class="form-control select2" data-placeholder="Select a faction" required>
+                            <option></option>
+                            <option value="random_any">Random</option>
 
-                            <!-- Commonwealth -->
-                            <div class="col-xs-12">
-                              <div class="row">
-                                  <div class="col-xs-1">
-                                    <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
-                                  </div>
-                                  <div class="col-xs-11">
-                                    <h2>The Commonwealth</h2>
-                                    <p>The Commonwealth is a union of factions and races which have come together and joined forces in response to the Empire.</p>
+                            <optgroup label="The Commonwealth">
+                                <option value="random_commonwealth">Random Commonwealth</option>
+                                @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
+                                    <option value="{{ $race->id }}"
+                                          class="faction"
+                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}">
+                                        {{ $race->name }}
+                                    </option>
+                                @endforeach
+                            </optgroup>
 
-                                    <p>So far,
-                                    @if(isset($countAlignment['good']))
-                                      {{ number_format($countAlignment['good']) }}
-                                    @else
-                                      no
-                                    @endif
-                                     dominions have joined the Commonwealth this round.</p>
-                                  </div>
+                            <optgroup label="The Empire">
+                                <option value="random_empire">Random Imperial</option>
+                                @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
+                                    <option value="{{ $race->id }}"
+                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}">
+                                        {{ $race->name }}
+                                    </option>
+                                @endforeach
+                            </optgroup>
 
-                                    @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
-                                        @include('partials.register-faction')
-                                    @endforeach
-                                </div>
-                            </div>
+                            <optgroup label="The Independent">
+                                <option value="random_independent"
+                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}">
+                                      Random Independent
+                                </option>
+                                @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
+                                    <option value="{{ $race->id }}"
+                                          data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}">
+                                        {{ $race->name }}
+                                    </option>
+                                @endforeach
+                            </optgroup>
 
-                            <!-- Empire -->
-                            <div class="col-xs-12">
-                                <div class="row">
-                                      <div class="col-xs-1">
-                                        <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
-                                      </div>
-                                      <div class="col-xs-11">
-                                        <h2>The Empire</h2>
-                                        <p>Seizing the opportunity, the Orcish Empress formed the fledgling Empire only recently but sits unquestioned at the thrones and rules with a firm grip.</p>
-                                        <p>So far,
-                                        @if(isset($countAlignment['evil']))
-                                          {{ number_format($countAlignment['evil']) }}
-                                        @else
-                                          no
-                                        @endif
-                                         dominions have joined the Empire this round.</p>
-                                      </div>
-                                </div>
-
-                                <div class="row">
-
-                                    @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
-                                        @include('partials.register-faction')
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <!-- Independent -->
-                            <div class="col-xs-12">
-                                  <div class="row">
-                                    <div class="col-xs-1">
-                                      <img src="{{ asset('assets/app/images/independent.svg') }}" class="img-responsive" alt="Independent">
-                                    </div>
-                                    <div class="col-xs-11">
-                                      <h2>Independent</h2>
-                                      <p>Unaffected or unaffiliated, or even unaware, these are the factions which do not align with Empire or the Commonwealth. Preferring to be left alone, they have been forced to band together as a tattered band of forces dedicated to maintaining their independence.</p>
-                                      <p>So far,
-                                      @if(isset($countAlignment['independent']))
-                                        {{ number_format($countAlignment['independent']) }}
-                                      @else
-                                        no
-                                      @endif
-                                       dominions have joined the Independents this round.</p>
-                                    </div>
-                                  </div>
-                                <div class="row">
-                                    @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
-                                        @include('partials.register-faction')
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            @if(stristr(Auth::user()->email, '@lykanthropos.com') or stristr(Auth::user()->email, '@odarena.local') or stristr(Auth::user()->email, '@odarena.com') or stristr(Auth::user()->email, '@odarena.com'))
-                            <div class="col-xs-12">
-                                  <div class="row">
-                                      <div class="col-xs-1">
-                                        <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" alt="Barbarian Horde">
-                                      </div>
-                                      <div class="col-xs-11">
-                                        <h2>Barbarian Horde</h2>
-                                        <p></p>
-                                      </div>
-                                  </div>
-
-                                <div class="row">
-                                    @foreach ($races->filter(function ($race) { return $race->alignment === 'npc'; }) as $race)
-                                    <div class="col-xs-12">
-                                        <label class="btn btn-block" style="border: 1px solid #d2d6de; margin: 5px 0px; white-space: normal;">
-                                            <div class="row text-left">
-                                                <div class="col-lg-4">
-                                                    <p>
-                                                        <input type="radio" name="race" value="{{ $race->id }}" autocomplete="off" {{ (old('race') == $race->id) ? 'checked' : null }} required>
-                                                        <strong>{{ $race->name }}</strong>
-                                                        &nbsp;&mdash;&nbsp;
-                                                    <a href="{{ route('scribes.faction', $race->name) }}">Scribes</a>
-                                                    </p>
-                                                    <p>
-                                                    Currently:&nbsp;
-                                                    @if(isset($countRaces[$race->name]))
-                                                      {{ number_format($countRaces[$race->name]) }}
-                                                    @else
-                                                    0
-                                                    @endif
-                                                  </p>
-                                                  </p>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                  <ul>
-                                                    <li>Attacking: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->attacking)))) }}</li>
-                                                    <li>Converting: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->converting)))) }}</li>
-                                                    <li>Exploring: {{ str_replace('0','Unplayable',str_replace(1,'Difficult',str_replace(2,'Challenging', str_replace(3,'Apt',$race->exploring)))) }}</li>
-                                                  </ul>
-                                                </div>
-
-                                            </div>
-                                        </label>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            @endif
-
-
-
-
-                        </div>
+                      </select>
+                        <p class="help-block">Check The Scribes for details about each faction.</p>
                     </div>
                 </div>
 
                 {{-- Terms and Conditions --}}
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9">
+                    <div class="col-sm-offset-3 col-sm-6">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="terms" required> I agree to the <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a>
+                                <input type="checkbox" name="terms" required> I have read, understood, and agree with the <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a> and the <a href="{{ route('legal.privacypolicy') }}">Privacy Policy</a>
                             </label>
                         </div>
                     </div>
@@ -210,7 +115,7 @@
 
                 {{-- Notice --}}
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9">
+                    <div class="col-sm-offset-3 col-sm-6">
 
                       @if($round->hasStarted())
                           @if($round->hasCountdown())
@@ -228,7 +133,7 @@
 
                       @else
                           <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
-                          <p>When you register, you start with 84 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
+                          <p>When you register, you start with 96 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
                           <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
 
                             @if ($discordInviteLink = config('app.discord_invite_link'))
@@ -252,33 +157,63 @@
     </div>
 @endsection
 
+@push('page-styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}">
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.full.min.js') }}"></script>
+@endpush
+
 @push('inline-scripts')
     <script type="text/javascript">
         (function ($) {
-            var realmTypeEl = $('#realm_type');
-            var createPackOnlyEls = $('.create-pack-only');
-            var joinPackOnlyEls = $('.join-pack-only');
+            $('#title').select2({
+                templateResult: select2Template,
+                templateSelection: select2Template,
+            });
+            @if (session('title'))
+                $('#title').val('{{ session('title') }}').trigger('change.select2').trigger('change');
+            @endif
+        })(jQuery);
 
-            function updatePackInputs() {
-                var realmTypeOption = realmTypeEl.find(':selected');
 
-                if (realmTypeOption.val() === 'join_pack') {
-                    createPackOnlyEls.hide();
-                    joinPackOnlyEls.show();
+        (function ($) {
+            $('#faction').select2({
+                templateResult: select2Template,
+                templateSelection: select2Template,
+            });
+            @if (session('faction'))
+                $('#faction').val('{{ session('faction') }}').trigger('change.select2').trigger('change');
+            @endif
+        })(jQuery);
 
-                } else if (realmTypeOption.val() === 'create_pack') {
-                    joinPackOnlyEls.hide();
-                    createPackOnlyEls.show();
-
-                } else {
-                    createPackOnlyEls.hide();
-                    joinPackOnlyEls.hide();
-                }
+        function select2Template(state) {
+            if (!state.id)
+            {
+                return state.text;
             }
 
-            realmTypeEl.on('change', updatePackInputs);
+            var xId = state.id;
 
-            updatePackInputs();
-        })(jQuery);
+            if(xId.startsWith("random"))
+            {
+
+                return $(`
+                    <div class="pull-left">${state.text}</div>
+                    <div style="clear: both;"></div>
+                `);
+
+            }
+
+
+            const current = state.element.dataset.current;
+
+            return $(`
+                <div class="pull-left">${state.text}</div>
+                <div class="pull-right">${current} currently</div>
+                <div style="clear: both;"></div>
+            `);
+        }
     </script>
 @endpush
