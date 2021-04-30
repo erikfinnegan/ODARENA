@@ -39,7 +39,7 @@ use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 class TickService
 {
 
-    protected const LAND_TO_TRIGGER_COUNTDOWN = 10000;
+    protected const LAND_TO_TRIGGER_COUNTDOWN = 8000;
     protected const COUNTDOWN_DURATION_HOURS = 12;
 
     /** @var Carbon */
