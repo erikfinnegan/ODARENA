@@ -15,6 +15,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 # ODA
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\RealmCalculator;
+use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Services\Dominion\BarbarianService;
@@ -25,6 +26,7 @@ class RealmController extends AbstractDominionController
     public function getRealm(Request $request, int $realmNumber = null)
     {
         $landCalculator = app(LandCalculator::class);
+        $barbarianCalculator = app(BarbarianCalculator::class);
         $networthCalculator = app(NetworthCalculator::class);
         $protectionService = app(ProtectionService::class);
         $guardMembershipService = app(GuardMembershipService::class);
@@ -143,7 +145,7 @@ class RealmController extends AbstractDominionController
         {
             $alignmentNoun = 'Barbarian';
             $alignmentAdjective = 'Barbarian';
-            $barbarianSettings = $barbarianService->getSettings();
+            $barbarianSettings = $barbarianCalculator->getSettings();
         }
 
         // Todo: refactor this hacky hacky navigation stuff

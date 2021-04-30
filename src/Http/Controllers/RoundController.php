@@ -123,18 +123,38 @@ class RoundController extends AbstractController
                 ->withErrors([$e->getMessage()]);
         }
 
-        // todo: make this its own FormRequest class? Might be hard due to depending on $round->pack_size, needs investigating
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $this->validate($request, [
-            'dominion_name' => 'required|string|min:3|max:50',
-            'ruler_name' => 'nullable|string|max:50',
-            'race' => 'required|exists:races,id',
-            'title' => 'required|exists:titles,id',
-            'realm_type' => 'in:random,join_pack,create_pack',
-            'pack_name' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
-            'pack_password' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
-            'pack_size' => "integer|min:2|max:{$round->pack_size}|required_if:realm,create_pack",
-        ]);
+        if(in_array($request['race'], ['random_any', 'random_evil', 'random_good', 'random_independent']))
+        {
+            $this->validate($request, [
+                'dominion_name' => 'required|string|min:3|max:50',
+                'ruler_name' => 'nullable|string|max:50',
+                'title' => 'required|exists:titles,id',
+            ]);
+
+            $alignment = str_replace('random_', '', $request['race']);
+            $alignment = str_replace('npc', 'any', $alignment);
+            $alignment = str_replace('any', '%', $alignment);
+
+            $races = DB::table('races')
+                      ->where('alignment', 'like', $alignment)
+                      ->where('playable', 1)
+                      ->pluck('id')->all();
+
+            $request['race'] = $races[array_rand($races)];
+        }
+        else
+        {
+            $this->validate($request, [
+                'dominion_name' => 'required|string|min:3|max:50',
+                'ruler_name' => 'nullable|string|max:50',
+                'race' => 'required|exists:races,id',
+                'title' => 'required|exists:titles,id',
+                #'realm_type' => 'in:random,join_pack,create_pack',
+                #'pack_name' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
+                #'pack_password' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
+                #'pack_size' => "integer|min:2|max:{$round->pack_size}|required_if:realm,create_pack",
+            ]);
+        }
 
         $roundsPlayed = DB::table('dominions')
                             ->where('dominions.user_id', '=', Auth::user()->id)
@@ -257,6 +277,7 @@ class RoundController extends AbstractController
                     'data' => NULL,
                 ]);
 
+                /*
                 if ($request->get('realm_type') === 'create_pack') {
                     $pack = $this->packService->createPack(
                         $dominion,
@@ -271,6 +292,7 @@ class RoundController extends AbstractController
                     $pack->realm_id = $realm->id;
                     $pack->save();
                 }
+                */
             });
 
         } catch (QueryException $e) {
@@ -281,10 +303,9 @@ class RoundController extends AbstractController
                 dd($e->getMessage());
             }
 
-
             return redirect()->back()
                 ->withInput($request->all())
-                ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round."]);
+                ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round, or another error occurred."]);
 
         } catch (GameException $e) {
             return redirect()->back()

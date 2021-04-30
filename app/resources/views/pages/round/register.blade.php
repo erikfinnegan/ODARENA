@@ -50,7 +50,7 @@
                     <label for="ruler_name" class="col-sm-3 control-label">Ruler Name</label>
                     <div class="col-sm-6">
                         <input type="text" name="ruler_name" id="ruler_name" class="form-control" placeholder="{{ Auth::user()->display_name }}" value="{{ old('ruler_name') }}">
-                        <p class="help-block">If you leave it as default ({{ Auth::user()->display_name }}), you get 100 extra prestige for playing under your real display name.</p>
+                        <p class="help-block">If you leave it as default ({{ Auth::user()->display_name }}), you get 100 extra prestige for playing with your real display name.</p>
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@
                             </option>
 
                             <optgroup label="The Commonwealth">
-                                <option value="random_commonwealth"
+                                <option value="random_good"
                                           data-current="{{ isset($countAlignment['good']) ? number_format($countAlignment['good']) : 0 }}"
                                           data-alignment="Commonwealth">
                                       Random Commonwealth
@@ -82,7 +82,7 @@
                             </optgroup>
 
                             <optgroup label="The Empire">
-                                <option value="random_empire"
+                                <option value="random_evil"
                                           data-current="{{ isset($countAlignment['evil']) ? number_format($countAlignment['evil']) : 0 }}"
                                           data-alignment="Imperial">
                                       Random Imperial

@@ -20,11 +20,6 @@
                                     <col width="50%">
                                     <col width="50%">
                                 </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Overview</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
                                         <td>Ruler:</td>
@@ -87,11 +82,6 @@
                                     <col width="50%">
                                     <col width="50%">
                                 </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Resources</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
                                         <td>Gold:</td>
@@ -150,11 +140,6 @@
                                     <col width="50%">
                                     <col width="50%">
                                 </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th colspan="2">Military</th>
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
                                         <td>Morale:</td>

@@ -49,13 +49,13 @@ units:
       - intelligent
       - massive
     cost:
-      gold: 300000
+      gold: 400000
     power:
       offense: 0
       defense: 2200
     perks:
       food_consumption: 40
-      housing_count: 30
+      housing_count: 36
 
   - name: Kraken
     training_time: 12
@@ -65,10 +65,10 @@ units:
       - intelligent
       - massive
     cost:
-      gold: 200000
+      gold: 210000
     power:
       offense: 1200
       defense: 700
     perks:
       food_consumption: 25
-      housing_count: 20
+      housing_count: 24

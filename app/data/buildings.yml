@@ -753,7 +753,7 @@ glacier:
   perks:
     military_housing: 30
     jobs: 0
-    reduces_offensive_power: 1,0.5,10
+    reduces_offensive_power: 1,1,10
 
 gold_vein:
   name: Gold Vein
@@ -873,8 +873,8 @@ altar:
     - Demon
   land_type: swamp
   perks:
-    unit_blood_costs: 1,1,100 # ratio, perk, ma
-    housing: 62
+    unit_blood_costs: 1,1,100 # ratio, perk, max
+    housing: 40
 
 # HOME ALTERNATIVES
 
@@ -942,7 +942,6 @@ chamber:
   name: Chamber
   exclusive_races:
     - Dark Elf
-    - Demon
     - Dwarf
     - Gnome
     - Imperial Gnome

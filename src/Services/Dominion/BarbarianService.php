@@ -21,63 +21,10 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Http\Requests\Dominion\Actions\InvadeActionRequest;
 use OpenDominion\Services\Dominion\Actions\InvadeActionService;
+use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 
 class BarbarianService
 {
-
-    protected const DPA_CONSTANT = 25;
-    protected const DPA_PER_HOUR = 0.40;
-    protected const DPA_PER_TIMES_INVADED = 0.005;
-
-    protected const OPA_MULTIPLIER = 1;
-
-    # Train % of new units as specs. /1000
-    protected const SPECS_RATIO_MIN = 50;
-    protected const SPECS_RATIO_MAX = 500;
-
-    # Chance to hit
-    protected const CHANCE_TO_HIT_CONSTANT = 14;
-
-    # Gain % of land between these two values when hitting. /1000
-    # Current formula returns:
-    #  40% - 1.5% raw 3.0% total
-    #  60% - 1.7% raw 3.4% total
-    #  65% - 2.3% raw 4.6% total
-    #  75% - 3.6% raw 7.2% total
-    #  85% - 4.6% raw 9.2% total
-    #  95% - 5.5% raw 11.0% total
-    # 100% - 6.0% raw 12.0% total
-    # 120% - 8.0% raw 16.0% total
-    # 133% - 9.20% raw 18.4% total
-
-    protected const LAND_GAIN_MIN = 46; # 65% hit
-    protected const LAND_GAIN_MAX = 110; # 95% hit
-
-    # Send between these two values when hitting. /1000
-    protected const SENT_RATIO_MIN = 800;
-    protected const SENT_RATIO_MAX = 1000;
-
-    # Lose % of units between these two values when hitting. /1000
-    protected const CASUALTIES_MIN = 50;
-    protected const CASUALTIES_MAX = 100;
-
-    # Train between these two values % of required units per tick. /1000
-    // Disabled, always training 100%.
-    protected const UNITS_TRAINED_MIN = 800;
-    protected const UNITS_TRAINED_MAX = 1200;
-
-    # Training time in ticks
-    protected const UNITS_TRAINING_TICKS = 6;
-    protected const CONSTRUCTION_TIME = 12;
-
-    # Unit powers
-    protected const UNIT1_OP = 3;
-    protected const UNIT2_DP = 3;
-    protected const UNIT3_DP = 5;
-    protected const UNIT4_OP = 5;
-
-    # Chance each tick for new Barbarian to spawn
-    protected const ONE_IN_CHANCE_TO_SPAWN = 84;
 
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
@@ -100,154 +47,10 @@ class BarbarianService
         $this->landCalculator = app(LandCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->dominionFactory = app(DominionFactory::class);
-    }
-
-    public function getSettings(): array
-    {
-        $settings = [
-            'DPA_CONSTANT' => static::DPA_CONSTANT,
-            'DPA_PER_HOUR' => static::DPA_PER_HOUR,
-            'DPA_PER_TIMES_INVADED' => static::DPA_PER_TIMES_INVADED,
-            'OPA_MULTIPLIER' => static::OPA_MULTIPLIER,
-            'SPECS_RATIO_MIN' => static::SPECS_RATIO_MIN,
-            'SPECS_RATIO_MAX' => static::SPECS_RATIO_MAX,
-            'CHANCE_TO_HIT_CONSTANT' => static::CHANCE_TO_HIT_CONSTANT,
-            'LAND_GAIN_MIN' => static::LAND_GAIN_MIN,
-            'LAND_GAIN_MAX' => static::LAND_GAIN_MAX,
-            'SENT_RATIO_MIN' => static::SENT_RATIO_MIN,
-            'SENT_RATIO_MAX' => static::SENT_RATIO_MAX,
-            'CASUALTIES_MIN' => static::CASUALTIES_MIN,
-            'CASUALTIES_MAX' => static::CASUALTIES_MAX,
-            'UNITS_TRAINED_MIN' => static::UNITS_TRAINED_MIN,
-            'UNITS_TRAINED_MAX' => static::UNITS_TRAINED_MAX,
-            'UNITS_TRAINING_TICKS' => static::UNITS_TRAINING_TICKS,
-            'CONSTRUCTION_TIME' => static::CONSTRUCTION_TIME,
-            'UNIT1_OP' => static::UNIT1_OP,
-            'UNIT2_DP' => static::UNIT2_DP,
-            'UNIT3_DP' => static::UNIT3_DP,
-            'UNIT4_OP' => static::UNIT4_OP,
-            'ONE_IN_CHANCE_TO_SPAWN' => static::ONE_IN_CHANCE_TO_SPAWN,
-        ];
-
-        return $settings;
-    }
-
-    public function getSetting(string $setting): string
-    {
-        $value = null;
-        $settings = $this->getSettings();
-        if(isset($settings[$setting]))
-        {
-            $value = $settings[$setting];
-        }
-
-        return $value;
-    }
-
-    private function getDpaTarget(Dominion $dominion): int
-    {
-        $calculateDate = max($dominion->round->start_date, $dominion->created_at);
-
-        $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
-        $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * (static::DPA_PER_HOUR + ($dominion->stat_defending_failures * static::DPA_PER_TIMES_INVADED)));
-        return $dpa *= ($dominion->npc_modifier / 1000);
-    }
-
-    private function getOpaTarget(Dominion $dominion): int
-    {
-        return $this->getDpaTarget($dominion) * static::OPA_MULTIPLIER;
-    }
-
-    # Includes units out on attack.
-    private function getDpCurrent(Dominion $dominion): int
-    {
-        $dp = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 2) * static::UNIT2_DP;
-        $dp += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 3) * static::UNIT3_DP;
-
-        return $dp;
-    }
-
-    # Includes units at home and out on attack.
-    private function getOpCurrent(Dominion $dominion): int
-    {
-        $op = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 1) * static::UNIT1_OP;
-        $op += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 4) * static::UNIT4_OP;
-
-        return $op;
-    }
-
-    # Includes units at home and out on attack.
-    private function getOpAtHome(Dominion $dominion): int
-    {
-        $op = $dominion->military_unit1 * static::UNIT1_OP;
-        $op += $dominion->military_unit4 * static::UNIT4_OP;
-
-        return $op;
-    }
-
-    private function getDpPaid(Dominion $dominion): int
-    {
-        $dp = $this->getDpCurrent($dominion);
-        $dp += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit2') * static::UNIT2_DP;
-        $dp += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit3') * static::UNIT3_DP;
-
-        return $dp;
-    }
-
-    private function getOpPaid(Dominion $dominion): int
-    {
-        $op = $this->getOpCurrent($dominion);
-        $op += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit1') * static::UNIT1_OP;
-        $op += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit4') * static::UNIT4_OP;
-
-        return $op;
-    }
-
-    private function getDpaCurrent(Dominion $dominion): int
-    {
-        return $this->getDpCurrent($dominion) / $this->landCalculator->getTotalLand($dominion);
-    }
-
-    private function getOpaCurrent(Dominion $dominion): int
-    {
-        return $this->getOpCurrent($dominion) / $this->landCalculator->getTotalLand($dominion);
+        $this->barbarianCalculator = app(BarbarianCalculator::class);
     }
 
 
-    private function getDpaPaid(Dominion $dominion): int
-    {
-        return $this->getDpPaid($dominion) / $this->landCalculator->getTotalLand($dominion);
-    }
-
-    private function getOpaPaid(Dominion $dominion): int
-    {
-        return $this->getOpPaid($dominion) / $this->landCalculator->getTotalLand($dominion);
-    }
-
-    private function getOpaAtHome(Dominion $dominion): int
-    {
-        return $this->getOpAtHome($dominion) / $this->landCalculator->getTotalLand($dominion);
-    }
-
-    private function getOpaDeltaPaid(Dominion $dominion): int
-    {
-        return $this->getOpaTarget($dominion) - $this->getOpaPaid($dominion);
-    }
-
-    private function getDpaDeltaPaid(Dominion $dominion): int
-    {
-        return $this->getDpaTarget($dominion) - $this->getDpaPaid($dominion);
-    }
-
-    private function getOpaDeltaAtHome(Dominion $dominion): int
-    {
-        return $this->getOpaTarget($dominion) - $this->getOpaAtHome($dominion);
-    }
-
-    private function getDpaDeltaCurrent(Dominion $dominion): int
-    {
-        return $this->getDpaTarget($dominion) - $this->getDpaCurrent($dominion);
-    }
 
     public function handleBarbarianTraining(Dominion $dominion): void
     {
@@ -270,45 +73,45 @@ class BarbarianService
               'military_unit4' => 0,
             ];
 
-            $dpaDeltaPaid = $this->getDpaDeltaPaid($dominion);
-            $opaDeltaPaid = $this->getOpaDeltaPaid($dominion);
+            $dpaDeltaPaid = $this->barbarianCalculator->getDpaDeltaPaid($dominion);
+            $opaDeltaPaid = $this->barbarianCalculator->getOpaDeltaPaid($dominion);
 
             $logString .= "\t\tName: $dominion->name\n";
             $logString .= "\t\tSize: ".number_format($land)."\n";
             $logString .= "\t\t* DPA\n";
-            $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
-            $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
-            $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
-            $logString .= "\t\t** DPA delta current: " . $this->getDpaDeltaCurrent($dominion) ."\n";
+            $logString .= "\t\t** DPA target: " . $this->barbarianCalculator->getDpaTarget($dominion) ."\n";
+            $logString .= "\t\t** DPA paid: " . $this->barbarianCalculator->getDpaPaid($dominion) ."\n";
+            $logString .= "\t\t** DPA current: " . $this->barbarianCalculator->getDpaCurrent($dominion) ."\n";
+            $logString .= "\t\t** DPA delta current: " . $this->barbarianCalculator->getDpaDeltaCurrent($dominion) ."\n";
             $logString .= "\t\t** DPA delta paid: " . $dpaDeltaPaid ."\n";
 
             $logString .= "\t\t* OPA\n";
-            $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
-            $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
-            $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
-            $logString .= "\t\t** OPA delta at home: " . $this->getOpaDeltaAtHome($dominion) ."\n";
+            $logString .= "\t\t** OPA target: " . $this->barbarianCalculator->getOpaTarget($dominion) ."\n";
+            $logString .= "\t\t** OPA paid: " . $this->barbarianCalculator->getOpaPaid($dominion) ."\n";
+            $logString .= "\t\t** OPA at home: " . $this->barbarianCalculator->getOpaAtHome($dominion) ."\n";
+            $logString .= "\t\t** OPA delta at home: " . $this->barbarianCalculator->getOpaDeltaAtHome($dominion) ."\n";
             $logString .= "\t\t** OPA delta paid: " . $opaDeltaPaid ."\n";
 
             if($dpaDeltaPaid > 0)
             {
                 $dpToTrain = $dpaDeltaPaid * $land;
 
-                $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
+                $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/1000;
                 $elitesRatio = 1-$specsRatio;
 
-                $units['military_unit2'] = ceil(($dpToTrain*$specsRatio)/static::UNIT2_DP);
-                $units['military_unit3'] = ceil(($dpToTrain*$elitesRatio)/static::UNIT3_DP);
+                $units['military_unit2'] = ceil(($dpToTrain*$specsRatio) / $this->barbarianCalculator->getSetting('UNIT2_DP'));
+                $units['military_unit3'] = ceil(($dpToTrain*$elitesRatio) / $this->barbarianCalculator->getSetting('UNIT3_DP'));
             }
 
             if($opaDeltaPaid > 0)
             {
                 $opToTrain = $opaDeltaPaid * $land;
 
-                $specsRatio = rand(static::SPECS_RATIO_MIN, static::SPECS_RATIO_MAX)/1000;
+                $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/1000;
                 $elitesRatio = 1-$specsRatio;
 
-                $units['military_unit1'] = ceil(($opToTrain*$specsRatio)/static::UNIT1_OP);
-                $units['military_unit4'] = ceil(($opToTrain*$elitesRatio)/static::UNIT4_OP);
+                $units['military_unit1'] = ceil(($opToTrain*$specsRatio) / $this->barbarianCalculator->getSetting('UNIT1_OP'));
+                $units['military_unit4'] = ceil(($opToTrain*$elitesRatio) / $this->barbarianCalculator->getSetting('UNIT4_OP'));
             }
 
             foreach($units as $unit => $amountToTrain)
@@ -316,7 +119,7 @@ class BarbarianService
                 if($amountToTrain > 0)
                 {
                     $data = [$unit => $amountToTrain];
-                    $ticks = intval(static::UNITS_TRAINING_TICKS);
+                    $ticks = intval( $this->barbarianCalculator->getSetting('UNITS_TRAINING_TICKS'));
                     $this->queueService->queueResources('training', $dominion, $data, $ticks);
                 }
             }
@@ -364,19 +167,19 @@ class BarbarianService
             $logString .= "\t\tSize: ".number_format($this->landCalculator->getTotalLand($dominion))."\n";
 
             # Make sure we have the expected OPA to hit, and enough DPA at home.
-            if($this->getDpaDeltaCurrent($dominion) <= 0 and $this->getOpaDeltaAtHome($dominion) <= 0)
+            if($this->barbarianCalculator->getDpaDeltaCurrent($dominion) <= 0 and $this->barbarianCalculator->getOpaDeltaAtHome($dominion) <= 0)
             {
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
-                $chanceOneIn = static::CHANCE_TO_HIT_CONSTANT - (14 - $currentDay);
+                $chanceOneIn =  $this->barbarianCalculator->getSetting('CHANCE_TO_HIT_CONSTANT') - (14 - $currentDay);
                 $chanceToHit = rand(1,$chanceOneIn);
 
 
                 $logString .= "\t\t* OP/DP\n";
-                $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
-                $logString .= "\t\t** DP current: " . $this->getDpaCurrent($dominion) ."\n";
+                $logString .= "\t\t** DPA current: " . $this->barbarianCalculator->getDpaCurrent($dominion) ."\n";
+                $logString .= "\t\t** DP current: " . $this->barbarianCalculator->getDpaCurrent($dominion) ."\n";
 
-                $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
-                $logString .= "\t\t** OP current: " . $this->getOpCurrent($dominion) ."\n";
+                $logString .= "\t\t** OPA at home: " . $this->barbarianCalculator->getOpaAtHome($dominion) ."\n";
+                $logString .= "\t\t** OP current: " . $this->barbarianCalculator->getOpCurrent($dominion) ."\n";
 
                 $logString .= "\t\t* Chance to hit: 1 in $chanceOneIn\n";
                 $logString .= "\t\t** Outcome: $chanceToHit: ";
@@ -393,26 +196,26 @@ class BarbarianService
             }
             else
             {
-                if($this->getDpaDeltaCurrent($dominion) > 0)
+                if($this->barbarianCalculator->getDpaDeltaCurrent($dominion) > 0)
                 {
                     $logString .= "\t\t🚫 Insufficient DP:\n";
                     $logString .= "\t\t* DPA\n";
-                    $logString .= "\t\t** DPA delta current: " . $this->getDpaDeltaCurrent($dominion) ."\n";
-                    $logString .= "\t\t** DPA delta paid: " . $this->getDpaDeltaPaid($dominion) ."\n";
-                    $logString .= "\t\t** DPA target: " . $this->getDpaTarget($dominion) ."\n";
-                    $logString .= "\t\t** DPA paid: " . $this->getDpaPaid($dominion) ."\n";
-                    $logString .= "\t\t** DPA current: " . $this->getDpaCurrent($dominion) ."\n";
+                    $logString .= "\t\t** DPA delta current: " . $this->barbarianCalculator->getDpaDeltaCurrent($dominion) ."\n";
+                    $logString .= "\t\t** DPA delta paid: " . $this->barbarianCalculator->getDpaDeltaPaid($dominion) ."\n";
+                    $logString .= "\t\t** DPA target: " . $this->barbarianCalculator->getDpaTarget($dominion) ."\n";
+                    $logString .= "\t\t** DPA paid: " . $this->barbarianCalculator->getDpaPaid($dominion) ."\n";
+                    $logString .= "\t\t** DPA current: " . $this->barbarianCalculator->getDpaCurrent($dominion) ."\n";
                 }
 
-                if($this->getOpaDeltaAtHome($dominion) > 0)
+                if($this->barbarianCalculator->getOpaDeltaAtHome($dominion) > 0)
                 {
                     $logString .= "\t\t🚫 Insufficient OP:\n";
                     $logString .= "\t\t* OPA\n";
-                    $logString .= "\t\t** OPA delta at home: " . $this->getOpaDeltaAtHome($dominion) ."\n";
-                    $logString .= "\t\t** OPA delta paid: " . $this->getOpaDeltaPaid($dominion) ."\n";
-                    $logString .= "\t\t** OPA target: " . $this->getOpaTarget($dominion) ."\n";
-                    $logString .= "\t\t** OPA paid: " . $this->getOpaPaid($dominion) ."\n";
-                    $logString .= "\t\t** OPA at home: " . $this->getOpaAtHome($dominion) ."\n";
+                    $logString .= "\t\t** OPA delta at home: " . $this->barbarianCalculator->getOpaDeltaAtHome($dominion) ."\n";
+                    $logString .= "\t\t** OPA delta paid: " . $this->barbarianCalculator->getOpaDeltaPaid($dominion) ."\n";
+                    $logString .= "\t\t** OPA target: " . $this->barbarianCalculator->getOpaTarget($dominion) ."\n";
+                    $logString .= "\t\t** OPA paid: " . $this->barbarianCalculator->getOpaPaid($dominion) ."\n";
+                    $logString .= "\t\t** OPA at home: " . $this->barbarianCalculator->getOpaAtHome($dominion) ."\n";
                 }
             }
 
@@ -435,15 +238,15 @@ class BarbarianService
 
                     $logString .= "\t\t** " . $dominion->name . ' is checking ' . $target->name . ': ';
 
-                    if($this->getOpCurrent($dominion) >= $targetDp * 0.85)
+                    if($this->barbarianCalculator->getOpCurrent($dominion) >= $targetDp * 0.85)
                     {
-                        $logString .= '✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
+                        $logString .= '✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->barbarianCalculator->getOpCurrent($dominion)) . "\n";
                         $invadePlayer = $target;
                         break;
                     }
                     else
                     {
-                        $logString .= '🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->getOpCurrent($dominion)) . "\n";
+                        $logString .= '🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->barbarianCalculator->getOpCurrent($dominion)) . "\n";
                         $invadePlayer = false;
                     }
 
@@ -464,7 +267,7 @@ class BarbarianService
                 }
                 else
                 {
-                    $landGainRatio = rand(static::LAND_GAIN_MIN, static::LAND_GAIN_MAX)/1000;
+                    $landGainRatio = rand($this->barbarianCalculator->getSetting('LAND_GAIN_MIN'), $this->barbarianCalculator->getSetting('LAND_GAIN_MAX'))/1000;
 
                     $logString .= "\t\t* Invasion:\n";
                     $logString .= "\t\t**Land gain ratio: " . number_format($landGainRatio*100,2) . "% \n";
@@ -487,9 +290,9 @@ class BarbarianService
                     $dominion->stat_total_land_conquered += $totalLandToGain;
                     $dominion->stat_attacking_success += 1;
 
-                    $sentRatio = rand(static::SENT_RATIO_MIN, static::SENT_RATIO_MAX)/1000;
+                    $sentRatio = rand($this->barbarianCalculator->getSetting('SENT_RATIO_MIN'), $this->barbarianCalculator->getSetting('SENT_RATIO_MAX'))/1000;
 
-                    $casualtiesRatio = rand(static::CASUALTIES_MIN, static::CASUALTIES_MAX)/1000;
+                    $casualtiesRatio = rand($this->barbarianCalculator->getSetting('CASUALTIES_MIN'), $this->barbarianCalculator->getSetting('CASUALTIES_MAX'))/1000;
 
                     $logString .= "\t\t**Sent ratio: " . number_format($sentRatio*100,2). "%\n";
                     $logString .= "\t\t**Casualties ratio: " . number_format($casualtiesRatio*100,2). "%\n";
@@ -551,7 +354,7 @@ class BarbarianService
             $logString .= "\t[/invasion]\n[/BARBARIAN]";
         }
 
-        Log::Debug($logString);
+        #Log::Debug($logString);
 
     }
 
@@ -578,7 +381,7 @@ class BarbarianService
             if($landType === 'swamp')
             {
                 $buildings['building_tower'] = (int)floor($acres * 0.50);
-                $buildings['building_temple'] = (int)floor($acres * 0.50);
+                $buildings['building_wizard_guild'] = (int)floor($acres * 0.50);
             }
 
             if($landType === 'forest')
@@ -600,7 +403,7 @@ class BarbarianService
         }
 
         # Queue buildings
-        $this->queueService->queueResources('construction', $dominion, $buildings, static::CONSTRUCTION_TIME);
+        $this->queueService->queueResources('construction', $dominion, $buildings, $this->barbarianCalculator->getSetting('CONSTRUCTION_TIME'));
     }
 
     public function createBarbarian(Round $round): void

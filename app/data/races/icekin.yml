@@ -33,6 +33,7 @@ units:
     perks:
       offense_from_title: commander,2 # title, op
       fewer_casualties_from_title: conjurer,50 # title, reduction
+      no_draftee: 1
 
   - name: Snow Witch
     training_time: 6
@@ -49,7 +50,7 @@ units:
     perks:
       counts_as_wizard_offense: 1
       immortal_wizard: 1
-      production_from_title: conjurer,mana,5 # resource, OP, title
+      production_from_title: conjurer,mana,0.5 # title, resource, amount
       fewer_casualties_from_title: conjurer,75 # title, reduction
       defense_from_title: commander,1 # title, dp
       no_draftee: 1
@@ -93,3 +94,4 @@ units:
       offense_from_wizard_ratio: 1
       plunder: mana,20
       fewer_casualties_from_title: conjurer,50 # title, reduction
+      no_draftee: 1

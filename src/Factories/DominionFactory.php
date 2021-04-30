@@ -17,6 +17,7 @@ use OpenDominion\Models\User;
 use Illuminate\Support\Carbon;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 
 class DominionFactory
 {
@@ -28,6 +29,7 @@ class DominionFactory
     {
         $this->raceHelper = app(RaceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->barbarianCalculator = app(BarbarianCalculator::class);
     }
 
     /**
@@ -372,20 +374,22 @@ class DominionFactory
                 $startingResources['boats'] = 0;
 
                 # Starting units for Barbarians
-                $dpaTarget = 25;
-                $dpaTargetSpecsRatio = rand(50,100)/100;
-                $dpaTargetElitesRatio = 1-$dpaTargetSpecsRatio;
-                $dpRequired = $acresBase * $dpaTarget;
+                $dpaTarget = $this->barbarianCalculator->getDpaTarget(null, $realm->round, $startingResources['npc_modifier']);
+                $opaTarget = $this->barbarianCalculator->getOpaTarget(null, $realm->round, $startingResources['npc_modifier']);
 
-                $opaTarget = $dpaTarget * 0.75;
-                $opaTargetSpecsRatio = rand(50,100)/100;
-                $opaTargetElitesRatio = 1-$opaTargetSpecsRatio;
+                $dpRequired = $acresBase * $dpaTarget;
                 $opRequired = $acresBase * $opaTarget;
 
-                $startingResources['unit1'] = floor(($opRequired * $opaTargetSpecsRatio)/3);
-                $startingResources['unit2'] = floor(($dpRequired * $dpaTargetSpecsRatio)/3);
-                $startingResources['unit3'] = floor(($dpRequired * $dpaTargetElitesRatio)/5);
-                $startingResources['unit4'] = floor(($opRequired * $opaTargetElitesRatio)/5);
+                $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/100;
+                $elitesRatio = 1-$specsRatio;
+                $startingResources['unit3'] = floor(($dpRequired * $elitesRatio)/5);
+                $startingResources['unit2'] = floor(($dpRequired * $specsRatio)/3);
+
+
+                $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/100;
+                $elitesRatio = 1-$specsRatio;
+                $startingResources['unit1'] = floor(($opRequired * $specsRatio)/3);
+                $startingResources['unit4'] = floor(($opRequired * $elitesRatio)/5);
 
                 $startingResources['protection_ticks'] = 0;
                 $startingResources['barbarian_guard_active_at'] = now();

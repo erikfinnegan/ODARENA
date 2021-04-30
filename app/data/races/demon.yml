@@ -27,7 +27,6 @@ units:
     type:
       - living
       - sentient
-    
     cost:
       gold: 700
       mana: 12
@@ -45,7 +44,6 @@ units:
       - living
       - sentient
       - intelligent
-    
     cost:
       gold: 800
       mana: 16
@@ -63,7 +61,6 @@ units:
       - living
       - sentient
       - intelligent
-    
     cost:
       blood: 7
     power:
@@ -82,7 +79,6 @@ units:
       - intelligent
       - massive
       - wise
-    
     cost:
       blood: 60000
       mana: 100000

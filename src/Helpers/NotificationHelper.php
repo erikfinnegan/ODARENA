@@ -861,6 +861,7 @@ class NotificationHelper
 
             case 'irregular_dominion.reflected_hostile_spell':
                 $sourceDominion = Dominion::with('realm')->findOrFail($data['sourceDominionId']);
+                $spell = Spell::where('key', $data['spellKey'])->first();
 
                 return sprintf(
                     'The energy mirror protecting our dominion has reflected a %s spell back at %s (#%s).',

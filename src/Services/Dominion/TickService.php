@@ -28,6 +28,7 @@ use OpenDominion\Services\NotificationService;
 use Throwable;
 
 # ODA
+use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
@@ -68,6 +69,9 @@ class TickService
     /** @var BarbarianService */
     protected $barbarianService;
 
+    /** @var BarbarianCalculator */
+    protected $barbarianCalculator;
+
     /** @var SpellCalculator */
     protected $spellCalculator;
 
@@ -89,6 +93,7 @@ class TickService
     public function __construct()
     {
         $this->now = now();
+        $this->barbarianCalculator = app(BarbarianCalculator::class);
         $this->casualtiesCalculator = app(CasualtiesCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
@@ -413,7 +418,7 @@ class TickService
 
             $realms = $round->realms()->get();
 
-            $spawnBarbarian = rand(1, (int)$this->barbarianService->getSetting('ONE_IN_CHANCE_TO_SPAWN'));
+            $spawnBarbarian = rand(1, (int)$this->barbarianCalculator->getSetting('ONE_IN_CHANCE_TO_SPAWN'));
 
             Log::Debug('[BARBARIAN] spawn chance value: '. $spawnBarbarian . ' (spawn if this value is 1).');
 
@@ -766,16 +771,6 @@ class TickService
 
           $tick->peasants = $populationPeasantGrowth;
           $tick->military_draftees = $drafteesGrowthRate;
-
-          // Void: Improvements Decay - Lower all improvements by improvements_decay%.
-          if($dominion->race->getPerkValue('improvements_decay'))
-          {
-              foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
-              {
-                  $percentageDecayed = $dominion->race->getPerkValue('improvements_decay') / 100;
-                  $tick->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * $percentageDecayed;
-              }
-          }
 
           // Resources
 
