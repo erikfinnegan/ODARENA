@@ -330,6 +330,7 @@ class DominionFactory
         if($race->name == 'Spirit')
         {
             $startingResources['gold'] = 2000000; # Unit training costs
+            $startingResources['gems'] *= 1.5; # Unit training costs
         }
 
         // Monster: no one lives here.
