@@ -49,8 +49,8 @@ units:
     type:
       - machine
     cost:
-      gold: 2000
-      ore: 2000
+      gold: 1800
+      ore: 1800
     power:
       offense: 0
       defense: 0
@@ -62,8 +62,8 @@ units:
     type:
       - machine
     cost:
-      gold: 2000
-      ore: 2000
+      gold: 1800
+      ore: 1800
     power:
       offense: 0
       defense: 0
