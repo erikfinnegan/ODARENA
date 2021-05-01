@@ -1,7 +1,7 @@
 name: Troll
 alignment: evil
 description: <p>While Trolls cannot take advancements, XP yields more generated land at a rate of +1% for every 10,000 XP (max +100% generated).</p>
-home_land_type: forest
+home_land_type: hill
 playable: 1
 
 attacking: 3
@@ -12,11 +12,10 @@ skill_level: 2
 construction_materials: gold,lumber
 
 perks:
-  max_population: -10
   food_consumption: 25
   invest_bonus: -25
   gem_production: 50
-  improvements_max: 50
+  improvements_max: 100
   cannot_tech: 1
   salvaging: 20
 units:
