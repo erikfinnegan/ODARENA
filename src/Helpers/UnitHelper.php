@@ -331,20 +331,6 @@ class UnitHelper
                     }
                 }
 
-                // building_limit
-                if ($perk->key === 'building_limit')
-                {
-                    $perkValue[1] = ' of this unit per ' . $perkValue[0];
-                    if(isset($perkValue[2]))
-                    {
-                        $perkValue[1] .= ', increased by ' . $perkValue[2] . ' improvements.';
-                    }
-                    else
-                    {
-                        $perkValue[1] .= '.';
-                    }
-                }
-
                 // Special case for pairings
                 if ($perk->key === 'defense_from_pairing' || $perk->key === 'offense_from_pairing' || $perk->key === 'pairing_limit')
                 {
