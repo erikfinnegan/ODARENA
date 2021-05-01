@@ -894,6 +894,7 @@ barracks:
     - Orc
     - Swarm
     - Sylvan
+    - Troll
     - Vampires
     - Void
     - Wood Elf
@@ -931,11 +932,29 @@ beacon:
 cave:
   name: Cave
   exclusive_races:
-    - Troll
     - Yeti
   land_type: mountain
   perks:
     housing: 30
+    jobs: 0
+
+hut:
+  name: Hut
+  exclusive_races:
+    - Troll
+  land_type: forest
+  perks:
+    troll_unit2_housing: 42
+    spy_strength: 1,2,200
+    jobs: 0
+
+plateau:
+  name: Plateau
+  exclusive_races:
+    - Troll
+  land_type: mountain
+  perks:
+    troll_unit4_housing: 30
     jobs: 0
 
 chamber:

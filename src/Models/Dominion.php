@@ -676,6 +676,8 @@ class Dominion extends AbstractModel
                           or $perkKey == 'wizard_strength_recovery'
                           or $perkKey == 'wizard_cost'
                           or $perkKey == 'spell_cost'
+                          or $perkKey == 'spy_strength'
+                          or $perkKey == 'wizard_strength'
 
                           # Construction/Rezoning
                           or $perkKey == 'construction_cost'

@@ -204,10 +204,17 @@
                             @endif
                         </td>
                       </tr>
-                      <tr>
-                        <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks:<br>Filled / Available">Barracks housing:</span></td>
-                        <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
-                      </tr>
+                      @if($selectedDominion->race->name == 'Troll')
+                          <tr>
+                            <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Huts and Plateaus:<br>Filled / Available">Troll housing:</span></td>
+                            <td>{{ number_format($populationCalculator->getUnitsHousedInUnitSpecificBuildings($selectedDominion)) }} / {{ number_format($selectedDominion->getBuildingPerkValue('troll_unit2_housing') + $selectedDominion->getBuildingPerkValue('troll_unit4_housing')) }}</td>
+                          </tr>
+                      @else
+                          <tr>
+                            <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Barracks:<br>Filled / Available">Barracks housing:</span></td>
+                            <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
+                          </tr>
+                      @endif
                       <tr>
                         <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens:<br>Filled / Available">Spy housing:</span></td>
                         <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>

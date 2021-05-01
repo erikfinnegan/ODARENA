@@ -39,6 +39,10 @@ class BuildingHelper
             'draftee_housing' => 'Houses %s draftees.',
             'peasant_housing' => 'Houses %s peasants.',
 
+
+            'troll_unit2_housing' => 'Houses %s Forest Trolls.',
+            'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
+
             'jobs' => 'Provides %s jobs.',
 
             'population_growth' => 'Population growth rate increased by %2$s%% for every %1$s%%.',

@@ -20,40 +20,42 @@ perks:
   cannot_tech: 1
   salvaging: 20
 units:
-  - name: Clubber
+  - name: Magical Boots
     training_time: 9
     type:
-      - living
-      - sentient
+      - equipment
     cost:
-      gold: 300
-      ore: 50
-      lumber: 10
-    power:
-      offense: 4
-      defense: 0
-    perks:
-      only_dies_vs_raw_power: 3 # >=
-
-  - name: Basher
-    training_time: 9
-    type:
-      - living
-      - sentient
-    cost:
-      gold: 300
-      ore: 50
+      mana: 100
+      gold: 400
     power:
       offense: 0
-      defense: 4
+      defense: 0
     perks:
-      only_dies_vs_raw_power: 3 # >=
+      only_dies_vs_raw_power: 8 # >=
+      sendable_with_zero_op: 1
+      does_not_count_as_population: 1
+      no_draftee: 1
+
+  - name: Forest Troll
+    training_time: 9
+    type:
+      - living
+      - sentient
+    cost:
+      gold: 800
+      lumber: 80
+    power:
+      offense: 8
+      defense: 6
+    perks:
+      only_dies_vs_raw_power: 8 # >=
+      plunder: lumber,4
+      faster_return_if_paired: 1,3 # slot, ticks
 
   - name: Ironskin
     training_time: 12
     type:
       - equipment
-
     cost:
       ore: 300
       gem: 50
@@ -75,12 +77,12 @@ units:
       gold: 1600
       ore: 525
     power:
-      offense: 13
-      defense: 13
+      offense: 10
+      defense: 16
     perks:
       eats_peasants_on_attack: 0.1 # Each Mountain Troll eats 0.1 peasant on attack.
       eats_draftees_on_attack: 0.1 # Each Mountain Troll eats 0.1 draftee on attack.
-      only_dies_vs_raw_power: 8 # >=
-      offense_from_pairing: 3,2 # slot, amount
-      defense_from_pairing: 3,2 # slot, amount
+      only_dies_vs_raw_power: 12 # >=
+      offense_from_pairing: 3,4 # slot, amount
+      defense_from_pairing: 3,4 # slot, amount
       plunders: food;2,gems;1

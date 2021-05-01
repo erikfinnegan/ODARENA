@@ -129,6 +129,7 @@ class PopulationCalculator
             + $this->getUnitsHousedInForestHavens($dominion)
             + $this->getUnitsHousedInWizardGuilds($dominion)
             + $this->getUnitsHousedInBarracks($dominion)
+            + $this->getUnitsHousedInUnitSpecificBuildings($dominion)
         );
     }
 
@@ -254,6 +255,7 @@ class PopulationCalculator
     public function getUnitsHousedInBarracks(Dominion $dominion): int
     {
         $units = 0;
+        $units -= $this->getUnitsHousedInUnitSpecificBuildings($dominion);
         $units -= $this->getUnitsHousedInForestHavens($dominion);
         $units -= $this->getUnitsHousedInWizardGuilds($dominion);
         $units += $dominion->military_spies;
@@ -276,6 +278,37 @@ class PopulationCalculator
 
         return min($units, $this->getAvailableHousingFromBarracks($dominion));
     }
+
+
+      /*
+      *   Calculate how many units live in Barracks.
+      *   Units start to live in barracks as soon as their military training begins.
+      *   Spy and wiz units prefer to live in FHs or WGs, and will only live in Barracks if FH/WG are full or unavailable.
+      */
+      public function getUnitsHousedInUnitSpecificBuildings(Dominion $dominion): int
+      {
+
+          $raceKey = str_replace(' ', '_', strtolower($dominion->race->name));
+
+          $units = 0;
+
+          for ($slot = 1; $slot <= 4; $slot++)
+          {
+              $slotUnits = 0;
+              if($unitSpecificBuildingHousing = $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_housing'))
+              {
+                  if(!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population'))
+                  {
+                      $slotUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+                      $slotUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
+                  }
+
+                  $units += min($slotUnits, $unitSpecificBuildingHousing);
+              }
+          }
+
+          return $units;
+      }
 
     /*
     *   Calculate how many units live in Forest Havens.
