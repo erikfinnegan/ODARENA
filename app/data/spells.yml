@@ -42,6 +42,7 @@ gaias_watch:
   excluded_races:
     - Afflicted
     - Sylvan
+    - Undead
     - Void
   perks:
     food_production: 10
