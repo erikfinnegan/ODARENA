@@ -24,8 +24,8 @@ units:
     type:
       - equipment
     cost:
-      mana: 100
       gold: 400
+      mana: 50
     power:
       offense: 0
       defense: 0
@@ -73,8 +73,8 @@ units:
       - sentient
       - massive
     cost:
-      gold: 1600
-      ore: 525
+      gold: 2000
+      ore: 500
     power:
       offense: 10
       defense: 16
