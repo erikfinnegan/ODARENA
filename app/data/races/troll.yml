@@ -41,7 +41,7 @@ units:
       - living
       - sentient
     cost:
-      gold: 800
+      gold: 900
       lumber: 80
     power:
       offense: 8
