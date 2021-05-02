@@ -23,7 +23,6 @@ units:
       - living
       - sentient
       - intelligent
-    
     cost:
       gold: 250
       ore: 5
@@ -38,7 +37,6 @@ units:
       - living
       - sentient
       - intelligent
-    
     cost:
       gold: 250
       ore: 5
@@ -54,7 +52,6 @@ units:
       - sentient
       - massive
       - intelligent
-    
     cost:
       gold: 2400
     power:
@@ -74,7 +71,6 @@ units:
       - sentient
       - massive
       - intelligent
-    
     cost:
       ore: 2000
       gem: 1000

@@ -124,6 +124,13 @@
                                                     $alignment = 'Unknown';
                                                 }
 
+                                                if($gameEvent->data['random_faction'])
+                                                {
+                                                    $verb = 'randomly ' . $verb;
+                                                }
+
+
+
                                                 @endphp
 
                                                 The {{ $raceHelper->getRaceAdjective($gameEvent->source->race) }} dominion of <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a>, led by <em>{{ $gameEvent->source->title->name }}</em> {{ $gameEvent->source->ruler_name }}, {{ $verb }} the
