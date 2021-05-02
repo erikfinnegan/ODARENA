@@ -85,7 +85,7 @@ class NetworthCalculator
         $networth += ($this->landCalculator->getTotalLand($dominion) * $networthPerLand);
         $networth += ($this->buildingCalculator->getTotalBuildings($dominion) * $networthPerBuilding);
 
-        $networth += $dominion->resource_soul / 10;
+        $networth += $dominion->resource_soul / 9;
 
         return round($networth);
     }
