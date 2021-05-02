@@ -123,8 +123,14 @@ class RoundController extends AbstractController
                 ->withErrors([$e->getMessage()]);
         }
 
+        $eventData = [
+            'random_faction' => false,
+            'real_ruler_name' => false
+        ];
+
         if(in_array($request['race'], ['random_any', 'random_evil', 'random_good', 'random_independent']))
         {
+
             $this->validate($request, [
                 'dominion_name' => 'required|string|min:3|max:50',
                 'ruler_name' => 'nullable|string|max:50',
@@ -141,6 +147,8 @@ class RoundController extends AbstractController
                       ->pluck('id')->all();
 
             $request['race'] = $races[array_rand($races)];
+
+            $eventData['random_faction'] = true;
         }
         else
         {
@@ -154,6 +162,11 @@ class RoundController extends AbstractController
                 #'pack_password' => ('string|min:3|max:50|' . ($request->get('realm_type') !== 'random' ? 'required_if:realm,join_pack,create_pack' : 'nullable')),
                 #'pack_size' => "integer|min:2|max:{$round->pack_size}|required_if:realm,create_pack",
             ]);
+        }
+
+        if($request['ruler_name'] == Auth::user()->display_name)
+        {
+            $eventData['real_ruler_name'] = true;
         }
 
         $roundsPlayed = DB::table('dominions')
@@ -179,7 +192,7 @@ class RoundController extends AbstractController
         $dominionName = null;
 
         try {
-            DB::transaction(function () use ($request, $round, &$realm, &$dominion, &$dominionName, $roundsPlayed, $countRaces) {
+            DB::transaction(function () use ($request, $round, &$realm, &$dominion, &$dominionName, $roundsPlayed, $countRaces, $eventData) {
                 $realmFinderService = app(RealmFinderService::class);
                 $realmFactory = app(RealmFactory::class);
 
@@ -210,45 +223,14 @@ class RoundController extends AbstractController
                     }
                 }
 
-                /*
-                switch ($request->get('realm_type')) {
-                    case 'random':
-                        $realm = $realmFinderService->findRandomRealm($round, $race);
-                        break;
-
-                    case 'join_pack':
-                        $pack = $this->packService->getPack(
-                            $round,
-                            $request->get('pack_name'),
-                            $request->get('pack_password'),
-                            $race
-                        );
-
-                        $realm = $pack->realm;
-                        break;
-
-                    case 'create_pack':
-                        $realm = $realmFinderService->findRandomRealm(
-                            $round,
-                            $race,
-                            $request->get('pack_size'),
-                            true
-                        );
-                        break;
-
-                    default:
-                        throw new LogicException('Unsupported realm type');
-                }
-                */
-
                 $realm = $realmFinderService->findRandomRealm($round, $race);
 
-                if (!$realm) {
+                if (!$realm)
+                {
                     $realm = $realmFactory->create($round, $race->alignment);
                 }
 
                 $dominionName = $request->get('dominion_name');
-
 
                 if(!$this->allowedDominionName($dominionName))
                 {
@@ -266,7 +248,6 @@ class RoundController extends AbstractController
                     $title
                 );
 
-
                 $this->newDominionEvent = GameEvent::create([
                     'round_id' => $dominion->round_id,
                     'source_type' => Dominion::class,
@@ -274,7 +255,7 @@ class RoundController extends AbstractController
                     'target_type' => Realm::class,
                     'target_id' => $dominion->realm_id,
                     'type' => 'new_dominion',
-                    'data' => NULL,
+                    'data' => $eventData,
                 ]);
 
                 /*
