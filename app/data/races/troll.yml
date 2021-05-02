@@ -21,6 +21,7 @@ perks:
 units:
   - name: Magical Boots
     training_time: 9
+    static_networth: 5
     type:
       - equipment
     cost:
@@ -53,6 +54,7 @@ units:
 
   - name: Ironskin
     training_time: 12
+    static_networth: 8
     type:
       - equipment
     cost:

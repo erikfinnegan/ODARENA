@@ -254,7 +254,7 @@ class InvadeActionService
 
             if ($dominion->race->getPerkValue('cannot_invade') == 1)
             {
-                throw new GameException('Your faction is unable to invade.');
+                throw new GameException($dominion->race->name . ' cannot invade other dominions.');
             }
 
             foreach($units as $amount)
