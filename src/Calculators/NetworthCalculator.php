@@ -105,27 +105,30 @@ class NetworthCalculator
         }
         else
         {
-          return ($unit->cost_gold
-                  + $unit->cost_ore*1.25
-                  + $unit->cost_lumber*1.5
-                  + $unit->cost_food*1.5
-                  + $unit->cost_mana*2.5
-                  + $unit->cost_gem*5
-                  + $unit->cost_soul*7.5
-                  + $unit->cost_champion*1.25
-                  + $unit->cost_blood*2
-                  + $unit->cost_unit1*10
-                  + $unit->cost_unit2*10
-                  + $unit->cost_unit3*20
-                  + $unit->cost_unit4*20
-                  + $unit->cost_spy*500
-                  + $unit->cost_wizard*500
-                  + $unit->cost_archmage*1000
-                  + $unit->cost_morale*10
-                  + $unit->cost_peasant*2.5
-                  + $unit->cost_prestige*10
-                  + $unit->cost_wild_yeti*30
-              )/100;
+            return ($unit->power_offense + $unit->power_defense);
+            /*
+            return ($unit->cost_gold
+                    + $unit->cost_ore*1.25
+                    + $unit->cost_lumber*1.5
+                    + $unit->cost_food*1.5
+                    + $unit->cost_mana*2.5
+                    + $unit->cost_gem*5
+                    + $unit->cost_soul*7.5
+                    + $unit->cost_champion*1.25
+                    + $unit->cost_blood*2
+                    + $unit->cost_unit1*10
+                    + $unit->cost_unit2*10
+                    + $unit->cost_unit3*20
+                    + $unit->cost_unit4*20
+                    + $unit->cost_spy*500
+                    + $unit->cost_wizard*500
+                    + $unit->cost_archmage*1000
+                    + $unit->cost_morale*10
+                    + $unit->cost_peasant*2.5
+                    + $unit->cost_prestige*10
+                    + $unit->cost_wild_yeti*30
+                )/100;
+              */
           }
 
       }
