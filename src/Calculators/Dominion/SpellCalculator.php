@@ -112,7 +112,8 @@ class SpellCalculator
     public function getSpellCooldown(Dominion $dominion, Spell $spell, bool $isInvasionSpell = false): int
     {
 
-        if ($spell->cooldown > 0) {
+        if ($spell->cooldown > 0)
+        {
             $spellLastCast = DB::table('dominion_history')
                 ->where('dominion_id', $dominion->id)
                 ->where('event', 'cast spell')
@@ -120,6 +121,7 @@ class SpellCalculator
                 ->orderby('created_at', 'desc')
                 ->take(1)
                 ->first();
+                
             if ($spellLastCast)
             {
                 $hoursSinceCast = now()->startOfHour()->diffInHours(Carbon::parse($spellLastCast->created_at)->startOfHour());

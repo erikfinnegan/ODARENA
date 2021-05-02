@@ -124,7 +124,7 @@
                                                     $alignment = 'Unknown';
                                                 }
 
-                                                if($gameEvent->data['random_faction'])
+                                                if(isset($gameEvent->data['random_faction']) and $gameEvent->data['random_faction'])
                                                 {
                                                     $verb = 'randomly ' . $verb;
                                                 }
