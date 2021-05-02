@@ -78,6 +78,7 @@ units:
 
   - name: Ice Drake
     training_time: 12
+    static_networth: 26
     type:
       - living
       - sentient

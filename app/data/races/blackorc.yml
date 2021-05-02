@@ -43,6 +43,7 @@ units:
 
   - name: Warlock
     training_time: 12
+    static_networth: 8
     type:
       - living
       - sentient
@@ -60,6 +61,7 @@ units:
 
   - name: Skull Crusher
     training_time: 12
+    static_networth: 12
     type:
       - living
       - sentient

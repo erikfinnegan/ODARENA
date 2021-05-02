@@ -28,7 +28,7 @@ units:
       offense: 4
       defense: 3
     perks:
-      afterlife_norse: 1
+      dies_into_resource: 1,champion # Upon death, becomes 1 champion
 
   - name: Valkyrja
     training_time: 6

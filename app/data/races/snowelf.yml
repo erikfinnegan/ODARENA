@@ -37,7 +37,6 @@ units:
       immortal_on_fending_off: 1
 
   - name: Ballista
-
     training_time: 12
     type:
       - machine
@@ -55,7 +54,6 @@ units:
       plunder: mana,10
 
   - name: Hailstorm Cannon
-
     training_time: 12
     type:
       - machine
@@ -77,7 +75,6 @@ units:
       true_immortal: 1
 
   - name: Gryphon
-
     training_time: 12
     type:
       - living

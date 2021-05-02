@@ -28,7 +28,7 @@ units:
       offense: 4
       defense: 2
     perks:
-      kills_into_resource: 1,soul # Each kill (living being) becomes 1 soul
+      kills_into_resource_per_casualty: 1,soul # Each kill (living being) becomes 1 soul
 
   - name: Wisp
     training_time: 12
@@ -43,10 +43,12 @@ units:
       defense: 6
     perks:
       dies_into_resource: 1,soul # Upon death, becomes 1 soul
-      kills_into_resource: 1,soul # Each kill (living being) becomes 1 soul
+      kills_into_resource_per_casualty: 1,soul # Each kill (living being) becomes 1 soul
       does_not_consume_food: 1
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
 
-  - name: Soulkeeper
+  - name: Spring
     training_time: 12
     type:
       - living
@@ -59,10 +61,12 @@ units:
       defense: 12
     perks:
       dies_into_resource: 1,soul # Upon death, becomes 1 soul
-      kills_into_resource: 1,soul # Each kill (living being) becomes 1 soul
+      kills_into_resource_per_casualty: 1,soul # Each kill (living being) becomes 1 soul
       does_not_consume_food: 1
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
 
-  - name: Aspect
+  - name: Tempest
     training_time: 12
     type:
       - living
@@ -75,5 +79,8 @@ units:
       defense: 12
     perks:
       dies_into_resource: 6,soul # Upon death, becomes 1 soul
-      kills_into_resource: 1,soul # Each kill (living being) becomes 1 soul
+      kills_into_resource_per_casualty: 1,soul # Each kill (living being) becomes 1 soul
       does_not_consume_food: 1
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
+      offense_from_building_pairing: temple,0.5,1 # building, amount, num required

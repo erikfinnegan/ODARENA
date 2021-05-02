@@ -27,6 +27,7 @@ perks:
 units:
   - name: Chimpanzee
     training_time: 9
+    static_networth: 4
     type:
       - living
       - sentient
@@ -71,6 +72,7 @@ units:
 
   - name: Gorilla
     training_time: 12
+    static_networth: 10
     type:
       - living
       - sentient

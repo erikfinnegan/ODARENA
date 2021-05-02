@@ -50,7 +50,6 @@ units:
       reduces_casualties: 1
 
   - name: Blessed One
-
     training_time: 9
     type:
       - living
@@ -67,7 +66,6 @@ units:
       counts_as_wizard_defense: 0.25
 
   - name: Ancient One
-
     training_time: 12
     type:
       - living

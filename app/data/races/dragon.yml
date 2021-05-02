@@ -35,6 +35,7 @@ units:
 
   - name: Driller
     training_time: 3
+    static_networth: 2.5
     type:
       - living
       - sentient

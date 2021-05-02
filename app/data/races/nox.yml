@@ -54,6 +54,7 @@ units:
 
   - name: Nightshade
     training_time: 8
+    static_networth: 8
     type:
       - living
       - sentient

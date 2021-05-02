@@ -20,6 +20,7 @@ units:
 
   - name: Summoner
     training_time: 9
+    static_networth: 8
     type:
       - living
       - sentient

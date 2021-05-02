@@ -25,6 +25,7 @@ perks:
 units:
   - name: Grunt
     training_time: 9
+    static_networth: 3
     type:
       - living
       - sentient
@@ -41,6 +42,7 @@ units:
 
   - name: Underling
     training_time: 9
+    static_networth: 3
     type:
       - living
       - sentient

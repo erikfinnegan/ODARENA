@@ -24,7 +24,7 @@ perks:
 
 units:
   - name: Figure
-    
+
     training_time: 9
     type:
       - living
@@ -69,8 +69,8 @@ units:
       mana_production: 1
 
   - name: Distortion
-    
     training_time: 12
+    static_networth: 6
     type:
       - living
       - sentient

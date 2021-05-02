@@ -59,8 +59,7 @@ units:
       counts_as_wizard_offense: 0.05
       counts_as_wizard_defense: 0.03
 
-  - name: Vex
-
+  - name: Vexs
     training_time: 9
     type:
       - living
