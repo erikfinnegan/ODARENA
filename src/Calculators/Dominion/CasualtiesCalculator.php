@@ -608,7 +608,7 @@ class CasualtiesCalculator
           {
               if($increasesCasualties = $defender->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_defense'))
               {
-                  $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] += $this->militaryCalculator->getDefensivePowerRaw($$defender, $attacker, $landRatio, [$slot => $amount], 0, false, $isAmbush, false) / $rawDpFromHomeUnits;
+                  $unitCasualtiesPerk['defender']['increases_casualties_on_defense'] += $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount], 0, false, $isAmbush, false) / $rawDpFromHomeUnits;
               }
               if($decreasesCasualties = $defender->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties'))
               {
