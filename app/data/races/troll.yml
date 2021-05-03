@@ -21,6 +21,7 @@ perks:
 units:
   - name: Magical Boots
     training_time: 9
+    static_networth: 5
     type:
       - equipment
     cost:
@@ -34,6 +35,7 @@ units:
       sendable_with_zero_op: 1
       does_not_count_as_population: 1
       no_draftee: 1
+      faster_return: 9
 
   - name: Forest Troll
     training_time: 9
@@ -53,6 +55,7 @@ units:
 
   - name: Ironskin
     training_time: 12
+    static_networth: 8
     type:
       - equipment
     cost:
