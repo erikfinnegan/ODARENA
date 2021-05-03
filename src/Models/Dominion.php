@@ -679,9 +679,11 @@ class Dominion extends AbstractModel
                           or $perkKey == 'spy_strength'
                           or $perkKey == 'wizard_strength'
 
-                          # Construction/Rezoning
+                          # Construction/Rezoning and Land
                           or $perkKey == 'construction_cost'
                           or $perkKey == 'rezone_cost'
+
+                          or $perkKey == 'land_discovered'
 
                           # Espionage
                           or $perkKey == 'gold_theft_reduction'
