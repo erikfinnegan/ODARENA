@@ -57,7 +57,7 @@ units:
     cost:
       soul: 3
     power:
-      offense: 6
+      offense: 0
       defense: 12
     perks:
       dies_into_resource: 1,soul # Upon death, becomes 1 soul
@@ -65,6 +65,7 @@ units:
       does_not_consume_food: 1
       immortal_on_victory: 1
       immortal_on_fending_off: 1
+      defense_from_building_pairing: sanctuary,6,1 # building, amount, num required
 
   - name: Tempest
     training_time: 12
@@ -83,4 +84,4 @@ units:
       does_not_consume_food: 1
       immortal_on_victory: 1
       immortal_on_fending_off: 1
-      offense_from_building_pairing: temple,0.5,1 # building, amount, num required
+      offense_from_building_pairing: temple,6,1 # building, amount, num required

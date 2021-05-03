@@ -2033,6 +2033,7 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
+     /*
     protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units, float $landRatio): void
     {
         $champions = 0;
@@ -2067,6 +2068,7 @@ class InvadeActionService
             }
         }
     }
+    */
 
     /**
      * Handles the salvaging of lumber, ore, and gem costs of units.
