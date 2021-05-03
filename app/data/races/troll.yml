@@ -35,6 +35,7 @@ units:
       sendable_with_zero_op: 1
       does_not_count_as_population: 1
       no_draftee: 1
+      faster_return: 9
 
   - name: Forest Troll
     training_time: 9
