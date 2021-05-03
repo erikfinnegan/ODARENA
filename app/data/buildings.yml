@@ -967,6 +967,7 @@ chamber:
   land_type: mountain
   perks:
     housing: 30
+    jobs: 0
 
 colony:
   name: Colony
@@ -975,6 +976,7 @@ colony:
   land_type: forest
   perks:
     housing: 180
+    jobs: 0
 
 coral_reef:
   name: Coral Reef
@@ -1137,6 +1139,7 @@ sanctuary:
   perks:
     housing: 30
     mana_production: 5
+    jobs: 0
 
 shed:
   name: Shed
