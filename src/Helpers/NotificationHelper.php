@@ -408,6 +408,19 @@ class NotificationHelper
                     $sourceDominion->realm->number
                 );
 
+            # Scheduled/Barbarian invasions
+            case 'hourly_dominion.received_invasion':
+                $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
+
+                return sprintf(
+                    'An army from %s (#%s) invaded our lands, conquering %s acres of land! We lost %s units during the battle.',
+                    $attackerDominion->name,
+                    $attackerDominion->realm->number,
+                    number_format($data['landLost']),
+                    number_format($data['unitsLost'])
+                );
+
+
             case 'irregular_dominion.received_invasion':
                 $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
 
