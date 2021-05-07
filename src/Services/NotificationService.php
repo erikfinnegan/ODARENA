@@ -61,7 +61,8 @@ class NotificationService
             foreach ($this->notifications as $type => $data)
             {
                 $ingameSetting = $user->getSetting("notifications.{$category}.{$type}.ingame");
-                if ($ingameSetting === null) {
+                if ($ingameSetting === null)
+                {
                     $ingameSetting = $defaultSettings[$category][$type]['ingame'];
                 }
                 if ($ingameSetting) {

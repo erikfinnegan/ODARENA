@@ -570,7 +570,7 @@ class EspionageActionService
 
         return [
             'success' => true,
-            'message' => 'Your spies infiltrate the target\'s dominion successfully and return with a wealth of information.',
+            'message' => 'Your spies infiltrate the ' . $target->name . ' successfully and return with a wealth of information.',
             'redirect' => route('dominion.op-center.show', $target),
         ];
     }
@@ -656,7 +656,7 @@ class EspionageActionService
             return [
                 'success' => true,
                 'message' => sprintf(
-                    'Your spies infiltrate the target\'s dominion successfully and return with %s %s.',
+                    'Your spies infiltrate ' . $target->name .  ' successfully and return with %s %s.',
                     number_format($amountStolen),
                     $resource
                 ),
@@ -1098,7 +1098,7 @@ class EspionageActionService
                 'success' => true,
                 'damage' => $damage,
                 'message' => sprintf(
-                    'Your spies infiltrate the target\'s dominion successfully, they lost %s.',
+                    'Your spies infiltrate ' . $target->name . ' successfully, they lost %s.',
                     $damageString
                 ),
                 'redirect' => route('dominion.op-center.show', $target),

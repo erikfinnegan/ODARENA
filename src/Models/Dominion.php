@@ -967,14 +967,15 @@ class Dominion extends AbstractModel
 
         foreach ($this->improvements as $improvement)
         {
-            $perkValueString = $improvement->getPerkValue($perkKey);
+            if($perkValueString = $improvement->getPerkValue($perkKey))
+            {
+                $perkValues = $this->extractImprovementPerkValues($perkValueString);
+                $max = (float)$perkValues[0];
+                $coefficient = (float)$perkValues[1];
+                $invested = (float)$improvement->pivot->invested;
 
-            $perkValues = $this->extractImprovementPerkValues($perkValueString);
-            $max = (float)$perkValues[1];
-            $coefficient = (float)$perkValues[0];
-            $invested = $improvement->pivot->invested;
-
-            $perk += $max * (1 - exp(-$invested / $coefficient * $landSize + 15000));
+                $perk += $max * (1 - exp(-$invested / ($coefficient * $landSize + 15000)));
+            }
         }
 
         return $perk;

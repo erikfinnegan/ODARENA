@@ -14,6 +14,8 @@ class RangeCalculator
 {
     public const MINIMUM_RANGE = 0.4;
 
+    public const RECENTLY_INVADED_GRACE_PERIOD_HOURS = 3;
+
     /** @var LandCalculator */
     protected $landCalculator;
 
@@ -69,7 +71,7 @@ class RangeCalculator
           )
 
             # Or was recently invaded by the target in the last three hours.
-            or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target, 3)
+            or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target, static::RECENTLY_INVADED_GRACE_PERIOD_HOURS)
         );
     }
 

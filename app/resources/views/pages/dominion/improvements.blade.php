@@ -61,7 +61,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                             <tbody>
                                 @foreach ($improvementHelper->getImprovementsByRace($selectedDominion->race) as $improvement)
                                     <tr>
-                                        <td>{{ $improvement->name }}</td>
+                                        <td><span class="{{ $improvementHelper->getImprovementIcon2($improvementType) }}" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementDescription($improvement) }}"> {{ $improvement->name }}</span></td>
                                         <td class="text-center">
                                             <input type="number" name="improve[{{ $improvement->key }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvement->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
@@ -70,8 +70,19 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                         </td>
                                         <td>
                                             @foreach($improvement->perks as $perk)
-                                            
-                                                {{ $selectedDominion->getImprovementPerkValue($perk->key) }}
+                                                @php
+                                                    $improvementPerkMultiplier = $selectedDominion->getImprovementPerkMultiplier($perk->key);
+                                                @endphp
+
+                                                @if($improvementPerkMultiplier > 0)
+                                                    <span class="">
+                                                @elseif($improvementPerkMultiplier > 0)
+                                                    <span class="text-red">
+                                                @else
+                                                    <span class="text-muted">
+                                                @endif
+
+                                                {{ number_format($improvementPerkMultiplier * 100, 2) }}% {{ $improvementHelper->getImprovementPerkDescription($perk->key) }} <br></span>
 
                                             @endforeach
                                         </td>

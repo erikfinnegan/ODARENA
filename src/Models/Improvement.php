@@ -45,8 +45,6 @@ class Improvement extends AbstractModel
             return ($improvementPerkType->key === $key);
         });
 
-        dd($key);
-
         if ($perks->isEmpty()) {
             return 0;
         }

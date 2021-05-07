@@ -7,6 +7,7 @@ use OpenDominion\Models\Race;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 use OpenDominion\Models\Improvement;
+use OpenDominion\Models\ImprovementPerk;
 
 class ImprovementHelper
 {
@@ -137,7 +138,86 @@ class ImprovementHelper
     }
 
 
+
+
+    public function getImprovementIcon2(string $improvementKey): string
+    {
+        $icons = [
+            'markets' => 'hive-emblem',
+            'keep' => 'capitol',
+            #'towers' => 'fairy-wand',
+            'spires' => 'fairy-wand',
+            'forges' => 'forging',
+            'walls' => 'shield',
+            'harbor' => 'anchor',
+            'armory' => 'helmet',
+            'infirmary' => 'health',
+            'workshops' => 'nails',
+            'observatory' => 'telescope',
+            'cartography' => 'compass',
+            'hideouts' => 'hood',
+            'forestry' => 'pine-tree',
+            'refinery' => 'large-hammer',
+            'granaries' => 'vase',
+            'tissue' => 'thorny-vine',
+        ];
+
+        return $icons[$improvementKey] ? $icons[$improvementKey] : 'fairy-wand';
+
+    }
+
     # BUILDINGS 2.0
+
+    #public function getImprovementPerkDescription(ImprovementPerk $improvementPerk): string
+    public function getImprovementPerkDescription(string $improvementPerk): string
+    {
+
+        $improvementPerkDescriptions = [
+            'gold_production' => 'Gold production',
+            'ore_production' => 'Ore production',
+            'lumber_production' => 'Lumber production',
+            'gem_production' => 'Gem production',
+            'mana_production' => 'Mana production',
+            'food_production' => 'Food production',
+            'tech_production' => 'XP generation',
+
+            'tech_gains' => 'XP gained',
+
+            'population' => 'Population',
+            'population_growth' => 'Population growth',
+
+            'construction_cost' => 'Reduced construction costs',
+            'rezone_cost' => 'Reduced rezoning costs',
+
+            'explore_gold_cost' => 'Reduced exploration gold costs',
+            'land_discovered' => 'Land discovered',
+
+            'unit_gold_costs' => 'Reduced unit gold costs',
+            'unit_ore_costs' => 'Reduced unit ore costs',
+            'unit_lumber_costs' => 'Reduced unit lumber costs',
+            'unit_gem_costs' => 'Reduced unit gem costs',
+            'unit_mana_costs' => 'Reduced unit mana costs',
+            'unit_food_costs' => 'Reduced unit food costs',
+
+            'offensive_power' => 'Offensive power',
+            'defensive_power' => 'Defensive power',
+            'casualties' => 'Reduced casualties',
+            'offensive_casualties' => 'Reduced offensive casualties',
+            'defensive_casualties' => 'Reduced defensive casualties',
+
+            'spy_strength' => 'Spy strength',
+            'spy_losses' => 'Reduced spy losses',
+            'forest_haven_housing' => 'Forest Haven housing',
+
+            'wizard_strength' => 'Wizard strength',
+            'wizard_losses' => 'Reduced wizard losses',
+            'spell_damage' => 'Reduced spell damage',
+            'wizard_guild_housing' => 'Wizard Guild housing',
+
+        ];
+
+        return $improvementPerkDescriptions[$improvementPerk] ? : 'Missing description';
+    }
 
     public function getImprovementDescription(Improvement $improvement): ?string
     {
@@ -187,63 +267,6 @@ class ImprovementHelper
             'wizard_guild_housing' => 'Wizard Guild housing (max +%1$s%%)',
 
         ];
-
-        foreach ($improvement->perks as $perk)
-        {
-            if (!array_key_exists($perk->key, $perkTypeStrings))
-            {
-                continue;
-            }
-
-            $perkValue = $perk->pivot->value;
-
-            $nestedArrays = false;
-            if (str_contains($perkValue, ','))
-            {
-                $perkValue = explode(',', $perkValue);
-
-                foreach ($perkValue as $key => $value)
-                {
-                    if (!str_contains($value, ';'))
-                    {
-                        continue;
-                    }
-
-                    $nestedArrays = true;
-                    $perkValue[$key] = explode(';', $value);
-                }
-            }
-
-            if (is_array($perkValue))
-            {
-                if ($nestedArrays)
-                {
-                    foreach ($perkValue as $nestedKey => $nestedValue)
-                    {
-                        $helpStrings[$improvement->name] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $nestedValue) . '</li>');
-                    }
-                }
-                else
-                {
-                    $helpStrings[$improvement->name] .= ('<li>' . vsprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
-                }
-            }
-            else
-            {
-                $helpStrings[$improvement->name] .= ('<li>' . sprintf($perkTypeStrings[$perk->key], $perkValue) . '</li>');
-            }
-        }
-
-
-        if(strlen($helpStrings[$improvement->name]) == 0)
-        {
-            $helpStrings[$improvement->name] = '<i>No special abilities</i>';
-        }
-        else
-        {
-            $helpStrings[$improvement->name] = '<ul>' . $helpStrings[$improvement->name] . '</ul>';
-        }
-
 
         return $helpStrings[$improvement->name] ?: null;
     }
