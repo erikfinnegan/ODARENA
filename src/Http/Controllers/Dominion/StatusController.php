@@ -10,13 +10,12 @@ use OpenDominion\Helpers\NotificationHelper;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Services\Dominion\QueueService;
-
-# ODA
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\TickActionRequest;
 use OpenDominion\Services\Dominion\Actions\TickActionService;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\TitleHelper;
+use OpenDominion\Services\Dominion\StatsService;
 
 class StatusController extends AbstractDominionController
 {
@@ -39,6 +38,7 @@ class StatusController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'titleHelper' => app(TitleHelper::class),
+            'statsService' => app(StatsService::class),
             'notifications' => $notifications
         ]);
     }

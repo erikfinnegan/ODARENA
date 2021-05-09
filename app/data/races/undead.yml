@@ -83,6 +83,6 @@ units:
       immortal_on_fending_off: 1
       immortal_wizard: 1
       no_draftee: 1
-      counts_as_wizard_offense: 0.125
-      counts_as_wizard_defense: 0.125
+      counts_as_wizard_offense: 0.50
+      counts_as_wizard_defense: 0.25
       building_limit: wizard_guild,40,spires # building, buildings per unit, imp to increased

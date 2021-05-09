@@ -1,0 +1,367 @@
+# Invasions
+
+invasion_victories:
+  name: Victories
+
+invasion_razes:
+  name: Razes
+
+invasion_failures:
+  name: Failed invasions
+
+invasion_bottomfeeds:
+  name: Bottomfeeds
+
+defense_success:
+  name: Successful defenses
+
+defense_failures:
+  name: Times invaded
+
+# Production and Resources
+
+gold_production:
+  name: Gold production
+gold_sold:
+  name: Gold sold
+gold_bought:
+  name: Gold bought
+gold_building:
+  name: Gold building
+gold_rezoning:
+  name: Gold rezoning
+gold_training:
+  name: Gold training
+gold_improvements:
+  name: Gold improvements
+gold_exploring:
+  name: Gold exploring
+gold_lost:
+  name: Gold lost
+gold_salvaged:
+  name: Gold salvaged
+gold_plundered:
+  name: Gold plundered
+
+food_production:
+  name: Food production
+food_sold:
+  name: Food sold
+food_bought:
+  name: Food bought
+food_building:
+  name: Food building
+food_rezoning:
+  name: Food rezoning
+food_training:
+  name: Food training
+food_improvements:
+  name: Food improvements
+food_exploring:
+  name: Food exploring
+food_lost:
+  name: Food lost
+food_salvaged:
+  name: Food salvaged
+food_plundered:
+  name: Food plundered
+
+lumber_production:
+  name: Lumber production
+lumber_sold:
+  name: Lumber sold
+lumber_bought:
+  name: Lumber bought
+lumber_building:
+  name: Lumber building
+lumber_rezoning:
+  name: Lumber rezoning
+lumber_training:
+  name: Lumber training
+lumber_improvements:
+  name: Lumber improvements
+lumber_exploring:
+  name: Lumber exploring
+lumber_lost:
+  name: Lumber lost
+lumber_salvaged:
+  name: Lumber salvaged
+lumber_plundered:
+  name: Lumber plundered
+
+ore_production:
+  name: Ore production
+ore_sold:
+  name: Ore sold
+ore_bought:
+  name: Ore bought
+ore_building:
+  name: Ore building
+ore_rezoning:
+  name: Ore rezoning
+ore_training:
+  name: Ore training
+ore_improvements:
+  name: Ore improvements
+ore_exploring:
+  name: Ore exploring
+ore_lost:
+  name: Ore lost
+ore_salvaged:
+  name: Ore salvaged
+ore_plundered:
+  name: Ore plundered
+
+gem_production:
+  name: Gem production
+gem_sold:
+  name: Gem sold
+gem_bought:
+  name: Gem bought
+gem_building:
+  name: Gem building
+gem_rezoning:
+  name: Gem rezoning
+gem_training:
+  name: Gem training
+gem_improvements:
+  name: Gem improvements
+gem_lost:
+  name: Gem lost
+gem_salvaged:
+  name: Gem salvaged
+gem_plundered:
+  name: Gem plundered
+
+mana_production:
+  name: Mana production
+mana_sold:
+  name: Mana sold
+mana_bought:
+  name: Mana bought
+mana_building:
+  name: Mana building
+mana_rezoning:
+  name: Mana rezoning
+mana_training:
+  name: Mana training
+mana_improvements:
+  name: Mana improvements
+mana_exploring:
+  name: Mana exploring
+mana_cast:
+  name: Mana cast
+mana_lost:
+  name: Mana lost
+mana_salvaged:
+  name: Mana salvaged
+mana_plundered:
+  name: Mana plundered
+
+tech_production:
+  name: XP generation
+
+morale_training:
+  name: Morale training
+champions_training:
+  name: Champions training
+souls_training:
+  name: Souls training
+souls_improvements:
+  name: Souls improvements
+souls_lost:
+  name: Souls lost
+blood_training:
+  name: Blood training
+
+# Land
+
+land_conquered:
+  name: Land conquered
+
+land_explored:
+  name: Land explored
+
+land_discovered:
+  name: Land discovered
+
+land_lost:
+  name: Land lost
+
+# Espionage and Theft
+
+gold_stolen:
+  name: Gold stolen
+food_stolen:
+  name: Food stolen
+lumber_stolen:
+  name: Lumber stolen
+ore_stolen:
+  name: Ore stolen
+gem_stolen:
+  name: Gem stolen
+mana_stolen:
+  name: Mana stolen
+peasants_stolen:
+  name: Peasants abducted
+peasants_killed:
+  name: Peasants killed
+draftees_stolen:
+  name: Draftees abducted
+
+espionage_theft_success:
+  name: Theft success
+espionage_theft_failure:
+  name: Theft failure
+espionage_info_success:
+  name: Info success
+espionage_info_failure:
+  name: Info failure
+espionage_hostile_success:
+  name: Hostile success
+espionage_hostile_failure:
+  name: Hostile failure
+
+espionage_damage_improvements:
+  name: Spell improvements damage
+
+espionage_wizard_strength_damage:
+  name: Wizard strength damage
+
+
+# Magic and Spells
+
+gold_destroyed:
+  name: Gold destroyed
+food_destroyed:
+  name: Food destroyed
+lumber_destroyed:
+  name: Lumber destroyed
+ore_destroyed:
+  name: Ore destroyed
+gem_destroyed:
+  name: Gem destroyed
+mana_destroyed:
+  name: Mana destroyed
+souls_destroyed:
+  name: Souls destroyed
+
+magic_self_success:
+  name: Self spells cast
+
+magic_friendly_success:
+  name: Friendly spells cast
+
+magic_reflected:
+  name: Spells reflected
+
+magic_broken:
+  name: Spells broken
+
+magic_perceived:
+  name: Spells perceived
+
+magic_info_success:
+  name: Info spells success
+magic_info_failure:
+  name: Info spells failure
+
+magic_hostile_success:
+  name: Info spells success
+magic_hostile_failure:
+  name: Hostile spells failure
+magic_hostile_duration:
+  name: Hostile spells duration
+
+magic_invasion_success:
+  name: Invasion spells success
+magic_invasion_failure:
+  name: Invasion spells failure
+
+magic_damage_improvements:
+  name: Spell improvements damage
+magic_damage_spy_strength:
+  name: Spy strength damage
+magic_damage_morale:
+  name: Morale damage
+
+# Units
+draftees_killed:
+  name: Total draftees killed
+draftees_lost:
+  name: Total draftees lost
+
+units_trained:
+  name: Total units trained
+units_killed:
+  name: Total units killed
+units_converted:
+  name: Total units converted
+
+unit1_trained:
+  name: Total unit1 trained
+unit1_killed:
+  name: Total unit1 killed
+unit1_lost:
+  name: Total unit1 lost
+unit1_training:
+  name: Unit1 training
+
+unit2_trained:
+  name: Total unit2 trained
+unit2_killed:
+  name: Total unit2 killed
+unit2_lost:
+  name: Total unit2 lost
+unit2_training:
+  name: Unit2 training
+
+unit3_trained:
+  name: Total unit3 trained
+unit3_killed:
+  name: Total unit3 killed
+unit3_lost:
+  name: Total unit3 lost
+unit3_training:
+  name: Unit3 training
+
+unit4_trained:
+  name: Total unit4 trained
+unit4_killed:
+  name: Total unit4 killed
+unit4_lost:
+  name: Total unit4 lost
+unit4_training:
+  name: Unit4 training
+
+spies_trained:
+  name: Total spies trained
+spies_killed:
+  name: Total spies killed
+spies_lost:
+  name: Total spies lost
+spies_training:
+  name: Spies training
+
+wizards_trained:
+  name: Total wizards trained
+wizards_killed:
+  name: Total wizards killed
+wizards_lost:
+  name: Total wizards lost
+wizards_training:
+  name: Wizards training
+
+archmages_trained:
+  name: Total archmages trained
+archmages_killed:
+  name: Total archmages killed
+archmages_lost:
+  name: Total archmages lost
+archmages_training:
+  name: Archmages training
+
+peasants_training:
+  name: Peasants training
+draftees_training:
+  name: Draftees training

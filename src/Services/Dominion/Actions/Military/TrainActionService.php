@@ -3,6 +3,8 @@
 namespace OpenDominion\Services\Dominion\Actions\Military;
 
 use DB;
+use Throwable;
+
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\UnitHelper;
@@ -11,10 +13,8 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\Tech;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
-use Throwable;
-
-// ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -45,6 +45,7 @@ class TrainActionService
         $this->unitHelper = app(UnitHelper::class);
         $this->raceHelper = app(RaceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->statsService = app(StatsService::class);
 
         $this->improvementCalculator = $improvementCalculator;
         $this->spellCalculator = $spellCalculator;
@@ -315,7 +316,7 @@ class TrainActionService
               $victoriesLimit = (int)$victoriesLimit[0]; # How many Victories we need
               $unitsPerVictories = (int)$victoriesLimit[1]; # Number of units per Victories number
 
-              $victories = $dominion->stat_attacking_success;
+              $victories = $this->statsService->getStat($dominion, 'invasion_victories');
 
               $upperLimit = intval($victories / $victoriesLimit);
 
@@ -509,25 +510,13 @@ class TrainActionService
             $dominion->military_archmages -= $totalCosts['archmage'];
 
             # Update spending statistics.
-            $dominion->stat_total_gold_spent_training += $totalCosts['gold'];
-            $dominion->stat_total_food_spent_training += $totalCosts['food'];
-            $dominion->stat_total_lumber_spent_training += $totalCosts['lumber'];
-            $dominion->stat_total_mana_spent_training += $totalCosts['mana'];
-            $dominion->stat_total_ore_spent_training += $totalCosts['ore'];
-            $dominion->stat_total_gem_spent_training += $totalCosts['gem'];
-            $dominion->stat_total_unit1_spent_training += $totalCosts['unit1'];
-            $dominion->stat_total_unit2_spent_training += $totalCosts['unit2'];
-            $dominion->stat_total_unit3_spent_training += $totalCosts['unit3'];
-            $dominion->stat_total_unit4_spent_training += $totalCosts['unit4'];
-            $dominion->stat_total_spies_spent_training += $totalCosts['spy'];
-            $dominion->stat_total_wizards_spent_training += $totalCosts['wizard'];
-            $dominion->stat_total_wizards_spent_training += $totalCosts['wizards'];
-            $dominion->stat_total_archmages_spent_training += $totalCosts['archmage'];
-            $dominion->stat_total_wild_yeti_spent_training += $totalCosts['wild_yeti'];
-            $dominion->stat_total_soul_spent_training += $totalCosts['soul'];
-            $dominion->stat_total_blood_spent_training += $totalCosts['blood'];
-            $dominion->stat_total_champion_spent_training += $totalCosts['champion'];
-            $dominion->stat_total_peasant_spent_training += $totalCosts['peasant'];
+            foreach($totalCosts as $resource => $amount)
+            {
+                if($amount > 0)
+                {
+                    $this->statsService->updateStats($dominion, ($resource . '_training'), $totalCosts[$resource]);
+                }
+            }
 
             // $data:
             # unit1 => int
@@ -576,7 +565,7 @@ class TrainActionService
                         $amountToTrain *= (1 + $dominion->getBuildingPerkMultiplier('extra_units_trained'));
                     }
 
-                    $dominion->{'stat_total_' . $unitStatsName . '_trained'} += $amountToTrain;
+                    $this->statsService->updateStats($dominion, ($unitStatsName . '_trained'), $amountToTrain);
 
                     $ticks = (int)intval($ticks);
 

@@ -11,6 +11,7 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
@@ -21,27 +22,6 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 class BuildActionService
 {
     use DominionGuardsTrait;
-
-    /** @var BuildingHelper */
-    protected $buildingHelper;
-
-    /** @var ConstructionCalculator */
-    protected $constructionCalculator;
-
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var LandHelper */
-    protected $landHelper;
-
-    /** @var QueueService */
-    protected $queueService;
-
-    /** @var RaceHelper */
-    protected $raceHelper;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
 
     /**
      * ConstructionActionService constructor.
@@ -55,6 +35,7 @@ class BuildActionService
         $this->queueService = app(QueueService::class);
         $this->raceHelper = app(RaceHelper::class);
         $this->spellCalculator = app(SpellCalculator::class);
+        $this->statsService = app(StatsService::class);
     }
 
     /**
@@ -183,12 +164,13 @@ class BuildActionService
             $this->queueService->queueResources('construction', $dominion, $data, $ticks);
 
             $dominion->{'resource_'.$primaryResource} -= $primaryCostTotal;
-            $dominion->{'stat_total_' . $primaryResource . '_spent_building'} += $primaryCostTotal;
+
+            $this->statsService->updateStats($dominion, ($primaryResource . '_building'), $primaryCostTotal);
 
             if(isset($secondaryResource))
             {
                 $dominion->{'resource_'.$secondaryResource} -= $secondaryCostTotal;
-                $dominion->{'stat_total_' . $secondaryResource . '_spent_building'} += $secondaryCostTotal;
+                $this->statsService->updateStats($dominion, ($secondaryResource . '_building'), $secondaryCostTotal);
             }
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);

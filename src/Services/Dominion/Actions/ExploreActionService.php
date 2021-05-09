@@ -9,6 +9,7 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
 # ODA
@@ -59,6 +60,7 @@ class ExploreActionService
           ImprovementCalculator $improvementCalculator,
           SpellCalculator $spellCalculator,
           LandCalculator $landCalculator,
+          StatsService $statsService,
           ProtectionService $protectionService,
           GuardMembershipService $guardMembershipService
       )
@@ -70,6 +72,7 @@ class ExploreActionService
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
         $this->protectionService = $protectionService;
+        $this->statsService = $statsService;
         $this->guardMembershipService = $guardMembershipService;
     }
 
@@ -176,25 +179,17 @@ class ExploreActionService
         # Pathfinder
         $ticks = $this->explorationCalculator->getExploreTime($dominion);
 
+        $this->statsService->updateStats($dominion, 'land_explored', $totalLandToExplore);
+        $this->statsService->updateStats($dominion, 'gold_exploring', $goldCost);
+
         DB::transaction(function () use ($dominion, $data, $newMorale, $newGold, $newDraftees, $totalLandToExplore, $researchPointsGained, $goldCost, $ticks) {
             $this->queueService->queueResources('exploration', $dominion, $data, $ticks);
             $this->queueService->queueResources('exploration',$dominion,['resource_tech' => $researchPointsGained], $ticks);
 
-
-            $dominion->stat_total_land_explored += $totalLandToExplore;
             $dominion->fill([
                 'morale' => $newMorale,
                 'resource_gold' => $newGold,
-                'military_draftees' => $newDraftees,
-
-                'stat_total_gold_spent_exploring' => ($dominion->stat_total_gold_spent_exploring + $goldCost),
-                'stat_total_food_spent_exploring' => ($dominion->stat_total_food_spent_exploring + 0),
-                'stat_total_lumber_spent_exploring' => ($dominion->stat_total_lumber_spent_exploring + 0),
-                'stat_total_mana_spent_exploring' => ($dominion->stat_total_mana_spent_exploring + 0),
-
-                'stat_total_ore_spent_exploring' => ($dominion->stat_total_ore_spent_exploring + 0),
-                'stat_total_gem_spent_exploring' => ($dominion->stat_total_gem_spent_exploring + 0),
-
+                'military_draftees' => $newDraftees
             ])->save(['event' => HistoryService::EVENT_ACTION_EXPLORE]);
         });
 

@@ -22,6 +22,7 @@ use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Http\Requests\Dominion\Actions\InvadeActionRequest;
 use OpenDominion\Services\Dominion\Actions\InvadeActionService;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
+use OpenDominion\Services\Dominion\StatsService;
 
 class BarbarianService
 {
@@ -48,6 +49,7 @@ class BarbarianService
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->dominionFactory = app(DominionFactory::class);
         $this->barbarianCalculator = app(BarbarianCalculator::class);
+        $this->statsService = app(StatsService::class);
     }
 
 
@@ -67,10 +69,10 @@ class BarbarianService
             $land += $this->queueService->getInvasionQueueTotalByResource($dominion, 'land_water');
 
             $units = [
-              'military_unit1' => 0,
-              'military_unit2' => 0,
-              'military_unit3' => 0,
-              'military_unit4' => 0,
+                'military_unit1' => 0,
+                'military_unit2' => 0,
+                'military_unit3' => 0,
+                'military_unit4' => 0,
             ];
 
             $dpaDeltaPaid = $this->barbarianCalculator->getDpaDeltaPaid($dominion);
@@ -287,8 +289,8 @@ class BarbarianService
                     $logString .= "\t\t**Actual land gained: " . array_sum($landGained) . "\n";
 
                     # Add the land gained to the $dominion.
-                    $dominion->stat_total_land_conquered += $totalLandToGain;
-                    $dominion->stat_attacking_success += 1;
+                    $this->statsService->updateStats($dominion, 'land_conquered', $totalLandToGain);
+                    $this->statsService->updateStats($dominion, 'invasion_victories', 1);
 
                     $sentRatio = rand($this->barbarianCalculator->getSetting('SENT_RATIO_MIN'), $this->barbarianCalculator->getSetting('SENT_RATIO_MAX'))/1000;
 
@@ -347,7 +349,6 @@ class BarbarianService
                     ]);
                     $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
                 }
-
 
             }
 

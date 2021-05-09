@@ -29,6 +29,7 @@ use OpenDominion\Models\SpyopPerk;
 use OpenDominion\Models\SpyopPerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
+use OpenDominion\Models\Stat;
 
 
 use OpenDominion\Models\Title;
@@ -71,6 +72,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncSpells();
             $this->syncSpyops();
             $this->syncImprovements();
+            $this->syncStats();
         });
     }
 
@@ -722,6 +724,54 @@ class DataSyncCommand extends Command implements CommandInterface
                 }
 
                 $improvement->perks()->sync($improvementPerksToSync);
+            }
+        }
+
+
+
+        /**
+         * Syncs stats from .yml file to the database.
+         */
+        protected function syncStats()
+        {
+            $fileContents = $this->filesystem->get(base_path('app/data/stats.yml'));
+
+            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+            foreach ($data as $statKey => $statData) {
+                // Spell
+                $stat = Stat::firstOrNew(['key' => $statKey])
+                    ->fill([
+                        'name' => $statData->name,
+                        'enabled' => object_get($statData, 'enabled', 1)
+                    ]);
+
+                if (!$stat->exists) {
+                    $this->info("Adding stat {$statData->name}");
+                } else {
+                    $this->info("Processing stat {$statData->name}");
+
+                    $newValues = $stat->getDirty();
+
+                    foreach ($newValues as $key => $newValue)
+                    {
+                        $originalValue = $stat->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                }
+
+                $stat->save();
+                $stat->refresh();
             }
         }
 

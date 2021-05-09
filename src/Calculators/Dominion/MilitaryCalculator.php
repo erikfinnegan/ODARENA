@@ -15,6 +15,7 @@ use OpenDominion\Services\Dominion\QueueService;
 # ODA
 use Illuminate\Support\Carbon;
 use OpenDominion\Services\Dominion\GuardMembershipService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Models\Tech;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
@@ -79,6 +80,7 @@ class MilitaryCalculator
         QueueService $queueService,
         SpellCalculator $spellCalculator,
         GuardMembershipService $guardMembershipService,
+        StatsService $statsService,
         TechCalculator $techCalculator,
         LandImprovementCalculator $landImprovementCalculator
         )
@@ -91,6 +93,7 @@ class MilitaryCalculator
         $this->queueService = $queueService;
         $this->spellCalculator = $spellCalculator;
         $this->guardMembershipService = $guardMembershipService;
+        $this->statsService = $statsService;
         $this->techCalculator = $techCalculator;
         $this->landImprovementCalculator = $landImprovementCalculator;
     }
@@ -998,7 +1001,7 @@ class MilitaryCalculator
             return 0;
         }
 
-        $victories = $dominion->stat_attacking_success;
+        $victories = $this->statsService->getStat($dominion, 'invasion_victories');
 
         $powerPerVictory = (float)$victoriesPerk[0];
         $max = (float)$victoriesPerk[1];
@@ -2037,7 +2040,7 @@ class MilitaryCalculator
 
     public function getNetVictories(Dominion $dominion): int
     {
-        return $dominion->stat_attacking_success - $dominion->stat_defending_failures;
+        return $this->statsService->getStat($dominion, 'invasion_victories') - $this->statsService->getStat($dominion, 'defense_failures');
     }
 
 }

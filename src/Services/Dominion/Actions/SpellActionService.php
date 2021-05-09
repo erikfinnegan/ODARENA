@@ -24,6 +24,7 @@ use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\InfoOp;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
@@ -68,6 +69,7 @@ class SpellActionService
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
+        $this->statsService = app(StatsService::class);
     }
 
     public const BLACK_OPS_DAYS_AFTER_ROUND_START = 1;
@@ -185,7 +187,7 @@ class SpellActionService
                 $this->castInvasionSpell($dominion, $target, $spell, $wizardStrengthCost);
             }
 
-            $dominion->stat_total_mana_cast += $manaCost;
+            $this->statsService->updateStats($dominion, 'mana_cast', $manaCost);
 
             if($spell->class !== 'invasion')
             {
@@ -199,11 +201,6 @@ class SpellActionService
                 {
                   $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
                   $dominion->resource_tech += $xpGained;
-                }
-
-                if ($spell->scope !== 'hostile')
-                {
-                    $dominion->stat_spell_success += 1;
                 }
             }
 
@@ -254,6 +251,8 @@ class SpellActionService
         # Self-spells self auras
         if($spell->scope == 'self')
         {
+            $this->statsService->updateStats($caster, 'magic_self_success', 1);
+
             if ($this->spellCalculator->isSpellActive($caster, $spell->key))
             {
                 if($this->spellCalculator->getSpellDuration($caster, $spell->key) == $spell->duration)
@@ -302,6 +301,7 @@ class SpellActionService
         # Friendly spells, friendly auras
         elseif($spell->scope == 'friendly')
         {
+            $this->statsService->updateStats($caster, 'magic_friendly_success', 1);
             if ($this->spellCalculator->isSpellActive($target, $spell->key))
             {
                 if($this->spellCalculator->getSpellDuration($target, $spell->key) == $spell->duration)
@@ -365,6 +365,7 @@ class SpellActionService
             ## If yes
             if ($targetWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($selfWpa, $targetWpa)))
             {
+                $this->statsService->updateStats($caster, 'magic_hostile_success', 1);
                 # Is the spell reflected?
                 $spellReflected = false;
                 if (random_chance($target->getSpellPerkMultiplier('chance_to_reflect_spells')) and $spell->class !== 'invasion')
@@ -373,7 +374,7 @@ class SpellActionService
                     $reflectedBy = $target;
                     $target = $caster;
                     $caster = $reflectedBy;
-                    $target->stat_spells_reflected += 1;
+                    $this->statsService->updateStats($caster, 'magic_reflected', 1);
                 }
 
                 if ($this->spellCalculator->isSpellActive($target, $spell->key))
@@ -407,11 +408,7 @@ class SpellActionService
                     });
                 }
 
-                // Update statistics
-                if (isset($caster->{"stat_{$spell->key}_hours"}))
-                {
-                    $caster->{"stat_{$spell->key}_hours"} += $spell->duration;
-                }
+                $this->statsService->updateStats($caster, 'magic_hostile_duration', $spell->duration);
 
                 // Surreal Perception
                 $sourceDominionId = null;
@@ -462,6 +459,8 @@ class SpellActionService
             ## If no
             else
             {
+                $this->statsService->updateStats($caster, 'magic_hostile_failure', 1);
+
                 $wizardsKilledBasePercentage = 1;
 
                 $wizardLossSpaRatio = ($targetWpa / $selfWpa);
@@ -479,8 +478,10 @@ class SpellActionService
                 if ($wizardsKilled > 0)
                 {
                     $unitsKilled['wizards'] = $wizardsKilled;
-                    $caster->military_wizards -= $wizardsKilled;
-                    $caster->stat_total_wizards_lost += $wizardsKilled;
+
+                    $this->statsService->updateStats($caster, 'wizards_lost', $wizardsKilled);
+                    $this->statsService->updateStats($target, 'wizards_killed', $wizardsKilled);
+
                 }
 
                 $wizardUnitsKilled = 0;
@@ -501,8 +502,9 @@ class SpellActionService
                         if ($unitKilled > 0)
                         {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
-                            $caster->{"military_unit{$unit->slot}"} -= $unitKilled;
-                            $caster->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+
+                            $this->statsService->updateStats($caster, ('unit' . $unit->slot . '_lost'), $unitKilled);
+                            $this->statsService->updateStats($target, 'units_killed', $unitKilled);
 
                             $wizardUnitsKilled += $unitKilled;
                         }
@@ -569,6 +571,7 @@ class SpellActionService
         # Self-spells self impact spells
         if($spell->scope == 'self')
         {
+            $this->statsService->updateStats($caster, 'magic_self_success', 1);
             $extraLine = '';
 
             foreach($spell->perks as $perk)
@@ -667,6 +670,8 @@ class SpellActionService
         # Friendly spells, friendly impact spells
         elseif($spell->scope == 'friendly')
         {
+            $this->statsService->updateStats($caster, 'magic_friendly_success', 1);
+
             foreach($spell->perks as $perk)
             {
                 $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
@@ -714,6 +719,7 @@ class SpellActionService
             ## If yes
             if ($targetWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($selfWpa, $targetWpa)))
             {
+                $this->statsService->updateStats($caster, 'magic_hostile_success', 1);
                 # Is the spell reflected?
                 $spellReflected = false;
                 if (random_chance($this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'chance_to_reflect_spells')) and !$isInvasionSpell)
@@ -722,7 +728,7 @@ class SpellActionService
                     $reflectedBy = $target;
                     $target = $dominion;
                     $caster = $reflectedBy;
-                    $caster->stat_spells_reflected += 1;
+                    $this->statsService->updateStats($target, 'magic_reflected', 1);
                 }
 
                 $damageDealt = [];
@@ -742,11 +748,7 @@ class SpellActionService
                         $target->{$attribute} -= $damage;
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                        // Update statistics
-                        if (isset($dominion->{"stat_{$spell->key}_damage"}))
-                        {
-                            $dominion->{"stat_{$spell->key}_damage"} += $damage;
-                        }
+                        $this->statsService->updateStats($caster, 'peasants_killed', $damage);
 
                         # For Empire, add burned peasants go to the crypt
                         if($target->realm->alignment === 'evil')
@@ -766,11 +768,7 @@ class SpellActionService
                         $target->{$attribute} -= $damage;
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                        // Update statistics
-                        if (isset($dominion->{"stat_{$spell->key}_damage"}))
-                        {
-                            $dominion->{"stat_{$spell->key}_damage"} += $damage;
-                        }
+                        $this->statsService->updateStats($caster, 'draftees_killed', $damage);
 
                         # For Empire, add burned peasants go to the crypt
                         if($target->realm->alignment === 'evil')
@@ -804,8 +802,8 @@ class SpellActionService
 
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($unit->name, $damage));
 
-                        $caster->stat_total_units_killed += $damage;
-                        $target->{'stat_total_unit' . $slot . '_lost'} += $damage;
+                        $this->statsService->updateStats($caster, 'units_killed', $damage);
+                        $this->statsService->updateStats($target, ('unit' . $slot . '_lost'), $damage);
                     }
 
                     if($perk->key === 'disband_spies')
@@ -819,11 +817,8 @@ class SpellActionService
                         $target->{$attribute} -= $damage;
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                        // Update statistics
-                        if (isset($dominion->{"stat_{$spell->key}_damage"}))
-                        {
-                            $dominion->{"stat_{$spell->key}_damage"} += round($damage);
-                        }
+                        $this->statsService->updateStats($caster, 'spies_killed', $damage);
+                        $this->statsService->updateStats($target, 'spies_lost', $damage);
                     }
 
                     # Increase morale
@@ -839,6 +834,8 @@ class SpellActionService
                         $target->{$attribute} -= $damage;
                         $damageDealt[] = sprintf('%s%% %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
+                        $this->statsService->updateStats($caster, 'magic_damage_morale', $damage);
+
                     }
 
                     if($perk->key === 'destroys_resource')
@@ -852,6 +849,10 @@ class SpellActionService
 
                         $target->{$attribute} -= $damage;
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                        $this->statsService->updateStats($caster, ($resource . '_destroyed'), $damage);
+                        $this->statsService->updateStats($target, ($resource . '_lost'), $damage);
+
                     }
 
                     if($perk->key === 'improvements_damage')
@@ -881,6 +882,8 @@ class SpellActionService
                                 $target->{'improvement_'.$improvement} -= $damage * ($target->{'improvement_'.$improvement} / $improvementPoints);
                             }
                         }
+
+                        $this->statsService->updateStats($caster, 'magic_damage_improvements', $damage);
 
                         $damageDealt = [sprintf('%s %s', number_format($totalDamage), dominion_attr_display('improvement', $totalDamage))];
                     }
@@ -951,8 +954,9 @@ class SpellActionService
                 if ($wizardsKilled > 0)
                 {
                     $unitsKilled['wizards'] = $wizardsKilled;
-                    $caster->military_wizards -= $wizardsKilled;
-                    $caster->stat_total_wizards_lost += $wizardsKilled;
+
+                    $this->statsService->updateStats($caster, 'wizards_lost', $wizardsKilled);
+                    $this->statsService->updateStats($target, 'wizards_killed', $wizardsKilled);
                 }
 
                 $wizardUnitsKilled = 0;
@@ -973,8 +977,9 @@ class SpellActionService
                         if ($unitKilled > 0)
                         {
                             $unitsKilled[strtolower($unit->name)] = $unitKilled;
-                            $caster->{"military_unit{$unit->slot}"} -= $unitKilled;
-                            $caster->{'stat_total_unit' . $unit->slot . '_lost'} += $unitKilled;
+
+                            $this->statsService->updateStats($caster, ('unit' . $unit->slot . '_lost'), $unitKilled);
+                            $this->statsService->updateStats($target, 'units_killed', $unitKilled);
 
                             $wizardUnitsKilled += $unitKilled;
                         }
@@ -1062,6 +1067,8 @@ class SpellActionService
         # Hostile aura - Afflicted
         elseif($spell->scope == 'hostile')
         {
+            $this->statsService->updateStats($caster, 'magic_invasion_success', 1);
+            $this->statsService->updateStats($caster, 'magic_hostile_duration', $spell->duration);
             if ($this->spellCalculator->isSpellActive($target, $spell->key))
             {
 
@@ -1093,13 +1100,6 @@ class SpellActionService
                     ]);
                 });
             }
-
-            // Update statistics
-            if (isset($caster->{"stat_{$spell->key}_hours"}))
-            {
-                $caster->{"stat_{$spell->key}_hours"} += $spell->duration;
-            }
-
             $this->notificationService
                 ->queueNotification('received_hostile_spell', [
                     'sourceDominionId' => $caster->id,
@@ -1126,6 +1126,7 @@ class SpellActionService
 
         if ($targetWpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfWpa, $targetWpa, static::INFO_MULTIPLIER_SUCCESS_RATE)))
         {
+            $this->statsService->updateStats($caster, 'magic_info_success', 1);
             # Is the spell reflected?
             $spellReflected = false;
             if (random_chance($target->getSpellPerkMultiplier('chance_to_reflect_spells')))
@@ -1133,7 +1134,7 @@ class SpellActionService
                 $spellReflected = true;
                 $reflectedBy = $target;
                 $caster = $reflectedBy;
-                $target->stat_spells_reflected += 1;
+                $this->statsService->updateStats($target, 'magic_reflected', 1);
             }
 
             $infoOp = new InfoOp([
@@ -1157,7 +1158,7 @@ class SpellActionService
                           'employment' => $this->populationCalculator->getEmploymentPercentage($target),
                           'networth' => $this->networthCalculator->getDominionNetworth($target),
                           'prestige' => $target->prestige,
-                          'victories' => $target->stat_attacking_success,
+                          'victories' => $this->getStat($target, 'invasion_victories'),
                           'net_victories' => $this->militaryCalculator->getNetVictories($target),
 
                           'resource_gold' => $target->resource_gold * $this->opsHelper->getInfoOpsAccuracyModifier($target),
@@ -1167,11 +1168,6 @@ class SpellActionService
                           'resource_ore' => $target->resource_ore * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                           'resource_gems' => $target->resource_gems * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                           'resource_tech' => $target->resource_tech * $this->opsHelper->getInfoOpsAccuracyModifier($target),
-                          #'resource_boats' => $target->resource_boats + $this->queueService->getInvasionQueueTotalByResource(
-                          #        $target,
-                          #        'resource_boats'
-                          #    ) * $this->opsHelper->getInfoOpsAccuracyModifier($target),
-
 
                           'resource_champion' => $target->resource_champion,
                           'resource_soul' => $target->resource_soul,
@@ -1257,6 +1253,8 @@ class SpellActionService
         else
         {
 
+            $this->statsService->updateStats($caster, 'magic_info_failure', 1);
+
             // Inform target that they repelled a hostile spell
             $this->notificationService
                 ->queueNotification('repelled_hostile_spell', [
@@ -1278,7 +1276,7 @@ class SpellActionService
     }
 
     public function breakSpell(Dominion $target, string $spellKey): array
-    {;
+    {
         $spell = Spell::where('key', $spellKey)->first();
         $dominionSpell = DominionSpell::where('spell_id', $spell->id)->where('dominion_id', $target->id)->first();
 
@@ -1321,6 +1319,8 @@ class SpellActionService
 
         if ($casterWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($targetWpa, $casterWpa)))
         {
+              $this->statsService->updateStats($target, 'magic_broken', 1);
+
               DB::transaction(function () use ($target, $spell)
               {
                   DominionSpell::where('dominion_id', $target->id)
@@ -1351,9 +1351,6 @@ class SpellActionService
                 'alert-type' => 'warning',
             ];
         }
-
-
-
     }
 
     protected function getReturnMessageString(Dominion $dominion): string

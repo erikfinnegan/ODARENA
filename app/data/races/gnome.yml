@@ -46,6 +46,7 @@ units:
 
   - name: Automaton
     training_time: 12
+    static_networth: 20
     type:
       - machine
     cost:
@@ -59,6 +60,7 @@ units:
 
   - name: Juggernaut
     training_time: 12
+    static_networth: 30
     type:
       - machine
     cost:

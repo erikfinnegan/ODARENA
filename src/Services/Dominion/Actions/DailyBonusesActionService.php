@@ -5,20 +5,16 @@ namespace OpenDominion\Services\Dominion\Actions;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
-
-use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class DailyBonusesActionService
 {
     use DominionGuardsTrait;
 
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
     public function __construct()
     {
-        $this->spellCalculator = app(SpellCalculator::class);
+        $this->statsService = app(StatsService::class);
     }
 
     /**
@@ -66,7 +62,7 @@ class DailyBonusesActionService
         $landGained = rand(1,200) == 1 ? 100 : rand(10, 40);
         $attribute = ('land_' . $dominion->race->home_land_type);
         $dominion->{$attribute} += $landGained;
-        $dominion->stat_total_land_explored += $landGained;
+        $this->statsService->updateStats($dominion, 'land_explored', $landGained);
         $dominion->daily_land = true;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_DAILY_BONUS]);
 

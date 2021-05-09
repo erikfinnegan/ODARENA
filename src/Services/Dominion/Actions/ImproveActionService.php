@@ -6,6 +6,7 @@ use DB;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
@@ -26,6 +27,7 @@ class ImproveActionService
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->landCalculator = app(LandCalculator::class);
+        $this->statsService = app(StatsService::class);
     }
 
     public function improve(Dominion $dominion, string $resource, array $data): array
@@ -122,12 +124,7 @@ class ImproveActionService
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
         $dominion->most_recent_improvement_resource = $resource;
 
-        $resourceNameForStats = $resource;
-        if($resourceNameForStats == 'gems')
-        {
-            $resourceNameForStats = 'gem';
-        }
-        $dominion->{'stat_total_' . $resourceNameForStats . '_spent_improving'} += $totalResourcesToInvest;
+        $this->statsService->updateStats($dominion, ($resource . '_improving'), $totalResourcesToInvest);
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
@@ -249,11 +246,8 @@ class ImproveActionService
         $dominion->most_recent_improvement_resource = $resource;
 
         $resourceNameForStats = $resource;
-        if($resourceNameForStats == 'gems')
-        {
-            $resourceNameForStats = 'gem';
-        }
-        $dominion->{'stat_total_' . $resourceNameForStats . '_spent_improving'} += $totalResourcesToInvest;
+
+        $this->statsService->updateStats($dominion, ($resource . '_improving'), $totalResourcesToInvest);
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 

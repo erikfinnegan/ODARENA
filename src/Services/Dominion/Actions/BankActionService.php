@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\Actions\BankingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
 use OpenDominion\Calculators\Dominion\SpellCalculator;
@@ -17,6 +18,8 @@ class BankActionService
 
     /** @var BankingCalculator */
     protected $bankingCalculator;
+    protected $spellCalculator;
+    protected $statsService;
 
     /**
      * BankActionService constructor.
@@ -25,11 +28,13 @@ class BankActionService
      */
     public function __construct(
         BankingCalculator $bankingCalculator,
-        SpellCalculator $spellCalculator
+        SpellCalculator $spellCalculator,
+        StatsService $statsService
         )
     {
         $this->bankingCalculator = $bankingCalculator;
         $this->spellCalculator = $spellCalculator;
+        $this->statsService = $statsService;
     }
 
     /**
@@ -93,8 +98,8 @@ class BankActionService
         $dominion->most_recent_exchange_from = $source;
         $dominion->most_recent_exchange_to = $target;
 
-        $dominion->{'stat_total_'.str_replace('resource_','',$source).'_sold'} += $amount;
-        $dominion->{'stat_total_'.str_replace('resource_','',$target).'_bought'} += $targetAmount;
+        $this->statsService->updateStats($dominion, (str_replace('resource_', '', $source).'_sold'), $amount);
+        $this->statsService->updateStats($dominion, (str_replace('resource_', '', $target).'_bought'), $targetAmount);
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_BANK]);
 

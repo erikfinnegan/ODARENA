@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
 
 class BarbarianCalculator
 {
@@ -88,6 +89,7 @@ class BarbarianCalculator
         $this->landCalculator = app(LandCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->queueService = app(QueueService::class);
+        $this->statsService = app(StatsService::class);
     }
 
     public function getSettings(): array
@@ -140,7 +142,7 @@ class BarbarianCalculator
         {
             $calculateDate = max($dominion->round->start_date, $dominion->created_at);
             $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
-            $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * (static::DPA_PER_HOUR + ($dominion->stat_defending_failures * static::DPA_PER_TIMES_INVADED)));
+            $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * (static::DPA_PER_HOUR + ($this->statsService->getStat($dominion, 'defense_failures') * static::DPA_PER_TIMES_INVADED)));
             return $dpa *= ($dominion->npc_modifier / 1000);
         }
         # Get DPA target in general

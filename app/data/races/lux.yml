@@ -24,7 +24,7 @@ perks:
 
 units:
   - name: Essence
-    training_time: 6
+    training_time: 2
     type:
       - living
       - sentient
@@ -45,7 +45,6 @@ units:
       - sentient
       - ethereal
       - intelligent
-    static_networth: 7
     cost:
       unit1: 1
       gem: 10
@@ -66,7 +65,6 @@ units:
       - sentient
       - ethereal
       - intelligent
-    static_networth: 7
     cost:
       unit1: 1
       gem: 10
@@ -88,7 +86,6 @@ units:
       - ethereal
       - intelligent
       - wise
-    static_networth: 14
     cost:
       unit2: 1
       unit3: 1

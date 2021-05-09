@@ -66,7 +66,7 @@
                                     </tr>
                                     <tr>
                                         <td>Victories:</td>
-                                        <td>{{ number_format($selectedDominion->stat_attacking_success) }}</td>
+                                        <td>{{ number_format($statsService->getStat($selectedDominion, 'invasion_victories')) }}</td>
                                     </tr>
                                     <tr>
                                         <td>Net Victories:</td>

@@ -332,7 +332,7 @@ class TickService
                         'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
                         'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                         'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
-                        */
+
 
                         'dominions.stat_total_gold_production' => DB::raw('dominions.stat_total_gold_production + dominion_tick.resource_gold'),
                         'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
@@ -348,6 +348,7 @@ class TickService
                         'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_consumed + dominion_tick.resource_food_consumption'),
                         'dominions.stat_total_lumber_rotted' => DB::raw('dominions.stat_total_lumber_rotted + dominion_tick.resource_lumber_rot'),
                         'dominions.stat_total_mana_drained' => DB::raw('dominions.stat_total_mana_drained + dominion_tick.resource_mana_drain'),
+                        */
 
                         'dominions.protection_ticks' => DB::raw('dominions.protection_ticks + dominion_tick.protection_ticks'),
 
@@ -1340,7 +1341,6 @@ class TickService
                     'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
                     'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
                     'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
-                    */
 
                     'dominions.stat_total_gold_production' => DB::raw('dominions.stat_total_gold_production + dominion_tick.resource_gold'),
                     'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
@@ -1356,6 +1356,7 @@ class TickService
                     'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_consumed + dominion_tick.resource_food_consumption'),
                     'dominions.stat_total_lumber_rotted' => DB::raw('dominions.stat_total_lumber_rotted + dominion_tick.resource_lumber_rot'),
                     'dominions.stat_total_mana_drained' => DB::raw('dominions.stat_total_mana_drained + dominion_tick.resource_mana_drain'),
+                    */
 
                     'dominions.protection_ticks' => DB::raw('dominions.protection_ticks + dominion_tick.protection_ticks'),
 

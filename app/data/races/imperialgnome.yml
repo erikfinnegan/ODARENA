@@ -63,7 +63,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,3,workshops # building, buildings per unit, imp to increase
-      upkeep_gold: 50
+      upkeep_gold: 25
       upkeep_ore: 4
 
   - name: Airship
@@ -72,8 +72,8 @@ units:
       - machine
     cost:
       gold: 33000
-      lumber: 10000
-      mana: 1000
+      lumber: 5000
+      mana: 500
     power:
       offense: 120
       defense: 20
@@ -81,5 +81,5 @@ units:
       fewer_casualties_offense: 50
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: factory,2.5,workshops # building, buildings per unit, imp to increased
+      building_limit: factory,4,workshops # building, buildings per unit, imp to increased
       mana_drain: 1

@@ -10,10 +10,9 @@ use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
-
-# ODA
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
@@ -54,6 +53,7 @@ class ConstructActionService
         $this->queueService = app(QueueService::class);
         $this->raceHelper = app(RaceHelper::class);
         $this->spellCalculator = app(SpellCalculator::class);
+        $this->statsService = app(StatsService::class);
     }
 
     /**
@@ -171,26 +171,18 @@ class ConstructActionService
             $this->queueService->queueResources('construction', $dominion, $data, $ticks);
 
             $dominion->{'resource_'.$primaryResource} -= $primaryCostTotal;
-            $dominion->{'stat_total_' . $primaryResource . '_spent_building'} += $primaryCostTotal;
+
+            $this->statsService->updateStats($dominion, ($primaryResource . '_building'), $primaryCostTotal);
 
             if(isset($secondaryResource))
             {
                 $dominion->{'resource_'.$secondaryResource} -= $secondaryCostTotal;
-                $dominion->{'stat_total_' . $secondaryResource . '_spent_building'} += $secondaryCostTotal;
+
+                $this->statsService->updateStats($dominion, ($secondaryResource . '_building'), $secondaryCostTotal);
             }
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
-/*
-            $dominion->fill([
-                {'resource_'.$primaryResource} => ($dominion->{'resource_'.$primaryResource} - $primaryCost),
-                {'resource_'.$secondaryResource} => ($dominion->{'resource_'.$secondaryResource} - $secondaryCost),
 
-                {'stat_total_' . $primaryResource . '_spent_building'} => ($dominion->{'stat_total_' . $primaryResource . '_spent_building'} + $primaryCost),
-                {'stat_total_' . $secondaryResource . '_spent_building'} => ($dominion->{'stat_total_' . $secondaryResource . '_spent_building'} + $secondaryCost),
-
-
-            ])->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);
-*/
         });
 
         if(isset($secondaryResource))

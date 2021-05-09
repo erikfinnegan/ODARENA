@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
 
@@ -34,12 +35,14 @@ class RezoneActionService
     public function __construct(
         LandCalculator $landCalculator,
         RezoningCalculator $rezoningCalculator,
+        StatsService $statsService,
         SpellCalculator $spellCalculator
         )
     {
         $this->landCalculator = $landCalculator;
         $this->rezoningCalculator = $rezoningCalculator;
         $this->spellCalculator = $spellCalculator;
+        $this->statsService = $statsService;
     }
 
     /**
@@ -108,7 +111,7 @@ class RezoneActionService
         $dominion->{'resource_'.$resource} -= $cost;
 
         # Update spending statistics.
-        $dominion->{'stat_total_'.$resource.'_spent_rezoning'}  += $cost;
+        $this->statsService->updateStats($dominion, ($resource . '_rezoning'), $cost);
 
         foreach ($remove as $landType => $amount) {
             $dominion->{'land_' . $landType} -= $amount;
