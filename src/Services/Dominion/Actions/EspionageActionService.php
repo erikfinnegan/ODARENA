@@ -1227,12 +1227,17 @@ class EspionageActionService
     {
 
       $spiesKilledMultiplier = 1;
-      # Forest Havens
+
+      // Buildings
       $spiesKilledMultiplier -= $dominion->getBuildingPerkMultiplier('spy_losses');
+
       # Techs
       $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
-      # Hideouts
+
+      // Improvements
       $spiesKilledMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
+      $spiesKilledMultiplier -= $dominion->getImprovementPerkMultiplier('spy_losses');
+
       # Cap at 0% losses
       $spiesKilledMultiplier = max(0, $spiesKilledMultiplier);
 

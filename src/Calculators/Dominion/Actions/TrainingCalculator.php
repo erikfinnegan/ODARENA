@@ -334,6 +334,8 @@ class TrainingCalculator
         {
             $trainableByCost = [];
 
+            unset($costs['morale']);
+
             foreach ($costs as $type => $value)
             {
                 if($value !== 0)
@@ -491,6 +493,9 @@ class TrainingCalculator
             $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
         }
 
+        // Improvements
+        $multiplier -= $dominion->getImprovementPerkMultiplier('unit_' . $resourceType . '_costs');
+
         // Techs
         if(in_array($resourceType,$discountableResourceTypesByTech))
         {
@@ -520,12 +525,12 @@ class TrainingCalculator
             $multiplier += $dominion->title->getPerkMultiplier('unit_' . $resourceType . '_costs') * $dominion->title->getPerkBonus($dominion);
         }
 
-        if(in_array($resourceType,$discountableResourceTypesByTechFood))
+        if(in_array($resourceType, $discountableResourceTypesByTechFood))
         {
             $multiplier += $dominion->getTechPerkMultiplier('military_cost_food');
         }
 
-        if(in_array($resourceType,$discountableResourceTypesByTechMana))
+        if(in_array($resourceType, $discountableResourceTypesByTechMana))
         {
             $multiplier += $dominion->getTechPerkMultiplier('military_cost_mana');
         }

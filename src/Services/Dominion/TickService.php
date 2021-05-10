@@ -755,12 +755,14 @@ class TickService
           $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
           $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
 
-          if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
+          if ($dominion->getSpellPerkValue('kills_peasants_and_converts_for_caster_unit'))
           {
+              $pestilence = $spell->getActiveSpellPerkValues('pestilence', 'kills_peasants_and_converts_for_caster_unit');
+              $ratio = $pestilence[0];
+              $slot = $pestilence[1];
               $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
 
-              $amountToDie = $dominion->peasants * 0.01 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, Spell::where('key', 'pestilence')->first(), null);
-              $amountToDie *= $this->rangeCalculator->getDominionRange($caster, $dominion) / 100;
+              $amountToDie = $dominion->peasants * $ratio * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, Spell::where('key', 'pestilence')->first(), null);
               $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
               $amountToDie = (int)round($amountToDie);
 

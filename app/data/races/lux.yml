@@ -15,31 +15,30 @@ peasants_alias: shimmerling
 draftees_alias: ray
 
 perks:
-  food_consumption: -50
+  no_food_consumption: 1
   does_not_kill: 1
   immortal_spies: 1
   immortal_wizards: 1
   gold_production: -15
-  mana_production: 10
 
 units:
   - name: Essence
-    training_time: 2
+    training_time: 1
     type:
       - living
       - sentient
       - ethereal
       - intelligent
-    static_networth: 5
+    static_networth: 2
     cost:
-      gold: 250
+      gem: 10
       mana: 10
     power:
       offense: 0
       defense: 0
 
   - name: Hex
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -51,15 +50,15 @@ units:
       mana: 20
     power:
       offense: 0
-      defense: 4
+      defense: 5
     perks:
       no_draftee: 1
       fewer_casualties: 50
-      counts_as_wizard_offense: 0.05
-      counts_as_wizard_defense: 0.03
+      counts_as_wizard_offense: 0.10
+      counts_as_wizard_defense: 0.06
 
-  - name: Vexs
-    training_time: 9
+  - name: Vex
+    training_time: 6
     type:
       - living
       - sentient
@@ -75,11 +74,11 @@ units:
     perks:
       no_draftee: 1
       fewer_casualties: 50
-      counts_as_spy_offense: 0.05
-      counts_as_spy_defense: 0.03
+      counts_as_spy_offense: 0.10
+      counts_as_spy_defense: 0.06
 
   - name: Pax
-    training_time: 12
+    training_time: 7
     type:
       - living
       - sentient
@@ -89,18 +88,18 @@ units:
     cost:
       unit2: 1
       unit3: 1
-      gem: 40
-      mana: 40
+      gem: 50
+      mana: 50
     power:
-      offense: 8
-      defense: 8
+      offense: 10
+      defense: 10
     perks:
       no_draftee: 1
       true_immortal: 1
-      counts_as_wizard_offense: 0.12
-      counts_as_wizard_defense: 0.08
-      counts_as_spy_offense: 0.12
-      counts_as_spy_defense: 0.08
+      counts_as_wizard_offense: 0.24
+      counts_as_wizard_defense: 0.16
+      counts_as_spy_offense: 0.24
+      counts_as_spy_defense: 0.16
       plunders: mana;1,gems;0.2
       immortal_wizard: 1
       immortal_spy: 1

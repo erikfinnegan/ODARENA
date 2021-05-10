@@ -112,25 +112,25 @@ ore_salvaged:
 ore_plundered:
   name: Ore plundered
 
-gem_production:
+gems_production:
   name: Gem production
-gem_sold:
+gems_sold:
   name: Gem sold
-gem_bought:
+gems_bought:
   name: Gem bought
-gem_building:
+gems_building:
   name: Gem building
-gem_rezoning:
+gems_rezoning:
   name: Gem rezoning
-gem_training:
+gems_training:
   name: Gem training
-gem_improvements:
+gems_improvements:
   name: Gem improvements
-gem_lost:
+gems_lost:
   name: Gem lost
-gem_salvaged:
+gems_salvaged:
   name: Gem salvaged
-gem_plundered:
+gems_plundered:
   name: Gem plundered
 
 mana_production:
@@ -198,7 +198,7 @@ lumber_stolen:
   name: Lumber stolen
 ore_stolen:
   name: Ore stolen
-gem_stolen:
+gems_stolen:
   name: Gem stolen
 mana_stolen:
   name: Mana stolen

@@ -84,15 +84,11 @@
                                             </td>
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
-                                                      @if ($event->source->realm->id === $selectedDominion->realm->id)
-                                                          @if (isset($event->data['attacker']['unitsSent'][$slot]))
-                                                            {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
-                                                          @else
-                                                            0
-                                                          @endif
-                                                      @else
-                                                            <span class="text-muted">?</span>
-                                                      @endif
+                                                    @if (isset($event->data['attacker']['unitsSent'][$slot]))
+                                                      {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
+                                                    @else
+                                                      0
+                                                    @endif
                                                 </span>
                                             </td>
                                             <td>

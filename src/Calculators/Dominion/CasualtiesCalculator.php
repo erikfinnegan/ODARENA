@@ -166,6 +166,10 @@ class CasualtiesCalculator
             # Infirmary
             $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
 
+            // Improvements
+            $multiplier -= $dominion->getImprovementPerkMultiplier('casualties');
+            $multiplier -= $dominion->getImprovementPerkMultiplier('offensive_casualties');
+
             // Unit bonuses (multiplicative with non-unit bonuses)
 
             # Unit Perk: Fewer Casualties
@@ -328,6 +332,10 @@ class CasualtiesCalculator
 
             // Infirmary
             $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'infirmary');
+
+            // Improvements
+            $multiplier -= $dominion->getImprovementPerkMultiplier('casualties');
+            $multiplier -= $dominion->getImprovementPerkMultiplier('defensive_casualties');
 
             # Unit bonuses
             // Unit Perk: Fewer Casualties (only on military units with a slot, draftees don't have this perk)

@@ -10,7 +10,39 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-circle-of-circles"></i> {{ $realm->name }} (#{{ $realm->number }})</h3>
+                    <div class="row">
+                        <div class="col-xs-3 text-center">
+                            @if($realm->number === 1)
+                                <span style="display:block; font-weight: bold;">Barbarians</span>
+                            @else
+                                <a href="/dominion/realm/1"><span style="display:block;">Barbarians</span></a>
+                            @endif
+                        </div>
+                        <div class="col-xs-3 text-center">
+                            @if($realm->number === 2)
+                                <span style="display:block; font-weight: bold;">Commonwealth</span>
+                            @else
+                                <a href="/dominion/realm/2"><span style="display:block;">Commonwealth</span></a>
+                            @endif
+                        </div>
+                        <div class="col-xs-3 text-center">
+                            @if($realm->number === 3)
+                                <span style="display:block; font-weight: bold;">The Empire</span>
+                            @else
+                                <a href="/dominion/realm/3"><span style="display:block;">The Empire</span></a>
+                            @endif
+                        </div>
+                        <div class="col-xs-3 text-center">
+                            @if($realm->number === 4)
+                                <span style="display:block; font-weight: bold;">Independent</span>
+                            @else
+                                <a href="/dominion/realm/4"><span style="display:block;">Independent</span></a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fas fa-map-signs fa-fw"></i> {{ $realm->name }} (#{{ $realm->number }})</h3>
                 </div>
                 <div class="box-body table-responsive no-padding">
 
@@ -18,9 +50,6 @@
                         <colgroup>
                             <col width="50">
                             <col>
-                            @if ($isOwnRealm && $selectedDominion->pack !== null)
-                                <col width="200">
-                            @endif
                             <col width="100">
                             <col width="100">
                             <col width="100">
@@ -33,7 +62,7 @@
                                 <th class="text-center">Faction</th>
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
-                                <th class="text-center">Units Returning</th>
+                                <th class="text-center">Units<br>Returning</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -146,7 +175,6 @@
                 </div>
             </div>
 
-
             @if($realm->alignment === 'npc' and $realm->round->hasStarted())
                 <div class="box box-primary">
                     <div class="box-header with-border">
@@ -179,13 +207,13 @@
                       <div class="row">
                           <div class="col-xs-2">
                             @if($realm->alignment == 'good')
-                            <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
+                                <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
                             @elseif($realm->alignment == 'evil')
-                            <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
+                                <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
                             @elseif($realm->alignment == 'independent')
-                            <img src="{{ asset('assets/app/images/independent.svg') }}" class="img-responsive" alt="Independent Dominions">
+                                <img src="{{ asset('assets/app/images/independent.svg') }}" class="img-responsive" alt="Independent Dominions">
                             @elseif($realm->alignment == 'npc')
-                            <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" alt="The Barbarian Horde">
+                                <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" alt="The Barbarian Horde">
                             @endif
                           </div>
                           <div class="col-xs-10">
@@ -290,33 +318,8 @@
                               </div>
                           </div>
                           @endif
-
                       </div>
                 </div>
-                @if (($prevRealm !== null) || ($nextRealm !== null))
-                    <div class="box-footer">
-                        <div class="row">
-                            <div class="col-xs-4">
-                                @if ($prevRealm !== null)
-                                    <a href="{{ route('dominion.realm', $prevRealm->number) }}">&lt; Previous</a><br>
-                                    <small class="text-muted">{{ $prevRealm->name }} (# {{  $prevRealm->number }})</small>
-                                @endif
-                            </div>
-                            <div class="col-xs-4">
-                                <form action="{{ route('dominion.realm.change-realm') }}" method="post" role="form">
-                                    @csrf
-                                    <input type="number" name="realm" class="form-control text-center" placeholder="{{ $realm->number }}" min="1" max="{{ $realmCount }}">
-                                </form>
-                            </div>
-                            <div class="col-xs-4 text-right">
-                                @if ($nextRealm !== null)
-                                    <a href="{{ route('dominion.realm', $nextRealm->number) }}">Next &gt;</a><br>
-                                    <small class="text-muted">{{ $nextRealm->name }} (# {{  $nextRealm->number }})</small>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @endif
             </div>
         </div>
 

@@ -202,8 +202,9 @@ class MilitaryCalculator
         // League: Peacekeepers League
         $multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
 
-        // Improvement: Forges
+        // Improvements
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'forges');
+        $multiplier += $attacker->getImprovementPerkMultiplier('offensive_power');
 
         // Racial Bonus
         $multiplier += $attacker->race->getPerkMultiplier('offense');
@@ -430,8 +431,9 @@ class MilitaryCalculator
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('defensive_power');
 
-        // Improvement: Forges
+        // Improvements
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
+        $multiplier += $dominion->getImprovementPerkMultiplier('defensive_power');
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('defense');
@@ -1452,8 +1454,9 @@ class MilitaryCalculator
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('spy_strength');
 
-        # Hideouts
+        // Improvements
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
+        $multiplier += $dominion->getImprovementPerkMultiplier('spy_strength');
 
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('spy_strength');
@@ -1556,8 +1559,9 @@ class MilitaryCalculator
         // Racial bonus
         $multiplier += $dominion->race->getPerkMultiplier('wizard_strength');
 
-        // Improvement: Spires
+        // Improvements
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
+        $multiplier += $dominion->getImprovementPerkMultiplier('wizard_strength');
 
         // Tech
         $multiplier += $dominion->getTechPerkMultiplier('wizard_strength');
@@ -1651,21 +1655,6 @@ class MilitaryCalculator
         }
 
         return $spyPoints * $this->getSpyRatioMultiplier($dominion);
-    }
-
-    /**
-     * Returns the number of boats protected by a Dominion's docks and harbor improvements.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getBoatsProtected(Dominion $dominion): float
-    {
-        // Docks
-        $boatsProtected = $dominion->getBuildingPerkValue('boat_protection');
-        // Habor
-        $boatsProtected *= 1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
-        return $boatsProtected;
     }
 
     /**
@@ -1990,8 +1979,9 @@ class MilitaryCalculator
         // Buildings
         $multiplier += $attacker->getBuildingPerkMultiplier('land_discovered');
 
-        // Improvement
+        // Improvements
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'cartography');
+        $multiplier += $attacker->getImprovementPerkMultiplier('land_discovered');
 
         // Resource: XP (max +100% from 1,000,000 XP) – only for factions which cannot take advancements (Troll)
         if($attacker->race->getPerkValue('cannot_tech'))

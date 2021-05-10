@@ -38,9 +38,8 @@ units:
       offense: 2
       defense: 1
     perks:
-      value_conversion: 2,1 # [Killed]*2 = number of unit1 created
       food_consumption: 0.125
-      attrition: 0.5 # 0.5% lost each tick.
+      attrition: 0.25 # 0.25% lost each tick.
       does_not_count_as_population: 1
 
   - name: Pest Rat
@@ -83,7 +82,7 @@ units:
       defense: -1
     perks:
       immortal: 1
-      value_conversion: 4,1 # [Killed]*4 = number of unit1 created
+      value_conversion: 2,1 # [Killed]*4 = number of unit1 created
       counts_as_spy_offense: 0.5
       counts_as_spy_defense: 0.25
       immortal_spy: 1

@@ -171,8 +171,9 @@ class ExploreActionService
 
         $researchPointsPerAcre = 10;
 
-        # Observatory
+        // Improvements
         $researchPointsPerAcreMultiplier = $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
+        $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('tech_gains');
         $researchPointsPerAcre *= (1 + $researchPointsPerAcreMultiplier);
         $researchPointsGained = $researchPointsPerAcre * $totalLandToExplore;
 
