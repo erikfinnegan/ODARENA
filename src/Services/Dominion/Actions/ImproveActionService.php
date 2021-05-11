@@ -124,7 +124,7 @@ class ImproveActionService
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
         $dominion->most_recent_improvement_resource = $resource;
 
-        $this->statsService->updateStats($dominion, ($resource . '_improving'), $totalResourcesToInvest);
+        $this->statsService->updateStats($dominion, ($resource . '_improvements'), $totalResourcesToInvest);
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
@@ -247,7 +247,7 @@ class ImproveActionService
 
         $resourceNameForStats = $resource;
 
-        $this->statsService->updateStats($dominion, ($resource . '_improving'), $totalResourcesToInvest);
+        $this->statsService->updateStats($dominion, ($resource . '_improvements'), $totalResourcesToInvest);
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 

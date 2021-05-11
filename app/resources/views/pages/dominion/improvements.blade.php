@@ -24,7 +24,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
             </div>
         </div>
     </div>
-@elseif(request()->getHost() == 'odarena.local')
+@elseif(request()->getHost() == 'odarena2.local')
     @php
         $dominionImprovements = $improvementCalculator->getDominionImprovements($selectedDominion)->sortBy('name');
     @endphp
