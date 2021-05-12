@@ -24,7 +24,6 @@ perks:
 
 units:
   - name: Figure
-
     training_time: 9
     type:
       - living
