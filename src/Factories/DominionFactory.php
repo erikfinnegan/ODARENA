@@ -288,7 +288,7 @@ class DominionFactory
         {
             $startingResources['food'] += $startingResources['gold'] / 8;
             $startingResources['lumber'] += $startingResources['gold'] / 8;
-            $startingResources['gold'] /= 2;
+            $startingResources['gold'] *= 0.75;
         }
 
         // Elementals: remove lumber
