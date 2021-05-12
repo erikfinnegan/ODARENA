@@ -2208,7 +2208,7 @@ class InvadeActionService
                 # Update statistics
                 $this->statsService->updateStats($attacker, 'ore_salvaged', $result['attacker']['salvage']['ore']);
                 $this->statsService->updateStats($attacker, 'lumber_salvaged', $result['attacker']['salvage']['lumber']);
-                $this->statsService->updateStats($attacker, 'gem_salvaged', $result['attacker']['salvage']['gems']);
+                $this->statsService->updateStats($attacker, 'gems_salvaged', $result['attacker']['salvage']['gems']);
             }
         }
 

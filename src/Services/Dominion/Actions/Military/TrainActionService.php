@@ -514,6 +514,11 @@ class TrainActionService
             {
                 if($amount > 0)
                 {
+                    if($resource == 'gem')
+                    {
+                        $resource = 'gems';
+                    }
+                    
                     $this->statsService->updateStats($dominion, ($resource . '_training'), $totalCosts[$resource]);
                 }
             }
