@@ -514,12 +514,13 @@ class TrainActionService
             {
                 if($amount > 0)
                 {
-                    if($resource == 'gem')
+                    $resourceString = $resource;
+                    if($resourceString == 'gem')
                     {
-                        $resource = 'gems';
+                        $resourceString = 'gems';
                     }
-                    
-                    $this->statsService->updateStats($dominion, ($resource . '_training'), $totalCosts[$resource]);
+
+                    $this->statsService->updateStats($dominion, ($resourceString . '_training'), $totalCosts[$resource]);
                 }
             }
 
