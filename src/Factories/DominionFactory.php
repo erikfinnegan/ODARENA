@@ -283,6 +283,14 @@ class DominionFactory
             $startingResources['gems'] = 0;
         }
 
+        // Void: half gold
+        if($race->name == 'Marshling')
+        {
+            $startingResources['food'] += $startingResources['gold'] / 8;
+            $startingResources['lumber'] += $startingResources['gold'] / 8;
+            $startingResources['gold'] /= 2;
+        }
+
         // Elementals: remove lumber
         if($race->name == 'Elementals')
         {

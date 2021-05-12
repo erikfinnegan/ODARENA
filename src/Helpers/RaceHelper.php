@@ -702,4 +702,22 @@ class RaceHelper
         return explode(',', $race->construction_materials);
     }
 
+    # Unfinished - add starting resources to the yml files (if different)
+    public function getStartingResources(Race $race): array
+    {
+
+        $startingResources = [];
+
+        # Default
+        $startingResources = [
+            'gold' => 0,
+            'food' => 0,
+            'ore' => 0,
+            'lumber' => 0,
+            'mana' => 0,
+        ];
+
+        return $startingResources;
+    }
+
 }

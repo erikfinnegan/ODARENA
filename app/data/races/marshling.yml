@@ -15,7 +15,7 @@ peasants_alias: apprentice
 
 perks:
   gold_production: -50
-  peasants_produce_mana: 1
+  peasants_produce_mana: 0.1
 units:
   - name: Spawn
     training_time: 12

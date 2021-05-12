@@ -337,7 +337,7 @@ class Dominion extends AbstractModel
 
         // Verify tick hasn't happened during this request
         if ($this->exists && $this->last_tick_at != $this->fresh()->last_tick_at) {
-            throw new GameException('The tax man is collecting taxes. Your request cannot be fulfilled right now. Try again in a few seconds.');
+            throw new GameException('The world spinner is spinning. Your action was ignored. Try again later, puny being.');
         }
 
         $saved = parent::save($options);

@@ -868,6 +868,14 @@ spawning_pool:
     extra_units_trained: 1,2,30 # Every 1% gives 2% extra units, max +30%
     mana_production: 3
 
+marsh:
+  name: Marsh
+  exclusive_races:
+    - Marshling
+  land_type: swamp
+  perks:
+    housing: 30
+
 altar:
   name: Altar
   exclusive_races:
