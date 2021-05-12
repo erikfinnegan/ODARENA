@@ -6,84 +6,78 @@ playable: 1
 
 attacking: 2
 exploring : 1
-converting: 1
+converting: 2
 skill_level: 3
 
 construction_materials: gold,lumber
 
-peasants_alias: bubbler
-draftees_alias: blob
+peasants_alias: apprentice
 
 perks:
   gold_production: -50
-  max_population: 25
+  peasants_produce_mana: 1
 units:
-
   - name: Spawn
-    training_time: 6
+    training_time: 12
     type:
       - living
-      - mindless
-    
-    static_networth: 3
+      - sentient
     cost:
-      food: 100
-      lumber: 60
-      mana: 15
+      food: 333
+      lumber: 111
+      mana: 44
     power:
-      offense: 2
-      defense: 2
+      offense: 10
+      defense: 10
     perks:
       minimum_wpa_to_train: 0.50
-      wins_into: 2
       cannot_be_released: 1
+      no_draftee: 1
+      dies_into_multiple_on_defense: 2,3 # slot, amount
+      dies_into_multiple_on_offense: 3,3 # slot, amount
+      extra_casualties: 500
 
   - name: Slime
     type:
       - living
-    
-    static_networth: 5
+      - sentient
     cost:
       gold: 0
     power:
-      offense: 3
+      offense: 1
       defense: 3
     perks:
       cannot_be_trained: 1
-      wins_into: 3
-      dies_into: 1
       cannot_be_released: 1
+      dies_into: 2
+      housing_count: 0.25
 
   - name: Goo
     type:
       - living
       - sentient
-    
-    static_networth: 7
     cost:
       gold: 0
     power:
       offense: 4
-      defense: 5
+      defense: 2
     perks:
       cannot_be_trained: 1
-      wins_into: 4
-      dies_into: 2
       cannot_be_released: 1
+      dies_into: 4
+      housing_count: 0.25
 
   - name: Ooze
     type:
       - living
       - sentient
-      - intelligent
-    
-    static_networth: 8
     cost:
       gold: 0
     power:
-      offense: 6
-      defense: 3
+      offense: 3
+      defense: 1
     perks:
       cannot_be_trained: 1
-      dies_into_multiple_on_victory: 1,2,1 # slot, amount on victory, amount on failure
       cannot_be_released: 1
+      dies_into_multiple: 1,0.2
+      housing_count: 0.25

@@ -185,6 +185,7 @@ tower:
     - Dragon
     - Growth
     - Icekin
+    - Marshling
     - Merfolk
     - Myconid
     - Void
@@ -864,8 +865,8 @@ spawning_pool:
     - Marshling
   land_type: swamp
   perks:
-    extra_units_trained: 1,1,100 # Every 1% gives 1% extra units, max +100%
-    housing: 62
+    extra_units_trained: 1,2,30 # Every 1% gives 2% extra units, max +30%
+    mana_production: 3
 
 altar:
   name: Altar

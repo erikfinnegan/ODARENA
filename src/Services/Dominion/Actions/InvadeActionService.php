@@ -954,10 +954,25 @@ class InvadeActionService
                 $diesIntoNewUnits[$slot] += intval($casualties);
             }
 
+            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_defense'))
+            {
+                $slot = (int)$diesIntoPerk[0];
+
+                $diesIntoNewUnits[$slot] += intval($casualties);
+            }
+
             if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
             {
                 $slot = (int)$diesIntoMultiplePerk[0];
-                $amount = (int)$diesIntoMultiplePerk[1];
+                $amount = (float)$diesIntoMultiplePerk[1];
+
+                $diesIntoNewUnits[$slot] += intval($casualties * $amount);
+            }
+
+            if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_defense'))
+            {
+                $slot = (int)$diesIntoMultiplePerk[0];
+                $amount = (float)$diesIntoMultiplePerk[1];
 
                 $diesIntoNewUnits[$slot] += intval($casualties * $amount);
             }
@@ -965,7 +980,7 @@ class InvadeActionService
             if(!$this->invasionResult['result']['success'] and $diesIntoMultiplePerkOnVictory = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_victory'))
             {
                 $slot = (int)$diesIntoMultiplePerkOnVictory[0];
-                $amount = (int)$diesIntoMultiplePerkOnVictory[1];
+                $amount = (float)$diesIntoMultiplePerkOnVictory[1];
 
                 $diesIntoNewUnits[$slot] += intval($casualties * $amount);
             }
@@ -1598,11 +1613,31 @@ class InvadeActionService
                 $returningUnits[$newUnitKey] += $casualties;
             }
 
+            if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_offense'))
+            {
+                # Which unit do they die into?
+                $newUnitSlot = $diesIntoPerk[0];
+                $newUnitKey = "military_unit{$newUnitSlot}";
+
+                $returningUnits[$newUnitKey] += $casualties;
+            }
+
             if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
             {
                 # Which unit do they die into?
                 $newUnitSlot = $diesIntoMultiplePerk[0];
-                $newUnitAmount = $diesIntoMultiplePerk[1];
+                $newUnitAmount = (float)$diesIntoMultiplePerk[1];
+
+                $newUnitKey = "military_unit{$newUnitSlot}";
+
+                $returningUnits[$newUnitKey] += floor($casualties * $newUnitAmount);
+            }
+
+            if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_offense'))
+            {
+                # Which unit do they die into?
+                $newUnitSlot = $diesIntoMultiplePerk[0];
+                $newUnitAmount = (float)$diesIntoMultiplePerk[1];
 
                 $newUnitKey = "military_unit{$newUnitSlot}";
 
@@ -1613,7 +1648,7 @@ class InvadeActionService
             {
                 # Which unit do they die into?
                 $newUnitSlot = $diesIntoMultiplePerkOnVictory[0];
-                $newUnitAmount = $diesIntoMultiplePerkOnVictory[1];
+                $newUnitAmount = (float)$diesIntoMultiplePerkOnVictory[1];
 
                 $newUnitKey = "military_unit{$newUnitSlot}";
 

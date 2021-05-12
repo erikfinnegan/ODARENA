@@ -508,7 +508,7 @@ class ProductionCalculator
         // Perk: peasants mana production
         $mana += $dominion->peasants * $dominion->race->getPerkValue('peasants_produce_mana');
 
-        return max(0,$mana);
+        return max(0, $mana);
     }
 
     /**

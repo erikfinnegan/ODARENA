@@ -175,6 +175,9 @@ class CasualtiesCalculator
             # Unit Perk: Fewer Casualties
             $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_offense']) / 100);
 
+            # Unit Perk: Extra Casualties
+            $multiplier += ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['extra_casualties', 'extra_casualties_offense']) / 100);
+
             # Unit Perk: Fewer Casualties From Title
             if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null))
             {
@@ -342,6 +345,8 @@ class CasualtiesCalculator
             if ($slot)
             {
                 $multiplier -= ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['fewer_casualties', 'fewer_casualties_defense']) / 100);
+
+                $multiplier += ($dominion->race->getUnitPerkValueForUnitSlot($slot, ['extra_casualties', 'extra_casualties_defense']) / 100);
 
                 # Unit Perk: Fewer Casualties From Title
                 if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null))

@@ -162,6 +162,10 @@ class UnitHelper
             'fixed_casualties' => 'Always suffers %s%% casualties.',
             'fewer_casualties_from_title' => '%2$s%% fewer casualties if ruled by a %1$s.',
 
+            'extra_casualties' => '%s%% greater casualties.',
+            'extra_casualties_defense' => '%s%% greater casualties on defense.',
+            'extra_casualties_offense' => '%s%% greater casualties on offense.',
+
             'immortal' => 'Immortal in combat. Only dies against Tiranthael\'s Blessing or Qur Zealots.',
             'true_immortal' => 'Immortal in combat.',
             'spirit_immortal' => 'Immortal on offense and on succesful defense. Dies if successfully invaded.',
@@ -188,6 +192,11 @@ class UnitHelper
             'wins_into' => 'Upon successul invasion, returns as %s.',
             'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+
+            'dies_into_on_offense' => 'Upon death when invading, returns as %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+            'dies_into_on_defense' => 'Upon death when defending, returns as %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+            'dies_into_multiple_on_offense' => 'Upon death when invading, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+            'dies_into_multiple_on_defense' => 'Upon death when defending, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
             'dies_into_multiple_on_victory' => 'Upon death in succesful combat, returns as %2$s %1$s. If unsuccessful, returns as %3$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
