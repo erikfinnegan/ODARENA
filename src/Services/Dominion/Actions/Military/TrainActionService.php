@@ -523,6 +523,18 @@ class TrainActionService
                     {
                         $resourceString = 'peasants';
                     }
+                    if($resourceString == 'spy')
+                    {
+                        $resourceString = 'spies';
+                    }
+                    if($resourceString == 'wizard')
+                    {
+                        $resourceString = 'wizards';
+                    }
+                    if($resourceString == 'archmage')
+                    {
+                        $resourceString = 'archmages';
+                    }
 
                     $this->statsService->updateStats($dominion, ($resourceString . '_training'), $totalCosts[$resource]);
                 }
