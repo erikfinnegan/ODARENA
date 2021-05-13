@@ -39,21 +39,12 @@ class RealmController extends AbstractDominionController
         $dominion = $this->getSelectedDominion();
         $round = $dominion->round;
 
-        if ($realmNumber === null) {
+        if ($realmNumber === null)
+        {
             $realmNumber = (int)$dominion->realm->number;
         }
 
         $isOwnRealm = ($realmNumber === (int)$dominion->realm->number);
-
-/*
-        if (!$round->hasStarted() && !$isOwnRealm) {
-            $request->session()->flash(
-                'alert-warning',
-                'You cannot view other realms before the round has started.'
-            );
-            return redirect()->route('dominion.realm', (int)$dominion->realm->number);
-        }
-*/
 
         // Eager load some relational data to save on SQL queries down the road in NetworthCalculator and
         // ProtectionService
@@ -148,37 +139,15 @@ class RealmController extends AbstractDominionController
             $barbarianSettings = $barbarianCalculator->getSettings();
         }
 
-        // Todo: refactor this hacky hacky navigation stuff
-        $prevRealm = DB::table('realms')
-            ->where('round_id', $round->id)
-            ->where('number', '<', $realm->number)
-            ->orderBy('number', 'desc')
-            ->limit(1)
-            ->first();
-
-        $nextRealm = DB::table('realms')
-            ->where('round_id', $round->id)
-            ->where('number', '>', $realm->number)
-            ->orderBy('number')
-            ->limit(1)
-            ->first();
-
-        $realmCount = DB::table('realms')
-            ->where('round_id', $round->id)
-            ->count();
-
         return view('pages.dominion.realm', compact(
             'landCalculator',
             'networthCalculator',
             'realm',
             'round',
             'dominions',
-            'prevRealm',
             'guardMembershipService',
             'protectionService',
-            'nextRealm',
             'isOwnRealm',
-            'realmCount',
             'spellCalculator',
             'realmDominionsStats',
             'realmCalculator',
