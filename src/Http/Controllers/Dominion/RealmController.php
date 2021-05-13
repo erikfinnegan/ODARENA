@@ -85,7 +85,7 @@ class RealmController extends AbstractDominionController
 
 
         $realms = Realm::where('round_id', $round->id)->get();
-        foreach($realms as $aRealm)
+        foreach($realms as $aRealm) # Using "$realm" breaks other stuff
         {
             $realmNames[$aRealm->number] = $aRealm->name;
         }
@@ -169,7 +169,7 @@ class RealmController extends AbstractDominionController
         ));
     }
 
-    public function postChangeRealm(Request $request) // todo: RealmChangeRequest, parse realm number to int
+    public function postChangeRealm(Request $request) 
     {
         return redirect()->route('dominion.realm', (int)$request->get('realm'));
     }
