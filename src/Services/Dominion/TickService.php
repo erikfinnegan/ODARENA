@@ -850,7 +850,7 @@ class TickService
           $baseMorale *= (1 + $baseMoraleModifier);
           $baseMorale = intval($baseMorale);
 
-          $moraleChangeModifier = (1 + $dominion->race->getPerkValue('morale_change'));
+          $moraleChangeModifier = (1 + $dominion->race->getPerkValue('morale_change') + $dominion->race->getPerkValue('morale_change_tick'));
 
           if($tick->starvation_casualties > 0)
           {
