@@ -85,9 +85,9 @@ class RealmController extends AbstractDominionController
 
 
         $realms = Realm::where('round_id', $round->id)->get();
-        foreach($realms as $realm)
+        foreach($realms as $aRealm)
         {
-            $realmNames[$realm->number] = $realm->name;
+            $realmNames[$aRealm->number] = $aRealm->name;
         }
 
         $realmDominionsStats = [
