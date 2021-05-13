@@ -15,28 +15,28 @@
                             @if($realm->number === 1)
                                 <span style="display:block; font-weight: bold;">Barbarians</span>
                             @else
-                                <a href="/dominion/realm/1"><span style="display:block;">Barbarians</span></a>
+                                <a href="/dominion/realm/1"><span style="display:block;" data-toggle="tooltip" data-placement="top" title="{{ $realmNames[1] }}">Barbarians</span></a>
                             @endif
                         </div>
                         <div class="col-xs-3 text-center">
                             @if($realm->number === 2)
                                 <span style="display:block; font-weight: bold;">Commonwealth</span>
                             @else
-                                <a href="/dominion/realm/2"><span style="display:block;">Commonwealth</span></a>
+                                <a href="/dominion/realm/2"><span style="display:block;" data-toggle="tooltip" data-placement="top" title="{{ $realmNames[2] }}">Commonwealth</span></a>
                             @endif
                         </div>
                         <div class="col-xs-3 text-center">
                             @if($realm->number === 3)
                                 <span style="display:block; font-weight: bold;">The Empire</span>
                             @else
-                                <a href="/dominion/realm/3"><span style="display:block;">The Empire</span></a>
+                                <a href="/dominion/realm/3"><span style="display:block;" data-toggle="tooltip" data-placement="top" title="{{ $realmNames[3] }}">The Empire</span></a>
                             @endif
                         </div>
                         <div class="col-xs-3 text-center">
                             @if($realm->number === 4)
                                 <span style="display:block; font-weight: bold;">Independent</span>
                             @else
-                                <a href="/dominion/realm/4"><span style="display:block;">Independent</span></a>
+                                <a href="/dominion/realm/4"><span style="display:block;" data-toggle="tooltip" data-placement="top" title="{{ $realmNames[4] }}">Independent</span></a>
                             @endif
                         </div>
                     </div>

@@ -83,6 +83,13 @@ class RealmController extends AbstractDominionController
             })
             ->flatten();
 
+
+        $realms = Realm::where('round_id', $round->id)->get();
+        foreach($realms as $realm)
+        {
+            $realmNames[$realm->number] = $realm->name;
+        }
+
         $realmDominionsStats = [
             'victories' => 0,
             'total_land_conquered' => 0,
@@ -157,7 +164,8 @@ class RealmController extends AbstractDominionController
             'alignmentAdjective',
             'barbarianSettings',
             'hoursIntoTheRound',
-            'statsService'
+            'statsService',
+            'realmNames'
         ));
     }
 
