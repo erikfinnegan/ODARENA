@@ -165,11 +165,11 @@ morale_training:
   name: Morale training
 champions_training:
   name: Champions training
-souls_training:
+soul_training:
   name: Souls training
-souls_improvements:
+soul_improvements:
   name: Souls improvements
-souls_lost:
+soul_lost:
   name: Souls lost
 blood_training:
   name: Blood training
@@ -243,7 +243,7 @@ gem_destroyed:
   name: Gem destroyed
 mana_destroyed:
   name: Mana destroyed
-souls_destroyed:
+soul_destroyed:
   name: Souls destroyed
 
 magic_self_success:
