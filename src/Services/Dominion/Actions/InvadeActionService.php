@@ -2008,7 +2008,7 @@ class InvadeActionService
         {
             if($slot !== 'draftees' and $slot !== 'peasants')
             {
-                if($killsIntoResourcePerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resources_per_value'))
+                if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resources_per_value'))
                 {
                     foreach($killsIntoResourcesPerCasualty as $killsIntoResourcesPerValuePerk)
                     {
