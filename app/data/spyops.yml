@@ -47,6 +47,8 @@ steal_lumber:
 steal_mana:
   name: Steal Mana
   scope: theft
+  exclusive_races:
+    - Lux
   perks:
     resource_theft: mana,1,8 # resource, rate, max per spy
 
