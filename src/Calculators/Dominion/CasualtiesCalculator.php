@@ -310,8 +310,8 @@ class CasualtiesCalculator
             // Buildings
             $multiplier -= $dominion->getBuildingPerkMultiplier('casualties');
             $multiplier -= $dominion->getBuildingPerkMultiplier('defensive_casualties');
-            $multiplier += $target->getBuildingPerkMultiplier('increases_casualties');
-            $multiplier += $target->getBuildingPerkMultiplier('increases_casualties_on_offense');
+            $multiplier += $attacker->getBuildingPerkMultiplier('increases_casualties');
+            $multiplier += $attacker->getBuildingPerkMultiplier('increases_casualties_on_offense');
 
             // Techs
             $multiplier -= $dominion->getTechPerkMultiplier('fewer_casualties_defense');

@@ -1789,6 +1789,16 @@ class InvadeActionService
 
     protected function handleResourceConversions(Dominion $attacker, Dominion $defender, float $landRatio): void
     {
+        $resourceConversionTemplate = [
+            'resource_food' => 0,
+            'resource_blood' => 0,
+            'resource_soul' => 0,
+            'resource_mana' => 0,
+            'resource_champion' => 0,
+        ];
+
+        $this->invasionResult['attacker']['resource_conversion'] = $resourceConversionTemplate;
+        $this->invasionResult['defender']['resource_conversion'] = $resourceConversionTemplate;
 
         $rawOp = 0;
         foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
@@ -1821,8 +1831,8 @@ class InvadeActionService
         {
             if($killsIntoResourcePerCasualty = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty'))
             {
-                $amountPerCasualty = $killsIntoResource[0];
-                $resource = 'resource_' . $killsIntoResource[1];
+                $amountPerCasualty = $killsIntoResourcePerCasualty[0];
+                $resource = 'resource_' . $killsIntoResourcePerCasualty[1];
 
                 $opFromSlot = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]);
 
@@ -1831,7 +1841,7 @@ class InvadeActionService
                     if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                     {
                           $killsAttributableToThisSlot = $amountKilled * ($opFromSlot / $rawOp);
-                          $this->queueService->queueResources('invasion',$attacker,[$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
+                          #$this->queueService->queueResources('invasion',$attacker,[$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
                           $this->invasionResult['attacker']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
                     }
                 }
@@ -1856,7 +1866,7 @@ class InvadeActionService
                         if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                         {
                               $killsAttributableToThisSlot = $amountKilled * ($opFromSlot / $rawOp);
-                              $this->queueService->queueResources('invasion',$attacker,[$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
+                              #$this->queueService->queueResources('invasion',$attacker,[$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
                               $this->invasionResult['attacker']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
                         }
                     }
@@ -1879,8 +1889,8 @@ class InvadeActionService
                     if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                     {
                           $killsAttributableToThisSlot = $dpFromLostDefendingUnits * ($opFromSlot / $rawOp);
-                          $this->queueService->queueResources('invasion', $attacker, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
-                          $this->invasionResult['attacker']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
+                          #$this->queueService->queueResources('invasion', $attacker, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
+                          $this->invasionResult['attacker']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerPoint);
                     }
                 }
 
@@ -1904,8 +1914,11 @@ class InvadeActionService
                         if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                         {
                               $killsAttributableToThisSlot = $dpFromLostDefendingUnits * ($opFromSlot / $rawOp);
-                              $this->queueService->queueResources('invasion', $attacker, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
-                              $this->invasionResult['attacker']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
+                              $resourceAmount = round($killsAttributableToThisSlot * $amountPerPoint);
+                              $resourceAmount *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
+                              $this->invasionResult['attacker']['resource_conversion'][$resource] += $resourceAmount;
+
+                              echo "<pre>$x >> $slot $resource ($dpFromLostDefendingUnits * $opFromSlot/$rawOp = $killsAttributableToThisSlot): {$this->invasionResult['attacker']['resource_conversion'][$resource]}</pre>";
                         }
                     }
                 }
@@ -1917,7 +1930,7 @@ class InvadeActionService
         {
             if($slot !== 'draftees' and $slot !== 'peasants')
             {
-                if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resources_per_casualty'))
+                if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty'))
                 {
                     $amountPerCasualty = $killsIntoResourcesPerCasualty[0];
                     $resource = 'resource_' . $killsIntoResourcesPerCasualty[1];
@@ -1929,7 +1942,7 @@ class InvadeActionService
                         if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                         {
                               $killsAttributableToThisSlot = $amountKilled * ($dpFromSlot / $rawDp);
-                              $this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
+                              #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
                               $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
                         }
                     }
@@ -1956,7 +1969,7 @@ class InvadeActionService
                             if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                             {
                                   $killsAttributableToThisSlot = $amountKilled * ($dpFromSlot / $rawDp);
-                                  $this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
+                                  #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
                                   $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
                             }
                         }
@@ -1982,7 +1995,7 @@ class InvadeActionService
                         if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                         {
                               $killsAttributableToThisSlot = $dpFromLostDefendingUnits * ($opFromSlot / $rawOp);
-                              $this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
+                              #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
                               $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
                         }
                     }
@@ -2009,7 +2022,7 @@ class InvadeActionService
                             if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                             {
                                   $killsAttributableToThisSlot = $ppFromLostAttackingUnits * ($opFromSlot / $rawOp);
-                                  $this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
+                                  #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
                                   $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
                             }
                         }
@@ -2018,121 +2031,24 @@ class InvadeActionService
             }
         }
 
-    }
-
-    /**
-     * Handles the collection of souls for Demons.
-     *
-     * @param Dominion $attacker
-     * @param Dominion $defender
-     */
-     /*
-    protected function handleSoulBloodFoodCollection(Dominion $attacker, Dominion $defender, float $landRatio): void
-    {
-        $souls = 0;
-        $blood = 0;
-        $food = 0;
-
-        if($attacker->race->name == 'Demon' or $defender->race->name == 'Demon')
+        # Add/Queue the sources
+        foreach($this->invasionResult['attacker']['resource_conversion'] as $resourceType => $amount)
         {
-            # Demon attacking non-Demon
-            if($attacker->race->name == 'Demon' and $defender->race->name !== 'Demon')
+            if($amount > 0)
             {
-                $unitsKilled = $this->invasionResult['defender']['unitsLost'];
-                $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsKilled, 0, false, $this->isAmbush, true);
-
-                $this->invasionResult['attacker']['dpFromKilledUnits'] = $dpFromKilledUnits;
-
-                $blood += $dpFromKilledUnits * 1/3;
-                $food += $dpFromKilledUnits * 4;
-
-                $souls += array_sum($this->invasionResult['defender']['unitsLost']);
-                $souls *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
-
-                $this->invasionResult['attacker']['demonic_collection']['souls'] = $souls;
-                $this->invasionResult['attacker']['demonic_collection']['blood'] = $blood;
-                $this->invasionResult['attacker']['demonic_collection']['food'] = $food;
-
-                $this->queueService->queueResources(
-                    'invasion',
-                    $attacker,
-                    [
-                        'resource_soul' => $souls,
-                        'resource_blood' => $blood,
-                        'resource_food' => $food,
-                    ]
-                );
-            }
-            # Demon defending against non-Demon
-            elseif($attacker->race->name !== 'Demon' and $defender->race->name == 'Demon')
-            {
-                $opFromKilledUnits = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $this->invasionResult['attacker']['unitsLost'], [], [], false, true);
-
-                foreach($this->invasionResult['attacker']['unitsLost'] as $casualties)
-                {
-                    $souls += $casualties;
-                    $blood += $opFromKilledUnits * 1/3;
-                    $food += $casualties * 2;
-                }
-
-                $this->invasionResult['defender']['opFromKilledUnits'] = $opFromKilledUnits;
-
-                $souls *= (1 - $attacker->race->getPerkMultiplier('reduced_conversions'));
-
-                $this->invasionResult['defender']['demonic_collection']['souls'] = $souls;
-                $this->invasionResult['defender']['demonic_collection']['blood'] = $blood;
-                $this->invasionResult['defender']['demonic_collection']['food'] = $food;
-
-                $defender->resource_soul += $souls;
-                $defender->resource_blood += $blood;
-                $defender->resource_food += $food;
-            }
-        }
-    }
-    */
-
-    /**
-     * Handles the creation of champions for Norse.
-     *
-     * @param Dominion $attacker
-     * @param Dominion $defender
-     */
-     /*
-    protected function handleChampionCreation(Dominion $attacker, Dominion $defender, array $units, float $landRatio): void
-    {
-        $champions = 0;
-
-        if ($attacker->race->name == 'Norse')
-        {
-            if($landRatio >= 0.75 and $this->invasionResult['result']['success'] and isset($this->invasionResult['attacker']['unitsLost']['1']) and $this->invasionResult['attacker']['unitsLost']['1'] > 0)
-            {
-                $champions = $this->invasionResult['attacker']['unitsLost']['1'];
-
-                $this->invasionResult['attacker']['champion']['champions'] = $champions;
-
-                $this->queueService->queueResources(
-                    'invasion',
-                    $attacker,
-                    [
-                        'resource_champion' => $champions,
-                    ]
-                );
+                $this->queueService->queueResources('invasion', $attacker, [$resourceType => $amount]);
             }
         }
 
-        if ($defender->race->name == 'Norse')
+        foreach($this->invasionResult['defender']['resource_conversion'] as $resourceType => $amount)
         {
-            if(!$this->invasionResult['result']['success'] and isset($this->invasionResult['defender']['unitsLost']['1']) and $this->invasionResult['defender']['unitsLost']['1'] > 0)
+            if($amount > 0)
             {
-                $champions = $this->invasionResult['defender']['unitsLost']['1'];
-
-                $this->invasionResult['defender']['champion']['champions'] = $champions;
-
-                $defender->resource_champion += $champions;
+                $this->queueService->queueResources('invasion', $defender, [$resourceType => $amount]);
             }
         }
+
     }
-    */
 
     /**
      * Handles the salvaging of lumber, ore, and gem costs of units.
@@ -2632,7 +2548,7 @@ class InvadeActionService
 
                 $this->invasionResult['attacker']['soulsDestroyed'] = $soulsDestroyed;
                 $defender->resource_soul -= $soulsDestroyed;
-                $this->statsService->updateStats($defender, 'souls_destroyed', $soulsDestroyed);
+                $this->statsService->updateStats($defender, 'soul_destroyed', $soulsDestroyed);
 
             }
         }
@@ -2713,7 +2629,7 @@ class InvadeActionService
 
                   $this->invasionResult['defender']['soulsDestroyed'] = $soulsDestroyed;
                   $attacker->resource_soul -= $soulsDestroyed;
-                  $this->statsService->updateStats($attacker, 'souls_destroyed', $soulsDestroyed);
+                  $this->statsService->updateStats($attacker, 'soul_destroyed', $soulsDestroyed);
               }
         }
     }
@@ -2853,17 +2769,6 @@ class InvadeActionService
         $this->invasionResult['result']['overwhelmed'] = ((1 - $attackingForceOP / $targetDP) >= (static::OVERWHELMED_PERCENTAGE / 100));
     }
 
-/*
-    protected function passesOpAtLeast50percentOfDpRule(): bool
-    {
-        if($this->invasionResult['result']['success']) {
-            return true;
-        }
-
-        return $this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'] > 0.5;
-    }
-*/
-
     /**
      * Check if dominion is sending out at least *some* OP.
      *
@@ -2925,32 +2830,6 @@ class InvadeActionService
 
         return true;
     }
-
-    /**
-     * Check if dominion has enough boats to send units out.
-     *
-     * @param Dominion $dominion
-     * @param array $units
-     * @return bool
-     */
-     /*
-    protected function hasEnoughBoats(Dominion $dominion, array $units): bool
-    {
-        $unitsThatNeedBoats = 0;
-
-        foreach ($dominion->race->units as $unit) {
-            if (!isset($units[$unit->slot]) || ((int)$units[$unit->slot] === 0)) {
-                continue;
-            }
-
-            if ($unit->need_boat) {
-                $unitsThatNeedBoats += (int)$units[$unit->slot];
-            }
-        }
-
-        return ($dominion->resource_boats >= ceil($unitsThatNeedBoats / $dominion->race->getBoatCapacity()));
-    }
-    */
 
     /**
      * Check if an invasion passes the 33%-rule.
@@ -3030,19 +2909,18 @@ class InvadeActionService
      */
     protected function getUnitReturnHoursForSlot(Dominion $dominion, int $slot): int
     {
-        $hours = 12;
+        $ticks = 12;
 
-        /** @var Unit $unit */
         $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
             return ($unit->slot === $slot);
         })->first();
 
-        if ($unit->getPerkValue('faster_return') !== 0)
+        if ($unit->getPerkValue('faster_return'))
         {
-            $hours -= (int)$unit->getPerkValue('faster_return');
+            $ticks -= (int)$unit->getPerkValue('faster_return');
         }
 
-        return $hours;
+        return $ticks;
     }
 
     /**

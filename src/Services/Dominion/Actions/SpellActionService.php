@@ -1158,7 +1158,7 @@ class SpellActionService
                           'employment' => $this->populationCalculator->getEmploymentPercentage($target),
                           'networth' => $this->networthCalculator->getDominionNetworth($target),
                           'prestige' => $target->prestige,
-                          'victories' => $this->getStat($target, 'invasion_victories'),
+                          'victories' => $this->statsService->getStat($target, 'invasion_victories'),
                           'net_victories' => $this->militaryCalculator->getNetVictories($target),
 
                           'resource_gold' => $target->resource_gold * $this->opsHelper->getInfoOpsAccuracyModifier($target),
