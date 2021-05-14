@@ -1994,7 +1994,7 @@ class InvadeActionService
                     {
                         if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                         {
-                              $killsAttributableToThisSlot = $dpFromLostDefendingUnits * ($opFromSlot / $rawOp);
+                              $killsAttributableToThisSlot = $opFromLostAttackingUnits * ($dpFromSlot / $rawDp);
                               #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
                               $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
                         }
@@ -2021,7 +2021,7 @@ class InvadeActionService
                         {
                             if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                             {
-                                  $killsAttributableToThisSlot = $ppFromLostAttackingUnits * ($opFromSlot / $rawOp);
+                                  $killsAttributableToThisSlot = $opFromLostAttackingUnits * ($dpFromSlot / $rawDp);
                                   #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
                                   $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
                             }
