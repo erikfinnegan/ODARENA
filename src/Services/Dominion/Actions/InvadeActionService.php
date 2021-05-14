@@ -1918,7 +1918,7 @@ class InvadeActionService
                               $resourceAmount *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
                               $this->invasionResult['attacker']['resource_conversion'][$resource] += $resourceAmount;
 
-                              echo "<pre>$x >> $slot $resource ($dpFromLostDefendingUnits * $opFromSlot/$rawOp = $killsAttributableToThisSlot): {$this->invasionResult['attacker']['resource_conversion'][$resource]}</pre>";
+                              #echo "<pre>$x >> $slot $resource ($dpFromLostDefendingUnits * $opFromSlot/$rawOp = $killsAttributableToThisSlot): {$this->invasionResult['attacker']['resource_conversion'][$resource]}</pre>";
                         }
                     }
                 }
