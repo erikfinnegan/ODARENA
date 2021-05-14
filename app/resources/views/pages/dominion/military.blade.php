@@ -224,7 +224,7 @@
                       @endif
                     </button>
                     <div class="pull-right">
-                      You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ ucwords(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race))) }} available.
+                      You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ ucwords(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race), $selectedDominion->military_draftees)) }} available.
 
                       @if ($selectedDominion->race->name == 'Demon')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls and <strong>{{ number_format($selectedDominion->resource_blood) }}</strong> gallons of blood.
