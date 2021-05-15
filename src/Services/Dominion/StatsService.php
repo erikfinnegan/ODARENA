@@ -55,7 +55,7 @@ class StatsService
         $stat = Stat::where('key', $statKey)->first();
         if(!$stat)
         {
-          dd($stat, $statKey);
+        #  dd($stat, $statKey);
         }
         return DominionStat::where('stat_id',$stat->id)->where('dominion_id',$dominion->id)->first() ? true : false;
     }
