@@ -4,7 +4,7 @@ description: >-
   <p>Each enemy unit killed yields 1 soul, 1/3 gallons of blood per 1 raw military power (DP if killed on defense, OP if killed on offense), and 4 halms of food.</p>
   <p>Each sacrificed peasant yields 1 soul, 1.5 gallons of blood, and 2 halms of food.</p>
   <p>Demon starts with 1 Archdemon and 140,000 gallons of blood.</p>
-home_land_type: mountain
+home_land_type: swamp
 playable: 1
 
 attacking: 2
