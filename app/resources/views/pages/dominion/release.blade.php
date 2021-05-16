@@ -77,7 +77,7 @@
                     <p><b>Warning</b>: You are about to <b>instantly</b> release your troops.</p>
                     <p>No resources spent on training units will be returned when you release units.</p>
                     <p>Units are released into draftees and draftees are released into the peasantry.</p>
-                    <p><em>Units which do not count towards population are simply released and destroyed. No draftee is returned.</em></p>
+                    <p><em>Units which do not count towards population or which do not require a draftee to train are simply released and nothing is returned.</em></p>
                 </div>
             </div>
         </div>

@@ -172,13 +172,13 @@ class ConstructActionService
 
             $dominion->{'resource_'.$primaryResource} -= $primaryCostTotal;
 
-            $this->statsService->updateStats($dominion, ($primaryResource . '_building'), $primaryCostTotal);
+            $this->statsService->updateStat($dominion, ($primaryResource . '_building'), $primaryCostTotal);
 
             if(isset($secondaryResource))
             {
                 $dominion->{'resource_'.$secondaryResource} -= $secondaryCostTotal;
 
-                $this->statsService->updateStats($dominion, ($secondaryResource . '_building'), $secondaryCostTotal);
+                $this->statsService->updateStat($dominion, ($secondaryResource . '_building'), $secondaryCostTotal);
             }
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_CONSTRUCT]);

@@ -98,8 +98,8 @@ class BankActionService
         $dominion->most_recent_exchange_from = $source;
         $dominion->most_recent_exchange_to = $target;
 
-        $this->statsService->updateStats($dominion, (str_replace('resource_', '', $source).'_sold'), $amount);
-        $this->statsService->updateStats($dominion, (str_replace('resource_', '', $target).'_bought'), $targetAmount);
+        $this->statsService->updateStat($dominion, (str_replace('resource_', '', $source).'_sold'), $amount);
+        $this->statsService->updateStat($dominion, (str_replace('resource_', '', $target).'_bought'), $targetAmount);
 
         $dominion->save(['event' => HistoryService::EVENT_ACTION_BANK]);
 

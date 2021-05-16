@@ -111,7 +111,7 @@ class RezoneActionService
         $dominion->{'resource_'.$resource} -= $cost;
 
         # Update spending statistics.
-        $this->statsService->updateStats($dominion, ($resource . '_rezoning'), $cost);
+        $this->statsService->updateStat($dominion, ($resource . '_rezoning'), $cost);
 
         foreach ($remove as $landType => $amount) {
             $dominion->{'land_' . $landType} -= $amount;

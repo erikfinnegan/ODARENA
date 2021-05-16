@@ -289,8 +289,8 @@ class BarbarianService
                     $logString .= "\t\t**Actual land gained: " . array_sum($landGained) . "\n";
 
                     # Add the land gained to the $dominion.
-                    $this->statsService->updateStats($dominion, 'land_conquered', $totalLandToGain);
-                    $this->statsService->updateStats($dominion, 'invasion_victories', 1);
+                    $this->statsService->updateStat($dominion, 'land_conquered', $totalLandToGain);
+                    $this->statsService->updateStat($dominion, 'invasion_victories', 1);
 
                     $sentRatio = rand($this->barbarianCalculator->getSetting('SENT_RATIO_MIN'), $this->barbarianCalculator->getSetting('SENT_RATIO_MAX'))/1000;
 

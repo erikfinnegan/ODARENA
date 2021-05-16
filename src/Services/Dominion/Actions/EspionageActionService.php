@@ -249,7 +249,7 @@ class EspionageActionService
 
             if (!random_chance($successRate))
             {
-                $this->statsService->updateStats($dominion, 'espionage_info_failure', 1);
+                $this->statsService->updateStat($dominion, 'espionage_info_failure', 1);
 
                 // Values (percentage)
                 $spiesKilledBasePercentage = 0.25;
@@ -273,8 +273,8 @@ class EspionageActionService
                     $unitsKilled['spies'] = $spiesKilled;
                     $dominion->military_spies -= $spiesKilled;
 
-                    $this->statsService->updateStats($dominion, 'spies_killed', $spiesKilled);
-                    $this->statsService->updateStats($target, 'spies_lost', $spiesKilled);
+                    $this->statsService->updateStat($dominion, 'spies_killed', $spiesKilled);
+                    $this->statsService->updateStat($target, 'spies_lost', $spiesKilled);
 
                     if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                     {
@@ -302,9 +302,9 @@ class EspionageActionService
                               $unitsKilled[strtolower($unit->name)] = $unitKilled;
                               $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
 
-                              $this->statsService->updateStats($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
-                              $this->statsService->updateStats($dominion, 'units_lost', $unitsKilled);
-                              $this->statsService->updateStats($target, 'units_killed', $unitsKilled);
+                              $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
+                              $this->statsService->updateStat($dominion, 'units_lost', $unitsKilled);
+                              $this->statsService->updateStat($target, 'units_killed', $unitsKilled);
 
                               $spyUnitsKilled += $unitKilled;
 
@@ -327,7 +327,7 @@ class EspionageActionService
                     $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
                     $this->queueService->queueResources('training', $target, [$targetUnit => ($spiesKilled + $spyUnitsKilled)], 2);
 
-                    $this->statsService->updateStats($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
+                    $this->statsService->updateStat($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
                 }
 
                 if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
@@ -366,7 +366,7 @@ class EspionageActionService
             }
         }
 
-        $this->statsService->updateStats($dominion, 'espionage_info_success', 1);
+        $this->statsService->updateStat($dominion, 'espionage_info_success', 1);
 
         $infoOp = new InfoOp([
             'source_realm_id' => $dominion->realm->id,
@@ -541,7 +541,7 @@ class EspionageActionService
 
         if($targetSpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfSpa, $targetSpa, static::THEFT_MULTIPLIER_SUCCESS_RATE)))
         {
-            $this->statsService->updateStats($dominion, 'espionage_theft_success', 1);
+            $this->statsService->updateStat($dominion, 'espionage_theft_success', 1);
 
             foreach($spyop->perks as $perk)
             {
@@ -558,8 +558,8 @@ class EspionageActionService
                     $target->{'resource_'.$resource} -= $amountStolen;
                     $dominion->{'resource_'.$resource} += $amountStolen;
 
-                    $this->statsService->updateStats($dominion, ($resource .  '_stolen'), $amountStolen);
-                    $this->statsService->updateStats($target, ($resource . '_lost'), $amountStolen);
+                    $this->statsService->updateStat($dominion, ($resource .  '_stolen'), $amountStolen);
+                    $this->statsService->updateStat($target, ($resource . '_lost'), $amountStolen);
                 }
 
                 if($perk->key === 'abduct_draftees' or $perk->key === 'abduct_peasants' or $perk->key === 'seize_boats')
@@ -588,7 +588,7 @@ class EspionageActionService
                     $target->{$resourceString} -= $amountStolen;
                     $dominion->{$resourceString} += $amountStolen;
 
-                    $this->statsService->updateStats($dominion, (str_replace('military_', '', $resourceString) .  '_stolen'), 1);
+                    $this->statsService->updateStat($dominion, (str_replace('military_', '', $resourceString) .  '_stolen'), 1);
                 }
             }
 
@@ -626,7 +626,7 @@ class EspionageActionService
         }
         else
         {
-            $this->statsService->updateStats($dominion, 'espionage_theft_failure', 1);
+            $this->statsService->updateStat($dominion, 'espionage_theft_failure', 1);
             // Values (percentage)
             $spiesKilledBasePercentage = 1;
 
@@ -649,8 +649,8 @@ class EspionageActionService
                 $unitsKilled['spies'] = $spiesKilled;
                 $dominion->military_spies -= $spiesKilled;
 
-                $this->statsService->updateStats($dominion, 'spies_killed', $spiesKilled);
-                $this->statsService->updateStats($target, 'spies_lost', $spiesKilled);
+                $this->statsService->updateStat($dominion, 'spies_killed', $spiesKilled);
+                $this->statsService->updateStat($target, 'spies_lost', $spiesKilled);
 
                 if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                 {
@@ -678,9 +678,9 @@ class EspionageActionService
                         $unitsKilled[strtolower($unit->name)] = $unitKilled;
                         $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
 
-                        $this->statsService->updateStats($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
-                        $this->statsService->updateStats($dominion, 'units_lost', $unitsKilled);
-                        $this->statsService->updateStats($target, 'units_killed', $unitsKilled);
+                        $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
+                        $this->statsService->updateStat($dominion, 'units_lost', $unitsKilled);
+                        $this->statsService->updateStat($target, 'units_killed', $unitsKilled);
 
                         $spyUnitsKilled += $unitKilled;
 
@@ -703,7 +703,7 @@ class EspionageActionService
                 $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
                 $this->queueService->queueResources('training', $target, [$targetUnit => ($spiesKilled + $spyUnitsKilled)], 2);
 
-                $this->statsService->updateStats($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
+                $this->statsService->updateStat($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
             }
 
             if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
@@ -819,7 +819,7 @@ class EspionageActionService
 
         if($targetSpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfSpa, $targetSpa, static::HOSTILE_MULTIPLIER_SUCCESS_RATE)))
         {
-            $this->statsService->updateStats($dominion, 'espionage_hostile_success', 1);
+            $this->statsService->updateStat($dominion, 'espionage_hostile_success', 1);
             $damageDealt = [];
 
             foreach($spyop->perks as $perk)
@@ -842,8 +842,8 @@ class EspionageActionService
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'draftees_killed', $damage);
-                    $this->statsService->updateStats($target, 'draftees_lost', $damage);
+                    $this->statsService->updateStat($dominion, 'draftees_killed', $damage);
+                    $this->statsService->updateStat($target, 'draftees_lost', $damage);
                 }
 
                 if($perk->key === 'kill_wizards')
@@ -860,8 +860,8 @@ class EspionageActionService
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'wizards_killed', $damage);
-                    $this->statsService->updateStats($target, 'wizards_lost', $damage);
+                    $this->statsService->updateStat($dominion, 'wizards_killed', $damage);
+                    $this->statsService->updateStat($target, 'wizards_lost', $damage);
                 }
 
                 # Slaughter (kill and convert to food) of draftees and peasants
@@ -884,8 +884,8 @@ class EspionageActionService
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'draftees_killed', $damage);
-                    $this->statsService->updateStats($target, 'draftees_lost', $damage);
+                    $this->statsService->updateStat($dominion, 'draftees_killed', $damage);
+                    $this->statsService->updateStat($target, 'draftees_lost', $damage);
                 }
 
                 if($perk->key === 'slaughter_peasants')
@@ -906,8 +906,8 @@ class EspionageActionService
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'peasants_killed', $damage);
-                    $this->statsService->updateStats($target, 'peasants_lost', $damage);
+                    $this->statsService->updateStat($dominion, 'peasants_killed', $damage);
+                    $this->statsService->updateStat($target, 'peasants_lost', $damage);
                 }
 
                 # Butcher (kill and convert to food, soul, and blood) of draftees, peasants, and wizards
@@ -936,8 +936,8 @@ class EspionageActionService
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'draftees_killed', $damage);
-                    $this->statsService->updateStats($target, 'draftees_lost', $damage);
+                    $this->statsService->updateStat($dominion, 'draftees_killed', $damage);
+                    $this->statsService->updateStat($target, 'draftees_lost', $damage);
                 }
 
                 if($perk->key === 'butcher_peasants')
@@ -964,8 +964,8 @@ class EspionageActionService
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'peasants_killed', $damage);
-                    $this->statsService->updateStats($target, 'peasants_lost', $damage);
+                    $this->statsService->updateStat($dominion, 'peasants_killed', $damage);
+                    $this->statsService->updateStat($target, 'peasants_lost', $damage);
                 }
 
                 if($perk->key === 'butcher_wizards')
@@ -992,8 +992,8 @@ class EspionageActionService
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'wizards_killed', $damage);
-                    $this->statsService->updateStats($target, 'wizards_lost', $damage);
+                    $this->statsService->updateStat($dominion, 'wizards_killed', $damage);
+                    $this->statsService->updateStat($target, 'wizards_lost', $damage);
                 }
 
                 if($perk->key === 'sabotage_improvement')
@@ -1014,7 +1014,7 @@ class EspionageActionService
                     $this->queueService->queueResources('sabotage', $target, ['improvement_' . $improvement => $damage], 6);
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'espionage_damage_improvements', $damage);
+                    $this->statsService->updateStat($dominion, 'espionage_damage_improvements', $damage);
                 }
 
                 # UNFINISHED
@@ -1032,8 +1032,8 @@ class EspionageActionService
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStats($dominion, 'draftees_killed', $damage);
-                    $this->statsService->updateStats($target, 'draftees_lost', $damage);
+                    $this->statsService->updateStat($dominion, 'draftees_killed', $damage);
+                    $this->statsService->updateStat($target, 'draftees_lost', $damage);
                 }
 
             }
@@ -1073,7 +1073,7 @@ class EspionageActionService
         }
         else
         {
-            $this->statsService->updateStats($dominion, 'espionage_hostile_failure', 1);
+            $this->statsService->updateStat($dominion, 'espionage_hostile_failure', 1);
             // Values (percentage)
             $spiesKilledBasePercentage = 1;
 
@@ -1096,8 +1096,8 @@ class EspionageActionService
                 $unitsKilled['spies'] = $spiesKilled;
                 $dominion->military_spies -= $spiesKilled;
 
-                $this->statsService->updateStats($dominion, 'spies_killed', $spiesKilled);
-                $this->statsService->updateStats($target, 'spies_lost', $spiesKilled);
+                $this->statsService->updateStat($dominion, 'spies_killed', $spiesKilled);
+                $this->statsService->updateStat($target, 'spies_lost', $spiesKilled);
 
                 if($target->realm->alignment === 'evil' and !$target->race->getPerkValue('converts_executed_spies'))
                 {
@@ -1125,9 +1125,9 @@ class EspionageActionService
                           $unitsKilled[strtolower($unit->name)] = $unitKilled;
                           $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
 
-                          $this->statsService->updateStats($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
-                          $this->statsService->updateStats($dominion, 'units_lost', $unitsKilled);
-                          $this->statsService->updateStats($target, 'units_killed', $unitsKilled);
+                          $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
+                          $this->statsService->updateStat($dominion, 'units_lost', $unitsKilled);
+                          $this->statsService->updateStat($target, 'units_killed', $unitsKilled);
 
                           $spyUnitsKilled += $unitKilled;
 
@@ -1150,7 +1150,7 @@ class EspionageActionService
                 $this->notificationService->queueNotification('spy_conversion_occurred',['sourceDominionId' => $dominion->id, 'converted' => ($spiesKilled + $spyUnitsKilled)]);
                 $this->queueService->queueResources('training', $target, [$targetUnit => ($spiesKilled + $spyUnitsKilled)], 2);
 
-                $this->statsService->updateStats($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
+                $this->statsService->updateStat($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
             }
 
             if ($this->spellCalculator->isSpellActive($target, 'persuasion'))

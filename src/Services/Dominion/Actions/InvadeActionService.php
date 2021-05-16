@@ -427,13 +427,13 @@ class InvadeActionService
             {
                 $offensiveConversions = $conversions['attacker'];
                 $this->invasionResult['attacker']['conversions'] = $offensiveConversions;
-                $this->statsService->updateStats($dominion, 'units_converted', array_sum($conversions['attacker']));
+                $this->statsService->updateStat($dominion, 'units_converted', array_sum($conversions['attacker']));
             }
             if(array_sum($conversions['defender']) > 0)
             {
                 $defensiveConversions = $conversions['defender'];
                 $this->invasionResult['defender']['conversions'] = $defensiveConversions;
-                $this->statsService->updateStats($dominion, 'units_converted', array_sum($conversions['defender']));
+                $this->statsService->updateStat($dominion, 'units_converted', array_sum($conversions['defender']));
             }
 
             $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits'], $defensiveConversions);
@@ -463,26 +463,26 @@ class InvadeActionService
             // Stat changes
             if ($this->invasionResult['result']['success'])
             {
-                $this->statsService->updateStats($dominion, 'land_conquered', (int)array_sum($this->invasionResult['attacker']['landConquered']));
-                $this->statsService->updateStats($dominion, 'land_discovered', (int)array_sum($this->invasionResult['attacker']['landDiscovered']));
-                $this->statsService->updateStats($dominion, 'invasion_victories', $countsAsVictory);
-                $this->statsService->updateStats($dominion, 'invasion_bottomfeeds', $countsAsBottomfeed);
+                $this->statsService->updateStat($dominion, 'land_conquered', (int)array_sum($this->invasionResult['attacker']['landConquered']));
+                $this->statsService->updateStat($dominion, 'land_discovered', (int)array_sum($this->invasionResult['attacker']['landDiscovered']));
+                $this->statsService->updateStat($dominion, 'invasion_victories', $countsAsVictory);
+                $this->statsService->updateStat($dominion, 'invasion_bottomfeeds', $countsAsBottomfeed);
 
-                $this->statsService->updateStats($target, 'land_lost', (int)array_sum($this->invasionResult['attacker']['landConquered']));
-                $this->statsService->updateStats($target, 'defense_failures', 1);
+                $this->statsService->updateStat($target, 'land_lost', (int)array_sum($this->invasionResult['attacker']['landConquered']));
+                $this->statsService->updateStat($target, 'defense_failures', 1);
             }
             else
             {
-                $this->statsService->updateStats($dominion, 'invasion_razes', $countsAsRaze);
-                $this->statsService->updateStats($dominion, 'invasion_failures', $countsAsFailure);
+                $this->statsService->updateStat($dominion, 'invasion_razes', $countsAsRaze);
+                $this->statsService->updateStat($dominion, 'invasion_failures', $countsAsFailure);
 
-                $this->statsService->updateStats($target, 'defense_success', 1);
+                $this->statsService->updateStat($target, 'defense_success', 1);
             }
 
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -815,8 +815,8 @@ class InvadeActionService
                 $dominion->{"military_unit{$slot}"} -= $amount;
                 $this->invasionResult['attacker']['unitsLost'][$slot] = $amount;
 
-                $this->statsService->updateStats($dominion, ('unit' . $slot . '_lost'), $amount);
-                $this->statsService->updateStats($target, 'units_killed', $amount);
+                $this->statsService->updateStat($dominion, ('unit' . $slot . '_lost'), $amount);
+                $this->statsService->updateStat($target, 'units_killed', $amount);
 
             }
         }
@@ -936,8 +936,8 @@ class InvadeActionService
             if ($slotLost > 0)
             {
                 $defensiveUnitsLost[$unit->slot] = $slotLost;
-                $this->statsService->updateStats($target, ('unit' . $unit->slot . '_lost'), $slotLost);
-                $this->statsService->updateStats($dominion, 'units_killed', $slotLost);
+                $this->statsService->updateStat($target, ('unit' . $unit->slot . '_lost'), $slotLost);
+                $this->statsService->updateStat($dominion, 'units_killed', $slotLost);
                 $this->unitsLost += $slotLost; // todo: refactor
             }
         }
@@ -2093,9 +2093,9 @@ class InvadeActionService
                     $result['defender']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
 
                     # Update statistics
-                    $this->statsService->updateStats($defender, 'ore_salvaged', $result['defender']['salvage']['ore']);
-                    $this->statsService->updateStats($defender, 'lumber_salvaged', $result['defender']['salvage']['lumber']);
-                    $this->statsService->updateStats($defender, 'gems_salvaged', $result['defender']['salvage']['gems']);
+                    $this->statsService->updateStat($defender, 'ore_salvaged', $result['defender']['salvage']['ore']);
+                    $this->statsService->updateStat($defender, 'lumber_salvaged', $result['defender']['salvage']['lumber']);
+                    $this->statsService->updateStat($defender, 'gems_salvaged', $result['defender']['salvage']['gems']);
                 }
             }
         }
@@ -2122,9 +2122,9 @@ class InvadeActionService
                 $result['attacker']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
 
                 # Update statistics
-                $this->statsService->updateStats($attacker, 'ore_salvaged', $result['attacker']['salvage']['ore']);
-                $this->statsService->updateStats($attacker, 'lumber_salvaged', $result['attacker']['salvage']['lumber']);
-                $this->statsService->updateStats($attacker, 'gems_salvaged', $result['attacker']['salvage']['gems']);
+                $this->statsService->updateStat($attacker, 'ore_salvaged', $result['attacker']['salvage']['ore']);
+                $this->statsService->updateStat($attacker, 'lumber_salvaged', $result['attacker']['salvage']['lumber']);
+                $this->statsService->updateStat($attacker, 'gems_salvaged', $result['attacker']['salvage']['gems']);
             }
         }
 
@@ -2195,7 +2195,7 @@ class InvadeActionService
                 ]
             );
 
-            $this->statsService->updateStats($attacker, ($resource . '_plundered'), $amount);
+            $this->statsService->updateStat($attacker, ($resource . '_plundered'), $amount);
 
         }
 
@@ -2523,8 +2523,8 @@ class InvadeActionService
                               $this->invasionResult['defender']['unitsLost'][$slot] = $deaths;
                           }
 
-                          $this->statsService->updateStats($attacker, 'units_killed', $deaths);
-                          $this->statsService->updateStats($defender, ('unit' . $slot . '_lost'), $deaths);
+                          $this->statsService->updateStat($attacker, 'units_killed', $deaths);
+                          $this->statsService->updateStat($defender, ('unit' . $slot . '_lost'), $deaths);
 
                     }
                 }
@@ -2548,7 +2548,7 @@ class InvadeActionService
 
                 $this->invasionResult['attacker']['soulsDestroyed'] = $soulsDestroyed;
                 $defender->resource_soul -= $soulsDestroyed;
-                $this->statsService->updateStats($defender, 'soul_destroyed', $soulsDestroyed);
+                $this->statsService->updateStat($defender, 'soul_destroyed', $soulsDestroyed);
 
             }
         }
@@ -2603,8 +2603,8 @@ class InvadeActionService
 
                             $this->invasionResult['attacker']['survivingUnits'][$slot] -= $deaths;
 
-                            $this->statsService->updateStats($attacker, ('unit' . $slot . '_lost'), $deaths);
-                            $this->statsService->updateStats($defender, 'units_killed', $deaths);
+                            $this->statsService->updateStat($attacker, ('unit' . $slot . '_lost'), $deaths);
+                            $this->statsService->updateStat($defender, 'units_killed', $deaths);
 
                       }
                   }
@@ -2629,7 +2629,7 @@ class InvadeActionService
 
                   $this->invasionResult['defender']['soulsDestroyed'] = $soulsDestroyed;
                   $attacker->resource_soul -= $soulsDestroyed;
-                  $this->statsService->updateStats($attacker, 'soul_destroyed', $soulsDestroyed);
+                  $this->statsService->updateStat($attacker, 'soul_destroyed', $soulsDestroyed);
               }
         }
     }
@@ -2744,6 +2744,9 @@ class InvadeActionService
         $this->invasionResult['attacker']['op'] = $attackingForceOP;
         $this->invasionResult['defender']['dp'] = $targetDP;
         $this->invasionResult['result']['success'] = ($attackingForceOP > $targetDP);
+
+        $this->statsService->setStat($dominion, 'op_sent_max', max($this->invasionResult['attacker']['op'], $this->statsService->getStat($dominion, 'op_sent_max')));
+        $this->statsService->updateStat($dominion, 'op_sent_total', $this->invasionResult['attacker']['op']);
     }
 
     /**

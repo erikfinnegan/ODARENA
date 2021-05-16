@@ -8,6 +8,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Stat;
 use OpenDominion\Models\DominionStat;
 use OpenDominion\Models\RealmStat;
+use OpenDominion\Models\RoundStat;
 
 class StatsService
 {
@@ -24,7 +25,7 @@ class StatsService
         return 0;
     }
 
-    public function updateStats(Dominion $dominion, string $statKey, int $value): void
+    public function updateStat(Dominion $dominion, string $statKey, int $value): void
     {
         $stat = Stat::where('key', $statKey)->first();
 
@@ -34,6 +35,32 @@ class StatsService
             {
                 DominionStat::where('dominion_id', $dominion->id)->where('stat_id', $stat->id)
                 ->increment('value', $value);
+            });
+        }
+        else
+        {
+            DB::transaction(function () use ($dominion, $stat, $value)
+            {
+                DominionStat::create([
+                    'dominion_id' => $dominion->id,
+                    'stat_id' => $stat->id,
+                    'value' => $value
+                ]);
+            });
+
+        }
+    }
+
+    public function setStat(Dominion $dominion, string $statKey, int $value): void
+    {
+        $stat = Stat::where('key', $statKey)->first();
+
+        if($this->dominionHasStat($dominion, $statKey))
+        {
+            DB::transaction(function () use ($dominion, $stat, $value)
+            {
+                DominionStat::where('dominion_id', $dominion->id)->where('stat_id', $stat->id)
+                ->set('value', $value);
             });
         }
         else

@@ -536,7 +536,7 @@ class TrainActionService
                         $resourceString = 'archmages';
                     }
 
-                    $this->statsService->updateStats($dominion, ($resourceString . '_training'), $totalCosts[$resource]);
+                    $this->statsService->updateStat($dominion, ($resourceString . '_training'), $totalCosts[$resource]);
                 }
             }
 
@@ -587,7 +587,7 @@ class TrainActionService
                         $amountToTrain *= (1 + $dominion->getBuildingPerkMultiplier('extra_units_trained'));
                     }
 
-                    $this->statsService->updateStats($dominion, ($unitStatsName . '_trained'), $amountToTrain);
+                    $this->statsService->updateStat($dominion, ($unitStatsName . '_trained'), $amountToTrain);
 
                     $ticks = (int)intval($ticks);
 

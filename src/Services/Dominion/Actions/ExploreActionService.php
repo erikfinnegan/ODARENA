@@ -180,8 +180,8 @@ class ExploreActionService
         # Pathfinder
         $ticks = $this->explorationCalculator->getExploreTime($dominion);
 
-        $this->statsService->updateStats($dominion, 'land_explored', $totalLandToExplore);
-        $this->statsService->updateStats($dominion, 'gold_exploring', $goldCost);
+        $this->statsService->updateStat($dominion, 'land_explored', $totalLandToExplore);
+        $this->statsService->updateStat($dominion, 'gold_exploring', $goldCost);
 
         DB::transaction(function () use ($dominion, $data, $newMorale, $newGold, $newDraftees, $totalLandToExplore, $researchPointsGained, $goldCost, $ticks) {
             $this->queueService->queueResources('exploration', $dominion, $data, $ticks);

@@ -18,6 +18,12 @@ defense_success:
 defense_failures:
   name: Times invaded
 
+op_sent_max:
+  name: Greatest offensive power sent
+
+op_sent_total:
+  name: Total offensive power sent
+
 # Production and Resources
 
 gold_production:

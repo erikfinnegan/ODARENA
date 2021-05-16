@@ -12,13 +12,13 @@ namespace OpenDominion\Models;
  * @property-read \OpenDominion\Models\Dominion $dominion
  * @property-read \OpenDominion\Models\Stat $stat
  */
-class RealmStat extends AbstractModel
+class RoundStat extends AbstractModel
 {
-    protected $table = 'realm_stats';
+    protected $table = 'round_stats';
 
     public function realm()
     {
-        return $this->belongsTo(Realm::class, 'realm_id');
+        return $this->belongsTo(Realm::class, 'round_id');
     }
 
     public function stat()
