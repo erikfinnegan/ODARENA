@@ -679,7 +679,7 @@
                                         </td>
                                         <td>
                                             <strong>
-                                                @if(($statsService->getStat($selectedDominion, 'magic_info_success') + $statsService->getStat($selectedDominion, 'magic_hostile_failure')) > 0)
+                                                @if(($statsService->getStat($selectedDominion, 'magic_hostile_success') + $statsService->getStat($selectedDominion, 'magic_hostile_failure')) > 0)
                                                     {{ number_format(($statsService->getStat($selectedDominion, 'magic_hostile_success') / ($statsService->getStat($selectedDominion, 'magic_hostile_success') + $statsService->getStat($selectedDominion, 'magic_hostile_failure')))*100,2) }}%</strong>
                                                 @else
                                                     &mdash;
