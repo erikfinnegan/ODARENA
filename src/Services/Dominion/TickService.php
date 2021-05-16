@@ -899,7 +899,7 @@ class TickService
           {
               $wizardStrengthAdded = 4;
 
-              $wizardStrengthAdded += $dominion->getBuildingPerkMultiplier('wizard_strength_recovery');
+              $wizardStrengthAdded += $dominion->getBuildingPerkValue('wizard_strength_recovery');
               $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
 
               $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);

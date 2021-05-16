@@ -33,7 +33,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Offensive Power:</td>
+                                    <td>Offensive Power</td>
                                     <td>
                                         <strong>{{ number_format($militaryCalculator->getOffensivePower($selectedDominion)) }}</strong>
                                         @if ($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) !== 1.0)
@@ -42,13 +42,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>OP Multiplier:</td>
+                                    <td>OP Multiplier</td>
                                     <td>
                                         <strong>{{ number_string(($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) - 1) * 100, 3, true) }}%</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>OPA:</td>
+                                    <td>OPA</td>
                                     <td>
                                         <strong>{{ number_format(($militaryCalculator->getOffensivePower($selectedDominion) / $landCalculator->getTotalLand($selectedDominion)), 3) }}</strong>
                                         @if ($militaryCalculator->getOffensivePowerMultiplier($selectedDominion) !== 1.0)
@@ -57,13 +57,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Max OP sent:</td>
+                                    <td>Max OP sent</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'op_sent_max')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Total OP sent:</td>
+                                    <td>Total OP sent</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'op_sent_total')) }}</strong>
                                     </td>
@@ -80,7 +80,7 @@
                                     </tr>
                                 </thead>
                                     <tr>
-                                        <td>Defensive Power:</td>
+                                        <td>Defensive Power</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}</strong>
                                             @if ($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) !== 1.0)
@@ -89,13 +89,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>DP Multiplier:</td>
+                                        <td>DP Multiplier</td>
                                         <td>
                                             <strong>{{ number_string(($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) - 1) * 100, 3, true) }}%</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>DPA:</td>
+                                        <td>DPA</td>
                                         <td>
                                             <strong>{{ number_format(($militaryCalculator->getDefensivePower($selectedDominion) / $landCalculator->getTotalLand($selectedDominion)), 3) }}</strong>
                                             @if ($militaryCalculator->getDefensivePowerMultiplier($selectedDominion) !== 1.0)
@@ -104,13 +104,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Greatest successful DP:</td>
+                                        <td>Greatest successful DP</td>
                                         <td>
                                             <strong>{{ number_format($statsService->getStat($selectedDominion, 'dp_success_max')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Greatest unsuccessful DP:</td>
+                                        <td>Greatest unsuccessful DP</td>
                                         <td>
                                             <strong>{{ number_format($statsService->getStat($selectedDominion, 'dp_failure_max')) }}</strong>
                                         </td>
@@ -132,37 +132,37 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Attacking victory:</td>
+                                    <td>Attacking victory</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'invasion_victories')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Bottomfeeds:</td>
+                                    <td>Bottomfeeds</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'invasion_bottomfeeds')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Tactical razes:</td>
+                                    <td>Tactical razes</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'invasion_razes')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Overwhelmed failures:</td>
+                                    <td>Overwhelmed failures</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'invasion_failures')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Land conquered:</td>
+                                    <td>Land conquered</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_conquered')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Land discovered:</td>
+                                    <td>Land discovered</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_discovered')) }}</strong>
                                     </td>
@@ -182,25 +182,25 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Invasions fought back:</td>
+                                    <td>Invasions fought back</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'defense_success')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Invasions lost:</td>
+                                    <td>Invasions lost</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'defense_failures')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Land lost:</td>
+                                    <td>Land lost</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_lost')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Land explored:</td>
+                                    <td>Land explored</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_explored')) }}</strong>
                                     </td>
@@ -224,13 +224,13 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Enemy units killed:</td>
+                                    <td>Enemy units killed</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'units_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Total units converted:</td>
+                                    <td>Total units converted</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'units_converted')) }}</strong>
                                     </td>
@@ -255,7 +255,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ str_plural($unitHelper->getUnitName('unit1', $selectedDominion->race)) }}:</td>
+                                    <td>{{ str_plural($unitHelper->getUnitName('unit1', $selectedDominion->race)) }}</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_trained')) }}</strong>
                                     </td>
@@ -279,7 +279,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ str_plural($unitHelper->getUnitName('unit3', $selectedDominion->race)) }}:</td>
+                                    <td>{{ str_plural($unitHelper->getUnitName('unit3', $selectedDominion->race)) }}</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit3_trained')) }}</strong>
                                     </td>
@@ -291,7 +291,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>{{ str_plural($unitHelper->getUnitName('unit4', $selectedDominion->race)) }}:</td>
+                                    <td>{{ str_plural($unitHelper->getUnitName('unit4', $selectedDominion->race)) }}</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit4_trained')) }}</strong>
                                     </td>
@@ -303,7 +303,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Total:</td>
+                                    <td>Total</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_trained') + $statsService->getStat($selectedDominion, 'unit2_trained') + $statsService->getStat($selectedDominion, 'unit3_trained') + $statsService->getStat($selectedDominion, 'unit4_trained')) }}</strong>
                                     </td>
@@ -347,7 +347,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Ratio:</td>
+                                    <td>Ratio</td>
                                     <td>
                                         <strong>{{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</strong>
                                         @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
@@ -362,7 +362,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Points:</span></td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Points</span></td>
                                     <td>
                                         <strong>{{ number_format($militaryCalculator->getSpyPoints($selectedDominion, 'offense')) }}</strong>
                                         @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
@@ -397,7 +397,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Info:</td>
+                                    <td>Info</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_info_success')) }}</strong>
                                     </td>
@@ -415,7 +415,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td>Theft:</td>
+                                    <td>Theft</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_theft_success')) }}</strong>
                                     </td>
@@ -433,7 +433,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td>Hostile:</td>
+                                    <td>Hostile</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_hostile_success')) }}</strong>
                                     </td>
@@ -468,43 +468,43 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Peasants killed:</td>
+                                    <td>Peasants killed</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_peasants_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Peasants abducted:</td>
+                                    <td>Peasants abducted</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'peasants_stolen')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Draftees killed:</td>
+                                    <td>Draftees killed</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_draftees_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Draftees abducted:</td>
+                                    <td>Draftees abducted</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'draftees_stolen')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Wizards killed:</td>
+                                    <td>Wizards killed</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_wizards_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Wizard strength:</td>
+                                    <td>Wizard strength</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_wizard_strength_damage')) }}%</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Improvements damage:</td>
+                                    <td>Improvements damage</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_damage_improvements')) }}</strong>
                                     </td>
@@ -528,7 +528,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Gold:</td>
+                                    <td>Gold</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'gold_stolen')) }}</strong>
                                     </td>
@@ -537,7 +537,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Lumber:</td>
+                                    <td>Lumber</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'lumber_stolen')) }}</strong>
                                     </td>
@@ -546,7 +546,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Ore:</td>
+                                    <td>Ore</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'ore_stolen')) }}</strong>
                                     </td>
@@ -555,7 +555,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Food:</td>
+                                    <td>Food</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'food_stolen')) }}</strong>
                                     </td>
@@ -564,7 +564,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Gems:</td>
+                                    <td>Gems</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'gems_stolen')) }}</strong>
                                     </td>
@@ -573,7 +573,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Mana:</td>
+                                    <td>Mana</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'mana_stolen')) }}</strong>
                                     </td>
@@ -613,7 +613,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Ratio:</td>
+                                    <td>Ratio</td>
                                     <td>
                                         <strong>{{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</strong>
                                         @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
@@ -628,7 +628,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Points:</span></td>
+                                    <td><span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Points</span></td>
                                     <td>
                                         <strong>{{ number_format($militaryCalculator->getWizardPoints($selectedDominion, 'offense')) }}</strong>
                                         @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
@@ -663,7 +663,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Info:</td>
+                                    <td>Info</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_info_success')) }}</strong>
                                     </td>
@@ -683,7 +683,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Hostile:</td>
+                                    <td>Hostile</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_hostile_success')) }}</strong>
                                     </td>
@@ -703,7 +703,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Invasion:</td>
+                                    <td>Invasion</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_invasion_success')) }}</strong>
                                     </td>
@@ -738,31 +738,31 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Peasants killed:</td>
+                                    <td>Peasants killed</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_peasants_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Draftees killed:</td>
+                                    <td>Draftees killed</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_draftees_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Spies killed:</td>
+                                    <td>Spies killed</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_spies_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Improvements damage:</td>
+                                    <td>Improvements damage</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_damage_improvements')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Morale:</td>
+                                    <td>Morale</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_damage_morale')) }}%</strong>
                                     </td>
@@ -784,37 +784,37 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Gold:</td>
+                                    <td>Gold</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'gold_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Lumber:</td>
+                                    <td>Lumber</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'lumber_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Ore:</td>
+                                    <td>Ore</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'ore_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Food:</td>
+                                    <td>Food</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'food_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Gems:</td>
+                                    <td>Gems</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'gems_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Mana:</td>
+                                    <td>Mana</td>
                                     <td>
                                         <strong>{{ number_format($statsService->getStat($selectedDominion, 'mana_destroyed')) }}</strong>
                                     </td>
@@ -845,7 +845,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Current Population:</td>
+                                            <td>Current Population</td>
                                             <td>
                                                 <strong>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }}</strong>
                                             </td>
@@ -859,14 +859,14 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Military Population:</td>
+                                            <td>Military Population</td>
                                             <td>
                                                 <strong>{{ number_format($populationCalculator->getPopulationMilitary($selectedDominion)) }}</strong>
                                                 <small class="text-muted">({{ number_format((100 - ($selectedDominion->peasants / $populationCalculator->getPopulation($selectedDominion)) * 100), 2) }}%)</small>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Max Population:</td>
+                                            <td>Max Population</td>
                                             <td>
                                                 <strong>{{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</strong>
                                                 @if ($populationCalculator->getMaxPopulationMultiplier($selectedDominion) !== 1.0)
@@ -876,7 +876,7 @@
                                         </tr>
                                         @endif
                                         <tr>
-                                            <td>Population Multiplier:</td>
+                                            <td>Population Multiplier</td>
                                             <td>
                                                 <strong>{{ number_string((($populationCalculator->getMaxPopulationMultiplier($selectedDominion) - 1) * 100), 3, true) }}%</strong>
                                             </td>
