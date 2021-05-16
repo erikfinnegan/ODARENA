@@ -817,7 +817,7 @@ class SpellActionService
                         $target->{$attribute} -= $damage;
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                        $this->statsService->updateStat($caster, 'spies_killed', $damage);
+                        $this->statsService->updateStat($caster, 'magic_spies_killed', $damage);
                         $this->statsService->updateStat($target, 'spies_lost', $damage);
                     }
 

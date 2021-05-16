@@ -738,21 +738,33 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Spies disbanded:</td>
+                                    <td>Peasants killed:</td>
                                     <td>
-                                        <strong>{{ number_format($selectedDominion->stat_disband_spies_damage) }}</strong>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_peasants_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Fireball damage:</td>
+                                    <td>Draftees killed:</td>
                                     <td>
-                                        <strong>{{ number_format($selectedDominion->stat_fireball_damage) }}</strong>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_draftees_killed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Lightning bolt damage:</td>
+                                    <td>Spies killed:</td>
                                     <td>
-                                        <strong>{{ number_format($selectedDominion->stat_lightning_bolt_damage) }}</strong>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_spies_killed')) }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Improvements damage:</td>
+                                    <td>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_damage_improvements')) }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Morale:</td>
+                                    <td>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_damage_morale')) }}%</strong>
                                     </td>
                                 </tr>
                             </tbody>
@@ -766,32 +778,45 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th colspan="2">Offensive Operations</th>
+                                    <th>Resource</th>
+                                    <th>Destroyed</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Earthquake duration:</td>
+                                    <td>Gold:</td>
                                     <td>
-                                        <strong>{{ number_format($selectedDominion->stat_earthquake_hours) }}</strong>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'gold_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Great Flood duration:</td>
+                                    <td>Lumber:</td>
                                     <td>
-                                        <strong>{{ number_format($selectedDominion->stat_great_flood_hours) }}</strong>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'lumber_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Insect Swarm duration:</td>
+                                    <td>Ore:</td>
                                     <td>
-                                        <strong>{{ number_format($selectedDominion->stat_insect_swarm_hours) }}</strong>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'ore_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Plague Ticks:</td>
+                                    <td>Food:</td>
                                     <td>
-                                        <strong>{{ number_format($selectedDominion->stat_plague_hours) }}</strong>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'food_destroyed')) }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Gems:</td>
+                                    <td>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'gems_destroyed')) }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mana:</td>
+                                    <td>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'mana_destroyed')) }}</strong>
                                     </td>
                                 </tr>
                             </tbody>
