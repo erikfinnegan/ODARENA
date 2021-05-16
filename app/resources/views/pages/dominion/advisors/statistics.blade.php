@@ -633,10 +633,11 @@
                             </table>
                             <table class="table">
                                 <colgroup>
-                                    <col width="25%">
-                                    <col width="25%">
-                                    <col width="25%">
-                                    <col width="25%">
+                                    <col width="20%">
+                                    <col width="20%">
+                                    <col width="20%">
+                                    <col width="20%">
+                                    <col width="20%">
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -644,6 +645,7 @@
                                         <th>Successful</th>
                                         <th>Failure</th>
                                         <th>Success Rate</th>
+                                        <th>Duration (ticks)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -663,6 +665,9 @@
                                                     &mdash;
                                                 @endif
                                         </td>
+                                        <td>
+                                            &mdash;
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Hostile:</td>
@@ -679,6 +684,29 @@
                                                 @else
                                                     &mdash;
                                                 @endif
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_hostile_duration')) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Invasion:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_invasion_success')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_invasion_failure')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                @if(($statsService->getStat($selectedDominion, 'magic_invasion_success') + $statsService->getStat($selectedDominion, 'magic_invasion_failure')) > 0)
+                                                    {{ number_format(($statsService->getStat($selectedDominion, 'magic_invasion_success') / ($statsService->getStat($selectedDominion, 'magic_invasion_success') + $statsService->getStat($selectedDominion, 'magic_invasion_failure')))*100,2) }}%</strong>
+                                                @else
+                                                    &mdash;
+                                                @endif
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_invasion_duration')) }}</strong>
                                         </td>
                                     </tr>
                                 </tbody>

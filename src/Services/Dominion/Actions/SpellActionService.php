@@ -1068,7 +1068,7 @@ class SpellActionService
         elseif($spell->scope == 'hostile')
         {
             $this->statsService->updateStat($caster, 'magic_invasion_success', 1);
-            $this->statsService->updateStat($caster, 'magic_hostile_duration', $spell->duration);
+            $this->statsService->updateStat($caster, 'magic_invasion_duration', $spell->duration);
             if ($this->spellCalculator->isSpellActive($target, $spell->key))
             {
 

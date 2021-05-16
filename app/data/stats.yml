@@ -291,6 +291,8 @@ magic_invasion_success:
   name: Invasion spells success
 magic_invasion_failure:
   name: Invasion spells failure
+magic_invasion_duration:
+  name: Invasion spells duration
 
 magic_damage_improvements:
   name: Spell improvements damage
