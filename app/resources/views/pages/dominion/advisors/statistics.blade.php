@@ -329,26 +329,24 @@
                         <div class="col-xs-12 col-sm-4">
                             <table class="table">
                                 <colgroup>
-                                    <col width="50%">
-                                    <col width="50%">
+                                    <col width="33%">
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Spy Power</th>
+                                        <th>Spy Power</th>
+                                        <th>Offensive</th>
+                                        <th>Defensive</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Offensive Spy Ratio:</td>
+                                        <td>Ratio:</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'), 3) }}</strong>
                                             @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
                                                 <small class="text-muted">({{ number_format(($militaryCalculator->getSpyRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
                                             @endif
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Defensive Spy Ratio:</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'defense'), 3) }}</strong>
                                             @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
@@ -357,19 +355,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Offensive Spy Points:</span>
-                                        </td>
+                                        <td><span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Points:</span></td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getSpyPoints($selectedDominion, 'offense')) }}</strong>
                                             @if ($militaryCalculator->getSpyRatioMultiplier($selectedDominion) !== 1.0)
                                                 <small class="text-muted">({{ number_format(($militaryCalculator->getSpyRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
                                             @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Defensive Spy Points:</span>
                                         </td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getSpyPoints($selectedDominion, 'defense')) }}</strong>
@@ -378,26 +369,84 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>Espionage success:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_espionage_success) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Spies trained:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_spies_trained) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Spies lost:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_spies_lost) }}</strong>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
+
+
+                            <table class="table">
+                                <colgroup>
+                                    <col width="25%">
+                                    <col width="25%">
+                                    <col width="25%">
+                                    <col width="25%">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>Operation Type</th>
+                                        <th>Sucessful</th>
+                                        <th>Failure</th>
+                                        <th>Sucess Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Info:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_info_success')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_info_failure')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                @if(($statsService->getStat($selectedDominion, 'espionage_info_success') + $statsService->getStat($selectedDominion, 'espionage_info_failure')) > 0)
+                                                    {{ number_format(($statsService->getStat($selectedDominion, 'espionage_info_success') / ($statsService->getStat($selectedDominion, 'espionage_info_success') + $statsService->getStat($selectedDominion, 'espionage_info_failure')))*100,2) }}%</strong>
+                                                @else
+                                                    &mdash;
+                                                @endif
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Theft:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_theft_success')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_theft_failure')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                @if(($statsService->getStat($selectedDominion, 'espionage_theft_success') + $statsService->getStat($selectedDominion, 'espionage_theft_failure')) > 0)
+                                                    {{ number_format(($statsService->getStat($selectedDominion, 'espionage_theft_success') / ($statsService->getStat($selectedDominion, 'espionage_theft_success') + $statsService->getStat($selectedDominion, 'espionage_theft_failure')))*100,2) }}%</strong>
+                                                @else
+                                                    &mdash;
+                                                @endif
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Hostile:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_hostile_success')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_hostile_failure')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                @if(($statsService->getStat($selectedDominion, 'espionage_hostile_success') + $statsService->getStat($selectedDominion, 'espionage_hostile_failure')) > 0)
+                                                    {{ number_format(($statsService->getStat($selectedDominion, 'espionage_hostile_success') / ($statsService->getStat($selectedDominion, 'espionage_hostile_success') + $statsService->getStat($selectedDominion, 'espionage_hostile_failure')))*100,2) }}%</strong>
+                                                @else
+                                                    &mdash;
+                                                @endif
+                                        </td>
+                                    </tr>
+
+                              </tbody>
+                          </table>
+
+
                         </div>
                         <div class="col-xs-12 col-sm-4">
                             <table class="table">

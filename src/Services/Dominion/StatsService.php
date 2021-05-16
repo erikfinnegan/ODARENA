@@ -13,6 +13,7 @@ use OpenDominion\Models\RoundStat;
 class StatsService
 {
 
+    # Dominion stats
     public function getStat(Dominion $dominion, string $statKey): int
     {
         if($stat = Stat::where('key', $statKey)->first())
@@ -30,7 +31,7 @@ class StatsService
     {
         $stat = Stat::where('key', $statKey)->first();
 
-        if($this->dominionHasStat($dominion, $statKey))
+        if($this->hasStat($dominion, $statKey))
         {
             DB::transaction(function () use ($dominion, $stat, $value)
             {
@@ -56,7 +57,7 @@ class StatsService
     {
         $stat = Stat::where('key', $statKey)->first();
 
-        if($this->dominionHasStat($dominion, $statKey))
+        if($this->hasStat($dominion, $statKey))
         {
             DB::transaction(function () use ($dominion, $stat, $value)
             {
@@ -78,7 +79,7 @@ class StatsService
         }
     }
 
-    public function dominionHasStat(Dominion $dominion, string $statKey): bool
+    public function hasStat(Dominion $dominion, string $statKey): bool
     {
         $stat = Stat::where('key', $statKey)->first();
         if(!$stat)
@@ -88,22 +89,21 @@ class StatsService
         return DominionStat::where('stat_id',$stat->id)->where('dominion_id',$dominion->id)->first() ? true : false;
     }
 
-
-
     # Realm stats
     public function getRealmStat(Realm $realm, string $statKey): int
     {
-        $stat = Stat::where('key', $statKey)->first();
-
-        if($dominionStat = RelamStat::where('stat_id',$stat->id)->where('realm_id', $realm->id)->first())
+        if($stat = Stat::where('key', $statKey)->first())
         {
-            return $dominionStat->value;
+            if($realmStat = RealmStat::where('stat_id',$stat->id)->where('realm_id',$realm->id)->first())
+            {
+                return $realmStat->value;
+            }
         }
 
         return 0;
     }
 
-    public function updateRealmStats(Realm $realm, string $statKey, int $value): void
+    public function updateRealmStat(Realm $realm, string $statKey, int $value): void
     {
         $stat = Stat::where('key', $statKey)->first();
 
@@ -119,7 +119,33 @@ class StatsService
         {
             DB::transaction(function () use ($realm, $stat, $value)
             {
-                DominionStat::create([
+                RealmStat::create([
+                    'realm_id' => $realm->id,
+                    'stat_id' => $stat->id,
+                    'value' => $value
+                ]);
+            });
+
+        }
+    }
+
+    public function setRealmStat(Realm $realm, string $statKey, int $value): void
+    {
+        $stat = Stat::where('key', $statKey)->first();
+
+        if($this->realmHasStat($realm, $statKey))
+        {
+            DB::transaction(function () use ($realm, $stat, $value)
+            {
+                RealmStat::where('realm_id', $realm->id)->where('stat_id', $stat->id)
+                ->set('value', $value);
+            });
+        }
+        else
+        {
+            DB::transaction(function () use ($realm, $stat, $value)
+            {
+                RealmStat::create([
                     'realm_id' => $realm->id,
                     'stat_id' => $stat->id,
                     'value' => $value
@@ -132,7 +158,89 @@ class StatsService
     public function realmHasStat(Realm $realm, string $statKey): bool
     {
         $stat = Stat::where('key', $statKey)->first();
-        return RealmStat::where('stat_id',$stat->id)->where('realm_id',$dominion->id)->first() ? true : false;
+        if(!$stat)
+        {
+        #  dd($stat, $statKey);
+        }
+        return RealmStat::where('stat_id',$stat->id)->where('realm_id',$realm->id)->first() ? true : false;
+    }
+
+
+
+    # Round stats
+    public function getRoundStat(Round $round, string $statKey): int
+    {
+        if($stat = Stat::where('key', $statKey)->first())
+        {
+            if($roundStat = RoundStat::where('stat_id',$stat->id)->where('round_id',$round->id)->first())
+            {
+                return $roundStat->value;
+            }
+        }
+
+        return 0;
+    }
+
+    public function updateRoundStat(Round $round, string $statKey, int $value): void
+    {
+        $stat = Stat::where('key', $statKey)->first();
+
+        if($this->roundHasStat($round, $statKey))
+        {
+            DB::transaction(function () use ($round, $stat, $value)
+            {
+                RoundStat::where('round_id', $round->id)->where('stat_id', $stat->id)
+                ->increment('value', $value);
+            });
+        }
+        else
+        {
+            DB::transaction(function () use ($round, $stat, $value)
+            {
+                RoundStat::create([
+                    'round_id' => $round->id,
+                    'stat_id' => $stat->id,
+                    'value' => $value
+                ]);
+            });
+
+        }
+    }
+
+    public function setRoundStat(Round $round, string $statKey, int $value): void
+    {
+        $stat = Stat::where('key', $statKey)->first();
+
+        if($this->roundHasStat($round, $statKey))
+        {
+            DB::transaction(function () use ($round, $stat, $value)
+            {
+                RoundStat::where('round_id', $round->id)->where('stat_id', $stat->id)
+                ->set('value', $value);
+            });
+        }
+        else
+        {
+            DB::transaction(function () use ($round, $stat, $value)
+            {
+                RoundStat::create([
+                    'round_id' => $round->id,
+                    'stat_id' => $stat->id,
+                    'value' => $value
+                ]);
+            });
+
+        }
+    }
+
+    public function roundHasStat(Round $round, string $statKey): bool
+    {
+        $stat = Stat::where('key', $statKey)->first();
+        if(!$stat)
+        {
+        #  dd($stat, $statKey);
+        }
+        return RoundStat::where('stat_id',$stat->id)->where('round_id',$round->id)->first() ? true : false;
     }
 
 }
