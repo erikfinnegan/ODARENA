@@ -24,6 +24,14 @@ op_sent_max:
 op_sent_total:
   name: Total offensive power sent
 
+
+
+dp_success_max:
+  name: Greatest successful defensive power
+
+dp_failure_max:
+  name: Greatest failed defensive power
+
 # Production and Resources
 
 gold_production:

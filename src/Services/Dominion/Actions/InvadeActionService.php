@@ -2747,6 +2747,15 @@ class InvadeActionService
 
         $this->statsService->setStat($dominion, 'op_sent_max', max($this->invasionResult['attacker']['op'], $this->statsService->getStat($dominion, 'op_sent_max')));
         $this->statsService->updateStat($dominion, 'op_sent_total', $this->invasionResult['attacker']['op']);
+
+        if($this->invasionResult['result']['success'])
+        {
+            $this->statsService->setStat($target, 'dp_failure_max', max($this->invasionResult['defender']['dp'], $this->statsService->getStat($dominion, 'dp_failure_max')));
+        }
+        else
+        {
+            $this->statsService->setStat($target, 'dp_success_max', max($this->invasionResult['defender']['dp'], $this->statsService->getStat($dominion, 'dp_success_max')));
+        }
     }
 
     /**

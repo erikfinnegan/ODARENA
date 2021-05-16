@@ -57,6 +57,18 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>Max OP sent:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'op_sent_max')) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total OP sent:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'op_sent_total')) }}</strong>
+                                        </td>
+                                    </tr>
                                 </tbody>
                                 <table class="table">
                                     <colgroup>
@@ -92,6 +104,19 @@
                                                 @endif
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>Greatest successful DP:</td>
+                                            <td>
+                                                <strong>{{ number_format($statsService->getStat($selectedDominion, 'dp_success_max')) }}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Greatest unsuccessful DP:</td>
+                                            <td>
+                                                <strong>{{ number_format($statsService->getStat($selectedDominion, 'dp_failure_max')) }}</strong>
+                                            </td>
+                                        </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -141,18 +166,6 @@
                                         <td>Land discovered:</td>
                                         <td>
                                             <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_discovered')) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Max OP sent:</td>
-                                        <td>
-                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'op_sent_max')) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total OP sent:</td>
-                                        <td>
-                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'op_sent_total')) }}</strong>
                                         </td>
                                     </tr>
                                 </tbody>

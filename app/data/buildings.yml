@@ -884,6 +884,7 @@ altar:
   perks:
     unit_blood_costs: 1,1,100 # ratio, perk, max
     housing: 40
+    jobs: 0
 
 # HOME ALTERNATIVES
 
