@@ -13,14 +13,13 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Services\Dominion\QueueService;
-
-# ODA
 use DB;
 use OpenDominion\Helpers\HistoryHelper;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Models\Spell;
+use OpenDominion\Services\Dominion\StatsService;
 
 class AdvisorsController extends AbstractDominionController
 {
@@ -37,6 +36,7 @@ class AdvisorsController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'realmCalculator' => app(RealmCalculator::class),
             'raceHelper' => app(RaceHelper::class),
+            'statsService' => app(StatsService::class),
         ]);
     }
 
@@ -89,8 +89,6 @@ class AdvisorsController extends AbstractDominionController
             $activeSpells = null;
         }
 
-
-
         return view('pages.dominion.advisors.magic', [
             'spellCalculator' => $spellCalculator,
             'spellHelper' => $spellHelper,
@@ -106,6 +104,7 @@ class AdvisorsController extends AbstractDominionController
             'populationCalculator' => app(PopulationCalculator::class),
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
+            'statsService' => app(StatsService::class),
         ]);
     }
 

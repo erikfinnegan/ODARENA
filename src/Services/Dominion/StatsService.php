@@ -15,11 +15,12 @@ class StatsService
 
     public function getStat(Dominion $dominion, string $statKey): int
     {
-        $stat = Stat::where('key', $statKey)->first();
-
-        if($dominionStat = DominionStat::where('stat_id',$stat->id)->where('dominion_id',$dominion->id)->first())
+        if($stat = Stat::where('key', $statKey)->first())
         {
-            return $dominionStat->value;
+            if($dominionStat = DominionStat::where('stat_id',$stat->id)->where('dominion_id',$dominion->id)->first())
+            {
+                return $dominionStat->value;
+            }
         }
 
         return 0;

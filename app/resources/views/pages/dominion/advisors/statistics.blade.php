@@ -110,37 +110,49 @@
                                     <tr>
                                         <td>Attacking victory:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_attacking_success) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'invasion_victories')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Bottomfeeds:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_attacking_bottomfeeds) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'invasion_bottomfeeds')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Tactical razes:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_attacking_razes) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'invasion_razes')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Overwhelmed failures:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_attacking_failures) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'invasion_failures')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Land conquered:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_land_conquered) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_conquered')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Land discovered:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_land_discovered) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_discovered')) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Max OP sent:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'op_sent_max')) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total OP sent:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'op_sent_total')) }}</strong>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -160,25 +172,25 @@
                                     <tr>
                                         <td>Invasions fought back:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_defending_success) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'defense_success')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Invasions lost:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_defending_failures) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'defense_failures')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Land lost:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_land_lost) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_lost')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Land explored:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_land_explored) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'land_explored')) }}</strong>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -195,72 +207,101 @@
                                 </colgroup>
                                 <thead class="hidden-xs">
                                     <tr>
-                                        <th colspan="2">Units</th>
+                                        <th colspan="2">Enemy Units</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Enemy units killed:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_units_killed) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'units_killed')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Total units converted:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_units_converted) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'units_converted')) }}</strong>
                                         </td>
                                     </tr>
+                                </tbody>
+                            </table>
 
+                            <table class="table">
+                                <colgroup>
+                                    <col width="25%">
+                                    <col width="25%">
+                                    <col width="25%">
+                                    <col width="25%">
+                                </colgroup>
+                                <thead class="hidden-xs">
                                     <tr>
-                                        <td>{{ str_plural($unitHelper->getUnitName('unit1', $selectedDominion->race)) }} trained:</td>
+                                        <th>Unit</th>
+                                        <th>Trained</th>
+                                        <th>Lost</th>
+                                        <th>Spent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ str_plural($unitHelper->getUnitName('unit1', $selectedDominion->race)) }}:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_unit1_trained) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_trained')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_lost')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_training')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{{ str_plural($unitHelper->getUnitName('unit1', $selectedDominion->race)) }} lost:</td>
+                                        <td>{{ str_plural($unitHelper->getUnitName('unit2', $selectedDominion->race)) }}</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_unit1_lost) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit2_trained')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit2_lost')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit2_training')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{{ str_plural($unitHelper->getUnitName('unit2', $selectedDominion->race)) }} trained:</td>
+                                        <td>{{ str_plural($unitHelper->getUnitName('unit3', $selectedDominion->race)) }}:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_unit2_trained) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit3_trained')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit3_lost')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit3_training')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{{ str_plural($unitHelper->getUnitName('unit2', $selectedDominion->race)) }} lost:</td>
+                                        <td>{{ str_plural($unitHelper->getUnitName('unit4', $selectedDominion->race)) }}:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_unit2_lost) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit4_trained')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit4_lost')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit4_training')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>{{ str_plural($unitHelper->getUnitName('unit3', $selectedDominion->race)) }} trained:</td>
+                                        <td>Total:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_unit3_trained) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_trained') + $statsService->getStat($selectedDominion, 'unit2_trained') + $statsService->getStat($selectedDominion, 'unit3_trained') + $statsService->getStat($selectedDominion, 'unit4_trained')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_lost') + $statsService->getStat($selectedDominion, 'unit2_lost') + $statsService->getStat($selectedDominion, 'unit3_lost') + $statsService->getStat($selectedDominion, 'unit4_lost')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'unit1_training') + $statsService->getStat($selectedDominion, 'unit2_training') + $statsService->getStat($selectedDominion, 'unit3_training') + $statsService->getStat($selectedDominion, 'unit4_training')) }}</strong>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>{{ str_plural($unitHelper->getUnitName('unit3', $selectedDominion->race)) }} lost:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_unit3_lost) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ str_plural($unitHelper->getUnitName('unit4', $selectedDominion->race)) }} trained:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_unit4_trained) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>{{ str_plural($unitHelper->getUnitName('unit4', $selectedDominion->race)) }} lost:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_unit4_lost) }}</strong>
-                                        </td>
-                                    </tr>
-
                                 </tbody>
                             </table>
                         </div>
