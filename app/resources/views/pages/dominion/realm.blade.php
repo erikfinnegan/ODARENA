@@ -251,7 +251,7 @@
                                     </tr>
                                   <tr>
                                   <tr>
-                                    <td>Current land:</td>
+                                    <td>Total land:</td>
                                     <td>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</td>
                                   </tr>
                                     <td>Land conquered:</td>
