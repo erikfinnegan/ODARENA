@@ -461,27 +461,33 @@
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td>Peasants killed:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_peasants_killed')) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Draftees Assassinated:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_assassinate_draftees_damage) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_draftees_killed')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Wizards Assassinated:</td>
+                                        <td>Wizards killed:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_assassinate_wizards_damage) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_wizards_killed')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Snare Impact:</td>
+                                        <td>Wizard strength:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_magic_snare_damage) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_wizard_strength_damage')) }}%</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Boats Sunk:</td>
+                                        <td>Improvements damage:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_sabotage_boats_damage) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_damage_improvements')) }}</strong>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -490,49 +496,70 @@
                         <div class="col-xs-12 col-sm-4">
                             <table class="table">
                                 <colgroup>
-                                    <col width="50%">
-                                    <col width="50%">
+                                    <col width="33%">
+                                    <col>
+                                    <col>
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Theft</th>
+                                        <th>Theft</th>
+                                        <th>Stolen</th>
+                                        <th>Lost</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Gold stolen:</td>
+                                        <td>Gold:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_gold_stolen) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'gold_stolen')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'gold_lost')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Lumber stolen:</td>
+                                        <td>Lumber:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_lumber_stolen) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'lumber_stolen')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'lumber_lost')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Food stolen:</td>
+                                        <td>Ore:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_food_stolen) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'ore_stolen')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'ore_lost')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Mana stolen:</td>
+                                        <td>Food:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_mana_stolen) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'food_stolen')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'food_lost')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Ore stolen:</td>
+                                        <td>Gems:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_ore_stolen) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'gems_stolen')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'gems_lost')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Gems stolen:</td>
+                                        <td>Mana:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_gems_stolen) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'mana_stolen')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'mana_lost')) }}</strong>
                                         </td>
                                     </tr>
                                 </tbody>

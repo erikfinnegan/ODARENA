@@ -218,7 +218,7 @@ mana_stolen:
   name: Mana stolen
 peasants_stolen:
   name: Peasants abducted
-peasants_killed:
+espionage_peasants_killed:
   name: Peasants killed
 draftees_stolen:
   name: Draftees abducted
@@ -299,6 +299,11 @@ magic_damage_spy_strength:
 magic_damage_morale:
   name: Morale damage
 
+magic_peasants_killed:
+  name: Peasants killed
+magic_draftees_killed:
+  name: Peasants killed
+
 # Units
 draftees_killed:
   name: Total draftees killed
@@ -350,7 +355,7 @@ unit4_training:
 
 spies_trained:
   name: Total spies trained
-spies_killed:
+magic_spies_killed:
   name: Total spies killed
 spies_lost:
   name: Total spies lost
@@ -359,7 +364,7 @@ spies_training:
 
 wizards_trained:
   name: Total wizards trained
-wizards_killed:
+espionage_wizards_killed:
   name: Total wizards killed
 wizards_lost:
   name: Total wizards lost
