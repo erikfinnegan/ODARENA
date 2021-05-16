@@ -62,7 +62,7 @@ class StatsService
             DB::transaction(function () use ($dominion, $stat, $value)
             {
                 DominionStat::where('dominion_id', $dominion->id)->where('stat_id', $stat->id)
-                ->set('value', $value);
+                ->update(['value' => $value]);
             });
         }
         else
@@ -138,7 +138,7 @@ class StatsService
             DB::transaction(function () use ($realm, $stat, $value)
             {
                 RealmStat::where('realm_id', $realm->id)->where('stat_id', $stat->id)
-                ->set('value', $value);
+                ->update(['value' => $value]);
             });
         }
         else
@@ -216,7 +216,7 @@ class StatsService
             DB::transaction(function () use ($round, $stat, $value)
             {
                 RoundStat::where('round_id', $round->id)->where('stat_id', $stat->id)
-                ->set('value', $value);
+                ->update(['value' => $value]);
             });
         }
         else

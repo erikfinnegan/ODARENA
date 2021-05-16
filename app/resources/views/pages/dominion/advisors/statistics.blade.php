@@ -385,7 +385,7 @@
                                         <th>Operation Type</th>
                                         <th>Sucessful</th>
                                         <th>Failure</th>
-                                        <th>Sucess Rate</th>
+                                        <th>Success Rate</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -467,9 +467,21 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Draftees Assassinated:</td>
+                                        <td>Peasants abducted:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'peasants_stolen')) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Draftees killed:</td>
                                         <td>
                                             <strong>{{ number_format($statsService->getStat($selectedDominion, 'espionage_draftees_killed')) }}</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Draftees abducted:</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'draftees_stolen')) }}</strong>
                                         </td>
                                     </tr>
                                     <tr>
@@ -574,28 +586,27 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-4">
+
                             <table class="table">
                                 <colgroup>
-                                    <col width="50%">
-                                    <col width="50%">
+                                    <col width="33%">
                                 </colgroup>
                                 <thead>
                                     <tr>
-                                        <th colspan="2">Wizard Power</th>
+                                        <th>Wizard Power</th>
+                                        <th>Offensive</th>
+                                        <th>Defensive</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Offensive Wizard Ratio:</td>
+                                        <td>Ratio:</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'), 3) }}</strong>
                                             @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
                                                 <small class="text-muted">({{ number_format(($militaryCalculator->getWizardRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
                                             @endif
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Defensive Wizard Ratio:</td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'defense'), 3) }}</strong>
                                             @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
@@ -604,20 +615,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="Number of wizards (archmages count as two) you have plus how many wizards you have from units that count as wizards in part or whole">Offensive Wizard Points:</span>
-                                        </td>
+                                        <td><span data-toggle="tooltip" data-placement="top" title="Number of spies you have plus how many spies you have from units that count as spies in part or whole">Points:</span></td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getWizardPoints($selectedDominion, 'offense')) }}</strong>
                                             @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
                                                 <small class="text-muted">({{ number_format(($militaryCalculator->getWizardRatioMultiplier($selectedDominion)-1)*100, 2) }}%)</small>
                                             @endif
                                         </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="Number of wizards (archmages count as two) you have plus how many wizards you have from units that count as wizards in part or whole">Defensive Wizard Points:</span>
-                                      </td>
                                         <td>
                                             <strong>{{ number_format($militaryCalculator->getWizardPoints($selectedDominion, 'defense')) }}</strong>
                                             @if ($militaryCalculator->getWizardRatioMultiplier($selectedDominion) !== 1.0)
@@ -625,34 +629,56 @@
                                             @endif
                                         </td>
                                     </tr>
+                                </tbody>
+                            </table>
+                            <table class="table">
+                                <colgroup>
+                                    <col width="25%">
+                                    <col width="25%">
+                                    <col width="25%">
+                                    <col width="25%">
+                                </colgroup>
+                                <thead>
                                     <tr>
-                                        <td>Magic Success:</td>
+                                        <th>Spell Type</th>
+                                        <th>Successful</th>
+                                        <th>Failure</th>
+                                        <th>Success Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Info:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_spell_success) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_info_success')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_info_failure')) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                @if(($statsService->getStat($selectedDominion, 'magic_info_success') + $statsService->getStat($selectedDominion, 'magic_info_failure')) > 0)
+                                                    {{ number_format(($statsService->getStat($selectedDominion, 'magic_info_success') / ($statsService->getStat($selectedDominion, 'magic_info_success') + $statsService->getStat($selectedDominion, 'magic_info_failure')))*100,2) }}%</strong>
+                                                @else
+                                                    &mdash;
+                                                @endif
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Wizards trained:</td>
+                                        <td>Hostile:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_wizards_trained) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_hostile_success')) }}</strong>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Wizards lost:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_wizards_lost) }}</strong>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'magic_hostile_failure')) }}</strong>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Archmages trained:</td>
                                         <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_archmages_trained) }}</strong>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Archmages lost:</td>
-                                        <td>
-                                            <strong>{{ number_format($selectedDominion->stat_total_archmages_lost) }}</strong>
+                                            <strong>
+                                                @if(($statsService->getStat($selectedDominion, 'magic_info_success') + $statsService->getStat($selectedDominion, 'magic_hostile_failure')) > 0)
+                                                    {{ number_format(($statsService->getStat($selectedDominion, 'magic_hostile_success') / ($statsService->getStat($selectedDominion, 'magic_hostile_success') + $statsService->getStat($selectedDominion, 'magic_hostile_failure')))*100,2) }}%</strong>
+                                                @else
+                                                    &mdash;
+                                                @endif
                                         </td>
                                     </tr>
                                 </tbody>
