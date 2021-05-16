@@ -252,18 +252,18 @@
                                   <tr>
                                   <tr>
                                     <td>Current land:</td>
-                                    <td>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }} acres</td>
+                                    <td>{{ number_format($landCalculator->getTotalLandForRealm($realm)) }}</td>
                                   </tr>
                                     <td>Land conquered:</td>
-                                    <td>{{ number_format($realmDominionsStats['total_land_conquered']) }} acres</td>
+                                    <td>{{ number_format($realmDominionsStats['total_land_conquered']) }}</td>
                                   </tr>
                                   <tr>
                                     <td>Land explored:</td>
-                                    <td>{{ number_format($realmDominionsStats['total_land_explored']) }} acres</td>
+                                    <td>{{ number_format($realmDominionsStats['total_land_explored']) }}</td>
                                   </tr>
                                   <tr>
                                     <td>Land lost:</td>
-                                    <td>{{ number_format($realmDominionsStats['total_land_lost']) }} acres</td>
+                                    <td>{{ number_format($realmDominionsStats['total_land_lost']) }}</td>
                                   </tr>
                                   <tr>
                                     <td>Networth:</td>
@@ -272,7 +272,7 @@
                                   @if($realm->alignment === 'evil')
                                   <tr>
                                     <td>Imperial Crypt:</td>
-                                    <td>{{ number_format($selectedDominion->realm->crypt) }} bodies</td>
+                                    <td>{{ number_format($selectedDominion->realm->crypt) }}</td>
                                   </tr>
                                   @endif
                               </table>
