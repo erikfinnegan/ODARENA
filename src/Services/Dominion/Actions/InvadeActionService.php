@@ -433,7 +433,7 @@ class InvadeActionService
             {
                 $defensiveConversions = $conversions['defender'];
                 $this->invasionResult['defender']['conversions'] = $defensiveConversions;
-                $this->statsService->updateStat($dominion, 'units_converted', array_sum($conversions['defender']));
+                $this->statsService->updateStat($target, 'units_converted', array_sum($conversions['defender']));
             }
 
             $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits'], $defensiveConversions);
