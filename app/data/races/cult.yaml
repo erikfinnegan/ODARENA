@@ -2,7 +2,7 @@ name: Cult
 alignment: independent
 description:
 home_land_type: forest
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 3
@@ -14,7 +14,6 @@ construction_materials: gold,lumber
 perks:
   min_rounds_played: 10
   max_per_round: 1
-  max_population: 25
   population_growth: 50
   wizard_training_time: 6
 units:

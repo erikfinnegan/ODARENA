@@ -982,7 +982,7 @@ class TickService
               if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
               {
                   $unitAttritionAmount = (int)floor($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * $attritionMultiplier);
-                  #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will abandon.\n";
+                  #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will attrite.\n";
                   $unitAttritionAmount = max(0, min($unitAttritionAmount, $dominion->{'military_unit'.$slot})); # Sanity caps.
 
                   if($slot == 1)
