@@ -704,6 +704,8 @@ class Dominion extends AbstractModel
                           or $perkKey == 'lightning_bolt_damage'
                           or $perkKey == 'fireball_damage'
                           or $perkKey == 'population_growth'
+                          or $perkKey == 'reduces_conversions'
+                          or $perkKey == 'reduces_attrition'
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);

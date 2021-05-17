@@ -1012,11 +1012,21 @@ dwelling:
 estate:
   name: Estate
   exclusive_races:
-    - Cult
     - Qur
   land_type: forest
   perks:
     housing: 30
+    jobs: 10
+
+compound:
+  name: Compound
+  exclusive_races:
+    - Cult
+  land_type: forest
+  perks:
+    housing: 20
+    military_housing: 40
+    reduces_attrition: 1,1 # Every 1%, reduces 1%
     jobs: 10
 
 farmstead:

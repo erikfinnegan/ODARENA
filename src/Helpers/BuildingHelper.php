@@ -39,7 +39,6 @@ class BuildingHelper
             'draftee_housing' => 'Houses %s draftees.',
             'peasant_housing' => 'Houses %s peasants.',
 
-
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
 
@@ -63,7 +62,6 @@ class BuildingHelper
             'gem_production_modifier' => 'Gem production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'mana_production_modifier' => 'Mana production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'tech_production_modifier' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-
 
             'gold_production_depleting' => 'Produces %1$s gold per tick (reduced by %2$s per hour of the round down to 0).',
             'food_production_depleting' => 'Produces %1$s food per tick (reduced by %2$s per hour of the round down to 0).',
@@ -96,6 +94,10 @@ class BuildingHelper
             'prestige_gains' => 'Prestige gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
 
             'land_discovered' => 'Land discovered during invasions increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+
+            'reduces_attrition' => 'Reduces unit attrition by %2$s%% for every %1$s%%.',
+
+            'reduces_conversions' => 'Reduces conversions for enemies by %2$s%% for every %1$s%%.',
 
             # OP/DP
             'raw_defense' => 'Provides %s raw defensive power.',
