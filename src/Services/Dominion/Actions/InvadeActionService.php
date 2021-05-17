@@ -44,17 +44,17 @@ class InvadeActionService
     /**
      * @var float Base percentage of defensive casualties
      */
-    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 4.0;
+    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 5;
 
     /**
      * @var float Max percentage of defensive casualties
      */
-    protected const CASUALTIES_DEFENSIVE_MAX_PERCENTAGE = 6.0;
+    protected const CASUALTIES_DEFENSIVE_MAX_PERCENTAGE = 7.5;
 
     /**
      * @var float Base percentage of offensive casualties
      */
-    protected const CASUALTIES_OFFENSIVE_BASE_PERCENTAGE = 8.5;
+    protected const CASUALTIES_OFFENSIVE_BASE_PERCENTAGE = 10;
 
     /**
      * @var int The minimum morale required to initiate an invasion
