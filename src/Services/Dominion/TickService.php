@@ -263,7 +263,6 @@ class TickService
                         'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
-                        'dominions.resource_boats' => 0,#DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
 
                         # Improvements
                         'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
@@ -306,49 +305,6 @@ class TickService
                         'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest'),
                         'dominions.land_hill' => DB::raw('dominions.land_hill + dominion_tick.land_hill'),
                         'dominions.land_water' => DB::raw('dominions.land_water + dominion_tick.land_water'),
-
-                        /*
-                        'dominions.discounted_land' => DB::raw('dominions.discounted_land + dominion_tick.discounted_land'),
-                        'dominions.building_home' => DB::raw('dominions.building_home + dominion_tick.building_home'),
-                        'dominions.building_alchemy' => DB::raw('dominions.building_alchemy + dominion_tick.building_alchemy'),
-                        'dominions.building_farm' => DB::raw('dominions.building_farm + dominion_tick.building_farm'),
-                        'dominions.building_smithy' => DB::raw('dominions.building_smithy + dominion_tick.building_smithy'),
-                        'dominions.building_masonry' => DB::raw('dominions.building_masonry + dominion_tick.building_masonry'),
-                        'dominions.building_ore_mine' => DB::raw('dominions.building_ore_mine + dominion_tick.building_ore_mine'),
-                        'dominions.building_gryphon_nest' => DB::raw('dominions.building_gryphon_nest + dominion_tick.building_gryphon_nest'),
-                        'dominions.building_tower' => DB::raw('dominions.building_tower + dominion_tick.building_tower'),
-                        'dominions.building_wizard_guild' => DB::raw('dominions.building_wizard_guild + dominion_tick.building_wizard_guild'),
-                        'dominions.building_temple' => DB::raw('dominions.building_temple + dominion_tick.building_temple'),
-                        'dominions.building_gem_mine' => DB::raw('dominions.building_gem_mine + dominion_tick.building_gem_mine'),
-                        'dominions.building_school' => DB::raw('dominions.building_school + dominion_tick.building_school'),
-                        'dominions.building_lumberyard' => DB::raw('dominions.building_lumberyard + dominion_tick.building_lumberyard'),
-                        'dominions.building_forest_haven' => DB::raw('dominions.building_forest_haven + dominion_tick.building_forest_haven'),
-                        'dominions.building_factory' => DB::raw('dominions.building_factory + dominion_tick.building_factory'),
-                        'dominions.building_guard_tower' => DB::raw('dominions.building_guard_tower + dominion_tick.building_guard_tower'),
-                        'dominions.building_shrine' => DB::raw('dominions.building_shrine + dominion_tick.building_shrine'),
-                        'dominions.building_barracks' => DB::raw('dominions.building_barracks + dominion_tick.building_barracks'),
-                        'dominions.building_dock' => DB::raw('dominions.building_dock + dominion_tick.building_dock'),
-
-                        'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
-                        'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
-                        'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
-
-
-                        'dominions.stat_total_gold_production' => DB::raw('dominions.stat_total_gold_production + dominion_tick.resource_gold'),
-                        'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
-                        'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
-                        'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
-                        'dominions.stat_total_wild_yeti_production' => DB::raw('dominions.stat_total_wild_yeti_production + dominion_tick.resource_wild_yeti_production'),
-                        'dominions.stat_total_ore_production' => DB::raw('dominions.stat_total_ore_production + dominion_tick.resource_ore'),
-                        'dominions.stat_total_gem_production' => DB::raw('dominions.stat_total_gem_production + dominion_tick.resource_gems'),
-                        'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
-                        'dominions.stat_total_boat_production' => 0,#DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
-
-                        'dominions.stat_total_food_decayed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_decay'),
-                        'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_consumed + dominion_tick.resource_food_consumption'),
-                        'dominions.stat_total_lumber_rotted' => DB::raw('dominions.stat_total_lumber_rotted + dominion_tick.resource_lumber_rot'),
-                        'dominions.stat_total_mana_drained' => DB::raw('dominions.stat_total_mana_drained + dominion_tick.resource_mana_drain'),
-                        */
 
                         'dominions.protection_ticks' => DB::raw('dominions.protection_ticks + dominion_tick.protection_ticks'),
 
@@ -919,14 +875,11 @@ class TickService
           $attritionUnit4 = 0;
 
           # Cult unit attrition reduction
-          $attritionMultiplier = 1;
+          $attritionReduction = 1;
           if($dominion->race->name == 'Cult')
           {
-              $attritionMultiplier -= $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
-              $attritionMultiplier -= $dominion->military_unit4 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
-              $attritionMultiplier -= $dominion->getBuildingPerkMultiplier('reduces_attrition');
+              $attritionReduction = $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
           }
-          $attritionMultiplier = max(0, $attritionMultiplier);
 
           for ($slot = 1; $slot <= 4; $slot++)
           {
@@ -981,8 +934,8 @@ class TickService
               // Unit attrition
               if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
               {
-                  $unitAttritionAmount = (int)floor($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * $attritionMultiplier);
-                  #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will attrite.\n";
+                  $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * $attritionReduction);
+                  #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will abandon.\n";
                   $unitAttritionAmount = max(0, min($unitAttritionAmount, $dominion->{'military_unit'.$slot})); # Sanity caps.
 
                   if($slot == 1)
@@ -1273,7 +1226,6 @@ class TickService
                     'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                     'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                     'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
-                    'dominions.resource_boats' => 0, #DB::raw('dominions.resource_boats + dominion_tick.resource_boats'),
 
                     # Improvements
                     'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
@@ -1316,48 +1268,6 @@ class TickService
                     'dominions.land_forest' => DB::raw('dominions.land_forest + dominion_tick.land_forest'),
                     'dominions.land_hill' => DB::raw('dominions.land_hill + dominion_tick.land_hill'),
                     'dominions.land_water' => DB::raw('dominions.land_water + dominion_tick.land_water'),
-
-                    /*
-                    'dominions.discounted_land' => DB::raw('dominions.discounted_land + dominion_tick.discounted_land'),
-                    'dominions.building_home' => DB::raw('dominions.building_home + dominion_tick.building_home'),
-                    'dominions.building_alchemy' => DB::raw('dominions.building_alchemy + dominion_tick.building_alchemy'),
-                    'dominions.building_farm' => DB::raw('dominions.building_farm + dominion_tick.building_farm'),
-                    'dominions.building_smithy' => DB::raw('dominions.building_smithy + dominion_tick.building_smithy'),
-                    'dominions.building_masonry' => DB::raw('dominions.building_masonry + dominion_tick.building_masonry'),
-                    'dominions.building_ore_mine' => DB::raw('dominions.building_ore_mine + dominion_tick.building_ore_mine'),
-                    'dominions.building_gryphon_nest' => DB::raw('dominions.building_gryphon_nest + dominion_tick.building_gryphon_nest'),
-                    'dominions.building_tower' => DB::raw('dominions.building_tower + dominion_tick.building_tower'),
-                    'dominions.building_wizard_guild' => DB::raw('dominions.building_wizard_guild + dominion_tick.building_wizard_guild'),
-                    'dominions.building_temple' => DB::raw('dominions.building_temple + dominion_tick.building_temple'),
-                    'dominions.building_gem_mine' => DB::raw('dominions.building_gem_mine + dominion_tick.building_gem_mine'),
-                    'dominions.building_school' => DB::raw('dominions.building_school + dominion_tick.building_school'),
-                    'dominions.building_lumberyard' => DB::raw('dominions.building_lumberyard + dominion_tick.building_lumberyard'),
-                    'dominions.building_forest_haven' => DB::raw('dominions.building_forest_haven + dominion_tick.building_forest_haven'),
-                    'dominions.building_factory' => DB::raw('dominions.building_factory + dominion_tick.building_factory'),
-                    'dominions.building_guard_tower' => DB::raw('dominions.building_guard_tower + dominion_tick.building_guard_tower'),
-                    'dominions.building_shrine' => DB::raw('dominions.building_shrine + dominion_tick.building_shrine'),
-                    'dominions.building_barracks' => DB::raw('dominions.building_barracks + dominion_tick.building_barracks'),
-                    'dominions.building_dock' => DB::raw('dominions.building_dock + dominion_tick.building_dock'),
-
-                    'dominions.building_ziggurat' => DB::raw('dominions.building_ziggurat + dominion_tick.building_ziggurat'),
-                    'dominions.building_tissue' => DB::raw('dominions.building_tissue + dominion_tick.building_tissue'),
-                    'dominions.building_mycelia' => DB::raw('dominions.building_mycelia + dominion_tick.building_mycelia'),
-
-                    'dominions.stat_total_gold_production' => DB::raw('dominions.stat_total_gold_production + dominion_tick.resource_gold'),
-                    'dominions.stat_total_food_production' => DB::raw('dominions.stat_total_food_production + dominion_tick.resource_food_production'),
-                    'dominions.stat_total_lumber_production' => DB::raw('dominions.stat_total_lumber_production + dominion_tick.resource_lumber_production'),
-                    'dominions.stat_total_mana_production' => DB::raw('dominions.stat_total_mana_production + dominion_tick.resource_mana_production'),
-                    'dominions.stat_total_wild_yeti_production' => DB::raw('dominions.stat_total_wild_yeti_production + dominion_tick.resource_wild_yeti_production'),
-                    'dominions.stat_total_ore_production' => DB::raw('dominions.stat_total_ore_production + dominion_tick.resource_ore'),
-                    'dominions.stat_total_gem_production' => DB::raw('dominions.stat_total_gem_production + dominion_tick.resource_gems'),
-                    'dominions.stat_total_tech_production' => DB::raw('dominions.stat_total_tech_production + dominion_tick.resource_tech'),
-                    'dominions.stat_total_boat_production' => 0, #DB::raw('dominions.stat_total_boat_production + dominion_tick.resource_boats'),
-
-                    'dominions.stat_total_food_decayed' => DB::raw('dominions.stat_total_food_decayed + dominion_tick.resource_food_decay'),
-                    'dominions.stat_total_food_consumed' => DB::raw('dominions.stat_total_food_consumed + dominion_tick.resource_food_consumption'),
-                    'dominions.stat_total_lumber_rotted' => DB::raw('dominions.stat_total_lumber_rotted + dominion_tick.resource_lumber_rot'),
-                    'dominions.stat_total_mana_drained' => DB::raw('dominions.stat_total_mana_drained + dominion_tick.resource_mana_drain'),
-                    */
 
                     'dominions.protection_ticks' => DB::raw('dominions.protection_ticks + dominion_tick.protection_ticks'),
 
