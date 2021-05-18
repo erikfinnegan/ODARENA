@@ -302,9 +302,9 @@ class EspionageActionService
                               $unitsKilled[strtolower($unit->name)] = $unitKilled;
                               $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
 
-                              $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
-                              $this->statsService->updateStat($dominion, 'units_lost', $unitsKilled);
-                              $this->statsService->updateStat($target, 'units_killed', $unitsKilled);
+                              $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitKilled);
+                              $this->statsService->updateStat($dominion, 'units_lost', $unitKilled);
+                              $this->statsService->updateStat($target, 'units_killed', $unitKilled);
 
                               $spyUnitsKilled += $unitKilled;
 
@@ -678,9 +678,9 @@ class EspionageActionService
                         $unitsKilled[strtolower($unit->name)] = $unitKilled;
                         $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
 
-                        $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
-                        $this->statsService->updateStat($dominion, 'units_lost', $unitsKilled);
-                        $this->statsService->updateStat($target, 'units_killed', $unitsKilled);
+                        $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitKilled);
+                        $this->statsService->updateStat($dominion, 'units_lost', $unitKilled);
+                        $this->statsService->updateStat($target, 'units_killed', $unitKilled);
 
                         $spyUnitsKilled += $unitKilled;
 
@@ -1125,9 +1125,9 @@ class EspionageActionService
                           $unitsKilled[strtolower($unit->name)] = $unitKilled;
                           $dominion->{"military_unit{$unit->slot}"} -= $unitKilled;
 
-                          $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitsKilled);
-                          $this->statsService->updateStat($dominion, 'units_lost', $unitsKilled);
-                          $this->statsService->updateStat($target, 'units_killed', $unitsKilled);
+                          $this->statsService->updateStat($dominion, ('unit' . $unit->slot . '_lost'), $unitKilled);
+                          $this->statsService->updateStat($dominion, 'units_lost', $unitKilled);
+                          $this->statsService->updateStat($target, 'units_killed', $unitKilled);
 
                           $spyUnitsKilled += $unitKilled;
 
