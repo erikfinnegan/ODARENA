@@ -37,11 +37,6 @@ class InvadeActionService
     use DominionGuardsTrait;
 
     /**
-     * @var float Base percentage of boats sunk
-     */
-    protected const BOATS_SUNK_BASE_PERCENTAGE = 5.0;
-
-    /**
      * @var float Base percentage of defensive casualties
      */
     protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 5.0;
@@ -65,16 +60,6 @@ class InvadeActionService
      * @var float Failing an invasion by this percentage (or more) results in 'being overwhelmed'
      */
     protected const OVERWHELMED_PERCENTAGE = 15.0;
-
-    /**
-     * @var int Bonus prestige when invading successfully
-     */
-    protected const PRESTIGE_CHANGE_ADD = 20;
-
-    /**
-     * @var float Base prestige % change for both parties when invading
-     */
-    protected const PRESTIGE_CHANGE_PERCENTAGE = 8.5;
 
     /**
      * @var float Percentage of mind controlled units that perish
