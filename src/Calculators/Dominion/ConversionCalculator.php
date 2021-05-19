@@ -179,10 +179,12 @@ class ConversionCalculator
                 $convertingUnits[$slot] += $amount;
 
                 # Deduct lost units.
+                /*
                 if(isset($invasion['attacker']['unitsLost'][$slot]))
                 {
                     $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                 }
+                */
             }
         }
 
@@ -225,10 +227,12 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
+                    /*
                     if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
                         $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                     }
+                    */
                 }
             }
 
@@ -283,10 +287,12 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
+                        /*
                         if(isset($invasion['defender']['unitsLost'][$slot]))
                         {
                             $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
                         }
+                        */
                     }
                 }
             }
@@ -363,10 +369,12 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
+                    /*
                     if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
                         $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                     }
+                    */
                 }
             }
 
@@ -430,10 +438,12 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
+                        /*
                         if(isset($invasion['defender']['unitsLost'][$slot]))
                         {
                             $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
                         }
+                        */
                     }
                 }
 
@@ -503,10 +513,12 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
+                    /*
                     if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
                         $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                     }
+                    */
                 }
             }
 
@@ -629,10 +641,12 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
+                        /*
                         if(isset($invasion['defender']['unitsLost'][$slot]))
                         {
                             $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
                         }
+                        */
                     }
                 }
             }
@@ -743,10 +757,12 @@ class ConversionCalculator
                     $convertingUnits[$slot] += $amount;
 
                     # Deduct lost units.
+                    /*
                     if(isset($invasion['attacker']['unitsLost'][$slot]))
                     {
                         $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
                     }
+                    */
                 }
             }
 
@@ -857,10 +873,12 @@ class ConversionCalculator
                         $convertingUnits[$slot] += $amount;
 
                         # Deduct lost units.
+                        /*
                         if(isset($invasion['defender']['unitsLost'][$slot]))
                         {
                             $convertingUnits[$slot] -= $invasion['defender']['unitsLost'][$slot];
                         }
+                        */
                     }
                 }
 

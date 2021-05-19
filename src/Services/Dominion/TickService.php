@@ -725,7 +725,6 @@ class TickService
               $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];
               $populationPeasantGrowth -= $amountToDie;
           }
-
           $tick->peasants = $populationPeasantGrowth;
 
           $tick->peasants_sacrificed = min($this->populationCalculator->getPeasantsSacrificed($dominion), ($dominion->peasants + $tick->peasants)) * -1;
