@@ -170,7 +170,7 @@ class MilitaryCalculator
                 $numberOfUnits = (int)$units[$unit->slot];
                 if(isset($mindControlledUnits[$unit->slot]) and $mindControlledUnits[$unit->slot] > 0)
                 {
-                    $numberOfUnits -= $mindControlledUnits[$unit->slot];
+                    $numberOfUnits -= min($numberOfUnits, $mindControlledUnits[$unit->slot]); # min() just for sanity's sake.
                 }
             }
 

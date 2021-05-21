@@ -30,7 +30,6 @@ units:
       - living
       - sentient
       - intelligent
-
     cost:
       food: 24
       ore: 2
@@ -69,7 +68,6 @@ units:
       - sentient
       - intelligent
       - wise
-
     cost:
       food: 300
       lumber: 200
@@ -88,7 +86,6 @@ units:
       - sentient
       - intelligent
       - wise
-
     cost:
       food: 200
       lumber: 200

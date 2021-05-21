@@ -45,7 +45,6 @@ units:
       offense: 4
       defense: 3
     perks:
-      attrition: 0.2 # 0.2% lost each tick.
       displaced_peasants_conversion: 1 # Slot
 
   - name: Disciple

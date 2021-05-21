@@ -214,6 +214,8 @@ class ImprovementHelper
             'spell_damage' => 'Reduced spell damage',
             'wizard_guild_housing' => 'Wizard Guild housing',
 
+            'unit_pairing' => 'Unit pairing',
+
         ];
 
         return $improvementPerkDescriptions[$improvementPerk] ? : 'Missing description';
