@@ -877,11 +877,15 @@ class TickService
           $attritionUnit4 = 0;
 
           # Cult unit attrition reduction
-          $attritionReduction = 1;
+          $attritionMultiplier = 0;
           if($dominion->race->name == 'Cult')
           {
-              $attritionReduction = $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
+              $attritionMultiplier -= $dominion->military_unit3 / max($this->populationCalculator->getPopulationMilitary($dominion),1);
+              $attritionMultiplier -= $dominion->getBuildingPerkMultiplier('reduces_attrition');
           }
+
+          # Cap at -100%
+          $attritionMultiplier = max(-1, $attritionMultiplier);
 
           for ($slot = 1; $slot <= 4; $slot++)
           {
@@ -936,7 +940,7 @@ class TickService
               // Unit attrition
               if($unitAttritionPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'attrition'))
               {
-                  $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * $attritionReduction);
+                  $unitAttritionAmount = intval($dominion->{'military_unit'.$slot} * $unitAttritionPerk/100 * (1 + $attritionMultiplier));
                   #echo $dominion->name . " has " . number_format($dominion->{'military_unit'.$slot}) . " unit" . $slot .", which has an attrition rate of " . $unitAttritionPerk . "%. " . number_format($unitAttritionAmount) . " will abandon.\n";
                   $unitAttritionAmount = max(0, min($unitAttritionAmount, $dominion->{'military_unit'.$slot})); # Sanity caps.
 

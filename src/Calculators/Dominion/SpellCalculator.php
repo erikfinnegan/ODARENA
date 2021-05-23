@@ -121,7 +121,7 @@ class SpellCalculator
                 ->orderby('created_at', 'desc')
                 ->take(1)
                 ->first();
-                
+
             if ($spellLastCast)
             {
                 $hoursSinceCast = now()->startOfHour()->diffInHours(Carbon::parse($spellLastCast->created_at)->startOfHour());
@@ -296,6 +296,9 @@ class SpellCalculator
 
             # Round must have started for info ops to be castable
             or (!$dominion->round->hasStarted() and $spell->class == 'info')
+
+            # Dominion must not be in protection
+            or $dominion->isUnderProtection()
 
             # Must not be a non-information hostile spell within the first day or after offensive actions are disabled
             or ($spell->scope == 'hostile' and $spell->class !== 'info' and ((now()->diffInDays($dominion->round->start_date) < 1) or $dominion->round->hasOffensiveActionsDisabled()))

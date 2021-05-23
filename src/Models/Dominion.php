@@ -424,6 +424,11 @@ class Dominion extends AbstractModel
         return $this->is_locked || $this->round->hasEnded();
     }
 
+    public function isUnderProtection(): bool
+    {
+       return $this->protection_ticks;
+    }
+
     public function isAbandoned(): bool
     {
         if($this->user_id === null)
