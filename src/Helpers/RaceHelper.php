@@ -58,6 +58,12 @@ class RaceHelper
                 $booleanValue = 'static';
                 $valueType = ' lumber/tick';
                 break;
+            case 'barren_forest_mana_production':
+                $negativeBenefit = false;
+                $description = 'Mana production from barren forest';
+                $booleanValue = 'static';
+                $valueType = ' mana/tick';
+                break;
             case 'barren_water_food_production':
                 $negativeBenefit = false;
                 $description = 'Food production from barren water';
