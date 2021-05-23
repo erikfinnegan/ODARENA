@@ -235,9 +235,12 @@ espionage_hostile_failure:
   name: Hostile failure
 
 espionage_damage_improvements:
-  name: Spell improvements damage
-
-espionage_wizard_strength_damage:
+  name: Espionage improvements damage
+espionage_damage_morale:
+  name: Espionage morale damage
+espionage_damage_buildings:
+  name: Espionage buildings damage
+espionage_damage_wizard_strength:
   name: Wizard strength damage
 
 

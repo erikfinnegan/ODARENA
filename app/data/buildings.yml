@@ -733,6 +733,15 @@ rootforge:
     unit_gold_costs: 1,2,40 # ratio, perk, max
     unit_lumber_costs: 1,1,20 # ratio, perk, max
 
+plantation:
+  name: Plantation
+  exclusive_races:
+    - Sylvan
+  land_type: forest
+  perks:
+    lumber_production: 100
+    food_production: 20
+
 outpost:
   name: Outpost
   enabled: 0
@@ -1028,7 +1037,7 @@ compound:
     military_housing: 20
     reduces_attrition: 1,1 # Every 1%, reduces 1%
     food_production: 5
-    jobs: 10
+    jobs: 5
 
 farmstead:
   name: Farmstead

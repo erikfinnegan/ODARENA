@@ -196,12 +196,15 @@ class EspionageHelper
             // Hostile
             'kill_draftees' => 'Assassinate draftees (base %s%% killed).',
             'kill_wizards' => 'Assassinate wizards (base %s%% killed).',
-            'reduce_wizard_strength' => 'Reduce wizard strength (base %s%% killed).',
+            'reduce_wizard_strength' => 'Reduce wizard strength (base %s%% damage).',
             'sabotage_boats' => 'Sink boats (base %s%% sunk).',
             'sabotage_buildings' => 'Sabotage buildings under construction (base %1$sx[Your SPA]).',
             'destroy_buildings' => 'Destroy  buildings (base %1$sx[Your SPA]).',
 
             'sabotage_improvement' => 'Sabotage %1$s improvements (base %2$s%%).',
+            'sabotage_building' => 'Sabotage %1$ss (base %2$s%%).',
+
+            'decrease_morale' => 'Reduces target\'s morale (base %1$s%%).',
 
             'slaughter_draftees' => 'Kill %1$s%% of the target\'s draftees and convert each one to %2$s halms of food.',
             'slaughter_peasants' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s halms of food.',

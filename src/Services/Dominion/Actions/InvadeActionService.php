@@ -2679,25 +2679,10 @@ class InvadeActionService
         {
             $mindControlledUnits[$slot] = 0;
 
-            # Get the $unit
-            $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot == $slot);
-                })->first();
-
-            # Get the attributes
-            $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-
-            $isUnitControllable = true;
-            if(in_array('sentient', $unitAttributes))
+            $isUnitControllable = false;
+            if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, ['sentient']) and !$this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, $nonControllableAttributes))
             {
-                foreach($nonControllableAttributes as $nonControllableAttribute)
-                {
-                    if(in_array($nonControllableAttribute, $unitAttributes))
-                    {
-                        $isUnitControllable = false;
-                        break;
-                    }
-                }
+                $isUnitControllable = true;
             }
 
             if($isUnitControllable)

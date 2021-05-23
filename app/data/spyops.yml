@@ -264,3 +264,21 @@ sabotage_harbor:
     - Reptilians
   perks:
     sabotage_improvement: harbor,5 # resource, rate, max per spy
+
+devotion:
+  name: Devotion
+  scope: hostile
+  spy_strength: 5
+  exclusive_races:
+    - Reptilians
+  perks:
+    sabotage_building: temple,2 # resource, rate, max per spy
+
+propaganda:
+  name: Propaganda
+  scope: hostile
+  spy_strength: 10
+  exclusive_races:
+    - Cult
+  perks:
+    decrease_morale: 1 # resource, rate, max per spy

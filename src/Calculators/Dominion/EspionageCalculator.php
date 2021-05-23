@@ -26,6 +26,9 @@ class EspionageCalculator
           # Round must have started
           or !$dominion->round->hasStarted()
 
+          # Dominion must not be in protection
+          or $dominion->isUnderProtection()
+
           # Hostile ops and theft cannot be performed within the first day
           or (($spyop->scope == 'hostile' or $spyop->scope == 'theft') and (now()->diffInDays($dominion->round->start_date) < 1))
         )

@@ -23,6 +23,9 @@ use Throwable;
  * @method Collection getTrainingQueue(Dominion $dominion)
  * @method int getTrainingQueueTotal(Dominion $dominion)
  * @method int getTrainingQueueTotalByResource(Dominion $dominion, string $resource)
+ * @method Collection getSabotageQueue(Dominion $dominion)
+ * @method int getSabotageQueueTotal(Dominion $dominion)
+ * @method int getSabotageQueueTotalByResource(Dominion $dominion, string $resource)
  */
 class QueueService
 {

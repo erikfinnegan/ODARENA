@@ -468,7 +468,7 @@ class RaceHelper
                 break;
             case 'salvaging':
                 $negativeBenefit = false;
-                $description = 'Salvages resources';
+                $description = 'Salvages ore, lumber, and gems of unit costs from lost units';
                 $valueType = '%';
                 $booleanValue = 'static';
                 break;

@@ -47,6 +47,34 @@ gaias_watch:
   perks:
     food_production: 10
 
+harmony:
+  name: Druva's Chant
+  scope: self
+  class: passive
+  cost: 2.5
+  duration: 48
+  cooldown: 0
+  excluded_races:
+    - Afflicted
+    - Void
+  perks:
+    population_growth: 50
+
+druvas_granaries:
+  name: Druva's Granaries
+  scope: self
+  class: passive
+  cost: 5
+  duration: 36
+  cooldown: 18
+  excluded_races:
+    - Afflicted
+    - Elementals
+    - Void
+  perks:
+    lumber_theft: -100
+    food_theft: -100
+
 mining_strength:
   name: Mirnon's Strength
   scope: self
@@ -83,19 +111,6 @@ mining_strength:
     - Wood Elf
   perks:
     ore_production: 10
-
-harmony:
-  name: Druva's Chant
-  scope: self
-  class: passive
-  cost: 2.5
-  duration: 48
-  cooldown: 0
-  excluded_races:
-    - Afflicted
-    - Void
-  perks:
-    population_growth: 50
 
 fools_gold:
   name: Mirnon's Vault
@@ -489,6 +504,19 @@ regeneration:
     - Reptilians
   perks:
     casualties: -25
+
+elskas_blur:
+  name: Elska's Blur
+  scope: hostile
+  class: passive
+  cost: 2
+  duration: 12
+  cooldown: 0
+  exclusive_races:
+    - Reptilians
+  perks:
+    blind_to_reptilian_spies_on_info: -100
+    blind_to_reptilian_spies_on_theft: -100
 
 gaias_blessing:
   name: Druva's Blessing

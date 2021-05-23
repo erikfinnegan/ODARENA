@@ -22,7 +22,7 @@ perks:
   extra_barren_max_population: 10
   lumber_improvement_points: 50
   increased_construction_speed: 3
-  max_population: 20
+  max_population: 30
 
 units:
   - name: Chimpanzee
@@ -62,7 +62,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1000
+      gold: 850
     power:
       offense: 4
       defense: 7

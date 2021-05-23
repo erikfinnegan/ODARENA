@@ -98,9 +98,9 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                     $totalSabotaged = 0;
                                 @endphp
                                 @foreach($queueService->getSabotageQueue($selectedDominion) as $sabotage)
-                                  @php
-                                  $totalSabotaged += $sabotage->amount;
-                                  @endphp
+                                    @php
+                                    $totalSabotaged += $sabotage->amount;
+                                    @endphp
                                 @endforeach
                                 @if($totalSabotaged > 0)
                                     <tr>

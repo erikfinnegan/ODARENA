@@ -133,6 +133,9 @@ class SpellHelper
             'gems_theft' => '%s%% gems lost to theft.',
             'all_theft' => '%s%% resources lost to theft',
 
+            'blind_to_reptilian_spies_on_info' => 'Spies blind to Reptilian spies on information gathering ops.',
+            'blind_to_reptilian_spies_on_theft' => 'Spies blind to Reptilian spies on theft.',
+
             // Conversions
             'conversions' => '%s%% conversions',
             'converts_crypt_bodies' => 'Every %1$s %2$ss raise dead a body from the crypt into one %3$s per tick.',

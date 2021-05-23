@@ -39,8 +39,7 @@ units:
       - living
     cost:
       unit1: 1
-      gold: 200
-      ore: 10
+      ore: 25
     power:
       offense: 4
       defense: 3
@@ -61,9 +60,8 @@ units:
     perks:
       food_production: 1
       gold_production: 2.7
-      reduces_attrition: 1
       reduces_casualties: 1
-      casualties_conversion: 1
+      unit_production: 2,0.025 # Every 40 Mystics produce 1 Initiate
 
   - name: Mystic
     training_time: 6
@@ -84,5 +82,5 @@ units:
       counts_as_wizard_defense: 0.2
       immortal_wizard: 1
       reduces_attrition: 1
-      displaced_peasants_conversion: 1 # slot
-      casualties_conversion: 1
+      displaced_peasants_conversion: 2 # slot
+      casualties_conversion: 2

@@ -508,6 +508,12 @@ class ProductionCalculator
         // Perk: peasants mana production
         $mana += $dominion->peasants * $dominion->race->getPerkValue('peasants_produce_mana');
 
+        // Faction Perk: barren_*_ore_production
+        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        {
+            $mana += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_mana_production');
+        }
+
         return max(0, $mana);
     }
 
