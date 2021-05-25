@@ -18,9 +18,9 @@ use OpenDominion\Services\Dominion\StatsService;
 class BarbarianCalculator
 {
 
-    protected const DPA_CONSTANT = 25;
-    protected const DPA_PER_HOUR = 0.40;
-    protected const DPA_PER_TIMES_INVADED = 0.005;
+    protected const DPA_CONSTANT = 27.5;
+    protected const DPA_PER_HOUR = 0.45;
+    protected const DPA_PER_TIMES_INVADED = 0.006;
 
     protected const OPA_MULTIPLIER = 1.10;
 

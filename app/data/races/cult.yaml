@@ -12,6 +12,7 @@ skill_level: 3
 construction_materials: gold,lumber
 
 perks:
+  max_population: 25
   min_rounds_played: 10
   max_per_round: 1
   population_growth: 50
@@ -61,7 +62,7 @@ units:
       food_production: 1
       gold_production: 2.7
       reduces_casualties: 1
-      unit_production: 2,0.025 # Every 40 Mystics produce 1 Initiate
+      unit_production: 2,0.01 # Every 40 Mystics produce 1 Initiate
 
   - name: Mystic
     training_time: 6

@@ -343,6 +343,7 @@ class TickService
                         'hours' => DB::raw('`hours` - 1'),
                         'dominion_queue.updated_at' => $this->now,
                     ]);
+
             }, 10);
 
             Log::info(sprintf(

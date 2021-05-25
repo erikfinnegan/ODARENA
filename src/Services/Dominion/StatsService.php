@@ -79,6 +79,22 @@ class StatsService
         }
     }
 
+    public function updateStats(Dominion $dominon, array $statValues): void
+    {
+        foreach($statValues as $stat => $value)
+        {
+            $this->updateStat($dominion, $stat, $value);
+        }
+    }
+
+    public function setStats(Dominion $dominon, array $statValues): void
+    {
+        foreach($statValues as $stat => $value)
+        {
+            $this->setStat($dominion, $stat, $value);
+        }
+    }
+
     public function hasStat(Dominion $dominion, string $statKey): bool
     {
         $stat = Stat::where('key', $statKey)->first();
