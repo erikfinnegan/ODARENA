@@ -64,9 +64,11 @@ steal_gems:
   perks:
     resource_theft: gems,1,8 # resource, rate, max per spy
 
+# <Hostile>
+
 abduct_draftees:
   name: Abduct Draftees
-  scope: theft
+  scope: hostile
   exclusive_races:
     - Afflicted
     - Armada
@@ -79,29 +81,25 @@ abduct_draftees:
     - Nomad
     - Norse
     - Sacred Order
-    - Vampires
   perks:
     abduct_draftees: 2,0.5 # rate, max per spy
 
-abduct_peasants:
-  name: Abduct Peasants
-  scope: theft
+convert_peasants_vampire:
+  name: Convert Peasants
+  scope: hostile
   exclusive_races:
-    - Afflicted
-    - Armada
-    - Artillery
-    - Cult
-    - Dimensionalists
-    - Dragon
-    - Human
-    - Jagunii
-    - Kerranad
-    - Nomad
-    - Norse
-    - Sacred Order
     - Vampires
   perks:
-    abduct_peasants: 2,0.75 # rate, max per spy
+    convert_peasants_vampire: 0.25,1,1,6 # rate, max per spy, slot, ticks to "train"
+
+convert_draftees_vampire:
+  name: Convert Draftees
+  scope: hostile
+  exclusive_races:
+    - Vampires
+  perks:
+    convert_draftees_vampire: 0.15,1,1,6 # rate, max per spy, slot, ticks to "train"
+
 
 seize_boats:
   name: Seize Boats
@@ -110,8 +108,6 @@ seize_boats:
   enabled: 0
   perks:
     resource_theft: boats,0.25,0.02 # resource, rate, max per spy
-
-# <Hostile>
 
 assassinate_draftees:
   name: Assassinate Draftees

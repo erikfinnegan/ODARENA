@@ -701,7 +701,7 @@ class MilitaryCalculator
         $amount = (float)$prestigePerk[0];
         $max = (int)$prestigePerk[1];
 
-        $powerFromPerk = min($dominion->prestige / $amount, $max);
+        $powerFromPerk = min(floor($dominion->prestige) / $amount, $max);
 
         return $powerFromPerk;
     }
@@ -948,7 +948,7 @@ class MilitaryCalculator
         # Otherwise, SKARPT LÄGE!
         elseif ($target !== null)
         {
-            $prestige = $target->prestige;
+            $prestige = floor($target->prestige);
         }
 
         $amount = (int)$prestigePerk[0];

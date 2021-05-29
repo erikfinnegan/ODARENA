@@ -14,7 +14,7 @@ class PrestigeCalculator
      */
     public function getPrestigeMultiplier(Dominion $dominion): float
     {
-        return ($dominion->prestige / 10000);
+        return (floor($dominion->prestige) / 10000);
     }
 
 }

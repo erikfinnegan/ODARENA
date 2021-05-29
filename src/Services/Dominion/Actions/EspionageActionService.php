@@ -567,30 +567,6 @@ class EspionageActionService
                     $this->statsService->updateStat($dominion, ($resource .  '_stolen'), $amountStolen);
                     $this->statsService->updateStat($target, ($resource . '_lost'), $amountStolen);
                 }
-
-                if($perk->key === 'abduct_draftees' or $perk->key === 'abduct_peasants')
-                {
-                    if($perk->key == 'abduct_draftees')
-                    {
-                        $resource = 'draftees';
-                        $resourceString = 'military_draftees';
-                    }
-                    elseif($perk->key == 'abduct_peasants')
-                    {
-                        $resource = 'peasants';
-                        $resourceString = $resource;
-                    }
-
-                    $ratio = (float)$spyopPerkValues[0] / 100;
-                    $maxPerSpy = (float)$spyopPerkValues[1];
-
-                    $amountStolen = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
-
-                    $target->{$resourceString} -= $amountStolen;
-                    $dominion->{$resourceString} += $amountStolen;
-
-                    $this->statsService->updateStat($dominion, (str_replace('military_', '', $resourceString) .  '_stolen'), 1);
-                }
             }
 
             $target->save([
@@ -822,6 +798,62 @@ class EspionageActionService
             foreach($spyop->perks as $perk)
             {
                 $spyopPerkValues = $spyop->getSpyopPerkValues($spyop->key, $perk->key);
+
+
+                if($perk->key === 'abduct_draftees' or $perk->key === 'abduct_peasants')
+                {
+                    if($perk->key == 'abduct_draftees')
+                    {
+                        $resource = 'draftees';
+                        $resourceString = 'military_draftees';
+                    }
+                    elseif($perk->key == 'abduct_peasants')
+                    {
+                        $resource = 'peasants';
+                        $resourceString = $resource;
+                    }
+
+                    $ratio = (float)$spyopPerkValues[0] / 100;
+                    $maxPerSpy = (float)$spyopPerkValues[1];
+
+                    $damage = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
+
+                    $target->{$resourceString} -= $damage;
+                    $dominion->{$resourceString} += $damage;
+
+                    $this->statsService->updateStat($dominion, (str_replace('military_', '', $resourceString) .  '_stolen'), 1);
+                }
+
+
+                if($perk->key === 'convert_peasants_vampire' or $perk->key === 'convert_draftees_vampire')
+                {
+                    if($perk->key == 'convert_draftees_vampire')
+                    {
+                        $resource = 'draftees';
+                        $resourceString = 'military_draftees';
+                    }
+                    elseif($perk->key == 'convert_peasants_vampire')
+                    {
+                        $resource = 'peasants';
+                        $resourceString = $resource;
+                    }
+
+                    $ratio = (float)$spyopPerkValues[0] / 100;
+                    $maxPerSpy = (float)$spyopPerkValues[1];
+                    $newSlot = (int)$spyopPerkValues[2];
+                    $newUnit => 'military_unit'.$newSlot;
+                    $ticksToConvert = (int)$spyopPerkValues[3];
+
+                    $damage = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
+
+                    $target->{$resourceString} -= $damage;
+                    $dominion->{$resourceString} += $damage;
+
+                    $this->queueService->queueResources('training', $dominion, [$newUnit => $damage], $ticksToConvert);
+
+                    $this->statsService->updateStat($dominion, 'units_killed', $ticksToConvert);
+                    $this->statsService->updateStat($dominion, 'units_converted', $ticksToConvert);
+                }
 
                 # Regular killing of draftees and wizards
 

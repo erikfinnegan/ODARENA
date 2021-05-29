@@ -5,7 +5,7 @@ description: >-
   <p>Each sacrificed peasant yields 1 soul, 1.5 gallons of blood, and 2 halms of food.</p>
   <p>Demon starts with 1 Archdemon and 140,000 gallons of blood.</p>
 home_land_type: swamp
-playable: 1
+playable:  0 # Fix sacrifice per tick
 
 attacking: 2
 exploring : 3

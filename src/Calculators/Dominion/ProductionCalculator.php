@@ -757,7 +757,7 @@ class ProductionCalculator
              return 0;
          }
 
-         $tech = max(0, $dominion->prestige);
+         $tech = max(0, floor($dominion->prestige));
 
          $tech += $dominion->getUnitPerkProductionBonus('tech_production');
 
@@ -801,9 +801,21 @@ class ProductionCalculator
         return (1 + $multiplier);
     }
 
-    //</editor-fold>
 
-    //<editor-fold desc="Boats">
+
+    /**
+     * Returns the Dominion's raw boat production per hour.
+     *
+     * Boats are produced by:
+     * - Building: Dock (20 per)
+     *
+     * @param Dominion $dominion
+     * @return float
+     */
+    public function getPrestigeInterest(Dominion $dominion): float
+    {
+        return $dominion->prestige * max(0, $this->militaryCalculator->getNetVictories($dominion) / 40000);
+    }
 
     /**
      * Returns the Dominion's boat production per hour.

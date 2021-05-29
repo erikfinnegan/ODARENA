@@ -193,10 +193,12 @@ class UnitHelper
             'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
-            'dies_into_on_offense' => 'Upon death when invading, returns as %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
-            'dies_into_on_defense' => 'Upon death when defending, returns as %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
-            'dies_into_multiple_on_offense' => 'Upon death when invading, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
-            'dies_into_multiple_on_defense' => 'Upon death when defending, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+            'dies_into_on_offense' => 'Upon death when invading, returns as %1$s.',
+            'dies_into_on_defense' => 'Upon death when defending, returns as %1$s.',
+            'dies_into_on_defense_instantly' => 'Upon death when defending, instantly becomes %1$s.',
+            'dies_into_multiple_on_offense' => 'Upon death when invading, returns as %2$s %1$s.',
+            'dies_into_multiple_on_defense' => 'Upon death when defending, returns as %2$s %1$s.',
+            'dies_into_multiple_on_defense_instantly' => 'Upon death when defending, instantly becomes %2$s %1$s.',
 
             'dies_into_multiple_on_victory' => 'Upon death in succesful combat, returns as %2$s %1$s. If unsuccessful, returns as %3$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 

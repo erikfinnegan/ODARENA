@@ -106,7 +106,7 @@ class RealmController extends AbstractDominionController
             $realmDominionsStats['total_land_explored'] += $statsService->getStat($dominion, 'land_explored');
             $realmDominionsStats['total_land_discovered'] += $statsService->getStat($dominion, 'land_discovered');
             $realmDominionsStats['total_land_lost'] += $statsService->getStat($dominion, 'land_lost');
-            $realmDominionsStats['prestige'] += $dominion->prestige;
+            $realmDominionsStats['prestige'] += floor($dominion->prestige);
 
             foreach($landHelper->getLandTypes() as $landType)
             {
@@ -169,7 +169,7 @@ class RealmController extends AbstractDominionController
         ));
     }
 
-    public function postChangeRealm(Request $request) 
+    public function postChangeRealm(Request $request)
     {
         return redirect()->route('dominion.realm', (int)$request->get('realm'));
     }

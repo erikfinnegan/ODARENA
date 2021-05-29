@@ -929,6 +929,7 @@ class InvadeActionService
 
         # Look for dies_into amongst the dead defenders.
         $diesIntoNewUnits = array_fill(1,4,0);
+        $diesIntoNewUnitsInstantly = array_fill(1,4,0);
 
         foreach($defensiveUnitsLost as $slot => $casualties)
         {
@@ -946,6 +947,13 @@ class InvadeActionService
                 $diesIntoNewUnits[$slot] += intval($casualties);
             }
 
+            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_defense_instantly'))
+            {
+                $slot = (int)$diesIntoPerk[0];
+
+                $diesIntoNewUnitsInstantly[$slot] += intval($casualties);
+            }
+
             if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
             {
                 $slot = (int)$diesIntoMultiplePerk[0];
@@ -960,6 +968,14 @@ class InvadeActionService
                 $amount = (float)$diesIntoMultiplePerk[1];
 
                 $diesIntoNewUnits[$slot] += intval($casualties * $amount);
+            }
+
+            if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_defense_instantly'))
+            {
+                $slot = (int)$diesIntoMultiplePerk[0];
+                $amount = (float)$diesIntoMultiplePerk[1];
+
+                $diesIntoNewUnitsInstantly[$slot] += intval($casualties * $amount);
             }
 
             if(!$this->invasionResult['result']['success'] and $diesIntoMultiplePerkOnVictory = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_victory'))
@@ -983,6 +999,14 @@ class InvadeActionService
             );
         }
 
+
+        # Dies into units take 1 tick to appear
+        foreach($diesIntoNewUnitsInstantly as $slot => $amount)
+        {
+            $unitKey = 'military_unit'.$slot;
+            $target->{$unitKey} += $amount;
+            $target->fill([$unitKey => $dominion->{$unitKey} + $amount);
+        }
 
         foreach ($defensiveUnitsLost as $slot => $amount)
         {

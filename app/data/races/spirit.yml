@@ -16,7 +16,7 @@ perks:
   max_population: 30
   population_growth: 15
   gem_production: 20
-  rezone_cost: -20
+  rezone_cost: -30
 units:
   - name: Wisp
     training_time: 6

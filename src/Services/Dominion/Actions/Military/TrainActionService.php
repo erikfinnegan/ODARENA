@@ -401,7 +401,7 @@ class TrainActionService
         {
           throw new GameException('Training failed due to insufficient lumber.');
         }
-        if($totalCosts['prestige'] > $dominion->prestige)
+        if($totalCosts['prestige'] > floor($dominion->prestige))
         {
           throw new GameException('Training failed due to insufficient prestige.');
         }
