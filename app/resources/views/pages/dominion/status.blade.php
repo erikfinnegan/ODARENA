@@ -58,11 +58,15 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="<ul><li>Prestige increases your offensive power, food production, and population.</li><li>Each prestige produces 1 XP per tick.</li><li>Multiplier: {{ 1+$prestigeCalculator->getPrestigeMultiplier($selectedDominion) }}x</li></ul>">
+                                            <span data-toggle="tooltip" data-placement="top" title="<ul><li>Prestige increases your offensive power, food production, and population.</li><li>Prestige grows by <code>[Net Victories]/40000</code> per tick (decimals are stored but not used, only integers count)</li><li>Each prestige produces 1 XP per tick.</li><li>Multiplier: {{ 1+$prestigeCalculator->getPrestigeMultiplier($selectedDominion) }}x</li></ul>">
                                               Prestige:
                                             </span>
                                         </td>
-                                        <td>{{ number_format($selectedDominion->prestige) }}</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="<em>{{ number_format($selectedDominion->prestige,2) }}</em>">
+                                                {{ number_format(floor($selectedDominion->prestige)) }}
+                                            </span>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Victories:</td>
