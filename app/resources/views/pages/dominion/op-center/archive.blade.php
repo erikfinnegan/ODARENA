@@ -461,9 +461,7 @@
                                                         $unitsAtHome = (int)array_get($infoOp->data, "units.home.{$unitType}");
                                                     @endphp
 
-                                                    @if (in_array($unitType, ['spies', 'wizards', 'archmages']))
-                                                        ???
-                                                    @elseif ($unitsAtHome !== 0)
+                                                    @if ($unitsAtHome !== 0)
                                                         {{ number_format($unitsAtHome) }}
                                                     @else
                                                         0
@@ -545,6 +543,57 @@
                                                 </td>
                                             </tr>
                                         @endforeach
+
+                                        @php
+                                            $unitType = ('spies');
+                                        @endphp
+                                        <tr>
+                                            <td>Spies</td>
+                                            @for ($i = 1; $i <= 12; $i++)
+                                                <td class="text-center">-</td>
+                                            @endfor
+                                            <td class="text-center">
+                                                @if ($amountReturning = array_get($infoOp->data, "units.returning.{$unitType}"))
+                                                    {{ number_format(array_sum($amountReturning)) }}
+                                                @else
+                                                    0
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $unitType = ('wizards');
+                                        @endphp
+                                        <tr>
+                                            <td>Wizards</td>
+                                            </td>
+                                            @for ($i = 1; $i <= 12; $i++)
+                                                <td class="text-center">-</td>
+                                            @endfor
+                                            <td class="text-center">
+                                                @if ($amountReturning = array_get($infoOp->data, "units.returning.{$unitType}"))
+                                                    {{ number_format(array_sum($amountReturning)) }}
+                                                @else
+                                                    0
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $unitType = ('archmages');
+                                        @endphp
+                                        <tr>
+                                            <td>Archmages</td>
+                                            </td>
+                                            @for ($i = 1; $i <= 12; $i++)
+                                                <td class="text-center">-</td>
+                                            @endfor
+                                            <td class="text-center">
+                                                @if ($amountReturning = array_get($infoOp->data, "units.returning.{$unitType}"))
+                                                    {{ number_format(array_sum($amountReturning)) }}
+                                                @else
+                                                    0
+                                                @endif
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             @endcomponent

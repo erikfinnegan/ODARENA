@@ -947,6 +947,18 @@ mind_control:
   perks:
     mind_control: 1
 
+mind_control:
+  name: Menticide
+  scope: self
+  class: passive
+  cost: 10
+  duration: 4
+  cooldown: 0
+  exclusive_races:
+    - Cult
+  perks:
+    menticide: 1
+
 enthralling:
   name: Enthralling
   scope: hostile

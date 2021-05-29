@@ -192,7 +192,7 @@ class ReleaseActionService
         }
 
         // Cult: Enthralling
-        if ($this->spellCalculator->isSpellActive($dominion, 'enthralling'))
+        if ($dominion->getSpellPerkValue('enthralling'))
         {
             $cult = $this->spellCalculator->getCaster($dominion, 'enthralling');
 

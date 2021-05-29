@@ -394,10 +394,9 @@ class EspionageActionService
 
                 // Units at home
                 array_set($data, 'units.home.draftees',$target->military_draftees);
-                array_set($data, 'units.home.spies',$target->military_draftees);
-                array_set($data, 'units.home.wizards',$target->military_draftees);
-                array_set($data, 'units.home.archmages',$target->military_draftees);
-                array_set($data, 'units.home.draftees',$target->military_draftees);
+                array_set($data, 'units.home.spies',$target->military_spies);
+                array_set($data, 'units.home.wizards',$target->military_wizards);
+                array_set($data, 'units.home.archmages',$target->military_archmages);
 
                 foreach (range(1, 4) as $slot)
                 {
@@ -841,7 +840,7 @@ class EspionageActionService
                     $ratio = (float)$spyopPerkValues[0] / 100;
                     $maxPerSpy = (float)$spyopPerkValues[1];
                     $newSlot = (int)$spyopPerkValues[2];
-                    $newUnit => 'military_unit'.$newSlot;
+                    $newUnit = 'military_unit'.$newSlot;
                     $ticksToConvert = (int)$spyopPerkValues[3];
 
                     $damage = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);

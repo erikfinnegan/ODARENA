@@ -1428,7 +1428,7 @@ class InvadeActionService
 
     protected function handleMenticide(Dominion $cult, Dominion $attacker)
     {
-        if(array_sum($this->invasionResult['defender']['mindControlledUnits']) > 0 and ($this->spellCalculator->isSpellActive($cult, 'menticide')))
+        if(array_sum($this->invasionResult['defender']['mindControlledUnits']) > 0 and $cult->getSpellPerkValue('menticide'))
         {
             $this->invasionResult['defender']['isMenticide'] = true;
         }
