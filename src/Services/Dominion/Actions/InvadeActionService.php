@@ -2243,12 +2243,7 @@ class InvadeActionService
                             return ($unit->slot == $slot);
                         })->first();
 
-                    if($this->unitHelper->unitSlotHasAttributes($defender->race, $slot, $unkillableAttributes))
-                    {
-                        $isUnitConvertible = false;
-                    }
-
-                    if(!$isUnitConvertible)
+                    if(!$this->conversionCalculator->isSlotConvertible($slot, $defender)
                     {
                         $defensiveBodies -= $lost;
                     }
@@ -2266,12 +2261,7 @@ class InvadeActionService
                             return ($unit->slot == $slot);
                         })->first();
 
-                    if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, $unkillableAttributes))
-                    {
-                        $isUnitConvertible = false;
-                    }
-
-                    if(!$isUnitConvertible)
+                    if(!$this->conversionCalculator->isSlotConvertible($slot, $attacker)
                     {
                         $offensiveBodies -= $lost;
                     }
