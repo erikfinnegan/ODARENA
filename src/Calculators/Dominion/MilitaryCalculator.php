@@ -1544,6 +1544,20 @@ class MilitaryCalculator
                 $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard'));
             }
 
+            if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_wizard_" . $type . "_from_time"), null))
+            {
+                $powerFromTime = (float)$timePerkData[2];
+                $hourFrom = $timePerkData[0];
+                $hourTo = $timePerkData[1];
+                if (
+                    (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                    (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                )
+                {
+                    $spies += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime);
+                }
+            }
+
             # Check for wizard_from_title
             $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "wizard_from_title", null);
             if($titlePerkData)
@@ -1635,6 +1649,20 @@ class MilitaryCalculator
             {
                 $wizardPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard'));
             }
+
+            if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_wizard_" . $type . "_from_time"), null))
+            {
+                $powerFromTime = (float)$timePerkData[2];
+                $hourFrom = $timePerkData[0];
+                $hourTo = $timePerkData[1];
+                if (
+                    (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                    (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                )
+                {
+                    $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime);
+                }
+            }
         }
 
         return $wizardPoints * $this->getWizardRatioMultiplier($dominion);
@@ -1665,6 +1693,20 @@ class MilitaryCalculator
             if ($unit->getPerkValue('counts_as_spy'))
             {
                 $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy'));
+            }
+
+            if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_spy_" . $type . "_from_time"), null))
+            {
+                $powerFromTime = (float)$timePerkData[2];
+                $hourFrom = $timePerkData[0];
+                $hourTo = $timePerkData[1];
+                if (
+                    (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                    (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                )
+                {
+                    $spyPoints += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime);
+                }
             }
         }
 
