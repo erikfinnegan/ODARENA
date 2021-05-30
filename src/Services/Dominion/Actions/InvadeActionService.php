@@ -2670,6 +2670,7 @@ class InvadeActionService
      */
     protected function handleMindControl(Dominion $cult, Dominion $attacker, array $units): void
     {
+        $this->invasionResult['defender']['mindControlledUnits'] = array_fill(1,4,0);
         if($cult->race->name === 'Cult' and $cult->getSpellPerkValue('mind_control'))
         {
             # How many Mystics do we have?
