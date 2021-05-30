@@ -1436,14 +1436,7 @@ class MilitaryCalculator
 
             if ($type === 'offense' and $timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "counts_as_spy_offense_from_time", null))
             {
-
-                if (!$timePerkData or !$dominion->round->hasStarted())
-                {
-                    return 0;
-                }
-
                 $powerFromTime = (float)$timePerkData[2];
-
                 $hourFrom = $timePerkData[0];
                 $hourTo = $timePerkData[1];
                 if (
@@ -1451,11 +1444,21 @@ class MilitaryCalculator
                     (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
                 )
                 {
-                    $powerFromPerk = $powerFromTime;
+                    $spies += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime;
                 }
-                else
+            }
+
+            if ($type === 'defense' and $timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "counts_as_spy_defense_from_time", null))
+            {
+                $powerFromTime = (float)$timePerkData[2];
+                $hourFrom = $timePerkData[0];
+                $hourTo = $timePerkData[1];
+                if (
+                    (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                    (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                )
                 {
-                    $powerFromPerk = 0;
+                    $spies += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime;
                 }
             }
         }
