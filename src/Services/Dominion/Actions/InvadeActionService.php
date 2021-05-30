@@ -1004,7 +1004,7 @@ class InvadeActionService
         {
             $unitKey = 'military_unit'.$slot;
             $target->{$unitKey} += $amount;
-            $target->fill([$unitKey => $dominion->{$unitKey} + $amount]);
+            $target->fill([$unitKey => ($dominion->{$unitKey} + $amount)]);
         }
 
         foreach ($defensiveUnitsLost as $slot => $amount)
