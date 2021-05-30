@@ -91,4 +91,5 @@ units:
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
       counts_as_spy_offense_from_time: 18,06,0.25
+      counts_as_spy_defense_from_time: 18,06,0.25
       faster_return: 4

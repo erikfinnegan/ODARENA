@@ -32,7 +32,6 @@ units:
       cannot_be_trained: 1
       attrition: 0.5 # 1% lost each tick.
       does_not_count_as_population: 1
-      wins_into: 2
 
   - name: Initiate
     training_time: 6
