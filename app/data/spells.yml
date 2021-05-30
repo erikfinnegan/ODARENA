@@ -69,7 +69,16 @@ druvas_granaries:
   cooldown: 18
   excluded_races:
     - Afflicted
+    - Dragon
+    - Dwarf
     - Elementals
+    - Gnome
+    - Growth
+    - Icekin
+    - Merfolk
+    - Myconid
+    - Nox
+    - Spirit
     - Void
   perks:
     lumber_theft: -100

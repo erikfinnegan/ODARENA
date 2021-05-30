@@ -2673,16 +2673,7 @@ class InvadeActionService
      */
     protected function handleMindControl(Dominion $cult, Dominion $attacker, array $units): void
     {
-        if ($this->spellCalculator->isSpellActive($cult, 'mind_control'))
-        {
-            $this->invasionResult['defender']['isMindControl'] = true;
-        }
-        else
-        {
-            $this->invasionResult['defender']['isMindControl'] = false;
-            $this->invasionResult['defender']['mindControlledUnits'] = [];
-            return;
-        }
+        $this->invasionResult['defender']['isMindControl'] = (bool)$cult->getSpellPerkValue('mind_control');
 
         # How many Mystics do we have?
         $availableMystics = $cult->military_unit4;
