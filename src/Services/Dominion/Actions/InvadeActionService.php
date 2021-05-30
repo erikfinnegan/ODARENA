@@ -2243,7 +2243,7 @@ class InvadeActionService
                             return ($unit->slot == $slot);
                         })->first();
 
-                    if(!$this->conversionCalculator->isSlotConvertible($slot, $defender)
+                    if(!$this->conversionCalculator->isSlotConvertible($slot, $defender))
                     {
                         $defensiveBodies -= $lost;
                     }
@@ -2261,7 +2261,7 @@ class InvadeActionService
                             return ($unit->slot == $slot);
                         })->first();
 
-                    if(!$this->conversionCalculator->isSlotConvertible($slot, $attacker)
+                    if(!$this->conversionCalculator->isSlotConvertible($slot, $attacker))
                     {
                         $offensiveBodies -= $lost;
                     }
