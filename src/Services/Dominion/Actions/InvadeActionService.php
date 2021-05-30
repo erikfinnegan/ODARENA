@@ -1429,25 +1429,21 @@ class InvadeActionService
 
     protected function handleMenticide(Dominion $cult, Dominion $attacker)
     {
-        if(array_sum($this->invasionResult['defender']['mindControlledUnits']) > 0 and $cult->getSpellPerkValue('menticide'))
+        if(array_sum($this->invasionResult['defender']['mindControlledUnits']) > 0 and $cult->race->name === 'Cult' and $cult->getSpellPerkValue('menticide'))
         {
             $this->invasionResult['defender']['isMenticide'] = true;
-        }
-        else
-        {
-            return;
-        }
 
-        $this->invasionResult['defender']['mindControlledUnitsReleased'] = array_fill(1, 4, 0);
-        $newThralls = 0;
+            $this->invasionResult['defender']['mindControlledUnitsReleased'] = array_fill(1, 4, 0);
+            $newThralls = 0;
 
-        foreach($this->invasionResult['defender']['mindControlledUnits'] as $slot => $amount)
-        {
-            $newThralls += $amount * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
+            foreach($this->invasionResult['defender']['mindControlledUnits'] as $slot => $amount)
+            {
+                $newThralls += $amount * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
+            }
+
+            $this->invasionResult['defender']['menticide']['newThralls'] = $newThralls;
+            $cult->military_unit1 += $newThralls;
         }
-
-        $this->invasionResult['defender']['menticide']['newThralls'] = $newThralls;
-        $cult->military_unit1 += $newThralls;
     }
 
     protected function handleStun(Dominion $attacker, Dominion $defender, array $units, float $landRatio)
