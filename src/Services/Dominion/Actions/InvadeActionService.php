@@ -2674,41 +2674,42 @@ class InvadeActionService
      */
     protected function handleMindControl(Dominion $cult, Dominion $attacker, array $units): void
     {
-        $this->invasionResult['defender']['isMindControl'] = (bool)$cult->getSpellPerkValue('mind_control');
-
-        # How many Mystics do we have?
-        $availableMystics = $cult->military_unit4;
-
-        # Check invading forces for units that are only SENTIENT
-        $mindControlledUnits = [];
-        $nonControllableAttributes = [
-            'ammunition',
-            'equipment',
-            'magical',
-            'massive',
-            'machine',
-            'mindless',
-            'ship',
-            'wise',
-          ];
-        foreach($units as $slot => $amount)
+        if($cult->race->name === 'Cult' and $cult->getSpellPerkValue('mind_control'))
         {
-            $mindControlledUnits[$slot] = 0;
+            # How many Mystics do we have?
+            $availableMystics = $cult->military_unit4;
 
-            $isUnitControllable = false;
-            if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, ['sentient']) and !$this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, $nonControllableAttributes))
+            # Check invading forces for units that are only SENTIENT
+            $mindControlledUnits = [];
+            $nonControllableAttributes = [
+                'ammunition',
+                'equipment',
+                'magical',
+                'massive',
+                'machine',
+                'mindless',
+                'ship',
+                'wise',
+              ];
+            foreach($units as $slot => $amount)
             {
-                $isUnitControllable = true;
-            }
+                $mindControlledUnits[$slot] = 0;
 
-            if($isUnitControllable)
-            {
-                $mindControlledUnits[$slot] = min($amount, $availableMystics);
-            }
+                $isUnitControllable = false;
+                if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, ['sentient']) and !$this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, $nonControllableAttributes))
+                {
+                    $isUnitControllable = true;
+                }
 
-            $availableMystics -= $mindControlledUnits[$slot];
-            $this->invasionResult['defender']['mindControlledUnits'][$slot] = $mindControlledUnits[$slot];
-            $this->invasionResult['defender']['mindControlledUnitsReleased'][$slot] = $mindControlledUnits[$slot] * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
+                if($isUnitControllable)
+                {
+                    $mindControlledUnits[$slot] = min($amount, $availableMystics);
+                }
+
+                $availableMystics -= $mindControlledUnits[$slot];
+                $this->invasionResult['defender']['mindControlledUnits'][$slot] = $mindControlledUnits[$slot];
+                $this->invasionResult['defender']['mindControlledUnitsReleased'][$slot] = $mindControlledUnits[$slot] * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
+            }
         }
 
     }
