@@ -794,7 +794,8 @@ class TickService
               $tick->resource_mana_contributed = $totalContributions['mana'];
           }
 
-          $tick->prestige += $this->productionCalculator->getPrestigeInterest($dominion);
+          $tick->prestige = $this->productionCalculator->getPrestigeInterest($dominion);
+          #dd($tick->prestige, $this->productionCalculator->getPrestigeInterest($dominion));
 
           // Starvation
 

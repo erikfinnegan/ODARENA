@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangePrestigeFromIntToDecimal extends Migration
+class ChangePrestigeFromIntToDecimalInDominionTicks extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class ChangePrestigeFromIntToDecimal extends Migration
      */
     public function up()
     {
-        Schema::table('dominions', function (Blueprint $table) {
+        Schema::table('dominion_tick', function (Blueprint $table) {
             $table->decimal('prestige',16,8)->change();
         });
     }
@@ -25,7 +25,7 @@ class ChangePrestigeFromIntToDecimal extends Migration
      */
     public function down()
     {
-        Schema::table('dominions', function (Blueprint $table) {
+        Schema::table('dominion_tick', function (Blueprint $table) {
             $table->integer('prestige')->change();
         });
     }

@@ -63,7 +63,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="<em>{{ number_format($selectedDominion->prestige,2) }}</em>">
+                                            <span data-toggle="tooltip" data-placement="top" title="<em>{{ number_format($selectedDominion->prestige,8) }}</em>">
                                                 {{ number_format(floor($selectedDominion->prestige)) }}
                                             </span>
                                         </td>
