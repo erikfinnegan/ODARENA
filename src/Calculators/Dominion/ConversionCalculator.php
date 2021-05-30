@@ -973,7 +973,7 @@ class ConversionCalculator
 
     }
 
-    private function isSlotConvertible($slot, Dominion $dominion, array $unconvertibleAttributes = [], array $unconvertiblePerks = []): bool
+    public function isSlotConvertible($slot, Dominion $dominion, array $unconvertibleAttributes = [], array $unconvertiblePerks = []): bool
     {
         if(empty($unconvertibleAttributes))
         {
