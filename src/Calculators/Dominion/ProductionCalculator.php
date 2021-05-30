@@ -132,6 +132,7 @@ class ProductionCalculator
 
         // Improvement: Markets
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
+        $multiplier += $dominion->getImprovementPerkMultiplier('gold_production');
 
         // Land improvements
         $multiplier += $this->landImprovementCalculator->getGoldProductionBonus($dominion);
