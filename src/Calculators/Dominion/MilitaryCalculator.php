@@ -1444,7 +1444,7 @@ class MilitaryCalculator
                     (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
                 )
                 {
-                    $spies += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime;
+                    $spies += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime);
                 }
             }
 
@@ -1458,7 +1458,7 @@ class MilitaryCalculator
                     (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
                 )
                 {
-                    $spies += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime;
+                    $spies += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime);
                 }
             }
         }
