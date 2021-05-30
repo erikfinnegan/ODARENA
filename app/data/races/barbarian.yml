@@ -19,7 +19,6 @@ perks:
   mana_production: -100
   ore_production: -100
   gem_production: -100
-  reduced_conversions: 33
 units:
   - name: Marauder
     training_time: 6
