@@ -956,7 +956,7 @@ mind_control:
   perks:
     mind_control: 1
 
-mind_control:
+menticide:
   name: Menticide
   scope: self
   class: passive
