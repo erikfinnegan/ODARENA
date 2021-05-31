@@ -482,6 +482,11 @@ class NotificationHelper
                         $resultString = "{$data['damageString']} were butchered.";
                         break;
 
+                    case 'convert_draftees_vampire':
+                    case 'convert_peasants_vampire':
+                        $resultString = "{$data['damageString']} succumbed to vampirism and have vanished into a nearby forest.";
+                        break;
+
                     case 'consume_draftees':
                     case 'consume_peasants':
                     case 'consume_spies':
@@ -557,6 +562,11 @@ class NotificationHelper
                     case 'butcher_spies':
                         $where = 'attempting to butcher our units';
                         break;
+                        
+                  case 'convert_draftees_vampire':
+                  case 'convert_peasants_vampire':
+                      $where = 'attempting to spread vampirism among our lands';
+                      break;
 
                     case 'consume_peasants':
                     case 'consume_draftees':
