@@ -1214,6 +1214,10 @@ class InvadeActionService
             }
         }
 
+        # Round
+        $attackerMoraleChange = round($attackerMoraleChange);
+        $defenderMoraleChange = round($defenderMoraleChange);
+
         # Change attacker morale.
 
         // Make sure it doesn't go below 0.
