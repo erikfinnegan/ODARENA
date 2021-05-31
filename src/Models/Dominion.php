@@ -111,7 +111,7 @@ class Dominion extends AbstractModel
     use Notifiable;
 
     protected $casts = [
-        'prestige' => 'integer',
+        'prestige' => 'float',
         'peasants' => 'integer',
         'peasants_last_hour' => 'integer',
         'draft_rate' => 'integer',

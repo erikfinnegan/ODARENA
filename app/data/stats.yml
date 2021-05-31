@@ -220,6 +220,10 @@ espionage_peasants_killed:
   name: Peasants killed
 draftees_stolen:
   name: Draftees abducted
+espionage_peasants_lost:
+  name: Peasants lost
+espionage_draftees_lost:
+  name: Draftees lost
 
 espionage_theft_success:
   name: Theft success

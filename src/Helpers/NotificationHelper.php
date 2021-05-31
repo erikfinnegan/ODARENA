@@ -505,6 +505,7 @@ class NotificationHelper
                     case 'sabotage_forges':
                     case 'sabotage_walls':
                     case 'sabotage_harbor':
+                    case 'sabotage_building':
                         $resultString = "{$data['damageString']} have been temporarily destroyed.";
                         break;
 
@@ -550,6 +551,14 @@ class NotificationHelper
                         $where = 'attempting to assassinate our wizards';
                         break;
 
+                  case 'abduct_draftees':
+                      $where = 'within our barracks';
+                      break;
+
+                  case 'abduct_peasants':
+                      $where = 'within our homes';
+                      break;
+
                     case 'slaughter_peasants':
                     case 'slaughter_draftees':
                     case 'slaughter_wizards':
@@ -562,7 +571,7 @@ class NotificationHelper
                     case 'butcher_spies':
                         $where = 'attempting to butcher our units';
                         break;
-                        
+
                   case 'convert_draftees_vampire':
                   case 'convert_peasants_vampire':
                       $where = 'attempting to spread vampirism among our lands';
@@ -593,6 +602,10 @@ class NotificationHelper
                     case 'sabotage_forges':
                     case 'sabotage_harbor':
                         $where = 'attempting to sabotage our improvements';
+                        break;
+
+                    case 'sabotage_building':
+                        $where = 'attempting to sabotage our buidings';
                         break;
 
                     default:
@@ -697,14 +710,6 @@ class NotificationHelper
 
                     case 'steal_gems':
                         $where = 'within our gem mines';
-                        break;
-
-                    case 'abduct_draftees':
-                        $where = 'within our barracks';
-                        break;
-
-                    case 'abduct_peasants':
-                        $where = 'within our homes';
                         break;
 
                     default:

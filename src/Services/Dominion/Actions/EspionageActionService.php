@@ -724,7 +724,7 @@ class EspionageActionService
 
     protected function getTheftAmount(Dominion $dominion, Dominion $target, Spyop $spyop, string $resource, float $ratio, float $spyUnits, float $maxPerSpy): int
     {
-        if($spyop->scope !== 'theft')
+        if($spyop->scope !== 'theft' and $spyop->scope !== 'hostile')
         {
             return 0;
         }
@@ -803,24 +803,26 @@ class EspionageActionService
                 {
                     if($perk->key == 'abduct_draftees')
                     {
-                        $resource = 'draftees';
+                        $attribute = 'draftees';
                         $resourceString = 'military_draftees';
                     }
                     elseif($perk->key == 'abduct_peasants')
                     {
-                        $resource = 'peasants';
-                        $resourceString = $resource;
+                        $attribute = 'peasants';
+                        $resourceString = $attribute;
                     }
 
                     $ratio = (float)$spyopPerkValues[0] / 100;
                     $maxPerSpy = (float)$spyopPerkValues[1];
 
-                    $damage = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
+                    $damage = $this->getTheftAmount($dominion, $target, $spyop, $attribute, $ratio, $spyUnits, $maxPerSpy);
 
                     $target->{$resourceString} -= $damage;
                     $dominion->{$resourceString} += $damage;
 
-                    $this->statsService->updateStat($dominion, (str_replace('military_', '', $resourceString) .  '_stolen'), 1);
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                    $this->statsService->updateStat($dominion, (str_replace('military_', '', $attribute) .  '_stolen'), 1);
                 }
 
 
@@ -828,13 +830,13 @@ class EspionageActionService
                 {
                     if($perk->key == 'convert_draftees_vampire')
                     {
-                        $resource = 'draftees';
+                        $attribute = 'draftees';
                         $resourceString = 'military_draftees';
                     }
                     elseif($perk->key == 'convert_peasants_vampire')
                     {
-                        $resource = 'peasants';
-                        $resourceString = $resource;
+                        $attribute = 'peasants';
+                        $resourceString = $attribute;
                     }
 
                     $ratio = (float)$spyopPerkValues[0] / 100;
@@ -843,15 +845,18 @@ class EspionageActionService
                     $newUnit = 'military_unit'.$newSlot;
                     $ticksToConvert = (int)$spyopPerkValues[3];
 
-                    $damage = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
+                    $damage = $this->getTheftAmount($dominion, $target, $spyop, $attribute, $ratio, $spyUnits, $maxPerSpy);
 
                     $target->{$resourceString} -= $damage;
                     $dominion->{$resourceString} += $damage;
 
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
                     $this->queueService->queueResources('training', $dominion, [$newUnit => $damage], $ticksToConvert);
 
-                    $this->statsService->updateStat($dominion, 'units_killed', $ticksToConvert);
-                    $this->statsService->updateStat($dominion, 'units_converted', $ticksToConvert);
+                    $this->statsService->updateStat($dominion, 'units_killed', $damage);
+                    $this->statsService->updateStat($dominion, 'units_converted', $damage);
+                    $this->statsService->updateStat($target, ('espionage_' . $attribute . '_lost'), $damage);
                 }
 
                 # Regular killing of draftees and wizards
