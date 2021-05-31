@@ -851,7 +851,11 @@ class TickService
           if ($dominion->spy_strength < 100)
           {
               $spyStrengthAdded = 4;
+              $spyStrengthAdded += $dominion->getBuildingPerkValue('spy_strength_recovery');
               $spyStrengthAdded += $dominion->getTechPerkValue('spy_strength_recovery');
+              $spyStrengthAdded += $dominion->title->getPerkValue('spy_strength_recovery') * $dominion->title->getPerkBonus($dominion);
+
+              $spyStrengthAdded = floor($spyStrengthAdded);
 
               $tick->spy_strength = min($spyStrengthAdded, 100 - $dominion->spy_strength);
           }
@@ -863,6 +867,9 @@ class TickService
 
               $wizardStrengthAdded += $dominion->getBuildingPerkValue('wizard_strength_recovery');
               $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
+              $wizardStrengthAdded += $dominion->title->getPerkValue('wizard_strength_recovery') * $dominion->title->getPerkBonus($dominion);
+
+              $wizardStrengthAdded = floor($wizardStrengthAdded);
 
               $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
           }
