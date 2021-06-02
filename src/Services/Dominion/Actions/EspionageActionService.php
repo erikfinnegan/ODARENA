@@ -798,7 +798,6 @@ class EspionageActionService
             {
                 $spyopPerkValues = $spyop->getSpyopPerkValues($spyop->key, $perk->key);
 
-
                 if($perk->key === 'abduct_draftees' or $perk->key === 'abduct_peasants')
                 {
                     if($perk->key == 'abduct_draftees')
@@ -824,7 +823,6 @@ class EspionageActionService
 
                     $this->statsService->updateStat($dominion, (str_replace('military_', '', $attribute) .  '_stolen'), 1);
                 }
-
 
                 if($perk->key === 'convert_peasants_vampire' or $perk->key === 'convert_draftees_vampire')
                 {
@@ -854,7 +852,7 @@ class EspionageActionService
 
                     $this->queueService->queueResources('training', $dominion, [$newUnit => $damage], $ticksToConvert);
 
-                    $this->statsService->updateStat($dominion, ('espionage_' . $attribute . '_killed'), $damage);                  
+                    $this->statsService->updateStat($dominion, ('espionage_' . $attribute . '_killed'), $damage);
                     $this->statsService->updateStat($dominion, 'units_converted', $damage);
                     $this->statsService->updateStat($target, ('espionage_' . $attribute . '_lost'), $damage);
                 }
@@ -1117,9 +1115,6 @@ class EspionageActionService
 
                     $damage = (int)floor($damage);
                     $target->{$attribute} -= $damage;
-
-                    $food = floor($damage * $foodPerUnitKilled);
-                    $dominion->resource_food += $food;
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
