@@ -854,7 +854,7 @@ class EspionageActionService
 
                     $this->queueService->queueResources('training', $dominion, [$newUnit => $damage], $ticksToConvert);
 
-                    $this->statsService->updateStat($dominion, 'units_killed', $damage);
+                    $this->statsService->updateStat($dominion, ('espionage_' . $attribute . '_killed'), $damage);                  
                     $this->statsService->updateStat($dominion, 'units_converted', $damage);
                     $this->statsService->updateStat($target, ('espionage_' . $attribute . '_lost'), $damage);
                 }
