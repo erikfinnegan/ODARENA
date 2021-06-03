@@ -8,17 +8,22 @@ use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Log;
+use OpenDominion\Calculators\RealmCalculator;
+use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
+use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
+use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Dominion\Tick;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
@@ -26,15 +31,6 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\DominionBuilding;
 use OpenDominion\Services\NotificationService;
 use Throwable;
-
-# ODA
-use OpenDominion\Calculators\Dominion\BarbarianCalculator;
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Models\GameEvent;
-use OpenDominion\Calculators\Dominion\RangeCalculator;
-use OpenDominion\Helpers\ImprovementHelper;
-use OpenDominion\Calculators\RealmCalculator;
-use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 
 class TickService
 {
@@ -50,9 +46,6 @@ class TickService
 
     /** @var LandCalculator */
     protected $landCalculator;
-
-    /** @var NetworthCalculator */
-    protected $networthCalculator;
 
     /** @var NotificationService */
     protected $notificationService;
@@ -78,9 +71,6 @@ class TickService
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
-    /** @var RangeCalculator */
-    protected $rangeCalculator;
-
     /** @var ImprovementHelper */
     protected $improvementHelper;
 
@@ -97,7 +87,6 @@ class TickService
         $this->casualtiesCalculator = app(CasualtiesCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
-        $this->networthCalculator = app(NetworthCalculator::class);
         $this->notificationService = app(NotificationService::class);
         $this->populationCalculator = app(PopulationCalculator::class);
         $this->prestigeCalculator = app(PrestigeCalculator::class);
@@ -107,7 +96,6 @@ class TickService
 
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
-        $this->rangeCalculator = app(RangeCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->realmCalculator = app(RealmCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
@@ -1094,101 +1082,6 @@ class TickService
 
           $tick->save();
     }
-
-    /*
-    protected function updateDailyRankings(Collection $activeDominions): void
-    {
-        $dominionIds = $activeDominions->pluck('id')->toArray();
-
-        // First pass: Saving land and networth
-        Dominion::with(['race', 'realm'])
-            ->whereIn('id', $dominionIds)
-            ->chunk(50, function ($dominions) {
-                foreach ($dominions as $dominion) {
-                    $where = [
-                        'round_id' => (int)$dominion->round_id,
-                        'dominion_id' => $dominion->id,
-                    ];
-
-                    $data = [
-                        'dominion_name' => $dominion->name,
-                        'race_name' => $dominion->race->name,
-                        'realm_number' => $dominion->realm->number,
-                        'realm_name' => $dominion->realm->name,
-                        'land' => $this->landCalculator->getTotalLand($dominion),
-                        'networth' => $this->networthCalculator->getDominionNetworth($dominion),
-                    ];
-
-                    $result = DB::table('daily_rankings')->where($where)->get();
-
-                    if ($result->isEmpty()) {
-                        $row = $where + $data + [
-                                'created_at' => $dominion->created_at,
-                                'updated_at' => $this->now,
-                            ];
-
-                        DB::table('daily_rankings')->insert($row);
-                    } else {
-                        $row = $data + [
-                                'updated_at' => $this->now,
-                            ];
-
-                        DB::table('daily_rankings')->where($where)->update($row);
-                    }
-                }
-            });
-
-        // Second pass: Calculating ranks
-        $result = DB::table('daily_rankings')
-            ->orderBy('land', 'desc')
-            ->orderBy(DB::raw('COALESCE(land_rank, created_at)'))
-            ->get();
-
-        //Getting all rounds
-        $rounds = DB::table('rounds')
-            ->where('start_date', '<=', $this->now)
-            ->where('end_date', '>', $this->now)
-            ->get();
-
-        foreach ($rounds as $round) {
-            $rank = 1;
-
-            foreach ($result as $row) {
-                if ($row->round_id == (int)$round->id) {
-                    DB::table('daily_rankings')
-                        ->where('id', $row->id)
-                        ->where('round_id', $round->id)
-                        ->update([
-                            'land_rank' => $rank,
-                            'land_rank_change' => (($row->land_rank !== null) ? ($row->land_rank - $rank) : 0),
-                        ]);
-
-                    $rank++;
-                }
-            }
-
-            $result = DB::table('daily_rankings')
-                ->orderBy('networth', 'desc')
-                ->orderBy(DB::raw('COALESCE(networth_rank, created_at)'))
-                ->get();
-
-            $rank = 1;
-
-            foreach ($result as $row) {
-                if ($row->round_id == (int)$round->id) {
-                    DB::table('daily_rankings')
-                        ->where('id', $row->id)
-                        ->update([
-                            'networth_rank' => $rank,
-                            'networth_rank_change' => (($row->networth_rank !== null) ? ($row->networth_rank - $rank) : 0),
-                        ]);
-
-                    $rank++;
-                }
-            }
-        }
-    }
-    */
 
     # SINGLE DOMINION TICKS, MANUAL TICK
     /**
