@@ -478,13 +478,13 @@ class TickService
                                  ->first();
 
                      $bodiesToRemove = intval($bodiesDecayed + $bodiesSpent->cryptBodiesSpent);
-                     $bodiesToRemove = min($bodiesToRemove, $realm->crypt);
+                     $bodiesToRemove = max(0, min($bodiesToRemove, $realm->crypt));
 
                      $cryptLogString = '[CRYPT] ';
-                     $cryptLogString .= "Bodies current: " . $realm->crypt . ". ";
-                     $cryptLogString .= "Bodies decayed: " . $bodiesDecayed . ". ";
-                     $cryptLogString .= "Bodies spent: " . $bodiesSpent->cryptBodiesSpent . ". ";
-                     $cryptLogString .= "Bodies to remove: " . $bodiesToRemove . ". ";
+                     $cryptLogString .= "Bodies current: " . number_format($realm->crypt) . ". ";
+                     $cryptLogString .= "Bodies decayed: " . number_format($bodiesDecayed) . ". ";
+                     $cryptLogString .= "Bodies spent: " . number_format($bodiesSpent->cryptBodiesSpent) . ". ";
+                     $cryptLogString .= "Bodies to remove: " . number_format($bodiesToRemove) . ". ";
 
 
                     $realm->fill([
@@ -1008,7 +1008,7 @@ class TickService
               $maxAdditionalPermittedOfThisUnit -= $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitRaisedSlot);
               $maxAdditionalPermittedOfThisUnit -= $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$unitRaisedSlot);
 
-              $unitsRaised = min($unitsRaised, $maxAdditionalPermittedOfThisUnit, $bodiesAvailable);
+              $unitsRaised = max(0, min($unitsRaised, $maxAdditionalPermittedOfThisUnit, $bodiesAvailable));
 
               $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
               $tick->crypt_bodies_spent += $unitsRaised;
@@ -1042,7 +1042,7 @@ class TickService
               $maxAdditionalPermittedOfThisUnit -= $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitRaisedSlot);
               $maxAdditionalPermittedOfThisUnit -= $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$unitRaisedSlot);
 
-              $unitsRaised = min($unitsRaised, $maxAdditionalPermittedOfThisUnit, $bodiesAvailable);
+              $unitsRaised = max(0, min($unitsRaised, $maxAdditionalPermittedOfThisUnit, $bodiesAvailable));
 
               $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
               $tick->crypt_bodies_spent += $unitsRaised;
