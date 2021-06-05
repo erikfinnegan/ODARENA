@@ -1067,24 +1067,6 @@ class EspionageActionService
 
                     $this->statsService->updateStat($dominion, 'espionage_damage_buildings', $damage);
                 }
-                if($perk->key === 'consume_draftees')
-                {
-                    $attribute = 'military_draftees';
-                    $ratio = $spyopPerkValues / 100;
-
-                    $damage = $target->{$attribute} * $ratio;
-                    $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
-                    $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
-
-                    $damage = (int)floor($damage);
-
-                    $target->{$attribute} -= $damage;
-                    $target->{$attribute} += $damage;
-                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
-
-                    $this->statsService->updateStat($dominion, 'draftees_killed', $damage);
-                    $this->statsService->updateStat($target, 'draftees_lost', $damage);
-                }
                 if($perk->key === 'decrease_morale')
                 {
                     $attribute = 'morale';

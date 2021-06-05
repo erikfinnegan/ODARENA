@@ -768,6 +768,16 @@ class TickService
           $tick->resource_lumber_rot += 0;#$this->productionCalculator->getLumberDecay($dominion);
           $tick->resource_mana_drain += 0;#$this->productionCalculator->getManaDecay($dominion);
 
+          // Void: Improvements Decay - Lower all improvements by improvements_decay%.
+          if($dominion->race->getPerkValue('improvements_decay'))
+          {
+              foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
+              {
+                  $percentageDecayed = $dominion->race->getPerkValue('improvements_decay') / 100;
+                  $tick->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * $percentageDecayed;
+              }
+          }
+
           # Contribution: how much is LOST (GIVEN AWAY)
           $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
           $tick->resource_mana_contribution = $this->productionCalculator->getContribution($dominion, 'mana');
@@ -788,7 +798,7 @@ class TickService
           // Starvation
 
           $tick->starvation_casualties = 0;
-          if($dominion->resource_food + $tick->resource_food < 0)
+          if(($dominion->resource_food + $tick->resource_food) < 0)
           {
               $tick->resource_food = ($dominion->resource_food*-1);
               $tick->starvation_casualties = 10;

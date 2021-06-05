@@ -676,6 +676,9 @@ class InvadeActionService
             $defender->prestige += $defenderPrestigeChange;
             $this->invasionResult['defender']['prestigeChange'] = $defenderPrestigeChange;
         }
+
+        #$this->statsService->updateStat($defender, 'prestige_gained')
+        #$this->statsService->updateStat($attacker, 'prestige_gained')
     }
 
     /**
