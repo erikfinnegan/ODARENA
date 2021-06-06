@@ -1061,7 +1061,7 @@ class EspionageActionService
 
                     $damage = (int)floor($damage);
 
-                    $this->buildingCalculator->removeBuildings($dominin, [$building => $damage]);
+                    $this->buildingCalculator->removeBuildings($target, [$building => $damage]);
                     $this->queueService->queueResources('sabotage', $target, ['building_' . $building => $damage], 6);
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 

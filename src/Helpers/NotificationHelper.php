@@ -506,6 +506,7 @@ class NotificationHelper
                     case 'sabotage_walls':
                     case 'sabotage_harbor':
                     case 'sabotage_building':
+                    case 'devotion':
                         $resultString = "{$data['damageString']} have been temporarily destroyed.";
                         break;
 
@@ -604,8 +605,8 @@ class NotificationHelper
                         $where = 'attempting to sabotage our improvements';
                         break;
 
-                    case 'sabotage_building':
-                        $where = 'attempting to sabotage our buidings';
+                    case 'devotion':
+                        $where = 'attempting to sabotage our buildings';
                         break;
 
                     default:

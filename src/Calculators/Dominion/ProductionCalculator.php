@@ -815,6 +815,10 @@ class ProductionCalculator
      */
     public function getPrestigeInterest(Dominion $dominion): float
     {
+        if($dominion->isAbandoned())
+        {
+            return 0;
+        }
         return $dominion->prestige * max(0, $this->militaryCalculator->getNetVictories($dominion) / 40000);
     }
 
@@ -827,60 +831,6 @@ class ProductionCalculator
     public function getBoatProduction(Dominion $dominion): float
     {
         return 0;
-        #return ($this->getBoatProductionRaw($dominion) * $this->getBoatProductionMultiplier($dominion));
-    }
-
-    /**
-     * Returns the Dominion's raw boat production per hour.
-     *
-     * Boats are produced by:
-     * - Building: Dock (20 per)
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getBoatProductionRaw(Dominion $dominion): float
-    {
-        $boats = 0;
-
-        if($dominion->getSpellPerkValue('no_boat_production'))
-        {
-            return $boats;
-        }
-
-        // Buildings
-        $boats += $dominion->getBuildingPerkValue('boat_production');
-
-        // Unit Perk: production_from_title
-        $boats += $dominion->getUnitPerkProductionBonusFromTitle('boats');
-
-        return max(0,$boats);
-    }
-
-    /**
-     * Returns the Dominions's boat production multiplier.
-     *
-     * Boat production is modified by:
-     * - Improvement: Harbor
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getBoatProductionMultiplier(Dominion $dominion): float
-    {
-        $multiplier = 0;
-
-        // Spells
-        $multiplier += $dominion->getSpellPerkMultiplier('boat_production');
-
-        // Improvement: Harbor
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
-
-        // Land improvements
-        $multiplier += $this->landImprovementCalculator->getBoatProductionBonus($dominion);
-
-        // Apply Morale multiplier to production multiplier
-        return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
 
     /**
