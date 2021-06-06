@@ -246,8 +246,6 @@ class ImprovementCalculator
 
     public function createOrIncrementImprovements(Dominion $dominion, array $improvements): void
     {
-
-
         foreach($improvements as $improvementKey => $amount)
         {
             if($amount > 0)
@@ -312,23 +310,24 @@ class ImprovementCalculator
     *   int $improvementId - if we pass an improvement ID
     *
     */
-    public function getDominionImprovementAmountInvested(Dominion $dominion, Improvement $improvement = null, string $improvementKey = null, int $improvementId = null): int
+    public function getDominionImprovementAmountInvested(Dominion $dominion, Improvement $improvement): int
     {
 
         $dominionImprovements = $this->getDominionImprovements($dominion);
-
+        /*
         if($improvement)
         {
             $improvement = $improvement;
         }
-        elseif($buildingKey)
+        elseif($improvementKey)
         {
             $improvement = Improvement::where('key', $improvementKey)->first();
         }
-        elseif($buildingId)
+        elseif($improvementId)
         {
             $improvement = Improvement::where('id', $improvementId)->first();
         }
+        */
 
         if($dominionImprovements->contains('improvement_id', $improvement->id))
         {
@@ -339,18 +338,17 @@ class ImprovementCalculator
             return 0;
         }
     }
-    public function getDominionImprovementTotalAmountInvested(Dominion $dominion, Improvement $improvement = null, string $improvementKey = null, int $improvementId = null): int
+    public function getDominionImprovementTotalAmountInvested(Dominion $dominion): int
     {
-
         $totalAmountInvested = 0;
         $dominionImprovements = $this->getDominionImprovements($dominion);
 
         foreach($dominionImprovements as $dominionImprovement)
         {
-            
+            $totalAmountInvested += $dominionImprovement->invested;
         }
 
-
+        return $totalAmountInvested;
     }
 
 }

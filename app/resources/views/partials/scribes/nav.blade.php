@@ -9,6 +9,7 @@
                         <li class="{{ Route::is('scribes.buildings') ? 'active' : null }}"><a href="{{ route('scribes.buildings') }}">Buildings</a></li>
                         <li class="{{ Route::is('scribes.spells') ? 'active' : null }}"><a href="{{ route('scribes.spells') }}">Spells</a></li>
                         <li class="{{ Route::is('scribes.spy-ops') ? 'active' : null }}"><a href="{{ route('scribes.spy-ops') }}">Spy Ops</a></li>
+                        <li class="{{ Route::is('scribes.improvements') ? 'active' : null }}"><a href="{{ route('scribes.improvements') }}">Improvements</a></li>
                         <li class="{{ Route::is('scribes.titles') ? 'active' : null }}"><a href="{{ route('scribes.titles') }}">Titles</a></li>
                     </ul>
                 </div>

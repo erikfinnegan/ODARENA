@@ -53,7 +53,7 @@ defense:
 
 # Harbour/Irrigation
 irrigation:
-  name: Irrigation
+  name: Farming
   excluded_races:
     - Growth
   perks:
@@ -89,7 +89,7 @@ construction:
 
 imperial_gnome_construction:
   name: Construction
-  excluded_races:
+  exclusive_races:
     - Imperial Gnome
     - Growth
   perks:
@@ -127,7 +127,7 @@ logging:
 
 # Refinery
 mining:
-  name: Mining
+  name: Stonecutting
   excluded_races:
     - Growth
   perks:
@@ -136,7 +136,8 @@ mining:
 # Growth: Tissue
 tissue:
   name: Tissue
-  excluded_races:
+  exclusive_races:
     - Growth
   perks:
     population: 100,75000
+    food_production: 100,75000

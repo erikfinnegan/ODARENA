@@ -986,6 +986,8 @@ class Dominion extends AbstractModel
             }
         }
 
+        $perk *= 1 + $this->getBuildingPerkMultiplier('improvements');
+
         return $perk;
     }
 

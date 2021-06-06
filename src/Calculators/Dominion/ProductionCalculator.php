@@ -222,11 +222,10 @@ class ProductionCalculator
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('food_production_modifier');
 
-        // Improvement: Harbor
+        // Improvement
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
-
-        // Improvement: Tissue (Growth)
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tissue');
+        $multiplier += $dominion->getImprovementPerkMultiplier('food_production');
 
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
@@ -357,6 +356,7 @@ class ProductionCalculator
 
     public function isOnBrinkOfStarvation(Dominion $dominion): bool
     {
+        return ($dominion->resource_food + $this->getFoodNetChange($dominion) < 0);
         if($dominion->resource_food + $this->getFoodNetChange($dominion) < 0)
         {
             return true;
@@ -455,6 +455,7 @@ class ProductionCalculator
 
         // Improvement: Forestry
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forestry');
+        $multiplier += $dominion->getImprovementPerkMultiplier('lumber_production');
 
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
@@ -538,8 +539,9 @@ class ProductionCalculator
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('mana_production');
 
-        // Improvement: Spires
+        // Improvements
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
+        $multiplier += $dominion->getImprovementPerkMultiplier('mana_production');
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('mana_production');
@@ -634,6 +636,7 @@ class ProductionCalculator
 
         // Improvement: Refinery
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
+        $multiplier += $dominion->getImprovementPerkMultiplier('ore_production');
 
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('ore_production');
@@ -711,6 +714,9 @@ class ProductionCalculator
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('gem_production_modifier');
+
+        // Improvement
+        $multiplier += $dominion->getImprovementPerkMultiplier('gem_production');
 
         // Title
         if(isset($dominion->title))
@@ -798,6 +804,7 @@ class ProductionCalculator
 
         # Observatory
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
+        $multiplier += $dominion->getImprovementPerkMultiplier('tech_production');
 
         return (1 + $multiplier);
     }

@@ -28,6 +28,7 @@ use OpenDominion\Models\Dominion\Tick;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Building;
+use OpenDominion\Models\Improvement;
 use OpenDominion\Models\DominionBuilding;
 use OpenDominion\Services\NotificationService;
 use Throwable;
@@ -160,6 +161,20 @@ class TickService
                     $amount = intval($finishedBuildingInQueue->amount);
                     $building = Building::where('key', $buildingKey)->first();
                     $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
+                }
+
+                # Take improvements that are one tick away from finished and create or increment DominionBuildings.
+                $finishedImprovementsInQueue = DB::table('dominion_queue')
+                                                ->where('dominion_id',$dominion->id)
+                                                ->where('resource', 'like', 'improvement%')
+                                                ->where('hours',1)
+                                                ->get();
+                foreach($finishedImprovementsInQueue as $finishedImprovementInQueue)
+                {
+                    $improvementKey = str_replace('improvement_', '', $finishedImprovementInQueue->resource);
+                    $amount = intval($finishedImprovementInQueue->amount);
+                    $improvement = Improvement::where('key', $improvementKey)->first();
+                    $this->improvementCalculator->createOrIncrementImprovements($dominion, [$improvementKey => $amount]);
                 }
 
                 # If we don't already have a countdown, see if any dominion triggers it.

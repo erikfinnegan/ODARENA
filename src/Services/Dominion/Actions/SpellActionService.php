@@ -21,6 +21,7 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionSpell;
+use OpenDominion\Models\Improvement;
 use OpenDominion\Models\InfoOp;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
@@ -859,33 +860,32 @@ class SpellActionService
                     {
                         $ratio = (float)$spellPerkValues / 100;
 
-                        foreach($this->improvementHelper->getImprovementTypes($target) as $improvement)
-                        {
-                            $improvements[] = $improvement;
-                        }
+                        $totalImprovementPoints = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($target);
 
-                        $improvementPoints = 0;
-                        foreach($improvements as $improvement)
-                        {
-                            $improvementPoints += $target->{'improvement_'.$improvement};
-                        }
+                        $targetImprovements = $this->improvementCalculator->getDominionImprovements($target);
 
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
-                        $damage = ($improvementPoints * $ratio * $damageMultiplier);
+                        $damage = min(($totalImprovementPoints * $ratio * $damageMultiplier), $totalImprovementPoints);
 
-                        $totalDamage = $damage;
+                        #$totalDamage = $damage;
 
                         if($damage > 0)
                         {
-                            foreach($improvements as $improvement)
+                            foreach($targetImprovements as $targetImprovement)
                             {
-                                $target->{'improvement_'.$improvement} -= $damage * ($target->{'improvement_'.$improvement} / $improvementPoints);
+                                echo $targetImprovement->id . '/';
+                                $improvement = Improvement::where('id', $targetImprovement->id)->first();
+                                $improvementDamage[] = [$improvement->key => $damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement) / $totalImprovementPoints)];
                             }
+
+                            dd($improvementDamage);
+
+                            $this->improvementCalculator->removeImprovements($target, $improvementDamage);
                         }
 
                         $this->statsService->updateStat($caster, 'magic_damage_improvements', $damage);
 
-                        $damageDealt = [sprintf('%s %s', number_format($totalDamage), dominion_attr_display('improvement', $totalDamage))];
+                        $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display('improvement', $damage))];
                     }
                 }
 
