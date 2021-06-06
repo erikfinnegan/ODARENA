@@ -164,6 +164,11 @@
                                             @if($dominion->id === $selectedDominion->id)
                                             <span class="label label-primary">You</span>
                                             @endif
+                                            
+                                            @if ($dominion->isAbandoned())
+                                                <span data-toggle="tooltip" data-placement="top" title="This dominion has been abandoned by its ruler" class="label label-warning"><span>Abandoned</span></span>
+                                            @endif
+
                                         </td>
                                         <td class="text-center">
                                             {{ $dominion->realm->number }}
