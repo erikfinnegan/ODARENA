@@ -65,25 +65,18 @@ class NetworthCalculator
     {
         $networth = 0;
 
-        // Values
-        $networthPerSpy = 5;
-        $networthPerWizard = 5;
-        $networthPerArchMage = 10;
-        $networthPerLand = 20;
-        $networthPerBuilding = 5;
-
         foreach ($dominion->race->units as $unit)
         {
             $totalUnitsOfType = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unit->slot);
-            $networth += $totalUnitsOfType * $this->getUnitNetworth($unit);
+            $networth += $totalUnitsOfType * $this->getUnitNetworth($dominion, $unit);
         }
 
-        $networth += ($dominion->military_spies * $networthPerSpy);
-        $networth += ($dominion->military_wizards * $networthPerWizard);
-        $networth += ($dominion->military_archmages * $networthPerArchMage);
+        $networth += ($dominion->military_spies * 5);
+        $networth += ($dominion->military_wizards * 5);
+        $networth += ($dominion->military_archmages * 10);
 
-        $networth += ($this->landCalculator->getTotalLand($dominion) * $networthPerLand);
-        $networth += ($this->buildingCalculator->getTotalBuildings($dominion) * $networthPerBuilding);
+        $networth += ($this->landCalculator->getTotalLand($dominion) * 20);
+        $networth += ($this->buildingCalculator->getTotalBuildings($dominion) * 5);
 
         $networth += $dominion->resource_soul / 9;
 
@@ -97,7 +90,7 @@ class NetworthCalculator
      * @param Unit $unit
      * @return float
      */
-     public function getUnitNetworth(Unit $unit): float
+     public function getUnitNetworth(Dominion $dominion, Unit $unit): float
      {
         if (isset($unit->static_networth) and $unit->static_networth > 0)
         {
@@ -105,30 +98,10 @@ class NetworthCalculator
         }
         else
         {
-            return ($unit->power_offense + $unit->power_defense);
-            /*
-            return ($unit->cost_gold
-                    + $unit->cost_ore*1.25
-                    + $unit->cost_lumber*1.5
-                    + $unit->cost_food*1.5
-                    + $unit->cost_mana*2.5
-                    + $unit->cost_gem*5
-                    + $unit->cost_soul*7.5
-                    + $unit->cost_champion*1.25
-                    + $unit->cost_blood*2
-                    + $unit->cost_unit1*10
-                    + $unit->cost_unit2*10
-                    + $unit->cost_unit3*20
-                    + $unit->cost_unit4*20
-                    + $unit->cost_spy*500
-                    + $unit->cost_wizard*500
-                    + $unit->cost_archmage*1000
-                    + $unit->cost_morale*10
-                    + $unit->cost_peasant*2.5
-                    + $unit->cost_prestige*10
-                    + $unit->cost_wild_yeti*30
-                )/100;
-              */
+            return (
+                      $this->militaryCalculator->getUnitPowerWithPerks($dominion, null, null, $unit, 'offense') +
+                      $this->militaryCalculator->getUnitPowerWithPerks($dominion, null, null, $unit, 'defense')
+                    );
           }
 
       }
