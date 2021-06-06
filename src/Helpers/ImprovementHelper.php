@@ -139,53 +139,52 @@ class ImprovementHelper
 
     # IMPROVEMENTS 2.0
 
-    #public function getImprovementPerkDescription(ImprovementPerk $improvementPerk): string
     public function getImprovementPerkDescription(string $improvementPerk): string
     {
 
         $improvementPerkDescriptions = [
-            'gold_production' => 'Gold production',
-            'ore_production' => 'Ore production',
-            'lumber_production' => 'Lumber production',
-            'gem_production' => 'Gem production',
-            'mana_production' => 'Mana production',
-            'food_production' => 'Food production',
+            'gold_production' => 'gold production',
+            'ore_production' => 'ore production',
+            'lumber_production' => 'lumber production',
+            'gem_production' => 'gem production',
+            'mana_production' => 'mana production',
+            'food_production' => 'food production',
             'tech_production' => 'XP generation',
 
             'tech_gains' => 'XP gained',
 
-            'population' => 'Population',
-            'population_growth' => 'Population growth',
+            'population' => 'population',
+            'population_growth' => 'population growth',
 
-            'construction_cost' => 'Reduced construction costs',
-            'rezone_cost' => 'Reduced rezoning costs',
+            'construction_cost' => 'construction costs',
+            'rezone_cost' => 'rezoning costs',
 
-            'explore_gold_cost' => 'Reduced exploration gold costs',
-            'land_discovered' => 'Land discovered',
+            'explore_gold_cost' => 'exploration gold costs',
+            'land_discovered' => 'land discovered',
 
-            'unit_gold_costs' => 'Reduced unit gold costs',
-            'unit_ore_costs' => 'Reduced unit ore costs',
-            'unit_lumber_costs' => 'Reduced unit lumber costs',
-            'unit_gem_costs' => 'Reduced unit gem costs',
-            'unit_mana_costs' => 'Reduced unit mana costs',
-            'unit_food_costs' => 'Reduced unit food costs',
+            'unit_gold_costs' => 'unit gold costs',
+            'unit_ore_costs' => 'unit ore costs',
+            'unit_lumber_costs' => 'unit lumber costs',
+            'unit_gem_costs' => 'unit gem costs',
+            'unit_mana_costs' => 'unit mana costs',
+            'unit_food_costs' => 'unit food costs',
 
-            'offensive_power' => 'Offensive power',
-            'defensive_power' => 'Defensive power',
-            'casualties' => 'Reduced casualties',
-            'offensive_casualties' => 'Reduced offensive casualties',
-            'defensive_casualties' => 'Reduced defensive casualties',
+            'offensive_power' => 'offensive power',
+            'defensive_power' => 'defensive power',
+            'casualties' => 'casualties',
+            'offensive_casualties' => 'offensive casualties',
+            'defensive_casualties' => 'defensive casualties',
 
-            'spy_strength' => 'Spy strength',
-            'spy_losses' => 'Reduced spy losses',
+            'spy_strength' => 'spy strength',
+            'spy_losses' => 'reduced spy losses',
             'forest_haven_housing' => 'Forest Haven housing',
 
-            'wizard_strength' => 'Wizard strength',
-            'wizard_losses' => 'Reduced wizard losses',
-            'spell_damage' => 'Reduced spell damage',
+            'wizard_strength' => 'wizard strength',
+            'wizard_losses' => 'wizard losses',
+            'spell_damage' => 'spell damage',
             'wizard_guild_housing' => 'Wizard Guild housing',
 
-            'unit_pairing' => 'Unit pairing',
+            'unit_pairing' => 'unit pairing',
 
         ];
 
@@ -208,7 +207,7 @@ class ImprovementHelper
 
             'tech_gains' => 'XP gained (max +%1$s%%)',
 
-            'population' => 'Population (max +%1$s%%)',
+            'population' => 'More population housing (max +%1$s%%)',
             'population_growth' => 'Population growth (max +%1$s%%)',
 
             'construction_cost' => 'Reduced construction costs (max +%1$s%%)',

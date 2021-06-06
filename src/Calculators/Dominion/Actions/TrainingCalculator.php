@@ -494,7 +494,7 @@ class TrainingCalculator
         }
 
         // Improvements
-        $multiplier -= $dominion->getImprovementPerkMultiplier('unit_' . $resourceType . '_costs');
+        $multiplier += $dominion->getImprovementPerkMultiplier('unit_' . $resourceType . '_costs');
 
         // Techs
         if(in_array($resourceType,$discountableResourceTypesByTech))

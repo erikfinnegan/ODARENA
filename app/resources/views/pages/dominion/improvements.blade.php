@@ -68,18 +68,26 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                         <td>
                                             @foreach($improvement->perks as $perk)
                                                 @php
-                                                    $improvementPerkMultiplier = $selectedDominion->getImprovementPerkMultiplier($perk->key);
+                                                    $improvementPerkMax = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0]);
+                                                    $improvementPerkCoefficient = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[1]);
+
+                                                    $spanClass = 'text-muted';
+
+                                                    if($improvementPerkMultiplier = $selectedDominion->getImprovementPerkMultiplier($perk->key))
+                                                    {
+                                                        $spanClass = '';
+                                                    }
                                                 @endphp
 
+                                                <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top" title="Max: {{ $improvementPerkMax }}% (before bonuses)<br>Coefficient: {{ $improvementPerkCoefficient }}">
+
                                                 @if($improvementPerkMultiplier > 0)
-                                                    <span class="">
-                                                @elseif($improvementPerkMultiplier > 0)
-                                                    <span class="text-red">
+                                                    +{{ number_format($improvementPerkMultiplier * 100, 2) }}%
                                                 @else
-                                                    <span class="text-muted">
+                                                    {{ number_format($improvementPerkMultiplier * 100, 2) }}%
                                                 @endif
 
-                                                {{ number_format($improvementPerkMultiplier * 100, 2) }}% {{ $improvementHelper->getImprovementPerkDescription($perk->key) }} <br></span>
+                                                 {{ $improvementHelper->getImprovementPerkDescription($perk->key) }} <br></span>
 
                                             @endforeach
                                         </td>
@@ -148,6 +156,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                 </div>
                 <div class="box-body">
                     <p>Invest resources into your improvements to immediately strengthen that part of your dominion.</p>
+                    <p>The return on investments use an exponential function, which yields less return the more you have invested. The function is based on a coefficient and a maximum.</p>
 
                     @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 or $improvementCalculator->getTechBonus($selectedDominion) > 0)
                     <p>

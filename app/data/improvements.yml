@@ -32,7 +32,7 @@ espionage:
     - Growth
   perks:
     spy_strength: 45,5000
-    spy_losses: 45,5000
+    spy_losses: -45,5000
     forest_haven_housing: 45,5000
 
 # Forges
@@ -65,8 +65,8 @@ mobilisation:
   excluded_races:
     - Growth
   perks:
-    unit_gold_costs: 25,4000
-    unit_ore_costs: 25,4000
+    unit_gold_costs: -25,4000
+    unit_ore_costs: -25,4000
 
 # Infirmary
 medicine:
@@ -74,8 +74,8 @@ medicine:
   excluded_races:
     - Growth
   perks:
-    defensive_casualties: 25,4000
-    offensive_casualties: 25,4000
+    defensive_casualties: -25,4000
+    offensive_casualties: -25,4000
 
 # Workshops
 construction:
@@ -84,16 +84,16 @@ construction:
     - Imperial Gnome
     - Growth
   perks:
-    construction_cost: 25,4000
-    rezone_cost: 25,4000
+    construction_cost: -25,4000
+    rezone_cost: -25,4000
 
 imperial_gnome_construction:
   name: Construction
   exclusive_races:
     - Imperial Gnome
   perks:
-    construction_cost: 25,4000
-    rezone_cost: 25,4000
+    construction_cost: -25,4000
+    rezone_cost: -25,4000
     unit_pairing: 25,4000
 
 # Observatory
@@ -111,7 +111,7 @@ cartography:
   excluded_races:
     - Growth
   perks:
-    explore_gold_cost: 35,4000
+    explore_gold_cost: -35,4000
     land_discovered: 35,4000
 
 # Forestry

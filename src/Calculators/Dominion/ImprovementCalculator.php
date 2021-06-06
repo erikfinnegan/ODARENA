@@ -332,34 +332,4 @@ class ImprovementCalculator
         return $totalAmountInvested;
     }
 
-    /*
-    *   Returns buildings available for the race.
-    *   If $landType is present, only return buildings for the race for that land type.
-    */
-    public function getImprovementsForDominion(Dominion $dominion): Collection
-    {
-        $factionImprovements = $this->improvementHelper->getImprovementsByRace($dominion->race);
-        $dominionImprovements = $this->getDominionImprovements($dominion);
-
-
-
-        foreach($factionImprovements as $improvement)
-        {
-
-        }
-
-        foreach($improvements as $improvement)
-        {
-          if(
-                (count($improvement->excluded_races) > 0 and in_array($race->name, $improvement->excluded_races)) or
-                (count($improvement->exclusive_races) > 0 and !in_array($race->name, $improvement->exclusive_races))
-            )
-          {
-              $improvements->forget($improvement->key);
-          }
-        }
-
-        return $improvements;
-    }
-
 }
