@@ -58,7 +58,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                             <tbody>
                                 @foreach ($improvementHelper->getImprovementsByRace($selectedDominion->race) as $improvement)
                                     <tr>
-                                        <td><span class="{{ $improvementHelper->getImprovementIcon2($improvementType) }}" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementDescription($improvement) }}"> {{ $improvement->name }}</span></td>
+                                        <td><span class="{{ $improvementHelper->getImprovementIcon($improvementType) }}" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementDescription($improvement) }}"> {{ $improvement->name }}</span></td>
                                         <td class="text-center">
                                             <input type="number" name="improve[{{ $improvement->key }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvement->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
@@ -147,7 +147,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>Invest resources in your castle to improve certain parts of your dominion. Improvements take effect immediately.</p>
+                    <p>Invest resources into your improvements to immediately strengthen that part of your dominion.</p>
 
                     @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 or $improvementCalculator->getTechBonus($selectedDominion) > 0)
                     <p>
@@ -159,7 +159,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                         Masonries and Advancements
                       @endif
 
-                      are increasing your castle improvements by <strong>{{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%</strong>.
+                      are increasing your investments by <strong>{{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%</strong>.
                     </p>
                     @endif
 

@@ -91,7 +91,6 @@ imperial_gnome_construction:
   name: Construction
   exclusive_races:
     - Imperial Gnome
-    - Growth
   perks:
     construction_cost: 25,4000
     rezone_cost: 25,4000

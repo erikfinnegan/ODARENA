@@ -112,40 +112,11 @@ class ImprovementHelper
         return ($helpStrings[$improvementType] . $this->improvementCalculator->getImprovementMaximum($improvementType, $dominion) * 100 .'%') ?: null;
     }
 
-    public function getImprovementIcon(string $improvement): string
+    public function getImprovementIcon(string $improvementKey): string
     {
         $icons = [
             'markets' => 'hive-emblem',
             'keep' => 'capitol',
-            #'towers' => 'fairy-wand',
-            'spires' => 'fairy-wand',
-            'forges' => 'forging',
-            'walls' => 'shield',
-            'harbor' => 'anchor',
-            'armory' => 'helmet',
-            'infirmary' => 'health',
-            'workshops' => 'nails',
-            'observatory' => 'telescope',
-            'cartography' => 'compass',
-            'hideouts' => 'hood',
-            'forestry' => 'pine-tree',
-            'refinery' => 'large-hammer',
-            'granaries' => 'vase',
-            'tissue' => 'thorny-vine',
-        ];
-
-        return $icons[$improvement];
-    }
-
-
-
-
-    public function getImprovementIcon2(string $improvementKey): string
-    {
-        $icons = [
-            'markets' => 'hive-emblem',
-            'keep' => 'capitol',
-            #'towers' => 'fairy-wand',
             'spires' => 'fairy-wand',
             'forges' => 'forging',
             'walls' => 'shield',
@@ -166,7 +137,7 @@ class ImprovementHelper
 
     }
 
-    # BUILDINGS 2.0
+    # IMPROVEMENTS 2.0
 
     #public function getImprovementPerkDescription(ImprovementPerk $improvementPerk): string
     public function getImprovementPerkDescription(string $improvementPerk): string

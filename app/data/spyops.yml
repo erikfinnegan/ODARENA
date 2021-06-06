@@ -7,7 +7,7 @@ barracks_spy:
     barracks_spy: 15
 
 castle_spy:
-  name: Castle Spy
+  name: Improvements Spy
   scope: info
   perks:
     castle_spy: 1

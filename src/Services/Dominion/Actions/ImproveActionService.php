@@ -66,7 +66,7 @@ class ImproveActionService
             throw new GameException('You cannot use food for improvements.');
         }
 
-        if ($dominion->race->getPerkValue('cannot_improve_castle') == 1)
+        if ($dominion->race->getPerkValue('cannot_improve_castle'))
         {
             throw new GameException('Your faction is unable to use improvements.');
         }
@@ -208,7 +208,7 @@ class ImproveActionService
             throw new GameException('You cannot use ' . $resource .  ' for improvements.');
         }
 
-        if ($dominion->race->getPerkValue('cannot_improve_castle') == 1)
+        if ($dominion->race->getPerkValue('cannot_improve_castle'))
         {
             throw new GameException($dominion->race->name . ' cannot use improvements.');
         }

@@ -449,7 +449,7 @@ class NotificationHelper
                         break;
 
                     case 'castle_spy':
-                        $resultString = 'Traces of enemy spies were detected within our castle.';
+                        $resultString = 'Traces of enemy spies were detected within our investments.';
                         break;
 
                     case 'survey_dominion':
@@ -533,7 +533,7 @@ class NotificationHelper
                         break;
 
                     case 'castle_spy':
-                        $where = 'within our castle';
+                        $where = 'within our investments';
                         break;
 
                     case 'survey_dominion':
@@ -772,7 +772,7 @@ class NotificationHelper
                         break;
 
                     case 'lightning_bolt':
-                        $resultString = "A great lightning bolt crashed into our castle, destroying {$data['damageString']}.";
+                        $resultString = "A great lightning bolt crashed into our improvements, destroying {$data['damageString']}.";
                         break;
 
                     case 'pyroclast':

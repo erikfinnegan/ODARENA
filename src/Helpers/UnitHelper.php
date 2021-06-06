@@ -294,7 +294,7 @@ class UnitHelper
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
-            'damages_improvements_on_attack' => 'Damages target\'s castle: %s improvement points, spread proportionally across all invested improvements.',
+            'damages_improvements_on_attack' => 'Damages target\'s improvements by %s improvement points, spread proportionally across all invested improvements.',
             'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
             'eats_draftees_on_attack' => 'Eats %s draftees on successful invasion.',
 
