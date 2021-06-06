@@ -1310,7 +1310,7 @@ class EspionageActionService
 
       // Improvements
       $spiesKilledMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
-      $spiesKilledMultiplier -= $dominion->getImprovementPerkMultiplier('spy_losses');
+      $spiesKilledMultiplier += $dominion->getImprovementPerkMultiplier('spy_losses');
 
       # Cap at 0% losses
       $spiesKilledMultiplier = max(0, $spiesKilledMultiplier);

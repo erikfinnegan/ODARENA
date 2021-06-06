@@ -68,7 +68,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                         <td>
                                             @foreach($improvement->perks as $perk)
                                                 @php
-                                                    $improvementPerkMax = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0]);
+                                                    $improvementPerkMax = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0]) * (1 + $selectedDominion->getBuildingPerkMultiplier('improvements') + $selectedDominion->getSpellPerkMultiplier('improvements'));
                                                     $improvementPerkCoefficient = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[1]);
 
                                                     $spanClass = 'text-muted';
@@ -79,7 +79,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                                     }
                                                 @endphp
 
-                                                <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top" title="Max: {{ $improvementPerkMax }}% (before bonuses)<br>Coefficient: {{ $improvementPerkCoefficient }}">
+                                                <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top" title="Max: {{ $improvementPerkMax }}%<br>Coefficient: {{ $improvementPerkCoefficient }}">
 
                                                 @if($improvementPerkMultiplier > 0)
                                                     +{{ number_format($improvementPerkMultiplier * 100, 2) }}%

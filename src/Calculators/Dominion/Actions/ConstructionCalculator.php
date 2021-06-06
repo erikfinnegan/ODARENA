@@ -205,7 +205,7 @@ class ConstructionCalculator
         $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');
 
         // Improvements
-        $multiplier -= $dominion->getImprovementPerkMultiplier('construction_cost');
+        $multiplier += $dominion->getImprovementPerkMultiplier('construction_cost');
 
         // Cap at max -90%.
         $multiplier = max($multiplier, $maxReduction);

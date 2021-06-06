@@ -53,7 +53,7 @@ class SpellDamageCalculator
 
           // Improvements
           $modifier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
-          $modifier -= $target->getImprovementPerkMultiplier('spell_damage');
+          $modifier += $target->getImprovementPerkMultiplier('spell_damage');
 
           # Spell
           $modifier -= $target->getSpellPerkMultiplier('damage_from_spells');
