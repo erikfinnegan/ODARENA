@@ -238,28 +238,28 @@ destroy_buildings:
     destroy_buildings: 2 #
 
 sabotage_walls:
-  name: Sabotage Walls
+  name: Sabotage Defenses
   scope: hostile
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: walls,3 # resource, rate, max per spy
+    sabotage_improvement: defense,3 # resource, rate, max per spy
 
 sabotage_forges:
-  name: Sabotage Forges
+  name: Sabotage Offense
   scope: hostile
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: forges,3 # resource, rate, max per spy
+    sabotage_improvement: offense,3 # resource, rate, max per spy
 
 sabotage_harbor:
-  name: Sabotage Harbour
+  name: Sabotage Farming
   scope: hostile
   exclusive_races:
     - Reptilians
   perks:
-    sabotage_improvement: harbor,5 # resource, rate, max per spy
+    sabotage_improvement: farming,5 # resource, rate, max per spy
 
 devotion:
   name: Devotion

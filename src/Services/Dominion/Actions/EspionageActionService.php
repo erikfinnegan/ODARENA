@@ -20,6 +20,7 @@ use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\OpsHelper;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Improvement;
 use OpenDominion\Models\InfoOp;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
@@ -1029,19 +1030,25 @@ class EspionageActionService
                 if($perk->key === 'sabotage_improvement')
                 {
                     $attribute = 'improvements';
-                    $improvement = (string)$spyopPerkValues[0];
+                    $improvementKey = (string)$spyopPerkValues[0];
                     $ratio = (float)$spyopPerkValues[1] / 100;
 
-                    $targetImps = $target->{'improvement_' . $improvement};
+                    $improvement = Improvement::where('key', $improvementKey)->first();
 
-                    $damage = $targetImps * $ratio;
+                    $targetImprovementPoints = $this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement);
+
+                    $damage = $targetImprovementPoints * $ratio;
                     $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
                     $damage *= (1 + $this->getOpDamageMultiplier($dominion, $target, $spyop, $attribute));
 
-                    $damage = (int)floor($damage);
+                    $damage = floor($damage);
 
-                    $target->{'improvement_' . $improvement} -= $damage;
-                    $this->queueService->queueResources('sabotage', $target, ['improvement_' . $improvement => $damage], 6);
+                    if($damage > 0)
+                    {
+                        $this->improvementCalculator->decreaseImprovements($target, [$improvementKey => $damage]);
+                        $this->queueService->queueResources('sabotage', $target, ['improvement_' . $improvementKey => $damage], 6);
+                    }
+
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
                     $this->statsService->updateStat($dominion, 'espionage_damage_improvements', $damage);

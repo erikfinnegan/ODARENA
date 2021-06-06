@@ -163,7 +163,7 @@ class TickService
                     $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
                 }
 
-                # Take improvements that are one tick away from finished and create or increment DominionBuildings.
+                # Take improvements that are one tick away from finished and create or increment DominionImprovements.
                 $finishedImprovementsInQueue = DB::table('dominion_queue')
                                                 ->where('dominion_id',$dominion->id)
                                                 ->where('resource', 'like', 'improvement%')
@@ -268,6 +268,7 @@ class TickService
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
 
                         # Improvements
+                        /*
                         'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
                         'dominions.improvement_keep' => DB::raw('dominions.improvement_keep + dominion_tick.improvement_keep'),
                         'dominions.improvement_forges' => DB::raw('dominions.improvement_forges + dominion_tick.improvement_forges'),
@@ -285,6 +286,7 @@ class TickService
                         'dominions.improvement_forestry' => DB::raw('dominions.improvement_forestry + dominion_tick.improvement_forestry'),
                         'dominions.improvement_refinery' => DB::raw('dominions.improvement_refinery + dominion_tick.improvement_refinery'),
                         'dominions.improvement_tissue' => DB::raw('dominions.improvement_tissue + dominion_tick.improvement_tissue'),
+                        */
 
                         # ODA resources
                         'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
@@ -783,16 +785,6 @@ class TickService
           $tick->resource_lumber_rot += 0;#$this->productionCalculator->getLumberDecay($dominion);
           $tick->resource_mana_drain += 0;#$this->productionCalculator->getManaDecay($dominion);
 
-          // Void: Improvements Decay - Lower all improvements by improvements_decay%.
-          if($dominion->race->getPerkValue('improvements_decay'))
-          {
-              foreach($this->improvementHelper->getImprovementTypes($dominion) as $improvementType)
-              {
-                  $percentageDecayed = $dominion->race->getPerkValue('improvements_decay') / 100;
-                  $tick->{'improvement_' . $improvementType} -= $dominion->{'improvement_' . $improvementType} * $percentageDecayed;
-              }
-          }
-
           # Contribution: how much is LOST (GIVEN AWAY)
           $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
           $tick->resource_mana_contribution = $this->productionCalculator->getContribution($dominion, 'mana');
@@ -1123,8 +1115,9 @@ class TickService
         ));
 
         $this->precalculateTick($dominion, true);
-        $this->logDominionTickState($dominion, now());
+        #$this->logDominionTickState($dominion, now());
 
+        # Take buildings that are one tick away from finished and create or increment DominionBuildings.
         $finishedBuildingsInQueue = DB::table('dominion_queue')
                                         ->where('dominion_id',$dominion->id)
                                         ->where('resource', 'like', 'building%')
@@ -1136,6 +1129,20 @@ class TickService
             $amount = intval($finishedBuildingInQueue->amount);
             $building = Building::where('key', $buildingKey)->first();
             $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
+        }
+
+        # Take improvements that are one tick away from finished and create or increment DominionImprovements.
+        $finishedImprovementsInQueue = DB::table('dominion_queue')
+                                        ->where('dominion_id',$dominion->id)
+                                        ->where('resource', 'like', 'improvement%')
+                                        ->where('hours',1)
+                                        ->get();
+        foreach($finishedImprovementsInQueue as $finishedImprovementInQueue)
+        {
+            $improvementKey = str_replace('improvement_', '', $finishedImprovementInQueue->resource);
+            $amount = intval($finishedImprovementInQueue->amount);
+            $improvement = Improvement::where('key', $improvementKey)->first();
+            $this->improvementCalculator->createOrIncrementImprovements($dominion, [$improvementKey => $amount]);
         }
 
         DB::transaction(function () use ($dominion)
@@ -1163,6 +1170,7 @@ class TickService
                     'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
 
                     # Improvements
+                    /*
                     'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
                     'dominions.improvement_keep' => DB::raw('dominions.improvement_keep + dominion_tick.improvement_keep'),
                     'dominions.improvement_forges' => DB::raw('dominions.improvement_forges + dominion_tick.improvement_forges'),
@@ -1180,6 +1188,7 @@ class TickService
                     'dominions.improvement_forestry' => DB::raw('dominions.improvement_forestry + dominion_tick.improvement_forestry'),
                     'dominions.improvement_refinery' => DB::raw('dominions.improvement_refinery + dominion_tick.improvement_refinery'),
                     'dominions.improvement_tissue' => DB::raw('dominions.improvement_tissue + dominion_tick.improvement_tissue'),
+                    */
 
                     # ODA resources
                     'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
@@ -1323,30 +1332,30 @@ class TickService
           'resource_blood' => $dominion->resource_blood,
           'resource_wild_yeti' => $dominion->resource_wild_yeti,
 
-          'improvement_markets' => $dominion->improvement_markets,
-          'improvement_keep' => $dominion->improvement_keep,
-          'improvement_spires' => $dominion->improvement_spires,
-          'improvement_forges' => $dominion->improvement_forges,
-          'improvement_walls' => $dominion->improvement_walls,
-          'improvement_harbor' => $dominion->improvement_harbor,
-          'improvement_armory' => $dominion->improvement_armory,
-          'improvement_infirmary' => $dominion->improvement_infirmary,
-          'improvement_workshops' => $dominion->improvement_workshops,
-          'improvement_observatory' => $dominion->improvement_observatory,
-          'improvement_cartography' => $dominion->improvement_cartography,
-          'improvement_hideouts' => $dominion->improvement_hideouts,
-          'improvement_forestry' => $dominion->improvement_forestry,
-          'improvement_refinery' => $dominion->improvement_refinery,
-          'improvement_granaries' => $dominion->improvement_granaries,
-          'improvement_tissue' => $dominion->improvement_tissue,
-          'military_draftees' => $dominion->military_draftees,
-          'military_unit1' => $dominion->military_unit1,
-          'military_unit2' => $dominion->military_unit2,
-          'military_unit3' => $dominion->military_unit3,
-          'military_unit4' => $dominion->military_unit4,
-          'military_spies' => $dominion->military_spies,
-          'military_wizards' => $dominion->military_wizards,
-          'military_archmages' => $dominion->military_archmages,
+          'improvement_markets' => 0,#$dominion->improvement_markets,
+          'improvement_keep' => 0,# $dominion->improvement_keep,
+          'improvement_spires' => 0,# $dominion->improvement_spires,
+          'improvement_forges' => 0,# $dominion->improvement_forges,
+          'improvement_walls' => 0,# $dominion->improvement_walls,
+          'improvement_harbor' => 0,# $dominion->improvement_harbor,
+          'improvement_armory' => 0,# $dominion->improvement_armory,
+          'improvement_infirmary' => 0,# $dominion->improvement_infirmary,
+          'improvement_workshops' => 0,# $dominion->improvement_workshops,
+          'improvement_observatory' => 0,# $dominion->improvement_observatory,
+          'improvement_cartography' => 0,# $dominion->improvement_cartography,
+          'improvement_hideouts' => 0,# $dominion->improvement_hideouts,
+          'improvement_forestry' => 0,# $dominion->improvement_forestry,
+          'improvement_refinery' => 0,# $dominion->improvement_refinery,
+          'improvement_granaries' => 0,# $dominion->improvement_granaries,
+          'improvement_tissue' => 0,# $dominion->improvement_tissue,
+          'military_draftees' => 0,# $dominion->military_draftees,
+          'military_unit1' => 0,# $dominion->military_unit1,
+          'military_unit2' => 0,# $dominion->military_unit2,
+          'military_unit3' => 0,# $dominion->military_unit3,
+          'military_unit4' => 0,# $dominion->military_unit4,
+          'military_spies' => 0,# $dominion->military_spies,
+          'military_wizards' => 0,# $dominion->military_wizards,
+          'military_archmages' => 0,# $dominion->military_archmages,
 
           'land_plain' => $dominion->land_plain,
           'land_mountain' => $dominion->land_mountain,

@@ -276,7 +276,7 @@ class ImprovementCalculator
         }
     }
 
-    public function removeImprovements(Dominion $dominion, array $improvements): void
+    public function decreaseImprovements(Dominion $dominion, array $improvements): void
     {
         foreach($improvements as $improvementKey => $amountToRemove)
         {
@@ -304,30 +304,11 @@ class ImprovementCalculator
 
     /*
     *   Returns an integer of how much this dominion has invested in this this improvement.
-    *   Three arguments are permitted and evaluated in order:
-    *   Improvement $improvement - if we pass an Improvement object
-    *   string $improvementKey - if we pass an improvement key
-    *   int $improvementId - if we pass an improvement ID
-    *
     */
     public function getDominionImprovementAmountInvested(Dominion $dominion, Improvement $improvement): int
     {
 
         $dominionImprovements = $this->getDominionImprovements($dominion);
-        /*
-        if($improvement)
-        {
-            $improvement = $improvement;
-        }
-        elseif($improvementKey)
-        {
-            $improvement = Improvement::where('key', $improvementKey)->first();
-        }
-        elseif($improvementId)
-        {
-            $improvement = Improvement::where('id', $improvementId)->first();
-        }
-        */
 
         if($dominionImprovements->contains('improvement_id', $improvement->id))
         {

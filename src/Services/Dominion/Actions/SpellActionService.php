@@ -865,7 +865,7 @@ class SpellActionService
                         $targetImprovements = $this->improvementCalculator->getDominionImprovements($target);
 
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
-                        $damage = min(($totalImprovementPoints * $ratio * $damageMultiplier), $totalImprovementPoints);
+                        $damage = floor(min(($totalImprovementPoints * $ratio * $damageMultiplier), $totalImprovementPoints));
 
                         #$totalDamage = $damage;
 
@@ -873,14 +873,11 @@ class SpellActionService
                         {
                             foreach($targetImprovements as $targetImprovement)
                             {
-                                echo $targetImprovement->id . '/';
-                                $improvement = Improvement::where('id', $targetImprovement->id)->first();
-                                $improvementDamage[] = [$improvement->key => $damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement) / $totalImprovementPoints)];
+                                $improvement = Improvement::where('id', $targetImprovement->improvement_id)->first();
+                                $improvementDamage[$improvement->key] = floor($damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement) / $totalImprovementPoints));
                             }
 
-                            dd($improvementDamage);
-
-                            $this->improvementCalculator->removeImprovements($target, $improvementDamage);
+                            $this->improvementCalculator->decreaseImprovements($target, $improvementDamage);
                         }
 
                         $this->statsService->updateStat($caster, 'magic_damage_improvements', $damage);
