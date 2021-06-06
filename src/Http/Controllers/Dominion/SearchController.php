@@ -38,8 +38,6 @@ class SearchController extends AbstractDominionController
                 'race.units.perks',
             ])
             ->where('round_id', '=', $dominion->round_id)
-            ->where('is_locked', '=', 0)
-            ->whereNotNull('user_id')
             ->get();
 
         return view('pages.dominion.search', compact(
