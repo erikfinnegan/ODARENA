@@ -32,7 +32,7 @@
                                                       data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
                                                       data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
                                                       data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
-                                                      data-war="{{ ($selectedDominion->realm->war_realm_id == $dominion->realm->id || $dominion->realm->war_realm_id == $selectedDominion->realm->id) ? 1 : 0 }}">
+                                                      data-abandoned="{{ $dominion->isAbandoned() ? 1 : 0 }}">
                                                   {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                               </option>
                                           @endforeach
@@ -93,7 +93,8 @@
                                                 <option value="{{ $dominion->id }}"
                                                         data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
                                                         data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
-                                                        data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}">
+                                                        data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
+                                                        data-abandoned="{{ $dominion->isAbandoned() ? 1 : 0 }}">
                                                     {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                                 </option>
                                             @endforeach
@@ -349,6 +350,7 @@
             const percentage = state.element.dataset.percentage;
             const networth = state.element.dataset.networth;
             const war = state.element.dataset.war;
+            const abandoned = state.element.dataset.abandoned;
             let difficultyClass;
 
             if (percentage >= 120) {
@@ -366,9 +368,14 @@
                 warStatus = '<div class="pull-left">&nbsp;<span class="text-red">WAR</span></div>';
             }
 
+            abandonedStatus = '';
+            if (abandoned == 1) {
+                abandonedStatus = '<div class="pull-left">&nbsp;<span class="label label-warning">Abandoned</span></div>';
+            }
+
             return $(`
                 <div class="pull-left">${state.text}</div>
-                ${warStatus}
+                ${abandonedStatus}
                 <div class="pull-right">${land} acres <span class="${difficultyClass}">(${percentage}%)</span> - ${networth} networth</div>
                 <div style="clear: both;"></div>
             `);

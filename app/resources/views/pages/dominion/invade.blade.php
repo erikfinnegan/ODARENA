@@ -26,6 +26,7 @@
                                                 data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
                                                 data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
                                                 data-percentage="{{ $rangeCalculator->getDominionRange($selectedDominion, $dominion) }}"
+                                                data-abandoned="{{ $dominion->isAbandoned() ? 1 : 0 }}"
                                                 data-war="{{ $governmentService->isAtWarWithRealm($selectedDominion->realm, $dominion->realm) ? 1 : 0 }}">
                                             {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                         </option>
@@ -614,6 +615,7 @@
             const percentage = range.toPrecision(8);
             const networth = state.element.dataset.networth;
             const war = state.element.dataset.war;
+            const abandoned = state.element.dataset.abandoned;
             let difficultyClass;
 
             if (percentage >= 120) {
@@ -631,9 +633,14 @@
                 warStatus = '<div class="pull-left">&nbsp;<span class="text-red">WAR</span></div>';
             }
 
+            abandonedStatus = '';
+            if (abandoned == 1) {
+                abandonedStatus = '&nbsp;<div class="pull-left">&nbsp;<span class="label label-warning">Abandoned</span></div>';
+            }
+
             return $(`
                 <div class="pull-left">${state.text}</div>
-                ${warStatus}
+                ${abandonedStatus}
                 <div class="pull-right">${land} acres <span class="${difficultyClass}">(${percentage}%)</span> - ${networth} networth</div>
                 <div style="clear: both;"></div>
             `);
