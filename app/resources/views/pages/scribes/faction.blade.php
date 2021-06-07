@@ -9,6 +9,14 @@
             <div class="box-header with-border">
                 <h2 class="box-title">{{ $race->name }}</h2>
 
+                <span>
+                    <a href="#units">Units</a> |
+                    <a href="#buildings">Buildings</a> |
+                    <a href="#improvements">Improvements</a> |
+                    <a href="#spells">Spells</a> |
+                    <a href="#spy_ops">Spy Ops</a>
+                </span>
+
                 <span class="pull-right">
                     Skill level:
                     @if($race->skill_level === 1)
@@ -60,6 +68,10 @@
 
                 </span>
             </div>
+            <div>
+
+
+            </div>
             @if($race->description)
                 <div class="box-body">
                 {!! $race->description !!}
@@ -70,6 +82,7 @@
 </div>
 <div class="row">
 
+    <a id="units"></a>
     <div class="col-sm-12 col-md-9">
         <div class="box">
             <div class="box-header with-border">
@@ -223,6 +236,7 @@
         </div>
       </div>
 
+      <a id="perks"></a>
       <div class="col-sm-12 col-md-3 no-padding">
           <div class="col-sm-12 col-md-12">
               <div class="box">
@@ -254,6 +268,7 @@
                   </div>
               </div>
           </div>
+          <a id="lands"></a>
           <div class="col-sm-12 col-md-12">
               <div class="box">
                   <div class="box-header with-border">
@@ -306,6 +321,8 @@
       </div>
 </div>
 
+
+<a id="buildings"></a>
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <div class="box">
@@ -344,7 +361,65 @@
     </div>
 </div>
 
+
+<a id="improvements"></a>
 <div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Improvements</h3>
+            </div>
+
+            <div class="box-body table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped">
+                          <colgroup>
+                              <col width="200">
+                              <col>
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>Building</th>
+                                  <th>Perks</th>
+                              </tr>
+                          </thead>
+                          @foreach ($improvements as $improvement)
+                              <tr>
+                                  <td>
+                                      {{ $improvement->name }}
+                                  </td>
+                                  <td>
+                                        <ul>
+                                        @foreach($improvement->perks as $perk)
+                                            @php
+                                                $improvementPerkMax = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[0]);
+                                                $improvementPerkCoefficient = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[1]);
+                                            @endphp
+                                            <li>
+                                                {{ ucfirst($improvementHelper->getImprovementPerkDescription($perk->key)) }}:
+                                                <ul>
+                                                    <li>Max: {{$improvementPerkMax}}%</li>
+                                                    <li>Coefficient: {{ $improvementPerkCoefficient }}</li>
+                                                </ul>
+                                            </li>
+                                        @endforeach
+                                        </ul>
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <a id="spells"></a>
     <div class="col-sm-12 col-md-5">
         <div class="box">
             <div class="box-header with-border">
@@ -356,6 +431,7 @@
         </div>
     </div>
 
+    <a id="spy_ops"></a>
     <div class="col-sm-12 col-md-4">
         <div class="box">
             <div class="box-header with-border">
@@ -367,6 +443,8 @@
         </div>
     </div>
 
+
+    <a id="chronicles"></a>
     <div class="col-sm-12 col-md-3">
         <div class="box">
             <div class="box-header with-border">

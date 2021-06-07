@@ -9,6 +9,9 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-12">
+                    <p>The formula used to calculate improvements is:</p>
+                    <code>[Perk Value] = [Perk Max] * (1 - exp(-[Amount Invested] / ([Coefficient] * [Land] + 15000)))</code>
+                    <p>The stated maximum below can be exceeded with improvement bonuses such as
                 </div>
             </div>
         </div>
@@ -36,7 +39,21 @@
                                   {!! $improvementHelper->getExclusivityString($improvement) !!}
                               </td>
                               <td>
-                                  {!! $improvementHelper->getImprovementDescription($improvement) !!}
+                                    <ul>
+                                    @foreach($improvement->perks as $perk)
+                                        @php
+                                            $improvementPerkMax = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[0]);
+                                            $improvementPerkCoefficient = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[1]);
+                                        @endphp
+                                        <li>
+                                            {{ ucfirst($improvementHelper->getImprovementPerkDescription($perk->key)) }}:
+                                            <ul>
+                                                <li>Max: {{$improvementPerkMax}}%</li>
+                                                <li>Coefficient: {{ $improvementPerkCoefficient }}</li>
+                                            </ul>
+                                        </li>
+                                    @endforeach
+                                    </ul>
                               </td>
                           </tr>
                       @endforeach

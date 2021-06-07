@@ -40,8 +40,10 @@ class ScribesController extends AbstractController
         $race = Race::where('name', $raceName)->firstOrFail();
 
         $buildingHelper = app(BuildingHelper::class);
-
         $buildings = $buildingHelper->getBuildingsByRace($race)->sortBy('name');
+
+        $improvementHelper = app(ImprovementHelper::class);
+        $improvements = $improvementHelper->getImprovementsByRace($race)->sortBy('name');
 
         return view('pages.scribes.faction', [
             'landHelper' => app(LandHelper::class),
@@ -52,6 +54,8 @@ class ScribesController extends AbstractController
             'race' => $race,
             'buildings' => $buildings,
             'buildingHelper' => $buildingHelper,
+            'improvements' => $improvements,
+            'improvementHelper' => $improvementHelper,
         ]);
     }
 

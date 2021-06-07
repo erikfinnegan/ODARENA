@@ -191,7 +191,7 @@ class ImprovementHelper
         return $improvementPerkDescriptions[$improvementPerk] ? : 'Missing description';
     }
 
-    public function getImprovementDescription(Improvement $improvement): ?string
+    public function getImprovementPerkDescriptionForScribes(Improvement $improvement): ?string
     {
 
         $helpStrings[$improvement->name] = '';
@@ -268,6 +268,26 @@ class ImprovementHelper
     public function getImprovementKeys(): array
     {
         $improvements = collect(Improvement::all()->keyBy('key')->sortBy('name')->where('enabled',1));
+    }
+
+    public function extractImprovementPerkValuesForScribes(string $perkValue)
+    {
+        if (str_contains($perkValue, ','))
+        {
+            $perkValues = explode(',', $perkValue);
+
+            foreach($perkValues as $key => $value)
+            {
+                if (!str_contains($value, ';'))
+                {
+                    continue;
+                }
+
+                $perkValues[$key] = explode(';', $value);
+            }
+        }
+
+        return $perkValues;
     }
 
     public function getExclusivityString(Improvement $improvement): string

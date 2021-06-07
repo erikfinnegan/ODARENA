@@ -49,7 +49,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <th>Part</th>
+                                    <th>Improvement</th>
                                     <th colspan="2">Invest</th>
                                     <th>Perks</th>
                                     <th class="text-center">Invested</th>

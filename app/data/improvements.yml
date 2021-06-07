@@ -1,4 +1,13 @@
-# Markets
+
+
+cartography:
+  name: Cartography
+  excluded_races:
+    - Growth
+  perks:
+    explore_gold_cost: -35,4000
+    land_discovered: 35,4000
+
 commerce:
   name: Commerce
   excluded_races:
@@ -6,7 +15,29 @@ commerce:
   perks:
     gold_production: 25,4000
 
-# Keep
+defense:
+  name: Defense
+  excluded_races:
+    - Growth
+  perks:
+    defensive_power: 25,7500
+
+espionage:
+  name: Espionage
+  excluded_races:
+    - Growth
+  perks:
+    spy_strength: 45,5000
+    spy_losses: -45,5000
+    forest_haven_housing: 45,5000
+
+irrigation:
+  name: Farming
+  excluded_races:
+    - Growth
+  perks:
+    food_production: 45,5000
+
 housing:
   name: Housing
   excluded_races:
@@ -14,7 +45,53 @@ housing:
   perks:
     population: 20,4000
 
-# Spires/Towers
+logging:
+  name: Logging
+  excluded_races:
+    - Growth
+    - Sylvan
+    - Wood Elf
+  perks:
+    lumber_production: 25,4000
+
+medicine:
+  name: Medicine
+  excluded_races:
+    - Growth
+  perks:
+    defensive_casualties: -25,4000
+    offensive_casualties: -25,4000
+
+mobilisation:
+  name: Mobilisation
+  excluded_races:
+    - Growth
+  perks:
+    unit_gold_costs: -25,4000
+    unit_ore_costs: -25,4000
+
+offense:
+  name: Offense
+  excluded_races:
+    - Growth
+  perks:
+    offensive_power: 25,7500
+
+research:
+  name: Research
+  excluded_races:
+    - Growth
+  perks:
+    tech_production: 25,5000
+    tech_gains: 25,5000
+
+mining:
+  name: Stonecutting
+  excluded_races:
+    - Growth
+  perks:
+    ore_production: 25,4000
+
 wizardry:
   name: Wizardry
   excluded_races:
@@ -25,68 +102,7 @@ wizardry:
     spell_damage: 45,5000
     wizard_guild_housing: 45,5000
 
-# Hideouts
-espionage:
-  name: Espionage
-  excluded_races:
-    - Growth
-  perks:
-    spy_strength: 45,5000
-    spy_losses: -45,5000
-    forest_haven_housing: 45,5000
-
-# Forges
-offense:
-  name: Offense
-  excluded_races:
-    - Growth
-  perks:
-    offensive_power: 25,7500
-
-# Walls
-defense:
-  name: Defense
-  excluded_races:
-    - Growth
-  perks:
-    defensive_power: 25,7500
-
-# Harbour/Irrigation
-irrigation:
-  name: Farming
-  excluded_races:
-    - Growth
-  perks:
-    food_production: 45,5000
-
-# Armory
-mobilisation:
-  name: Mobilisation
-  excluded_races:
-    - Growth
-  perks:
-    unit_gold_costs: -25,4000
-    unit_ore_costs: -25,4000
-
-# Infirmary
-medicine:
-  name: Medicine
-  excluded_races:
-    - Growth
-  perks:
-    defensive_casualties: -25,4000
-    offensive_casualties: -25,4000
-
-# Workshops
-construction:
-  name: Construction
-  excluded_races:
-    - Imperial Gnome
-    - Growth
-  perks:
-    construction_cost: -25,4000
-    rezone_cost: -25,4000
-
+# Specials
 imperial_gnome_construction:
   name: Construction
   exclusive_races:
@@ -96,43 +112,7 @@ imperial_gnome_construction:
     rezone_cost: -25,4000
     unit_pairing: 25,4000
 
-# Observatory
-research:
-  name: Research
-  excluded_races:
-    - Growth
-  perks:
-    tech_production: 25,5000
-    tech_gains: 25,5000
-
-# Cartography
-cartography:
-  name: Cartography
-  excluded_races:
-    - Growth
-  perks:
-    explore_gold_cost: -35,4000
-    land_discovered: 35,4000
-
-# Forestry
-logging:
-  name: Logging
-  excluded_races:
-    - Growth
-    - Sylvan
-    - Wood Elf
-  perks:
-    lumber_production: 25,4000
-
-# Refinery
-mining:
-  name: Stonecutting
-  excluded_races:
-    - Growth
-  perks:
-    ore_production: 25,4000
-
-# Growth: Tissue
+# BEGIN GROWTH
 tissue:
   name: Tissue
   exclusive_races:
@@ -140,3 +120,4 @@ tissue:
   perks:
     population: 100,75000
     food_production: 100,75000
+# END GROWTH
