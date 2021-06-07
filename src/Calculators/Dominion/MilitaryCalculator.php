@@ -199,7 +199,7 @@ class MilitaryCalculator
         // Buildings
         $multiplier += $attacker->getBuildingPerkMultiplier('offensive_power');
 
-        // League: Peacekeepers League
+        // League: Warriors League
         $multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
 
         // Improvements

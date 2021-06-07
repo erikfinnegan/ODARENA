@@ -174,18 +174,20 @@ class RaceHelper
             case 'can_invest_mana':
                 $negativeBenefit = false;
                 $description = 'Can use mana for improvements';
-                $valueType = ' point(s) per mana';
+                $valueType = ' points per mana';
                 $booleanValue = 'static';
                 break;
             case 'can_invest_soul':
                 $negativeBenefit = false;
                 $description = 'Can use souls for improvements';
-                $booleanValue = true;
+                $valueType = ' points per soul';
+                $booleanValue = 'static';
                 break;
             case 'can_invest_food':
                 $negativeBenefit = false;
                 $description = 'Can use food for improvements';
-                $booleanValue = true;
+                $valueType = ' points per food';
+                $booleanValue = 'static';
                 break;
             case 'population_growth':
                 $negativeBenefit = false;

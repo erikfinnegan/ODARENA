@@ -15,7 +15,6 @@ commerce:
   perks:
     gold_production: 25,4000
 
-
 construction:
   name: Construction
   excluded_races:
@@ -132,6 +131,103 @@ imperial_gnome_construction:
     construction_cost: -25,4000
     rezone_cost: -25,4000
     unit_pairing: 25,4000
+
+
+# BEGIN TROLL
+
+bashing:
+  name: Bashing
+  exclusive_races:
+    - Troll
+  perks:
+    defensive_power: 50,7500
+
+building:
+  name: Building
+  exclusive_races:
+    - Troll
+  perks:
+    construction_cost: -50,4000
+    rezone_cost: -50,4000
+
+glimmering:
+  name: Glimmering
+  exclusive_races:
+    - Troll
+  perks:
+    gold_production: 50,4000
+
+hunting:
+  name: Hunting
+  exclusive_races:
+    - Troll
+  perks:
+    food_production: 90,5000
+
+muttering:
+  name: Muttering
+  exclusive_races:
+    - Troll
+  perks:
+    wizard_strength: 90,5000
+    mana_production: 90,5000
+    spell_damage: 90,5000
+    wizard_guild_housing: 90,5000
+
+nesting:
+  name: Nesting
+  exclusive_races:
+    - Troll
+  perks:
+    population: 40,4000
+
+rock_throwing:
+  name: Rock Throwing
+  exclusive_races:
+    - Troll
+  perks:
+    ore_production: 50,4000
+
+smashing:
+  name: Smashing
+  exclusive_races:
+    - Troll
+  perks:
+    offensive_power: 50,7500
+
+sneaking:
+  name: Sneaking
+  exclusive_races:
+    - Troll
+  perks:
+    spy_strength: 90,5000
+    spy_losses: -90,5000
+    forest_haven_housing: 90,5000
+
+trampling:
+  name: Trampling
+  exclusive_races:
+    - Troll
+  perks:
+    land_discovered: 70,4000
+
+training:
+  name: Training
+  excluded_races:
+    - Beastfolk
+    - Growth
+  perks:
+    unit_gold_costs: -50,4000
+    unit_ore_costs: -50,4000
+
+uprooting:
+  name: Uprooting
+  exclusive_races:
+    - Troll
+  perks:
+    lumber_production: 50,4000
+
+# END TROLL
 
 # BEGIN GROWTH
 tissue:

@@ -161,20 +161,23 @@ class ImprovementCalculator
                     'gems' => 12,
                 ];
 
-        # Void: only sees mana
+
+        # Mana investments
         if($dominion->race->getPerkValue('can_invest_mana'))
         {
-          $worth['mana'] = $dominion->race->getPerkValue('can_invest_mana');
+            $worth['mana'] = $dominion->race->getPerkValue('can_invest_mana');
         }
-        # (Growth only sees food)
-        if($dominion->race->getPerkValue('tissue_improvement') or $dominion->race->getPerkValue('can_invest_food'))
+
+        # Food investments
+        if($dominion->race->getPerkValue('can_invest_food'))
         {
-          $worth['food'] = 1.20;
+            $worth['food'] = $dominion->race->getPerkValue('can_invest_food');
         }
-        # Demon: can also invest souls
+
+        # Soul investments
         if($dominion->race->getPerkValue('can_invest_soul'))
         {
-          $worth['soul'] = 300;
+            $worth['soul'] = $dominion->race->getPerkValue('can_invest_soul');
         }
 
         return $worth[$resource];

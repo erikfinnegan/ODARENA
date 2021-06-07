@@ -61,9 +61,14 @@ class ImproveActionService
             throw new GameException('You cannot use mana for improvements.');
         }
 
-        if($resource == 'food' and (!$dominion->race->getPerkValue('tissue_improvement') and !$dominion->race->getPerkValue('can_invest_food')))
+        if($resource == 'food' and !$dominion->race->getPerkValue('can_invest_food'))
         {
             throw new GameException('You cannot use food for improvements.');
+        }
+
+        if($resource == 'soul' and !$dominion->race->getPerkValue('can_invest_soul'))
+        {
+            throw new GameException('You cannot use souls for improvements.');
         }
 
         if ($dominion->race->getPerkValue('cannot_improve_castle'))
@@ -171,9 +176,6 @@ class ImproveActionService
     }
 
     # IMPS 2.0
-
-
-
     public function improve2(Dominion $dominion, string $resource, array $data): array
     {
         $this->guardLockedDominion($dominion);
@@ -202,6 +204,7 @@ class ImproveActionService
 
         if(
               ($resource == 'mana' and !$dominion->race->getPerkValue('can_invest_mana')) or
+              ($resource == 'soul' and !$dominion->race->getPerkValue('can_invest_soul')) or
               ($resource == 'food' and !$dominion->race->getPerkValue('can_invest_food'))
           )
         {

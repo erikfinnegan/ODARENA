@@ -58,7 +58,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                             <tbody>
                                 @foreach ($improvementHelper->getImprovementsByRace($selectedDominion->race) as $improvement)
                                     <tr>
-                                        <td><span class="{{ $improvementHelper->getImprovementIcon($improvementType) }}" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementDescription($improvement) }}"> {{ $improvement->name }}</span></td>
+                                        <td><span class="{{ $improvementHelper->getImprovementIcon($improvementType) }}" data-toggle="tooltip" data-placement="top" title="Hi"> {{ $improvement->name }}</span></td>
                                         <td class="text-center">
                                             <input type="number" name="improve[{{ $improvement->key }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvement->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
@@ -68,7 +68,7 @@ foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improveme
                                         <td>
                                             @foreach($improvement->perks as $perk)
                                                 @php
-                                                    $improvementPerkMax = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0]) * (1 + $selectedDominion->getBuildingPerkMultiplier('improvements') + $selectedDominion->getSpellPerkMultiplier('improvements'));
+                                                    $improvementPerkMax = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0]) * (1 + $selectedDominion->getBuildingPerkMultiplier('improvements') + $selectedDominion->getSpellPerkMultiplier('improvements') + $selectedDominion->race->getPerkMultiplier('improvements_max'));
                                                     $improvementPerkCoefficient = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[1]);
 
                                                     $spanClass = 'text-muted';

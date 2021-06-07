@@ -23,7 +23,7 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   reduced_conversions: 75
-  tissue_improvement: 1
+  can_invest_food: 4
   draftee_dp: 0.01
   peasants_produce_food: 0.5
   cannot_rezone: 1
