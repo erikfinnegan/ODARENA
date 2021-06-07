@@ -3,6 +3,7 @@ cartography:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     explore_gold_cost: -35,4000
     land_discovered: 35,4000
@@ -12,6 +13,7 @@ commerce:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     gold_production: 25,4000
 
@@ -20,6 +22,7 @@ construction:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     construction_cost: -25,4000
     rezone_cost: -25,4000
@@ -29,6 +32,7 @@ defense:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     defensive_power: 25,7500
 
@@ -37,6 +41,7 @@ espionage:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     spy_strength: 45,5000
     spy_losses: -45,5000
@@ -47,6 +52,7 @@ irrigation:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     food_production: 45,5000
 
@@ -55,6 +61,7 @@ housing:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     population: 20,4000
 
@@ -65,6 +72,7 @@ logging:
     - Growth
     - Sylvan
     - Wood Elf
+    - Troll
   perks:
     lumber_production: 25,4000
 
@@ -73,6 +81,7 @@ medicine:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     defensive_casualties: -25,4000
     offensive_casualties: -25,4000
@@ -82,6 +91,7 @@ mobilisation:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     unit_gold_costs: -25,4000
     unit_ore_costs: -25,4000
@@ -91,6 +101,7 @@ offense:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     offensive_power: 25,7500
 
@@ -99,6 +110,7 @@ research:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     tech_production: 25,5000
     tech_gains: 25,5000
@@ -108,6 +120,7 @@ mining:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     ore_production: 25,4000
 
@@ -116,6 +129,7 @@ wizardry:
   excluded_races:
     - Beastfolk
     - Growth
+    - Troll
   perks:
     wizard_strength: 45,5000
     mana_production: 45,5000
