@@ -53,21 +53,22 @@ units:
       counts_as_wizard_offense: 0.025
       counts_as_wizard_defense: 0.025
 
-  - name: Skulker
-    training_time: 9
+  - name: Warmonger
+    training_time: 12
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 500
-      ore: 40
+      gold: 600
+      ore: 65
     power:
-      offense: 3
-      defense: 2
+      offense: 2
+      defense: 3
     perks:
-      plunders: gold;1,gems;0.35
-      offense_from_per_improvement: 0.5,20000000 # +0.5 for every improvement with at least 20,000,000 imp points
+      plunders: gold;1,gems;2
+      offense_from_per_improvement: 0.25,20000000 # +0.25 for every improvement with at least 20,000,000 imp points
+      defense_from_per_improvement: 0.125,20000000 # +0.125 for every improvement with at least 20,000,000 imp points
 
   - name: Wolf Rider
     training_time: 12

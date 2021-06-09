@@ -7,6 +7,7 @@ use OpenDominion\Models\Race;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\Improvement;
 use Log;
 
 use OpenDominion\Services\Dominion\GovernmentService;
@@ -1376,7 +1377,7 @@ class MilitaryCalculator
 
       protected function getUnitPowerFromImprovementPointsPerImprovement(Dominion $dominion, Unit $unit, string $powerType): float
       {
-          $dominionImprovements = $improvementCalculator->getDominionImprovements($dominion);
+          $dominionImprovements = $this->improvementCalculator->getDominionImprovements($dominion);
           $dominionImprovementsPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_per_improvement", null);
 
           if (!$dominionImprovementsPerk)
@@ -1384,18 +1385,19 @@ class MilitaryCalculator
               return 0;
           }
 
-          $powerPerImp = (float)$buildingsPerkData[0];
-          $pointsPerImp = (int)$buildingsPerkData[1];
+          $powerPerImp = (float)$dominionImprovementsPerk[0];
+          $pointsPerImp = (int)$dominionImprovementsPerk[1];
+
+          $powerFromPerk = 0;
 
           foreach($dominionImprovements as $dominionImprovement)
           {
-              if($this->improvementCalculator->getDominionImprovementAmountInvested($dominion, $dominionImprovement) >= $pointsPerImp)
+              $improvement = Improvement::where('id', $dominionImprovement->improvement_id)->first();
+              if($this->improvementCalculator->getDominionImprovementAmountInvested($dominion, $improvement) >= $pointsPerImp)
               {
                   $powerFromPerk += $powerPerImp;
               }
           }
-
-          $powerFromPerk = min($powerFromBuilding, $max);
 
           return $powerFromPerk;
       }
