@@ -243,6 +243,55 @@ uprooting:
 
 # END TROLL
 
+# BEGIN VOID
+coils:
+  name: Coils
+  exclusive_races:
+    - Void
+  perks:
+      offensive_power: 50,10000
+      offensive_casualties: 80,12000
+
+cones:
+  name: Cones
+  exclusive_races:
+    - Void
+  perks:
+    mana_production: 80,6000
+
+halo:
+  name: Halo
+  exclusive_races:
+    - Void
+  perks:
+    defensive_power: 25,6000
+    defensive_casualties: 50,8000
+
+haze:
+  name: Haze
+  exclusive_races:
+    - Void
+  perks:
+    unit_mana_costs: -20,6000
+
+prism:
+  name: Prism
+  exclusive_races:
+    - Void
+  perks:
+    population: 100,100000
+    population_growth: 50,50000
+
+waves:
+  name: Waves
+  exclusive_races:
+    - Void
+  perks:
+    faster_training: 80,100000
+    chance_of_instant_return: 100,50000
+
+# END VOID
+
 # BEGIN GROWTH
 tissue:
   name: Tissue

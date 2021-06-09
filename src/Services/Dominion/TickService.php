@@ -983,7 +983,53 @@ class TickService
           # Imperial Crypt: Rites of Zidur, Rites of Kinthys
           $tick->crypt_bodies_spent = 0;
 
+          # Version 1.4 (Round 50, no Necromancer pairing limit)
           # Version 1.3 (Round 42, Spells 2.0 compatible-r)
+          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur'))
+          {
+              $spell = Spell::where('key', 'rites_of_zidur')->first();
+
+              $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
+
+              # Check bodies available in the crypt
+              $bodiesAvailable = max(0, floor($dominion->realm->crypt - $tick->crypt_bodies_spent));
+
+              # Break down the spell perk
+              $raisersPerRaisedUnit = (int)$spellPerkValues[0];
+              $raisingUnitSlot = (int)$spellPerkValues[1];
+              $unitRaisedSlot = (int)$spellPerkValues[2];
+
+              $unitsRaised = $dominion->{'military_unit' . $raisingUnitSlot} / $raisersPerRaisedUnit;
+
+              $unitsRaised = max(0, min($unitsRaised, $bodiesAvailable));
+
+              $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
+              $tick->crypt_bodies_spent += $unitsRaised;
+          }
+          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_kinthys'))
+          {
+              $spell = Spell::where('key', 'rites_of_kinthys')->first();
+
+              $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
+
+              # Check bodies available in the crypt
+              $bodiesAvailable = max(0, floor($dominion->realm->crypt - $tick->crypt_bodies_spent));
+
+              # Break down the spell perk
+              $raisersPerRaisedUnit = (int)$spellPerkValues[0];
+              $raisingUnitSlot = (int)$spellPerkValues[1];
+              $unitRaisedSlot = (int)$spellPerkValues[2];
+
+              $unitsRaised = $dominion->{'military_unit' . $raisingUnitSlot} / $raisersPerRaisedUnit;
+
+              $unitsRaised = max(0, min($unitsRaised, $bodiesAvailable));
+
+              $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
+              $tick->crypt_bodies_spent += $unitsRaised;
+          }
+
+          # Version 1.3 (Round 42, Spells 2.0 compatible-r)
+          /*
           if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur'))
           {
               $spell = Spell::where('key', 'rites_of_zidur')->first();
@@ -1052,6 +1098,7 @@ class TickService
               $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
               $tick->crypt_bodies_spent += $unitsRaised;
           }
+          */
 
           # Snow Elf: Gryphon Nests generate Gryphons
           if($dominion->race->getPerkValue('gryphon_nests_generate_gryphons'))

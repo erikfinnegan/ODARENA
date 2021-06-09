@@ -85,6 +85,7 @@ abduct_draftees:
     abduct_draftees: 2,0.5 # rate, max per spy
 
 convert_peasants_vampire:
+  enabled: 0
   name: Convert Peasants
   scope: hostile
   exclusive_races:
@@ -93,6 +94,7 @@ convert_peasants_vampire:
     convert_peasants_vampire: 0.25,1,1,6 # rate, max per spy, slot, ticks to "train"
 
 convert_draftees_vampire:
+  enabled: 0
   name: Convert Draftees
   scope: hostile
   exclusive_races:
