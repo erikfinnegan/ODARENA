@@ -300,8 +300,8 @@ waves:
   exclusive_races:
     - Void
   perks:
-    training_time: -80,100000
-    chance_of_instant_return: 100,50000
+    training_time: -80,12500
+    chance_of_instant_return: 100,25000
 
 # END VOID
 
@@ -314,3 +314,13 @@ tissue:
     population: 100,75000
     food_production: 100,75000
 # END GROWTH
+
+# BEGIN WOOD ELF
+forestry:
+  name: Forestry
+  exclusive_races:
+    - Wood Elf
+  perks:
+    lumber_production: 25,4000
+    population_growth: 35,6000
+# END WOOD ELF

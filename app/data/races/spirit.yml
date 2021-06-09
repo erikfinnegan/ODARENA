@@ -65,7 +65,7 @@ units:
       defense: 6
     perks:
       spirit_immortal: 1
-      strength_conversion: 8,3,4 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
+      strength_conversion: 8,3,4 #  threshold,under,over <=8 DP becomes Apparition, >8 DP becomes Aspect
 
   - name: Aspect
     type:
@@ -80,6 +80,6 @@ units:
       defense: 11
     perks:
       spirit_immortal: 1
-      strength_conversion: 6,3,4 #  threshold,under,over <=4 DP becomes Wolverine, >4 DP becomes Werewolf
+      strength_conversion: 6,3,4 #  threshold,under,over <=6 DP becomes Apparition, >8 DP becomes Aspect
       no_draftee: 1
       dies_into: 3

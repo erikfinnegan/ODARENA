@@ -1683,6 +1683,17 @@ class InvadeActionService
 
       #echo '<pre>';print_r($returningUnits);echo '</pre>';
 
+      if(random_chance($dominion->getImprovementPerkMultiplier('chance_of_instant_return')))
+      {
+
+          dd('Instant return, baby!');
+          $this->invasionResult['attacker']['instantReturn'] = true;
+          foreach($returningUnits as $unitKey => $returningAmount)
+          {
+              $dominion->{$unitKey} += $returningAmount;
+          }
+      }
+
       foreach($returningUnits as $unitKey => $returningAmount)
       {
 

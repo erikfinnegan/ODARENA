@@ -588,7 +588,7 @@ class TrainActionService
                     }
 
                     // Improvements
-                    $ticks = ceil($ticks * (1 + $dominion->getImprovementPerkMultiplier('faster_training'));
+                    $ticks = ceil($ticks * (1 + $dominion->getImprovementPerkMultiplier('training_time')));
 
                     $this->statsService->updateStat($dominion, ($unitStatsName . '_trained'), $amountToTrain);
 
