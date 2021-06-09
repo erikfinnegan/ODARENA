@@ -15,7 +15,7 @@ perks:
   food_consumption: -25
   extra_barren_forest_max_population: 10
   extra_barren_forest_jobs: 20
-  barren_forest_mana_production: 50
+  barren_forest_mana_production: 20
   can_invest_mana: 4
   salvaging: 100
 units:
