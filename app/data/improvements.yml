@@ -263,7 +263,7 @@ coils:
     - Void
   perks:
       offensive_power: 50,10000
-      offensive_casualties: 80,12000
+      offensive_casualties: -80,12000
 
 cones:
   name: Cones
@@ -278,7 +278,7 @@ halo:
     - Void
   perks:
     defensive_power: 25,6000
-    defensive_casualties: 50,8000
+    defensive_casualties: -50,8000
 
 haze:
   name: Haze
@@ -300,7 +300,7 @@ waves:
   exclusive_races:
     - Void
   perks:
-    faster_training: 80,100000
+    training_time: -80,100000
     chance_of_instant_return: 100,50000
 
 # END VOID

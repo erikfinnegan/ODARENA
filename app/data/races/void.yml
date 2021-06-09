@@ -20,7 +20,6 @@ perks:
   population_growth: 40
   reduced_conversions: 100
   no_gold_production: 1
-  cannot_improve_castle: 1
 
 units:
   - name: Figure
