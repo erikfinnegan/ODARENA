@@ -12,13 +12,13 @@ use Log;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\QueueService;
 
-# ODA
 use Illuminate\Support\Carbon;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Models\Tech;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
+use OpenDominion\Helpers\ImprovementHelper;
 
 class MilitaryCalculator
 {
@@ -82,7 +82,8 @@ class MilitaryCalculator
         GuardMembershipService $guardMembershipService,
         StatsService $statsService,
         TechCalculator $techCalculator,
-        LandImprovementCalculator $landImprovementCalculator
+        LandImprovementCalculator $landImprovementCalculator,
+        ImprovementHelper $improvementHelper
         )
     {
         $this->buildingCalculator = $buildingCalculator;
@@ -96,6 +97,7 @@ class MilitaryCalculator
         $this->statsService = $statsService;
         $this->techCalculator = $techCalculator;
         $this->landImprovementCalculator = $landImprovementCalculator;
+        $this->improvementHelper = $improvementHelper;
     }
 
     /**
@@ -511,6 +513,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRulerTitle($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromBuildingsBasedPerk($dominion, $unit, $powerType); # This perk uses multiple buildings!
+        $unitPower += $this->getUnitPowerFromImprovementPointsPerImprovement($dominion, $unit, $powerType);
 
         if ($landRatio !== null)
         {
@@ -1366,6 +1369,32 @@ class MilitaryCalculator
           $landPercentage = ($buildingsLand / $totalLand) * 100;
 
           $powerFromBuilding = $landPercentage / $ratio;
+          $powerFromPerk = min($powerFromBuilding, $max);
+
+          return $powerFromPerk;
+      }
+
+      protected function getUnitPowerFromImprovementPointsPerImprovement(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+          $dominionImprovements = $improvementCalculator->getDominionImprovements($dominion);
+          $dominionImprovementsPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_per_improvement", null);
+
+          if (!$dominionImprovementsPerk)
+          {
+              return 0;
+          }
+
+          $powerPerImp = (float)$buildingsPerkData[0];
+          $pointsPerImp = (int)$buildingsPerkData[1];
+
+          foreach($dominionImprovements as $dominionImprovement)
+          {
+              if($this->improvementCalculator->getDominionImprovementAmountInvested($dominion, $dominionImprovement) >= $pointsPerImp)
+              {
+                  $powerFromPerk += $powerPerImp;
+              }
+          }
+
           $powerFromPerk = min($powerFromBuilding, $max);
 
           return $powerFromPerk;

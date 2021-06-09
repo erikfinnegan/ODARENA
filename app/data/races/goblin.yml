@@ -67,7 +67,7 @@ units:
       defense: 2
     perks:
       plunders: gold;1,gems;0.35
-      offense_vs_resource: gold,300000,3 # +1 OP per 20,000 gems, max +3
+      offense_from_per_improvement: 0.5,20000000 # +0.5 for every improvement with at least 20,000,000 imp points
 
   - name: Wolf Rider
     training_time: 12
