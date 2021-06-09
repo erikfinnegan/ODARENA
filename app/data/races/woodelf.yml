@@ -14,7 +14,7 @@ construction_materials: gold,lumber
 perks:
   wizard_strength: 20
   spy_strength: 20
-  lumber_production: 20
+  barren_forest_mana_production: 100
   improvements_max: 75
   tech_production: 100
   salvaging: 35

@@ -745,6 +745,7 @@ rootforge:
 
 plantation:
   name: Plantation
+  enabled: 0
   exclusive_races:
     - Sylvan
   land_type: forest
