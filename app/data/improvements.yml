@@ -241,9 +241,8 @@ trampling:
 
 training:
   name: Training
-  excluded_races:
-    - Beastfolk
-    - Growth
+  exclusive_races:
+    - Troll
   perks:
     unit_gold_costs: -50,4000
     unit_ore_costs: -50,4000
