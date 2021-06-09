@@ -169,6 +169,9 @@ class ImprovementHelper
             'unit_mana_costs' => 'unit mana costs',
             'unit_food_costs' => 'unit food costs',
 
+            'faster_training' => 'faster training',
+            'chance_of_instant_return' => 'chance of units returning instantly from invasion',
+
             'offensive_power' => 'offensive power',
             'defensive_power' => 'defensive power',
             'casualties' => 'casualties',
@@ -222,6 +225,9 @@ class ImprovementHelper
             'unit_gem_costs' => 'Reduced unit gem costs (max +%1$s%%)',
             'unit_mana_costs' => 'Reduced unit mana costs (max +%1$s%%)',
             'unit_food_costs' => 'Reduced unit food costs (max +%1$s%%)',
+
+            'faster_training' => 'Faster training (max -%1$s%%)',
+            'chance_of_instant_return' => 'Chance of units returning instantly from invasion (max %1$s%%)',
 
             'offensive_power' => 'Offensive power (max +%1$s%%)',
             'defensive_power' => 'Defensive power (max +%1$s%%)',

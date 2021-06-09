@@ -4,6 +4,7 @@ cartography:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     explore_gold_cost: -35,4000
     land_discovered: 35,4000
@@ -14,6 +15,7 @@ commerce:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     gold_production: 25,4000
 
@@ -23,6 +25,7 @@ construction:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     construction_cost: -25,4000
     rezone_cost: -25,4000
@@ -33,6 +36,7 @@ defense:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     defensive_power: 25,7500
 
@@ -42,6 +46,7 @@ espionage:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     spy_strength: 45,5000
     spy_losses: -45,5000
@@ -53,6 +58,7 @@ irrigation:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     food_production: 45,5000
 
@@ -62,6 +68,7 @@ housing:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     population: 20,4000
 
@@ -73,6 +80,7 @@ logging:
     - Sylvan
     - Wood Elf
     - Troll
+    - Void
   perks:
     lumber_production: 25,4000
 
@@ -82,6 +90,7 @@ medicine:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     defensive_casualties: -25,4000
     offensive_casualties: -25,4000
@@ -92,6 +101,7 @@ mobilisation:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     unit_gold_costs: -25,4000
     unit_ore_costs: -25,4000
@@ -102,6 +112,7 @@ offense:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     offensive_power: 25,7500
 
@@ -111,6 +122,7 @@ research:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     tech_production: 25,5000
     tech_gains: 25,5000
@@ -121,6 +133,7 @@ mining:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     ore_production: 25,4000
 
@@ -130,6 +143,7 @@ wizardry:
     - Beastfolk
     - Growth
     - Troll
+    - Void
   perks:
     wizard_strength: 45,5000
     mana_production: 45,5000
