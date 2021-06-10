@@ -232,7 +232,7 @@ wizardry_reptilians:
     unit_pairing: 45,5000
 
 # Undead variant
-wizardry_reptilians:
+wizardry_undead:
   name: Wizardry
   exclusive_races:
     - Undead
