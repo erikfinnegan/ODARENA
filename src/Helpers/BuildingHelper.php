@@ -70,6 +70,8 @@ class BuildingHelper
             'gem_production_depleting' => 'Produces %1$s gems per tick (reduced by %2$s per hour of the round down to 0).',
             'mana_production_depleting' => 'Produces %1$s mana per tick (reduced by %2$s per hour of the round down to 0).',
 
+            'draftee_generation' => 'Generates %s draftees per tick (limited by population).',
+
             'exchange_rate' => 'Resource exchange rates improved by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             # Military

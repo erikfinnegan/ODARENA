@@ -757,6 +757,7 @@ class Dominion extends AbstractModel
               {
                   $perk = $effect * 100;
               }
+
           }
 
           return $perk;
