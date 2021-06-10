@@ -225,7 +225,7 @@ class TrainActionService
                 // We have pairing limit for this unit.
                 $pairingLimitedBy = (int)$pairingLimit[0];
                 $pairingLimitedTo = (int)$pairingLimit[1];
-                $pairingLimitedTo *= * (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
+                $pairingLimitedTo *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
 
                 // Evaluate the limit.
                 # How many of the limiting unit does the dominion have? (Only counting units at home.)
