@@ -9,6 +9,10 @@
             <div class="box-header with-border">
                 <h2 class="box-title">{{ $race->name }}</h2>
 
+                @if($race->experimental)
+                    <span class="label label-danger">Experimental</span>
+                @endif
+
                 <span>
                     <a href="#units">Units</a> |
                     <a href="#buildings">Buildings</a> |

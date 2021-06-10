@@ -74,7 +74,8 @@
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'good'; }) as $race)
                                     <option value="{{ $race->id }}"
                                           data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
-                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') ? number_format($race->getPerkValue('max_per_round')) : 0 }}"
+                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') }}"
+                                          data-experimental="{{ $race->experimental }}"
                                           data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
                                         {{ $race->name }}
                                     </option>
@@ -90,7 +91,8 @@
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'evil'; }) as $race)
                                     <option value="{{ $race->id }}"
                                           data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
-                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') ? number_format($race->getPerkValue('max_per_round')) : 0 }}"
+                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') }}"
+                                          data-experimental="{{ $race->experimental }}"
                                           data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
                                         {{ $race->name }}
                                     </option>
@@ -106,7 +108,8 @@
                                 @foreach ($races->filter(function ($race) { return $race->playable && $race->alignment === 'independent'; }) as $race)
                                     <option value="{{ $race->id }}"
                                           data-current="{{ isset($countRaces[$race->name]) ? number_format($countRaces[$race->name]) : 0 }}"
-                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') ? number_format($race->getPerkValue('max_per_round')) : 0 }}"
+                                          data-maxPerRound="{{ $race->getPerkValue('max_per_round') }}"
+                                          data-experimental="{{ $race->experimental }}"
                                           data-minRoundsPlayed="{{ $race->getPerkValue('min_rounds_played') ? number_format($race->getPerkValue('min_rounds_played')) : 0 }}">
                                         {{ $race->name }}
                                     </option>
@@ -115,6 +118,7 @@
 
                       </select>
                         <p class="help-block">Consult <a href="{{ route('scribes.factions') }}" target="_blank">The Scribes</a> for details about each faction.</p>
+                        <p class="help-block">Factions labelled <span class="label label-danger">Experimental</span> have significant changes that have been deemed at risk of being overpowered. If you play such a faction, you understand that if the community agrees (or if admin decides) that it is overpowered, the dominion will be locked. Not for violating any rules; but to keep the round fun and exciting. &mbdash; We recommend playing at least one additional dominion, just in case.</p>
                     </div>
                 </div>
 
@@ -213,6 +217,18 @@
             }
 
             const current = state.element.dataset.current;
+            const experimental = state.element.dataset.experimental;
+            const maxPerRound = state.element.dataset.maxperround;
+
+            experimentalStatus = ''
+            if (experimental == 1) {
+                experimentalStatus = '&nbsp;<div class="pull-left">&nbsp;<span class="label label-danger">Experimental</span></div>';
+            }
+
+            maxPerRoundStatus = ''
+            if (maxPerRound == 1) {
+                maxPerRoundStatus = '&nbsp;<div class="pull-left">&nbsp;<span class="label label-warning">Max ' + maxPerRound + ' per round</span></div>';
+            }
 
             var xId = state.id;
 
@@ -221,6 +237,8 @@
                 const alignment = state.element.dataset.alignment;
                 return $(`
                     <div class="pull-left">${state.text}</div>
+                    ${experimentalStatus}
+                    ${maxPerRoundStatus}
                     <div class="pull-right">${current} total dominion(s) in the ${alignment} realm</div>
                     <div style="clear: both;"></div>
                 `);
@@ -231,6 +249,8 @@
                 const alignment = state.element.dataset.alignment;
                 return $(`
                     <div class="pull-left">${state.text}</div>
+                    ${experimentalStatus}
+                    ${maxPerRoundStatus}
                     <div class="pull-right">${current} total dominion(s) registered</div>
                     <div style="clear: both;"></div>
                 `);
@@ -238,6 +258,8 @@
 
             return $(`
                 <div class="pull-left">${state.text}</div>
+                ${experimentalStatus}
+                ${maxPerRoundStatus}
                 <div class="pull-right">${current} dominion(s)</div>
                 <div style="clear: both;"></div>
             `);

@@ -3,6 +3,7 @@ alignment: good
 description:
 home_land_type: forest
 playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 3
@@ -68,8 +69,7 @@ units:
       - sentient
       - intelligent
     cost:
-      lumber: 600
-      mana: 36
+      lumber: 186
     power:
       offense: 7
       defense: 3

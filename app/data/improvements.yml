@@ -254,9 +254,9 @@ uprooting:
   perks:
     lumber_production: 50,4000
 
-# END TROLL
+# END TROLL #
 
-# BEGIN VOID
+# BEGIN VOID #
 coils:
   name: Coils
   exclusive_races:
@@ -301,11 +301,11 @@ waves:
     - Void
   perks:
     training_time: -80,12500
-    chance_of_instant_return: 100,25000
+    chance_of_instant_return: 50,25000
 
-# END VOID
+# END VOID #
 
-# BEGIN GROWTH
+# BEGIN GROWTH #
 tissue:
   name: Tissue
   exclusive_races:
@@ -313,9 +313,9 @@ tissue:
   perks:
     population: 100,75000
     food_production: 100,75000
-# END GROWTH
+# END GROWTH #
 
-# BEGIN WOOD ELF
+# BEGIN WOOD ELF #
 forestry:
   name: Forestry
   exclusive_races:
@@ -323,4 +323,4 @@ forestry:
   perks:
     lumber_production: 25,4000
     population_growth: 35,6000
-# END WOOD ELF
+# END WOOD ELF #
