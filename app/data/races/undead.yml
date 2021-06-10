@@ -32,7 +32,6 @@ units:
     perks:
       cannot_be_trained: 1
       housing_count: 0.1
-      pairing_limit_increasable: 4,6,spires,1 # Unit slot, amount (max 10 of this unit per each Unit 4), imp to increase, imp multiplier
 
   - name: Ghoul
     training_time: 9
@@ -46,7 +45,6 @@ units:
     perks:
       cannot_be_trained: 1
       housing_count: 0.1
-      pairing_limit_increasable: 4,6,spires,1 # Unit slot, amount (max 10 of this unit per each Unit 4), imp to increase, imp multiplier
 
   - name: Wight
     training_time: 12

@@ -264,15 +264,14 @@ class UnitHelper
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to %1$s at home.',
             'land_limit' => 'You can at most have %2$s of this unit per acre of %1$s.',
-            'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increased by your %3$s improvements.',
+            'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increased by improvements (see Improvements).',
             'building_limit_fixed' => 'You can at most have %2$s of this unit per %1$s.',
-            'building_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by %4$ xx your %3$s improvements.',
             'building_limit_prestige' => 'You can at most have %2$s of this unit per %1$s. Increased by prestige multiplier.',
 
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
             'net_victories_limit' => 'You can at most have %2$s of this unit per %1$s net victories.',
 
-            'pairing_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by %4$ xx your %3$s improvements.',
+            'pairing_limit_increasable' => 'You can at most have %2$s of this unit per %1$s. Increased by improvements (see Improvements).',
             'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increased by %3$ xx your %2$s improvements.',
             'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increased by %3$ xx your %2$s improvements.',
             'spy_limit' => 'You can at most have %1$s of this unit per Spy. Increased by %3$ xx your %2$s improvements.',

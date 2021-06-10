@@ -22,13 +22,42 @@ commerce:
 construction:
   name: Construction
   excluded_races:
+    - Artillery
     - Beastfolk
     - Growth
+    - Imperial Gnome
     - Troll
     - Void
   perks:
     construction_cost: -25,4000
     rezone_cost: -25,4000
+
+construction_artillery:
+  name: Construction
+  exclusive_races:
+    - Artillery
+  perks:
+    construction_cost: -25,4000
+    rezone_cost: -25,4000
+    unit_pairing: 25,4000
+
+construction_imperial_gnome:
+  name: Construction
+  exclusive_races:
+  - Imperial Gnome
+  perks:
+    construction_cost: -25,4000
+    rezone_cost: -25,4000
+    unit_pairing: 25,4000
+
+construction_qur:
+  name: Construction
+  exclusive_races:
+  - Qur
+  perks:
+    construction_cost: -25,4000
+    rezone_cost: -25,4000
+    unit_pairing: 25,4000
 
 defense:
   name: Defense
@@ -55,6 +84,7 @@ espionage:
 irrigation:
   name: Farming
   excluded_races:
+    - Armada
     - Beastfolk
     - Growth
     - Troll
@@ -142,6 +172,7 @@ wizardry:
   excluded_races:
     - Beastfolk
     - Growth
+    - Nox
     - Troll
     - Void
   perks:
@@ -149,6 +180,30 @@ wizardry:
     mana_production: 45,5000
     spell_damage: 45,5000
     wizard_guild_housing: 45,5000
+
+# Nox variant
+wizardry_nox:
+  name: Wizardry
+  exclusive_races:
+    - Nox
+  perks:
+    wizard_strength: 45,5000
+    mana_production: 45,5000
+    spell_damage: 45,5000
+    wizard_guild_housing: 45,5000
+    unit_pairing: 45,5000
+
+# Qur variant
+wizardry_qur:
+  name: Wizardry
+  exclusive_races:
+    - Qur
+  perks:
+    wizard_strength: 45,5000
+    mana_production: 45,5000
+    spell_damage: 45,5000
+    wizard_guild_housing: 45,5000
+    unit_pairing: 90,5000
 
 # Specials
 imperial_gnome_construction:
@@ -324,3 +379,14 @@ forestry:
     lumber_production: 25,4000
     population_growth: 35,6000
 # END WOOD ELF #
+
+# BEGIN ARMADA #
+harbour:
+  name: Harbour
+  exclusive_races:
+    - Armada
+  perks:
+    food_production: 45,5000
+    unit_pairing: 45,5000
+
+# END ARMADA #

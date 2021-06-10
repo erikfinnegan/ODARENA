@@ -283,17 +283,6 @@ class EspionageHelper
                 }
             }
 
-            // Special case for pairing_limit_increasable
-            if ($perk->key === 'pairing_limit_increasable')
-            {
-                $slot = (int)$perkValue[0];
-                $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
-                    return ($unit->slot === $slot);
-                })->first();
-
-                $perkValue[0] = $pairedUnit->name;
-            }
-
             // Special case for conversions
             if ($perk->key === 'conversion' or $perk->key === 'displaced_peasants_conversion' or $perk->key === 'casualties_conversion')
             {

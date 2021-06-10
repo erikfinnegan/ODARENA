@@ -61,7 +61,7 @@ units:
       food_production: 1
       gold_production: 2.7
       reduces_casualties: 1
-      unit_production: 2,0.012 # Every 40 Mystics produce 1 Initiate
+      unit_production: 2,0.008 # Every 125 Disciples produce 1 Initiate
 
   - name: Mystic
     training_time: 6

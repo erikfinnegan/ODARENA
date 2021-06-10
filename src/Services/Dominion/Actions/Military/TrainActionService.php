@@ -193,9 +193,6 @@ class TrainActionService
 
             # OK, unit can be trained. Let's check for pairing limits.
             $pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit');
-            # [0] = unit limited by
-            # [1] = limit
-
             if($pairingLimit)
             {
 
@@ -218,7 +215,32 @@ class TrainActionService
                     ($pairingLimitedByTrained * $pairingLimitedTo)
                   )
                 {
-                  throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their master unit.');
+                  throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their superior unit.');
+                }
+            }
+
+            $pairingLimitIncreasable = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit_increasable');
+            if($pairingLimit)
+            {
+                // We have pairing limit for this unit.
+                $pairingLimitedBy = (int)$pairingLimit[0];
+                $pairingLimitedTo = (int)$pairingLimit[1];
+                $pairingLimitedTo *= * (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
+
+                // Evaluate the limit.
+                # How many of the limiting unit does the dominion have? (Only counting units at home.)
+                $pairingLimitedByTrained = $dominion->{'military_unit'. $pairingLimitedBy};
+
+                if( # Units trained + Units in Training + Units in Queue + Units to Train
+                    (($dominion->{'military_unit' . $unitSlot} +
+                      $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $amountToTrain))
+                    >
+                    ($pairingLimitedByTrained * $pairingLimitedTo)
+                  )
+                {
+                  throw new GameException('You can at most have ' . number_format($pairingLimitedByTrained * $pairingLimitedTo) . ' of this unit. To train more, you need to first train more of their superior unit.');
                 }
             }
 
@@ -274,11 +296,7 @@ class TrainActionService
                 // We have building limit for this unit.
                 $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
                 $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-                # Resource that can raise the limit
-                if(isset($buildingLimit[2]))
-                {
-                    $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $buildingLimit[2]));
-                }
+                $unitsPerBuilding *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
 
                 $building = Building::where('key', $buildingKeyLimitedTo)->first();
                 $amountOfLimitingBuilding = $this->buildingCalculator->getBuildingAmountOwned($dominion, $building);

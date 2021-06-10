@@ -353,11 +353,7 @@ class TrainingCalculator
                 $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
                 $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
 
-                # Improvement that can raise the limit
-                if(isset($buildingLimit[2]))
-                {
-                    $unitsPerBuilding *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $buildingLimit[2]));
-                }
+                $unitsPerBuilding *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
 
                 $building = Building::where('key', $buildingKeyLimitedTo)->first();
                 $amountOfLimitingBuilding = $this->buildingCalculator->getBuildingAmountOwned($dominion, $building);
@@ -399,10 +395,8 @@ class TrainingCalculator
             {
                 $unitLimitedTo = (float)$pairingLimitedIncreasable[0]; # Units paired-limited to
                 $unitsPerLimitingUnit = (float)$pairingLimitedIncreasable[1]; # Number of this unit per unit paired-limited to
-                $extendingImprovement = (string)$pairingLimitedIncreasable[2]; # Improvement which can increase this limit
-                $improvementMultiplier = (float)$pairingLimitedIncreasable[3]; # Multiplier used to extend the increase from improvement
 
-                $unitsPerLimitingUnit *= 1 + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
+                $unitsPerLimitingUnit *= (1 $dominion->getImprovementPerkMultiplier('unit_pairing'));# + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
 
                 $maxAdditionalPermittedOfThisUnit = intval($dominion->{'military_unit'.$unitLimitedTo} * $unitsPerLimitingUnit) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
