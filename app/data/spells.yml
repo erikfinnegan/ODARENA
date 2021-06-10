@@ -527,8 +527,8 @@ elskas_blur:
     blind_to_reptilian_spies_on_info: -100
     blind_to_reptilian_spies_on_theft: -100
 
-elskas_blur:
-  name: Elska's Sight
+elskas_vision:
+  name: Elska's Vision
   scope: self
   class: passive
   cost: 2
