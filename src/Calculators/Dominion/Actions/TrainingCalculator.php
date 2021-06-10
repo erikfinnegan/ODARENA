@@ -396,7 +396,7 @@ class TrainingCalculator
                 $unitLimitedTo = (float)$pairingLimitedIncreasable[0]; # Units paired-limited to
                 $unitsPerLimitingUnit = (float)$pairingLimitedIncreasable[1]; # Number of this unit per unit paired-limited to
 
-                $unitsPerLimitingUnit *= (1 $dominion->getImprovementPerkMultiplier('unit_pairing'));# + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
+                $unitsPerLimitingUnit *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));# + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
 
                 $maxAdditionalPermittedOfThisUnit = intval($dominion->{'military_unit'.$unitLimitedTo} * $unitsPerLimitingUnit) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 

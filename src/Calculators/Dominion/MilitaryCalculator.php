@@ -1530,8 +1530,10 @@ class MilitaryCalculator
     public function getSpyStrengthRegen(Dominion $dominion): float
     {
         $regen = 4;
-
-        // todo: Spy Master / Dark Artistry tech
+        $regen += $dominion->getTechPerkValue('spy_strength_recovery');
+        $regen += $dominion->getImprovementPerkValue('spy_strength_recovery');
+        $regen += $dominion->getSpellPerkValue('spy_strength_recovery');
+        $regen += $dominion->getBuildingPerkValue('spy_strength_recovery');
 
         return (float)$regen;
     }

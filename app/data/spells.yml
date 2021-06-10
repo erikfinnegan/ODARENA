@@ -527,6 +527,18 @@ elskas_blur:
     blind_to_reptilian_spies_on_info: -100
     blind_to_reptilian_spies_on_theft: -100
 
+elskas_blur:
+  name: Elska's Sight
+  scope: self
+  class: passive
+  cost: 2
+  duration: 12
+  cooldown: 0
+  exclusive_races:
+    - Reptilians
+  perks:
+    spy_strength_recovery: 2
+
 gaias_blessing:
   name: Druva's Blessing
   scope: self

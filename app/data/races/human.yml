@@ -72,7 +72,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1250
+      gold: 1150
       ore: 100
     power:
       offense: 8

@@ -19,6 +19,7 @@ perks:
   barren_forest_mana_production: 20
   can_invest_mana: 4
   salvaging: 100
+  no_lumber_production: 1
 units:
   - name: Leshy
     training_time: 9

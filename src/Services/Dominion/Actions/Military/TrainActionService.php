@@ -253,6 +253,8 @@ class TrainActionService
               $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
               $unitsPerAcre = (float)$landLimit[1]; # Units per acre
 
+              $unitsPerAcre *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing')); # Unused
+
               $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
               $upperLimit = floor($acresOfLimitingLandType * $unitsPerAcre);
@@ -274,6 +276,8 @@ class TrainActionService
             $amountLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'amount_limit');
             if($amountLimit)
             {
+
+              $amountLimit *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing')); # Unused
 
               if( # Units trained + Units in Training + Units in Queue + Units to Train
                   (($dominion->{'military_unit' . $unitSlot} +

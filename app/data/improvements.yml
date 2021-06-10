@@ -24,6 +24,7 @@ construction:
   excluded_races:
     - Artillery
     - Beastfolk
+    - Dragon
     - Growth
     - Imperial Gnome
     - Qur
@@ -37,6 +38,15 @@ construction_artillery:
   name: Construction
   exclusive_races:
     - Artillery
+  perks:
+    construction_cost: -25,4000
+    rezone_cost: -25,4000
+    unit_pairing: 25,4000
+
+construction_dragon:
+  name: Construction
+  exclusive_races:
+  - Dragon
   perks:
     construction_cost: -25,4000
     rezone_cost: -25,4000
@@ -175,7 +185,9 @@ wizardry:
     - Growth
     - Nox
     - Qur
+    - Reptilians
     - Troll
+    - Undead
     - Void
   perks:
     wizard_strength: 45,5000
@@ -206,6 +218,30 @@ wizardry_qur:
     spell_damage: 45,5000
     wizard_guild_housing: 45,5000
     unit_pairing: 90,5000
+
+# Reptilians variant
+wizardry_reptilians:
+  name: Wizardry
+  exclusive_races:
+    - Reptilians
+  perks:
+    wizard_strength: 45,5000
+    mana_production: 45,5000
+    spell_damage: 45,5000
+    wizard_guild_housing: 45,5000
+    unit_pairing: 45,5000
+
+# Undead variant
+wizardry_reptilians:
+  name: Wizardry
+  exclusive_races:
+    - Undead
+  perks:
+    wizard_strength: 45,5000
+    mana_production: 45,5000
+    spell_damage: 45,5000
+    wizard_guild_housing: 45,5000
+    unit_pairing: 45,5000
 
 # Specials
 imperial_gnome_construction:
