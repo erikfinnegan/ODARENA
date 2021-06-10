@@ -739,6 +739,8 @@ class TickService
 
           $tick->military_draftees = $drafteesGrowthRate;
 
+          $tick->military_draftees += $this->productionCalculator->getDrafteesGenerated($dominion, $drafteesGrowthRate);
+
           // Resources
 
           # Max storage

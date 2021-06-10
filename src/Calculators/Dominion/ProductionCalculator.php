@@ -894,4 +894,10 @@ class ProductionCalculator
 
     }
 
+    public function getDrafteesGenerated($dominion, int $drafteesGrowthRate): int
+    {
+        $drafteesGenerated = $dominion->getBuildingPerkValue('draftee_generation');
+        return min($drafteesGenerated, ($dominion->peasants - $drafteesGenerated)/*+1000*/);
+    }
+
 }

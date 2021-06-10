@@ -637,6 +637,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'mana_production'
                           or $perkKey == 'boat_production'
                           or $perkKey == 'tech_production'
+                          or $perkKey == 'draftee_generation'
                       )
                   {
                       $perk += (float)$perkValueString;
@@ -674,6 +675,7 @@ class Dominion extends AbstractModel
 
                           # Unit training
                           or $perkKey == 'extra_units_trained'
+                          or $perkKey == 'drafting'
 
                           # Spy/wizard
                           or $perkKey == 'spy_losses'
