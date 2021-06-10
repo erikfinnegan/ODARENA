@@ -26,6 +26,7 @@ construction:
     - Beastfolk
     - Growth
     - Imperial Gnome
+    - Qur
     - Troll
     - Void
   perks:
@@ -173,6 +174,7 @@ wizardry:
     - Beastfolk
     - Growth
     - Nox
+    - Qur
     - Troll
     - Void
   perks:

@@ -45,7 +45,7 @@ units:
       does_not_count_as_population: 1
       mana_drain: 0.005
       instant_training: 1
-      pairing_limit_increasable: 1,4,spires,2 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
+      pairing_limit_increasable: 1,4 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
 
   - name: Chariot
     training_time: 12
@@ -65,7 +65,7 @@ units:
       sendable_with_zero_op: 1
       does_not_count_as_population: 1
       no_draftee: 1
-      pairing_limit_increasable: 1,1,workshops,1 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
+      pairing_limit_increasable: 1,1 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
 
   - name: Zealot
     training_time: 12
