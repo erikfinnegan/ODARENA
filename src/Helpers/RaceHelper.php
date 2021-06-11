@@ -386,6 +386,11 @@ class RaceHelper
                 $description = 'No gold production';
                 $booleanValue = true;
                 break;
+            case 'no_lumber_production':
+                $negativeBenefit = false;
+                $description = 'No lumber production';
+                $booleanValue = true;
+                break;
             case 'peasants_produce_food':
                 $negativeBenefit = true;
                 $description = 'Peasants produce food';
