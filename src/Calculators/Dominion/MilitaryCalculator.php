@@ -1333,7 +1333,7 @@ class MilitaryCalculator
           $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_title", null);
           $powerFromPerk = 0;
 
-          if (!$titlePerkData)
+          if (!$titlePerkData or $dominion->isAbandoned())
           {
               return 0;
           }

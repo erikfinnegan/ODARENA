@@ -16,8 +16,8 @@ perks:
   food_consumption: -25
   extra_barren_forest_max_population: 10
   extra_barren_forest_jobs: 20
-  barren_forest_mana_production: 20
-  can_invest_mana: 4
+  barren_forest_mana_production: 40
+  can_invest_mana: 6
   salvaging: 100
   no_lumber_production: 1
 units:
@@ -29,7 +29,7 @@ units:
       - intelligent
     cost:
       gold: 300
-      mana: 4
+      mana: 8
     power:
       offense: 4
       defense: 0
@@ -70,7 +70,7 @@ units:
       - sentient
       - intelligent
     cost:
-      mana: 186
+      mana: 372
     power:
       offense: 7
       defense: 3

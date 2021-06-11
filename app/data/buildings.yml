@@ -717,7 +717,6 @@ gill:
 mana_tree:
   name: Mana Tree
   exclusive_races:
-    - Sylvan
     - Wood Elf
   land_type: forest
   perks:
