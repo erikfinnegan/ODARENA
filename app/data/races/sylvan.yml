@@ -10,7 +10,7 @@ exploring : 3
 converting: 2
 skill_level: 2
 
-construction_materials: gold,lumber
+construction_materials: gold,mana
 
 perks:
   food_consumption: -25
