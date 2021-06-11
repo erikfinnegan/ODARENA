@@ -899,9 +899,12 @@ class ProductionCalculator
         $drafteesGenerated = $dominion->getBuildingPerkValue('draftee_generation');
         $drafteesGenerated = floor($drafteesGenerated);
 
-        #dd($drafteesGrowthRate, $drafteesGenerated, min($drafteesGenerated, ($dominion->peasants - $drafteesGrowthRate)));
+        if(($this->populationCalculator->getPopulation($dominion) + $drafteesGenerated + $drafteesGrowthRate) >  $this->populationCalculator->getMaxPopulation($dominion))
+        {
+            $drafteesGenerated = max(0, $this->populationCalculator->getMaxPopulation($dominion) - ($this->populationCalculator->getPopulation($dominion) + $drafteesGrowthRate));
+        }
 
-        return min($drafteesGenerated, ($dominion->peasants - $drafteesGrowthRate - $drafteesGenerated)/*+1000*/);
+        return min($drafteesGenerated, ($this->populationCalculator->getMaxPopulation($dominion) - $drafteesGrowthRate - $drafteesGenerated)/*+1000*/);
     }
 
 }

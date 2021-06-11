@@ -535,6 +535,12 @@ class PopulationCalculator
         // Spell
         $multiplier += $dominion->getSpellPerkMultiplier('drafting');
 
+        // Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('drafting');
+
+        // Improvements
+        $multiplier += $dominion->getImprovementPerkMultiplier('drafting');
+
         // Faction Perk
         $multiplier += $dominion->race->getPerkMultiplier('drafting');
 

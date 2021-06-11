@@ -27,7 +27,6 @@ units:
     type:
       - living
       - mindless
-    static_networth: 5
     cost:
       food: 0
     power:
@@ -42,7 +41,6 @@ units:
     type:
       - living
       - sentient
-    static_networth: 10
     cost:
       gold: 0
     power:
@@ -52,7 +50,7 @@ units:
       cannot_be_trained: 1
       fewer_casualties: 50
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
-      offense_from_time: 18,06,1 # Between the hours 18:00 and 06:00, gains +1 OP
+      offense_from_time: 18,06,4 # Between the hours 18:00 and 06:00, gains +6 OP
       vampiric_conversion: 4,7
 
   - name: Ravager
@@ -61,7 +59,6 @@ units:
       - sentient
       - massive
       - intelligent
-    static_networth: 18
     cost:
       gold: 0
     power:
@@ -71,7 +68,7 @@ units:
       cannot_be_trained: 1
       fewer_casualties: 75
       extra_food_consumption: 0.5
-      offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
+      offense_from_time: 18,06,6 # Between the hours 18:00 and 06:00, gains +2 OP
       vampiric_conversion: 4,7
 
   - name: Noble
