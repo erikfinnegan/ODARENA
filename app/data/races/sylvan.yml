@@ -29,7 +29,7 @@ units:
       - intelligent
     cost:
       gold: 300
-      lumber: 25
+      mana: 4
     power:
       offense: 4
       defense: 0
@@ -70,7 +70,7 @@ units:
       - sentient
       - intelligent
     cost:
-      lumber: 186
+      mana: 186
     power:
       offense: 7
       defense: 3
