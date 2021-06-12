@@ -267,7 +267,7 @@ class InvadeActionService
                 {
                     $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
                     $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-                    $unitsPerBuilding *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'))
+                    $unitsPerBuilding *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
 
                     $building = Building::where('key', $buildingKeyLimitedTo)->first();
                     $dominionBuildings = $this->buildingCalculator->getDominionBuildings($dominion);
