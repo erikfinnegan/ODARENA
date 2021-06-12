@@ -992,10 +992,10 @@ class Dominion extends AbstractModel
         $multiplier = 1;
         $multiplier += $this->getBuildingPerkMultiplier('improvements');
         $multiplier += $this->getSpellPerkMultiplier('improvements');
-        if($this->title)
-        {
-            $multiplier += $this->title->getPerkMultiplier('improvements') * $this->title->getPerkBonus($this);
-        }
+        #if($this->title)
+        #{
+        #    $multiplier += $this->title->getPerkMultiplier('improvements') * $this->title->getPerkBonus($this);
+        #}
 
         $perk *= $multiplier;
 
