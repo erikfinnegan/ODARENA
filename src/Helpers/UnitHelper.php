@@ -532,7 +532,14 @@ class UnitHelper
                 }
 
                 // Special case for dies_into, wins_into ("change_into"), fends_off_into
-                if ($perk->key === 'dies_into' or $perk->key === 'wins_into' or $perk->key === 'fends_off_into')
+                if (
+                      $perk->key === 'dies_into'
+                      or $perk->key === 'dies_into_on_offense'
+                      or $perk->key === 'dies_into_on_defense'
+                      or $perk->key === 'dies_into_on_defense_instantly'
+                      or $perk->key === 'wins_into'
+                      or $perk->key === 'fends_off_into'
+                  )
                 {
                     $unitSlotsToConvertTo = array_map('intval', str_split($perkValue));
                     $unitNamesToConvertTo = [];
@@ -549,7 +556,13 @@ class UnitHelper
                 }
 
                 // Special case for returns faster if pairings
-                if ($perk->key === 'dies_into_multiple')
+                if (
+                        $perk->key === 'dies_into_multiple'
+                        or $perk->key === 'dies_into_multiple_on_offense'
+                        or $perk->key === 'dies_into_multiple_on_defense'
+                        or $perk->key === 'dies_into_multiple_on_defense_instantly'
+                        or $perk->key === 'dies_into_multiple_on_victory'
+                    )
                 {
                     $slot = (int)$perkValue[0];
                     $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
