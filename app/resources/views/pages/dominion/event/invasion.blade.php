@@ -50,7 +50,7 @@
                                     @endif
                                 </p>
                             @endif
-                            @if ($event->data['attacker']['instantReturn'])
+                            @if (isset($event->data['attacker']['instantReturn']))
                                 <p class="text-center text-blue">
                                     ⫷⫷◬⫸◬⫸◬ The waves align in your favour. <b>Units return home instantly.</p>
                                 </p>
