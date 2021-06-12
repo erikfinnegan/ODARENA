@@ -48,7 +48,7 @@
                             <tbody>
                                 @foreach ($improvementHelper->getImprovementsByRace($selectedDominion->race) as $improvement)
                                     <tr>
-                                        <td><span class="{{ $improvementHelper->getImprovementIcon($improvementType) }}" data-toggle="tooltip" data-placement="top" title="Hi"> {{ $improvement->name }}</span></td>
+                                        <td><span data-toggle="tooltip" data-placement="top"> {{ $improvement->name }}</span></td>
                                         <td class="text-center">
                                             <input type="number" name="improve[{{ $improvement->key }}]" class="form-control text-center" placeholder="0" min="0" size="8" style="min-width:8em; width:100%;" value="{{ old('improve.' . $improvement->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                         </td>
