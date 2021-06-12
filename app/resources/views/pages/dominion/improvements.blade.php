@@ -6,16 +6,6 @@
 
 @section('content')
 
-@php
-
-$totalImprovementPoints = 0;
-foreach($improvementHelper->getImprovementTypes($selectedDominion) as $improvementType)
-{
-    $totalImprovementPoints += $selectedDominion->{'improvement_'.$improvementType};
-}
-
-@endphp
-
 @if ((bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
     <div class="row">
         <div class="col-sm-12 col-md-9">

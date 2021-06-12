@@ -428,11 +428,22 @@ class EspionageActionService
             case 'castle_spy':
                 $data = [];
 
+                foreach($this->improvementHelper->getImprovementsByRace($target->race) as $improvement)
+                {
+                    foreach($improvement->perks as $perk)
+                    {
+                          array_set($data, "{$perk->key}.points", $this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement));
+                          array_set($data, "{$perk->key}.rating", $target->getImprovementPerkMultiplier($perk->key));
+
+                    }
+                }
+                /*
                 foreach ($this->improvementHelper->getImprovementTypes($target) as $type) {
                     array_set($data, "{$type}.points", $target->{'improvement_' . $type});
                     array_set($data, "{$type}.rating",
                         $this->improvementCalculator->getImprovementMultiplierBonus($target, $type));
                 }
+                */
 
                 $infoOp->data = $data;
                 break;

@@ -395,25 +395,40 @@
                         </colgroup>
                         <thead>
                             <tr>
-                                <td>Part</td>
+                                <td>Improvement</td>
                                 <td>Rating</td>
                                 <td class="text-center">Invested</td>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($improvementHelper->getImprovementTypes($dominion) as $improvementType)
+                            @foreach ($improvementHelper->getImprovementsByRace($dominion->race) as $improvement)
                                 <tr>
                                     <td>
-                                      <i class="ra ra-{{ $improvementHelper->getImprovementIcon($improvementType) }} ra-fw" data-toggle="tooltip" data-placement="top" title="{{ $improvementHelper->getImprovementHelpString($improvementType, $selectedDominion) }}"></i>
-                                        {{ ucfirst($improvementType) }}
+                                        {{ $improvement->name }}
                                     </td>
                                     <td>
-                                        {{ sprintf(
-                                            $improvementHelper->getImprovementRatingString($improvementType),
-                                            number_format((array_get($infoOp->data, "{$improvementType}.rating") * 100), 2)
-                                        ) }}
+                                        @foreach($improvement->perks as $perk)
+                                            @php
+                                                $spanClass = 'text-muted';
+
+                                                if($improvementPerkMultiplier = array_get($infoOp->data, "{$perk->key}.rating"))
+                                                {
+                                                    $spanClass = '';
+                                                }
+                                            @endphp
+
+                                            <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top">
+
+                                            @if($improvementPerkMultiplier > 0)
+                                                +{{ number_format($improvementPerkMultiplier * 100, 2) }}%
+                                            @else
+                                                {{ number_format($improvementPerkMultiplier * 100, 2) }}%
+                                            @endif
+
+                                             {{ $improvementHelper->getImprovementPerkDescription($perk->key) }} <br></span>
+
+                                        @endforeach
                                     </td>
-                                    <td class="text-center">{{ number_format(array_get($infoOp->data, "{$improvementType}.points")) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
