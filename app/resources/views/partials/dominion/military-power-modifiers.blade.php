@@ -33,14 +33,14 @@
                             @if($selectedDominion->race->getPerkValue('land_improvements'))
                                 {{ number_format($landImprovementCalculator->getOffensivePowerBonus($selectedDominion) * 100, 2) }}%
                             @else
-                                {{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'forges') * 100, 2) }}%
+                                {{ number_format($selectedDominion->getImprovementPerkValue('offensive_power'), 2) }}%
                             @endif
                         </td>
                         <td>
                             @if($selectedDominion->race->getPerkValue('land_improvements'))
                                 {{ number_format($landImprovementCalculator->getDefensivePowerBonus($selectedDominion) * 100, 2) }}%
                             @else
-                                {{ number_format($improvementCalculator->getImprovementMultiplierBonus($selectedDominion, 'walls') * 100, 2) }}%
+                                {{ number_format($selectedDominion->getImprovementPerkValue('defensive_power'), 2) }}%
                             @endif
                         </td>
                     </tr>
