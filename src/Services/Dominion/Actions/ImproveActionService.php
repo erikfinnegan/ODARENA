@@ -218,7 +218,7 @@ class ImproveActionService
 
         if ($totalResourcesToInvest > $dominion->{'resource_' . $resource})
         {
-            throw new GameException("You do not have enough {$resource} to invest this much. You have " . number_format($dominion->{'resource_' . $resource}) . ' ' . $resource . ' and tried to invest ' . number_format($totalResourcesToInvest) . '.');
+            throw new GameException("You do not have enough {$resource}. You have " . number_format($dominion->{'resource_' . $resource}) . ' ' . $resource . ' and tried to invest ' . number_format($totalResourcesToInvest) . '.');
         }
 
         foreach ($data as $improvementKey => $amount)
