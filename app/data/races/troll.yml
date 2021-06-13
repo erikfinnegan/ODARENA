@@ -15,7 +15,6 @@ perks:
   food_consumption: 25
   invest_bonus: -25
   gem_production: 50
-  improvements_max: 100
   cannot_tech: 1
   salvaging: 20
 units:
