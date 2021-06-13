@@ -383,7 +383,7 @@
 
                 @if ($infoOp === null)
                     <p>No recent data available.</p>
-                    <p>Perform espionage operation 'Castle Spy' to reveal information.</p>
+                    <p>Perform espionage operation 'Improvements Spy' to reveal information.</p>
                 @else
                     @slot('noPadding', true)
 
@@ -454,7 +454,7 @@
                             <input type="hidden" name="espionage_dominion" value="{{ $dominion->id }}">
                             <input type="hidden" name="type" value="espionage">
                             <input type="hidden" name="operation" value="castle_spy">
-                            <button type="submit" class="btn btn-sm btn-primary">Castle Spy</button>
+                            <button type="submit" class="btn btn-sm btn-primary">Improvements Spy</button>
                         </form>
                     </div>
                     <div class="clearfix"></div>

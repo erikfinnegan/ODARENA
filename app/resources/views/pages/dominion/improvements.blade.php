@@ -58,7 +58,7 @@
                                         <td>
                                             @foreach($improvement->perks as $perk)
                                                 @php
-                                                    $improvementPerkMax = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0]) * (1 + $selectedDominion->getBuildingPerkMultiplier('improvements') + $selectedDominion->getSpellPerkMultiplier('improvements') + $selectedDominion->race->getPerkMultiplier('improvements_max'));
+                                                    $improvementPerkMax = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0]) * (1 + $selectedDominion->getBuildingPerkMultiplier('improvements') + + $selectedDominion->getTechPerkMultiplier('improvements') + $selectedDominion->getSpellPerkMultiplier('improvements') + $selectedDominion->race->getPerkMultiplier('improvements_max'));
                                                     $improvementPerkCoefficient = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[1]);
 
                                                     $spanClass = 'text-muted';
