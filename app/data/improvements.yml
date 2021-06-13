@@ -192,7 +192,7 @@ wizardry:
   perks:
     wizard_strength: 45,5000
     mana_production: 45,5000
-    spell_damage: 45,5000
+    spell_damage: -45,5000
     wizard_guild_housing: 45,5000
 
 # Nox variant
@@ -203,7 +203,7 @@ wizardry_nox:
   perks:
     wizard_strength: 45,5000
     mana_production: 45,5000
-    spell_damage: 45,5000
+    spell_damage: -45,5000
     wizard_guild_housing: 45,5000
     unit_pairing: 45,5000
 
@@ -215,7 +215,7 @@ wizardry_qur:
   perks:
     wizard_strength: 45,5000
     mana_production: 45,5000
-    spell_damage: 45,5000
+    spell_damage: -45,5000
     wizard_guild_housing: 45,5000
     unit_pairing: 90,5000
 
@@ -227,7 +227,7 @@ wizardry_reptilians:
   perks:
     wizard_strength: 45,5000
     mana_production: 45,5000
-    spell_damage: 45,5000
+    spell_damage: -45,5000
     wizard_guild_housing: 45,5000
     unit_pairing: 45,5000
 
@@ -239,7 +239,7 @@ wizardry_undead:
   perks:
     wizard_strength: 45,5000
     mana_production: 45,5000
-    spell_damage: 45,5000
+    spell_damage: -45,5000
     wizard_guild_housing: 45,5000
     unit_pairing: 45,5000
 

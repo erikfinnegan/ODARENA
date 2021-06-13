@@ -58,8 +58,8 @@
                                         <td>
                                             @foreach($improvement->perks as $perk)
                                                 @php
-                                                    $improvementPerkMax = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0]) * (1 + $selectedDominion->getBuildingPerkMultiplier('improvements') + $selectedDominion->getTechPerkMultiplier('improvements') + $selectedDominion->getSpellPerkMultiplier('improvements') + $selectedDominion->race->getPerkMultiplier('improvements_max'));
-                                                    $improvementPerkCoefficient = number_format($selectedDominion->extractImprovementPerkValues($perk->pivot->value)[1]);
+                                                    $improvementPerkMax = $selectedDominion->extractImprovementPerkValues($perk->pivot->value)[0] * (1 + $selectedDominion->getBuildingPerkMultiplier('improvements') + $selectedDominion->getTechPerkMultiplier('improvements') + $selectedDominion->getSpellPerkMultiplier('improvements') + $selectedDominion->race->getPerkMultiplier('improvements_max'));
+                                                    $improvementPerkCoefficient = $selectedDominion->extractImprovementPerkValues($perk->pivot->value)[1];
 
                                                     $spanClass = 'text-muted';
 
@@ -69,7 +69,7 @@
                                                     }
                                                 @endphp
 
-                                                <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top" title="Max: {{ $improvementPerkMax }}%<br>Coefficient: {{ $improvementPerkCoefficient }}">
+                                                <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top" title="Max: {{ number_format($improvementPerkMax,2) }}%<br>Coefficient: {{ number_format($improvementPerkCoefficient) }}">
 
                                                 @if($improvementPerkMultiplier > 0)
                                                     +{{ number_format($improvementPerkMultiplier * 100, 2) }}%

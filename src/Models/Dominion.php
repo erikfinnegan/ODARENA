@@ -694,6 +694,10 @@ class Dominion extends AbstractModel
 
                           # Espionage
                           or $perkKey == 'gold_theft_reduction'
+                          or $perkKey == 'gem_theft_reduction'
+                          or $perkKey == 'lumber_theft_reduction'
+                          or $perkKey == 'ore_theft_reduction'
+                          or $perkKey == 'food_theft_reduction'
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);
