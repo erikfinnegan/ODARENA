@@ -292,7 +292,7 @@ muttering:
   perks:
     wizard_strength: 90,5000
     mana_production: 90,5000
-    spell_damage: 90,5000
+    spell_damage: -90,5000
     wizard_guild_housing: 90,5000
 
 nesting:
