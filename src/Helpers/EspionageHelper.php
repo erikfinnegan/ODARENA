@@ -59,8 +59,8 @@ class EspionageHelper
                 'key' => 'barracks_spy',
             ],
             [
-                'name' => 'Castle Spy',
-                'description' => 'Reveal castle improvements',
+                'name' => 'Improvements Spy',
+                'description' => 'Reveal improvements',
                 'key' => 'castle_spy',
             ],
             [

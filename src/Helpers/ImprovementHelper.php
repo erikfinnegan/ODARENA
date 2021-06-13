@@ -179,7 +179,7 @@ class ImprovementHelper
             'defensive_casualties' => 'defensive casualties',
 
             'spy_strength' => 'spy strength',
-            'spy_losses' => 'reduced spy losses',
+            'spy_losses' => 'spy losses',
             'forest_haven_housing' => 'Forest Haven housing',
 
             'wizard_strength' => 'wizard strength',
