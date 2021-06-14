@@ -803,29 +803,6 @@ class Dominion extends AbstractModel
             }
         );
     }
-
-    /**
-     * @param string $key
-     * @return float
-     */
-     /*
-    public function getSpellPerkValue(string $key): float
-    {
-        $value = 0;
-        $perks = $this->getSpellPerks()->groupBy('key');
-
-        if (isset($perks[$key]))
-        {
-            $max = (float)$perks[$key]->max('pivot.value');
-            if ($max < 0)
-            {
-                return (float)$perks[$key]->min('pivot.value');
-            }
-            return $max;
-        }
-        return 0;
-    }*/
-
     /**
      * @param string $key
      * @return float
@@ -936,6 +913,11 @@ class Dominion extends AbstractModel
                          or $perkKey == 'enthralling'
                          or $perkKey == 'cogency'
                          or $perkKey == 'persuasion'
+
+                         # Reptilians
+
+                         or $perkKey == 'blind_to_reptilian_spies_on_info'
+                         or $perkKey == 'blind_to_reptilian_spies_on_theft'
                      )
                  {
                      $perk += (float)$perkValueString;

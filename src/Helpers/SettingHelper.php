@@ -787,6 +787,10 @@ class SettingHelper
                         $resultString = 'Spies are accusing each other of treason.';
                         break;
 
+                    case 'elskas_blur':
+                        $resultString = 'Our spies\' visions are blurred by Elska.';
+                        break;
+
                     default:
                         throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
                 }

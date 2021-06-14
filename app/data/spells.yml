@@ -524,8 +524,8 @@ elskas_blur:
   exclusive_races:
     - Reptilians
   perks:
-    blind_to_reptilian_spies_on_info: -100
-    blind_to_reptilian_spies_on_theft: -100
+    blind_to_reptilian_spies_on_info: 1
+    blind_to_reptilian_spies_on_theft: 1
 
 elskas_vision:
   name: Elska's Vision
