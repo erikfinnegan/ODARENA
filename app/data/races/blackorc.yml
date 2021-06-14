@@ -74,4 +74,4 @@ units:
       defense: 4
     perks:
       offense_from_net_victories: 0.5,6 # +0.3 OP per Victory, max +6 (at 12 Victories)
-        defense_from_net_victories: 0.15,2 # +0.15 DP per Victory, max +2 (at 13.33 Victories)
+      defense_from_net_victories: 0.15,2 # +0.15 DP per Victory, max +2 (at 13.33 Victories)
