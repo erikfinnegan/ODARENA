@@ -370,6 +370,9 @@
                             </thead>
                             <tbody>
                                 @foreach ($improvementHelper->getImprovementsByRace($dominion->race) as $improvement)
+                                    @php
+                                        $amountInvested = array_get($infoOp->data, "{$improvement->key}.points");
+                                    @endphp
                                     <tr>
                                         <td>
                                             {{ $improvement->name }}
@@ -383,6 +386,7 @@
                                                     {
                                                         $spanClass = '';
                                                     }
+
                                                 @endphp
 
                                                 <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top">
@@ -396,6 +400,11 @@
                                                  {{ $improvementHelper->getImprovementPerkDescription($perk->key) }} <br></span>
 
                                             @endforeach
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="{{ $spanClass }}" data-toggle="tooltip" data-placement="top">
+                                                {{ number_format($amountInvested) }}
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach

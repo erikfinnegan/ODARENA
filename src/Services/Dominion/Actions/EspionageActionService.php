@@ -431,7 +431,7 @@ class EspionageActionService
                 {
                     foreach($improvement->perks as $perk)
                     {
-                          array_set($data, "{$perk->key}.points", $this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement));
+                          array_set($data, "{$improvement->key}.points", $this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement));
                           array_set($data, "{$perk->key}.rating", $target->getImprovementPerkMultiplier($perk->key));
 
                     }
