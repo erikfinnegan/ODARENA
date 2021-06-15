@@ -2211,20 +2211,17 @@ class InvadeActionService
         if($attacker->race->alignment === 'evil' or $defender->race->alignment === 'evil')
         {
 
-            # Units with these attributes do not go in the Crypt.
-            $unkillableAttributes = [
-                'ammunition',
-                'equipment',
-                'magical',
-                'machine',
-                'ship',
-                'massive',
-              ];
+            $this->invasionResult['defender']['crypt'] = [];
+            $this->invasionResult['attacker']['crypt'] = [];
 
             # The battlefield:
             # Cap bodies by reduced_conversions perk, and round.
             $defensiveBodies = round(array_sum($this->invasionResult['defender']['unitsLost']) * (1 - $defender->race->getPerkMultiplier('reduced_conversions')));
             $offensiveBodies = round(array_sum($this->invasionResult['attacker']['unitsLost']) * (1 - $attacker->race->getPerkMultiplier('reduced_conversions')));
+
+
+            $this->invasionResult['defender']['crypt']['bodies_available_raw'] = $defensiveBodies;
+            $this->invasionResult['attacker']['crypt']['bodies_available_raw'] = $offensiveBodies;
 
             # Loop through defensive casualties and remove units that don't qualify.
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
@@ -2274,6 +2271,9 @@ class InvadeActionService
                 $defensiveBodies -= array_sum($this->invasionResult['attacker']['conversion']);
             }
 
+            $this->invasionResult['defender']['crypt']['bodies_available_net'] = $defensiveBodies;
+            $this->invasionResult['attacker']['crypt']['bodies_available_net'] = $offensiveBodies;
+
             $toTheCrypt = 0;
 
             # If defender is empire
@@ -2315,6 +2315,9 @@ class InvadeActionService
                   }
             }
 
+            $this->invasionResult['defender']['crypt']['bodies_available_final'] = $defensiveBodies;
+            $this->invasionResult['attacker']['crypt']['bodies_available_final'] = $offensiveBodies;
+
             $toTheCrypt = max(0, round($defensiveBodies + $offensiveBodies));
 
             if($whoHasCrypt == 'defender')
@@ -2330,7 +2333,6 @@ class InvadeActionService
             }
             elseif($whoHasCrypt == 'attacker')
             {
-
                 $this->invasionResult['attacker']['crypt']['defensiveBodies'] = $defensiveBodies;
                 $this->invasionResult['attacker']['crypt']['offensiveBodies'] = $offensiveBodies;
                 $this->invasionResult['attacker']['crypt']['total'] = $toTheCrypt;
