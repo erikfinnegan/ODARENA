@@ -991,8 +991,6 @@ class ConversionCalculator
         {
             $unconvertiblePerks = [
                 'fixed_casualties',
-                'dies_into',
-                'dies_into_multiple',
               ];
         }
 
