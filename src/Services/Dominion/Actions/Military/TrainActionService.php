@@ -401,51 +401,51 @@ class TrainActionService
 
         if($totalCosts['gold'] > $dominion->resource_gold)
         {
-          throw new GameException('Training failed due to insufficient gold.');
+          throw new GameException('Training failed due to insufficient gold. You tried to spend ' . number_format($totalCosts['gold']) .  ' but only have ' . number_format($dominion->resource_gold) .'.');
         }
         if($totalCosts['ore'] > $dominion->resource_ore)
         {
-          throw new GameException('Training failed due to insufficient ore.');
+          throw new GameException('Training failed due to insufficient ore. You tried to spend ' . number_format($totalCosts['ore']) .  ' but only have ' . number_format($dominion->resource_ore) .'.');
         }
         if($totalCosts['food'] > $dominion->resource_food)
         {
-          throw new GameException('Training failed due to insufficient food.');
+          throw new GameException('Training failed due to insufficient food. You tried to spend ' . number_format($totalCosts['food']) .  ' but only have ' . number_format($dominion->resource_food) .'.');
         }
         if($totalCosts['mana'] > $dominion->resource_mana)
         {
-          throw new GameException('Training failed due to insufficient mana.');
+          throw new GameException('Training failed due to insufficient mana. You tried to spend ' . number_format($totalCosts['mana']) .  ' but only have ' . number_format($dominion->resource_mana) .'.');
         }
         if($totalCosts['gem'] > $dominion->resource_gems)
         {
-          throw new GameException('Training failed due to insufficient gems.');
+          throw new GameException('Training failed due to insufficient gems. You tried to spend ' . number_format($totalCosts['gem']) .  ' but only have ' . number_format($dominion->resource_gems) .'.');
         }
         if($totalCosts['lumber'] > $dominion->resource_lumber)
         {
-          throw new GameException('Training failed due to insufficient lumber.');
+          throw new GameException('Training failed due to insufficient lumber. You tried to spend ' . number_format($totalCosts['lumber']) .  ' but only have ' . number_format($dominion->resource_lumber) .'.');
         }
         if($totalCosts['prestige'] > floor($dominion->prestige))
         {
-          throw new GameException('Training failed due to insufficient prestige.');
+          throw new GameException('Training failed due to insufficient prestige. You tried to spend ' . number_format($totalCosts['prestige']) .  ' but only have ' . number_format($dominion->prestige) .'.');
         }
         if($totalCosts['boat'] > $dominion->resource_boats)
         {
-          throw new GameException('Training failed due to insufficient boats.');
+          throw new GameException('Training failed due to insufficient boats. You tried to spend ' . number_format($totalCosts['boat']) .  ' but only have ' . number_format($dominion->resource_boats) .'.');
         }
         if($totalCosts['champion'] > $dominion->resource_champion)
         {
-          throw new GameException('You do not have enough Champions.');
+          throw new GameException('You do not have enough Champions. You tried to spend ' . number_format($totalCosts['champion']) .  ' but only have ' . number_format($dominion->resource_champion) .'.');
         }
         if($totalCosts['soul'] > $dominion->resource_soul)
         {
-          throw new GameException('Insufficient souls. Collect more souls.');
+          throw new GameException('Insufficient souls. Collect more souls. You tried to spend ' . number_format($totalCosts['soul']) .  ' but only have ' . number_format($dominion->resource_soul) .'.');
         }
         if($totalCosts['wild_yeti'] > $dominion->resource_wild_yeti)
         {
-          throw new GameException('You do not have enough wild yetis.');
+          throw new GameException('You do not have enough wild yetis. You tried to spend ' . number_format($totalCosts['wild_yeti']) .  ' but only have ' . number_format($dominion->resource_wild_yeti) .'.');
         }
         if($totalCosts['blood'] > $dominion->resource_blood)
         {
-          throw new GameException('Insufficient blood. Collect more blood.');
+          throw new GameException('Insufficient blood. Collect more blood. You tried to spend ' . number_format($totalCosts['blood']) .  ' but only have ' . number_format($dominion->resource_blood) .'.');
         }
         if($totalCosts['morale'] > $dominion->morale)
         {

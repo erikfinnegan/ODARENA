@@ -2226,6 +2226,16 @@ class InvadeActionService
             # Loop through defensive casualties and remove units that don't qualify.
             foreach($this->invasionResult['defender']['unitsLost'] as $slot => $lost)
             {
+                $uncryptablePerks = [
+                    'dies_into',
+                    'dies_into_multiple',
+                    'dies_into_resource',
+                    'dies_into_resources',
+                    'dies_into_multiple_on_defense',
+                    'dies_into_on_defense',
+                    'dies_into_on_defense_instantly'
+                ];
+
                 if($slot !== 'draftees' and $slot !== 'peasants')
                 {
                     $isUnitConvertible = true;
@@ -2244,6 +2254,17 @@ class InvadeActionService
             # Loop through offensive casualties and remove units that don't qualify.
             foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $lost)
             {
+                $uncryptablePerks = [
+                    'dies_into',
+                    'dies_into_multiple',
+                    'dies_into_resource',
+                    'dies_into_resources',
+                    'dies_into_multiple_on_offense',
+                    'dies_into_on_offense',
+                    'dies_into_multiple_on_victory'
+                ];
+
+
                 if($slot !== 'draftees')
                 {
                     $isUnitConvertible = true;
