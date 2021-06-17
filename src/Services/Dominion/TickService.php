@@ -860,6 +860,7 @@ class TickService
               $spyStrengthAdded = 4;
               $spyStrengthAdded += $dominion->getBuildingPerkValue('spy_strength_recovery');
               $spyStrengthAdded += $dominion->getTechPerkValue('spy_strength_recovery');
+              $spyStrengthAdded += $dominion->getSpellPerkValue('spy_strength_recovery');
               $spyStrengthAdded += $dominion->title->getPerkValue('spy_strength_recovery') * $dominion->title->getPerkBonus($dominion);
 
               $spyStrengthAdded = floor($spyStrengthAdded);
