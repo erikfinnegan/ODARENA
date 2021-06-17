@@ -367,38 +367,41 @@ class BarbarianService
         # Determine buildings
         foreach ($barren as $landType => $acres)
         {
-            if($landType === 'plain')
+            if($acres > 0)
             {
-                $buildings['building_smithy'] = (int)floor($acres * 0.80);
-                $buildings['building_farm'] = (int)floor($acres * 0.20);
-            }
+                if($landType === 'plain')
+                {
+                    $buildings['building_smithy'] = (int)floor($acres * 0.80);
+                    $buildings['building_farm'] = (int)floor($acres * 0.20);
+                }
 
-            if($landType === 'mountain')
-            {
-                $buildings['building_ore_mine'] = (int)floor($acres * 0.50);
-                $buildings['building_gem_mine'] = (int)floor($acres * 0.50);
-            }
+                if($landType === 'mountain')
+                {
+                    $buildings['building_ore_mine'] = (int)floor($acres * 0.50);
+                    $buildings['building_gem_mine'] = (int)floor($acres * 0.50);
+                }
 
-            if($landType === 'swamp')
-            {
-                $buildings['building_tower'] = (int)floor($acres * 0.50);
-                $buildings['building_wizard_guild'] = (int)floor($acres * 0.50);
-            }
+                if($landType === 'swamp')
+                {
+                    $buildings['building_tower'] = (int)floor($acres * 0.50);
+                    $buildings['building_wizard_guild'] = (int)floor($acres * 0.50);
+                }
 
-            if($landType === 'forest')
-            {
-                $buildings['building_forest_haven'] = (int)floor($acres * 0.50);
-                $buildings['building_lumberyard'] = (int)floor($acres * 0.50);
-            }
+                if($landType === 'forest')
+                {
+                    $buildings['building_forest_haven'] = (int)floor($acres * 0.50);
+                    $buildings['building_lumberyard'] = (int)floor($acres * 0.50);
+                }
 
-            if($landType === 'hill')
-            {
-                $buildings['building_barracks'] = (int)$acres;
-            }
+                if($landType === 'hill')
+                {
+                    $buildings['building_barracks'] = (int)$acres;
+                }
 
-            if($landType === 'water')
-            {
-                $buildings['building_dock'] = (int)$acres;
+                if($landType === 'water')
+                {
+                    $buildings['building_dock'] = (int)$acres;
+                }
             }
 
         }
