@@ -551,8 +551,8 @@ class PopulationCalculator
             $draftees += round($dominion->peasants * $growthFactor);
         }
 
-
         return $draftees;
+        return max(0, $draftees);
     }
 
     /**
