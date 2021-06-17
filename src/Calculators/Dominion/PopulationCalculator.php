@@ -519,7 +519,7 @@ class PopulationCalculator
 
         $draftees = 0;
 
-        if($dominion->getSpellPerkValue('no_drafting'))
+        if($dominion->getSpellPerkValue('no_drafting') or $dominion->draft_rate == 0)
         {
             return $draftees;
         }
