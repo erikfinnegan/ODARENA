@@ -363,6 +363,7 @@ class BarbarianService
     {
         # Get barren land
         $barren = $this->landCalculator->getBarrenLandByLandType($dominion);
+        $buildings = [];
 
         # Determine buildings
         foreach ($barren as $landType => $acres)
@@ -403,11 +404,14 @@ class BarbarianService
                     $buildings['building_dock'] = (int)$acres;
                 }
             }
-
         }
 
-        # Queue buildings
-        $this->queueService->queueResources('construction', $dominion, $buildings, $this->barbarianCalculator->getSetting('CONSTRUCTION_TIME'));
+        if(array_sum($buildings) > 0)
+        {
+                  # Queue buildings
+                  $this->queueService->queueResources('construction', $dominion, $buildings, $this->barbarianCalculator->getSetting('CONSTRUCTION_TIME'));
+        }
+
     }
 
     public function createBarbarian(Round $round): void
@@ -497,8 +501,6 @@ class BarbarianService
 
             # Get the corresponding dominion name.
             $dominionName = $rulerName . "'s " . $tribeTypes[array_rand($tribeTypes, 1)];
-
-            #echo "[BARBARIAN] Creating $dominionName.";
 
             $barbarian = $this->dominionFactory->create($user, $realm, $race, $title, $rulerName, $dominionName, NULL);
 
