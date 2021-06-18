@@ -684,6 +684,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'wizard_cost'
                           or $perkKey == 'spell_cost'
                           or $perkKey == 'spy_strength'
+                          or $perkKey == 'spy_strength_recovery'
                           or $perkKey == 'wizard_strength'
 
                           # Construction/Rezoning and Land
@@ -894,7 +895,9 @@ class Dominion extends AbstractModel
                          or $perkKey == 'immune_to_temples'
 
                          or $perkKey == 'spy_strength'
+                         or $perkKey == 'spy_strength_recovery'
                          or $perkKey == 'wizard_strength'
+                         or $perkKey == 'wizard_strength_recovery'
                          or $perkKey == 'immortal_spies'
                          or $perkKey == 'immortal_wizards'
 
