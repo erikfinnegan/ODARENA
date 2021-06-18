@@ -390,7 +390,7 @@
                                         @endforeach
                                     @endif
 
-                                    @if (isset($event->data['defender']['crypt']) and $event->data['defender']['crypt']['total'] > 0)
+                                    @if (isset($event->data['attacker']['crypt']) and $event->data['attacker']['crypt']['total'] > 0)
                                     <tr>
                                         <th colspan="2">Crypt</th>
                                     </tr>
@@ -399,7 +399,7 @@
                                     </tr>
                                     <tr>
                                         <td>Bodies:</td>
-                                        <td><span class="text-green">+{{ number_format($event->data['defender']['crypt']['total']) }}</span></td>
+                                        <td><span class="text-green">+{{ number_format($event->data['attacker']['crypt']['total']) }}</span></td>
                                     </tr>
                                     @endif
 
