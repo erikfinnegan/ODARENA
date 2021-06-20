@@ -77,7 +77,9 @@
                                                   {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }}
                                                   @if($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}") > 0)
                                                   <br>
-                                                  ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
+                                                      <span data-toggle="tooltip" data-placement="top" title="{{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}") + $militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unit->slot)) }} paid">
+                                                          ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
+                                                      </span>
                                                   @endif
                                               </td>
                                           @else
