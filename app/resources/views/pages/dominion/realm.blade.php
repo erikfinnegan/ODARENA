@@ -41,7 +41,22 @@
                     </div>
                 </div>
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fas fa-map-signs fa-fw"></i> {{ $realm->name }} (#{{ $realm->number }})</h3>
+                      <div class="row">
+                          <div class="col-xs-12 text-center">
+                              @if($realm->alignment == 'good')
+                                  <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" style="height: 42px;display: inline;" alt="The Commonwealth">
+                              @elseif($realm->alignment == 'evil')
+                                  <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" style="height: 42px;display: inline;" alt="The Empire">
+                              @elseif($realm->alignment == 'independent')
+                                  <img src="{{ asset('assets/app/images/independent.svg') }}" class="img-responsive" style="height: 42px;display: inline;" alt="Independent Dominions">
+                              @elseif($realm->alignment == 'npc')
+                                  <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" style="height: 42px;display: inline;" alt="The Barbarian Horde">
+                              @endif
+                          </div>
+                          <div class="col-xs-12 text-center">
+                              <h4>The {{ $alignmentNoun }}</h4>
+                          </div>
+                      </div>
                 </div>
                 <div class="box-body table-responsive no-padding">
 
@@ -204,19 +219,8 @@
                 </div>
                 <div class="box-body">
                       <div class="row">
-                          <div class="col-xs-2">
-                            @if($realm->alignment == 'good')
-                                <img src="{{ asset('assets/app/images/commonwealth.svg') }}" class="img-responsive" alt="The Commonwealth">
-                            @elseif($realm->alignment == 'evil')
-                                <img src="{{ asset('assets/app/images/empire.svg') }}" class="img-responsive" alt="The Empire">
-                            @elseif($realm->alignment == 'independent')
-                                <img src="{{ asset('assets/app/images/independent.svg') }}" class="img-responsive" alt="Independent Dominions">
-                            @elseif($realm->alignment == 'npc')
-                                <img src="{{ asset('assets/app/images/barbarian.svg') }}" class="img-responsive" alt="The Barbarian Horde">
-                            @endif
-                          </div>
-                          <div class="col-xs-10">
-                            <p>This is the {{ $alignmentAdjective }} Realm of <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
+                          <div class="col-xs-12">
+                            <p>This <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
 
                             @if($realmCalculator->hasMonster($realm))
                                 @php

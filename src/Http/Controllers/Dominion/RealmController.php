@@ -141,7 +141,7 @@ class RealmController extends AbstractDominionController
         }
         elseif($realm->alignment == 'npc')
         {
-            $alignmentNoun = 'Barbarian';
+            $alignmentNoun = 'Barbarian Horde';
             $alignmentAdjective = 'Barbarian';
             $barbarianSettings = $barbarianCalculator->getSettings();
         }
