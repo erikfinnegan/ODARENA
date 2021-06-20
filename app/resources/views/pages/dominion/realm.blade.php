@@ -57,7 +57,7 @@
                               <h4>The {{ $alignmentNoun }}</h4>
                               <span>
                                   @if(isset($realm->name) and !in_array($realm->name, $defaultRealmNames))
-                                      {{ $realm->name }}
+                                      <em>{{ $realm->name }}</em>
                                   @endif
                               </span>
                           </div>
