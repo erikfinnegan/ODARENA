@@ -146,6 +146,13 @@ class RealmController extends AbstractDominionController
             $barbarianSettings = $barbarianCalculator->getSettings();
         }
 
+        $defaultRealmNames = [
+            'The Commonwealth',
+            'The Empire',
+            'The Independent',
+            'The Barbarian Horde'
+        ];
+
         return view('pages.dominion.realm', compact(
             'landCalculator',
             'networthCalculator',
@@ -165,7 +172,8 @@ class RealmController extends AbstractDominionController
             'barbarianSettings',
             'hoursIntoTheRound',
             'statsService',
-            'realmNames'
+            'realmNames',
+            'defaultRealmNames'
         ));
     }
 

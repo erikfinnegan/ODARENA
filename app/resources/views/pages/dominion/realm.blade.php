@@ -55,6 +55,11 @@
                           </div>
                           <div class="col-xs-12 text-center">
                               <h4>The {{ $alignmentNoun }}</h4>
+                              <span>
+                                  @if(isset($realm->name) and !in_array($realm->name, $defaultRealmNames))
+                                      {{ $realm->name }}
+                                  @endif
+                              </span>
                           </div>
                       </div>
                 </div>
@@ -218,21 +223,6 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                      <div class="row">
-                          <div class="col-xs-12">
-                            <p>This <strong>{{ $realm->name }} (#{{ $realm->number }})</strong>.</p>
-
-                            @if($realmCalculator->hasMonster($realm))
-                                @php
-                                    $monster = $realmCalculator->getMonster($realm)
-                                @endphp
-
-                                  This realm has a monster: <b>{{ $monster->name }}</b>!
-
-                            @endif
-
-                          </div>
-                      </div>
                       <div class="row">
                           <div class="col-xs-12">
                             <div class="box-body table-responsive no-padding">
