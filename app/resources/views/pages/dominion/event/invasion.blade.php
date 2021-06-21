@@ -50,10 +50,12 @@
                                     @endif
                                 </p>
                             @endif
-                            @if (isset($event->data['attacker']['instantReturn']))
-                                <p class="text-center text-blue">
-                                    ⫷⫷◬⫸◬⫸◬ The waves align in your favour. <b>The invading units return home instantly.</b>
-                                </p>
+                            @if ($event->source->realm->id === $selectedDominion->realm->id)
+                                @if (isset($event->data['attacker']['instantReturn']))
+                                    <p class="text-center text-blue">
+                                        ⫷⫷◬⫸◬⫸◬<br>The waves align in your favour. <b>The invading units return home instantly.</b>
+                                    </p>
+                                @endif
                             @endif
                             </div>
                             <table class="table">
