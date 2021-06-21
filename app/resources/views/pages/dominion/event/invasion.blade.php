@@ -52,7 +52,7 @@
                             @endif
                             @if (isset($event->data['attacker']['instantReturn']))
                                 <p class="text-center text-blue">
-                                    ⫷⫷◬⫸◬⫸◬ The waves align in your favour. <b>Units return home instantly.</p>
+                                    ⫷⫷◬⫸◬⫸◬ The waves align in your favour. <b>The invading units return home instantly.</b>
                                 </p>
                             @endif
                             </div>

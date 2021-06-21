@@ -160,8 +160,14 @@ class EspionageActionService
 
         if ($dominion->realm->id === $target->realm->id)
         {
-            throw new GameException('Nice try, but you cannot perform espionage oprations on your realmies');
+            throw new GameException('Nice try, but you cannot perform espionage operations on your realmies');
         }
+
+        if ($dominion->id === $target->id)
+        {
+            throw new GameException('Nice try, but you cannot perform espionage operations on yourself');
+        }
+
 
         # If abducting, the target must also be a faction that can abduct.
         if($operationKey == 'abduct_draftees' or $operationKey == 'abduct_peasants')
@@ -883,7 +889,7 @@ class EspionageActionService
                     $target->{$attribute} -= $damage;
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                    $this->statsService->updateStat($dominion, 'draftees_killed', $damage);
+                    $this->statsService->updateStat($dominion, 'espionage_draftees_killed', $damage);
                     $this->statsService->updateStat($target, 'draftees_lost', $damage);
                 }
 

@@ -137,30 +137,36 @@ class SpellActionService
             throw new GameException("You do not have enough mana to cast {$spell->name}. You need {$manaCost} mana to cast this spell.");
         }
 
-        if ($spell->scope == 'hostile')
+        if ($dominion->round->id !== $target->round->id)
         {
-            if ($target === null) {
-                throw new GameException("You must select a target when casting offensive spell {$spell->name}");
+            throw new GameException('Nice try, but you cannot cast spells cross-round');
+        }
+
+        if ($spell->scope == 'hostile' or $spell->scope == 'info')
+        {
+            if ($target === null)
+            {
+                throw new GameException("You must select a target when casting {$spell->name}");
             }
 
             if ($this->protectionService->isUnderProtection($dominion))
             {
-                throw new GameException('You cannot cast offensive spells while under protection');
+                throw new GameException("You cannot cast {$spell->name} while under protection");
             }
 
             if ($this->protectionService->isUnderProtection($target))
             {
-                throw new GameException('You cannot cast offensive spells on targets which are under protection');
+                throw new GameException("You cannot cast {$spell->name} on targets under protection");
             }
 
             if (!$this->rangeCalculator->isInRange($dominion, $target) and $spell->class !== 'invasion')
             {
-                throw new GameException('You cannot cast offensive spells on targets outside of your range');
+                throw new GameException("You cannot cast spells on targets not in your range");
             }
 
-            if ($dominion->round->id !== $target->round->id)
+            if ($dominion->realm->id === $target->realm->id or $dominion->id === $target->id)
             {
-                throw new GameException('Nice try, but you cannot cast spells cross-round');
+                throw new GameException("You cannot cast {$spell->name} on yourself or other dominions in your realm");
             }
         }
 
