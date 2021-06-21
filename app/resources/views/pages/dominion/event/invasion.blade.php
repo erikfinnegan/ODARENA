@@ -392,7 +392,7 @@
                                         @endforeach
                                     @endif
 
-                                    @if (isset($event->data['attacker']['crypt']) and $event->data['attacker']['crypt']['total'] > 0)
+                                    @if (isset($event->data['attacker']['crypt']['total']) and $event->data['attacker']['crypt']['total'] > 0)
                                     <tr>
                                         <th colspan="2">Crypt</th>
                                     </tr>
@@ -758,7 +758,7 @@
                                             @endif
                                         @endforeach
 
-                                        @if (isset($event->data['defender']['crypt']) and $event->data['defender']['crypt']['total'] > 0)
+                                        @if (isset($event->data['defender']['crypt']['total'])) and $event->data['defender']['crypt']['total'] > 0)
                                         <tr>
                                             <th colspan="2">Crypt</th>
                                         </tr>
