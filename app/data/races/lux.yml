@@ -69,7 +69,7 @@ units:
       gem: 10
       mana: 20
     power:
-      offense: 4
+      offense: 5
       defense: 0
     perks:
       no_draftee: 1
