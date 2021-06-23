@@ -322,7 +322,7 @@ class DominionFactory
             $startingResources['draft_rate'] = 100;
         }
 
-        // Kerranad: starting imps.
+        // Kerranad: starting gems for imps.
         if($race->name == 'Kerranad')
         {
             $startingResources['gems'] = 300000;
