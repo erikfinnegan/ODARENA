@@ -616,14 +616,14 @@ class InvadeActionService
             $attackerPrestigeChange /= 3;
         }
 
+        # Cut in half when hitting abandoned dominions
+        if($defender->isAbandoned() and $attackerPrestigeChange > 0)
+        {
+            $attackerPrestigeChange /= 2);
+        }
+
         $attackerPrestigeChange = round($attackerPrestigeChange);
         $defenderPrestigeChange = round($defenderPrestigeChange);
-
-        # Cap prestige gain at 0 for abandoned dominions.
-        if($defender->isAbandoned())
-        {
-            $attackerPrestigeChange = max($attackerPrestigeChange, 0);
-        }
 
         if ($attackerPrestigeChange !== 0)
         {
@@ -1658,9 +1658,8 @@ class InvadeActionService
 
       #echo '<pre>';print_r($returningUnits);echo '</pre>';
 
-      if(random_chance($dominion->getImprovementPerkMultiplier('chance_of_instant_return')))
+      if(random_chance($dominion->getImprovementPerkMultiplier('chance_of_instant_return')) or $dominion->race->getPerkValue('instant_return'))
       {
-
           #dd('Instant return, baby!');
           $this->invasionResult['attacker']['instantReturn'] = true;
           foreach($returningUnits as $unitKey => $returningAmount)

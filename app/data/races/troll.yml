@@ -24,7 +24,7 @@ units:
     type:
       - equipment
     cost:
-      gold: 400
+      gold: 450
       mana: 50
     power:
       offense: 0
@@ -42,7 +42,7 @@ units:
       - living
       - sentient
     cost:
-      gold: 900
+      gold: 950
       lumber: 80
     power:
       offense: 8
@@ -75,7 +75,7 @@ units:
       - sentient
       - massive
     cost:
-      gold: 2000
+      gold: 2100
       ore: 500
     power:
       offense: 10

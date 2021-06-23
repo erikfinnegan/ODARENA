@@ -538,7 +538,11 @@ class RaceHelper
                 $description = 'Converts captured spies';
                 $booleanValue = true;
                 break;
-
+          case 'instant_return':
+                $negativeBenefit = false;
+                $description = 'Units return instantly when invading';
+                $booleanValue = true;
+                break;
           default:
                 return null;
         }

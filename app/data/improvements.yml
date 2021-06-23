@@ -3,8 +3,10 @@ cartography:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     explore_gold_cost: -35,4000
     land_discovered: 35,4000
@@ -14,8 +16,10 @@ commerce:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     gold_production: 25,4000
 
@@ -27,9 +31,11 @@ construction:
     - Dragon
     - Growth
     - Imperial Gnome
+    - Kerranad
     - Qur
     - Troll
     - Void
+    - Wood Elf
   perks:
     construction_cost: -25,4000
     rezone_cost: -25,4000
@@ -75,8 +81,10 @@ defense:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     defensive_power: 25,7500
 
@@ -85,8 +93,10 @@ espionage:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     spy_strength: 45,5000
     spy_losses: -45,5000
@@ -98,6 +108,7 @@ irrigation:
     - Armada
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
   perks:
@@ -108,8 +119,10 @@ housing:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     population: 20,4000
 
@@ -118,10 +131,12 @@ logging:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Sylvan
     - Wood Elf
     - Troll
     - Void
+    - Wood Elf
   perks:
     lumber_production: 25,4000
 
@@ -130,8 +145,10 @@ medicine:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     defensive_casualties: -25,4000
     offensive_casualties: -25,4000
@@ -141,8 +158,10 @@ mobilisation:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     unit_gold_costs: -25,4000
     unit_ore_costs: -25,4000
@@ -152,8 +171,10 @@ offense:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     offensive_power: 25,7500
 
@@ -162,8 +183,10 @@ research:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     tech_production: 25,5000
     tech_gains: 25,5000
@@ -173,8 +196,10 @@ mining:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     ore_production: 25,4000
 
@@ -183,12 +208,14 @@ wizardry:
   excluded_races:
     - Beastfolk
     - Growth
+    - Kerranad
     - Nox
     - Qur
     - Reptilians
     - Troll
     - Undead
     - Void
+    - Wood Elf
   perks:
     wizard_strength: 45,5000
     mana_production: 45,5000
@@ -408,15 +435,199 @@ tissue:
     food_production: 100,75000
 # END GROWTH #
 
-# BEGIN WOOD ELF #
+# BEGIN TROLL
+apprenticeship:
+  name: Apprenticeship
+  exclusive_races:
+    - Wood Elf
+  perks:
+    unit_gold_costs: -50,5000
+    unit_lumber_costs: -50,7500
+
+construction_wood_elf:
+  name: Construction
+  exclusive_races:
+    - Wood Elf
+  perks:
+    construction_cost: -50,5000
+    rezone_cost: -50,5000
+
+camouflage:
+  name: Camouflage
+  exclusive_races:
+    - Wood Elf
+  perks:
+    defensive_power: 50,7500
+    defensive_casualties: 50,5000
+
+cartography_wood_elf:
+  name: Cartography
+  exclusive_races:
+    - Wood Elf
+  perks:
+    land_discovered: 70,5000
+
+espionage_wood_elf:
+  name: Espionage
+  exclusive_races:
+    - Wood Elf
+  perks:
+    spy_strength: 90,6500
+    spy_losses: -90,6500
+    forest_haven_housing: 90,6500
+
+fencing:
+  name: Fencing
+  exclusive_races:
+    - Wood Elf
+  perks:
+    offensive_power: 50,7500
+    offensive_casualties: 50,5000
+
+foraging:
+  name: Foraging
+  exclusive_races:
+    - Wood Elf
+  perks:
+    food_production: 90,6500
+
 forestry:
   name: Forestry
   exclusive_races:
     - Wood Elf
   perks:
-    lumber_production: 25,4000
+    lumber_production: 50,5000
     population_growth: 35,6000
+
+housing_wood_elf:
+  name: Housing
+  excluded_races:
+    - Wood Elf
+  perks:
+    population: 40,5000
+
+leadership_wood_elf:
+  name: Leadership
+  exclusive_races:
+    - Wood Elf
+  perks:
+    title_bonus: 50,8000
+
+tutoring:
+  name: Tutoring
+  exclusive_races:
+    - Wood Elf
+  perks:
+    tech_production: 45,6500
+    tech_gains: 45,6500
+
+wizardry_wood_elf:
+  name: Wizardry
+  exclusive_races:
+    - Wood Elf
+  perks:
+    wizard_strength: 90,6500
+    mana_production: 90,6500
+    spell_damage: -90,6500
+    wizard_guild_housing: 90,6500
+
 # END WOOD ELF #
+
+# BEGIN KERRANAD #
+cartography_kerranad:
+  name: Cartography
+  exclusive_races:
+    - Kerranad
+  perks:
+    explore_gold_cost: -50,4500
+    land_discovered: 50,4500
+
+city_guard:
+  name: City Guard
+  exclusive_races:
+    - Kerranad
+  perks:
+    defensive_power: 50,8500
+
+education:
+  name: Education
+  exclusive_races:
+    - Kerranad
+  perks:
+    improvement_points: 25,3000
+
+espionage_kerranad:
+  name: Espionage
+  exclusive_races:
+    - Kerranad
+  perks:
+    spy_strength: 60,5500
+    spy_losses: -60,5500
+    forest_haven_housing: 60,5500
+
+foundations:
+  name: Foundations
+  exclusive_races:
+    - Kerranad
+  perks:
+    construction_time: -80,12500
+
+housing_kerranad:
+  name: Housing
+  excluded_races:
+    - Kerranad
+  perks:
+    population: 30,4500
+
+medicine_kerranad:
+  name: Medicine
+  exclusive_races:
+    - Kerranad
+  perks:
+    defensive_casualties: -35,4500
+    offensive_casualties: -35,4500
+
+leadership_kerranad:
+  name: Leadership
+  exclusive_races:
+    - Kerranad
+  perks:
+    title_bonus: 40,6000
+
+market:
+  name: Market
+  exclusive_races:
+    - Kerranad
+  perks:
+    gold_production: 50,6000
+    exchange_rate: 30,6000
+
+readiness:
+  name: Readiness
+  exclusive_races:
+    - Kerranad
+  perks:
+    training_time: -80,12500
+
+warfare:
+  name: Warfare
+  exclusive_races:
+    - Kerranad
+  perks:
+    offensive_power: 40,8000
+    prestige_gains: 50,10000
+
+wizardry_kerranad:
+  name: Wizardry
+  exclusive_races:
+    - Kerranad
+  perks:
+    wizard_strength: 60,5500
+    mana_production: 60,5500
+    spell_damage: -60,5500
+    wizard_guild_housing: 60,5500
+
+# END KERRANAD #
 
 # BEGIN ARMADA #
 harbour:

@@ -87,11 +87,9 @@ class TechCalculator
     {
         $multiplier = 0;
 
-        # Perk
-        if($dominion->race->getPerkMultiplier('tech_costs'))
-        {
-          $multiplier += $dominion->race->getPerkMultiplier('tech_costs');
-        }
+        $multiplier += $dominion->race->getPerkMultiplier('tech_costs');
+        $multiplier += $dominion->getImprovementPerkMultiplier('tech_costs');
+        $multiplier += $dominion->getSpellPerkMultiplier('tech_costs');
 
         return $multiplier;
     }

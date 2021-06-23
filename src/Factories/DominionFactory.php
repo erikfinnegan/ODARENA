@@ -325,13 +325,7 @@ class DominionFactory
         // Kerranad: starting imps.
         if($race->name == 'Kerranad')
         {
-            $startingResources['improvement_markets'] = 422500;
-            $startingResources['improvement_keep'] = 535000;
-            $startingResources['improvement_forges'] = 791000;
-            $startingResources['improvement_walls'] = 791000;
-            $startingResources['improvement_armory'] = 895000;
-            $startingResources['improvement_observatory'] = 528000;
-            $startingResources['improvement_harbor'] = 591000;
+            $startingResources['gems'] = 300000;
         }
 
         // Spirit: give back gold.

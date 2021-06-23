@@ -40,7 +40,7 @@ perks:
   cannot_train_archmages: 1
   max_population: 10
   invest_bonus: 35
-  improvements_max: 35
+
 units:
   - name: Assassin
     training_time: 6

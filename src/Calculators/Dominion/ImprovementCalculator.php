@@ -212,6 +212,9 @@ class ImprovementCalculator
             # Buildings
             $multiplier += $dominion->getBuildingPerkMultiplier('improvement_points');
 
+            # Improvements
+            $multiplier += $dominion->getImprovementPerkMultiplier('improvement_points');
+
             ## Extra imp points from racial improvements bonus
             if($dominion->race->getPerkMultiplier('invest_bonus'))
             {

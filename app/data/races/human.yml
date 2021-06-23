@@ -29,7 +29,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 365
+      gold: 325
       ore: 20
     power:
       offense: 4
@@ -61,7 +61,7 @@ units:
       ore: 80
     power:
       offense: 0
-      defense: 7
+      defense: 7.5
     perks:
       fewer_casualties: 25
 

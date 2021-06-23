@@ -61,7 +61,7 @@ class ImprovementHelper
       return $improvementTypes;
 
     }
-
+    /*
     public function getImprovementRatingString(string $improvementType): string
     {
         $ratingStrings = [
@@ -136,6 +136,7 @@ class ImprovementHelper
         return $icons[$improvementKey] ? $icons[$improvementKey] : 'fairy-wand';
 
     }
+    */
 
     # IMPROVEMENTS 2.0
 
@@ -151,6 +152,8 @@ class ImprovementHelper
             'food_production' => 'food production',
             'tech_production' => 'XP generation',
 
+            'exchange_rate' => 'exchange rate',
+
             'tech_gains' => 'XP gained',
 
             'population' => 'population',
@@ -158,6 +161,7 @@ class ImprovementHelper
 
             'construction_cost' => 'construction costs',
             'rezone_cost' => 'rezoning costs',
+            'construction_time' => 'construction time',
 
             'explore_gold_cost' => 'exploration gold costs',
             'land_discovered' => 'land discovered',
@@ -178,6 +182,8 @@ class ImprovementHelper
             'offensive_casualties' => 'offensive casualties',
             'defensive_casualties' => 'defensive casualties',
 
+            'prestige_gains' => 'prestige gains',
+
             'spy_strength' => 'spy strength',
             'spy_losses' => 'spy losses',
             'forest_haven_housing' => 'Forest Haven housing',
@@ -189,64 +195,13 @@ class ImprovementHelper
 
             'unit_pairing' => 'unit pairing',
 
+            'improvement_points' => 'improvement points value from investments',
+
+            'title_bonus' => 'ruler title bonus'
+
         ];
 
         return $improvementPerkDescriptions[$improvementPerk] ? : 'Missing description';
-    }
-
-    public function getImprovementPerkDescriptionForScribes(Improvement $improvement): ?string
-    {
-
-        $helpStrings[$improvement->name] = '';
-
-        $perkTypeStrings = [
-            'gold_production' => 'Gold production (max +%1$s%%)',
-            'ore_production' => 'Ore production (max +%1$s%%)',
-            'lumber_production' => 'Lumber production (max +%1$s%%)',
-            'gem_production' => 'Gem production (max +%1$s%%)',
-            'mana_production' => 'Mana production (max +%1$s%%)',
-            'food_production' => 'Food production (max +%1$s%%)',
-            'tech_production' => 'XP generation (max +%1$s%%)',
-
-            'tech_gains' => 'XP gained (max +%1$s%%)',
-
-            'population' => 'More population housing (max +%1$s%%)',
-            'population_growth' => 'Population growth (max +%1$s%%)',
-
-            'construction_cost' => 'Reduced construction costs (max +%1$s%%)',
-            'rezone_cost' => 'Reduced rezoning costs (max +%1$s%%)',
-
-            'explore_gold_cost' => 'Reduced exploration gold costs (max +%1$s%%)',
-            'land_discovered' => 'Land discovered (max +%1$s%%)',
-
-            'unit_gold_costs' => 'Reduced unit gold costs (max +%1$s%%)',
-            'unit_ore_costs' => 'Reduced unit ore costs (max +%1$s%%)',
-            'unit_lumber_costs' => 'Reduced unit lumber costs (max +%1$s%%)',
-            'unit_gem_costs' => 'Reduced unit gem costs (max +%1$s%%)',
-            'unit_mana_costs' => 'Reduced unit mana costs (max +%1$s%%)',
-            'unit_food_costs' => 'Reduced unit food costs (max +%1$s%%)',
-
-            'training_time' => 'Unit training time (max -%1$s%%)',
-            'chance_of_instant_return' => 'Chance of units returning instantly from invasion (max %1$s%%)',
-
-            'offensive_power' => 'Offensive power (max +%1$s%%)',
-            'defensive_power' => 'Defensive power (max +%1$s%%)',
-            'casualties' => 'Reduced casualties (max +%1$s%%)',
-            'offensive_casualties' => 'Reduced offensive casualties (max +%1$s%%)',
-            'defensive_casualties' => 'Reduced defensive casualties (max +%1$s%%)',
-
-            'spy_strength' => 'Spy strength (max +%1$s%%)',
-            'spy_losses' => 'Reduced spy losses (max +%1$s%%)',
-            'forest_haven_housing' => 'Forest Haven housing (max +%1$s%%)',
-
-            'wizard_strength' => 'Wizard strength (max +%1$s%%)',
-            'wizard_losses' => 'Reduced wizard losses (max +%1$s%%)',
-            'spell_damage' => 'Reduced spell damage (max +%1$s%%)',
-            'wizard_guild_housing' => 'Wizard Guild housing (max +%1$s%%)',
-
-        ];
-
-        return $helpStrings[$improvement->name] ?: null;
     }
 
     /*

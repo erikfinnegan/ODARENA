@@ -13,6 +13,7 @@ construction_materials: gold,lumber
 
 perks:
   max_population: -20
+  instant_return: 1
 units:
   - name: Bombardier
     training_time: 9
