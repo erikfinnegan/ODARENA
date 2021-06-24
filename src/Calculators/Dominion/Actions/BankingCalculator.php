@@ -64,7 +64,7 @@ class BankingCalculator
 
           $bonus = 1;
 
-          // Get racial bonus
+          // Faction perk
           $bonus += $dominion->race->getPerkMultiplier('exchange_bonus');
 
           // Techs
@@ -75,6 +75,9 @@ class BankingCalculator
 
           // Buildings
           $bonus += $dominion->getBuildingPerkMultiplier('exchange_rate');
+
+          // Improvements
+          $bonus += $dominion->getImprovementPerkMultiplier('exchange_rate');
 
           // Ruler Title: Merchant
           $bonus += $dominion->title->getPerkMultiplier('exchange_rate') * $dominion->title->getPerkBonus($dominion);

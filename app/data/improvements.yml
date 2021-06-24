@@ -373,7 +373,6 @@ uprooting:
     - Troll
   perks:
     lumber_production: 50,4000
-
 # END TROLL #
 
 # BEGIN VOID #
@@ -422,7 +421,6 @@ waves:
   perks:
     training_time: -80,12500
     chance_of_instant_return: 50,25000
-
 # END VOID #
 
 # BEGIN GROWTH #
@@ -511,7 +509,7 @@ leadership_wood_elf:
   exclusive_races:
     - Wood Elf
   perks:
-    title_bonus: 50,8000
+    title_bonus: 80,800
 
 tutoring:
   name: Tutoring
@@ -592,7 +590,7 @@ leadership_kerranad:
   exclusive_races:
     - Kerranad
   perks:
-    title_bonus: 40,6000
+    title_bonus: 50,500
 
 market:
   name: Market
