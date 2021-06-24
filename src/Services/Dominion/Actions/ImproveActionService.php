@@ -5,6 +5,7 @@ namespace OpenDominion\Services\Dominion\Actions;
 use DB;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Improvement;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
@@ -221,8 +222,13 @@ class ImproveActionService
             throw new GameException("You do not have enough {$resource}. You have " . number_format($dominion->{'resource_' . $resource}) . ' ' . $resource . ' and tried to invest ' . number_format($totalResourcesToInvest) . '.');
         }
 
+        #dd($data);
+
         foreach ($data as $improvementKey => $amount)
         {
+
+            $improvement = Improvement::where('key', $improvementKey)->first();
+
             if ($amount === 0)
             {
                 continue;
@@ -235,11 +241,12 @@ class ImproveActionService
 
             if(!$this->improvementHelper->getImprovementsByRace($dominion->race)->where('key', $improvementKey))
             {
-                throw new GameException('Improvement key ' . $improvementKey .  ' not available to ' . $dominion->race->name . '.');
+                throw new GameException('Improvement key ' . $improvement->name .  ' not available to ' . $dominion->race->name . '.');
             }
 
             $points = $amount * $worth;
-            $data[$improvementKey] = $points;
+            $data[$improvement->key] = $points;
+            $returnData[$improvement->name] = $points;
 
         }
 
@@ -255,7 +262,7 @@ class ImproveActionService
         $dominion->save(['event' => HistoryService::EVENT_ACTION_IMPROVE]);
 
         return [
-            'message' => $this->getReturnMessageString($resource, $data, $totalResourcesToInvest, $dominion),
+            'message' => $this->getReturnMessageString($resource, $returnData, $totalResourcesToInvest, $dominion),
             'data' => [
                 'totalResourcesInvested' => $totalResourcesToInvest,
                 'resourceInvested' => $resource,

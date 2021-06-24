@@ -155,6 +155,7 @@ class ImprovementHelper
             'exchange_rate' => 'exchange rate',
 
             'tech_gains' => 'XP gained',
+            'tech_costs' => 'advancements costs',
 
             'population' => 'population',
             'population_growth' => 'population growth',
