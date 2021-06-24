@@ -41,6 +41,8 @@ steal_food:
 steal_lumber:
   name: Steal Lumber
   scope: theft
+  excluded_races:
+    - Sylvan
   perks:
     resource_theft: lumber,1.25,12 # resource, rate, max per spy
 

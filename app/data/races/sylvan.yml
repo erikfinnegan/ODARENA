@@ -2,7 +2,7 @@ name: Sylvan
 alignment: good
 description:
 home_land_type: forest
-playable: 1
+playable: 0
 experimental: 1
 
 attacking: 3
@@ -30,12 +30,13 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 300
       mana: 8
+      lumber: 1
     power:
       offense: 4
       defense: 0
     perks:
+      no_draftee: 1
       offense_if_recently_invaded: 2
 
   - name: Sprite
@@ -45,9 +46,12 @@ units:
       - sentient
     cost:
       gold: 300
+      lumber: 1
     power:
       offense: 0
       defense: 3
+    perks:
+      no_draftee: 1
 
   - name: Dryad
     training_time: 12
@@ -56,12 +60,13 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 850
       mana: 10
+      lumber: 1
     power:
       offense: 0
       defense: 8
     perks:
+      no_draftee: 1
       counts_as_wizard_offense: 0.333
       counts_as_wizard_defense: 0.250
 
@@ -73,9 +78,11 @@ units:
       - intelligent
     cost:
       mana: 372
+      lumber: 1
     power:
       offense: 10
       defense: 6
     perks:
+      no_draftee: 1
       offense_if_recently_invaded: 5
       defense_if_recently_invaded: 3

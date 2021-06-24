@@ -174,7 +174,7 @@
                                             {{ $round->name }}
                                         </td>
                                         <td>
-                                          {{ $round->league->description }}
+                                            {{ $round->league->description }}
                                         </td>
                                         <td class="text-center">
                                             @if ($round->hasEnded())
@@ -191,13 +191,13 @@
                                         </td>
                                         <td class="text-center">
                                             @if ($round->hasEnded())
-                                                <a href="{{ route('valhalla.round', $round) }}">Valhalla</a>
+                                                <a href="{{ route('valhalla.round', $round) }}">Rankings</a>
                                             @elseif ($userAlreadyRegistered && $round->isActive())
                                                 Playing
                                             @elseif ($userAlreadyRegistered && !$round->hasStarted())
                                                 Registered
                                             @elseif ($round->openForRegistration())
-                                                <a href="{{ route('round.register', $round) }}" class="btn btn-primary btn-flat btn-xs">Register</a>
+                                                <a href="{{ route('round.register', $round) }}" class="btn btn-primary btn-flat btn-xs">REGISTER</a>
                                             @else
                                                 In {{ $round->daysUntilRegistration() }} day(s)
                                             @endif

@@ -569,6 +569,7 @@ foundations:
     - Kerranad
   perks:
     construction_time: -80,8000
+    construction_cost: -35,5500
 
 housing_kerranad:
   name: Housing
@@ -576,6 +577,13 @@ housing_kerranad:
     - Kerranad
   perks:
     population: 30,6000
+
+logging_kerranad:
+  name: Logging
+  exclusive_races:
+    - Kerranad
+  perks:
+    lumber_production: 35,5500
 
 medicine_kerranad:
   name: Medicine
@@ -615,6 +623,13 @@ science:
     - Kerranad
   perks:
     tech_costs: -35,6000
+
+stonecutting_kerranad:
+  name: Stonecutting
+  exclusive_races:
+    - Kerranad
+  perks:
+    ore_production: 35,5000
 
 warfare:
   name: Warfare

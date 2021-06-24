@@ -713,7 +713,7 @@ gill:
 
 # END GROWTH
 
-# BEGIN WOOD ELF AND SYLVAN
+# BEGIN WOOD ELF AND SYLVAN #
 
 mana_tree:
   name: Mana Tree
@@ -735,7 +735,6 @@ garden:
 orchard:
   name: Orchard
   exclusive_races:
-    - Sylvan
     - Wood Elf
   land_type: forest
   perks:
@@ -745,7 +744,6 @@ orchard:
 rootforge:
   name: Rootforge
   exclusive_races:
-    - Sylvan
     - Wood Elf
   land_type: forest
   perks:
@@ -754,13 +752,12 @@ rootforge:
 
 plantation:
   name: Plantation
-  enabled: 0
+  enabled: 1
   exclusive_races:
     - Sylvan
   land_type: forest
   perks:
-    lumber_production: 100
-    food_production: 20
+    lumber_production: 8
 
 outpost:
   name: Outpost
