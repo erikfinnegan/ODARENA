@@ -539,15 +539,15 @@ cartography_kerranad:
   exclusive_races:
     - Kerranad
   perks:
-    explore_gold_cost: -50,4500
-    land_discovered: 50,4500
+    explore_gold_cost: -50,6000
+    land_discovered: 50,6000
 
 city_guard:
   name: City Guard
   exclusive_races:
     - Kerranad
   perks:
-    defensive_power: 50,8500
+    defensive_power: 50,10000
 
 education:
   name: Education
@@ -561,31 +561,31 @@ espionage_kerranad:
   exclusive_races:
     - Kerranad
   perks:
-    spy_strength: 60,5500
-    spy_losses: -60,5500
-    forest_haven_housing: 60,5500
+    spy_strength: 60,6500
+    spy_losses: -60,6500
+    forest_haven_housing: 60,6500
 
 foundations:
   name: Foundations
   exclusive_races:
     - Kerranad
   perks:
-    construction_time: -80,12500
+    construction_time: -80,8000
 
 housing_kerranad:
   name: Housing
   exclusive_races:
     - Kerranad
   perks:
-    population: 30,4500
+    population: 30,6000
 
 medicine_kerranad:
   name: Medicine
   exclusive_races:
     - Kerranad
   perks:
-    defensive_casualties: -35,4500
-    offensive_casualties: -35,4500
+    defensive_casualties: -35,5500
+    offensive_casualties: -35,5500
 
 leadership_kerranad:
   name: Leadership
@@ -599,7 +599,7 @@ market:
   exclusive_races:
     - Kerranad
   perks:
-    gold_production: 50,6000
+    gold_production: 50,7500
     exchange_rate: 30,6000
 
 readiness:
@@ -608,6 +608,8 @@ readiness:
     - Kerranad
   perks:
     training_time: -80,12500
+    unit_gold_costs: -35,5500
+    unit_ore_costs: -35,5500
 
 science:
   name: Science
@@ -621,7 +623,7 @@ warfare:
   exclusive_races:
     - Kerranad
   perks:
-    offensive_power: 40,8000
+    offensive_power: 40,10000
     prestige_gains: 50,10000
 
 wizardry_kerranad:
@@ -629,10 +631,10 @@ wizardry_kerranad:
   exclusive_races:
     - Kerranad
   perks:
-    wizard_strength: 60,5500
-    mana_production: 60,5500
-    spell_damage: -60,5500
-    wizard_guild_housing: 60,5500
+    wizard_strength: 60,6500
+    mana_production: 60,6500
+    spell_damage: -60,6500
+    wizard_guild_housing: 60,6500
 
 # END KERRANAD #
 
