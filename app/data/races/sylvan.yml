@@ -13,6 +13,7 @@ skill_level: 2
 construction_materials: gold,mana
 
 perks:
+  no_gold_production: 1
   food_consumption: -25
   extra_barren_forest_max_population: 10
   extra_barren_forest_jobs: 20
@@ -20,6 +21,7 @@ perks:
   can_invest_mana: 6
   salvaging: 100
   no_lumber_production: 1
+
 units:
   - name: Leshy
     training_time: 9
@@ -72,8 +74,8 @@ units:
     cost:
       mana: 372
     power:
-      offense: 7
-      defense: 3
+      offense: 10
+      defense: 6
     perks:
-      offense_if_recently_invaded: 7
+      offense_if_recently_invaded: 5
       defense_if_recently_invaded: 3

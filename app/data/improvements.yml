@@ -501,7 +501,7 @@ forestry:
 
 housing_wood_elf:
   name: Housing
-  excluded_races:
+  exclusive_races:
     - Wood Elf
   perks:
     population: 40,5000
@@ -574,7 +574,7 @@ foundations:
 
 housing_kerranad:
   name: Housing
-  excluded_races:
+  exclusive_races:
     - Kerranad
   perks:
     population: 30,4500
@@ -608,6 +608,13 @@ readiness:
     - Kerranad
   perks:
     training_time: -80,12500
+
+science:
+  name: Science
+  exclusive_races:
+    - Kerranad
+  perks:
+    tech_costs: -35,6000
 
 warfare:
   name: Warfare

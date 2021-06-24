@@ -325,7 +325,7 @@ class DominionFactory
         // Kerranad: starting gems for imps.
         if($race->name == 'Kerranad')
         {
-            $startingResources['gems'] = 300000;
+            $startingResources['gems'] = 400000;
         }
 
         // Spirit: give back gold.
