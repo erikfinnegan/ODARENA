@@ -625,7 +625,7 @@ class InvadeActionService
         # Cut in half when hitting abandoned dominions
         if($defender->isAbandoned() and $attackerPrestigeChange > 0)
         {
-            $attackerPrestigeChange /= 2);
+            $attackerPrestigeChange /= 2;
         }
 
         $attackerPrestigeChange = round($attackerPrestigeChange);
@@ -2278,7 +2278,7 @@ class InvadeActionService
                             return ($unit->slot == $slot);
                         })->first();
 
-                    if(!$this->conversionCalculator->isSlotConvertible($slot, $attacker) and !$attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+                    if(!$this->conversionCalculator->isSlotConvertible($slot, $attacker) or $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
                     {
                         $offensiveBodies -= $lost;
                     }
