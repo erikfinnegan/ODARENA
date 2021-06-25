@@ -111,6 +111,7 @@ irrigation:
     - Kerranad
     - Troll
     - Void
+    - Wood Elf
   perks:
     food_production: 45,5000
 
@@ -456,7 +457,7 @@ camouflage:
     - Wood Elf
   perks:
     defensive_power: 50,7500
-    defensive_casualties: 50,5000
+    defensive_casualties: -50,5000
 
 cartography_wood_elf:
   name: Cartography
@@ -480,7 +481,7 @@ fencing:
     - Wood Elf
   perks:
     offensive_power: 50,7500
-    offensive_casualties: 50,5000
+    offensive_casualties: -50,5000
 
 foraging:
   name: Foraging
@@ -527,7 +528,6 @@ wizardry_wood_elf:
     wizard_strength: 90,6500
     mana_production: 90,6500
     spell_damage: -90,6500
-    wizard_guild_housing: 90,6500
 
 # END WOOD ELF #
 

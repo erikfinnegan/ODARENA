@@ -309,7 +309,7 @@ class RoundController extends AbstractController
 
         $request->session()->flash(
             'alert-success',
-            ("You have successfully registered to round {$round->number} ({$round->name})! You have been placed in realm {$realm->number} ({$realm->name}) with " . ($realm->dominions()->count() - 1) . ' other ' . str_plural('dominion', ($realm->dominions()->count() - 1)) . '.')
+            ("You have successfully registered to round {$round->number} ({$round->name})! You have joined realm {$realm->number} ({$realm->name}) with " . ($realm->dominions()->count() - 1) . ' other ' . str_plural('dominion', ($realm->dominions()->count() - 1)) . '.')
         );
 
         return redirect()->route('dominion.status');
