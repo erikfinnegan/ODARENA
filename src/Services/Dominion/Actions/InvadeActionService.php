@@ -1738,6 +1738,8 @@ class InvadeActionService
                       $amountWithFasterReturn += ($amountWithFasterReturn + $amountWithNormalReturn) - $returningAmount;
                   }
 
+                  #dd($buildingFasterReturnPerk, $amountWithFasterReturn, ($returnTicks - $ticksFaster), $amountWithNormalReturn, $returnTicks);
+
                   # Queue faster units
                   $this->queueService->queueResources(
                       'invasion',
