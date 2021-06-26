@@ -481,6 +481,7 @@ forest_haven:
 wizard_guild:
   name: Wizard Guild
   excluded_races:
+    - Dimensionalists
     - Dragon
     - Growth
     - Icekin
