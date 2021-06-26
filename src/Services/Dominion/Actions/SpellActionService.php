@@ -518,7 +518,7 @@ class SpellActionService
                     }
                 }
 
-                if ($this->spellCalculator->isSpellActive($target, 'cogency'))
+                if ($target->getSpellPerkValue('cogency'))
                 {
                     $this->notificationService->queueNotification('cogency_occurred',['sourceDominionId' => $caster->id, 'saved' => ($wizardsKilled + $wizardUnitsKilled)]);
                     $this->queueService->queueResources('training', $target, ['military_wizards' => ($wizardsKilled + $wizardUnitsKilled)], 6);
@@ -989,7 +989,7 @@ class SpellActionService
                     }
                 }
 
-                if ($this->spellCalculator->isSpellActive($target, 'cogency'))
+                if ($target->getSpellPerkValue('cogency'))
                 {
                     $this->notificationService->queueNotification('cogency_occurred',['sourceDominionId' => $caster->id, 'saved' => ($wizardsKilled + $wizardUnitsKilled)]);
                     $this->queueService->queueResources('training', $target, ['military_wizards' => ($wizardsKilled + $wizardUnitsKilled)], 6);

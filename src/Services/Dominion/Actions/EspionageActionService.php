@@ -342,7 +342,7 @@ class EspionageActionService
                     $this->statsService->updateStat($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
                 }
 
-                if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
+                if ($target->getSpellPerkValue('persuasion'))
                 {
                     $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
                     $this->queueService->queueResources('training', $target, ['military_spies' => ($spiesKilled + $spyUnitsKilled)], 2);
@@ -698,7 +698,7 @@ class EspionageActionService
                 $this->statsService->updateStat($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
             }
 
-            if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
+            if ($target->getSpellPerkValue('persuasion'))
             {
                 $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
                 $this->queueService->queueResources('training', $target, ['military_spies' => ($spiesKilled + $spyUnitsKilled)], 2);
@@ -1241,7 +1241,7 @@ class EspionageActionService
                 $this->statsService->updateStat($target, 'units_converted', ($spiesKilled + $spyUnitsKilled));
             }
 
-            if ($this->spellCalculator->isSpellActive($target, 'persuasion'))
+            if ($target->getSpellPerkValue('persuasion'))
             {
                 $this->notificationService->queueNotification('persuasion_occurred',['sourceDominionId' => $dominion->id, 'persuaded' => ($spiesKilled + $spyUnitsKilled)]);
                 $this->queueService->queueResources('training', $target, ['military_spies' => ($spiesKilled + $spyUnitsKilled)], 2);

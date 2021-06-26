@@ -189,7 +189,12 @@ class SpellHelper
 
             'stasis' => 'Freezes time. No production, cannot take actions, and cannot have actions taken against it. Units returning from battle continue to return but do not finish and arrive home until Stasis is over.',
 
+            // Cult
             'mind_control' => 'When defending, each Mystic takes control of one invading unit\'s mind. Mindcontrolled units provide 2 raw DP. Only units which have the attribute Sentient and neither of the attributes Ammunition, Equipment, Magical, Massive, Mechanical, Mindless, Ship, or Wise can be mindcontrolled.',
+            'menticide' => 'Mindcontrolled units permanently join the Cult as Thralls or are executed.',
+            'cogency' => 'Wizards and wizard units that fail hostile spells against the Cult have a chance of joining the Cult instead of dying.',
+            'enthralling' => 'When the target releases units, there is a chance some of the units join the Cult as Thralls.',
+            'persuasion' => 'Captured spies and spy wizards have a chance to join the Cult as Thralls instead of being executed.',
 
         ];
 

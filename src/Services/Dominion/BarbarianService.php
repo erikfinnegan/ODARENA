@@ -254,7 +254,7 @@ class BarbarianService
 
                 }
 
-                # Chicken out: 11/12 chance that the Barbarians won't hit.
+                # Chicken out: 7/8 chance that the Barbarians won't hit.
                 if($invadePlayer and rand(1, 8) !== 1)
                 {
                     $logString .= "\t\t** " . $dominion->name . ' chickens out from invading ' . $target->name . "! 🐤\n";
