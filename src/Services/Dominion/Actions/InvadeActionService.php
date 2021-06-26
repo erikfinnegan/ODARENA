@@ -1713,8 +1713,46 @@ class InvadeActionService
                       [$unitKey => $unitsWithRegularReturnTime],
                       $returnTicks
                   );
+              }
 
+              # Check for faster_return from buildings
+              if($buildingFasterReturnPerk = $dominion->getBuildingPerkMultiplier('faster_return'))
+              {
+                  $fasterReturn = $buildingFasterReturnPerk;
+                  $normalReturn = 1-$fasterReturn;
 
+                  $ticksFaster = 6;
+
+                  $amountWithFasterReturn = $returningAmount * $buildingFasterReturnPerk;
+                  $amountWithNormalReturn = $returningAmount - $amountWithFasterReturn;
+
+                  $amountWithFasterReturn = round($amountWithFasterReturn);
+                  $amountWithNormalReturn = round($amountWithNormalReturn);
+
+                  if(($amountWithFasterReturn + $amountWithNormalReturn) > $returningAmount)
+                  {
+                      $amountWithNormalReturn -= ($amountWithFasterReturn + $amountWithNormalReturn) - $returningAmount;
+                  }
+                  if(($amountWithFasterReturn + $amountWithNormalReturn) < $returningAmount)
+                  {
+                      $amountWithFasterReturn += ($amountWithFasterReturn + $amountWithNormalReturn) - $returningAmount;
+                  }
+
+                  # Queue faster units
+                  $this->queueService->queueResources(
+                      'invasion',
+                      $dominion,
+                      [$unitKey => $amountWithFasterReturn],
+                      max(1, $returnTicks - $ticksFaster)
+                  );
+
+                  # Queue slower units
+                  $this->queueService->queueResources(
+                      'invasion',
+                      $dominion,
+                      [$unitKey => $amountWithNormalReturn],
+                      $returnTicks
+                  );
               }
               else
               {

@@ -655,6 +655,8 @@ class Dominion extends AbstractModel
                           or $perkKey == 'morale_gains'
                           or $perkKey == 'base_morale'
 
+                          or $perkKey == 'faster_return'
+
                           # Production mods
                           or $perkKey == 'gold_production_modifier'
                           or $perkKey == 'food_production_modifier'
@@ -690,7 +692,6 @@ class Dominion extends AbstractModel
                           # Construction/Rezoning and Land
                           or $perkKey == 'construction_cost'
                           or $perkKey == 'rezone_cost'
-
                           or $perkKey == 'land_discovered'
 
                           # Espionage
