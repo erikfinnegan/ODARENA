@@ -172,11 +172,12 @@ class ExploreActionService
         $researchPointsPerAcre = 10;
 
         // Improvements
+        $researchPointsPerAcreMultiplier = 1;
         $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('tech_gains');
         $researchPointsPerAcreMultiplier += $dominion->getSpellPerkMultiplier('tech_gains');
         $researchPointsPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('tech_gains');
         $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('tech_gains');
-        $researchPointsPerAcre *= (1 + $researchPointsPerAcreMultiplier);
+        $researchPointsPerAcre *= ($researchPointsPerAcreMultiplier);
         $researchPointsGained = $researchPointsPerAcre * $totalLandToExplore;
 
         # Pathfinder
