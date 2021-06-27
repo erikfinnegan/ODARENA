@@ -1016,6 +1016,18 @@ persuasion:
   perks:
     persuasion: 1
 
+treachery:
+  name: Treachery
+  scope: hostile
+  class: passive
+  cost: 10
+  duration: 4
+  cooldown: 0
+  exclusive_races:
+    - Cult
+  perks:
+    treachery: 1
+
 # /CULT
 
 call_to_arms:

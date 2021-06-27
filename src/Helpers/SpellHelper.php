@@ -195,6 +195,7 @@ class SpellHelper
             'cogency' => 'Wizards and wizard units that fail hostile spells against the Cult have a chance of joining the Cult instead of dying.',
             'enthralling' => 'When the target releases units, there is a chance some of the units join the Cult as Thralls.',
             'persuasion' => 'Captured spies and spy wizards have a chance to join the Cult as Thralls instead of being executed.',
+            'treachery' => 'Some resources stolen by the target are instead diverted to the Cult.',
 
         ];
 

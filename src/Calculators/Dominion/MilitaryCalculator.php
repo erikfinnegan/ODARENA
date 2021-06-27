@@ -881,6 +881,7 @@ class MilitaryCalculator
             $totalLand = $this->landCalculator->getTotalLand($target);
             $barrenLand = $this->landCalculator->getTotalBarrenLandForSwarm($target);
             $barrenLandPercentage = ($barrenLand / $totalLand) * 100;
+            $barrenLandPercentage = max(0, $barrenLandPercentage);
         }
 
         $powerFromLand = $barrenLandPercentage / $ratio;
