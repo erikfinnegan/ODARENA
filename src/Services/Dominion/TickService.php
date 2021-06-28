@@ -267,27 +267,6 @@ class TickService
                         'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                         'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
 
-                        # Improvements
-                        /*
-                        'dominions.improvement_markets' => DB::raw('dominions.improvement_markets + dominion_tick.improvement_markets'),
-                        'dominions.improvement_keep' => DB::raw('dominions.improvement_keep + dominion_tick.improvement_keep'),
-                        'dominions.improvement_forges' => DB::raw('dominions.improvement_forges + dominion_tick.improvement_forges'),
-                        'dominions.improvement_walls' => DB::raw('dominions.improvement_walls + dominion_tick.improvement_walls'),
-                        'dominions.improvement_armory' => DB::raw('dominions.improvement_armory + dominion_tick.improvement_armory'),
-                        'dominions.improvement_infirmary' => DB::raw('dominions.improvement_infirmary + dominion_tick.improvement_infirmary'),
-                        'dominions.improvement_workshops' => DB::raw('dominions.improvement_workshops + dominion_tick.improvement_workshops'),
-                        'dominions.improvement_observatory' => DB::raw('dominions.improvement_observatory + dominion_tick.improvement_observatory'),
-                        'dominions.improvement_cartography' => DB::raw('dominions.improvement_cartography + dominion_tick.improvement_cartography'),
-                        'dominions.improvement_towers' => DB::raw('dominions.improvement_towers + dominion_tick.improvement_towers'),
-                        'dominions.improvement_spires' => DB::raw('dominions.improvement_spires + dominion_tick.improvement_spires'),
-                        'dominions.improvement_hideouts' => DB::raw('dominions.improvement_hideouts + dominion_tick.improvement_hideouts'),
-                        'dominions.improvement_granaries' => DB::raw('dominions.improvement_granaries + dominion_tick.improvement_granaries'),
-                        'dominions.improvement_harbor' => DB::raw('dominions.improvement_harbor + dominion_tick.improvement_harbor'),
-                        'dominions.improvement_forestry' => DB::raw('dominions.improvement_forestry + dominion_tick.improvement_forestry'),
-                        'dominions.improvement_refinery' => DB::raw('dominions.improvement_refinery + dominion_tick.improvement_refinery'),
-                        'dominions.improvement_tissue' => DB::raw('dominions.improvement_tissue + dominion_tick.improvement_tissue'),
-                        */
-
                         # ODA resources
                         'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
                         'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
@@ -357,14 +336,6 @@ class TickService
                 number_format($this->now->diffInMilliseconds(now())),
                 $round->name
             ));
-
-            /*
-            */
-
-
-
-            /*
-            */
 
             $this->now = now();
         }
@@ -1031,78 +1002,6 @@ class TickService
               $tick->crypt_bodies_spent += $unitsRaised;
           }
 
-          # Version 1.3 (Round 42, Spells 2.0 compatible-r)
-          /*
-          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_zidur'))
-          {
-              $spell = Spell::where('key', 'rites_of_zidur')->first();
-
-              $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
-
-              # Check bodies available in the crypt
-              $bodiesAvailable = max(0, floor($dominion->realm->crypt - $tick->crypt_bodies_spent));
-
-              # Break down the spell perk
-              $raisersPerRaisedUnit = (int)$spellPerkValues[0];
-              $raisingUnitSlot = (int)$spellPerkValues[1];
-              $unitRaisedSlot = (int)$spellPerkValues[2];
-
-              $unitsRaised = $dominion->{'military_unit' . $raisingUnitSlot} / $raisersPerRaisedUnit;
-
-              # Check the pairing limit
-              $pairingLimitedIncreasable = $dominion->race->getUnitPerkValueForUnitSlot($unitRaisedSlot, 'pairing_limit_increasable');
-
-              $unitLimitedTo = (float)$pairingLimitedIncreasable[0]; # Units paired-limited to
-              $unitsPerLimitingUnit = (float)$pairingLimitedIncreasable[1]; # Number of this unit per unit paired-limited to
-              $extendingImprovement = (string)$pairingLimitedIncreasable[2]; # Improvement which can increase this limit
-              $improvementMultiplier = (float)$pairingLimitedIncreasable[3]; # Multiplier used to extend the increase from improvement
-              $unitsPerLimitingUnit *= 1 + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
-
-              $maxAdditionalPermittedOfThisUnit = round($dominion->{'military_unit'.$unitLimitedTo} * $unitsPerLimitingUnit);
-              $maxAdditionalPermittedOfThisUnit -= $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitRaisedSlot);
-              $maxAdditionalPermittedOfThisUnit -= $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$unitRaisedSlot);
-
-              $unitsRaised = max(0, min($unitsRaised, $maxAdditionalPermittedOfThisUnit, $bodiesAvailable));
-
-              $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
-              $tick->crypt_bodies_spent += $unitsRaised;
-          }
-          if ($this->spellCalculator->isSpellActive($dominion, 'rites_of_kinthys'))
-          {
-              $spell = Spell::where('key', 'rites_of_kinthys')->first();
-
-              $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, 'converts_crypt_bodies');
-
-              # Check bodies available in the crypt
-              $bodiesAvailable = max(0, floor($dominion->realm->crypt - $tick->crypt_bodies_spent));
-
-              # Break down the spell perk
-              $raisersPerRaisedUnit = (int)$spellPerkValues[0];
-              $raisingUnitSlot = (int)$spellPerkValues[1];
-              $unitRaisedSlot = (int)$spellPerkValues[2];
-
-              $unitsRaised = $dominion->{'military_unit' . $raisingUnitSlot} / $raisersPerRaisedUnit;
-
-              # Check the pairing limit
-              $pairingLimitedIncreasable = $dominion->race->getUnitPerkValueForUnitSlot($unitRaisedSlot, 'pairing_limit_increasable');
-
-              $unitLimitedTo = (float)$pairingLimitedIncreasable[0]; # Units paired-limited to
-              $unitsPerLimitingUnit = (float)$pairingLimitedIncreasable[1]; # Number of this unit per unit paired-limited to
-              $extendingImprovement = (string)$pairingLimitedIncreasable[2]; # Improvement which can increase this limit
-              $improvementMultiplier = (float)$pairingLimitedIncreasable[3]; # Multiplier used to extend the increase from improvement
-              $unitsPerLimitingUnit *= 1 + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
-
-              $maxAdditionalPermittedOfThisUnit = round($dominion->{'military_unit'.$unitLimitedTo} * $unitsPerLimitingUnit);
-              $maxAdditionalPermittedOfThisUnit -= $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unitRaisedSlot);
-              $maxAdditionalPermittedOfThisUnit -= $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$unitRaisedSlot);
-
-              $unitsRaised = max(0, min($unitsRaised, $maxAdditionalPermittedOfThisUnit, $bodiesAvailable));
-
-              $tick->{'generated_unit' . $unitRaisedSlot} += $unitsRaised;
-              $tick->crypt_bodies_spent += $unitsRaised;
-          }
-          */
-
           # Snow Elf: Gryphon Nests generate Gryphons
           if($dominion->race->getPerkValue('gryphon_nests_generate_gryphons'))
           {
@@ -1165,7 +1064,6 @@ class TickService
         ));
 
         $this->precalculateTick($dominion, true);
-        #$this->logDominionTickState($dominion, now());
 
         # Take buildings that are one tick away from finished and create or increment DominionBuildings.
         $finishedBuildingsInQueue = DB::table('dominion_queue')

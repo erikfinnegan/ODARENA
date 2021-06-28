@@ -408,8 +408,7 @@ class BarbarianService
 
         if(array_sum($buildings) > 0)
         {
-                  # Queue buildings
-                  $this->queueService->queueResources('construction', $dominion, $buildings, $this->barbarianCalculator->getSetting('CONSTRUCTION_TIME'));
+            $this->queueService->queueResources('construction', $dominion, $buildings, $this->barbarianCalculator->getSetting('CONSTRUCTION_TIME'));
         }
 
     }
