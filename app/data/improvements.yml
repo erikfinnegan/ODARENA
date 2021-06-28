@@ -563,6 +563,13 @@ espionage_kerranad:
     spy_losses: -60,6500
     forest_haven_housing: 60,6500
 
+farming_kerranad:
+    name: Farming
+    exclusive_races:
+      - Kerranad
+    perks:
+      food_production: 60,6500
+
 foundations:
   name: Foundations
   exclusive_races:
