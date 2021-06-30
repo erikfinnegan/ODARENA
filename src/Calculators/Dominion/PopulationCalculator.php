@@ -330,6 +330,7 @@ class PopulationCalculator
                 (
                     !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population')
                 )
+            )
             {
                 if(!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense'))
                 {
@@ -365,6 +366,7 @@ class PopulationCalculator
                 (
                     !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population')
                 )
+            )
             {
                 if(!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_offense') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_defense'))
                 {
