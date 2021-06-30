@@ -372,36 +372,36 @@ class BarbarianService
             {
                 if($landType === 'plain')
                 {
-                    $buildings['building_smithy'] = (int)floor($acres * 0.80);
-                    $buildings['building_farm'] = (int)floor($acres * 0.20);
+                    $buildings['building_smithy'] = floor($acres * 0.80);
+                    $buildings['building_farm'] = floor($acres * 0.20);
                 }
 
                 if($landType === 'mountain')
                 {
-                    $buildings['building_ore_mine'] = (int)floor($acres * 0.50);
-                    $buildings['building_gem_mine'] = (int)floor($acres * 0.50);
+                    $buildings['building_ore_mine'] = floor($acres * 0.50);
+                    $buildings['building_gem_mine'] = floor($acres * 0.50);
                 }
 
                 if($landType === 'swamp')
                 {
-                    $buildings['building_tower'] = (int)floor($acres * 0.50);
-                    $buildings['building_wizard_guild'] = (int)floor($acres * 0.50);
+                    $buildings['building_tower'] = floor($acres * 0.50);
+                    $buildings['building_wizard_guild'] = floor($acres * 0.50);
                 }
 
                 if($landType === 'forest')
                 {
-                    $buildings['building_forest_haven'] = (int)floor($acres * 0.50);
-                    $buildings['building_lumberyard'] = (int)floor($acres * 0.50);
+                    $buildings['building_forest_haven'] = floor($acres * 0.50);
+                    $buildings['building_lumberyard'] = floor($acres * 0.50);
                 }
 
                 if($landType === 'hill')
                 {
-                    $buildings['building_barracks'] = (int)$acres;
+                    $buildings['building_barracks'] = $acres;
                 }
 
                 if($landType === 'water')
                 {
-                    $buildings['building_dock'] = (int)$acres;
+                    $buildings['building_dock'] = $acres;
                 }
             }
         }
