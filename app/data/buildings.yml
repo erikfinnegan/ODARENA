@@ -986,6 +986,7 @@ hut:
     troll_unit2_housing: 42
     spy_strength: 1,2,200
     jobs: 0
+    housing: 0
 
 plateau:
   name: Plateau
@@ -995,6 +996,7 @@ plateau:
   perks:
     troll_unit4_housing: 30
     jobs: 0
+    housing: 0
 
 chamber:
   name: Chamber

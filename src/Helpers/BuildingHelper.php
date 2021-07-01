@@ -39,6 +39,9 @@ class BuildingHelper
             'draftee_housing' => 'Houses %s draftees.',
             'peasant_housing' => 'Houses %s peasants.',
 
+            'human_unit1_housing' => 'Houses %s Men-at-Arms.',
+            'human_unit2_housing' => 'Houses %s Archers.',
+
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
 

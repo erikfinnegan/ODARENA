@@ -638,6 +638,12 @@ class Dominion extends AbstractModel
                           or $perkKey == 'boat_production'
                           or $perkKey == 'tech_production'
                           or $perkKey == 'draftee_generation'
+
+                          # Building-specific housing
+                          or $perkKey == 'human_unit1_housing'
+                          or $perkKey == 'human_unit2_housing'
+                          or $perkKey == 'troll_unit2_housing'
+                          or $perkKey == 'troll_unit4_housing'
                       )
                   {
                       $perk += (float)$perkValueString;
