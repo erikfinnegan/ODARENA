@@ -566,6 +566,7 @@ tesseract:
   land_type: mountain
   perks:
     military_housing: 48
+    housing: 0
 
 ziggurat:
   name: Ziggurat
@@ -938,6 +939,7 @@ barracks:
   land_type: hill
   perks:
     military_housing: 36
+    housing: 0
     jobs: 0
 
 home:
