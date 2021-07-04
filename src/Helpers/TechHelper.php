@@ -38,14 +38,14 @@ class TechHelper
             'spy_cost' => '%s%% cost of spies',
             'spy_losses' => '%s%% spy losses on failed operations',
             'spy_strength' => '%s%% spy strength',
-            'spy_strength_recovery' => '%s spy strength per tick',
+            'spy_strength_recovery' => '%s spy strength per hour',
             'amount_stolen' => '%s%% amount stolen',
 
             // Wizard related
             'spell_cost' => '%s%% cost of spells',
             'wizard_cost' => '%s%% cost of wizards',
             'wizard_strength' => '%s%% wizard strength',
-            'wizard_strength_recovery' => '%s wizard strength per tick',
+            'wizard_strength_recovery' => '%s wizard strength per hour',
 
             // Resource related
             'food_production' => '%s%% food production',

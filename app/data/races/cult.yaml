@@ -30,7 +30,7 @@ units:
       defense: 2
     perks:
       cannot_be_trained: 1
-      attrition: 0.5 # 0.5% lost each tick.
+      attrition: 0.5 # 1% lost each tick.
       does_not_count_as_population: 1
 
   - name: Initiate
