@@ -207,7 +207,7 @@ class CasualtiesCalculator
 
     }
 
-    # Round 51: Version 1.1
+    # Round 52: Version 1.1
     public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $attacker, Dominion $defender, int $slot, array $units, int $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
     {
 
@@ -360,29 +360,29 @@ class CasualtiesCalculator
      */
     protected function getCasualtiesReductionFromLand(Dominion $dominion, int $slot = NULL, string $powerType): float
     {
-      if ($slot == NULL)
-      {
-          return 0;
-      }
+        if ($slot == NULL)
+        {
+            return 0;
+        }
 
-      $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_from_land", null);
+        $landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, "fewer_casualties_{$powerType}_from_land", null);
 
-      if (!$landPerkData)
-      {
-          return 0;
-      }
+        if (!$landPerkData)
+        {
+            return 0;
+        }
 
-      $landType = $landPerkData[0];
-      $ratio = (float)$landPerkData[1];
-      $max = (float)$landPerkData[2];
+        $landType = $landPerkData[0];
+        $ratio = (float)$landPerkData[1];
+        $max = (float)$landPerkData[2];
 
-      $totalLand = $this->landCalculator->getTotalLand($dominion);
-      $landPercentage = ($dominion->{"land_{$landType}"} / $totalLand) * 100;
+        $totalLand = $this->landCalculator->getTotalLand($dominion);
+        $landPercentage = ($dominion->{"land_{$landType}"} / $totalLand) * 100;
 
-      $powerFromLand = $landPercentage / $ratio;
-      $powerFromPerk = min($powerFromLand, $max)/100;
+        $powerFromLand = $landPercentage / $ratio;
+        $powerFromPerk = min($powerFromLand, $max)/100;
 
-      return $powerFromPerk;
+        return $powerFromPerk;
     }
 
 

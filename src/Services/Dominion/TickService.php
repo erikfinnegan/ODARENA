@@ -140,7 +140,6 @@ class TickService
             if(static::EXTENDED_LOGGING) { Log::debug('* Going through all dominions'); }
             foreach ($dominions as $dominion)
             {
-
                 if($dominion->getSpellPerkValue('stasis'))
                 {
                     $stasisDominions[] = $dominion->id;
@@ -513,9 +512,7 @@ class TickService
     {
 
         /** @var Tick $tick */
-        $tick = Tick::firstOrCreate(
-            ['dominion_id' => $dominion->id]
-        );
+        $tick = Tick::firstOrCreate(['dominion_id' => $dominion->id]);
 
           if ($saveHistory)
           {
@@ -568,15 +565,6 @@ class TickService
               $dominion->{$row->resource} += $row->amount;
           }
 
-          # NPC Barbarian: training
-          /*
-          if($dominion->race->name === 'Barbarian')
-          {
-              $this->barbarianService->handleBarbarianTraining($dominion);
-              $this->barbarianService->handleBarbarianConstruction($dominion);
-          }
-          */
-
           $tick->protection_ticks = 0;
           // Tick
           if($dominion->protection_ticks > 0)
@@ -613,25 +601,9 @@ class TickService
           $tick->military_draftees += $this->productionCalculator->getDrafteesGenerated($dominion, $drafteesGrowthRate);
 
           // Resources
-
-          # Max storage
-          /*
-          $maxStorageTicks = 24 * 4; # Store at most 24 hours (96 ticks) per building.
-          $acres = $this->landCalculator->getTotalLand($dominion);
-          $maxGoldPerAcre = 10000;
-
-          $maxStorage = [];
-          $maxStorage['gold'] = $this->productionCalculator->getMaxStorage($dominion, 'gold');
-          $maxStorage['lumber'] = $this->productionCalculator->getMaxStorage($dominion, 'lumber');
-          $maxStorage['ore'] = $this->productionCalculator->getMaxStorage($dominion, 'ore');
-          $maxStorage['gems'] = $this->productionCalculator->getMaxStorage($dominion, 'gems');
-          */
-
-          #$tick->resource_gold += min($this->productionCalculator->getGoldProduction($dominion), max(0, ($maxStorage['gold'] - $dominion->resource_gold)));
           $tick->resource_gold += $this->productionCalculator->getGoldProduction($dominion);
 
           $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
-          #$tick->resource_lumber += min($this->productionCalculator->getLumberProduction($dominion), max(0, ($maxStorage['lumber'] - $dominion->resource_lumber)));
           $tick->resource_lumber += $this->productionCalculator->getLumberProduction($dominion);
 
           $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
@@ -640,23 +612,21 @@ class TickService
           $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
           $tick->resource_food += $this->productionCalculator->getFoodNetChange($dominion);
 
-          #$tick->resource_ore += min($this->productionCalculator->getOreProduction($dominion), max(0, ($maxStorage['ore'] - $dominion->resource_ore)));
           $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
 
-          #$tick->resource_gems += min($this->productionCalculator->getGemProduction($dominion), max(0, ($maxStorage['gems'] - $dominion->resource_gems)));
           $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
 
           $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
-          $tick->resource_boats += 0; #$this->productionCalculator->getBoatProduction($dominion);
+          $tick->resource_boats += 0;
 
           $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
           $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
 
           # Decay, rot, drain
           $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
-          $tick->resource_food_decay += 0;#$this->productionCalculator->getFoodDecay($dominion);
-          $tick->resource_lumber_rot += 0;#$this->productionCalculator->getLumberDecay($dominion);
-          $tick->resource_mana_drain += 0;#$this->productionCalculator->getManaDecay($dominion);
+          $tick->resource_food_decay += 0;
+          $tick->resource_lumber_rot += 0;
+          $tick->resource_mana_drain += 0;
 
           # Contribution: how much is LOST (GIVEN AWAY)
           $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
@@ -678,7 +648,6 @@ class TickService
           $tick->starvation_casualties = 0;
           if(($dominion->resource_food + $tick->resource_food) < 0)
           {
-              $tick->resource_food = ($dominion->resource_food*-1);
               $tick->starvation_casualties = 1;
           }
 
@@ -688,9 +657,9 @@ class TickService
           $baseMorale *= (1 + $baseMoraleModifier);
           $baseMorale = intval($baseMorale);
 
-          $moraleChangeModifier = (1 + $dominion->race->getPerkValue('morale_change') + $dominion->race->getPerkMultiplier('morale_change_tick'));
+          $moraleChangeModifier = (1 + $dominion->race->getPerkMultiplier('morale_change_tick') + $dominion->race->getPerkMultiplier('morale_change_tick'));
 
-          if($tick->starvation_casualties > 0)
+          if($tick->starvation_casualties)
           {
               # Lower morale by 10.
               $starvationMoraleChange = -10;
@@ -744,6 +713,7 @@ class TickService
 
               $wizardStrengthAdded += $dominion->getBuildingPerkValue('wizard_strength_recovery');
               $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
+              $wizardStrengthAdded += $dominion->getSpellPerkValue('wizard_strength_recovery');
               $wizardStrengthAdded += $dominion->title->getPerkValue('wizard_strength_recovery') * $dominion->title->getPerkBonus($dominion);
 
               $wizardStrengthAdded = floor($wizardStrengthAdded);
@@ -1000,7 +970,7 @@ class TickService
 
             $this->precalculateTick($dominion, true);
 
-        }, 5);
+        });
 
         // Myconid: Land generation
         if(!empty($dominion->tick->generated_land) and $dominion->protection_ticks > 0)
@@ -1036,7 +1006,7 @@ class TickService
         $this->now = now();
     }
 
-    # TICK SERVICE 1.1
+    # TICK SERVICE 1.1 functions
 
     // Update dominions
     private function updateDominions(Round $round, array $stasisDominions)
@@ -1223,7 +1193,6 @@ class TickService
             $building = Building::where('key', $buildingKey)->first();
             $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
         }
-
     }
 
     # Take improvements that are one tick away from finished and create or increment DominionImprovements.
