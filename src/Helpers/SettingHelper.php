@@ -116,10 +116,22 @@ class SettingHelper
                 'iconClass' => 'ra ra-interdiction text-orange',
             ],
             'treachery_completed' => [
-                'label' => 'Resources from treasonous spies have arrived.',
+                'label' => 'Resources from treasonous spies have arrived',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'route' => route('dominion.resources'),
                 'iconClass' => 'ra ra-aware text-green',
+            ],
+            'received_invasion' => [
+                'label' => 'Your dominion got invaded.',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.status'),
+                'iconClass' => 'ra ra-crossed-swords text-red',
+            ],
+            'repelled_invasion' => [
+                'label' => 'Your dominion repelled an invasion.',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.status'),
+                'iconClass' => 'ra ra-crossed-swords text-orange',
             ],
         ];
     }

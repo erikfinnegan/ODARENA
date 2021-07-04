@@ -765,7 +765,7 @@ class InvadeActionService
         foreach ($offensiveUnitsLost as $slot => &$amount)
         {
             // Reduce amount of units to kill by further multipliers
-            $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful, $this->isAmbush);
+            $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful);
 
             $this->invasionResult['attacker']['unitPerks']['offensiveCasualties'][$slot] = $unitsToKillMultiplier;
 
@@ -830,6 +830,9 @@ class InvadeActionService
             return 0;
         }
 
+        $isInvasionSuccessful = $this->invasionResult['result']['success'];
+        $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
+
         $attackingForceOP = $this->invasionResult['attacker']['op'];
         $targetDP = $this->invasionResult['defender']['dp'];
         $defensiveCasualtiesPercentage = (static::CASUALTIES_DEFENSIVE_BASE_PERCENTAGE / 100) * min(1, $landRatio);
@@ -850,18 +853,7 @@ class InvadeActionService
 
         $defensiveUnitsLost = [];
 
-        // Demon: racial spell Infernal Fury increases defensive casualties by 20%.
-        $casualtiesMultiplier = 1;
-
-        $casualtiesMultiplier *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'increases_casualties_on_offense');
-
-        # Dark Elf: Enchanted Blades - increase offensive casualties by offensive WPA * 0.05.
-        if ($this->spellCalculator->isSpellActive($dominion, 'enchanted_blades'))
-        {
-            $casualtiesMultiplier *= (1 + $this->militaryCalculator->getWizardRatio($dominion, 'offense') * 0.05);
-        }
-
-        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
+        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, 'draftees', $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful));
 
         // Spell
         $drafteesLost = min($target->military_draftees, $drafteesLost * (1 + $dominion->getSpellPerkMultiplier('increases_enemy_draftee_casualties')));
@@ -875,7 +867,7 @@ class InvadeActionService
 
         if($target->getSpellPerkValue('defensive_power_from_peasants'))
         {
-            $peasantsLost = (int)floor($target->military_peasants * $defensiveCasualtiesPercentage * ($this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, null, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']) * $casualtiesMultiplier));
+            $peasantsLost = (int)floor($target->military_peasants * $defensiveCasualtiesPercentage * $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, 'peasants', $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful));
 
             // Spell
             $peasantsLost = min($target->military_draftees, $peasantsLost * (1 + $dominion->getSpellPerkMultiplier('increases_enemy_draftee_casualties')));
@@ -898,8 +890,8 @@ class InvadeActionService
                 continue;
             }
 
-            $slotLostMultiplier = $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio, $this->isAmbush, $this->invasionResult['result']['success']);
-            $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * $slotLostMultiplier * $casualtiesMultiplier);
+            $slotLostMultiplier = $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful);
+            $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * $slotLostMultiplier);
             $this->invasionResult['defender']['unitPerks']['defensiveCasualties'][$unit->slot] = $slotLostMultiplier;
 
             if ($slotLost > 0)

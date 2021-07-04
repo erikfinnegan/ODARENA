@@ -38,6 +38,7 @@ class TickService
 
     protected const LAND_TO_TRIGGER_COUNTDOWN = 8000;
     protected const COUNTDOWN_DURATION_HOURS = 12;
+    protected const EXTENDED_LOGGING = false;
 
     /** @var Carbon */
     protected $now;
@@ -116,7 +117,6 @@ class TickService
      */
     public function tickHourly()
     {
-
         if(File::exists('storage/framework/down'))
         {
             $logString = 'Tick at ' . $this->now . ' skipped.';
@@ -137,7 +137,8 @@ class TickService
             $stasisDominions = [];
             $dominions = $round->activeDominions()->get();
 
-            foreach($dominions as $dominion)
+            if(static::EXTENDED_LOGGING) { Log::debug('* Going through all dominions'); }
+            foreach ($dominions as $dominion)
             {
 
                 if($dominion->getSpellPerkValue('stasis'))
@@ -145,9 +146,13 @@ class TickService
                     $stasisDominions[] = $dominion->id;
                 }
 
+                if(static::EXTENDED_LOGGING) { Log::debug('** Updating buildings for ' . $dominion->name); }
                 $this->handleBuildings($dominion);
+
+                if(static::EXTENDED_LOGGING){ Log::debug('** Updating improvments for ' . $dominion->name); }
                 $this->handleImprovements($dominion);
 
+                if(static::EXTENDED_LOGGING) { Log::debug('** Checking for countdown'); }
                 # If we don't already have a countdown, see if any dominion triggers it.
                 if(!$round->hasCountdown())
                 {
@@ -174,6 +179,7 @@ class TickService
 
             unset($dominions);
 
+            if(static::EXTENDED_LOGGING) { Log::debug('* Update stasis dominions'); }
             // Scoot hour 1 Qur Stasis units back to hour 2
             foreach($stasisDominions as $stasisDominion)
             {
@@ -213,11 +219,16 @@ class TickService
 
             }
 
-
-
+            if(static::EXTENDED_LOGGING) { Log::debug('* Update all dominions'); }
             $this->updateDominions($round, $stasisDominions);
+
+            if(static::EXTENDED_LOGGING) { Log::debug('* Update all spells'); }
             $this->updateAllSpells($round);
+
+            if(static::EXTENDED_LOGGING) { Log::debug('* Update invasion queues'); }
             $this->updateAllInvasionQueues($round);
+
+            if(static::EXTENDED_LOGGING) { Log::debug('* Update all other queues'); }
             $this->updateAllOtherQueues($round, $stasisDominions);
 
             Log::info(sprintf(
@@ -230,7 +241,8 @@ class TickService
             $this->now = now();
         }
 
-        foreach ($activeRounds as $round) {
+        foreach ($activeRounds as $round)
+        {
             $dominions = $round->activeDominions()
                 ->with([
                     'race',
@@ -251,16 +263,24 @@ class TickService
                 $this->barbarianService->createBarbarian($round);
             }
 
+            if(static::EXTENDED_LOGGING){ Log::debug('* Going through all dominions again'); }
             foreach ($dominions as $dominion)
             {
+                if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians'); }
                 # NPC Barbarian: invasion, training, construction
                 if($dominion->race->name === 'Barbarian')
                 {
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian invasions for ' . $dominion->name); }
                     $this->barbarianService->handleBarbarianInvasion($dominion);
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian training for ' . $dominion->name); }
                     $this->barbarianService->handleBarbarianTraining($dominion);
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian construction for ' . $dominion->name); }
                     $this->barbarianService->handleBarbarianConstruction($dominion);
                 }
 
+                if(static::EXTENDED_LOGGING) { Log::debug('** Handle Pestilence'); }
                 // Afflicted: Abomination generation
                 if(!empty($dominion->tick->pestilence_units))
                 {
@@ -271,6 +291,7 @@ class TickService
                     }
                 }
 
+                if(static::EXTENDED_LOGGING) { Log::debug('** Handle land generation'); }
                 // Myconid: Land generation
                 if(!empty($dominion->tick->generated_land) and $dominion->protection_ticks == 0)
                 {
@@ -278,6 +299,7 @@ class TickService
                     $this->queueService->queueResources('exploration', $dominion, [$homeLandType => $dominion->tick->generated_land], 12);
                 }
 
+                if(static::EXTENDED_LOGGING) { Log::debug('** Handle unit generation'); }
                 // Unit generation
                 if(!empty($dominion->tick->generated_unit1) and $dominion->protection_ticks == 0)
                 {
@@ -296,13 +318,16 @@ class TickService
                     $this->queueService->queueResources('training', $dominion, ['military_unit4' => $dominion->tick->generated_unit4], 12);
                 }
 
+
                 DB::transaction(function () use ($dominion)
                 {
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Handle starvation for ' . $dominion->name); }
                     if($dominion->tick->starvation_casualties > 0 and !$dominion->isAbandoned())
                     {
                         $this->notificationService->queueNotification('starvation_occurred');
                     }
 
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Handle unit attrition for ' . $dominion->name); }
                     if(
                         (
                           isset($dominion->tick->attrition_unit1) or
@@ -317,14 +342,19 @@ class TickService
                         $this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
                     }
 
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Cleaning up active spells'); }
                     $this->cleanupActiveSpells($dominion);
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Cleaning up queues'); }
                     $this->cleanupQueues($dominion);
 
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Sending notifications (hourly_dominion)'); }
                     $this->notificationService->sendNotifications($dominion, 'hourly_dominion');
 
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Precalculate tick'); }
                     $this->precalculateTick($dominion, true);
 
-                }, 5);
+                });
 
             }
 

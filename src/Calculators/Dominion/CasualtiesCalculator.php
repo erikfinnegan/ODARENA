@@ -123,54 +123,33 @@ class CasualtiesCalculator
         return $perkValue;
     }
 
-    public function getImmortalityForUnitSlot(Dominion $dominion, Dominion $enemy, int $slot, array $units, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful, string $mode = 'offense')
+    public function getImmortalityForUnitSlot(Dominion $dominion, Dominion $enemy, $slot, array $units, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful, string $mode = 'offense')
     {
-          # Lux does not kill anyone
-          if($enemy->race->getPerkValue('does_not_kill'))
-          {
-              return True;
-          }
 
-          # PERK: immortal, spirit_immortal
-          if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal'))
+          if($slot == 'draftees')
           {
-              if(!$enemy->getSpellPerkValue('can_kill_immortal') or !$enemy->getTechPerkValue('can_kill_immortal'))
+              if($dominion->race->getPerkValue('immortal_draftees'))
+              {
+                  return 0;
+              }
+          }
+          elseif($slot == 'peasants')
+          {
+              if($dominion->race->getPerkValue('immortal_peasants'))
+              {
+                  return 0;
+              }
+          }
+          else
+          {
+              # Lux does not kill anyone
+              if($enemy->race->getPerkValue('does_not_kill'))
               {
                   return True;
               }
-          }
 
-          # PERK: true_immortal
-          if ($attacker->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
-          {
-              return True;
-          }
-
-          # PERK: immortal_from_title
-          if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_title', null))
-          {
-              $titleKey = $titlePerkData[0];
-              $titlePowerRatio = $titlePerkData[1] / 100;
-
-              if($dominion->title->key == $titleKey)
-              {
-                  return True;
-              }
-          }
-
-          if($mode == 'offense')
-          {
-              # PERK: immortal_on_victory
-              if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
-              {
-                  return True;
-              }
-          }
-
-          if($mode == 'defense')
-          {
-              # PERK: spirit_immortal
-              if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and !$isInvasionSuccessful)
+              # PERK: immortal, spirit_immortal
+              if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal'))
               {
                   if(!$enemy->getSpellPerkValue('can_kill_immortal') or !$enemy->getTechPerkValue('can_kill_immortal'))
                   {
@@ -178,10 +157,49 @@ class CasualtiesCalculator
                   }
               }
 
-              # Perk: immortal_on_fending_off
-              if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_fending_off') and !$isInvasionSuccessful)
+              # PERK: true_immortal
+              if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
               {
                   return True;
+              }
+
+              # PERK: immortal_from_title
+              if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_title', null))
+              {
+                  $titleKey = $titlePerkData[0];
+                  $titlePowerRatio = $titlePerkData[1] / 100;
+
+                  if($dominion->title->key == $titleKey)
+                  {
+                      return True;
+                  }
+              }
+
+              if($mode == 'offense')
+              {
+                  # PERK: immortal_on_victory
+                  if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
+                  {
+                      return True;
+                  }
+              }
+
+              if($mode == 'defense')
+              {
+                  # PERK: spirit_immortal
+                  if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and !$isInvasionSuccessful)
+                  {
+                      if(!$enemy->getSpellPerkValue('can_kill_immortal') or !$enemy->getTechPerkValue('can_kill_immortal'))
+                      {
+                          return True;
+                      }
+                  }
+
+                  # Perk: immortal_on_fending_off
+                  if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_fending_off') and !$isInvasionSuccessful)
+                  {
+                      return True;
+                  }
               }
           }
 
@@ -190,7 +208,7 @@ class CasualtiesCalculator
     }
 
     # Round 51: Version 1.1
-    public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $attacker, Dominion $defender, int $slot, array $units, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
+    public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $attacker, Dominion $defender, int $slot, array $units, int $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
     {
 
         if($this->getImmortalityForUnitSlot($attacker, $defender, $slot, $units, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful, 'offense'))
@@ -226,7 +244,7 @@ class CasualtiesCalculator
         }
 
         # PERK: fewer_casualties_from_title
-        if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null))
+        if($titlePerkData = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null))
         {
             $titleKey = $titlePerkData[0];
             $titlePowerRatio = $titlePerkData[1] / 100;
@@ -245,20 +263,20 @@ class CasualtiesCalculator
         $multiplier += $this->getBasicCasualtiesPerks($attacker, 'offensive');
         $multiplier += $this->getIncreasesCasualtiesPerks($defender, 'defense');
 
-        $multiplier += $this->getCasualtiesReductionVersusLand($attacker, $target, $slot, 'offense');
+        $multiplier += $this->getCasualtiesReductionVersusLand($attacker, $defender, $slot, 'offense');
         $multiplier += $this->getCasualtiesReductionFromLand($attacker, $slot, 'offense');
 
         $multiplier += $this->getUnitCasualtiesPerk($attacker, $defender, $units, $landRatio, 'offense');
         $multiplier += $this->getUnitCasualtiesPerk($defender, $attacker, $units, $landRatio, 'defense');
 
-        dd($multiplier);
+        #dd($multiplier);
 
         return $multiplier;
 
     }
 
     # Round 51: Version 1.1
-    public function getDefensiveCasualtiesMultiplierForUnitSlot(Dominion $defender, Dominion $attacker, int $slot, array $units, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
+    public function getDefensiveCasualtiesMultiplierForUnitSlot(Dominion $defender, Dominion $attacker, $slot, array $units, int $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
     {
 
         $excludedSlots = ['draftees', 'peasants', 'spies', 'wizards', 'archmages'];
@@ -270,48 +288,54 @@ class CasualtiesCalculator
 
         $multiplier = 1;
 
-        # Fixed casualties: they are what they are.
-        if ($fixedCasualtiesPerk = $defender->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
+        if(!in_array($slot, $excludedSlots))
         {
-            return $fixedCasualtiesPerk / 100;
-        }
-
-        # PERK: only_dies_vs_raw_power
-        if ($minPowerToKill = $defender->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power'))
-        {
-            $opFromUnitsThatKill = 0;
-
-            # Get the raw OP of each unit of $attacker.
-            foreach ($units as $slot => $amount)
+            # Fixed casualties: they are what they are.
+            if ($fixedCasualtiesPerk = $defender->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
             {
-                if(!in_array($slot, $excludedSlots))
-                {
-                    $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
-                        return ($unit->slot === $slot);
-                    })->first();
+                return $fixedCasualtiesPerk / 100;
+            }
 
-                    # If the raw OP on the unit is enough, add it to $opFromUnitsThatKill.
-                    if($this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense') >= $minPowerToKill)
+            # PERK: only_dies_vs_raw_power
+            if ($minPowerToKill = $defender->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power'))
+            {
+                $opFromUnitsThatKill = 0;
+
+                # Get the raw OP of each unit of $attacker.
+                foreach ($units as $slot => $amount)
+                {
+                    if(!in_array($slot, $excludedSlots))
                     {
-                        $opFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense') * $amount;
+                        $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
+                            return ($unit->slot === $slot);
+                        })->first();
+
+                        # If the raw OP on the unit is enough, add it to $opFromUnitsThatKill.
+                        if($this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense') >= $minPowerToKill)
+                        {
+                            $opFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($attacker, $defender, $landRatio, $unit, 'offense') * $amount;
+                        }
                     }
+                }
+
+                # How much of the OP is from units that kill?
+                $multiplier *= $opFromUnitsThatKill / $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $units);
+            }
+
+            # PERK: fewer_casualties_from_title
+            if($titlePerkData = $defender->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null))
+            {
+                $titleKey = $titlePerkData[0];
+                $titlePowerRatio = $titlePerkData[1] / 100;
+
+                if($defender->title->key == $titleKey)
+                {
+                    $multiplier -= $titlePowerRatio;
                 }
             }
 
-            # How much of the OP is from units that kill?
-            $multiplier *= $opFromUnitsThatKill / $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $units);
-        }
-
-        # PERK: fewer_casualties_from_title
-        if($titlePerkData = $defender->race->getUnitPerkValueForUnitSlot($slot, 'fewer_casualties_from_title', null))
-        {
-            $titleKey = $titlePerkData[0];
-            $titlePowerRatio = $titlePerkData[1] / 100;
-
-            if($defender->title->key == $titleKey)
-            {
-                $multiplier -= $titlePowerRatio;
-            }
+            $multiplier += $this->getCasualtiesReductionVersusLand($defender, $attacker, $slot, 'defense');
+            #$multiplier += $this->getCasualtiesReductionFromLand($defender, $slot, 'defense'); # Not used on defense since it don't make no sense
         }
 
         if($multiplier === 0)
@@ -322,13 +346,8 @@ class CasualtiesCalculator
         $multiplier += $this->getBasicCasualtiesPerks($defender, 'defensive');
         $multiplier += $this->getIncreasesCasualtiesPerks($attacker, 'offense');
 
-        $multiplier += $this->getCasualtiesReductionVersusLand($defender, $attacker, $slot, 'defense');
-        #$multiplier += $this->getCasualtiesReductionFromLand($defender, $slot, 'defense'); # Not used on defense since it don't make no sense
-
         $multiplier += $this->getUnitCasualtiesPerk($defender, $attacker, $units, $landRatio, 'defense');
         $multiplier += $this->getUnitCasualtiesPerk($attacker, $defender, $units, $landRatio, 'offense');
-
-        dd($multiplier);
 
         return $multiplier;
 
