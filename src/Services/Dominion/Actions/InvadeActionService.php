@@ -1832,6 +1832,7 @@ class InvadeActionService
             'resource_soul' => 0,
             'resource_mana' => 0,
             'resource_champion' => 0,
+            'resource_mana' => 0,
         ];
 
         $this->invasionResult['attacker']['resource_conversion'] = $resourceConversionTemplate;

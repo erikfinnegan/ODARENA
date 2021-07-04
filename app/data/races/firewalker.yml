@@ -16,6 +16,23 @@ perks:
   max_population: 15
 
 units:
+  - name: Magma Fragment
+    training_time: 0
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 0
+    power:
+      offense: 4
+    perks:
+      cannot_be_trained: 1
+      does_not_count_as_population: 1
+      burns_peasants_on_attack: 0.5
+      fixed_casualties: 100
+      attrition: 4 # 4% lost each tick.
+
   - name: Fire Sprite
     training_time: 9
     type:
@@ -23,20 +40,9 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 250
+      gold: 800
     power:
-      offense: 3
-
-  - name: Flamewolf
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 250
-    power:
-      defense: 3
+      defense: 6
 
   - name: Phoenix
     training_time: 12

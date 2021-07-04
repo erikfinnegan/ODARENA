@@ -602,25 +602,15 @@ class TickService
 
           // Resources
           $tick->resource_gold += $this->productionCalculator->getGoldProduction($dominion);
-
-          $tick->resource_lumber_production += $this->productionCalculator->getLumberProduction($dominion);
           $tick->resource_lumber += $this->productionCalculator->getLumberProduction($dominion);
-
-          $tick->resource_mana_production += $this->productionCalculator->getManaProduction($dominion);
           $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
-
-          $tick->resource_food_production += $this->productionCalculator->getFoodProduction($dominion);
           $tick->resource_food += $this->productionCalculator->getFoodNetChange($dominion);
-
           $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
-
           $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
-
           $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
-          $tick->resource_boats += 0;
-
           $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
           $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
+          $tick->resource_boats += 0;
 
           # Decay, rot, drain
           $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
