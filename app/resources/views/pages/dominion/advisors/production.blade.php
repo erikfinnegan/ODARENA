@@ -27,8 +27,6 @@
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much (if any) is lost of this resource per tick in upkeep">Loss/tick</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="Net change per tick">Net/tick</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much you currently have">Current</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have produced this round">Total Produced</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much you have stolen this round">Total Stolen</span></th>
                                   </tr>
                             </thead>
                             <tbody>
@@ -40,8 +38,6 @@
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getGoldProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($selectedDominion->resource_gold) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_production) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_stolen) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Food</td>
@@ -59,8 +55,6 @@
                                           </span>
                                       </td>
                                       <td>{{ number_format($selectedDominion->resource_food) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_production) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_stolen) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Lumber</td>
@@ -78,8 +72,6 @@
                                           </span>
                                       </td>
                                       <td>{{ number_format($selectedDominion->resource_lumber) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_production) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_stolen) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Mana</td>
@@ -90,7 +82,7 @@
                                             @if($productionCalculator->getContribution($selectedDominion, 'mana'))
                                                 <span class="text-red">-{{ number_format(($productionCalculator->getContribution($selectedDominion, 'mana'))) }}</span>
                                             @else
-                                            &mdash;
+                                                &mdash;
                                             @endif
                                       </td>
                                       <td>
@@ -103,8 +95,6 @@
                                           </span>
                                       </td>
                                       <td>{{ number_format($selectedDominion->resource_mana) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_production) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_stolen) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Ore</td>
@@ -114,8 +104,6 @@
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getOreProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($selectedDominion->resource_ore) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_production) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_stolen) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Gems</td>
@@ -125,8 +113,6 @@
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getGemProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($selectedDominion->resource_gems) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_production) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_stolen) }}</td>
                                   </tr>
                                   <tr>
                                       <td>XP</td>
@@ -136,8 +122,6 @@
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getTechProduction($selectedDominion)) }}</td>
                                       <td>{{ number_format($selectedDominion->resource_tech) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_tech_production) }}</td>
-                                      <td>&mdash;</td>
                                   </tr>
                             </tbody>
                         </table>
@@ -186,63 +170,63 @@
                             <tbody>
                                   <tr>
                                       <td>Gold</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_training) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_building) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_rezoning) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_exploring) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_spent_improving) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_bought) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gold_sold) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_training')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_building')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_rezoning')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_exploring')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_improvements')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_bought')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_sold')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Food</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_training) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_building) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_rezoning) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_exploring) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_spent_improving) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_bought) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_sold) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_training')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_building')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_rezoning')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_exploring')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_improvements')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_bought')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_sold')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Lumber</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_training) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_building) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_rezoning) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_exploring) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_spent_improving) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_bought) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_sold) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_training')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_building')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_rezoning')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_exploring')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_improvements')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_bought')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_sold')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Mana</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_training) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_building) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_rezoning) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_exploring) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_spent_improving) }}</td>
-                                      <td>&mdash;</td>
-                                      <td>&mdash;</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_training')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_building')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_rezoning')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_exploring')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_improvements')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_bought')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_sold')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Ore</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_training) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_building) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_rezoning) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_exploring) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_spent_improving) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_bought) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_ore_sold) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_training')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_building')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_rezoning')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_exploring')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_improvements')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_bought')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_sold')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Gems</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_training) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_building) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_rezoning) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_exploring) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_spent_improving) }}</td>
-                                      <td>&mdash;</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_gem_sold) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_training')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_building')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_rezoning')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_exploring')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_improvements')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_bought')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_sold')) }}</td>
                                   </tr>
                             </tbody>
                         </table>
@@ -277,29 +261,61 @@
                             <thead>
                                   <tr>
                                       <th>Resource</th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much food has decayed, lumber has rot, and mana has been drained">Decay, Rot, or Drain</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much food your population has consumed">Consumed</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="How much mana you have spent on casting spells">Cast</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="Salvaged from units lost in combat">Salvaged</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="Plundered from other dominions">Plundered</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="Stolen from other dominions">Stolen</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="Lost to theft or plunder">Lost</span></th>
+                                      <th><span data-toggle="tooltip" data-placement="top" title="Mana spent on casting spells">Cast</span></th>
                                   </tr>
                             </thead>
                             <tbody>
                                   <tr>
+                                      <td>Gold</td>
+                                      <td>&mdash;</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_plundered')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_stolen')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_lost')) }}</td>
+                                      <td>&mdash;</td>
+                                  </tr>
+                                  <tr>
                                       <td>Food</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_decayed) }}</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_food_consumed) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_salvaged')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_plundered')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_stolen')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_lost')) }}</td>
                                       <td>&mdash;</td>
                                   </tr>
                                   <tr>
                                       <td>Lumber</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_lumber_rotted) }}</td>
-                                      <td>&mdash;</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_salvaged')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_plundered')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_stolen')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_lost')) }}</td>
                                       <td>&mdash;</td>
                                   </tr>
                                   <tr>
                                       <td>Mana</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_drained) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_salvaged')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_plundered')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_stolen')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_lost')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_cast')) }}</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Ore</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_salvaged')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_plundered')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_stolen')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_lost')) }}</td>
                                       <td>&mdash;</td>
-                                      <td>{{ number_format($selectedDominion->stat_total_mana_cast) }}</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Gems</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_salvaged')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_plundered')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_stolen')) }}</td>
+                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_lost')) }}</td>
+                                      <td>&mdash;</td>
                                   </tr>
                             </tbody>
                         </table>
