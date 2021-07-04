@@ -137,18 +137,20 @@ class TickService
             $stasisDominions = [];
             $dominions = $round->activeDominions()->get();
 
+            Log::debug('* Going through each dominion. Started at ' . now() '.');
             foreach($dominions as $dominion)
             {
-                if($dominion->protection_ticks === 0)
-                {
-                    $this->logDominionTickState($dominion, $tickTime);
-                }
+                #if($dominion->protection_ticks === 0)
+                #{
+                #    $this->logDominionTickState($dominion, $tickTime);
+                #}
 
                 if($dominion->getSpellPerkValue('stasis'))
                 {
                     $stasisDominions[] = $dominion->id;
                 }
 
+                Log::debug('** Updating buildings. Started at ' . now() '.');
                 # Take buildings that are one tick away from finished and create or increment DominionBuildings.
                 $finishedBuildingsInQueue = DB::table('dominion_queue')
                                                 ->where('dominion_id',$dominion->id)
@@ -163,6 +165,7 @@ class TickService
                     $this->buildingCalculator->createOrIncrementBuildings($dominion, [$buildingKey => $amount]);
                 }
 
+                Log::debug('** Updating improvements. Started at ' . now() '.');
                 # Take improvements that are one tick away from finished and create or increment DominionImprovements.
                 $finishedImprovementsInQueue = DB::table('dominion_queue')
                                                 ->where('dominion_id',$dominion->id)
@@ -177,6 +180,7 @@ class TickService
                     $this->improvementCalculator->createOrIncrementImprovements($dominion, [$improvementKey => $amount]);
                 }
 
+                Log::debug('** Checking to trigger countdown. Started at ' . now() '.');
                 # If we don't already have a countdown, see if any dominion triggers it.
                 if(!$round->hasCountdown())
                 {
@@ -203,6 +207,7 @@ class TickService
 
             unset($dominions);
 
+            Log::debug('* Handling stasis dominions ' . now() '.');
             // Scoot hour 1 Qur Stasis units back to hour 2
             foreach($stasisDominions as $stasisDominion)
             {
