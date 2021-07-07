@@ -434,6 +434,12 @@ class RaceHelper
                 $valueType = ' mana/tick';
                 $booleanValue = false;
                 break;
+            case 'peasants_produce_lumber':
+                $negativeBenefit = false;
+                $description = 'Peasants produce lumber';
+                $valueType = ' lumber/tick';
+                $booleanValue = false;
+                break;
             case 'cannot_join_guards':
                 $negativeBenefit = true;
                 $description = 'Cannot join guards';

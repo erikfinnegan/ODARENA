@@ -443,7 +443,7 @@ class CasualtiesCalculator
                 # PERK: reduces_casualties, reduces_casualties_on_offense
                 if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties_on_offense'))
                 {
-                    $perkValue -= $amount / array_sum($units);
+                    $perkValue -= ($amount / array_sum($units)) / 2;
                 }
             }
 
@@ -475,7 +475,7 @@ class CasualtiesCalculator
                 # PERK: reduces_casualties, reduces_casualties_on_offense
                 if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties_on_defense'))
                 {
-                    $perkValue -= $amount / array_sum($units);
+                    $perkValue -= ($amount / array_sum($units)) / 2;
                 }
             }
 

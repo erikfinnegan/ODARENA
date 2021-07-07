@@ -409,6 +409,9 @@ class ProductionCalculator
         // Unit Perk: production_from_title
         $lumber += $dominion->getUnitPerkProductionBonusFromTitle('lumber');
 
+        // Perk: peasants lumber production
+        $lumber += $dominion->peasants * $dominion->race->getPerkValue('peasants_produce_lumber');
+
 
         // Faction Perk: barren_forest_lumber_production
         foreach ($this->landHelper->getLandTypes($dominion) as $landType)
