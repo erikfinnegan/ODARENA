@@ -61,7 +61,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       food_consumption: 0.25
-      fewer_casualties: 50
+      casualties: -50
       faster_return: 6
 
   - name: War Mammoth
@@ -82,7 +82,7 @@ units:
       defense: 24
     perks:
       dies_into: 3
-      fewer_casualties_offense: 90
+      casualties_on_offense: -90
       no_draftee: 1
       does_not_count_as_population: 1
       food_consumption: 2

@@ -79,6 +79,6 @@ units:
       defense: 800
     perks:
       building_limit: temple,1 # building, buildings per unit, imp to increased
-      fewer_casualties: 90
+      casualties: -90
       no_draftee: 1
       housing_count: 2

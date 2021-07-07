@@ -69,7 +69,7 @@ units:
       defense: 7
     perks:
       offense_vs_barren_land: 10,1.5 # ratio%, max
-      fewer_casualties_defense: 80
+      casualties_on_defense: -80
       immortal_on_fending_off: 1
 
   - name: Naga
@@ -85,5 +85,5 @@ units:
       defense: 3
     perks:
       offense_vs_barren_land: 6,2.5 # ratio%, max
-      fewer_casualties_defense: 80
+      casualties_on_defense: -80
       immortal_on_fending_off: 1

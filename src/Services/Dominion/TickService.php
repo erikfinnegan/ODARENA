@@ -927,6 +927,7 @@ class TickService
         $this->handleImprovements($dominion);
 
         $this->updateDominion($dominion);
+        #$this->updateDominionAlt($dominion);
         $this->updateDominionSpells($dominion);
         $this->updateDominionQueues($dominion);
 
@@ -1200,6 +1201,29 @@ class TickService
             $improvement = Improvement::where('key', $improvementKey)->first();
             $this->improvementCalculator->createOrIncrementImprovements($dominion, [$improvementKey => $amount]);
         }
+
+        if($improvementInterestPerk = $dominion->race->getPerkValue('improvements_interest'))
+        {
+            $improvementInterest = [];
+            foreach($this->improvementCalculator->getDominionImprovements($dominion) as $dominionImprovement)
+            {
+                $improvement = Improvement::where('id', $dominionImprovement->improvement_id)->first();
+                $increment = floor($dominionImprovement->invested * ($improvementInterestPerk / 100));
+                $improvementInterest[$improvement->key] = $increment;
+            }
+
+            #dd($improvementInterest);
+
+            $this->improvementCalculator->createOrIncrementImprovements($dominion, $improvementInterest);
+        }
+    }
+
+    private function updateDominionAlt(Dominion $dominion)
+    {
+        $tick = Tick::where('dominion_id', $dominion->id)->first();
+
+        dd($tick, $tick->resource_food);
+
     }
 
 }

@@ -812,7 +812,7 @@ purification:
   name: Tiranthael's Justice
   scope: hostile
   class: active
-  cost: 3
+  cost: 5
   duration: 0
   cooldown: 0
   exclusive_races:
@@ -821,7 +821,7 @@ purification:
     - Sacred Order
     - Sylvan
   perks:
-    kills_faction_units_percentage: Afflicted,1,1 # faction, slot, percentage
+    kills_faction_units_percentage: Afflicted,1,0.75 # faction, slot, percentage
 
 # MERFOLK
 

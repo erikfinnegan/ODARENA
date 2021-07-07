@@ -291,6 +291,14 @@ class DominionFactory
             $startingResources['gold'] *= 0.75;
         }
 
+        // Sylvan: no gold, no draft rate, no draftees
+        if($race->name == 'Sylvan')
+        {
+            $startingResources['gold'] = 0;
+            $startingResources['gems'] = 0;
+            $startingResources['draft_rate'] = 0;
+        }
+
         // Elementals: remove lumber
         if($race->name == 'Elementals')
         {

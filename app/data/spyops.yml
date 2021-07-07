@@ -86,6 +86,25 @@ abduct_draftees:
   perks:
     abduct_draftees: 2,0.5 # rate, max per spy
 
+abduct_peasants:
+  enabled: 0
+  name: Abduct Peasants
+  scope: hostile
+  exclusive_races:
+    - Afflicted
+    - Armada
+    - Cult
+    - Dimensionalists
+    - Dragon
+    - Human
+    - Jagunii
+    - Kerranad
+    - Nomad
+    - Norse
+    - Sacred Order
+  perks:
+    abduct_draftees: 2,0.5 # rate, max per spy
+
 convert_peasants_vampire:
   enabled: 0
   name: Convert Peasants

@@ -67,7 +67,7 @@ units:
     cost:
       gold: 0
       ore: 0
-      food: 150
+      food: 160
     power:
       offense: 0
       defense: 1
@@ -82,7 +82,7 @@ units:
     cost:
       gold: 0
       ore: 0
-      food: 160
+      food: 170
     power:
       offense: 1
       defense: 0.5

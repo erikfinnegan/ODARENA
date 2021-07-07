@@ -53,7 +53,7 @@ units:
       defense: 5
     perks:
       no_draftee: 1
-      fewer_casualties: 50
+      casualties: -50
       counts_as_wizard_offense: 0.10
       counts_as_wizard_defense: 0.06
 
@@ -73,7 +73,7 @@ units:
       defense: 0
     perks:
       no_draftee: 1
-      fewer_casualties: 50
+      casualties: -50
       counts_as_spy_offense: 0.10
       counts_as_spy_defense: 0.06
 

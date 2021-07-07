@@ -24,8 +24,8 @@ class TechHelper
             'military_cost_mana' => '%s%% military training mana costs',
 
             // Casualties related
-            'fewer_casualties_defense' => '%s%% fewer casualties on defense',
-            'fewer_casualties_offense' => '%s%% fewer casualties on offense',
+            'defensive_casualties' => '%s%% casualties on defense',
+            'offensive_casualties' => '%s%% casualties on offense',
 
             // Logistics
             'construction_cost' => '%s%% construction costs',

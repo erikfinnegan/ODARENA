@@ -113,7 +113,6 @@
                     <tbody>
                       @foreach ($race->units as $unit)
                           @if(in_array($unit->slot, ['wizards','spies','archmages']))
-                              {{ dd($unit) }}
                               @php
                                   $unitType = $unit->slot;
                               @endphp

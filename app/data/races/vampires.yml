@@ -48,7 +48,7 @@ units:
       defense: 9
     perks:
       cannot_be_trained: 1
-      fewer_casualties: 50
+      casualties: -50
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,4 # Between the hours 18:00 and 06:00, gains +6 OP
       vampiric_conversion: 4,7
@@ -66,7 +66,7 @@ units:
       defense: 12
     perks:
       cannot_be_trained: 1
-      fewer_casualties: 75
+      casualties: -75
       extra_food_consumption: 0.5
       offense_from_time: 18,06,6 # Between the hours 18:00 and 06:00, gains +2 OP
       vampiric_conversion: 4,7
@@ -83,7 +83,7 @@ units:
       offense: 6
       defense: 6
     perks:
-      fewer_casualties: 50
+      casualties: -50
       vampiric_conversion: 4,7
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP

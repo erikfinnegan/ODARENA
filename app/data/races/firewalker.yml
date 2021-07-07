@@ -29,7 +29,7 @@ units:
     perks:
       cannot_be_trained: 1
       does_not_count_as_population: 1
-      burns_peasants_on_attack: 0.5
+      burns_peasants_on_attack: 0.10
       fixed_casualties: 100
       attrition: 4 # 4% lost each tick.
 

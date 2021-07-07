@@ -31,7 +31,7 @@ units:
       offense: 4
       defense: 0
     perks:
-      offense_from_title: commander,2 # title, op
+      offense_from_title: commander,1 # title, op
       fewer_casualties_from_title: conjurer,50 # title, reduction
       no_draftee: 1
 

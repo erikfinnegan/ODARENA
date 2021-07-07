@@ -43,6 +43,12 @@ class ChangeDraftRateActionService
             throw new GameException('You cannot change your draft rate while you are in stasis.');
         }
 
+        // Qur: Statis
+        if($dominion->race->getPerkValue('no_drafting'))
+        {
+            throw new GameException($dominion->race->name . ' does not use draftees and cannot change draft rate.');
+        }
+
         if (($draftRate < 0) || ($draftRate > 100)) {
             throw new RuntimeException('Draft rate not changed due to bad input.');
         }

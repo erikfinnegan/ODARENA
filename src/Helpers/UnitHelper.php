@@ -166,9 +166,13 @@ class UnitHelper
             'wizard_from_title' => 'Counts as additional %2$s of a wizard (offense and defense) if ruled by a %1$s.',
 
             // Casualties and death related
-            'fewer_casualties' => '%s%% fewer casualties.',
-            'fewer_casualties_defense' => '%s%% fewer casualties on defense.',
-            'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
+            'casualties' => '%s%% casualties.',
+            'casualties_on_defense' => '%s%% casualties on defense.',
+            'casualties_on_offense' => '%s%% casualties on offense.',
+
+            #'fewer_casualties' => '%s%% fewer casualties.',
+            #'fewer_casualties_defense' => '%s%% fewer casualties on defense.',
+            #'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
             'fewer_casualties_from_title' => '%2$s%% fewer casualties if ruled by a %1$s.',
 
@@ -202,6 +206,10 @@ class UnitHelper
             'wins_into' => 'Upon successul invasion, returns as %s.',
             'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+
+            'dies_into_resource' => 'Upon death, returns as %1$s %2$s.',
+
+            'kills_into_resource_per_casualty' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
 
             'dies_into_on_offense' => 'Upon death when invading, returns as %1$s.',
             'dies_into_on_defense' => 'Upon death when defending, returns as %1$s.',

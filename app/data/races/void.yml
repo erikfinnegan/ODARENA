@@ -5,6 +5,9 @@ home_land_type: mountain
 playable: 1
 experimental: 1
 
+peasants_alias: particle
+draftees_alias: shift
+
 attacking: 2
 exploring : 0
 converting: 3
@@ -12,9 +15,9 @@ skill_level: 2
 
 construction_materials: mana
 
-spies_cost: 1000,mana
-wizards_cost: 1000,mana
-archmages_cost: 2000,mana
+spies_cost: 200,mana
+wizards_cost: 200,mana
+archmages_cost: 2000,gold
 
 perks:
   no_food_consumption: 1
@@ -22,6 +25,9 @@ perks:
   reduced_conversions: 100
   no_gold_production: 1
   can_invest_mana: 3
+  cannot_train_archmages: 1
+  cannot_explore: 1
+  peasants_produce_mana: 0.25
 
 units:
   - name: Figure

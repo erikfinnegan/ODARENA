@@ -177,6 +177,12 @@ class RaceHelper
                 $valueType = ' points per mana';
                 $booleanValue = 'static';
                 break;
+            case 'improvements_interest':
+                $negativeBenefit = false;
+                $description = 'Improvement interest';
+                $valueType = '% / tick';
+                $booleanValue = 'static';
+                break;
             case 'can_invest_soul':
                 $negativeBenefit = false;
                 $description = 'Can use souls for improvements';
@@ -269,6 +275,10 @@ class RaceHelper
             case 'prestige_gains':
                 $negativeBenefit = false;
                 $description = 'Prestige gains';
+                break;
+            case 'no_drafting':
+                $negativeBenefit = true;
+                $description = 'No drafting';
                 break;
             case 'draftee_dp':
                 $negativeBenefit = true;

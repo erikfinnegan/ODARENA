@@ -59,7 +59,7 @@ units:
       offense: 0
       defense: 300
     perks:
-      fewer_casualties: 25
+      casualties: -25
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,3 # building, buildings per unit, imp to increase
@@ -78,7 +78,7 @@ units:
       offense: 120
       defense: 20
     perks:
-      fewer_casualties_offense: 50
+      casualties_on_offense: -50
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,4 # building, buildings per unit, imp to increased

@@ -32,7 +32,7 @@ units:
       offense: 3
       defense: 1
     perks:
-      fewer_casualties_offense: 50
+      casualties_on_offense: -50
 
   - name: Captain
     training_time: 12
@@ -79,7 +79,7 @@ units:
       offense: 40
       defense: 40
     perks:
-      fewer_casualties: 75
+      casualties: -75
       no_draftee: 1
       does_not_count_as_population: 1
       houses_military_units: 300

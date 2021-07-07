@@ -393,3 +393,34 @@ peasants_training:
   name: Peasants training
 draftees_training:
   name: Draftees training
+
+
+# Round stats
+day01_top_op:
+  name: Day 1 Highest Offensive Power Seen
+day02_top_op:
+  name: Day 2 Highest Offensive Power Seen
+day03_top_op:
+  name: Day 3 Highest Offensive Power Seen
+day04_top_op:
+  name: Day 4 Highest Offensive Power Seen
+day05_top_op:
+  name: Day 5 Highest Offensive Power Seen
+day06_top_op:
+  name: Day 6 Highest Offensive Power Seen
+day07_top_op:
+  name: Day 7 Highest Offensive Power Seen
+day08_top_op:
+  name: Day 8 Highest Offensive Power Seen
+day09_top_op:
+  name: Day 9 Highest Offensive Power Seen
+day10_top_op:
+  name: Day 10 Highest Offensive Power Seen
+day11_top_op:
+  name: Day 11 Highest Offensive Power Seen
+day12_top_op:
+  name: Day 12 Highest Offensive Power Seen
+day13_top_op:
+  name: Day 13 Highest Offensive Power Seen
+day14_top_op:
+  name: Day 14 Highest Offensive Power Seen

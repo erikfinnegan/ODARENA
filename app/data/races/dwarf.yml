@@ -37,7 +37,7 @@ units:
       damages_improvements_on_attack: 100
       does_not_count_as_population: 1
       no_draftee: 1
-      fewer_casualties: 50
+      casualties: -50
       immortal_on_fending_off: 1
 
   - name: Miner

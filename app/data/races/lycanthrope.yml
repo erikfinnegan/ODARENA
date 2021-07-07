@@ -48,8 +48,7 @@ units:
       offense: 4
       defense: 5
     perks:
-      fewer_casualties_defense: 25
-      fewer_casualties_offense: 50
+      casualties: -50
       offense_from_pairing: 4,1 # slot, amount
       conversion: 3 # Werewolves
 

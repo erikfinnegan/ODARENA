@@ -260,6 +260,9 @@ class CasualtiesCalculator
             return $multiplier;
         }
 
+        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties');
+        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_offense');
+
         $multiplier += $this->getBasicCasualtiesPerks($attacker, 'offensive');
         $multiplier += $this->getIncreasesCasualtiesPerks($defender, 'defense');
 
@@ -343,8 +346,14 @@ class CasualtiesCalculator
             return $multiplier;
         }
 
+        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties');
+        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_defense');
+
         $multiplier += $this->getBasicCasualtiesPerks($defender, 'defensive');
         $multiplier += $this->getIncreasesCasualtiesPerks($attacker, 'offense');
+
+        $multiplier += $this->getCasualtiesReductionVersusLand($defender, $attacker, $slot, 'defense');
+        $multiplier += $this->getCasualtiesReductionFromLand($defender, $slot, 'defense');
 
         $multiplier += $this->getUnitCasualtiesPerk($defender, $attacker, $units, $landRatio, 'defense');
         $multiplier += $this->getUnitCasualtiesPerk($attacker, $defender, $units, $landRatio, 'offense');

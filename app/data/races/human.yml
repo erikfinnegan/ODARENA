@@ -63,7 +63,7 @@ units:
       offense: 0
       defense: 7.5
     perks:
-      fewer_casualties: 25
+      casualties: -25
 
   - name: Knight
     training_time: 12
