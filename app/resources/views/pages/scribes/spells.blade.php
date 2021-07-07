@@ -357,5 +357,60 @@
             </div>
             <!-- END IMPACT -->
 
+            <!-- BEGIN INVASION -->
+
+
+
+            <div class="box-header">
+                <h4 class="box-title">Hostile Impact Spells</h4>
+            </div>
+            <div class="box-body table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped">
+                          <colgroup>
+                              <col width="200">
+                              <col width="50">
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>Spell</th>
+                                  <th>Cost</th>
+                                  <th>Cooldown</th>
+                                  <th>Effect</th>
+                              </tr>
+                          </thead>
+                          @foreach ($spells as $spell)
+                              @if($spell->class == 'passive' and $spell->scope == 'invasion')
+                              <tr>
+                                  <td>
+                                      {{ $spell->name }}
+                                      {!! $spellHelper->getExclusivityString($spell) !!}
+                                  </td>
+                                  <td>{{ $spell->cost }}x</td>
+                                  <td>
+                                      @if($spell->cooldown > 0)
+                                          {{ $spell->cooldown }} hours
+                                      @else
+                                          None
+                                      @endif
+                                  </td>
+                                  <td>
+                                      <ul>
+                                          @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                              <li>{{ ucfirst($effect) }}</li>
+                                          @endforeach
+                                      <ul>
+                                  </td>
+                              </tr>
+                              @endif
+                          @endforeach
+                      </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- END INVASION -->
+
     </div>
 @endsection

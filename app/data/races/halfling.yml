@@ -3,6 +3,7 @@ alignment: good
 description:
 home_land_type: hill
 playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 3
