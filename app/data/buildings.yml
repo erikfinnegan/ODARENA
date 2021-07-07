@@ -759,7 +759,7 @@ plantation:
     - Sylvan
   land_type: forest
   perks:
-    lumber_production: 0.20
+    lumber_production: 0.24
 
 outpost:
   name: Outpost
