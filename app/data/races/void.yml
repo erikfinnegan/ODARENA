@@ -25,7 +25,7 @@ perks:
   reduced_conversions: 100
   no_gold_production: 1
   can_invest_mana: 3
-  peasants_produce_mana: 0.25
+  peasants_produce_mana: 0.2
   immortal_wizards: 1
 
 units:
