@@ -20,7 +20,7 @@ perks:
   no_gold_production: 1
   no_drafting: 1
   extra_barren_forest_max_population: 10
-  barren_forest_mana_production: 30
+  barren_forest_mana_production: 18
   can_invest_mana: 6
   improvements_interest: 0.06
   cannot_exchange: 1
