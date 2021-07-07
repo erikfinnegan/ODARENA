@@ -48,6 +48,7 @@ units:
       dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
       casualties: 75 # +75% casualties
       increases_casualties_on_defense: 1
+      no_draftee: 1
 
   - name: Homeguard
     training_time: 12
