@@ -2821,8 +2821,7 @@ class InvadeActionService
 
         $day = $dominion->round->start_date->subDays(1)->diffInDays(now());
         $day = sprintf('%02d', $day);
-        dd($day);
-        #$this->statsService->setRoundStat($dominion->round, ('day' . $day . '_top_op'), max($this->invasionResult['attacker']['op'], $this->statsService->getRoundStat($dominion->round, ('day' . $day . '_top_op'))));
+        $this->statsService->setRoundStat($dominion->round, ('day' . $day . '_top_op'), max($this->invasionResult['attacker']['op'], $this->statsService->getRoundStat($dominion->round, ('day' . $day . '_top_op'))));
 
         if($this->invasionResult['result']['success'])
         {
