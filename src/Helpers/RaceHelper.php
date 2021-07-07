@@ -166,6 +166,11 @@ class RaceHelper
                 $description = 'Cannot construct buildings';
                 $booleanValue = true;
                 break;
+            case 'cannot_exchange':
+                $negativeBenefit = true;
+                $description = 'Cannot exchange resources';
+                $booleanValue = true;
+                break;
             case 'boat_capacity':
                 $negativeBenefit = false;
                 $description = 'Increased boat capacity';

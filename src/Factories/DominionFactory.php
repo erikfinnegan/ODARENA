@@ -296,6 +296,7 @@ class DominionFactory
         {
             $startingResources['gold'] = 0;
             $startingResources['gems'] = 0;
+            $startingResources['lumber'] = 4000;
             $startingResources['draft_rate'] = 0;
         }
 

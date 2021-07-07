@@ -149,6 +149,7 @@
                                         <td>Morale:</td>
                                         <td>{{ number_format($selectedDominion->morale) }}% / {{ number_format(100 * (1 + $militaryCalculator->getBaseMoraleModifier($selectedDominion, $populationCalculator->getPopulation($selectedDominion)))) }}%</td>                                 </td>
                                     </tr>
+                                    @if(!$selectedDominion->race->getPerkValue('no_drafting'))
                                     <tr>
                                         <td>
                                             <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
@@ -157,6 +158,7 @@
                                         </td>
                                         <td>{{ number_format($selectedDominion->military_draftees) }}</td>
                                     </tr>
+                                    @endif
                                     <tr>
                                         <td>
                                           <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $selectedDominion->race) }}">

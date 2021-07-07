@@ -58,6 +58,12 @@ class BankActionService
             throw new GameException('You cannot exchange resources while you are in stasis.');
         }
 
+        // Perk: cannot_exchange
+        if($dominion->race->getPerkValue('cannot_exchange'))
+        {
+            throw new GameException($dominion->race->name . ' cannot exchange resources.');
+        }
+
         if($amount < 0)
         {
             throw new LogicException('Amount less than 0.');

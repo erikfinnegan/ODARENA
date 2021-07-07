@@ -131,6 +131,7 @@ fools_gold:
   excluded_races:
     - Afflicted
     - Elementals
+    - Sylvan
     - Void
   perks:
     gold_theft: -100

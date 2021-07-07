@@ -226,7 +226,10 @@
                       @endif
                     </button>
                     <div class="pull-right">
-                      You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ ucwords(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race), $selectedDominion->military_draftees)) }} available.
+
+                      @if(!$selectedDominion->race->getPerkValue('no_drafting'))
+                          You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ ucwords(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race), $selectedDominion->military_draftees)) }} available.
+                      @endif
 
                       @if ($selectedDominion->race->name == 'Demon')
                           <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls and <strong>{{ number_format($selectedDominion->resource_blood) }}</strong> gallons of blood.
@@ -371,7 +374,7 @@
                                     ({{ number_format($populationCalculator->getPopulationMilitaryPercentage($selectedDominion), 2) }}%)
                                 </td>
                             </tr>
-                            @if ($selectedDominion->race->name !== 'Growth')
+                            @if ($selectedDominion->race->name !== 'Growth' and !$selectedDominion->race->getPerkValue('no_drafting'))
                             <tr>
                                 @if ($selectedDominion->race->name == 'Myconid')
                                 <td class="text">Germination</td>
@@ -400,7 +403,7 @@
                         </tbody>
                     </table>
                 </div>
-                @if ($selectedDominion->race->name !== 'Growth')
+                @if ($selectedDominion->race->name !== 'Growth' and !$selectedDominion->race->getPerkValue('no_drafting')))
                 <div class="box-footer">
                     <button type="submit"
                             class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Change

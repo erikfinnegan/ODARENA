@@ -17,7 +17,7 @@ construction_materials: mana
 
 spies_cost: 200,mana
 wizards_cost: 200,mana
-archmages_cost: 2000,gold
+archmages_cost: 10000,mana
 
 perks:
   no_food_consumption: 1
@@ -25,9 +25,8 @@ perks:
   reduced_conversions: 100
   no_gold_production: 1
   can_invest_mana: 3
-  cannot_train_archmages: 1
-  cannot_explore: 1
   peasants_produce_mana: 0.25
+  immortal_wizards: 1
 
 units:
   - name: Figure

@@ -4,6 +4,8 @@ namespace OpenDominion\Services\Dominion;
 
 use DB;
 use Carbon\Carbon;
+use OpenDominion\Models\Round;
+use OpenDominion\Models\Realm;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Stat;
 use OpenDominion\Models\DominionStat;

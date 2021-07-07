@@ -412,8 +412,8 @@ prism:
   exclusive_races:
     - Void
   perks:
-    population: 100,100000
-    population_growth: 50,50000
+    population: 100,20000
+    population_growth: 10000,10000
 
 waves:
   name: Waves

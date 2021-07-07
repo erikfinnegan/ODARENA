@@ -260,8 +260,8 @@ class CasualtiesCalculator
             return $multiplier;
         }
 
-        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties');
-        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_offense');
+        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties') / 100;
+        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_offense') / 100;
 
         $multiplier += $this->getBasicCasualtiesPerks($attacker, 'offensive');
         $multiplier += $this->getIncreasesCasualtiesPerks($defender, 'defense');
@@ -339,6 +339,9 @@ class CasualtiesCalculator
 
             $multiplier += $this->getCasualtiesReductionVersusLand($defender, $attacker, $slot, 'defense');
             #$multiplier += $this->getCasualtiesReductionFromLand($defender, $slot, 'defense'); # Not used on defense since it don't make no sense
+
+            $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties') / 100;
+            $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_defense') / 100;
         }
 
         if($multiplier === 0)
@@ -346,14 +349,10 @@ class CasualtiesCalculator
             return $multiplier;
         }
 
-        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties');
-        $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_defense');
+
 
         $multiplier += $this->getBasicCasualtiesPerks($defender, 'defensive');
         $multiplier += $this->getIncreasesCasualtiesPerks($attacker, 'offense');
-
-        $multiplier += $this->getCasualtiesReductionVersusLand($defender, $attacker, $slot, 'defense');
-        $multiplier += $this->getCasualtiesReductionFromLand($defender, $slot, 'defense');
 
         $multiplier += $this->getUnitCasualtiesPerk($defender, $attacker, $units, $landRatio, 'defense');
         $multiplier += $this->getUnitCasualtiesPerk($attacker, $defender, $units, $landRatio, 'offense');

@@ -262,108 +262,111 @@
 
 </div>
 
-<div class="row">
+@if(!$selectedDominion->race->getPerkValue('cannot_exchange'))
+    <div class="row">
 
-    <div class="col-sm-12 col-md-9">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title"><i class="fas fa-exchange-alt"></i> Exchange</h3>
-            </div>
-            <form action="{{ route('dominion.resources') }}" method="post" {{--class="form-inline" --}}role="form">
-                @csrf
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label for="source">Exchange this</label>
-                                    <select name="source" id="source" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                        @foreach ($resources as $field => $resource)
-                                            @if (!$resource['sell'])
-                                                @continue
-                                            @endif
+        <div class="col-sm-12 col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title"><i class="fas fa-exchange-alt"></i> Exchange</h3>
+                </div>
+                <form action="{{ route('dominion.resources') }}" method="post" {{--class="form-inline" --}}role="form">
+                    @csrf
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="form-group col-sm-6">
+                                        <label for="source">Exchange this</label>
+                                        <select name="source" id="source" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            @foreach ($resources as $field => $resource)
+                                                @if (!$resource['sell'])
+                                                    @continue
+                                                @endif
 
-                                            <option value="{{ $field }}" {{ $field  == $selectedDominion->most_recent_exchange_from ? 'selected' : ''}} >{{ $resource['label'] }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label for="target">Into this</label>
-                                    <select name="target" id="target" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                        @foreach ($resources as $field => $resource)
-                                            @if (!$resource['buy'])
-                                                @continue
-                                            @endif
+                                                <option value="{{ $field }}" {{ $field  == $selectedDominion->most_recent_exchange_from ? 'selected' : ''}} >{{ $resource['label'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="target">Into this</label>
+                                        <select name="target" id="target" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            @foreach ($resources as $field => $resource)
+                                                @if (!$resource['buy'])
+                                                    @continue
+                                                @endif
 
-                                            <option value="{{ $field }}" {{ $field  == $selectedDominion->most_recent_exchange_to ? 'selected' : ''}} >{{ $resource['label'] }}</option>
-                                        @endforeach
-                                    </select>
+                                                <option value="{{ $field }}" {{ $field  == $selectedDominion->most_recent_exchange_to ? 'selected' : ''}} >{{ $resource['label'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="row">
-                                <div class="form-group col-sm-3">
-                                    <label for="amount" id="amountLabel">{{ reset($resources)['label'] }}</label>
-                                    <input type="number"
-                                           name="amount"
-                                           id="amount"
-                                           class="form-control text-center"
-                                           value="{{ old('amount') }}"
-                                           placeholder="0"
-                                           min="0"
-                                           max="{{ reset($resources)['max'] }}"
-                                            {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <label for="amountSlider">Amount</label>
-                                    <input type="number"
-                                           id="amountSlider"
-                                           class="form-control slider"
-                                           {{--value="0"--}}
-                                           data-slider-value="0"
-                                           data-slider-min="0"
-                                           data-slider-max="{{ reset($resources)['max'] }}"
-                                           data-slider-step="1"
-                                           data-slider-tooltip="show"
-                                           data-slider-handle="triangle"
-                                           data-slider-id="yellow"
-                                            {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                </div>
-                                <div class="form-group col-sm-3">
-                                    <label id="resultLabel">{{ reset($resources)['label'] }}</label>
-                                    <p id="result" class="form-control-static text-center">0</p >
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="form-group col-sm-3">
+                                        <label for="amount" id="amountLabel">{{ reset($resources)['label'] }}</label>
+                                        <input type="number"
+                                               name="amount"
+                                               id="amount"
+                                               class="form-control text-center"
+                                               value="{{ old('amount') }}"
+                                               placeholder="0"
+                                               min="0"
+                                               max="{{ reset($resources)['max'] }}"
+                                                {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="amountSlider">Amount</label>
+                                        <input type="number"
+                                               id="amountSlider"
+                                               class="form-control slider"
+                                               {{--value="0"--}}
+                                               data-slider-value="0"
+                                               data-slider-min="0"
+                                               data-slider-max="{{ reset($resources)['max'] }}"
+                                               data-slider-step="1"
+                                               data-slider-tooltip="show"
+                                               data-slider-handle="triangle"
+                                               data-slider-id="yellow"
+                                                {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label id="resultLabel">{{ reset($resources)['label'] }}</label>
+                                        <p id="result" class="form-control-static text-center">0</p >
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                        Exchange
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="col-sm-12 col-md-3">
-        <div class="box">
-            <div class="box-header with-border">
-                <h3 class="box-title">Information</h3>
-            </div>
-            <div class="box-body">
-                <p>You can exchange resources with the empire. Exchanging resources processes <b>instantly</b>.</p>
-                <ul>
-                    <li>Gold, lumber and ore trade 2 for 1.</li>
-                    <li>Gems trade for 1:2 gold, lumber or ore.</li>
-                    <li>Food trades for 1:4 gold, lumber or ore.</li>
-                </ul>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                            Exchange
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
 
-</div>
+        <div class="col-sm-12 col-md-3">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Information</h3>
+                </div>
+                <div class="box-body">
+                    <p>You can exchange resources with the empire. Exchanging resources processes <b>instantly</b>.</p>
+                    <ul>
+                        <li>Gold, lumber and ore trade 2 for 1.</li>
+                        <li>Gems trade for 1:2 gold, lumber or ore.</li>
+                        <li>Food trades for 1:4 gold, lumber or ore.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+@endif
+
 @endsection
 
 @push('page-styles')

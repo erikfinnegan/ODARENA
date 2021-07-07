@@ -208,8 +208,10 @@ class UnitHelper
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
             'dies_into_resource' => 'Upon death, returns as %1$s %2$s.',
+            'dies_into_resource_on_success' => 'Upon death on successful invasions or upon death on successfully fending off, returns as %1$s %2$s.',
 
             'kills_into_resource_per_casualty' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
+            'kills_into_resource_per_casualty_on_success' => 'Every enemy unit killed on successful invasions or on successfully fending off, returns as %1$s %2$s. Only effective against units with the Living attribute.',
 
             'dies_into_on_offense' => 'Upon death when invading, returns as %1$s.',
             'dies_into_on_defense' => 'Upon death when defending, returns as %1$s.',
@@ -377,6 +379,18 @@ class UnitHelper
                         $perkValue[2] = 1;
                     }
                 }
+
+                // Special case for casualties, casualties_on_defense, and casualties_on_offense
+                if ($perk->key === 'casualties' || $perk->key === 'casualties_on_defense' || $perk->key === 'casualties_on_offense')
+                {
+                    $value = (float)$perkValue;
+
+                    if($perkValue > 0)
+                    {
+                        $perkValue = '+' . $value;
+                    }
+                }
+
 
                 // Special case for returns faster if pairings
                 if ($perk->key === 'faster_return_if_paired')

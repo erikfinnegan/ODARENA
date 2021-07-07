@@ -29,7 +29,7 @@ units:
       offense: 4
       defense: 4
     perks:
-      dies_into_resource: 1,champion # Upon death, becomes 1 champion
+      dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
 
   - name: Berserker
     training_time: 6
@@ -38,15 +38,15 @@ units:
       - sentient
       - intelligent
     cost:
-      unit: 1
+      unit1: 1
       ore: 80
       lumber: 40
     power:
       offense: 6
       defense: 4
     perks:
-      dies_into_resource: 1,champion # Upon death, becomes 1 champion
-      more_casualties: 25 # +25% casualties
+      dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
+      casualties: 75 # +75% casualties
       increases_casualties_on_defense: 1
 
   - name: Homeguard
@@ -78,4 +78,4 @@ units:
     perks:
       true_immortal: 1
       no_draftee: 1
-      kills_into_resource_per_casualty: 1,champion # each unit killed becomes 1 champion
+      kills_into_resource_per_casualty_on_success: 1,champion # each unit killed becomes 1 champion
