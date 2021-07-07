@@ -22,7 +22,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 200
+      gold: 300
       ore: 10
       lumber: 10
     power:

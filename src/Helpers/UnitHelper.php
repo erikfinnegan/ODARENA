@@ -211,7 +211,7 @@ class UnitHelper
             'dies_into_resource_on_success' => 'Upon death on successful invasions or upon death on successfully fending off, returns as %1$s %2$s.',
 
             'kills_into_resource_per_casualty' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
-            'kills_into_resource_per_casualty_on_success' => 'Every enemy unit killed on successful invasions or on successfully fending off, returns as %1$s %2$s. Only effective against units with the Living attribute.',
+            'kills_into_resource_per_casualty_on_success' => 'Every enemy unit killed by this unit on successful invasions or on successfully fending off, returns as %1$s %2$s. Only effective against units with the Living attribute.',
 
             'dies_into_on_offense' => 'Upon death when invading, returns as %1$s.',
             'dies_into_on_defense' => 'Upon death when defending, returns as %1$s.',
