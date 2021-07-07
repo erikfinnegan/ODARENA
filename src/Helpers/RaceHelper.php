@@ -243,6 +243,10 @@ class RaceHelper
                 $negativeBenefit = true;
                 $description = 'Cost of exploration';
                 break;
+          case 'spell_cost':
+                $negativeBenefit = true;
+                $description = 'Spell costs';
+                break;
             case 'explore_time':
                 $negativeBenefit = true;
                 $description = 'Exploration time:';

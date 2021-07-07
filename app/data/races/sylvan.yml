@@ -84,11 +84,11 @@ units:
       - sentient
       - intelligent
     cost:
-      mana: 48
+      mana: 66
       lumber: 1
     power:
-      offense: 10
-      defense: 6
+      offense: 14
+      defense: 8
     perks:
       no_draftee: 1
       offense_if_recently_invaded: 5

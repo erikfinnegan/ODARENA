@@ -1075,12 +1075,21 @@ grove:
   exclusive_races:
     - Beastfolk
     - Simian
-    - Sylvan
     - Weres
     - Wood Elf
   land_type: forest
   perks:
     housing: 30
+    jobs: 0
+
+
+meadow:
+  name: Meadow
+  exclusive_races:
+    - Sylvan
+  land_type: forest
+  perks:
+    housing: 42
     jobs: 0
 
 hall:

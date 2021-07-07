@@ -403,7 +403,7 @@
                         </tbody>
                     </table>
                 </div>
-                @if ($selectedDominion->race->name !== 'Growth' and !$selectedDominion->race->getPerkValue('no_drafting')))
+                @if ($selectedDominion->race->name !== 'Growth' and !$selectedDominion->race->getPerkValue('no_drafting'))
                 <div class="box-footer">
                     <button type="submit"
                             class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Change
