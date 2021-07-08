@@ -636,9 +636,10 @@ class TickService
 
           // Starvation
           $tick->starvation_casualties = 0;
-          if(($dominion->resource_food + $tick->resource_food) < 0)
+          if(($dominion->resource_food + $tick->resource_food) <= 0)
           {
               $tick->starvation_casualties = 1;
+              $tick->resource_food = ($dominion->resource_food)*-1;
           }
 
           // Morale

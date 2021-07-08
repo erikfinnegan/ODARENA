@@ -311,17 +311,7 @@ class ProductionCalculator
         $populationConsumption = 0.25;
 
         // Population Consumption
-        $consumption += $consumers * $populationConsumption;
-
-        // Racial Bonus
-        $multiplier = $dominion->race->getPerkMultiplier('food_consumption');
-
-        // Invasion Spell: Unhealing Wounds (+10% consumption)
-        if ($multiplier !== -1.00 and $this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
-        {
-            $spell = Spell::where('key', 'festering_wounds')->first();
-            $multiplier += 0.10 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, $spell, null);
-        }
+        $consumption += $consumers * 0.25;
 
         // Unit Perk: food_consumption
         $extraFoodEaten = 0;
@@ -337,6 +327,16 @@ class ProductionCalculator
 
         $consumption += $extraFoodEaten;
 
+        // Racial Bonus
+        $multiplier = $dominion->race->getPerkMultiplier('food_consumption');
+
+        // Invasion Spell: Unhealing Wounds (+10% consumption)
+        if ($multiplier !== -1.00 and $this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
+        {
+            $spell = Spell::where('key', 'festering_wounds')->first();
+            $multiplier += 0.10 * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, $spell, null);
+        }
+
         # Add multiplier.
         $consumption *= (1 + $multiplier);
 
@@ -351,7 +351,7 @@ class ProductionCalculator
      */
     public function getFoodNetChange(Dominion $dominion): int
     {
-        return round($this->getFoodProduction($dominion) - $this->getFoodConsumption($dominion) - $this->getContribution($dominion, 'food'));
+        return round($this->getFoodProduction($dominion) - $this->getFoodConsumption($dominion));
     }
 
     public function isOnBrinkOfStarvation(Dominion $dominion): bool
@@ -457,7 +457,6 @@ class ProductionCalculator
         $multiplier += $dominion->getSpellPerkMultiplier('lumber_production');
 
         // Improvement: Forestry
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'forestry');
         $multiplier += $dominion->getImprovementPerkMultiplier('lumber_production');
 
         // Apply Morale multiplier to production multiplier
