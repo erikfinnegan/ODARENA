@@ -630,6 +630,103 @@ wizardry_kerranad:
 
 # END KERRANAD #
 
+# BEGIN WOOD ELF #
+apprenticeship:
+  name: Apprenticeship
+  exclusive_races:
+    - Wood Elf
+  perks:
+    unit_gold_costs: -50,5000
+    unit_lumber_costs: -50,7500
+
+construction_wood_elf:
+  name: Construction
+  exclusive_races:
+    - Wood Elf
+  perks:
+    construction_cost: -50,5000
+    rezone_cost: -50,5000
+
+camouflage:
+  name: Camouflage
+  exclusive_races:
+    - Wood Elf
+  perks:
+    defensive_power: 50,7500
+    defensive_casualties: -50,5000
+
+cartography_wood_elf:
+  name: Cartography
+  exclusive_races:
+    - Wood Elf
+  perks:
+    land_discovered: 70,5000
+
+espionage_wood_elf:
+  name: Espionage
+  exclusive_races:
+    - Wood Elf
+  perks:
+    spy_strength: 90,6500
+    spy_losses: -90,6500
+    forest_haven_housing: 90,6500
+
+fencing:
+  name: Fencing
+  exclusive_races:
+    - Wood Elf
+  perks:
+    offensive_power: 50,7500
+    offensive_casualties: -50,5000
+
+foraging:
+  name: Foraging
+  exclusive_races:
+    - Wood Elf
+  perks:
+    food_production: 90,6500
+
+forestry:
+  name: Forestry
+  exclusive_races:
+    - Wood Elf
+  perks:
+    lumber_production: 50,5000
+    population_growth: 35,6000
+
+housing_wood_elf:
+  name: Housing
+  exclusive_races:
+    - Wood Elf
+  perks:
+    population: 40,5000
+
+leadership_wood_elf:
+  name: Leadership
+  exclusive_races:
+    - Wood Elf
+  perks:
+    title_bonus: 80,800
+
+tutoring:
+  name: Tutoring
+  exclusive_races:
+    - Wood Elf
+  perks:
+    tech_production: 45,6500
+    tech_gains: 45,6500
+
+wizardry_wood_elf:
+  name: Wizardry
+  exclusive_races:
+    - Wood Elf
+  perks:
+    wizard_strength: 90,6500
+    mana_production: 90,6500
+    spell_damage: -90,6500
+
+# END WOOD ELF #
+
 # BEGIN ARMADA #
 harbour:
   name: Harbour

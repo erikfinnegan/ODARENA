@@ -22,7 +22,8 @@ class Resource extends AbstractModel
     protected $casts = [
         'excluded_races' => 'array',
         'exclusive_races' => 'array',
-        'exchange_value' => 'float',
+        'buy_value' => 'float',
+        'sell_value' => 'float',
         'improvement_points' => 'float',
     ];
 /*

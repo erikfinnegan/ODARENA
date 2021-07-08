@@ -763,7 +763,6 @@ institute:
 plantation:
   name: Plantation
   enabled: 0
-  enabled: 1
   exclusive_races:
     - Sylvan
   land_type: forest
