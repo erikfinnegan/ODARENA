@@ -512,7 +512,7 @@ leadership_wood_elf:
   perks:
     title_bonus: 80,800
 
-commerce:
+commerce_wood_elf:
   name: Commerce
   exclusive_races:
     - Wood Elf
