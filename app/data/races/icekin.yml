@@ -26,7 +26,7 @@ units:
       - sentient
     cost:
       mana: 65
-      food: 100
+      food: 195
     power:
       offense: 4
       defense: 0
@@ -34,6 +34,7 @@ units:
       offense_from_title: commander,1 # title, op
       fewer_casualties_from_title: conjurer,50 # title, reduction
       no_draftee: 1
+      food_consumption: 0.10
 
   - name: Snow Witch
     training_time: 6
