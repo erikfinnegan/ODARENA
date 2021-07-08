@@ -1205,10 +1205,11 @@ class TickService
         if($improvementInterestPerk = $dominion->race->getPerkValue('improvements_interest'))
         {
             $improvementInterest = [];
+            $improvementInterestPerk *= 1 + $dominion->getBuildingPerkMultiplier('improvement_interest');
             foreach($this->improvementCalculator->getDominionImprovements($dominion) as $dominionImprovement)
             {
                 $improvement = Improvement::where('id', $dominionImprovement->improvement_id)->first();
-                $increment = floor($dominionImprovement->invested * ($improvementInterestPerk / 100) * (1 + $dominion->getImprovementPerkMultiplier('improvement_interest')));
+                $increment = floor($dominionImprovement->invested * ($improvementInterestPerk / 100));
                 $improvementInterest[$improvement->key] = $increment;
             }
 
