@@ -788,7 +788,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
 
             foreach ($data as $resourceKey => $resourceData) {
-                // Spell
+                // Resource
                 $resource = Resource::firstOrNew(['key' => $resourceKey])
                     ->fill([
                         'name' => $resourceData->name,
@@ -799,7 +799,7 @@ class DataSyncCommand extends Command implements CommandInterface
                         'exclusive_races' => object_get($resourceData, 'exclusive_races', []),
                     ]);
 
-                if (!$spell->exists) {
+                if (!$resource->exists) {
                     $this->info("Adding resource {$resourceData->name}");
                 } else {
                     $this->info("Processing resource {$resourceData->name}");
@@ -823,8 +823,8 @@ class DataSyncCommand extends Command implements CommandInterface
                     }
                 }
 
-                $spell->save();
-                $spell->refresh();
+                $resource->save();
+                $resource->refresh();
 
             }
         }
