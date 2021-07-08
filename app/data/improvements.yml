@@ -512,6 +512,14 @@ leadership_wood_elf:
   perks:
     title_bonus: 80,800
 
+commerce:
+  name: Commerce
+  exclusive_races:
+    - Wood Elf
+  perks:
+    gold_production: 50,7000
+    exchange_rate: 25,7000
+
 tutoring:
   name: Tutoring
   exclusive_races:

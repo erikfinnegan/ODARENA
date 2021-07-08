@@ -761,6 +761,35 @@ plantation:
   perks:
     lumber_production: 0.24
 
+plantation:
+  name: Plantation
+  enabled: 1
+  exclusive_races:
+    - Sylvan
+  land_type: forest
+  perks:
+    lumber_production: 0.24
+
+spring:
+  name: Spring
+  enabled: 1
+  exclusive_races:
+    - Sylvan
+  land_type: forest
+  perks:
+    improvement_interest: 1,4,40 # ratio, perk, max
+
+
+thicket:
+  name: Thicket
+  enabled: 1
+  exclusive_races:
+    - Sylvan
+  land_type: forest
+  perks:
+    improvements: 1,4 # Every 1% gives 2.75% higher imps
+
+
 outpost:
   name: Outpost
   enabled: 0
