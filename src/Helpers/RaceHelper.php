@@ -288,6 +288,7 @@ class RaceHelper
             case 'no_drafting':
                 $negativeBenefit = true;
                 $description = 'No drafting';
+                $booleanValue = true;
                 break;
             case 'draftee_dp':
                 $negativeBenefit = true;
