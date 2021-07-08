@@ -116,6 +116,8 @@ class BuildingHelper
 
             # Improvements
             'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',
+            'improvements_capped' => 'Improvements increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'improvement_interest' => 'Improvements interest increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             # Construction and Rezoning
             'construction_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',

@@ -3,6 +3,11 @@ gold:
   exchange_value: 1
   improvement_points: 1
 
+food:
+  name: Food
+  exchange_value: 1
+  improvement_points: 0
+
 ore:
   name: Ore
   exchange_value: 2
@@ -44,9 +49,8 @@ soul:
   exclusive_races:
     - Demon
 
-
 seed:
-  name: Druva's Seed
+  name: Druva's Seedling
   exchange_value: 0
   improvement_points: 2000000
   exclusive_races:
