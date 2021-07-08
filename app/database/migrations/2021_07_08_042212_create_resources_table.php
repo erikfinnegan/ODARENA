@@ -18,8 +18,8 @@ class CreateResourcesTable extends Migration
           $table->string('key');
           $table->string('name');
           $table->integer('enabled')->default(1);
-          $table->decimal('exchange_value', 8, 2)->default(0);
-          $table->decimal('improvement_points', 8, 2)->default(0);
+          $table->decimal('exchange_value', 16, 2)->default(0);
+          $table->decimal('improvement_points', 16, 2)->default(0);
           $table->text('excluded_races')->nullable();
           $table->text('exclusive_races')->nullable();
 
