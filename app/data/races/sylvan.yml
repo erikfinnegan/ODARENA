@@ -26,6 +26,7 @@ perks:
   can_invest_mana: 6
   improvements_interest: 0.06
   cannot_exchange: 1
+  lumber_production: -30
 
 units:
   - name: Leshy
