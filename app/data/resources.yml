@@ -1,0 +1,53 @@
+gold:
+  name: Gold
+  exchange_value: 1
+  improvement_points: 1
+
+ore:
+  name: Ore
+  exchange_value: 2
+  improvement_points: 2
+
+lumber:
+  name: Lumber
+  exchange_value: 2
+  improvement_points: 2
+
+mana:
+  name: Mana
+  exchange_value: 0
+  improvement_points: 0
+
+gems:
+  name: Gems
+  exchange_value: 4
+  improvement_points: 12
+
+champion:
+  name: Champion
+  exchange_value: 0
+  improvement_points: 0
+  exclusive_races:
+    - Norse
+
+blood:
+  name: Blood
+  exchange_value: 0
+  improvement_points: 0
+  exclusive_races:
+    - Demon
+
+soul:
+  name: Souls
+  exchange_value: 0
+  improvement_points: 200
+  exclusive_races:
+    - Demon
+
+
+seed:
+  name: Druva's Seed
+  exchange_value: 0
+  improvement_points: 2000000
+  exclusive_races:
+    - Sylvan

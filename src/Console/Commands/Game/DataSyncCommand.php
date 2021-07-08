@@ -30,6 +30,7 @@ use OpenDominion\Models\SpyopPerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use OpenDominion\Models\Stat;
+use OpenDominion\Models\Resource;
 
 
 use OpenDominion\Models\Title;
@@ -73,6 +74,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncSpyops();
             $this->syncImprovements();
             $this->syncStats();
+            $this->syncResources();
         });
     }
 
@@ -773,6 +775,57 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 $stat->save();
                 $stat->refresh();
+            }
+        }
+
+        /**
+         * Syncs resources from .yml file to the database.
+         */
+        protected function syncResources()
+        {
+            $fileContents = $this->filesystem->get(base_path('app/data/resources.yml'));
+
+            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+            foreach ($data as $resourceKey => $resourceData) {
+                // Spell
+                $resource = Resource::firstOrNew(['key' => $resourceKey])
+                    ->fill([
+                        'name' => $resourceData->name,
+                        'exchange_value' => object_get($resourceData, 'exchange_value'),
+                        'improvement_points' => object_get($resourceData, 'improvement_points'),
+                        'enabled' => object_get($resourceData, 'enabled', 1),
+                        'excluded_races' => object_get($resourceData, 'excluded_races', []),
+                        'exclusive_races' => object_get($resourceData, 'exclusive_races', []),
+                    ]);
+
+                if (!$spell->exists) {
+                    $this->info("Adding resource {$resourceData->name}");
+                } else {
+                    $this->info("Processing resource {$resourceData->name}");
+
+                    $newValues = $resource->getDirty();
+
+                    foreach ($newValues as $key => $newValue)
+                    {
+                        $originalValue = $resource->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                }
+
+                $spell->save();
+                $spell->refresh();
+
             }
         }
 
