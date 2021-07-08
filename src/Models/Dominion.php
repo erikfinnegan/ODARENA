@@ -719,8 +719,9 @@ class Dominion extends AbstractModel
                           or $perkKey == 'ore_theft_reduction'
                           or $perkKey == 'food_theft_reduction'
 
-                          # Other
+                          # Improvements
                           or $perkKey == 'improvements_capped'
+                          or $perkKey == 'improvement_interest'
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);
