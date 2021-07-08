@@ -17,6 +17,7 @@ commerce:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -32,6 +33,7 @@ construction:
     - Growth
     - Imperial Gnome
     - Kerranad
+    - Sylvan
     - Qur
     - Troll
     - Void
@@ -82,6 +84,7 @@ defense:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -94,6 +97,7 @@ espionage:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -121,6 +125,7 @@ housing:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -134,7 +139,6 @@ logging:
     - Growth
     - Kerranad
     - Sylvan
-    - Wood Elf
     - Troll
     - Void
     - Wood Elf
@@ -147,6 +151,7 @@ medicine:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -160,6 +165,7 @@ mobilisation:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -173,6 +179,7 @@ offense:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -185,6 +192,7 @@ research:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -198,6 +206,7 @@ mining:
     - Beastfolk
     - Growth
     - Kerranad
+    - Sylvan
     - Troll
     - Void
     - Wood Elf
@@ -213,6 +222,7 @@ wizardry:
     - Nox
     - Qur
     - Reptilians
+    - Sylvan
     - Troll
     - Undead
     - Void
@@ -282,7 +292,7 @@ imperial_gnome_construction:
     unit_pairing: 25,4000
 
 
-# BEGIN TROLL
+# BEGIN TROLL #
 
 bashing:
   name: Bashing
@@ -434,110 +444,64 @@ tissue:
     food_production: 100,75000
 # END GROWTH #
 
-# BEGIN TROLL
-apprenticeship:
-  name: Apprenticeship
-  exclusive_races:
-    - Wood Elf
-  perks:
-    unit_gold_costs: -50,5000
-    unit_lumber_costs: -50,7500
+# BEGIN SYLVAN #
 
-construction_wood_elf:
-  name: Construction
+affinity:
+  name: Affinity
   exclusive_races:
-    - Wood Elf
+    - Sylvan
   perks:
-    construction_cost: -50,5000
-    rezone_cost: -50,5000
+    mana_production: 60,4000
 
-camouflage:
-  name: Camouflage
+awareness:
+  name: Awareness
   exclusive_races:
-    - Wood Elf
+    - Sylvan
   perks:
-    defensive_power: 50,7500
-    defensive_casualties: -50,5000
+    spy_strength: 60,6000
+    tech_production: 40,6000
+    tech_gains: 60,4000
 
-cartography_wood_elf:
-  name: Cartography
+bloom:
+  name: Bloom
   exclusive_races:
-    - Wood Elf
+    - Sylvan
   perks:
-    land_discovered: 70,5000
+    lumber_production: 60,6000
+    food_production: 40,6000
 
-espionage_wood_elf:
-  name: Espionage
+nurture:
+  name: Nurture
   exclusive_races:
-    - Wood Elf
+    - Sylvan
   perks:
-    spy_strength: 90,6500
-    spy_losses: -90,6500
-    forest_haven_housing: 90,6500
+    rezone_cost: -40,6000
+    land_discovered: 20,4000
 
-fencing:
-  name: Fencing
+rage:
+  name: Rage
   exclusive_races:
-    - Wood Elf
+    - Sylvan
   perks:
-    offensive_power: 50,7500
-    offensive_casualties: -50,5000
+    defensive_modifier_reduction: 20,6000
+    offensive_power: 40,8000
 
-foraging:
-  name: Foraging
+roaming:
+  name: Roaming
   exclusive_races:
-    - Wood Elf
+    - Sylvan
   perks:
-    food_production: 90,6500
+    population: 20,4000
 
-forestry:
-  name: Forestry
+tranquillity:
+  name: Tranquillity
   exclusive_races:
-    - Wood Elf
+    - Sylvan
   perks:
-    lumber_production: 50,5000
-    population_growth: 35,6000
+    defensive_power: 60,8000
+    population_growth: 60,6000
 
-housing_wood_elf:
-  name: Housing
-  exclusive_races:
-    - Wood Elf
-  perks:
-    population: 40,5000
-
-leadership_wood_elf:
-  name: Leadership
-  exclusive_races:
-    - Wood Elf
-  perks:
-    title_bonus: 80,800
-
-commerce_wood_elf:
-  name: Commerce
-  exclusive_races:
-    - Wood Elf
-  perks:
-    gold_production: 50,7000
-    exchange_rate: 25,7000
-
-tutoring:
-  name: Tutoring
-  exclusive_races:
-    - Wood Elf
-  perks:
-    tech_production: 45,6500
-    tech_gains: 45,6500
-
-wizardry_wood_elf:
-  name: Wizardry
-  exclusive_races:
-    - Wood Elf
-  perks:
-    wizard_strength: 90,6500
-    mana_production: 90,6500
-    spell_damage: -90,6500
-
-# END WOOD ELF #
+# END SYLVAN #
 
 # BEGIN KERRANAD #
 cartography_kerranad:

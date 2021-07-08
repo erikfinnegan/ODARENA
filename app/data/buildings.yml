@@ -762,6 +762,7 @@ institute:
 
 plantation:
   name: Plantation
+  enabled: 0
   enabled: 1
   exclusive_races:
     - Sylvan
@@ -785,7 +786,7 @@ thicket:
     - Sylvan
   land_type: forest
   perks:
-    improvements: 1,4 # Every 1% gives 2.75% higher imps
+    improvements_capped: 1,4,100 # Every 1% gives 2.75% higher imps
 
 outpost:
   name: Outpost

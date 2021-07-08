@@ -61,7 +61,7 @@ units:
       champion: 1
     power:
       offense: 0
-      defense: 16
+      defense: 10
     perks:
       true_immortal: 1
       no_draftee: 1
