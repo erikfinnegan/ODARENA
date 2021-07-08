@@ -182,6 +182,7 @@ class ImprovementHelper
             'casualties' => 'casualties',
             'offensive_casualties' => 'offensive casualties',
             'defensive_casualties' => 'defensive casualties',
+            'defensive_modifier_reduction' => 'reduced defensive modifiers for target',
 
             'prestige_gains' => 'prestige gains',
 

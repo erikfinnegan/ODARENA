@@ -110,9 +110,9 @@ class BuildingHelper
             'raw_defense' => 'Provides %s raw defensive power.',
             'offensive_power' => 'Offensive power increased by %2$s%% for every %1$s%% (max +%3$s%% OP)',
             'defensive_power' => 'Defensive power increased by %2$s%% for every %1$s%% (max +%3$s%% DP).',
-            'defensive_modifier_reduction' => 'Reduces target\'s defensive modifiers by by %2$s%% for every %1$s%% (max %3$s%% reduction or 0%% defensive modifiers).',
+            'defensive_modifier_reduction' => 'Reduces target\'s defensive modifiers by %2$s%% for every %1$s%% (max %3$s%% reduction or 0%% defensive modifiers).',
 
-            'reduces_offensive_power' => 'Invading force\'s total offensive power reduced by by %2$s%% for every %1$s%% (max -%3$s%% OP).',
+            'reduces_offensive_power' => 'Invading force\'s total offensive power reduced by %2$s%% for every %1$s%% (max -%3$s%% OP).',
 
             # Improvements
             'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',
