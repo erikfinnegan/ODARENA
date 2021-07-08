@@ -776,7 +776,7 @@ spring:
     - Sylvan
   land_type: forest
   perks:
-    improvement_interest: 1,4,40 # ratio, perk, max
+    improvement_interest: 1,12,120 # ratio, perk, max
 
 thicket:
   name: Thicket
