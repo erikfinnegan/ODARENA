@@ -1003,6 +1003,7 @@ class Dominion extends AbstractModel
 
         $multiplier = 1;
         $multiplier += $this->getBuildingPerkMultiplier('improvements');
+        $multiplier += $this->getBuildingPerkMultiplier('improvements_capped');
         $multiplier += $this->getSpellPerkMultiplier('improvements');
         $multiplier += $this->getTechPerkMultiplier('improvements');
         $multiplier += $this->race->getPerkMultiplier('improvements_max');
