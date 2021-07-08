@@ -25,8 +25,8 @@ units:
       - living
       - sentient
     cost:
-      mana: 50
-      food: 70
+      mana: 65
+      food: 100
     power:
       offense: 4
       defense: 0
