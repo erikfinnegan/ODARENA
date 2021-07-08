@@ -16,6 +16,7 @@ class ImprovementController extends AbstractDominionController
 {
     public function getImprovements(Request $request)
     {
+      
         return view('pages.dominion.improvements', [
             'improvementCalculator' => app(ImprovementCalculator::class),
             'improvementHelper' => app(ImprovementHelper::class),

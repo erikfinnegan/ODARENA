@@ -148,18 +148,18 @@
                     <p>Invest resources into your improvements to immediately strengthen that part of your dominion.</p>
                     <p>The return on investments use an exponential function, which yields less return the more you have invested. The function is based on a coefficient and a maximum.</p>
 
-                    @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 or $improvementCalculator->getTechBonus($selectedDominion) > 0)
-                    <p>
-                      @if($improvementCalculator->getMasonriesBonus($selectedDominion) > 0 and $improvementCalculator->getTechBonus($selectedDominion) == 0)
-                          Buildings
-                      @elseif($improvementCalculator->getTechBonus($selectedDominion) > 0 and $improvementCalculator->getMasonriesBonus($selectedDominion) == 0)
-                          Advancements
-                      @elseif($improvementCalculator->getTechBonus($selectedDominion) > 0 and $improvementCalculator->getMasonriesBonus($selectedDominion) > 0)
-                          Buildings and Advancements
-                      @endif
+                    @php
+                        $improvementsBonus = 0;
+                        $improvementsBonus += $selectedDominion->getBuildingPerkMultiplier('improvements');
+                        $improvementsBonus += $selectedDominion->getBuildingPerkMultiplier('improvements_capped');
+                        $improvementsBonus += $selectedDominion->getSpellPerkMultiplier('improvements');
+                        $improvementsBonus += $selectedDominion->getTechPerkMultiplier('improvements');
+                        $improvementsBonus += $selectedDominion->race->getPerkMultiplier('improvements_max');
 
-                      are increasing your investments by <strong>{{ number_format(($improvementCalculator->getTechBonus($selectedDominion) + $improvementCalculator->getMasonriesBonus($selectedDominion))*100,2) }}%</strong>.
-                    </p>
+                    @endphp
+
+                    @if($improvementsBonus > 0)
+                        <p>You improvements are increased by <strong>{{ number_format($improvementsBonus*100,2) }}%</strong>.</p>
                     @endif
 
                     <p>Resources invested are converted to points.</p>
