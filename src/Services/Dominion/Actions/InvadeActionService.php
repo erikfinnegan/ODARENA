@@ -2095,7 +2095,7 @@ class InvadeActionService
                 }
 
                 # Defender: dies_into_resource
-                if($diesIntoResourcePerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_resource'))
+                if(isset($this->invasionResult['defender']['unitsLost'][$slot]) and $diesIntoResourcePerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_resource'))
                 {
                     $amountPerCasualty = $diesIntoResourcePerCasualty[0];
                     $resource = 'resource_' . $diesIntoResourcePerCasualty[1];
@@ -2103,11 +2103,11 @@ class InvadeActionService
                 }
 
                 # Defender: dies_into_resource_on_success: triggers if a defensive unit has the perk and invasion is NOT successful
-                if($diesIntoResourcePerCasualtyOnSuccess = $defender->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_resource_on_success') and !$this->invasionResult['result']['success'])
+                if(isset($this->invasionResult['defender']['unitsLost'][$slot]) and $diesIntoResourcePerCasualtyOnSuccess = $defender->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_resource_on_success') and !$this->invasionResult['result']['success'])
                 {
                     $amountPerCasualty = $diesIntoResourcePerCasualtyOnSuccess[0];
                     $resource = 'resource_' . $diesIntoResourcePerCasualtyOnSuccess[1];
-                    $this->invasionResult['defender']['resource_conversion'][$resource] += floor($this->invasionResult['attacker']['unitsLost'][$slot] * $amountPerCasualty);
+                    $this->invasionResult['defender']['resource_conversion'][$resource] += floor($this->invasionResult['defender']['unitsLost'][$slot] * $amountPerCasualty);
                 }
             }
         }
@@ -2820,9 +2820,13 @@ class InvadeActionService
         $this->statsService->setStat($dominion, 'op_sent_max', max($this->invasionResult['attacker']['op'], $this->statsService->getStat($dominion, 'op_sent_max')));
         $this->statsService->updateStat($dominion, 'op_sent_total', $this->invasionResult['attacker']['op']);
 
-        $day = $dominion->round->start_date->subDays(1)->diffInDays(now());
-        $day = sprintf('%02d', $day);
-        $this->statsService->setRoundStat($dominion->round, ('day' . $day . '_top_op'), max($this->invasionResult['attacker']['op'], $this->statsService->getRoundStat($dominion->round, ('day' . $day . '_top_op'))));
+        if(request()->getHost() === 'odarena.com')
+        {
+            $day = $dominion->round->start_date->subDays(1)->diffInDays(now());
+            $day = sprintf('%02d', $day);
+            $this->statsService->setRoundStat($dominion->round, ('day' . $day . '_top_op'), max($this->invasionResult['attacker']['op'], $this->statsService->getRoundStat($dominion->round, ('day' . $day . '_top_op'))));
+        }
+
 
         if($this->invasionResult['result']['success'])
         {
