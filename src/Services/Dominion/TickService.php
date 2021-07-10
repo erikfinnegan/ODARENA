@@ -1227,7 +1227,7 @@ class TickService
     }
 
     # Take resources that are one tick away from finished and create or increment DominionImprovements.
-    private function handleImprovements(Dominion $dominion): void
+    private function handleResources(Dominion $dominion): void
     {
         $finishedResourcesInQueue = DB::table('dominion_queue')
                                         ->where('dominion_id',$dominion->id)
