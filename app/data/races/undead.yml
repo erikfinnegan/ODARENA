@@ -77,7 +77,6 @@ units:
       offense: 0
       defense: 6
     perks:
-      immortal_on_victory: 1
       immortal_on_fending_off: 1
       immortal_wizard: 1
       no_draftee: 1
