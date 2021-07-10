@@ -641,7 +641,7 @@ apprenticeship:
     unit_gold_costs: -50,5000
     unit_lumber_costs: -50,7500
 
-commerce:
+commerce_wood_elf:
   name: Commerce
   exclusive_races:
     - Wood Elf
