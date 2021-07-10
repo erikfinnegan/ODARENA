@@ -29,7 +29,7 @@ class CasualtiesCalculator
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
     }
 
-    # These are casualteis perks that do not depend on anything else
+    # These are casualty perks that do not depend on anything else
     public function getBasicCasualtiesPerks(Dominion $dominion, string $mode = 'offensive')
     {
         # Let's be nice
