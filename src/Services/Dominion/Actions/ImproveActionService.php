@@ -193,7 +193,7 @@ class ImproveActionService
 
         $worth = $this->improvementCalculator->getResourceWorth($resource, $dominion);
 
-        if ($totalResourcesToInvest < 0)
+        if ($totalResourcesToInvest <= 0)
         {
             throw new GameException('Investment aborted due to bad input.');
         }
