@@ -1226,6 +1226,39 @@ class TickService
         }
     }
 
+    # Take resources that are one tick away from finished and create or increment DominionImprovements.
+    private function handleImprovements(Dominion $dominion): void
+    {
+        $finishedResourcesInQueue = DB::table('dominion_queue')
+                                        ->where('dominion_id',$dominion->id)
+                                        ->where('resource', 'like', 'resource%')
+                                        ->where('hours',1)
+                                        ->get();
+        foreach($finishedResourcesInQueue as $finishedResourceInQueue)
+        {
+            $resourceKey = str_replace('resource_', '', $finishedResourceInQueue->resource);
+            $amount = intval($finishedResourceInQueue->amount);
+            $resource = Resource::where('key', $improvementKey)->first();
+            $this->resourceCalculator->createOrIncrementResources($dominion, [$resourceKey => $amount]);
+        }
+
+        if($improvementInterestPerk = $dominion->race->getPerkValue('improvements_interest'))
+        {
+            $improvementInterest = [];
+            $improvementInterestPerk *= 1 + $dominion->getBuildingPerkMultiplier('improvement_interest');
+            foreach($this->improvementCalculator->getDominionImprovements($dominion) as $dominionImprovement)
+            {
+                $improvement = Improvement::where('id', $dominionImprovement->improvement_id)->first();
+                $increment = floor($dominionImprovement->invested * ($improvementInterestPerk / 100));
+                $improvementInterest[$improvement->key] = $increment;
+            }
+
+            #dd($improvementInterest);
+
+            $this->improvementCalculator->createOrIncrementImprovements($dominion, $improvementInterest);
+        }
+    }
+
     private function updateDominionAlt(Dominion $dominion)
     {
         $tick = Tick::where('dominion_id', $dominion->id)->first();
