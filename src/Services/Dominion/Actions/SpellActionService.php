@@ -1127,6 +1127,12 @@ class SpellActionService
         $selfWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'offense'));
         $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'defense'));
 
+
+        if($selfWpa <= 0)
+        {
+            throw new GameException('You need at least one full wizard to cast ' . $spell->name);
+        }
+
         if ($targetWpa == 0.0 or random_chance($this->opsHelper->operationSuccessChance($selfWpa, $targetWpa, static::INFO_MULTIPLIER_SUCCESS_RATE)))
         {
             $this->statsService->updateStat($caster, 'magic_info_success', 1);

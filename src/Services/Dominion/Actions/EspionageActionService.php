@@ -245,7 +245,8 @@ class EspionageActionService
         $targetSpa = min(10, $this->militaryCalculator->getSpyRatio($target, 'defense'));
 
         // You need at least some positive SPA to perform espionage operations
-        if ($selfSpa === 0.0) {
+        if ($selfSpa === 0.0)
+        {
             // Don't reduce spy strength by throwing an exception here
             throw new GameException("Your spy force is too weak to cast {$operationInfo['name']}. Please train some more spies.");
         }
