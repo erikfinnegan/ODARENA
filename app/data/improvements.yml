@@ -641,6 +641,13 @@ apprenticeship:
     unit_gold_costs: -50,5000
     unit_lumber_costs: -50,7500
 
+commerce:
+  name: Commerce
+  exclusive_races:
+    - Wood Elf
+  perks:
+    gold_production: 50,7500
+
 construction_wood_elf:
   name: Construction
   exclusive_races:
