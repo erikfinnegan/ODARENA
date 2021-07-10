@@ -97,6 +97,7 @@ class MiscController extends AbstractDominionController
 
         # Remove votes
         DB::table('dominions')->where('monarchy_vote_for_dominion_id', '=', $dominion->id)->update(['monarchy_vote_for_dominion_id' => null]);
+        DB::table('realms')->where('monarch_dominion_id', '=', $dominion->id)->update(['monarch_dominion_id' => null]);
 
         DB::table('dominion_spells')->where('dominion_id', '=', $dominion->id)->delete();
         DB::table('dominion_spells')->where('caster_id', '=', $dominion->id)->delete();

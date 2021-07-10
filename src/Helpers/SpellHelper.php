@@ -199,6 +199,9 @@ class SpellHelper
             'persuasion' => 'Captured spies and spy wizards have a chance to join the Cult as Thralls instead of being executed.',
             'treachery' => 'Some resources stolen by the target are instead diverted to the Cult.',
 
+            // Invasion spells
+            'kills_peasants_and_converts_for_caster_unit' => 'Kills %1$s%% of target\'s peasants per tick and converts them into Abominations.',
+
         ];
 
         foreach ($spell->perks as $perk)

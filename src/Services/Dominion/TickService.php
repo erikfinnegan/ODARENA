@@ -736,6 +736,12 @@ class TickService
           # Cap at -100%
           $attritionMultiplier = max(-1, $attritionMultiplier);
 
+          // Check for no-attrition perks.
+          if($dominion->getSpellPerkValue('no_attrition'))
+          {
+              $attritionMultiplier = -1;
+          }
+
           for ($slot = 1; $slot <= 4; $slot++)
           {
               // Myconid: Land generation
