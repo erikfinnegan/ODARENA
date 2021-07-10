@@ -391,6 +391,7 @@ class PopulationCalculator
         return $populationBirth;
     }
 
+    /*
     public function getPopulationGrowthRate(Dominion $dominion): float
     {
           $growthRate = 0;
@@ -411,9 +412,12 @@ class PopulationCalculator
           // Improvement
           $multiplier += $dominion->getImprovementPerkMultiplier('population_growth');
 
+          dd($multiplier);
+
           return $growthRate * (1 + $multiplier);
 
     }
+    */
 
     /**
      * Returns the Dominions raw population birth.
@@ -482,6 +486,9 @@ class PopulationCalculator
 
         // Advancement
         $multiplier += $dominion->getTechPerkMultiplier('population_growth');
+
+        // Improvement
+        $multiplier += $dominion->getImprovementPerkMultiplier('population_growth');
 
         # Look for population_growth in units
         for ($slot = 1; $slot <= 4; $slot++)
