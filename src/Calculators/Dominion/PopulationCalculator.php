@@ -408,6 +408,9 @@ class PopulationCalculator
           // Tech
           $multiplier += $dominion->getTechPerkMultiplier('population_growth');
 
+          // Improvement
+          $multiplier += $dominion->getImprovementPerkMultiplier('population_growth');
+
           return $growthRate * (1 + $multiplier);
 
     }
