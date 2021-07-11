@@ -417,19 +417,6 @@
                                         <td><span class="text-red">-{{ number_format($event->data['attacker']['mana_exhausted']) }}</span></td>
                                     </tr>
                                     @endif
-
-                                    @if (isset($event->data['attacker']['resource_conversion']) and $event->data['attacker']['resource_conversion'] > 0)
-                                    <tr>
-                                        <th colspan="2">New resources</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><small class="text-muted">Firing the Hailstorm Cannon depletes our mana supplies.</small></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mana:</td>
-                                        <td><span class="text-red">-{{ number_format($event->data['attacker']['mana_exhausted']) }}</span></td>
-                                    </tr>
-                                    @endif
                                 </tbody>
                             </table>
                             @endif
