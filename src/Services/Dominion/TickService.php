@@ -284,6 +284,9 @@ class TickService
                 if(!empty($dominion->tick->pestilence_units))
                 {
                     $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** ' $dominion->name . ' has pestilence from ' . $caster->name); }
+
                     if ($caster)
                     {
                         $this->queueService->queueResources('training', $caster, ['military_unit1' => $dominion->tick->pestilence_units['units']['military_unit1']], 12);
