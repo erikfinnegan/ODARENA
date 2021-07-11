@@ -375,7 +375,13 @@
                                 @foreach($returningResources as $resource => $totalAmount)
                                     @if($totalAmount > 0)
                                         <tr>
-                                            <td>{{ ucwords($resource) }}</td>
+                                            <td>
+                                                @if ($resource == 'tech')
+                                                    XP
+                                                @else
+                                                    {{ ucwords($resource) }}
+                                                @endif
+                                            </td>
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <td class="text-center">
                                                     @if($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i))

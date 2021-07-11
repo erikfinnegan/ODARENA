@@ -30,7 +30,7 @@ class MilitaryController extends AbstractDominionController
 
         $queueService = app(QueueService::class);
         $returningResources = [];
-        foreach(['gold','ore','food','gems','mana','lumber','soul','champion'] as $resource)
+        foreach(['gold','food','ore','gems','mana','lumber','soul','champion','tech'] as $resource)
         {
             $returningResources[$resource] = $queueService->getInvasionQueueTotalByResource($this->getSelectedDominion(), 'resource_' . $resource);
         }
