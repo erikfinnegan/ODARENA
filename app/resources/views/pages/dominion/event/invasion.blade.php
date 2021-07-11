@@ -401,10 +401,6 @@
                                     @endif
 
                                     @if (isset($event->data['attacker']['resource_conversion']) and $event->data['attacker']['resource_conversion'] > 0)
-                                    @php
-                                        $resourceName = str_replace('resource_','',$resource);
-
-                                    @endphp
                                     <tr>
                                         <th colspan="2">New Resources</th>
                                     </tr>
@@ -412,6 +408,9 @@
                                         <td colspan="2"><small class="text-muted">Some of the fallen return to us as new resources.</small></td>
                                     </tr>
                                     @foreach($event->data['attacker']['resource_conversion'] as $resource => $amount)
+                                        @php
+                                            $resourceName = str_replace('resource_','',$resource);
+                                        @endphp
                                         @if($amount > 0)
                                             <tr>
                                                 <td>{{ ucwords($resourceName) }}:</td>
