@@ -285,7 +285,7 @@ class TickService
                 {
                     $caster = Dominion::findorfail($dominion->tick->pestilence_units['caster_dominion_id']);
 
-                    if(static::EXTENDED_LOGGING) { Log::debug('*** ' $dominion->name . ' has pestilence from ' . $caster->name); }
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** ' . $dominion->name . ' has pestilence from ' . $caster->name); }
 
                     if ($caster)
                     {
