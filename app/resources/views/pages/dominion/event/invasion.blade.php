@@ -414,7 +414,7 @@
                                     @foreach($event->data['attacker']['resource_conversion'] as $resource => $amount)
                                         @if($amount > 0)
                                             <tr>
-                                                <td>{{ ucwords(str_plural($resourceName, $amount)) }}:</td>
+                                                <td>{{ ucwords($resourceName) }}:</td>
                                                 <td><span class="text-green">+{{ number_format($amount) }}</span></td>
                                             </tr>
                                         @endif
