@@ -781,10 +781,15 @@
                                             <td colspan="2"><small class="text-muted">Some of the fallen return to us as new resources.</small></td>
                                         </tr>
                                         @foreach($event->data['defender']['resource_conversion'] as $resource => $amount)
-                                            <tr>
-                                                <td>{{ ucwords($resource) }}:</td>
-                                                <td><span class="text-green">+{{ number_format($amount) }}</span></td>
-                                            </tr>
+                                            @php
+                                                $resourceName = str_replace('resource_','',$resource);
+                                            @endphp
+                                            @if($amount > 0)
+                                                <tr>
+                                                    <td>{{ ucwords($resourceName) }}:</td>
+                                                    <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                         @endif
 
