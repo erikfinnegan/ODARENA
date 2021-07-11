@@ -283,6 +283,18 @@ $router->group(['prefix' => 'valhalla', 'as' => 'valhalla.'], static function (R
 
 });
 
+// Chronicles
+
+$router->group(['prefix' => 'chronicles', 'as' => 'chronicles.'], static function (Router $router) {
+
+    $router->get('/')->uses('ChroniclesController@getIndex')->name('index');
+    $router->get('round/{round}')->uses('ChroniclesController@getRound')->name('round');
+    $router->get('round/{round}/{type}')->uses('ChroniclesController@getRoundType')->name('round.type');
+    $router->get('ruler/{user}')->uses('ChroniclesController@getRuler')->name('user');
+
+});
+
+
 // Donate
 
 // Contact
