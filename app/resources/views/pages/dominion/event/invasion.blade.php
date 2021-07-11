@@ -400,7 +400,7 @@
                                     </tr>
                                     @endif
 
-                                    @if (isset($event->data['attacker']['resource_conversion']) and $event->data['attacker']['resource_conversion'] > 0)
+                                    @if (isset($event->data['attacker']['resource_conversion']) and array_sum($event->data['attacker']['resource_conversion']) > 0)
                                     <tr>
                                         <th colspan="2">New Resources</th>
                                     </tr>
@@ -773,7 +773,7 @@
                                         </tr>
                                         @endif
 
-                                        @if (isset($event->data['defender']['resource_conversion']) and $event->data['defender']['resource_conversion'] > 0)
+                                        @if (isset($event->data['defender']['resource_conversion']) and array_sum($event->data['defender']['resource_conversion']) > 0)
                                         <tr>
                                             <th colspan="2">New Resources</th>
                                         </tr>

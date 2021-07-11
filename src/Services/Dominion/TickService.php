@@ -1241,22 +1241,6 @@ class TickService
             $resource = Resource::where('key', $improvementKey)->first();
             $this->resourceCalculator->createOrIncrementResources($dominion, [$resourceKey => $amount]);
         }
-
-        if($improvementInterestPerk = $dominion->race->getPerkValue('improvements_interest'))
-        {
-            $improvementInterest = [];
-            $improvementInterestPerk *= 1 + $dominion->getBuildingPerkMultiplier('improvement_interest');
-            foreach($this->improvementCalculator->getDominionImprovements($dominion) as $dominionImprovement)
-            {
-                $improvement = Improvement::where('id', $dominionImprovement->improvement_id)->first();
-                $increment = floor($dominionImprovement->invested * ($improvementInterestPerk / 100));
-                $improvementInterest[$improvement->key] = $increment;
-            }
-
-            #dd($improvementInterest);
-
-            $this->improvementCalculator->createOrIncrementImprovements($dominion, $improvementInterest);
-        }
     }
 
     private function updateDominionAlt(Dominion $dominion)
