@@ -417,6 +417,21 @@
                                         <td><span class="text-red">-{{ number_format($event->data['attacker']['mana_exhausted']) }}</span></td>
                                     </tr>
                                     @endif
+
+                                    @if (isset($event->data['attacker']['resource_conversion']) and $event->data['attacker']['resource_conversion'] > 0)
+                                    <tr>
+                                        <th colspan="2">New Resources</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Some of the fallen return to us as new resources.</small></td>
+                                    </tr>
+                                    @foreach($event->data['attacker']['resource_conversion'] as $resource => $amount)
+                                        <tr>
+                                            <td>{{ ucwords($resource) }}:</td>
+                                            <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                        </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                             @endif
@@ -769,6 +784,21 @@
                                             <td>Bodies:</td>
                                             <td><span class="text-green">+{{ number_format($event->data['defender']['crypt']['total']) }}</span></td>
                                         </tr>
+                                        @endif
+
+                                        @if (isset($event->data['defender']['resource_conversion']) and $event->data['defender']['resource_conversion'] > 0)
+                                        <tr>
+                                            <th colspan="2">New Resources</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><small class="text-muted">Some of the fallen return to us as new resources.</small></td>
+                                        </tr>
+                                        @foreach($event->data['defender']['resource_conversion'] as $resource => $amount)
+                                            <tr>
+                                                <td>{{ ucwords($resource) }}:</td>
+                                                <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                            </tr>
+                                        @endforeach
                                         @endif
 
                                     @endif
