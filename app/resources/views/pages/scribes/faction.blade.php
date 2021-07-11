@@ -391,7 +391,6 @@
                               <tr>
                                   <td>
                                       {{ $improvement->name }}
-                                      {!! $improvementHelper->getExclusivityString($improvement) !!}
                                   </td>
                                   <td>
                                         <table>
