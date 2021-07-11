@@ -24,7 +24,7 @@ perks:
   extra_barren_forest_max_population: 10
   barren_forest_mana_production: 18
   can_invest_mana: 6
-  improvements_interest: 0.06
+  improvements_interest: 0.08
   cannot_exchange: 1
   lumber_production: -80
   cannot_train_spies: 1
@@ -74,7 +74,7 @@ units:
       - sentient
       - intelligent
     cost:
-      mana: 10
+      mana: 40
       lumber: 1
     power:
       offense: 0
@@ -93,7 +93,7 @@ units:
       - sentient
       - intelligent
     cost:
-      mana: 66
+      mana: 75
       lumber: 1
     power:
       offense: 14

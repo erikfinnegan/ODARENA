@@ -776,7 +776,7 @@ spring:
     - Sylvan
   land_type: forest
   perks:
-    improvement_interest: 1,12,120 # ratio, perk, max
+    improvement_interest: 1,20,120 # ratio, perk, max
 
 thicket:
   name: Thicket
@@ -785,7 +785,7 @@ thicket:
     - Sylvan
   land_type: forest
   perks:
-    improvements_capped: 1,4,100 # Every 1% gives 2.75% higher imps
+    improvements_capped: 1,2.75,110 # Every 1% gives 2.75% higher imps
 
 outpost:
   name: Outpost
