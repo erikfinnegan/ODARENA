@@ -340,8 +340,8 @@ class CasualtiesCalculator
             $multiplier += $this->getCasualtiesReductionVersusLand($defender, $attacker, $slot, 'defense');
             #$multiplier += $this->getCasualtiesReductionFromLand($defender, $slot, 'defense'); # Not used on defense since it don't make no sense
 
-            $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties') / 100;
-            $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_defense') / 100;
+            $multiplier += $defender->race->getUnitPerkValueForUnitSlot($slot, 'casualties') / 100;
+            $multiplier += $defender->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_defense') / 100;
         }
 
         if($multiplier === 0)
