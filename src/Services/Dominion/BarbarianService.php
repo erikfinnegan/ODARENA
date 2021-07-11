@@ -153,7 +153,7 @@ class BarbarianService
 
             $logString .= "\t[/training]\n[/BARBARIAN]";
 
-            #Log::Debug($logString);
+            Log::Debug($logString);
         }
 
     }
