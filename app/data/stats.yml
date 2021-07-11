@@ -177,6 +177,8 @@ morale_training:
   name: Morale training
 champions_training:
   name: Champions training
+champion_training:
+  name: Champions training
 soul_training:
   name: Souls training
 soul_improvements:
