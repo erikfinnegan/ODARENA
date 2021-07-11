@@ -59,16 +59,6 @@
                         <td>{{ number_format($selectedDominion->getBuildingPerkMultiplier('offensive_power') * 100, 2) }}%</td>
                         <td>{{ number_format($selectedDominion->getBuildingPerkMultiplier('defensive_power') * 100, 2) }}%</td>
                     </tr>
-                    <tr>
-                        <td>Faction bonus:</td>
-                        <td>{{ number_format($selectedDominion->race->getPerkMultiplier('offense') * 100, 2) }}%</td>
-                        <td>{{ number_format($selectedDominion->race->getPerkMultiplier('defense') * 100, 2) }}%</td>
-                    </tr>
-                    <tr>
-                        <td>League:</td>
-                        <td>{{ number_format($militaryCalculator->getLeagueMultiplier($selectedDominion, null, 'offense') * 100, 2) }}%</td>
-                        <td>{{ number_format($militaryCalculator->getLeagueMultiplier($selectedDominion, null, 'defense') * 100, 2) }}%</td>
-                    </tr>
                     @if($selectedDominion->getSpellPerkValue('reduces_target_raw_defense_from_land'))
                     <tr>
                         <td>Ambush:</td>

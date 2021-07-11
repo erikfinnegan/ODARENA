@@ -27,10 +27,18 @@ class MilitaryController extends AbstractDominionController
 {
     public function getMilitary()
     {
+
+        $queueService = app(QueueService::class);
+        $returningResources = [];
+        foreach(['gold','ore','food','gems','mana','lumber','soul','champion'] as $resource)
+        {
+            $returningResources[$resource] = $queueService->getInvasionQueueTotalByResource($this->getSelectedDominion(), 'resource_' . $resource);
+        }
+
         return view('pages.dominion.military', [
             'militaryCalculator' => app(MilitaryCalculator::class),
             'populationCalculator' => app(PopulationCalculator::class),
-            'queueService' => app(QueueService::class),
+            'queueService' => $queueService,#app(QueueService::class),
             'trainingCalculator' => app(TrainingCalculator::class),
             'unitHelper' => app(UnitHelper::class),
 
@@ -39,6 +47,7 @@ class MilitaryController extends AbstractDominionController
             'prestigeCalculator' => app(PrestigeCalculator::class),
             'raceHelper' => app(RaceHelper::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'returningResources' => $returningResources,
         ]);
     }
 

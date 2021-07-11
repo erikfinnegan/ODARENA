@@ -175,10 +175,6 @@
                                                                 $labelParts[] =  number_format($value) . ' peasant';
                                                                 break;
 
-                                                            case 'wild_yeti':
-                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('wild yeti', $value);
-                                                                break;
-
                                                             case 'spy':
                                                                 $labelParts[] =  number_format($value) . ' ' . str_plural('Spy', $value);
                                                                 break;
@@ -303,7 +299,7 @@
         <div class="col-sm-12 col-md-6">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="fa fa-clock-o"></i> Units returning from battle</h3>
+                    <h3 class="box-title"><i class="ra ra-boot-stomp"></i> Units returning from battle</h3>
                 </div>
                 <div class="box-body table-responsive no-padding">
                     <table class="table">
@@ -351,6 +347,55 @@
                     </table>
                 </div>
             </div>
+
+            @if(array_sum($returningResources) > 0)
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Resources being returned home</h3>
+                    </div>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table">
+                            <colgroup>
+                                <col>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <col width="20">
+                                @endfor
+                                <col width="100">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Resource</th>
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <th class="text-center">{{ $i }}</th>
+                                    @endfor
+                                    <th class="text-center">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($returningResources as $resource => $totalAmount)
+                                    @if($totalAmount > 0)
+                                        <tr>
+                                            <td>{{ ucwords($resource) }}</td>
+                                            @for ($i = 1; $i <= 12; $i++)
+                                                <td class="text-center">
+                                                    @if($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i))
+                                                        {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i)) }}
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                            @endfor
+                                            <td class="text-center">
+                                                {{ number_format($totalAmount) }}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
         </div>
 
     </div>
