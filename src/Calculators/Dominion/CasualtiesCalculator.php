@@ -73,7 +73,7 @@ class CasualtiesCalculator
         if ($this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
         {
             $festeringWoundsSpell = Spell::where('key', 'festering_wounds')->first();
-            $spellPerkValues = $festeringWoundsSpell->getActiveSpellPerkValues($festeringWoundsSpell->key, 'festering_wounds');
+            $spellPerkValues = $festeringWoundsSpell->getActiveSpellPerkValues($festeringWoundsSpell->key, 'casualties');
             $multiplier += ($spellPerkValues['casualties'] / 100) * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, $festeringWoundsSpell, null);
         }
 
