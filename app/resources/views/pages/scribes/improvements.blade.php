@@ -39,21 +39,34 @@
                                   {!! $improvementHelper->getExclusivityString($improvement) !!}
                               </td>
                               <td>
-                                    <ul>
+                                    <table>
+                                        <colgroup>
+                                            <col width="150">
+                                            <col width="50">
+                                            <col width="100">
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <td><u>Perk</u></td>
+                                                <td><u>Max</u></td>
+                                                <td><u>Coefficient</u></td>
+                                            </tr>
                                     @foreach($improvement->perks as $perk)
                                         @php
                                             $improvementPerkMax = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[0]);
                                             $improvementPerkCoefficient = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[1]);
+                                            if($improvementPerkMax > 0)
+                                            {
+                                                $improvementPerkMax = '+' . $improvementPerkMax;
+                                            }
                                         @endphp
-                                        <li>
-                                            {{ ucfirst($improvementHelper->getImprovementPerkDescription($perk->key)) }}:
-                                            <ul>
-                                                <li>Max: {{$improvementPerkMax}}%</li>
-                                                <li>Coefficient: {{ $improvementPerkCoefficient }}</li>
-                                            </ul>
-                                        </li>
+                                        <tr>
+                                            <td>{{ ucwords($improvementHelper->getImprovementPerkDescription($perk->key)) }}</td>
+                                            <td>{{ $improvementPerkMax }}%</td>
+                                            <td>{{ $improvementPerkCoefficient }}</td>
+                                        <tr>
                                     @endforeach
-                                    </ul>
+                                    </table>
                               </td>
                           </tr>
                       @endforeach

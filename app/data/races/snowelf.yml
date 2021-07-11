@@ -1,7 +1,7 @@
 name: Snow Elf
 alignment: good
 description:
-  <p>While Gryphons cannot be tried, Gryphon Nests attract 0.1 Gryphon per tick. Each Gryphon Nest can host one Gryphon, up to a maximum of 20% of your land being Gryphon Nests.</p>
+  <p>Gryphons cannot be trained. They are obtained by building Gryphon Nests, every ten nests attracting one gryphon per tick. Each Gryphon Nest can host one Gryphon, up to a maximum of 20% of your land being Gryphon Nests.</p>
 home_land_type: mountain
 playable: 1
 
