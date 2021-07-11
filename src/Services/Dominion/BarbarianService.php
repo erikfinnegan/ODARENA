@@ -91,6 +91,7 @@ class BarbarianService
             $logString .= "\t\t** OPA target: " . $this->barbarianCalculator->getOpaTarget($dominion) ."\n";
             $logString .= "\t\t** OPA paid: " . $this->barbarianCalculator->getOpaPaid($dominion) ."\n";
             $logString .= "\t\t** OPA at home: " . $this->barbarianCalculator->getOpaAtHome($dominion) ."\n";
+            $logString .= "\t\t** OPA current: " . $this->barbarianCalculator->getOpaCurrent($dominion) ."\n";
             $logString .= "\t\t** OPA delta at home: " . $this->barbarianCalculator->getOpaDeltaAtHome($dominion) ."\n";
             $logString .= "\t\t** OPA delta paid: " . $opaDeltaPaid ."\n";
 
