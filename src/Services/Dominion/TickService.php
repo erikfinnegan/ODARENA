@@ -1225,8 +1225,6 @@ class TickService
                 $improvementInterest[$improvement->key] = $increment;
             }
 
-            #dd($improvementInterest);
-
             $this->improvementCalculator->createOrIncrementImprovements($dominion, $improvementInterest);
         }
     }
