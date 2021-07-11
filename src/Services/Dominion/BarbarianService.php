@@ -262,6 +262,11 @@ class BarbarianService
                     $invadePlayer = false;
                 }
 
+                if($this->barbarianCalculator->getOpaDeltaPaid($dominion) < -1)
+                {
+                    $invadePlayer = false;
+                }
+
                 if($invadePlayer)
                 {
                     $logString .= "\t\t** " . $dominion->name . ' is invading ' . $target->name . "! ⚔️\n";
