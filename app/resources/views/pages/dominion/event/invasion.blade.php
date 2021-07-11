@@ -281,20 +281,6 @@
                                         @endforeach
                                     @endif
 
-                                    @if (isset($event->data['attacker']['champion']))
-                                    <tr>
-                                        <th colspan="2">Legendary Champions</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><small class="text-muted">The {{ $raceHelper->getRaceAdjective($event->source->race) }} warriors fight bravely; some to the end, becoming legendary champions.</small></td>
-                                    </tr>
-                                        @foreach($event->data['attacker']['champion'] as $amount)
-                                            <tr>
-                                                <td colspan="2"><p class="text-green text-center">{{ number_format($amount) }} new champions return!</p></td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-
                                     @if (isset($event->data['attacker']['peasants_eaten']) and isset($event->data['attacker']['draftees_eaten']))
                                     <tr>
                                         <th colspan="2">Population Eaten</th>
@@ -337,8 +323,6 @@
                                     </tr>
                                     @endif
 
-
-
                                     @if (isset($event->data['defender']['isMindControl']) and array_sum($event->data['defender']['mindControlledUnits']) > 0)
                                     <tr>
                                         <th colspan="2">Mind Control</th>
@@ -366,8 +350,6 @@
                                         <td><span class="text-red">{{ number_format($event->data['defender']['menticide']['newThralls']) }}</span></td>
                                     </tr>
                                     @endif
-
-
 
                                     @if (isset($event->data['defender']['unitsStunned']) and array_sum($event->data['defender']['unitsStunned']) > 0)
                                     <tr>
@@ -419,6 +401,10 @@
                                     @endif
 
                                     @if (isset($event->data['attacker']['resource_conversion']) and $event->data['attacker']['resource_conversion'] > 0)
+                                    @php
+                                        $resourceName = str_replace('resource_','',$resource);
+
+                                    @endphp
                                     <tr>
                                         <th colspan="2">New Resources</th>
                                     </tr>
@@ -426,10 +412,12 @@
                                         <td colspan="2"><small class="text-muted">Some of the fallen return to us as new resources.</small></td>
                                     </tr>
                                     @foreach($event->data['attacker']['resource_conversion'] as $resource => $amount)
-                                        <tr>
-                                            <td>{{ ucwords($resource) }}:</td>
-                                            <td><span class="text-green">+{{ number_format($amount) }}</span></td>
-                                        </tr>
+                                        @if($amount > 0)
+                                            <tr>
+                                                <td>{{ ucwords($resourceName) }}:</td>
+                                                <td><span class="text-green">+{{ number_format($amount) }}</span></td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                     @endif
                                 </tbody>
