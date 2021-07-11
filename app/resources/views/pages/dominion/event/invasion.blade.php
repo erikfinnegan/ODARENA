@@ -22,15 +22,15 @@
                         {{ $event->source->name }}
 
                         @if($event->data['result']['success'])
-                        successfully
+                            successfully
                         @else
-                        unsuccessfully
+                            unsuccessfully
                         @endif
 
                         @if($event->data['attacker']['ambush'])
-                        ambushed
+                            ambushed
                         @else
-                        invaded
+                            invaded
                         @endif
                         {{ $event->target->name }}
                         </span>
@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
                             <div class="text-center">
-                            <h4>{{ $event->source->name }}'s Army</h4>
+                            <h4>{{ $event->source->name }}</h4>
                             @if (isset($event->data['result']['overwhelmed']) && $event->data['result']['overwhelmed'])
                                 <p class="text-center text-red">
                                     @if ($event->source->id === $selectedDominion->id)
@@ -417,6 +417,19 @@
                                         <td><span class="text-red">-{{ number_format($event->data['attacker']['mana_exhausted']) }}</span></td>
                                     </tr>
                                     @endif
+
+                                    @if (isset($event->data['attacker']['resource_conversion']) and $event->data['attacker']['resource_conversion'] > 0)
+                                    <tr>
+                                        <th colspan="2">New resources</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Firing the Hailstorm Cannon depletes our mana supplies.</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mana:</td>
+                                        <td><span class="text-red">-{{ number_format($event->data['attacker']['mana_exhausted']) }}</span></td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                             @endif
@@ -425,7 +438,7 @@
 
                         <div class="col-xs-12 col-sm-4">
                             <div class="text-center">
-                            <h4>{{ $event->target->name }}'s Army</h4>
+                            <h4>{{ $event->target->name }}</h4>
                             </div>
                             <table class="table">
                                 <colgroup>
