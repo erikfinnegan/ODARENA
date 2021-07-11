@@ -298,6 +298,7 @@ class DominionFactory
             $startingResources['gems'] = 0;
             $startingResources['lumber'] = 0;
             $startingResources['draft_rate'] = 0;
+            $startingResources['draftees'] = 0;
         }
 
         // Elementals: remove lumber
