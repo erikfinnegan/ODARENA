@@ -579,10 +579,11 @@ class TickService
           $drafteesGrowthRate = $this->populationCalculator->getPopulationDrafteeGrowth($dominion);
           $populationPeasantGrowth = $this->populationCalculator->getPopulationPeasantGrowth($dominion);
 
-          if ($dominion->getSpellPerkValue('kills_peasants_and_converts_for_caster_unit'))
+          if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
           {
+              $spell = Spell::where('key', 'pestilence')->first();
               $pestilence = $spell->getActiveSpellPerkValues('pestilence', 'kills_peasants_and_converts_for_caster_unit');
-              $ratio = $pestilence[0];
+              $ratio = $pestilence[0] / 100;
               $slot = $pestilence[1];
               $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
 
@@ -591,6 +592,7 @@ class TickService
               $amountToDie = (int)round($amountToDie);
 
               $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];
+
               $populationPeasantGrowth -= $amountToDie;
           }
           $tick->peasants = $populationPeasantGrowth;
