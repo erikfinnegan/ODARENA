@@ -49,7 +49,7 @@ class BuildingHelper
 
             'population_growth' => 'Population growth rate increased by %2$s%% for every %1$s%%.',
 
-            'drafting' => 'Increases drafting by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'drafting' => 'Drafting increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             # Production
             'gold_production' => 'Produces %s gold per tick.',

@@ -436,7 +436,7 @@
 
 <div class="row">
     <a id="spells"></a>
-    <div class="col-sm-12 col-md-5">
+    <div class="col-sm-12 col-md-12">
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Spells</h3>
@@ -446,22 +446,44 @@
             </div>
         </div>
     </div>
+</div>
 
+
+<div class="row">
     <a id="spy_ops"></a>
-    <div class="col-sm-12 col-md-4">
+    <div class="col-sm-12 col-md-12">
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Spy Ops</h3>
             </div>
             <div class="box-body">
-                <p>See <a href="{{ route('scribes.spy-ops', str_slug($race['name'])) }}">Spy Ops</a>.</p>
+                <h4>Hostile</h4>
+                @foreach ($spyops as $spyop)
+                    @if($spyop->scope == 'hostile')
+                    <tr>
+                        <td>
+                            {{ $spyop->name }}
+                            {!! $espionageHelper->getExclusivityString($spyop) !!}
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
+                                    <li>{{ ucfirst($effect) }}</li>
+                                @endforeach
+                            <ul>
+                        </td>
+                    </tr>
+                    @endif
+                @endforeach
             </div>
         </div>
     </div>
+</div>
 
 
+<div class="row">
     <a id="chronicles"></a>
-    <div class="col-sm-12 col-md-3">
+    <div class="col-sm-12 col-md-12">
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Chronicles</h3>

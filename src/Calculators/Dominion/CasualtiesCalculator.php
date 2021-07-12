@@ -274,6 +274,8 @@ class CasualtiesCalculator
 
         #dd($multiplier);
 
+        $multiplier = max(0.10, $multiplier);
+
         return $multiplier;
 
     }
@@ -356,6 +358,8 @@ class CasualtiesCalculator
 
         $multiplier += $this->getUnitCasualtiesPerk($defender, $attacker, $units, $landRatio, 'defense');
         $multiplier += $this->getUnitCasualtiesPerk($attacker, $defender, $units, $landRatio, 'offense');
+
+        $multiplier = max(0.10, $multiplier);
 
         return $multiplier;
 

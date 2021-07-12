@@ -171,7 +171,6 @@ class SpellCalculator
 
     public function getPassiveSpellsCastOnDominion(Dominion $caster, string $scope)#: Collection
     {
-
         $spells = collect([]);
 
         $dominionSpells = DominionSpell::where('dominion_id',$caster->id)->get();

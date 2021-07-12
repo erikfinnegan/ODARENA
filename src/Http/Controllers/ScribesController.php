@@ -56,6 +56,7 @@ class ScribesController extends AbstractController
             'buildingHelper' => $buildingHelper,
             'improvements' => $improvements,
             'improvementHelper' => $improvementHelper,
+            'espionageHelper' => app(EspionageHelper::class)
         ]);
     }
 
@@ -84,6 +85,8 @@ class ScribesController extends AbstractController
             'buildingTypeWithLandType' => $buildingTypeWithLandType,
             'buildingHelper' => $buildingHelper,
             'landHelper' => app(LandHelper::class),
+            'spells' => Spell::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
+            'spellHelper' => app(SpellHelper::class)
         ]);
     }
 
