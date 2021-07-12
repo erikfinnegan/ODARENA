@@ -528,7 +528,7 @@ lens:
     - Void
   land_type: mountain
   perks:
-    drafting: 10,1,1000
+    drafting: 1,10,1000
     mana_production: -4
 
 oculus:
