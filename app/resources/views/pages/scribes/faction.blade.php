@@ -393,34 +393,34 @@
                                       {{ $improvement->name }}
                                   </td>
                                   <td>
-                                        <table>
-                                            <colgroup>
-                                                <col width="150">
-                                                <col width="50">
-                                                <col width="100">
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <td><u>Perk</u></td>
-                                                    <td><u>Max</u></td>
-                                                    <td><u>Coefficient</u></td>
-                                                </tr>
-                                        @foreach($improvement->perks as $perk)
-                                            @php
-                                                $improvementPerkMax = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[0]);
-                                                $improvementPerkCoefficient = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[1]);
-                                                if($improvementPerkMax > 0)
-                                                {
-                                                    $improvementPerkMax = '+' . $improvementPerkMax;
-                                                }
-                                            @endphp
-                                            <tr>
-                                                <td>{{ ucwords($improvementHelper->getImprovementPerkDescription($perk->key)) }}</td>
-                                                <td>{{ $improvementPerkMax }}%</td>
-                                                <td>{{ $improvementPerkCoefficient }}</td>
-                                            <tr>
-                                        @endforeach
-                                        </table>
+                                      <table>
+                                          <colgroup>
+                                              <col width="150">
+                                              <col width="50">
+                                              <col width="100">
+                                          </colgroup>
+                                          <thead>
+                                              <tr>
+                                                  <td><u>Perk</u></td>
+                                                  <td><u>Max</u></td>
+                                                  <td><u>Coefficient</u></td>
+                                              </tr>
+                                      @foreach($improvement->perks as $perk)
+                                          @php
+                                              $improvementPerkMax = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[0]);
+                                              $improvementPerkCoefficient = number_format($improvementHelper->extractImprovementPerkValuesForScribes($perk->pivot->value)[1]);
+                                              if($improvementPerkMax > 0)
+                                              {
+                                                  $improvementPerkMax = '+' . $improvementPerkMax;
+                                              }
+                                          @endphp
+                                          <tr>
+                                              <td>{{ ucwords($improvementHelper->getImprovementPerkDescription($perk->key)) }}</td>
+                                              <td>{{ $improvementPerkMax }}%</td>
+                                              <td>{{ $improvementPerkCoefficient }}</td>
+                                          <tr>
+                                      @endforeach
+                                      </table>
                                   </td>
                               </tr>
                           @endforeach
@@ -435,14 +435,296 @@
 
 
 <div class="row">
-    <a id="spells"></a>
+    <a id="spy_ops"></a>
     <div class="col-sm-12 col-md-12">
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Spells</h3>
             </div>
             <div class="box-body">
-                <p>See <a href="{{ route('scribes.spells', str_slug($race['name'])) }}">Spells</a>.</p>
+                <h4 class="box-title">Friendly Auras</h4>
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                        <col width="50">
+                        <col width="50">
+                        <col width="50">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Spell</th>
+                            <th>Cost</th>
+                            <th>Duration</th>
+                            <th>Cooldown</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spells as $spell)
+                        @if($spell->class == 'passive' and $spell->scope == 'friendly' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        <tr>
+                            <td>{{ $spell->name }}</td>
+                            <td>{{ $spell->cost }}x</td>
+                            <td>{{ $spell->duration }} ticks</td>
+                            <td>
+                                @if($spell->cooldown > 0)
+                                    {{ $spell->cooldown }} hours
+                                @else
+                                    None
+                                @endif
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                <ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+
+                <h4 class="box-title">Hostile Auras</h4>
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                        <col width="50">
+                        <col width="50">
+                        <col width="50">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Spell</th>
+                            <th>Cost</th>
+                            <th>Duration</th>
+                            <th>Cooldown</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spells as $spell)
+                        @if($spell->class == 'passive' and $spell->scope == 'hostile' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        <tr>
+                            <td>{{ $spell->name }}</td>
+                            <td>{{ $spell->cost }}x</td>
+                            <td>{{ $spell->duration }} ticks</td>
+                            <td>
+                                @if($spell->cooldown > 0)
+                                    {{ $spell->cooldown }} hours
+                                @else
+                                    None
+                                @endif
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                <ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+
+                <h4 class="box-title">Self Auras</h4>
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                        <col width="50">
+                        <col width="50">
+                        <col width="50">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Spell</th>
+                            <th>Cost</th>
+                            <th>Duration</th>
+                            <th>Cooldown</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spells as $spell)
+                        @if($spell->class == 'passive' and $spell->scope == 'self' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        <tr>
+                            <td>{{ $spell->name }}</td>
+                            <td>{{ $spell->cost }}x</td>
+                            <td>{{ $spell->duration }} ticks</td>
+                            <td>
+                                @if($spell->cooldown > 0)
+                                    {{ $spell->cooldown }} hours
+                                @else
+                                    None
+                                @endif
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                <ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+
+
+                <h4 class="box-title">Friendly Impact Spells</h4>
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                        <col width="50">
+                        <col width="50">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Spell</th>
+                            <th>Cost</th>
+                            <th>Cooldown</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spells as $spell)
+                        @if($spell->class == 'active' and $spell->scope == 'friendly' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        <tr>
+                            <td>{{ $spell->name }}</td>
+                            <td>{{ $spell->cost }}x</td>
+                            <td>{{ $spell->duration }} ticks</td>
+                            <td>
+                                @if($spell->cooldown > 0)
+                                    {{ $spell->cooldown }} hours
+                                @else
+                                    None
+                                @endif
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                <ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+
+                <h4 class="box-title">Hostile Impact Spells</h4>
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                        <col width="50">
+                        <col width="50">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Spell</th>
+                            <th>Cost</th>
+                            <th>Cooldown</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spells as $spell)
+                        @if($spell->class == 'active' and $spell->scope == 'hostile' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        <tr>
+                            <td>{{ $spell->name }}</td>
+                            <td>{{ $spell->cost }}x</td>
+                            <td>{{ $spell->duration }} ticks</td>
+                            <td>
+                                @if($spell->cooldown > 0)
+                                    {{ $spell->cooldown }} hours
+                                @else
+                                    None
+                                @endif
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                <ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+
+                <h4 class="box-title">Self Impact Spells</h4>
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                        <col width="50">
+                        <col width="50">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Spell</th>
+                            <th>Cost</th>
+                            <th>Cooldown</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spells as $spell)
+                        @if($spell->class == 'active' and $spell->scope == 'self' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        <tr>
+                            <td>{{ $spell->name }}</td>
+                            <td>{{ $spell->cost }}x</td>
+                            <td>{{ $spell->duration }} ticks</td>
+                            <td>
+                                @if($spell->cooldown > 0)
+                                    {{ $spell->cooldown }} hours
+                                @else
+                                    None
+                                @endif
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                <ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+
+
+
+                <h4 class="box-title">Invasion Spells</h4>
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Spell</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spells as $spell)
+                        @if($spell->class == 'hostile' and $spell->scope == 'invasion' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        <tr>
+                            <td>{{ $spell->name }}</td>
+                            <td>
+                                <ul>
+                                    @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                <ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
@@ -458,23 +740,65 @@
             </div>
             <div class="box-body">
                 <h4>Hostile</h4>
-                @foreach ($spyops as $spyop)
-                    @if($spyop->scope == 'hostile')
-                    <tr>
-                        <td>
-                            {{ $spyop->name }}
-                            {!! $espionageHelper->getExclusivityString($spyop) !!}
-                        </td>
-                        <td>
-                            <ul>
-                                @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
-                                    <li>{{ ucfirst($effect) }}</li>
-                                @endforeach
-                            <ul>
-                        </td>
-                    </tr>
-                    @endif
-                @endforeach
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spyops as $spyop)
+                        @if($spyop->scope == 'hostile' and $espionageCalculator->isSpyopAvailableToRace($race, $spyop))
+                        <tr>
+                            <td>
+                                {{ $spyop->name }}
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+                <h4>Theft</h4>
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>Effect</th>
+                        </tr>
+                    <tbody>
+                    @foreach ($spyops as $spyop)
+                        @if($spyop->scope == 'theft' and $espionageCalculator->isSpyopAvailableToRace($race, $spyop))
+                        <tr>
+                            <td>
+                                {{ $spyop->name }}
+                            </td>
+                            <td>
+                                <ul>
+                                    @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
+                                        <li>{{ ucfirst($effect) }}</li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

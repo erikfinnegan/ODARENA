@@ -3,6 +3,8 @@
 namespace OpenDominion\Http\Controllers;
 
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
+use OpenDominion\Calculators\Dominion\EspionageCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\LandHelper;
@@ -56,7 +58,11 @@ class ScribesController extends AbstractController
             'buildingHelper' => $buildingHelper,
             'improvements' => $improvements,
             'improvementHelper' => $improvementHelper,
-            'espionageHelper' => app(EspionageHelper::class)
+            'espionageHelper' => app(EspionageHelper::class),
+            'espionageCalculator' => app(EspionageCalculator::class),
+            'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
+            'spells' => Spell::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
+            'spellCalculator' => app(SpellCalculator::class),
         ]);
     }
 
@@ -123,7 +129,7 @@ class ScribesController extends AbstractController
 
     public function getTitles()
     {
-        $titles = Title::all()->where('enabled',1)->keyBy('key')->sortBy('key');
+        $titles = Title::all()->where('enabled',1)->keyBy('key')->sortBy('name');
         return view('pages.scribes.titles', [
             'titles' => $titles,
             'titleHelper' => app(TitleHelper::class),
@@ -159,7 +165,7 @@ class ScribesController extends AbstractController
     public function getSpells()
     {
         return view('pages.scribes.spells', [
-            'spells' => Spell::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
+            'spells' => Spell::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'spellHelper' => app(SpellHelper::class),
         ]);
     }
@@ -167,7 +173,7 @@ class ScribesController extends AbstractController
     public function getSpyops()
     {
         return view('pages.scribes.spy-ops', [
-            'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('key'),
+            'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'espionageHelper' => app(EspionageHelper::class),
         ]);
     }

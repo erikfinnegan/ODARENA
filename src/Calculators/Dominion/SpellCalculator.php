@@ -255,14 +255,19 @@ class SpellCalculator
 
     public function isSpellAvailableToDominion(Dominion $dominion, Spell $spell): bool
     {
+        return $this->isSpellAvailableToRace($dominion->race, $spell);
+    }
+
+    public function isSpellAvailableToRace(Race $race, Spell $spell): bool
+    {
         $isAvailable = true;
 
-        if(count($spell->exclusive_races) > 0 and !in_array($dominion->race->name, $spell->exclusive_races))
+        if(count($spell->exclusive_races) > 0 and !in_array($race->name, $spell->exclusive_races))
         {
             $isAvailable = false;
         }
 
-        if(count($spell->excluded_races) > 0 and in_array($dominion->race->name, $spell->excluded_races))
+        if(count($spell->excluded_races) > 0 and in_array($race->name, $spell->excluded_races))
         {
             $isAvailable = false;
         }

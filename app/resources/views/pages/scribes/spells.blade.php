@@ -54,6 +54,8 @@
                       <colgroup>
                           <col width="200">
                           <col width="50">
+                          <col width="50">
+                          <col width="50">
                       </colgroup>
                       <thead>
                           <tr>
@@ -105,6 +107,8 @@
                       <colgroup>
                           <col width="200">
                           <col width="50">
+                          <col width="50">
+                          <col width="50">
                       </colgroup>
                       <thead>
                           <tr>
@@ -155,6 +159,8 @@
                   <table class="table table-striped">
                       <colgroup>
                           <col width="200">
+                          <col width="50">
+                          <col width="50">
                           <col width="50">
                       </colgroup>
                       <thead>
@@ -358,8 +364,6 @@
             <!-- END IMPACT -->
 
             <!-- BEGIN INVASION -->
-
-
 
             <div class="box-header">
                 <h4 class="box-title">Invasion Spells</h4>

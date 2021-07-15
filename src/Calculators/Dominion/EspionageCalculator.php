@@ -3,6 +3,7 @@
 namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Race;
 use OpenDominion\Models\Spyop;
 
 class EspionageCalculator
@@ -41,14 +42,20 @@ class EspionageCalculator
 
     public function isSpyopAvailableToDominion(Dominion $dominion, Spyop $spyop): bool
     {
+        return $this->isSpyopAvailableToRace($dominion->race, $spyop);
+    }
+
+
+    public function isSpyopAvailableToRace(Race $race, Spyop $spyop): bool
+    {
         $isAvailable = true;
 
-        if(count($spyop->exclusive_races) > 0 and !in_array($dominion->race->name, $spyop->exclusive_races))
+        if(count($spyop->exclusive_races) > 0 and !in_array($race->name, $spyop->exclusive_races))
         {
             $isAvailable = false;
         }
 
-        if(count($spyop->excluded_races) > 0 and in_array($dominion->race->name, $spyop->excluded_races))
+        if(count($spyop->excluded_races) > 0 and in_array($race->name, $spyop->excluded_races))
         {
             $isAvailable = false;
         }
