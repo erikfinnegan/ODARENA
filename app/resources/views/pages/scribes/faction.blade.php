@@ -592,7 +592,6 @@
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
-                            <td>{{ $spell->duration }} ticks</td>
                             <td>
                                 @if($spell->cooldown > 0)
                                     {{ $spell->cooldown }} hours
@@ -633,7 +632,6 @@
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
-                            <td>{{ $spell->duration }} ticks</td>
                             <td>
                                 @if($spell->cooldown > 0)
                                     {{ $spell->cooldown }} hours
@@ -674,7 +672,6 @@
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
-                            <td>{{ $spell->duration }} ticks</td>
                             <td>
                                 @if($spell->cooldown > 0)
                                     {{ $spell->cooldown }} hours
@@ -694,8 +691,6 @@
                     @endforeach
                     </tbody>
                 </table>
-
-
 
                 <h4 class="box-title">Invasion Spells</h4>
                 <table class="table table-striped">
