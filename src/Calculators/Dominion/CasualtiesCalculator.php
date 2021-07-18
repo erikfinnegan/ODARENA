@@ -286,7 +286,7 @@ class CasualtiesCalculator
 
         $excludedSlots = ['draftees', 'peasants', 'spies', 'wizards', 'archmages'];
 
-        if($this->getImmortalityForUnitSlot($defender, $attacker, $slot, $units, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful, 'offense'))
+        if($this->getImmortalityForUnitSlot($defender, $attacker, $slot, $units, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful, 'defense'))
         {
             return 0;
         }

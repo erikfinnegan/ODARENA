@@ -151,6 +151,20 @@ class TickService
                 if(static::EXTENDED_LOGGING){ Log::debug('** Updating improvments for ' . $dominion->name); }
                 $this->handleImprovements($dominion);
 
+                if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians'); }
+                # NPC Barbarian: invasion, training, construction
+                if($dominion->race->name === 'Barbarian')
+                {
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian invasions for ' . $dominion->name); }
+                    $this->barbarianService->handleBarbarianInvasion($dominion);
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian training for ' . $dominion->name); }
+                    $this->barbarianService->handleBarbarianTraining($dominion);
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian construction for ' . $dominion->name); }
+                    $this->barbarianService->handleBarbarianConstruction($dominion);
+                }
+
                 if(static::EXTENDED_LOGGING) { Log::debug('** Checking for countdown'); }
                 # If we don't already have a countdown, see if any dominion triggers it.
                 if(!$round->hasCountdown())
@@ -265,19 +279,6 @@ class TickService
             if(static::EXTENDED_LOGGING){ Log::debug('* Going through all dominions again'); }
             foreach ($dominions as $dominion)
             {
-                if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians'); }
-                # NPC Barbarian: invasion, training, construction
-                if($dominion->race->name === 'Barbarian')
-                {
-                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian invasions for ' . $dominion->name); }
-                    $this->barbarianService->handleBarbarianInvasion($dominion);
-
-                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian training for ' . $dominion->name); }
-                    $this->barbarianService->handleBarbarianTraining($dominion);
-
-                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian construction for ' . $dominion->name); }
-                    $this->barbarianService->handleBarbarianConstruction($dominion);
-                }
 
                 if(static::EXTENDED_LOGGING) { Log::debug('** Handle Pestilence'); }
                 // Afflicted: Abomination generation
@@ -357,7 +358,6 @@ class TickService
                     $this->precalculateTick($dominion, true);
 
                 });
-
             }
 
             foreach($realms as $realm)
