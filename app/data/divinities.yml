@@ -1,0 +1,23 @@
+# Standard Buildings
+
+## Production Buildings
+
+bregon:
+  name: Bregon
+  excluded_races:
+    - Growth
+    - Myconid
+    - Void
+    - Swarm
+  perks:
+    offensive_power: 5
+    mana_production: -10
+
+druva:
+  name: Druva
+  excluded_races:
+    - Afflicted
+  perks:
+    food_production: 5
+    lumber_production: 5
+    population_growth: 10

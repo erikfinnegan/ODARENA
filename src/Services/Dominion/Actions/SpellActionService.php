@@ -375,7 +375,13 @@ class SpellActionService
                 $this->statsService->updateStat($caster, 'magic_hostile_success', 1);
                 # Is the spell reflected?
                 $spellReflected = false;
-                if (random_chance($target->getSpellPerkMultiplier('chance_to_reflect_spells')) and $spell->class !== 'invasion')
+                $changeToReflect = 0;
+                $changeToReflect = $target->getSpellPerkMultiplier('chance_to_reflect_spells');
+                $changeToReflect = $target->getBuildingPerkMultiplier('chance_to_reflect_spells');
+                $changeToReflect = $target->getImprovementPerkMultiplier('chance_to_reflect_spells');
+                $changeToReflect = $target->title->getPerkMultiplier('chance_to_reflect_spells');
+
+                if (random_chance($changeToReflect)) and $spell->class !== 'invasion')
                 {
                     $spellReflected = true;
                     $reflectedBy = $target;
@@ -729,7 +735,13 @@ class SpellActionService
                 $this->statsService->updateStat($caster, 'magic_hostile_success', 1);
                 # Is the spell reflected?
                 $spellReflected = false;
-                if (random_chance($this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'chance_to_reflect_spells')) and !$isInvasionSpell)
+                $changeToReflect = 0;
+                $changeToReflect = $target->getSpellPerkMultiplier('chance_to_reflect_spells');
+                $changeToReflect = $target->getBuildingPerkMultiplier('chance_to_reflect_spells');
+                $changeToReflect = $target->getImprovementPerkMultiplier('chance_to_reflect_spells');
+                $changeToReflect = $target->title->getPerkMultiplier('chance_to_reflect_spells');
+
+                if (random_chance($changeToReflect) and !$isInvasionSpell)
                 {
                     $spellReflected = true;
                     $reflectedBy = $target;
@@ -1138,7 +1150,13 @@ class SpellActionService
             $this->statsService->updateStat($caster, 'magic_info_success', 1);
             # Is the spell reflected?
             $spellReflected = false;
-            if (random_chance($target->getSpellPerkMultiplier('chance_to_reflect_spells')))
+            $changeToReflect = 0;
+            $changeToReflect = $target->getSpellPerkMultiplier('chance_to_reflect_spells');
+            $changeToReflect = $target->getBuildingPerkMultiplier('chance_to_reflect_spells');
+            $changeToReflect = $target->getImprovementPerkMultiplier('chance_to_reflect_spells');
+            $changeToReflect = $target->title->getPerkMultiplier('chance_to_reflect_spells');
+
+            if (random_chance($changeToReflect))
             {
                 $spellReflected = true;
                 $reflectedBy = $target;
