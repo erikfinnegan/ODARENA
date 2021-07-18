@@ -1,0 +1,82 @@
+bregon:
+  name: Bregon
+  excluded_races:
+    - Void
+  perks:
+    offensive_power: 5
+    mana_production: -10
+
+druva:
+  name: Druva
+  excluded_races:
+    - Afflicted
+    - Void
+  perks:
+    food_production: 5
+    lumber_production: 5
+    population_growth: 10
+    ore_production: -5
+    gem_production: -5
+
+elskas:
+  name: Elskas
+  exclusive_races:
+    - Reptilians
+  perks:
+    spy_strength: 10
+    defensive_modifier_reduction: 5
+    mana_production: -10
+
+glimj:
+  name: Glimj
+  exclusive_races:
+    - Armada
+    - Merfolk
+  perks:
+    defensive_power: 5
+    food_production: 5
+    gold_production: -2.5
+
+kinthys:
+  name: Kinthys
+  exclusive_races:
+    - Afflicted
+    - Undead
+  perks:
+    increases_casualties: 10
+
+mirnon:
+  name: Mirnon
+  excluded_races:
+    - Afflicted
+    - Void
+  perks:
+    gem_production: 5
+    ore_production: 5
+    food_production: -5
+    population_growth: -10
+
+sazal:
+  name: Sazal
+  exclusive_races:
+    - Afflicted
+    - Undead
+  perks:
+    wizard_strength: 10
+    unit_mana_cost: -2.5
+
+tiranthael:
+  name: Tiranthael
+  exclusive_races:
+    - Sacred Order
+  perks:
+    offensive_power_on_retaliation: 10
+    gold_production: -5
+
+zidur:
+  name: Zidur
+  exclusive_races:
+    - Afflicted
+    - Undead
+  perks:
+    increases_casualties: 10

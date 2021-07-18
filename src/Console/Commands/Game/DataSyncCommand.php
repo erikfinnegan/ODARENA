@@ -27,6 +27,9 @@ use OpenDominion\Models\ImprovementPerkType;
 use OpenDominion\Models\Spyop;
 use OpenDominion\Models\SpyopPerk;
 use OpenDominion\Models\SpyopPerkType;
+use OpenDominion\Models\Divinity;
+use OpenDominion\Models\DivinityPerk;
+use OpenDominion\Models\DivinityPerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use OpenDominion\Models\Stat;
@@ -74,6 +77,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncSpyops();
             $this->syncImprovements();
             $this->syncStats();
+            $this->syncResources();
             $this->syncResources();
         });
     }
@@ -730,8 +734,6 @@ class DataSyncCommand extends Command implements CommandInterface
             }
         }
 
-
-
         /**
          * Syncs stats from .yml file to the database.
          */
@@ -829,6 +831,83 @@ class DataSyncCommand extends Command implements CommandInterface
 
             }
         }
+
+      /**
+       * Syncs spells and perk data from .yml file to the database.
+       */
+       protected function syncDeities()
+        {
+            $fileContents = $this->filesystem->get(base_path('app/data/deities.yml'));
+
+            $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+            foreach ($data as $deityKey => $deityData) {
+                // Deity
+                $deity = Deity::firstOrNew(['key' => $deityKey])
+                    ->fill([
+                        'name' => $deityData->name,
+                        'enabled' => object_get($deityData, 'enabled', 1),
+                        'excluded_races' => object_get($deityData, 'excluded_races', []),
+                        'exclusive_races' => object_get($deityData, 'exclusive_races', []),
+                    ]);
+
+                if (!$deity->exists) {
+                    $this->info("Adding deity {$deityData->name}");
+                } else {
+                    $this->info("Processing deity {$deityData->name}");
+
+                    $newValues = $deity->getDirty();
+
+                    foreach ($newValues as $key => $newValue)
+                    {
+                        $originalValue = $deity->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                }
+
+                $deity->save();
+                $deity->refresh();
+
+                // Deity Perks
+                $deityPerksToSync = [];
+
+                foreach (object_get($deityData, 'perks', []) as $perk => $value)
+                {
+                    $value = (string)$value;
+
+                    $deityPerkType = DeityPerkType::firstOrCreate(['key' => $perk]);
+
+                    $deityPerksToSync[$deityPerkType->id] = ['value' => $value];
+
+                    $deityPerk = DeityPerk::query()
+                        ->where('deity_id', $deity->id)
+                        ->where('deity_perk_type_id', $deityPerkType->id)
+                        ->first();
+
+                    if ($deityPerk === null)
+                    {
+                        $this->info("[Add Deity Perk] {$perk}: {$value}");
+                    }
+                    elseif ($deityPerk->value != $value)
+                    {
+                        $this->info("[Change Deity Perk] {$perk}: {$deityPerk->value} -> {$value}");
+                    }
+                }
+
+                $deity->perks()->sync($deityPerksToSync);
+            }
+        }
+
 
 
 }
