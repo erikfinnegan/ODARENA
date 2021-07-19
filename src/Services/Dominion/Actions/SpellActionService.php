@@ -381,7 +381,7 @@ class SpellActionService
                 $changeToReflect = $target->getImprovementPerkMultiplier('chance_to_reflect_spells');
                 $changeToReflect = $target->title->getPerkMultiplier('chance_to_reflect_spells');
 
-                if (random_chance($changeToReflect)) and $spell->class !== 'invasion')
+                if (random_chance($changeToReflect) and $spell->class !== 'invasion')
                 {
                     $spellReflected = true;
                     $reflectedBy = $target;
