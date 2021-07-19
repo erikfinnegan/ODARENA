@@ -143,12 +143,6 @@
                                                 </span>
                                             @endif
 
-                                            @if ($guardMembershipService->isBarbarianGuardMember($dominion))
-                                                <span data-toggle="tooltip" data-placement="top" title="Ib-Tham's Guard">
-                                                <i class="ra ra-heavy-shield ra-lg text-muted"></i>
-                                                </span>
-                                            @endif
-
                                             @if ($dominion->id === $selectedDominion->id)
                                                 <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }} &mdash; That's you, chief!">
                                                 <b>{{ $dominion->name }}</b>
@@ -176,7 +170,18 @@
                                         </td>
                                         <td class="text-center">
                                             @if($dominion->hasDeity())
-                                                {{ $dominion->deity->name }}
+                                                @php
+                                                    $perksList = '<ul>';
+                                                    $perksList .= '<li>Devotion: ' . number_format($dominion->getDominionDeity()->duration) . ' ' . str_plural('tick', $dominion->getDominionDeity()->duration) . '</li>';
+                                                    $perksList .= '<li>Range multiplier: ' . $dominion->getDeity()->range_multiplier . 'x</li>';
+                                                    foreach($deityHelper->getDeityPerksString($dominion->getDeity(), $dominion->getDominionDeity()) as $effect)
+                                                    {
+                                                        $perksList .= '<li>' . ucfirst($effect) . '</li>';
+                                                    }
+                                                    $perksList .= '<ul>';
+                                                @endphp
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $perksList }}" >{{ $dominion->deity->name }}</span>
+
                                             @elseif($dominion->hasPendingDeitySubmission())
                                                 @if($dominion->realm_id == $selectedDominion->realm_id)
                                                     <span data-toggle="tooltip" data-placement="top" title="{{ $dominion->getPendingDeitySubmission()->name }} in {{ $dominion->getPendingDeitySubmissionTicksLeft() }} {{ str_plural('tick', $dominion->getPendingDeitySubmissionTicksLeft()) }}" class="text-muted"><i class="fas fa-pray"></i></span>

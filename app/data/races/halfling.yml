@@ -71,6 +71,6 @@ units:
       lumber: 5
     power:
       offense: 5
-      defense: 3
+      defense: 5
     perks:
       offense_from_spy_ratio: 1 # ratio%, max

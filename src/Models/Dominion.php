@@ -1073,12 +1073,17 @@ class Dominion extends AbstractModel
         return $queueService->getDeityQueue($this)->count();
     }
 
-    public function getPendingDeitySubmission(): Deity
+    public function getPendingDeitySubmission()
     {
-        $queueService = app(QueueService::class);
-        $deityQueue = $queueService->getDeityQueue($this);
+        if($this->hasPendingDeitySubmission())
+        {
+            $queueService = app(QueueService::class);
+            $deityQueue = $queueService->getDeityQueue($this);
 
-        return Deity::where('key', $deityQueue[0]['resource'])->first();
+            return Deity::where('key', $deityQueue[0]['resource'])->first();
+        }
+
+        return false;
     }
 
     public function getPendingDeitySubmissionTicksLeft(): int

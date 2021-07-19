@@ -17,6 +17,7 @@ use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Services\Dominion\BarbarianService;
 use Illuminate\Support\Carbon;
 
@@ -33,6 +34,7 @@ class RealmController extends AbstractDominionController
         $realmCalculator = app(RealmCalculator::class);
         $militaryCalculator = app(MilitaryCalculator::class);
         $landHelper = app(LandHelper::class);
+        $deityHelper = app(DeityHelper::class);
         $barbarianService = app(BarbarianService::class);
         $statsService = app(StatsService::class);
 
@@ -167,6 +169,7 @@ class RealmController extends AbstractDominionController
             'realmCalculator',
             'militaryCalculator',
             'landHelper',
+            'deityHelper',
             'alignmentNoun',
             'alignmentAdjective',
             'barbarianSettings',

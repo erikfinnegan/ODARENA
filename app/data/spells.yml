@@ -1083,7 +1083,7 @@ dark_rites:
   exclusive_races:
     - Undead
   perks:
-    converts_crypt_bodies: 10,4,1,1 # every 10 unit4 creates one unit1
+    converts_crypt_bodies: 13,4,1,1 # every 13 unit4 creates one unit1
 
 rites_of_zidur:
   name: Rites of Zidur
@@ -1095,7 +1095,7 @@ rites_of_zidur:
   exclusive_races:
     - Undead
   perks:
-    converts_crypt_bodies: 10,4,1 # every 10 unit4 creates 1 unit1
+    converts_crypt_bodies: 13,4,1 # every 13 unit4 creates 1 unit1
 
 curse_of_zidur:
   name: Curse of Zidur

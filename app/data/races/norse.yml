@@ -28,7 +28,7 @@ units:
       lumber: 10
     power:
       offense: 4
-      defense: 4
+      defense: 5
     perks:
       dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
 
@@ -44,10 +44,10 @@ units:
       lumber: 40
     power:
       offense: 6
-      defense: 4
+      defense: 2
     perks:
       dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
-      casualties: 75 # +75% casualties
+      casualties: 50 # +50% casualties
       increases_casualties_on_defense: 1
       no_draftee: 1
 
@@ -61,7 +61,7 @@ units:
       champion: 1
     power:
       offense: 0
-      defense: 10
+      defense: 8
     perks:
       true_immortal: 1
       no_draftee: 1
@@ -76,7 +76,7 @@ units:
       champion: 1
     power:
       offense: 12
-      defense: 8
+      defense: 6
     perks:
       true_immortal: 1
       no_draftee: 1

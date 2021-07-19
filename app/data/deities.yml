@@ -85,7 +85,7 @@ tiranthael:
     - Sacred Order
   perks:
     offensive_power_on_retaliation: 10
-    gold_production: -5
+    gold_production: -2.5
     cannot_explore: 1
 
 zidur:
@@ -107,7 +107,8 @@ voiddeity1:
   perks:
     offensive_power: 5
     defensive_modifier_reduction: 5
-    improvements: -10
+    rezone_cost: 20
+    construction_cost: 20
     cannot_explore: 1
 
 voiddeity2:
@@ -116,7 +117,7 @@ voiddeity2:
   exclusive_races:
     - Void
   perks:
-    construction_cost: -20
+    improvements: 10
     rezone_cost: -20
     unit_mana_costs: 5
     cannot_explore: 1
