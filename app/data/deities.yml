@@ -43,7 +43,6 @@ glimj:
     food_production: 10
     gold_production: -2.5
     cannot_explore: 1
-    cannot_explore: 1
 
 kinthys:
   name: Kinthys

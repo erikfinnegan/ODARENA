@@ -63,7 +63,7 @@ class DeityHelper
             'reveal_ops' => 'Reveals the dominion casting deitys or spying on you',
 
             'wizard_strength' => '%s%% wizard strength',
-            'wizard_cost' => '%s%% cost',
+            'wizard_cost' => '%s%% wizard cost',
 
             // Espionage
             'spy_strength' => '%s%% spy strength',
