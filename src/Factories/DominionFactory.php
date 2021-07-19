@@ -267,12 +267,6 @@ class DominionFactory
             $startingResources['food'] = $acresBase * 40;
         }
 
-        // Demon: extra morale.
-        if($race->name == 'Imperial Gnome')
-        {
-            $startingResources['resource_lumber'] = $startingResources['resource_ore'];
-        }
-
         // Demon: extra blood and 1 Archdemon.
         if($race->name == 'Demon')
         {
