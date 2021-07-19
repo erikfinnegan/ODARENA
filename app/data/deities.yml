@@ -97,6 +97,7 @@ zidur:
   perks:
     increases_casualties: 10
     population_growth: -10
+    cannot_explore: 1
 
 voiddeity1:
   name: ◮◬◭
