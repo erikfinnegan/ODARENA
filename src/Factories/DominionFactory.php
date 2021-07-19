@@ -271,7 +271,6 @@ class DominionFactory
         if($race->name == 'Imperial Gnome')
         {
             $startingResources['resource_lumber'] = $startingResources['resource_ore'];
-            $startingResources['unit4'] = 1;
         }
 
         // Demon: extra blood and 1 Archdemon.
