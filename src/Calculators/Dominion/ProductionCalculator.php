@@ -140,6 +140,9 @@ class ProductionCalculator
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('gold_production');
 
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('gold_production');
+
         // Apply Morale multiplier to production multiplier
         return (1 + $multiplier) * $this->militaryCalculator->getMoraleMultiplier($dominion);
     }
@@ -223,9 +226,10 @@ class ProductionCalculator
         $multiplier += $dominion->getBuildingPerkMultiplier('food_production_modifier');
 
         // Improvement
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'harbor');
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tissue');
         $multiplier += $dominion->getImprovementPerkMultiplier('food_production');
+
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('food_production');
 
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
@@ -447,6 +451,9 @@ class ProductionCalculator
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('lumber_production_modifier');
 
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('lumber_production');
+
         // Title
         if(isset($dominion->title))
         {
@@ -534,10 +541,6 @@ class ProductionCalculator
     public function getManaProductionMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
-
-        // Improvement: Tower
-        #$multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'towers');
-
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('mana_production');
 
@@ -553,6 +556,9 @@ class ProductionCalculator
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('mana_production_modifier');
+
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('mana_production');
 
         return (1 + $multiplier);
     }
@@ -629,6 +635,9 @@ class ProductionCalculator
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('ore_production_modifier');
+
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('ore_production');
 
         // Title
         if(isset($dominion->title))
@@ -720,6 +729,9 @@ class ProductionCalculator
         // Improvement
         $multiplier += $dominion->getImprovementPerkMultiplier('gem_production');
 
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('gem_production');
+
         // Title
         if(isset($dominion->title))
         {
@@ -794,6 +806,9 @@ class ProductionCalculator
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('tech_production_modifier');
+
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('tech_production');
 
         // Title
         if(isset($dominion->title))

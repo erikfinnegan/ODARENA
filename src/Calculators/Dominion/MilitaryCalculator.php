@@ -202,8 +202,14 @@ class MilitaryCalculator
         // Buildings
         $multiplier += $attacker->getBuildingPerkMultiplier('offensive_power');
 
-        // League: Warriors League
-        $multiplier += $this->getLeagueMultiplier($attacker, $defender, 'offense');
+        // Deity
+        $multiplier += $attacker->getDeityPerkMultiplier('offensive_power');
+
+
+        if ($this->isOwnRealmRecentlyInvadedByTarget($attacker, $defender))
+        {
+            $multiplier += $dominion->getDeityPerkMultiplier('offensive_power_on_retaliation');
+        }
 
         // Improvements
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'forges');
@@ -433,6 +439,9 @@ class MilitaryCalculator
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('defensive_power');
+
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('defensive_power');
 
         // Improvements
         $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
@@ -1512,6 +1521,9 @@ class MilitaryCalculator
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('spy_strength');
+
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('spy_strength');
 
         // Title
         if(isset($dominion->title))

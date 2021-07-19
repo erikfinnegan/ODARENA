@@ -69,6 +69,10 @@ class CasualtiesCalculator
         $perkValue += $dominion->getBuildingPerkMultiplier('casualties');
         $perkValue += $dominion->getBuildingPerkMultiplier($mode . '_casualties');
 
+        # Deity
+        $perkValue += $dominion->getDeityPerkMultiplier('casualties');
+        $perkValue += $dominion->getDeityPerkMultiplier($mode . '_casualties');
+
         # Festering Wounds
         #if ($this->spellCalculator->isSpellActive($dominion, 'festering_wounds'))
         #{
@@ -119,6 +123,11 @@ class CasualtiesCalculator
         # Buildings
         $perkValue += $dominion->getBuildingPerkMultiplier('increases_casualties');
         $perkValue += $dominion->getBuildingPerkMultiplier('increases_casualties_on_' . $mode);
+
+        # Buildings
+        $perkValue += $dominion->getDeityPerkMultiplier('increases_casualties');
+        $perkValue += $dominion->getDeityPerkMultiplier('increases_casualties_on_' . $mode);
+
 
         return $perkValue;
     }

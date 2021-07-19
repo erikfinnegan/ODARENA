@@ -535,6 +535,9 @@ class TrainingCalculator
         # Spells: can take reduction below 50%!
         $multiplier += $dominion->getSpellPerkMultiplier('unit_' . $resourceType . '_costs');
 
+        // Deity: can take reduction below 50%!
+        $multiplier += $dominion->getDeityPerkMultiplier('unit_' . $resourceType . '_costs');
+
         # Sanity cap, so it doesn't go under -1.
         $multiplier = max(-1, $multiplier);
 
@@ -578,6 +581,9 @@ class TrainingCalculator
 
         // Buildings
         $multiplier -= $dominion->getBuildingPerkMultiplier('wizard_cost');
+
+        // Deity
+        $multiplier -= $dominion->getDeityPerkMultiplier('wizard_cost');
 
         // Cap $multiplier at -100%
         $multiplier = max($multiplier, -1);

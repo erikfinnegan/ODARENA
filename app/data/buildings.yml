@@ -758,7 +758,7 @@ institute:
     - Wood Elf
   land_type: forest
   perks:
-    improvements_capped: 1,4,100 # Every 1% gives 4% higher imps, max +100%
+    improvements: 1,2
 
 plantation:
   name: Plantation

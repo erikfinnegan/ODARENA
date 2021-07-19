@@ -88,9 +88,9 @@ class ExploreActionService
     {
         $this->guardLockedDominion($dominion);
 
-        if ($this->guardMembershipService->isEliteGuardMember($dominion))
+        if($dominion->getDeityPerkValue('cannot_explore'))
         {
-            throw new GameException('As a member of the Warriors League, you cannot explore.');
+            throw new GameException('Your deity prohibits exploring.');
         }
 
         if($dominion->round->hasOffensiveActionsDisabled())
@@ -176,6 +176,7 @@ class ExploreActionService
         $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('tech_gains');
         $researchPointsPerAcreMultiplier += $dominion->getSpellPerkMultiplier('tech_gains');
         $researchPointsPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('tech_gains');
+        $researchPointsPerAcreMultiplier += $dominion->getDeityPerkMultiplier('tech_gains');
         $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('tech_gains');
         $researchPointsPerAcre *= ($researchPointsPerAcreMultiplier);
         $researchPointsGained = $researchPointsPerAcre * $totalLandToExplore;

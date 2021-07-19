@@ -82,7 +82,7 @@ class DeityHelper
             'lumber_stolen' => '%s%% lumber theft.',
             'ore_stolen' => '%s%% ore  theft.',
             'gems_stolen' => '%s%% gem theft.',
-            'all_stolen' => '%s%% resource theft',
+            'amount_stolen' => '%s%% resource theft',
 
             // Casualties
             'increases_casualties' => '%s%% enemy casualties',

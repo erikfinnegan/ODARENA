@@ -510,8 +510,6 @@ class DominionFactory
             'npc_modifier' => $startingResources['npc_modifier'],
 
             'protection_ticks' => $startingResources['protection_ticks'],
-
-            'barbarian_guard_active_at' => $startingResources['barbarian_guard_active_at'],
         ]);
 
         $this->buildingCalculator->createOrIncrementBuildings($dominion, $startingBuildings);

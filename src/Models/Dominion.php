@@ -1020,6 +1020,7 @@ class Dominion extends AbstractModel
         $multiplier += $this->getBuildingPerkMultiplier('improvements_capped');
         $multiplier += $this->getSpellPerkMultiplier('improvements');
         $multiplier += $this->getTechPerkMultiplier('improvements');
+        $multiplier += $this->getDeityPerkMultiplier('improvements');
         $multiplier += $this->race->getPerkMultiplier('improvements_max');
         #if($this->title)
         #{
@@ -1111,6 +1112,11 @@ class Dominion extends AbstractModel
     */
     public function getDeityPerkValue(string $perkKey): float
     {
+        if(!$this->hasDeity())
+        {
+            return 0;
+        }
+
         $multiplier = 1;
         $multiplier += min($this->getDominionDeity()->duration * 0.1 / 100, 1);
         $multiplier += $this->getBuildingPerkMultiplier('deity_perks');

@@ -390,35 +390,6 @@ class PopulationCalculator
         $populationBirth = round($this->getPopulationBirthRaw($dominion) * $this->getPopulationBirthMultiplier($dominion));
         return $populationBirth;
     }
-
-    /*
-    public function getPopulationGrowthRate(Dominion $dominion): float
-    {
-          $growthRate = 0;
-          $multiplier = 0;
-
-          // Buildings
-          $multiplier += $dominion->getBuildingPerkMultiplier('population_growth');
-
-          // Racial Perk
-          $multiplier += $dominion->race->getPerkMultiplier('population_growth');
-
-          // Spell
-          $multiplier += $dominion->getSpellPerkMultiplier('population_growth');
-
-          // Tech
-          $multiplier += $dominion->getTechPerkMultiplier('population_growth');
-
-          // Improvement
-          $multiplier += $dominion->getImprovementPerkMultiplier('population_growth');
-
-          dd($multiplier);
-
-          return $growthRate * (1 + $multiplier);
-
-    }
-    */
-
     /**
      * Returns the Dominions raw population birth.
      *
@@ -486,6 +457,9 @@ class PopulationCalculator
 
         // Advancement
         $multiplier += $dominion->getTechPerkMultiplier('population_growth');
+
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('population_growth');
 
         // Improvement
         $multiplier += $dominion->getImprovementPerkMultiplier('population_growth');

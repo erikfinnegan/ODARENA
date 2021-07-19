@@ -128,6 +128,6 @@ ib_tham:
   exclusive_races:
     - Barbarian
   perks:
-    all_stolen: 20
+    amount_stolen: 20
     offensive_power_on_retaliation: 10
     improvements: -25
