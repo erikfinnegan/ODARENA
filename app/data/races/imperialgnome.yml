@@ -36,6 +36,7 @@ units:
       no_draftee: 1
       pairing_limit: 4,50
       offense_from_pairing: 4,4,0.02 # slot, amount, num required
+      sendable_with_zero_op: 1
 
   - name: Iron Swarm
     training_time: 12
@@ -55,6 +56,7 @@ units:
       offense_from_pairing: 4,2,0.02 # slot, amount, num required
       defense_from_pairing: 4,2,0.02 # slot, amount, num required
       mana_drain: 1
+      sendable_with_zero_op: 1
 
   - name: Sentry
     training_time: 12
