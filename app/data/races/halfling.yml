@@ -59,6 +59,7 @@ units:
       counts_as_spy_offense: 0.2
       counts_as_spy_defense: 0.2
       plunders: gold;2,gems;0.1
+      offense_from_spy_ratio: 0.25 # ratio%, max
 
   - name: Staff Master
     training_time: 12
