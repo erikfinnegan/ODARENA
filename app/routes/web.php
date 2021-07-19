@@ -202,6 +202,8 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Government
             $router->get('government')->uses('Dominion\GovernmentController@getIndex')->name('government');
             $router->post('government/monarch')->uses('Dominion\GovernmentController@postMonarch')->name('government.monarch');
+            $router->post('government/deity')->uses('Dominion\GovernmentController@postDeity')->name('government.deity');
+            $router->post('government/renounce')->uses('Dominion\GovernmentController@postRenounce')->name('government.renounce');
             $router->post('government/realm')->uses('Dominion\GovernmentController@postRealm')->name('government.realm');
             $router->post('government/royal-guard/join')->uses('Dominion\GovernmentController@postJoinRoyalGuard')->name('government.royal-guard.join');
             $router->post('government/elite-guard/join')->uses('Dominion\GovernmentController@postJoinEliteGuard')->name('government.elite-guard.join');
@@ -266,6 +268,7 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
     $router->get('spells')->uses('ScribesController@getSpells')->name('spells');
     $router->get('spy-ops')->uses('ScribesController@getSpyops')->name('spy-ops');
     $router->get('improvements')->uses('ScribesController@getImprovements')->name('improvements');
+    $router->get('deities')->uses('ScribesController@getDeities')->name('deities');
 
     $router->get('{race}')->uses('ScribesController@getRace')->name('faction');
 });

@@ -34,6 +34,11 @@ class HistoryService
     public const EVENT_ACTION_NOTE = 'update notes';
     public const EVENT_ACTION_SEND_UNITS = 'units sent';
 
+
+    public const EVENT_SUBMIT_TO_DEITY_BEGUN = 'deity submission';
+    public const EVENT_SUBMIT_TO_DEITY_COMPLETED = 'deity submission completed';
+    public const EVENT_RENOUNCE_DEITY = 'renounce deity';
+
     /**
      * Returns a cloned dominion instance with state at a certain time.
      *

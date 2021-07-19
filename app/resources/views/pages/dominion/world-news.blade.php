@@ -146,10 +146,14 @@
                                             @elseif($gameEvent->type === 'round_countdown')
                                                 <p><span class="label label-danger"><i class="fas fa-hourglass-end"></i></span> The dominion <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> has reached 8,000 land and the countdown has started.</p>
                                                 The round ends at the end of the 12th hour from now, at {{ $selectedDominion->round->end_date }}.
+                                            @elseif ($gameEvent->type === 'deity_renounced')
+                                                <a href="{{ route('dominion.op-center.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a> has renounced <span class="text-orange">{{ $gameEvent->source->name }}</span>.
+                                            @elseif ($gameEvent->type === 'deity_completed')
+                                                <span class="text-orange">{{ $gameEvent->source->name }}</span> has accepted the devotion of <a href="{{ route('dominion.op-center.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a>.
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                        @if (isset($gameEvent->target->realm_id))
+                                        @if (isset($gameEvent->target->realm_id) and $gameEvent->type == 'invasion')
                                             @if($gameEvent->source->realm_id == $selectedDominion->realm->id or $gameEvent->target->realm_id == $selectedDominion->realm->id)
                                                 <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="ra ra-crossed-swords ra-fw"></i></a>
                                             @endif

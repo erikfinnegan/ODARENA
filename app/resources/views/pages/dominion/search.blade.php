@@ -150,21 +150,11 @@
                                                 </span>
                                             @endif
 
-                                            @if ($guardMembershipService->isEliteGuardMember($dominion))
-                                                <span data-toggle="tooltip" data-placement="top" title="Warriors League">
-                                                <i class="ra ra-heavy-shield ra-lg text-yellow"></i>
-                                                </span>
-                                            @elseif ($guardMembershipService->isBarbarianGuardMember($dominion))
-                                                <span data-toggle="tooltip" data-placement="top" title="Ib-Tham's Guard">
-                                                <i class="ra ra-heavy-shield ra-lg text-muted"></i>
-                                                </span>
-                                            @endif
-
                                             <a href="{{ route('dominion.op-center.show', $dominion) }}">{{ $dominion->name }}</a>
                                             @if($dominion->id === $selectedDominion->id)
                                             <span class="label label-primary">You</span>
                                             @endif
-                                            
+
                                             @if ($dominion->isAbandoned())
                                                 <span data-toggle="tooltip" data-placement="top" title="This dominion has been abandoned by its ruler" class="label label-warning"><span>Abandoned</span></span>
                                             @endif

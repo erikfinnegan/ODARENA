@@ -186,6 +186,121 @@
 </div>
 @endif
 
+@if(1 == 1)
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fas fa-pray"></i> Deity</h3>
+            </div>
+            <div class="box-body">
+                @if(!$selectedDominion->hasDeity())
+                <form action="{{ route('dominion.government.deity') }}" method="post" role="form">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <colgroup>
+                                    <col width="50">
+                                    <col width="200">
+                                    <col width="100">
+                                    <col>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Deity</th>
+                                        <th>Range Multiplier</th>
+                                        <th>Perks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($deityHelper->getDeitiesByRace($selectedDominion->race) as $deity)
+                                    <tr>
+                                        <td>
+                                            @if($selectedDominion->hasPendingDeitySubmission() and $selectedDominion->getPendingDeitySubmission()->key == $deity->key)
+                                                <span class="text-muted"><i class="fas fa-pray"></i></span>
+                                            @else
+                                                <input type="radio" name="key" id="{{ $deity->key }}" value="{{ $deity->key }}" {{ ($selectedDominion->isLocked() || $selectedDominion->hasPendingDeitySubmission()) ? 'disabled' : null }}>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <label for="{{ $deity->key }}">{{ $deity->name }}</label>
+                                            @if($selectedDominion->hasPendingDeitySubmission() and $selectedDominion->getPendingDeitySubmission()->key == $deity->key)
+                                            <br><span class="small text-muted"><strong>{{ $selectedDominion->getPendingDeitySubmissionTicksLeft() }}</strong> {{ str_plural('tick', $selectedDominion->getPendingDeitySubmissionTicksLeft()) }} left until devotion is in effect</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $deity->range_multiplier }}x</td>
+                                        <td>
+                                            <ul>
+                                                @foreach($deityHelper->getDeityPerksString($deity) as $effect)
+                                                    <li>{{ ucfirst($effect) }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-offset-12 col-xs-12 col-sm-offset-0 col-sm-4 col-lg-3">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block" {{ ($selectedDominion->isLocked() || $selectedDominion->hasPendingDeitySubmission()) ? 'disabled' : null }}>
+                                Submit To This Deity
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                @elseif($deity = $selectedDominion->getDeity())
+                <form id="renounce-deity" action="{{ route('dominion.government.renounce') }}" method="post" role="form">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form action="{{ route('dominion.government.deity') }}" method="post" role="form">
+                            <p>You have been devoted to <strong>{{ $deity->name }}</strong> for {{ $selectedDominion->getDominionDeity()->duration }} ticks, granting you the following perks:</p>
+                            <ul>
+                                @foreach($deityHelper->getDeityPerksString($deity, $selectedDominion->getDominionDeity()) as $effect)
+                                    <li>{{ ucfirst($effect) }}</li>
+                                @endforeach
+                                    <li>Range multiplier: {{ $deity->range_multiplier }}x</li>
+                            </ul>
+                            <p>If you wish to devote your dominion to another deity, you may renounce your devotion to {{ $deity->name }} below.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-offset-12 col-xs-12 col-sm-offset-0 col-sm-4 col-lg-3">
+                        <div class="form-group">
+                            <select id="renounce-deity"  class="form-control">
+                                <option value="0">Renounce devotion?</option>
+                                <option value="1">Confirm renounce</option>
+                            </select>
+                            <button id="renounce-deity" type="submit" class="btn btn-danger btn-block" disabled {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                Renounce This Deity
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Information</h3>
+            </div>
+            <div class="box-body">
+                <p>Here you can vote for the governor of your realm. You can change your vote at any time.</p>
+                <p>The governor has the power to declare war and peace as well as moderate the council.</p>
+            </div>
+        </div>
+    </div>
+</div>
+@else
+
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box box-primary">
@@ -260,6 +375,8 @@
         </div>
     </div>
 </div>
+@endif
+
 @endsection
 
 @push('page-styles')
@@ -271,6 +388,22 @@
 @endpush
 
 @push('inline-scripts')
+
+@push('inline-scripts')
+     <script type="text/javascript">
+         (function ($) {
+             $('#renounce-deity select').change(function() {
+                 var confirm = $(this).val();
+                 if (confirm == "1") {
+                     $('#renounce-deity button').prop('disabled', false);
+                 } else {
+                     $('#renounce-deity button').prop('disabled', true);
+                 }
+             });
+         })(jQuery);
+     </script>
+ @endpush
+
     <script type="text/javascript">
         (function ($) {
             $('#monarch').select2({

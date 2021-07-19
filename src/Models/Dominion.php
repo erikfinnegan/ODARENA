@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\SelectorService;
+use OpenDominion\Services\Dominion\QueueService;
 use Illuminate\Support\Carbon;
 
 /**
@@ -313,6 +314,18 @@ class Dominion extends AbstractModel
         );
     }
 
+    public function deity()
+    {
+        return $this->hasOneThrough(
+            Deity::class,
+            DominionDeity::class,
+            'dominion_id',
+            'id',
+            'id',
+            'deity_id'
+        );
+    }
+
     public function queues()
     {
         return $this->hasMany(Dominion\Queue::class);
@@ -348,8 +361,9 @@ class Dominion extends AbstractModel
         $recordChanges = isset($options['event']);
 
         // Verify tick hasn't happened during this request
-        if ($this->exists && $this->last_tick_at != $this->fresh()->last_tick_at) {
-            throw new GameException('The world spinner is spinning. Your action was ignored. Try again later, puny being.');
+        if ($this->exists && $this->last_tick_at != $this->fresh()->last_tick_at)
+        {
+            throw new GameException('The World Spinner is spinning the world. Your request was discarded. Try again later, little one.');
         }
 
         $saved = parent::save($options);
@@ -1045,4 +1059,71 @@ class Dominion extends AbstractModel
 
         return $perkValues;
     }
+
+    # DEITY
+
+    public function hasDeity()
+    {
+        return $this->deity ? true : false;
+    }
+
+    public function hasPendingDeitySubmission(): bool
+    {
+        $queueService = app(QueueService::class);
+        return $queueService->getDeityQueue($this)->count();
+    }
+
+    public function getPendingDeitySubmission(): Deity
+    {
+        $queueService = app(QueueService::class);
+        $deityQueue = $queueService->getDeityQueue($this);
+
+        return Deity::where('key', $deityQueue[0]['resource'])->first();
+    }
+
+    public function getPendingDeitySubmissionTicksLeft(): int
+    {
+        $queueService = app(QueueService::class);
+        $deityQueue = $queueService->getDeityQueue($this);
+        return $deityQueue[0]['hours'];
+    }
+
+    public function getDeity(): Deity
+    {
+        return $this->deity;
+    }
+
+    public function getDominionDeity(): DominionDeity
+    {
+        return DominionDeity::where('deity_id', $this->getDeity()->id)
+                            ->where('dominion_id', $this->id)
+                            ->first();
+    }
+
+    /**
+    * @param string $key
+    * @return float
+    */
+    public function getDeityPerkValue(string $perkKey): float
+    {
+        $multiplier = 1;
+        $multiplier += min($this->getDominionDeity()->duration * 0.1 / 100, 1);
+        $multiplier += $this->getBuildingPerkMultiplier('deity_perks');
+        $multiplier += $this->getSpellPerkMultiplier('deity_perks');
+        $multiplier += $this->getTechPerkMultiplier('deity_perks');
+        $multiplier += $this->race->getPerkMultiplier('deity_perks');
+        $multiplier += $this->title->getPerkMultiplier('deity_perks');
+
+        return (float)$this->deity->getPerkValue($perkKey) * $multiplier;
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getDeityPerkMultiplier(string $key): float
+    {
+        return ($this->getDeityPerkValue($key) / 100);
+    }
+
 }

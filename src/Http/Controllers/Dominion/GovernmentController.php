@@ -5,6 +5,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\GovernmentActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\GuardMembershipActionRequest;
@@ -12,9 +13,12 @@ use OpenDominion\Services\Dominion\Actions\GovernmentActionService;
 use OpenDominion\Services\Dominion\Actions\GuardMembershipActionService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\GuardMembershipService;
-
-# ODA
+use OpenDominion\Services\Dominion\DeityService;
 use OpenDominion\Calculators\RealmCalculator;
+
+
+use OpenDominion\Models\Deity;
+
 
 class GovernmentController extends AbstractDominionController
 {
@@ -58,7 +62,8 @@ class GovernmentController extends AbstractDominionController
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'rangeCalculator' => app(RangeCalculator::class),
-            'realmCalculator' => app(RealmCalculator::class)
+            'realmCalculator' => app(RealmCalculator::class),
+            'deityHelper' => app(DeityHelper::class)
         ]);
     }
 
@@ -97,44 +102,6 @@ class GovernmentController extends AbstractDominionController
         return redirect()->route('dominion.government');
     }
 
-    /*
-    public function postJoinRoyalGuard(GuardMembershipActionRequest $request)
-    {
-        $dominion = $this->getSelectedDominion();
-        $guardActionService = app(GuardMembershipActionService::class);
-
-        try {
-            $result = $guardActionService->joinRoyalGuard($dominion);
-        } catch (GameException $e) {
-            return redirect()
-                ->back()
-                ->withInput($request->all())
-                ->withErrors([$e->getMessage()]);
-        }
-
-        $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.government');
-    }
-
-    public function postLeaveRoyalGuard(GuardMembershipActionRequest $request)
-    {
-        $dominion = $this->getSelectedDominion();
-        $guardActionService = app(GuardMembershipActionService::class);
-
-        try {
-            $result = $guardActionService->leaveRoyalGuard($dominion);
-        } catch (GameException $e) {
-            return redirect()
-                ->back()
-                ->withInput($request->all())
-                ->withErrors([$e->getMessage()]);
-        }
-
-        $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.government');
-    }
-    */
-
     public function postJoinEliteGuard(GuardMembershipActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
@@ -171,44 +138,6 @@ class GovernmentController extends AbstractDominionController
         return redirect()->route('dominion.government');
     }
 
-    public function postDeclareWar(GovernmentActionRequest $request)
-    {
-        $dominion = $this->getSelectedDominion();
-        $governmentActionService = app(GovernmentActionService::class);
-
-        $realm_number = $request->get('realm_number');
-
-        try {
-            $governmentActionService->declareWar($dominion, $realm_number);
-        } catch (GameException $e) {
-            return redirect()
-                ->back()
-                ->withInput($request->all())
-                ->withErrors([$e->getMessage()]);
-        }
-
-        $request->session()->flash('alert-success', "You have declared WAR on realm #{$realm_number}!");
-        return redirect()->route('dominion.government');
-    }
-
-    public function postCancelWar(GovernmentActionRequest $request)
-    {
-        $dominion = $this->getSelectedDominion();
-        $governmentActionService = app(GovernmentActionService::class);
-
-        try {
-            $governmentActionService->cancelWar($dominion);
-        } catch (GameException $e) {
-            return redirect()
-                ->back()
-                ->withInput($request->all())
-                ->withErrors([$e->getMessage()]);
-        }
-
-        $request->session()->flash('alert-success', 'Your realm is no longer at war.');
-        return redirect()->route('dominion.government');
-    }
-
     public function postContribution(GovernmentActionRequest $request)
     {
         $dominion = $this->getSelectedDominion();
@@ -226,6 +155,47 @@ class GovernmentController extends AbstractDominionController
         }
 
         $request->session()->flash('alert-success', "You have declared WAR on realm #{$realm_number}!");
+        return redirect()->route('dominion.government');
+    }
+
+
+    public function postDeity(GovernmentActionRequest $request)
+    {
+        $dominion = $this->getSelectedDominion();
+        $deityService = app(DeityService::class);
+        $deityKey = $request->get('key');
+
+        try {
+            $deityService->submitToDeity($dominion, $deityKey);
+        } catch (GameException $e) {
+            return redirect()
+                ->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $deity = Deity::where('key', $deityKey)->first();
+
+        $request->session()->flash('alert-success', "You have successfully submitted your devotion to {$deity->name}!");
+        return redirect()->route('dominion.government');
+    }
+
+    public function postRenounce(GovernmentActionRequest $request)
+    {
+        $dominion = $this->getSelectedDominion();
+        $deityService = app(DeityService::class);
+        $deity = $dominion->getDeity();
+
+        try {
+            $deityService->renounceDeity($dominion, $deity);
+        } catch (GameException $e) {
+            return redirect()
+                ->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        $request->session()->flash('alert-danger', "You have renounced your devotion to {$deity->name}.");
         return redirect()->route('dominion.government');
     }
 

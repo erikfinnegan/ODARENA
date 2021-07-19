@@ -5,12 +5,14 @@ namespace OpenDominion\Http\Controllers;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Title;
@@ -19,6 +21,7 @@ use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Spyop;
+use OpenDominion\Models\Deity;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Helpers\ImprovementHelper;
 
@@ -175,6 +178,14 @@ class ScribesController extends AbstractController
         return view('pages.scribes.spy-ops', [
             'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'espionageHelper' => app(EspionageHelper::class),
+        ]);
+    }
+
+    public function getDeities()
+    {
+        return view('pages.scribes.deities', [
+            'deities' => Deity::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
+            'deityHelper' => app(DeityHelper::class),
         ]);
     }
 

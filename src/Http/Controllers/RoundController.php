@@ -338,7 +338,7 @@ class RoundController extends AbstractController
     protected function allowedDominionName(string $dominionName): bool
     {
         $barbarianUsers = DB::table('users')
-            ->where('users.email', 'like', 'bandit%@lykanthropos.com')
+            ->where('users.email', 'like', 'barbarian%@odarena.com')
             ->pluck('users.id')
             ->toArray();
 

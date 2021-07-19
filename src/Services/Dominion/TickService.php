@@ -20,6 +20,7 @@ use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
+use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
@@ -31,6 +32,7 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\DominionBuilding;
 use OpenDominion\Services\NotificationService;
+use OpenDominion\Models\Deity;
 use Throwable;
 
 class TickService
@@ -101,6 +103,7 @@ class TickService
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->realmCalculator = app(RealmCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
+        $this->deityService = app(DeityService::class);
 
         $this->barbarianService = app(BarbarianService::class);
 
@@ -150,6 +153,9 @@ class TickService
 
                 if(static::EXTENDED_LOGGING){ Log::debug('** Updating improvments for ' . $dominion->name); }
                 $this->handleImprovements($dominion);
+
+                if(static::EXTENDED_LOGGING){ Log::debug('** Updating deities for ' . $dominion->name); }
+                $this->handleDeities($dominion);
 
                 if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians'); }
                 # NPC Barbarian: invasion, training, construction
@@ -237,6 +243,9 @@ class TickService
 
             if(static::EXTENDED_LOGGING) { Log::debug('* Update all spells'); }
             $this->updateAllSpells($round);
+
+            if(static::EXTENDED_LOGGING) { Log::debug('* Update all deities duration'); }
+            $this->updateAllDeities($round);
 
             if(static::EXTENDED_LOGGING) { Log::debug('* Update invasion queues'); }
             $this->updateAllInvasionQueues($round);
@@ -563,9 +572,12 @@ class TickService
 
           foreach ($incomingQueue as $row)
           {
-              $tick->{$row->resource} += $row->amount;
-              // Temporarily add next hour's resources for accurate calculations
-              $dominion->{$row->resource} += $row->amount;
+              if($row->source !== 'deity')
+              {
+                  $tick->{$row->resource} += $row->amount;
+                  // Temporarily add next hour's resources for accurate calculations
+                  $dominion->{$row->resource} += $row->amount;
+              }
           }
 
           $tick->protection_ticks = 0;
@@ -912,8 +924,11 @@ class TickService
 
           foreach ($incomingQueue as $row)
           {
-              // Reset current resources in case object is saved later
-              $dominion->{$row->resource} -= $row->amount;
+              if($row->source !== 'deity')
+              {
+                  // Reset current resources in case object is saved later
+                  $dominion->{$row->resource} -= $row->amount;
+              }
           }
 
           $tick->save();
@@ -937,10 +952,11 @@ class TickService
 
         $this->handleBuildings($dominion);
         $this->handleImprovements($dominion);
+        $this->handleDeities($dominion);
 
         $this->updateDominion($dominion);
-        #$this->updateDominionAlt($dominion);
         $this->updateDominionSpells($dominion);
+        $this->updateDominionDeity($dominion);
         $this->updateDominionQueues($dominion);
 
         Log::info(sprintf(
@@ -1126,7 +1142,19 @@ class TickService
             ]);
     }
 
-    // Update spells for a specific dominion
+    // Update deity duration for a specific dominion
+    private function updateDominionDeity(Dominion $dominion): void
+    {
+        DB::table('dominion_deity')
+            ->join('dominions', 'dominion_deity.dominion_id', '=', 'dominions.id')
+            ->where('dominions.id', $dominion->id)
+            ->update([
+                'duration' => DB::raw('`duration` + 1'),
+                'dominion_deity.updated_at' => $this->now,
+            ]);
+    }
+
+    // Update queues for a specific dominion
     private function updateDominionQueues(Dominion $dominion): void
     {
         DB::table('dominion_queue')
@@ -1148,6 +1176,18 @@ class TickService
             ->update([
                 'duration' => DB::raw('`duration` - 1'),
                 'dominion_spells.updated_at' => $this->now,
+            ]);
+    }
+
+    // Update deities duration for all dominions
+    private function updateAllDeities(Round $round): void
+    {
+        DB::table('dominion_deity')
+            ->join('dominions', 'dominion_deity.dominion_id', '=', 'dominions.id')
+            ->where('dominions.round_id', $round->id)
+            ->update([
+                'duration' => DB::raw('`duration` + 1'),
+                'dominion_deity.updated_at' => $this->now,
             ]);
     }
 
@@ -1244,6 +1284,34 @@ class TickService
             $resource = Resource::where('key', $improvementKey)->first();
             $this->resourceCalculator->createOrIncrementResources($dominion, [$resourceKey => $amount]);
         }
+    }
+
+    # Take deities that are one tick away from finished and create or increment DominionImprovements.
+    private function handleDeities(Dominion $dominion): void
+    {
+        $finishedDeitiesInQueue = DB::table('dominion_queue')
+                                        ->where('dominion_id',$dominion->id)
+                                        ->where('source', 'deity')
+                                        ->where('hours',1)
+                                        ->get();
+        foreach($finishedDeitiesInQueue as $finishedDeityInQueue)
+        {
+            $deityKey = $finishedDeityInQueue->resource;
+            $amount = 1;
+            $deity = Deity::where('key', $deityKey)->first();
+            $this->deityService->completeSubmissionToDeity($dominion, $deity);
+
+            $deityEvent = GameEvent::create([
+                'round_id' => $dominion->round_id,
+                'source_type' => Deity::class,
+                'source_id' => $deity->id,
+                'target_type' => Dominion::class,
+                'target_id' => $dominion->id,
+                'type' => 'deity_completed',
+                'data' => NULL,
+            ]);
+        }
+
     }
 
     private function updateDominionAlt(Dominion $dominion)

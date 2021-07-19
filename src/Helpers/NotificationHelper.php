@@ -6,6 +6,7 @@ use LogicException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\Deity;
 
 class NotificationHelper
 {
@@ -111,6 +112,12 @@ class NotificationHelper
                 'defaults' => ['email' => false, 'ingame' => true],
                 'route' => route('dominion.resources'),
                 'iconClass' => 'ra ra-aware text-green',
+            ],
+            'deity_completed' => [
+                'label' => 'Deity submission complete',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.government'),
+                'iconClass' => 'fas fa-pray text-green',
             ],
         ];
     }
@@ -281,6 +288,13 @@ class NotificationHelper
                 return sprintf(
                     'Sabotage of %s improvements has been restored',
                     number_format($improvements)
+                );
+
+            case 'hourly_dominion.deity_completed':
+                $deity = Deity::where('key', key($data))->first();
+                return sprintf(
+                    'Devotion to %s is now in effect',
+                    $deity->name
                 );
 
             case 'hourly_dominion.returning_completed':

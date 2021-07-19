@@ -13,7 +13,7 @@ namespace OpenDominion\Models;
  */
 class DeityPerkType extends AbstractModel
 {
-    public function deitys()
+    public function deity()
     {
         return $this->belongsToMany(
             Deity::class,

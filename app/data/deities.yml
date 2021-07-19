@@ -1,13 +1,16 @@
 bregon:
   name: Bregon
+  range_multiplier: 0.75
   excluded_races:
     - Void
   perks:
     offensive_power: 5
-    mana_production: -10
+    mana_production: -20
+    cannot_explore: 1
 
 druva:
   name: Druva
+  range_multiplier: 0.5
   excluded_races:
     - Afflicted
     - Void
@@ -20,33 +23,38 @@ druva:
 
 elskas:
   name: Elskas
+  range_multiplier: 0.75
   exclusive_races:
     - Reptilians
   perks:
     spy_strength: 10
     defensive_modifier_reduction: 5
-    mana_production: -10
+    casualties: 10
 
 glimj:
   name: Glimj
+  range_multiplier: 0.75
   exclusive_races:
     - Armada
     - Merfolk
   perks:
     defensive_power: 5
-    food_production: 5
+    food_production: 10
     gold_production: -2.5
 
 kinthys:
   name: Kinthys
+  range_multiplier: 0.75
   exclusive_races:
     - Afflicted
     - Undead
   perks:
-    increases_casualties: 10
+    casualties: -10
+    wizard_cost: -10
 
 mirnon:
   name: Mirnon
+  range_multiplier: 0.75
   excluded_races:
     - Afflicted
     - Void
@@ -58,15 +66,16 @@ mirnon:
 
 sazal:
   name: Sazal
-  exclusive_races:
-    - Afflicted
-    - Undead
+  range_multiplier: 0.75
   perks:
     wizard_strength: 10
-    unit_mana_cost: -2.5
+    unit_mana_costs: -2.5
+    gold_production: -5
+    gem_production: -5
 
 tiranthael:
   name: Tiranthael
+  range_multiplier: 0.75
   exclusive_races:
     - Sacred Order
   perks:
@@ -75,8 +84,40 @@ tiranthael:
 
 zidur:
   name: Zidur
+  range_multiplier: 0.6
   exclusive_races:
     - Afflicted
     - Undead
   perks:
     increases_casualties: 10
+    population_growth: -10
+
+voiddeity1:
+  name: ◮◬◭
+  range_multiplier: 0.75
+  exclusive_races:
+    - Void
+  perks:
+    offensive_power: 5
+    defensive_modifier_reduction: 5
+    improvements: -10
+
+voiddeity2:
+  name: ▽◬◿
+  range_multiplier: 0.75
+  exclusive_races:
+    - Void
+  perks:
+    construction_cost: -20
+    rezone_cost: -20
+    unit_mana_costs: 5
+
+ib_tham:
+  name: Ib-Tham
+  range_multiplier: 0.6
+  exclusive_races:
+    - Barbarian
+  perks:
+    all_stolen: 20
+    offensive_power_on_retaliation: 10
+    improvements: -25

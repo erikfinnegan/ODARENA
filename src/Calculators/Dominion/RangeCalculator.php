@@ -4,7 +4,6 @@ namespace OpenDominion\Calculators\Dominion;
 
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
 # ODA
@@ -22,9 +21,6 @@ class RangeCalculator
     /** @var ProtectionService */
     protected $protectionService;
 
-    /** @var GuardMembershipService */
-    protected $guardMembershipService;
-
     /** @var MilitaryCalculator */
     protected $militaryCalculator;
 
@@ -33,17 +29,14 @@ class RangeCalculator
      *
      * @param LandCalculator $landCalculator
      * @param ProtectionService $protectionService
-     * @param GuardMembershipService $guardMembershipService
      */
     public function __construct(
         LandCalculator $landCalculator,
         ProtectionService $protectionService,
-        GuardMembershipService $guardMembershipService,
         MilitaryCalculator $militaryCalculator
     ) {
         $this->landCalculator = $landCalculator;
         $this->protectionService = $protectionService;
-        $this->guardMembershipService = $guardMembershipService;
         $this->militaryCalculator = $militaryCalculator;
     }
 
@@ -73,41 +66,6 @@ class RangeCalculator
             # Or was recently invaded by the target in the last three hours.
             or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target, static::RECENTLY_INVADED_GRACE_PERIOD_HOURS)
         );
-    }
-
-    /**
-     * Resets guard application status of $self dominion if $target dominion is out of guard range.
-     *
-     * @param Dominion $self
-     * @param Dominion $target
-     */
-    public function checkGuardApplications(Dominion $self, Dominion $target): void
-    {
-        #$isRoyalGuardApplicant = $this->guardMembershipService->isRoyalGuardApplicant($self);
-        $isEliteGuardApplicant = $this->guardMembershipService->isEliteGuardApplicant($self);
-
-        if ($isEliteGuardApplicant) {
-            $selfLand = $this->landCalculator->getTotalLand($self);
-            $targetLand = $this->landCalculator->getTotalLand($target);
-
-            // Reset Peacekeepers League (Royal Guard) application if out of range
-            /*
-            if ($isRoyalGuardApplicant) {
-                $guardModifier = $this->guardMembershipService::ROYAL_GUARD_RANGE;
-                if (($targetLand < ($selfLand * $guardModifier)) || ($targetLand > ($selfLand / $guardModifier))) {
-                    $this->guardMembershipService->joinRoyalGuard($self);
-                }
-            }
-            */
-
-            // Reset Warriors League (Elite Guard) application if out of range
-            if ($isEliteGuardApplicant) {
-                $guardModifier = $this->guardMembershipService::ELITE_GUARD_RANGE;
-                if (($targetLand < ($selfLand * $guardModifier)) || ($targetLand > ($selfLand / $guardModifier))) {
-                    $this->guardMembershipService->joinEliteGuard($self);
-                }
-            }
-        }
     }
 
     /**
@@ -163,21 +121,18 @@ class RangeCalculator
      */
     public function getRangeModifier(Dominion $dominion): float
     {
-        if ($this->guardMembershipService->isEliteGuardMember($dominion)) {
-            return $this->guardMembershipService::ELITE_GUARD_RANGE;
+        if($dominion->hasDeity())
+        {
+            return $dominion->getDeity()->range_multiplier;
         }
-
-        /*
-        if ($this->guardMembershipService->isRoyalGuardMember($dominion)) {
-            return $this->guardMembershipService::ROYAL_GUARD_RANGE;
+        elseif($dominion->getPendingDeitySubmission())
+        {
+            return $dominion->getPendingDeitySubmission()->range_multiplier;
         }
-        */
-
-        if ($this->guardMembershipService->isBarbarianGuardMember($dominion)) {
-            return $this->guardMembershipService::ROYAL_GUARD_RANGE;
+        else
+        {
+            return 0.4;
         }
-
-        return self::MINIMUM_RANGE;
     }
 
     /**

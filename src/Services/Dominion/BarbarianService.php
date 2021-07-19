@@ -422,9 +422,9 @@ class BarbarianService
 
     public function createBarbarian(Round $round): void
     {
-        # Get Bandit/Barbarian users.
+        # Get Barbarian users.
         $barbarianUsers = DB::table('users')
-            ->where('users.email', 'like', 'bandit%@lykanthropos.com')
+            ->where('users.email', 'like', 'barbarian%@odarena.com')
             ->pluck('users.id')
             ->toArray();
 

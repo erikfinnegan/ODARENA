@@ -73,12 +73,14 @@
                             <col width="100">
                             <col width="100">
                             <col width="100">
+                            <col width="100">
                         </colgroup>
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
                                 <th>Dominion</th>
                                 <th class="text-center">Faction</th>
+                                <th class="text-center">Deity</th>
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
                                 <th class="text-center">Units<br>Returning</th>
@@ -141,11 +143,7 @@
                                                 </span>
                                             @endif
 
-                                            @if ($guardMembershipService->isEliteGuardMember($dominion))
-                                                <span data-toggle="tooltip" data-placement="top" title="Warriors League">
-                                                <i class="ra ra-heavy-shield ra-lg text-yellow"></i>
-                                                </span>
-                                            @elseif ($guardMembershipService->isBarbarianGuardMember($dominion))
+                                            @if ($guardMembershipService->isBarbarianGuardMember($dominion))
                                                 <span data-toggle="tooltip" data-placement="top" title="Ib-Tham's Guard">
                                                 <i class="ra ra-heavy-shield ra-lg text-muted"></i>
                                                 </span>
@@ -175,6 +173,19 @@
                                         </td>
                                         <td class="text-center">
                                             {{ $dominion->race->name }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if($dominion->hasDeity())
+                                                {{ $dominion->deity->name }}
+                                            @elseif($dominion->hasPendingDeitySubmission())
+                                                @if($dominion->realm_id == $selectedDominion->realm_id)
+                                                    <span data-toggle="tooltip" data-placement="top" title="{{ $dominion->getPendingDeitySubmission()->name }} in {{ $dominion->getPendingDeitySubmissionTicksLeft() }} {{ str_plural('tick', $dominion->getPendingDeitySubmissionTicksLeft()) }}" class="text-muted"><i class="fas fa-pray"></i></span>
+                                                @else
+                                                    <span class="text-muted"><i class="fas fa-pray"></i></span>
+                                                @endif
+                                            @else
+                                                &mdash;
+                                            @endif
                                         </td>
                                         <td class="text-center">{{ number_format($landCalculator->getTotalLand($dominion, true)) }}</td>
                                         <td class="text-center">{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}</td>

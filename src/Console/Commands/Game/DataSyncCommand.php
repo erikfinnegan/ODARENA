@@ -27,9 +27,9 @@ use OpenDominion\Models\ImprovementPerkType;
 use OpenDominion\Models\Spyop;
 use OpenDominion\Models\SpyopPerk;
 use OpenDominion\Models\SpyopPerkType;
-use OpenDominion\Models\Divinity;
-use OpenDominion\Models\DivinityPerk;
-use OpenDominion\Models\DivinityPerkType;
+use OpenDominion\Models\Deity;
+use OpenDominion\Models\DeityPerk;
+use OpenDominion\Models\DeityPerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use OpenDominion\Models\Stat;
@@ -78,7 +78,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncImprovements();
             $this->syncStats();
             $this->syncResources();
-            $this->syncResources();
+            $this->syncDeities();
         });
     }
 
@@ -847,6 +847,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     ->fill([
                         'name' => $deityData->name,
                         'enabled' => object_get($deityData, 'enabled', 1),
+                        'range_multiplier' => object_get($deityData, 'range_multiplier', 0.75),
                         'excluded_races' => object_get($deityData, 'excluded_races', []),
                         'exclusive_races' => object_get($deityData, 'exclusive_races', []),
                     ]);

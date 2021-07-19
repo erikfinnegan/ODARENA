@@ -13,11 +13,13 @@ use OpenDominion\Models\Title;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\User;
+use OpenDominion\Models\Deity;
 
 use Illuminate\Support\Carbon;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
+use OpenDominion\Services\Dominion\DeityService;
 
 class DominionFactory
 {
@@ -30,6 +32,7 @@ class DominionFactory
         $this->raceHelper = app(RaceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->barbarianCalculator = app(BarbarianCalculator::class);
+        $this->deityService = app(DeityService::class);
     }
 
     /**
@@ -166,8 +169,6 @@ class DominionFactory
                 $startingResources['prestige'] += 100;
             }
         }
-
-        $startingResources['barbarian_guard_active_at'] = NULL;
 
         # POPULATION AND MILITARY
         $startingResources['peasants'] = intval(1000 * 5 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
@@ -405,7 +406,6 @@ class DominionFactory
                 $startingResources['unit4'] = floor(($opRequired * $elitesRatio)/5);
 
                 $startingResources['protection_ticks'] = 0;
-                $startingResources['barbarian_guard_active_at'] = now();
             }
         }
 
@@ -513,6 +513,15 @@ class DominionFactory
 
             'barbarian_guard_active_at' => $startingResources['barbarian_guard_active_at'],
         ]);
+
+        $this->buildingCalculator->createOrIncrementBuildings($dominion, $startingBuildings);
+
+
+        if($race->name == 'Barbarian')
+        {
+            $deity = Deity::where('key','ib_tham')->first();
+            $this->deityService->completeSubmissionToDeity($dominion, $deity);
+        }
 
         $this->buildingCalculator->createOrIncrementBuildings($dominion, $startingBuildings);
 

@@ -170,8 +170,8 @@
                         <div class="box-footer">
                           @if ((bool)$selectedDominion->race->getPerkValue('cannot_explore'))
                               <span class="label label-danger">{{ $selectedDominion->race->name }} dominions cannot explore</span>
-                          @elseif ($guardMembershipService->isEliteGuardMember($selectedDominion))
-                              <span class="label label-danger">Members of the Warriors League cannot explore</span>
+                          @elseif ($selectedDominion->getDeityPerkValue('cannot_explore'))
+                              <span class="label label-danger">{{ $selectedDominion->getDeity()->name }} does not permit exploring</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
                               <span class="label label-primary">You cannot explore during the Rainy Season</span>
                           @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))

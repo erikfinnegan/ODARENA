@@ -20,7 +20,7 @@ perks:
   converts_executed_spies: 3 # into slot 3
 units:
   - name: Skeleton
-    training_time: 9
+    training_time: 12
     type:
       - mindless
       - magical
@@ -34,14 +34,14 @@ units:
       housing_count: 0.1
 
   - name: Ghoul
-    training_time: 9
+    training_time: 12
     type:
       - mindless
     cost:
       gold: 0
     power:
       offense: 0
-      defense: 3
+      defense: 2.5
     perks:
       cannot_be_trained: 1
       housing_count: 0.1
