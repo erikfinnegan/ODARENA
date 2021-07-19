@@ -521,8 +521,6 @@ class DominionFactory
             $this->deityService->completeSubmissionToDeity($dominion, $deity);
         }
 
-        $this->buildingCalculator->createOrIncrementBuildings($dominion, $startingBuildings);
-
         return $dominion;
 
     }
