@@ -12,74 +12,82 @@ skill_level: 2
 construction_materials: gold,ore
 
 perks:
+  gold_production: -10
   food_consumption: -15
   gem_production: 10
-  extra_barren_max_population: 5
+  max_population: -10
   salvaging: 75
-units:
-  - name: Arquebusier
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 350
-      ore: 65
-    power:
-      offense: 4
-      defense: 0
-    perks:
-      increases_casualties_on_offense: 1
 
-  - name: Sapper
-    training_time: 9
+units:
+  - name: Bomb
+    training_time: 6
     type:
-      - living
-      - sentient
-      - intelligent
+      - ammunition
     cost:
-      gold: 420
-      ore: 80
+      gold: 100
+      ore: 100
+      mana: 6
     power:
       offense: 0
-      defense: 4
+      defense: 0
     perks:
-      reduces_casualties: 1
-      reduces_unit_costs: 0.5,7.5 # reduction per 1% of military, max reduction
+      fixed_casualties: 100
+      does_not_count_as_population: 1
+      no_draftee: 1
+      pairing_limit: 4,50
+      offense_from_pairing: 4,4,0.02 # slot, amount, num required
 
-  - name: Turret
+  - name: Iron Swarm
     training_time: 12
     type:
       - machine
     cost:
-      gold: 60000
-      ore: 22000
+      gold: 300
+      ore: 200
+      mana: 4
     power:
       offense: 0
-      defense: 300
+      defense: 0
     perks:
-      casualties: -25
+      does_not_count_as_population: 1
+      no_draftee: 1
+      pairing_limit: 4,100
+      offense_from_pairing: 4,2,0.02 # slot, amount, num required
+      defense_from_pairing: 4,2,0.02 # slot, amount, num required
+      mana_drain: 1
+
+  - name: Sentry
+    training_time: 12
+    type:
+      - machine
+    cost:
+      gold: 2000
+      ore: 1000
+      mana: 10
+    power:
+      offense: 0
+      defense: 20
+    perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: factory,3 # building, buildings per unit, imp to increase
-      upkeep_gold: 25
-      upkeep_ore: 4
+      building_limit: factory,50 # building, buildings per unit
+      mana_drain: 2
 
   - name: Airship
     training_time: 12
     type:
       - machine
     cost:
-      gold: 33000
-      lumber: 5000
+      gold: 32000
+      lumber: 6000
       mana: 500
     power:
       offense: 120
-      defense: 20
+      defense: 80
     perks:
-      casualties_on_offense: -50
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: factory,4 # building, buildings per unit, imp to increased
-      mana_drain: 1
+      building_limit: factory,4 # building, buildings per unit
+      mana_drain: 6

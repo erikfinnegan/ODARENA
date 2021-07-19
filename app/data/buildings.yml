@@ -439,7 +439,8 @@ ore_mill:
     - Imperial Gnome
   land_type: plain
   perks:
-    unit_gold_costs: 1,2,40 # ratio, perk, max
+    unit_gold_costs: 1,2,50 # ratio, perk, max
+    unit_gold_costs: 1,2,50 # ratio, perk, max
 
 factory:
   name: Factory

@@ -11,7 +11,7 @@ bregon:
 
 druva:
   name: Druva
-  range_multiplier: 0.5
+  range_multiplier: 0.50
   excluded_races:
     - Afflicted
     - Void
@@ -91,7 +91,7 @@ tiranthael:
 
 zidur:
   name: Zidur
-  range_multiplier: 0.6
+  range_multiplier: 0.60
   exclusive_races:
     - Afflicted
     - Undead
@@ -125,7 +125,7 @@ voiddeity2:
 
 ib_tham:
   name: Ib-Tham
-  range_multiplier: 0.6
+  range_multiplier: 0.60
   exclusive_races:
     - Barbarian
   perks:
