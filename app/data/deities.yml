@@ -6,6 +6,7 @@ bregon:
   perks:
     offensive_power: 5
     mana_production: -20
+    gold_production: -2.5
     cannot_explore: 1
 
 druva:
