@@ -1079,9 +1079,13 @@ class Dominion extends AbstractModel
         if($this->hasPendingDeitySubmission())
         {
             $queueService = app(QueueService::class);
-            $deityQueue = $queueService->getDeityQueue($this);
 
-            return Deity::where('key', $deityQueue[0]['resource'])->first();
+            foreach($queueService->getDeityQueue($this) as $row)
+            {
+                $deityKey = $row['resource'];
+            }
+
+            return Deity::where('key', $deityKey)->first();
         }
 
         return false;
@@ -1089,17 +1093,19 @@ class Dominion extends AbstractModel
 
     public function getPendingDeitySubmissionTicksLeft(): int
     {
-        return 0;
-        
         if(!$this->hasPendingDeitySubmission())
         {
             return 0;
         }
 
         $queueService = app(QueueService::class);
-        $deityQueue = $queueService->getDeityQueue($this)->toArray();
 
-        return $deityQueue[0]['hours'];
+        foreach($queueService->getDeityQueue($this) as $row)
+        {
+            $ticksLeft = $row['hours'];
+        }
+
+        return $ticksLeft;
     }
 
     public function getDeity(): Deity
