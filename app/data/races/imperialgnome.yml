@@ -73,7 +73,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,50 # building, buildings per unit
-      mana_drain: 0.02
+      mana_drain: 0.175
 
   - name: Airship
     training_time: 12
