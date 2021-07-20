@@ -19,13 +19,11 @@ units:
   - name: Magma Fragment
     training_time: 0
     type:
-      - living
-      - sentient
-      - intelligent
+      - ammunition
     cost:
       gold: 0
     power:
-      offense: 6
+      offense: 8
     perks:
       cannot_be_trained: 1
       does_not_count_as_population: 1
@@ -38,7 +36,6 @@ units:
     type:
       - living
       - sentient
-      - intelligent
     cost:
       gold: 680
     power:
