@@ -112,7 +112,7 @@ class ImprovementHelper
 
     public function getImprovementKeys(): array
     {
-        $improvements = collect(Improvement::all()->keyBy('key')->sortBy('name')->where('enabled',1));
+        return Improvement::where('enabled',1)->get('key')->all();
     }
 
     public function extractImprovementPerkValuesForScribes(string $perkValue)
