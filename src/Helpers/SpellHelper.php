@@ -74,6 +74,8 @@ class SpellHelper
 
             'rezone_all_land' => 'Rezones %1s%% of all other land types to %2$s.',
 
+            'resource_theft' => 'Displaces %2$s%% of the target\'s %1$s and returns it to the caster.',
+
             // Military
             'drafting' => '+%s%% drafting',
             'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',

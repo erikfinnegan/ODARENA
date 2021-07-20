@@ -680,6 +680,17 @@ voidspellmagicprotection:
     chance_to_reflect_spells: 50
     damage_from_spells: -50
 
+voidspellmanatheft:
+  name: ◣◹
+  scope: hostile
+  class: active
+  cost: 1
+  cooldown: 0
+  exclusive_races:
+    - Void
+  perks:
+    resource_theft: mana,1 # resource, rate, max per spy
+
 metabolism:
   name: Metabolism
   scope: self

@@ -215,8 +215,6 @@ class EspionageActionService
             ]);
         });
 
-        $this->rangeCalculator->checkGuardApplications($dominion, $target);
-
         return [
                 'message' => $result['message'],
                 'data' => [

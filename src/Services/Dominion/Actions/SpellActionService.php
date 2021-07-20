@@ -217,11 +217,6 @@ class SpellActionService
             ]);
         });
 
-        if ($target !== null)
-        {
-            $this->rangeCalculator->checkGuardApplications($dominion, $target);
-        }
-
         if($spell->class !== 'invasion')
         {
             return [
@@ -902,6 +897,23 @@ class SpellActionService
 
                         $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display('improvement', $damage))];
                     }
+
+                    if($perk->key === 'resource_theft')
+                    {
+                        $resource = $spellPerkValues[0];
+                        $ratio = (float)$spellPerkValues[1] / 100;
+
+                        $damage = $this->getTheftAmount($caster, $target, $spell, $resource, $ratio);
+
+                        $target->{'resource_'.$resource} -= $damage;
+                        $caster->{'resource_'.$resource} += $damage;
+
+                        $this->statsService->updateStat($caster, ($resource .  '_stolen'), $damage);
+                        $this->statsService->updateStat($target, ($resource . '_lost'), $damage);
+
+                        $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display($resource, 1))];
+
+                    }
                 }
 
                 $target->save([
@@ -1487,17 +1499,79 @@ class SpellActionService
 
     protected function calculateXpGain(Dominion $dominion, Dominion $target, int $damage): int
     {
-      if($damage === 0 or $damage === NULL)
-      {
-        return 0;
-      }
-      else
-      {
-        $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
-        $base = 30;
+        if($damage === 0 or $damage === NULL)
+        {
+            return 0;
+        }
+        else
+        {
+            $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+            $base = 30;
 
-        return $base * $landRatio;
-      }
+            return $base * $landRatio;
+        }
+    }
+
+    protected function getTheftAmount(Dominion $dominion, Dominion $target, Spell $spell, string $resource, float $ratio): int
+    {
+        if($spell->scope !== 'hostile')
+        {
+            return 0;
+        }
+
+        if($resource == 'draftees')
+        {
+            $resourceString = 'military_draftees';
+        }
+        elseif($resource == 'peasants')
+        {
+            $resourceString = 'peasants';
+        }
+        else
+        {
+            $resourceString = 'resource_'.$resource;
+        }
+
+        $availableResource = $target->{$resourceString};
+
+        // Unit theft protection
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
+            {
+                if($theftProtection[0] == $resource)
+                {
+                    $availableResource -= $target->{'military_unit'.$slot} * $theftProtection[1];
+                }
+
+            }
+        }
+
+        $availableResource = max(0, $availableResource);
+
+        $theftAmount = min($availableResource * $ratio, $availableResource);
+
+        /*
+        # The stealer can increase
+        $thiefModifier = 1;
+        $thiefModifier += $dominion->getTechPerkMultiplier('amount_stolen');
+        $thiefModifier += $dominion->getDeityPerkMultiplier('amount_stolen');
+        $thiefModifier += $dominion->race->getPerkMultiplier('amount_stolen');
+
+        $theftAmount *= $thiefModifier;
+
+        # But the target can decrease, which comes afterwards
+        $targetModifier = 0;
+        $targetModifier += $target->getSpellPerkMultiplier($resource . '_theft');
+        $targetModifier += $target->getSpellPerkMultiplier('all_theft');
+        $targetModifier += $target->getBuildingPerkMultiplier($resource . '_theft_reduction');
+
+        $theftAmount *= (1 + $targetModifier);
+        */
+
+        $theftAmount = min(max(0, $theftAmount), $target->{$resourceString});
+
+        return $theftAmount;
     }
 
   }

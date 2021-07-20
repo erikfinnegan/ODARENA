@@ -354,8 +354,6 @@ class InvadeActionService
                 $countsAsRaze = 1;
             }
 
-            $this->rangeCalculator->checkGuardApplications($dominion, $target);
-
             #$this->handleBoats($dominion, $target, $units);
             $this->handlePrestigeChanges($dominion, $target, $units, $landRatio, $countsAsVictory, $countsAsBottomfeed, $countsAsFailure, $countsAsRaze);
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
