@@ -1096,7 +1096,13 @@ class Dominion extends AbstractModel
 
         $queueService = app(QueueService::class);
         $deityQueue = $queueService->getDeityQueue($this)->toArray();
-        return $deityQueue[count($deityQueue)-1]['hours'];
+
+        if(!isset($deityQueue[0]))
+        {
+            dd($deityQueue);
+        }
+
+        return $deityQueue[0]['hours'];
     }
 
     public function getDeity(): Deity
