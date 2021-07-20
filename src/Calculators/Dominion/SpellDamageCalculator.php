@@ -48,11 +48,9 @@ class SpellDamageCalculator
 
     public function getDominionHarmfulSpellDamageModifier(Dominion $target, ?Dominion $caster, ?Spell $spell, ?string $attribute)
     {
-
           $modifier = 1;
 
           // Improvements
-          $modifier -= $this->improvementCalculator->getImprovementMultiplierBonus($target, 'spires');
           $modifier += $target->getImprovementPerkMultiplier('spell_damage');
 
           # Spell

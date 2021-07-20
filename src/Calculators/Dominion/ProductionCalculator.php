@@ -130,8 +130,7 @@ class ProductionCalculator
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('gold_production_modifier');
 
-        // Improvement: Markets
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'markets');
+        // Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('gold_production');
 
         // Land improvements
@@ -545,7 +544,6 @@ class ProductionCalculator
         $multiplier += $dominion->getSpellPerkMultiplier('mana_production');
 
         // Improvements
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
         $multiplier += $dominion->getImprovementPerkMultiplier('mana_production');
 
         // Racial Bonus
@@ -646,7 +644,6 @@ class ProductionCalculator
         }
 
         // Improvement: Refinery
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'refinery');
         $multiplier += $dominion->getImprovementPerkMultiplier('ore_production');
 
         // Spells
@@ -819,8 +816,7 @@ class ProductionCalculator
         // Spell
         $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'tech_production');
 
-        # Observatory
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
+        // Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('tech_production');
 
         return (1 + $multiplier);

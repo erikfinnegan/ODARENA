@@ -16,7 +16,7 @@ class ImprovementController extends AbstractDominionController
 {
     public function getImprovements(Request $request)
     {
-      
+
         return view('pages.dominion.improvements', [
             'improvementCalculator' => app(ImprovementCalculator::class),
             'improvementHelper' => app(ImprovementHelper::class),
@@ -33,7 +33,7 @@ class ImprovementController extends AbstractDominionController
         if($request->get('imps2') == 1)
         {
           try {
-              $result = $improveActionService->improve2(
+              $result = $improveActionService->improve(
                   $dominion,
                   $request->get('resource'),
                   $request->get('improve')

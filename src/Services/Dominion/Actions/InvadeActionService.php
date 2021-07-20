@@ -1236,12 +1236,8 @@ class InvadeActionService
         $researchPointsPerAcreMultiplier = 1;
 
         # Increase RP per acre
-        if($dominion->race->getPerkMultiplier('research_points_per_acre'))
-        {
-            $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
-        }
-
-        $researchPointsPerAcreMultiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'observatory');
+        $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
+        $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('research_points_per_acre');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         if ($isInvasionSuccessful)

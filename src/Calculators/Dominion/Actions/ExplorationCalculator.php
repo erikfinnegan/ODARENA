@@ -78,7 +78,6 @@ class ExplorationCalculator
         $multiplier += $dominion->race->getPerkMultiplier('explore_cost');
 
         // Improvements
-        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'cartography');
         $multiplier += $dominion->getImprovementPerkMultiplier('explore_gold_cost');
 
         # Cap explore plat reduction to 50%.

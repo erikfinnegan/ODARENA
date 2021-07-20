@@ -185,8 +185,6 @@ class PopulationCalculator
         #$multiplier += $dominion->getTechPerkMultiplier('max_population');
 
         // Improvements
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'keep');
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'tissue');
         $multiplier += $dominion->getImprovementPerkMultiplier('population');
 
         // Land improvements

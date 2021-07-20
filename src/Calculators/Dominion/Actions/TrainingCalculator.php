@@ -396,7 +396,7 @@ class TrainingCalculator
                 $unitLimitedTo = (float)$pairingLimitedIncreasable[0]; # Units paired-limited to
                 $unitsPerLimitingUnit = (float)$pairingLimitedIncreasable[1]; # Number of this unit per unit paired-limited to
 
-                $unitsPerLimitingUnit *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));# + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $extendingImprovement) * $improvementMultiplier);
+                $unitsPerLimitingUnit *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
 
                 $maxAdditionalPermittedOfThisUnit = intval($dominion->{'military_unit'.$unitLimitedTo} * $unitsPerLimitingUnit) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
@@ -410,7 +410,7 @@ class TrainingCalculator
                 $improvementToIncrease = $archmageLimit[1]; # Resource that can raise the limit
                 $improvementMultiplier = $archmageLimit[2]; # Multiplier used to extend the increase from improvement
 
-                $unitsPerArchmage *= (1 + ($this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease) * $improvementMultiplier));
+                $unitsPerArchmage *= (1 + ($dominion->getImprovementPerkMultiplier('unit_pairing') * $improvementMultiplier));
 
                 $maxAdditionalPermittedOfThisUnit = intval($dominion->military_archmages * $unitsPerArchmage) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
@@ -423,7 +423,7 @@ class TrainingCalculator
                 $unitsPerWizard = (float)$wizardLimit[0]; # Units per archmage
                 $improvementToIncrease = $wizardLimit[1]; # Resource that can raise the limit
 
-                $unitsPerWizard *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+                $unitsPerWizard *= (1 + ($dominion->getImprovementPerkMultiplier('unit_pairing') * $improvementMultiplier));
 
                 $maxAdditionalPermittedOfThisUnit = intval($dominion->military_wizards * $unitsPerWizard) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
@@ -436,7 +436,7 @@ class TrainingCalculator
                 $unitsPerSpy = (float)$spyLimit[0]; # Units per archmage
                 $improvementToIncrease = $spyLimit[1]; # Resource that can raise the limit
 
-                $unitsPerSpy *= (1 + $this->improvementCalculator->getImprovementMultiplierBonus($dominion, $improvementToIncrease));
+                $unitsPerSpy *= (1 + ($dominion->getImprovementPerkMultiplier('unit_pairing') * $improvementMultiplier));
 
                 $maxAdditionalPermittedOfThisUnit = intval($dominion->military_spies * $unitsPerWizard) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
@@ -480,12 +480,6 @@ class TrainingCalculator
 
         // Buildings
         $multiplier -= $dominion->getBuildingPerkMultiplier('unit_' . $resourceType . '_costs');
-
-        // Armory
-        if(in_array($resourceType,$discountableResourceTypesByArmory))
-        {
-            $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'armory');
-        }
 
         // Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('unit_' . $resourceType . '_costs');

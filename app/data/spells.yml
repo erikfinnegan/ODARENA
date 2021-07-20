@@ -727,7 +727,7 @@ spiral_architecture:
   exclusive_races:
     - Imperial Gnome
   perks:
-    improvements: 25
+    invest_bonus: 25
 
 fimbulwinter:
   name: Fimbulwinter

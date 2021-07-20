@@ -112,7 +112,6 @@ class RezoningCalculator
         $multiplier += $dominion->race->getPerkMultiplier('rezone_cost');
 
         // Improvements
-        $multiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'workshops');
         $multiplier += $dominion->getImprovementPerkMultiplier('rezone_cost');
 
         // Techs

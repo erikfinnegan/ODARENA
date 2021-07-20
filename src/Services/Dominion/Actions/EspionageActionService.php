@@ -443,13 +443,6 @@ class EspionageActionService
 
                     }
                 }
-                /*
-                foreach ($this->improvementHelper->getImprovementTypes($target) as $type) {
-                    array_set($data, "{$type}.points", $target->{'improvement_' . $type});
-                    array_set($data, "{$type}.rating",
-                        $this->improvementCalculator->getImprovementMultiplierBonus($target, $type));
-                }
-                */
 
                 $infoOp->data = $data;
                 break;
@@ -1325,7 +1318,6 @@ class EspionageActionService
       $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');
 
       // Improvements
-      $spiesKilledMultiplier -= $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
       $spiesKilledMultiplier += $dominion->getImprovementPerkMultiplier('spy_losses');
 
       # Cap at 0% losses

@@ -212,7 +212,6 @@ class MilitaryCalculator
         }
 
         // Improvements
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'forges');
         $multiplier += $attacker->getImprovementPerkMultiplier('offensive_power');
 
         // Racial Bonus
@@ -444,7 +443,6 @@ class MilitaryCalculator
         $multiplier += $dominion->getDeityPerkMultiplier('defensive_power');
 
         // Improvements
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'walls');
         $multiplier += $dominion->getImprovementPerkMultiplier('defensive_power');
 
         // Racial Bonus
@@ -1510,7 +1508,6 @@ class MilitaryCalculator
         $multiplier += $dominion->race->getPerkMultiplier('spy_strength');
 
         // Improvements
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'hideouts');
         $multiplier += $dominion->getImprovementPerkMultiplier('spy_strength');
 
         // Tech
@@ -1634,7 +1631,6 @@ class MilitaryCalculator
         $multiplier += $dominion->race->getPerkMultiplier('wizard_strength');
 
         // Improvements
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($dominion, 'spires');
         $multiplier += $dominion->getImprovementPerkMultiplier('wizard_strength');
 
         // Tech
@@ -2082,7 +2078,6 @@ class MilitaryCalculator
         $multiplier += $attacker->getBuildingPerkMultiplier('land_discovered');
 
         // Improvements
-        $multiplier += $this->improvementCalculator->getImprovementMultiplierBonus($attacker, 'cartography');
         $multiplier += $attacker->getImprovementPerkMultiplier('land_discovered');
 
         // Resource: XP (max +100% from 1,000,000 XP) – only for factions which cannot take advancements (Troll)

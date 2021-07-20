@@ -889,7 +889,8 @@ class Dominion extends AbstractModel
 
                          or $perkKey == 'population_growth'
                          or $perkKey == 'improvements'
-
+                         or $perkKey == 'invest_bonus'
+                         
                          or $perkKey == 'cannot_build'
                          or $perkKey == 'cannot_invade'
                          or $perkKey == 'cannot_explore'
@@ -1018,7 +1019,7 @@ class Dominion extends AbstractModel
         $multiplier = 1;
         $multiplier += $this->getBuildingPerkMultiplier('improvements');
         $multiplier += $this->getBuildingPerkMultiplier('improvements_capped');
-        #$multiplier += $this->getSpellPerkMultiplier('improvements');
+        $multiplier += $this->getSpellPerkMultiplier('improvements');
         $multiplier += $this->getTechPerkMultiplier('improvements');
         $multiplier += $this->getDeityPerkMultiplier('improvements');
         $multiplier += $this->race->getPerkMultiplier('improvements_max');

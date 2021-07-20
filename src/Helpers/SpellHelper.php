@@ -174,7 +174,8 @@ class SpellHelper
             'defensive_power_from_peasants' => '%s raw defensive power per peasant',
 
             // Improvements
-            'improvements' => '%s%% improvement points from investments made while spell is active',
+            'invest_bonus' => '%s%% improvement points from investments made while spell is active',
+            'improvements' => '%s%% improvements',
 
             // Explore
             'land_discovered' => '%s%% land discovered on successful invasions',
