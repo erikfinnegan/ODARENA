@@ -600,7 +600,7 @@ druvas_call:
   exclusive_races:
     - Weres
   perks:
-    summon_units_from_land_by_time: 1;2,2,0.25,forest # slots, base, extra percent per hour, land type  slots, per acre, land type
+    summon_units_from_land_by_time: 1;2,2,0.25,forest # slots, base, extra percent per hour, land type
 
 miners_sight:
   name: Mirnon's Fortitude

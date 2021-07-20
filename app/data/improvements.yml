@@ -285,6 +285,7 @@ wizardry_undead:
 
 # Specials
 imperial_gnome_construction:
+  enabled: 0
   name: Construction
   exclusive_races:
     - Imperial Gnome

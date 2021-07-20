@@ -25,7 +25,7 @@ units:
     cost:
       gold: 0
     power:
-      offense: 4
+      offense: 6
     perks:
       cannot_be_trained: 1
       does_not_count_as_population: 1
