@@ -466,7 +466,7 @@ class CasualtiesCalculator
                 # PERK: increases_casualties
                 if($decreasesCasualties = $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties') or $decreasesCasualties = $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_defense'))
                 {
-                    $perkValue += ($this->militaryCalculator->getDefensivePowerRaw($enemy, $dominion, $landRatio, [$slot => $amount]/*, 0, false, $isAmbush, false*/)) / $rawDpFromHomeUnits;
+                    $perkValue += ( ($this->militaryCalculator->getDefensivePowerRaw($enemy, $dominion, $landRatio, [$slot => $amount]/*, 0, false, $isAmbush, false*/)) / $rawDpFromHomeUnits ) / 2;
                 }
             }
         }
@@ -498,7 +498,7 @@ class CasualtiesCalculator
                 # PERK: increases_casualties
                 if($enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties') or $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_offense'))
                 {
-                    $perkValue += ($this->militaryCalculator->getOffensivePowerRaw($enemy, $dominion, $landRatio, [$slot => $amount]/*, 0, false, $isAmbush, false*/)) / $rawOpFromSentUnits;
+                    $perkValue += ( ($this->militaryCalculator->getOffensivePowerRaw($enemy, $dominion, $landRatio, [$slot => $amount]/*, 0, false, $isAmbush, false*/)) / $rawOpFromSentUnits ) / 2;
                 }
             }
 

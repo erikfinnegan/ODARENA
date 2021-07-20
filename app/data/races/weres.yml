@@ -3,6 +3,7 @@ alignment: evil
 description:
 home_land_type: forest
 playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 2
@@ -36,6 +37,7 @@ units:
       housing_count: 0.25
       increases_casualties_on_offense: 1
       cannot_be_trained: 1
+      conversion: 4
 
   - name: Bear
     training_time: 6
@@ -54,6 +56,7 @@ units:
       housing_count: 0.25
       increases_casualties_on_defense: 1
       cannot_be_trained: 1
+      conversion: 3
 
   - name: Werebear
     training_time: 12
