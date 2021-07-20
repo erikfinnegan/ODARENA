@@ -43,8 +43,8 @@ units:
     type:
       - machine
     cost:
-      gold: 300
-      ore: 200
+      gold: 150
+      ore: 250
       mana: 4
     power:
       offense: 0
@@ -55,7 +55,7 @@ units:
       pairing_limit: 4,100
       offense_from_pairing: 4,2,0.02 # slot, amount, num required
       defense_from_pairing: 4,2,0.02 # slot, amount, num required
-      mana_drain: 1
+      mana_drain: 0.01
       sendable_with_zero_op: 1
 
   - name: Sentry
@@ -92,4 +92,4 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,4 # building, buildings per unit
-      mana_drain: 6
+      mana_drain: 1
