@@ -1089,6 +1089,8 @@ class Dominion extends AbstractModel
 
     public function getPendingDeitySubmissionTicksLeft(): int
     {
+        return 0;
+        
         if(!$this->hasPendingDeitySubmission())
         {
             return 0;
@@ -1096,11 +1098,6 @@ class Dominion extends AbstractModel
 
         $queueService = app(QueueService::class);
         $deityQueue = $queueService->getDeityQueue($this)->toArray();
-
-        if(!isset($deityQueue[0]))
-        {
-            dd($deityQueue);
-        }
 
         return $deityQueue[0]['hours'];
     }
