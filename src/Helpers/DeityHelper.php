@@ -68,7 +68,7 @@ class DeityHelper
             // Espionage
             'spy_strength' => '%s%% spy strength',
             'immortal_spies' => 'Spies become immortal',
-            'spy_strength_recovery' => '%s%% spy strength reocver per tick',
+            'spy_strength_recovery' => '%s%% spy strength recovery per tick',
 
             'gold_theft' => '%s%% gold lost to theft.',
             'mana_theft' => '%s%% mana lost to theft.',

@@ -516,7 +516,7 @@ regeneration:
     casualties: -25
 
 elskas_blur:
-  name: Elska's Blur
+  name: Elskas' Blur
   scope: hostile
   class: passive
   cost: 2
@@ -529,7 +529,7 @@ elskas_blur:
     blind_to_reptilian_spies_on_theft: 1
 
 elskas_vision:
-  name: Elska's Vision
+  name: Elskas' Vision
   scope: self
   class: passive
   cost: 2

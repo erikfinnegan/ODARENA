@@ -837,7 +837,7 @@ class NotificationHelper
                         break;
 
                     case 'elskas_blur':
-                        $resultString = 'Our spies\' visions are blurred by Elska.';
+                        $resultString = 'Our spies\' visions are blurred by Elskas.';
                         break;
 
                     default:
