@@ -32,7 +32,6 @@ class ImprovementCalculator
                     'gems' => 12,
                 ];
 
-
         # Mana investments
         if($dominion->race->getPerkValue('can_invest_mana'))
         {
@@ -66,7 +65,7 @@ class ImprovementCalculator
             $multiplier = 0;
 
             ## Extra imp points
-            $multiplier += $dominion->race->getPerkMultiplier($resource . '_improvement_points') / 100;
+            $multiplier += $dominion->race->getPerkMultiplier($resource . '_improvement_points');
 
             # Techs
             if($resource == 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
