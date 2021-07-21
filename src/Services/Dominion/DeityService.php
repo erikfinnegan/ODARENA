@@ -28,7 +28,12 @@ class DeityService
 
       if(!$deity)
       {
-        throw new GameException('Invalid deity.');
+          throw new GameException('Invalid deity.');
+      }
+
+      if($dominion->isAbandoned() or $dominion->round->hasEnded() or $dominion->isLocked())
+      {
+          throw new GameException('You cannot submit to a deity for a dominion that is locked or abandoned, or when after a round has ended.');
       }
 
       if($dominion->hasPendingDeitySubmission())
@@ -77,6 +82,11 @@ class DeityService
       if(!$dominion->hasDeity())
       {
           throw new GameException('No deity to renounce.');
+      }
+
+      if($dominion->isAbandoned() or $dominion->round->hasEnded() or $dominion->isLocked())
+      {
+          throw new GameException('You cannot renounce a deity for a dominion that is locked or abandoned, or when after a round has ended.');
       }
 
       DB::transaction(function () use ($dominion, $deity)

@@ -686,6 +686,7 @@ voidspellmanatheft:
   class: active
   cost: 1
   cooldown: 0
+  duration: 0
   exclusive_races:
     - Void
   perks:

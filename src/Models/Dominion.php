@@ -457,12 +457,16 @@ class Dominion extends AbstractModel
 
     public function isAbandoned(): bool
     {
+        /*
         if($this->user_id === null)
         {
             return true;
         }
 
         return false;
+        */
+
+        return $this->user_id ? false : true;
     }
 
     public function getLockedReason(int $reason): string
@@ -890,7 +894,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'population_growth'
                          or $perkKey == 'improvements'
                          or $perkKey == 'invest_bonus'
-                         
+
                          or $perkKey == 'cannot_build'
                          or $perkKey == 'cannot_invade'
                          or $perkKey == 'cannot_explore'
