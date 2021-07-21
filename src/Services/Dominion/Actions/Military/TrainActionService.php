@@ -249,27 +249,27 @@ class TrainActionService
             $landLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'land_limit');
             if($landLimit)
             {
-              // We have land limit for this unit.
-              $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
-              $unitsPerAcre = (float)$landLimit[1]; # Units per acre
+                // We have land limit for this unit.
+                $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
+                $unitsPerAcre = (float)$landLimit[1]; # Units per acre
 
-              $unitsPerAcre *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing')); # Unused
+                $unitsPerAcre *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
 
-              $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
+                $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
-              $upperLimit = floor($acresOfLimitingLandType * $unitsPerAcre);
+                $upperLimit = floor($acresOfLimitingLandType * $unitsPerAcre);
 
-              if( # Units trained + Units in Training + Units in Queue + Units to Train
-                  (($dominion->{'military_unit' . $unitSlot} +
-                    $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                    $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                    $amountToTrain))
-                    >
-                    $upperLimit
-                )
-                {
-                  throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more ' . $landLimit[0] . '.');
-                }
+                if( # Units trained + Units in Training + Units in Queue + Units to Train
+                    (($dominion->{'military_unit' . $unitSlot} +
+                      $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $amountToTrain))
+                      >
+                      $upperLimit
+                  )
+                  {
+                    throw new GameException('You can at most have ' . number_format($upperLimit) . ' of this unit. To train more, you must have more ' . $landLimit[0] . '.');
+                  }
             }
             # Land limit check complete.
             # Check for amount limit.

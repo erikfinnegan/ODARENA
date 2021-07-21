@@ -369,6 +369,8 @@ class TrainingCalculator
                 $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
                 $unitsPerAcre = (float)$landLimit[1]; # Units per
 
+                $unitsPerAcre *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
+
                 $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
                 $maxAdditionalPermittedOfThisUnit = floor($acresOfLimitingLandType * $unitsPerAcre) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
