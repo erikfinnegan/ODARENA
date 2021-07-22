@@ -192,6 +192,8 @@ class TickService
                         $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
                         $round->end_date = $roundEnd;
                         $round->save();
+
+                        if(static::EXTENDED_LOGGING) { Log::debug('*** Countdown triggered by ' . $dominion->name . ' in realm #' . $dominion->realm->number); }
                     }
                 }
             }
