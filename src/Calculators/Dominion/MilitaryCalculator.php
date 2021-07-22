@@ -208,7 +208,7 @@ class MilitaryCalculator
 
         if ($this->isOwnRealmRecentlyInvadedByTarget($attacker, $defender))
         {
-            $multiplier += $dominion->getDeityPerkMultiplier('offensive_power_on_retaliation');
+            $multiplier += $attacker->getDeityPerkMultiplier('offensive_power_on_retaliation');
         }
 
         // Improvements
