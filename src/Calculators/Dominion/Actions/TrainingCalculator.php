@@ -576,10 +576,10 @@ class TrainingCalculator
         $multiplier += $dominion->getTechPerkMultiplier('wizard_cost');
 
         // Buildings
-        $multiplier -= $dominion->getBuildingPerkMultiplier('wizard_cost');
+        $multiplier += $dominion->getBuildingPerkMultiplier('wizard_cost');
 
         // Deity
-        $multiplier -= $dominion->getDeityPerkMultiplier('wizard_cost');
+        $multiplier += $dominion->getDeityPerkMultiplier('wizard_cost');
 
         // Cap $multiplier at -100%
         $multiplier = max($multiplier, -1);
