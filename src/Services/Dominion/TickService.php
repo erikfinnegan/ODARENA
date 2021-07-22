@@ -164,9 +164,6 @@ class TickService
                     if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian invasions for ' . $dominion->name); }
                     $this->barbarianService->handleBarbarianInvasion($dominion);
 
-                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian training for ' . $dominion->name); }
-                    $this->barbarianService->handleBarbarianTraining($dominion);
-
                     if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian construction for ' . $dominion->name); }
                     $this->barbarianService->handleBarbarianConstruction($dominion);
                 }
@@ -580,6 +577,12 @@ class TickService
                   // Temporarily add next hour's resources for accurate calculations
                   $dominion->{$row->resource} += $row->amount;
               }
+          }
+
+          if($dominion->race->name == 'Barbarian')
+          {
+              if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian training for ' . $dominion->name); }
+              $this->barbarianService->handleBarbarianTraining($dominion);
           }
 
           $tick->protection_ticks = 0;

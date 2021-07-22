@@ -57,7 +57,7 @@ class BarbarianService
     public function handleBarbarianTraining(Dominion $dominion): void
     {
         if($dominion->race->name === 'Barbarian')
-        {
+        {          
             $logString = "\n[BARBARIAN]\n\t[training]\n";
             $land = $this->landCalculator->getTotalLand($dominion);
 
