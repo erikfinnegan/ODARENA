@@ -3,6 +3,7 @@
 namespace OpenDominion\Services\Dominion\Actions;
 
 use DB;
+use Log;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -2286,6 +2287,8 @@ class InvadeActionService
         if($attacker->race->alignment === 'evil' or $defender->race->alignment === 'evil')
         {
 
+            $cryptLogString = '';
+
             $this->invasionResult['defender']['crypt'] = [];
             $this->invasionResult['attacker']['crypt'] = [];
 
@@ -2294,6 +2297,8 @@ class InvadeActionService
             $defensiveBodies = round(array_sum($this->invasionResult['defender']['unitsLost']) * (1 - $defender->race->getPerkMultiplier('reduced_conversions')));
             $offensiveBodies = round(array_sum($this->invasionResult['attacker']['unitsLost']) * (1 - $attacker->race->getPerkMultiplier('reduced_conversions')));
 
+            $cryptLogString .= 'Defensive bodies (raw): ' . number_format($defensiveBodies) . ' | ';
+            $cryptLogString .= 'Offensive bodies (raw): ' . number_format($offensiveBodies) . ' | ';
 
             $this->invasionResult['defender']['crypt']['bodies_available_raw'] = $defensiveBodies;
             $this->invasionResult['attacker']['crypt']['bodies_available_raw'] = $offensiveBodies;
@@ -2370,6 +2375,9 @@ class InvadeActionService
             $this->invasionResult['defender']['crypt']['bodies_available_net'] = $defensiveBodies;
             $this->invasionResult['attacker']['crypt']['bodies_available_net'] = $offensiveBodies;
 
+            $cryptLogString .= 'Defensive bodies (net): ' . number_format($defensiveBodies) . ' | ';
+            $cryptLogString .= 'Offensive bodies (net): ' . number_format($offensiveBodies) . ' | ';
+
             $toTheCrypt = 0;
 
             # If defender is empire
@@ -2411,6 +2419,9 @@ class InvadeActionService
                   }
             }
 
+            $cryptLogString .= 'Defensive bodies (final): ' . number_format($defensiveBodies) . ' | ';
+            $cryptLogString .= 'Offensive bodies (final): ' . number_format($offensiveBodies) . ' | ';
+
             $this->invasionResult['defender']['crypt']['bodies_available_final'] = $defensiveBodies;
             $this->invasionResult['attacker']['crypt']['bodies_available_final'] = $offensiveBodies;
 
@@ -2423,9 +2434,13 @@ class InvadeActionService
                 $this->invasionResult['defender']['crypt']['offensiveBodies'] = $offensiveBodies;
                 $this->invasionResult['defender']['crypt']['total'] = $toTheCrypt;
 
+                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($defender->realm->crypt) . ' | ';
+
                 $defender->realm->fill([
                     'crypt' => ($defender->realm->crypt + $toTheCrypt),
                 ])->save();
+
+                $cryptLogString .= '* Bodies added to crypt: ' . number_format($toTheCrypt) . ' *';
             }
             elseif($whoHasCrypt == 'attacker')
             {
@@ -2433,10 +2448,16 @@ class InvadeActionService
                 $this->invasionResult['attacker']['crypt']['offensiveBodies'] = $offensiveBodies;
                 $this->invasionResult['attacker']['crypt']['total'] = $toTheCrypt;
 
+                $cryptLogString .= '* Bodies currently in crypt: ' . number_format($attacker->realm->crypt) . ' | ';
+
                 $attacker->realm->fill([
                     'crypt' => ($attacker->realm->crypt + $toTheCrypt),
                 ])->save();
+
+                $cryptLogString .= '* Bodies added to crypt: ' . number_format($toTheCrypt) . ' *';
             }
+
+            Log::info($cryptLogString);
 
         }
 
