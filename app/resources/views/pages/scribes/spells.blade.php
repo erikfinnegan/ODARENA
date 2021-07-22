@@ -378,6 +378,7 @@
                           <thead>
                               <tr>
                                   <th>Spell</th>
+                                  <th>Duration</th>
                                   <th>Effect</th>
                               </tr>
                           </thead>
@@ -388,6 +389,7 @@
                                       {{ $spell->name }}
                                       {!! $spellHelper->getExclusivityString($spell) !!}
                                   </td>
+                                  <td>{{ $spell->duration }} ticks</td>
                                   <td>
                                       <ul>
                                           @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
