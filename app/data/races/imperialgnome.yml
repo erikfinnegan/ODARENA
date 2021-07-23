@@ -53,8 +53,8 @@ units:
       does_not_count_as_population: 1
       no_draftee: 1
       pairing_limit: 4,100
-      offense_from_pairing: 4,2,0.02 # slot, amount, num required
-      defense_from_pairing: 4,2,0.02 # slot, amount, num required
+      offense_from_pairing: 4,2,0.01 # slot, amount, num required
+      defense_from_pairing: 4,2,0.01 # slot, amount, num required
       mana_drain: 0.01
       sendable_with_zero_op: 1
 

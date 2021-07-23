@@ -441,7 +441,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
             // todo: move to GameEventService
@@ -1653,7 +1653,6 @@ class InvadeActionService
 
       if(random_chance($dominion->getImprovementPerkMultiplier('chance_of_instant_return')) or $dominion->race->getPerkValue('instant_return'))
       {
-          #dd('Instant return, baby!');
           $this->invasionResult['attacker']['instantReturn'] = true;
           foreach($returningUnits as $unitKey => $returningAmount)
           {
@@ -1684,6 +1683,7 @@ class InvadeActionService
                   # How many of $slot should return faster?
                   $unitsWithFasterReturnTime = min($returningUnits[$pairedUnitKey], $returningAmount);
                   $unitsWithRegularReturnTime = $returningAmount - $unitsWithFasterReturnTime;
+
 
                   # Queue faster units
                   $this->queueService->queueResources(
@@ -1724,8 +1724,6 @@ class InvadeActionService
                   {
                       $amountWithFasterReturn += ($amountWithFasterReturn + $amountWithNormalReturn) - $returningAmount;
                   }
-
-                  #dd($buildingFasterReturnPerk, $amountWithFasterReturn, ($returnTicks - $ticksFaster), $amountWithNormalReturn, $returnTicks);
 
                   # Queue faster units
                   $this->queueService->queueResources(
