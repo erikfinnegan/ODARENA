@@ -1589,7 +1589,7 @@ class InvadeActionService
                 }
 
                 # Look for dies_into and variations amongst the dead attacking units.
-                if(isset($this->invasionResult['attacker']['unitsLost'][$slot]))
+                foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
                 {
                     if($diesIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
                     {
