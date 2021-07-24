@@ -1589,13 +1589,17 @@ class InvadeActionService
                 }
 
                 # Look for dies_into and variations amongst the dead attacking units.
-                foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
+                if(isset($this->invasionResult['attacker']['unitsLost'][$slot]))
                 {
+
+                    $casualties = $this->invasionResult['attacker']['unitsLost'][$slot];
+
                     if($diesIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
                     {
                         # Which unit do they die into?
                         $newUnitSlot = $diesIntoPerk[0];
                         $newUnitKey = "military_unit{$newUnitSlot}";
+                        $newUnitSlotReturnTime = $this->getUnitReturnTicksForSlot($attacker, $newUnitSlot);
 
                         $returningUnits[$newUnitKey][$ticks] += $casualties;
                     }
@@ -1618,7 +1622,7 @@ class InvadeActionService
                         $newUnitKey = "military_unit{$newUnitSlot}";
                         $newUnitSlotReturnTime = $this->getUnitReturnTicksForSlot($attacker, $newUnitSlot);
 
-                        $returningUnits[$newUnitKey][$ticks] += floor($casualties * $newUnitAmount);
+                        $returningUnits[$newUnitKey][$newUnitSlotReturnTime] += floor($casualties * $newUnitAmount);
                     }
 
                     if($diesIntoMultiplePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_offense'))
@@ -1693,9 +1697,9 @@ class InvadeActionService
                         $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
                         $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
                     }
-
                 }
             }
+            #dd($returningUnits);
 
             foreach($returningUnits as $unitKey => $unitKeyTicks)
             {
@@ -1715,7 +1719,7 @@ class InvadeActionService
                 $slot = str_replace('military_unit', '', $unitKey);
                 $this->invasionResult['attacker']['unitsReturning'][$slot] = array_sum($unitKeyTicks);
             }
-            #dd($returningUnits);
+            dd($returningUnits);
         }
 
     }
