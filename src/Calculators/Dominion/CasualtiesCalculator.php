@@ -219,13 +219,13 @@ class CasualtiesCalculator
     # Round 52: Version 1.1
     public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $attacker, Dominion $defender, int $slot, array $units, int $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
     {
-
+        echo "<pre>Checking attacker's slot {$slot}.</pre>";
         if($this->getImmortalityForUnitSlot($attacker, $defender, $slot, $units, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful, 'offense'))
         {
             return 0;
         }
 
-        $multiplier = 1;
+        $multiplier = 1.0;
 
         # Fixed casualties: they are what they are.
         if ($fixedCasualtiesPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
@@ -244,7 +244,8 @@ class CasualtiesCalculator
                 # If the raw DP on the unit is enough, add it to $dpFromUnitsThatKill.
                 if($this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') >= $minPowerToKill)
                 {
-                    $dpFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') * $target->{"military_unit" . $unit->slot};
+                    echo '<pre>' . $unit->name . ' has enough DP to kill</pre>';
+                    $dpFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') * $defender->{"military_unit" . $unit->slot};
                 }
             }
 
@@ -264,7 +265,7 @@ class CasualtiesCalculator
             }
         }
 
-        if($multiplier === 0)
+        if($multiplier === 0.0)
         {
             return $multiplier;
         }
