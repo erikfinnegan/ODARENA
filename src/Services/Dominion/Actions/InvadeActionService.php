@@ -1553,7 +1553,6 @@ class InvadeActionService
 
             foreach($returningUnits as $unitKey => $values)
             {
-
                 $slot = str_replace('military_unit', '', $unitKey);
                 $amountReturning = 0;
 
@@ -1588,10 +1587,15 @@ class InvadeActionService
                     $returningAmount += $this->invasionResult['defender']['mindControlledUnitsReleased'][$slot];
                 }
 
+                # Default return time is 12 ticks.
+                $ticks = $this->getUnitReturnTicksForSlot($attacker, $slot);
+
+                # Default all returners to tick 12
+                $returningUnits[$returningUnitKey][$ticks] += $amountReturning;
+
                 # Look for dies_into and variations amongst the dead attacking units.
                 if(isset($this->invasionResult['attacker']['unitsLost'][$slot]))
                 {
-
                     $casualties = $this->invasionResult['attacker']['unitsLost'][$slot];
 
                     if($diesIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
@@ -1657,14 +1661,11 @@ class InvadeActionService
 
                         $returningUnits[$newUnitKey][$newUnitSlotReturnTime] += floor($casualties * $newUnitAmount);
                     }
+                }
 
-                    # Default return time is 12 ticks.
-                    $ticks = $this->getUnitReturnTicksForSlot($attacker, $slot);
-
-                    # Default all returners to tick 12
-                    $returningUnits[$returningUnitKey][$ticks] += $amountReturning;
-
-                    # Check for faster_return_if_paired
+                # Check for faster_return_if_paired
+                foreach($units as $slot => $amount)
+                {
                     if($fasterReturnIfPairedPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
                     {
                         $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
@@ -1677,29 +1678,30 @@ class InvadeActionService
 
                         # How many of $slot should return faster?
                         $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);
-                        $unitsWithRegularReturnTime = max(0, $amountReturning - $unitsWithFasterReturnTime);
+                        $unitsWithRegularReturnTime = max(0, $amount - $unitsWithFasterReturnTime);
 
                         $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
                         $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
-                    }
 
-                    # Check for faster_return from buildings
-                    if($buildingFasterReturnPerk = $attacker->getBuildingPerkMultiplier('faster_return'))
-                    {
-                        $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
-                        $normalReturn = 1 - $fasterReturn;
-
-                        $ticksFaster = 6;
-
-                        $unitsWithFasterReturnTime = round($returningAmount * $buildingFasterReturnPerk);
-                        $unitsWithRegularReturnTime = round($returningAmount - $amountWithFasterReturn);
-
-                        $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
-                        $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                        #dd($fasterReturnIfPairedPerk, $unitsWithFasterReturnTime, $unitsWithRegularReturnTime, $units);
                     }
                 }
+
+                # Check for faster_return from buildings
+                if($buildingFasterReturnPerk = $attacker->getBuildingPerkMultiplier('faster_return'))
+                {
+                    $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
+                    $normalReturn = 1 - $fasterReturn;
+
+                    $ticksFaster = 6;
+
+                    $unitsWithFasterReturnTime = round($returningAmount * $buildingFasterReturnPerk);
+                    $unitsWithRegularReturnTime = round($returningAmount - $amountWithFasterReturn);
+
+                    $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
+                    $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                }
             }
-            #dd($returningUnits);
 
             foreach($returningUnits as $unitKey => $unitKeyTicks)
             {
@@ -1707,7 +1709,7 @@ class InvadeActionService
                 {
                     if($amount > 0)
                     {
-                        #echo "<pre>Add to 'invasion' queue: $unitKey => $amount, at $unitTypeTick ticks</pre>";
+                        #echo "<pre>Add to 'invasion' queue: [$unitKey => $amount] at $unitTypeTick ticks</pre>";
                         $this->queueService->queueResources(
                             'invasion',
                             $attacker,
@@ -1719,7 +1721,7 @@ class InvadeActionService
                 $slot = str_replace('military_unit', '', $unitKey);
                 $this->invasionResult['attacker']['unitsReturning'][$slot] = array_sum($unitKeyTicks);
             }
-            #dd($returningUnits);
+            #dd($units, $returningUnits, 'last');
         }
 
     }

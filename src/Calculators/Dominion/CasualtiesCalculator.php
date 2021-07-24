@@ -219,7 +219,7 @@ class CasualtiesCalculator
     # Round 52: Version 1.1
     public function getOffensiveCasualtiesMultiplierForUnitSlot(Dominion $attacker, Dominion $defender, int $slot, array $units, int $landRatio, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful): float
     {
-        echo "<pre>Checking attacker's slot {$slot}.</pre>";
+        #echo "<pre>Checking attacker's slot {$slot}.</pre>";
         if($this->getImmortalityForUnitSlot($attacker, $defender, $slot, $units, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful, 'offense'))
         {
             return 0;
@@ -244,13 +244,22 @@ class CasualtiesCalculator
                 # If the raw DP on the unit is enough, add it to $dpFromUnitsThatKill.
                 if($this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') >= $minPowerToKill)
                 {
-                    echo '<pre>' . $unit->name . ' has enough DP to kill</pre>';
+                    #echo '<pre>' . $unit->name . ' has enough DP to kill</pre>';
                     $dpFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') * $defender->{"military_unit" . $unit->slot};
                 }
             }
 
             # How much of the DP is from units that kill?
             $multiplier *= $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio);
+
+            echo "<pre>[only_dies_vs_raw_power] \$multiplier: *=" . $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio) . "</pre>";
+        }
+
+        echo "<pre>\$multiplier: $multiplier</pre>";
+
+        if((float)$multiplier === 0.0)
+        {
+            return $multiplier;
         }
 
         # PERK: fewer_casualties_from_title
@@ -265,11 +274,6 @@ class CasualtiesCalculator
             }
         }
 
-        if($multiplier === 0.0)
-        {
-            return $multiplier;
-        }
-
         $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties') / 100;
         $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_offense') / 100;
 
@@ -281,8 +285,6 @@ class CasualtiesCalculator
 
         $multiplier += $this->getUnitCasualtiesPerk($attacker, $defender, $units, $landRatio, 'offense');
         $multiplier += $this->getUnitCasualtiesPerk($defender, $attacker, $units, $landRatio, 'defense');
-
-        #dd($multiplier);
 
         $multiplier = max(0.10, $multiplier);
 
