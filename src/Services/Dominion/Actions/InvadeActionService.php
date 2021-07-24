@@ -1601,7 +1601,7 @@ class InvadeActionService
                         $newUnitKey = "military_unit{$newUnitSlot}";
                         $newUnitSlotReturnTime = $this->getUnitReturnTicksForSlot($attacker, $newUnitSlot);
 
-                        $returningUnits[$newUnitKey][$ticks] += $casualties;
+                        $returningUnits[$newUnitKey][$newUnitSlotReturnTime] += $casualties;
                     }
 
                     if($diesIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_offense'))
