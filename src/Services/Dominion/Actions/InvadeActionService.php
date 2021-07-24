@@ -1719,7 +1719,7 @@ class InvadeActionService
                 $slot = str_replace('military_unit', '', $unitKey);
                 $this->invasionResult['attacker']['unitsReturning'][$slot] = array_sum($unitKeyTicks);
             }
-            dd($returningUnits);
+            #dd($returningUnits);
         }
 
     }
