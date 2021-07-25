@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 {{--
-@section('page-header', 'Release Troops')
+@section('page-header', 'Release Units')
 --}}
 
 @section('content')
@@ -10,7 +10,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="box box-danger">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-cycle"></i> Release Troops</h3>
+                    <h3 class="box-title"><i class="ra ra-cycle"></i> Release Units</h3>
                 </div>
                 <form action="{{ route('dominion.military.release') }}" method="post" role="form">
                     @csrf
@@ -41,18 +41,25 @@
                                     </td>
                                 </tr>
                                 @foreach ($unitHelper->getUnitTypes() as $unitType)
-                                    <tr>
-                                        <td>
+                                    @if(
+                                          ($unitType == 'spies' and $selectedDominion->race->getPerkValue('cannot_train_spies')) or
+                                          ($unitType == 'wizards' and $selectedDominion->race->getPerkValue('cannot_train_wizards')) or
+                                          ($unitType == 'archmages' and $selectedDominion->race->getPerkValue('cannot_train_archmages'))
+                                      )
+                                    @else
+                                          <tr>
+                                              <td>
 
-                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
-                                                {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
-                                            </span>
-                                        </td>
-                                        <td class="text-center">{{ number_format($selectedDominion->{'military_' . $unitType}) }}</td>
-                                        <td class="text-center">
-                                            <input type="number" name="release[{{ $unitType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $selectedDominion->{'military_' . $unitType} }}" value="{{ old('release.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                        </td>
-                                    </tr>
+                                                  <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
+                                                      {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
+                                                  </span>
+                                              </td>
+                                              <td class="text-center">{{ number_format($selectedDominion->{'military_' . $unitType}) }}</td>
+                                              <td class="text-center">
+                                                  <input type="number" name="release[{{ $unitType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $selectedDominion->{'military_' . $unitType} }}" value="{{ old('release.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                              </td>
+                                          </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>

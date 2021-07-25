@@ -157,6 +157,14 @@ class LandCalculator
             $barrenLandByLandType[$landType] += $barren;
         }
 
+        if($dominion->race->getPerkValue('indestructible_buildings'))
+        {
+            foreach($barrenLandByLandType as $landType => $barren)
+            {
+                $barrenLandByLandType[$landType] = max(0, $barren);
+            }
+        }
+
         return $barrenLandByLandType;
 
     }

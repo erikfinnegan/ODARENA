@@ -2,6 +2,7 @@ name: Swarm
 alignment: good
 description: >-
   <p>Buildings under construction count as barren land for the purpose of Scarab, Arachnid, and Naga offensive power perk.</p>
+  <p>Buildings on lost land decay at a rate of 1% per tick.</p>
 home_land_type: plain
 playable: 1
 
@@ -18,7 +19,7 @@ construction_materials: gold,lumber
 perks:
   extra_barren_max_population: 27
   no_construction_costs: 1
-  cannot_rezone: 1
+  no_rezone_costs: 1
   food_consumption: -50
   immortal_spies: 1
   immortal_wizards: 1
@@ -26,35 +27,42 @@ perks:
   damage_from_insect_swarm: -100
   draftees_produce_mana: 1.5
   peasants_produce_food: 0.5
+  indestructible_buildings: 1
+  population_growth: 100
 
 units:
-  - name: Scarab
+  - name: Scorpion
     training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 250
+      gold: 400
     power:
-      offense: 3
-      defense: 0
+      offense: 4
+      defense: 4
     perks:
-      offense_vs_barren_land: 12,1.25 # ratio%, max
+      offense_vs_barren_land: 10,1 # ratio%, max
+      casualties_on_defense: -80
+      casualties_on_victory: -50
+      offense_from_spell: aggression,2
+      defense_from_spell: aggression,-2
 
-  - name: Burrower
+  - name: Scarab
     training_time: 9
     type:
       - living
       - sentient
     cost:
-      gold: 375
+      gold: 280
     power:
       offense: 0
       defense: 4
     perks:
       gem_production: 0.5
       immortal_on_fending_off: 1
+      casualties_on_defense: -50
 
   - name: Arachnid
     training_time: 12
@@ -63,14 +71,14 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1000
+      gold: 600
     power:
-      offense: 4
-      defense: 7
+      offense: 0
+      defense: 8
     perks:
-      offense_vs_barren_land: 10,1.5 # ratio%, max
-      casualties_on_defense: -80
+      casualties_on_defense: -50
       immortal_on_fending_off: 1
+      kills_into_resource_per_value: 4,food # each 1 OP killed becomes
 
   - name: Naga
     training_time: 12
@@ -79,11 +87,12 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 700
+      gold: 880
     power:
-      offense: 5
-      defense: 3
+      offense: 8
+      defense: 4
     perks:
-      offense_vs_barren_land: 6,2.5 # ratio%, max
-      casualties_on_defense: -80
+      offense_vs_barren_land: 10,1 # ratio%, max
+      casualties_on_defense: -50
       immortal_on_fending_off: 1
+      casualties_on_victory: -50

@@ -252,10 +252,10 @@ class CasualtiesCalculator
             # How much of the DP is from units that kill?
             $multiplier *= $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio);
 
-            echo "<pre>[only_dies_vs_raw_power] \$multiplier: *=" . $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio) . "</pre>";
+            #echo "<pre>[only_dies_vs_raw_power] \$multiplier: *=" . $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio) . "</pre>";
         }
 
-        echo "<pre>\$multiplier: $multiplier</pre>";
+        #echo "<pre>\$multiplier: $multiplier</pre>";
 
         if((float)$multiplier === 0.0)
         {
@@ -276,6 +276,11 @@ class CasualtiesCalculator
 
         $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties') / 100;
         $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_offense') / 100;
+
+        if($isInvasionSuccessful)
+        {
+            $multiplier += $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_on_victory') / 100;
+        }
 
         $multiplier += $this->getBasicCasualtiesPerks($attacker, 'offensive');
         $multiplier += $this->getIncreasesCasualtiesPerks($defender, 'defense');

@@ -75,7 +75,7 @@ units:
       - sentient
       - massive
     cost:
-      gold: 2150
+      gold: 2250
       ore: 500
     power:
       offense: 10

@@ -146,6 +146,7 @@ class PopulationCalculator
         $population = 0;
 
         $population += $dominion->getBuildingPerkValue('housing');
+        $population += $dominion->getBuildingPerkValue('housing_increasing');
 
         // Constructing buildings
         $population += ($this->queueService->getConstructionQueueTotal($dominion) * 15);
@@ -181,9 +182,6 @@ class PopulationCalculator
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('max_population');
 
-        // Techs
-        #$multiplier += $dominion->getTechPerkMultiplier('max_population');
-
         // Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('population');
 
@@ -206,7 +204,7 @@ class PopulationCalculator
         $militaryHousingMultiplier += $dominion->race->getPerkMultiplier('extra_barracks_housing');
         $militaryHousingMultiplier += $dominion->getTechPerkMultiplier('barracks_housing');
 
-        return round($dominion->getBuildingPerkValue('military_housing') * (1 + $militaryHousingMultiplier) + $this->getAvailableHousingFromUnits($dominion));
+        return round(($dominion->getBuildingPerkValue('military_housing') + $dominion->getBuildingPerkValue('military_housing_increasing')) * (1 + $militaryHousingMultiplier) + $this->getAvailableHousingFromUnits($dominion));
 
     }
 

@@ -10,7 +10,7 @@
               $currentTick = 1+floor(intval(Date('i')) / 15);
           @endphp
 
-          Day <strong>{{ $roundDay }}</strong> , hour <strong>{{ $currentHour }}</strong>{{--, tick <strong>{{ $currentTick }}</strong>.--}}
+          <span data-toggle="tooltip" data-placement="top" title="Current round tick: {{ number_format($selectedDominion->round->ticks) }}<br>Countdown trigger: {{ number_format($selectedDominion->round->land_target) }} acres.">Day <strong>{{ $roundDay }}</strong>, hour <strong>{{ $currentHour }}</strong>, tick <strong>{{ $currentTick }}</strong>.</span>
 
           @if ($selectedDominion->round->hasCountdown())
               | Round ends in <strong><span data-toggle="tooltip" data-placement="top" title="The round ends at {{ $selectedDominion->round->end_date }}">{{ number_format($hoursUntilRoundEnds) . ' ' . str_plural('hour', $hoursUntilRoundEnds) }}</span></strong>.

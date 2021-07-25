@@ -816,7 +816,7 @@ gold_vein:
     - Icekin
   land_type: mountain
   perks:
-    gold_production_depleting: 100,0.4 # Produces 100 gold, reduced by 0.4 per hour of the round (min 0)
+    gold_production_depleting: 100,0.1 # Produces 100 gold, reduced by 0.4 per tick of the round (min 0)
 
 terrace:
   name: Terrace
@@ -833,6 +833,16 @@ terrace:
 
 burrow:
   name: Burrow
+  enabled: 0
+  exclusive_races:
+    - Swarm
+  land_type: swamp
+  perks:
+    food_production: 40
+
+cavern:
+  name: Cavern
+  enabled: 0
   exclusive_races:
     - Swarm
   land_type: mountain
@@ -840,26 +850,19 @@ burrow:
     gem_production: 12
     mana_production: 8
 
-cavern:
-  name: Cavern
-  exclusive_races:
-    - Swarm
-  land_type: swamp
-  perks:
-    food_production: 40
-    unit_gold_costs: 1,1,50
-
 den:
   name: Den
   exclusive_races:
     - Swarm
   land_type: plain
   perks:
-    housing: 38
+    housing_increasing: 30,0.03
+    housing: 0
     jobs: 0
 
 nest:
   name: Nest
+  enabled: 0
   exclusive_races:
     - Swarm
   land_type: forest
@@ -873,7 +876,7 @@ tunnel:
     - Swarm
   land_type: hill
   perks:
-    faster_return: 1,5,100,6 # per %, ratio, max, ticks reduced
+    faster_returning_units_increasing: 120,0.06 # faster returning units, increaser per tick
 
 well:
   name: Well
@@ -881,7 +884,7 @@ well:
     - Swarm
   land_type: water
   perks:
-    food_production_modifier: 1,5,50 # Every 1% gives +5% food production, max +50%
+    food_production: 80
 
 # END SWARM
 

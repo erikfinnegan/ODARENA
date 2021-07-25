@@ -37,8 +37,6 @@ use Throwable;
 
 class TickService
 {
-
-    protected const LAND_TO_TRIGGER_COUNTDOWN = 8000;
     protected const COUNTDOWN_DURATION_HOURS = 12;
     protected const EXTENDED_LOGGING = false;
 
@@ -134,6 +132,7 @@ class TickService
 
         foreach ($activeRounds as $round)
         {
+
             Log::debug('Tick for round ' . $round->number . ' started at ' . $tickTime . '.');
 
             # Get dominions IDs with Stasis active
@@ -172,7 +171,7 @@ class TickService
                 # If we don't already have a countdown, see if any dominion triggers it.
                 if(!$round->hasCountdown())
                 {
-                    if($this->landCalculator->getTotalLand($dominion) >= static::LAND_TO_TRIGGER_COUNTDOWN)
+                    if($this->landCalculator->getTotalLand($dominion) >= $round->land_target)
                     {
                         $hoursEndingIn = static::COUNTDOWN_DURATION_HOURS + 1;
                         $roundEnd = Carbon::now()->addHours($hoursEndingIn)->startOfHour();
@@ -260,10 +259,10 @@ class TickService
             ));
 
             $this->now = now();
-        }
-
-        foreach ($activeRounds as $round)
-        {
+        #}
+        #
+        #foreach ($activeRounds as $round)
+        #{
             $dominions = $round->activeDominions()
                 ->with([
                     'race',
@@ -411,6 +410,10 @@ class TickService
             ));
 
             $this->now = now();
+
+           $round->fill([
+               'ticks' => ($round->ticks + 1),
+           ])->save();
         }
     }
 

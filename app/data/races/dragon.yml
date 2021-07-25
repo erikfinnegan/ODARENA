@@ -58,7 +58,7 @@ units:
       - intelligent
 
     cost:
-      gold: 250
+      gold: 450
     power:
       offense: 0
       defense: 6

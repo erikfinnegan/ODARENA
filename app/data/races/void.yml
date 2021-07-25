@@ -15,8 +15,8 @@ skill_level: 2
 
 construction_materials: mana
 
-spies_cost: 200,mana
-wizards_cost: 200,mana
+spies_cost: 10000,mana
+wizards_cost: 10000,mana
 archmages_cost: 10000,mana
 
 perks:
@@ -26,7 +26,10 @@ perks:
   no_gold_production: 1
   can_invest_mana: 3
   peasants_produce_mana: 0.2
-  immortal_wizards: 1
+  cannot_train_spies: 1
+  cannot_train_wizards: 1
+  cannot_train_archmages: 1
+  improvements_interest: 0.06
 
 units:
   - name: Figure
@@ -42,6 +45,9 @@ units:
     power:
       offense: 3
       defense: 0
+    perks:
+      counts_as_spy_offense: 0.333
+      counts_as_wizard_offense: 0.333
 
   - name: Shadow
     training_time: 9
@@ -72,6 +78,8 @@ units:
       defense: 5
     perks:
       mana_production: 1
+      defense_per_tick: 0.003,5 # amount, max
+      counts_as_wizard_defense: 0.25
 
   - name: Distortion
     training_time: 12
@@ -86,6 +94,6 @@ units:
       mana: 500
     power:
       offense: 5
-      defense: 3
+      defense: 4
     perks:
-      offense_per_hour: 0.006,2 # amount, max
+      offense_per_tick: 0.003,5 # amount, max

@@ -1692,11 +1692,28 @@ class InvadeActionService
                 {
                     $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
                     $normalReturn = 1 - $fasterReturn;
-
                     $ticksFaster = 6;
 
-                    $unitsWithFasterReturnTime = round($returningAmount * $buildingFasterReturnPerk);
-                    $unitsWithRegularReturnTime = round($returningAmount - $amountWithFasterReturn);
+                    $fasterReturningTicks = min(max(1, ($ticks - $ticksFaster), 12));
+
+                    $unitsWithFasterReturnTime = round($amountReturning * $buildingFasterReturnPerk);
+                    $unitsWithRegularReturnTime = round($amountReturning - $amountWithFasterReturn);
+
+                    $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
+                    $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                }
+
+                # Check for faster_return_units and faster_return_units_increasing from buildings
+                if($buildingFasterReturnPerk = $attacker->getBuildingPerkValue('faster_returning_units') or $buildingFasterReturnPerk = $attacker->getBuildingPerkValue('faster_returning_units_increasing'))
+                {
+                    $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
+                    $normalReturn = 1 - $fasterReturn;
+                    $ticksFaster = 4;
+
+                    $fasterReturningTicks = min(max(1, ($ticks - $ticksFaster)), 12);
+
+                    $unitsWithFasterReturnTime = min($buildingFasterReturnPerk, $amountReturning);
+                    $unitsWithRegularReturnTime = round($amountReturning - $unitsWithFasterReturnTime);
 
                     $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
                     $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
@@ -1721,228 +1738,8 @@ class InvadeActionService
                 $slot = str_replace('military_unit', '', $unitKey);
                 $this->invasionResult['attacker']['unitsReturning'][$slot] = array_sum($unitKeyTicks);
             }
-            #dd($units, $returningUnits, 'last');
         }
-
-    }
-
-    /**
-     * Handles the surviving units returning home.
-     * Also handles "returning" defensive conversions.
-     *
-     * @param Dominion $dominion
-     * @param array $units
-     * @param array $convertedUnits
-     */
-    protected function oldHandleReturningUnits(Dominion $dominion, array $units, array $convertedUnits, array $mindControlledUnits): void
-    {
-        $returningUnits = [
-          'military_unit1' => 0,
-          'military_unit2' => 0,
-          'military_unit3' => 0,
-          'military_unit4' => 0,
-        ];
-
-        #echo '<pre>';var_dump($convertedUnits);echo '</pre>';
-
-        for ($i = 1; $i <= 4; $i++)
-        {
-
-            $unitKey = "military_unit{$i}";
-            $returningUnitKey = $unitKey;
-            $returningAmount = 0;
-
-            # See if slot $i has wins_into perk.
-            if($this->invasionResult['result']['success'])
-            {
-                if($dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into'))
-                {
-                    $returnsAsSlot = $dominion->race->getUnitPerkValueForUnitSlot($i, 'wins_into');
-                    $returningUnitKey = 'military_unit' . $returnsAsSlot;
-                }
-            }
-
-            if (array_key_exists($i, $units))
-            {
-                $returningAmount += $units[$i];
-                $dominion->$unitKey -= $units[$i];
-            }
-
-            if (array_key_exists($i, $convertedUnits))
-            {
-                $returningAmount += $convertedUnits[$i];
-            }
-
-            if(isset($mindControlledUnits[$i]) and $mindControlledUnits[$i] > 0)
-            {
-                # Release non-menticided mind controlled units, less 10%.
-                $returningAmount += $this->invasionResult['defender']['mindControlledUnitsReleased'][$i];
-            }
-
-            $returningUnits[$returningUnitKey] += $returningAmount;
-        }
-
-        # Look for dies_into amongst the dead attacking units.
-        foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $casualties)
-        {
-            $unitKey = "military_unit{$slot}";
-
-            if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
-            {
-                # Which unit do they die into?
-                $newUnitSlot = $diesIntoPerk[0];
-                $newUnitKey = "military_unit{$newUnitSlot}";
-
-                $returningUnits[$newUnitKey] += $casualties;
-            }
-
-            if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_offense'))
-            {
-                # Which unit do they die into?
-                $newUnitSlot = $diesIntoPerk[0];
-                $newUnitKey = "military_unit{$newUnitSlot}";
-
-                $returningUnits[$newUnitKey] += $casualties;
-            }
-
-            if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
-            {
-                # Which unit do they die into?
-                $newUnitSlot = $diesIntoMultiplePerk[0];
-                $newUnitAmount = (float)$diesIntoMultiplePerk[1];
-
-                $newUnitKey = "military_unit{$newUnitSlot}";
-
-                $returningUnits[$newUnitKey] += floor($casualties * $newUnitAmount);
-            }
-
-            if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_offense'))
-            {
-                # Which unit do they die into?
-                $newUnitSlot = $diesIntoMultiplePerk[0];
-                $newUnitAmount = (float)$diesIntoMultiplePerk[1];
-
-                $newUnitKey = "military_unit{$newUnitSlot}";
-
-                $returningUnits[$newUnitKey] += floor($casualties * $newUnitAmount);
-            }
-
-            if($this->invasionResult['result']['success'] and $diesIntoMultiplePerkOnVictory = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_victory'))
-            {
-                # Which unit do they die into?
-                $newUnitSlot = $diesIntoMultiplePerkOnVictory[0];
-                $newUnitAmount = (float)$diesIntoMultiplePerkOnVictory[1];
-
-                $newUnitKey = "military_unit{$newUnitSlot}";
-
-                $returningUnits[$newUnitKey] += floor($casualties * $newUnitAmount);
-            }
-
-            if(!$this->invasionResult['result']['success'] and $diesIntoMultiplePerkOnVictory = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_victory'))
-            {
-                # Which unit do they die into?
-                $newUnitSlot = $diesIntoMultiplePerkOnVictory[0];
-                $newUnitAmount = $diesIntoMultiplePerkOnVictory[2];
-
-                $newUnitKey = "military_unit{$newUnitSlot}";
-
-                $returningUnits[$newUnitKey] += floor($casualties * $newUnitAmount);
-            }
-        }
-
-      #echo '<pre>';print_r($returningUnits);echo '</pre>';
-
-      if(random_chance($dominion->getImprovementPerkMultiplier('chance_of_instant_return')) or $dominion->race->getPerkValue('instant_return'))
-      {
-          $this->invasionResult['attacker']['instantReturn'] = true;
-          foreach($returningUnits as $unitKey => $returningAmount)
-          {
-              $dominion->{$unitKey} += $returningAmount;
-              $returningUnits[$unitKey] = 0;
-          }
-      }
-
-      foreach($returningUnits as $unitKey => $returningAmount)
-      {
-
-          if($returningAmount > 0)
-          {
-              $slot = (int)str_replace('military_unit','',$unitKey);
-
-              $returnTicks = $this->getUnitReturnHoursForSlot($dominion, $slot);
-
-              $returnTicks -= $dominion->getSpellPerkValue('faster_return');
-
-              # Check for faster_return_if_paired
-              if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
-              {
-                  $fasterReturnIfPairedPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired');
-                  $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
-                  $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
-                  $ticksFaster = (int)$fasterReturnIfPairedPerk[1];
-
-                  # How many of $slot should return faster?
-                  $unitsWithFasterReturnTime = min($returningUnits[$pairedUnitKey], $returningAmount);
-                  $unitsWithRegularReturnTime = $returningAmount - $unitsWithFasterReturnTime;
-
-                  # Queue faster units
-                  $this->queueService->queueResources(
-                      'invasion',
-                      $dominion,
-                      [$unitKey => $unitsWithFasterReturnTime],
-                      max(1, $returnTicks - $ticksFaster)
-                  );
-
-                  # Queue slower units
-                  $this->queueService->queueResources(
-                      'invasion',
-                      $dominion,
-                      [$unitKey => $unitsWithRegularReturnTime],
-                      $returnTicks
-                  );
-              }
-
-              # Check for faster_return from buildings
-              if($buildingFasterReturnPerk = $dominion->getBuildingPerkMultiplier('faster_return'))
-              {
-                  $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
-                  $normalReturn = 1 - $fasterReturn;
-
-                  $ticksFaster = 6;
-
-                  $amountWithFasterReturn = round($returningAmount * $buildingFasterReturnPerk);
-                  $amountWithNormalReturn = round($returningAmount - $amountWithFasterReturn);
-
-                  # Queue faster units
-                  $this->queueService->queueResources(
-                      'invasion',
-                      $dominion,
-                      [$unitKey => $amountWithFasterReturn],
-                      max(1, $returnTicks - $ticksFaster)
-                  );
-
-                  # Queue slower units
-                  $this->queueService->queueResources(
-                      'invasion',
-                      $dominion,
-                      [$unitKey => $amountWithNormalReturn],
-                      $returnTicks
-                  );
-              }
-              else
-              {
-                  $this->queueService->queueResources(
-                      'invasion',
-                      $dominion,
-                      [$unitKey => $returningAmount],
-                      $returnTicks
-                  );
-              }
-
-              $this->invasionResult['attacker']['unitsReturning'][$slot] = $returningAmount;
-          }
-      }
-
+        dd($units, $returningUnits, 'last');
     }
 
     protected function handleDefensiveConversions(Dominion $defender, array $defensiveConversions): void
@@ -2000,7 +1797,7 @@ class InvadeActionService
 
         if($defender->race->name == 'Afflicted')
         {
-            # Unhealing Wounds
+            # Festering Wounds
             $this->spellActionService->castSpell($defender, 'festering_wounds', $attacker, $isInvasionSpell);
         }
     }

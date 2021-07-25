@@ -26,7 +26,12 @@ class RaceHelper
                 break;
             case 'no_construction_costs':
                 $negativeBenefit = true;
-                $description = 'Free construction';
+                $description = 'No construction costs';
+                $booleanValue = true;
+                break;
+            case 'no_rezone_costs':
+                $negativeBenefit = true;
+                $description = 'No rezoning costs';
                 $booleanValue = true;
                 break;
             case 'rezone_cost':
@@ -39,7 +44,7 @@ class RaceHelper
                 break;
             case 'extra_barren_max_population':
                 $negativeBenefit = false;
-                $description = 'Population from barren land';
+                $description = 'Extra housing from barren land and unfinished buildings';
                 $valueType = '';
                 break;
             case 'extra_barren_forest_max_population':
@@ -160,6 +165,11 @@ class RaceHelper
             case 'wizard_strength':
                 $negativeBenefit = false;
                 $description = 'Wizard strength';
+                break;
+            case 'indestructible_buildings':
+                $negativeBenefit = true;
+                $description = 'Indestructible buildings';
+                $booleanValue = true;
                 break;
             case 'cannot_construct':
                 $negativeBenefit = true;

@@ -510,7 +510,6 @@ regeneration:
   duration: 48
   cooldown: 0
   exclusive_races:
-    - Troll
     - Reptilians
   perks:
     casualties: -25
@@ -588,7 +587,7 @@ feral_hunger:
     - Weres
   perks:
     no_conversions: 1
-    offensive_power: 10
+    offensive_power: 20
 
 druvas_call:
   name: Druva's Call
@@ -613,6 +612,7 @@ miners_sight:
     - Dwarf
     - Artillery
     - Gnome
+    - Troll
   perks:
     ore_production: 20
     gem_production: 5
@@ -885,6 +885,19 @@ chitin:
     - Swarm
   perks:
     defensive_power_vs_insect_swarm: 10
+
+aggression:
+  name: Aggression
+  scope: self
+  class: passive
+  cost: 6
+  duration: 12
+  cooldown: 6
+  exclusive_races:
+    - Swarm
+  perks:
+    offensive_power: 5
+    offensive_power_on_retaliation: 5
 
 rainy_season:
   name: Rainy Season
@@ -1190,12 +1203,12 @@ pestilence:
   scope: hostile
   class: invasion
   cost: 0
-  duration: 96
+  duration: 192
   cooldown: 0
   exclusive_races:
     - Afflicted
   perks:
-    kills_peasants_and_converts_for_caster_unit: 0.25,1 # 1% die and become unit1
+    kills_peasants_and_converts_for_caster_unit: 0.25,1 # 0.25% die and become unit1
 
 great_fever:
   name: Great Fever

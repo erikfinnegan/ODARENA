@@ -658,7 +658,7 @@ class Dominion extends AbstractModel
 
               if($perkValueString)
               {
-                  # Basic production
+                  # Basic production and other single-value perks
                   if(
                           $perkKey == 'gold_production'
                           or $perkKey == 'food_production'
@@ -674,6 +674,9 @@ class Dominion extends AbstractModel
                           or $perkKey == 'human_unit2_housing'
                           or $perkKey == 'troll_unit2_housing'
                           or $perkKey == 'troll_unit4_housing'
+
+
+                          or $perkKey == 'faster_returning_units'
                       )
                   {
                       $perk += (float)$perkValueString;
@@ -780,18 +783,32 @@ class Dominion extends AbstractModel
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);
-                      $production = (float)$perkValues[0];
-                      $hourlyReduction = (float)$perkValues[1];
-                      $hoursSinceRoundStarted = max(0, now()->startOfHour()->diffInHours(Carbon::parse($this->round->start_date)->startOfHour()));
+                      $baseProduction = (float)$perkValues[0];
+                      $ticklyReduction = (float)$perkValues[1];
+                      $ticks = $this->round->ticks;
 
-                      if(!$this->round->hasStarted())
-                      {
-                          $hoursSinceRoundStarted = 0;
-                      }
+                      $perkValueString = max(0, ($baseProduction - ($ticklyReduction * $ticks)));
+                  }
+                  # Production/housing increasing
+                  elseif(
+                          # OP/DP mods
+                          $perkKey == 'gold_production_increasing'
+                          or $perkKey == 'gem_production_increasing'
+                          or $perkKey == 'ore_production_increasing'
+                          or $perkKey == 'mana_production_increasing'
+                          or $perkKey == 'lumber_production_increasing'
+                          or $perkKey == 'food_production_increasing'
+                          or $perkKey == 'housing_increasing'
+                          or $perkKey == 'military_housing_increasing'
+                          or $perkKey == 'faster_returning_units_increasing'
+                      )
+                  {
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+                      $baseValue = (float)$perkValues[0];
+                      $ticklyIncrease = (float)$perkValues[1];
+                      $ticks = $this->round->ticks;
 
-                      $perkValueString = max(0, ($production - ($hourlyReduction * $hoursSinceRoundStarted)));
-
-                      #dd($perkKey, $production, $hourlyReduction, $hoursSinceRoundStarted, $perkValueString);
+                      $perkValueString = $baseValue + ($ticklyIncrease * $ticks);
                   }
               }
 

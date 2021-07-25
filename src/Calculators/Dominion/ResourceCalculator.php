@@ -4,13 +4,13 @@ namespace OpenDominion\Calculators\Dominion;
 
 use DB;
 use Illuminate\Support\Collection;
-use OpenDominion\Helpers\BuildingHelper;
+use OpenDominion\Helpers\ResourceHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\DominionResource;
 use OpenDominion\Services\Dominion\QueueService;
 
-class BuildingCalculator
+class ResourceCalculator
 {
     /** @var BuildingHelper */
     protected $resourceHelper;
@@ -24,7 +24,7 @@ class BuildingCalculator
      * @param BuildingHelper $resourceHelper
      * @param QueueService $queueService
      */
-    public function __construct(BuildingHelper $resourceHelper, QueueService $queueService)
+    public function __construct(ResourceHelper $resourceHelper, QueueService $queueService)
     {
         $this->resourceHelper = $resourceHelper;
         $this->queueService = $queueService;

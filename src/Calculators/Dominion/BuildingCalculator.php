@@ -46,7 +46,7 @@ class BuildingCalculator
 
     public function getBuildingsToDestroy(Dominion $dominion, int $totalBuildingsToDestroy, string $landType): array
     {
-        if($totalBuildingsToDestroy <= 0)
+        if($totalBuildingsToDestroy <= 0 or $dominion->race->getPerkValue('indestructible_buildings'))
         {
             return [];
         }

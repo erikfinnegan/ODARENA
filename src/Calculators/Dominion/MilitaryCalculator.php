@@ -510,7 +510,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromSpyRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
-        $unitPower += $this->getUnitPowerFromHoursPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromTicksPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromNetVictoriesPerk($dominion, $unit, $powerType);
@@ -917,25 +917,24 @@ class MilitaryCalculator
         return $amount;
     }
 
-    protected function getUnitPowerFromHoursPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    protected function getUnitPowerFromTicksPerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
 
-        $hoursPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_hour", null);
+        $ticksPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_per_tick", null);
 
-        if (!$hoursPerkData or !$dominion->round->hasStarted())
+        if (!$ticksPerkData or !$dominion->round->hasStarted())
         {
             return 0;
         }
 
         #$hoursSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
-        $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
+        #$hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
 
-        $powerPerHour = (float)$hoursPerkData[0];
-        $max = (float)$hoursPerkData[1];
+        $powerPerHour = (float)$ticksPerkData[0];
+        $max = (float)$ticksPerkData[1];
+        $powerFromTicks = $powerPerHour * $dominion->round->ticks;
 
-        $powerFromHours = $powerPerHour * $hoursSinceRoundStarted;
-
-        $powerFromPerk = min($powerFromHours, $max);
+        $powerFromPerk = min($powerFromTicks, $max);
 
         return $powerFromPerk;
     }
@@ -1259,9 +1258,9 @@ class MilitaryCalculator
           }
 
           $powerFromSpell = (float)$spellPerkData[1];
-          $spell = (string)$spellPerkData[0];
+          $spellKey = (string)$spellPerkData[0];
 
-          if ($this->spellCalculator->isSpellActive($dominion, $spell))
+          if ($this->spellCalculator->isSpellActive($dominion, $spellKey))
           {
               $powerFromPerk = $powerFromSpell;
           }
@@ -2080,10 +2079,10 @@ class MilitaryCalculator
         // Improvements
         $multiplier += $attacker->getImprovementPerkMultiplier('land_discovered');
 
-        // Resource: XP (max +100% from 1,000,000 XP) – only for factions which cannot take advancements (Troll)
+        // Resource: XP (max +100% from 2,000,000 XP) – only for factions which cannot take advancements (Troll)
         if($attacker->race->getPerkValue('cannot_tech'))
         {
-            $multiplier += min($attacker->resource_tech, 1000000) / 1000000;
+            $multiplier += min($attacker->resource_tech, 1500000) / 1500000;
         }
 
         return round($landConquered * $multiplier);

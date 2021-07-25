@@ -33,7 +33,11 @@ class BuildingHelper
         $perkTypeStrings = [
             # Housing
             'housing' => 'Houses %s people.',
+            'housing_increasing' => 'Houses %1$s people, increased by %2$s per tick.',
+
             'military_housing' => 'Houses %s military units.',
+            'military_housing_increasing' => 'Houses %1$s military units, increased by %2$s per tick.',
+
             'wizard_housing' => 'Houses %1$s wizards and units that count as wizards.',
             'spy_housing' => 'Houses %1$s spies and units that count as spies.',
             'draftee_housing' => 'Houses %s draftees.',
@@ -95,6 +99,8 @@ class BuildingHelper
             'extra_units_trained' => '%2$s%% additional units trained for free for every %1$s%% (max %3$s%% extra units).',
 
             'faster_return' =>  '%2$s%% of units sent on invasion return %4$s ticks faster for every %1$s%% (max %3$s%% of all units).',
+            'faster_return_units_increasing' =>  '%2$s%% of units sent on invasion return %4$s ticks faster for every %1$s%% (max %3$s%% of all units).',
+            'faster_return_units' =>  '%2$s%% of units sent on invasion return %4$s ticks faster for every %1$s%% (max %3$s%% of all units).',
 
             'morale_gains' => 'Morale gains increased by %2$s%% for every %1$s%% (max +%3$s%%)',
             'base_morale' => 'Base morale increased by %2$s%% for every %1$s%% (max +%3$s%%)',

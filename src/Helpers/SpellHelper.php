@@ -124,6 +124,7 @@ class SpellHelper
             'reveal_ops' => 'Reveals the dominion casting spells or spying on you',
             'damage_from_fireballs' => '%s%% damage from fireballs',
             'damage_from_lightning_bolts' => '%s%% damage from lightning bolts',
+            'wizard_strength' => '%s%% wizard strength',
 
             // Espionage
             'disband_spies' => 'Disbands %s%% of enemy spies.',

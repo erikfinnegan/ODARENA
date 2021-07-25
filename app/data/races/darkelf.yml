@@ -21,7 +21,6 @@ units:
       - living
       - sentient
       - intelligent
-
     cost:
       gold: 350
       ore: 30
@@ -38,8 +37,8 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 320
-      ore: 30
+      gold: 300
+      ore: 25
     power:
       offense: 0
       defense: 4
@@ -71,13 +70,12 @@ units:
       - sentient
       - intelligent
       - wise
-
     cost:
-      gold: 1000
-      mana: 25
+      gold: 750
+      mana: 30
     power:
-      offense: 5
+      offense: 4
       defense: 0
     perks:
       immortal_on_victory: 1
-      offense_from_advancements: wizardry_tradition_level8;1,magical_weapons_level8;1,concentration_level8;1,invocations_level8;1
+      offense_from_advancements: wizardry_tradition_level6;1,magical_weapons_level6;1,concentration_level6;1,invocations_level6;1

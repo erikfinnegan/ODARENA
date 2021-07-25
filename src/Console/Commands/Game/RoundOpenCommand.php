@@ -68,6 +68,7 @@ class RoundOpenCommand extends Command implements CommandInterface
         $packSize = 100;#$this->option('pack-size');
         $playersPerRace = 0; #$this->option('playersPerRace');
         $mixedAlignments = false; #$this->option('mixedAlignment');
+        $targetLand = 8000;
 
         if ($now && (app()->environment() === 'production')) {
             throw new RuntimeException('Option --now may not be used on production');
@@ -123,7 +124,8 @@ class RoundOpenCommand extends Command implements CommandInterface
             $realmSize,
             $packSize,
             $playersPerRace,
-            $mixedAlignments
+            $mixedAlignments,
+            $targetLand
         );
 
         $this->info("Round {$round->number} created in Era {$roundLeague->key}. The round starts at {$round->start_date}.");
@@ -134,8 +136,8 @@ class RoundOpenCommand extends Command implements CommandInterface
         $this->realmFactory->create($round, 'evil');
         $this->realmFactory->create($round, 'independent');
 
-        // Create 16 Barbarians.
-        for ($slot = 1; $slot <= 16; $slot++)
+        // Create 17 Barbarians.
+        for ($slot = 1; $slot <= 17; $slot++)
         {
             $this->barbarianService->createBarbarian($round);
         }

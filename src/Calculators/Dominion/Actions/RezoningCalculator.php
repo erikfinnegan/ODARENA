@@ -59,18 +59,22 @@ class RezoningCalculator
      */
     public function getRezoningCost(Dominion $dominion): int
     {
+        if($dominion->race->getPerkValue('no_rezone_costs'))
+        {
+            return 0;
+        }
 
-      $cost = 0;
-      $cost += $this->landCalculator->getTotalLand($dominion);
-      $cost -= 250;
-      $cost *= 0.6;
-      $cost += 250;
+        $cost = 0;
+        $cost += $this->landCalculator->getTotalLand($dominion);
+        $cost -= 250;
+        $cost *= 0.6;
+        $cost += 250;
 
-      $cost *= 0.85;
+        $cost *= 0.85;
 
-      $cost *= $this->getCostMultiplier($dominion);
+        $cost *= $this->getCostMultiplier($dominion);
 
-      return round($cost);
+        return round($cost);
 
     }
 
@@ -82,6 +86,10 @@ class RezoningCalculator
      */
     public function getMaxAfford(Dominion $dominion): int
     {
+        if($dominion->race->getPerkValue('no_rezone_costs'))
+        {
+            return $this->landCalculator->getTotalBarrenLand($dominion);
+        }
 
         $resource = $this->getRezoningMaterial($dominion);
         $cost = $this->getRezoningCost($dominion);

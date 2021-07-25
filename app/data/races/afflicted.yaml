@@ -82,7 +82,7 @@ units:
       defense: -1
     perks:
       immortal: 1
-      value_conversion: 2,1 # [Killed]*4 = number of unit1 created
+      value_conversion: 1,1 # [Killed]*1 = number of unit1 created
       counts_as_spy_offense: 0.5
       counts_as_spy_defense: 0.25
       immortal_spy: 1
