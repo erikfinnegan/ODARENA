@@ -60,11 +60,17 @@ class TechHelper
             'improvements' => '%s%% higher improvement bonus',
             'conversions' => '%s%% more conversions (only applicable to Afflicted, Cult, and Sacred Order)',
             'barracks_housing' => '%s%% higher military housing in buildings that provide military housing',
-            'gemcutting' => '%s%% more improvement points per gem',
             'gold_interest' => '%s%% interest on your gold stockpile per tick',
             'exchange_rate' => '%s%% better exchange rates',
             'jobs_per_building' => '%s%% more jobs per building',
             'drafting' => '%s%% drafting',
+
+            // Improvements
+            'gemcutting' => '%s%% more improvement points per gem',
+            'gold_invest_bonus' => '%s%% more improvement points per gold',
+            'ore_invest_bonus' => '%s%% more improvement points per ore',
+            'gems_invest_bonus' => '%s%% more improvement points per gem',
+            'lumber_invest_bonus' => '%s%% more improvement points per lumber',
 
         ];
 
