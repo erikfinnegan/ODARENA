@@ -21,6 +21,7 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\Tech;
+use OpenDominion\Helpers\DeityHelper;
 
 class OpCenterController extends AbstractDominionController
 {
@@ -78,6 +79,7 @@ class OpCenterController extends AbstractDominionController
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'dominion' => $dominion,
+            'deityHelper' => app(DeityHelper::class),
             'latestInfoOps' => $latestInfoOps
         ]);
     }
@@ -115,6 +117,7 @@ class OpCenterController extends AbstractDominionController
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'dominion' => $dominion,
+            'deityHelper' => app(DeityHelper::class),
             'infoOpArchive' => $infoOpArchive
         ]);
     }

@@ -281,6 +281,40 @@
 
                 </div>
             </div>
+            
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fas fa-pray"></i> Deity</h3>
+                </div>
+                <div class="box-body">
+                    @if(!$dominion->hasDeity())
+                        <p>The dominion of <b>{{ $dominion->name }}</b> is not currently devoted to any deity.</p>
+                    @else
+                        @php
+                            $perksList = '<ul>';
+                            $perksList .= '<li>Devotion: ' . number_format($dominion->getDominionDeity()->duration) . ' ' . str_plural('tick', $dominion->getDominionDeity()->duration) . '</li>';
+                            $perksList .= '<li>Range multiplier: ' . $dominion->getDeity()->range_multiplier . 'x</li>';
+                            foreach($deityHelper->getDeityPerksString($dominion->getDeity(), $dominion->getDominionDeity()) as $effect)
+                            {
+                                $perksList .= '<li>' . ucfirst($effect) . '</li>';
+                            }
+                            $perksList .= '<ul>';
+                        @endphp
+                        <p>The dominion of <b>{{ $dominion->name }}</b> is devoted to <b>{{ $dominion->getDeity()->name }}</b>.</p>
+
+                        <ul>
+                        <li>Devotion: {{ number_format($dominion->getDominionDeity()->duration) . ' ' . str_plural('tick', $dominion->getDominionDeity()->duration) }}</li>
+                        <li>Range multiplier: {{ $dominion->getDeity()->range_multiplier }}x</li>
+                        @foreach($deityHelper->getDeityPerksString($dominion->getDeity(), $dominion->getDominionDeity()) as $effect)
+
+                            <li>{{ ucfirst($effect) }}</li>
+
+                        @endforeach
+                        </ul>
+
+                    @endif
+                </div>
+            </div>
         </div>
 
     </div>
