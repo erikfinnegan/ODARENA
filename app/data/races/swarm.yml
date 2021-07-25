@@ -1,8 +1,7 @@
 name: Swarm
 alignment: good
 description: >-
-  <p>Buildings under construction count as barren land for the purpose of Scarab, Arachnid, and Naga offensive power perk.</p>
-  <p>Buildings on lost land decay at a rate of 1% per tick.</p>
+  <p>Buildings under construction count as barren land for the purpose of Scorpion and Naga offensive power perk.</p>
 home_land_type: plain
 playable: 1
 
