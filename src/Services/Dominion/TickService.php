@@ -38,7 +38,7 @@ use Throwable;
 class TickService
 {
 
-    protected const LAND_TO_TRIGGER_COUNTDOWN = 8000;
+    protected const LAND_TO_TRIGGER_COUNTDOWN = 3000;
     protected const COUNTDOWN_DURATION_HOURS = 12;
     protected const EXTENDED_LOGGING = false;
 
