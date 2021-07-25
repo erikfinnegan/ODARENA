@@ -2569,7 +2569,7 @@ budget_level1:
   name: Budget
   level: 1
   perks:
-    - gold_invest_bonus: 12.5
+    gold_invest_bonus: 12.5
 
 budget_level2:
   name: Budget
