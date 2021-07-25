@@ -671,6 +671,7 @@ cartography_wood_elf:
     - Wood Elf
   perks:
     land_discovered: 70,6000
+    explore_gold_cost: 35,5000
 
 espionage_wood_elf:
   name: Espionage

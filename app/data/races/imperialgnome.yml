@@ -43,8 +43,8 @@ units:
     type:
       - machine
     cost:
-      gold: 150
-      ore: 250
+      gold: 180
+      ore: 315
       mana: 4
     power:
       offense: 0
@@ -63,8 +63,8 @@ units:
     type:
       - machine
     cost:
-      gold: 2000
-      ore: 1000
+      gold: 3000
+      ore: 1500
       mana: 10
     power:
       offense: 0
@@ -80,8 +80,8 @@ units:
     type:
       - machine
     cost:
-      gold: 32000
-      lumber: 6000
+      gold: 40000
+      lumber: 7500
       mana: 500
     power:
       offense: 120
