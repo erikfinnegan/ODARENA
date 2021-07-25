@@ -79,7 +79,7 @@ units:
       immortal_on_fending_off: 1
       kills_into_resource_per_value: 4,food # each 1 OP killed becomes
 
-  - name: Naga
+  - name: Centipede
     training_time: 12
     type:
       - living

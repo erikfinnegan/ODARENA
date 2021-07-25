@@ -879,12 +879,13 @@ tunnel:
     faster_returning_units_increasing: 120,0.06 # faster returning units, increaser per tick
 
 well:
-  name: Well
+  name: Aquifer
   exclusive_races:
     - Swarm
   land_type: water
   perks:
     food_production: 80
+    mana_production: 20
 
 # END SWARM
 
