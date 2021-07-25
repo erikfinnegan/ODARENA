@@ -303,8 +303,6 @@ class TrainingCalculator
             'draftees' => 'military_draftees',
             'wizards' => 'military_wizards',
 
-            //New unit cost resources
-
             'food' => 'resource_food',
             'mana' => 'resource_mana',
             'gem' => 'resource_gems',
@@ -338,9 +336,9 @@ class TrainingCalculator
 
             foreach ($costs as $type => $value)
             {
-                if($value !== 0)
+                if($value != 0)
                 {
-                  $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
+                    $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
                 }
             }
 

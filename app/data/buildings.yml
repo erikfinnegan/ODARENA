@@ -888,7 +888,7 @@ well:
   land_type: water
   perks:
     food_production: 80
-    mana_production: 20
+    mana_production: 8
     jobs: 0
 
 # END SWARM

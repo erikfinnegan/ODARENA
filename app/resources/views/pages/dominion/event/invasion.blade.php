@@ -119,14 +119,6 @@
                                         </tr>
                                     @endif
                                     @endfor
-                                    @if (isset($event->data['attacker']['boatsLost']))
-                                        <tr>
-                                            <td>Boats</td>
-                                            <td>boats_sent</td>
-                                            <td>{{ number_format($event->data['attacker']['boatsLost']) }}</td>
-                                            <td>boats_returning</td>
-                                        </tr>
-                                    @endif
                             </table>
 
                             @if ($event->source->realm->id === $selectedDominion->realm->id)
@@ -533,14 +525,6 @@
                                         </tr>
                                     @endif
                                     @endfor
-                                    @if (isset($event->data['attacker']['boatsLost']))
-                                        <tr>
-                                            <td>Boats</td>
-                                            <td>boats_sent</td>
-                                            <td>{{ number_format($event->data['attacker']['boatsLost']) }}</td>
-                                            <td>boats_returning</td>
-                                        </tr>
-                                    @endif
                             </table>
 
                             @if ($event->target->realm->id === $selectedDominion->realm->id)
@@ -759,8 +743,9 @@
                                                 </tr>
                                             @endif
                                         @endforeach
+                                    @endif
 
-                                        @if (isset($event->data['defender']['crypt']['total'])) and $event->data['defender']['crypt']['total'] > 0)
+                                    @if (isset($event->data['defender']['crypt']['total'])) and $event->data['defender']['crypt']['total'] > 0)
                                         <tr>
                                             <th colspan="2">Crypt</th>
                                         </tr>
@@ -771,9 +756,9 @@
                                             <td>Bodies:</td>
                                             <td><span class="text-green">+{{ number_format($event->data['defender']['crypt']['total']) }}</span></td>
                                         </tr>
-                                        @endif
+                                    @endif
 
-                                        @if (isset($event->data['defender']['resource_conversion']) and array_sum($event->data['defender']['resource_conversion']) > 0)
+                                    @if (isset($event->data['defender']['resource_conversion']) and array_sum($event->data['defender']['resource_conversion']) > 0)
                                         <tr>
                                             <th colspan="2">New Resources</th>
                                         </tr>
@@ -791,8 +776,6 @@
                                                 </tr>
                                             @endif
                                         @endforeach
-                                        @endif
-
                                     @endif
                                 </tbody>
                             </table>

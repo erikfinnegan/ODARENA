@@ -161,7 +161,7 @@ class LandCalculator
         {
             foreach($barrenLandByLandType as $landType => $barren)
             {
-                $barrenLandByLandType[$landType] = max(0, $barren);
+            #    $barrenLandByLandType[$landType] = max(0, $barren);
             }
         }
 
