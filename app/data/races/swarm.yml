@@ -4,6 +4,7 @@ description: >-
   <p>Buildings under construction count as barren land for the purpose of Scorpion and Naga offensive power perk.</p>
 home_land_type: plain
 playable: 1
+experimental: 1
 
 peasants_alias: larva
 draftees_alias: cocoon
