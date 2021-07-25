@@ -1885,7 +1885,6 @@ gemcutting_level10:
 
 # </Ladder: Gemcutting>
 
-
 # <Ladder: Interest>
 
 gold_interest_level1:
@@ -2563,3 +2562,85 @@ deep_pockets_level10:
     - deep_pockets_level9
 
 # </Ladder: Spy Carry>
+
+# <Ladder: Gemcutting>
+
+budget_level1:
+  name: Budget
+  level: 1
+  perks:
+    - gold_invest_bonus: 12.5
+
+budget_level2:
+  name: Budget
+  level: 2
+  perks:
+    gold_invest_bonus: 25
+  requires:
+    - budget_level1
+
+budget_level3:
+  name: Budget
+  level: 3
+  perks:
+    gold_invest_bonus: 37.5
+  requires:
+    - budget_level2
+
+budget_level4:
+  name: Budget
+  level: 4
+  perks:
+    gold_invest_bonus: 50
+  requires:
+    - budget_level3
+
+budget_level5:
+  name: Budget
+  level: 5
+  perks:
+    gold_invest_bonus: 62.5
+  requires:
+    - budget_level4
+
+budget_level6:
+  name: Budget
+  level: 6
+  perks:
+    gold_invest_bonus: 75
+  requires:
+    - budget_level5
+
+budget_level7:
+  name: Budget
+  level: 7
+  perks:
+    gold_invest_bonus: 81.25
+  requires:
+    - budget_level6
+
+budget_level8:
+  name: Budget
+  level: 8
+  perks:
+    gold_invest_bonus: 87.5
+  requires:
+    - budget_level7
+
+budget_level9:
+  name: Budget
+  level: 9
+  perks:
+    gold_invest_bonus: 93.75
+  requires:
+    - budget_level8
+
+budget_level10:
+  name: Budget
+  level: 10
+  perks:
+    gold_invest_bonus: 100
+  requires:
+    - budget_level9
+
+# </Ladder: Gemcutting>

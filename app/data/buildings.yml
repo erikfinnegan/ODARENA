@@ -839,6 +839,7 @@ burrow:
   land_type: swamp
   perks:
     food_production: 40
+    jobs: 0
 
 cavern:
   name: Cavern
@@ -849,6 +850,7 @@ cavern:
   perks:
     gem_production: 12
     mana_production: 8
+    jobs: 0
 
 den:
   name: Den
@@ -877,6 +879,7 @@ tunnel:
   land_type: hill
   perks:
     faster_returning_units_increasing: 120,0.06 # faster returning units, increaser per tick
+    jobs: 0
 
 well:
   name: Aquifer
@@ -886,6 +889,7 @@ well:
   perks:
     food_production: 80
     mana_production: 20
+    jobs: 0
 
 # END SWARM
 

@@ -986,7 +986,7 @@ mind_control:
   name: Mind Control
   scope: self
   class: passive
-  cost: 20
+  cost: 10
   duration: 4
   cooldown: 0
   exclusive_races:
@@ -1010,8 +1010,8 @@ enthralling:
   name: Enthralling
   scope: hostile
   class: passive
-  cost: 20
-  duration: 4
+  cost: 5
+  duration: 8
   cooldown: 0
   exclusive_races:
     - Cult
@@ -1022,8 +1022,8 @@ cogency:
   name: Cogency
   scope: hostile
   class: passive
-  cost: 20
-  duration: 4
+  cost: 5
+  duration: 8
   cooldown: 0
   exclusive_races:
     - Cult
@@ -1034,8 +1034,8 @@ persuasion:
   name: Persuasion
   scope: hostile
   class: passive
-  cost: 20
-  duration: 4
+  cost: 6
+  duration: 8
   cooldown: 0
   exclusive_races:
     - Cult
@@ -1046,8 +1046,8 @@ treachery:
   name: Treachery
   scope: hostile
   class: passive
-  cost: 10
-  duration: 4
+  cost: 5
+  duration: 8
   cooldown: 0
   exclusive_races:
     - Cult

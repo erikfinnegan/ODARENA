@@ -265,7 +265,7 @@ class UnitHelper
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
 
-            'unit_production' => 'Produces %s per tick.',
+            'unit_production' => 'Produces %2$s %1$s per tick.',
 
             'attrition' => '%1$s%% attrition rate per tick.',
 
@@ -636,7 +636,8 @@ class UnitHelper
                 // Special case for unit_production
                 if ($perk->key === 'unit_production')
                 {
-                    $unitSlotToProduce = intval($perkValue[0]);
+                    $unitSlotToProduce = (int)$perkValue[0];
+                    $amountToProduce = (float)($perkValue[1]);
 
                     $unitToProduce = $race->units->filter(static function ($unit) use ($unitSlotToProduce) {
                         return ($unit->slot === $unitSlotToProduce);
@@ -644,7 +645,8 @@ class UnitHelper
 
                     $unitNameToProduce[] = str_plural($unitToProduce->name);
 
-                    $perkValue = generate_sentence_from_array($unitNameToProduce);
+                    $perkValue[0] = generate_sentence_from_array($unitNameToProduce);
+                    $perkValue[1] = $amountToProduce;
                 }
 
 
