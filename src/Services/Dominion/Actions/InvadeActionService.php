@@ -1739,7 +1739,7 @@ class InvadeActionService
                 $this->invasionResult['attacker']['unitsReturning'][$slot] = array_sum($unitKeyTicks);
             }
         }
-        dd($units, $returningUnits, 'last');
+        #dd($units, $returningUnits, 'last');
     }
 
     protected function handleDefensiveConversions(Dominion $defender, array $defensiveConversions): void
