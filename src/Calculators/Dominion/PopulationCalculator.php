@@ -542,7 +542,7 @@ class PopulationCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier('drafting');
 
         // Faction Perk
-        $multiplier += $dominion->race->getPerkMultiplier('drafting');
+        $multiplier += $dominion->race->getPerkValue('drafting');
 
         $growthFactor *= $multiplier;
 
