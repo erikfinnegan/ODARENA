@@ -24,7 +24,7 @@ perks:
   population_growth: 40
   reduced_conversions: 100
   no_gold_production: 1
-  can_invest_mana: 5
+  can_invest_mana: 4
   peasants_produce_mana: 0.2
   cannot_train_spies: 1
   cannot_train_wizards: 1
