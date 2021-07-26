@@ -1800,6 +1800,11 @@ class InvadeActionService
             # Festering Wounds
             $this->spellActionService->castSpell($defender, 'festering_wounds', $attacker, $isInvasionSpell);
         }
+
+        if($attacker->race->name == 'Legion' and $target->race->name == 'Barbarian' and $this->invasionResult['result']['success'])
+        {
+            $this->spellActionService->castSpell($attacker, 'annexation', $defender, $isInvasionSpell);
+        }
     }
 
     protected function handleResourceConversions(Dominion $attacker, Dominion $defender, float $landRatio): void

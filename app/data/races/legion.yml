@@ -17,7 +17,7 @@ perks:
   max_population: 20
 
 units:
-  - name: Soldier
+  - name: Infantry
     training_time: 6
     type:
       - living
@@ -26,14 +26,14 @@ units:
       gold: 500
       ore: 80
     power:
-      offense: 4
+      offense: 8
       defense: 4
     perks:
       wins_into: 2
       fends_off_into: 3
       pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
-  - name: Infantry
+  - name: Soldier
     training_time: 6
     type:
       - living
@@ -41,30 +41,28 @@ units:
     cost:
       gold: 200
       ore: 100
-      unit1: 1
     power:
       offense: 6
-      defense: 4
+      defense: 8
     perks:
       pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
-  - name: Homeguard
+  - name: Elite Guard
     training_time: 0
     type:
       - living
       - sentient
       - wise
     cost:
-      gold: 200
-      ore: 100
-      unit1: 1
+      unit1: 2
+      unit1: 2
     power:
-      offense: 4
-      defense: 6
+      offense: 16
+      defense: 16
     perks:
       pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
-  - name: Lieutenant
+  - name: Legate
     training_time: 12
     type:
       - living
