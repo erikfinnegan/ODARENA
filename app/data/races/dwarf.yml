@@ -24,9 +24,9 @@ units:
       - equipment
     cost:
       gold: 0
-      ore: 100000
-      mana: 500
-      gem: 150
+      ore: 60000
+      mana: 350
+      gem: 100
     power:
       offense: 0
       defense: 0
