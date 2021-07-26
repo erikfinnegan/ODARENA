@@ -1144,7 +1144,7 @@ rites_of_kinthys:
   exclusive_races:
     - Undead
   perks:
-    converts_crypt_bodies: 10,4,2 # every 10 unit4 creates 1 unit2
+    converts_crypt_bodies: 13,4,2 # every 10 unit4 creates 1 unit2
 
 curse_of_kinthys:
   name: Curse of Kinthys

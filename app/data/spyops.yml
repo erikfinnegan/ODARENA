@@ -296,7 +296,7 @@ devotion:
 propaganda:
   name: Propaganda
   scope: hostile
-  spy_strength: 10
+  spy_strength: 8
   exclusive_races:
     - Cult
   perks:
