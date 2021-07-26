@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-offset-12 col-xs-12 col-sm-offset-0 col-sm-4 col-lg-3">
+                    <div class="col-sm-6 col-lg-6">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block" {{ ($selectedDominion->isLocked() || $selectedDominion->hasPendingDeitySubmission()) ? 'disabled' : null }}>
                                 Submit To This Deity
@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-offset-12 col-xs-12 col-sm-offset-0 col-sm-4 col-lg-3">
+                    <div class="col-sm-6 col-lg-6">
                         <div class="form-group">
                             <select id="renounce-deity"  class="form-control">
                                 <option value="0">Renounce devotion?</option>
