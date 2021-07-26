@@ -285,7 +285,7 @@ sabotage_harbor:
     sabotage_improvement: farming,5 # resource, rate, max per spy
 
 devotion:
-  name: Devotion
+  name: Sabotage Temples
   scope: hostile
   spy_strength: 5
   exclusive_races:

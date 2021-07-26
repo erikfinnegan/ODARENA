@@ -20,6 +20,7 @@ use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\OpsHelper;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Building;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\InfoOp;
 use OpenDominion\Services\Dominion\HistoryService;
@@ -1065,10 +1066,12 @@ class EspionageActionService
                 if($perk->key === 'sabotage_building')
                 {
                     $attribute = 'building';
-                    $building = (string)$spyopPerkValues[0];
+                    $buildingKey = (string)$spyopPerkValues[0];
                     $ratio = (float)$spyopPerkValues[1] / 100;
 
-                    $targetBuildings = $target->{'building_' . $building};
+                    $building = Building::where('key',$buildingKey)->first();
+
+                    $targetBuildings = $this->buildingCalculator->getBuildingAmountOwned($target, $building);
 
                     $damage = $targetBuildings * $ratio;
                     $damage *= (1 + $this->getOpBaseDamageMultiplier($dominion, $target));
@@ -1076,8 +1079,8 @@ class EspionageActionService
 
                     $damage = (int)floor($damage);
 
-                    $this->buildingCalculator->removeBuildings($target, [$building => $damage]);
-                    $this->queueService->queueResources('sabotage', $target, ['building_' . $building => $damage], 6);
+                    $this->buildingCalculator->removeBuildings($target, [$buildingKey => $damage]);
+                    $this->queueService->queueResources('sabotage', $target, ['building_' . $buildingKey => $damage], 6);
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
                     $this->statsService->updateStat($dominion, 'espionage_damage_buildings', $damage);
