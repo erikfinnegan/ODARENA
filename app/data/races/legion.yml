@@ -30,7 +30,8 @@ units:
       defense: 4
     perks:
       wins_into: 2
-      fends_off_into: 3
+      some_fend_off_into: 3
+      some_win_into: 3
       pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
   - name: Soldier
@@ -45,6 +46,8 @@ units:
       offense: 6
       defense: 8
     perks:
+      some_fend_off_into: 3
+      some_win_into: 3
       pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
   - name: Elite Guard
@@ -69,13 +72,12 @@ units:
       - sentient
       - wise
     cost:
-      gold: 10000
+      gold: 100000
     power:
       offense: 0
       defense: 0
     perks:
       no_draftee: 1
-      net_victories_limit: 6,1 # victories, limit: max 1 Legate per 6 Victory
       sendable_with_zero_op: 1
       immortal_on_victory: 1
       immortal_on_fending_off: 1
