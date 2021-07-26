@@ -90,10 +90,10 @@ class ReleaseActionService
 
         $totalTroopsToRelease = array_sum($data);
 
-        $totalDrafteesToRelease = $data['draftees'];
-        $totalSpiesToRelease = $data['spies'];
-        $totalWizardsToRelease = $data['wizards'];
-        $totalArchmagesToRelease = $data['archmages'];
+        $totalDrafteesToRelease = isset($data['draftees']) ? $data['draftees'] : 0;
+        $totalSpiesToRelease = isset($data['spies']) ? $data['spies'] : 0;
+        $totalWizardsToRelease = isset($data['wizards']) ? $data['wizards'] : 0;
+        $totalArchmagesToRelease = isset($data['archmages']) ? $data['archmages'] : 0;
         $totalMilitaryUnitsToRelease = $data['unit1'] + $data['unit2'] + $data['unit3'] + $data['unit4'];
 
         # Must be releasing something.
