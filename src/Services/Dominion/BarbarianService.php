@@ -17,6 +17,7 @@ use OpenDominion\Models\Title;
 use OpenDominion\Factories\DominionFactory;
 
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Http\Requests\Dominion\Actions\InvadeActionRequest;
@@ -46,6 +47,7 @@ class BarbarianService
         $this->queueService = app(QueueService::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
+        $this->spellCalculator = app(SpellCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->dominionFactory = app(DominionFactory::class);
         $this->barbarianCalculator = app(BarbarianCalculator::class);
@@ -163,7 +165,7 @@ class BarbarianService
     {
         $invade = false;
 
-        if($dominion->race->name === 'Barbarian')
+        if($dominion->race->name === 'Barbarian' and !$this->spellCalculator->isAnnexed($dominion))
         {
             $logString = "\n[BARBARIAN]\n\t[invasion]\n";
             $logString .= "\t\tName: $dominion->name\n";

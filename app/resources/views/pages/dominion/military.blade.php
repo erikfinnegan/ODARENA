@@ -470,4 +470,56 @@
     </div>
 
 </div>
+
+@if($spellCalculator->hasAnnexedDominions($selectedDominion))
+<div class="row">
+    <div class="col-sm-9 col-md-9">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="ra ra-castle-flag"></i> Annexed dominions</h3>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Dominion</th>
+                            <th>Military Power</th>
+                            <th>Peasants</th>
+                            <th>Remaining</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($spellCalculator->getAnnexedDominions($selectedDominion) as $dominion)
+                            <tr>
+                                <td>{{ $dominion->name }}</td>
+                                <td>{{ number_format($militaryCalculator->getRawMilitaryPowerFromAnnexedDominion($dominion)) }}</td>
+                                <td>{{ number_format($dominion->peasants) }}</td>
+                                <td>{{ number_format($spellCalculator->getTicksRemainingOfAnnexation($selectedDominion, $dominion)) . ' ' . str_plural('tick', $spellCalculator->getTicksRemainingOfAnnexation($selectedDominion, $dominion)) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Information</h3>
+            </div>
+            <div class="box-body">
+                <p>You have annexed <b>{{ count($spellCalculator->getAnnexedDominions($selectedDominion)) . ' ' . str_plural('dominion', count($spellCalculator->getAnnexedDominions($selectedDominion))) }}</b>, providing you with an additional <b>{{ number_format($militaryCalculator->getRawMilitaryPowerFromAnnexedDominions($selectedDominion)) }}</b> raw offensive and defensive power.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+@endif
 @endsection

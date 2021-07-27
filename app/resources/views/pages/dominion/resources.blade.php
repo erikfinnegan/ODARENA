@@ -195,8 +195,18 @@
                         <td>{{ number_format($populationCalculator->getPopulation($selectedDominion)) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion)) }}</td>
                       </tr>
                       <tr>
-                        <td><span data-toggle="tooltip" data-placement="top" title="{{ round($populationCalculator->getPopulationBirthRaw($selectedDominion) * $populationCalculator->getPopulationBirthMultiplier($selectedDominion)) }}% growth per tick">{{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}</span>:</td>
-                        <td>{{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                        <td>{{ str_plural($raceHelper->getPeasantsTerm($selectedDominion->race)) }}</span>:</td>
+                        <td>
+
+                            @if ($annexedPeasants = $populationCalculator->getAnnexedPeasants($selectedDominion))
+
+                                {{ number_format($selectedDominion->peasants) }} (+{{ number_format($annexedPeasants) }} annexed) / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+
+
+                            @else
+                                {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
+                            @endif
+
                             @if ($selectedDominion->peasants_last_hour < 0)
                                 <span class="text-red">{{ number_format($selectedDominion->peasants_last_hour) }} last tick</span>
                             @elseif ($selectedDominion->peasants_last_hour > 0)

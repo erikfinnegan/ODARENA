@@ -32,6 +32,11 @@
                         @else
                             invaded
                         @endif
+
+                        @if($event->data['result']['annexation'])
+                            and annexed
+                        @endif
+
                         {{ $event->target->name }}
                         </span>
                     </h3>

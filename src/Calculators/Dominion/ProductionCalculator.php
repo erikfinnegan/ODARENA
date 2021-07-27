@@ -82,6 +82,14 @@ class ProductionCalculator
         {
             // Peasant Tax
             $gold += ($this->populationCalculator->getPopulationEmployed($dominion) * $peasantTax);
+
+            if($this->spellCalculator->hasAnnexedDominions($dominion))
+            {
+                foreach($this->spellCalculator->getAnnexedDominions($dominion) as $annexedDominion)
+                {
+                    $gold += $annexedDominion->peasants * $peasantTax;
+                }
+            }
         }
 
         // Buildings
@@ -919,5 +927,6 @@ class ProductionCalculator
 
         return min($drafteesGenerated, ($this->populationCalculator->getMaxPopulation($dominion) - $drafteesGrowthRate - $drafteesGenerated)/*+1000*/);
     }
+
 
 }

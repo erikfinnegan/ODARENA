@@ -797,7 +797,7 @@ class NotificationHelper
                         $resultString = "An icy wind sweeps in and freezes our shores, preventing us from sending out boats.";
                         break;
 
-                    # Invasion Spells
+                    # BEGIN Invasion Spells
                     case 'pestilence':
                         $resultString = "Our population has been afflicted by the Pestilence. Some of our people are dying.";
                         break;
@@ -818,11 +818,17 @@ class NotificationHelper
                         $resultString = "A Curse of Zidur has been placed upon our lands.";
                         break;
 
+                    case 'annexation':
+                        $resultString = "Our dominion has been annexed!";
+                        break;
+
+                    # END Invasion Spells
+
+                    # Faction spells
+
                     case 'purification':
                         $resultString = "{$data['damageString']} die from Tiranthael's Justice.";
                         break;
-
-                    # Faction spells
 
                     case 'solar_flare':
                         $resultString = "{$data['damageString']} vanish under Solar Flares.";

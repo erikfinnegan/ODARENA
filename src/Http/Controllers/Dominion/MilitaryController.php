@@ -16,10 +16,9 @@ use OpenDominion\Services\Dominion\Actions\Military\ChangeDraftRateActionService
 use OpenDominion\Services\Dominion\Actions\Military\TrainActionService;
 use OpenDominion\Services\Dominion\Actions\ReleaseActionService;
 use OpenDominion\Services\Dominion\QueueService;
-
-# ODA
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
@@ -48,6 +47,7 @@ class MilitaryController extends AbstractDominionController
             'raceHelper' => app(RaceHelper::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'returningResources' => $returningResources,
+            'spellCalculator' => app(SpellCalculator::class),
         ]);
     }
 

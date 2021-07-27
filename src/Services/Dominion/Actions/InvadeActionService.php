@@ -315,6 +315,7 @@ class InvadeActionService
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
             $this->handleMindControl($target, $dominion, $units);
+            $this->handleAnnexedDominions($dominion, $target, $units);
 
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
@@ -444,7 +445,6 @@ class InvadeActionService
                 dd($this->invasionResult);
             }
 
-            // todo: move to GameEventService
             if(isset($support))
             {
                 $this->invasionEvent = GameEvent::create([
@@ -1801,10 +1801,15 @@ class InvadeActionService
             $this->spellActionService->castSpell($defender, 'festering_wounds', $attacker, $isInvasionSpell);
         }
 
-        if($attacker->race->name == 'Legion' and $target->race->name == 'Barbarian' and $this->invasionResult['result']['success'])
+        if($attacker->race->name == 'Legion' and $defender->race->name == 'Barbarian' and $this->invasionResult['result']['success'])
         {
             $this->spellActionService->castSpell($attacker, 'annexation', $defender, $isInvasionSpell);
+            $this->invasionResult['result']['annexation'] = true;
         }
+        #else
+        #{
+        #    $this->invasionResult['result']['annexation'] = false;
+        #}
     }
 
     protected function handleResourceConversions(Dominion $attacker, Dominion $defender, float $landRatio): void

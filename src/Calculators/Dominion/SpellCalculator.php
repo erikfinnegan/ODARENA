@@ -351,4 +351,36 @@ class SpellCalculator
         return Dominion::findorfail($dominionSpell->caster_id);
     }
 
+    public function getAnnexedDominions(Dominion $legion): Collection
+    {
+        $spell = Spell::where('key', 'annexation')->first();
+        $annexedDominions = collect();
+
+        foreach(DominionSpell::where('caster_id',$legion->id)->where('spell_id', $spell->id)->get() as $dominionSpell)
+        {
+            $annexedDominions->prepend(Dominion::findorfail($dominionSpell->dominion_id));
+        }
+
+        return $annexedDominions;
+    }
+
+    public function hasAnnexedDominions(Dominion $legion): bool
+    {
+        $spell = Spell::where('key', 'annexation')->first();
+        return DominionSpell::where('caster_id',$legion->id)->where('spell_id', $spell->id)->first() ? true : false;
+    }
+
+    public function isAnnexed(Dominion $dominion): bool
+    {
+        $spell = Spell::where('key', 'annexation')->first();
+        return DominionSpell::where('dominion_id',$dominion->id)->where('spell_id', $spell->id)->first() ? true : false;
+    }
+
+    public function getTicksRemainingOfAnnexation(Dominion $legion, Dominion $dominion): int
+    {
+        $spell = Spell::where('key', 'annexation')->first();
+        return DominionSpell::where('caster_id',$legion->id)->where('dominion_id',$dominion->id)->where('spell_id', $spell->id)->first()->duration;
+
+    }
+
 }

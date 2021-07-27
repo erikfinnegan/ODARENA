@@ -186,6 +186,8 @@ class MilitaryCalculator
             $op += ($powerOffense * $numberOfUnits);
         }
 
+        $op += $this->getRawMilitaryPowerFromAnnexedDominions($attacker, 'offense');
+
         return $op;
     }
 
@@ -399,13 +401,12 @@ class MilitaryCalculator
             $dp += $defender->getBuildingPerkValue('raw_defense');
         }
 
-        // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10%, which get by doing $forestRatio/5)
+        $dp += $this->getRawMilitaryPowerFromAnnexedDominions($defender);
+
+        // Beastfolk: Ambush
         if($isAmbush)
         {
-            #echo "<pre>\tAmbush!\t";
-            #echo 'Reduction: ' . $this->getRawDefenseAmbushReductionRatio($attacker) . '%, lowering $dp from '. $dp;
             $dp = $dp * (1 - $this->getRawDefenseAmbushReductionRatio($attacker));
-            #echo ' to '. $dp . '</pre>';
         }
 
         // Cult: Mind Controlled units provide 2 DP each
@@ -2157,6 +2158,34 @@ class MilitaryCalculator
     public function getNetVictories(Dominion $dominion): int
     {
         return $this->statsService->getStat($dominion, 'invasion_victories') - $this->statsService->getStat($dominion, 'defense_failures');
+    }
+
+    public function getRawMilitaryPowerFromAnnexedDominion(Dominion $dominion): int
+    {
+        $militaryPower = 0;
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                return ($unit->slot == $slot);
+            })->first();
+            $op = $unit->power_offense;
+
+            $militaryPower += $dominion->{'military_unit'.$slot} * $unit->power_offense;
+        }
+
+        return $militaryPower;
+    }
+
+    public function getRawMilitaryPowerFromAnnexedDominions(Dominion $legion): int
+    {
+        $militaryPower = 0;
+
+        foreach($this->spellCalculator->getAnnexedDominions($legion) as $dominion)
+        {
+            $militaryPower += $this->getRawMilitaryPowerFromAnnexedDominion($dominion);
+        }
+
+        return $militaryPower;
     }
 
 }
