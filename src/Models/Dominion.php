@@ -743,6 +743,15 @@ class Dominion extends AbstractModel
                           # Improvements
                           or $perkKey == 'improvements_capped'
                           or $perkKey == 'improvement_interest'
+                          or $perkKey == 'invest_bonus'                    
+                          or $perkKey == 'gold_invest_bonus'
+                          or $perkKey == 'food_invest_bonus'
+                          or $perkKey == 'ore_invest_bonus'
+                          or $perkKey == 'lumber_invest_bonus'
+                          or $perkKey == 'mana_invest_bonus'
+                          or $perkKey == 'blood_invest_bonus'
+                          or $perkKey == 'soul_invest_bonus'
+
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);

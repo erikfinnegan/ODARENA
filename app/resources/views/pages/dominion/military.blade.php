@@ -103,7 +103,7 @@
 
                                         <td class="text-center">  <!-- Cost -->
                                             @if ($selectedDominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'cannot_be_trained'))
-                                              &mdash;
+                                                &mdash;
                                             @else
                                                 @php
                                                     // todo: move this shit to view presenter or something
@@ -411,7 +411,9 @@
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">Housing</h3>
-                <a href="{{ route('dominion.military.release') }}" class="pull-right">Release Units</a>
+                @if(!$selectedDominion->race->getPerkValue('cannot_release_units'))
+                    <a href="{{ route('dominion.military.release') }}" class="pull-right">Release Units</a>
+                @endif
             </div>
             <form action="{{ route('dominion.military.change-draft-rate') }}" method="post" role="form">
                 @csrf

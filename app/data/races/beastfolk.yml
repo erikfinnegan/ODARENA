@@ -22,36 +22,11 @@ skill_level: 2
 construction_materials: gold,lumber
 
 perks:
-  extra_barren_max_population: 10
-  cannot_improve_castle: 1
-  cannot_train_archmages: 1
-  max_population: 10
+  extra_barren_forest_max_population: 25
   land_improvements: 1
+  can_invest_blood_only: 1000
+
 units:
-  - name: Boarman
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 265
-      ore: 25
-    power:
-      offense: 3
-      defense: 0
-  - name: Ram
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 325
-      ore: 25
-    power:
-      offense: 0
-      defense: 4
   - name: Goat Witch
     training_time: 12
     type:
@@ -59,15 +34,43 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 900
-      ore: 0
+      gold: 600
     power:
-      offense: 5
-      defense: 3
+      offense: 0
+      defense: 8
     perks:
-      defense_from_land: forest,10,3 # land type, ratio%, max
       counts_as_wizard_offense: 0.50
       counts_as_wizard_defense: 0.25
+  - name: Boar Man
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 1200
+      ore: 100
+    power:
+      offense: 10
+      defense: 7
+    perks:
+      offense_from_spell: ambush,2
+      kills_into_resources_per_value: 0.1;blood,6;food # each 1 OP/DP killed becomes
+  - name: Blood Horn
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 1200
+      ore: 100
+    power:
+      offense: 10
+      defense: 7
+    perks:
+      offense_if_target_recently_invaded: 2
+      kills_into_resource_per_value: 0.3,blood
   - name: Minotaur
     training_time: 12
     type:
@@ -75,10 +78,11 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1000
+      gold: 1200
       ore: 100
     power:
-      offense: 7
-      defense: 2
+      offense: 10
+      defense: 7
     perks:
-      defense_from_land: forest,10,3 # land type, ratio%, max
+      offense_if_target_is_larger: 2
+      kills_into_resources_per_value: 0.15;blood,4;food # each 1 OP/DP killed becomes

@@ -61,9 +61,12 @@ class ImprovementHelper
 
             'offensive_power' => 'offensive power',
             'defensive_power' => 'defensive power',
+
             'casualties' => 'casualties',
             'offensive_casualties' => 'offensive casualties',
             'defensive_casualties' => 'defensive casualties',
+            'increases_casualties' => 'enemy casualties',
+
             'defensive_modifier_reduction' => 'reduced defensive modifiers for target',
 
             'prestige_gains' => 'prestige gains',

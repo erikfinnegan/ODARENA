@@ -739,6 +739,7 @@ wizardry_wood_elf:
 # END WOOD ELF #
 
 # BEGIN ARMADA #
+
 harbour:
   name: Harbour
   exclusive_races:
@@ -748,3 +749,24 @@ harbour:
     unit_pairing: 45,5000
 
 # END ARMADA #
+
+
+# BEGIN BEASTFOLK #
+
+safety:
+  name: Safety
+  exclusive_races:
+    - Beastfolk
+  perks:
+    defensive_power: 100,5000
+    casualties: 100,5000
+
+brutality:
+  name: Brutality
+  exclusive_races:
+    - Beastfolk
+  perks:
+    offensive_power: 100,5000
+    increases_casualties: 50,4000
+
+# END BEASTFOLK #

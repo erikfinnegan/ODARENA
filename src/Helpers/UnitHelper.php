@@ -102,6 +102,11 @@ class UnitHelper
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
 
+            'offense_if_target_recently_invaded' => 'Offense increased by %1$s if target was invaded (in the last six hours, includes non-overwhelmed failed invasions).',
+            'defense_if_target_recently_invaded' => 'Defense increased by %1$s if invader was invaded (in the last six hours, includes non-overwhelmed failed invasions).',
+
+            'offense_if_target_is_larger' => 'Offense increased by %1$s if target is larger than you.',
+
             'offense_per_tick' => 'Offense increased by %1$s for tick hour of the round (max +%2$s).',
             'defense_per_tick' => 'Defense increased by %1$s for tick hour of the round (max +%2$s).',
 
@@ -118,6 +123,7 @@ class UnitHelper
             'defense_from_resource' => 'Defense increased by 1 for every %2$s %1$s (max +%3$s).',
 
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
+
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only successful attacks over 75%% count as victories.',
             'defense_from_victories' => 'Defense increased by %1$s for every victory (max +%2$s). Only successful attacks over 75%% count as victories.',
 
@@ -210,6 +216,10 @@ class UnitHelper
             'wins_into' => 'Upon successul invasion, returns as %s.',
             'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+
+            'some_win_into' => 'Upon successul invasion, %1$s%% of these units returns as %2$s.',
+            'some_fend_off_into' => 'Upon successully fending off invasion, %1$s%% of these units become %2$s.',
+            'some_die_into' => 'Upon death, %1$s%% of these units become %2$s.',
 
             'dies_into_resource' => 'Upon death, returns as %1$s %2$s.',
             'dies_into_resource_on_success' => 'Upon death on successful invasions or upon death on successfully fending off, returns as %1$s %2$s.',
@@ -305,6 +315,8 @@ class UnitHelper
 
             // Other
             'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
+            'adds_morale' => 'Increases base morale by %s%%.',
+
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
             'stuns_units' => 'Stuns some units with up to %1$s DP for %2$s ticks, whereafter the units return unharmed.',
 
@@ -382,6 +394,8 @@ class UnitHelper
                     {
                         $perkValue[2] = 1;
                     }
+
+                    $perkValue[1] = number_format($perkValue[1]);
                 }
 
                 // Special case for casualties, casualties_on_defense, and casualties_on_offense
@@ -579,6 +593,25 @@ class UnitHelper
                     }
 
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
+                }
+
+                // Special case for some_die_into, some_win_into, some_fend_off_into
+                if (
+                      $perk->key === 'some_die_into'
+                      or $perk->key === 'some_win_into'
+                      or $perk->key === 'some_fend_off_into'
+                  )
+                {
+                    $ratio = (float)$perkValue[0];
+                    $unitSlotsToConvertTo = (int)$perkValue[1];
+                    $unitNamesToConvertTo = [];
+
+                    $unitToConvertTo = $race->units->filter(static function ($unit) use ($unitSlotsToConvertTo) {
+                        return ($unit->slot === $unitSlotsToConvertTo);
+                    })->first();
+
+                    $perkValue[0] = $ratio;
+                    $perkValue[1] = $unitToConvertTo->name;;
                 }
 
                 // Special case for returns faster if pairings

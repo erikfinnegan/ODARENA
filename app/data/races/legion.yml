@@ -2,7 +2,8 @@ name: Legion
 alignment: evil
 description: Starts with one Legate.
 home_land_type: hill
-playable: 0
+playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 0
@@ -13,8 +14,7 @@ construction_materials: gold,lumber
 
 perks:
   salvaging: 80
-  food_consumption: -20
-  max_population: 20
+  cannot_release_units: 1
 
 units:
   - name: Infantry
@@ -23,31 +23,30 @@ units:
       - living
       - sentient
     cost:
-      gold: 500
-      ore: 80
+      gold: 600
+      ore: 200
     power:
       offense: 8
       defense: 4
     perks:
-      wins_into: 2
-      some_fend_off_into: 3
-      some_win_into: 3
+      some_fend_off_into: 2.5,3 # ratio, slot
+      some_win_into: 5,3 # ratio, slot
       pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
-  - name: Soldier
+  - name: Protector
     training_time: 6
     type:
       - living
       - sentient
     cost:
-      gold: 200
-      ore: 100
+      gold: 700
+      ore: 200
     power:
       offense: 6
       defense: 8
     perks:
-      some_fend_off_into: 3
-      some_win_into: 3
+      some_fend_off_into: 2.5,3 # ratio, slot
+      some_win_into: 5,3 # ratio, slot
       pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
   - name: Elite Guard
@@ -57,13 +56,14 @@ units:
       - sentient
       - wise
     cost:
-      unit1: 2
-      unit1: 2
+      gold: 0
     power:
-      offense: 16
-      defense: 16
+      offense: 12
+      defense: 12
     perks:
-      pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
+      cannot_be_trained: 1
+      casualties: -50
+      increases_prestige_gains: 0.50
 
   - name: Legate
     training_time: 12
@@ -72,12 +72,10 @@ units:
       - sentient
       - wise
     cost:
-      gold: 100000
+      gold: 500000
     power:
       offense: 0
       defense: 0
     perks:
-      no_draftee: 1
-      sendable_with_zero_op: 1
-      immortal_on_victory: 1
-      immortal_on_fending_off: 1
+      net_victories_limit: 1,1
+      adds_morale: 5

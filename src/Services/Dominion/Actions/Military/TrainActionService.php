@@ -359,25 +359,25 @@ class TrainActionService
             $victoriesLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'net_victories_limit');
             if($victoriesLimit)
             {
-              // We have building limit for this unit.
-              $victoriesLimit = (int)$victoriesLimit[0]; # How many Net Victories we need
-              $unitsPerVictories = (int)$victoriesLimit[1]; # Number of units per Net Victories number
+                // We have building limit for this unit.
+                $victoriesLimit = (int)$victoriesLimit[0]; # How many Net Victories we need
+                $unitsPerVictories = (int)$victoriesLimit[1]; # Number of units per Net Victories number
 
-              $netVictories = $this->militaryCalculator->getNetVictories($dominion);
+                $netVictories = $this->militaryCalculator->getNetVictories($dominion);
 
-              $upperLimit = intval($netVictories / $victoriesLimit);
+                $upperLimit = intval($netVictories / $victoriesLimit);
 
-              if( # Units trained + Units in Training + Units in Queue + Units to Train
-                  (($dominion->{'military_unit' . $unitSlot} +
-                    $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                    $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                    $amountToTrain))
-                  >
-                  $upperLimit
-                )
-              {
-                throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must be more victorious (net successful invasions over 75%).');
-              }
+                if( # Units trained + Units in Training + Units in Queue + Units to Train
+                    (($dominion->{'military_unit' . $unitSlot} +
+                      $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $amountToTrain))
+                    >
+                    $upperLimit
+                  )
+                {
+                    throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must be more victorious (net successful invasions over 75%).');
+                }
             }
             # Victories limit check complete.
             # Check for advancements required limit.

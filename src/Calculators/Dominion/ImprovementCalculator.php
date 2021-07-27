@@ -22,7 +22,7 @@ class ImprovementCalculator
          $this->landCalculator = app(LandCalculator::class);
      }
 
-    public function getResourceWorthRaw(string $resource, ?Dominion $dominion): float
+    public function getResourceWorthRaw(string $resource, Dominion $dominion = null, int $population = 0): float
     {
         # Standard values;
         $worth = [
@@ -48,6 +48,19 @@ class ImprovementCalculator
         if($dominion->race->getPerkValue('can_invest_soul'))
         {
             $worth['soul'] = $dominion->race->getPerkValue('can_invest_soul');
+        }
+
+        # Soul investments
+        if($dominion->race->getPerkValue('can_invest_blood'))
+        {
+            $worth['blood'] = $dominion->race->getPerkValue('can_invest_blood');
+        }
+
+        # Soul investments
+        if($dominion->race->getPerkValue('can_invest_blood_only'))
+        {
+            unset($worth);
+            return $dominion->race->getPerkValue('can_invest_blood_only');
         }
 
         return $worth[$resource];

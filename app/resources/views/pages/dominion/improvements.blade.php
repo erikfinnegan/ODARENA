@@ -111,6 +111,8 @@
                             <select name="resource" class="form-control">
                                 @if ((bool)$selectedDominion->race->getPerkValue('tissue_improvement'))
                                     <option value="food" data-amount="{{ $selectedDominion->resource_food }}" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
+                                @elseif ($selectedDominion->race->getPerkValue('can_invest_blood_only'))
+                                    <option value="blood" data-amount="{{ $selectedDominion->resource_blood }}" {{ $selectedResource  === 'blood' ? 'selected' : ''}}>Blood</option>
                                 @else
                                     @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))
                                         <option value="mana" data-amount="{{ $selectedDominion->resource_mana }}" {{ $selectedResource  === 'mana' ? 'selected' : ''}}>Mana</option>
@@ -120,6 +122,9 @@
                                     @endif
                                     @if ((bool)$selectedDominion->race->getPerkValue('can_invest_food'))
                                         <option value="food" data-amount="{{ $selectedDominion->resource_food }}" {{ $selectedResource  === 'food' ? 'selected' : ''}}>Food</option>
+                                    @endif
+                                    @if ((bool)$selectedDominion->race->getPerkValue('can_invest_blood'))
+                                        <option value="blood" data-amount="{{ $selectedDominion->resource_blood }}" {{ $selectedResource  === 'blood' ? 'selected' : ''}}>Blood</option>
                                     @endif
                                     <option value="gems" data-amount="{{ $selectedDominion->resource_gems }}" {{ $selectedDominion->most_recent_improvement_resource  === 'gems' ? 'selected' : ''}}>Gems</option>
                                     <option value="lumber" data-amount="{{ $selectedDominion->resource_lumber }}" {{ $selectedDominion->most_recent_improvement_resource  === 'lumber' ? 'selected' : ''}}>Lumber</option>
@@ -179,12 +184,12 @@
                           </tr>
                         </thead>
                       <tbody>
-                      @if ((bool)$selectedDominion->race->getPerkValue('tissue_improvement'))
+                      @if ($selectedDominion->race->getPerkValue('can_invest_blood_only'))
                         <tr>
-                          <td>Food</td>
-                          <td>{{ number_format($improvementCalculator->getResourceWorth('food', $selectedDominion),2) }}</td>
-                          <td>{{ $improvementCalculator->getResourceWorthRaw('food', $selectedDominion) }}</td>
-                          <td>{{ $improvementCalculator->getResourceWorthMultipler('food', $selectedDominion)*100 }}%</td>
+                          <td>Blood</td>
+                          <td>{{ number_format($improvementCalculator->getResourceWorth('blood', $selectedDominion),2) }}</td>
+                          <td>{{ number_format($improvementCalculator->getResourceWorthRaw('blood', $selectedDominion),2) }}</td>
+                          <td>{{ $improvementCalculator->getResourceWorthMultipler('blood', $selectedDominion)*100 }}%</td>
                         </tr>
                       @else
                           @if ((bool)$selectedDominion->race->getPerkValue('can_invest_mana'))

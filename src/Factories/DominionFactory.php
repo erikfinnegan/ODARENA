@@ -321,6 +321,12 @@ class DominionFactory
             $startingResources['mana'] *= 2;
         }
 
+        // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
+        if($race->name == 'Legion')
+        {
+            $startingResources['unit4'] = 1;
+        }
+
         // Yeti: starting yetis.
         if($race->name == 'Yeti')
         {

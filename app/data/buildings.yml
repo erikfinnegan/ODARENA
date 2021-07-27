@@ -903,15 +903,27 @@ mycelia:
     food_production: 4
     jobs: 0
 
+# BEGIN BEASTFOLK
+
 camp:
   name: Camp
   exclusive_races:
     - Beastfolk
   land_type: forest
   perks:
-    unit_gold_costs: 1,2.5,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
-    unit_ore_costs: 1,2,40 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_gold_costs: 1,2,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_ore_costs: 1,2,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
     military_housing: 8
+
+bloodstone:
+  name: Bloodstone
+  exclusive_races:
+    - Beastfolk
+  land_type: mountain
+  perks:
+    blood_invest_bonus: 1,5,100 # Every 1% gives 2.5% improvement points, max +100% improvements from blood
+
+# END BEASTFOLK
 
 blast_furnace:
   name: Blast Furnace
@@ -959,6 +971,7 @@ barracks:
     - Growth
     - Icekin
     - Jagunii
+    - Legion
     - Marshling
     - Merfolk
     - Myconid
@@ -1116,7 +1129,6 @@ grove:
     housing: 30
     jobs: 0
 
-
 meadow:
   name: Meadow
   exclusive_races:
@@ -1160,9 +1172,20 @@ orcish_longhouse:
 garrison:
   name: Garrison
   exclusive_races:
-    - Orc
     - Black Orc
+    - Orc
   land_type: forest
+  perks:
+    housing: 0
+    military_housing: 60
+    jobs: 0
+
+
+legion_garrison:
+  name: Garrison
+  exclusive_races:
+    - Legion
+  land_type: plain
   perks:
     housing: 0
     military_housing: 60

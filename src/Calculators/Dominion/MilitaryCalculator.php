@@ -537,6 +537,8 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
             $unitPower += $this->getUnitPowerFromVersusSpellPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromTargetRecentlyInvadedPerk($dominion, $target, $unit, $powerType, $calc);
+            $unitPower += $this->getUnitPowerFromTargetIsLargerPerk($dominion, $target, $unit, $powerType, $calc);
         }
 
         return $unitPower;
@@ -912,6 +914,30 @@ class MilitaryCalculator
         if($this->getRecentlyInvadedCount($dominion) > 0)
         {
           $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_recently_invaded");
+        }
+
+        return $amount;
+    }
+
+    protected function getUnitPowerFromTargetRecentlyInvadedPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
+    {
+        $amount = 0;
+
+        if(isset($target) and $this->getRecentlyInvadedCount($target) > 0)
+        {
+            $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_target_recently_invaded");
+        }
+
+        return $amount;
+    }
+
+    protected function getUnitPowerFromTargetIsLargerPerk(Dominion $dominion, Dominion $target = null, Unit $unit, string $powerType): float
+    {
+        $amount = 0;
+
+        if(isset($target) and $this->landCalculator->getTotalLand($target) > $this->landCalculator->getTotalLand($dominion))
+        {
+            $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_target_is_larger");
         }
 
         return $amount;
@@ -1963,6 +1989,10 @@ class MilitaryCalculator
             {
                 # $increasesMorale is 1 for Immortal Guard and 2 for Immortal Knight
                 $unitsIncreasingMorale += $this->getTotalUnitsForSlot($dominion, $slot) * $increasesMorale;
+            }
+            if($addsMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'adds_morale'))
+            {
+                $modifier += $addsMorale/100;
             }
         }
 

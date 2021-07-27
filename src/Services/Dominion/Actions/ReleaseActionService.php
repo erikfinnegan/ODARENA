@@ -86,6 +86,11 @@ class ReleaseActionService
             throw new GameException('You cannot release units while you are in stasis.');
         }
 
+        if($dominion->race->getPerkValue('cannot_release_units'))
+        {
+            throw new GameException($dominion->race->name . ' cannot release units.');
+        }
+
         $troopsReleased = [];
 
         $totalTroopsToRelease = array_sum($data);
