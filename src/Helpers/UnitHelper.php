@@ -102,8 +102,8 @@ class UnitHelper
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
 
-            'offense_per_tick' => 'Offense increased by %1$s for tick hour of the round (max +%2$s).',
-            'defense_per_tick' => 'Defense increased by %1$s for tick hour of the round (max +%2$s).',
+            'offense_per_tick' => 'Offense increased by %1$s per tick (max +%2$s).',
+            'defense_per_tick' => 'Defense increased by %1$s per tick (max +%2$s).',
 
             'offense_from_time' => 'Offense increased by %3$s between %1$s:00 and %2$s:00.',
             'defense_from_time' => 'Defense increased by %3$s between %1$s:00 and %2$s:00.',
