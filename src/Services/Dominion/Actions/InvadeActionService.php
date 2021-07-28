@@ -2728,8 +2728,6 @@ class InvadeActionService
         # Check for Ambush
         $this->isAmbush = false;
 
-        #dd($this->militaryCalculator->getRawDefenseAmbushReductionRatio($attacker));
-
         if($this->militaryCalculator->getRawDefenseAmbushReductionRatio($attacker) > 0)
         {
             $this->isAmbush = true;
