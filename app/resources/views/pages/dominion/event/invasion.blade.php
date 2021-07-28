@@ -33,7 +33,7 @@
                             invaded
                         @endif
 
-                        @if($event->data['result']['annexation'])
+                        @if(isset($event->data['result']['annexation']) and $event->data['result']['annexation'] == TRUE)
                             and annexed
                         @endif
 
@@ -95,13 +95,11 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
-                                                    @if (isset($event->data['attacker']['unitsSent'][$slot]))
-                                                      {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
-                                                    @else
-                                                      0
-                                                    @endif
-                                                </span>
+                                                @if (isset($event->data['attacker']['unitsSent'][$slot]))
+                                                  {{ number_format($event->data['attacker']['unitsSent'][$slot]) }}
+                                                @else
+                                                  0
+                                                @endif
                                             </td>
                                             <td>
                                                 @if (isset($event->data['attacker']['unitsLost'][$slot]))
@@ -125,6 +123,77 @@
                                     @endif
                                     @endfor
                             </table>
+
+                            @if(isset($event->data['attacker']['annexation']['hasAnnexedDominions']) and $event->data['attacker']['annexation']['hasAnnexedDominions'] > 0)
+                                @foreach($event->data['attacker']['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
+                                    @php
+                                        $annexedDominion = OpenDominion\Models\Dominion::findorfail($annexedDominionId);
+                                    @endphp
+                                    <div class="text-center">
+                                        <h4>{{ $annexedDominion->name }}</h4>
+                                    </div>
+                                    <table class="table">
+                                        <colgroup>
+                                            <col width="25%">
+                                            <col width="25%">
+                                            <col width="25%">
+                                            <col width="25%">
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>Unit</th>
+                                                <th>Sent</th>
+                                                <th>Lost</th>
+                                                <th>Returning</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for ($slot = 1; $slot <= 4; $slot++)
+                                            @if((isset($annexedDominionData['unitsSent'][$slot]) and $annexedDominionData['unitsSent'][$slot] > 0) or
+                                                (isset($annexedDominionData['unitsLost'][$slot]) and $annexedDominionData['unitsLost'][$slot] > 0) or
+                                                (isset($annexedDominionData['unitsReturning'][$slot]) and $annexedDominionData['unitsReturning'][$slot] > 0)
+                                                )
+
+                                                @php
+                                                    $unitType = "unit{$slot}";
+                                                @endphp
+                                                <tr>
+                                                    <td>
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $annexedDominion->race) }}">
+                                                            {{ $annexedDominion->race->units->where('slot', $slot)->first()->name }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($annexedDominionData['unitsSent'][$slot]))
+                                                          {{ number_format($annexedDominionData['unitsSent'][$slot]) }}
+                                                        @else
+                                                          0
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($annexedDominionData['unitsLost'][$slot]))
+                                                          {{ number_format($annexedDominionData['unitsLost'][$slot]) }}
+                                                        @else
+                                                          0
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                      @if ($event->source->realm->id === $selectedDominion->realm->id)
+                                                          @if (isset($annexedDominionData['unitsReturning'][$slot]))
+                                                            {{ number_format($annexedDominionData['unitsReturning'][$slot]) }}
+                                                          @else
+                                                            0
+                                                          @endif
+                                                      @else
+                                                            <span class="text-muted">?</span>
+                                                      @endif
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @endfor
+                                    </table>
+                                @endforeach
+                            @endif
 
                             @if ($event->source->realm->id === $selectedDominion->realm->id)
                             <table class="table">
@@ -530,7 +599,66 @@
                                         </tr>
                                     @endif
                                     @endfor
+                                </tbody>
                             </table>
+
+                            @if(isset($event->data['defender']['annexation']['hasAnnexedDominions']) and $event->data['defender']['annexation']['hasAnnexedDominions'] > 0)
+                                @foreach($event->data['defender']['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
+                                    @php
+                                        $annexedDominion = OpenDominion\Models\Dominion::findorfail($annexedDominionId);
+                                    @endphp
+                                    <div class="text-center">
+                                        <h4>{{ $annexedDominion->name }}</h4>
+                                    </div>
+                                    <table class="table">
+                                        <colgroup>
+                                            <col width="34%">
+                                            <col width="33%">
+                                            <col width="33%">
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>Unit</th>
+                                                <th>Defending</th>
+                                                <th>Lost</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for ($slot = 1; $slot <= 4; $slot++)
+                                            @if((isset($annexedDominionData['unitsSent'][$slot]) and $annexedDominionData['unitsSent'][$slot] > 0) or
+                                                (isset($annexedDominionData['unitsLost'][$slot]) and $annexedDominionData['unitsLost'][$slot] > 0) or
+                                                (isset($annexedDominionData['unitsReturning'][$slot]) and $annexedDominionData['unitsReturning'][$slot] > 0)
+                                                )
+
+                                                @php
+                                                    $unitType = "unit{$slot}";
+                                                @endphp
+                                                <tr>
+                                                    <td>
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $annexedDominion->race) }}">
+                                                            {{ $annexedDominion->race->units->where('slot', $slot)->first()->name }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($annexedDominionData['unitsSent'][$slot]))
+                                                          {{ number_format($annexedDominionData['unitsSent'][$slot]) }}
+                                                        @else
+                                                          0
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($annexedDominionData['unitsLost'][$slot]))
+                                                          {{ number_format($annexedDominionData['unitsLost'][$slot]) }}
+                                                        @else
+                                                          0
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @endfor
+                                    </table>
+                                @endforeach
+                            @endif
 
                             @if ($event->target->realm->id === $selectedDominion->realm->id)
                             <table class="table">
@@ -750,7 +878,7 @@
                                         @endforeach
                                     @endif
 
-                                    @if (isset($event->data['defender']['crypt']['total'])) and $event->data['defender']['crypt']['total'] > 0)
+                                    @if (isset($event->data['defender']['crypt']['total']) and $event->data['defender']['crypt']['total'] > 0)
                                         <tr>
                                             <th colspan="2">Crypt</th>
                                         </tr>

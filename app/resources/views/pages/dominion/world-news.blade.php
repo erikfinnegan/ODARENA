@@ -93,10 +93,6 @@
                                                 <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-yellow">{{ $gameEvent->source->name }}</span></a>
                                                 <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>
                                                 {{ $gameEvent['data']['type'] }} a nearby {{ $gameEvent['data']['target'] }} and captured <span class="text-yellow text-bold">{{ number_format($gameEvent['data']['land']) }}</span> land.
-                                            @elseif ($gameEvent->type === 'war_declared')
-                                                <a href="{{ route('dominion.realm', [$gameEvent->source->number]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span> (#{{ $gameEvent->source->number }})</a> has declared <span class="text-red text-bold">WAR</span> on <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span> (#{{ $gameEvent->target->number }})</a>.
-                                            @elseif ($gameEvent->type === 'war_canceled')
-                                                <a href="{{ route('dominion.realm', [$gameEvent->source->number]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span> (#{{ $gameEvent->source->number }})</a> has <span class="text-green text-bold">CANCELED</span> war against realm <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span> (#{{ $gameEvent->target->number }})</a>.
                                             @elseif ($gameEvent->type === 'new_dominion')
                                                 @php
                                                 if($gameEvent->target->alignment == 'evil')
@@ -128,9 +124,6 @@
                                                 {
                                                     $verb = 'randomly ' . $verb;
                                                 }
-
-
-
                                                 @endphp
 
                                                 The {{ $raceHelper->getRaceAdjective($gameEvent->source->race) }} dominion of <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a>, led by <em>{{ $gameEvent->source->title->name }}</em> {{ $gameEvent->source->ruler_name }}, {{ $verb }} the
@@ -150,6 +143,8 @@
                                                 <a href="{{ route('dominion.op-center.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a> has renounced <span class="text-orange">{{ $gameEvent->source->name }}</span>.
                                             @elseif ($gameEvent->type === 'deity_completed')
                                                 <span class="text-orange">{{ $gameEvent->source->name }}</span> has accepted the devotion of <a href="{{ route('dominion.op-center.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a>.
+                                            @elseif ($gameEvent->type === 'invasion_support')
+                                                An army from <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a> rushed to aid <a href="{{ route('dominion.op-center.show', [$gameEvent->source->id]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a> in combat.
                                             @endif
                                         </td>
                                         <td class="text-center">

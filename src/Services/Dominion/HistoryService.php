@@ -24,6 +24,7 @@ class HistoryService
     public const EVENT_ACTION_BREAK_SPELL = 'break spell';
     public const EVENT_ACTION_PERFORM_ESPIONAGE_OPERATION = 'perform espionage operation';
     public const EVENT_ACTION_INVADE = 'invade';
+    public const EVENT_ACTION_INVADE_SUPPORT = 'invasion support';
     public const EVENT_ACTION_JOIN_ROYAL_GUARD = 'join peacekeepers league';
     public const EVENT_ACTION_JOIN_ELITE_GUARD = 'join warriors league';
     public const EVENT_ACTION_LEAVE_ROYAL_GUARD = 'leave peacekeepers league';

@@ -315,11 +315,12 @@ class InvadeActionService
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
             $this->handleMindControl($target, $dominion, $units);
-            $this->handleAnnexedDominions($dominion, $target, $units);
 
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
+
+            $this->handleAnnexedDominions($dominion, $target, $units);
 
             if (!isset($this->invasionResult['result']['ignoreDraftees']))
             {
@@ -442,20 +443,40 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
-            if(isset($support))
+            # LEGION ANNEX SUPPORT EVENTS
+            $legion = null;
+            if($this->spellCalculator->hasAnnexedDominions($dominion))
             {
-                $this->invasionEvent = GameEvent::create([
-                    'round_id' => $dominion->round_id,
-                    'source_type' => Dominion::class,
-                    'source_id' => $support->id,
-                    'target_type' => Dominion::class,
-                    'target_id' => $target->id,
-                    'type' => 'invasion_support',
-                    'data' => NULL,
-                ]);
+                $legion = $dominion;
+                $legionString = 'attacker';
+            }
+            elseif($this->spellCalculator->hasAnnexedDominions($target))
+            {
+                $legion = $target;
+                $legionString = 'defender';
+            }
+
+            if(isset($this->invasionResult[$legionString]['annexation']) and $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] > 0)
+            {
+                foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
+                {
+                    $annexedDominion = Dominion::findorfail($annexedDominionId);
+
+                    $this->invasionEvent = GameEvent::create([
+                        'round_id' => $annexedDominion->round_id,
+                        'source_type' => Dominion::class,
+                        'source_id' => $annexedDominion->id,
+                        'target_type' => Dominion::class,
+                        'target_id' => $dominion->id,
+                        'type' => 'invasion_support',
+                        'data' => NULL,
+                    ]);
+
+                    $annexedDominion->save(['event' => HistoryService::EVENT_ACTION_INVADE_SUPPORT]);
+                }
             }
 
             $this->invasionEvent = GameEvent::create([
@@ -1806,10 +1827,6 @@ class InvadeActionService
             $this->spellActionService->castSpell($attacker, 'annexation', $defender, $isInvasionSpell);
             $this->invasionResult['result']['annexation'] = true;
         }
-        #else
-        #{
-        #    $this->invasionResult['result']['annexation'] = false;
-        #}
     }
 
     protected function handleResourceConversions(Dominion $attacker, Dominion $defender, float $landRatio): void
@@ -2808,6 +2825,72 @@ class InvadeActionService
 
     }
 
+    /*
+    *   0) Add OP from annexed dominions (already done when calculating attacker's OP)
+    *   1) Remove OP units from annexed dominions.
+    *   2) Incur 10% casualties on annexed units.
+    *   3) Queue returning units.
+    *   4) Save data to $this->invasionResult to create pretty battle report
+    */
+    protected function handleAnnexedDominions(Dominion $attacker, Dominion $defender, array $units): void
+    {
+
+        $legion = null;
+        if($this->spellCalculator->hasAnnexedDominions($attacker))
+        {
+            $legion = $attacker;
+            $legionString = 'attacker';
+        }
+        elseif($this->spellCalculator->hasAnnexedDominions($defender))
+        {
+            $legion = $defender;
+            $legionString = 'defender';
+        }
+
+        $casualties = 0.10 / $this->invasionResult['result']['opDpRatio']; # / because we want to invert the ratio
+        $casualties = min(0.20, max(0.00, $casualties));
+
+        # No casualties if Legion is defending and attacker was overwhelmed
+        if($legionString == 'defender' and $this->invasionResult['result']['overwhelmed'])
+        {
+            $casualties = 0;
+        }
+
+        if($legion)
+        {
+            $this->invasionResult[$legionString]['annexation'] = [];
+            $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] = count($this->spellCalculator->getAnnexedDominions($legion));
+            $this->invasionResult[$legionString]['annexation']['annexedDominions'] = [];
+
+            foreach($this->spellCalculator->getAnnexedDominions($legion) as $annexedDominion)
+            {
+                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id] = [];
+                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsSent'] = [1 => $annexedDominion->military_unit1, 2 => 0, 3 => 0, 4 => $annexedDominion->military_unit4];
+
+                # Incur casualties
+                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsLost'] =      [1 => (int)round($annexedDominion->military_unit1 * $casualties), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * $casualties)];
+                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] = [1 => (int)round($annexedDominion->military_unit1 * (1 - $casualties)), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * (1 - $casualties))];
+
+                # Remove the units
+                $annexedDominion->military_unit1 -= $annexedDominion->military_unit1;
+                $annexedDominion->military_unit4 -= $annexedDominion->military_unit4;
+
+                # Queue the units
+                foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] as $slot => $returning)
+                {
+                    $unitType = 'military_unit' . $slot;
+
+                    $this->queueService->queueResources(
+                        'invasion',
+                        $annexedDominion,
+                        [$unitType => $returning],
+                        12
+                    );
+                }
+            }
+
+        }
+    }
 
     /**
      * Check whether the invasion is successful.
@@ -2825,6 +2908,7 @@ class InvadeActionService
         $this->invasionResult['attacker']['op'] = $attackingForceOP;
         $this->invasionResult['defender']['dp'] = $targetDP;
         $this->invasionResult['result']['success'] = ($attackingForceOP > $targetDP);
+        $this->invasionResult['result']['opDpRatio'] = $attackingForceOP / $targetDP;
 
         $this->statsService->setStat($dominion, 'op_sent_max', max($this->invasionResult['attacker']['op'], $this->statsService->getStat($dominion, 'op_sent_max')));
         $this->statsService->updateStat($dominion, 'op_sent_total', $this->invasionResult['attacker']['op']);
