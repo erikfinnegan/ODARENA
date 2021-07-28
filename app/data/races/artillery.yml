@@ -61,7 +61,6 @@ units:
       does_not_count_as_population: 1
       fixed_casualties: 100
       offense_from_pairing: 2,5 # slot, amount
-      damages_improvements_on_attack: 50
       pairing_limit_increasable: 2,3 # Unit slot, amount (max 4 of this unit per each Unit 4), imp to increase, imp multiplier
 
   - name: Burning Cannonball
