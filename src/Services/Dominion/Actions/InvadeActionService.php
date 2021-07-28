@@ -2825,73 +2825,6 @@ class InvadeActionService
 
     }
 
-    /*
-    *   0) Add OP from annexed dominions (already done when calculating attacker's OP)
-    *   1) Remove OP units from annexed dominions.
-    *   2) Incur 10% casualties on annexed units.
-    *   3) Queue returning units.
-    *   4) Save data to $this->invasionResult to create pretty battle report
-    */
-    protected function handleAnnexedDominions(Dominion $attacker, Dominion $defender, array $units): void
-    {
-
-        $legion = null;
-        if($this->spellCalculator->hasAnnexedDominions($attacker))
-        {
-            $legion = $attacker;
-            $legionString = 'attacker';
-        }
-        elseif($this->spellCalculator->hasAnnexedDominions($defender))
-        {
-            $legion = $defender;
-            $legionString = 'defender';
-        }
-
-        $casualties = 0.10 / $this->invasionResult['result']['opDpRatio']; # / because we want to invert the ratio
-        $casualties = min(0.20, max(0.00, $casualties));
-
-        # No casualties if Legion is defending and attacker was overwhelmed
-        if($legionString == 'defender' and $this->invasionResult['result']['overwhelmed'])
-        {
-            $casualties = 0;
-        }
-
-        if($legion)
-        {
-            $this->invasionResult[$legionString]['annexation'] = [];
-            $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] = count($this->spellCalculator->getAnnexedDominions($legion));
-            $this->invasionResult[$legionString]['annexation']['annexedDominions'] = [];
-
-            foreach($this->spellCalculator->getAnnexedDominions($legion) as $annexedDominion)
-            {
-                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id] = [];
-                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsSent'] = [1 => $annexedDominion->military_unit1, 2 => 0, 3 => 0, 4 => $annexedDominion->military_unit4];
-
-                # Incur casualties
-                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsLost'] =      [1 => (int)round($annexedDominion->military_unit1 * $casualties), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * $casualties)];
-                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] = [1 => (int)round($annexedDominion->military_unit1 * (1 - $casualties)), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * (1 - $casualties))];
-
-                # Remove the units
-                $annexedDominion->military_unit1 -= $annexedDominion->military_unit1;
-                $annexedDominion->military_unit4 -= $annexedDominion->military_unit4;
-
-                # Queue the units
-                foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] as $slot => $returning)
-                {
-                    $unitType = 'military_unit' . $slot;
-
-                    $this->queueService->queueResources(
-                        'invasion',
-                        $annexedDominion,
-                        [$unitType => $returning],
-                        12
-                    );
-                }
-            }
-
-        }
-    }
-
     /**
      * Check whether the invasion is successful.
      *
@@ -2954,6 +2887,83 @@ class InvadeActionService
         $this->invasionResult['result']['overwhelmed'] = ((1 - $attackingForceOP / $targetDP) >= (static::OVERWHELMED_PERCENTAGE / 100));
     }
 
+
+
+    /*
+    *   0) Add OP from annexed dominions (already done when calculating attacker's OP)
+    *   1) Remove OP units from annexed dominions.
+    *   2) Incur 10% casualties on annexed units.
+    *   3) Queue returning units.
+    *   4) Save data to $this->invasionResult to create pretty battle report
+    */
+    protected function handleAnnexedDominions(Dominion $attacker, Dominion $defender, array $units): void
+    {
+
+        $casualties = 0.10; # / because we want to invert the ratio
+
+        $legion = null;
+        if($this->spellCalculator->hasAnnexedDominions($attacker))
+        {
+            $legion = $attacker;
+            $legionString = 'attacker';
+            $casualties /= $this->invasionResult['result']['opDpRatio'];
+        }
+        elseif($this->spellCalculator->hasAnnexedDominions($defender))
+        {
+            $legion = $defender;
+            $legionString = 'defender';
+            $casualties *= $this->invasionResult['result']['opDpRatio'];
+
+            if($this->invasionResult['result']['overwhelmed'])
+            {
+                $casualties = 0;
+            }
+        }
+
+        if($defender->race->getPerkValue('does_not_kill'))
+        {
+            $casualties = 0;
+        }
+
+        $casualties = min(max(0, $casualties), 0.20);
+
+
+        if($legion)
+        {
+            $this->invasionResult[$legionString]['annexation'] = [];
+            $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] = count($this->spellCalculator->getAnnexedDominions($legion));
+            $this->invasionResult[$legionString]['annexation']['annexedDominions'] = [];
+
+            foreach($this->spellCalculator->getAnnexedDominions($legion) as $annexedDominion)
+            {
+                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id] = [];
+                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsSent'] = [1 => $annexedDominion->military_unit1, 2 => 0, 3 => 0, 4 => $annexedDominion->military_unit4];
+
+                # Incur casualties
+                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsLost'] =      [1 => (int)round($annexedDominion->military_unit1 * $casualties), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * $casualties)];
+                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] = [1 => (int)round($annexedDominion->military_unit1 * (1 - $casualties)), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * (1 - $casualties))];
+
+                # Remove the units
+                $annexedDominion->military_unit1 -= $annexedDominion->military_unit1;
+                $annexedDominion->military_unit4 -= $annexedDominion->military_unit4;
+
+                # Queue the units
+                foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] as $slot => $returning)
+                {
+                    $unitType = 'military_unit' . $slot;
+
+                    $this->queueService->queueResources(
+                        'invasion',
+                        $annexedDominion,
+                        [$unitType => $returning],
+                        12
+                    );
+                }
+            }
+
+        }
+    }
+
     /**
      * Check if dominion is sending out at least *some* OP.
      *
@@ -3014,35 +3024,6 @@ class InvadeActionService
         }
 
         return true;
-    }
-
-    /**
-     * Check if an invasion passes the 33%-rule.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target
-     * @param array $units
-     * @return bool
-     */
-    protected function passes33PercentRule(Dominion $dominion, Dominion $target, array $units): bool
-    {
-        #$attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, null, $units);
-        $attackingForceDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $units);
-        $currentHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion);
-
-        $unitsReturning = [];
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            $unitsReturning[$slot] = $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
-        }
-
-        $returningForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsReturning);
-
-        $totalDP = $currentHomeForcesDP + $returningForcesDP;
-
-        $newHomeForcesDP = ($currentHomeForcesDP - $attackingForceDP);
-
-        return ($newHomeForcesDP >= $totalDP * (1/3));
     }
 
     /**
