@@ -1348,40 +1348,29 @@ class InvadeActionService
                 // Artillery: damages_improvements_on_attack
                 if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
                 {
-                  $castleToBeDamaged = [];
+                    $improvementsToBeDamaged = [];
 
-                  $damageReductionFromMasonries = 1 - $target->getBuildingPerkMultiplier('lightning_bolt_damage');
+                    $damageReductionFromMasonries = 1 - $target->getBuildingPerkMultiplier('lightning_bolt_damage');
 
-                  $damagingUnits = $units[$unitSlot];
-                  $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
-                  $damageDone = $damagingUnits * $damagePerUnit * $damageReductionFromMasonries;
+                    $damagingUnits = $units[$unitSlot];
+                    $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
+                    $damageDone = $damagingUnits * $damagePerUnit * $damageReductionFromMasonries;
 
 
-                  # Calculate target's total imp points, where imp points > 0.
-                  foreach ($this->improvementHelper->getImprovementTypes($target) as $type)
-                  {
-                      if($target->{'improvement_' . $type} > 0)
-                      {
-                          $castleToBeDamaged[$type] = $target->{'improvement_' . $type};
-                      }
-                  }
-                  $castleTotal = array_sum($castleToBeDamaged);
+                    # Calculate target's total imp points, where imp points > 0.
+                    foreach ($this->improvementHelper->getImprovementsByRace($target->race) as $improvement)
+                    {
+                        $improvementsToBeDamaged[$improvement->key] = $this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement);
+                    }
+                    $improvementsTotal = array_sum($improvementsToBeDamaged);
 
-                  # Calculate how much of damage should be applied to each type.
-                  foreach ($castleToBeDamaged as $type => $points)
-                  {
-                    # The ratio this improvement type is of the total amount of imp points.
-                    $typeDamageRatio = $points / $castleTotal;
+                    if($improvementsTotal > 0)
+                    {
+                        $this->improvementCalculator->decreaseImprovements($target, $improvementsToBeDamaged);
+                    }
 
-                    # The ratio is applied to the damage done.
-                    $typeDamageDone = intval($damageDone * $typeDamageRatio);
-
-                    # Do the damage.
-                    $target->{'improvement_' . $type} -= min($target->{'improvement_' . $type}, $typeDamageDone);
-                  }
-
-                  $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damageDone;
-                  $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damageDone;
+                    $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damageDone;
+                    $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damageDone;
                 }
 
 
@@ -1551,9 +1540,9 @@ class InvadeActionService
         if(random_chance($attacker->getImprovementPerkMultiplier('chance_of_instant_return')) or $attacker->race->getPerkValue('instant_return') or $attacker->getSpellPerkValue('instant_return'))
         {
             $this->invasionResult['attacker']['instantReturn'] = true;
-            foreach($returningUnits as $unitKey => $returningAmount)
+            foreach($units as $unitKey => $returningAmount)
             {
-                $dominion->{$unitKey} += $returningAmount;
+                $attacker->{$unitKey} += $returningAmount;
                 $returningUnits[$unitKey] = 0;
             }
         }
