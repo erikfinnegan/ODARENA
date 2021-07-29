@@ -921,6 +921,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'gems_theft'
                          or $perkKey == 'ore_theft'
                          or $perkKey == 'mana_theft'
+                         or $perkKey == 'lumber_theft'
                          or $perkKey == 'all_theft'
 
                          or $perkKey == 'reveal_ops'
