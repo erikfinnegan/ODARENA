@@ -803,6 +803,10 @@ class SettingHelper
                         $resultString = 'Our spies\' visions are blurred by Elska.';
                         break;
 
+                    case 'voidspellmanatheft':
+                        $resultString = "{$data['damageString']} die from Tiranthael's Justice.";
+                        break;
+
                     default:
                         throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
                 }
