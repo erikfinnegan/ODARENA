@@ -160,8 +160,8 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('calculations')->uses('Dominion\CalculationsController@getIndex')->name('calculations');
 
             // Intelligence
-            $router->get('intelligence')->uses('Dominion\IntelligenceController@getIntelligence')->name('intelligence');
-            $router->post('intelligence')->uses('Dominion\IntelligenceController@postIntelligence');
+            #$router->get('intelligence')->uses('Dominion\IntelligenceController@getIntelligence')->name('intelligence');
+            #$router->post('intelligence')->uses('Dominion\IntelligenceController@postIntelligence');
 
             // Hostile Ops
             $router->get('offensive-ops')->uses('Dominion\OffensiveOpsController@getOffensiveOps')->name('offensive-ops');
@@ -194,10 +194,15 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('council/post/{post}/delete')->uses('Dominion\CouncilController@postDeletePost');
 
             // Op Center
-            $router->get('op-center')->uses('Dominion\OpCenterController@getIndex')->name('op-center');
+            #$router->get('op-center')->uses('Dominion\OpCenterController@getIndex')->name('op-center');
             //$router->get('op-center/clairvoyance/{realmNumber}')->uses('Dominion\OpCenterController@getClairvoyance')->name('op-center.clairvoyance');
-            $router->get('op-center/{dominion}')->uses('Dominion\OpCenterController@getDominion')->name('op-center.show');
-            $router->get('op-center/{dominion}/{type}')->uses('Dominion\OpCenterController@getDominionArchive')->name('op-center.archive');
+            #$router->get('op-center/{dominion}')->uses('Dominion\OpCenterController@getDominion')->name('op-center.show');
+            #$router->get('op-center/{dominion}/{type}')->uses('Dominion\OpCenterController@getDominionArchive')->name('op-center.archive');
+
+            // Insight
+            $router->get('insight')->uses('Dominion\InsightController@getIndex')->name('insight');
+            $router->get('insight/{dominion}')->uses('Dominion\InsightController@getDominion')->name('insight.show');
+            $router->get('insight/{dominion}/{type}')->uses('Dominion\InsightController@getDominionArchive')->name('insight.archive');
 
             // Government
             $router->get('government')->uses('Dominion\GovernmentController@getIndex')->name('government');

@@ -1284,7 +1284,7 @@ class SpellActionService
                 'success' => true,
                 'message' => 'Your wizards cast the spell successfully, and a wealth of information appears before you.',
                 'wizardStrengthCost' => $wizardStrengthCost,
-                'redirect' => route('dominion.op-center.show', $target),
+                'redirect' => route('dominion.insight.show', $target),
             ];
         }
         # Are we successful?

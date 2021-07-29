@@ -263,7 +263,7 @@
                                 @for ($i = 1; $i <= 12; $i++)
                                     <th class="text-center">{{ $i }}</th>
                                 @endfor
-                                <th class="text-center">Home (Training)</th>
+                                <th class="text-center">Home<br>(Training)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -316,7 +316,7 @@
                                 @for ($i = 1; $i <= 12; $i++)
                                     <th class="text-center">{{ $i }}</th>
                                 @endfor
-                                <th class="text-center">Total</th>
+                                <th class="text-center"><br>Total</th>
                             </tr>
                         </thead>
                         <tbody>

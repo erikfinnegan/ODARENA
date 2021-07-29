@@ -223,7 +223,7 @@ class EspionageActionService
                 ],
                 'redirect' =>
                     $this->espionageHelper->isInfoGatheringOperation($operationKey) && $result['success']
-                        ? route('dominion.op-center.show', $target->id)
+                        ? route('dominion.insight.show', $target->id)
                         : null,
             ] + $result;
     }
@@ -543,7 +543,7 @@ class EspionageActionService
         return [
             'success' => true,
             'message' => 'Your spies infiltrate the ' . $target->name . ' successfully and return with a wealth of information.',
-            'redirect' => route('dominion.op-center.show', $target),
+            'redirect' => route('dominion.insight.show', $target),
         ];
     }
 
@@ -606,7 +606,7 @@ class EspionageActionService
                     number_format($amountStolen),
                     $resource
                 ),
-                'redirect' => route('dominion.op-center.show', $target),
+                'redirect' => route('dominion.insight.show', $target),
             ];
 
         }
@@ -1152,7 +1152,7 @@ class EspionageActionService
                     'Your spies infiltrate ' . $target->name . ' successfully, they lost %s.',
                     $damageString
                 ),
-                'redirect' => route('dominion.op-center.show', $target),
+                'redirect' => route('dominion.insight.show', $target),
             ];
 
         }

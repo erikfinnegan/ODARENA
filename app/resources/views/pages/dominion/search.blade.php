@@ -150,7 +150,7 @@
                                                 </span>
                                             @endif
 
-                                            <a href="{{ route('dominion.op-center.show', $dominion) }}">{{ $dominion->name }}</a>
+                                            <a href="{{ route('dominion.insight.show', $dominion) }}">{{ $dominion->name }}</a>
                                             @if($dominion->id === $selectedDominion->id)
                                             <span class="label label-primary">You</span>
                                             @endif

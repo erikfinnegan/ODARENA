@@ -148,7 +148,7 @@
                                 </tr>
                                 @foreach($spellCalculator->getPassiveSpellsCastByDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
                                         <tr>
-                                            <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
+                                            <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
                                             <td>{{ $activePassiveSpellCast->spell->name }}</td>
                                             <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
                                             <td>
@@ -184,7 +184,7 @@
                                     </tr>
                                 @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
                                         <tr>
-                                            <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->caster->id]) }}">{{ $activePassiveSpellCast->caster->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->caster->realm->number }})</a></td>
+                                            <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->caster->id]) }}">{{ $activePassiveSpellCast->caster->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->caster->realm->number }})</a></td>
                                             <td>{{ $activePassiveSpellCast->spell->name }}</td>
                                             <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
                                             <td>
@@ -220,7 +220,7 @@
                 <div class="box-body">
                     <p>Offensive spy-ops and spells are used to damage or weaken hostile dominions.</p>
                     <p>The total damage you do depends on the base damage and can be further increased or decreased by how strong your spies or wizards are relative to the target's and whether the target has any damage reductions.</p>
-                    <p>For information gathering, see <a href="{{ route('dominion.intelligence') }}"><span><i class="fa fa-eye"></i> Op Center</span></a>.</p>
+                    <p>For information gathering, see <a href="{{ route('dominion.insight') }}"><span><i class="fa fa-eye"></i> Op Center</span></a>.</p>
                     <p>
                         <a href="{{ route('scribes.spells') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spells in the Scribes.</span></a><br>
                         <a href="{{ route('scribes.spy-ops') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spy Ops in the Scribes.</span></a>

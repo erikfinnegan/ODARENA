@@ -5,8 +5,8 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12 col-md-9">
-            @component('partials.dominion.op-center.box')
-                @slot('title', ('Archived Ops (' . $dominion->name . ')'))
+            @component('partials.dominion.insight.box')
+                @slot('title', ('Archived insight for (' . $dominion->name . ')'))
                 @slot('titleIconClass', 'fa fa-book')
 
                 <p>This page contains the data that your realmies have gathered about dominion <b>{{ $dominion->name }}</b> from realm {{ $dominion->realm->name }} (#{{ $dominion->realm->number }}).</p>
@@ -19,7 +19,7 @@
 
                 @slot('boxFooter')
                     <div class="pull-right">
-                        <a href="{{ route('dominion.op-center.show', $dominion) }}" class="btn btn-sm btn-primary">Back to Overview</a>
+                        <a href="{{ route('dominion.insight.show', $dominion) }}" class="btn btn-sm btn-primary">Back to Overview</a>
                     </div>
                 @endslot
             @endcomponent
@@ -31,7 +31,7 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                @include('partials.dominion.op-center.labels-explainer')
+                @include('partials.dominion.insight.labels-explainer')
                 </div>
             </div>
 
@@ -75,7 +75,7 @@
         @foreach ($infoOpArchive as $infoOp)
             @if ($infoOp->type == 'clear_sight')
                 <div class="col-sm-12 col-md-9">
-                    @component('partials.dominion.op-center.box')
+                    @component('partials.dominion.insight.box')
                         @slot('title', ('Status Screen (' . $dominion->name . ')'))
                         @slot('titleIconClass', 'fa fa-chart-bar')
 
@@ -317,7 +317,7 @@
 
             @if ($infoOp->type == 'revelation')
                 <div class="col-sm-12 col-md-6">
-                    @component('partials.dominion.op-center.box')
+                    @component('partials.dominion.insight.box')
                         @slot('title', 'Active Spells')
                         @slot('titleIconClass', 'ra ra-fairy-wand')
 
@@ -381,7 +381,7 @@
 
             @if ($infoOp->type == 'castle_spy')
                 <div class="col-sm-12 col-md-6">
-                    @component('partials.dominion.op-center.box')
+                    @component('partials.dominion.insight.box')
                         @slot('title', 'Improvements')
                         @slot('titleIconClass', 'fa fa-arrow-up')
 
@@ -466,7 +466,7 @@
                 <div class="col-sm-12">
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            @component('partials.dominion.op-center.box')
+                            @component('partials.dominion.insight.box')
                                 @slot('title', 'Units in training and home')
                                 @slot('titleIconClass', 'ra ra-sword')
 
@@ -552,7 +552,7 @@
                             @endcomponent
                         </div>
                         <div class="col-sm-12 col-md-6">
-                            @component('partials.dominion.op-center.box')
+                            @component('partials.dominion.insight.box')
                                 @slot('title', 'Units returning from battle')
                                 @slot('titleIconClass', 'fa fa-clock-o')
 
@@ -666,7 +666,7 @@
                 <div class="col-sm-12">
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            @component('partials.dominion.op-center.box')
+                            @component('partials.dominion.insight.box')
                                 @slot('title', 'Constructed Buildings')
                                 @slot('titleIconClass', 'fa fa-home')
 
@@ -723,7 +723,7 @@
                         </div>
 
                         <div class="col-sm-12 col-md-6">
-                            @component('partials.dominion.op-center.box')
+                            @component('partials.dominion.insight.box')
                                 @slot('title', 'Incoming building breakdown')
                                 @slot('titleIconClass', 'fa fa-clock-o')
 
@@ -823,7 +823,7 @@
                 <div class="col-sm-12">
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            @component('partials.dominion.op-center.box')
+                            @component('partials.dominion.insight.box')
                                 @slot('title', 'Explored Land')
                                 @slot('titleIconClass', 'ra ra-honeycomb')
 
@@ -911,7 +911,7 @@
                         </div>
 
                         <div class="col-sm-12 col-md-6">
-                            @component('partials.dominion.op-center.box')
+                            @component('partials.dominion.insight.box')
                                 @slot('title', 'Incoming land breakdown')
                                 @slot('titleIconClass', 'fa fa-clock-o')
 
@@ -976,7 +976,7 @@
                 <div class="col-sm-12">
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
-                            @component('partials.dominion.op-center.box')
+                            @component('partials.dominion.insight.box')
                                 @slot('title', 'Technological Advancements')
                                 @slot('titleIconClass', 'fa fa-flask')
 
@@ -1038,14 +1038,14 @@
                                     <div class="clearfix"></div>
 
                                     <div class="text-center">
-                                        <a href="{{ route('dominion.op-center.archive', [$dominion, 'vision']) }}">View Archives</a>
+                                        <a href="{{ route('dominion.insight.archive', [$dominion, 'vision']) }}">View Archives</a>
                                     </div>
                                 @endslot
                             @endcomponent
                         </div>
 
                         <div class="col-sm-12 col-md-6">
-                            @component('partials.dominion.op-center.box')
+                            @component('partials.dominion.insight.box')
                                 @slot('title', 'Heroes')
                                 @slot('titleIconClass', 'ra ra-knight-helmet')
                                 <p>Not yet implemented.</p>

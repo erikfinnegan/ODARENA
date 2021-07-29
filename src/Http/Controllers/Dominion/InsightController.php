@@ -5,65 +5,71 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
+use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\InfoOpService;
+use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\GameEventService;
 
 # ODA
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Models\Tech;
 use OpenDominion\Helpers\DeityHelper;
 
-class OpCenterController extends AbstractDominionController
+class InsightController extends AbstractDominionController
 {
     public function getIndex()
     {
-        $dominion = $this->getSelectedDominion();
+        $protectionService = app(ProtectionService::class);
+        $landCalculator = app(LandCalculator::class);
+        $self = $this->getSelectedDominion();
 
-        $latestInfoOps = $dominion->realm->infoOps()
-            ->with('sourceDominion')
-            ->with('targetDominion')
-            ->with('targetDominion.race')
-            ->with('targetDominion.realm')
-            ->where('type', '!=', 'clairvoyance')
-            ->where('latest', '=', true)
-            ->orderBy('created_at', 'desc')
+        $dominions = $self->round->activeDominions()
+            ->with(['realm', 'round'])
             ->get()
-            ->groupBy('target_dominion_id');
+            ->filter(function ($dominion) use ($self, $protectionService) {
+                return (
+                    # Is not in protection;
+                    !$protectionService->isUnderProtection($dominion) and
+
+                    # Is not locked;
+                    $dominion->is_locked !== 1
+                );
+            })
+            ->sortByDesc(function ($dominion) use($landCalculator) {
+                return $landCalculator->getTotalLand($dominion);
+            })
+            ->values();
+
 
         return view('pages.dominion.insight.index', [
-            'infoOpService' => app(InfoOpService::class),
-            'rangeCalculator' => app(RangeCalculator::class),
-            'spellHelper' => app(SpellHelper::class),
-            'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'dominions' => $dominions,
+            'landCalculator' => $landCalculator,
+            'protectionService' => $protectionService,
+            'networthCalculator' => app(NetworthCalculator::class),
+            'spellCalculator' => app(SpellCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
-            'latestInfoOps' => $latestInfoOps
         ]);
     }
 
     public function getDominion(Dominion $dominion)
     {
-        $infoOpService = app(InfoOpService::class);
-
-        if (!$infoOpService->hasInfoOps($this->getSelectedDominion()->realm, $dominion)) {
-            return redirect()->route('dominion.insight');
-        }
-
-        $latestInfoOps = $this->getSelectedDominion()->realm->infoOps()
-            ->with('sourceDominion')
-            ->where('target_dominion_id', '=', $dominion->id)
-            ->where('latest', '=', true)
-            ->get();
-
         return view('pages.dominion.insight.show', [
             'buildingHelper' => app(BuildingHelper::class),
             'improvementHelper' => app(ImprovementHelper::class),
@@ -77,10 +83,17 @@ class OpCenterController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'improvementCalculator' => app(ImprovementCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'dominion' => $dominion,
             'deityHelper' => app(DeityHelper::class),
-            'latestInfoOps' => $latestInfoOps
+            'networthCalculator' => app(NetworthCalculator::class),
+            'statsService' => app(StatsService::class),
+            'titleHelper' => app(TitleHelper::class),
+            'populationCalculator' => app(PopulationCalculator::class),
+            'buildingCalculator' => app(BuildingCalculator::class),
+            'productionCalculator' => app(ProductionCalculator::class),
+            'queueService' => app(QueueService::class),
         ]);
     }
 
@@ -122,37 +135,4 @@ class OpCenterController extends AbstractDominionController
         ]);
     }
 
-    public function getClairvoyance(int $realmNumber)
-    {
-        $infoOpService = app(InfoOpService::class);
-        $dominion = $this->getSelectedDominion();
-
-        $targetRealm = Realm::where([
-                'round_id' => $dominion->round->id,
-                'number' => $realmNumber,
-            ])
-            ->firstOrFail();
-
-        $clairvoyanceInfoOp = $infoOpService->getInfoOpForRealm(
-            $this->getSelectedDominion()->realm,
-            $targetRealm,
-            'clairvoyance'
-        );
-
-        if ($clairvoyanceInfoOp === null) {
-            abort(404);
-        }
-
-        $gameEventService = app(GameEventService::class);
-        $clairvoyanceData = $gameEventService->getClairvoyance($targetRealm, $clairvoyanceInfoOp->created_at);
-
-        $gameEvents = $clairvoyanceData['gameEvents'];
-        $dominionIds = $clairvoyanceData['dominionIds'];
-
-        return view('pages.dominion.world-news', compact(
-            'gameEvents',
-            'dominionIds',
-            'clairvoyanceInfoOp'
-        ))->with('realm', $targetRealm)->with('fromOpCenter', true);
-    }
 }

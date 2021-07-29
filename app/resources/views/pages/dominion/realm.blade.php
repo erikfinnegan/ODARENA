@@ -137,7 +137,6 @@
                                                 </span>
                                             @endif
 
-
                                             @if ($spellCalculator->hasAnnexedDominions($dominion))
                                                 <span data-toggle="tooltip" data-placement="top" title="Has annexed Barbarians!<br>Current additional raw military power: {{ number_format($militaryCalculator->getRawMilitaryPowerFromAnnexedDominions($dominion)) }}">
                                                 <i class="ra ra-castle-flag fa-lg text-black"></i>
@@ -165,7 +164,7 @@
                                                 @if ($isOwnRealm)
                                                     {{ $dominion->name }}
                                                 @else
-                                                    <a href="{{ route('dominion.op-center.show', $dominion) }}">{{ $dominion->name }}</a>
+                                                    <a href="{{ route('dominion.insight.show', $dominion) }}">{{ $dominion->name }}</a>
                                                 @endif
                                                 </span>
                                             @endif

@@ -47,7 +47,7 @@ class IntelligenceController extends AbstractDominionController
             ->get()
             ->groupBy('target_dominion_id');
 
-        return view('pages.dominion.intelligence', [
+        return view('pages.dominion.insight', [
             'landCalculator' => app(LandCalculator::class),
             'protectionService' => app(ProtectionService::class),
             'rangeCalculator' => app(RangeCalculator::class),
@@ -101,7 +101,7 @@ class IntelligenceController extends AbstractDominionController
             $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
 
             return redirect()
-                ->to($result['redirect'] ?? route('dominion.intelligence'))
+                ->to($result['redirect'] ?? route('dominion.insight'))
                 ->with('spell_dominion', $request->get('spell_dominion'));
         }
         elseif($request->type === 'espionage')
@@ -134,7 +134,7 @@ class IntelligenceController extends AbstractDominionController
             $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
 
             return redirect()
-                ->to($result['redirect'] ?? route('dominion.intelligence'))
+                ->to($result['redirect'] ?? route('dominion.insight'))
                 ->with('espionage_dominion', $request->get('espionage_dominion'));
         }
         else

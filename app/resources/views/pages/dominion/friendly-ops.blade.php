@@ -137,7 +137,7 @@
                                 </tr>
                             @foreach($spellCalculator->getPassiveSpellsCastByDominion($selectedDominion, 'friendly') as $activePassiveSpellCast)
                                     <tr>
-                                        <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
+                                        <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
                                         <td>{{ $activePassiveSpellCast->spell->name }}</td>
                                         <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
                                         <td>
@@ -172,7 +172,7 @@
                                 </tr>
                             @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'friendly') as $activePassiveSpellCast)
                                     <tr>
-                                        <td><a href="{{ route('dominion.op-center.show', [$activePassiveSpellCast->caster->id]) }}">{{ $activePassiveSpellCast->caster->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->caster->realm->number }})</a></td>
+                                        <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->caster->id]) }}">{{ $activePassiveSpellCast->caster->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->caster->realm->number }})</a></td>
                                         <td>{{ $activePassiveSpellCast->spell->name }}</td>
                                         <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
                                         <td></td>
@@ -195,7 +195,7 @@
                 </div>
                 <div class="box-body">
                     <p>You can cast spells on yourself and some factions can even cast spells on friendly dominions. These spells are always successful.</p>
-                    <p>For information gathering, see <a href="{{ route('dominion.intelligence') }}"><span><i class="fa fa-eye"></i> Op Center</span></a>.</p>
+                    <p>For information gathering, see <a href="{{ route('dominion.insight') }}"><span><i class="fa fa-eye"></i> Op Center</span></a>.</p>
 
                     <a href="{{ route('scribes.spells') }}"><span><i class="ra ra-scroll-unfurled"></i> Read more about Spells in the Scribes.</span></a>
                 </div>

@@ -77,8 +77,7 @@
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_invade'))
                 <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
                 @endif
-
-                <li class="{{ Route::is('dominion.intelligence') ? 'active' : null }}"><a href="{{ route('dominion.intelligence') }}"><i class="fa fa-eye fa-fw"></i> <span>Op Center</span></a></li>
+                <li class="{{ Route::is('dominion.insight') ? 'active' : null }}"><a href="{{ route('dominion.insight') }}"><i class="fa fa-eye fa-fw"></i> <span>Insight</span></a></li>
                 <li class="{{ Route::is('dominion.offensive-ops') ? 'active' : null }}"><a href="{{ route('dominion.offensive-ops') }}"><i class="ra ra-skull ra-fw"></i> <span>Spells &amp; Spy Ops</span></a></li>
                 <li class="{{ Route::is('dominion.friendly-ops') ? 'active' : null }}"><a href="{{ route('dominion.friendly-ops') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Friendly Magic</span></a></li>
 
