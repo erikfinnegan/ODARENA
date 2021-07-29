@@ -809,6 +809,12 @@ class SettingHelper
                         $resultString = 'Our spies\' visions are blurred by Elska.';
                         break;
 
+                    case 'voidspellmanatheft':
+                        $resultString = "{$data['damageString']} has vanished into the void.";
+                        break;
+
+
+
                     default:
                         throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
                 }

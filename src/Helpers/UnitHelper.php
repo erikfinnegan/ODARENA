@@ -150,11 +150,8 @@ class UnitHelper
             'counts_as_spy_defense' => 'Counts as %s of a spy on defense.',
             'counts_as_spy_offense' => 'Counts as %s of a spy on offense.',
 
-
-
             'counts_as_spy_defense_from_time' => 'Counts as %3$s of a spy on defense between %1$s:00 and %2$s:00.',
             'counts_as_spy_offense_from_time' => 'Counts as %3$s of a spy on offense between %1$s:00 and %2$s:00.',
-
 
             'immortal_spy' => 'Immortal spy (cannot be killed when performing espionage).',
             'minimum_spa_to_train' => 'Must have at least %s Spy Ratio (on offense) to train.',
