@@ -399,13 +399,13 @@ class MilitaryCalculator
             $dp += $defender->getBuildingPerkValue('raw_defense');
         }
 
-        // Beastfolk: Ambush (reduce raw DP by 2 x Forest %, max -10%, which get by doing $forestRatio/5)
+        // Beastfolk: Ambush
         if($isAmbush)
         {
-            #echo "<pre>\tAmbush!\t";
-            #echo 'Reduction: ' . $this->getRawDefenseAmbushReductionRatio($attacker) . '%, lowering $dp from '. $dp;
+            echo "<pre>\tAmbush!\t";
+            echo 'Reduction: ' . $this->getRawDefenseAmbushReductionRatio($attacker) * 100 . '%, lowering $dp from '. $dp;
             $dp = $dp * (1 - $this->getRawDefenseAmbushReductionRatio($attacker));
-            #echo ' to '. $dp . '</pre>';
+            echo ' to '. $dp . '</pre>';
         }
 
         // Cult: Mind Controlled units provide 2 DP each

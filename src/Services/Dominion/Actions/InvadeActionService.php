@@ -1896,10 +1896,10 @@ class InvadeActionService
             }
 
             # Attacker: kills_into_resource_per_value SINGLE RESOURCE
-            if($killsIntoResourcePerCasualty = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_value'))
+            if($killsIntoResourcePerValue = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_value'))
             {
-                $amountPerPoint = $killsIntoResource[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
-                $resource = 'resource_' . $killsIntoResource[1];
+                $amountPerPoint = $killsIntoResourcePerValue[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
+                $resource = 'resource_' . $killsIntoResourcePerValue[1];
 
                 $opFromSlot = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]);
 
@@ -2734,6 +2734,9 @@ class InvadeActionService
         }
 
         $this->invasionResult['attacker']['ambush'] = $this->isAmbush;
+
+        #dd($this->militaryCalculator->getRawDefenseAmbushReductionRatio($attacker), $this->isAmbush, $this->invasionResult['attacker']['ambush']);
+
     }
 
     /**
