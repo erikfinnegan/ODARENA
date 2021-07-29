@@ -1,3 +1,5 @@
+{{ dd('NYI') }}
+
 @extends('layouts.master')
 
 @section('page-header', 'Op Center')

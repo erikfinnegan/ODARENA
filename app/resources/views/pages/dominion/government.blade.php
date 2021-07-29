@@ -264,10 +264,11 @@
                                             <tr>
                                                 <td>
                                                     @if ($dominion->isMonarch())
-                                                        <span class="text-red">{{ $dominion->name }}</span>
-                                                    @else
-                                                        {{ $dominion->name }}
+                                                        <span data-toggle="tooltip" data-placement="top" title="Governor of The Realm">
+                                                        <i class="fa fa-star fa-lg text-orange"></i>
+                                                        </span>
                                                     @endif
+                                                    {{ $dominion->name }}
                                                 </td>
                                                 @if ($dominion->monarchVote)
                                                     <td>{{ $dominion->monarchVote->name }}</td>

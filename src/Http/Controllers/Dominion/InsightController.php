@@ -2,35 +2,38 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
-use OpenDominion\Calculators\Dominion\LandCalculator;
-use OpenDominion\Calculators\Dominion\RangeCalculator;
-use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Calculators\Dominion\BuildingCalculator;
-use OpenDominion\Calculators\Dominion\PopulationCalculator;
-use OpenDominion\Calculators\Dominion\ProductionCalculator;
-use OpenDominion\Calculators\NetworthCalculator;
-use OpenDominion\Helpers\BuildingHelper;
-use OpenDominion\Helpers\ImprovementHelper;
-use OpenDominion\Helpers\LandHelper;
-use OpenDominion\Helpers\SpellHelper;
-use OpenDominion\Helpers\TechHelper;
-use OpenDominion\Helpers\UnitHelper;
-use OpenDominion\Helpers\TitleHelper;
+use OpenDominion\Exceptions\GameException;
+
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
-use OpenDominion\Services\Dominion\InfoOpService;
-use OpenDominion\Services\Dominion\QueueService;
-use OpenDominion\Services\Dominion\ProtectionService;
-use OpenDominion\Services\Dominion\StatsService;
-use OpenDominion\Services\GameEventService;
+use OpenDominion\Models\Tech;
 
-# ODA
-use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Models\Tech;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
+use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+
+use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\DeityHelper;
+use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Helpers\TechHelper;
+use OpenDominion\Helpers\TitleHelper;
+use OpenDominion\Helpers\UnitHelper;
+
+#use OpenDominion\Services\GameEventService;
+#use OpenDominion\Services\Dominion\InfoOpService;
+use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
 
 class InsightController extends AbstractDominionController
 {
@@ -45,11 +48,14 @@ class InsightController extends AbstractDominionController
             ->get()
             ->filter(function ($dominion) use ($self, $protectionService) {
                 return (
-                    # Is not in protection;
+                    # Is not in protection
                     !$protectionService->isUnderProtection($dominion) and
 
-                    # Is not locked;
-                    $dominion->is_locked !== 1
+                    # Round has started
+                    $dominion->round->hasStarted() and
+
+                    # Does not have fog of war
+                    !$dominion->getSpellPerkValue('fog_of_war')
                 );
             })
             ->sortByDesc(function ($dominion) use($landCalculator) {
@@ -70,29 +76,52 @@ class InsightController extends AbstractDominionController
 
     public function getDominion(Dominion $dominion)
     {
+        $advancements = [];
+        $techs = $dominion->techs->sortBy('key');
+        $techs = $techs->sortBy(function ($tech, $key)
+        {
+            return $tech['name'] . str_pad($tech['level'], 2, '0', STR_PAD_LEFT);
+        });
+
+        foreach($techs as $tech)
+        {
+            $advancement = $tech['name'];
+            $key = $tech['key'];
+            $level = (int)$tech['level'];
+            $advancements[$advancement] = [
+                'key' => $key,
+                'name' => $advancement,
+                'level' => (int)$level,
+                ];
+        }
+
         return view('pages.dominion.insight.show', [
+            'advancements' => $advancements,
+            'dominion' => $dominion,
+
             'buildingHelper' => app(BuildingHelper::class),
+            'deityHelper' => app(DeityHelper::class),
             'improvementHelper' => app(ImprovementHelper::class),
-            'infoOpService' => app(InfoOpService::class),
-            'landCalculator' => app(LandCalculator::class),
             'landHelper' => app(LandHelper::class),
-            'rangeCalculator' => app(RangeCalculator::class),
-            'spellCalculator' => app(SpellCalculator::class),
+            'raceHelper' => app(RaceHelper::class),
             'spellHelper' => app(SpellHelper::class),
             'techHelper' => app(TechHelper::class),
-            'unitHelper' => app(UnitHelper::class),
-            'raceHelper' => app(RaceHelper::class),
-            'landImprovementCalculator' => app(LandImprovementCalculator::class),
-            'improvementCalculator' => app(ImprovementCalculator::class),
-            'militaryCalculator' => app(MilitaryCalculator::class),
-            'dominion' => $dominion,
-            'deityHelper' => app(DeityHelper::class),
-            'networthCalculator' => app(NetworthCalculator::class),
-            'statsService' => app(StatsService::class),
             'titleHelper' => app(TitleHelper::class),
-            'populationCalculator' => app(PopulationCalculator::class),
+            'unitHelper' => app(UnitHelper::class),
+
             'buildingCalculator' => app(BuildingCalculator::class),
+            'networthCalculator' => app(NetworthCalculator::class),
+            'improvementCalculator' => app(ImprovementCalculator::class),
+            'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'landCalculator' => app(LandCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
+            'populationCalculator' => app(PopulationCalculator::class),
             'productionCalculator' => app(ProductionCalculator::class),
+            'rangeCalculator' => app(RangeCalculator::class),
+            'spellCalculator' => app(SpellCalculator::class),
+
+            'protectionService' => app(ProtectionService::class),
+            'statsService' => app(StatsService::class),
             'queueService' => app(QueueService::class),
         ]);
     }
@@ -100,7 +129,7 @@ class InsightController extends AbstractDominionController
     public function getDominionArchive(Dominion $dominion, string $type)
     {
         $resultsPerPage = 10;
-        $valid_types = ['clear_sight', 'vision', 'revelation', 'barracks_spy', 'castle_spy', 'survey_dominion', 'land_spy'];
+        $valid_types = [];#['clear_sight', 'vision', 'revelation', 'barracks_spy', 'castle_spy', 'survey_dominion', 'land_spy'];
         $infoOpService = app(InfoOpService::class);
 
         if (!in_array($type, $valid_types)) {

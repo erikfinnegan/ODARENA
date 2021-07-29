@@ -934,6 +934,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'all_theft'
 
                          or $perkKey == 'reveal_ops'
+                         or $perkKey == 'fog_of_war'
                          or $perkKey == 'chance_to_reflect_spells'
                          or $perkKey == 'damage_from_spells'
                          or $perkKey == 'damage_from_fireballs'

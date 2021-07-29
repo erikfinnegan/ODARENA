@@ -48,6 +48,8 @@ class SpellHelper
             'vision' => 'Reveal advancements',
             'revelation' => 'Reveal active spells',
 
+            'fog_of_war' => 'Hidden from Insight',
+
             // Production
             'ore_production' => '%s%% ore production',
             'mana_production' => '%s%% mana production',

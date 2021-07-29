@@ -135,8 +135,8 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('improvements')->uses('Dominion\ImprovementController@postImprovements');
 
             // National Bank
-            $router->get('exchange')->uses('Dominion\ExchangeController@getBank')->name('exchange');
-            $router->post('exchange')->uses('Dominion\ExchangeController@postBank');
+            #$router->get('exchange')->uses('Dominion\ExchangeController@getBank')->name('exchange');
+            #$router->post('exchange')->uses('Dominion\ExchangeController@postBank');
 
             // Techs
             $router->get('advancements')->uses('Dominion\TechController@getTechs')->name('advancements');
@@ -172,12 +172,12 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('friendly-ops')->uses('Dominion\FriendlyOpsController@postFriendlyOps');
 
             // Magic
-            $router->get('magic')->uses('Dominion\MagicController@getMagic')->name('magic');
-            $router->post('magic')->uses('Dominion\MagicController@postMagic');
+            #$router->get('magic')->uses('Dominion\MagicController@getMagic')->name('magic');
+            #$router->post('magic')->uses('Dominion\MagicController@postMagic');
 
             // Espionage
-            $router->get('espionage')->uses('Dominion\EspionageController@getEspionage')->name('espionage');
-            $router->post('espionage')->uses('Dominion\EspionageController@postEspionage');
+            #$router->get('espionage')->uses('Dominion\EspionageController@getEspionage')->name('espionage');
+            #$router->post('espionage')->uses('Dominion\EspionageController@postEspionage');
 
             // Search
             $router->get('search')->uses('Dominion\SearchController@getSearch')->name('search');

@@ -333,7 +333,7 @@ pyroclast:
   name: Pyroclast
   scope: hostile
   class: active
-  cost: 4
+  cost: 2
   duration: 0
   cooldown: 0
   exclusive_races:
@@ -361,6 +361,16 @@ disband_spies:
   cooldown: 0
   perks:
     disband_spies: 1
+
+sazals_fog:
+  name: Sazal's Fog
+  scope: self
+  class: passive
+  cost: 0.5
+  duration: 12
+  cooldown: 24
+  perks:
+    fog_of_war: 1
 
 # <Faction>
 
