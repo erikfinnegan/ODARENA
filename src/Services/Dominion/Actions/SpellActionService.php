@@ -1314,7 +1314,7 @@ class SpellActionService
 
     }
 
-    public function breakSpell(Dominion $target, string $spellKey): array
+    public function breakSpell(Dominion $target, string $spellKey, bool $isLiberation = false): array
     {
         $spell = Spell::where('key', $spellKey)->first();
         $dominionSpell = DominionSpell::where('spell_id', $spell->id)->where('dominion_id', $target->id)->first();
@@ -1326,7 +1326,7 @@ class SpellActionService
             throw new GameException($spell->name . ' is not active.');
         }
 
-        if($spell->class == 'invasion')
+        if($spell->class == 'invasion' and !$isLiberation)
         {
             throw new GameException($spell->name . ' cannot be broken.');
         }
@@ -1356,7 +1356,7 @@ class SpellActionService
         $casterWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'defense'));
         $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'offense'));
 
-        if ($casterWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($targetWpa, $casterWpa)))
+        if ($casterWpa == 0.0 or $isLiberation or random_chance($this->opsHelper->blackOperationSuccessChance($targetWpa, $casterWpa)))
         {
               $this->statsService->updateStat($target, 'magic_broken', 1);
 

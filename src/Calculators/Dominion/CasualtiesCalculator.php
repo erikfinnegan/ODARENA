@@ -135,84 +135,84 @@ class CasualtiesCalculator
     public function getImmortalityForUnitSlot(Dominion $dominion, Dominion $enemy, $slot, array $units, bool $isOverwhelmed, float $attackingForceOP, float $targetDP, bool $isInvasionSuccessful, string $mode = 'offense')
     {
 
-          if($slot == 'draftees')
-          {
-              if($dominion->race->getPerkValue('immortal_draftees'))
-              {
-                  return 0;
-              }
-          }
-          elseif($slot == 'peasants')
-          {
-              if($dominion->race->getPerkValue('immortal_peasants'))
-              {
-                  return 0;
-              }
-          }
-          else
-          {
-              # Lux does not kill anyone
-              if($enemy->race->getPerkValue('does_not_kill'))
-              {
-                  return True;
-              }
+        if($slot == 'draftees')
+        {
+            if($dominion->race->getPerkValue('immortal_draftees'))
+            {
+                return 0;
+            }
+        }
+        elseif($slot == 'peasants')
+        {
+            if($dominion->race->getPerkValue('immortal_peasants'))
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            # Lux does not kill anyone
+            if($enemy->race->getPerkValue('does_not_kill'))
+            {
+                return True;
+            }
 
-              # PERK: immortal, spirit_immortal
-              if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal'))
-              {
-                  if(!$enemy->getSpellPerkValue('can_kill_immortal') or !$enemy->getTechPerkValue('can_kill_immortal'))
-                  {
-                      return True;
-                  }
-              }
+            # PERK: immortal, spirit_immortal
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal'))
+            {
+                if(!$enemy->getSpellPerkValue('can_kill_immortal') and !$enemy->getTechPerkValue('can_kill_immortal'))
+                {
+                    return True;
+                }
+            }
 
-              # PERK: true_immortal
-              if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
-              {
-                  return True;
-              }
+            # PERK: true_immortal
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
+            {
+                return True;
+            }
 
-              # PERK: immortal_from_title
-              if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_title', null))
-              {
-                  $titleKey = $titlePerkData[0];
-                  $titlePowerRatio = $titlePerkData[1] / 100;
+            # PERK: immortal_from_title
+            if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_title', null))
+            {
+                $titleKey = $titlePerkData[0];
+                $titlePowerRatio = $titlePerkData[1] / 100;
 
-                  if($dominion->title->key == $titleKey)
-                  {
-                      return True;
-                  }
-              }
+                if($dominion->title->key == $titleKey)
+                {
+                    return True;
+                }
+            }
 
-              if($mode == 'offense')
-              {
-                  # PERK: immortal_on_victory
-                  if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
-                  {
-                      return True;
-                  }
-              }
+            if($mode == 'offense')
+            {
+                # PERK: immortal_on_victory
+                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
+                {
+                    return True;
+                }
+            }
 
-              if($mode == 'defense')
-              {
-                  # PERK: spirit_immortal
-                  if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and !$isInvasionSuccessful)
-                  {
-                      if(!$enemy->getSpellPerkValue('can_kill_immortal') or !$enemy->getTechPerkValue('can_kill_immortal'))
-                      {
-                          return True;
-                      }
-                  }
+            if($mode == 'defense')
+            {
+                # PERK: spirit_immortal
+                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and !$isInvasionSuccessful)
+                {
+                    if(!$enemy->getSpellPerkValue('can_kill_immortal') and !$enemy->getTechPerkValue('can_kill_immortal'))
+                    {
+                        return True;
+                    }
+                }
 
-                  # Perk: immortal_on_fending_off
-                  if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_fending_off') and !$isInvasionSuccessful)
-                  {
-                      return True;
-                  }
-              }
-          }
+                # Perk: immortal_on_fending_off
+                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_fending_off') and !$isInvasionSuccessful)
+                {
+                    return True;
+                }
+            }
+        }
 
-          return False;
+        return False;
 
     }
 

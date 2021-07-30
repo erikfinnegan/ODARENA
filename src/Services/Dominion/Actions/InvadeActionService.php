@@ -443,7 +443,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
             # LEGION ANNEX SUPPORT EVENTS
@@ -459,24 +459,32 @@ class InvadeActionService
                 $legionString = 'defender';
             }
 
-            if(isset($this->invasionResult[$legionString]['annexation']) and $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] > 0)
+            if($legion)
             {
-                foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
+                if(isset($this->invasionResult[$legionString]['annexation']) and $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] > 0)
                 {
-                    $annexedDominion = Dominion::findorfail($annexedDominionId);
+                    foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
+                    {
+                        $annexedDominion = Dominion::findorfail($annexedDominionId);
 
-                    $this->invasionEvent = GameEvent::create([
-                        'round_id' => $annexedDominion->round_id,
-                        'source_type' => Dominion::class,
-                        'source_id' => $annexedDominion->id,
-                        'target_type' => Dominion::class,
-                        'target_id' => $dominion->id,
-                        'type' => 'invasion_support',
-                        'data' => NULL,
-                    ]);
+                        $this->invasionEvent = GameEvent::create([
+                            'round_id' => $annexedDominion->round_id,
+                            'source_type' => Dominion::class,
+                            'source_id' => $annexedDominion->id,
+                            'target_type' => Dominion::class,
+                            'target_id' => $dominion->id,
+                            'type' => 'invasion_support',
+                            'data' => NULL,
+                        ]);
 
-                    $annexedDominion->save(['event' => HistoryService::EVENT_ACTION_INVADE_SUPPORT]);
+                        $annexedDominion->save(['event' => HistoryService::EVENT_ACTION_INVADE_SUPPORT]);
+                    }
                 }
+            }
+            # LIBERATION
+            elseif($this->invasionResult['attacker']['liberation'])
+            {
+                $this->spellActionService->breakSpell($target, 'annexation', $this->invasionResult['attacker']['liberation']);
             }
 
             $this->invasionEvent = GameEvent::create([
@@ -640,6 +648,13 @@ class InvadeActionService
         if($defender->race->name === 'Barbarian')
         {
             $attackerPrestigeChange /= 3;
+        }
+
+        # Liberation
+        if($defender->race->name === 'Barbarian' and $attacker->realm->alignment !== 'evil' and $this->invasionResult['result']['success'] and $attackerPrestigeChange > 0)
+        {
+            $this->invasionResult['attacker']['liberation'] = true;
+            $attackerPrestigeChange *= 4;
         }
 
         # Cut in half when hitting abandoned dominions
@@ -1692,8 +1707,6 @@ class InvadeActionService
 
                         $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
                         $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
-
-                        #dd($fasterReturnIfPairedPerk, $unitsWithFasterReturnTime, $unitsWithRegularReturnTime, $units);
                     }
                 }
 
@@ -1749,7 +1762,6 @@ class InvadeActionService
                 $this->invasionResult['attacker']['unitsReturning'][$slot] = array_sum($unitKeyTicks);
             }
         }
-        #dd($units, $returningUnits, 'last');
     }
 
     protected function handleDefensiveConversions(Dominion $defender, array $defensiveConversions): void
@@ -1925,8 +1937,8 @@ class InvadeActionService
             # Attacker: kills_into_resource_per_value SINGLE RESOURCE
             if($killsIntoResourcePerCasualty = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_value'))
             {
-                $amountPerPoint = $killsIntoResource[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
-                $resource = 'resource_' . $killsIntoResource[1];
+                $amountPerPoint = $killsIntoResourcePerCasualty[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
+                $resource = 'resource_' . $killsIntoResourcePerCasualty[1];
 
                 $opFromSlot = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]);
 
@@ -2949,7 +2961,6 @@ class InvadeActionService
                     );
                 }
             }
-
         }
     }
 

@@ -12,7 +12,13 @@
                 <h3 class="box-title"><i class="fas fa-eye-slash"></i> Insight unavailable</h3>
             </div>
             <div class="box-body">
-                <p>This dominion is under protection or the round has not started yet.</p>
+                @if(!$dominion->round->hasStarted())
+                    <p>The round has not started yet.</p>
+                @elseif($protectionService->isUnderProtection($dominion))
+                    <p>This dominion is under protection.</p>
+                @else
+                    <p>Insight is not available for this dominion right now.</p>
+                @endif
             </div>
         </div>
     </div>

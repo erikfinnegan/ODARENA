@@ -37,6 +37,10 @@
                             and annexed
                         @endif
 
+                        @if(isset($event->data['attacker']['liberation']) and $event->data['attacker']['liberation'] == TRUE)
+                            and liberated
+                        @endif
+
                         {{ $event->target->name }}
                         </span>
                     </h3>

@@ -753,8 +753,8 @@ harbour:
 
 # BEGIN BEASTFOLK #
 
-safety:
-  name: Safety
+compassion:
+  name: Compassion
   exclusive_races:
     - Beastfolk
   perks:

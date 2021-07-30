@@ -1252,7 +1252,7 @@ annexation:
   scope: hostile
   class: invasion
   cost: 0
-  duration: 96
+  duration: 48
   cooldown: 0
   exclusive_races:
     - Legion
