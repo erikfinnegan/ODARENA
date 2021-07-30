@@ -160,7 +160,7 @@ class CasualtiesCalculator
               # PERK: immortal, spirit_immortal
               if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal'))
               {
-                  if(!$enemy->getSpellPerkValue('can_kill_immortal') or !$enemy->getTechPerkValue('can_kill_immortal'))
+                  if(!$enemy->getSpellPerkValue('can_kill_immortal') and !$enemy->getTechPerkValue('can_kill_immortal'))
                   {
                       return True;
                   }
@@ -198,7 +198,7 @@ class CasualtiesCalculator
                   # PERK: spirit_immortal
                   if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and !$isInvasionSuccessful)
                   {
-                      if(!$enemy->getSpellPerkValue('can_kill_immortal') or !$enemy->getTechPerkValue('can_kill_immortal'))
+                      if(!$enemy->getSpellPerkValue('can_kill_immortal') and !$enemy->getTechPerkValue('can_kill_immortal'))
                       {
                           return True;
                       }
