@@ -452,11 +452,15 @@ class InvadeActionService
             {
                 $legion = $dominion;
                 $legionString = 'attacker';
+                $type = 'invasion_support';
+                $targetId = $legion->id;
             }
             elseif($this->spellCalculator->hasAnnexedDominions($target))
             {
                 $legion = $target;
                 $legionString = 'defender';
+                $type = 'defense_support';
+                $targetId = $target->id;
             }
 
             if($legion)
@@ -472,8 +476,8 @@ class InvadeActionService
                             'source_type' => Dominion::class,
                             'source_id' => $annexedDominion->id,
                             'target_type' => Dominion::class,
-                            'target_id' => $dominion->id,
-                            'type' => 'invasion_support',
+                            'target_id' => $targetId,
+                            'type' => $type,
                             'data' => NULL,
                         ]);
 

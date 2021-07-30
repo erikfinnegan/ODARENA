@@ -64,7 +64,7 @@
                         <td>{{ number_format($selectedDominion->getDeityPerkMultiplier('offensive_power') * 100, 2) }}%</td>
                         <td>{{ number_format($selectedDominion->getDeityPerkMultiplier('defensive_power') * 100, 2) }}%</td>
                     </tr>
-                    @if($selectedDominion->getSpellPerkValue('reduces_target_raw_defense_from_land'))
+                    @if($militaryCalculator->getRawDefenseAmbushReductionRatio($selectedDominion))
                     <tr>
                         <td>Ambush:</td>
                         <td colspan="2">-{{ number_format($militaryCalculator->getRawDefenseAmbushReductionRatio($selectedDominion) * 100, 2) }}% target raw DP</td>

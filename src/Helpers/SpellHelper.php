@@ -207,6 +207,7 @@ class SpellHelper
 
             // Invasion spells
             'kills_peasants_and_converts_for_caster_unit' => 'Kills %1$s%% of target\'s peasants per tick and converts them into Abominations.',
+            'annexes_target' => 'Annexes the target, turning them into a vassal.',
 
         ];
 
