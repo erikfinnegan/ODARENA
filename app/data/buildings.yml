@@ -1281,7 +1281,7 @@ pit:
   name: Pit
   exclusive_races:
     - Afflicted
-  land_type: hill
+  land_type: plain
   perks:
     afflicted_unit1_housing: 680
     housing: 0

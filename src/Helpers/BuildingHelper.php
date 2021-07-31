@@ -15,16 +15,6 @@ class BuildingHelper
         return Building::where('enabled',1)->pluck('key');
     }
 
-    public function getBuildingLandType(Building $building, Race $race): string
-    {
-        if($building->land_type === 'home')
-        {
-            return $race->home_land_type;
-        }
-
-        return $building->land_type;
-    }
-
     public function getBuildingDescription(Building $building): ?string
     {
 
@@ -42,6 +32,8 @@ class BuildingHelper
             'spy_housing' => 'Houses %1$s spies and units that count as spies.',
             'draftee_housing' => 'Houses %s draftees.',
             'peasant_housing' => 'Houses %s peasants.',
+
+            'afflicted_unit1_housing' => 'Houses %s Abominations.',
 
             'human_unit1_housing' => 'Houses %s Men-at-Arms.',
             'human_unit2_housing' => 'Houses %s Archers.',

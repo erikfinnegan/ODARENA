@@ -161,11 +161,14 @@ class BarbarianService
 
     }
 
-    public function handleBarbarianInvasion(Dominion $dominion): void
+    public function handleBarbarianInvasion(Dominion $dominion, int $largestDominionSize = null): void
     {
         $invade = false;
 
-        if($dominion->race->name === 'Barbarian' and !$this->spellCalculator->isAnnexed($dominion))
+        if($dominion->race->name === 'Barbarian'
+            and !$this->spellCalculator->isAnnexed($dominion)
+            and ($largestDominionSize >= ($dominion->round->target_land/2) and ($this->landCalculator->getTotalLand($dominion)/$largestDominionSize) < 0.75)
+        )
         {
             $logString = "\n[BARBARIAN]\n\t[invasion]\n";
             $logString .= "\t\tName: $dominion->name\n";

@@ -670,11 +670,11 @@ class Dominion extends AbstractModel
                           or $perkKey == 'draftee_generation'
 
                           # Building-specific housing
+                          or $perkKey == 'afflicted_unit1_housing'
                           or $perkKey == 'human_unit1_housing'
                           or $perkKey == 'human_unit2_housing'
                           or $perkKey == 'troll_unit2_housing'
                           or $perkKey == 'troll_unit4_housing'
-
 
                           or $perkKey == 'faster_returning_units'
                       )

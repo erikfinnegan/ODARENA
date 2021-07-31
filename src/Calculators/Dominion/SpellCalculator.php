@@ -376,6 +376,13 @@ class SpellCalculator
         return DominionSpell::where('dominion_id',$dominion->id)->where('spell_id', $spell->id)->first() ? true : false;
     }
 
+    public function getAnnexer(Dominion $dominion): Dominion
+    {
+        $spell = Spell::where('key', 'annexation')->first();
+        $dominionSpell = DominionSpell::where('dominion_id',$dominion->id)->where('spell_id', $spell->id)->first();
+        return Dominion::findorfail($dominionSpell->caster_id);
+    }
+
     public function getTicksRemainingOfAnnexation(Dominion $legion, Dominion $dominion): int
     {
         $spell = Spell::where('key', 'annexation')->first();

@@ -138,6 +138,7 @@ class TickService
             # Get dominions IDs with Stasis active
             $stasisDominions = [];
             $dominions = $round->activeDominions()->get();
+            $largestDominionSize = 0;
 
             if(static::EXTENDED_LOGGING) { Log::debug('* Going through all dominions'); }
             foreach ($dominions as $dominion)
@@ -161,11 +162,15 @@ class TickService
                 if($dominion->race->name === 'Barbarian')
                 {
                     if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian invasions for ' . $dominion->name); }
-                    $this->barbarianService->handleBarbarianInvasion($dominion);
+                    $this->barbarianService->handleBarbarianInvasion($dominion, $largestDominionSize);
 
                     if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian construction for ' . $dominion->name); }
                     $this->barbarianService->handleBarbarianConstruction($dominion);
                 }
+
+                if(static::EXTENDED_LOGGING) { Log::debug('** Calculate $largestDominion'); }
+                $largestDominionSize = max($this->landCalculator->getTotalLand($dominion), $largestDominionSize);
+                if(static::EXTENDED_LOGGING) { Log::debug('*** $largestDominion =' . number_format($largestDominionSize)); }
 
                 if(static::EXTENDED_LOGGING) { Log::debug('** Checking for countdown'); }
                 # If we don't already have a countdown, see if any dominion triggers it.

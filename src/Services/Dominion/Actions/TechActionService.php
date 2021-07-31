@@ -72,7 +72,7 @@ class TechActionService
         // Check if enabled
         if ($techToUnlock->enabled !== 1)
         {
-            throw new GameException('This tech is not enabled.');
+            throw new GameException('This advancement is not enabled.');
         }
 
         // Check experience point

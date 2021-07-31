@@ -10,9 +10,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\GovernmentActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\GuardMembershipActionRequest;
 use OpenDominion\Services\Dominion\Actions\GovernmentActionService;
-use OpenDominion\Services\Dominion\Actions\GuardMembershipActionService;
 use OpenDominion\Services\Dominion\GovernmentService;
-use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\DeityService;
 use OpenDominion\Calculators\RealmCalculator;
 
@@ -26,7 +24,6 @@ class GovernmentController extends AbstractDominionController
     {
         $dominion = $this->getSelectedDominion();
         $governmentService = app(GovernmentService::class);
-        $guardMembershipService = app(GuardMembershipService::class);
 
         $dominions = $dominion->realm->dominions()
             ->with([
@@ -45,20 +42,20 @@ class GovernmentController extends AbstractDominionController
             'dominions' => $dominions,
             'realms' => $dominion->round->realms,
             'monarch' => $dominion->realm->monarch,
-            'canJoinGuards' => $guardMembershipService->canJoinGuards($dominion),
+            #'canJoinGuards' => $guardMembershipService->canJoinGuards($dominion),
             #'isRoyalGuardApplicant' => $guardMembershipService->isRoyalGuardApplicant($dominion),
-            'isEliteGuardApplicant' => $guardMembershipService->isEliteGuardApplicant($dominion),
+            #'isEliteGuardApplicant' => $guardMembershipService->isEliteGuardApplicant($dominion),
             #'isRoyalGuardMember' => $guardMembershipService->isRoyalGuardMember($dominion),
-            'isEliteGuardMember' => $guardMembershipService->isEliteGuardMember($dominion),
-            'isGuardMember' => $guardMembershipService->isGuardMember($dominion),
+            #'isEliteGuardMember' => $guardMembershipService->isEliteGuardMember($dominion),
+            #'isGuardMember' => $guardMembershipService->isGuardMember($dominion),
             #'hoursBeforeRoyalGuardMember' => $guardMembershipService->getHoursBeforeRoyalGuardMember($dominion),
-            'hoursBeforeEliteGuardMember' => $guardMembershipService->getHoursBeforeEliteGuardMember($dominion),
+            #'hoursBeforeEliteGuardMember' => $guardMembershipService->getHoursBeforeEliteGuardMember($dominion),
             #'hoursBeforeLeaveRoyalGuard' => $guardMembershipService->getHoursBeforeLeaveRoyalGuard($dominion),
-            'hoursBeforeLeaveEliteGuard' => $guardMembershipService->getHoursBeforeLeaveEliteGuard($dominion),
-            'hasDeclaredWar' => $governmentService->hasDeclaredWar($dominion->realm),
-            'canDeclareWar' => $governmentService->canDeclareWar($dominion->realm),
-            'hoursBeforeCancelWar' => $governmentService->getHoursBeforeCancelWar($dominion->realm),
-            'hoursBeforeWarActive' => $governmentService->getHoursBeforeWarActive($dominion->realm),
+            #'hoursBeforeLeaveEliteGuard' => $guardMembershipService->getHoursBeforeLeaveEliteGuard($dominion),
+            #'hasDeclaredWar' => $governmentService->hasDeclaredWar($dominion->realm),
+            #'canDeclareWar' => $governmentService->canDeclareWar($dominion->realm),
+            #'hoursBeforeCancelWar' => $governmentService->getHoursBeforeCancelWar($dominion->realm),
+            #'hoursBeforeWarActive' => $governmentService->getHoursBeforeWarActive($dominion->realm),
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'rangeCalculator' => app(RangeCalculator::class),
@@ -99,42 +96,6 @@ class GovernmentController extends AbstractDominionController
         }
 
         $request->session()->flash('alert-success', 'Your realm has been updated!');
-        return redirect()->route('dominion.government');
-    }
-
-    public function postJoinEliteGuard(GuardMembershipActionRequest $request)
-    {
-        $dominion = $this->getSelectedDominion();
-        $guardActionService = app(GuardMembershipActionService::class);
-
-        try {
-            $result = $guardActionService->joinEliteGuard($dominion);
-        } catch (GameException $e) {
-            return redirect()
-                ->back()
-                ->withInput($request->all())
-                ->withErrors([$e->getMessage()]);
-        }
-
-        $request->session()->flash('alert-success', $result['message']);
-        return redirect()->route('dominion.government');
-    }
-
-    public function postLeaveEliteGuard(GuardMembershipActionRequest $request)
-    {
-        $dominion = $this->getSelectedDominion();
-        $guardActionService = app(GuardMembershipActionService::class);
-
-        try {
-            $result = $guardActionService->leaveEliteGuard($dominion);
-        } catch (GameException $e) {
-            return redirect()
-                ->back()
-                ->withInput($request->all())
-                ->withErrors([$e->getMessage()]);
-        }
-
-        $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.government');
     }
 

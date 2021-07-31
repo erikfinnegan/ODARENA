@@ -132,7 +132,7 @@
                                             @endif
 
                                             @if ($spellCalculator->isAnnexed($dominion))
-                                                <span data-toggle="tooltip" data-placement="top" title="Annexed by the Legion!<br>Current raw military power: {{ number_format($militaryCalculator->getRawMilitaryPowerFromAnnexedDominion($dominion)) }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="Annexed by {{ $spellCalculator->getAnnexer($dominion)->name }}!<br>Current raw military power: {{ number_format($militaryCalculator->getRawMilitaryPowerFromAnnexedDominion($dominion)) }}">
                                                 <i class="ra ra-castle-flag fa-lg text-black"></i>
                                                 </span>
                                             @endif
