@@ -38,9 +38,7 @@ units:
       offense: 2
       defense: 1
     perks:
-      food_consumption: 0.125
       attrition: 0.25 # 0.25% lost each tick.
-      does_not_count_as_population: 1
 
   - name: Pest Rat
     training_time: 9
@@ -67,7 +65,7 @@ units:
       offense: 0
       defense: 6
 
-  - name: Reaper
+  - name: Mongrel
     training_time: 12
     type:
       - living
@@ -75,14 +73,11 @@ units:
       - intelligent
     cost:
       gold: 600
-      mana: 40
+      food: 80
       morale: 5
     power:
       offense: 10
       defense: -1
     perks:
-      immortal: 1
+      increases_casualties_on_offense: 1
       value_conversion: 1,1 # [Killed]*1 = number of unit1 created
-      counts_as_spy_offense: 0.5
-      counts_as_spy_defense: 0.25
-      immortal_spy: 1

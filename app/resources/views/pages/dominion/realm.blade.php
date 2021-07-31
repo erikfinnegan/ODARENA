@@ -161,11 +161,7 @@
                                                 </span>
                                             @else
                                                 <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }} @if($dominion->realm->id === $selectedDominion->realm->id) {{ '<br>Morale: ' . $dominion->morale . '%' }} @endif @if($dominion->race->name === 'Barbarian') {{ '<br>NPC modifier: ' . $dominion->npc_modifier/1000 . '<br>Times invaded: ' . $statsService->getStat($dominion, 'defense_failures') }} @endif ">
-                                                @if ($isOwnRealm)
-                                                    {{ $dominion->name }}
-                                                @else
                                                     <a href="{{ route('dominion.insight.show', $dominion) }}">{{ $dominion->name }}</a>
-                                                @endif
                                                 </span>
                                             @endif
 
@@ -195,7 +191,7 @@
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $perksList }}" >{{ $dominion->deity->name }}</span>
 
                                             @elseif($dominion->hasPendingDeitySubmission())
-                                                @if($dominion->realm_id == $selectedDominion->realm_id)
+                                                @if($isOwnRealm)
                                                     <span data-toggle="tooltip" data-placement="top" title="{{ $dominion->getPendingDeitySubmission()->name }} in {{ $dominion->getPendingDeitySubmissionTicksLeft() }} {{ str_plural('tick', $dominion->getPendingDeitySubmissionTicksLeft()) }}" class="text-muted"><i class="fas fa-pray"></i></span>
                                                 @else
                                                     <span class="text-muted"><i class="fas fa-pray"></i></span>

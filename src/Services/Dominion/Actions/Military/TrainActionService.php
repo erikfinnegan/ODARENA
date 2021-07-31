@@ -225,7 +225,7 @@ class TrainActionService
                 // We have pairing limit for this unit.
                 $pairingLimitedBy = (int)$pairingLimit[0];
                 $pairingLimitedTo = (int)$pairingLimit[1];
-                $pairingLimitedTo *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
+                $pairingLimitedTo *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
 
                 // Evaluate the limit.
                 # How many of the limiting unit does the dominion have? (Only counting units at home.)
@@ -253,7 +253,7 @@ class TrainActionService
                 $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
                 $unitsPerAcre = (float)$landLimit[1]; # Units per acre
 
-                $unitsPerAcre *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
+                $unitsPerAcre *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
 
                 $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
 
@@ -277,19 +277,19 @@ class TrainActionService
             if($amountLimit)
             {
 
-              $amountLimit *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing')); # Unused
+                $amountLimit *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing')); # Unused
 
-              if( # Units trained + Units in Training + Units in Queue + Units to Train
-                  (($dominion->{'military_unit' . $unitSlot} +
-                    $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                    $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
-                    $amountToTrain))
-                    >
-                    $amountLimit
-                )
-                {
-                  throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
-                }
+                if( # Units trained + Units in Training + Units in Queue + Units to Train
+                    (($dominion->{'military_unit' . $unitSlot} +
+                      $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $unitSlot) +
+                      $amountToTrain))
+                      >
+                      $amountLimit
+                  )
+                  {
+                    throw new GameException('You can at most have ' . number_format($amountLimit) . ' of this unit.');
+                  }
             }
 
             # Amount limit check complete.
@@ -300,7 +300,7 @@ class TrainActionService
                 // We have building limit for this unit.
                 $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
                 $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-                $unitsPerBuilding *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
+                $unitsPerBuilding *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
 
                 $building = Building::where('key', $buildingKeyLimitedTo)->first();
                 $amountOfLimitingBuilding = $this->buildingCalculator->getBuildingAmountOwned($dominion, $building);

@@ -265,10 +265,10 @@ class PopulationCalculator
     public function getUnitsHousedInBarracks(Dominion $dominion): int
     {
         $units = 0;
+        #$units -= $this->getUnitsHousedInUnits($dominion);
         $units -= $this->getUnitsHousedInUnitSpecificBuildings($dominion);
         $units -= $this->getUnitsHousedInForestHavens($dominion);
         $units -= $this->getUnitsHousedInWizardGuilds($dominion);
-        $units -= $this->getUnitsHousedInUnitSpecificBuildings($dominion);
         $units += $dominion->military_spies;
         $units += $dominion->military_wizards;
         $units += $dominion->military_archmages;
