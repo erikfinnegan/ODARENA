@@ -122,7 +122,7 @@ class ConstructActionService
         }
 
         # Get construction materials
-        $constructionMaterials = $this->raceHelper->getConstructionMaterials($dominion->race);
+        $constructionMaterials = $dominion->race->construction_materials;
 
         $primaryResource = null;
         $secondaryResource = null;

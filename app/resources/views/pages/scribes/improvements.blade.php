@@ -41,8 +41,8 @@
                               <td>
                                     <table>
                                         <colgroup>
-                                            <col width="150">
-                                            <col width="50">
+                                            <col width="180">
+                                            <col width="80">
                                             <col width="100">
                                         </colgroup>
                                         <thead>

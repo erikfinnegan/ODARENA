@@ -3,7 +3,7 @@
     <!-- Logo -->
     <a href="{{ url('') }}" class="logo">
         <span class="logo-mini">OD<b>A</b></span>
-        <span class="logo-lg">OD<b>ARENA</b></span>
+        <span class="logo-lg"><b>ODARENA</b></span>
     </a>
 
     <!-- Header Navbar -->

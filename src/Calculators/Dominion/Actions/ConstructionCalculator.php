@@ -76,7 +76,7 @@ class ConstructionCalculator
         $cost = 250 + ($this->landCalculator->getTotalLand($dominion) * 1.5);
         $cost /= 2;
 
-        if(count($this->raceHelper->getConstructionMaterials($dominion->race)) === 1)
+        if(count($dominion->race->construction_materials) === 1)
         {
             $cost /= static::SINGLE_RESOURCE_COST_DIVISOR;
         }
@@ -135,7 +135,7 @@ class ConstructionCalculator
     public function getMaxAfford(Dominion $dominion): int
     {
 
-        $constructionMaterials = $this->raceHelper->getConstructionMaterials($dominion->race);
+        $constructionMaterials = $dominion->race->construction_materials;
         $barrenLand = $this->landCalculator->getTotalBarrenLand($dominion);
 
         if($dominion->race->getPerkValue('no_construction_costs'))

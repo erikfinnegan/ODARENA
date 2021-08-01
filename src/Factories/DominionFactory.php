@@ -233,7 +233,7 @@ class DominionFactory
         }
 
         # Check construction materials
-        $constructionMaterials = $this->raceHelper->getConstructionMaterials($race);
+        $constructionMaterials = $race->construction_materials;
 
         // If primary resource isn't plat, give 1/10 of plat as primary resource.
         if($constructionMaterials[0] !== 'gold')

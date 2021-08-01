@@ -1,9 +1,5 @@
 @extends('layouts.master')
 
-{{--
-@section('page-header', 'History')
---}}
-
 @section('content')
     @include('partials.dominion.advisor-selector')
 

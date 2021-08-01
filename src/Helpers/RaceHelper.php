@@ -649,7 +649,6 @@ class RaceHelper
         return ucwords($term);
     }
 
-
     public function getSpyCost(Race $race): array
     {
         $cost = explode(',', $race->spies_cost);
@@ -673,21 +672,6 @@ class RaceHelper
         $archmageCost['resource'] = $cost[1];
 
         return $archmageCost;
-    }
-
-    /**
-     * Returns the Dominion's construction materials.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getConstructionMaterials(Race $race): array
-    {
-        if($race->construction_materials === null)
-        {
-            return [];
-        }
-        return explode(',', $race->construction_materials);
     }
 
     # Unfinished - add starting resources to the yml files (if different)

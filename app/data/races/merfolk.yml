@@ -56,7 +56,7 @@ units:
       - intelligent
       - massive
     cost:
-      gold: 400000
+      gold: 425000
     power:
       offense: 0
       defense: 2200
@@ -72,7 +72,7 @@ units:
       - intelligent
       - massive
     cost:
-      gold: 210000
+      gold: 225000
     power:
       offense: 1200
       defense: 700

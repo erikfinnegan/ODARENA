@@ -1,9 +1,5 @@
 @extends ('layouts.master')
 
-{{--
-@section('page-header', 'Calculators')
---}}
-
 @section('content')
 
     <div class="row">

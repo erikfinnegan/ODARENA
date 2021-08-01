@@ -46,7 +46,7 @@
 
                 <!-- Navbar Header -->
                 <div class="navbar-header">
-                    <a href="{{ url('') }}" class="navbar-brand">OD<b>ARENA</b></a>
+                    <a href="{{ url('') }}" class="navbar-brand"><b>ODARENA</b></a>
                     <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                         <i class="fas fa-compress"></i>
                     </button>

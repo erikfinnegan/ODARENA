@@ -1,9 +1,5 @@
 @extends('layouts.master')
 
-{{--
-@section('page-header', 'Technological Advances')
---}}
-
 @section('content')
     @php
       $unlockedTechs = $selectedDominion->techs->pluck('key')->all()

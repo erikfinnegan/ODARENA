@@ -290,17 +290,12 @@
                           <tbody>
                               <tr>
                                   <td>Home land type:</td>
-                                  <td>{!! $landHelper->getLandTypeIconHtml($race->home_land_type) !!} {{ ucwords($race->home_land_type) }}<td>
+                                  <td>{{ ucwords($race->home_land_type) }} {!! $landHelper->getLandTypeIconHtml($race->home_land_type) !!}<td>
                               </tr>
-                              @php
-                                  $constructionMaterials = $raceHelper->getConstructionMaterials($race);
-                              @endphp
-
 
                               <tr>
-                                  <td colspan="2" class="text-center"><b>Improvement Resources</b></th>
+                                  <td colspan="2" class="text-center"><b>Improvements</b></th>
                               </tr>
-
                               @foreach($race->improvement_resources as $resource => $value)
                                   <tr>
                                       <td>{{ ucwords($resource) }}:</td>
@@ -309,25 +304,25 @@
                               @endforeach
 
                               <tr>
-                                  <td colspan="2" class="text-center"><b>Construction Materials</b></th>
+                                  <td colspan="2" class="text-center"><b>Construction</b></th>
                               </tr>
                               @if($race->getPerkValue('cannot_construct'))
                                   <tr>
                                       <td colspan="2" class="text-center">Cannot construct buildings.</td>
                                   </tr>
-                              @elseif(count($constructionMaterials) === 1)
+                              @elseif(count($race->construction_materials) === 1)
                                   <tr>
                                       <td>Resource:</td>
-                                      <td>{{ ucwords($constructionMaterials[0]) }}<td>
+                                      <td>{{ ucwords($race->construction_materials[0]) }}<td>
                                   </tr>
                               @else
                                   <tr>
                                       <td>Primary:</td>
-                                      <td>{{ ucwords($constructionMaterials[0]) }}<td>
+                                      <td>{{ ucwords($race->construction_materials[0]) }}<td>
                                   </tr>
                                   <tr>
                                       <td>Secondary:</td>
-                                      <td>{{ ucwords($constructionMaterials[1]) }}<td>
+                                      <td>{{ ucwords($race->construction_materials[1]) }}<td>
                                   </tr>
                               @endif
                           </tbody>
@@ -410,8 +405,8 @@
                                   <td>
                                       <table>
                                           <colgroup>
-                                              <col width="150">
-                                              <col width="50">
+                                              <col width="180">
+                                              <col width="80">
                                               <col width="100">
                                           </colgroup>
                                           <thead>
