@@ -10,8 +10,6 @@ exploring : 0
 converting: 0
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   salvaging: 80
   cannot_release_units: 1

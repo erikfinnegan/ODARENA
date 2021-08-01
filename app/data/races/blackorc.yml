@@ -9,8 +9,6 @@ exploring : 1
 converting: 0
 skill_level: 3
 
-construction_materials: gold,lumber
-
 perks:
   food_consumption: 20
   lumber_production: 50

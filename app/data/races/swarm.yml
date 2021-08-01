@@ -14,7 +14,8 @@ exploring : 2
 converting: 3
 skill_level: 2
 
-construction_materials: gold
+construction_materials:
+  - gold
 
 perks:
   extra_barren_max_population: 27

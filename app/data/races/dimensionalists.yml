@@ -10,14 +10,18 @@ exploring : 1
 converting: 2
 skill_level: 3
 
-construction_materials: gold,lumber
+improvement_resources:
+  gold: 1
+  ore: 2
+  lumber: 2
+  gems: 12
 
 perks:
   construction_cost: 15
   max_population: -50
   food_consumption: -80
-units:
 
+units:
   - name: Summoner
     training_time: 9
     static_networth: 8

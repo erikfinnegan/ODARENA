@@ -11,8 +11,6 @@ exploring : 0
 converting: 1
 skill_level: 3
 
-construction_materials: gold,lumber
-
 perks:
   max_per_round: 1
   min_rounds_played: 5

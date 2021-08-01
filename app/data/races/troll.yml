@@ -9,11 +9,14 @@ exploring : 2
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
+improvement_resources:
+  gold: 0.75
+  ore: 1.5
+  lumber: 1.5
+  gems: 9
 
 perks:
   food_consumption: 25
-  invest_bonus: -25
   gem_production: 50
   cannot_tech: 1
   salvaging: 20

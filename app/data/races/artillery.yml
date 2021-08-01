@@ -9,8 +9,6 @@ exploring : 2
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   max_population: -20
   instant_return: 1

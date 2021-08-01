@@ -9,8 +9,6 @@ exploring : 3
 converting: 3
 skill_level: 3
 
-construction_materials: gold,lumber
-
 perks:
   max_population: 25
   min_rounds_played: 10

@@ -9,14 +9,17 @@ exploring : 3
 converting: 1
 skill_level: 2
 
-construction_materials: gold,lumber
+improvement_resources:
+  gold: 1.2
+  ore: 2.4
+  lumber: 2.4
+  gems: 14.4
 
 perks:
   max_population: 100
   population_growth: 25
   extra_barren_max_population: 5
   gem_production: 20
-  invest_bonus: 20
   explore_cost: 50
   drafting: 2
 

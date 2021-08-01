@@ -9,7 +9,14 @@ exploring : 2
 converting: 2
 skill_level: 1
 
-construction_materials: gold,ore
+construction_materials:
+  - gold
+  - ore
+
+improvement_resources:
+  gold: 1
+  ore: 4
+  gems: 12
 
 perks:
   extra_barren_max_population: 10

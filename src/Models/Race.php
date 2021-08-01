@@ -22,7 +22,18 @@ namespace OpenDominion\Models;
  */
 class Race extends AbstractModel
 {
-    protected const UNITS_PER_BOAT = 30;
+
+
+      protected $casts = [
+          'improvement_resources' => 'array',
+          'home_land_type' => 'text',
+          'peasants_alias' => 'text',
+          'draftees_alias' => 'text',
+          'construction_materials' => 'array',
+          'spies_cost' => 'text',
+          'wizards_cost' => 'text',
+          'archmages_cost' => 'text',
+      ];
 
     public function dominions()
     {
@@ -116,20 +127,4 @@ class Race extends AbstractModel
         return $perkValue;
     }
 
-    /**
-     * Gets a Race's boat capacity.
-     *
-     * @return int
-     */
-    public function getBoatCapacity(): int
-    {
-        $boatCapacity = static::UNITS_PER_BOAT;
-
-        $boatCapacityPerk = $this->getPerkValue('boat_capacity');
-        if ($boatCapacityPerk) {
-            $boatCapacity += $boatCapacityPerk;
-        }
-
-        return $boatCapacity;
-    }
 }

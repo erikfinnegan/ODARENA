@@ -12,7 +12,12 @@ exploring : 3
 converting: 3
 skill_level: 3
 
-construction_materials: gold,lumber
+improvement_resources:
+  gold: 1
+  ore: 2
+  lumber: 2
+  gems: 12
+  souls: 300
 
 perks:
   population_growth: 25

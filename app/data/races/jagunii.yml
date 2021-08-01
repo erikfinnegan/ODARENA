@@ -9,8 +9,6 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   research_points_per_acre: 25
   prestige_gains: 25

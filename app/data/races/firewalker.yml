@@ -9,7 +9,8 @@ exploring : 2
 converting: 1
 skill_level: 1
 
-construction_materials: gold
+construction_materials:
+  - gold
 
 perks:
   damage_from_fireballs: -100

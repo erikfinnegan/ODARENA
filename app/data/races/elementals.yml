@@ -12,7 +12,8 @@ exploring : 3
 converting: 3
 skill_level: 1
 
-construction_materials: mana
+construction_materials:
+  - mana
 
 spies_cost: 1000,mana
 wizards_cost: 1000,mana

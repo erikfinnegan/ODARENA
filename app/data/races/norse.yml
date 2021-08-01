@@ -10,8 +10,6 @@ exploring : 1
 converting: 1
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   exchange_bonus: 10
   lumber_production: 10

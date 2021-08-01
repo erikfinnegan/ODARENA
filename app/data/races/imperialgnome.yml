@@ -9,7 +9,9 @@ exploring : 2
 converting: 3
 skill_level: 2
 
-construction_materials: gold,ore
+construction_materials:
+  - gold
+  - ore
 
 perks:
   gold_production: -10

@@ -91,9 +91,10 @@ class ImproveActionService
         }
 
         if(
-              ($resource == 'mana' and !$dominion->race->getPerkValue('can_invest_mana')) or
+              ($resource == 'mana' and (!$dominion->race->getPerkValue('can_invest_mana') and !$dominion->race->getPerkValue('can_invest_mana_only')) or
+              ($resource == 'blood' and !$dominion->race->getPerkValue('can_invest_blood') and !$dominion->race->getPerkValue('can_invest_blood_only')) or
               ($resource == 'soul' and !$dominion->race->getPerkValue('can_invest_soul')) or
-              ($resource == 'food' and !$dominion->race->getPerkValue('can_invest_food'))
+              ($resource == 'food' and !$dominion->race->getPerkValue('can_invest_food') and !$dominion->race->getPerkValue('can_invest_food_only'))
           )
         {
             throw new GameException('You cannot use ' . $resource .  ' for improvements.');
@@ -108,8 +109,6 @@ class ImproveActionService
         {
             throw new GameException("You do not have enough {$resource}. You have " . number_format($dominion->{'resource_' . $resource}) . ' ' . $resource . ' and tried to invest ' . number_format($totalResourcesToInvest) . '.');
         }
-
-        #dd($data);
 
         foreach ($data as $improvementKey => $amount)
         {

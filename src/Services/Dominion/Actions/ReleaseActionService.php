@@ -74,12 +74,6 @@ class ReleaseActionService
 
         $data = array_map('\intval', $data);
 
-        /*
-
-        array(8) { ["draftees"]=> int(1) ["unit1"]=> int(0) ["unit2"]=> int(0) ["unit3"]=> int(0) ["unit4"]=> int(0) ["spies"]=> int(0) ["wizards"]=> int(0) ["archmages"]=> int(0) }
-
-        */
-
         // Qur: Statis
         if($dominion->getSpellPerkValue('stasis'))
         {
@@ -136,7 +130,7 @@ class ReleaseActionService
             $totalUnitsReturning = 0;
             for ($slot = 1; $slot <= 4; $slot++)
             {
-              $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
+                $totalUnitsReturning += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
             }
             if ($totalUnitsReturning !== 0)
             {

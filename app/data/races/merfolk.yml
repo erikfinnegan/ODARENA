@@ -9,37 +9,44 @@ exploring : 3
 converting: 3
 skill_level: 1
 
-construction_materials: gold
+construction_materials:
+  - gold
 
 perks:
   max_population: -15
   damage_from_fireballs: -100
   damage_from_lightning_bolts: -50
+  barren_water_food_production: 35
+  unit_gold_costs_reduced_by_prestige: 1
+
+improvement_resources:
+  gold: 2
+  gems: 12
+
 units:
-  - name: Merman
-
+  - name: Manta
     training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 300
-    power:
-      offense: 3
-      defense: 0
-
-  - name: Siren
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 300
+      gold: 640
     power:
       offense: 0
-      defense: 3
+      defense: 11
+
+  - name: Sea Serpent
+    training_time: 9
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 1400
+    power:
+      offense: 12
+      defense: 7
 
   - name: Leviathan
     training_time: 12

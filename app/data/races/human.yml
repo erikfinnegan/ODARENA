@@ -10,8 +10,6 @@ exploring : 3
 converting: 3
 skill_level: 1
 
-construction_materials: gold,lumber
-
 perks:
   food_production: 15
   research_points_per_acre: 100

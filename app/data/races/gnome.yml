@@ -9,7 +9,9 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: gold,ore
+construction_materials:
+  - gold
+  - ore
 
 perks:
   food_consumption: -25

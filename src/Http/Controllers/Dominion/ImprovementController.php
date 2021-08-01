@@ -63,15 +63,6 @@ class ImprovementController extends AbstractDominionController
 
         }
 
-        // todo: fire laravel event
-        #$analyticsService = app(AnalyticsService::class);
-        #$analyticsService->queueFlashEvent(new AnalyticsEvent(
-        #    'dominion',
-        #    'improve',
-        #    null,
-        #    array_sum($request->get('improve'))
-        #));
-
         $request->session()->flash('alert-success', $result['message']);
         return redirect()->route('dominion.improvements', [
             'resource' => $request->get('resource'),

@@ -12,7 +12,9 @@ exploring : 2
 converting: 2
 skill_level: 3
 
-construction_materials: food,lumber
+construction_materials:
+  - food
+  - lumber
 
 spies_cost: 100,food
 wizards_cost: 200,food

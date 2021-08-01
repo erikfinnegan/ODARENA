@@ -279,7 +279,7 @@
           <div class="col-sm-12 col-md-12">
               <div class="box">
                   <div class="box-header with-border">
-                      <h3 class="box-title">Lands</h3>
+                      <h3 class="box-title">Resources</h3>
                   </div>
                   <div class="box-body table-responsive no-padding">
                       <table class="table table-striped">
@@ -294,18 +294,28 @@
                               </tr>
                               @php
                                   $constructionMaterials = $raceHelper->getConstructionMaterials($race);
-                                  $materials = count($constructionMaterials);
                               @endphp
 
-                                  <tr>
-                                      <td colspan="3" class="text-center"><b>Construction Materials</b></th>
-                                  </tr>
 
+                              <tr>
+                                  <td colspan="2" class="text-center"><b>Improvement Resources</b></th>
+                              </tr>
+
+                              @foreach($race->improvement_resources as $resource => $value)
+                                  <tr>
+                                      <td>{{ ucwords($resource) }}:</td>
+                                      <td>{{ number_format($value,2) . ' ' . str_plural('points', $value) }}</td>
+                                  </tr>
+                              @endforeach
+
+                              <tr>
+                                  <td colspan="2" class="text-center"><b>Construction Materials</b></th>
+                              </tr>
                               @if($race->getPerkValue('cannot_construct'))
                                   <tr>
-                                      <td colspan="3" class="text-center">Cannot construct buildings.</td>
+                                      <td colspan="2" class="text-center">Cannot construct buildings.</td>
                                   </tr>
-                              @elseif($materials === 1)
+                              @elseif(count($constructionMaterials) === 1)
                                   <tr>
                                       <td>Resource:</td>
                                       <td>{{ ucwords($constructionMaterials[0]) }}<td>
@@ -325,6 +335,7 @@
                   </div>
               </div>
           </div>
+
       </div>
 </div>
 
@@ -432,7 +443,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

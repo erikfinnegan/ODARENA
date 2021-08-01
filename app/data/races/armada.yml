@@ -11,12 +11,15 @@ exploring : 2
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
+improvement_resources:
+  gold: 1.25
+  ore: 2.5
+  lumber: 2.5
+  gems: 15
 
 perks:
   exchange_bonus: 25
   salvaging: 50
-  invest_bonus: 25
 
 units:
   - name: Ensign

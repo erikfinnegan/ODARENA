@@ -12,8 +12,6 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   construction_cost: -25
   food_consumption: -50

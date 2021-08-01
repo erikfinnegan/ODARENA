@@ -483,6 +483,12 @@ class TrainingCalculator
         // Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('unit_' . $resourceType . '_costs');
 
+        // Faction perk: unit_gold_costs_reduced_by_prestige
+        if($dominion->race->getPerkValue('unit_' . $resourceType . '_costs_reduced_by_prestige'))
+        {
+            $multiplier -= $dominion->prestige / 10000;
+        }
+
         // Techs
         if(in_array($resourceType,$discountableResourceTypesByTech))
         {

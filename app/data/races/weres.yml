@@ -10,8 +10,6 @@ exploring : 2
 converting: 1
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   population_growth: 25
   extra_barren_max_population: 5

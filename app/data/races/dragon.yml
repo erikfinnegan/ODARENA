@@ -9,21 +9,22 @@ exploring : 0
 converting: 3
 skill_level: 2
 
-construction_materials: gold,ore
+construction_materials:
+  - gold
+  - ore
 
 perks:
     max_population: -10
     population_growth: -10
     cannot_explore: 1
-units:
 
+units:
   - name: Farmer
     training_time: 2
     type:
       - living
       - sentient
       - intelligent
-
     cost:
       gold: 120
       ore: 10
@@ -56,7 +57,6 @@ units:
       - living
       - sentient
       - intelligent
-
     cost:
       gold: 450
     power:

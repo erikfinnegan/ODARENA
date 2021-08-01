@@ -9,8 +9,6 @@ exploring : 3
 converting: 3
 skill_level: 1
 
-construction_materials: gold,lumber
-
 perks:
   food_consumption: -15
   extra_barren_max_population: 25

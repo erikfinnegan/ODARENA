@@ -6,8 +6,7 @@
             <table class="table">
                 <colgroup>
                     <col width="33%">
-                    <col width="33%">
-                    <col width="33%">
+                    <col width="67%">
                 </colgroup>
                 <thead>
                     <tr>

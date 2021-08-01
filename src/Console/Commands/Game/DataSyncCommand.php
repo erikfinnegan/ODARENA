@@ -92,6 +92,13 @@ class DataSyncCommand extends Command implements CommandInterface
         foreach ($files as $file) {
             $data = Yaml::parse($file->getContents(), Yaml::PARSE_OBJECT_FOR_MAP);
 
+            $defaultImprovementResources = [
+                'gold' => 1,
+                'ore' => 2,
+                'lumber' => 2,
+                'gems' => 12
+            ];
+
             // Race
             $race = Race::firstOrNew(['name' => $data->name])
                 ->fill([
@@ -104,7 +111,8 @@ class DataSyncCommand extends Command implements CommandInterface
                     'converting' => object_get($data, 'converting'),
                     'skill_level' => object_get($data, 'skill_level'),
                     'experimental' => object_get($data, 'experimental', 0),
-                    'construction_materials' => object_get($data, 'construction_materials'),
+                    'improvement_resources' => object_get($data, 'improvement_resources', $defaultImprovementResources),
+                    'construction_materials' => object_get($data, 'construction_materials', ['gold','lumber']),
                     'peasants_alias' => object_get($data, 'peasants_alias', null),
                     'draftees_alias' => object_get($data, 'draftees_alias', null),
 
@@ -119,7 +127,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 $this->info("Processing race {$data->name}");
 
                 $newValues = $race->getDirty();
-
+                /*
                 foreach ($newValues as $key => $newValue)
                 {
                     $originalValue = $race->getOriginal($key);
@@ -135,6 +143,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
+                */
             }
 
             $race->save();

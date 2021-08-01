@@ -9,8 +9,6 @@ exploring : 2
 converting: 3
 skill_level: 3
 
-construction_materials: gold,lumber
-
 peasants_alias: shimmerling
 draftees_alias: ray
 

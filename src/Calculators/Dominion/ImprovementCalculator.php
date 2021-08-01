@@ -32,35 +32,9 @@ class ImprovementCalculator
                     'gems' => 12,
                 ];
 
-        # Mana investments
-        if($dominion->race->getPerkValue('can_invest_mana'))
+        if($dominion)
         {
-            $worth['mana'] = $dominion->race->getPerkValue('can_invest_mana');
-        }
-
-        # Food investments
-        if($dominion->race->getPerkValue('can_invest_food'))
-        {
-            $worth['food'] = $dominion->race->getPerkValue('can_invest_food');
-        }
-
-        # Soul investments
-        if($dominion->race->getPerkValue('can_invest_soul'))
-        {
-            $worth['soul'] = $dominion->race->getPerkValue('can_invest_soul');
-        }
-
-        # Soul investments
-        if($dominion->race->getPerkValue('can_invest_blood'))
-        {
-            $worth['blood'] = $dominion->race->getPerkValue('can_invest_blood');
-        }
-
-        # Soul investments
-        if($dominion->race->getPerkValue('can_invest_blood_only'))
-        {
-            unset($worth);
-            return $dominion->race->getPerkValue('can_invest_blood_only');
+            $worth = $dominion->race->improvement_resources;
         }
 
         return $worth[$resource];

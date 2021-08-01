@@ -20,8 +20,6 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   gold_production: 10
   ore_production: 25

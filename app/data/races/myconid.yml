@@ -13,7 +13,8 @@ exploring : 2
 converting: 0
 skill_level: 3
 
-construction_materials: food
+construction_materials:
+  - food
 
 perks:
   cannot_train_spies: 1

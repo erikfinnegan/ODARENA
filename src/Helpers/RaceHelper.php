@@ -15,11 +15,6 @@ class RaceHelper
         $valueType = '%';
         $booleanValue = false;
         switch($perkType->key) {
-            case 'archmage_cost':
-                $negativeBenefit = true;
-                $description = 'Archmage cost';
-                $valueType = 'p';
-                break;
             case 'construction_cost':
                 $negativeBenefit = true;
                 $description = 'Construction cost';
@@ -37,10 +32,6 @@ class RaceHelper
             case 'rezone_cost':
                 $negativeBenefit = true;
                 $description = 'Rezoning cost';
-                break;
-            case 'defense':
-                $negativeBenefit = false;
-                $description = 'Defensive power';
                 break;
             case 'extra_barren_max_population':
                 $negativeBenefit = false;
@@ -81,11 +72,6 @@ class RaceHelper
                 $booleanValue = 'static';
                 $valueType = ' ore/tick';
                 break;
-            case 'extra_ore_mine_housing':
-                $negativeBenefit = false;
-                $description = 'Additional housing in ore mines';
-                $valueType = '';
-                break;
             case 'food_consumption':
                 $negativeBenefit = true;
                 $description = 'Food consumption';
@@ -98,14 +84,6 @@ class RaceHelper
             case 'food_production':
                 $negativeBenefit = false;
                 $description = 'Food production';
-                break;
-            case 'food_decay':
-                $negativeBenefit = true;
-                $description = 'Food decay';
-                break;
-            case 'lumber_decay':
-                $negativeBenefit = true;
-                $description = 'Lumber decay';
                 break;
             case 'gem_production':
                 $negativeBenefit = false;
@@ -125,10 +103,6 @@ class RaceHelper
                 $description = 'Immortal spies';
                 $booleanValue = true;
                 break;
-            case 'invest_bonus':
-                $negativeBenefit = false;
-                $description = 'Improvement points';
-                break;
             case 'lumber_production':
                 $negativeBenefit = false;
                 $description = 'Lumber production';
@@ -145,10 +119,6 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'No population';
                 $booleanValue = true;
-                break;
-            case 'offense':
-                $negativeBenefit = false;
-                $description = 'Offensive power';
                 break;
             case 'ore_production':
                 $negativeBenefit = false;
@@ -181,33 +151,10 @@ class RaceHelper
                 $description = 'Cannot exchange resources';
                 $booleanValue = true;
                 break;
-            case 'boat_capacity':
-                $negativeBenefit = false;
-                $description = 'Increased boat capacity';
-                $valueType = ' units/boat';
-                break;
-            case 'can_invest_mana':
-                $negativeBenefit = false;
-                $description = 'Can use mana for improvements';
-                $valueType = ' points per mana';
-                $booleanValue = 'static';
-                break;
             case 'improvements_interest':
                 $negativeBenefit = false;
                 $description = 'Improvement interest';
                 $valueType = '% / tick';
-                $booleanValue = 'static';
-                break;
-            case 'can_invest_soul':
-                $negativeBenefit = false;
-                $description = 'Can use souls for improvements';
-                $valueType = ' points per soul';
-                $booleanValue = 'static';
-                break;
-            case 'can_invest_food':
-                $negativeBenefit = false;
-                $description = 'Can use food for improvements';
-                $valueType = ' points per food';
                 $booleanValue = 'static';
                 break;
             case 'population_growth':
@@ -275,16 +222,6 @@ class RaceHelper
             case 'exchange_bonus':
                 $negativeBenefit = false;
                 $description = 'Better exchange rates';
-                break;
-            case 'guard_tax_exemption':
-                $negativeBenefit = false;
-                $description = 'Exempt from guard gold tax';
-                $booleanValue = true;
-                break;
-          case 'tissue_improvement':
-                $negativeBenefit = false;
-                $description = 'Tissue improvements';
-                $booleanValue = true;
                 break;
           case 'does_not_kill':
                 $negativeBenefit = false;
@@ -371,6 +308,11 @@ class RaceHelper
                 $valueType = '% per tick';
                 $booleanValue = 'static';
                 break;
+            case 'cannot_tech':
+                $negativeBenefit = true;
+                $description = 'Cannot level up advancements';
+                $booleanValue = true;
+                break;
             case 'tech_costs':
                 $negativeBenefit = true;
                 $description = 'Cost of technological advancements';
@@ -378,19 +320,6 @@ class RaceHelper
             case 'experience_points_per_acre':
                 $negativeBenefit = false;
                 $description = 'Experience points gained per acre on successful invasions';
-                break;
-            case 'cannot_tech':
-                $negativeBenefit = true;
-                $description = 'Cannot level up advancements';
-                $booleanValue = true;
-                break;
-            case 'ore_improvement_points':
-                $negativeBenefit = false;
-                $description = 'Improvement points from ore';
-                break;
-            case 'lumber_improvement_points':
-                $negativeBenefit = false;
-                $description = 'Improvement points from lumber';
                 break;
             case 'research_points_per_acre':
                 $negativeBenefit = false;
@@ -578,6 +507,12 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Units return instantly when invading';
                 $booleanValue = true;
+                break;
+          case 'unit_gold_costs_reduced_by_prestige':
+                $negativeBenefit = false;
+                $description = 'Unit gold costs reduced by prestige';
+                $valueType = '% per 100 prestige';
+                $booleanValue = 'static';
                 break;
           default:
                 return null;

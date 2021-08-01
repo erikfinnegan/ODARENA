@@ -9,8 +9,6 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   salvaging: 65
   gem_production: 20

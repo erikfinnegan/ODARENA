@@ -10,14 +10,12 @@ exploring : 3
 converting: 3
 skill_level: 2
 
-construction_materials: gold,lumber
-
 perks:
   gem_production: 10
 units:
   - name: Crusader
     training_time: 9
-    
+
     cost:
       gold: 350
       ore: 35
@@ -29,7 +27,7 @@ units:
 
   - name: Follower
     training_time: 6
-    
+
     cost:
       gold: 0
       ore: 0
@@ -42,7 +40,7 @@ units:
 
   - name: Pikeman
     training_time: 12
-    
+
     cost:
       gold: 900
       ore: 90

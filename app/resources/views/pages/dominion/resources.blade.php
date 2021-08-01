@@ -349,7 +349,7 @@
                     <ul>
                         <li>Gold, lumber and ore trade 2 for 1.</li>
                         <li>Gems trade for 1:2 gold, lumber or ore.</li>
-                        <li>Food trades for 1:4 gold, lumber or ore.</li>
+                        <li>Food trades for 1:10 gold, lumber or ore.</li>
                     </ul>
                 </div>
             </div>

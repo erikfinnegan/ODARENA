@@ -19,8 +19,6 @@ exploring : 0
 converting: 0
 skill_level: 3
 
-construction_materials: gold,lumber
-
 perks:
   max_population: 20
   population_growth: 30
