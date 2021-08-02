@@ -885,6 +885,12 @@ class EspionageActionService
 
                     $this->statsService->updateStat($dominion, 'espionage_draftees_killed', $damage);
                     $this->statsService->updateStat($target, 'draftees_lost', $damage);
+                    
+                    {
+                        $newUnit = 'military_unit' . $dominion->race->getPerkValue('converts_assassinated_draftees');
+                        $this->statsService->updateStat($dominion, 'units_converted', $damage);
+                        $this->queueService->queueResources('training', $dominion, [$newUnit => $damage], 12);
+                    }
                 }
 
                 if($perk->key === 'kill_wizards')
