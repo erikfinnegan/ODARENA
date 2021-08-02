@@ -133,6 +133,9 @@ class UnitHelper
             'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
 
+            'offense_from_being_outnumbered' => 'Offense increased by +%1$s if total units sent are outnumbered by the target\'s entire military at home (including draftees and units with no defensive power).',
+            'defense_from_being_outnumbered' => 'Defense increased by +%1$s if total units at home defending are outnumbered by the invading units.',
+
             'offense_from_spell' => 'Offense increased by %2$s if the spell %1$s is active.',
             'defense_from_spell' => 'Defense increased by %2$s if the spell %1$s is active.',
 

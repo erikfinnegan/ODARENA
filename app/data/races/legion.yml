@@ -58,8 +58,8 @@ units:
     cost:
       gold: 0
     power:
-      offense: 12
-      defense: 12
+      offense: 10
+      defense: 10
     perks:
       cannot_be_trained: 1
       casualties: -50

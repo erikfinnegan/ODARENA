@@ -1556,7 +1556,8 @@ class InvadeActionService
     protected function handleReturningUnits(Dominion $attacker, array $units, array $convertedUnits, array $mindControlledUnits): void
     {
         # If instant return
-        if(random_chance($attacker->getImprovementPerkMultiplier('chance_of_instant_return')) or $attacker->race->getPerkValue('instant_return') or $attacker->getSpellPerkValue('instant_return'))
+        #if(random_chance($attacker->getImprovementPerkMultiplier('chance_of_instant_return')) or $attacker->race->getPerkValue('instant_return') or $attacker->getSpellPerkValue('instant_return'))
+        if(1==1)
         {
             $this->invasionResult['attacker']['instantReturn'] = true;
             foreach($units as $unitKey => $returningAmount)

@@ -139,7 +139,7 @@
                   @endphp
 
                   @if($improvementsBonus > 0)
-                      <p>You improvements are increased by <strong>{{ number_format($improvementsBonus*100,2) }}%</strong>.</p>
+                      <p>Your improvements are increased by <strong>{{ number_format($improvementsBonus*100,2) }}%</strong>.</p>
                   @endif
 
                   <table class="table">

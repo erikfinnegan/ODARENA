@@ -28,7 +28,7 @@ class InvasionController extends AbstractDominionController
             'protectionService' => app(ProtectionService::class),
 
             'improvementCalculator' => app(ImprovementCalculator::class),
-            'landImprovementCalculator' => app(LandImprovementCalculator::class)
+            'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
