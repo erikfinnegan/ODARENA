@@ -67,6 +67,7 @@
                                         $offenseVsResource = [];
                                         $offenseVsOpposingUnits = [];
                                         $offenseFromMob = [];
+                                        $offenseFromBeingOutnumbered = [];
                                     @endphp
                                     @foreach (range(1, 4) as $unitSlot)
                                         @php
@@ -116,6 +117,11 @@
                                                 $offenseFromMobPerk = $unit->getPerkValue('offense_mob');
                                                 if ($offenseFromMobPerk) {
                                                     $offenseFromMob = explode(',', $offenseFromMobPerk)[0];
+                                                }
+
+                                                $offenseFromBeingOutnumberedPerk = $unit->getPerkValue('offense_from_being_outnumbered');
+                                                if ($offenseFromBeingOutnumberedPerk) {
+                                                    $offenseFromBeingOutnumbered = explode(',', $offenseFromBeingOutnumberedPerk)[0];
                                                 }
 
                                             }
@@ -254,7 +260,33 @@
                                                        min="0"
                                                        placeholder="0"
                                                        {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                                  {{-- Tried and failed to get this to be a hidden input, but textarea works... --}}
+                                                  <textarea type="hidden" style="display: none;"
+                                                         id="invasion-total-units"
+                                                         name="calc[units_sent]"
+                                                         class="form-control text-center"
+                                                         min="0"
+                                                         placeholder="0"
+                                                         data-amount="0"
+                                                         value=""
+                                                         {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                                       </textarea>
+
+
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @if($offenseFromBeingOutnumbered)
+                                        <tr>
+                                            <td colspan="3" class="text-right">
+                                                <b>Enter total number of units target has at home:</b>
+                                            </td>
+                                            <td>
+                                                <input type="number"
+                                                       name="calc[opposing_units]"
+                                                       class="form-control text-center"
+                                                       min="0"
+                                                       placeholder="0"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                                   <textarea type="hidden" style="display: none;"
                                                          id="invasion-total-units"
                                                          name="calc[units_sent]"

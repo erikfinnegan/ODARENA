@@ -1266,7 +1266,7 @@ class MilitaryCalculator
               # Override resource amount for invasion calculator
               if (isset($calc['opposing_units']))
               {
-                  if($calc['units_sent'] > $calc['opposing_units'])
+                  if($calc['units_sent'] < $calc['opposing_units'])
                   {
                       $powerFromPerk = $mobPerk[0];
                   }
