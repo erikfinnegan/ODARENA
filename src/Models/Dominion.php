@@ -457,15 +457,6 @@ class Dominion extends AbstractModel
 
     public function isAbandoned(): bool
     {
-        /*
-        if($this->user_id === null)
-        {
-            return true;
-        }
-
-        return false;
-        */
-
         return $this->user_id ? false : true;
     }
 
@@ -480,7 +471,7 @@ class Dominion extends AbstractModel
                 return "Rule violation.";
 
             default:
-                return 'None.';
+                return 'Round ended.';
         }
     }
 

@@ -35,7 +35,7 @@ class RaceHelper
                 break;
             case 'extra_barren_max_population':
                 $negativeBenefit = false;
-                $description = 'Extra housing from barren land and unfinished buildings';
+                $description = 'Extra housing from barren land';
                 $valueType = '';
                 break;
             case 'extra_barren_forest_max_population':

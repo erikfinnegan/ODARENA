@@ -443,7 +443,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
             # LEGION ANNEX SUPPORT EVENTS
@@ -486,7 +486,7 @@ class InvadeActionService
                 }
             }
             # LIBERATION
-            elseif($this->invasionResult['attacker']['liberation'])
+            elseif(isset($this->invasionResult['attacker']['liberation']) and $this->invasionResult['attacker']['liberation'])
             {
                 $this->spellActionService->breakSpell($target, 'annexation', $this->invasionResult['attacker']['liberation']);
             }
@@ -2297,7 +2297,7 @@ class InvadeActionService
         $this->invasionResult['defender']['salvage'] = $result['defender']['salvage'];
     }
 
-    # Add casualties to the Imperial Crypto.
+    # Add casualties to the Imperial Crypt.
     protected function handleCrypt(Dominion $attacker, Dominion $defender, array $offensiveConversions, array $defensiveConversions): void
     {
 

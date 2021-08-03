@@ -210,7 +210,7 @@ class MiscController extends AbstractDominionController
 
         $this->dominionSelectorService->unsetUserSelectedDominion();
 
-        $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
+        #$dominion->save(['event' => HistoryService::EVENT_ACTION_ABANDON]);
 
         Log::info(sprintf(
             'The dominion %s (ID %s) was abandoned by user %s (ID %s).',

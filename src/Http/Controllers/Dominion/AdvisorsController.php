@@ -19,6 +19,7 @@ use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\DominionHistory;
 use OpenDominion\Services\Dominion\StatsService;
 
 class AdvisorsController extends AbstractDominionController
@@ -113,10 +114,16 @@ class AdvisorsController extends AbstractDominionController
         $resultsPerPage = 25;
         $selectedDominion = $this->getSelectedDominion();
 
+        $dominionHistory = DominionHistory::where('dominion_id', $selectedDominion->id)->paginate(25);
+
+        /*
         $history = DB::table('dominion_history')
                             ->where('dominion_history.dominion_id', '=', $selectedDominion->id)
                             ->orderBy('dominion_history.created_at', 'desc')
                             ->get();
+        */
+
+        $history = $dominionHistory;
 
 
         return view('pages.dominion.advisors.history', [
