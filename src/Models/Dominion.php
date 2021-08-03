@@ -127,11 +127,9 @@ class Dominion extends AbstractModel
         'resource_ore' => 'integer',
         'resource_gems' => 'integer',
         'resource_tech' => 'integer',
-        'resource_boats' => 'float',
         'resource_champion' => 'integer',
         'resource_soul' => 'integer',
         'resource_blood' => 'integer',
-        'resource_wild_yeti' => 'integer',
 
         'improvement_markets' => 'integer',
         'improvement_keep' => 'integer',

@@ -54,7 +54,6 @@ class BuildingHelper
             'ore_production' => 'Produces %s ore per tick.',
             'gem_production' => 'Produces %s gems per tick.',
             'mana_production' => 'Produces %s mana per tick.',
-            'boat_production' => 'Produces %s boats per tick.',
 
             'gold_production_modifier' => 'Gold production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'food_production_modifier' => 'Food production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
@@ -78,8 +77,6 @@ class BuildingHelper
             # Military
             'offensive_casualties' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-
-            'boat_protection' => 'Protects %s boats from sabotage.',
 
             'unit_gold_costs' => 'Unit gold costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'unit_ore_costs' => 'Unit ore costs %2$s%% for every %1$s%% (max %3$s%% reduction).',

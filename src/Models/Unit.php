@@ -13,7 +13,6 @@ namespace OpenDominion\Models;
  * @property int $cost_ore
  * @property float $power_offense
  * @property float $power_defense
- * @property bool $need_boat
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\OpenDominion\Models\UnitPerkType[] $perks
@@ -31,14 +30,12 @@ class Unit extends AbstractModel
         'cost_ore' => 'integer',
         'power_offense' => 'float',
         'power_defense' => 'float',
-        'need_boat' => 'boolean',
         'type' => 'array',
         'cost_food' => 'integer',
         'cost_mana' => 'integer',
         'cost_gem' => 'integer',
         'cost_lumber' => 'integer',
         'cost_prestige' => 'integer',
-        'cost_boat' => 'integer',
         'cost_champion' => 'integer',
         'cost_soul' => 'integer',
         'cost_blood' => 'integer',
@@ -48,7 +45,6 @@ class Unit extends AbstractModel
         'cost_unit4' => 'integer',
         'cost_morale' => 'integer',
         'cost_peasant' => 'integer',
-        'cost_wild_yeti' => 'integer',
         'cost_spy' => 'integer',
         'cost_wizard' => 'integer',
         'cost_archmage' => 'integer',

@@ -104,17 +104,13 @@ class TrainActionService
             'ore' => 0,
             'draftees' => 0,
             'wizards' => 0,
-
-            //New unit cost resources
             'food' => 0,
             'mana' => 0,
             'gem' => 0,
             'lumber' => 0,
             'prestige' => 0,
-            'boat' => 0,
             'champion' => 0,
             'soul' => 0,
-            'wild_yeti' => 0,
             'blood' => 0,
             'morale' => 0,
             'peasant' => 0,
@@ -427,10 +423,6 @@ class TrainActionService
         {
           throw new GameException('Training failed due to insufficient prestige. You tried to spend ' . number_format($totalCosts['prestige']) .  ' but only have ' . number_format($dominion->prestige) .'.');
         }
-        if($totalCosts['boat'] > $dominion->resource_boats)
-        {
-          throw new GameException('Training failed due to insufficient boats. You tried to spend ' . number_format($totalCosts['boat']) .  ' but only have ' . number_format($dominion->resource_boats) .'.');
-        }
         if($totalCosts['champion'] > $dominion->resource_champion)
         {
           throw new GameException('You do not have enough Champions. You tried to spend ' . number_format($totalCosts['champion']) .  ' but only have ' . number_format($dominion->resource_champion) .'.');
@@ -438,10 +430,6 @@ class TrainActionService
         if($totalCosts['soul'] > $dominion->resource_soul)
         {
           throw new GameException('Insufficient souls. Collect more souls. You tried to spend ' . number_format($totalCosts['soul']) .  ' but only have ' . number_format($dominion->resource_soul) .'.');
-        }
-        if($totalCosts['wild_yeti'] > $dominion->resource_wild_yeti)
-        {
-          throw new GameException('You do not have enough wild yetis. You tried to spend ' . number_format($totalCosts['wild_yeti']) .  ' but only have ' . number_format($dominion->resource_wild_yeti) .'.');
         }
         if($totalCosts['blood'] > $dominion->resource_blood)
         {
@@ -514,10 +502,8 @@ class TrainActionService
             $dominion->resource_gems -= $totalCosts['gem'];
             $dominion->resource_lumber -= $totalCosts['lumber'];
             $dominion->prestige -= $totalCosts['prestige'];
-            $dominion->resource_boats -= $totalCosts['boat'];
             $dominion->resource_champion -= $totalCosts['champion'];
             $dominion->resource_soul -= $totalCosts['soul'];
-            $dominion->resource_wild_yeti -= $totalCosts['wild_yeti'];
             $dominion->resource_blood -= $totalCosts['blood'];
             $dominion->morale = max(0, ($dominion->morale - $totalCosts['morale']));
             $dominion->peasants -= $totalCosts['peasant'];
@@ -733,7 +719,7 @@ class TrainActionService
             }
 
 #            if (!\in_array($costType, ['gold', 'ore'], true)) {
-            if (!\in_array($costType, ['gold', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'boat', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
+            if (!\in_array($costType, ['gold', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
             {
                 $costType = str_plural($costType, $cost);
             }
@@ -747,7 +733,7 @@ class TrainActionService
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
             str_replace('And', 'and', ucwords($unitsToTrainString)),
-            str_replace('Wild_yeti','wild yeti',str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString))))
+            str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString)))
         );
 
         return $message;

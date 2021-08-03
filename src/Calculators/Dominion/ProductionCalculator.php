@@ -831,16 +831,6 @@ class ProductionCalculator
     }
 
 
-
-    /**
-     * Returns the Dominion's raw boat production per hour.
-     *
-     * Boats are produced by:
-     * - Building: Dock (20 per)
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
     public function getPrestigeInterest(Dominion $dominion): float
     {
         if($dominion->isAbandoned())
@@ -848,17 +838,6 @@ class ProductionCalculator
             return 0;
         }
         return $dominion->prestige * max(0, $this->militaryCalculator->getNetVictories($dominion) / 40000);
-    }
-
-    /**
-     * Returns the Dominion's boat production per hour.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getBoatProduction(Dominion $dominion): float
-    {
-        return 0;
     }
 
     /**

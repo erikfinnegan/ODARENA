@@ -98,9 +98,6 @@ class SpellHelper
             'kills_faction_units_percentage' => 'Kills %3$s%% of %1$s %2$s.',
             'kills_faction_units_amount' => 'Kills %3$s%s of %1$s %2$s.',
 
-            'cannot_send_boats' => 'Cannot send boats.',
-            'boats_sunk' => '%s%% boats lost to sinking.',
-
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
             'summon_units_from_land_by_time' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3$s%%  per hour into the round.',
 

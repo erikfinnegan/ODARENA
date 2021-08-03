@@ -8,7 +8,7 @@ description:
   <li>Wizard Strength increased by 2 x Swamp %.</li>
   <li>Defensive Power increased by 0.65 x Hills %.</li>
   <li>Offensive Power increased by 0.15 x Plains %.</li>
-  <li>Food and Boat production increased by 5 x Water %.</li>
+  <li>Food production increased by 5 x Water %.</li>
   </ul>
   <p>These bonuses are increased by Prestige using the standard prestige multiplier.</p>
 home_land_type: forest
@@ -34,13 +34,15 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 600
+      gold: 1000
+      lumber: 10
     power:
       offense: 0
-      defense: 8
+      defense: 7
     perks:
       counts_as_wizard_offense: 0.50
       counts_as_wizard_defense: 0.25
+
   - name: Boar Man
     training_time: 12
     type:
@@ -51,11 +53,12 @@ units:
       gold: 1200
       ore: 100
     power:
-      offense: 10
-      defense: 7
+      offense: 8
+      defense: 5
     perks:
       offense_from_being_outnumbered: 2 # +2 OP when they outnumber the defender's units
       kills_into_resources_per_value: 0.1;blood,6;food # each 1 OP/DP killed becomes
+
   - name: Blood Horn
     training_time: 12
     type:
@@ -66,11 +69,12 @@ units:
       gold: 1200
       ore: 100
     power:
-      offense: 10
-      defense: 7
+      offense: 8
+      defense: 5
     perks:
       offense_if_target_recently_invaded: 2
       kills_into_resource_per_value: 0.3,blood
+
   - name: Minotaur
     training_time: 12
     type:
@@ -81,8 +85,8 @@ units:
       gold: 1200
       ore: 100
     power:
-      offense: 10
-      defense: 7
+      offense: 8
+      defense: 5
     perks:
       offense_if_target_is_larger: 2
       kills_into_resources_per_value: 0.15;blood,4;food # each 1 OP/DP killed becomes

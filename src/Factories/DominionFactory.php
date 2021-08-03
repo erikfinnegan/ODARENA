@@ -150,11 +150,8 @@ class DominionFactory
         $startingResources['food'] = 50000 * 2.5; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later. | Round 40: 2.5x
         $startingResources['mana'] = 20000; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
 
-        $startingResources['boats'] = 100;
-
         $startingResources['soul'] = 0;
         $startingResources['blood'] = 0;
-        $startingResources['wild_yeti'] = 0;
 
         $startingResources['tech'] = 400 * $hoursSinceRoundStarted;
 
@@ -206,9 +203,6 @@ class DominionFactory
         {
             $startingResources['food'] = 0;
         }
-
-        // Boat-free races: no boats
-        $startingResources['boats'] = 0;
 
         // Mana-cost races: triple Mana
         $manaCostRaces = array('Elementals','Demon','Dimensionalists','Lux','Norse','Snow Elf','Nox','Undead','Void','Icekin','Marshling');
@@ -363,7 +357,6 @@ class DominionFactory
             $startingResources['ore'] = 0;
             $startingResources['lumber'] = 0;
             $startingResources['gems'] = 0;
-            $startingResources['boats'] = 0;
             $startingResources['tech'] = 50000;
 
             $startingResources['unit1'] = 333;
@@ -391,7 +384,6 @@ class DominionFactory
                 $startingResources['lumber'] = 0;
                 $startingResources['food'] = 0;
                 $startingResources['mana'] = 0;
-                $startingResources['boats'] = 0;
 
                 # Starting units for Barbarians
                 $dpaTarget = $this->barbarianCalculator->getDpaTarget(null, $realm->round, $startingResources['npc_modifier']);
@@ -447,10 +439,8 @@ class DominionFactory
             'resource_ore' => intval($startingResources['ore'] * $startingResourcesMultiplier),
             'resource_gems' => intval($startingResources['gems'] * $startingResourcesMultiplier),
             'resource_tech' => intval($startingResources['tech'] * $startingResourcesMultiplier),
-            'resource_boats' => 0,
             'resource_champion' => 0,
             'resource_soul' => intval($startingResources['soul'] * $startingResourcesMultiplier),
-            'resource_wild_yeti' => intval($startingResources['wild_yeti'] * $startingResourcesMultiplier),
             'resource_blood' => intval($startingResources['blood'] * $startingResourcesMultiplier),
             # End new resources
 

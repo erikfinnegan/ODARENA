@@ -174,10 +174,6 @@
                                                 $unitCostString .= (', ' . number_format($unit->cost_prestige) . ' Prestige');
                                             }
 
-                                            if ($unit->cost_boat > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_boat) . ' boat');
-                                            }
-
                                             if ($unit->cost_champion > 0) {
                                                 $unitCostString .= (', ' . number_format($unit->cost_champion) . ' Champion');
                                             }
@@ -212,10 +208,6 @@
 
                                             if ($unit->cost_peasant > 0) {
                                                 $unitCostString .= (', ' . number_format($unit->cost_peasant) . ' peasant');
-                                            }
-
-                                            if ($unit->cost_wild_yeti > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_wild_yeti) . '  wild yeti');
                                             }
 
                                             if ($unit->cost_spy > 0) {

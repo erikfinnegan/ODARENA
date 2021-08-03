@@ -128,12 +128,10 @@ class TrainingCalculator
                     $gem = $units[$unitSlot]->cost_gem;
                     $lumber = $units[$unitSlot]->cost_lumber;
                     $prestige = $units[$unitSlot]->cost_prestige;
-                    $boat = $units[$unitSlot]->cost_boat;
                     $champion = $units[$unitSlot]->cost_champion;
                     $soul = $units[$unitSlot]->cost_soul;
                     $morale = $units[$unitSlot]->cost_morale;
                     $peasant = $units[$unitSlot]->cost_peasant;
-                    $wild_yeti = $units[$unitSlot]->cost_wild_yeti;
                     $blood = $units[$unitSlot]->cost_blood;
 
                     $unit1 = $units[$unitSlot]->cost_unit1;
@@ -178,12 +176,6 @@ class TrainingCalculator
                     #if ($prestige > 0) {
                         $cost['prestige'] = $prestige;
                         $cost['prestige'] = (int)ceil($prestige * $this->getSpecialistEliteCostMultiplier($dominion, 'prestige'));
-                    #}
-
-                    // BOAT cost for units
-                    #if ($boat > 0) {
-                        $cost['boat'] = $boat;
-                        $cost['boat'] = (int)ceil($boat * $this->getSpecialistEliteCostMultiplier($dominion, 'boat'));
                     #}
 
                     // CHAMPION cost for units
@@ -238,12 +230,6 @@ class TrainingCalculator
                     #if (peasant > 0) {
                         $cost['peasant'] = $peasant;
                         $cost['peasant'] = (int)ceil($peasant * $this->getSpecialistEliteCostMultiplier($dominion, 'peasant'));
-                    #}
-
-                    // WILD YETI cost for units
-                    #if ($wild_yeti > 0) {
-                        $cost['wild_yeti'] = $wild_yeti;
-                        $cost['wild_yeti'] = (int)ceil($wild_yeti * $this->getSpecialistEliteCostMultiplier($dominion, 'wild_yeti'));
                     #}
 
                     // SPY cost for units
@@ -308,12 +294,10 @@ class TrainingCalculator
             'gem' => 'resource_gems',
             'lumber' => 'resource_lumber',
             'prestige' => 'prestige',
-            'boat' => 'resource_boats',
             'champion' => 'resource_champion',
             'soul' => 'resource_soul',
             'morale' => 'morale',
             'peasant' => 'peasants',
-            'wild_yeti' => 'resource_wild_yeti',
             'blood' => 'resource_blood',
 
             'unit1' => 'military_unit1',

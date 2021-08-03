@@ -512,10 +512,6 @@ class NotificationHelper
                         $resultString = 'Our wizards have sensed their power diminish.';
                         break;
 
-                    case 'sabotage_boats':
-                        $resultString = "{$data['damageString']} have sunk mysteriously while docked.";
-                        break;
-
                     case 'sabotage_forges':
                     case 'sabotage_walls':
                     case 'sabotage_harbor':
@@ -609,10 +605,6 @@ class NotificationHelper
                         $where = 'attempting to sabotage our towers';
                         break;
 
-                    case 'sabotage_boats':
-                        $where = 'attempting to sabotage our boats';
-                        break;
-
                     case 'sabotage_walls':
                     case 'sabotage_forges':
                     case 'sabotage_harbor':
@@ -671,10 +663,6 @@ class NotificationHelper
 
                     case 'abduct_peasants':
                         $where = 'from our homes';
-                        break;
-
-                    case 'seize_boats':
-                        $where = 'from our docks';
                         break;
 
                     default:
@@ -769,10 +757,6 @@ class NotificationHelper
                         $resultString = 'A swarm of insects are eating our crops, slowing food production.';
                         break;
 
-                    case 'great_flood':
-                        $resultString = 'A great flood has damaged our docks, slowing boat production.';
-                        break;
-
                     case 'earthquake':
                         $resultString = 'An earthquake has damaged our mines, slowing ore and gem production.';
                         break;
@@ -791,10 +775,6 @@ class NotificationHelper
 
                     case 'pyroclast':
                         $resultString = "Lava rains over our lands, burning {$data['damageString']}.";
-                        break;
-
-                    case 'frozen_shores':
-                        $resultString = "An icy wind sweeps in and freezes our shores, preventing us from sending out boats.";
                         break;
 
                     # BEGIN Invasion Spells

@@ -201,7 +201,6 @@ class DataSyncCommand extends Command implements CommandInterface
                     'cost_ore' => object_get($unitData, 'cost.ore', 0),
                     'power_offense' => object_get($unitData, 'power.offense', 0),
                     'power_defense' => object_get($unitData, 'power.defense', 0),
-                    'need_boat' => (int)object_get($unitData, 'need_boat', false),
                     'training_time' => (int)object_get($unitData, 'training_time', null),
                     'type' => object_get($unitData, 'type'),
 
@@ -211,7 +210,6 @@ class DataSyncCommand extends Command implements CommandInterface
                     'cost_gem' => object_get($unitData, 'cost.gem', 0),
                     'cost_lumber' => object_get($unitData, 'cost.lumber', 0),
                     'cost_prestige' => object_get($unitData, 'cost.prestige', 0),
-                    'cost_boat' => object_get($unitData, 'cost.boat', 0),
                     'cost_champion' => object_get($unitData, 'cost.champion', 0),
                     'cost_soul' => object_get($unitData, 'cost.soul', 0),
                     'cost_blood' => object_get($unitData, 'cost.blood', 0),
@@ -224,7 +222,6 @@ class DataSyncCommand extends Command implements CommandInterface
                     'cost_archmage' => object_get($unitData, 'cost.archmage', 0),
                     'cost_morale' => object_get($unitData, 'cost.morale', 0),
                     'cost_peasant' => object_get($unitData, 'cost.peasant', 0),
-                    'cost_wild_yeti' => object_get($unitData, 'cost.wild_yeti', 0),
                     'static_networth' => object_get($unitData, 'static_networth', 0),
                 ]);
 

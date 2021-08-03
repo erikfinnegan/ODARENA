@@ -23,10 +23,6 @@ use OpenDominion\Helpers\ImprovementHelper;
 
 class MilitaryCalculator
 {
-    /**
-     * @var float Number of boats protected per dock
-     */
-    protected const BOATS_PROTECTED_PER_DOCK = 2.5;
 
     /** @var BuildingCalculator */
     protected $buildingCalculator;

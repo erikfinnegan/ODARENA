@@ -114,7 +114,7 @@ class AdvisorsController extends AbstractDominionController
         $resultsPerPage = 25;
         $selectedDominion = $this->getSelectedDominion();
 
-        $dominionHistory = DominionHistory::where('dominion_id', $selectedDominion->id)->paginate(25);
+        $dominionHistory = DominionHistory::where('dominion_id', $selectedDominion->id)->orderBy('created_at','desc')->paginate(20);
 
         /*
         $history = DB::table('dominion_history')

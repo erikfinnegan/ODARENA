@@ -207,11 +207,6 @@ class InvadeActionService
             if (!$this->hasEnoughUnitsAtHome($dominion, $units)) {
                 throw new GameException('You don\'t have enough units at home to send this many units.');
             }
-
-            #if (!$this->hasEnoughBoats($dominion, $units)) {
-            #    throw new GameException('You do not have enough boats to send this many units.');
-            #}
-
             if ($dominion->race->name !== 'Barbarian')
             {
                 if ($dominion->morale < static::MIN_MORALE)
@@ -357,7 +352,6 @@ class InvadeActionService
                 $countsAsRaze = 1;
             }
 
-            #$this->handleBoats($dominion, $target, $units);
             $this->handlePrestigeChanges($dominion, $target, $units, $landRatio, $countsAsVictory, $countsAsBottomfeed, $countsAsFailure, $countsAsRaze);
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
@@ -465,7 +459,7 @@ class InvadeActionService
 
             if($legion)
             {
-                if(isset($this->invasionResult[$legionString]['annexation']) and $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] > 0)
+                if(isset($this->invasionResult[$legionString]['annexation']) and $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] > 0 and $this->invasionResult['result']['opDpRatio'] >= 0.85)
                 {
                     foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
                     {
@@ -2934,7 +2928,7 @@ class InvadeActionService
         $casualties = min(max(0, $casualties), 0.20);
 
 
-        if($legion)
+        if($legion and $this->invasionResult['result']['opDpRatio'] >= 0.85)
         {
             $this->invasionResult[$legionString]['annexation'] = [];
             $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] = count($this->spellCalculator->getAnnexedDominions($legion));

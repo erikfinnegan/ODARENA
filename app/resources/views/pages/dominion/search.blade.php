@@ -138,6 +138,18 @@
                                                 </span>
                                             @endif
 
+                                            @if ($spellCalculator->isAnnexed($dominion))
+                                                <span data-toggle="tooltip" data-placement="top" title="Annexed by {{ $spellCalculator->getAnnexer($dominion)->name }}!<br>Current raw military power: {{ number_format($militaryCalculator->getRawMilitaryPowerFromAnnexedDominion($dominion)) }}">
+                                                <i class="ra ra-castle-flag fa-lg text-black"></i>
+                                                </span>
+                                            @endif
+
+                                            @if ($spellCalculator->hasAnnexedDominions($dominion))
+                                                <span data-toggle="tooltip" data-placement="top" title="Has annexed Barbarians!<br>Current additional raw military power: {{ number_format($militaryCalculator->getRawMilitaryPowerFromAnnexedDominions($dominion)) }}">
+                                                <i class="ra ra-castle-flag fa-lg text-black"></i>
+                                                </span>
+                                            @endif
+
                                             @if ($dominion->isMonarch())
                                                 <span data-toggle="tooltip" data-placement="top" title="Governor of The Realm">
                                                 <i class="fa fa-star fa-lg text-orange"></i>

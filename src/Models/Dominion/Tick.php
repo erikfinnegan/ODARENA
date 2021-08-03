@@ -21,7 +21,6 @@ use OpenDominion\Models\AbstractModel;
  * @property int $resource_ore
  * @property int $resource_gems
  * @property int $resource_tech
- * @property float $resource_boats
  * @property int $military_draftees
  * @property int $military_unit1
  * @property int $military_unit2
@@ -75,7 +74,6 @@ class Tick extends AbstractModel
         'resource_ore' => 'integer',
         'resource_gems' => 'integer',
         'resource_tech' => 'integer',
-        'resource_boats' => 'float',
         'military_draftees' => 'integer',
         'military_unit1' => 'integer',
         'military_unit2' => 'integer',

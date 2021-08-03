@@ -640,7 +640,6 @@ class TickService
           $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
           $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
           $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
-          $tick->resource_boats += 0;
 
           # Decay, rot, drain
           $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
@@ -1064,7 +1063,6 @@ class TickService
                 'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                 'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                 'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
-                'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
                 'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
                 'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
                 'dominions.resource_blood' => DB::raw('dominions.resource_blood + dominion_tick.resource_blood'),
@@ -1115,7 +1113,6 @@ class TickService
                 'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                 'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
                 'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
-                'dominions.resource_wild_yeti' => DB::raw('dominions.resource_wild_yeti + dominion_tick.resource_wild_yeti'),
                 'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
                 'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
                 'dominions.resource_blood' => DB::raw('dominions.resource_blood + dominion_tick.resource_blood'),

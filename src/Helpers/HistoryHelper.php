@@ -29,7 +29,7 @@ class HistoryHelper
           'join warriors league' => 'ra ra-heavy-shield ra-fw',
         ];
 
-        return $icons[$event];
+        return $icons[$event] ? $icons[$event] : '';
     }
 
     public function getEventName(string $event): string
@@ -53,7 +53,7 @@ class HistoryHelper
           'update notes' => 'Notes',
         ];
 
-        return $name[$event];
+        return $name[$event] ? $name[$event] : 'Undefined event type (' . $event . ')';
     }
 
 }

@@ -16,7 +16,12 @@
               </div>
           @else
               <div class="box-body">
-                  <table class="table table-condensed no-border">
+                  <table class="table table-condensed table-striped no-border">
+                        <colgroup>
+                            <col width="150">
+                            <col width="100">
+                            <col>
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th>Date and time</th>
@@ -26,13 +31,24 @@
                         </thead>
                         <tbody>
                         @foreach ($history as $event)
-                            @if(array_sum($event->delta) !== 0)
-                                <tr>
-                                    <td>{{ $event->created_at }}</td>
-                                    <td>{{ $event->event }}</td>
-                                    <td>{{ $event->delta }}</td>
-                                </tr>
-                            @endif
+                            <tr>
+                                <td>{{ $event->created_at }}</td>
+                                <td><i class="{!! $historyHelper->getEventIcon($event->event) !!}ra ra-hourglass"></i>  {{ $historyHelper->getEventName($event->event) }}</td>
+                                <td>
+                                    <table>
+                                        <colgroup>
+                                            <col width="200">
+                                            <col>
+                                        </colgroup>
+                                        @foreach(json_decode($event->delta, TRUE) as $data => $delta)
+                                          <tr>
+                                              <td>{{ $data }}</td>
+                                              <td>{{ $delta }}</td>
+                                          </tr>
+                                        @endforeach
+                                  </table>
+                                </td>
+                            </tr>
                         @endforeach
                       <tbody>
                   </table>
