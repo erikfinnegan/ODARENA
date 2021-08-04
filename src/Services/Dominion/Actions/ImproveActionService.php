@@ -85,20 +85,11 @@ class ImproveActionService
             throw new GameException('Investment aborted due to bad input.');
         }
 
-        if (!\in_array($resource, ['gold', 'lumber', 'ore', 'gems', 'mana', 'food', 'soul'], true))
+        if(!array_key_exists($resource, $dominion->race->improvement_resources))
         {
-            throw new GameException('Investment aborted due to bad resource type.');
+            throw new GameException($dominion->race->name . ' cannot use ' . $resource .  ' for improvements.');
         }
 
-        if(
-              ($resource == 'mana' and (!$dominion->race->getPerkValue('can_invest_mana') and !$dominion->race->getPerkValue('can_invest_mana_only')) or
-              ($resource == 'blood' and !$dominion->race->getPerkValue('can_invest_blood') and !$dominion->race->getPerkValue('can_invest_blood_only')) or
-              ($resource == 'soul' and !$dominion->race->getPerkValue('can_invest_soul')) or
-              ($resource == 'food' and !$dominion->race->getPerkValue('can_invest_food') and !$dominion->race->getPerkValue('can_invest_food_only'))
-          )
-        {
-            throw new GameException('You cannot use ' . $resource .  ' for improvements.');
-        }
 
         if ($dominion->race->getPerkValue('cannot_improve_castle'))
         {
