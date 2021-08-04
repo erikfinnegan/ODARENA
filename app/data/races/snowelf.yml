@@ -15,11 +15,11 @@ improvement_resources:
   ore: 2.6
   lumber: 2.6
   gems: 15.6
+  mana: 0.08
 
 perks:
   food_consumption: -25
   gryphon_nests_generate_gryphons: 0.1
-  can_invest_mana: 0.08
 
 units:
   - name: Arbalist
