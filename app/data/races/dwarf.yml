@@ -20,7 +20,6 @@ improvement_resources:
 
 perks:
   extra_barren_max_population: 10
-  ore_improvement_points: 100
   salvaging: 25
 
 units:
