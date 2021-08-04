@@ -46,9 +46,8 @@ class RezoningCalculator
         {
             return [];
         }
-        $materials = explode(',', $dominion->race->construction_materials);
 
-        return $materials[0];
+        return $dominion->race->construction_materials[0];
     }
 
     /**
