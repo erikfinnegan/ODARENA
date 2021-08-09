@@ -1,7 +1,7 @@
 name: Swarm
 alignment: good
 description: >-
-  <p>Buildings under construction count as barren land for the purpose of Scorpion and Naga offensive power perk.</p>
+  <p>Buildings under construction count as barren land for the purpose of Scorpion and Centipede offensive power perk.</p>
 home_land_type: plain
 playable: 1
 experimental: 1
@@ -38,7 +38,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 400
+      gold: 600
     power:
       offense: 4
       defense: 4
@@ -55,7 +55,7 @@ units:
       - living
       - sentient
     cost:
-      gold: 280
+      gold: 400
     power:
       offense: 0
       defense: 4
@@ -71,7 +71,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 600
+      gold: 1100
     power:
       offense: 0
       defense: 8
@@ -87,7 +87,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 880
+      gold: 1200
     power:
       offense: 8
       defense: 4

@@ -725,7 +725,7 @@
                                                 </span>
                                             @elseif ($moraleChange > 0)
                                                 <span class="text-green">
-                                                    +{{ number_format($moraleChange) }}
+                                                    +{{ number_format($moraleChange) }}%
                                                 </span>
                                             @else
                                                 <span class="text-muted">

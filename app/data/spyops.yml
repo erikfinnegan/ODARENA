@@ -66,6 +66,14 @@ steal_gems:
   perks:
     resource_theft: gems,1,8 # resource, rate, max per spy
 
+steal_blood:
+  name: Steal Blood
+  scope: theft
+  exclusive_races:
+    - Beastfolk
+  perks:
+    resource_theft: blood,2,6 # resource, rate, max per spy
+
 # <Hostile>
 
 abduct_draftees:

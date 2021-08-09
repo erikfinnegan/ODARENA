@@ -77,7 +77,7 @@ units:
       - sentient
       - intelligent
     cost:
-      mana: 44
+      mana: 96
       lumber: 1
     power:
       offense: 0
@@ -96,7 +96,7 @@ units:
       - sentient
       - intelligent
     cost:
-      mana: 86
+      mana: 204
       lumber: 1
     power:
       offense: 14
