@@ -29,31 +29,23 @@ class RoundFactory
         bool $mixedAlignment
     ): Round {
         $number = $this->getLastRoundNumber() + 1;
-        $endDate = NULL;#(clone $startDate)->addDays(14);
 
         if($number % 2 === 0)
         {
             $startDate = (clone $startDate)->addHours(16);
-            #$endDate = (clone $endDate)->addHours(16);
         }
         else
         {
             $startDate = (clone $startDate)->addHours(4);
-            #$endDate = (clone $endDate)->addHours(4);
         }
-
-        # End offensive actions between 180 and 360 minutes before round end
-        $minutesBeforeRoundEnd = rand(180, 360);
-
-        $offensiveActionsEndDate = NULL;#(clone $endDate)->subMinutes($minutesBeforeRoundEnd);
 
         return Round::create([
             'round_league_id' => $league->id,
             'number' => $number,
             'name' => 'Round ' . $number,
             'start_date' => $startDate,
-            'end_date' => $endDate,
-            'offensive_actions_prohibited_at' => $offensiveActionsEndDate,
+            'end_date' => NULL,
+            'offensive_actions_prohibited_at' => NULL,
             'realm_size' => $realmSize,
             'pack_size' => $packSize,
             'players_per_race' => $playersPerRace,
