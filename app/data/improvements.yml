@@ -759,7 +759,7 @@ compassion:
     - Beastfolk
   perks:
     defensive_power: 100,5000
-    casualties: -100,5000
+    casualties: -50,5000
 
 brutality:
   name: Brutality
