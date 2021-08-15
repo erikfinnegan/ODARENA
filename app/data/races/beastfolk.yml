@@ -13,6 +13,7 @@ description:
   <p>These bonuses are increased by Prestige using the standard prestige multiplier.</p>
 home_land_type: forest
 playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 2
