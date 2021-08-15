@@ -760,6 +760,7 @@ compassion:
   perks:
     defensive_power: 100,5000
     casualties: -50,5000
+    increases_casualties: -50,5000
 
 brutality:
   name: Brutality
@@ -767,6 +768,7 @@ brutality:
     - Beastfolk
   perks:
     offensive_power: 100,5000
-    increases_casualties: 50,4000
+    increases_casualties: 50,5000
+    casualties: 50,5000
 
 # END BEASTFOLK #
