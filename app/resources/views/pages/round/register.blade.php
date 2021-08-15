@@ -50,7 +50,7 @@
                     <label for="ruler_name" class="col-sm-3 control-label">Ruler Name</label>
                     <div class="col-sm-6">
                         <input type="text" name="ruler_name" id="ruler_name" class="form-control" placeholder="{{ Auth::user()->display_name }}" value="{{ old('ruler_name') }}">
-                        <p class="help-block">If you leave it as default ({{ Auth::user()->display_name }}), you get 100 extra prestige for playing with your real display name.</p>
+                        <p class="help-block">If you leave it as default (<b>{{ Auth::user()->display_name }}</b>), you get 100 extra prestige for playing with your real display name.</p>
                     </div>
                 </div>
 
@@ -118,7 +118,7 @@
 
                       </select>
                         <p class="help-block">Consult <a href="{{ route('scribes.factions') }}" target="_blank">The Scribes</a> for details about each faction.</p>
-                        <p class="help-block">Factions labelled <span class="label label-danger">Experimental</span> have significant changes that have been deemed at risk of being overpowered. If you play such a faction, you understand that if the community agrees (or if admin decides) that it is overpowered, the dominion will be locked. Not for violating any rules; but to keep the round fun and exciting. &mbdash; We recommend playing at least one additional dominion, just in case.</p>
+                        <p class="help-block">Factions labelled <span class="label label-danger">Experimental</span> have significant changes that have been deemed at risk of being overpowered. If you play such a faction, you understand that if the community agrees (or if admin decides) that it is overpowered, the dominion will be locked. Not for violating any rules; but to keep the round fun and exciting. &mdash; We recommend playing at least one additional dominion, just in case.</p>
                     </div>
                 </div>
 
