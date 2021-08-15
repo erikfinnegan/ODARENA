@@ -281,7 +281,7 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
 
 
 // Valhalla
-
+/*
 $router->group(['prefix' => 'valhalla', 'as' => 'valhalla.'], static function (Router $router) {
 
     $router->get('/')->uses('ValhallaController@getIndex')->name('index');
@@ -290,7 +290,7 @@ $router->group(['prefix' => 'valhalla', 'as' => 'valhalla.'], static function (R
     $router->get('user/{user}')->uses('ValhallaController@getUser')->name('user');
 
 });
-
+*/
 // Chronicles
 
 $router->group(['prefix' => 'chronicles', 'as' => 'chronicles.'], static function (Router $router) {
