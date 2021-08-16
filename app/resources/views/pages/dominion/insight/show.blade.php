@@ -31,8 +31,8 @@
                 <h3 class="box-title"><i class="fas fa-cloud"></i> Fog of war</h3>
             </div>
             <div class="box-body">
-              <p>This dominion is temporarily hidden from insight.</p>
-              <p><em>Strike at your own risk!</em></p>
+                <p>This dominion is temporarily hidden from insight.</p>
+                <p><em>Strike at your own risk!</em></p>
             </div>
         </div>
     </div>

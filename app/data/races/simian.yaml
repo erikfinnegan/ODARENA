@@ -9,6 +9,9 @@ exploring : 3
 converting: 1
 skill_level: 2
 
+improvement_resources:
+  lumber: 3
+
 archmages_cost: 1200,gold
 
 perks:
@@ -18,7 +21,6 @@ perks:
   forest_construction_cost: -100
   defense_from_forest: 0.30 # from every 1% forest
   extra_barren_max_population: 10
-  lumber_improvement_points: 50
   increased_construction_speed: 3
   max_population: 30
 
