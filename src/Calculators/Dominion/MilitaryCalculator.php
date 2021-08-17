@@ -182,7 +182,7 @@ class MilitaryCalculator
             $op += ($powerOffense * $numberOfUnits);
         }
 
-        $op += $this->getRawMilitaryPowerFromAnnexedDominions($attacker, 'offense');
+        $op += $this->getRawMilitaryPowerFromAnnexedDominions($attacker, $defender);
 
         return $op;
     }
@@ -2242,9 +2242,14 @@ class MilitaryCalculator
         return $militaryPower;
     }
 
-    public function getRawMilitaryPowerFromAnnexedDominions(Dominion $legion): int
+    public function getRawMilitaryPowerFromAnnexedDominions(Dominion $legion, Dominion $target = null): int
     {
         $militaryPower = 0;
+
+        if(isset($target) and $target->race->name == 'Barbarian')
+        {
+            return 0;
+        }
 
         foreach($this->spellCalculator->getAnnexedDominions($legion) as $dominion)
         {

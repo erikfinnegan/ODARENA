@@ -352,12 +352,11 @@ class TrainActionService
             }
             # Minimum WPA check complete.
             # Check for victories limit.
-            $victoriesLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'net_victories_limit');
-            if($victoriesLimit)
+            if($netVictoriesLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'net_victories_limit'))
             {
                 // We have building limit for this unit.
-                $victoriesLimit = (int)$victoriesLimit[0]; # How many Net Victories we need
-                $unitsPerVictories = (int)$victoriesLimit[1]; # Number of units per Net Victories number
+                $victoriesLimit = (int)$netVictoriesLimit[0]; # How many Net Victories we need
+                $unitsPerVictories = (int)$netVictoriesLimit[1]; # Number of units per Net Victories number
 
                 $netVictories = $this->militaryCalculator->getNetVictories($dominion);
 

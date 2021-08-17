@@ -461,21 +461,26 @@ class InvadeActionService
             {
                 if(isset($this->invasionResult[$legionString]['annexation']) and $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] > 0 and $this->invasionResult['result']['opDpRatio'] >= 0.85)
                 {
+
                     foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
                     {
-                        $annexedDominion = Dominion::findorfail($annexedDominionId);
+                        # If there are troops to send
+                        if(array_sum($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominionId]['unitsSent']) > 0)
+                        {
+                            $annexedDominion = Dominion::findorfail($annexedDominionId);
 
-                        $this->invasionEvent = GameEvent::create([
-                            'round_id' => $annexedDominion->round_id,
-                            'source_type' => Dominion::class,
-                            'source_id' => $annexedDominion->id,
-                            'target_type' => Dominion::class,
-                            'target_id' => $targetId,
-                            'type' => $type,
-                            'data' => NULL,
-                        ]);
+                            $this->invasionEvent = GameEvent::create([
+                                'round_id' => $annexedDominion->round_id,
+                                'source_type' => Dominion::class,
+                                'source_id' => $annexedDominion->id,
+                                'target_type' => Dominion::class,
+                                'target_id' => $targetId,
+                                'type' => $type,
+                                'data' => NULL,
+                            ]);
 
-                        $annexedDominion->save(['event' => HistoryService::EVENT_ACTION_INVADE_SUPPORT]);
+                            $annexedDominion->save(['event' => HistoryService::EVENT_ACTION_INVADE_SUPPORT]);
+                        }
                     }
                 }
             }
@@ -2927,7 +2932,6 @@ class InvadeActionService
 
         $casualties = min(max(0, $casualties), 0.20);
 
-
         if($legion and $this->invasionResult['result']['opDpRatio'] >= 0.85)
         {
             $this->invasionResult[$legionString]['annexation'] = [];
@@ -2939,25 +2943,31 @@ class InvadeActionService
                 $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id] = [];
                 $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsSent'] = [1 => $annexedDominion->military_unit1, 2 => 0, 3 => 0, 4 => $annexedDominion->military_unit4];
 
-                # Incur casualties
-                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsLost'] =      [1 => (int)round($annexedDominion->military_unit1 * $casualties), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * $casualties)];
-                $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] = [1 => (int)round($annexedDominion->military_unit1 * (1 - $casualties)), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * (1 - $casualties))];
-
-                # Remove the units
-                $annexedDominion->military_unit1 -= $annexedDominion->military_unit1;
-                $annexedDominion->military_unit4 -= $annexedDominion->military_unit4;
-
-                # Queue the units
-                foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] as $slot => $returning)
+                # If there are troops to send and if defender is not a Barbarian
+                if(array_sum($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsSent']) > 0 and $defender->race->name !== 'Barbarian')
                 {
-                    $unitType = 'military_unit' . $slot;
+                    # Incur casualties
+                    $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsLost'] =      [1 => (int)round($annexedDominion->military_unit1 * $casualties), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * $casualties)];
+                    $this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] = [1 => (int)round($annexedDominion->military_unit1 * (1 - $casualties)), 2 => 0, 3 => 0, 4 => (int)round($annexedDominion->military_unit4 * (1 - $casualties))];
 
-                    $this->queueService->queueResources(
-                        'invasion',
-                        $annexedDominion,
-                        [$unitType => $returning],
-                        12
-                    );
+                    # Remove the units
+                    $annexedDominion->military_unit1 -= $annexedDominion->military_unit1;
+                    $annexedDominion->military_unit4 -= $annexedDominion->military_unit4;
+
+                    # Queue the units
+                    foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'][$annexedDominion->id]['unitsReturning'] as $slot => $returning)
+                    {
+                        $unitType = 'military_unit' . $slot;
+
+                        $this->queueService->queueResources(
+                            'invasion',
+                            $annexedDominion,
+                            [$unitType => $returning],
+                            12
+                        );
+                    }
+
+                    $annexedDominion->save();
                 }
             }
         }
