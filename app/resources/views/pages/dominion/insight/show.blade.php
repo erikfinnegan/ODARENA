@@ -210,7 +210,7 @@
                                       {{ $dominion->race->units->get(0)->name }}:
                                   </span>
                                 </td>
-                                <td>{{ number_format($dominion->military_unit1) }}</td>
+                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($dominion, $dominion->race->units->get(0)->slot)) }}</td>
                             </tr>
                             <tr>
                                 <td>
@@ -218,7 +218,7 @@
                                       {{ $dominion->race->units->get(1)->name }}:
                                   </span>
                                 </td>
-                                <td>{{ number_format($dominion->military_unit2) }}</td>
+                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($dominion, $dominion->race->units->get(1)->slot)) }}</td>
                             </tr>
                             <tr>
                                 <td>
@@ -226,7 +226,7 @@
                                       {{ $dominion->race->units->get(2)->name }}:
                                   </span>
                                 </td>
-                                <td>{{ number_format($dominion->military_unit3) }}</td>
+                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($dominion, $dominion->race->units->get(2)->slot)) }}</td>
                             </tr>
                             <tr>
                                 <td>
@@ -234,7 +234,7 @@
                                       {{ $dominion->race->units->get(3)->name }}:
                                   </span>
                                 </td>
-                                <td>{{ number_format($dominion->military_unit4) }}</td>
+                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($dominion, $dominion->race->units->get(3)->slot)) }}</td>
                             </tr>
                             <tr>
                                 <td>Spies:</td>

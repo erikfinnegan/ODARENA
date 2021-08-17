@@ -72,7 +72,7 @@
                                                   {{ number_format($improvementPerkMultiplier * 100, 2) }}%
                                               @endif
 
-                                               {{ $improvementHelper->getImprovementPerkDescription($perk->key) }} <br></span>
+                                               {{ $improvementHelper->getImprovementPerkDescription($perk->key) }}<br></span>
 
                                           @endforeach
                                       </td>

@@ -679,6 +679,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'defensive_modifier_reduction'
                           or $perkKey == 'defensive_casualties'
                           or $perkKey == 'offensive_casualties'
+                          or $perkKey == 'casualties'
 
                           or $perkKey == 'morale_gains'
                           or $perkKey == 'base_morale'
@@ -941,6 +942,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'casualties'
                          or $perkKey == 'offensive_casualties'
                          or $perkKey == 'defensive_casualties'
+                         or $perkKey == 'increases_casualties'
                          or $perkKey == 'increases_casualties_on_defense'
                          or $perkKey == 'increases_casualties_on_offense'
                          or $perkKey == 'increases_enemy_draftee_casualties'
@@ -1037,6 +1039,13 @@ class Dominion extends AbstractModel
             }
         }
 
+        if($perk === 0.0)
+        {
+        #    dd($perkKey, $perk, $max, $coefficient, $invested, ($max * (1 - exp(-$invested / ($coefficient * $landSize + 15000)))));
+        }
+
+        #dump($perkKey, $perk, $max, $coefficient, $invested, ($max * (1 - exp(-$invested / ($coefficient * $landSize + 15000)))));
+
         $multiplier = 1;
         $multiplier += $this->getBuildingPerkMultiplier('improvements');
         $multiplier += $this->getBuildingPerkMultiplier('improvements_capped');
@@ -1050,6 +1059,8 @@ class Dominion extends AbstractModel
         #}
 
         $perk *= $multiplier;
+
+
 
         return $perk;
     }

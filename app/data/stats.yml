@@ -187,6 +187,8 @@ soul_lost:
   name: Souls lost
 blood_training:
   name: Blood training
+blood_improvements:
+  name: Blood improvements
 
 # Land
 

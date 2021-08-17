@@ -1,0 +1,179 @@
+# MILITARY
+
+casualties:
+  name: Tactics
+  perks:
+    offensive_casualties: -3.75
+    defensive_casualties: -3.75
+
+unit_costs:
+  name: Anvils
+  perks:
+    unit_gold_costs: -2.5
+    unit_ore_costs: -2.5
+    unit_lumber_costs: -2.5
+
+unit_costs_food:
+  name: Lean Mass
+  perks:
+    unit_food_costs: -1.75
+
+unit_costs_mana:
+  name: Magical Weapons
+  perks:
+    unit_mana_costs: -2.5
+
+offensive_power:
+  name: Strategy
+  perks:
+    offensive_power: 2.5
+
+defensive_power:
+  name: Fortifications
+  perks:
+    defensive_power: 2.5
+
+prestige_gains:
+  name: Honour
+  perks:
+    prestige_gains: 5
+
+# LAND AND BUILDINGS
+
+construction_rezone:
+  name: Architecture
+  perks:
+    construction_cost: -5
+    rezone_cost: -5
+
+construction_time:
+  name: Foundations
+  multiplier: 5
+  perks:
+    construction_time: -5
+
+# EXPLORE
+
+explore_cost:
+  name: Scouting
+  perks:
+    explore_cost: -5
+
+explore_time:
+  name: Compasses
+  perks:
+    explore_time: 5
+
+# ESPIONAGE
+
+spy_cost:
+  name: Undercover
+  perks:
+    spy_cost: -5
+    spy_losses: -5
+
+spy_strength:
+  name: Intelligence
+  perks:
+    spy_strength: 2.5
+    spy_strength_recovery: 0.25
+
+spy_carry:
+  name: Deep Pockets
+  perks:
+    amount_stolen: 5
+
+# WIZARDRY
+
+wizard_cost:
+  name: Wizardry Tradition
+  perks:
+    wizard_cost: -5
+    spell_cost: -5
+
+wizard_cost:
+  name: Concentration
+  perks:
+    wizard_strength: -2.5
+    wizard_strength_recovery: -0.25
+
+# PRODUCTION
+
+food_production:
+  name: Agriculture
+  perks:
+    food_production: 2.5
+
+gem_production:
+  name: Drills
+  perks:
+    gem_production: 2.5
+
+lumber_production:
+  name: Mills
+  perks:
+    lumber_production: 2.5
+
+mana_production:
+  name: Invocations
+  perks:
+    mana_production: 2.5
+
+ore_production:
+  name: Quarries
+  perks:
+    ore_production: 2.5
+
+gold_production:
+  name: Minting
+  perks:
+    gold_production: 2.5
+
+# POPULATION
+
+max_population:
+  name: Minting
+  perks:
+    max_population: 1.25
+
+drafting:
+  name: Conscription
+  perks:
+    drafting: 2.5
+
+military_housing:
+  name: Military Heritage
+  perks:
+    military_housing: 1.25
+
+employment:
+  name: Craftsmanship
+  perks:
+    jobs_per_building: 2.5
+
+# IMPROVEMENTS
+
+improvements:
+  name: Infrastructure
+  perks:
+    drafting: 5
+
+gem_improvements:
+  name: Gemcutting
+  perks:
+    gem_improvements: 2.5
+
+ore_improvements:
+  name: Masonry
+  perks:
+    ore_improvements: 5
+
+lumber_improvements:
+  name: Woodworks
+  perks:
+    lumber_improvements: 5
+
+gold_improvements:
+  name: Budget
+  perks:
+    gold_improvements: 12.5

@@ -22,9 +22,7 @@ class Improvement extends AbstractModel
     protected $casts = [
         'excluded_races' => 'array',
         'exclusive_races' => 'array',
-        'coefficient' => 'string',
         'enabled' => 'integer',
-        'wizard_strength' => 'integer',
     ];
 
     public function perks()
