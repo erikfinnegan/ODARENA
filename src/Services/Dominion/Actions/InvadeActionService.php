@@ -552,28 +552,6 @@ class InvadeActionService
         ];
     }
 
-    /**
-     * Handles prestige changes for both dominions.
-     *
-     * Prestige gains and losses are based on several factors. The most
-     * important one is the range (aka relative land size percentage) of the
-     * target compared to the attacker.
-     *
-     * -   X -  65 equals a very weak target, and the attacker is penalized with a prestige loss, no matter the outcome
-     * -  66 -  74 equals a weak target, and incurs no prestige changes for either side, no matter the outcome
-     * -  75 - 119 equals an equal target, and gives full prestige changes, depending on if the invasion is successful
-     * - 120 - X   equals a strong target, and incurs no prestige changes for either side, no matter the outcome
-     *
-     * Due to the above, people are encouraged to hit targets in 75-119 range,
-     * and are discouraged to hit anything below 66.
-     *
-     * Failing an attack above 66% range only results in a prestige loss if the
-     * attacker is overwhelmed by the target defenses.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target
-     * @param array $units
-     */
     protected function handlePrestigeChanges(Dominion $attacker, Dominion $defender, array $units, float $landRatio, int $countsAsVictory, int $countsAsBottomfeed, int $countsAsFailure, int $countsAsRaze): void
     {
 
@@ -657,7 +635,7 @@ class InvadeActionService
         if($defender->race->name === 'Barbarian' and $attacker->realm->alignment !== 'evil' and $this->invasionResult['result']['success'] and $attackerPrestigeChange > 0 and $this->spellCalculator->isAnnexed($defender))
         {
             $this->invasionResult['attacker']['liberation'] = true;
-            $attackerPrestigeChange *= 2;
+            $attackerPrestigeChange *= 3;
         }
 
         # Cut in half when hitting abandoned dominions
@@ -696,8 +674,6 @@ class InvadeActionService
             $this->invasionResult['defender']['prestigeChange'] = $defenderPrestigeChange;
         }
 
-        #$this->statsService->updateStat($defender, 'prestige_gained')
-        #$this->statsService->updateStat($attacker, 'prestige_gained')
     }
 
     /**
@@ -1587,7 +1563,7 @@ class InvadeActionService
 
                 $returningUnitKey = $unitKey;
 
-                # See if slot $i has wins_into perk.
+                # See if slot $slot has wins_into perk.
                 if($this->invasionResult['result']['success'])
                 {
                     if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into'))

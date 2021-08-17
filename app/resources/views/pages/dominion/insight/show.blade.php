@@ -361,7 +361,7 @@
                                 <td>{{ $spell->name }}</td>
                                 <td>
                                     <ul>
-                                    @foreach($spellHelper->getSpellEffectsString($spell, $selectedDominion->race) as $effect)
+                                    @foreach($spellHelper->getSpellEffectsString($spell, $dominion->race) as $effect)
                                         <li>{{ $effect }}</li>
                                     @endforeach
                                     <ul>
@@ -409,7 +409,7 @@
                             <td>
                                 @foreach($improvement->perks as $perk)
                                     @php
-                                        $improvementPerkMax = $dominion->extractImprovementPerkValues($perk->pivot->value)[0] * (1 + $dominion->getBuildingPerkMultiplier('improvements') + $dominion->getBuildingPerkMultiplier('improvements_capped') + $dominion->getTechPerkMultiplier('improvements') + $selectedDominion->getSpellPerkMultiplier('improvements') + $selectedDominion->race->getPerkMultiplier('improvements_max'));
+                                        $improvementPerkMax = $dominion->extractImprovementPerkValues($perk->pivot->value)[0] * (1 + $dominion->getBuildingPerkMultiplier('improvements') + $dominion->getBuildingPerkMultiplier('improvements_capped') + $dominion->getTechPerkMultiplier('improvements') + $dominion->getSpellPerkMultiplier('improvements') + $dominion->race->getPerkMultiplier('improvements_max'));
                                         $improvementPerkCoefficient = $dominion->extractImprovementPerkValues($perk->pivot->value)[1];
 
                                         $spanClass = 'text-muted';
@@ -581,7 +581,7 @@
             @slot('titleIconClass', 'fa fa-home')
             @slot('noPadding', true)
             @slot('titleExtra')
-                @if($selectedDominion->race->name == 'Swarm')
+                @if($dominion->race->name == 'Swarm')
                     <span class="pull-right" data-toggle="tooltip" data-placement="top" title="Barren vs Swarm: <strong>{{ number_format($landCalculator->getTotalBarrenLandForSwarm($dominion)) }}</strong> ({{ number_format((($landCalculator->getTotalBarrenLandForSwarm($dominion) / $landCalculator->getTotalLand($dominion)) * 100), 2) }}%)">
                 @else
                     <span class="pull-right">
@@ -658,7 +658,7 @@
                             </td>
                             @for ($i = 1; $i <= 12; $i++)
                                 @php
-                                    $amount = $queueService->getConstructionQueueAmount($selectedDominion, "building_{$building->key}", $i);
+                                    $amount = $queueService->getConstructionQueueAmount($dominion, "building_{$building->key}", $i);
                                 @endphp
                                 <td class="text-center">
                                     @if ($amount === 0)
@@ -668,7 +668,7 @@
                                     @endif
                                 </td>
                             @endfor
-                            <td class="text-center">{{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }}</td>
+                            <td class="text-center">{{ number_format($queueService->getConstructionQueueTotalByResource($dominion, "building_{$building->key}")) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -953,13 +953,13 @@
                     <tr>
                         <td>Enemy units killed</td>
                         <td>
-                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'units_killed')) }}</strong>
+                            <strong>{{ number_format($statsService->getStat($dominion, 'units_killed')) }}</strong>
                         </td>
                     </tr>
                     <tr>
                         <td>Total units converted</td>
                         <td>
-                            <strong>{{ number_format($statsService->getStat($selectedDominion, 'units_converted')) }}</strong>
+                            <strong>{{ number_format($statsService->getStat($dominion, 'units_converted')) }}</strong>
                         </td>
                     </tr>
                 </tbody>
