@@ -437,7 +437,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
             # LEGION ANNEX SUPPORT EVENTS
@@ -1556,6 +1556,9 @@ class InvadeActionService
               #'military_peasants' => array_fill(1, 12, 0),
             ];
 
+            $someWinIntoUnits = array_fill(1, 4, 0);
+            $someWinIntoUnits = [1 => 0, 2 => 0, 3 => 0, 4 => 0];
+
             foreach($returningUnits as $unitKey => $values)
             {
                 $slot = str_replace('military_unit', '', $unitKey);
@@ -1571,6 +1574,18 @@ class InvadeActionService
                         $returnsAsSlot = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into');
                         $returningUnitKey = 'military_unit' . $returnsAsSlot;
                     }
+                    if($someWinIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'some_win_into'))
+                    {
+                        $ratio = (float)$someWinIntoPerk[0] / 100;
+                        $newSlot = (int)$someWinIntoPerk[1];
+
+                        if(isset($units[$slot]))
+                        {
+                            $newUnits = (int)floor($units[$slot] * $ratio);
+                            $someWinIntoUnits[$newSlot] += $newUnits;
+                            $amountReturning -= $newUnits;
+                        }
+                    }
                 }
 
                 # Remove the units from attacker and add them to $amountReturning.
@@ -1584,6 +1599,12 @@ class InvadeActionService
                 if (array_key_exists($slot, $convertedUnits))
                 {
                     $amountReturning += $convertedUnits[$slot];
+                }
+
+                # Check if we have some winning into
+                if (array_key_exists($slot, $someWinIntoUnits))
+                {
+                    $amountReturning += $someWinIntoUnits[$slot];
                 }
 
                 if(isset($mindControlledUnits[$slot]) and $mindControlledUnits[$slot] > 0)
@@ -1729,7 +1750,6 @@ class InvadeActionService
                 {
                     if($amount > 0)
                     {
-                        #echo "<pre>Add to 'invasion' queue: [$unitKey => $amount] at $unitTypeTick ticks</pre>";
                         $this->queueService->queueResources(
                             'invasion',
                             $attacker,
