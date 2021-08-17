@@ -26,7 +26,7 @@ units:
       gold: 0
     power:
       offense: 3
-      defense: 0
+      defense: 1
     perks:
       cannot_be_trained: 1
       housing_count: 0.1
@@ -39,7 +39,7 @@ units:
       gold: 0
     power:
       offense: 0
-      defense: 2.5
+      defense: 2
     perks:
       cannot_be_trained: 1
       housing_count: 0.1
