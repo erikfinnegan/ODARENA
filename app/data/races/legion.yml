@@ -23,7 +23,7 @@ units:
       - living
       - sentient
     cost:
-      gold: 600
+      gold: 700
       ore: 200
     power:
       offense: 8
@@ -39,7 +39,7 @@ units:
       - living
       - sentient
     cost:
-      gold: 700
+      gold: 800
       ore: 200
     power:
       offense: 6

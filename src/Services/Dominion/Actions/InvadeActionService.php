@@ -657,7 +657,7 @@ class InvadeActionService
         if($defender->race->name === 'Barbarian' and $attacker->realm->alignment !== 'evil' and $this->invasionResult['result']['success'] and $attackerPrestigeChange > 0 and $this->spellCalculator->isAnnexed($defender))
         {
             $this->invasionResult['attacker']['liberation'] = true;
-            $attackerPrestigeChange *= 4;
+            $attackerPrestigeChange *= 2;
         }
 
         # Cut in half when hitting abandoned dominions
