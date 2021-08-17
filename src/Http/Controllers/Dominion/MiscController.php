@@ -191,13 +191,13 @@ class MiscController extends AbstractDominionController
 
         # Abandon the dominion.
         $abandonDominionEvent = GameEvent::create([
-          'round_id' => $dominion->round_id,
-          'source_type' => Dominion::class,
-          'source_id' => $dominion->id,
-          'target_type' => NULL,
-          'target_id' => NULL,
-          'type' => 'abandon_dominion',
-          'data' => $data,
+            'round_id' => $dominion->round_id,
+            'source_type' => Dominion::class,
+            'source_id' => $dominion->id,
+            'target_type' => NULL,
+            'target_id' => NULL,
+            'type' => 'abandon_dominion',
+            'data' => $data,
         ]);
 
         # Remove votes

@@ -93,6 +93,8 @@ class ConversionCalculator
 
                 $rawDp += $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') * $amount;
             }
+
+            $rawDp = max(10000, $rawDp); # Ugly hack for min DP
         }
 
         # Defender's raw DP lost
