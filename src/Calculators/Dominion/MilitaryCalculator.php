@@ -282,10 +282,11 @@ class MilitaryCalculator
         bool $isAmbush = false,                 # 7
         bool $ignoreRawDpFromBuildings = false, # 8
         array $invadingUnits = null,            # 9
-        array $mindControlledUnits = null       # 10
+        array $mindControlledUnits = null,      # 10
+        bool $ignoreRawDpFromAnnexedDominions = false # 11
     ): float
     {
-        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings, $invadingUnits, $mindControlledUnits);
+        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings, $invadingUnits, $mindControlledUnits, $ignoreRawDpFromAnnexedDominions);
         $dp *= $this->getDefensivePowerMultiplier($defender, $attacker, $multiplierReduction);
 
         return ($dp * $this->getMoraleMultiplier($defender));
@@ -312,7 +313,8 @@ class MilitaryCalculator
         bool $isAmbush = false,
         bool $ignoreRawDpFromBuildings = false,
         array $invadingUnits = null,
-        array $mindControlledUnits = null
+        array $mindControlledUnits = null,
+        bool $ignoreRawDpFromAnnexedDominions = false
     ): float
     {
         $dp = 0;
@@ -397,7 +399,10 @@ class MilitaryCalculator
             $dp += $defender->getBuildingPerkValue('raw_defense');
         }
 
-        $dp += $this->getRawMilitaryPowerFromAnnexedDominions($defender);
+        if(!$ignoreRawDpFromAnnexedDominions)
+        {
+            $dp += $this->getRawMilitaryPowerFromAnnexedDominions($defender);
+        }
 
         // Beastfolk: Ambush
         if($isAmbush)
