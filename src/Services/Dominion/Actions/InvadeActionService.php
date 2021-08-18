@@ -632,7 +632,7 @@ class InvadeActionService
         }
 
         # Liberation
-        if($defender->race->name === 'Barbarian' and $attacker->realm->alignment !== 'evil' and $this->invasionResult['result']['success'] and $attackerPrestigeChange > 0 and $this->spellCalculator->isAnnexed($defender))
+        if($defender->race->name === 'Barbarian' and $attacker->realm->alignment !== 'evil' and $this->invasionResult['result']['success'] /* and $attackerPrestigeChange > 0 */ and $this->spellCalculator->isAnnexed($defender))
         {
             $this->invasionResult['attacker']['liberation'] = true;
             $attackerPrestigeChange *= 3;
@@ -3048,7 +3048,7 @@ class InvadeActionService
             4 => $dominion->military_unit4 - (isset($units[4]) ? $units[4] : 0)
         ];
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
-        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome, 0, false, false, false, null, null, true);
+        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome, 0, false, false, false, null, null, true); # The "true" at the end excludes raw DP from annexed dominions
 
         $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (4/3));
 
