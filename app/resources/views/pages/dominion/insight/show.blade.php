@@ -302,7 +302,7 @@
 
                     <ul>
                     @foreach($spellCalculator->getAnnexedDominions($dominion) as $barbarian)
-                        <li><a href="{{ route('dominion.insight.show', $barbarian) }}">{{ $barbarian->name }}</a></li>
+                        <li><a href="{{ route('dominion.insight.show', $barbarian) }}">{{ $barbarian->name }}</a> ({{ $spellCalculator->getTicksRemainingOfAnnexation($dominion, $barbarian) . ' ' . str_plural('tick', $spellCalculator->getTicksRemainingOfAnnexation($dominion, $barbarian))}} remaining)</li>
                     @endforeach
                     </ul>
                 </div>
