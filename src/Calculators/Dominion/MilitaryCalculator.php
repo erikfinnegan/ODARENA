@@ -538,9 +538,12 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusPrestigePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromVersusResourcePerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromMob($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
+            $unitPower += $this->getUnitPowerFromBeingOutnumbered($dominion, $target, $unit, $powerType, $calc, $units, $invadingUnits);
             $unitPower += $this->getUnitPowerFromVersusSpellPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromTargetRecentlyInvadedPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromTargetIsLargerPerk($dominion, $target, $unit, $powerType, $calc);
+
+
         }
 
         return $unitPower;
