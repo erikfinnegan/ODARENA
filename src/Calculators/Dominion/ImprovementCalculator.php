@@ -60,7 +60,7 @@ class ImprovementCalculator
                 $multiplier += $dominion->getTechPerkMultiplier('gemcutting');
             }
 
-            # Spells
+            # Advancements
             $multiplier += $dominion->getTechPerkMultiplier('invest_bonus');
             $multiplier += $dominion->getTechPerkMultiplier($resource . '_invest_bonus');
 
@@ -71,6 +71,7 @@ class ImprovementCalculator
             # Buildings
             $multiplier += $dominion->getBuildingPerkMultiplier('improvement_points');
             $multiplier += $dominion->getBuildingPerkMultiplier($resource . '_improvement_points');
+            $multiplier += $dominion->getBuildingPerkMultiplier($resource . '_invest_bonus');
 
             # Improvements
             $multiplier += $dominion->getImprovementPerkMultiplier('improvement_points');

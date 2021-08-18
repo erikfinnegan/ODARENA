@@ -46,16 +46,6 @@ class ProductionCalculator
         return max(0,$gold);
     }
 
-    /**
-     * Returns the Dominion's raw gold production.
-     *
-     * Gold is produced by:
-     * - Employed Peasants (2.7 per)
-     * - Building: Alchemy (45 per, or 60 with Alchemist Flame racial spell active)
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
     public function getGoldProductionRaw(Dominion $dominion): float
     {
         $gold = 0;
