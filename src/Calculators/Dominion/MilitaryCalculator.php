@@ -2067,7 +2067,7 @@ class MilitaryCalculator
             }
             if($addsMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'adds_morale'))
             {
-                $modifier += $addsMorale/100;
+                $modifier += $this->getTotalUnitsForSlot($dominion, $slot) * $addsMorale / 100;
             }
         }
 
