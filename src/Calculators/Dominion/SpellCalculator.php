@@ -169,21 +169,21 @@ class SpellCalculator
     }
 
 
-    public function getPassiveSpellsCastOnDominion(Dominion $caster, string $scope = null)#: Collection
+    public function getPassiveSpellsCastOnDominion(Dominion $dominion, string $scope = null)#: Collection
     {
-        $spells = collect(DominionSpell::where('dominion_id',$caster->id)->get());
 
-        #$dominionSpells = DominionSpell::where('dominion_id',$caster->id)->get();
-
-        foreach($spells as $dominionSpell)
+        if($scope)
         {
-            if(isset($scope) and $dominionSpell->spell->scope !== $scope)
-            {
-                $spells->forget($dominionSpell->spell->key);
-            }
+            return collect(
+                  DominionSpell::query()
+                      ->join('spells', 'dominion_spells.spell_id','spells.id')
+                      ->where('dominion_spells.dominion_id',$dominion->id)
+                      ->where('spells.scope',$scope)
+                      ->get()
+            );
         }
 
-        return $spells;
+        return collect(DominionSpell::where('dominion_id',$dominion->id)->get());
     }
 
     public function getSpellObjectFromKey(string $spellKey): Spell
