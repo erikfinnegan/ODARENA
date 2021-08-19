@@ -21,7 +21,7 @@ converting: 2
 skill_level: 2
 
 improvement_resources:
-  blood: 1000
+  blood: 500
 
 perks:
   extra_barren_forest_max_population: 25
