@@ -827,7 +827,7 @@ class NotificationHelper
                         break;
 
                     case 'voidspellmanatheft':
-                        $resultString = "{$data['damageString']} die from Tiranthael's Justice.";
+                        $resultString = "{$data['damageString']} disappears into the void.";
                         break;
 
                     default:
