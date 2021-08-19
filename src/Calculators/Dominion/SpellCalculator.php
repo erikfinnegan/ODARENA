@@ -157,7 +157,7 @@ class SpellCalculator
             return collect(
                   DominionSpell::query()
                       ->join('spells', 'dominion_spells.spell_id','spells.id')
-                      ->where('dominion_spells.casster_id',$caster->id)
+                      ->where('dominion_spells.caster_id',$caster->id)
                       ->where('spells.scope',$scope)
                       ->get()
             );
