@@ -448,6 +448,12 @@ class InvadeActionService
                 $legionString = 'attacker';
                 $type = 'invasion_support';
                 $targetId = $legion->id;
+
+                if($target->race->name == 'Barbarian')
+                {
+                    $legion = null;
+                }
+
             }
             elseif($this->spellCalculator->hasAnnexedDominions($target))
             {
@@ -461,7 +467,6 @@ class InvadeActionService
             {
                 if(isset($this->invasionResult[$legionString]['annexation']) and $this->invasionResult[$legionString]['annexation']['hasAnnexedDominions'] > 0 and $this->invasionResult['result']['opDpRatio'] >= 0.85)
                 {
-
                     foreach($this->invasionResult[$legionString]['annexation']['annexedDominions'] as $annexedDominionId => $annexedDominionData)
                     {
                         # If there are troops to send
