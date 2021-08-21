@@ -461,6 +461,11 @@ class InvadeActionService
                 $legionString = 'defender';
                 $type = 'defense_support';
                 $targetId = $target->id;
+
+                if($dominion->race->name == 'Barbarian')
+                {
+                    $legion = null;
+                }
             }
 
             if($legion)
