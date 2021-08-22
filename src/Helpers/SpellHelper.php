@@ -171,7 +171,7 @@ class SpellHelper
 
             'increases_casualties_on_offense_from_wizard_ratio' => 'Enemy casualties increased by %s%% for every 1 wizard ratio.',
 
-            'immune_to_temples' => 'Defensive modifiers are not affected by Temples.',
+            'immune_to_temples' => 'Defensive modifiers are not affected by Temples and any other defensive modifier reductions.',
 
             'defensive_power_from_peasants' => '%s raw defensive power per peasant',
 

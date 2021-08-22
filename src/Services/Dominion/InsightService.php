@@ -7,6 +7,8 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
+use OpenDominion\Exceptions\GameException;
+
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionInsight;
 
@@ -24,8 +26,9 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
-use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\StatsService;
 
 
 class InsightService
@@ -47,14 +50,30 @@ class InsightService
         $this->populationCalculator = app(PopulationCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
 
-        $this->queueService = app(QueueService::class);
         $this->statsService = app(StatsService::class);
+        $this->protectionService = app(ProtectionService::class);
+        $this->queueService = app(QueueService::class);
     }
 
     # $target = the dominion for whom Insight is being captured
     # $source = the dominion (if any) which is capturing the Insight
-    public function captureDominionInsight(Dominion $target, Dominion $source = null): void
+    public function captureDominionInsight(Dominion $target, Dominion $source = null): array
     {
+
+        if($this->protectionService->isUnderProtection($target))
+        {
+            throw new GameException('You cannot capture insight for a dominion that is under protection.');
+        }
+
+        if(!$target->round->hasStarted())
+        {
+            throw new GameException('You cannot capture insight before the round has started.');
+        }
+
+        if($target->getSpellPerkValue('fog_of_war'))
+        {
+            throw new GameException('This dominion is temporarily hidden from insight.');
+        }
 
         $dominionInsight = new DominionInsight([
             'dominion_id' => $target->id,
@@ -283,6 +302,12 @@ class InsightService
         $dominionInsight->data = $data;
 
         $dominionInsight->save();
+
+        return [
+            'alert-type' => 'success',
+            'redirect' => route('dominion.insight.archive', $target),
+            'message' => 'Insight successfully archived.',
+        ];
     }
 
 

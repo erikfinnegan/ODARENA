@@ -169,20 +169,30 @@ class InsightController extends AbstractDominionController
     public function postCaptureDominionInsight(InsightActionRequest $request)
     {
         $insightService = app(InsightService::class);
+        $protectionService = app(ProtectionService::class);
 
         $target = Dominion::findOrFail($request->get('target_dominion_id'));
         $roundTick = (int)$request->get('round_tick');
         $source = $this->getSelectedDominion();
 
-        $insightService->captureDominionInsight($target, $source);
 
+        try
+        {
+            $result = $insightService->captureDominionInsight($target, $source);
+        }
+        catch (GameException $e)
+        {
+            return redirect()->back()
+                ->withInput($request->all())
+                ->withErrors([$e->getMessage()]);
+        }
+
+        // analytics event
+
+        $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
+        #return redirect()->to($result['redirect'] ?? route('dominion.invade'));
         return redirect()->route('dominion.insight.archive', $target);
 
-        /*
-        return view('pages.dominion.insight.show', [
-            'dominion' => $target,
-        ]);
-        */
     }
 
     public function getDominionInsightArchive(Dominion $dominion)
