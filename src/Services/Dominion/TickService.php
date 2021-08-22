@@ -32,6 +32,8 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\DominionBuilding;
 use OpenDominion\Services\NotificationService;
+use OpenDominion\Services\Dominion\InsightService;
+use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Models\Deity;
 use Throwable;
 
@@ -102,6 +104,8 @@ class TickService
         $this->realmCalculator = app(RealmCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
         $this->deityService = app(DeityService::class);
+        $this->insightService = app(InsightService::class);
+        $this->protectionService = app(ProtectionService::class);
 
         $this->barbarianService = app(BarbarianService::class);
 
@@ -148,6 +152,12 @@ class TickService
                     $stasisDominions[] = $dominion->id;
                 }
 
+                if(($dominion->round->ticks % 4) !$this->protectionService->isUnderProtection($dominion) and $dominion->round->hasStarted() and !$dominion->getSpellPerkValue('fog_of_war'))
+                {
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Capturing insight for ' . $dominion->name); }
+                    $this->insightService->captureDominionInsight($dominion);
+                }
+
                 if(static::EXTENDED_LOGGING) { Log::debug('** Updating buildings for ' . $dominion->name); }
                 $this->handleBuildings($dominion);
 
@@ -157,7 +167,7 @@ class TickService
                 if(static::EXTENDED_LOGGING){ Log::debug('** Updating deities for ' . $dominion->name); }
                 $this->handleDeities($dominion);
 
-                if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians'); }
+                if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians:'); }
                 # NPC Barbarian: invasion, training, construction
                 if($dominion->race->name === 'Barbarian')
                 {
