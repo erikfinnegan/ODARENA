@@ -5,11 +5,23 @@
 @foreach($dominionInsights as $dominionInsight)
     @php
         $data = json_decode($dominionInsight->data, TRUE);
-        #dump($data);
     @endphp
 @endforeach
 
-
+@if($insightHelper->getArchiveCount($dominion, $selectedDominion) == 0)
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fas fa-eye-slash"></i> No archive</h3>
+            </div>
+            <div class="box-body">
+                <p>No insight has been archived for this dominion yet.</p>
+            </div>
+        </div>
+    </div>
+</div>
+@else
 
 <div class="row">
     <div class="col-sm-12 col-md-9">
@@ -225,7 +237,7 @@
                   <p class="text-muted">
                       <em>
                           Currently viewing insight archived at tick {{ $dominionInsight->round_tick }},
-                          <span data-toggle="tooltip" data-placement="top" title="{{ $dominionInsight->created_at }}">
+                          <span data-toggle="tooltip" data-placement="top" title="{{ $dominionInsight->created_at }} {{ isset($dominionInsight->source_dominion_id) ? 'by ' . OpenDominion\Models\Dominion::findOrFail($dominionInsight->source_dominion_id)->name : '' }}">
                               {{ number_format($selectedDominion->round->ticks - $dominionInsight->round_tick) . ' ' . str_plural('tick', $selectedDominion->round->ticks - $dominionInsight->round_tick) }} ago</a>.
                           </span>
                       </em>
@@ -921,5 +933,6 @@
     </div>
 </div>
 
+@endif
 
 @endsection

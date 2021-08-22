@@ -261,9 +261,11 @@
                       <input type="hidden" name="round_tick" value="{{ $selectedDominion->round->ticks }}">
                       <button class="btn btn-primary btn-block" type="submit" id="capture">Archive this Insight</button>
                   </form>
-                  <p>
-                      <a href="{{ route('dominion.insight.archive', $dominion) }}">View Archive</a>
-                  </p>
+                  @if($insightHelper->getArchiveCount($dominion, $selectedDominion) > 0)
+                      <p>
+                          <a href="{{ route('dominion.insight.archive', $dominion) }}">View Archive</a> ({{ $insightHelper->getArchiveCount($dominion, $selectedDominion) }})
+                      </p>
+                  @endif
             </div>
         </div>
     </div>

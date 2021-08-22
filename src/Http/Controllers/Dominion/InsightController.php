@@ -23,6 +23,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\InsightHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
@@ -102,6 +103,7 @@ class InsightController extends AbstractDominionController
 
             'buildingHelper' => app(BuildingHelper::class),
             'deityHelper' => app(DeityHelper::class),
+            'insightHelper' => app(InsightHelper::class),
             'improvementHelper' => app(ImprovementHelper::class),
             'landHelper' => app(LandHelper::class),
             'raceHelper' => app(RaceHelper::class),
@@ -126,45 +128,6 @@ class InsightController extends AbstractDominionController
             'queueService' => app(QueueService::class),
         ]);
     }
-    /*
-    public function getDominionArchive(Dominion $dominion, string $type)
-    {
-        $resultsPerPage = 10;
-        $valid_types = [];#['clear_sight', 'vision', 'revelation', 'barracks_spy', 'castle_spy', 'survey_dominion', 'land_spy'];
-        $infoOpService = app(InfoOpService::class);
-
-        if (!in_array($type, $valid_types)) {
-            return redirect()->route('dominion.insight.show', $dominion);
-        }
-
-        $infoOpArchive = $this->getSelectedDominion()->realm
-            ->infoOps()
-            ->with('sourceDominion')
-            ->where('target_dominion_id', '=', $dominion->id)
-            ->where('type', '=', $type)
-            ->orderBy('created_at', 'desc')
-            ->paginate($resultsPerPage);
-
-        return view('pages.dominion.insight.archive', [
-            'buildingHelper' => app(BuildingHelper::class),
-            'improvementHelper' => app(ImprovementHelper::class),
-            'infoOpService' => app(InfoOpService::class),
-            'landCalculator' => app(LandCalculator::class),
-            'landHelper' => app(LandHelper::class),
-            'rangeCalculator' => app(RangeCalculator::class),
-            'spellCalculator' => app(SpellCalculator::class),
-            'spellHelper' => app(SpellHelper::class),
-            'techHelper' => app(TechHelper::class),
-            'unitHelper' => app(UnitHelper::class),
-            'raceHelper' => app(RaceHelper::class),
-            'landImprovementCalculator' => app(LandImprovementCalculator::class),
-            'militaryCalculator' => app(MilitaryCalculator::class),
-            'dominion' => $dominion,
-            'deityHelper' => app(DeityHelper::class),
-            'infoOpArchive' => $infoOpArchive
-        ]);
-    }
-    */
 
     public function postCaptureDominionInsight(InsightActionRequest $request)
     {
@@ -172,9 +135,7 @@ class InsightController extends AbstractDominionController
         $protectionService = app(ProtectionService::class);
 
         $target = Dominion::findOrFail($request->get('target_dominion_id'));
-        $roundTick = (int)$request->get('round_tick');
         $source = $this->getSelectedDominion();
-
 
         try
         {
@@ -187,10 +148,7 @@ class InsightController extends AbstractDominionController
                 ->withErrors([$e->getMessage()]);
         }
 
-        // analytics event
-
         $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
-        #return redirect()->to($result['redirect'] ?? route('dominion.invade'));
         return redirect()->route('dominion.insight.archive', $target);
 
     }
@@ -203,7 +161,13 @@ class InsightController extends AbstractDominionController
 
         #$dominionInsight = $insightService->getDominionInsight($target, $source);
 
-        $dominionInsights = DominionInsight::where('dominion_id', $target->id)->orderBy('created_at','desc')->paginate(1);
+        $dominionInsights = DominionInsight::where('dominion_id',$dominion->id)->where(function($query) use($source)
+        {
+            $query->where('source_realm_id', $source->realm->id)
+                  ->orWhere('source_realm_id', NULL);
+        })
+        ->orderBy('created_at','desc')
+        ->paginate(1);
 
         return view('pages.dominion.insight.archive', [
             'dominion' => $target,
@@ -212,6 +176,7 @@ class InsightController extends AbstractDominionController
             'buildingHelper' => app(BuildingHelper::class),
             'deityHelper' => app(DeityHelper::class),
             'improvementHelper' => app(ImprovementHelper::class),
+            'insightHelper' => app(InsightHelper::class),
             'landHelper' => app(LandHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'spellHelper' => app(SpellHelper::class),
