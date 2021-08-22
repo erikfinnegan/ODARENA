@@ -30,6 +30,12 @@
             <div class="box-body">
                 <p>This dominion is temporarily hidden from insight.</p>
                 <p><em>Strike at your own risk!</em></p>
+                
+                @if($insightHelper->getArchiveCount($dominion, $selectedDominion) > 0)
+                    <p>
+                        <a href="{{ route('dominion.insight.archive', $dominion) }}">View Archive</a> ({{ number_format($insightHelper->getArchiveCount($dominion, $selectedDominion)) }})
+                    </p>
+                @endif
             </div>
         </div>
     </div>
@@ -263,7 +269,7 @@
                   </form>
                   @if($insightHelper->getArchiveCount($dominion, $selectedDominion) > 0)
                       <p>
-                          <a href="{{ route('dominion.insight.archive', $dominion) }}">View Archive</a> ({{ $insightHelper->getArchiveCount($dominion, $selectedDominion) }})
+                          <a href="{{ route('dominion.insight.archive', $dominion) }}">View Archive</a> ({{ number_format($insightHelper->getArchiveCount($dominion, $selectedDominion)) }})
                       </p>
                   @endif
             </div>
