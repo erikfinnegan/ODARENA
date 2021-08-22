@@ -165,7 +165,6 @@ class InsightService
                 'unit2' => $target->military_unit2,
                 'unit3' => $target->military_unit3,
                 'unit4' => $target->military_unit4,
-
           ];
 
         // Units returning
@@ -206,19 +205,20 @@ class InsightService
         foreach ($this->buildingHelper->getBuildingsByRace($target->race) as $building)
         {
             $data['buildings']['constructed'][$building->key] = $this->buildingCalculator->getBuildingAmountOwned($target, $building);
+            $data['buildings']['constructing'][$building->key] = array_fill(1, 12, 0);
         }
 
         $totalConstructingLand = 0;
 
         $this->queueService->getConstructionQueue($target)->each(static function ($row) use (&$data, &$totalConstructingLand) {
             $buildingKey = str_replace('building_', '', $row->resource);
-            $data['buildings']['constructing'][$buildingKey][$row->hours] = $row->amount;
+            $data['buildings']['constructing'][$buildingKey][$row->hours] += $row->amount;
             $totalConstructingLand += (int)$row->amount;
         });
 
         $this->queueService->getSabotageQueue($target)->each(static function ($row) use (&$data, &$totalConstructingLand) {
             $buildingKey = str_replace('building_', '', $row->resource);
-            $data['buildings']['constructing'][$buildingKey][$row->hours] = $row->amount;
+            $data['buildings']['constructing'][$buildingKey][$row->hours] += $row->amount;
             $totalConstructingLand += (int)$row->amount;
         });
 

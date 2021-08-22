@@ -598,7 +598,7 @@
                             @for ($i = 1; $i <= 12; $i++)
                                 @if(isset($data['buildings']['constructing'][$building->key]))
                                     @php
-                                        $amount = $data['buildings']['constructing'][$building->key];
+                                        $amount = $data['buildings']['constructing'][$building->key][$i];
                                     @endphp
                                 @else
                                     @php
