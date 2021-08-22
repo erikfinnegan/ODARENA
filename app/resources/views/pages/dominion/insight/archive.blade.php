@@ -225,8 +225,9 @@
                   <p class="text-muted">
                       <em>
                           Currently viewing insight archived at tick {{ $dominionInsight->round_tick }},
-                          {{ number_format($selectedDominion->round->ticks - $dominionInsight->round_tick) . ' ' . str_plural('tick', $selectedDominion->round->ticks - $dominionInsight->round_tick) }} ago<br>
-                          ({{ $dominionInsight->created_at }}).
+                          <span data-toggle="tooltip" data-placement="top" title="{{ $dominionInsight->created_at }}">
+                              {{ number_format($selectedDominion->round->ticks - $dominionInsight->round_tick) . ' ' . str_plural('tick', $selectedDominion->round->ticks - $dominionInsight->round_tick) }} ago</a>.
+                          </span>
                       </em>
                   </p>
             </div>
