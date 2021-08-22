@@ -2,6 +2,9 @@
     <div class="box-header with-border">
         <h3 class="box-title">
             <i class="{{ $titleIconClass }}"></i> {{ $title }}
+
+
+
         </h3>
 
         @isset ($titleExtra)

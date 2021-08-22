@@ -83,10 +83,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Advisors
             $router->get('advisors')->uses('Dominion\AdvisorsController@getAdvisors')->name('advisors');
             $router->get('advisors/production')->uses('Dominion\AdvisorsController@getAdvisorsProduction')->name('advisors.production');
-            #$router->get('advisors/military')->uses('Dominion\AdvisorsController@getAdvisorsMilitary')->name('advisors.military');
-            #$router->get('advisors/land')->uses('Dominion\AdvisorsController@getAdvisorsLand')->name('advisors.land');
-            #$router->get('advisors/construct')->uses('Dominion\AdvisorsController@getAdvisorsConstruction')->name('advisors.construct');
-            #$router->get('advisors/magic')->uses('Dominion\AdvisorsController@getAdvisorsMagic')->name('advisors.magic');
             $router->get('advisors/statistics')->uses('Dominion\AdvisorsController@getAdvisorsStatistics')->name('advisors.statistics');
             $router->get('advisors/history')->uses('Dominion\AdvisorsController@getHistory')->name('advisors.history');
 
@@ -110,12 +106,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('explore')->uses('Dominion\ExplorationController@getExplore')->name('explore');
             $router->post('explore')->uses('Dominion\ExplorationController@postExplore');
 
-            // Construction
-            #$router->get('construct')->uses('Dominion\ConstructionController@getConstruction')->name('construct');
-            #$router->post('construct')->uses('Dominion\ConstructionController@postConstruction');
-            #$router->get('destroy')->uses('Dominion\ConstructionController@getDestroy')->name('destroy');
-            #$router->post('destroy')->uses('Dominion\ConstructionController@postDestroy');
-
             # Buildings
             $router->get('buildings')->uses('Dominion\BuildingController@getBuildings')->name('buildings');
             $router->post('buildings')->uses('Dominion\BuildingController@postBuildings');
@@ -133,10 +123,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Improvements
             $router->get('improvements')->uses('Dominion\ImprovementController@getImprovements')->name('improvements');
             $router->post('improvements')->uses('Dominion\ImprovementController@postImprovements');
-
-            // National Bank
-            #$router->get('exchange')->uses('Dominion\ExchangeController@getBank')->name('exchange');
-            #$router->post('exchange')->uses('Dominion\ExchangeController@postBank');
 
             // Techs
             $router->get('advancements')->uses('Dominion\TechController@getTechs')->name('advancements');
@@ -171,14 +157,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('friendly-ops')->uses('Dominion\FriendlyOpsController@getFriendlyOps')->name('friendly-ops');
             $router->post('friendly-ops')->uses('Dominion\FriendlyOpsController@postFriendlyOps');
 
-            // Magic
-            #$router->get('magic')->uses('Dominion\MagicController@getMagic')->name('magic');
-            #$router->post('magic')->uses('Dominion\MagicController@postMagic');
-
-            // Espionage
-            #$router->get('espionage')->uses('Dominion\EspionageController@getEspionage')->name('espionage');
-            #$router->post('espionage')->uses('Dominion\EspionageController@postEspionage');
-
             // Search
             $router->get('search')->uses('Dominion\SearchController@getSearch')->name('search');
 
@@ -202,7 +180,8 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Insight
             $router->get('insight')->uses('Dominion\InsightController@getIndex')->name('insight');
             $router->get('insight/{dominion}')->uses('Dominion\InsightController@getDominion')->name('insight.show');
-            $router->get('insight/{dominion}/{type}')->uses('Dominion\InsightController@getDominionArchive')->name('insight.archive');
+            $router->get('insight/{dominion}/archive')->uses('Dominion\InsightController@getDominionInsightArchive')->name('insight.archive');
+            $router->post('insight/{dominion}/archive')->uses('Dominion\InsightController@postCaptureDominionInsight');
 
             // Government
             $router->get('government')->uses('Dominion\GovernmentController@getIndex')->name('government');

@@ -4,9 +4,10 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Exceptions\GameException;
 
+use OpenDominion\Http\Requests\Dominion\Actions\InsightActionRequest;
+
 use OpenDominion\Models\Dominion;
-use OpenDominion\Models\Realm;
-use OpenDominion\Models\Tech;
+use OpenDominion\Models\DominionInsight;
 
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
@@ -30,7 +31,7 @@ use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Helpers\UnitHelper;
 
 #use OpenDominion\Services\GameEventService;
-#use OpenDominion\Services\Dominion\InfoOpService;
+use OpenDominion\Services\Dominion\InsightService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
@@ -125,7 +126,7 @@ class InsightController extends AbstractDominionController
             'queueService' => app(QueueService::class),
         ]);
     }
-
+    /*
     public function getDominionArchive(Dominion $dominion, string $type)
     {
         $resultsPerPage = 10;
@@ -163,5 +164,70 @@ class InsightController extends AbstractDominionController
             'infoOpArchive' => $infoOpArchive
         ]);
     }
+    */
+
+    public function postCaptureDominionInsight(InsightActionRequest $request)
+    {
+        $insightService = app(InsightService::class);
+
+        $target = Dominion::findOrFail($request->get('target_dominion_id'));
+        $roundTick = (int)$request->get('round_tick');
+        $source = $this->getSelectedDominion();
+
+        $insightService->captureDominionInsight($target, $source);
+
+        return redirect()->route('dominion.insight.archive', $target);
+
+        /*
+        return view('pages.dominion.insight.show', [
+            'dominion' => $target,
+        ]);
+        */
+    }
+
+    public function getDominionInsightArchive(Dominion $dominion)
+    {
+        $insightService = app(InsightService::class);
+        $target = $dominion;
+        $source = $this->getSelectedDominion();
+
+        #$dominionInsight = $insightService->getDominionInsight($target, $source);
+
+        $dominionInsights = DominionInsight::where('dominion_id', $target->id)->orderBy('created_at','desc')->paginate(1);
+
+        return view('pages.dominion.insight.archive', [
+            'dominion' => $target,
+            'dominionInsights' => $dominionInsights,
+
+            'buildingHelper' => app(BuildingHelper::class),
+            'deityHelper' => app(DeityHelper::class),
+            'improvementHelper' => app(ImprovementHelper::class),
+            'landHelper' => app(LandHelper::class),
+            'raceHelper' => app(RaceHelper::class),
+            'spellHelper' => app(SpellHelper::class),
+            'techHelper' => app(TechHelper::class),
+            'titleHelper' => app(TitleHelper::class),
+            'unitHelper' => app(UnitHelper::class),
+
+            'buildingCalculator' => app(BuildingCalculator::class),
+            'networthCalculator' => app(NetworthCalculator::class),
+            'improvementCalculator' => app(ImprovementCalculator::class),
+            'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'landCalculator' => app(LandCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
+            'populationCalculator' => app(PopulationCalculator::class),
+            'productionCalculator' => app(ProductionCalculator::class),
+            'rangeCalculator' => app(RangeCalculator::class),
+            'spellCalculator' => app(SpellCalculator::class),
+
+            'protectionService' => app(ProtectionService::class),
+            'statsService' => app(StatsService::class),
+            'queueService' => app(QueueService::class),
+        ]);
+    }
+
+
+
+
 
 }

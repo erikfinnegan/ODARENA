@@ -1,7 +1,4 @@
 @extends('layouts.master')
-
-@section('page-header', 'Insight')
-
 @section('content')
 
 @if(!$dominion->round->hasStarted() or $protectionService->isUnderProtection($dominion))
@@ -253,6 +250,22 @@
                 </div>
             </div>
         @endcomponent
+    </div>
+
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-body text-center">
+                  <form action="{{ route('dominion.insight.archive', $dominion) }}" method="post">
+                      @csrf
+                      <input type="hidden" name="target_dominion_id" value="{{ $dominion->id }}">
+                      <input type="hidden" name="round_tick" value="{{ $selectedDominion->round->ticks }}">
+                      <button class="btn btn-primary btn-block" type="submit" id="capture">Archive this Insight</button>
+                  </form>
+                  <p>
+                      <a href="{{ route('dominion.insight.archive', $dominion) }}">View Archive</a>
+                  </p>
+            </div>
+        </div>
     </div>
 
     <div class="col-sm-12 col-md-3">
@@ -690,7 +703,7 @@
                     <col width="100">
                     <col width="100">
                     @if ($dominion->race->getPerkValue('land_improvements') or $dominion->race->getPerkValue('defense_from_forest'))
-                        <col width="100">
+                        <col width="150">
                     @endif
                 </colgroup>
                 <thead>
@@ -730,7 +743,7 @@
                                       @elseif($landType == 'hill')
                                           +{{ number_format($landImprovementCalculator->getDefensivePowerBonus($dominion)*100,2) }}% Defensive Power
                                       @elseif($landType == 'water')
-                                          +{{ number_format($landImprovementCalculator->getFoodProductionBonus($dominion)*100,2) }}% Food and Boat Production
+                                          +{{ number_format($landImprovementCalculator->getFoodProductionBonus($dominion)*100,2) }}% Food Production
                                       @endif
                                 </td>
                             @endif
@@ -967,6 +980,8 @@
         @endcomponent
     </div>
 </div>
+
+
 @endif
 
 @endsection

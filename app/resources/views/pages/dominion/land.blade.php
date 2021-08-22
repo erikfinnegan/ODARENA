@@ -145,7 +145,7 @@
                                                       @elseif($landType == 'hill')
                                                           +{{ number_format($landImprovementCalculator->getDefensivePowerBonus($selectedDominion)*100,2) }}% Defensive Power
                                                       @elseif($landType == 'water')
-                                                          +{{ number_format($landImprovementCalculator->getFoodProductionBonus($selectedDominion)*100,2) }}% Food and Boat Production
+                                                          +{{ number_format($landImprovementCalculator->getFoodProductionBonus($selectedDominion)*100,2) }}% Food Production
                                                       @endif
                                                 </td>
                                             @endif

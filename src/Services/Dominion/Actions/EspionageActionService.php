@@ -537,7 +537,6 @@ class EspionageActionService
                 ->sendNotifications($target, 'irregular_dominion');
         }
 
-
         $infoOp->save();
 
         return [

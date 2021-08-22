@@ -9,9 +9,6 @@ use OpenDominion\Models\Dominion;
 
 class NotesController extends AbstractDominionController
 {
-
-
-
     public function getNotes()
     {
         $dominion = $this->getSelectedDominion();
