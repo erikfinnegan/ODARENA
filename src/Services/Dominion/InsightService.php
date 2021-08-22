@@ -173,16 +173,17 @@ class InsightService
         {
             if (starts_with($row->resource, 'military_')) {
                 $unitType = str_replace('military_', '', $row->resource);
-                $data['units']['returning'][$unitType][$row->hours] = $row->amount;
+                $data['units']['returning'][$unitType][$row->hours] += $row->amount;
             }
         });
 
         // Units training
         $this->queueService->getTrainingQueue($target)->each(static function ($row) use (&$data)
         {
-            if (!starts_with($row->resource, 'military_')) {
+            if (starts_with($row->resource, 'military_'))
+            {
                 $unitType = str_replace('military_', '', $row->resource);
-                $data['units']['training'][$unitType][$row->hours] = $row->amount;
+                $data['units']['training'][$unitType][$row->hours] += $row->amount;
             }
         });
 
@@ -284,8 +285,11 @@ class InsightService
 
         $this->queueService->getExplorationQueue($target)->each(static function ($row) use (&$data)
         {
-            $landType = str_replace('land_', '', $row->resource);
-            $data['land']['incoming'][$landType][$row->hours] += $row->amount;
+            if (starts_with($row->resource, 'land_'))
+            {
+                $landType = str_replace('land_', '', $row->resource);
+                $data['land']['incoming'][$landType][$row->hours] += $row->amount;
+            }
         });
 
         $this->queueService->getInvasionQueue($target)->each(static function ($row) use (&$data)
