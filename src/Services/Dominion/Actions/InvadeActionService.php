@@ -2117,7 +2117,7 @@ class InvadeActionService
                 {
                     $amountPerCasualty = $diesIntoResourcePerCasualty[0];
                     $resource = 'resource_' . $diesIntoResourcePerCasualty[1];
-                    $this->invasionResult['defender']['resource_conversion'][$resource] += floor($this->invasionResult['attacker']['unitsLost'][$slot] * $amountPerCasualty);
+                    $this->invasionResult['defender']['resource_conversion'][$resource] += floor($this->invasionResult['defender']['unitsLost'][$slot] * $amountPerCasualty);
                 }
 
                 # Defender: dies_into_resource_on_success: triggers if a defensive unit has the perk and invasion is NOT successful
