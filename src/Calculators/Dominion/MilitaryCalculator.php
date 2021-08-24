@@ -802,19 +802,19 @@ class MilitaryCalculator
             return 0;
         }
 
-        $buildingType = $versusBuildingPerkData[0];
+        $buildingKey = $versusBuildingPerkData[0];
         $ratio = (int)$versusBuildingPerkData[1];
         $max = (int)$versusBuildingPerkData[2];
 
         $landPercentage = 0;
         if (!empty($calc)) {
             # Override building percentage for invasion calculator
-            if (isset($calc["{$buildingType}_percent"])) {
-                $landPercentage = (float) $calc["{$buildingType}_percent"];
+            if (isset($calc["{$buildingKey}_percent"])) {
+                $landPercentage = (float) $calc["{$buildingKey}_percent"];
             }
         } elseif ($target !== null) {
             $totalLand = $this->landCalculator->getTotalLand($target);
-            $landPercentage = ($this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingType) / $totalLand) * 100;
+            $landPercentage = ($this->buildingCalculator->getBuildingAmountOwned($dominion, null, $buildingKey) / $totalLand) * 100;
         }
 
         $powerFromBuilding = $landPercentage / $ratio;
