@@ -321,10 +321,10 @@ class UnitHelper
             'stuns_units' => 'Stuns some units with up to %1$s DP for %2$s ticks, whereafter the units return unharmed.',
 
             // Damage
-            'burns_peasants_on_attack' => 'Burns %s peasants on successful invasion.',
+            'burns_peasants_on_attack' => 'Burns %s peasants on invasion.',
             'damages_improvements_on_attack' => 'Damages target\'s improvements by %s improvement points, spread proportionally across all invested improvements.',
-            'eats_peasants_on_attack' => 'Eats %s peasants on successful invasion.',
-            'eats_draftees_on_attack' => 'Eats %s draftees on successful invasion.',
+            'eats_peasants_on_attack' => 'Eats %s peasants on invasion.',
+            'eats_draftees_on_attack' => 'Eats %s draftees on invasion.',
 
             // Demonic
             'kills_peasants' => 'Eats %s peasants per tick.',

@@ -78,6 +78,7 @@ class InsightService
         $dominionInsight = new DominionInsight([
             'dominion_id' => $target->id,
             'source_dominion_id' => $source ? $source->id : null,
+            'source_realm_id' => $source ? $source->realm->id : null,
             'round_tick' => $target->round->ticks,
         ]);
 
