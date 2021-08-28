@@ -126,6 +126,12 @@
                                                 </span>
                                             @endif
 
+                                            @if ($militaryCalculator->getRecentlyInvadedCount($dominion) and $dominion->race->name == 'Sylvan')
+                                                <span data-toggle="tooltip" data-placement="top" title="Enraged">
+                                                <i class="ra ra-explosion fa-lg text-red" title=""></i>
+                                                </span>
+                                            @endif
+
                                             @if ($spellCalculator->isSpellActive($dominion, 'ragnarok'))
                                                 <span data-toggle="tooltip" data-placement="top" title="Ragnarök">
                                                 <i class="ra ra-blast fa-lg text-red" title=""></i>

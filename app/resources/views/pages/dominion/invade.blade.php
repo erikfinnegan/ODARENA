@@ -476,8 +476,8 @@
                     <p>Note that minimum raw DP a target can have is 10 DP per acre.</p>
 
                     @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
-                    <hr />
-                    <p><strong>You were recently invaded, enraging your Spriggan and Leshy.</strong></p>
+                        <hr />
+                        <p><strong>You were recently invaded, enraging your Spriggan and Leshy.</strong></p>
                     @endif
 
                 </div>

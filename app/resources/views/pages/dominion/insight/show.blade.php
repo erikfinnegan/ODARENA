@@ -329,6 +329,17 @@
             </div>
         @endif
 
+        @if ($militaryCalculator->getRecentlyInvadedCount($dominion) and $dominion->race->name == 'Sylvan')
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="ra ra-explosion"></i> Enraged</h3>
+                </div>
+                <div class="box-body">
+                    <p>Because they were recently invaded, the Leshy and Spriggan are enraged.</p>
+                </div>
+            </div>
+        @endif
+
         @if($spellCalculator->isAnnexed($dominion))
             <div class="box">
                 <div class="box-header with-border">

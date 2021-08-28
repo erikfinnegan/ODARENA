@@ -1341,7 +1341,7 @@ class InvadeActionService
                   }
                   else
                   {
-                      $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit;
+                      $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit * min($this->invasionResult['result']['opDpRatio'], 1);
                       $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
                   }
                   $target->peasants -= $burnedPeasants;
@@ -1391,7 +1391,7 @@ class InvadeActionService
                     }
                     else
                     {
-                        $eatenPeasants = round($eatingUnits * $peasantsEatenPerUnit);
+                        $eatenPeasants = round($eatingUnits * $peasantsEatenPerUnit * min($this->invasionResult['result']['opDpRatio'], 1));
                         $eatenPeasants = min(($target->peasants-1000), $eatenPeasants);
                     }
                     $target->peasants -= $eatenPeasants;
@@ -1405,7 +1405,7 @@ class InvadeActionService
                     $eatingUnits = $units[$unitSlot];
                     $drafteesEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
 
-                    $eatenDraftees = round($eatingUnits * $drafteesEatenPerUnit);
+                    $eatenDraftees = round($eatingUnits * $drafteesEatenPerUnit * min($this->invasionResult['result']['opDpRatio'], 1));
                     $eatenDraftees = min($target->military_draftees, $eatenDraftees);
 
                     $target->military_draftees -= $eatenDraftees;

@@ -243,7 +243,6 @@ class BarbarianService
                     $units = [1 => $dominion->military_unit1, 4 => $dominion->military_unit4];
                     $targetDp = $this->militaryCalculator->getDefensivePower($target, $dominion, $landRatio);
 
-
                     $logString .= "\t\t** " . $dominion->name . ' is checking ' . $target->name . ': ';
 
                     if($this->barbarianCalculator->getOpCurrent($dominion) >= $targetDp * 0.85)
