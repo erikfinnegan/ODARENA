@@ -7,6 +7,15 @@ playable: 1
 peasants_alias: ant
 draftees_alias: drone
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - food
+
+improvement_resources:
+  lumber: 2.5
+
 attacking: 3
 exploring : 3
 converting: 3

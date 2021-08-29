@@ -13,6 +13,12 @@ exploring : 2
 converting: 0
 skill_level: 3
 
+resources:
+  - mana
+  - lumber
+  - gems
+  - food
+
 construction_materials:
   - food
 
@@ -31,7 +37,6 @@ units:
     training_time: 3
     type:
       - living
-
     cost:
       food: 25
     power:

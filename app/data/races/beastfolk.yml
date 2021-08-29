@@ -20,6 +20,14 @@ exploring : 2
 converting: 2
 skill_level: 2
 
+resources:
+  - gold
+  - mana
+  - blood
+  - gems
+  - lumber
+  - food
+
 improvement_resources:
   blood: 500
 

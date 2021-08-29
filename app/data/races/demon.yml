@@ -12,9 +12,16 @@ exploring : 3
 converting: 3
 skill_level: 3
 
+resources:
+  - gold
+  - mana
+  - blood
+  - soul
+  - gems
+  - lumber
+
 improvement_resources:
   gold: 1
-  ore: 2
   lumber: 2
   gems: 12
   souls: 300

@@ -9,6 +9,13 @@ exploring : 1
 converting: 1
 skill_level: 2
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - gems
+  - food
+
 perks:
   max_population: 30
   mana_production: 10

@@ -20,6 +20,7 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Services\Dominion\DeityService;
+use OpenDominion\Services\Dominion\ResourceService;
 
 class DominionFactory
 {
@@ -33,6 +34,7 @@ class DominionFactory
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->barbarianCalculator = app(BarbarianCalculator::class);
         $this->deityService = app(DeityService::class);
+        $this->resourceService = app(ResourceService::class);
     }
 
     /**
@@ -63,15 +65,15 @@ class DominionFactory
 
         // Starting resources are based on this.
         $acresBase = 1000;
-        $startingResources['npc_modifier'] = 0;
+        $startingParameters['npc_modifier'] = 0;
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
         {
             # NPC modifier is a number from 500 to 1000 (skewed toward higher).
             # It is to be used as a multiplier but stored as an int in database.
-            $startingResources['npc_modifier'] = min(rand(500,1200), 1000);
+            $startingParameters['npc_modifier'] = min(rand(500,1200), 1000);
 
             # For usage in this function, divide npc_modifier by 1000 to create a multiplier.
-            $npcModifier = $startingResources['npc_modifier'] / 1000;
+            $npcModifier = $startingParameters['npc_modifier'] / 1000;
 
             $acresBase *= $npcModifier;
         }
@@ -98,7 +100,7 @@ class DominionFactory
         // modified for specific races. These are the default
         // values, and then deviating values are set below.
 
-        $startingResources['protection_ticks'] = 96;
+        $startingParameters['protection_ticks'] = 96;
 
         /*  ROUND 17: New Protection:
 
@@ -153,53 +155,42 @@ class DominionFactory
         $startingResources['soul'] = 0;
         $startingResources['blood'] = 0;
 
-        $startingResources['tech'] = 400 * $hoursSinceRoundStarted;
+        $startingParameters['tech'] = 400 * $hoursSinceRoundStarted;
 
-        $startingResources['morale'] = 100;
+        $startingParameters['morale'] = 100;
 
-        $startingResources['prestige'] = intval($acresBase/2);
+        $startingParameters['prestige'] = intval($acresBase/2);
 
         if($race->name !== 'Barbarian')
         {
             if(Auth::user()->display_name == $rulerName)
             {
-                $startingResources['prestige'] += 100;
+                $startingParameters['prestige'] += 100;
             }
         }
 
         # POPULATION AND MILITARY
-        $startingResources['peasants'] = intval(1000 * 5 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
-        $startingResources['draftees'] = intval($startingResources['peasants'] * 0.30);
-        $startingResources['peasants'] -= intval($startingResources['draftees']);
-        $startingResources['draft_rate'] = 40;
+        $startingParameters['peasants'] = intval(1000 * 5 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
+        $startingParameters['draftees'] = intval($startingParameters['peasants'] * 0.30);
+        $startingParameters['peasants'] -= intval($startingParameters['draftees']);
+        $startingParameters['draft_rate'] = 40;
 
-        $startingResources['unit1'] = 0;
-        $startingResources['unit2'] = 0;
-        $startingResources['unit3'] = 0;
-        $startingResources['unit4'] = 0;
-        $startingResources['spies'] = 0;
-        $startingResources['wizards'] = 0;
-        $startingResources['archmages'] = 0;
-
-        $startingResources['improvement_markets'] = 0;
-        $startingResources['improvement_keep'] = 0;
-        $startingResources['improvement_forges'] = 0;
-        $startingResources['improvement_walls'] = 0;
-        $startingResources['improvement_armory'] = 0;
-        $startingResources['improvement_observatory'] = 0;
-        $startingResources['improvement_harbor'] = 0;
+        $startingParameters['unit1'] = 0;
+        $startingParameters['unit2'] = 0;
+        $startingParameters['unit3'] = 0;
+        $startingParameters['unit4'] = 0;
+        $startingParameters['spies'] = 0;
+        $startingParameters['wizards'] = 0;
+        $startingParameters['archmages'] = 0;
 
         # FACTION SPECIFIC RESOURCES
-
-        // Ore-free races: no ore
-        $oreFreeRaces = ['Ants','Elementals','Firewalker','Lux','Merfolk','Myconid','Sylvan','Spirit','Swarm','Wood Elf','Demon','Dimensionalists','Growth','Reptilians','Nox','Undead','Marshling','Qur','Simian','Vampires','Void','Weres','Icekin'];
-        if(in_array($race->name, $oreFreeRaces))
+        if(!in_array('ore', $race->resources))
         {
             $startingResources['ore'] = 0;
         }
 
         // Food-free races: no food
-        if($race->getPerkValue('no_food_consumption'))
+        if($race->getPerkValue('no_food_consumption') or !in_array('food', $race->resources))
         {
             $startingResources['food'] = 0;
         }
@@ -265,7 +256,7 @@ class DominionFactory
         if($race->name == 'Demon')
         {
             $startingResources['blood'] = 140000;
-            $startingResources['unit4'] = 1;
+            $startingParameters['unit4'] = 1;
         }
 
         // Void: gets acres * 4000 mana (as of round 20)
@@ -292,8 +283,8 @@ class DominionFactory
             $startingResources['gold'] = 0;
             $startingResources['gems'] = 0;
             $startingResources['lumber'] = 0;
-            $startingResources['draft_rate'] = 0;
-            $startingResources['draftees'] = 0;
+            $startingParameters['draft_rate'] = 0;
+            $startingParameters['draftees'] = 0;
         }
 
         // Elementals: remove lumber
@@ -311,14 +302,14 @@ class DominionFactory
         // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
         if($race->name == 'Dimensionalists')
         {
-            $startingResources['unit1'] = 400;
+            $startingParameters['unit1'] = 400;
             $startingResources['mana'] *= 2;
         }
 
         // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
         if($race->name == 'Legion')
         {
-            $startingResources['unit4'] = 1;
+            $startingParameters['unit4'] = 1;
         }
 
         // Yeti: starting yetis.
@@ -330,7 +321,7 @@ class DominionFactory
             $startingResources['lumber'] += $startingResources['gold'] / 2;
             $startingResources['gold'] = 0;
 
-            $startingResources['draft_rate'] = 100;
+            $startingParameters['draft_rate'] = 100;
         }
 
         // Kerranad: starting gems for imps.
@@ -349,35 +340,35 @@ class DominionFactory
         // Monster: no one lives here.
         if($race->name == 'Monster')
         {
-            $startingResources['draftees'] = 0;
-            $startingResources['peasants'] = 0;
+            $startingParameters['draftees'] = 0;
+            $startingParameters['peasants'] = 0;
 
             $startingResources['gold'] = 0;
             $startingResources['mana'] = 0;
             $startingResources['ore'] = 0;
             $startingResources['lumber'] = 0;
             $startingResources['gems'] = 0;
-            $startingResources['tech'] = 50000;
+            $startingParameters['tech'] = 50000;
 
-            $startingResources['unit1'] = 333;
-            $startingResources['unit2'] = 6;
-            $startingResources['unit3'] = 2;
-            $startingResources['unit4'] = 1;
+            $startingParameters['unit1'] = 333;
+            $startingParameters['unit2'] = 6;
+            $startingParameters['unit3'] = 2;
+            $startingParameters['unit4'] = 1;
 
-            $startingResources['draft_rate'] = 0;
+            $startingParameters['draft_rate'] = 0;
 
-            $startingResources['protection_ticks'] = 1;
+            $startingParameters['protection_ticks'] = 1;
         }
 
         if($race->alignment == 'npc')
         {
             if($race->name == 'Barbarian')
             {
-                $startingResources['peasants'] = $acresBase * (rand(50,200)/100);
-                $startingResources['draftees'] = 0;
+                $startingParameters['peasants'] = $acresBase * (rand(50,200)/100);
+                $startingParameters['draftees'] = 0;
 
-                $startingResources['draft_rate'] = 0;
-                $startingResources['peasants'] = 0;
+                $startingParameters['draft_rate'] = 0;
+                $startingParameters['peasants'] = 0;
                 $startingResources['gold'] = 0;
                 $startingResources['ore'] = 0;
                 $startingResources['gems'] = 0;
@@ -386,25 +377,30 @@ class DominionFactory
                 $startingResources['mana'] = 0;
 
                 # Starting units for Barbarians
-                $dpaTarget = $this->barbarianCalculator->getDpaTarget(null, $realm->round, $startingResources['npc_modifier']);
-                $opaTarget = $this->barbarianCalculator->getOpaTarget(null, $realm->round, $startingResources['npc_modifier']);
+                $dpaTarget = $this->barbarianCalculator->getDpaTarget(null, $realm->round, $startingParameters['npc_modifier']);
+                $opaTarget = $this->barbarianCalculator->getOpaTarget(null, $realm->round, $startingParameters['npc_modifier']);
 
                 $dpRequired = $acresBase * $dpaTarget;
                 $opRequired = $acresBase * $opaTarget;
 
                 $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/100;
                 $elitesRatio = 1-$specsRatio;
-                $startingResources['unit3'] = floor(($dpRequired * $elitesRatio)/5);
-                $startingResources['unit2'] = floor(($dpRequired * $specsRatio)/3);
+                $startingParameters['unit3'] = floor(($dpRequired * $elitesRatio)/5);
+                $startingParameters['unit2'] = floor(($dpRequired * $specsRatio)/3);
 
 
                 $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/100;
                 $elitesRatio = 1-$specsRatio;
-                $startingResources['unit1'] = floor(($opRequired * $specsRatio)/3);
-                $startingResources['unit4'] = floor(($opRequired * $elitesRatio)/5);
+                $startingParameters['unit1'] = floor(($opRequired * $specsRatio)/3);
+                $startingParameters['unit4'] = floor(($opRequired * $elitesRatio)/5);
 
-                $startingResources['protection_ticks'] = 0;
+                $startingParameters['protection_ticks'] = 0;
             }
+        }
+
+        foreach($startingResources as $resourceKey => $amount)
+        {
+            $startingResources[$resourceKey] = $amount * $startingResourcesMultiplier;
         }
 
         # Round 41: reduce gold, ore, and lumber by 50%
@@ -422,28 +418,30 @@ class DominionFactory
 
             'ruler_name' => $rulerName,
             'name' => $dominionName,
-            'prestige' => $startingResources['prestige'],
+            'prestige' => $startingParameters['prestige'],
 
-            'peasants' => intval($startingResources['peasants']),
+            'peasants' => intval($startingParameters['peasants']),
             'peasants_last_hour' => 0,
 
-            'draft_rate' => $startingResources['draft_rate'],
-            'morale' => $startingResources['morale'],
+            'draft_rate' => $startingParameters['draft_rate'],
+            'morale' => $startingParameters['morale'],
             'spy_strength' => 100,
             'wizard_strength' => 100,
 
-            'resource_gold' => intval($startingResources['gold'] * $startingResourcesMultiplier),
-            'resource_food' =>  intval($startingResources['food'] * $startingResourcesMultiplier),
-            'resource_lumber' => intval($startingResources['lumber'] * $startingResourcesMultiplier),
-            'resource_mana' => intval($startingResources['mana'] * $startingResourcesMultiplier),
-            'resource_ore' => intval($startingResources['ore'] * $startingResourcesMultiplier),
-            'resource_gems' => intval($startingResources['gems'] * $startingResourcesMultiplier),
-            'resource_tech' => intval($startingResources['tech'] * $startingResourcesMultiplier),
-            'resource_champion' => 0,
-            'resource_soul' => intval($startingResources['soul'] * $startingResourcesMultiplier),
-            'resource_blood' => intval($startingResources['blood'] * $startingResourcesMultiplier),
-            # End new resources
 
+            'resource_gold' => $startingResources['gold'],
+            'resource_food' =>  $startingResources['food'],
+            'resource_lumber' => $startingResources['lumber'],
+            'resource_mana' => $startingResources['mana'],
+            'resource_ore' => $startingResources['ore'],
+            'resource_gems' => $startingResources['gems'],
+            'resource_tech' => $startingParameters['tech'],
+            'resource_champion' => 0,
+            'resource_soul' => $startingResources['soul'],
+            'resource_blood' => $startingResources['blood'],
+
+
+            /*
             'improvement_markets' => $startingResources['improvement_markets'],
             'improvement_keep' => $startingResources['improvement_keep'],
             'improvement_forges' => $startingResources['improvement_forges'],
@@ -461,15 +459,16 @@ class DominionFactory
             'improvement_forestry' => 0,
             'improvement_refinery' => 0,
             'improvement_tissue' => 0,
+            */
 
-            'military_draftees' => intval($startingResources['draftees'] * $startingResourcesMultiplier),
-            'military_unit1' => intval($startingResources['unit1']),
-            'military_unit2' => intval($startingResources['unit2']),
-            'military_unit3' => intval($startingResources['unit3']),
-            'military_unit4' => intval($startingResources['unit4']),
-            'military_spies' => intval($startingResources['spies'] * $startingResourcesMultiplier),
-            'military_wizards' => intval($startingResources['wizards'] * $startingResourcesMultiplier),
-            'military_archmages' => intval($startingResources['archmages'] * $startingResourcesMultiplier),
+            'military_draftees' => intval($startingParameters['draftees']),
+            'military_unit1' => intval($startingParameters['unit1']),
+            'military_unit2' => intval($startingParameters['unit2']),
+            'military_unit3' => intval($startingParameters['unit3']),
+            'military_unit4' => intval($startingParameters['unit4']),
+            'military_spies' => intval($startingParameters['spies']),
+            'military_wizards' => intval($startingParameters['wizards']),
+            'military_archmages' => intval($startingParameters['archmages']),
 
             'land_plain' => $startingLand['plain'],
             'land_mountain' => $startingLand['mountain'],
@@ -479,36 +478,13 @@ class DominionFactory
             'land_hill' => $startingLand['hill'],
             'land_water' => $startingLand['water'],
 
+            'npc_modifier' => $startingParameters['npc_modifier'],
 
-            'building_home' => 0,
-            'building_alchemy' => 0,
-            'building_farm' => 0,
-            'building_smithy' => 0,
-            'building_masonry' => 0,
-            'building_ore_mine' => 0,
-            'building_gryphon_nest' => 0,
-            'building_tower' => 0,
-            'building_wizard_guild' => 0,
-            'building_temple' => 0,
-            'building_gem_mine' => 0,
-            'building_school' => 0,
-            'building_lumberyard' => 0,
-            'building_forest_haven' => 0,
-            'building_factory' => 0,
-            'building_guard_tower' => 0,
-            'building_shrine' => 0,
-            'building_barracks' => 0,
-            'building_dock' => 0,
-            'building_tissue' => 0,
-            'building_mycelia' => 0,
-            'building_ziggurat' => 0,
-
-            'npc_modifier' => $startingResources['npc_modifier'],
-
-            'protection_ticks' => $startingResources['protection_ticks'],
+            'protection_ticks' => $startingParameters['protection_ticks'],
         ]);
 
         $this->buildingCalculator->createOrIncrementBuildings($dominion, $startingBuildings);
+        $this->resourceService->createOrIncrementResources($dominion, $startingResources);
 
 
         if($race->name == 'Barbarian')
@@ -563,7 +539,7 @@ class DominionFactory
     {
         if (!$round->mixed_alignment && $race->alignment !== $realm->alignment /*and $race->alignment !== 'independent'*/)
         {
-            throw new GameException('Race and realm alignment do not match');
+            throw new GameException('Faction and realm alignment do not match');
         }
     }
 

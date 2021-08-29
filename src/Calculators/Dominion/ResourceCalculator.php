@@ -5,29 +5,27 @@ namespace OpenDominion\Calculators\Dominion;
 use DB;
 use Illuminate\Support\Collection;
 use OpenDominion\Helpers\ResourceHelper;
+
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\DominionResource;
+
+use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
+
 use OpenDominion\Services\Dominion\QueueService;
 
 class ResourceCalculator
 {
-    /** @var BuildingHelper */
-    protected $resourceHelper;
 
-    /** @var QueueService */
-    protected $queueService;
-
-    /**
-     * BuildingCalculator constructor.
-     *
-     * @param BuildingHelper $resourceHelper
-     * @param QueueService $queueService
-     */
-    public function __construct(ResourceHelper $resourceHelper, QueueService $queueService)
+    public function __construct()
     {
-        $this->resourceHelper = $resourceHelper;
-        $this->queueService = $queueService;
+        $this->resourceHelper = app(ResourceHelper::class);
+
+        $this->landCalculator = app(LandCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->populationCalculator = app(PopulationCalculator::class);
     }
 
     public function dominionHasResource(Dominion $dominion, string $resourceKey): bool
@@ -36,80 +34,9 @@ class ResourceCalculator
         return DominionResource::where('resource_id',$resource->id)->where('dominion_id',$dominion->id)->first() ? true : false;
     }
 
-    public function createOrIncrementResources(Dominion $dominion, array $resourceKeys): void
-    {
-        foreach($resourceKeys as $resourceKey => $amount)
-        {
-            if($amount > 0)
-            {
-                $resource = Resource::where('key', $resourceKey)->first();
-                $amount = intval(max(0, $amount));
-
-                if($this->dominionHasBuilding($dominion, $resourceKey))
-                {
-                    DB::transaction(function () use ($dominion, $resource, $amount)
-                    {
-                        DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)
-                        ->increment('owned', $amount);
-                    });
-                }
-                else
-                {
-                    DB::transaction(function () use ($dominion, $resource, $amount)
-                    {
-                        DominionResource::create([
-                            'dominion_id' => $dominion->id,
-                            'resource_id' => $resource->id,
-                            'owned' => $amount
-                        ]);
-                    });
-                }
-            }
-        }
-    }
-
-    public function removeResources(Dominion $dominion, array $resourceKeys): void
-    {
-        foreach($resourceKeys as $resourceKey => $amountToRemove)
-        {
-            $resource = Resource::where('key', $resourceKey)->first();
-            $owned = $this->getResourceAmountOwned($dominion, $resource);
-
-            $amountToRemove = min($amountToRemove, $owned);
-
-            if($this->dominionHasBuilding($dominion, $resourceKey))
-            {
-                # Are we destroying some or all?
-
-                # Some...
-                if($amountToDestroy < $owned)
-                {
-                    DB::transaction(function () use ($dominion, $resource, $amountToRemove)
-                    {
-                        DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)
-                        ->decrement('owned', $amountToDestroy);
-                    });
-                }
-                # All
-                elseif($amountToDestroy == $owned)
-                {
-                    DB::transaction(function () use ($dominion, $resource, $amountToRemove)
-                    {
-                        DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)
-                        ->delete();
-                    });
-                }
-                else
-                {
-                    // Do nothing.
-                }
-            }
-        }
-    }
-
     public function getDominionResouces(Dominion $dominion): Collection
     {
-        return = DominionResource::where('dominion_id',$dominion->id)->get();
+        return DominionResource::where('dominion_id',$dominion->id)->get();
     }
 
     /*
@@ -134,6 +61,54 @@ class ResourceCalculator
         {
             return 0;
         }
+    }
+
+
+    public function getProduction(Dominion $dominion, string $resourceKey): int
+    {
+        if(!in_array($resourceKey, $dominion->race->resources))
+        {
+            return 0;
+        }
+
+        $production = 0;
+        $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->getSpellPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->getImprovementPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->getTechPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw');
+
+        if(isset($dominion->race->peasants_production[$resourceKey]))
+        {
+            $productionPerPeasant = (float)$dominion->race->peasants_production[$resourceKey];
+
+            if($dominion->race->getPerkValue('unemployed_peasants_produce'))
+            {
+                $production += $dominion->peasants * $productionPerPeasant;
+            }
+            else
+            {
+                $production += $this->populationCalculator->getPopulationEmployed($dominion) * $productionPerPeasant;
+            }
+
+        }
+
+        $multiplier = 1;
+        $multiplier += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->getSpellPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->getTechPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->getDeityPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->title->getPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->getUnitPerkProductionBonusFromTitle($resourceKey);
+
+        $production *= $multiplier;
+
+        $production *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+
+        return max(0, $production);
+
     }
 
 }

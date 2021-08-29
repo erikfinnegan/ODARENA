@@ -658,6 +658,15 @@ class Dominion extends AbstractModel
                           or $perkKey == 'tech_production'
                           or $perkKey == 'draftee_generation'
 
+
+                          or $perkKey == 'gold_production_raw'
+                          or $perkKey == 'food_production_raw'
+                          or $perkKey == 'ore_production_raw'
+                          or $perkKey == 'lumber_production_raw'
+                          or $perkKey == 'mana_production_raw'
+                          or $perkKey == 'blood_production_raw'
+                          or $perkKey == 'soul_production_raw'
+
                           # Building-specific housing
                           or $perkKey == 'afflicted_unit1_housing'
                           or $perkKey == 'human_unit1_housing'
@@ -687,13 +696,13 @@ class Dominion extends AbstractModel
                           or $perkKey == 'faster_return'
 
                           # Production mods
-                          or $perkKey == 'gold_production_modifier'
-                          or $perkKey == 'food_production_modifier'
-                          or $perkKey == 'lumber_production_modifier'
-                          or $perkKey == 'ore_production_modifier'
-                          or $perkKey == 'gem_production_modifier'
-                          or $perkKey == 'mana_production_modifier'
-                          or $perkKey == 'tech_production_modifier'
+                          or $perkKey == 'gold_production_mod'
+                          or $perkKey == 'food_production_mod'
+                          or $perkKey == 'lumber_production_mod'
+                          or $perkKey == 'ore_production_mod'
+                          or $perkKey == 'gem_production_mod'
+                          or $perkKey == 'mana_production_mod'
+                          or $perkKey == 'tech_production_mod'
                           or $perkKey == 'exchange_rate'
 
                           # Unit costs

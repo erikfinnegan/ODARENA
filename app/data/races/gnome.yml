@@ -18,6 +18,7 @@ perks:
   construction_cost: -25
   increased_construction_speed: 6
   salvaging: 50
+
 units:
   - name: Mortar
 

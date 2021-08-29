@@ -19,6 +19,7 @@ perks:
   barren_forest_lumber_production: 30
   barren_mountain_ore_production: 30
   barren_water_food_production: 30
+
 units:
   - name: Light Cavalry
     training_time: 9

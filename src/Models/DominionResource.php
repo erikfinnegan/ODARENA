@@ -14,7 +14,7 @@ namespace OpenDominion\Models;
  */
 class DominionResource extends AbstractModel
 {
-    protected $table = 'dominion_spells';
+    protected $table = 'dominion_resources';
 
     public function dominion()
     {

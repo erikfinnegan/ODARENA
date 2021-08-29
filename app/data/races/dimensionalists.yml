@@ -10,6 +10,13 @@ exploring : 1
 converting: 2
 skill_level: 3
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - gems
+  - food
+
 improvement_resources:
   gold: 1
   ore: 2

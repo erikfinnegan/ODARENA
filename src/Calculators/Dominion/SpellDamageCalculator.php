@@ -46,7 +46,7 @@ class SpellDamageCalculator
         return max(0, $multiplier);
     }
 
-    public function getDominionHarmfulSpellDamageModifier(Dominion $target, ?Dominion $caster, ?Spell $spell, ?string $attribute)
+    public function getDominionHarmfulSpellDamageModifier(Dominion $target, ?Dominion $caster, ?Spell $spell, ?string $attribute): float
     {
           $modifier = 1;
 
@@ -55,6 +55,9 @@ class SpellDamageCalculator
 
           # Spell
           $modifier += $target->getSpellPerkMultiplier('damage_from_spells');
+
+          // Advancement — unused
+          $modifier += $target->getTechPerkMultiplier('damage_from_spells');
 
           if(isset($spell))
           {

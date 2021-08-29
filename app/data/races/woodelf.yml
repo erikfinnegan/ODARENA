@@ -9,6 +9,12 @@ exploring : 3
 converting: 3
 skill_level: 2
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - food
+
 perks:
   wizard_strength: 20
   spy_strength: 20

@@ -9,10 +9,19 @@ experimental: 1
 peasants_alias: larva
 draftees_alias: cocoon
 
+resources:
+  - gold
+  - mana
+  - gems
+  - food
+
 attacking: 3
 exploring : 2
 converting: 3
 skill_level: 2
+
+peasants_production:
+  - gold: 2
 
 construction_materials:
   - gold
@@ -28,7 +37,7 @@ perks:
   damage_from_insect_swarm: -100
   indestructible_buildings: 1
   population_growth: 100
-  unemployed_peasants_produce_gold: 2
+  unemployed_peasants_produce: 1
 
 units:
   - name: Scorpion

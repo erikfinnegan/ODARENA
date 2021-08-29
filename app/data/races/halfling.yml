@@ -15,8 +15,8 @@ perks:
   food_consumption: -30
   salvaging: 25
   amount_stolen: 100
-units:
 
+units:
   - name: Slinger
     training_time: 9
     type:

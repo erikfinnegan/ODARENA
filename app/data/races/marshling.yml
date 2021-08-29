@@ -9,6 +9,14 @@ exploring : 1
 converting: 2
 skill_level: 3
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - gems
+  - food
+
+
 peasants_alias: apprentice
 
 perks:

@@ -9,9 +9,17 @@ exploring : 3
 converting: 2
 skill_level: 2
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - gems
+  - food
+
 perks:
   food_consumption: -50
   mana_production: 50
+
 units:
   - name: Imp
     training_time: 0

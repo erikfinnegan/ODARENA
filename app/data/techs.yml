@@ -884,13 +884,13 @@ agriculture_level1:
   name: Agriculture
   level: 1
   perks:
-    food_production: 2.5
+    food_production_mod: 2.5
 
 agriculture_level2:
   name: Agriculture
   level: 2
   perks:
-    food_production: 5
+    food_production_mod: 5
   requires:
     - agriculture_level1
 
@@ -898,7 +898,7 @@ agriculture_level3:
   name: Agriculture
   level: 3
   perks:
-    food_production: 7.5
+    food_production_mod: 7.5
   requires:
     - agriculture_level2
 
@@ -906,7 +906,7 @@ agriculture_level4:
   name: Agriculture
   level: 4
   perks:
-    food_production: 10
+    food_production_mod: 10
   requires:
     - agriculture_level3
 
@@ -914,7 +914,7 @@ agriculture_level5:
   name: Agriculture
   level: 5
   perks:
-    food_production: 12.5
+    food_production_mod: 12.5
   requires:
     - agriculture_level4
 
@@ -922,7 +922,7 @@ agriculture_level6:
   name: Agriculture
   level: 6
   perks:
-    food_production: 15
+    food_production_mod: 15
   requires:
     - agriculture_level5
 
@@ -930,7 +930,7 @@ agriculture_level7:
   name: Agriculture
   level: 7
   perks:
-    food_production: 16.25
+    food_production_mod: 16.25
   requires:
     - agriculture_level6
 
@@ -938,7 +938,7 @@ agriculture_level8:
   name: Agriculture
   level: 8
   perks:
-    food_production: 17.5
+    food_production_mod: 17.5
   requires:
     - agriculture_level7
 
@@ -946,7 +946,7 @@ agriculture_level9:
   name: Agriculture
   level: 9
   perks:
-    food_production: 18.75
+    food_production_mod: 18.75
   requires:
     - agriculture_level8
 
@@ -954,7 +954,7 @@ agriculture_level10:
   name: Agriculture
   level: 10
   perks:
-    food_production: 20
+    food_production_mod: 20
   requires:
     - agriculture_level9
 
@@ -966,13 +966,13 @@ drills_level1:
   name: Drills
   level: 1
   perks:
-    gem_production: 2.5
+    gem_production_mod: 2.5
 
 drills_level2:
   name: Drills
   level: 2
   perks:
-    gem_production: 5
+    gem_production_mod: 5
   requires:
     - drills_level1
 
@@ -980,7 +980,7 @@ drills_level3:
   name: Drills
   level: 3
   perks:
-    gem_production: 7.5
+    gem_production_mod: 7.5
   requires:
     - drills_level2
 
@@ -988,7 +988,7 @@ drills_level4:
   name: Drills
   level: 4
   perks:
-    gem_production: 10
+    gem_production_mod: 10
   requires:
     - drills_level3
 
@@ -996,7 +996,7 @@ drills_level5:
   name: Drills
   level: 5
   perks:
-    gem_production: 12.5
+    gem_production_mod: 12.5
   requires:
     - drills_level4
 
@@ -1004,7 +1004,7 @@ drills_level6:
   name: Drills
   level: 6
   perks:
-    gem_production: 15
+    gem_production_mod: 15
   requires:
     - drills_level5
 
@@ -1012,7 +1012,7 @@ drills_level7:
   name: Drills
   level: 7
   perks:
-    gem_production: 16.25
+    gem_production_mod: 16.25
   requires:
     - drills_level6
 
@@ -1020,7 +1020,7 @@ drills_level8:
   name: Drills
   level: 8
   perks:
-    gem_production: 17.5
+    gem_production_mod: 17.5
   requires:
     - drills_level7
 
@@ -1028,7 +1028,7 @@ drills_level9:
   name: Drills
   level: 9
   perks:
-    gem_production: 18.75
+    gem_production_mod: 18.75
   requires:
     - drills_level8
 
@@ -1036,7 +1036,7 @@ drills_level10:
   name: Drills
   level: 10
   perks:
-    gem_production: 20
+    gem_production_mod: 20
   requires:
     - drills_level9
 
@@ -1048,13 +1048,13 @@ mills_level1:
   name: Mills
   level: 1
   perks:
-    lumber_production: 2.5
+    lumber_production_mod: 2.5
 
 mills_level2:
   name: Mills
   level: 2
   perks:
-    lumber_production: 5
+    lumber_production_mod: 5
   requires:
     - mills_level1
 
@@ -1062,7 +1062,7 @@ mills_level3:
   name: Mills
   level: 3
   perks:
-    lumber_production: 7.5
+    lumber_production_mod: 7.5
   requires:
     - mills_level2
 
@@ -1070,7 +1070,7 @@ mills_level4:
   name: Mills
   level: 4
   perks:
-    lumber_production: 10
+    lumber_production_mod: 10
   requires:
     - mills_level3
 
@@ -1078,7 +1078,7 @@ mills_level5:
   name: Mills
   level: 5
   perks:
-    lumber_production: 12.5
+    lumber_production_mod: 12.5
   requires:
     - mills_level4
 
@@ -1086,7 +1086,7 @@ mills_level6:
   name: Mills
   level: 6
   perks:
-    lumber_production: 15
+    lumber_production_mod: 15
   requires:
     - mills_level5
 
@@ -1094,7 +1094,7 @@ mills_level7:
   name: Mills
   level: 7
   perks:
-    lumber_production: 16.25
+    lumber_production_mod: 16.25
   requires:
     - mills_level6
 
@@ -1102,7 +1102,7 @@ mills_level8:
   name: Mills
   level: 8
   perks:
-    lumber_production: 17.5
+    lumber_production_mod: 17.5
   requires:
     - mills_level7
 
@@ -1110,7 +1110,7 @@ mills_level9:
   name: Mills
   level: 9
   perks:
-    lumber_production: 18.75
+    lumber_production_mod: 18.75
   requires:
     - mills_level8
 
@@ -1118,7 +1118,7 @@ mills_level10:
   name: Mills
   level: 10
   perks:
-    lumber_production: 20
+    lumber_production_mod: 20
   requires:
     - mills_level9
 
@@ -1130,13 +1130,13 @@ invocations_level1:
   name: Invocations
   level: 1
   perks:
-    mana_production: 2.5
+    mana_production_mod: 2.5
 
 invocations_level2:
   name: Invocations
   level: 2
   perks:
-    mana_production: 5
+    mana_production_mod: 5
   requires:
     - invocations_level1
 
@@ -1144,7 +1144,7 @@ invocations_level3:
   name: Invocations
   level: 3
   perks:
-    mana_production: 7.5
+    mana_production_mod: 7.5
   requires:
     - invocations_level2
 
@@ -1152,7 +1152,7 @@ invocations_level4:
   name: Invocations
   level: 4
   perks:
-    mana_production: 10
+    mana_production_mod: 10
   requires:
     - invocations_level3
 
@@ -1160,7 +1160,7 @@ invocations_level5:
   name: Invocations
   level: 5
   perks:
-    mana_production: 12.5
+    mana_production_mod: 12.5
   requires:
     - invocations_level4
 
@@ -1168,7 +1168,7 @@ invocations_level6:
   name: Invocations
   level: 6
   perks:
-    mana_production: 15
+    mana_production_mod: 15
   requires:
     - invocations_level5
 
@@ -1176,7 +1176,7 @@ invocations_level7:
   name: Invocations
   level: 7
   perks:
-    mana_production: 16.25
+    mana_production_mod: 16.25
   requires:
     - invocations_level6
 
@@ -1184,7 +1184,7 @@ invocations_level8:
   name: Invocations
   level: 8
   perks:
-    mana_production: 17.5
+    mana_production_mod: 17.5
   requires:
     - invocations_level7
 
@@ -1192,7 +1192,7 @@ invocations_level9:
   name: Invocations
   level: 9
   perks:
-    mana_production: 18.75
+    mana_production_mod: 18.75
   requires:
     - invocations_level8
 
@@ -1200,7 +1200,7 @@ invocations_level10:
   name: Invocations
   level: 10
   perks:
-    mana_production: 20
+    mana_production_mod: 20
   requires:
     - invocations_level9
 
@@ -1212,13 +1212,13 @@ quarries_level1:
   name: Quarries
   level: 1
   perks:
-    ore_production: 2.5
+    ore_production_mod: 2.5
 
 quarries_level2:
   name: Quarries
   level: 2
   perks:
-    ore_production: 5
+    ore_production_mod: 5
   requires:
     - quarries_level1
 
@@ -1226,7 +1226,7 @@ quarries_level3:
   name: Quarries
   level: 3
   perks:
-    ore_production: 7.5
+    ore_production_mod: 7.5
   requires:
     - quarries_level2
 
@@ -1234,7 +1234,7 @@ quarries_level4:
   name: Quarries
   level: 4
   perks:
-    ore_production: 10
+    ore_production_mod: 10
   requires:
     - quarries_level3
 
@@ -1242,7 +1242,7 @@ quarries_level5:
   name: Quarries
   level: 5
   perks:
-    ore_production: 12.5
+    ore_production_mod: 12.5
   requires:
     - quarries_level4
 
@@ -1250,7 +1250,7 @@ quarries_level6:
   name: Quarries
   level: 6
   perks:
-    ore_production: 15
+    ore_production_mod: 15
   requires:
     - quarries_level5
 
@@ -1258,7 +1258,7 @@ quarries_level7:
   name: Quarries
   level: 7
   perks:
-    ore_production: 16.25
+    ore_production_mod: 16.25
   requires:
     - quarries_level6
 
@@ -1266,7 +1266,7 @@ quarries_level8:
   name: Quarries
   level: 8
   perks:
-    ore_production: 17.5
+    ore_production_mod: 17.5
   requires:
     - quarries_level7
 
@@ -1274,7 +1274,7 @@ quarries_level9:
   name: Quarries
   level: 9
   perks:
-    ore_production: 18.75
+    ore_production_mod: 18.75
   requires:
     - quarries_level8
 
@@ -1282,7 +1282,7 @@ quarries_level10:
   name: Quarries
   level: 10
   perks:
-    ore_production: 20
+    ore_production_mod: 20
   requires:
     - quarries_level9
 
@@ -1294,13 +1294,13 @@ minting_level1:
   name: Minting
   level: 1
   perks:
-    gold_production: 2.5
+    gold_production_mod: 2.5
 
 minting_level2:
   name: Minting
   level: 2
   perks:
-    gold_production: 5
+    gold_production_mod: 5
   requires:
     - minting_level1
 
@@ -1308,7 +1308,7 @@ minting_level3:
   name: Minting
   level: 3
   perks:
-    gold_production: 7.5
+    gold_production_mod: 7.5
   requires:
     - minting_level2
 
@@ -1316,7 +1316,7 @@ minting_level4:
   name: Minting
   level: 4
   perks:
-    gold_production: 10
+    gold_production_mod: 10
   requires:
     - minting_level3
 
@@ -1324,7 +1324,7 @@ minting_level5:
   name: Minting
   level: 5
   perks:
-    gold_production: 12.5
+    gold_production_mod: 12.5
   requires:
     - minting_level4
 
@@ -1332,7 +1332,7 @@ minting_level6:
   name: Minting
   level: 6
   perks:
-    gold_production: 15
+    gold_production_mod: 15
   requires:
     - minting_level5
 
@@ -1340,7 +1340,7 @@ minting_level7:
   name: Minting
   level: 7
   perks:
-    gold_production: 16.25
+    gold_production_mod: 16.25
   requires:
     - minting_level6
 
@@ -1348,7 +1348,7 @@ minting_level8:
   name: Minting
   level: 8
   perks:
-    gold_production: 17.5
+    gold_production_mod: 17.5
   requires:
     - minting_level7
 
@@ -1356,7 +1356,7 @@ minting_level9:
   name: Minting
   level: 9
   perks:
-    gold_production: 18.75
+    gold_production_mod: 18.75
   requires:
     - minting_level8
 
@@ -1364,7 +1364,7 @@ minting_level10:
   name: Minting
   level: 10
   perks:
-    gold_production: 20
+    gold_production_mod: 20
   requires:
     - minting_level9
 

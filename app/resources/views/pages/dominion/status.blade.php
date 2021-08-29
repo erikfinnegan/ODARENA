@@ -124,11 +124,14 @@
                                         <td>Champions:</td>
                                         <td>{{ number_format($selectedDominion->resource_champion) }}</td>
                                     </tr>
-                                    @elseif ($selectedDominion->race->name == 'Demon')
+                                    @endif
+                                    @if ($selectedDominion->race->name == 'Demon')
                                     <tr>
                                         <td>Souls:</td>
                                         <td>{{ number_format($selectedDominion->resource_soul) }}</td>
                                     </tr>
+                                    @endif
+                                    @if ($selectedDominion->race->name == 'Demon' or $selectedDominion->race->name == 'Beastfolk')
                                     <tr>
                                         <td>Blood:</td>
                                         <td>{{ number_format($selectedDominion->resource_blood) }}</td>

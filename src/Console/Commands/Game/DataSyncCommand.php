@@ -99,6 +99,19 @@ class DataSyncCommand extends Command implements CommandInterface
                 'gems' => 12
             ];
 
+            $defaultResources = [
+                'gold',
+                'food',
+                'ore',
+                'lumber',
+                'gems',
+                'mana'
+            ];
+
+            $defaultPeasantsProduction = [
+              'gold' => 2.7
+            ];
+
             // Race
             $race = Race::firstOrNew(['name' => $data->name])
                 ->fill([
@@ -111,8 +124,10 @@ class DataSyncCommand extends Command implements CommandInterface
                     'converting' => object_get($data, 'converting'),
                     'skill_level' => object_get($data, 'skill_level'),
                     'experimental' => object_get($data, 'experimental', 0),
+                    'resources' => object_get($data, 'resources', $defaultResources),
                     'improvement_resources' => object_get($data, 'improvement_resources', $defaultImprovementResources),
                     'construction_materials' => object_get($data, 'construction_materials', ['gold','lumber']),
+                    'peasants_production' => object_get($data, 'peasants_production', $defaultPeasantsProduction),
                     'peasants_alias' => object_get($data, 'peasants_alias', null),
                     'draftees_alias' => object_get($data, 'draftees_alias', null),
 
@@ -800,9 +815,9 @@ class DataSyncCommand extends Command implements CommandInterface
                 $resource = Resource::firstOrNew(['key' => $resourceKey])
                     ->fill([
                         'name' => $resourceData->name,
-                        'buy_value' => object_get($resourceData, 'buy_value', 0),
-                        'sell_value' => object_get($resourceData, 'sell_value', 0),
-                        'improvement_points' => object_get($resourceData, 'improvement_points'),
+                        #'buy_value' => object_get($resourceData, 'buy_value', 0),
+                        #'sell_value' => object_get($resourceData, 'sell_value', 0),
+                        #'improvement_points' => object_get($resourceData, 'improvement_points'),
                         'enabled' => object_get($resourceData, 'enabled', 1),
                         'excluded_races' => object_get($resourceData, 'excluded_races', []),
                         'exclusive_races' => object_get($resourceData, 'exclusive_races', []),

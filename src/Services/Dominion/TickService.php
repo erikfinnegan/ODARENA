@@ -18,6 +18,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 use OpenDominion\Calculators\Dominion\DeityCalculator;
@@ -95,6 +96,7 @@ class TickService
         $this->populationCalculator = app(PopulationCalculator::class);
         $this->prestigeCalculator = app(PrestigeCalculator::class);
         $this->productionCalculator = app(ProductionCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->queueService = app(QueueService::class);
         $this->spellCalculator = app(SpellCalculator::class);
 
@@ -106,6 +108,7 @@ class TickService
         $this->deityService = app(DeityService::class);
         $this->insightService = app(InsightService::class);
         $this->protectionService = app(ProtectionService::class);
+        $this->resourceService = app(ResourceService::class);
 
         $this->barbarianService = app(BarbarianService::class);
 
@@ -157,6 +160,9 @@ class TickService
                     if(static::EXTENDED_LOGGING) { Log::debug('** Capturing insight for ' . $dominion->name); }
                     $this->insightService->captureDominionInsight($dominion);
                 }
+
+                if(static::EXTENDED_LOGGING) { Log::debug('** Updating resources for ' . $dominion->name); }
+                $this->handleResources($dominion);
 
                 if(static::EXTENDED_LOGGING) { Log::debug('** Updating buildings for ' . $dominion->name); }
                 $this->handleBuildings($dominion);
@@ -978,6 +984,7 @@ class TickService
 
         $this->precalculateTick($dominion, true);
 
+        $this->handleResources($dominion);
         $this->handleBuildings($dominion);
         $this->handleImprovements($dominion);
         $this->handleDeities($dominion);
@@ -1295,23 +1302,6 @@ class TickService
         }
     }
 
-    # Take resources that are one tick away from finished and create or increment DominionImprovements.
-    private function handleResources(Dominion $dominion): void
-    {
-        $finishedResourcesInQueue = DB::table('dominion_queue')
-                                        ->where('dominion_id',$dominion->id)
-                                        ->where('resource', 'like', 'resource%')
-                                        ->where('hours',1)
-                                        ->get();
-        foreach($finishedResourcesInQueue as $finishedResourceInQueue)
-        {
-            $resourceKey = str_replace('resource_', '', $finishedResourceInQueue->resource);
-            $amount = intval($finishedResourceInQueue->amount);
-            $resource = Resource::where('key', $improvementKey)->first();
-            $this->resourceCalculator->createOrIncrementResources($dominion, [$resourceKey => $amount]);
-        }
-    }
-
     # Take deities that are one tick away from finished and create or increment DominionImprovements.
     private function handleDeities(Dominion $dominion): void
     {
@@ -1340,12 +1330,39 @@ class TickService
 
     }
 
-    private function updateDominionAlt(Dominion $dominion)
+    # Take resources that are one tick away from finished and create or increment DominionImprovements.
+    private function handleResources(Dominion $dominion): void
     {
-        $tick = Tick::where('dominion_id', $dominion->id)->first();
+        $resourcesToAdd = [];
 
-        dd($tick, $tick->resource_food);
+        foreach($dominion->race->resources as $resourceKey)
+        {
+            $amountProduced = $this->resourceCalculator->getProduction($dominion, $resourceKey);
+            $resourcesToAdd[$resourceKey] = $amountProduced;
+        }
+
+        $finishedResourcesInQueue = DB::table('dominion_queue')
+                                        ->where('dominion_id',$dominion->id)
+                                        ->where('resource', 'like', 'resource%')
+                                        ->where('hours',1)
+                                        ->get();
+        foreach($finishedResourcesInQueue as $finishedResourceInQueue)
+        {
+            $resourceKey = str_replace('resource_', '', $finishedResourceInQueue->resource);
+            $amount = intval($finishedResourceInQueue->amount);
+            $resource = Resource::where('key', $improvementKey)->first();
+
+            if(isset($resourcesToAdd[$resourceKey]))
+            {
+                $resourcesToAdd[$resourceKey] += $amount;
+            }
+            else
+            {
+                $resourcesToAdd[$resourceKey] = $amount;
+            }
+        }
+
+        $this->resourceService->createOrIncrementResources($dominion, $resourcesToAdd);
 
     }
-
 }

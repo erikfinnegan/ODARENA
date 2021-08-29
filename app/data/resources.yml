@@ -1,67 +1,37 @@
 gold:
   name: Gold
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 1
 
 food:
   name: Food
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 0
 
 ore:
   name: Ore
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 2
 
 lumber:
   name: Lumber
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 2
 
 mana:
   name: Mana
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 0
 
 gems:
   name: Gems
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 12
 
 champion:
   name: Champion
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 0
   exclusive_races:
     - Norse
 
 blood:
   name: Blood
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 0
   exclusive_races:
     - Demon
 
 soul:
   name: Souls
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 200
   exclusive_races:
     - Demon
 
 seed:
   name: Druva's Seedling
-  buy_value: 1
-  sell_value: 1
-  improvement_points: 2000000
   exclusive_races:
     - Sylvan

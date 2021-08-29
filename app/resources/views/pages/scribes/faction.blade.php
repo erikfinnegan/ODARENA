@@ -280,6 +280,16 @@
                               <col>
                           </colgroup>
                           <tbody>
+                              @foreach($race->resources as $resourceKey)
+                                  @php
+                                      $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                  @endphp
+
+                                  <tr>
+                                      <td colspan="2" class="text-center">{{ $resource->name }}</td>
+                                  </tr>
+                              @endforeach
+
                               <tr>
                                   <td>Home land type:</td>
                                   <td>{{ ucwords($race->home_land_type) }} {!! $landHelper->getLandTypeIconHtml($race->home_land_type) !!}<td>
@@ -290,7 +300,7 @@
                               </tr>
                               @foreach($race->improvement_resources as $resource => $value)
                                   <tr>
-                                      <td>{{ ucwords($resource) }}:</td>
+                                      <td>{{ ucwords($resource) }}</td>
                                       <td>{{ number_format($value,2) . ' ' . str_plural('points', $value) }}</td>
                                   </tr>
                               @endforeach
@@ -304,16 +314,16 @@
                                   </tr>
                               @elseif(count($race->construction_materials) === 1)
                                   <tr>
-                                      <td>Resource:</td>
+                                      <td>Resource</td>
                                       <td>{{ ucwords($race->construction_materials[0]) }}<td>
                                   </tr>
                               @else
                                   <tr>
-                                      <td>Primary:</td>
+                                      <td>Primary</td>
                                       <td>{{ ucwords($race->construction_materials[0]) }}<td>
                                   </tr>
                                   <tr>
-                                      <td>Secondary:</td>
+                                      <td>Secondary</td>
                                       <td>{{ ucwords($race->construction_materials[1]) }}<td>
                                   </tr>
                               @endif

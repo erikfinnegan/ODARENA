@@ -11,6 +11,13 @@ description: >-
 home_land_type: forest
 playable: 1
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - gems
+  - food
+
 attacking: 3
 exploring : 1
 converting: 1

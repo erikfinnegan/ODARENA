@@ -9,6 +9,12 @@ exploring : 2
 converting: 3
 skill_level: 3
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - gems
+
 peasants_alias: shimmerling
 draftees_alias: ray
 

@@ -12,6 +12,13 @@ skill_level: 1
 peasants_alias: working one
 draftees_alias: drafted one
 
+resources:
+  - gold
+  - mana
+  - lumber
+  - gems
+  - food
+
 perks:
     population_growth: 20
     extra_barren_max_population: 5

@@ -50,7 +50,7 @@ class ProductionCalculator
     {
         $gold = 0;
 
-        if($dominion->getSpellPerkValue('no_gold_production') or $dominion->race->getPerkValue('no_gold_production') or ($dominion->race->getPerkValue('peasants_produce_food') and $dominion->race->name === 'Growth'))
+        if($dominion->getSpellPerkValue('no_gold_production') or $dominion->race->getPerkValue('no_gold_production'))
         {
             return $gold;
         }
@@ -83,8 +83,8 @@ class ProductionCalculator
         }
 
         // Buildings
-        $gold += $dominion->getBuildingPerkValue('gold_production');
-        $gold += $dominion->getBuildingPerkValue('gold_production_depleting');
+        $gold += $dominion->getBuildingPerkValue('gold_production_raw');
+        $gold += $dominion->getBuildingPerkValue('gold_production_depleting_raw');
 
         // Unit Perk: Production Bonus
         $gold += $dominion->getUnitPerkProductionBonus('gold_production');
@@ -123,10 +123,10 @@ class ProductionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('gold_production');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('gold_production');
+        $multiplier += $dominion->getTechPerkMultiplier('gold_production_mod');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('gold_production_modifier');
+        $multiplier += $dominion->getBuildingPerkMultiplier('gold_production_mod');
 
         // Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('gold_production');
@@ -175,7 +175,7 @@ class ProductionCalculator
         }
 
         // Building
-        $food += $dominion->getBuildingPerkValue('food_production');
+        $food += $dominion->getBuildingPerkValue('food_production_raw');
 
         // Unit Perk: Production Bonus (Growth Unit)
         $food += $dominion->getUnitPerkProductionBonus('food_production');
@@ -214,13 +214,13 @@ class ProductionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('food_production');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('food_production');
+        $multiplier += $dominion->getTechPerkMultiplier('food_production_mod');
 
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('food_production');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('food_production_modifier');
+        $multiplier += $dominion->getBuildingPerkMultiplier('food_production_mod');
 
         // Improvement
         $multiplier += $dominion->getImprovementPerkMultiplier('food_production');
@@ -400,7 +400,7 @@ class ProductionCalculator
         }
 
         // Building: Lumberyard
-        $lumber += $dominion->getBuildingPerkValue('lumber_production');
+        $lumber += $dominion->getBuildingPerkValue('lumber_production_raw');
 
         // Unit Perk Production Bonus (Ant Unit: Worker Ant)
         $lumber += $dominion->getUnitPerkProductionBonus('lumber_production');
@@ -443,10 +443,10 @@ class ProductionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('lumber_production');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('lumber_production');
+        $multiplier += $dominion->getTechPerkMultiplier('lumber_production_mod');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('lumber_production_modifier');
+        $multiplier += $dominion->getBuildingPerkMultiplier('lumber_production_mod');
 
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('lumber_production');
@@ -502,7 +502,7 @@ class ProductionCalculator
         }
 
         // Buildings
-        $mana += $dominion->getBuildingPerkValue('mana_production');
+        $mana += $dominion->getBuildingPerkValue('mana_production_raw');
 
         // Unit Perk Production Bonus
         $mana += $dominion->getUnitPerkProductionBonus('mana_production');
@@ -548,10 +548,10 @@ class ProductionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('mana_production');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('mana_production');
+        $multiplier += $dominion->getTechPerkMultiplier('mana_production_mod');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('mana_production_modifier');
+        $multiplier += $dominion->getBuildingPerkMultiplier('mana_production_mod');
 
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('mana_production');
@@ -593,7 +593,7 @@ class ProductionCalculator
         $orePerOreMine = 60;
 
         // Building
-        $ore += $dominion->getBuildingPerkValue('ore_production');
+        $ore += $dominion->getBuildingPerkValue('ore_production_raw');
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $ore += $dominion->getUnitPerkProductionBonus('ore_production');
@@ -627,10 +627,10 @@ class ProductionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('ore_production');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('ore_production');
+        $multiplier += $dominion->getTechPerkMultiplier('ore_production_mod');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('ore_production_modifier');
+        $multiplier += $dominion->getBuildingPerkMultiplier('ore_production_mod');
 
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('ore_production');
@@ -684,7 +684,7 @@ class ProductionCalculator
         }
 
         // Buildings
-        $gems += $dominion->getBuildingPerkValue('gem_production');
+        $gems += $dominion->getBuildingPerkValue('gem_production_raw');
 
         // Unit Perk Production Bonus (Dwarf Unit: Miner)
         $gems += $dominion->getUnitPerkProductionBonus('gem_production');
@@ -711,21 +711,27 @@ class ProductionCalculator
 
         // Racial Bonus
         $multiplier += $dominion->race->getPerkMultiplier('gem_production');
+        $multiplier += $dominion->race->getPerkMultiplier('gems_production');
 
         // Spell
         $multiplier += $dominion->getSpellPerkMultiplier('gem_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('gems_production');
 
         // Techs
-        $multiplier += $dominion->getTechPerkMultiplier('gem_production');
+        $multiplier += $dominion->getTechPerkMultiplier('gem_production_mod');
+        $multiplier += $dominion->getTechPerkMultiplier('gems_production_mod');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('gem_production_modifier');
+        $multiplier += $dominion->getBuildingPerkMultiplier('gem_production_mod');
+        $multiplier += $dominion->getBuildingPerkMultiplier('gems_production_mod');
 
         // Improvement
         $multiplier += $dominion->getImprovementPerkMultiplier('gem_production');
+        $multiplier += $dominion->getImprovementPerkMultiplier('gems_production_mod');
 
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('gem_production');
+        $multiplier += $dominion->getDeityPerkMultiplier('gems_production_mod');
 
         // Title
         if(isset($dominion->title))
@@ -800,7 +806,7 @@ class ProductionCalculator
         $multiplier += $dominion->race->getPerkMultiplier('tech_production');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('tech_production_modifier');
+        $multiplier += $dominion->getBuildingPerkMultiplier('tech_production_mod');
 
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('tech_production');

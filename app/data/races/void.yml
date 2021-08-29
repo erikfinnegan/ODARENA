@@ -8,6 +8,9 @@ experimental: 1
 peasants_alias: particle
 draftees_alias: shift
 
+resources:
+  - mana
+
 attacking: 2
 exploring : 0
 converting: 3

@@ -15,6 +15,7 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Title;
 use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Helpers\TechHelper;
@@ -44,6 +45,8 @@ class ScribesController extends AbstractController
 
         $race = Race::where('name', $raceName)->firstOrFail();
 
+        $resources = Resource::orderBy('name')->get();
+
         $buildingHelper = app(BuildingHelper::class);
         $buildings = $buildingHelper->getBuildingsByRace($race)->sortBy('name');
 
@@ -66,6 +69,7 @@ class ScribesController extends AbstractController
             'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'spells' => Spell::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'spellCalculator' => app(SpellCalculator::class),
+            'resources' => $resources,
         ]);
     }
 
