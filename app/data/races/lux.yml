@@ -15,6 +15,10 @@ resources:
   - lumber
   - gems
 
+peasants_production:
+  - gold: 2
+  - mana: 0.1
+
 peasants_alias: shimmerling
 draftees_alias: ray
 
@@ -23,7 +27,6 @@ perks:
   does_not_kill: 1
   immortal_spies: 1
   immortal_wizards: 1
-  gold_production: -15
 
 units:
   - name: Essence

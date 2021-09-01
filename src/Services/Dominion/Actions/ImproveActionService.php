@@ -7,6 +7,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use OpenDominion\Helpers\ImprovementHelper;
@@ -28,6 +29,7 @@ class ImproveActionService
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->landCalculator = app(LandCalculator::class);
+        $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
     }
 
@@ -130,6 +132,8 @@ class ImproveActionService
         $this->improvementCalculator->createOrIncrementImprovements($dominion, $data);
 
         $dominion->{'resource_' . $resource} -= $totalResourcesToInvest;
+        $this->resourceService->updateResources($dominion, [$resource => $totalResourcesToInvest]);
+
         $dominion->most_recent_improvement_resource = $resource;
 
         $resourceNameForStats = $resource;

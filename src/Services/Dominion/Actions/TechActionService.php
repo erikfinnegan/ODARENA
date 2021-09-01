@@ -77,7 +77,7 @@ class TechActionService
 
         // Check experience point
         $techCost = $this->techCalculator->getTechCost($dominion, $techToUnlock);
-        if ($dominion->resource_tech < $techCost) {
+        if ($dominion->xp < $techCost) {
             throw new GameException(sprintf(
                 'You do not have the required %s experience points to level up this advancement.',
                 number_format($techCost)
@@ -96,7 +96,7 @@ class TechActionService
                 'tech_id' => $techToUnlock->id
             ]);
 
-            $dominion->resource_tech -= $techCost;
+            $dominion->xp -= $techCost;
             $dominion->save([
                 'event' => HistoryService::EVENT_ACTION_TECH,
                 'action' => $techToUnlock->key

@@ -5,6 +5,7 @@ namespace OpenDominion\Services\Dominion\Actions;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
@@ -14,6 +15,7 @@ class DailyBonusesActionService
 
     public function __construct()
     {
+        $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
     }
 
@@ -58,19 +60,24 @@ class DailyBonusesActionService
           throw new GameException('You cannot claim daily bonus during protection or before the round has started.');
         }
 
-#        $landGained = 20;
         $landGained = rand(1,200) == 1 ? 100 : rand(10, 40);
+        $xpGained = $landGained * 20;
         $attribute = ('land_' . $dominion->race->home_land_type);
+
         $dominion->{$attribute} += $landGained;
-        $this->statsService->updateStat($dominion, 'land_explored', $landGained);
+        $dominion->xp += $xpGained;
+
+        $this->statsService->updateStat($dominion, 'land_discovered', $landGained);
+
         $dominion->daily_land = true;
         $dominion->save(['event' => HistoryService::EVENT_ACTION_DAILY_BONUS]);
 
         return [
             'message' => sprintf(
-                'You gain %d acres of %s.',
+                'You gain %d acres of %s and %s XP.',
                 $landGained,
-                str_plural($dominion->race->home_land_type)
+                str_plural($dominion->race->home_land_type),
+                number_format($xpGained)
             ),
             'data' => [
                 'landGained' => $landGained,

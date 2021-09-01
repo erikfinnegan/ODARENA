@@ -4,28 +4,44 @@ namespace OpenDominion\Calculators\Dominion;
 
 use DB;
 use Illuminate\Support\Collection;
-use OpenDominion\Helpers\ResourceHelper;
+
+use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\DominionResource;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Calculators\Dominion\PopulationCalculator;
+#use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
 
 class ResourceCalculator
 {
 
-    public function __construct()
-    {
-        $this->resourceHelper = app(ResourceHelper::class);
 
-        $this->landCalculator = app(LandCalculator::class);
-        $this->militaryCalculator = app(MilitaryCalculator::class);
-        $this->populationCalculator = app(PopulationCalculator::class);
+    protected $landCalculator;
+
+    public function __construct(
+
+          LandHelper $landHelper,
+          UnitHelper $unitHelper,
+
+          LandCalculator $landCalculator,
+          PrestigeCalculator $prestigeCalculator,
+
+          QueueService $queueService
+        )
+    {
+        $this->landHelper = app(LandHelper::class);
+        $this->unitHelper = app(UnitHelper::class);;
+
+        $this->landCalculator = $landCalculator;
+        $this->prestigeCalculator = $prestigeCalculator;
+
+        $this->queueService = $queueService;
     }
 
     public function dominionHasResource(Dominion $dominion, string $resourceKey): bool
@@ -34,7 +50,7 @@ class ResourceCalculator
         return DominionResource::where('resource_id',$resource->id)->where('dominion_id',$dominion->id)->first() ? true : false;
     }
 
-    public function getDominionResouces(Dominion $dominion): Collection
+    public function getDominionResources(Dominion $dominion): Collection
     {
         return DominionResource::where('dominion_id',$dominion->id)->get();
     }
@@ -47,26 +63,23 @@ class ResourceCalculator
     *   int $resourceId - if we pass a building ID
     *
     */
-    public function getResourceAmountOwned(Dominion $dominion, Resource $resource): int
+    public function getAmount(Dominion $dominion, string $resourceKey): int
     {
-        $owned = 0;
+        $resource = Resource::where('key', $resourceKey)->first();
 
-        $dominionResources = $this->getDominionBuildings($dominion);
+        $dominionResourceAmount = DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)->first();
 
-        if($dominionResources->contains('resource_id', $resource->id))
+        if($dominionResourceAmount)
         {
-            return $dominionResources->where('resource_id', $resource->id)->first()->owned;
+            return $dominionResourceAmount->amount;
         }
-        else
-        {
-            return 0;
-        }
+
+        return 0;
     }
-
 
     public function getProduction(Dominion $dominion, string $resourceKey): int
     {
-        if(!in_array($resourceKey, $dominion->race->resources))
+        if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_production'))
         {
             return 0;
         }
@@ -90,9 +103,28 @@ class ResourceCalculator
             {
                 $production += $this->populationCalculator->getPopulationEmployed($dominion) * $productionPerPeasant;
             }
-
         }
 
+        // Barren land production
+        #foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        #{
+        #    $production += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_' . $resourceKey . '_production');
+        #}
+
+        $production *= $this->getProductionMultiplier($dominion, $resourceKey);
+
+        $production *= 0.90 + $dominion->morale / 1000; # RIP getMoraleMultiplier
+
+        if($resourceKey == 'food')
+        {
+            $production *= $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+        }
+
+        return max(0, $production);
+    }
+
+    public function getProductionMultiplier(Dominion $dominion, string $resourceKey): float
+    {
         $multiplier = 1;
         $multiplier += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getSpellPerkMultiplier($resourceKey . '_production_mod');
@@ -103,11 +135,97 @@ class ResourceCalculator
         $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getUnitPerkProductionBonusFromTitle($resourceKey);
 
-        $production *= $multiplier;
+        return $multiplier;
+    }
 
-        $production *= $this->militaryCalculator->getMoraleMultiplier($dominion);
+    public function getConsumption(Dominion $dominion, string $resourceKey): int
+    {
+        if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_consumption'))
+        {
+            return 0;
+        }
 
-        return max(0, $production);
+        $consumption = 0;
+        $consumption += $dominion->getBuildingPerkValue($resourceKey . '_upkeep');
+        $consumption += $dominion->getSpellPerkValue($resourceKey . '_upkeep');
+        $consumption += $dominion->getImprovementPerkValue($resourceKey . '_upkeep');
+        $consumption += $dominion->getTechPerkValue($resourceKey . '_upkeep');
+        $consumption += $dominion->getUnitPerkProductionBonus($resourceKey . '_upkeep');
+
+        # Food consumption
+        if($resourceKey === 'food')
+        {
+            $nonConsumingUnitAttributes = [
+                'ammunition',
+                'equipment',
+                'magical',
+                'machine',
+                'ship',
+                'ethereal'
+              ];
+
+            $consumers = $dominion->peasants;
+
+            # Check each Unit for does_not_count_as_population perk.
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                  # Get the $unit
+                  $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                          return ($unit->slot == $slot);
+                      })->first();
+
+                  $amount = $dominion->{'military_unit'.$slot};
+
+                  # Check for housing_count
+                  if($nonStandardHousing = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'housing_count'))
+                  {
+                      $amount *= $nonStandardHousing;
+                  }
+
+                  # Get the unit attributes
+                  $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
+
+                  if (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_consume_food') and count(array_intersect($nonConsumingUnitAttributes, $unitAttributes)) === 0)
+                  {
+                      $consumers += $dominion->{'military_unit'.$slot};
+                      $consumers += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
+                  }
+            }
+
+            $consumers += $dominion->military_draftees;
+            $consumers += $dominion->military_spies;
+            $consumers += $dominion->military_wizards;
+            $consumers += $dominion->military_archmages;
+
+            $consumption += $consumers * 0.25;
+
+            // Unit Perk: food_consumption
+            $extraFoodEaten = 0;
+            for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
+            {
+                if ($extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption'))
+                {
+                    $extraFoodUnits = $dominion->{'military_unit'.$unitSlot};
+                    $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
+                }
+            }
+
+            $consumption += $extraFoodEaten;
+        }
+
+        # Multipliers
+        $multiplier = 1;
+        $multiplier += $dominion->getBuildingPerkMultiplier($resourceKey . '_consumption');
+        $multiplier += $dominion->getSpellPerkMultiplier($resourceKey . '_consumption');
+        $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_consumption');
+        $multiplier += $dominion->getTechPerkMultiplier($resourceKey . '_consumption');
+        $multiplier += $dominion->getDeityPerkMultiplier($resourceKey . '_consumption');
+        $multiplier += $dominion->title->getPerkMultiplier($resourceKey . '_consumption');
+        $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_consumption');
+
+        $consumption *= $multiplier;
+
+        return max(0, $consumption);
 
     }
 

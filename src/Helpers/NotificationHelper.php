@@ -253,9 +253,9 @@ class NotificationHelper
 
             case 'hourly_dominion.exploration_completed':
                 $acres = array_sum($data);
-                if(isset($data['resource_tech']))
+                if(isset($data['xp']))
                 {
-                  $acres -= $data['resource_tech'];
+                  $acres -= $data['xp'];
                 }
 
                 return sprintf(

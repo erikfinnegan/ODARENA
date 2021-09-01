@@ -2,99 +2,48 @@
 
 namespace OpenDominion\Calculators\Dominion;
 
-use OpenDominion\Models\Dominion;
-use OpenDominion\Models\Race;
-use OpenDominion\Models\GameEvent;
-use OpenDominion\Models\Unit;
-use OpenDominion\Models\Spell;
-use OpenDominion\Models\Improvement;
 use Log;
+
+use Illuminate\Support\Carbon;
+
+use OpenDominion\Helpers\ImprovementHelper;
+
+use OpenDominion\Models\Dominion;
+use OpenDominion\Models\GameEvent;
+use OpenDominion\Models\Improvement;
+use OpenDominion\Models\Race;
+use OpenDominion\Models\Spell;
+use OpenDominion\Models\Tech;
+use OpenDominion\Models\Unit;
 
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\QueueService;
 
-use Illuminate\Support\Carbon;
-use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\StatsService;
-use OpenDominion\Models\Tech;
-use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
+
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
-use OpenDominion\Helpers\ImprovementHelper;
+#use OpenDominion\Calculators\Dominion\ResourceCalculator;
+use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 
 class MilitaryCalculator
 {
-
-    /** @var BuildingCalculator */
-    protected $buildingCalculator;
-
-    /** @var GovernmentService */
-    protected $governmentService;
-
-    /** @var ImprovementCalculator */
-    protected $improvementCalculator;
-
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var PrestigeCalculator */
-    private $prestigeCalculator;
-
-    /** @var QueueService */
-    protected $queueService;
-
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
-    /** @var GuardMembershipService */
-    protected $guardMembershipService;
-
-    /** @var TechCalculator */
-    protected $techCalculator;
-
-    /** @var LandImprovementCalculator */
-    protected $landImprovementCalculator;
-
     /** @var bool */
     protected $forTick = false;
 
-    /**
-     * MilitaryCalculator constructor.
-     *
-     * @param BuildingCalculator $buildingCalculator
-     * @param ImprovementCalculator $improvementCalculator
-     * @param LandCalculator $landCalculator
-     * @param PrestigeCalculator $prestigeCalculator
-     * @param QueueService $queueService
-     * @param SpellCalculator $spellCalculator
-     * @param TechCalculator $spellCalculator
-     */
-    public function __construct(
-        BuildingCalculator $buildingCalculator,
-        GovernmentService $governmentService,
-        ImprovementCalculator $improvementCalculator,
-        LandCalculator $landCalculator,
-        PrestigeCalculator $prestigeCalculator,
-        QueueService $queueService,
-        SpellCalculator $spellCalculator,
-        GuardMembershipService $guardMembershipService,
-        StatsService $statsService,
-        TechCalculator $techCalculator,
-        LandImprovementCalculator $landImprovementCalculator,
-        ImprovementHelper $improvementHelper
-        )
+    public function __construct()
     {
-        $this->buildingCalculator = $buildingCalculator;
-        $this->governmentService = $governmentService;
-        $this->improvementCalculator = $improvementCalculator;
-        $this->landCalculator = $landCalculator;
-        $this->prestigeCalculator = $prestigeCalculator;
-        $this->queueService = $queueService;
-        $this->spellCalculator = $spellCalculator;
-        $this->guardMembershipService = $guardMembershipService;
-        $this->statsService = $statsService;
-        $this->techCalculator = $techCalculator;
-        $this->landImprovementCalculator = $landImprovementCalculator;
-        $this->improvementHelper = $improvementHelper;
+        $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->governmentService = app(GovernmentService::class);
+        $this->improvementCalculator = app(ImprovementCalculator::class);
+        $this->landCalculator = app(LandCalculator::class);
+        $this->prestigeCalculator = app(ResourceCalculator::class);
+        $this->queueService = app(PrestigeCalculator::class);
+#        $this->resourceCalculator = app(ResourceCalculator::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+        $this->statsService = app(StatsService::class);
+        $this->techCalculator = app(TechCalculator::class);
+        $this->landImprovementCalculator = app(LandImprovementCalculator::class);
+        $this->improvementHelper = app(ImprovementHelper::class);
     }
 
     /**
@@ -1104,7 +1053,7 @@ class MilitaryCalculator
         }
         elseif ($target !== null)
         {
-            $targetResources = $target->{'resource_' . $resource};
+            $targetResources = $this->resourceCalculator->getAmount($target, $resource);
         }
 
         $powerFromResource = $targetResources / $ratio;
@@ -1140,7 +1089,7 @@ class MilitaryCalculator
         $ratio = (int)$fromResourcePerkData[1];
         $max = (int)$fromResourcePerkData[2];
 
-        $resourceAmount = $targetResources = $dominion->{'resource_' . $resource};
+        $resourceAmount = $this->resourceCalculator->getAmount($dominion, $resource);
 
         $powerFromResource = $resourceAmount / $ratio;
         if ($max < 0)
@@ -1172,7 +1121,7 @@ class MilitaryCalculator
         $resource = (string)$fromResourcePerkData[0];
         $ratio = (float)$fromResourcePerkData[1];
 
-        $powerFromPerk = $dominion->{'resource_' . $resource} / $ratio;
+        $powerFromPerk = $this->resourceCalculator->getAmount($dominion, $resource) / $ratio;
 
         return $powerFromPerk;
     }
@@ -2022,31 +1971,6 @@ class MilitaryCalculator
     }
 
     /**
-     * Gets the dominion's bonus from League.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getLeagueMultiplier(Dominion $attacker, Dominion $defender = Null, string $type): float
-    {
-        $multiplier = 0;
-
-        if($type == 'offense')
-        {
-            if(isset($defender))
-            {
-                if($this->guardMembershipService->isEliteGuardMember($attacker) and $this->guardMembershipService->isEliteGuardMember($defender))
-                {
-                    $multiplier += 0.05;
-                }
-            }
-        }
-
-        return $multiplier;
-    }
-
-
-    /**
      * Get the dominion's base morale modifier.
      *
      * @param Dominion $dominion
@@ -2187,7 +2111,7 @@ class MilitaryCalculator
         // Resource: XP (max +100% from 2,000,000 XP) – only for factions which cannot take advancements (Troll)
         if($attacker->race->getPerkValue('cannot_tech'))
         {
-            $multiplier += min($attacker->resource_tech, 1500000) / 1500000;
+            $multiplier += min($attacker->xp, 1500000) / 1500000;
         }
 
         return round($landConquered * $multiplier);

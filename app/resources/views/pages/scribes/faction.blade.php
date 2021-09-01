@@ -336,6 +336,57 @@
       </div>
 </div>
 
+<a id="resources"></a>
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Resources</h3>
+            </div>
+
+            <div class="box-body table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped">
+                          <colgroup>
+                              <col width="200">
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>Resource</th>
+                                  <th>Construction</th>
+                                  <th>Buy</th>
+                                  <th>Sell</th>
+                                  <th>Improvement Points</th>
+                              </tr>
+                          </thead>
+                          @foreach ($race->resources as $resourceKey)
+                              @php
+                                  $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                              <tr>
+                                  <td>{{ $resource->name }}</td>
+                                  <td>
+                                      @if(in_array($resourceKey, $race->construction_materials))
+                                          Yes
+                                      @endif
+                                  </td>
+                                  <td></td>
+                                  <td></td>
+                                  <td>
+                                      @if(in_array($resourceKey, $race->improvement_resources))
+                                          {{ race->improvement_resources[$resourceKey] }}
+                                      @endif
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <a id="buildings"></a>
 <div class="row">

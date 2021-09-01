@@ -35,7 +35,6 @@ use Illuminate\Support\Carbon;
  * @property int $resource_mana
  * @property int $resource_ore
  * @property int $resource_gems
- * @property int $resource_tech
  * @property float $resource_boats
  * @property int $resource_champion
  * @property int $resource_soul
@@ -113,20 +112,20 @@ class Dominion extends AbstractModel
 
     protected $casts = [
         'prestige' => 'float',
+        'xp' => 'integer',
         'peasants' => 'integer',
         'peasants_last_hour' => 'integer',
         'draft_rate' => 'integer',
         'morale' => 'integer',
         'spy_strength' => 'float',
         'wizard_strength' => 'float',
-
+        /*
         'resource_gold' => 'integer',
         'resource_food' => 'integer',
         'resource_lumber' => 'integer',
         'resource_mana' => 'integer',
         'resource_ore' => 'integer',
         'resource_gems' => 'integer',
-        'resource_tech' => 'integer',
         'resource_champion' => 'integer',
         'resource_soul' => 'integer',
         'resource_blood' => 'integer',
@@ -147,6 +146,7 @@ class Dominion extends AbstractModel
         'improvement_forestry' => 'integer',
         'improvement_refinery' => 'integer',
         'improvement_granaries' => 'integer',
+        */
 
         'military_draftees' => 'integer',
         'military_unit1' => 'integer',

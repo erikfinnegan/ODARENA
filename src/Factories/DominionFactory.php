@@ -155,7 +155,7 @@ class DominionFactory
         $startingResources['soul'] = 0;
         $startingResources['blood'] = 0;
 
-        $startingParameters['tech'] = 400 * $hoursSinceRoundStarted;
+        $startingParameters['xp'] = 400 * $hoursSinceRoundStarted;
 
         $startingParameters['morale'] = 100;
 
@@ -348,7 +348,7 @@ class DominionFactory
             $startingResources['ore'] = 0;
             $startingResources['lumber'] = 0;
             $startingResources['gems'] = 0;
-            $startingParameters['tech'] = 50000;
+            $startingParameters['xp'] = 50000;
 
             $startingParameters['unit1'] = 333;
             $startingParameters['unit2'] = 6;
@@ -419,6 +419,7 @@ class DominionFactory
             'ruler_name' => $rulerName,
             'name' => $dominionName,
             'prestige' => $startingParameters['prestige'],
+            'xp' => $startingParameters['xp'],
 
             'peasants' => intval($startingParameters['peasants']),
             'peasants_last_hour' => 0,
@@ -428,17 +429,17 @@ class DominionFactory
             'spy_strength' => 100,
             'wizard_strength' => 100,
 
-
+            /*
             'resource_gold' => $startingResources['gold'],
             'resource_food' =>  $startingResources['food'],
             'resource_lumber' => $startingResources['lumber'],
             'resource_mana' => $startingResources['mana'],
             'resource_ore' => $startingResources['ore'],
             'resource_gems' => $startingResources['gems'],
-            'resource_tech' => $startingParameters['tech'],
             'resource_champion' => 0,
             'resource_soul' => $startingResources['soul'],
             'resource_blood' => $startingResources['blood'],
+            */
 
 
             /*
@@ -484,7 +485,7 @@ class DominionFactory
         ]);
 
         $this->buildingCalculator->createOrIncrementBuildings($dominion, $startingBuildings);
-        $this->resourceService->createOrIncrementResources($dominion, $startingResources);
+        $this->resourceService->updateResources($dominion, $startingResources);
 
 
         if($race->name == 'Barbarian')

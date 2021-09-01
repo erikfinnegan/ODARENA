@@ -227,14 +227,6 @@
                           You have <strong>{{ number_format($selectedDominion->military_draftees) }}</strong> {{ ucwords(str_plural($raceHelper->getDrafteesTerm($selectedDominion->race), $selectedDominion->military_draftees)) }} available.
                       @endif
 
-                      @if ($selectedDominion->race->name == 'Demon')
-                          <br> You also have <strong>{{ number_format($selectedDominion->resource_soul) }}</strong> souls and <strong>{{ number_format($selectedDominion->resource_blood) }}</strong> gallons of blood.
-                      @endif
-
-                      @if ($selectedDominion->race->name == 'Norse')
-                          <br> You also have <strong>{{ number_format($selectedDominion->resource_champion) }}</strong> legendary champions waiting.
-                      @endif
-
                       @if ($militaryCalculator->getRecentlyInvadedCount($selectedDominion) and $selectedDominion->race->name == 'Sylvan')
                           <br> You were recently invaded, enraging your Spriggan and Leshy.
                       @endif
@@ -376,7 +368,7 @@
                                     @if($totalAmount > 0)
                                         <tr>
                                             <td>
-                                                @if ($resource == 'tech')
+                                                @if ($resource == 'xp')
                                                     XP
                                                 @else
                                                     {{ ucwords($resource) }}

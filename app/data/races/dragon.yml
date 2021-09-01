@@ -13,6 +13,10 @@ construction_materials:
   - gold
   - ore
 
+peasants_production:
+  - gold: 2
+  - gems: 0.10
+
 perks:
     max_population: -10
     population_growth: -10

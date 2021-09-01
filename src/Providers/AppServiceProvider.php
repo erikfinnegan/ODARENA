@@ -9,24 +9,34 @@ use OpenDominion\Calculators\Dominion\Actions\BankingCalculator;
 use OpenDominion\Calculators\Dominion\Actions\ConstructionCalculator;
 use OpenDominion\Calculators\Dominion\Actions\ExplorationCalculator;
 use OpenDominion\Calculators\Dominion\Actions\RezoningCalculator;
+use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
+
+use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
+use OpenDominion\Calculators\Dominion\ConversionCalculator;
+use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\RealmCalculator;
+
 use OpenDominion\Services\Activity\ActivityService;
 use OpenDominion\Services\Analytics\AnalyticsService;
+
 use OpenDominion\Services\CouncilService;
+
 use OpenDominion\Services\Dominion\Actions\BankActionService;
-use OpenDominion\Services\Dominion\Actions\ConstructActionService;
 use OpenDominion\Services\Dominion\Actions\DailyBonusesActionService;
 use OpenDominion\Services\Dominion\Actions\DestroyActionService;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
@@ -38,11 +48,16 @@ use OpenDominion\Services\Dominion\Actions\Military\TrainActionService;
 use OpenDominion\Services\Dominion\Actions\ReleaseActionService;
 use OpenDominion\Services\Dominion\Actions\RezoneActionService;
 use OpenDominion\Services\Dominion\Actions\SpellActionService;
+use OpenDominion\Services\Dominion\BarbarianService;
+use OpenDominion\Services\Dominion\DeityService;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\InfoOpService;
+use OpenDominion\Services\Dominion\InsightService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\SelectorService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\TickService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\RealmFinderService;
@@ -86,20 +101,27 @@ class AppServiceProvider extends AbstractServiceProvider
         // Dominion Calculators
         $this->app->singleton(BuildingCalculator::class);
         $this->app->singleton(CasualtiesCalculator::class);
+        $this->app->singleton(ConversionCalculator::class);
+        $this->app->singleton(DeityCalculator::class);
         $this->app->singleton(EspionageCalculator::class);
         $this->app->singleton(ImprovementCalculator::class);
         $this->app->singleton(LandCalculator::class);
+        $this->app->singleton(LandImprovementCalculator::class);
         $this->app->singleton(MilitaryCalculator::class);
         $this->app->singleton(PopulationCalculator::class);
+        $this->app->singleton(PrestigeCalculator::class);
         $this->app->singleton(ProductionCalculator::class);
+        $this->app->singleton(ResourceCalculator::class);
         $this->app->singleton(RangeCalculator::class);
         $this->app->singleton(SpellCalculator::class);
+        $this->app->singleton(SpellDamageCalculator::class);
 
         // Dominion Action Calculators
         $this->app->singleton(BankingCalculator::class);
         $this->app->singleton(ConstructionCalculator::class);
         $this->app->singleton(ExplorationCalculator::class);
         $this->app->singleton(RezoningCalculator::class);
+        $this->app->singleton(TechCalculator::class);
         $this->app->singleton(TrainingCalculator::class);
     }
 
@@ -113,18 +135,22 @@ class AppServiceProvider extends AbstractServiceProvider
         $this->app->singleton(RealmFinderService::class);
 
         // Dominion Services
+        $this->app->singleton(BarbarianService::class);
+        $this->app->singleton(DeityService::class);
         $this->app->singleton(HistoryService::class);
         $this->app->singleton(InfoOpService::class);
+        $this->app->singleton(InsightService::class);
         $this->app->singleton(ProtectionService::class);
         $this->app->singleton(QueueService::class);
+        $this->app->singleton(ResourceService::class);
         $this->app->singleton(SelectorService::class);
+        $this->app->singleton(StatsService::class);
         $this->app->singleton(TickService::class);
 
         // Dominion Action Services
         $this->app->singleton(ChangeDraftRateActionService::class);
         $this->app->singleton(TrainActionService::class);
         $this->app->singleton(BankActionService::class);
-        $this->app->singleton(ConstructActionService::class);
         $this->app->singleton(DailyBonusesActionService::class);
         $this->app->singleton(DestroyActionService::class);
         $this->app->singleton(EspionageActionService::class);

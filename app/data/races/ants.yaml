@@ -14,7 +14,7 @@ resources:
   - food
 
 improvement_resources:
-  lumber: 2.5
+  lumber: 2.25
 
 attacking: 3
 exploring : 3

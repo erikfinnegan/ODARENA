@@ -9,6 +9,13 @@ exploring : 3
 converting: 3
 skill_level: 2
 
+resources:
+  - gold
+  - mana
+  - ore
+  - gems
+  - food
+
 construction_materials:
   - gold
   - ore

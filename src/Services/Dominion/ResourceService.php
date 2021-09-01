@@ -22,10 +22,11 @@ class ResourceService
         $this->queueService = app(QueueService::class);
     }
 
-    public function createOrIncrementResources(Dominion $dominion, array $resourceKeys): void
+    public function updateResources(Dominion $dominion, array $resourceKeys): void
     {
         foreach($resourceKeys as $resourceKey => $amount)
         {
+            # Positive values: create or update DominionResource
             if($amount > 0)
             {
                 $resource = Resource::where('key', $resourceKey)->first();
@@ -51,39 +52,40 @@ class ResourceService
                     });
                 }
             }
-        }
-    }
-
-    public function removeResources(Dominion $dominion, array $resourceKeys): void
-    {
-        foreach($resourceKeys as $resourceKey => $amountToRemove)
-        {
-            $resource = Resource::where('key', $resourceKey)->first();
-            $owned = $this->resourceCalculator->getResourceAmountOwned($dominion, $resource);
-
-            $amountToRemove = min($amountToRemove, $owned);
-
-            if($this->resourceCalculator->dominionHasResource($dominion, $resourceKey))
+            # Negative values: update or delete DominionResource
+            else
             {
-                # Are we removing some or all?
+                $resource = Resource::where('key', $resourceKey)->first();
+                $owned = $this->resourceCalculator->getAmount($dominion, $resource->key);
 
-                # Some...
-                if($amountToRemove < $owned)
+                $amountToRemove = min(abs($amount), $owned);
+
+                if($this->resourceCalculator->dominionHasResource($dominion, $resourceKey))
                 {
-                    DB::transaction(function () use ($dominion, $resource, $amountToRemove)
+                    if($amountToRemove <= $owned)
                     {
-                        DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)
-                        ->decrement('owned', $amountToRemove);
-                    });
-                }
-                # All
-                elseif($amountToRemove == $owned)
-                {
-                    DB::transaction(function () use ($dominion, $resource)
+                        # Let's try storing 0s instead of deleting.
+                        DB::transaction(function () use ($dominion, $resource, $amountToRemove)
+                        {
+                            DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)
+                            ->decrement('amount', $amountToRemove);
+                        });
+                    }
+                    # All
+                    /*
+                    elseif($amountToRemove == $owned)
                     {
-                        DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)
-                        ->delete();
-                    });
+                        DB::transaction(function () use ($dominion, $resource)
+                        {
+                            DominionResource::where('dominion_id', $dominion->id)->where('resource_id', $resource->id)
+                            ->delete();
+                        });
+                    }
+                    */
+                    else
+                    {
+                        dd('[MEGA ERROR] Trying to remove more of a resource than you have. This might have been a temporary glitch due to multiple simultaneous events. Try again, but please report your findings on Discord.', $resource, $amountToRemove, $owned);
+                    }
                 }
             }
         }

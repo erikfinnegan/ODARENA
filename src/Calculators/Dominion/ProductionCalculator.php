@@ -757,9 +757,9 @@ class ProductionCalculator
      * @param Dominion $dominion
      * @return int
      */
-    public function getTechProduction(Dominion $dominion): int
+    public function getXpGeneration(Dominion $dominion): int
     {
-        return floor($this->getTechProductionRaw($dominion) * $this->getTechProductionMultiplier($dominion));
+        return floor($this->getXpGenerationRaw($dominion) * $this->getXpGenerationMultiplier($dominion));
     }
 
     /**
@@ -771,20 +771,20 @@ class ProductionCalculator
      * @param Dominion $dominion
      * @return float
      */
-     public function getTechProductionRaw(Dominion $dominion): float
+     public function getXpGenerationRaw(Dominion $dominion): float
      {
 
-         if($dominion->getSpellPerkValue('no_tech_production'))
+         if($dominion->getSpellPerkValue('no_xp_production'))
          {
              return 0;
          }
 
          $tech = max(0, floor($dominion->prestige));
 
-         $tech += $dominion->getUnitPerkProductionBonus('tech_production');
+         $tech += $dominion->getUnitPerkProductionBonus('xp_production');
 
          // Unit Perk: production_from_title
-         $tech += $dominion->getUnitPerkProductionBonusFromTitle('tech');
+         $tech += $dominion->getUnitPerkProductionBonusFromTitle('xp');
 
          return max(0,$tech);
      }
@@ -798,7 +798,7 @@ class ProductionCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getTechProductionMultiplier(Dominion $dominion): float
+    public function getXpGenerationMultiplier(Dominion $dominion): float
     {
         $multiplier = 0;
 

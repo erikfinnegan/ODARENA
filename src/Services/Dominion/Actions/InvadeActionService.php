@@ -4,38 +4,40 @@ namespace OpenDominion\Services\Dominion\Actions;
 
 use DB;
 use Log;
-use OpenDominion\Calculators\Dominion\BuildingCalculator;
-use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
-use OpenDominion\Calculators\Dominion\LandCalculator;
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Calculators\Dominion\RangeCalculator;
-use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Exceptions\GameException;
+
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Unit;
-use OpenDominion\Services\Dominion\GovernmentService;
+
+use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\UnitHelper;
+
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\ConversionCalculator;
+use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
+
+use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
-use OpenDominion\Services\NotificationService;
-use OpenDominion\Traits\DominionGuardsTrait;
-use OpenDominion\Helpers\ImprovementHelper;
-use OpenDominion\Helpers\SpellHelper;
-use OpenDominion\Services\Dominion\Actions\SpellActionService;
-use OpenDominion\Helpers\UnitHelper;
-use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
-use OpenDominion\Services\Dominion\GuardMembershipService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
-use OpenDominion\Calculators\Dominion\ConversionCalculator;
-use OpenDominion\Calculators\Dominion\PopulationCalculator;
-use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Services\Dominion\Actions\SpellActionService;
 
 class InvadeActionService
 {
-    use DominionGuardsTrait;
 
     /**
      * @var float Base percentage of defensive casualties
@@ -95,27 +97,11 @@ class InvadeActionService
     /** @var int The amount of units lost during the invasion */
     protected $unitsLost = 0;
 
-    /**
-     * InvadeActionService constructor.
-     *
-     * @param BuildingCalculator $buildingCalculator
-     * @param CasualtiesCalculator $casualtiesCalculator
-     * @param GovernmentService $governmentService
-     * @param LandCalculator $landCalculator
-     * @param MilitaryCalculator $militaryCalculator
-     * @param NotificationService $notificationService
-     * @param ProtectionService $protectionService
-     * @param QueueService $queueService
-     * @param RangeCalculator $rangeCalculator
-     * @param SpellCalculator $spellCalculator
-     */
     public function __construct()
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->casualtiesCalculator = app(CasualtiesCalculator::class);
         $this->conversionCalculator = app(ConversionCalculator::class);
-        $this->governmentService = app(GovernmentService::class);
-        $this->guardMembershipService = app(GuardMembershipService::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->landCalculator = app(LandCalculator::class);
@@ -126,6 +112,8 @@ class InvadeActionService
         $this->statsService = app(StatsService::class);
         $this->queueService = app(QueueService::class);
         $this->rangeCalculator = app(RangeCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
+        $this->resourceService = app(ResourceService::class);
         $this->spellActionService = app(SpellActionService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
@@ -1283,7 +1271,7 @@ class InvadeActionService
             $this->queueService->queueResources(
                 'invasion',
                 $dominion,
-                ['resource_tech' => $researchPointsGained],
+                ['xp' => $researchPointsGained],
                 $slowestTroopsReturnHours
             );
 
@@ -1315,11 +1303,13 @@ class InvadeActionService
         {
             if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting') and isset($units[$slot]))
             {
-                $resource = $exhaustingPerk[0];
+                $resourceKey = $exhaustingPerk[0];
+                $resourceAmount = $this->resourceCalculator->getAmount($dominion, $resourceKey);
 
-                $this->invasionResult['attacker']['mana_exhausted'] = $dominion->{'resource_' . $resource};
+                $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmount;
 
-                $dominion->{'resource_' . $resource} = 0;
+                $this->resourceService->updateResources($dominion, [$resourceKey => ($resourceAmount * -1)]);
+
             }
         }
 
@@ -2242,9 +2232,8 @@ class InvadeActionService
                         $resourceToPlunder = 'gems';
                     }
 
-                    $amountToPlunder = intval(min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit));
+                    $amountToPlunder = intval(min($this->resourceCalculator->getAmount($defender, $resourceToPlunder), $amount * $amountPlunderedPerUnit));
                     $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
-                    #echo '<pre>You plunder ' . $amountToPlunder . ' ' . $resourceToPlunder. '. The target has ' . $defender->{'resource_'.$resourceToPlunder} . ' ' . $resourceToPlunder. '</pre>';
                 }
             }
 
@@ -2258,23 +2247,25 @@ class InvadeActionService
                     $resourceToPlunder = 'gems';
                 }
 
-                $amountToPlunder = intval(min($defender->{'resource_'.$resourceToPlunder}, $amount * $amountPlunderedPerUnit));
+                $amountToPlunder = intval(min($this->resourceCalculator->getAmount($defender, $resourceToPlunder), $amount * $amountPlunderedPerUnit));
                 $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
-                #echo '<pre>You plunder ' . $amountToPlunder . ' ' . $resourceToPlunder. '. The target has ' . $defender->{'resource_'.$resourceToPlunder} . ' ' . $resourceToPlunder. '</pre>';
             }
         }
 
         # Remove plundered resources from defender.
         foreach($result['attacker']['plunder'] as $resource => $amount)
         {
-            $result['attacker']['plunder'][$resource] = min($amount, $defender->{'resource_'.$resource});
-            $defender->{'resource_'.$resource} -= $result['attacker']['plunder'][$resource];
+            $result['attacker']['plunder'][$resource] = min($amount, $this->resourceCalculator->getAmount($defender, $resource));
+            #$defender->{'resource_'.$resource} -= $result['attacker']['plunder'][$resource];
+            $this->resourceService->updateResources($defender, [$resource => ($result['attacker']['plunder'][$resource] * -1)])
+
         }
 
         # Add salvaged resources to defender.
         foreach($result['defender']['salvage'] as $resource => $amount)
         {
-            $defender->{'resource_'.$resource} += $amount;
+            #$defender->{'resource_'.$resource} += $amount;
+            $this->resourceService->updateResources($defender, [$resource => $amount]);
         }
 
         # Queue plundered and salvaged resources to attacker.
@@ -2577,7 +2568,7 @@ class InvadeActionService
               $this->invasionResult['attacker']['metabolism']['opFromUnitsEaten'] = $opFromKilledEaten;
               $this->invasionResult['attacker']['metabolism']['food'] = $food;
 
-              $defender->resource_food += $food;
+              $this->resourceService->updateResources($defender, ['food' => $food]);
           }
     }
 
@@ -2674,13 +2665,13 @@ class InvadeActionService
             }
 
             # See if the target has souls.
-            if($defender->resource_soul > 0)
+            if($defenderSouls = $this->resourceCalculator->getAmount($defender, 'soul'))
             {
-                $soulsDestroyed = (int)floor(min($defender->resource_soul * 0.04, ($zealots * $soulsDestroyedPerZealot)));
+                $soulsDestroyed = (int)floor(min($defenderSouls * 0.04, ($zealots * $soulsDestroyedPerZealot)));
 
                 $this->invasionResult['attacker']['soulsDestroyed'] = $soulsDestroyed;
-                $defender->resource_soul -= $soulsDestroyed;
-                $this->statsService->updateStat($defender, 'soul_destroyed', $soulsDestroyed);
+                $this->resourceService->updateResources($defender, ['souls' => ($soulsDestroyed*-1)])
+                $this->statsService->updateStat($attacker, 'soul_destroyed', $soulsDestroyed);
 
             }
         }
@@ -2755,13 +2746,14 @@ class InvadeActionService
               }
 
               # See if the target has souls.
-              if($attacker->resource_soul > 0)
+              if($attackerSouls = $this->resourceCalculator->getAmount($attacker, 'soul'))
               {
-                  $soulsDestroyed = (int)floor(min($attacker->resource_soul * 0.08, ($zealots * $soulsDestroyedPerZealot)));
+                  $soulsDestroyed = (int)floor(min($attackerSouls * 0.04, ($zealots * $soulsDestroyedPerZealot)));
 
                   $this->invasionResult['defender']['soulsDestroyed'] = $soulsDestroyed;
-                  $attacker->resource_soul -= $soulsDestroyed;
-                  $this->statsService->updateStat($attacker, 'soul_destroyed', $soulsDestroyed);
+
+                  $this->resourceService->updateResources($attacker, ['soul' => ($soulsDestroyed*-1)])
+                  $this->statsService->updateStat($defender, 'soul_destroyed', $soulsDestroyed);
               }
         }
     }

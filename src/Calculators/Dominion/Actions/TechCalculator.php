@@ -60,7 +60,7 @@ class TechCalculator
 
     public function maxLevelAfforded(Dominion $dominion)
     {
-        $xp = $dominion->resource_tech;
+        $xp = $dominion->xp;
         if($xp > 4999)
         {
             for ($level = 10; $level >= 1; $level--)
@@ -79,7 +79,7 @@ class TechCalculator
     {
         $cost = $this->getTechCost($dominion, null, $level);
 
-        return $dominion->resource_tech >= $cost;
+        return $dominion->xp >= $cost;
 
     }
 

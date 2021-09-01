@@ -5,33 +5,25 @@ namespace OpenDominion\Calculators\Dominion;
 use DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+
 use OpenDominion\Helpers\SpellHelper;
+
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
+
 use OpenDominion\Models\Dominion;
-use OpenDominion\Models\Race;
 use OpenDominion\Models\DominionSpell;
+use OpenDominion\Models\Race;
 use OpenDominion\Models\Spell;
 
 class SpellCalculator
 {
-    /** @var LandCalculator */
-    protected $landCalculator;
 
-    /** @var SpellHelper */
-    protected $spellHelper;
-
-    /** @var array */
-    protected $activeSpells = [];
-
-    /**
-     * SpellCalculator constructor.
-     *
-     * @param LandCalculator $landCalculator
-     * @param SpellHelper $spellHelper
-     */
     public function __construct()
     {
         $this->landCalculator = app(LandCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
+
     }
 
     /**
@@ -56,8 +48,11 @@ class SpellCalculator
 
         // Cost reduction from wizard guilds (2x ratio, max 40%)
         $spellCostMultiplier = 1;
-        $spellCostMultiplier -= $dominion->getBuildingPerkMultiplier('spell_cost');
+        $spellCostMultiplier += $dominion->getBuildingPerkMultiplier('spell_cost');
         $spellCostMultiplier += $dominion->getTechPerkMultiplier('spell_cost');
+        $spellCostMultiplier += $dominion->getImprovementPerkMultiplier('spell_cost');
+        $spellCostMultiplier += $dominion->getDeityPerkMultiplier('spell_cost');
+        $spellCostMultiplier += $dominion->getSpellPerkMultiplier('spell_cost');
 
         if(isset($dominion->title))
         {
@@ -81,7 +76,7 @@ class SpellCalculator
     public function canCast(Dominion $dominion, string $spell): bool
     {
         return (
-            ($dominion->resource_mana >= $this->getManaCost($dominion, $spell)) &&
+            ($this->resourceCalculator->getAmount($dominion, 'mana') >= $this->getManaCost($dominion, $spell)) &&
             ($dominion->wizard_strength > 0)
         );
     }
@@ -281,7 +276,7 @@ class SpellCalculator
             or $spell->enabled !== 1
 
             # Cannot cost more mana than the dominion has
-            or $dominion->resource_mana < $this->getManaCost($dominion, $spell->key)
+            or $this->resourceCalculator->getAmount($dominion, 'mana') < $this->getManaCost($dominion, $spell->key)
 
             # Cannot cost more WS than the dominion has
             or ($dominion->wizard_strength - $this->getWizardStrengthCost($spell)) < 0

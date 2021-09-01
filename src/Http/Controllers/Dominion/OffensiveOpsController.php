@@ -2,10 +2,11 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
+use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\SpellHelper;
@@ -48,6 +49,7 @@ class OffensiveOpsController extends AbstractDominionController
             'militaryCalculator' => app(MilitaryCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'spellDamageCalculator' => app(SpellDamageCalculator::class),
+            'resourceCalculator' => app(ResourceCalculator::class),
             #'hostileSpyops' => $hostileSpyops,
             #'theftSpyops' => $theftSpyops,
             'spyops' => $spyops,

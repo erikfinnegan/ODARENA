@@ -12,12 +12,12 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
-# ODA
+
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Services\Dominion\ProtectionService;
-use OpenDominion\Services\Dominion\GuardMembershipService;
+use OpenDominion\Services\Dominion\ResourceService;
 
 class ExploreActionService
 {
@@ -45,9 +45,6 @@ class ExploreActionService
     /** @var ProtectionService */
     protected $protectionService;
 
-    /** @var GuardMembershipService */
-    protected $guardMembershipService;
-
     /**
      * @var int The minimum morale required to explore
      */
@@ -60,9 +57,9 @@ class ExploreActionService
           ImprovementCalculator $improvementCalculator,
           SpellCalculator $spellCalculator,
           LandCalculator $landCalculator,
+          ResourceService $resourceService,
           StatsService $statsService,
-          ProtectionService $protectionService,
-          GuardMembershipService $guardMembershipService
+          ProtectionService $protectionService
       )
     {
         $this->explorationCalculator = app(ExplorationCalculator::class);
@@ -72,8 +69,8 @@ class ExploreActionService
         $this->improvementCalculator = $improvementCalculator;
         $this->landCalculator = $landCalculator;
         $this->protectionService = $protectionService;
+        $this->resourceService = $resourceService;
         $this->statsService = $statsService;
-        $this->guardMembershipService = $guardMembershipService;
     }
 
     /**
@@ -164,7 +161,6 @@ class ExploreActionService
         $newMorale = $dominion->morale - $moraleDrop;
 
         $goldCost = ($this->explorationCalculator->getGoldCost($dominion) * $totalLandToExplore);
-        $newGold = ($dominion->resource_gold - $goldCost);
 
         $drafteeCost = ($this->explorationCalculator->getDrafteeCost($dominion) * $totalLandToExplore);
         $newDraftees = ($dominion->military_draftees - $drafteeCost);
@@ -189,13 +185,14 @@ class ExploreActionService
 
         DB::transaction(function () use ($dominion, $data, $newMorale, $newGold, $newDraftees, $totalLandToExplore, $researchPointsGained, $goldCost, $ticks) {
             $this->queueService->queueResources('exploration', $dominion, $data, $ticks);
-            $this->queueService->queueResources('exploration',$dominion,['resource_tech' => $researchPointsGained], $ticks);
+            $this->queueService->queueResources('exploration',$dominion,['xp' => $researchPointsGained], $ticks);
 
             $dominion->fill([
                 'morale' => $newMorale,
-                'resource_gold' => $newGold,
                 'military_draftees' => $newDraftees
             ])->save(['event' => HistoryService::EVENT_ACTION_EXPLORE]);
+
+            $this->resourceService->updateResources($dominion, ['gold' => $goldCost]);
         });
 
         return [

@@ -3,6 +3,7 @@
 namespace OpenDominion\Calculators\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\GuardMembershipService;
@@ -38,6 +39,7 @@ class ExplorationCalculator
           $this->spellCalculator = app(SpellCalculator::class);
           $this->landImprovementCalculator = app(LandImprovementCalculator::class);
           $this->improvementCalculator = app(ImprovementCalculator::class);
+          $this->resourceCalculator = app(ResourceCalculator::class);
     }
 
     /**
@@ -150,7 +152,7 @@ class ExplorationCalculator
     public function getMaxAfford(Dominion $dominion): int
     {
         return min(
-            floor($dominion->resource_gold / $this->getGoldCost($dominion)),
+            floor($this->resourceCalculator->getAmount($dominion, 'gold') / $this->getGoldCost($dominion)),
             floor($dominion->military_draftees / $this->getDrafteeCost($dominion)),
             floor($this->landCalculator->getTotalLand($dominion) * (($dominion->morale/100)/8))
         );

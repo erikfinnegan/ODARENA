@@ -16,7 +16,6 @@ resources:
   - gems
   - food
 
-
 peasants_alias: apprentice
 
 perks:

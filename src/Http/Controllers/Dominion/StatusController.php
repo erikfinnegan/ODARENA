@@ -2,21 +2,25 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
+use OpenDominion\Http\Requests\Dominion\Actions\TickActionRequest;
+
+use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
-use OpenDominion\Calculators\NetworthCalculator;
-use OpenDominion\Helpers\NotificationHelper;
-use OpenDominion\Services\Dominion\ProtectionService;
-use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
+
+use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
-use OpenDominion\Helpers\UnitHelper;
-use OpenDominion\Http\Requests\Dominion\Actions\TickActionRequest;
-use OpenDominion\Services\Dominion\Actions\TickActionService;
-use OpenDominion\Helpers\RaceHelper;
-use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Services\Dominion\StatsService;
+use OpenDominion\Services\Dominion\Actions\TickActionService;
+
+use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\NotificationHelper;
+use OpenDominion\Helpers\TitleHelper;
+use OpenDominion\Helpers\UnitHelper;
 
 class StatusController extends AbstractDominionController
 {
@@ -36,6 +40,7 @@ class StatusController extends AbstractDominionController
             'populationCalculator' => app(PopulationCalculator::class),
             'productionCalculator' => app(ProductionCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
+            'resourceCalculator' => app(ResourceCalculator::class),
             'queueService' => app(QueueService::class),
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),

@@ -55,7 +55,7 @@ class Title extends AbstractModel
     public function getPerkBonus(Dominion $dominion): float
     {
         $bonus = 1;
-        $bonus += (1 - exp(-pi()*$dominion->resource_tech / 100000));
+        $bonus += (1 - exp(-pi()*$dominion->xp / 100000));
         $bonus += $dominion->getImprovementPerkMultiplier('title_bonus');
         $bonus += $dominion->race->getPerkMultiplier('title_bonus');
         return $bonus;

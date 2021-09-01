@@ -27,14 +27,11 @@ class NetworthCalculator
      * @param LandCalculator $landCalculator
      * @param MilitaryCalculator $militaryCalculator
      */
-    public function __construct(
-        BuildingCalculator $buildingCalculator,
-        LandCalculator $landCalculator,
-        MilitaryCalculator $militaryCalculator
-    ) {
-        $this->buildingCalculator = $buildingCalculator;
-        $this->landCalculator = $landCalculator;
-        $this->militaryCalculator = $militaryCalculator;
+    public function __construct() {
+
+          $this->buildingCalculator = app(BuildingCalculator::class);
+          $this->landCalculator = app(LandCalculator::class);
+          $this->militaryCalculator = app(MilitaryCalculator::class);
     }
 
     /**

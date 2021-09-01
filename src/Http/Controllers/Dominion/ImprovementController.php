@@ -4,6 +4,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use Illuminate\Http\Request;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\ImproveActionRequest;
@@ -21,7 +22,8 @@ class ImprovementController extends AbstractDominionController
             'improvementCalculator' => app(ImprovementCalculator::class),
             'improvementHelper' => app(ImprovementHelper::class),
             'selectedResource' => $request->query('resource', 'gems'),
-            'queueService' => app(QueueService::class)
+            'queueService' => app(QueueService::class),
+            'resourceCalculator' => app(ResourceCalculator::class),
         ]);
     }
 

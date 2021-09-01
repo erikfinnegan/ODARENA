@@ -5,7 +5,6 @@
 --}}
 
 @section('content')
-    @php($resources = $bankingCalculator->getResources($selectedDominion))
 
 <div class="row">
 
@@ -22,153 +21,56 @@
                                 <col width="150">
                             </colgroup>
                             <tbody>
-                                <tr>
-                                    <td>Gold:</td>
-                                    <td>
-                                        @if ($goldProduction = $productionCalculator->getGoldProduction($selectedDominion))
-                                            <span class="text-green">{{ number_format($goldProduction) }}</span>
-                                        @else
-                                            0
-                                        @endif
+                                  @foreach($selectedDominion->race->resources as $resourceKey)
+                                      @php
+                                          $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                      @endphp
 
-                                        <small class="text-muted">({{ number_format(($productionCalculator->getGoldProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Food:</td>
-                                    <td>
-                                        @if ($foodProduction = $productionCalculator->getFoodProduction($selectedDominion))
-                                            <span class="text-green">{{ number_format($foodProduction) }}</span>
-                                        @else
-                                            0
-                                        @endif
-
-                                        <small class="text-muted">({{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
-
-                                        <br>
-                                        <small class="text-muted">Consumed: </small>
-                                        @if ($foodConsumption = $productionCalculator->getFoodConsumption($selectedDominion))
-                                            <span class="text-red">-{{ number_format($foodConsumption) }}</span>
-                                        @else
-                                            <span class="text-muted">0</span>
-                                        @endif
-
-
-                                        @if($monsterContribution = $productionCalculator->getContributionRate($selectedDominion->realm))
-                                            <br>
-                                            <small class="text-muted">Contributed: </small>
-                                            @if ($foodContribution = $productionCalculator->getContribution($selectedDominion, 'food'))
-                                                <span class="text-red">-{{ number_format($foodContribution) }}</span>
-                                            @else
-                                                <span class="text-muted">0</span>
-                                            @endif
-                                        @endif
-
-                                        <br>
-                                        <small class="text-muted">Net change: </small>
-                                        @if (($foodNetChange = $productionCalculator->getFoodNetChange($selectedDominion)) > 0)
-                                            <span class="text-green">+{{ number_format($foodNetChange) }}</span>
-                                        @else
-                                            <span class="text-red">{{ number_format($foodNetChange) }}</span>
-                                        @endif
-
-                                        @if($productionCalculator->isOnBrinkOfStarvation($selectedDominion))
-                                            <br>
-                                            <span class="label label-danger">Starvation imminent!</span>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Lumber:</td>
-                                    <td>
-                                        @if ($lumberProduction = $productionCalculator->getLumberProduction($selectedDominion))
-                                            <span class="text-green">{{ number_format($lumberProduction) }}</span>
-                                        @else
-                                            0
-                                        @endif
-
-                                        <small class="text-muted">({{ number_format(($productionCalculator->getLumberProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Mana:</td>
-                                    <td>
-                                        @if ($manaProduction = $productionCalculator->getManaProduction($selectedDominion))
-                                            <span class="text-green">{{ number_format($manaProduction) }}</span>
-                                        @else
-                                            0
-                                        @endif
-
-                                        <small class="text-muted">({{ number_format(($productionCalculator->getManaProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
-
-
-                                        @if($monsterContribution = $productionCalculator->getContributionRate($selectedDominion->realm))
-                                            <br>
-                                            <small class="text-muted">Contributed: </small>
-                                            @if ($manaContribution = $productionCalculator->getContribution($selectedDominion, 'mana'))
-                                                <span class="text-red">-{{ number_format($manaContribution) }}</span>
+                                    <tr>
+                                        <td>{{ $resource->name }}</td>
+                                        <td>
+                                            @if ($production = $resourceCalculator->getProduction($selectedDominion, $resourceKey))
+                                                <span class="text-green">{{ number_format($production) }}</span>
                                             @else
                                                 0
                                             @endif
 
-                                            <br>
-                                            <small class="text-muted">Net change:</small>
-                                            @if (($manaNetChange = $productionCalculator->getManaNetChange($selectedDominion)) > 0)
-                                                <span class="text-green">+{{ number_format($manaNetChange) }}</span>
-                                            @else
-                                                <span class="text-red">-{{ number_format($manaNetChange) }}</span>
+                                            <small class="text-muted">({{ number_format(($resourceCalculator->getProductionMultiplier($selectedDominion, $resourceKey)-1) * 100,2) }}%)</small>
+
+
+                                            @if ($consumption = $resourceCalculator->getConsumption($selectedDominion, $resourceKey))
+                                                <span class="text-muted">
+                                                    @php
+                                                        $netConsumption = $resourceCalculator->getProduction($selectedDominion, $resourceKey) - $resourceCalculator->getConsumption($selectedDominion, $resourceKey);
+                                                    @endphp
+                                                    <br>
+                                                    Consumed: <span class="text-red">{{ number_format($consumption) }}</span>
+
+                                                    <br>
+                                                    Net:
+                                                    @if($netConsumption < 0)
+                                                        <span class="text-red">{{ number_format($netConsumption) }}</span>
+                                                    @else
+                                                        <span class="text-green">+{{ number_format($netConsumption) }}</span>
+                                                    @endif
+                                                </span>
                                             @endif
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ore:</td>
-                                    <td>
-                                        @if ($oreProduction = $productionCalculator->getOreProduction($selectedDominion))
-                                            <span class="text-green">{{ number_format($oreProduction) }}</span>
-                                        @else
-                                            0
-                                        @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                                        <small class="text-muted">({{ number_format(($productionCalculator->getOreProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Gems:</td>
-                                    <td>
-                                        @if ($gemProduction = $productionCalculator->getGemProduction($selectedDominion))
-                                            <span class="text-green">{{ number_format($gemProduction) }}</span>
-                                        @else
-                                            0
-                                        @endif
-
-                                        <small class="text-muted">({{ number_format(($productionCalculator->getGemProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>Experience points:</td>
                                     <td>
-                                        @if ($techProduction = $productionCalculator->getTechProduction($selectedDominion))
+                                        @if ($techProduction = $productionCalculator->getXpGeneration($selectedDominion))
                                             <span class="text-green">{{ number_format($techProduction) }}</span>
                                         @else
                                             0
                                         @endif
 
-                                        <small class="text-muted">({{ number_format(($productionCalculator->getTechProductionMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
+                                        <small class="text-muted">({{ number_format(($productionCalculator->getXpGenerationMultiplier($selectedDominion)-1) * 100,2) }}%)</small>
                                     </td>
                                 </tr>
-                                @if ($selectedDominion->race->name == 'Demon')
-                                <tr>
-                                    <td>Souls:</td>
-                                    <td>
-                                        @if ($soulProduction = $productionCalculator->getSoulProduction($selectedDominion))
-                                            <span class="text-green">{{ number_format($soulProduction) }}</span>
-                                        @else
-                                            0
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -255,7 +157,6 @@
 
 @if(!$selectedDominion->race->getPerkValue('cannot_exchange'))
     <div class="row">
-
         <div class="col-sm-12 col-md-9">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -270,7 +171,7 @@
                                     <div class="form-group col-sm-6">
                                         <label for="source">Exchange this</label>
                                         <select name="source" id="source" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                            @foreach ($resources as $field => $resource)
+                                            @foreach ($bankingCalculator->getResources($selectedDominion) as $field => $resource)
                                                 @if (!$resource['sell'])
                                                     @continue
                                                 @endif
@@ -282,7 +183,7 @@
                                     <div class="form-group col-sm-6">
                                         <label for="target">Into this</label>
                                         <select name="target" id="target" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                            @foreach ($resources as $field => $resource)
+                                            @foreach ($bankingCalculator->getResources($selectedDominion) as $field => $resource)
                                                 @if (!$resource['buy'])
                                                     @continue
                                                 @endif
@@ -296,7 +197,7 @@
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="form-group col-sm-3">
-                                        <label for="amount" id="amountLabel">{{ reset($resources)['label'] }}</label>
+                                        <label for="amount" id="amountLabel">{{-- reset($resources)['label'] --}}</label>
                                         <input type="number"
                                                name="amount"
                                                id="amount"
@@ -304,7 +205,7 @@
                                                value="{{ old('amount') }}"
                                                placeholder="0"
                                                min="0"
-                                               max="{{ reset($resources)['max'] }}"
+                                               max="{{-- reset($resources)['max'] --}}"
                                                 {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                     </div>
                                     <div class="form-group col-sm-6">
@@ -315,7 +216,7 @@
                                                {{--value="0"--}}
                                                data-slider-value="0"
                                                data-slider-min="0"
-                                               data-slider-max="{{ reset($resources)['max'] }}"
+                                               data-slider-max="{{-- reset($resources)['max'] --}}"
                                                data-slider-step="1"
                                                data-slider-tooltip="show"
                                                data-slider-handle="triangle"
@@ -323,7 +224,7 @@
                                                 {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                     </div>
                                     <div class="form-group col-sm-3">
-                                        <label id="resultLabel">{{ reset($resources)['label'] }}</label>
+                                        <label id="resultLabel">{{-- reset($resources)['label'] --}}</label>
                                         <p id="result" class="form-control-static text-center">0</p >
                                     </div>
                                 </div>
@@ -371,7 +272,7 @@
 @push('inline-scripts')
     <script type="text/javascript">
         (function ($) {
-            const resources = JSON.parse('{!! json_encode($resources) !!}');
+            const resources = JSON.parse('{-- json_encode($resources) --}');
 
             // todo: let/const aka ES6 this
             var sourceElement = $('#source'),

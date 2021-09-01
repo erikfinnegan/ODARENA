@@ -11,6 +11,7 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Traits\DominionGuardsTrait;
@@ -34,6 +35,7 @@ class BuildActionService
         $this->landHelper = app(LandHelper::class);
         $this->queueService = app(QueueService::class);
         $this->raceHelper = app(RaceHelper::class);
+        $this->resourceService = app(ResourceService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->statsService = app(StatsService::class);
     }
@@ -167,13 +169,12 @@ class BuildActionService
 
             $this->queueService->queueResources('construction', $dominion, $data, $ticks);
 
-            $dominion->{'resource_'.$primaryResource} -= $primaryCostTotal;
-
+            $this->resourceService->updateResources($dominion, [$primaryResource => $primaryCostTotal]);
             $this->statsService->updateStat($dominion, ($primaryResource . '_building'), $primaryCostTotal);
 
             if(isset($secondaryResource))
             {
-                $dominion->{'resource_'.$secondaryResource} -= $secondaryCostTotal;
+                $this->resourceService->updateResources($dominion, [$secondaryResource => $secondaryCostTotal]);
                 $this->statsService->updateStat($dominion, ($secondaryResource . '_building'), $secondaryCostTotal);
             }
 

@@ -5,15 +5,18 @@ namespace OpenDominion\Services\Dominion\Actions;
 use DB;
 use Exception;
 use LogicException;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Calculators\Dominion\BuildingCalculator;
-use OpenDominion\Calculators\Dominion\EspionageCalculator;
+
 use OpenDominion\Exceptions\GameException;
+
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\ImprovementHelper;
@@ -23,10 +26,13 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\InfoOp;
+
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\QueueService;
+
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use OpenDominion\Models\Spyop;
@@ -72,6 +78,8 @@ class EspionageActionService
         $this->protectionService = app(ProtectionService::class);
         $this->queueService = app(QueueService::class);
         $this->rangeCalculator = app(RangeCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
+        $this->resourceService = app(ResourceService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->statsService = app(StatsService::class);
         $this->landImprovementCalculator = app(LandImprovementCalculator::class);
@@ -207,7 +215,7 @@ class EspionageActionService
             if(isset($result['damage']))
             {
                 $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
-                $dominion->resource_tech += $xpGained;
+                $dominion->xp += $xpGained;
             }
 
             $dominion->save([
@@ -330,7 +338,7 @@ class EspionageActionService
 
                 if($target->race == 'Demon')
                 {
-                    $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
+                    $this->resourceService->updateResources($dominion, ['soul' => ($spiesKilled + $spyUnitsKilled)]);
                 }
 
                 if($target->race->getPerkValue('converts_executed_spies'))
@@ -569,8 +577,8 @@ class EspionageActionService
 
                     $amountStolen = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
 
-                    $target->{'resource_'.$resource} -= $amountStolen;
-                    $dominion->{'resource_'.$resource} += $amountStolen;
+                    $this->resourceService->updateResources($target, [$resource => $amountStolen*-1]);
+                    $this->resourceService->updateResources($dominion, [$resource => $amountStolen]);
 
                     $this->statsService->updateStat($dominion, ($resource .  '_stolen'), $amountStolen);
                     $this->statsService->updateStat($target, ($resource . '_lost'), $amountStolen);
@@ -678,7 +686,7 @@ class EspionageActionService
 
             if($target->race == 'Demon')
             {
-                $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
+                $this->resourceService->updateResources($dominion, ['soul' => ($spiesKilled + $spyUnitsKilled)]);
             }
 
             if($target->race->getPerkValue('converts_executed_spies'))
@@ -739,18 +747,16 @@ class EspionageActionService
 
         if($resource == 'draftees')
         {
-            $resourceString = 'military_draftees';
+            $availableResource = $dominion->military_draftees;
         }
         elseif($resource == 'peasants')
         {
-            $resourceString = 'peasants';
+            $availableResource = $dominion->peasants;
         }
         else
         {
-            $resourceString = 'resource_'.$resource;
+            $availableResource = $this->resourceCalculator->getAmount($target, $resource);
         }
-
-        $availableResource = $target->{$resourceString};
 
         // Unit theft protection
         for ($slot = 1; $slot <= 4; $slot++)
@@ -762,9 +768,7 @@ class EspionageActionService
                 {
                     $availableResource -= $target->{'military_unit'.$slot} * $theftProtection[1];
                 }
-
             }
-
         }
 
         $availableResource = max(0, $availableResource);
@@ -927,7 +931,7 @@ class EspionageActionService
                     $target->{$attribute} -= $damage;
 
                     $food = floor($damage * $foodPerUnitKilled);
-                    $dominion->resource_food += $food;
+                    $this->resourceService->updateResources($dominion, ['food' => $food]);
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
@@ -949,7 +953,7 @@ class EspionageActionService
                     $target->{$attribute} -= $damage;
 
                     $food = floor($damage * $foodPerUnitKilled);
-                    $dominion->resource_food += $food;
+                    $this->resourceService->updateResources($dominion, ['food' => $food]);
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
@@ -976,9 +980,10 @@ class EspionageActionService
                     $soul = floor($damage * $soulsPerUnitKilled);
                     $blood = floor($damage * $bloodPerUnitKilled);
                     $food = floor($damage * $foodPerUnitKilled);
-                    $dominion->resource_soul += $soul;
-                    $dominion->resource_blood += $blood;
-                    $dominion->resource_food += $food;
+
+                    $this->resourceService->updateResources($dominion, ['soul' => $soul]);
+                    $this->resourceService->updateResources($dominion, ['blood' => $blood]);
+                    $this->resourceService->updateResources($dominion, ['food' => $food]);
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
@@ -1004,9 +1009,10 @@ class EspionageActionService
                     $soul = floor($damage * $soulsPerUnitKilled);
                     $blood = floor($damage * $bloodPerUnitKilled);
                     $food = floor($damage * $foodPerUnitKilled);
-                    $dominion->resource_soul += $soul;
-                    $dominion->resource_blood += $blood;
-                    $dominion->resource_food += $food;
+
+                    $this->resourceService->updateResources($dominion, ['soul' => $soul]);
+                    $this->resourceService->updateResources($dominion, ['blood' => $blood]);
+                    $this->resourceService->updateResources($dominion, ['food' => $food]);
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
@@ -1032,9 +1038,10 @@ class EspionageActionService
                     $soul = floor($damage * $soulsPerUnitKilled);
                     $blood = floor($damage * $bloodPerUnitKilled);
                     $food = floor($damage * $foodPerUnitKilled);
-                    $dominion->resource_soul += $soul;
-                    $dominion->resource_blood += $blood;
-                    $dominion->resource_food += $food;
+
+                    $this->resourceService->updateResources($dominion, ['soul' => $soul]);
+                    $this->resourceService->updateResources($dominion, ['blood' => $blood]);
+                    $this->resourceService->updateResources($dominion, ['food' => $food]);
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
@@ -1102,9 +1109,6 @@ class EspionageActionService
 
                     $damage = (int)floor($damage);
                     $target->{$attribute} -= $damage;
-
-                    $food = floor($damage * $foodPerUnitKilled);
-                    $dominion->resource_food += $food;
 
                     $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
@@ -1231,7 +1235,7 @@ class EspionageActionService
 
             if($target->race == 'Demon')
             {
-                $target->resource_soul += ($spiesKilled + $spyUnitsKilled);
+                $this->resourceService->updateResources($dominion, ['soul' => ($spiesKilled + $spyUnitsKilled)]);
             }
 
             if($target->race->getPerkValue('converts_executed_spies'))
@@ -1281,7 +1285,7 @@ class EspionageActionService
     }
 
     /**
-     * Calculate the XP (resource_tech) gained when casting a black-op.
+     * Calculate the XP gained when casting a black-op.
      *
      * @param Dominion $dominion
      * @param Dominion $target

@@ -17,17 +17,7 @@ class PopulationCalculator
     /*
      * PopulationCalculator constructor.
      */
-    public function __construct(
-        BuildingHelper $buildingHelper,
-        ImprovementCalculator $improvementCalculator,
-        LandCalculator $landCalculator,
-        MilitaryCalculator $militaryCalculator,
-        PrestigeCalculator $prestigeCalculator,
-        QueueService $queueService,
-        SpellCalculator $spellCalculator,
-        UnitHelper $unitHelper,
-        LandImprovementCalculator $landImprovementCalculator
-    ) {
+    public function __construct() {
           $this->buildingHelper = app(BuildingHelper::class);
           $this->improvementCalculator = app(ImprovementCalculator::class);
           $this->landCalculator = app(LandCalculator::class);
@@ -479,9 +469,9 @@ class PopulationCalculator
         # Look for population_growth in units
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'population_growth'))
+            if($unitPopulationGrowthPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'population_growth'))
             {
-                $multiplier += ($dominion->{"military_unit".$slot} / $this->getMaxPopulation($dominion)) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'population_growth');
+                $multiplier += ($dominion->{"military_unit".$slot} / $this->getMaxPopulation($dominion)) * $unitPopulationGrowthPerk;
             }
         }
 
@@ -507,19 +497,6 @@ class PopulationCalculator
         $maximumPopulationChange = min($roomForPeasants, $currentPopulationChange);
 
         return max($maximumPeasantDeath, $maximumPopulationChange);
-
-         /*
-        =MAX(
-            -5% * peasants - drafteegrowth,
-            -5% * peasants - drafteegrowth, // MAX PEASANT DEATH
-            MIN(
-                maxpop(nexthour) - (peasants - military) - drafteesgrowth,
-                moddedbirth - drafteegrowth
-                maxpop(nexthour) - (peasants - military) - drafteesgrowth, // MAX SPACE FOR PEASANTS
-                moddedbirth - drafteegrowth // CURRENT BIRTH RATE
-            )
-        )
-        */
     }
 
     /**

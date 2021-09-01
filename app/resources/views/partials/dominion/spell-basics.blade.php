@@ -1,5 +1,5 @@
 @php
-    $manaAfforded = $spellCalculator->getManaCost($selectedDominion, $spell->key) <= $selectedDominion->resource_mana ? 'text-green' : 'text-red';
+    $manaAfforded = $spellCalculator->getManaCost($selectedDominion, $spell->key) <= $resourceCalculator->getAmount($selectedDominion, 'mana') ? 'text-green' : 'text-red';
 @endphp
 
 <span data-toggle="tooltip" data-placement="top" title="Mana required to cast spell">M</span>: <span class="{{ $manaAfforded }}">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}</span>

@@ -19,6 +19,9 @@ resources:
   - gems
   - food
 
+peasants_production:
+  - food: 2
+
 construction_materials:
   - food
 
@@ -29,8 +32,8 @@ perks:
   cannot_invade: 1
   cannot_explore: 1
   cannot_join_guards: 1
-  peasants_produce_food: 2
   min_rounds_played: 1
+  unemployed_peasants_produce: 1
 
 units:
   - name: Fruitbody

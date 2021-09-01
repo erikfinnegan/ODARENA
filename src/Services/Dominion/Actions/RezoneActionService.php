@@ -9,7 +9,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
-
+use OpenDominion\Services\Dominion\ResourceService;
 
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
@@ -32,17 +32,14 @@ class RezoneActionService
      * @param LandCalculator $landCalculator
      * @param RezoningCalculator $rezoningCalculator
      */
-    public function __construct(
-        LandCalculator $landCalculator,
-        RezoningCalculator $rezoningCalculator,
-        StatsService $statsService,
-        SpellCalculator $spellCalculator
-        )
+    public function __construct()
     {
-        $this->landCalculator = $landCalculator;
-        $this->rezoningCalculator = $rezoningCalculator;
-        $this->spellCalculator = $spellCalculator;
-        $this->statsService = $statsService;
+        $this->rezoningCalculator = app(RezoningCalculator::class);
+        $this->landCalculator = app(LandCalculator::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+        $this->resourceService = app(ResourceService::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+        $this->statsService = app(StatsService::class);
     }
 
     /**
@@ -109,6 +106,7 @@ class RezoneActionService
 
         # All fine, perform changes.
         $dominion->{'resource_'.$resource} -= $cost;
+        $this->resourceService->updateResources($dominion, [$resource => $cost]);
 
         # Update spending statistics.
         $this->statsService->updateStat($dominion, ($resource . '_rezoning'), $cost);

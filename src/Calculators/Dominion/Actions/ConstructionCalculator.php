@@ -3,8 +3,9 @@
 namespace OpenDominion\Calculators\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
-use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Models\Dominion;
 
 # ODA
@@ -39,7 +40,8 @@ class ConstructionCalculator
         LandCalculator $landCalculator,
         ImprovementCalculator $improvementCalculator,
         LandHelper $landHelper,
-        RaceHelper $raceHelper
+        RaceHelper $raceHelper,
+        ResourceCalculator $resourceCalculator
         )
     {
         $this->buildingCalculator = $buildingCalculator;
@@ -47,6 +49,7 @@ class ConstructionCalculator
         $this->improvementCalculator = $improvementCalculator;
         $this->landHelper = $landHelper;
         $this->raceHelper = $raceHelper;
+        $this->resourceCalculator = $resourceCalculator;
     }
 
     protected const SINGLE_RESOURCE_COST_DIVISOR = 5;
@@ -159,15 +162,17 @@ class ConstructionCalculator
         {
             $maxAfford = min(
                 $barrenLand,
-                floor($dominion->{'resource_'.$primaryResource} / $primaryCost),
-                floor($dominion->{'resource_'.$secondaryResource}  / $secondaryCost),
+
+                # Resources 2.0
+                floor($this->resourceCalculator->getAmount($dominion, $primaryResource) / $primaryCost),
+                floor($this->resourceCalculator->getAmount($dominion, $secondaryResource) / $secondaryCost),
             );
         }
         else
         {
             $maxAfford = min(
                 $barrenLand,
-                floor($dominion->{'resource_'.$primaryResource} / $primaryCost),
+                floor($this->resourceCalculator->getAmount($dominion, $primaryResource) / $primaryCost),
             );
         }
 

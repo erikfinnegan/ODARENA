@@ -24,6 +24,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
@@ -48,6 +49,7 @@ class InsightService
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->networthCalculator = app(NetworthCalculator::class);
         $this->populationCalculator = app(PopulationCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
 
         $this->statsService = app(StatsService::class);
@@ -97,16 +99,7 @@ class InsightService
             'net_victories' => $this->militaryCalculator->getNetVictories($target),
 
             # CS: Resources
-            'resource_gold'     => $target->resource_gold,
-            'resource_food'     => $target->resource_food,
-            'resource_lumber'   => $target->resource_lumber,
-            'resource_mana'     => $target->resource_mana,
-            'resource_ore'      => $target->resource_ore,
-            'resource_gems'     => $target->resource_gems,
-            'resource_tech'     => $target->resource_tech,
-            'resource_champion' => $target->resource_champion,
-            'resource_soul'     => $target->resource_soul,
-            'resource_blood'    => $target->resource_blood,
+            'xp' => $target->xp,
 
             # CS: Military
             'morale' => $target->morale,
@@ -167,6 +160,11 @@ class InsightService
                 'unit3' => $target->military_unit3,
                 'unit4' => $target->military_unit4,
           ];
+
+        foreach($target->race->resources as $resourceKey)
+        {
+            $data['resource_'.$resourceKey] = $this->resourceCalculator->getAmount($target, $resourceKey);
+        }
 
         // Units returning
         $this->queueService->getInvasionQueue($target)->each(static function ($row) use (&$data)

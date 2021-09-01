@@ -12,6 +12,10 @@ skill_level: 2
 perks:
   max_population: -20
 
+peasants_production:
+  - gold: 2
+  - ore: 0.35
+
 units:
   - name: Bombardier
     training_time: 9

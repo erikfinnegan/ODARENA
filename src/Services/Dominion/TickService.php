@@ -12,6 +12,7 @@ use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
+use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -21,12 +22,12 @@ use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
-use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Dominion\Tick;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Building;
@@ -660,7 +661,7 @@ class TickService
           $tick->resource_food += $this->productionCalculator->getFoodNetChange($dominion);
           $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
           $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
-          $tick->resource_tech += $this->productionCalculator->getTechProduction($dominion);
+          $tick->xp += $this->productionCalculator->getXpGeneration($dominion);
           $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
           $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
 
@@ -1073,22 +1074,24 @@ class TickService
             ->where('dominions.protection_ticks', '=', 0)
             ->update([
                 'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
+                'dominions.xp' => DB::raw('dominions.xp + dominion_tick.xp'),
                 'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants + dominion_tick.peasants_sacrificed'),
                 'dominions.peasants_last_hour' => DB::raw('dominion_tick.peasants'),
                 'dominions.morale' => DB::raw('dominions.morale + dominion_tick.morale'),
                 'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
                 'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
+                /*
                 'dominions.resource_gold' => DB::raw('dominions.resource_gold + dominion_tick.resource_gold'),
                 'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food + dominion_tick.resource_food_contributed'),
                 'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
                 'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana + dominion_tick.resource_mana_contributed'),
                 'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                 'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
-                'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                 'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
                 'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
                 'dominions.resource_blood' => DB::raw('dominions.resource_blood + dominion_tick.resource_blood'),
+                */
 
                 'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
                 'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1 - dominion_tick.attrition_unit1'),
@@ -1123,22 +1126,24 @@ class TickService
             ->where('dominions.is_locked', false)
             ->update([
                 'dominions.prestige' => DB::raw('dominions.prestige + dominion_tick.prestige'),
+                'dominions.xp' => DB::raw('dominions.xp + dominion_tick.xp'),
                 'dominions.peasants' => DB::raw('dominions.peasants + dominion_tick.peasants + dominion_tick.peasants_sacrificed'),
                 'dominions.peasants_last_hour' => DB::raw('dominion_tick.peasants'),
                 'dominions.morale' => DB::raw('dominions.morale + dominion_tick.morale'),
                 'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
                 'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
+                /*
                 'dominions.resource_gold' => DB::raw('dominions.resource_gold + dominion_tick.resource_gold'),
                 'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food'),
                 'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
                 'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana'),
                 'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
                 'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
-                'dominions.resource_tech' => DB::raw('dominions.resource_tech + dominion_tick.resource_tech'),
                 'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
                 'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
                 'dominions.resource_blood' => DB::raw('dominions.resource_blood + dominion_tick.resource_blood'),
+                */
 
                 'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
                 'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1 - dominion_tick.attrition_unit1'),
@@ -1333,36 +1338,53 @@ class TickService
     # Take resources that are one tick away from finished and create or increment DominionImprovements.
     private function handleResources(Dominion $dominion): void
     {
-        $resourcesToAdd = [];
-
-        foreach($dominion->race->resources as $resourceKey)
-        {
-            $amountProduced = $this->resourceCalculator->getProduction($dominion, $resourceKey);
-            $resourcesToAdd[$resourceKey] = $amountProduced;
-        }
+        $resourcesProduced = [];
+        $resourcesConsumed = [];
+        $resourcesNetChange = [];
 
         $finishedResourcesInQueue = DB::table('dominion_queue')
                                         ->where('dominion_id',$dominion->id)
                                         ->where('resource', 'like', 'resource%')
+                                        ->whereIn('source', ['exploration','invasion'])
                                         ->where('hours',1)
                                         ->get();
+
         foreach($finishedResourcesInQueue as $finishedResourceInQueue)
         {
             $resourceKey = str_replace('resource_', '', $finishedResourceInQueue->resource);
             $amount = intval($finishedResourceInQueue->amount);
-            $resource = Resource::where('key', $improvementKey)->first();
+            $resource = Resource::where('key', $resourceKey)->first();
 
-            if(isset($resourcesToAdd[$resourceKey]))
+            # Silently discard resources this faction doesn't use, if we somehow have any incoming from queue.
+            if(in_array($resourceKey, $dominion->race->resources))
             {
-                $resourcesToAdd[$resourceKey] += $amount;
-            }
-            else
-            {
-                $resourcesToAdd[$resourceKey] = $amount;
+                if(isset($resourcesToAdd[$resourceKey]))
+                {
+                    $resourcesProduced[$resourceKey] += $amount;
+                }
+                else
+                {
+                    $resourcesProduced[$resourceKey] = $amount;
+                }
             }
         }
 
-        $this->resourceService->createOrIncrementResources($dominion, $resourcesToAdd);
+        # Add production.
+        foreach($dominion->race->resources as $resourceKey)
+        {
+            $resourcesProduced[$resourceKey] = $this->resourceCalculator->getProduction($dominion, $resourceKey);
+            $resourcesConsumed[$resourceKey] = $this->resourceCalculator->getConsumption($dominion, $resourceKey);
+            $resourcesNetChange[$resourceKey] = $resourcesProduced[$resourceKey] - $resourcesConsumed[$resourceKey];
+        }
+
+        # Check for starvation
+        $dominion->tick->starvation_casualties = false;
+        if($resourcesConsumed['food'] > 0 and (($this->resourceCalculator->getAmount($dominion, 'food') + $resourcesNetChange['food']) < 0))
+        {
+            $dominion->tick->starvation_casualties = true;
+        }
+
+        $this->resourceService->updateResources($dominion, $resourcesNetChange);
 
     }
 }

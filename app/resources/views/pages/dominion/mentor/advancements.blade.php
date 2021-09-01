@@ -19,7 +19,7 @@
 
                     <p>You can level up advancements by earning enough experience points (XP). XP is primarily earned based on your prestige. Each tick, you get  You earn XP by invading other dominions, exploring new lands, and every tick from your prestige.</p>
 
-                    <p>Since your prestige is {{ $selectedDominion->prestige }} and your XP production multiplier (if any) is {{ number_format(($productionCalculator->getTechProductionMultiplier($selectedDominion)-1)*100,2) }}%, you currently produce {{ number_format($productionCalculator->getTechProduction($selectedDominion)) }} XP per tick.</p>
+                    <p>Since your prestige is {{ $selectedDominion->prestige }} and your XP production multiplier (if any) is {{ number_format(($productionCalculator->getXpGenerationMultiplier($selectedDominion)-1)*100,2) }}%, you currently produce {{ number_format($productionCalculator->getXpGeneration($selectedDominion)) }} XP per tick.</p>
 
                     <h4>Strategy</h4>
 

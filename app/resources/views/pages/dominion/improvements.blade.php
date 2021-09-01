@@ -105,7 +105,7 @@
                       <div class="pull-right">
                           <select name="resource" class="form-control">
                               @foreach($selectedDominion->race->improvement_resources as $resource => $value)
-                                  <option value="{{ $resource }}" data-amount="{{ $selectedDominion->{'resource_'.$resource} }}" {{ $selectedDominion->most_recent_improvement_resource  == $resource ? 'selected' : '' }}>{{ ucwords($resource) }}</option>
+                                  <option value="{{ $resource }}" data-amount="{{ $resourceCalculator->getAmount($selectedDominion, $resource) }}" {{ $selectedDominion->most_recent_improvement_resource  == $resource ? 'selected' : '' }}>{{ ucwords($resource) }}</option>
                               @endforeach
                           </select>
                       </div>

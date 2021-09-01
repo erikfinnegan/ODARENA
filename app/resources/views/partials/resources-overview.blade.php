@@ -39,7 +39,7 @@
                 <div class="col-xs-2">
                     <div class="row">
                         <div class="col-lg-6"><b>XP:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_tech) }}</div>
+                        <div class="col-lg-6">{{ number_format($selectedDominion->xp) }}</div>
                     </div>
                 </div>
             </div>

@@ -34,7 +34,7 @@
                                       <td>{{ number_format(($productionCalculator->getGoldProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getGoldProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($selectedDominion->resource_gold) }}</td>
+                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'gold')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Food</td>
@@ -51,7 +51,7 @@
                                           {{ number_format($productionCalculator->getFoodNetChange($selectedDominion)) }}
                                           </span>
                                       </td>
-                                      <td>{{ number_format($selectedDominion->resource_food) }}</td>
+                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'food')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Lumber</td>
@@ -68,7 +68,7 @@
                                           {{ number_format($productionCalculator->getLumberProduction($selectedDominion)) }}
                                           </span>
                                       </td>
-                                      <td>{{ number_format($selectedDominion->resource_lumber) }}</td>
+                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'lumber')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Mana</td>
@@ -91,7 +91,7 @@
                                           {{ number_format($productionCalculator->getManaNetChange($selectedDominion)) }}
                                           </span>
                                       </td>
-                                      <td>{{ number_format($selectedDominion->resource_mana) }}</td>
+                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'mana')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Ore</td>
@@ -100,7 +100,7 @@
                                       <td>{{ number_format(($productionCalculator->getOreProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getOreProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($selectedDominion->resource_ore) }}</td>
+                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'ore')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>Gems</td>
@@ -109,16 +109,16 @@
                                       <td>{{ number_format(($productionCalculator->getGemProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getGemProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($selectedDominion->resource_gems) }}</td>
+                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'gems')) }}</td>
                                   </tr>
                                   <tr>
                                       <td>XP</td>
-                                      <td>{{ number_format($productionCalculator->getTechProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getTechProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getTechProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
+                                      <td>{{ number_format($productionCalculator->getXpGeneration($selectedDominion)) }}</td>
+                                      <td>{{ number_format($productionCalculator->getXpGenerationRaw($selectedDominion)) }}</td>
+                                      <td>{{ number_format(($productionCalculator->getXpGenerationMultiplier($selectedDominion)-1)*100, 2) }}%</td>
                                       <td>&mdash;</td>
-                                      <td>{{ number_format($productionCalculator->getTechProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($selectedDominion->resource_tech) }}</td>
+                                      <td>{{ number_format($productionCalculator->getXpGeneration($selectedDominion)) }}</td>
+                                      <td>{{ number_format($selectedDominion->xp) }}</td>
                                   </tr>
                             </tbody>
                         </table>

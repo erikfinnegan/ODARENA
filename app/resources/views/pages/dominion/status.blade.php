@@ -87,56 +87,23 @@
                                     <col width="50%">
                                 </colgroup>
                                 <tbody>
-                                    <tr>
-                                        <td>Gold:</td>
-                                        <td>{{ number_format($selectedDominion->resource_gold) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Food:</td>
-                                        <td>{{ number_format($selectedDominion->resource_food) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Lumber:</td>
-                                        <td>{{ number_format($selectedDominion->resource_lumber) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mana:</td>
-                                        <td>{{ number_format($selectedDominion->resource_mana) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ore:</td>
-                                        <td>{{ number_format($selectedDominion->resource_ore) }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Gems:</td>
-                                        <td>{{ number_format($selectedDominion->resource_gems) }}</td>
-                                    </tr>
+                                    @foreach($selectedDominion->race->resources as $resourceKey)
+                                        @php
+                                            $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $resource->name }}:</td>
+                                            <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, $resourceKey)) }}</td>
+                                        </tr>
+                                    @endforeach
                                     <tr>
                                         <td>
                                             <span data-toggle="tooltip" data-placement="top" title="<p>Used to unlock Advancements.</p><p>Unspent XP increases the perk from your Ruler Title.</p>">
                                               Experience Points:
                                             </span>
                                         </td>
-                                        <td>{{ number_format($selectedDominion->resource_tech) }}</td>
+                                        <td>{{ number_format($selectedDominion->xp) }}</td>
                                     </tr>
-                                    @if ($selectedDominion->race->name == 'Norse')
-                                    <tr>
-                                        <td>Champions:</td>
-                                        <td>{{ number_format($selectedDominion->resource_champion) }}</td>
-                                    </tr>
-                                    @endif
-                                    @if ($selectedDominion->race->name == 'Demon')
-                                    <tr>
-                                        <td>Souls:</td>
-                                        <td>{{ number_format($selectedDominion->resource_soul) }}</td>
-                                    </tr>
-                                    @endif
-                                    @if ($selectedDominion->race->name == 'Demon' or $selectedDominion->race->name == 'Beastfolk')
-                                    <tr>
-                                        <td>Blood:</td>
-                                        <td>{{ number_format($selectedDominion->resource_blood) }}</td>
-                                    </tr>
-                                    @endif
                                 </tbody>
                             </table>
                         </div>

@@ -3,6 +3,7 @@
 namespace OpenDominion\Calculators\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
@@ -31,6 +32,8 @@ class RezoningCalculator
         $this->landCalculator = $landCalculator;
         $this->spellCalculator = $spellCalculator;
         $this->improvementCalculator = $improvementCalculator;
+
+        $this->resourceCalculator = app(ResourceCalculator::class);
     }
 
 
@@ -94,7 +97,7 @@ class RezoningCalculator
         $cost = $this->getRezoningCost($dominion);
 
         return min(
-            floor($dominion->{'resource_'.$resource} / $cost),
+            floor($this->resourceCalculator->getAmount($dominion, $resource) / $cost),
             $this->landCalculator->getTotalBarrenLand($dominion)
           );
 

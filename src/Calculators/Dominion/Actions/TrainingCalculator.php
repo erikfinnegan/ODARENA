@@ -8,10 +8,9 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
-
-# ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
@@ -48,27 +47,18 @@ class TrainingCalculator
      * @param LandCalculator $landCalculator
      * @param UnitHelper $unitHelper
      */
-    public function __construct(
-          LandCalculator $landCalculator,
-          UnitHelper $unitHelper,
-          ImprovementCalculator $improvementCalculator,
-          MilitaryCalculator $militaryCalculator,
-          QueueService $queueService,
-          SpellCalculator $spellCalculator,
-          RaceHelper $raceHelper,
-          PopulationCalculator $populationCalculator,
-          BuildingCalculator $buildingCalculator
-          )
+    public function __construct()
     {
-        $this->landCalculator = $landCalculator;
-        $this->unitHelper = $unitHelper;
-        $this->improvementCalculator = $improvementCalculator;
-        $this->militaryCalculator = $militaryCalculator;
-        $this->queueService = $queueService;
-        $this->spellCalculator = $spellCalculator;
-        $this->raceHelper = $raceHelper;
-        $this->populationCalculator = $populationCalculator;
-        $this->buildingCalculator = $buildingCalculator;
+        $this->landCalculator = app(LandCalculator::class);
+        $this->unitHelper = app(UnitHelper::class);
+        $this->improvementCalculator = app(ImprovementCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->queueService = app(QueueService::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+        $this->raceHelper = app(RaceHelper::class);
+        $this->populationCalculator = app(PopulationCalculator::class);
+        $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
     }
 
     /**
@@ -284,21 +274,21 @@ class TrainingCalculator
         $trainable = [];
 
         $fieldMapping = [
-            'gold' => 'resource_gold',
-            'ore' => 'resource_ore',
+            #'gold' => 'resource_gold',
+            #'ore' => 'resource_ore',
             'draftees' => 'military_draftees',
             'wizards' => 'military_wizards',
 
-            'food' => 'resource_food',
-            'mana' => 'resource_mana',
-            'gem' => 'resource_gems',
-            'lumber' => 'resource_lumber',
+            #'food' => 'resource_food',
+            #'mana' => 'resource_mana',
+            #'gem' => 'resource_gems',
+            #'lumber' => 'resource_lumber',
             'prestige' => 'prestige',
-            'champion' => 'resource_champion',
-            'soul' => 'resource_soul',
+            #'champion' => 'resource_champion',
+            #'soul' => 'resource_soul',
             'morale' => 'morale',
             'peasant' => 'peasants',
-            'blood' => 'resource_blood',
+            #'blood' => 'resource_blood',
 
             'unit1' => 'military_unit1',
             'unit2' => 'military_unit2',
@@ -322,7 +312,14 @@ class TrainingCalculator
             {
                 if($value != 0)
                 {
-                    $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
+                    if(in_array($type, $dominion->race->resources))
+                    {
+                        $trainableByCost[$type] = (int)floor($this->resourceCalculator->getAmount($dominion, $type) / $value);
+                    }
+                    else
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
+                    }
                 }
             }
 

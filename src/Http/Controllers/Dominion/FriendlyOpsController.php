@@ -2,10 +2,11 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
+use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\SpellHelper;
@@ -44,6 +45,7 @@ class FriendlyOpsController extends AbstractDominionController
             'spellHelper' => app(SpellHelper::class),
             'espionageHelper' => app(EspionageHelper::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
+            'resourceCalculator' => app(ResourceCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'spellDamageCalculator' => app(SpellDamageCalculator::class),
             'selfSpells' => $selfSpells,

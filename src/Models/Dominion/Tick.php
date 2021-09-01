@@ -20,7 +20,6 @@ use OpenDominion\Models\AbstractModel;
  * @property int $resource_mana
  * @property int $resource_ore
  * @property int $resource_gems
- * @property int $resource_tech
  * @property int $military_draftees
  * @property int $military_unit1
  * @property int $military_unit2
@@ -63,6 +62,7 @@ class Tick extends AbstractModel
 
     protected $casts = [
         'prestige' => 'integer',
+        'xp' => 'integer',
         'peasants' => 'integer',
         'morale' => 'integer',
         'spy_strength' => 'float',
@@ -73,7 +73,6 @@ class Tick extends AbstractModel
         'resource_mana' => 'integer',
         'resource_ore' => 'integer',
         'resource_gems' => 'integer',
-        'resource_tech' => 'integer',
         'military_draftees' => 'integer',
         'military_unit1' => 'integer',
         'military_unit2' => 'integer',

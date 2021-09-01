@@ -6,7 +6,9 @@ use LogicException;
 use OpenDominion\Calculators\Dominion\Actions\BankingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Resource;
 use OpenDominion\Services\Dominion\HistoryService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
@@ -26,15 +28,12 @@ class BankActionService
      *
      * @param BankingCalculator $bankingCalculator
      */
-    public function __construct(
-        BankingCalculator $bankingCalculator,
-        SpellCalculator $spellCalculator,
-        StatsService $statsService
-        )
+    public function __construct()
     {
-        $this->bankingCalculator = $bankingCalculator;
-        $this->spellCalculator = $spellCalculator;
-        $this->statsService = $statsService;
+        $this->bankingCalculator = app(BankingCalculator::class);
+        $this->resourceService = app(ResourceService::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+        $this->statsService = app(StatsService::class);
     }
 
     /**
@@ -80,6 +79,19 @@ class BankActionService
         $sourceResource = $resources[$source];
         $targetResource = $resources[$target];
 
+        $sourceResourceKey = str_replace('resource_','', $source);
+        $targetResourceKey = str_replace('resource_','', $target);
+
+        if(!in_array($sourceResourceKey, $dominion->race->resources))
+        {
+            throw new GameException($dominion->race->name . ' cannot use ' . Resource::where('key', $sourceResourceKey)->first()->name . '.');
+        }
+
+        if(!in_array($targetResourceKey, $dominion->race->resources))
+        {
+            throw new GameException($dominion->race->name . ' cannot use ' . Resource::where('key', $targetResourceKey)->first()->name . '.');
+        }
+
         if ($amount > $dominion->{$source}) {
             throw new GameException(sprintf(
                 'You do not have %s %s to exchange.',
@@ -88,18 +100,13 @@ class BankActionService
             ));
         }
 
-        if($source == 'peasants' and $amount > ($dominion->peasants - 1000))
-        {
-            throw new GameException(sprintf(
-                'You cannot sacrifice %s peasants. You must leave at least 1,000 peasants alive.',
-                number_format($amount),
-            ));
-        }
-
         $targetAmount = floor($amount * $sourceResource['sell'] * $targetResource['buy']);
 
-        $dominion->{$source} -= $amount;
-        $dominion->{$target} += $targetAmount;
+        #$dominion->{$source} -= $amount;
+        #$dominion->{$target} += $targetAmount;
+
+        $this->resourceService->updateResources($dominion, [$sourceResourceKey => $amount]);
+        $this->resourceService->updateResources($dominion, [$targetResourceKey => $targetAmount]);
 
         $dominion->most_recent_exchange_from = $source;
         $dominion->most_recent_exchange_to = $target;

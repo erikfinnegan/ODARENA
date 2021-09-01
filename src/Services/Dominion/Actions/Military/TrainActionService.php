@@ -13,6 +13,7 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\Tech;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
@@ -45,6 +46,7 @@ class TrainActionService
         $this->unitHelper = app(UnitHelper::class);
         $this->raceHelper = app(RaceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
 
         $this->improvementCalculator = $improvementCalculator;
@@ -547,12 +549,16 @@ class TrainActionService
                 }
             }
 
-            // $data:
-            # unit1 => int
-            # unit2 => int
-            # et cetera
-
-            #dd($data);
+            # Resources 2.0
+            $resourceCosts = [];
+            foreach($totalCosts as $resourceKey => $cost)
+            {
+                if(in_array($resourceKey, $dominion->race->resources))
+                {
+                    $resourceCosts[$resourceKey] = $cost;
+                }
+            }
+            $this->resourceService->updateResources($dominion, $resourceCosts);
 
             foreach($data as $unitType => $amountToTrain)
             {
@@ -622,9 +628,6 @@ class TrainActionService
                     }
                 }
             }
-
-            #$this->queueService->queueResources('training', $dominion, $nineHourData, ($hoursSpecs + $hours_modifier));
-            #$this->queueService->queueResources('training', $dominion, $data, ($hoursElites + $hours_modifier));
         });
 
         return [

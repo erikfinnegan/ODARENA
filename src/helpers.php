@@ -86,7 +86,7 @@ if (!function_exists('dominion_attr_display')) {
             'resource_lumber' => 'lumber',
             'resource_mana' => 'mana',
             'resource_ore' => 'ore',
-            'resource_tech' => 'tech',
+            'xp' => 'xp',
             'land_water' => 'water',
         ];
 

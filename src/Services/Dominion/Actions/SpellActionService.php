@@ -25,12 +25,12 @@ use OpenDominion\Models\Improvement;
 use OpenDominion\Models\InfoOp;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
-# ODA
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Tech;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
@@ -67,6 +67,7 @@ class SpellActionService
         $this->raceHelper = app(RaceHelper::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->rangeCalculator = app(RangeCalculator::class);
+        $this->resourceService = app(ResourceService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
@@ -199,6 +200,7 @@ class SpellActionService
             if($spell->class !== 'invasion')
             {
                 $dominion->resource_mana -= $manaCost;
+                $this->resourceService->updateResources($dominion, ['mana' => $manaCost]);
 
                 $wizardStrengthCost = min($wizardStrengthCost, $dominion->wizard_strength);
                 $dominion->wizard_strength -= $wizardStrengthCost;
@@ -207,7 +209,7 @@ class SpellActionService
                 if($result['success'] == True and isset($result['damage']))
                 {
                   $xpGained = $this->calculateXpGain($dominion, $target, $result['damage']);
-                  $dominion->resource_tech += $xpGained;
+                  $dominion->xp += $xpGained;
                 }
             }
 
@@ -1206,7 +1208,7 @@ class SpellActionService
                           'resource_mana' => $target->resource_mana * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                           'resource_ore' => $target->resource_ore * $this->opsHelper->getInfoOpsAccuracyModifier($target),
                           'resource_gems' => $target->resource_gems * $this->opsHelper->getInfoOpsAccuracyModifier($target),
-                          'resource_tech' => $target->resource_tech * $this->opsHelper->getInfoOpsAccuracyModifier($target),
+                          'xp' => $target->xp * $this->opsHelper->getInfoOpsAccuracyModifier($target),
 
                           'resource_champion' => $target->resource_champion,
                           'resource_soul' => $target->resource_soul,
@@ -1350,6 +1352,7 @@ class SpellActionService
         else
         {
             $target->resource_mana -= $manaCost;
+            $this->resourceService->updateResources($dominion, ['mana' => $manaCost]);
         }
 
         $casterWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'defense'));
