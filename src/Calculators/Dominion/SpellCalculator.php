@@ -56,7 +56,7 @@ class SpellCalculator
 
         // Cost reduction from wizard guilds (2x ratio, max 40%)
         $spellCostMultiplier = 1;
-        $spellCostMultiplier -= $dominion->getBuildingPerkMultiplier('spell_cost');
+        $spellCostMultiplier += $dominion->getBuildingPerkMultiplier('spell_cost');
         $spellCostMultiplier += $dominion->getTechPerkMultiplier('spell_cost');
 
         if(isset($dominion->title))
