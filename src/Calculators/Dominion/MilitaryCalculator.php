@@ -22,7 +22,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
 
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
-#use OpenDominion\Calculators\Dominion\ResourceCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 
 class MilitaryCalculator
@@ -36,9 +36,9 @@ class MilitaryCalculator
         $this->governmentService = app(GovernmentService::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
-        $this->prestigeCalculator = app(ResourceCalculator::class);
-        $this->queueService = app(PrestigeCalculator::class);
-#        $this->resourceCalculator = app(ResourceCalculator::class);
+        $this->prestigeCalculator = app(PrestigeCalculator::class);
+        $this->queueService = app(QueueService::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->statsService = app(StatsService::class);
         $this->techCalculator = app(TechCalculator::class);
@@ -569,91 +569,6 @@ class MilitaryCalculator
 
         return $powerFromPerk;
     }
-
-
-    /*
-    protected function getUnitPowerFromRawWizardRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
-    {
-        $wizardRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
-            $unit->slot,
-            "{$powerType}_raw_wizard_ratio");
-
-        if (!$wizardRatioPerk) {
-            return 0;
-        }
-
-        $ratio = (float)$wizardRatioPerk[0];
-        $max = (int)$wizardRatioPerk[1];
-
-        $wizardRawRatio = $this->getWizardRatioRaw($dominion, 'offense');
-        $powerFromWizardRatio = $wizardRawRatio * $ratio;
-        $powerFromPerk = min($powerFromWizardRatio, $max);
-
-        return $powerFromPerk;
-    }
-
-
-    protected function getUnitPowerFromModWizardRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
-    {
-        $wizardRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
-            $unit->slot,
-            "{$powerType}_wizard_ratio");
-
-        if (!$wizardRatioPerk) {
-            return 0;
-        }
-
-        $ratio = (float)$wizardRatioPerk[0];
-        $max = (int)$wizardRatioPerk[1];
-
-        $wizardModRatio = $this->getWizardRatio($dominion, 'offense');
-        $powerFromWizardRatio = $wizardModRatio * $ratio;
-        $powerFromPerk = min($powerFromWizardRatio, $max);
-
-        return $powerFromPerk;
-    }
-
-    protected function getUnitPowerFromRawSpyRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
-    {
-        $spyRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
-            $unit->slot,
-            "{$powerType}_raw_spy_ratio");
-
-        if(!$spyRatioPerk) {
-            return 0;
-        }
-
-        $ratio = (float)$spyRatioPerk[0];
-        $max = (int)$spyRatioPerk[1];
-
-        $spyRawRatio = $this->getSpyRatioRaw($dominion, 'offense');
-        $powerFromSpyRatio = $spyRawRatio * $ratio;
-        $powerFromPerk = min($powerFromSpyRatio, $max);
-
-        return $powerFromPerk;
-    }
-
-
-    protected function getUnitPowerFromModSpyRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
-    {
-        $spyRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
-            $unit->slot,
-            "{$powerType}_spy_ratio");
-
-        if(!$spyRatioPerk) {
-            return 0;
-        }
-
-        $ratio = (float)$spyRatioPerk[0];
-        $max = (int)$spyRatioPerk[1];
-
-        $spyModRatio = $this->getSpyRatio($dominion, 'offense');
-        $powerFromSpyRatio = $spyModRatio * $ratio;
-        $powerFromPerk = min($powerFromSpyRatio, $max);
-
-        return $powerFromPerk;
-    }
-    */
 
     protected function getUnitPowerFromPrestigePerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
