@@ -104,7 +104,6 @@
 
                                 {{ number_format($selectedDominion->peasants) }} (+{{ number_format($annexedPeasants) }} annexed) / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
 
-
                             @else
                                 {{ number_format($selectedDominion->peasants) }} / {{ number_format($populationCalculator->getMaxPopulation($selectedDominion) - $populationCalculator->getPopulationMilitary($selectedDominion)) }}
                             @endif
@@ -126,7 +125,9 @@
                         <td><span data-toggle="tooltip" data-placement="top" title="Available jobs:<br>Peasants / Available Jobs">Jobs:</span></td></td>
                         <td>{{ number_format($populationCalculator->getPopulationEmployed($selectedDominion)) }} / {{ number_format($populationCalculator->getEmploymentJobs($selectedDominion)) }}</td>
                       </tr>
-                      @php($jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion)))
+                      @php
+                          $jobsNeeded = ($selectedDominion->peasants - $populationCalculator->getEmploymentJobs($selectedDominion))
+                      @endphp
                       @if ($jobsNeeded < 0)
                       <tr>
                         <td><span data-toggle="tooltip" data-placement="top" title="How many peasants you need in order to fill all available jobs">Jobs available:</span></td>
@@ -171,24 +172,33 @@
                                     <div class="form-group col-sm-6">
                                         <label for="source">Exchange this</label>
                                         <select name="source" id="source" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                            @foreach ($bankingCalculator->getResources($selectedDominion) as $field => $resource)
-                                                @if (!$resource['sell'])
-                                                    @continue
+                                            @foreach ($selectedDominion->race->resources as $resourceKey)
+
+                                                @php
+                                                    $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                                @endphp
+
+                                                @if($resource->sell)
+                                                    <option value="{{ $resourceKey }}" {{ $resourceKey  == $selectedDominion->most_recent_exchange_from ? 'selected' : ''}} >{{ $resource->name }}</option>
                                                 @endif
 
-                                                <option value="{{ $field }}" {{ $field  == $selectedDominion->most_recent_exchange_from ? 'selected' : ''}} >{{ $resource['label'] }}</option>
                                             @endforeach
+
                                         </select>
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <label for="target">Into this</label>
                                         <select name="target" id="target" class="form-control" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                            @foreach ($bankingCalculator->getResources($selectedDominion) as $field => $resource)
-                                                @if (!$resource['buy'])
-                                                    @continue
+                                            @foreach ($selectedDominion->race->resources as $resourceKey)
+
+                                                @php
+                                                    $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                                @endphp
+
+                                                @if($resource->buy)
+                                                    <option value="{{ $resourceKey }}" {{ $resourceKey  == $selectedDominion->most_recent_exchange_from ? 'selected' : ''}} >{{ $resource->name }}</option>}
                                                 @endif
 
-                                                <option value="{{ $field }}" {{ $field  == $selectedDominion->most_recent_exchange_to ? 'selected' : ''}} >{{ $resource['label'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -197,7 +207,7 @@
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="form-group col-sm-3">
-                                        <label for="amount" id="amountLabel">{{-- reset($resources)['label'] --}}</label>
+                                        <label for="amount" id="amountLabel">{{ reset($resources)['label'] }}</label>
                                         <input type="number"
                                                name="amount"
                                                id="amount"
@@ -205,7 +215,7 @@
                                                value="{{ old('amount') }}"
                                                placeholder="0"
                                                min="0"
-                                               max="{{-- reset($resources)['max'] --}}"
+                                               max="{{ reset($resources)['max'] }}"
                                                 {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                     </div>
                                     <div class="form-group col-sm-6">
@@ -213,10 +223,10 @@
                                         <input type="number"
                                                id="amountSlider"
                                                class="form-control slider"
-                                               {{--value="0"--}}
+                                               value="0"
                                                data-slider-value="0"
                                                data-slider-min="0"
-                                               data-slider-max="{{-- reset($resources)['max'] --}}"
+                                               data-slider-max="{{ reset($resources)['max'] }}"
                                                data-slider-step="1"
                                                data-slider-tooltip="show"
                                                data-slider-handle="triangle"
@@ -224,7 +234,7 @@
                                                 {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                     </div>
                                     <div class="form-group col-sm-3">
-                                        <label id="resultLabel">{{-- reset($resources)['label'] --}}</label>
+                                        <label id="resultLabel">{{ reset($resources)['label'] }}</label>
                                         <p id="result" class="form-control-static text-center">0</p >
                                     </div>
                                 </div>

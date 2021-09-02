@@ -29,7 +29,7 @@ gems:
   sell: 2
 
 champion:
-  name: Champion
+  name: Champions
   buy: null
   sell: null
   exclusive_races:
@@ -60,6 +60,6 @@ seed:
 pearls:
   name: Pearls
   buy: null
-  sell: 16
+  sell: 4
   exclusive_races:
     - Merfolk

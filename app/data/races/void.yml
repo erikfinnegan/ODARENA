@@ -12,7 +12,7 @@ resources:
   - mana
 
 peasants_production:
-  - mana: 0.2
+  mana: 0.2
 
 attacking: 2
 exploring : 0

@@ -20,7 +20,7 @@ resources:
   - food
 
 peasants_production:
-  - food: 2
+  food: 2
 
 construction_materials:
   - food

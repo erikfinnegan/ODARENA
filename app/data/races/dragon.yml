@@ -14,8 +14,8 @@ construction_materials:
   - ore
 
 peasants_production:
-  - gold: 2
-  - gems: 0.10
+  gold: 2
+  gems: 0.10
 
 perks:
     max_population: -10

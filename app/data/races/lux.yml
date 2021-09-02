@@ -16,8 +16,8 @@ resources:
   - gems
 
 peasants_production:
-  - gold: 2
-  - mana: 0.1
+  gold: 2
+  mana: 0.1
 
 peasants_alias: shimmerling
 draftees_alias: ray

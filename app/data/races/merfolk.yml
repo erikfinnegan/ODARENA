@@ -27,7 +27,7 @@ perks:
 
 improvement_resources:
   gold: 2
-  pearl: 12
+  pearls: 12
 
 units:
   - name: Manta

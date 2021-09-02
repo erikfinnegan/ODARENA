@@ -27,19 +27,40 @@ use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\Resource;
 
 class ResourcesController extends AbstractDominionController
 {
     public function getResources()
     {
+          $dominion = $this->getSelectedDominion();
+          $resourceCalculator = app(ResourceCalculator::class);
+
+          $resources = [];
+
+          foreach($dominion->race->resources as $resourceKey)
+          {
+              $resource = Resource::where('key', $resourceKey)->first();
+
+              $resource[$resourceKey] = [
+                  'name' => $resource->name,
+                  'buy' => $resource->buy,
+                  'sell' => $resource->sell,
+                  'label' => $resourceCalculator->getAmount($dominion, $resourceKey)
+              ];
+
+          }
+
+
           return view('pages.dominion.resources', [
               'populationCalculator' => app(PopulationCalculator::class),
               'productionCalculator' => app(ProductionCalculator::class),
               'landCalculator' => app(LandCalculator::class),
-              'resourceCalculator' => app(ResourceCalculator::class),
+              'resourceCalculator' => $resourceCalculator,
               'realmCalculator' => app(RealmCalculator::class),
               'raceHelper' => app(RaceHelper::class),
               'bankingCalculator' => app(BankingCalculator::class),
+              'resources' => $resources,
           ]);
     }
 

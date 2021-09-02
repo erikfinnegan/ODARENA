@@ -102,8 +102,8 @@ class DataSyncCommand extends Command implements CommandInterface
             $defaultResources = [
                 'gold',
                 'food',
-                'ore',
                 'lumber',
+                'ore',
                 'gems',
                 'mana'
             ];

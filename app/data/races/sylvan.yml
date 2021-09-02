@@ -17,7 +17,7 @@ resources:
   - food
 
 peasants_production:
-  - lumber: 0.01
+  lumber: 0.01
 
 construction_materials:
   - mana

@@ -15,6 +15,7 @@
 
                 <span>
                     <a href="#units">Units</a> |
+                    <a href="#resources">Resources</a> |
                     <a href="#buildings">Buildings</a> |
                     <a href="#improvements">Improvements</a> |
                     <a href="#spells">Spells</a> |
@@ -129,7 +130,9 @@
                               </td>
                                 @if (in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
                                     <td class="text-center">  <!-- OP / DP -->
-                                        {{ $unit->power_offense }} / {{ $unit->power_defense }}
+                                        {{ (strpos($unit->power_offense, '.') !== false) ? number_format($unit->power_offense, 2) : number_format($unit->power_offense) }}
+                                        /
+                                        {{ (strpos($unit->power_defense, '.') !== false) ? number_format($unit->power_defense, 2) : number_format($unit->power_defense) }}
                                     </td>
                                 @else
                                     <td class="text-center">&mdash;</td>
@@ -240,7 +243,7 @@
           <div class="col-sm-12 col-md-12">
               <div class="box">
                   <div class="box-header with-border">
-                      <h3 class="box-title">Perks</h3>
+                      <h3 class="box-title">Traits</h3>
                   </div>
                   <div class="box-body table-responsive no-padding">
                       <table class="table table-striped">
@@ -249,6 +252,30 @@
                               <col>
                           </colgroup>
                           <tbody>
+                              <tr>
+                                  <td>{{ $raceHelper->getPeasantsTerm($race) }} production:</td>
+                                  <td>
+                                      @php
+                                          $x = 0;
+                                          $peasantProductions = count($race->peasants_production);
+                                      @endphp
+                                      @foreach ($race->peasants_production as $resourceKey => $amount)
+                                          @php
+                                              $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                              $x++;
+                                          @endphp
+
+
+                                          <span class="text-green">
+                                              @if($x < $peasantProductions)
+                                                  {{ number_format($amount,2) }}&nbsp;{{ $resource->name }},
+                                              @else
+                                                  {{ number_format($amount,2) }}&nbsp;{{ $resource->name }}
+                                              @endif
+                                          </span>
+                                      @endforeach
+                                  </td>
+                              </tr>
                               @foreach ($race->perks->sort() as $perk)
                                   @php
                                       $perkDescription = $raceHelper->getPerkDescriptionHtmlWithValue($perk);
@@ -308,7 +335,7 @@
                                   <td>{{ in_array($resourceKey, $race->construction_materials) ? 'Yes' : '' }}</td>
                                   <td>{{ $resource->buy ?: 'N/A' }}</td>
                                   <td>{{ $resource->sell ?: 'N/A' }}</td>
-                                  <td>{{ in_array($resourceKey, $race->improvement_resources) ? number_format($race->improvement_resources[$resourceKey],2) : '' }}</td>
+                                  <td>{{ isset($race->improvement_resources[$resourceKey]) ? number_format($race->improvement_resources[$resourceKey],2) : 'N/A' }}</td>
                               </tr>
                           @endforeach
                       </table>
