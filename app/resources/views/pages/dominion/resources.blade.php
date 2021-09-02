@@ -204,9 +204,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @php
-                                unset($resource);
-                            @endphp
+                            {{ dd($resources) }}
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="form-group col-sm-3">
@@ -259,12 +257,7 @@
                     <h3 class="box-title">Information</h3>
                 </div>
                 <div class="box-body">
-                    <p>You can exchange resources with the empire. Exchanging resources processes <b>instantly</b>.</p>
-                    <ul>
-                        <li>Gold, lumber and ore trade 2 for 1.</li>
-                        <li>Gems trade for 1:2 gold, lumber or ore.</li>
-                        <li>Food trades for 1:10 gold, lumber or ore.</li>
-                    </ul>
+                    <p>You can exchange resources for other resources.</p>
                 </div>
             </div>
         </div>

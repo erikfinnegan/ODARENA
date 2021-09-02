@@ -51,7 +51,6 @@ class ResourcesController extends AbstractDominionController
 
           }
 
-
           return view('pages.dominion.resources', [
               'populationCalculator' => app(PopulationCalculator::class),
               'productionCalculator' => app(ProductionCalculator::class),
