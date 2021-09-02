@@ -89,9 +89,9 @@ class NetworthCalculator
      */
      public function getUnitNetworth(Dominion $dominion, Unit $unit): float
      {
-        if (isset($unit->static_networth) and $unit->static_networth > 0)
+        if ($unit->static_networth !== 0)
         {
-          return $unit->static_networth;
+            return $unit->static_networth;
         }
         else
         {
