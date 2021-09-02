@@ -4,6 +4,7 @@ namespace OpenDominion\Http\Controllers;
 
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Calculators\Dominion\EspionageCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Helpers\BuildingHelper;
@@ -69,6 +70,7 @@ class ScribesController extends AbstractController
             'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'spells' => Spell::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'spellCalculator' => app(SpellCalculator::class),
+            'resourcespellCalculator' => app(ResourceCalculator::class),
             'resources' => $resources,
         ]);
     }

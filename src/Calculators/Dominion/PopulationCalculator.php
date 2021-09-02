@@ -606,7 +606,11 @@ class PopulationCalculator
             $jobs += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * ($dominion->race->getPerkValue('extra_barren_' . $landType . '_jobs'));
         }
 
-        $jobs *= 1 + $dominion->getTechPerkMultiplier('jobs_per_building');
+        $multiplier = 1;
+        $multiplier += $dominion->getTechPerkMultiplier('jobs_per_building');
+        $multiplier += $dominion->getImprovementPerkMultiplier('jobs_per_building');
+
+        $jobs *= $multiplier;
 
         return $jobs;
     }

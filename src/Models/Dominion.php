@@ -666,6 +666,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'mana_production_raw'
                           or $perkKey == 'blood_production_raw'
                           or $perkKey == 'soul_production_raw'
+                          or $perkKey == 'pearls_production_raw'
 
                           # Building-specific housing
                           or $perkKey == 'afflicted_unit1_housing'
@@ -703,6 +704,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'gem_production_mod'
                           or $perkKey == 'mana_production_mod'
                           or $perkKey == 'tech_production_mod'
+                          or $perkKey == 'pearls_production_mod'
                           or $perkKey == 'exchange_rate'
 
                           # Unit costs
@@ -888,13 +890,14 @@ class Dominion extends AbstractModel
              {
                  # Single value numeric perks
                  if(
-                         $perkKey == 'gold_production'
-                         or $perkKey == 'food_production'
-                         or $perkKey == 'ore_production'
-                         or $perkKey == 'gem_production'
-                         or $perkKey == 'lumber_production'
-                         or $perkKey == 'mana_production'
-                         or $perkKey == 'tech_production'
+                         $perkKey == 'gold_production_mod'
+                         or $perkKey == 'food_production_mod'
+                         or $perkKey == 'ore_production_mod'
+                         or $perkKey == 'gem_production_mod'
+                         or $perkKey == 'lumber_production_mod'
+                         or $perkKey == 'mana_production_mod'
+                         or $perkKey == 'pearl_production_mod'
+                         or $perkKey == 'tech_production_mod'
 
                          or $perkKey == 'no_gold_production'
                          or $perkKey == 'no_food_production'

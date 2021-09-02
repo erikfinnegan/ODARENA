@@ -267,71 +267,6 @@
                   </div>
               </div>
           </div>
-          <a id="lands"></a>
-          <div class="col-sm-12 col-md-12">
-              <div class="box">
-                  <div class="box-header with-border">
-                      <h3 class="box-title">Resources</h3>
-                  </div>
-                  <div class="box-body table-responsive no-padding">
-                      <table class="table table-striped">
-                          <colgroup>
-                              <col>
-                              <col>
-                          </colgroup>
-                          <tbody>
-                              @foreach($race->resources as $resourceKey)
-                                  @php
-                                      $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
-                                  @endphp
-
-                                  <tr>
-                                      <td colspan="2" class="text-center">{{ $resource->name }}</td>
-                                  </tr>
-                              @endforeach
-
-                              <tr>
-                                  <td>Home land type:</td>
-                                  <td>{{ ucwords($race->home_land_type) }} {!! $landHelper->getLandTypeIconHtml($race->home_land_type) !!}<td>
-                              </tr>
-
-                              <tr>
-                                  <td colspan="2" class="text-center"><b>Improvements</b></th>
-                              </tr>
-                              @foreach($race->improvement_resources as $resource => $value)
-                                  <tr>
-                                      <td>{{ ucwords($resource) }}</td>
-                                      <td>{{ number_format($value,2) . ' ' . str_plural('points', $value) }}</td>
-                                  </tr>
-                              @endforeach
-
-                              <tr>
-                                  <td colspan="2" class="text-center"><b>Construction</b></th>
-                              </tr>
-                              @if($race->getPerkValue('cannot_construct'))
-                                  <tr>
-                                      <td colspan="2" class="text-center">Cannot construct buildings.</td>
-                                  </tr>
-                              @elseif(count($race->construction_materials) === 1)
-                                  <tr>
-                                      <td>Resource</td>
-                                      <td>{{ ucwords($race->construction_materials[0]) }}<td>
-                                  </tr>
-                              @else
-                                  <tr>
-                                      <td>Primary</td>
-                                      <td>{{ ucwords($race->construction_materials[0]) }}<td>
-                                  </tr>
-                                  <tr>
-                                      <td>Secondary</td>
-                                      <td>{{ ucwords($race->construction_materials[1]) }}<td>
-                                  </tr>
-                              @endif
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
-          </div>
 
       </div>
 </div>
@@ -349,7 +284,11 @@
                     <div class="col-md-12">
                       <table class="table table-striped">
                           <colgroup>
-                              <col width="200">
+                              <col width="100">
+                              <col width="100">
+                              <col width="100">
+                              <col width="100">
+                              <col>
                           </colgroup>
                           <thead>
                               <tr>
@@ -363,20 +302,13 @@
                           @foreach ($race->resources as $resourceKey)
                               @php
                                   $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                              @endphp
                               <tr>
                                   <td>{{ $resource->name }}</td>
-                                  <td>
-                                      @if(in_array($resourceKey, $race->construction_materials))
-                                          Yes
-                                      @endif
-                                  </td>
-                                  <td></td>
-                                  <td></td>
-                                  <td>
-                                      @if(in_array($resourceKey, $race->improvement_resources))
-                                          {{ race->improvement_resources[$resourceKey] }}
-                                      @endif
-                                  </td>
+                                  <td>{{ in_array($resourceKey, $race->construction_materials) ? 'Yes' : '' }}</td>
+                                  <td>{{ $resource->buy ?: 'N/A' }}</td>
+                                  <td>{{ $resource->sell ?: 'N/A' }}</td>
+                                  <td>{{ in_array($resourceKey, $race->improvement_resources) ? number_format($race->improvement_resources[$resourceKey],2) : '' }}</td>
                               </tr>
                           @endforeach
                       </table>

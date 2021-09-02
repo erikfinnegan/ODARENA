@@ -1,37 +1,65 @@
 gold:
   name: Gold
+  buy: 1
+  sell: 0.5
 
 food:
   name: Food
+  buy: 0.5
+  sell: 0.10
 
 ore:
   name: Ore
+  buy: 1
+  sell: 0.5
 
 lumber:
   name: Lumber
+  buy: 1
+  sell: 0.5
 
 mana:
   name: Mana
+  buy: null
+  sell: null
 
 gems:
   name: Gems
+  buy: null
+  sell: 2
 
 champion:
   name: Champion
+  buy: null
+  sell: null
   exclusive_races:
     - Norse
 
 blood:
   name: Blood
+  buy: null
+  sell: null
   exclusive_races:
+    - Beastfolk
     - Demon
 
 soul:
   name: Souls
+  buy: null
+  sell: null
   exclusive_races:
     - Demon
 
 seed:
   name: Druva's Seedling
+  buy: null
+  sell: null
   exclusive_races:
     - Sylvan
+
+pearls:
+  name: Pearls
+  buy: null
+  sell: 16
+  exclusive_races:
+    - Merfolk

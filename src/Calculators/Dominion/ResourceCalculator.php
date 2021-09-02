@@ -13,7 +13,6 @@ use OpenDominion\Models\Resource;
 use OpenDominion\Models\DominionResource;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
-#use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
@@ -36,7 +35,7 @@ class ResourceCalculator
         )
     {
         $this->landHelper = app(LandHelper::class);
-        $this->unitHelper = app(UnitHelper::class);;
+        $this->unitHelper = app(UnitHelper::class);
 
         $this->landCalculator = $landCalculator;
         $this->prestigeCalculator = $prestigeCalculator;
@@ -101,15 +100,15 @@ class ResourceCalculator
             }
             else
             {
-                $production += $this->populationCalculator->getPopulationEmployed($dominion) * $productionPerPeasant;
+                $production += $this->getPopulationEmployed($dominion) * $productionPerPeasant;
             }
         }
 
         // Barren land production
-        #foreach ($this->landHelper->getLandTypes($dominion) as $landType)
-        #{
-        #    $production += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_' . $resourceKey . '_production');
-        #}
+        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        {
+            $production += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_' . $resourceKey . '_production');
+        }
 
         $production *= $this->getProductionMultiplier($dominion, $resourceKey);
 
@@ -227,6 +226,63 @@ class ResourceCalculator
 
         return max(0, $consumption);
 
+    }
+
+
+
+    #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
+    /*
+    *   Copied in from PopulationCalculator because calling PopulationCalculator in this class breaks the app.
+    */
+
+    /**
+     * Returns the Dominion's employment jobs.
+     *
+     * Each building (sans home and barracks) employs 20 peasants.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getEmploymentJobs(Dominion $dominion): int
+    {
+
+        $jobs = 0;
+
+        $jobs += $dominion->getBuildingPerkValue('jobs');
+
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs'))
+            {
+                $jobs += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs');
+            }
+        }
+
+        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
+        {
+            $jobs += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * ($dominion->race->getPerkValue('extra_barren_' . $landType . '_jobs'));
+        }
+
+        $multiplier = 1;
+        $multiplier += $dominion->getTechPerkMultiplier('jobs_per_building');
+        $multiplier += $dominion->getImprovementPerkMultiplier('jobs_per_building');
+
+        $jobs *= $multiplier;
+
+        return $jobs;
+    }
+
+    /**
+     * Returns the Dominion's employed population.
+     *
+     * The employed population consists of the Dominion's peasant count, up to the number of max available jobs.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getPopulationEmployed(Dominion $dominion): int
+    {
+        return min($this->getEmploymentJobs($dominion), $dominion->peasants);
     }
 
 }

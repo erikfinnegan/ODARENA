@@ -815,10 +815,9 @@ class DataSyncCommand extends Command implements CommandInterface
                 $resource = Resource::firstOrNew(['key' => $resourceKey])
                     ->fill([
                         'name' => $resourceData->name,
-                        #'buy_value' => object_get($resourceData, 'buy_value', 0),
-                        #'sell_value' => object_get($resourceData, 'sell_value', 0),
-                        #'improvement_points' => object_get($resourceData, 'improvement_points'),
                         'enabled' => object_get($resourceData, 'enabled', 1),
+                        'buy' => object_get($resourceData, 'buy', null),
+                        'sell' => object_get($resourceData, 'sell', null),
                         'excluded_races' => object_get($resourceData, 'excluded_races', []),
                         'exclusive_races' => object_get($resourceData, 'exclusive_races', []),
                     ]);
