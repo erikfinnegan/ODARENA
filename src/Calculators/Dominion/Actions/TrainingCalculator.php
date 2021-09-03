@@ -311,15 +311,29 @@ class TrainingCalculator
 
             foreach ($costs as $type => $value)
             {
+                $type == 'gem' ? $type = 'gems' : $type = $type;
+
                 if($value != 0)
                 {
                     if(in_array($type, $dominion->race->resources))
                     {
                         $trainableByCost[$type] = (int)floor($this->resourceCalculator->getAmount($dominion, $type) / $value);
                     }
-                    else
+                    elseif($type == 'draftees')
                     {
-                        $trainableByCost[$type] = (int)floor($dominion->{$fieldMapping[$type]} / $value);
+                        $trainableByCost[$type] = (int)floor($dominion->military_draftees / $value);
+                    }
+                    elseif($type == 'wizards' or $type == 'wizard')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_wizards / $value);
+                    }
+                    elseif($type == 'archmages' or $type == 'archmage')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_archmages / $value);
+                    }
+                    elseif($type == 'spies' or $type == 'spy')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_spies / $value);
                     }
                 }
             }
@@ -491,7 +505,6 @@ class TrainingCalculator
                     $multiplier -= $unitMultiplier;
                 }
             }
-
         }
 
         // Title
@@ -540,6 +553,9 @@ class TrainingCalculator
 
         // Buildings
         $multiplier -= $dominion->getBuildingPerkMultiplier('spy_cost');
+
+        // Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('spy_cost');
 
         // Cap $multiplier at -50%
         $multiplier = max($multiplier, -0.50);
