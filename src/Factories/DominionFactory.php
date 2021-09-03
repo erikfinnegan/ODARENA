@@ -429,18 +429,15 @@ class DominionFactory
             'spy_strength' => 100,
             'wizard_strength' => 100,
 
-            /*
-            'resource_gold' => $startingResources['gold'],
-            'resource_food' =>  $startingResources['food'],
-            'resource_lumber' => $startingResources['lumber'],
-            'resource_mana' => $startingResources['mana'],
-            'resource_ore' => $startingResources['ore'],
-            'resource_gems' => $startingResources['gems'],
+            'resource_gold' => 0,
+            'resource_food' => 0,
+            'resource_lumber' => 0,
+            'resource_mana' => 0,
+            'resource_ore' => 0,
+            'resource_gems' => 0,
             'resource_champion' => 0,
-            'resource_soul' => $startingResources['soul'],
-            'resource_blood' => $startingResources['blood'],
-            */
-
+            'resource_soul' => 0,
+            'resource_blood' => 0,
 
             /*
             'improvement_markets' => $startingResources['improvement_markets'],
