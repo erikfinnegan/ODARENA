@@ -85,6 +85,7 @@ units:
     cost:
       gold: 1000
       mana: 15
+      wizard_strength: 1
     power:
       offense: 3
       defense: 4

@@ -896,7 +896,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'gem_production_mod'
                          or $perkKey == 'lumber_production_mod'
                          or $perkKey == 'mana_production_mod'
-                         or $perkKey == 'pearl_production_mod'
+                         or $perkKey == 'pearls_production_mod'
                          or $perkKey == 'tech_production_mod'
 
                          or $perkKey == 'no_gold_production'
