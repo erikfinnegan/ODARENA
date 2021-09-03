@@ -311,11 +311,11 @@
                     <div class="col-md-12">
                       <table class="table table-striped">
                           <colgroup>
-                              <col width="100">
-                              <col width="100">
-                              <col width="100">
-                              <col width="100">
-                              <col>
+                              <col width="20%">
+                              <col width="20%">
+                              <col width="20%">
+                              <col width="20%">
+                              <col width="20%">
                           </colgroup>
                           <thead>
                               <tr>
