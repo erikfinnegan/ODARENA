@@ -42,7 +42,7 @@ class ResourcesController extends AbstractDominionController
           {
               $resource = Resource::where('key', $resourceKey)->first();
 
-              $resources['resource_'.$resourceKey] = [
+              $resources[$resourceKey] = [
                   'label' => $resource->name,
                   'buy' => (float)$resource->buy,
                   'sell' => (float)$resource->sell,

@@ -276,7 +276,7 @@
 @push('inline-scripts')
     <script type="text/javascript">
         (function ($) {
-            const resources = JSON.parse('{{ json_encode($resources) }}');
+            const resources = JSON.parse('{!! json_encode($resources) !!}');
 
             // todo: let/const aka ES6 this
             var sourceElement = $('#source'),
