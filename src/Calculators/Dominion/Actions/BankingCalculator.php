@@ -83,13 +83,14 @@ class BankingCalculator
           $bonus += $dominion->title->getPerkMultiplier('exchange_rate') * $dominion->title->getPerkBonus($dominion);
 
           $bonus = min($bonus, 2);
-
+          /*
           $resources['resource_gold']['sell'] *= $bonus;
           $resources['resource_lumber']['sell'] *= $bonus;
           $resources['resource_ore']['sell'] *= $bonus;
           $resources['resource_gems']['sell'] *= $bonus;
           $resources['resource_food']['sell'] *= $bonus;
           $resources['resource_mana']['sell'] *= $bonus;
+          */
 
         return $resources;
     }

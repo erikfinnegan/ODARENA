@@ -155,7 +155,6 @@
     </div>
 
 </div>
-
 @if(!$selectedDominion->race->getPerkValue('cannot_exchange'))
     <div class="row">
         <div class="col-sm-12 col-md-9">
@@ -204,7 +203,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {{ dd($resources) }}
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="form-group col-sm-3">
