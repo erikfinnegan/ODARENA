@@ -438,6 +438,7 @@ class DominionFactory
             'resource_champion' => 0,
             'resource_soul' => 0,
             'resource_blood' => 0,
+            'resource_tech' => 0,
 
             'military_draftees' => intval($startingParameters['draftees']),
             'military_unit1' => intval($startingParameters['unit1']),
