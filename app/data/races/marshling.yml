@@ -11,10 +11,10 @@ skill_level: 3
 
 resources:
   - gold
-  - mana
-  - lumber
-  - gems
   - food
+  - lumber
+  - mana
+  - gems
 
 peasants_alias: apprentice
 

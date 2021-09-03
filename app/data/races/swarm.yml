@@ -11,9 +11,9 @@ draftees_alias: cocoon
 
 resources:
   - gold
-  - mana
-  - gems
   - food
+  - gems
+  - mana
 
 attacking: 3
 exploring : 2

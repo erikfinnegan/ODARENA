@@ -114,6 +114,7 @@ gem_mine:
   excluded_races:
     - Ants
     - Beastfolk
+    - Demon
     - Growth
     - Merfolk
     - Myconid

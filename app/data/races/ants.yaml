@@ -9,9 +9,9 @@ draftees_alias: drone
 
 resources:
   - gold
-  - mana
   - lumber
   - food
+  - mana
 
 improvement_resources:
   lumber: 2.25

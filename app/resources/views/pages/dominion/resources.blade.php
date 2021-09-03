@@ -205,7 +205,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="row">
-                                    <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-3  text-center">
                                         <label for="amount" id="amountLabel">{{ reset($resources)['label'] }}</label>
                                         <input type="number"
                                                name="amount"
@@ -217,7 +217,7 @@
                                                max="{{ reset($resources)['max'] }}"
                                                 {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                     </div>
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6 text-center">
                                         <label for="amountSlider">Amount</label>
                                         <input type="number"
                                                id="amountSlider"
@@ -228,11 +228,11 @@
                                                data-slider-max="{{ reset($resources)['max'] }}"
                                                data-slider-step="1"
                                                data-slider-tooltip="show"
-                                               data-slider-handle="triangle"
+                                               data-slider-handle="round"
                                                data-slider-id="red"
                                                 {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                     </div>
-                                    <div class="form-group col-sm-3">
+                                    <div class="form-group col-sm-3 text-center">
                                         <label id="resultLabel">{{ reset($resources)['label'] }}</label>
                                         <p id="result" class="form-control-static text-center">0</p>
                                     </div>

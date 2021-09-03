@@ -11,9 +11,9 @@ skill_level: 2
 
 resources:
   - gold
-  - mana
-  - lumber
   - food
+  - lumber
+  - mana
 
 improvement_resources:
   lumber: 3

@@ -5,7 +5,6 @@ namespace OpenDominion\Providers;
 use Bugsnag;
 use Cache;
 use Illuminate\Pagination\Paginator;
-use OpenDominion\Calculators\Dominion\Actions\BankingCalculator;
 use OpenDominion\Calculators\Dominion\Actions\ConstructionCalculator;
 use OpenDominion\Calculators\Dominion\Actions\ExplorationCalculator;
 use OpenDominion\Calculators\Dominion\Actions\RezoningCalculator;
@@ -117,7 +116,6 @@ class AppServiceProvider extends AbstractServiceProvider
         $this->app->singleton(SpellDamageCalculator::class);
 
         // Dominion Action Calculators
-        $this->app->singleton(BankingCalculator::class);
         $this->app->singleton(ConstructionCalculator::class);
         $this->app->singleton(ExplorationCalculator::class);
         $this->app->singleton(RezoningCalculator::class);

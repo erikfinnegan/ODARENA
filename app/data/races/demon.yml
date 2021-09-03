@@ -14,15 +14,18 @@ skill_level: 3
 
 resources:
   - gold
+  - food
+  - lumber
   - mana
   - blood
   - soul
-  - gems
+
+construction_materials:
+  - gold
   - lumber
 
 improvement_resources:
   gold: 1
-  lumber: 2
   gems: 12
   souls: 300
 

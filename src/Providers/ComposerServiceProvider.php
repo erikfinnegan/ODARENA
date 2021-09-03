@@ -13,6 +13,7 @@ use OpenDominion\Services\Dominion\SelectorService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Models\GameEvent;
@@ -113,6 +114,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
         view()->composer('partials.resources-overview', function (View $view)
         {
             $view->with('networthCalculator', app(NetworthCalculator::class));
+            $view->with('resourceCalculator', app(ResourceCalculator::class));
             $view->with('dominionProtectionService', app(ProtectionService::class));
             $view->with('raceHelper', app(RaceHelper::class));
             $view->with('landCalculator', app(LandCalculator::class));

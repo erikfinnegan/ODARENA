@@ -14,10 +14,10 @@ converting: 0
 skill_level: 3
 
 resources:
-  - mana
-  - lumber
-  - gems
   - food
+  - mana
+  - gems
+  - lumber
 
 peasants_production:
   food: 2

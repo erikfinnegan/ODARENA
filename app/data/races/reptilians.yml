@@ -14,10 +14,10 @@ draftees_alias: drafted one
 
 resources:
   - gold
-  - mana
-  - lumber
-  - gems
   - food
+  - lumber
+  - mana
+  - gems
 
 perks:
     population_growth: 20

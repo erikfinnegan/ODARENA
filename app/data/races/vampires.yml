@@ -13,10 +13,10 @@ playable: 1
 
 resources:
   - gold
-  - mana
+  - food
   - lumber
   - gems
-  - food
+  - mana
 
 attacking: 3
 exploring : 1

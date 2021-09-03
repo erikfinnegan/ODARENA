@@ -20,33 +20,6 @@
                 </div>
                 <div class="col-xs-2">
                     <div class="row">
-                        <div class="col-lg-6"><b>Gold:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_gold) }}</div>
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <div class="row">
-                        <div class="col-lg-6"><b>Food:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_food) }}</div>
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <div class="row">
-                        <div class="col-lg-6"><b>Ore:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_ore) }}</div>
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <div class="row">
-                        <div class="col-lg-6"><b>XP:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->xp) }}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-2">
-                    <div class="row">
                       <div class="col-lg-6"><b>Networth:</b></div>
                       <div class="col-lg-6">{{ number_format($networthCalculator->getDominionNetworth($selectedDominion)) }}</div>
                   </div>
@@ -57,30 +30,27 @@
                         <div class="col-lg-6">{{ number_format($militaryCalculator->getDefensivePower($selectedDominion)) }}</div>
                     </div>
                 </div>
+
                 <div class="col-xs-2">
                     <div class="row">
-                        <div class="col-lg-6"><b>Lumber:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_lumber) }}</div>
+                        <div class="col-lg-6"><b>XP:</b></div>
+                        <div class="col-lg-6">{{ number_format($selectedDominion->xp) }}</div>
                     </div>
                 </div>
-                <div class="col-xs-2">
-                    <div class="row">
-                        <div class="col-lg-6"><b>Mana:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_mana) }}</div>
+            </div>
+
+            <div class="row">
+                @foreach ($selectedDominion->race->resources as $resourceKey)
+                    @php
+                        $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                    @endphp
+                    <div class="col-xs-2">
+                        <div class="row">
+                            <div class="col-lg-6"><b>{{ $resource->name }}:</b></div>
+                            <div class="col-lg-6">{{ number_format($resourceCalculator->getAmount($selectedDominion, $resourceKey)) }}</div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xs-2">
-                    <div class="row">
-                        <div class="col-lg-6"><b>Gems:</b></div>
-                        <div class="col-lg-6">{{ number_format($selectedDominion->resource_gems) }}</div>
-                    </div>
-                </div>
-                <div class="col-xs-2">
-                    <div class="row">
-                        <div class="col-lg-6"></div>
-                        <div class="col-lg-6"></div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             @if ($dominionProtectionService->canTick($selectedDominion))
@@ -92,7 +62,7 @@
 
                     <select class="btn btn-warning" name="ticks">
                         @for ($i = 1; $i <= $selectedDominion->protection_ticks; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
+                            <option value="{{ $i }}">{{ $i }}</option>
                         @endfor
                     </select>
 

@@ -22,11 +22,11 @@ skill_level: 2
 
 resources:
   - gold
+  - food
+  - lumber
+  - ore
   - mana
   - blood
-  - gems
-  - lumber
-  - food
 
 improvement_resources:
   blood: 500

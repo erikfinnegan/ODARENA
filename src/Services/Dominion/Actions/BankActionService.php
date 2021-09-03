@@ -3,7 +3,6 @@
 namespace OpenDominion\Services\Dominion\Actions;
 
 use LogicException;
-use OpenDominion\Calculators\Dominion\Actions\BankingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Resource;
@@ -12,25 +11,19 @@ use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class BankActionService
 {
     use DominionGuardsTrait;
 
-    /** @var BankingCalculator */
-    protected $bankingCalculator;
     protected $spellCalculator;
     protected $statsService;
 
-    /**
-     * BankActionService constructor.
-     *
-     * @param BankingCalculator $bankingCalculator
-     */
     public function __construct()
     {
-        $this->bankingCalculator = app(BankingCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->statsService = app(StatsService::class);
@@ -68,44 +61,35 @@ class BankActionService
             throw new LogicException('Amount less than 0.');
         }
 
-        // Get the resource information.
-        $resources = $this->bankingCalculator->getResources($dominion);
-        if (empty($resources[$source])) {
-            throw new LogicException('Failed to find resource ' . $source);
-        }
-        if (empty($resources[$target])) {
-            throw new LogicException('Failed to find resource ' . $target);
-        }
-        $sourceResource = $resources[$source];
-        $targetResource = $resources[$target];
-
         $sourceResourceKey = str_replace('resource_','', $source);
         $targetResourceKey = str_replace('resource_','', $target);
 
+        $sourceResource = Resource::where('key', $sourceResourceKey)->first();
+        $targetResource = Resource::where('key', $targetResourceKey)->first();
+
         if(!in_array($sourceResourceKey, $dominion->race->resources))
         {
-            throw new GameException($dominion->race->name . ' cannot use ' . Resource::where('key', $sourceResourceKey)->first()->name . '.');
+            throw new GameException($dominion->race->name . ' cannot use ' . $sourceResource->name . '.');
         }
 
         if(!in_array($targetResourceKey, $dominion->race->resources))
         {
-            throw new GameException($dominion->race->name . ' cannot use ' . Resource::where('key', $targetResourceKey)->first()->name . '.');
+            throw new GameException($dominion->race->name . ' cannot use ' . $targetResource->name . '.');
         }
 
-        if ($amount > $dominion->{$source}) {
+        if ($amount > $this->resourceCalculator->getAmount($dominion, $sourceResourceKey)) {
             throw new GameException(sprintf(
                 'You do not have %s %s to exchange.',
                 number_format($amount),
-                $sourceResource['label']
+                $sourceResource->name
             ));
         }
 
-        $targetAmount = floor($amount * $sourceResource['sell'] * $targetResource['buy']);
+        $targetAmount = floor($amount * (float)$sourceResource->sell * (float)$targetResource->buy);
 
-        #$dominion->{$source} -= $amount;
-        #$dominion->{$target} += $targetAmount;
+        dd($targetAmount, $amount*-1, $sourceResource->sell, $targetResource->buy);
 
-        $this->resourceService->updateResources($dominion, [$sourceResourceKey => $amount]);
+        $this->resourceService->updateResources($dominion, [$sourceResourceKey => $amount*-1]);
         $this->resourceService->updateResources($dominion, [$targetResourceKey => $targetAmount]);
 
         $dominion->most_recent_exchange_from = $source;

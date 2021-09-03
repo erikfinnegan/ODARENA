@@ -3,7 +3,6 @@
 namespace OpenDominion\Http\Controllers\Dominion;
 
 # Calculators
-use OpenDominion\Calculators\Dominion\Actions\BankingCalculator;
 use OpenDominion\Calculators\Dominion\Actions\ConstructionCalculator;
 use OpenDominion\Calculators\Dominion\Actions\ExplorationCalculator;
 use OpenDominion\Calculators\Dominion\Actions\RezoningCalculator;

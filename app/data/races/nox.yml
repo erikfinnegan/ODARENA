@@ -11,10 +11,10 @@ skill_level: 2
 
 resources:
   - gold
+  - food
   - mana
   - lumber
   - gems
-  - food
 
 perks:
   food_consumption: -50

@@ -11,10 +11,10 @@ skill_level: 2
 
 resources:
   - gold
-  - mana
+  - food
   - lumber
   - gems
-  - food
+  - mana
 
 perks:
   max_population: 30

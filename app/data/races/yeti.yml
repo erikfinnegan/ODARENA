@@ -13,11 +13,11 @@ converting: 2
 skill_level: 3
 
 resources:
-  - mana
-  - ore
-  - lumber
-  - gems
   - food
+  - lumber
+  - ore
+  - gems
+  - mana
 
 construction_materials:
   - food
