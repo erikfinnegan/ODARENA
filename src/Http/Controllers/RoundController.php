@@ -279,7 +279,7 @@ class RoundController extends AbstractController
         } catch (QueryException $e) {
 
             # Useful for debugging.
-            if(request()->getHost() === 'odarena.local' or request()->getHost() === 'sim.odarena.com')
+            if(request()->getHost() === 'odarena.local' /*or request()->getHost() === 'sim.odarena.com'*/)
             {
                 dd($e->getMessage());
             }
