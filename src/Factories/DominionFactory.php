@@ -439,26 +439,6 @@ class DominionFactory
             'resource_soul' => 0,
             'resource_blood' => 0,
 
-            /*
-            'improvement_markets' => $startingResources['improvement_markets'],
-            'improvement_keep' => $startingResources['improvement_keep'],
-            'improvement_forges' => $startingResources['improvement_forges'],
-            'improvement_walls' => $startingResources['improvement_walls'],
-            'improvement_armory' => $startingResources['improvement_armory'],
-            'improvement_infirmary' => 0,
-            'improvement_workshops' => 0,
-            'improvement_observatory' => $startingResources['improvement_observatory'],
-            'improvement_cartography' => 0,
-            'improvement_towers' => 0,
-            'improvement_spires' => 0,
-            'improvement_hideouts' => 0,
-            'improvement_granaries' => 0,
-            'improvement_harbor' => $startingResources['improvement_harbor'],
-            'improvement_forestry' => 0,
-            'improvement_refinery' => 0,
-            'improvement_tissue' => 0,
-            */
-
             'military_draftees' => intval($startingParameters['draftees']),
             'military_unit1' => intval($startingParameters['unit1']),
             'military_unit2' => intval($startingParameters['unit2']),
