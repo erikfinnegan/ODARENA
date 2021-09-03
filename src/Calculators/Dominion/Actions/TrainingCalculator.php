@@ -125,6 +125,9 @@ class TrainingCalculator
                     $peasant = $units[$unitSlot]->cost_peasant;
                     $blood = $units[$unitSlot]->cost_blood;
 
+                    $wizard_strength = $units[$unitSlot]->wizard_strength;
+                    $spy_strength = $units[$unitSlot]->spy_strength;
+
                     $unit1 = $units[$unitSlot]->cost_unit1;
                     $unit2 = $units[$unitSlot]->cost_unit2;
                     $unit3 = $units[$unitSlot]->cost_unit3;
@@ -135,6 +138,7 @@ class TrainingCalculator
                     $archmage = $units[$unitSlot]->cost_archmage;
 
                     #if ($gold > 0) {
+                        $cost['gold'] = $gold;
                         $cost['gold'] = (int)ceil($gold * $this->getSpecialistEliteCostMultiplier($dominion, 'gold'));
                     #}
 
@@ -182,10 +186,10 @@ class TrainingCalculator
                     #}
 
                     // BLOOD cost for units
-                    if ($blood > 0) {
+                    #if ($blood > 0) {
                         $cost['blood'] = $blood;
                         $cost['blood'] = (int)ceil($blood * $this->getSpecialistEliteCostMultiplier($dominion, 'blood'));
-                    }
+                    #}
 
                     // UNIT1 cost for units
                     #if ($unit1 > 0) {
@@ -215,6 +219,18 @@ class TrainingCalculator
                     #if ($morale > 0) {
                         $cost['morale'] = $morale;
                         $cost['morale'] = (int)ceil($morale * $this->getSpecialistEliteCostMultiplier($dominion, 'morale'));
+                    #}
+
+                    // WIZARD STRENGTH cost for units
+                    #if ($morale > 0) {
+                        $cost['wizard_strength'] = $wizardStrength;
+                        $cost['wizard_strength'] = (int)ceil($morale * $this->getSpecialistEliteCostMultiplier($dominion, 'wizard_strength'));
+                    #}
+
+                    // SPY STRENGTH cost for units
+                    #if ($morale > 0) {
+                        $cost['spy_strength'] = $spyStrength;
+                        $cost['spy_strength'] = (int)ceil($morale * $this->getSpecialistEliteCostMultiplier($dominion, 'spy_strength'));
                     #}
 
                     // PEASANT cost for units
@@ -274,33 +290,6 @@ class TrainingCalculator
     {
         $trainable = [];
 
-        $fieldMapping = [
-            #'gold' => 'resource_gold',
-            #'ore' => 'resource_ore',
-            'draftees' => 'military_draftees',
-            'wizards' => 'military_wizards',
-
-            #'food' => 'resource_food',
-            #'mana' => 'resource_mana',
-            #'gem' => 'resource_gems',
-            #'lumber' => 'resource_lumber',
-            'prestige' => 'prestige',
-            #'champion' => 'resource_champion',
-            #'soul' => 'resource_soul',
-            'morale' => 'morale',
-            'peasant' => 'peasants',
-            #'blood' => 'resource_blood',
-
-            'unit1' => 'military_unit1',
-            'unit2' => 'military_unit2',
-            'unit3' => 'military_unit3',
-            'unit4' => 'military_unit4',
-
-            'spy' => 'military_spies',
-            'wizard' => 'military_wizards',
-            'archmage' => 'military_archmages',
-        ];
-
         $costsPerUnit = $this->getTrainingCostsPerUnit($dominion);
 
         foreach ($costsPerUnit as $unitType => $costs)
@@ -334,6 +323,22 @@ class TrainingCalculator
                     elseif($type == 'spies' or $type == 'spy')
                     {
                         $trainableByCost[$type] = (int)floor($dominion->military_spies / $value);
+                    }
+                    elseif($type == 'prestige')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->prestige / $value);
+                    }
+                    elseif($type == 'wizard_strength')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->wizard_strength / $value);
+                    }
+                    elseif($type == 'spy_strength')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->spy_strength / $value);
+                    }
+                    elseif($type == 'peasant' or $type == 'peasants')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->peasants / $value);
                     }
                 }
             }

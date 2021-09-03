@@ -218,8 +218,6 @@ class DataSyncCommand extends Command implements CommandInterface
                     'power_defense' => object_get($unitData, 'power.defense', 0),
                     'training_time' => (int)object_get($unitData, 'training_time', null),
                     'type' => object_get($unitData, 'type'),
-
-                    // New unit cost resources
                     'cost_food' => object_get($unitData, 'cost.food', 0),
                     'cost_mana' => object_get($unitData, 'cost.mana', 0),
                     'cost_gem' => object_get($unitData, 'cost.gem', 0),
@@ -236,6 +234,8 @@ class DataSyncCommand extends Command implements CommandInterface
                     'cost_wizard' => object_get($unitData, 'cost.wizard', 0),
                     'cost_archmage' => object_get($unitData, 'cost.archmage', 0),
                     'cost_morale' => object_get($unitData, 'cost.morale', 0),
+                    'cost_spy_strength' => object_get($unitData, 'cost.spy_strength', 0),
+                    'cost_wizard_strength' => object_get($unitData, 'cost.wizard_strength', 0),
                     'cost_peasant' => object_get($unitData, 'cost.peasant', 0),
                     'static_networth' => object_get($unitData, 'static_networth', 0),
                 ]);
