@@ -15,7 +15,6 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Services\Dominion\QueueService;
 
-use OpenDominion\Calculators\Dominion\Actions\BankingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\BankActionRequest;
 use OpenDominion\Services\Analytics\AnalyticsEvent;
@@ -58,7 +57,6 @@ class ResourcesController extends AbstractDominionController
               'resourceCalculator' => $resourceCalculator,
               'realmCalculator' => app(RealmCalculator::class),
               'raceHelper' => app(RaceHelper::class),
-              'bankingCalculator' => app(BankingCalculator::class),
               'resources' => $resources,
           ]);
     }
