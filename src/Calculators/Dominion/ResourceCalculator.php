@@ -92,8 +92,8 @@ class ResourceCalculator
         $production += $dominion->getImprovementPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getTechPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw');
-        $multiplier += $dominion->title->getPerkValue($resourceKey . '_production_raw');
-        $multiplier += $dominion->race->getPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->title->getPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->race->getPerkValue($resourceKey . '_production_raw');
 
         if(isset($dominion->race->peasants_production[$resourceKey]))
         {
