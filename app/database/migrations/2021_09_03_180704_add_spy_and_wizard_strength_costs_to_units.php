@@ -14,8 +14,8 @@ class AddSpyAndWizardStrengthCostsToUnits extends Migration
     public function up()
     {
         Schema::table('units', function (Blueprint $table) {
-            $table->integer('cost_spy_strength')->default(0)->after('cost_morale');
-            $table->integer('cost_wizard_strength')->default(0)->after('cost_spy_strength');
+            $table->decimal('cost_spy_strength')->default(0)->after('cost_morale');
+            $table->decimal('cost_wizard_strength')->default(0)->after('cost_spy_strength');
         });
     }
 

@@ -60,6 +60,6 @@ seed:
 pearls:
   name: Pearls
   buy: null
-  sell: 4
+  sell: 3
   exclusive_races:
     - Merfolk

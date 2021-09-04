@@ -225,6 +225,14 @@
                                                 $unitCostString .= (', ' . number_format($unit->cost_archmage) . '  ArchMage');
                                             }
 
+                                            if ($unit->cost_spy_strength > 0) {
+                                                $unitCostString .= (', ' . number_format($unit->cost_spy_strength) . '% Spy Strength');
+                                            }
+
+                                            if ($unit->cost_wizard_strength > 0) {
+                                                $unitCostString .= (', ' . number_format($unit->cost_wizard_strength) . '% Wizard Strength');
+                                            }
+
                                         @endphp
                                         {{ $unitCostString }}
                                     @endif

@@ -44,6 +44,8 @@ class Unit extends AbstractModel
         'cost_unit3' => 'integer',
         'cost_unit4' => 'integer',
         'cost_morale' => 'integer',
+        'cost_wizard_strength' => 'integer',
+        'cost_spy_strength' => 'integer',
         'cost_peasant' => 'integer',
         'cost_spy' => 'integer',
         'cost_wizard' => 'integer',

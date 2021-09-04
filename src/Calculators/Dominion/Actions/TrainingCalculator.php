@@ -112,8 +112,6 @@ class TrainingCalculator
 
                     $gold = $units[$unitSlot]->cost_gold;
                     $ore = $units[$unitSlot]->cost_ore;
-
-                    // New unit cost resources
                     $food = $units[$unitSlot]->cost_food;
                     $mana = $units[$unitSlot]->cost_mana;
                     $gem = $units[$unitSlot]->cost_gem;
@@ -124,9 +122,8 @@ class TrainingCalculator
                     $morale = $units[$unitSlot]->cost_morale;
                     $peasant = $units[$unitSlot]->cost_peasant;
                     $blood = $units[$unitSlot]->cost_blood;
-
-                    $wizard_strength = $units[$unitSlot]->wizard_strength;
-                    $spy_strength = $units[$unitSlot]->spy_strength;
+                    $wizardStrength = $units[$unitSlot]->cost_wizard_strength;
+                    $spyStrength = $units[$unitSlot]->cost_spy_strength;
 
                     $unit1 = $units[$unitSlot]->cost_unit1;
                     $unit2 = $units[$unitSlot]->cost_unit2;
