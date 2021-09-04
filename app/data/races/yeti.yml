@@ -28,7 +28,6 @@ wizards_cost: 200,food
 archmages_cost: 400,food
 
 perks:
-  no_gold_production: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   construction_cost: -50
