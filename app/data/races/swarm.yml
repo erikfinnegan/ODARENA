@@ -21,7 +21,7 @@ converting: 3
 skill_level: 2
 
 peasants_production:
-  - gold: 2
+  gold: 2
 
 construction_materials:
   - gold
