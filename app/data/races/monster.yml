@@ -95,6 +95,6 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       pairing_limit: 1,0.007 # Unit slot, amount - 1/0.007=142, one Head per 142 Muscles
-      tech_production: 100
-      mana_production: 25
+      xp_generation_raw: 100
+      mana_production_raw: 25
       plunders: food;1000,mana;1000

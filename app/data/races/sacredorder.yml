@@ -45,7 +45,7 @@ units:
       defense: 1
     perks:
         reduces_casualties: 1
-        tech_production: 0.03
+        xp_generation_raw: 0.03
 
   - name: Fanatic
     training_time: 10

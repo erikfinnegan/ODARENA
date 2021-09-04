@@ -243,8 +243,8 @@ class UnitHelper
             'ore_production_raw' => 'Each unit produces %s units of ore per tick.',
             'mana_production_raw' => 'Each unit generates %s mana per tick.',
             'gem_production_raw' => 'Each unit mines %s gems per tick.',
-            'tech_production' => 'Each unit produces %s experience points per tick.',
-            'xp_generation' => 'Each unit generates %s experience points per tick.',
+
+            'xp_generation_raw' => 'Each unit generates %s experience points per tick.',
 
             'food_consumption' => 'Eats %s halms of food extra.',
 

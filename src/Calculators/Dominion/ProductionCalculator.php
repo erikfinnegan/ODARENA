@@ -770,14 +770,14 @@ class ProductionCalculator
              return 0;
          }
 
-         $tech = max(0, floor($dominion->prestige));
+         $xp = max(0, floor($dominion->prestige));
 
-         $tech += $dominion->getUnitPerkProductionBonus('xp_production');
+         $xp += $dominion->getUnitPerkProductionBonus('xp_generation_raw');
 
          // Unit Perk: production_from_title
-         $tech += $dominion->getUnitPerkProductionBonusFromTitle('xp');
+         $xp += $dominion->getUnitPerkProductionBonusFromTitle('xp');
 
-         return max(0,$tech);
+         return max(0, $xp);
      }
 
     /**
@@ -794,25 +794,25 @@ class ProductionCalculator
         $multiplier = 0;
 
         // Racial Bonus
-        $multiplier += $dominion->race->getPerkMultiplier('tech_production');
+        $multiplier += $dominion->race->getPerkMultiplier('xp_generation_mod');
 
         // Buildings
-        $multiplier += $dominion->getBuildingPerkMultiplier('tech_production_mod');
+        $multiplier += $dominion->getBuildingPerkMultiplier('xp_generation_mod');
 
         // Deity
-        $multiplier += $dominion->getDeityPerkMultiplier('tech_production');
+        $multiplier += $dominion->getDeityPerkMultiplier('xp_generation_mod');
 
         // Title
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier('tech_production') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('xp_generation_mod') * $dominion->title->getPerkBonus($dominion);
         }
 
         // Spell
-        $multiplier += $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'tech_production');
+        $multiplier += $dominion->getSpellPerkMultiplier('xp_generation_mod');
 
         // Improvements
-        $multiplier += $dominion->getImprovementPerkMultiplier('tech_production');
+        $multiplier += $dominion->getImprovementPerkMultiplier('xp_generation_mod');
 
         return (1 + $multiplier);
     }

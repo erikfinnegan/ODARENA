@@ -211,8 +211,8 @@ research:
     - Void
     - Wood Elf
   perks:
-    tech_production_mod: 25,5000
-    tech_gains: 25,5000
+    xp_generation_mod: 25,5000
+    xp_gains: 25,5000
 
 mining:
   name: Stonecutting
@@ -475,8 +475,8 @@ awareness:
     - Sylvan
   perks:
     spy_strength: 60,6000
-    tech_production_mod: 40,6000
-    tech_gains: 60,4000
+    xp_generation_mod: 40,6000
+    xp_gains: 60,4000
 
 bloom:
   name: Bloom
@@ -737,8 +737,8 @@ tutoring:
   exclusive_races:
     - Wood Elf
   perks:
-    tech_production_mod: 45,7500
-    tech_gains: 45,7500
+    xp_generation_mod: 45,7500
+    xp_gains: 45,7500
 
 wizardry_wood_elf:
   name: Wizardry

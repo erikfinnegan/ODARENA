@@ -238,7 +238,7 @@ dock:
   land_type: water
   perks:
     food_production_raw: 40
-    tech_production_mod: 1,5,25 #Every 1% gives +5% XP production, max +25%
+    xp_generation_mod: 1,5,25 #Every 1% gives +5% XP production, max +25%
     exchange_rate: 1,4,20 # Every 1% gives +4% exchange rate, max +20%
 
 watermill:

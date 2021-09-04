@@ -21,7 +21,7 @@ perks:
   barren_forest_lumber_production: 60
   extra_barren_forest_max_population: 10
   extra_barren_forest_jobs: 20
-  tech_production: 100
+  xp_generation_mod: 100
   salvaging: 35
 
 units:

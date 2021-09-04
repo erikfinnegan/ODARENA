@@ -47,7 +47,7 @@ excavator:
 researcher:
   name: Researcher
   perks:
-    tech_production_mod: 5
+    xp_generation_mod: 5
 
 healer:
   name: Healer
