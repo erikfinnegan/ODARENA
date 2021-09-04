@@ -237,13 +237,14 @@ class UnitHelper
             'dies_into_multiple_on_victory' => 'Upon death in succesful combat, returns as %2$s %1$s. If unsuccessful, returns as %3$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
             // Resource related
-            'ore_production' => 'Each unit produces %s units of ore per tick.',
-            'mana_production' => 'Each unit generates %s mana per tick.',
-            'lumber_production' => 'Each unit collects %s lumber per tick.',
-            'food_production' => 'Each unit produces %s food per tick.',
-            'gem_production' => 'Each unit mines %s gems per tick.',
+            'gold_production_raw' => 'Each unit produces %s gold points per tick.',
+            'food_production_raw' => 'Each unit produces %s food per tick.',
+            'lumber_production_raw' => 'Each unit collects %s lumber per tick.',
+            'ore_production_raw' => 'Each unit produces %s units of ore per tick.',
+            'mana_production_raw' => 'Each unit generates %s mana per tick.',
+            'gem_production_raw' => 'Each unit mines %s gems per tick.',
             'tech_production' => 'Each unit produces %s experience points per tick.',
-            'gold_production' => 'Each unit produces %s gold points per tick.',
+            'xp_generation' => 'Each unit generates %s experience points per tick.',
 
             'food_consumption' => 'Eats %s halms of food extra.',
 
