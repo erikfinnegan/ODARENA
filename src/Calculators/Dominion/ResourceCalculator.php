@@ -20,8 +20,11 @@ use OpenDominion\Services\Dominion\QueueService;
 class ResourceCalculator
 {
 
-
+    protected $landHelper;
+    protected $unitHelper;
     protected $landCalculator;
+    protected $prestigeCalculator;
+    protected $queueService;
 
     public function __construct(
 
@@ -89,6 +92,8 @@ class ResourceCalculator
         $production += $dominion->getImprovementPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getTechPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw');
+        $multiplier += $dominion->title->getPerkValue($resourceKey . '_production_raw');
+        $multiplier += $dominion->race->getPerkValue($resourceKey . '_production_raw');
 
         if(isset($dominion->race->peasants_production[$resourceKey]))
         {

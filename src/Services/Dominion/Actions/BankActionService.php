@@ -87,8 +87,6 @@ class BankActionService
 
         $targetAmount = floor($amount * (float)$sourceResource->sell * (float)$targetResource->buy);
 
-        dd($targetAmount, $amount*-1, $sourceResource->sell, $targetResource->buy);
-
         $this->resourceService->updateResources($dominion, [$sourceResourceKey => $amount*-1]);
         $this->resourceService->updateResources($dominion, [$targetResourceKey => $targetAmount]);
 

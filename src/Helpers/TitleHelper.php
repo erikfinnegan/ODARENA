@@ -69,17 +69,29 @@ class TitleHelper
                 $description = 'Exploration time:';
                 $valueType = ' ticks';
                 break;
-            case 'ore_production':
+            case 'gold_production_mod':
+                $negativeBenefit = false;
+                $description = 'Gold production:';
+                break;
+            case 'ore_production_mod':
                 $negativeBenefit = false;
                 $description = 'Ore production:';
                 break;
-            case 'gem_production':
+            case 'lumber_production_mod':
+                $negativeBenefit = false;
+                $description = 'Lumber production:';
+                break;
+            case 'gem_production_mod':
                 $negativeBenefit = false;
                 $description = 'Gem production:';
                 break;
-            case 'tech_production':
+            case 'mana_production_mod':
+                $negativeBenefit = true;
+                $description = 'Mana production:';
+                break;
+            case 'tech_production_mod':
                 $negativeBenefit = false;
-                $description = 'XP production:';
+                $description = 'XP generation:';
                 break;
             case 'casualties':
                 $negativeBenefit = true;
@@ -88,10 +100,6 @@ class TitleHelper
             case 'conversions':
                 $negativeBenefit = false;
                 $description = 'Units converted (only applicable to Afflicted, Cult, and Sacred Order):';
-                break;
-            case 'lumber_production':
-                $negativeBenefit = false;
-                $description = 'Lumber production:';
                 break;
             case 'exchange_rate':
                 $negativeBenefit = false;
