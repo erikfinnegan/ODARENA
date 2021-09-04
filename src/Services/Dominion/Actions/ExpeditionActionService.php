@@ -170,9 +170,9 @@ class ExpeditionActionService
                 # Get the unit attributes
                 $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
 
-                if (count(array_intersect($disallowedUnitAttributes, $unitAttributes)) === 0)
+                if (count(array_intersect($disallowedUnitAttributes, $unitAttributes)) !== 0)
                 {
-                    throw new GameException('Ammunition or immobile units cannot be used for expeditions.');
+                    throw new GameException('Ammunition and immobile units cannot be used for expeditions.');
                 }
             }
 
