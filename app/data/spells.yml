@@ -45,7 +45,7 @@ gaias_watch:
     - Undead
     - Void
   perks:
-    food_production: 10
+    food_production_mod: 10
 
 harmony:
   name: Druva's Chant
@@ -119,7 +119,7 @@ mining_strength:
     - Weres
     - Wood Elf
   perks:
-    ore_production: 10
+    ore_production_mod: 10
 
 fools_gold:
   name: Mirnon's Vault
@@ -282,7 +282,7 @@ insect_swarm:
   duration: 24
   cooldown: 0
   perks:
-    food_production: -10
+    food_production_mod: -10
 
 earthquake:
   name: Earthquake
@@ -292,8 +292,8 @@ earthquake:
   duration: 24
   cooldown: 0
   perks:
-    ore_production: -5
-    gem_production: -5
+    ore_production_mod: -5
+    gem_production_mod: -5
 
 plague:
   name: Plague
@@ -314,7 +314,7 @@ great_flood:
   duration: 24
   cooldown: 0
   perks:
-    boat_production: -25
+    boat_production_mod: -25
 
 fireball:
   name: Fireball
@@ -559,8 +559,8 @@ gaias_blessing:
   exclusive_races:
     - Sylvan
   perks:
-    food_production: 30
-    lumber_production: 10
+    food_production_mod: 30
+    lumber_production_mod: 10
 
 nightfall:
   name: Nightfall
@@ -624,8 +624,8 @@ miners_sight:
     - Gnome
     - Troll
   perks:
-    ore_production: 20
-    gem_production: 5
+    ore_production_mod: 20
+    gem_production_mod: 5
 
 alchemist_flame:
   name: Alchemist Flame
@@ -638,7 +638,7 @@ alchemist_flame:
   exclusive_races:
     - Firewalker
   perks:
-    alchemy_production: 30
+    alchemy_production_mod: 30
 
 voidspell:
   name: ⫷⋗⫸◬
@@ -921,12 +921,12 @@ rainy_season:
   perks:
     defensive_power: 100
     population_growth: 100
-    food_production: 50
-    lumber_production: 50
+    food_production_mod: 50
+    lumber_production_mod: 50
     cannot_invade: 1
     cannot_explore: 1
-    no_ore_production: 1
-    no_gem_production: 1
+    no_ore_production_mod: 1
+    no_gem_production_mod: 1
 
 elementals_hill:
   name: Druva's Rising
@@ -1104,8 +1104,8 @@ fine_arts:
   exclusive_races:
     - Vampires
   perks:
-    gold_production: 5
-    gem_production: 5
+    gold_production_mod: 5
+    gem_production_mod: 5
 
 dark_rites:
   name: Dark Rites
@@ -1231,8 +1231,8 @@ great_fever:
     - Afflicted
   perks:
     population_growth: -80
-    gold_production: -10
-    food_production: -20
+    gold_production_mod: -10
+    food_production_mod: -20
 
 festering_wounds:
   name: Festering Wounds
