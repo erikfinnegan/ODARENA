@@ -4,6 +4,7 @@ namespace OpenDominion\Services\Dominion\Actions;
 
 use OpenDominion\Calculators\Dominion\Actions\RezoningCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\HistoryService;
@@ -37,6 +38,7 @@ class RezoneActionService
         $this->rezoningCalculator = app(RezoningCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->statsService = app(StatsService::class);
@@ -99,13 +101,12 @@ class RezoneActionService
         $cost = $totalLand * $this->rezoningCalculator->getRezoningCost($dominion);
         $resource = $this->rezoningCalculator->getRezoningMaterial($dominion);
 
-        if($cost > $dominion->{'resource_'.$resource})
+        if($cost > $this->resourceCalculator->getAmount($dominion,$resource))
         {
             throw new GameException("You do not have enough $resource to re-zone {$totalLand} acres of land.");
         }
 
         # All fine, perform changes.
-        $dominion->{'resource_'.$resource} -= $cost;
         $this->resourceService->updateResources($dominion, [$resource => $cost]);
 
         # Update spending statistics.

@@ -183,7 +183,7 @@ class ExploreActionService
         $this->statsService->updateStat($dominion, 'land_explored', $totalLandToExplore);
         $this->statsService->updateStat($dominion, 'gold_exploring', $goldCost);
 
-        DB::transaction(function () use ($dominion, $data, $newMorale, $newGold, $newDraftees, $totalLandToExplore, $researchPointsGained, $goldCost, $ticks) {
+        DB::transaction(function () use ($dominion, $data, $newMorale, $newDraftees, $totalLandToExplore, $researchPointsGained, $goldCost, $ticks) {
             $this->queueService->queueResources('exploration', $dominion, $data, $ticks);
             $this->queueService->queueResources('exploration',$dominion,['xp' => $researchPointsGained], $ticks);
 
@@ -192,7 +192,7 @@ class ExploreActionService
                 'military_draftees' => $newDraftees
             ])->save(['event' => HistoryService::EVENT_ACTION_EXPLORE]);
 
-            $this->resourceService->updateResources($dominion, ['gold' => $goldCost]);
+            $this->resourceService->updateResources($dominion, ['gold' => $goldCost*-1]);
         });
 
         return [
