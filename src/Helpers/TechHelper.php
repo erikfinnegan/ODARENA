@@ -48,12 +48,19 @@ class TechHelper
             'wizard_strength_recovery' => '%s wizard strength per hour',
 
             // Resource related
-            'food_production' => '%s%% food production',
-            'gem_production' => '%s%% gem production',
-            'lumber_production' => '%s%% lumber production',
-            'mana_production' => '%s%% mana production',
-            'ore_production' => '%s%% ore production',
-            'gold_production' => '%s%% gold production',
+            'food_production_mod' => '%s%% food production',
+            'gem_production_mod' => '%s%% gem production',
+            'lumber_production_mod' => '%s%% lumber production',
+            'mana_production_mod' => '%s%% mana production',
+            'ore_production_mod' => '%s%% ore production',
+            'gold_production_mod' => '%s%% gold production',
+
+            'food_production_raw' => '%s% food/tick production',
+            'gem_production_raw' => '%s% gem/tick production',
+            'lumber_production_raw' => '%s% lumber/tick production',
+            'mana_production_raw' => '%s% mana/tick production',
+            'ore_production_raw' => '%s% ore/tick production',
+            'gold_production_raw' => '%s% gold/tick production',
 
             // ODA
             'prestige_gains' => '%s%% higher prestige gains',
