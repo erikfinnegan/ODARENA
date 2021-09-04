@@ -46,8 +46,8 @@ units:
       offense: 0
       defense: 0
     perks:
-      gem_production: 0.65
-      lumber_production: 1
+      gem_production_raw: 0.65
+      lumber_production_raw: 1
       food_consumption: 0.5
 
   - name: Wizard Yeti

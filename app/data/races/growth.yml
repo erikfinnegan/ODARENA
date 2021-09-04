@@ -79,8 +79,8 @@ units:
       offense: 0
       defense: 1
     perks:
-        mana_production: 0.025
-        food_production: 0.50
+        mana_production_raw: 0.025
+        food_production_raw: 0.50
 
   - name: Ulcer
     training_time: 12

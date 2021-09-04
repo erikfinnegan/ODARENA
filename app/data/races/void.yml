@@ -86,7 +86,7 @@ units:
       offense: 0
       defense: 5
     perks:
-      mana_production: 1
+      mana_production_raw: 1
       defense_per_tick: 0.003,5 # amount, max
       counts_as_wizard_defense: 0.25
 

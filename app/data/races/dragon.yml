@@ -36,7 +36,7 @@ units:
       offense: 0
       defense: 2
     perks:
-      food_production: 6
+      food_production_raw: 6
 
   - name: Driller
     training_time: 3
@@ -52,7 +52,7 @@ units:
       offense: 0
       defense: 0
     perks:
-      gem_production: 1.2
+      gem_production_raw: 1.2
       building_limit: gem_mine,20 # building, buildings per unit, imp to increase
 
   - name: Mercenary

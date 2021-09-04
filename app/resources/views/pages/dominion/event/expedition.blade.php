@@ -95,8 +95,8 @@
                             @if ($event->source->realm->id === $selectedDominion->realm->id)
                             <table class="table">
                                 <colgroup>
-                                    <col width="25%">
-                                    <col width="75%">
+                                    <col width="33%">
+                                    <col>
                                 </colgroup>
                                 <tbody>
                                     <tr>

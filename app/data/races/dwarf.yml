@@ -66,7 +66,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      ore_production: 2
+      ore_production_raw: 2
 
   - name: Cleric
     training_time: 12

@@ -55,7 +55,7 @@ units:
     perks:
       counts_as_wizard_offense: 0.1667
       counts_as_wizard_defense: 0.1667
-      mana_production: 0.05
+      mana_production_raw: 0.05
 
   - name: Nightshade
     training_time: 8
@@ -85,7 +85,6 @@ units:
     cost:
       gold: 1000
       mana: 15
-      wizard_strength: 1
     power:
       offense: 3
       defense: 4

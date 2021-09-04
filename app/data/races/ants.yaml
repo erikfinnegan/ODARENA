@@ -13,6 +13,9 @@ resources:
   - food
   - mana
 
+peasants_production:
+  gold: 2.25
+
 improvement_resources:
   lumber: 2.25
 
@@ -24,7 +27,6 @@ skill_level: 2
 perks:
   construction_cost: -25
   food_consumption: -50
-  gold_production: -15
   explore_cost: 25
   reduced_conversions: 35
   draftee_dp: 0.1
@@ -54,8 +56,8 @@ units:
       offense: 0
       defense: 1.5
     perks:
-      food_production: 0.25
-      lumber_production: 0.5
+      food_production_raw: 0.25
+      lumber_production_raw: 0.5
 
   - name: Giant Ant
     training_time: 12

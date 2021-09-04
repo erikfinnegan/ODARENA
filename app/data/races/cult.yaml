@@ -44,6 +44,7 @@ units:
       defense: 3
     perks:
       displaced_peasants_conversion: 1 # Slot
+      cannot_be_trained: 1
 
   - name: Disciple
     training_time: 6
@@ -57,8 +58,8 @@ units:
       offense: 0
       defense: 6
     perks:
-      food_production: 1
-      gold_production: 2.7
+      food_production_raw: 1
+      gold_production_raw: 2.7
       reduces_casualties: 1
       unit_production: 2,0.005 # Every 125 Disciples produce 1 Initiate
 
