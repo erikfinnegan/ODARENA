@@ -70,8 +70,9 @@ class TitleHelper
                 $valueType = ' ticks';
                 break;
             case 'explore_prestige_per_acre':
-                $negativeBenefit = true;
+                $negativeBenefit = false;
                 $description = 'Prestige per explored acre:';
+                $valueType = '';
                 break;
             case 'gold_production_mod':
                 $negativeBenefit = false;
