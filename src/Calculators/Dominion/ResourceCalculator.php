@@ -234,6 +234,8 @@ class ResourceCalculator
         {
             return ($this->getAmount($dominion, 'food') + ($this->getProduction($dominion, 'food') - $this->getConsumption($dominion, 'food')) < 0);
         }
+
+        return false;
     }
 
     #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
