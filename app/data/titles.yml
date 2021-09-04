@@ -42,12 +42,12 @@ excavator:
   name: Excavator
   perks:
     ore_production_mod: 10
-    gem_production_mid: 10
+    gem_production_mod: 10
 
 researcher:
   name: Researcher
   perks:
-    tech_production_mid: 5
+    tech_production_mod: 5
 
 healer:
   name: Healer
