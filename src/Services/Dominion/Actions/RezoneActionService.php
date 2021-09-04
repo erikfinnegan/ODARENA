@@ -107,7 +107,7 @@ class RezoneActionService
         }
 
         # All fine, perform changes.
-        $this->resourceService->updateResources($dominion, [$resource => $cost]);
+        $this->resourceService->updateResources($dominion, [$resource => $cost*-1]);
 
         # Update spending statistics.
         $this->statsService->updateStat($dominion, ($resource . '_rezoning'), $cost);
