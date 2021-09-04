@@ -47,7 +47,11 @@
                     <div class="col-xs-2">
                         <div class="row">
                             <div class="col-lg-6"><b>{{ $resource->name }}:</b></div>
-                            <div class="col-lg-6">{{ number_format($resourceCalculator->getAmount($selectedDominion, $resourceKey)) }}</div>
+                            <div class="col-lg-6">
+                                <span data-toggle="tooltip" data-placement="top" title="{{ number_format($resourceCalculator->getProduction($selectedDominion, $resourceKey) - $resourceCalculator->getConsumption($selectedDominion, $resourceKey)) . ' ' . $resource->name }}/tick">
+                                    {{ number_format($resourceCalculator->getAmount($selectedDominion, $resourceKey)) }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 @endforeach

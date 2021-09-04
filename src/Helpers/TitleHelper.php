@@ -69,6 +69,10 @@ class TitleHelper
                 $description = 'Exploration time:';
                 $valueType = ' ticks';
                 break;
+            case 'explore_prestige_per_acre':
+                $negativeBenefit = true;
+                $description = 'Prestige per explored acre:';
+                break;
             case 'gold_production_mod':
                 $negativeBenefit = false;
                 $description = 'Gold production:';

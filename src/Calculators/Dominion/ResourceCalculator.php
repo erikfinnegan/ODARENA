@@ -122,11 +122,6 @@ class ResourceCalculator
 
         $production *= (0.9 + $dominion->morale / 1000); # Can't use militaryCalculator->getMoraleMultiplier()
 
-        if($resourceKey == 'food')
-        {
-            $production *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
-        }
-
         return max(0, $production);
     }
 
@@ -142,7 +137,12 @@ class ResourceCalculator
         $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getUnitPerkProductionBonusFromTitle($resourceKey);
 
-        return $multiplier;
+        if($resourceKey == 'food')
+        {
+            $multiplier *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+        }
+
+        return 1;$multiplier;
     }
 
     public function getConsumption(Dominion $dominion, string $resourceKey): int

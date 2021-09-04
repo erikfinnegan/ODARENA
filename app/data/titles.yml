@@ -36,6 +36,7 @@ pathfinder:
   perks:
     explore_cost: -15
     explore_time: -2
+    explore_prestige_per_acre: 0.2
 
 excavator:
   name: Excavator

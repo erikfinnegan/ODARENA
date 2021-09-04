@@ -658,7 +658,6 @@ class Dominion extends AbstractModel
                           or $perkKey == 'tech_production'
                           or $perkKey == 'draftee_generation'
 
-
                           or $perkKey == 'gold_production_raw'
                           or $perkKey == 'food_production_raw'
                           or $perkKey == 'ore_production_raw'

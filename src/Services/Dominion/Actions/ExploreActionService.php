@@ -187,6 +187,11 @@ class ExploreActionService
             $this->queueService->queueResources('exploration', $dominion, $data, $ticks);
             $this->queueService->queueResources('exploration',$dominion,['xp' => $researchPointsGained], $ticks);
 
+            if($explorePrestigePerk = $dominion->title->getPerkValue('explore_prestige_per_acre'))
+            {
+                $this->queueService->queueResources('exploration',$dominion,['prestige' => intval($totalLandToExplore * $explorePrestigePerk)], $ticks);
+            }
+
             $dominion->fill([
                 'morale' => $newMorale,
                 'military_draftees' => $newDraftees
