@@ -13,6 +13,7 @@ use OpenDominion\Models\Resource;
 use OpenDominion\Models\DominionResource;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
+#use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
@@ -32,6 +33,7 @@ class ResourceCalculator
           UnitHelper $unitHelper,
 
           LandCalculator $landCalculator,
+          #MilitaryCalculator $militaryCalculator,
           PrestigeCalculator $prestigeCalculator,
 
           QueueService $queueService
@@ -41,6 +43,7 @@ class ResourceCalculator
         $this->unitHelper = app(UnitHelper::class);
 
         $this->landCalculator = $landCalculator;
+        #$this->militaryCalculator = $militaryCalculator;
         $this->prestigeCalculator = $prestigeCalculator;
 
         $this->queueService = $queueService;
@@ -117,11 +120,11 @@ class ResourceCalculator
 
         $production *= $this->getProductionMultiplier($dominion, $resourceKey);
 
-        $production *= 0.90 + $dominion->morale / 1000; # RIP getMoraleMultiplier
+        $production *= (0.9 + $dominion->morale / 1000); # Can't use militaryCalculator->getMoraleMultiplier()
 
         if($resourceKey == 'food')
         {
-            $production *= $this->prestigeCalculator->getPrestigeMultiplier($dominion);
+            $production *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
         }
 
         return max(0, $production);
