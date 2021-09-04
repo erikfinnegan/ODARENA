@@ -23,7 +23,7 @@ commerce:
     - Void
     - Wood Elf
   perks:
-    gold_production: 25,4000
+    gold_production_mod: 25,4000
 
 construction:
   name: Construction
@@ -119,7 +119,7 @@ irrigation:
     - Void
     - Wood Elf
   perks:
-    food_production: 45,5000
+    food_production_mod: 45,5000
 
 housing:
   name: Housing
@@ -145,7 +145,7 @@ logging:
     - Void
     - Wood Elf
   perks:
-    lumber_production: 25,4000
+    lumber_production_mod: 25,4000
 
 medicine:
   name: Medicine
@@ -199,7 +199,7 @@ research:
     - Void
     - Wood Elf
   perks:
-    tech_production: 25,5000
+    tech_production_mod: 25,5000
     tech_gains: 25,5000
 
 mining:
@@ -213,7 +213,7 @@ mining:
     - Void
     - Wood Elf
   perks:
-    ore_production: 25,4000
+    ore_production_mod: 25,4000
 
 wizardry:
   name: Wizardry
@@ -231,7 +231,7 @@ wizardry:
     - Wood Elf
   perks:
     wizard_strength: 45,5000
-    mana_production: 45,5000
+    mana_production_mod: 45,5000
     spell_damage: -45,5000
     wizard_guild_housing: 45,5000
 
@@ -242,7 +242,7 @@ wizardry_nox:
     - Nox
   perks:
     wizard_strength: 45,5000
-    mana_production: 45,5000
+    mana_production_mod: 45,5000
     spell_damage: -45,5000
     wizard_guild_housing: 45,5000
     unit_pairing: 45,5000
@@ -254,7 +254,7 @@ wizardry_qur:
     - Qur
   perks:
     wizard_strength: 45,5000
-    mana_production: 45,5000
+    mana_production_mod: 45,5000
     spell_damage: -45,5000
     wizard_guild_housing: 45,5000
 
@@ -265,7 +265,7 @@ wizardry_reptilians:
     - Reptilians
   perks:
     wizard_strength: 45,5000
-    mana_production: 45,5000
+    mana_production_mod: 45,5000
     spell_damage: -45,5000
     wizard_guild_housing: 45,5000
     unit_pairing: 45,5000
@@ -277,7 +277,7 @@ wizardry_undead:
     - Undead
   perks:
     wizard_strength: 45,5000
-    mana_production: 45,5000
+    mana_production_mod: 45,5000
     spell_damage: -45,5000
     wizard_guild_housing: 45,5000
     unit_pairing: 45,5000
@@ -316,14 +316,14 @@ glimmering:
   exclusive_races:
     - Troll
   perks:
-    gold_production: 50,4000
+    gold_production_mod: 50,4000
 
 hunting:
   name: Hunting
   exclusive_races:
     - Troll
   perks:
-    food_production: 90,5000
+    food_production_mod: 90,5000
 
 muttering:
   name: Muttering
@@ -331,7 +331,7 @@ muttering:
     - Troll
   perks:
     wizard_strength: 90,5000
-    mana_production: 90,5000
+    mana_production_mod: 90,5000
     spell_damage: -90,5000
     wizard_guild_housing: 90,5000
 
@@ -347,7 +347,7 @@ rock_throwing:
   exclusive_races:
     - Troll
   perks:
-    ore_production: 50,4000
+    ore_production_mod: 50,4000
 
 smashing:
   name: Smashing
@@ -385,7 +385,7 @@ uprooting:
   exclusive_races:
     - Troll
   perks:
-    lumber_production: 50,4000
+    lumber_production_mod: 50,4000
 # END TROLL #
 
 # BEGIN VOID #
@@ -402,7 +402,7 @@ cones:
   exclusive_races:
     - Void
   perks:
-    mana_production: 80,6000
+    mana_production_mod: 80,6000
 
 halo:
   name: Halo
@@ -443,7 +443,7 @@ tissue:
     - Growth
   perks:
     population: 100,75000
-    food_production: 100,75000
+    food_production_mod: 100,75000
 # END GROWTH #
 
 # BEGIN SYLVAN #
@@ -453,7 +453,7 @@ affinity:
   exclusive_races:
     - Sylvan
   perks:
-    mana_production: 60,4000
+    mana_production_mod: 60,4000
 
 awareness:
   name: Awareness
@@ -461,7 +461,7 @@ awareness:
     - Sylvan
   perks:
     spy_strength: 60,6000
-    tech_production: 40,6000
+    tech_production_mod: 40,6000
     tech_gains: 60,4000
 
 bloom:
@@ -469,8 +469,8 @@ bloom:
   exclusive_races:
     - Sylvan
   perks:
-    lumber_production: 60,6000
-    food_production: 40,6000
+    lumber_production_mod: 60,6000
+    food_production_mod: 40,6000
 
 nurture:
   name: Nurture
@@ -542,7 +542,7 @@ farming_kerranad:
     exclusive_races:
       - Kerranad
     perks:
-      food_production: 60,6500
+      food_production_mod: 60,6500
 
 foundations:
   name: Foundations
@@ -564,7 +564,7 @@ logging_kerranad:
   exclusive_races:
     - Kerranad
   perks:
-    lumber_production: 35,5500
+    lumber_production_mod: 35,5500
 
 medicine_kerranad:
   name: Medicine
@@ -586,7 +586,7 @@ market:
   exclusive_races:
     - Kerranad
   perks:
-    gold_production: 50,7500
+    gold_production_mod: 50,7500
     exchange_rate: 30,6000
 
 readiness:
@@ -610,7 +610,7 @@ stonecutting_kerranad:
   exclusive_races:
     - Kerranad
   perks:
-    ore_production: 35,5000
+    ore_production_mod: 35,5000
 
 warfare:
   name: Warfare
@@ -626,7 +626,7 @@ wizardry_kerranad:
     - Kerranad
   perks:
     wizard_strength: 60,6500
-    mana_production: 60,6500
+    mana_production_mod: 60,6500
     spell_damage: -60,6500
     wizard_guild_housing: 60,6500
 
@@ -646,7 +646,7 @@ commerce_wood_elf:
   exclusive_races:
     - Wood Elf
   perks:
-    gold_production: 50,8000
+    gold_production_mod: 50,8000
 
 construction_wood_elf:
   name: Construction
@@ -694,14 +694,14 @@ foraging:
   exclusive_races:
     - Wood Elf
   perks:
-    food_production: 90,7500
+    food_production_mod: 90,7500
 
 forestry:
   name: Forestry
   exclusive_races:
     - Wood Elf
   perks:
-    lumber_production: 50,6000
+    lumber_production_mod: 50,6000
     population_growth: 35,7000
 
 housing_wood_elf:
@@ -723,7 +723,7 @@ tutoring:
   exclusive_races:
     - Wood Elf
   perks:
-    tech_production: 45,7500
+    tech_production_mod: 45,7500
     tech_gains: 45,7500
 
 wizardry_wood_elf:
@@ -732,7 +732,7 @@ wizardry_wood_elf:
     - Wood Elf
   perks:
     wizard_strength: 90,7500
-    mana_production: 90,7500
+    mana_production_mod: 90,7500
     spell_damage: -90,7500
 
 # END WOOD ELF #
@@ -744,7 +744,7 @@ harbour:
   exclusive_races:
     - Armada
   perks:
-    food_production: 45,5000
+    food_production_mod: 45,5000
     unit_pairing: 45,5000
 
 # END ARMADA #
@@ -756,17 +756,68 @@ compassion:
   exclusive_races:
     - Beastfolk
   perks:
-    defensive_power: 100,5000
-    casualties: -50,5000
-    increases_casualties: -50,5000
+    defensive_power: 100,10000
+    casualties: -50,10000
+    increases_casualties: -50,10000
 
 brutality:
   name: Brutality
   exclusive_races:
     - Beastfolk
   perks:
-    offensive_power: 100,5000
-    casualties: 50,5000
-    increases_casualties: 50,5000
+    offensive_power: 100,10000
+    casualties: 50,10000
+    increases_casualties: 50,10000
 
 # END BEASTFOLK #
+
+# BEGIN SWARM #
+
+digging:
+  name: Digging
+  exclusive_races:
+    - Swarm
+  perks:
+    gem_production_mod: 15,9000
+    gold_production_mod: 50,9000
+
+burrowing:
+  name: Burrowing
+  exclusive_races:
+    - Swarm
+  perks:
+    population: 30,6000
+    population_growth: 40,6000
+
+shield_plates:
+  name: Shield Plates
+  exclusive_races:
+    - Swarm
+  perks:
+    defensive_power: 50,9000
+    defensive_casualties: -40,6000
+
+striking:
+  name: Striking
+  exclusive_races:
+    - Swarm
+  perks:
+    offensive_power: 40,8000
+
+underground_navigation:
+  name: Underground Navigation
+  exclusive_races:
+    - Swarm
+  perks:
+    land_discovered: 70,7000
+    explore_gold_cost: -30,6000
+
+venom:
+  name: Venom
+  exclusive_races:
+    - Swarm
+  perks:
+    increases_casualties: 40,8000
+    population_growth: -40,8000
+
+# END SWARM #

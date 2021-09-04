@@ -1104,8 +1104,8 @@ compound:
     - Cult
   land_type: forest
   perks:
-    housing: 30
-    jobs: 5
+    housing: 35
+    jobs: 0
     reduces_attrition: 2,1 # Every 1%, reduces 1%
     food_production_raw: 5
 

@@ -42,11 +42,11 @@ units:
       gold: 800
       ore: 200
     power:
-      offense: 6
+      offense: 4
       defense: 8
     perks:
-      some_fend_off_into: 2.5,3 # ratio, slot
-      some_win_into: 5,3 # ratio, slot
+      some_fend_off_into: 5,3 # ratio, slot
+      some_win_into: 2.5,3 # ratio, slot
       pairing_limit: 4,12000 # Unit slot, amount (max 7000 of this unit per each Unit 4)
 
   - name: Elite Guard
