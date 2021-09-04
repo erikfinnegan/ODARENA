@@ -82,8 +82,7 @@ units:
       defense: 6
     perks:
       reduces_casualties: 1
-      counts_as_wizard_offense: 0.2
-      counts_as_wizard_defense: 0.2
+      counts_as_wizard_defense: 0.5
 
   - name: Hammerer
     training_time: 12

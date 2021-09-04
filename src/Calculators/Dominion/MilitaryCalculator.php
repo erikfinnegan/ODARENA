@@ -826,10 +826,10 @@ class MilitaryCalculator
         #$hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
 
         $powerPerHour = (float)$ticksPerkData[0];
-        $max = (float)$ticksPerkData[1];
+        #$max = (float)$ticksPerkData[1];
         $powerFromTicks = $powerPerHour * $dominion->round->ticks;
 
-        $powerFromPerk = min($powerFromTicks, $max);
+        #$powerFromPerk = min($powerFromTicks, $max);
 
         return $powerFromPerk;
     }

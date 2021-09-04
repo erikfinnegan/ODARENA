@@ -115,6 +115,11 @@ class TitleHelper
                 $description = 'Morale gains:';
                 $valueType = '%';
                 break;
+            case 'increased_construction_speed':
+                $negativeBenefit = false;
+                $description = 'Increased construction speed';
+                $valueType = ' ticks';
+                break;
             default:
                 return null;
         }

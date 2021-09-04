@@ -82,7 +82,7 @@ units:
       - wise
     cost:
       gold: 0
-      mana: 175
+      mana: 200
     power:
       offense: 0
       defense: 5

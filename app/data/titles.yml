@@ -18,6 +18,7 @@ surveyor:
   perks:
     construction_cost: -15
     rezone_cost: -15
+    increased_construction_speed: 2
 
 engineer:
   name: Engineer
@@ -33,7 +34,7 @@ investigator:
 pathfinder:
   name: Pathfinder
   perks:
-    explore_cost: -10
+    explore_cost: -15
     explore_time: -2
 
 excavator:
@@ -77,5 +78,5 @@ merchant:
 general:
   name: General
   perks:
-    prestige_gains: 10
-    morale_gains: 25
+    prestige_gains: 15
+    morale_gains: 30

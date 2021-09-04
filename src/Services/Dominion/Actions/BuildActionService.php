@@ -163,6 +163,8 @@ class BuildActionService
 
             $ticks = 12 - $dominion->race->getPerkValue('increased_construction_speed');
 
+            $ticks = 12 - $dominion->title->getPerkValue('increased_construction_speed');
+
             $ticks = ceil($ticks * (1 + $dominion->getImprovementPerkMultiplier('construction_time')));
 
             $ticks = max(1, $ticks);
