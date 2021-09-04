@@ -11,6 +11,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Exceptions\GameException;
@@ -67,6 +68,7 @@ class SpellActionService
         $this->raceHelper = app(RaceHelper::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->rangeCalculator = app(RangeCalculator::class);
+        $this->resourceCalculaator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
@@ -133,7 +135,7 @@ class SpellActionService
 
         $manaCost = $this->spellCalculator->getManaCost($dominion, $spell->key);
 
-        if ($dominion->resource_mana < $manaCost)
+        if ($this->resourceCalculator->getAmount($dominion, 'mana') < $manaCost)
         {
             throw new GameException("You do not have enough mana to cast {$spell->name}. You need {$manaCost} mana to cast this spell.");
         }
@@ -199,8 +201,7 @@ class SpellActionService
 
             if($spell->class !== 'invasion')
             {
-                $dominion->resource_mana -= $manaCost;
-                $this->resourceService->updateResources($dominion, ['mana' => $manaCost]);
+                $this->resourceService->updateResources($dominion, ['mana' => $manaCost*-1]);
 
                 $wizardStrengthCost = min($wizardStrengthCost, $dominion->wizard_strength);
                 $dominion->wizard_strength -= $wizardStrengthCost;
