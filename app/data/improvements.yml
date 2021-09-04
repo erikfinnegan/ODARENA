@@ -803,13 +803,6 @@ burrowing:
     population: 30,6000
     population_growth: 40,6000
 
-striking:
-  name: Striking
-  exclusive_races:
-    - Swarm
-  perks:
-    offensive_power: 40,8000
-
 shield_plates:
   name: Shield Plates
   exclusive_races:
