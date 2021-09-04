@@ -22,7 +22,7 @@
                     <a href="{{ route('dominion.resources') }}">
                         <i class="ra ra-mining-diamonds ra-fw"></i>
                         <span>Resources</span>
-                        @if($productionCalculator->isOnBrinkOfStarvation($selectedDominion))
+                        @if($resourceCalculator->isOnBrinkOfStarvation($selectedDominion))
                             <span class="label label-danger pull-right"><i class="ra ra-apple"></i></span>
                         @endif
                     </a>

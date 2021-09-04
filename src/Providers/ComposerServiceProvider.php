@@ -10,8 +10,6 @@ use OpenDominion\Models\Council\Post;
 use OpenDominion\Models\Council\Thread;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\SelectorService;
-
-# ODA
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
@@ -40,6 +38,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
             $selectorService = app(SelectorService::class);
             #$landCalculator = app(LandCalculator::class);
             $techCalculator = app(TechCalculator::class);
+            $resourceCalculator = app(ResourceCalculator::class);
             $productionCalculator = app(ProductionCalculator::class);
 
             if (!$selectorService->hasUserSelectedDominion()) {
@@ -81,6 +80,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
 
             $view->with('councilUnreadCount', $councilUnreadCount);
             $view->with('newsUnreadCount', $newsUnreadCount);
+            $view->with('resourceCalculator', $resourceCalculator);
             $view->with('techCalculator', $techCalculator);
             $view->with('productionCalculator', $productionCalculator);
         });

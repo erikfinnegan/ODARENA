@@ -228,7 +228,13 @@ class ResourceCalculator
 
     }
 
-
+    public function isOnBrinkOfStarvation(Dominion $dominion): bool
+    {
+        if(!$dominion->race->getPerkValue('no_food_consumption'))
+        {
+            return ($this->getAmount($dominion, 'food') + ($this->getProduction($dominion, 'food') - $this->getConsumption($dominion, 'food')) < 0);
+        }
+    }
 
     #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #   #
     /*

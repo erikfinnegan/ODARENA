@@ -274,7 +274,6 @@ class ConversionCalculator
              {
                 $convertedUnits[$slot] = max(0, $convertedUnits[$slot]);
              }
-
         }
 
         elseif($mode === 'defense')
