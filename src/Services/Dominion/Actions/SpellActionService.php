@@ -68,7 +68,7 @@ class SpellActionService
         $this->raceHelper = app(RaceHelper::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->rangeCalculator = app(RangeCalculator::class);
-        $this->resourceCalculaator = app(ResourceCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
