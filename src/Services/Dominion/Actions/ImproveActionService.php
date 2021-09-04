@@ -13,6 +13,7 @@ use OpenDominion\Traits\DominionGuardsTrait;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class ImproveActionService
@@ -29,6 +30,7 @@ class ImproveActionService
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->landCalculator = app(LandCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
     }
@@ -98,7 +100,7 @@ class ImproveActionService
             throw new GameException($dominion->race->name . ' cannot use improvements.');
         }
 
-        if ($totalResourcesToInvest > $dominion->{'resource_' . $resource})
+        if ($totalResourcesToInvest > $this->resourceCalculator->getAmount($dominion, $resource))
         {
             throw new GameException("You do not have enough {$resource}. You have " . number_format($dominion->{'resource_' . $resource}) . ' ' . $resource . ' and tried to invest ' . number_format($totalResourcesToInvest) . '.');
         }
