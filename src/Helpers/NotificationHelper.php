@@ -60,6 +60,12 @@ class NotificationHelper
                 'route' => route('dominion.land'),
                 'iconClass' => 'fa fa-search text-green',
             ],
+            'expedition_completed' => [
+                'label' => 'Units returned from expedition',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.expedition'),
+                'iconClass' => 'fas fa-hiking text-green',
+            ],
             'construction_completed' => [
                 'label' => 'Building construction completed',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -319,6 +325,22 @@ class NotificationHelper
 
                 return sprintf(
                     '%s %s returned from battle',
+                    number_format($units),
+                    str_plural('unit', $units)
+                );
+
+            case 'hourly_dominion.expedition_completed':
+                $units = collect($data)->filter(
+                    function ($value, $key) {
+                        // Disregard prestige and experience points
+                        if(strpos($key, 'military_') === 0) {
+                            return $value;
+                        }
+                    }
+                )->sum();
+
+                return sprintf(
+                    '%s %s returned from expedition',
                     number_format($units),
                     str_plural('unit', $units)
                 );

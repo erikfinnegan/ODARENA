@@ -33,6 +33,7 @@ units:
     training_time: 9
     type:
       - machine
+      - immobile
     cost:
       gold: 500
       ore: 500

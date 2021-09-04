@@ -3,9 +3,11 @@
 namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Exceptions\GameException;
+use OpenDominion\Http\Requests\Dominion\API\ExpeditionCalculationRequest;
 use OpenDominion\Http\Requests\Dominion\API\InvadeCalculationRequest;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\API\DefenseCalculationService;
+use OpenDominion\Services\Dominion\API\ExpeditionCalculationService;
 use OpenDominion\Services\Dominion\API\InvadeCalculationService;
 use OpenDominion\Services\Dominion\API\OffenseCalculationService;
 
@@ -20,6 +22,27 @@ class APIController extends AbstractDominionController
             $result = $invadeCalculationService->calculate(
                 $dominion,
                 Dominion::find($request->get('target_dominion')),
+                $request->get('unit'),
+                $request->get('calc')
+            );
+        } catch (GameException $e) {
+            return [
+                'result' => 'error',
+                'errors' => [$e->getMessage()]
+            ];
+        }
+
+        return $result;
+    }
+
+    public function calculateExpedition(ExpeditionCalculationRequest $request): array
+    {
+        $dominion = $this->getSelectedDominion();
+        $expeditionCalculationService = app(ExpeditionCalculationService::class);
+
+        try {
+            $result = $expeditionCalculationService->calculate(
+                $dominion,
                 $request->get('unit'),
                 $request->get('calc')
             );

@@ -41,13 +41,13 @@ pathfinder:
 excavator:
   name: Excavator
   perks:
-    ore_production: 10
-    gem_production: 10
+    ore_production_mod: 10
+    gem_production_mid: 10
 
 researcher:
   name: Researcher
   perks:
-    tech_production: 5
+    tech_production_mid: 5
 
 healer:
   name: Healer
@@ -64,12 +64,12 @@ warden:
   name: Warden
   enabled: 0
   perks:
-    lumber_production: 10
+    lumber_production_mod: 10
 
 forester:
   name: Forester
   perks:
-    lumber_production: 10
+    lumber_production_mod: 10
 
 merchant:
   name: Merchant

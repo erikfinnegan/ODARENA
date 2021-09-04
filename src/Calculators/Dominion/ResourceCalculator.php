@@ -268,9 +268,9 @@ class ResourceCalculator
 
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs'))
+            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs') and $dominion->{'military_unit' . $slot} > 0)
             {
-                $jobs += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs');
+                $jobs += $dominion->{'military_unit' . $slot} * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'provides_jobs');
             }
         }
 

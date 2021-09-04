@@ -139,6 +139,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('invade')->uses('Dominion\InvasionController@getInvade')->name('invade');
             $router->post('invade')->uses('Dominion\InvasionController@postInvade');
 
+            // Expedition
+            $router->get('expedition')->uses('Dominion\ExpeditionController@getExpedition')->name('expedition');
+            $router->post('expedition')->uses('Dominion\ExpeditionController@postExpedition');
+
             // Event result
             $router->get('event/{uuid}')->uses('Dominion\EventController@index')->name('event');
 

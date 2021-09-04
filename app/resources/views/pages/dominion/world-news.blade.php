@@ -173,13 +173,17 @@
                                                 An army from <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a> rushed to aid <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a> in combat.
                                             @elseif ($gameEvent->type === 'defense_support')
                                                 An army from <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a> rushed to aid <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a> in combat.
+                                            @elseif ($gameEvent->type === 'expedition' and $gameEvent->source->realm_id == $selectedDominion->realm->id)
+                                                An expedition was sent out by <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a>, discovering <span class="text-green text-bold">{{ number_format(array_sum($gameEvent->data['land_discovered'])) }}</span> land.
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                        @if (isset($gameEvent->target->realm_id) and $gameEvent->type == 'invasion')
-                                            @if($gameEvent->source->realm_id == $selectedDominion->realm->id or $gameEvent->target->realm_id == $selectedDominion->realm->id)
-                                                <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="ra ra-crossed-swords ra-fw"></i></a>
-                                            @endif
+                                        @if ($gameEvent->type == 'invasion' and ($gameEvent->source->realm_id == $selectedDominion->realm->id or $gameEvent->target->realm_id == $selectedDominion->realm->id))
+                                            <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="ra ra-crossed-swords ra-fw"></i></a>
+                                        @endif
+
+                                        @if ($gameEvent->type == 'expedition' and ($gameEvent->source->realm_id == $selectedDominion->realm->id or $gameEvent->target->realm_id == $selectedDominion->realm->id))
+                                            <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="fas fa-drafting-compass fa-fw"></i></a>
                                         @endif
                                         </td>
                                     </tr>

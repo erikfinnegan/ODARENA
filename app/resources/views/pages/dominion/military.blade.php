@@ -291,7 +291,7 @@
         <div class="col-sm-12 col-md-6">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><i class="ra ra-boot-stomp"></i> Units returning from battle</h3>
+                    <h3 class="box-title"><i class="ra ra-boot-stomp"></i> Units returning</h3>
                 </div>
                 <div class="box-body table-responsive no-padding">
                     <table class="table">
@@ -323,20 +323,20 @@
                                     </td>
                                     @for ($i = 1; $i <= 12; $i++)
                                         <td class="text-center">
-                                            @if ($queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i) === 0)
+                                            @if (($queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i) + $queueService->getExpeditionQueueAmount($selectedDominion, "military_{$unitType}", $i)) === 0)
                                                 -
                                             @else
-                                                {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i)) }}
+                                                {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, "military_{$unitType}", $i) + $queueService->getExpeditionQueueAmount($selectedDominion, "military_{$unitType}", $i)) }}
                                             @endif
                                         </td>
                                     @endfor
                                     <td class="text-center">
-                                        {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
+                                        {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_{$unitType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_{$unitType}")) }}
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
+                          </tbody>
+                      </table>
                 </div>
             </div>
 
@@ -376,8 +376,8 @@
                                             </td>
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <td class="text-center">
-                                                    @if($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i))
-                                                        {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i)) }}
+                                                    @if($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getExpeditionQueueAmount($selectedDominion, 'resource_' . $resource, $i))
+                                                        {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i)) }}
                                                     @else
                                                         -
                                                     @endif

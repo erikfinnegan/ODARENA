@@ -80,6 +80,9 @@
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_invade'))
                     <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
                 @endif
+                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_send_expeditions'))
+                    <li class="{{ Route::is('dominion.expedition') ? 'active' : null }}"><a href="{{ route('dominion.expedition') }}"><i class="fas fa-drafting-compass fa-fw"></i> <span>Expedition</span></a></li>
+                @endif
                 {{--
                     <li class="{{ Route::is('dominion.insight') ? 'active' : null }}"><a href="{{ route('dominion.insight') }}"><i class="fa fa-eye fa-fw"></i> <span>Insight</span></a></li>
                 --}}

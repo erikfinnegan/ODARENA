@@ -821,15 +821,10 @@ class MilitaryCalculator
         {
             return 0;
         }
-
-        #$hoursSinceRoundStarted = ($dominion->round->start_date)->diffInHours(now());
-        #$hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
-
         $powerPerHour = (float)$ticksPerkData[0];
-        #$max = (float)$ticksPerkData[1];
         $powerFromTicks = $powerPerHour * $dominion->round->ticks;
 
-        #$powerFromPerk = min($powerFromTicks, $max);
+        $powerFromPerk = $powerFromTicks;
 
         return $powerFromPerk;
     }
@@ -1732,7 +1727,8 @@ class MilitaryCalculator
     {
         return (
             $dominion->{'military_unit' . $slot} +
-            $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}")
+            $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}") +
+            $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slot}")
         );
     }
 

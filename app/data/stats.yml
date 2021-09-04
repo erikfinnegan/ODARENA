@@ -30,6 +30,9 @@ dp_success_max:
 dp_failure_max:
   name: Greatest failed defensive power
 
+expeditions:
+  name: Expeditions
+
 # Production and Resources
 
 gold_production:

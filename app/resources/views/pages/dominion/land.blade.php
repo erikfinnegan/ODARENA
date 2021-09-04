@@ -286,7 +286,8 @@
                                 @php
                                     $land = (
                                         $queueService->getExplorationQueueAmount($selectedDominion, "land_{$landType}", $i) +
-                                        $queueService->getInvasionQueueAmount($selectedDominion, "land_{$landType}", $i)
+                                        $queueService->getInvasionQueueAmount($selectedDominion, "land_{$landType}", $i) +
+                                        $queueService->getExpeditionQueueAmount($selectedDominion, "land_{$landType}", $i)
                                     );
                                     $incomingLandPerTick[$i] += $land;
                                 @endphp
@@ -298,7 +299,7 @@
                                     @endif
                                 </td>
                             @endfor
-                            <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
+                            <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
                         </tr>
                     @endforeach
                         <tr>

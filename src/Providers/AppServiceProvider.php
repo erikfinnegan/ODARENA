@@ -16,6 +16,7 @@ use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\ConversionCalculator;
 use OpenDominion\Calculators\Dominion\DeityCalculator;
+use OpenDominion\Calculators\Dominion\ExpeditionCalculator;
 use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -102,6 +103,7 @@ class AppServiceProvider extends AbstractServiceProvider
         $this->app->singleton(CasualtiesCalculator::class);
         $this->app->singleton(ConversionCalculator::class);
         $this->app->singleton(DeityCalculator::class);
+        $this->app->singleton(ExpeditionCalculator::class);
         $this->app->singleton(EspionageCalculator::class);
         $this->app->singleton(ImprovementCalculator::class);
         $this->app->singleton(LandCalculator::class);

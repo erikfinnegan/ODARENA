@@ -68,6 +68,12 @@ class SettingHelper
                 'route' => route('dominion.land'),
                 'iconClass' => 'fa fa-search text-green',
             ],
+            'exploration_completed' => [
+                'label' => 'Expedition completed',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.land'),
+                'iconClass' => 'fas fa-hiking text-green',
+            ],
             'construction_completed' => [
                 'label' => 'Building construction completed',
                 'defaults' => ['email' => false, 'ingame' => true],

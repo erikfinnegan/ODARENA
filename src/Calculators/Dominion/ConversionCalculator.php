@@ -981,6 +981,7 @@ class ConversionCalculator
             $unconvertibleAttributes = [
                 'ammunition',
                 'equipment',
+                'immobile',
                 'magical',
                 'massive',
                 'machine',

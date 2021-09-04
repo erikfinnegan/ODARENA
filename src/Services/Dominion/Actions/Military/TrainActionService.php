@@ -8,8 +8,9 @@ use Throwable;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\UnitHelper;
-use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
+use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Tech;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -22,6 +23,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Helpers\RaceHelper;
 
@@ -46,6 +48,7 @@ class TrainActionService
         $this->unitHelper = app(UnitHelper::class);
         $this->raceHelper = app(RaceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
 
@@ -115,6 +118,8 @@ class TrainActionService
             'soul' => 0,
             'blood' => 0,
             'morale' => 0,
+            'wizard_strength' => 0,
+            'spy_strength' => 0,
             'peasant' => 0,
             'unit1' => 0,
             'unit2' => 0,
@@ -396,80 +401,59 @@ class TrainActionService
             # Advancements check complete.
         }
 
-        if($totalCosts['gold'] > $dominion->resource_gold)
-        {
-          throw new GameException('Training failed due to insufficient gold. You tried to spend ' . number_format($totalCosts['gold']) .  ' but only have ' . number_format($dominion->resource_gold) .'.');
-        }
-        if($totalCosts['ore'] > $dominion->resource_ore)
-        {
-          throw new GameException('Training failed due to insufficient ore. You tried to spend ' . number_format($totalCosts['ore']) .  ' but only have ' . number_format($dominion->resource_ore) .'.');
-        }
-        if($totalCosts['food'] > $dominion->resource_food)
-        {
-          throw new GameException('Training failed due to insufficient food. You tried to spend ' . number_format($totalCosts['food']) .  ' but only have ' . number_format($dominion->resource_food) .'.');
-        }
-        if($totalCosts['mana'] > $dominion->resource_mana)
-        {
-          throw new GameException('Training failed due to insufficient mana. You tried to spend ' . number_format($totalCosts['mana']) .  ' but only have ' . number_format($dominion->resource_mana) .'.');
-        }
-        if($totalCosts['gem'] > $dominion->resource_gems)
-        {
-          throw new GameException('Training failed due to insufficient gems. You tried to spend ' . number_format($totalCosts['gem']) .  ' but only have ' . number_format($dominion->resource_gems) .'.');
-        }
-        if($totalCosts['lumber'] > $dominion->resource_lumber)
-        {
-          throw new GameException('Training failed due to insufficient lumber. You tried to spend ' . number_format($totalCosts['lumber']) .  ' but only have ' . number_format($dominion->resource_lumber) .'.');
-        }
-        if($totalCosts['prestige'] > floor($dominion->prestige))
-        {
-          throw new GameException('Training failed due to insufficient prestige. You tried to spend ' . number_format($totalCosts['prestige']) .  ' but only have ' . number_format($dominion->prestige) .'.');
-        }
-        if($totalCosts['champion'] > $dominion->resource_champion)
-        {
-          throw new GameException('You do not have enough Champions. You tried to spend ' . number_format($totalCosts['champion']) .  ' but only have ' . number_format($dominion->resource_champion) .'.');
-        }
-        if($totalCosts['soul'] > $dominion->resource_soul)
-        {
-          throw new GameException('Insufficient souls. Collect more souls. You tried to spend ' . number_format($totalCosts['soul']) .  ' but only have ' . number_format($dominion->resource_soul) .'.');
-        }
-        if($totalCosts['blood'] > $dominion->resource_blood)
-        {
-          throw new GameException('Insufficient blood. Collect more blood. You tried to spend ' . number_format($totalCosts['blood']) .  ' but only have ' . number_format($dominion->resource_blood) .'.');
-        }
-        if($totalCosts['morale'] > $dominion->morale)
-        {
-          # This is fine. We just have to make sure that morale doesn't dip below 0.
-          #throw new GameException('Your morale is too low to train. Improve your morale or train fewer units.');
-        }
-        if($totalCosts['peasant'] > 0 and $totalCosts['peasant'] > ($dominion->peasants-1000))
-        {
-          throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '. You must always leave at least 1,000 ' . str_plural($this->raceHelper->getPeasantsTerm($dominion->race)) . '.');
-        }
-        if(
-            $totalCosts['unit1'] > $dominion->military_unit1 OR
-            $totalCosts['unit2'] > $dominion->military_unit2 OR
-            $totalCosts['unit3'] > $dominion->military_unit3 OR
-            $totalCosts['unit4'] > $dominion->military_unit4
-            )
-        {
-          throw new GameException('Insufficient units to train this unit.');
-        }
-        if($totalCosts['spy'] > $dominion->military_spies)
-        {
-          throw new GameException('Training failed due to insufficient spies.');
-        }
-        if($totalCosts['wizard'] > $dominion->military_wizards or $totalCosts['wizards'] > $dominion->military_wizards)
-        {
-          throw new GameException('Training failed due to insufficient wizards.');
-        }
-        if($totalCosts['archmage'] > $dominion->military_archmages)
-        {
-          throw new GameException('Training failed due to insufficient Arch Mages.');
-        }
-        if ($totalCosts['draftees'] > $dominion->military_draftees)
-        {
-            throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race)) . '.');
-        }
+      foreach($totalCosts as $resourceKey => $amount)
+      {
+          if(in_array($resourceKey, $dominion->race->resources))
+          {
+              $resource = Resource::where('key', $resourceKey)->first();
+              if($totalCosts[$resourceKey] > $this->resourceCalculator->getAmount($dominion, $resourceKey))
+              {
+                  throw new GameException('Training failed due to insufficient ' . $resource->name . '. You tried to spend ' . number_format($totalCosts[$resourceKey]) .  ' but only have ' . number_format($this->resourceCalculator->getAmount($dominion, $resourceKey)) . '.');
+
+              }
+          }
+
+
+          if(
+              $totalCosts['unit1'] > $dominion->military_unit1 OR
+              $totalCosts['unit2'] > $dominion->military_unit2 OR
+              $totalCosts['unit3'] > $dominion->military_unit3 OR
+              $totalCosts['unit4'] > $dominion->military_unit4
+              )
+          {
+            throw new GameException('Insufficient units to train this unit.');
+          }
+
+          if($totalCosts['spy'] > $dominion->military_spies)
+          {
+            throw new GameException('Training failed due to insufficient spies.');
+          }
+
+          if($totalCosts['wizard'] > $dominion->military_wizards or $totalCosts['wizards'] > $dominion->military_wizards)
+          {
+            throw new GameException('Training failed due to insufficient wizards.');
+          }
+
+          if($totalCosts['archmage'] > $dominion->military_archmages)
+          {
+            throw new GameException('Training failed due to insufficient Arch Mages.');
+          }
+
+          if ($totalCosts['draftees'] > $dominion->military_draftees)
+          {
+              throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race)) . '.');
+          }
+
+          if($totalCosts['spy_strength'] > $dominion->spy_strength)
+          {
+            throw new GameException('Training failed due to insufficient spy strength.');
+          }
+
+          if($totalCosts['wizard_strength'] > $dominion->wizard_strength)
+          {
+            throw new GameException('Training failed due to insufficient wizard strength.');
+          }
+      }
 
         $newDraftelessUnitsToHouse = 0;
         foreach($unitsToTrain as $unitSlot => $unitAmountToTrain)
@@ -492,28 +476,15 @@ class TrainActionService
         }
 
         DB::transaction(function () use ($dominion, $data, $totalCosts, $unitSlot, $unitAmountToTrain) {
-            $dominion->resource_gold -= $totalCosts['gold'];
-            $dominion->resource_ore -= $totalCosts['ore'];
             $dominion->military_draftees -= $totalCosts['draftees'];
             $dominion->military_wizards -= $totalCosts['wizards'];
-
-            // New unit cost resources.
-            $dominion->resource_food -= $totalCosts['food'];
-            $dominion->resource_mana -= $totalCosts['mana'];
-            $dominion->resource_gems -= $totalCosts['gem'];
-            $dominion->resource_lumber -= $totalCosts['lumber'];
             $dominion->prestige -= $totalCosts['prestige'];
-            $dominion->resource_champion -= $totalCosts['champion'];
-            $dominion->resource_soul -= $totalCosts['soul'];
-            $dominion->resource_blood -= $totalCosts['blood'];
             $dominion->morale = max(0, ($dominion->morale - $totalCosts['morale']));
             $dominion->peasants -= $totalCosts['peasant'];
-
             $dominion->military_unit1 -= $totalCosts['unit1'];
             $dominion->military_unit2 -= $totalCosts['unit2'];
             $dominion->military_unit3 -= $totalCosts['unit3'];
             $dominion->military_unit4 -= $totalCosts['unit4'];
-
             $dominion->military_spies -= $totalCosts['spy'];
             $dominion->military_wizards -= $totalCosts['wizard'];
             $dominion->military_archmages -= $totalCosts['archmage'];
@@ -555,7 +526,7 @@ class TrainActionService
             {
                 if(in_array($resourceKey, $dominion->race->resources))
                 {
-                    $resourceCosts[$resourceKey] = $cost;
+                    $resourceCosts[$resourceKey] = $cost*-1;
                 }
             }
             $this->resourceService->updateResources($dominion, $resourceCosts);
