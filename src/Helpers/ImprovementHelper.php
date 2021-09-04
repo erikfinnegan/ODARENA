@@ -26,13 +26,13 @@ class ImprovementHelper
     {
 
         $improvementPerkDescriptions = [
-            'gold_production' => 'gold production',
-            'ore_production' => 'ore production',
-            'lumber_production' => 'lumber production',
-            'gem_production' => 'gem production',
-            'mana_production' => 'mana production',
-            'food_production' => 'food production',
-            'tech_production' => 'XP generation',
+            'gold_production_mod' => 'gold production',
+            'ore_production_mod' => 'ore production',
+            'lumber_production_mod' => 'lumber production',
+            'gem_production_mod' => 'gem production',
+            'mana_production_mod' => 'mana production',
+            'food_production_mod' => 'food production',
+            'tech_production_mod' => 'XP generation',
 
             'exchange_rate' => 'exchange rate',
 
