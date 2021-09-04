@@ -5,6 +5,7 @@ cartography:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -19,6 +20,7 @@ commerce:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -35,6 +37,7 @@ construction:
     - Imperial Gnome
     - Kerranad
     - Sylvan
+    - Swarm
     - Qur
     - Troll
     - Void
@@ -86,6 +89,7 @@ defense:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -99,6 +103,7 @@ espionage:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -115,6 +120,7 @@ irrigation:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -128,6 +134,7 @@ housing:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -141,6 +148,7 @@ logging:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -154,6 +162,7 @@ medicine:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -168,6 +177,7 @@ mobilisation:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -182,6 +192,7 @@ offense:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -195,6 +206,7 @@ research:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -209,6 +221,7 @@ mining:
     - Growth
     - Kerranad
     - Sylvan
+    - Swarm
     - Troll
     - Void
     - Wood Elf
@@ -225,6 +238,7 @@ wizardry:
     - Qur
     - Reptilians
     - Sylvan
+    - Swarm
     - Troll
     - Undead
     - Void
