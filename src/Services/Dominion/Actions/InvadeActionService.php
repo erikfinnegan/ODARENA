@@ -623,10 +623,10 @@ class InvadeActionService
 
         $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
 
-        // 1/3 gains for hitting Barbarians.
+        // 1/4 gains for hitting Barbarians.
         if($defender->race->name === 'Barbarian')
         {
-            $attackerPrestigeChange /= 3;
+            $attackerPrestigeChange /= 4;
         }
 
         # Liberation
