@@ -524,6 +524,11 @@ class TrainActionService
             $resourceCosts = [];
             foreach($totalCosts as $resourceKey => $cost)
             {
+                if($resourceKey == 'gem')
+                {
+                    $resourceKey = 'gems';
+                }
+
                 if(in_array($resourceKey, $dominion->race->resources))
                 {
                     $resourceCosts[$resourceKey] = $cost*-1;

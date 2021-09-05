@@ -354,7 +354,7 @@ class TickService
                 DB::transaction(function () use ($dominion)
                 {
                     if(static::EXTENDED_LOGGING) { Log::debug('** Handle starvation for ' . $dominion->name); }
-                    if($dominion->tick->starvation_casualties > 0 and !$dominion->isAbandoned())
+                    if(isset($dominion->tick->starvation_casualties) and $dominion->tick->starvation_casualties and !$dominion->isAbandoned())
                     {
                         $this->notificationService->queueNotification('starvation_occurred');
                     }
@@ -654,48 +654,60 @@ class TickService
 
           $tick->military_draftees += $this->productionCalculator->getDrafteesGenerated($dominion, $drafteesGrowthRate);
 
-          // Resources
-          $tick->resource_gold += $this->productionCalculator->getGoldProduction($dominion);
-          $tick->resource_lumber += $this->productionCalculator->getLumberProduction($dominion);
-          $tick->resource_mana += $this->productionCalculator->getManaNetChange($dominion);
-          $tick->resource_food += $this->productionCalculator->getFoodNetChange($dominion);
-          $tick->resource_ore += $this->productionCalculator->getOreProduction($dominion);
-          $tick->resource_gems += $this->productionCalculator->getGemProduction($dominion);
+          // Production/generation
           $tick->xp += $this->productionCalculator->getXpGeneration($dominion);
-          $tick->resource_soul += $this->productionCalculator->getSoulProduction($dominion);
-          $tick->resource_blood += $this->productionCalculator->getBloodProduction($dominion);
+          $tick->prestige += $this->productionCalculator->getPrestigeInterest($dominion);
+
+
+          $tick->resource_gold += 0;#$this->productionCalculator->getGoldProduction($dominion);
+          $tick->resource_lumber += 0;#$this->productionCalculator->getLumberProduction($dominion);
+          $tick->resource_mana += 0;#$this->productionCalculator->getManaNetChange($dominion);
+          $tick->resource_food += 0;#$this->productionCalculator->getFoodNetChange($dominion);
+          $tick->resource_ore += 0;#$this->productionCalculator->getOreProduction($dominion);
+          $tick->resource_gems += 0;#$this->productionCalculator->getGemProduction($dominion);
+          $tick->resource_soul += 0;#$this->productionCalculator->getSoulProduction($dominion);
+          $tick->resource_blood += 0;#$this->productionCalculator->getBloodProduction($dominion);
 
           # Decay, rot, drain
-          $tick->resource_food_consumption += $this->productionCalculator->getFoodConsumption($dominion);
+          $tick->resource_food_consumption += 0;#$this->productionCalculator->getFoodConsumption($dominion);
           $tick->resource_food_decay += 0;
           $tick->resource_lumber_rot += 0;
           $tick->resource_mana_drain += 0;
 
           # Contribution: how much is LOST (GIVEN AWAY)
-          $tick->resource_food_contribution = $this->productionCalculator->getContribution($dominion, 'food');
-          $tick->resource_mana_contribution = $this->productionCalculator->getContribution($dominion, 'mana');
+          $tick->resource_food_contribution = 0;#$this->productionCalculator->getContribution($dominion, 'food');
+          $tick->resource_mana_contribution = 0;#$this->productionCalculator->getContribution($dominion, 'mana');
 
           # Contributed: how much is RECEIVED (GIVEN TO)
           $tick->resource_food_contributed = 0;
           $tick->resource_mana_contributed = 0;
           if($dominion->race->name == 'Monster')
           {
-              $totalContributions = $this->realmCalculator->getTotalContributions($dominion->realm);
-              $tick->resource_food_contributed = $totalContributions['food'];
-              $tick->resource_mana_contributed = $totalContributions['mana'];
+              $totalContributions = 0;#$this->realmCalculator->getTotalContributions($dominion->realm);
+              $tick->resource_food_contributed = 0;#$totalContributions['food'];
+              $tick->resource_mana_contributed = 0;#$totalContributions['mana'];
           }
 
-          $tick->prestige += $this->productionCalculator->getPrestigeInterest($dominion);
+
 
           // Starvation
-          $tick->starvation_casualties = 0;
-          /*
-          if(($dominion->resource_food + $tick->resource_food) <= 0 and !$dominion->race->getPerkValue('no_food_consumption'))
+          $tick->starvation_casualties = false;
+
+          #if(($dominion->resource_food + $tick->resource_food) <= 0 and !$dominion->race->getPerkValue('no_food_consumption'))
+          #{
+          #    $dominion->tick->starvation_casualties = true;
+          #}
+
+          $foodProduction = $this->resourceCalculator->getProduction($dominion, 'food');
+          $foodConsumed = $this->resourceCalculator->getConsumption($dominion, 'food');
+          $foodNetChange = $foodProduction - $foodConsumed;
+          $foodOwned = $this->resourceCalculator->getAmount($dominion, 'food');
+
+          if($foodConsumed > 0 and ($foodOwned + $foodNetChange) < 0)
           {
-              $tick->starvation_casualties = 1;
-              $tick->resource_food = ($dominion->resource_food)*-1;
+              #dd($dominion->name . ' should be starving:', $foodConsumed, $foodOwned, $foodNetChange, ($foodOwned + $foodNetChange));
+              $dominion->tick->starvation_casualties = true;
           }
-          */
 
           // Morale
           $baseMorale = 100;
@@ -705,7 +717,7 @@ class TickService
 
           $moraleChangeModifier = (1 + $dominion->race->getPerkMultiplier('morale_change_tick') + $dominion->race->getPerkMultiplier('morale_change_tick'));
 
-          if($tick->starvation_casualties)
+          if($tick->starvation_casualties or $dominion->tick->starvation_casualties)
           {
               # Lower morale by 10.
               $starvationMoraleChange = -10;
@@ -1009,7 +1021,7 @@ class TickService
         DB::transaction(function () use ($dominion)
         {
             # Send starvation notification.
-            if($dominion->tick->starvation_casualties > 0 and !$dominion->isAbandoned())
+            if($dominion->tick->starvation_casualties and !$dominion->isAbandoned())
             {
                 $this->notificationService->queueNotification('starvation_occurred');
             }
@@ -1380,11 +1392,11 @@ class TickService
         }
 
         # Check for starvation
-        $dominion->tick->starvation_casualties = false;
-        if($resourcesConsumed['food'] > 0 and (($this->resourceCalculator->getAmount($dominion, 'food') + $resourcesNetChange['food']) < 0))
-        {
-            $dominion->tick->starvation_casualties = true;
-        }
+        #$dominion->tick->starvation_casualties = false;
+        #if($resourcesConsumed['food'] > 0 and (($this->resourceCalculator->getAmount($dominion, 'food') + $resourcesNetChange['food']) < 0))
+        #{
+        #    $dominion->tick->starvation_casualties = true;
+        #}
 
         $this->resourceService->updateResources($dominion, $resourcesNetChange);
 
