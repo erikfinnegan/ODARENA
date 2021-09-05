@@ -94,7 +94,7 @@ class TitleHelper
                 $negativeBenefit = true;
                 $description = 'Mana production:';
                 break;
-            case 'tech_production_mod':
+            case 'xp_generation_mod':
                 $negativeBenefit = false;
                 $description = 'XP generation:';
                 break;
