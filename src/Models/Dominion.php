@@ -264,6 +264,36 @@ class Dominion extends AbstractModel
         );
     }
 
+    /*
+    *    Abandoned because it lacks flexibility in how perks are added together.
+    *    They are nearly always additive (so this would work), but there are exceptions
+    *    such as unit costs (where deity and spell can go further than a max of -50%)
+    *    and population where tech perk is multiplicative.
+    */
+    /*
+    public function getPerkValue($perkValueString)
+    {
+        $perkValue = 0;
+
+        $perkValue = $this->race->getPerkValue($perkValueString);
+        $perkValue += $this->title->getPerkValue($perkValueString);
+        $perkValue += $this->getSpellPerkValue($perkValueString);
+        $perkValue += $this->getImprovementPerks($perkValueString);
+        $perkValue += $this->getBuildingPerkValue($perkValueString);
+        $perkValue += $this->getDeityPerkValue($perkValueString);
+        $perkValue += $this->getBuildingPerkValue($perkValueString);
+        $perkValue += $this->getTechPerkValue($perkValueString);
+
+        return $perkValue;
+    }
+
+    public function getPerkMultiplier($perkValueString)
+    {
+        return $this->getPerkValue($perkValueString) / 100;
+    }
+    */
+
+
     public function buildings()
     {
         return $this->belongsToMany(

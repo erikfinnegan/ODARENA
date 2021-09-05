@@ -67,6 +67,11 @@ class Title extends AbstractModel
      */
     public function getPerkValue(string $key): float
     {
+        if(!$this)
+        {
+            return 0;
+        }
+
         $perks = $this->perks->filter(function (TitlePerkType $titlePerkType) use ($key)
         {
             return ($titlePerkType->key === $key);
