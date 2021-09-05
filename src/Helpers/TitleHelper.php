@@ -90,6 +90,10 @@ class TitleHelper
                 $negativeBenefit = false;
                 $description = 'Gem production:';
                 break;
+            case 'pearls_production_mod':
+                $negativeBenefit = false;
+                $description = 'Pearl production:';
+                break;
             case 'mana_production_mod':
                 $negativeBenefit = true;
                 $description = 'Mana production:';

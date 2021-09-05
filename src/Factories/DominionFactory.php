@@ -88,13 +88,7 @@ class DominionFactory
 
         # Late-joiner bonus:
         # Give +1.5% starting resources per hour late, max +150% (at 100 hours, mid-day 4).
-        $hoursSinceRoundStarted = 0;
-        if($realm->round->hasStarted() and request()->getHost() !== 'sim.odarena.com' and request()->getHost() !== 'odarena.local')
-        {
-            $hoursSinceRoundStarted = now()->startOfHour()->diffInHours(Carbon::parse($realm->round->start_date)->startOfHour());
-        }
-
-        $startingResourcesMultiplier = 1 + min(1.00, $hoursSinceRoundStarted*0.015);
+        $startingResourcesMultiplier = 1 + $realm->round->ticks * 0.004;
 
         // These are starting resources which are or maybe
         // modified for specific races. These are the default
@@ -155,7 +149,7 @@ class DominionFactory
         $startingResources['soul'] = 0;
         $startingResources['blood'] = 0;
 
-        $startingParameters['xp'] = 400 * $hoursSinceRoundStarted;
+        $startingParameters['xp'] = 100 * $realm->round->ticks;
 
         $startingParameters['morale'] = 100;
 
