@@ -157,7 +157,7 @@ class TrainingCalculator
                     // GEM cost for units
                     #if ($gem > 0) {
                         $cost['gems'] = $gems;
-                        $cost['gems'] = (int)ceil($gem * $this->getSpecialistEliteCostMultiplier($dominion, 'gems'));
+                        $cost['gems'] = (int)ceil($gems * $this->getSpecialistEliteCostMultiplier($dominion, 'gems'));
                     #}
                     // LUMBER cost for units
                     #if ($lumber > 0) {

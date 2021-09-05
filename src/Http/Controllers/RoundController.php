@@ -350,7 +350,6 @@ class RoundController extends AbstractController
             {
                 return false;
             }
-
         }
 
         return true;
