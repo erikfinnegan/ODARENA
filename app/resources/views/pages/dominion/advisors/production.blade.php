@@ -19,7 +19,6 @@
                                   <tr>
                                       <th>Resource</th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="Production per tick including modifiers">Production/tick</span></th>
-                                      <th><span data-toggle="tooltip" data-placement="top" title="Raw production per tick (not including modifiers)">Raw/tick</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="Modifier for production of this resource (includes morale modifier)">Modifier</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="How much (if any) is lost of this resource per tick in upkeep">Loss/tick</span></th>
                                       <th><span data-toggle="tooltip" data-placement="top" title="Net change per tick">Net/tick</span></th>
@@ -27,94 +26,22 @@
                                   </tr>
                             </thead>
                             <tbody>
-                                  <tr>
-                                      <td>Gold</td>
-                                      <td>{{ number_format($productionCalculator->getGoldProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getGoldProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getGoldProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td>&mdash;</td>
-                                      <td>{{ number_format($productionCalculator->getGoldProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'gold')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Food</td>
-                                      <td>{{ number_format($productionCalculator->getFoodProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getFoodProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getFoodProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td><span data-toggle="tooltip" data-placement="top" title="Food consumption" class="text-red">-{{ number_format($productionCalculator->getFoodConsumption($selectedDominion)) }}</span></td>
-                                      <td>
-                                          @if($productionCalculator->getFoodNetChange($selectedDominion) > 0)
-                                              <span class="text-green">
-                                          @else
-                                              <span class="text-red">
-                                          @endif
-                                          {{ number_format($productionCalculator->getFoodNetChange($selectedDominion)) }}
-                                          </span>
-                                      </td>
-                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'food')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Lumber</td>
-                                      <td>{{ number_format($productionCalculator->getLumberProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getLumberProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getLumberProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td>&mdash;</td>
-                                      <td>
-                                          @if($productionCalculator->getLumberProduction($selectedDominion) > 0)
-                                              <span class="text-green">
-                                          @else
-                                              <span class="text-red">
-                                          @endif
-                                          {{ number_format($productionCalculator->getLumberProduction($selectedDominion)) }}
-                                          </span>
-                                      </td>
-                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'lumber')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Mana</td>
-                                      <td>{{ number_format($productionCalculator->getManaProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getManaProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getManaProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td>
-                                            @if($productionCalculator->getContribution($selectedDominion, 'mana'))
-                                                <span class="text-red">-{{ number_format(($productionCalculator->getContribution($selectedDominion, 'mana'))) }}</span>
-                                            @else
-                                                &mdash;
-                                            @endif
-                                      </td>
-                                      <td>
-                                          @if($productionCalculator->getManaNetChange($selectedDominion) > 0)
-                                              <span class="text-green">
-                                          @else
-                                              <span class="text-red">
-                                          @endif
-                                          {{ number_format($productionCalculator->getManaNetChange($selectedDominion)) }}
-                                          </span>
-                                      </td>
-                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'mana')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Ore</td>
-                                      <td>{{ number_format($productionCalculator->getOreProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getOreProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getOreProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td>&mdash;</td>
-                                      <td>{{ number_format($productionCalculator->getOreProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'ore')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Gems</td>
-                                      <td>{{ number_format($productionCalculator->getGemProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getGemProductionRaw($selectedDominion)) }}</td>
-                                      <td>{{ number_format(($productionCalculator->getGemProductionMultiplier($selectedDominion)-1)*100, 2) }}%</td>
-                                      <td>&mdash;</td>
-                                      <td>{{ number_format($productionCalculator->getGemProduction($selectedDominion)) }}</td>
-                                      <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, 'gems')) }}</td>
-                                  </tr>
+                                  @foreach($selectedDominion->race->resources as $resourceKey)
+                                      @php
+                                          $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                      @endphp
+
+                                      <tr>
+                                          <td>{{ $resource->name }}</td>
+                                          <td>{{ number_format($resourceCalculator->getProduction($selectedDominion, $resourceKey)) }}</td>
+                                          <td>{{ number_format(($resourceCalculator->getProductionMultiplier($selectedDominion, $resourceKey)-1)*100, 2) }}%</td>
+                                          <td>{{ number_format($resourceCalculator->getConsumption($selectedDominion, $resourceKey)) }}</td>
+                                          <td>{{ number_format($resourceCalculator->getProduction($selectedDominion, $resourceKey) - $resourceCalculator->getConsumption($selectedDominion, $resourceKey)) }}</td>
+                                          <td>{{ number_format($resourceCalculator->getAmount($selectedDominion, $resourceKey)) }}</td>
+                                  @endforeach
                                   <tr>
                                       <td>XP</td>
                                       <td>{{ number_format($productionCalculator->getXpGeneration($selectedDominion)) }}</td>
-                                      <td>{{ number_format($productionCalculator->getXpGenerationRaw($selectedDominion)) }}</td>
                                       <td>{{ number_format(($productionCalculator->getXpGenerationMultiplier($selectedDominion)-1)*100, 2) }}%</td>
                                       <td>&mdash;</td>
                                       <td>{{ number_format($productionCalculator->getXpGeneration($selectedDominion)) }}</td>

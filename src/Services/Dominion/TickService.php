@@ -354,22 +354,24 @@ class TickService
                 DB::transaction(function () use ($dominion)
                 {
                     if(static::EXTENDED_LOGGING) { Log::debug('** Handle starvation for ' . $dominion->name); }
-                    if(isset($dominion->tick->starvation_casualties) and $dominion->tick->starvation_casualties and !$dominion->isAbandoned())
+                    if(/*$dominion->tick->starvation_casualties*/ $this->resourceCalculator->isOnBrinkOfStarvation($dominion) and !$dominion->isAbandoned())
                     {
                         $this->notificationService->queueNotification('starvation_occurred');
+                        echo "Queue starvation notification for " . $dominion->name . "\t\n";
                     }
 
                     if(static::EXTENDED_LOGGING) { Log::debug('** Handle unit attrition for ' . $dominion->name); }
-                    if(
-                        (
-                          isset($dominion->tick->attrition_unit1) or
-                          isset($dominion->tick->attrition_unit2) or
-                          isset($dominion->tick->attrition_unit3) or
-                          isset($dominion->tick->attrition_unit4)
-                        )
-                        and array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0
-                        and !$dominion->isAbandoned()
-                      )
+#                    if(
+#                        (
+#                          isset($dominion->tick->attrition_unit1) or
+#                          isset($dominion->tick->attrition_unit2) or
+#                          isset($dominion->tick->attrition_unit3) or
+#                          isset($dominion->tick->attrition_unit4)
+#                        )
+#                        and array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0
+#                        and !$dominion->isAbandoned()
+#                      )
+                    if(array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0 and !$dominion->isAbandoned())
                     {
                         $this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
                     }
@@ -1015,10 +1017,9 @@ class TickService
 
         $this->now = now();
 
-        # Starvation
         DB::transaction(function () use ($dominion)
         {
-            # Send starvation notification.
+            # Queue starvation notification.
             if($dominion->tick->starvation_casualties and !$dominion->isAbandoned())
             {
                 $this->notificationService->queueNotification('starvation_occurred');
@@ -1390,11 +1391,12 @@ class TickService
         }
 
         # Check for starvation
-        #$dominion->tick->starvation_casualties = false;
-        #if($resourcesConsumed['food'] > 0 and (($this->resourceCalculator->getAmount($dominion, 'food') + $resourcesNetChange['food']) < 0))
-        #{
-        #    $dominion->tick->starvation_casualties = true;
-        #}
+        $dominion->tick->starvation_casualties = false;
+        if(isset($resourcesConsumed['food']) and $resourcesConsumed['food'] > 0 and (($this->resourceCalculator->getAmount($dominion, 'food') + $resourcesNetChange['food']) < 0))
+        {
+            $dominion->tick->starvation_casualties = true;
+            echo $dominion->name . " is starving!\t\$dominion->tick->starvation_casualties = " . $dominion->tick->starvation_casualties . "\n";
+        }
 
         $this->resourceService->updateResources($dominion, $resourcesNetChange);
 

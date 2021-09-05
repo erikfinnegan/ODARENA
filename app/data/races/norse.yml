@@ -17,6 +17,7 @@ resources:
   - lumber
   - gems
   - champion
+  - mana
 
 perks:
   exchange_bonus: 10

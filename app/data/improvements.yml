@@ -808,8 +808,17 @@ shield_plates:
   exclusive_races:
     - Swarm
   perks:
-    defensive_power: 50,9000
     defensive_casualties: -40,6000
+    offensive_casualties: -40,6000
+
+perception:
+  name: Perception
+  exclusive_races:
+    - Swarm
+  perks:
+    defensive_power: 50,9000
+    xp_generation_mod: 100,9000
+    xp_gains: 100,9000
 
 striking:
   name: Striking
@@ -826,12 +835,19 @@ underground_navigation:
     land_discovered: 70,7000
     explore_gold_cost: -30,6000
 
+undulation:
+  name: Undulation
+  exclusive_races:
+    - Swarm
+  perks:
+    unit_gold_costs: -35,6000
+
 venom:
   name: Venom
   exclusive_races:
     - Swarm
   perks:
-    increases_casualties: 40,8000
+    increases_casualties: 60,6000
     population_growth: -40,8000
 
 # END SWARM #
