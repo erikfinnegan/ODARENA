@@ -293,7 +293,7 @@ earthquake:
   cooldown: 0
   perks:
     ore_production_mod: -5
-    gem_production_mod: -5
+    gems_production_mod: -5
 
 plague:
   name: Plague
@@ -625,7 +625,7 @@ miners_sight:
     - Troll
   perks:
     ore_production_mod: 20
-    gem_production_mod: 5
+    gems_production_mod: 5
 
 alchemist_flame:
   name: Alchemist Flame
@@ -926,7 +926,7 @@ rainy_season:
     cannot_invade: 1
     cannot_explore: 1
     no_ore_production_mod: 1
-    no_gem_production_mod: 1
+    no_gems_production_mod: 1
 
 elementals_hill:
   name: Druva's Rising
@@ -1105,7 +1105,7 @@ fine_arts:
     - Vampires
   perks:
     gold_production_mod: 5
-    gem_production_mod: 5
+    gems_production_mod: 5
 
 dark_rites:
   name: Dark Rites

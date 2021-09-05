@@ -966,13 +966,13 @@ drills_level1:
   name: Drills
   level: 1
   perks:
-    gem_production_mod: 2.5
+    gems_production_mod: 2.5
 
 drills_level2:
   name: Drills
   level: 2
   perks:
-    gem_production_mod: 5
+    gems_production_mod: 5
   requires:
     - drills_level1
 
@@ -980,7 +980,7 @@ drills_level3:
   name: Drills
   level: 3
   perks:
-    gem_production_mod: 7.5
+    gems_production_mod: 7.5
   requires:
     - drills_level2
 
@@ -988,7 +988,7 @@ drills_level4:
   name: Drills
   level: 4
   perks:
-    gem_production_mod: 10
+    gems_production_mod: 10
   requires:
     - drills_level3
 
@@ -996,7 +996,7 @@ drills_level5:
   name: Drills
   level: 5
   perks:
-    gem_production_mod: 12.5
+    gems_production_mod: 12.5
   requires:
     - drills_level4
 
@@ -1004,7 +1004,7 @@ drills_level6:
   name: Drills
   level: 6
   perks:
-    gem_production_mod: 15
+    gems_production_mod: 15
   requires:
     - drills_level5
 
@@ -1012,7 +1012,7 @@ drills_level7:
   name: Drills
   level: 7
   perks:
-    gem_production_mod: 16.25
+    gems_production_mod: 16.25
   requires:
     - drills_level6
 
@@ -1020,7 +1020,7 @@ drills_level8:
   name: Drills
   level: 8
   perks:
-    gem_production_mod: 17.5
+    gems_production_mod: 17.5
   requires:
     - drills_level7
 
@@ -1028,7 +1028,7 @@ drills_level9:
   name: Drills
   level: 9
   perks:
-    gem_production_mod: 18.75
+    gems_production_mod: 18.75
   requires:
     - drills_level8
 
@@ -1036,7 +1036,7 @@ drills_level10:
   name: Drills
   level: 10
   perks:
-    gem_production_mod: 20
+    gems_production_mod: 20
   requires:
     - drills_level9
 

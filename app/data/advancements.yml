@@ -104,10 +104,10 @@ food_production:
   perks:
     food_production: 2.5
 
-gem_production:
+gems_production:
   name: Drills
   perks:
-    gem_production: 2.5
+    gems_production: 2.5
 
 lumber_production:
   name: Mills

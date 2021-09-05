@@ -11,7 +11,7 @@ converting: 3
 skill_level: 2
 
 perks:
-  gem_production: 10
+  gems_production: 10
 units:
   - name: Crusader
     training_time: 9

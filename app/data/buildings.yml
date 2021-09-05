@@ -107,7 +107,7 @@ diamond_mine:
     - Wood Elf
   land_type: mountain
   perks:
-    gem_production_raw: 15
+    gems_production_raw: 15
 
 gem_mine:
   name: Gem Mine
@@ -124,7 +124,7 @@ gem_mine:
     - Wood Elf
   land_type: mountain
   perks:
-    gem_production_raw: 15
+    gems_production_raw: 15
 
 deep_mine:
   name: Deep Mine
@@ -135,7 +135,7 @@ deep_mine:
   land_type: mountain
   perks:
     ore_production_raw: 60
-    gem_production_raw: 15
+    gems_production_raw: 15
     mana_production_raw: 1
     housing: 0
 
@@ -255,7 +255,7 @@ watermill:
     - Wood Elf
   land_type: water
   perks:
-    gem_production_mod: 1,4,20 # Every 1% gives +4% gem production, max +20%
+    gems_production_mod: 1,4,20 # Every 1% gives +4% gem production, max +20%
     ore_production_mod: 1,4,20 # Every 1% gives +4% ore production, max +20%
 
 aqueduct:
@@ -850,7 +850,7 @@ cavern:
     - Swarm
   land_type: mountain
   perks:
-    gem_production_raw: 12
+    gems_production_raw: 12
     mana_production_raw: 8
     jobs: 0
 

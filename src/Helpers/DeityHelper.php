@@ -22,7 +22,7 @@ class DeityHelper
             'mana_production' => '%s%% mana production',
             'lumber_production' => '%s%% lumber production',
             'food_production' => '%s%% food production',
-            'gem_production' => '%s%% gem production',
+            'gems_production' => '%s%% gem production',
             'gold_production' => '%s%% gold production',
             'boat_production' => '%s%% boat production',
             'tech_production' => '%s%% XP generation',
@@ -33,7 +33,7 @@ class DeityHelper
             'no_mana_production' => 'No mana production',
             'no_food_production' => 'No food production',
             'no_boat_production' => 'No boat production',
-            'no_gem_production' => 'No gem production',
+            'no_gems_production' => 'No gem production',
 
             // Military
             'drafting' => '+%s%% drafting',

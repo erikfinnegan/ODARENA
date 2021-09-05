@@ -86,7 +86,7 @@ class TitleHelper
                 $negativeBenefit = false;
                 $description = 'Lumber production:';
                 break;
-            case 'gem_production_mod':
+            case 'gems_production_mod':
                 $negativeBenefit = false;
                 $description = 'Gem production:';
                 break;

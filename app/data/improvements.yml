@@ -617,7 +617,7 @@ science:
   exclusive_races:
     - Kerranad
   perks:
-    tech_costs: -35,6000
+    advancement_costs: -35,6000
 
 stonecutting_kerranad:
   name: Stonecutting
@@ -792,7 +792,7 @@ digging:
   exclusive_races:
     - Swarm
   perks:
-    gem_production_mod: 15,9000
+    gems_production_mod: 15,9000
     gold_production_mod: 50,9000
 
 burrowing:

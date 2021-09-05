@@ -29,15 +29,16 @@ class ImprovementHelper
             'gold_production_mod' => 'gold production',
             'ore_production_mod' => 'ore production',
             'lumber_production_mod' => 'lumber production',
-            'gem_production_mod' => 'gem production',
+            'gems_production_mod' => 'gem production',
             'mana_production_mod' => 'mana production',
             'food_production_mod' => 'food production',
-            'tech_production_mod' => 'XP generation',
+
+            'xp_generation_mod' => 'XP generation',
 
             'exchange_rate' => 'exchange rate',
 
-            'tech_gains' => 'XP gained',
-            'tech_costs' => 'advancements costs',
+            'xp_gains' => 'XP gained',
+            'advancement_costs' => 'advancements costs',
 
             'population' => 'population',
             'population_growth' => 'population growth',

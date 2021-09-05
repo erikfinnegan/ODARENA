@@ -20,7 +20,7 @@ druva:
     lumber_production: 5
     population_growth: 10
     ore_production: -5
-    gem_production: -5
+    gems_production: -5
 
 elskas:
   name: Elskas
@@ -63,7 +63,7 @@ mirnon:
     - Afflicted
     - Void
   perks:
-    gem_production: 5
+    gems_production: 5
     ore_production: 5
     food_production: -5
     population_growth: -10
@@ -76,7 +76,7 @@ sazal:
     wizard_strength: 10
     unit_mana_costs: -2.5
     gold_production: -5
-    gem_production: -5
+    gems_production: -5
     cannot_explore: 1
 
 tiranthael:

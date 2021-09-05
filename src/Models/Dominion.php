@@ -700,7 +700,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'food_production_mod'
                           or $perkKey == 'lumber_production_mod'
                           or $perkKey == 'ore_production_mod'
-                          or $perkKey == 'gem_production_mod'
+                          or $perkKey == 'gems_production_mod'
                           or $perkKey == 'mana_production_mod'
                           or $perkKey == 'tech_production_mod'
                           or $perkKey == 'pearls_production_mod'
@@ -784,7 +784,7 @@ class Dominion extends AbstractModel
                   elseif(
                           # OP/DP mods
                           $perkKey == 'gold_production_depleting'
-                          or $perkKey == 'gem_production_depleting'
+                          or $perkKey == 'gems_production_depleting'
                           or $perkKey == 'ore_production_depleting'
                           or $perkKey == 'mana_production_depleting'
                           or $perkKey == 'lumber_production_depleting'
@@ -802,7 +802,7 @@ class Dominion extends AbstractModel
                   elseif(
                           # OP/DP mods
                           $perkKey == 'gold_production_increasing'
-                          or $perkKey == 'gem_production_increasing'
+                          or $perkKey == 'gems_production_increasing'
                           or $perkKey == 'ore_production_increasing'
                           or $perkKey == 'mana_production_increasing'
                           or $perkKey == 'lumber_production_increasing'
@@ -892,7 +892,7 @@ class Dominion extends AbstractModel
                          $perkKey == 'gold_production_mod'
                          or $perkKey == 'food_production_mod'
                          or $perkKey == 'ore_production_mod'
-                         or $perkKey == 'gem_production_mod'
+                         or $perkKey == 'gems_production_mod'
                          or $perkKey == 'lumber_production_mod'
                          or $perkKey == 'mana_production_mod'
                          or $perkKey == 'pearls_production_mod'

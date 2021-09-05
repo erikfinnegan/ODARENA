@@ -49,14 +49,14 @@ class TechHelper
 
             // Resource related
             'food_production_mod' => '%s%% food production',
-            'gem_production_mod' => '%s%% gem production',
+            'gems_production_mod' => '%s%% gem production',
             'lumber_production_mod' => '%s%% lumber production',
             'mana_production_mod' => '%s%% mana production',
             'ore_production_mod' => '%s%% ore production',
             'gold_production_mod' => '%s%% gold production',
 
             'food_production_raw' => '%s% food/tick production',
-            'gem_production_raw' => '%s% gem/tick production',
+            'gems_production_raw' => '%s% gem/tick production',
             'lumber_production_raw' => '%s% lumber/tick production',
             'mana_production_raw' => '%s% mana/tick production',
             'ore_production_raw' => '%s% ore/tick production',

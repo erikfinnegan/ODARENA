@@ -242,7 +242,7 @@ class UnitHelper
             'lumber_production_raw' => 'Each unit collects %s lumber per tick.',
             'ore_production_raw' => 'Each unit produces %s units of ore per tick.',
             'mana_production_raw' => 'Each unit generates %s mana per tick.',
-            'gem_production_raw' => 'Each unit mines %s gems per tick.',
+            'gems_production_raw' => 'Each unit mines %s gems per tick.',
 
             'xp_generation_raw' => 'Each unit generates %s experience points per tick.',
 

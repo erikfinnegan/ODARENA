@@ -16,7 +16,7 @@ perks:
   lumber_production: -100
   mana_production: -100
   ore_production: -100
-  gem_production: -100
+  gems_production: -100
   max_population: 50
 units:
   - name: Marauder

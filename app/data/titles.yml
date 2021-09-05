@@ -42,7 +42,7 @@ excavator:
   name: Excavator
   perks:
     ore_production_mod: 10
-    gem_production_mod: 10
+    gems_production_mod: 10
 
 researcher:
   name: Researcher

@@ -85,7 +85,7 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Food production';
                 break;
-            case 'gem_production':
+            case 'gems_production':
                 $negativeBenefit = false;
                 $description = 'Gem production';
                 break;
@@ -313,7 +313,7 @@ class RaceHelper
                 $description = 'Cannot level up advancements';
                 $booleanValue = true;
                 break;
-            case 'tech_costs':
+            case 'advancement_costs':
                 $negativeBenefit = true;
                 $description = 'Cost of technological advancements';
                 break;

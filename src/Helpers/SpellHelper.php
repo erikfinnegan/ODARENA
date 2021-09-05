@@ -55,7 +55,7 @@ class SpellHelper
             'mana_production_mod' => '%s%% mana production',
             'lumber_production_mod' => '%s%% lumber production',
             'food_production_mod' => '%s%% food production',
-            'gem_production_mod' => '%s%% gem production',
+            'gems_production_mod' => '%s%% gem production',
             'gold_production_mod' => '%s%% gold production',
             'pearls_production_mod_production' => '%s%% pearl production',
 
@@ -73,7 +73,7 @@ class SpellHelper
             'no_mana_production' => 'No mana production',
             'no_food_production' => 'No food production',
             'no_boat_production' => 'No boat production',
-            'no_gem_production' => 'No gem production',
+            'no_gems_production' => 'No gem production',
 
             'rezone_all_land' => 'Rezones %1s%% of all other land types to %2$s.',
 
