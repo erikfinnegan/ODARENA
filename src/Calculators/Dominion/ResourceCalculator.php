@@ -148,7 +148,7 @@ class ResourceCalculator
             $multiplier *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
         }
 
-        return 1;$multiplier;
+        return $multiplier;
     }
 
     public function getConsumption(Dominion $dominion, string $resourceKey): int
