@@ -654,8 +654,6 @@ class Dominion extends AbstractModel
                           or $perkKey == 'ore_production'
                           or $perkKey == 'lumber_production'
                           or $perkKey == 'mana_production'
-                          or $perkKey == 'boat_production'
-                          or $perkKey == 'tech_production'
                           or $perkKey == 'draftee_generation'
 
                           or $perkKey == 'gold_production_raw'
@@ -666,6 +664,8 @@ class Dominion extends AbstractModel
                           or $perkKey == 'blood_production_raw'
                           or $perkKey == 'soul_production_raw'
                           or $perkKey == 'pearls_production_raw'
+
+                          or $perkKey == 'xp_generation_raw'
 
                           # Building-specific housing
                           or $perkKey == 'afflicted_unit1_housing'
@@ -702,7 +702,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'ore_production_mod'
                           or $perkKey == 'gems_production_mod'
                           or $perkKey == 'mana_production_mod'
-                          or $perkKey == 'tech_production_mod'
+                          or $perkKey == 'xp_generation_mod'
                           or $perkKey == 'pearls_production_mod'
                           or $perkKey == 'exchange_rate'
 
@@ -896,14 +896,14 @@ class Dominion extends AbstractModel
                          or $perkKey == 'lumber_production_mod'
                          or $perkKey == 'mana_production_mod'
                          or $perkKey == 'pearls_production_mod'
-                         or $perkKey == 'tech_production_mod'
+                         or $perkKey == 'xp_generation_mod'
 
                          or $perkKey == 'no_gold_production'
                          or $perkKey == 'no_food_production'
                          or $perkKey == 'no_ore_production'
                          or $perkKey == 'no_lumber_production'
                          or $perkKey == 'no_mana_production'
-                         or $perkKey == 'no_tech_production'
+                         or $perkKey == 'no_xp_generation'
 
                          or $perkKey == 'unit_gold_costs'
                          or $perkKey == 'unit_ore_costs'
