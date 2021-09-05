@@ -2175,7 +2175,7 @@ class InvadeActionService
                     $unitType = 'unit'.$slot;
                     $unitOreCost = $unitCosts[$unitType]['ore'];
                     $unitLumberCost = $unitCosts[$unitType]['lumber'];
-                    $unitGemCost = $unitCosts[$unitType]['gem'];
+                    $unitGemCost = $unitCosts[$unitType]['gems'];
 
                     $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                     $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
@@ -2204,7 +2204,7 @@ class InvadeActionService
                 $unitType = 'unit'.$slot;
                 $unitOreCost = $unitCosts[$unitType]['ore'];
                 $unitLumberCost = $unitCosts[$unitType]['lumber'];
-                $unitGemCost = $unitCosts[$unitType]['gem'];
+                $unitGemCost = $unitCosts[$unitType]['gems'];
 
                 $result['attacker']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                 $result['attacker']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
@@ -2227,11 +2227,6 @@ class InvadeActionService
                     $resourceToPlunder = $plunder[0];
                     $amountPlunderedPerUnit = $plunder[1];
 
-                    if($resourceToPlunder === 'gem')
-                    {
-                        $resourceToPlunder = 'gems';
-                    }
-
                     $amountToPlunder = intval(min($this->resourceCalculator->getAmount($defender, $resourceToPlunder), $amount * $amountPlunderedPerUnit));
                     $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
                 }
@@ -2241,11 +2236,6 @@ class InvadeActionService
             {
                 $resourceToPlunder = $plunderPerk[0];
                 $amountPlunderedPerUnit = $plunderPerk[1];
-
-                if($resourceToPlunder === 'gem')
-                {
-                    $resourceToPlunder = 'gems';
-                }
 
                 $amountToPlunder = intval(min($this->resourceCalculator->getAmount($defender, $resourceToPlunder), $amount * $amountPlunderedPerUnit));
                 $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;

@@ -78,7 +78,7 @@ units:
       - intelligent
       - massive
     cost:
-      gem: 50000
+      gems: 50000
     power:
       offense: 1000
       defense: 1000

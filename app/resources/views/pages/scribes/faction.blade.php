@@ -169,8 +169,8 @@
                                                 $unitCostString .= (', ' . number_format($unit->cost_mana) . ' mana');
                                             }
 
-                                            if ($unit->cost_gem > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_gem) . ' gem');
+                                            if ($unit->cost_gems > 0) {
+                                                $unitCostString .= (', ' . number_format($unit->cost_gems) . ' gems');
                                             }
 
                                             if ($unit->cost_prestige > 0) {

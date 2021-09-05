@@ -94,7 +94,7 @@ units:
       - intelligent
     cost:
       gold: 500
-      gem: 200
+      gems: 200
       mana: 100
     power:
       offense: 6

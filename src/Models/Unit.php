@@ -33,7 +33,7 @@ class Unit extends AbstractModel
         'type' => 'array',
         'cost_food' => 'integer',
         'cost_mana' => 'integer',
-        'cost_gem' => 'integer',
+        'cost_gems' => 'integer',
         'cost_lumber' => 'integer',
         'cost_prestige' => 'integer',
         'cost_champion' => 'integer',

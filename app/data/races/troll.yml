@@ -62,7 +62,7 @@ units:
       - equipment
     cost:
       ore: 300
-      gem: 50
+      gems: 50
     power:
       offense: 0
       defense: 0

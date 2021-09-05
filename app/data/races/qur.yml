@@ -33,7 +33,7 @@ units:
     type:
       - magical
     cost:
-      gem: 20
+      gems: 20
       mana: 5
     power:
       offense: 0

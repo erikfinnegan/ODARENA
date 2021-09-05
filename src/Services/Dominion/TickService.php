@@ -652,8 +652,6 @@ class TickService
 
           $tick->military_draftees = $drafteesGrowthRate;
 
-          $tick->military_draftees += $this->productionCalculator->getDrafteesGenerated($dominion, $drafteesGrowthRate);
-
           // Production/generation
           $tick->xp += $this->productionCalculator->getXpGeneration($dominion);
           $tick->prestige += $this->productionCalculator->getPrestigeInterest($dominion);

@@ -39,7 +39,7 @@ units:
       gold: 0
       ore: 60000
       mana: 350
-      gem: 100
+      gems: 100
     power:
       offense: 0
       defense: 0

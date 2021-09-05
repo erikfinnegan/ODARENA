@@ -220,7 +220,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'type' => object_get($unitData, 'type'),
                     'cost_food' => object_get($unitData, 'cost.food', 0),
                     'cost_mana' => object_get($unitData, 'cost.mana', 0),
-                    'cost_gem' => object_get($unitData, 'cost.gem', 0),
+                    'cost_gems' => object_get($unitData, 'cost.gems', 0),
                     'cost_lumber' => object_get($unitData, 'cost.lumber', 0),
                     'cost_prestige' => object_get($unitData, 'cost.prestige', 0),
                     'cost_champion' => object_get($unitData, 'cost.champion', 0),

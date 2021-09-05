@@ -71,7 +71,7 @@ units:
     cost:
       gold: 1200
       ore: 200
-      gem: 1
+      gems: 1
     power:
       offense: 8
       defense: 3

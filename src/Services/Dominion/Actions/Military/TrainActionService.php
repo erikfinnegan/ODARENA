@@ -111,7 +111,7 @@ class TrainActionService
             'wizards' => 0,
             'food' => 0,
             'mana' => 0,
-            'gem' => 0,
+            'gems' => 0,
             'lumber' => 0,
             'prestige' => 0,
             'champion' => 0,
@@ -495,10 +495,7 @@ class TrainActionService
                 if($amount > 0)
                 {
                     $resourceString = $resource;
-                    if($resourceString == 'gem')
-                    {
-                        $resourceString = 'gems';
-                    }
+
                     if($resourceString == 'peasant')
                     {
                         $resourceString = 'peasants';
@@ -524,11 +521,6 @@ class TrainActionService
             $resourceCosts = [];
             foreach($totalCosts as $resourceKey => $cost)
             {
-                if($resourceKey == 'gem')
-                {
-                    $resourceKey = 'gems';
-                }
-
                 if(in_array($resourceKey, $dominion->race->resources))
                 {
                     $resourceCosts[$resourceKey] = $cost*-1;
@@ -697,7 +689,7 @@ class TrainActionService
             }
 
 #            if (!\in_array($costType, ['gold', 'ore'], true)) {
-            if (!\in_array($costType, ['gold', 'ore', 'food', 'mana', 'gem', 'lumber', 'prestige', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
+            if (!\in_array($costType, ['gold', 'ore', 'food', 'mana', 'gems', 'lumber', 'prestige', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
             {
                 $costType = str_plural($costType, $cost);
             }

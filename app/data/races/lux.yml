@@ -38,7 +38,7 @@ units:
       - intelligent
     static_networth: 2
     cost:
-      gem: 10
+      gems: 10
       mana: 10
     power:
       offense: 0
@@ -53,7 +53,7 @@ units:
       - intelligent
     cost:
       unit1: 1
-      gem: 10
+      gems: 10
       mana: 20
     power:
       offense: 0
@@ -73,7 +73,7 @@ units:
       - intelligent
     cost:
       unit1: 1
-      gem: 10
+      gems: 10
       mana: 20
     power:
       offense: 5
@@ -95,7 +95,7 @@ units:
     cost:
       unit2: 1
       unit3: 1
-      gem: 50
+      gems: 50
       mana: 50
     power:
       offense: 10

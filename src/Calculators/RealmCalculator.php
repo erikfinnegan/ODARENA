@@ -6,28 +6,14 @@ namespace OpenDominion\Calculators;
 use DB;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
-use OpenDominion\Calculators\Dominion\ProductionCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class RealmCalculator
 {
 
-    /** @var ProductionCalculator */
-    protected $productionCalculator;
 
-    /** @var SpellCalculator */
-    protected $spellCalculator;
-
-    /**
-     * RealmCalculator constructor.
-     *
-     * @param ProductionCalculator $productionCalculator
-     * @param SpellCalculator $productionCalculator
-     */
     public function __construct()
     {
-        $this->productionCalculator = app(ProductionCalculator::class);
-        #$this->spellCalculator = app(SpellCalculator::class);
     }
 
     /**
@@ -77,34 +63,6 @@ class RealmCalculator
         $monster = Dominion::findOrFail($monster);
 
         return $monster;
-    }
-
-    /**
-     * For each resource, calculate how much is contributed to the monster in total.
-     *
-     * @param Realm $realm
-     * @return int
-     */
-    public function getTotalContributions(Realm $realm): array
-    {
-        $contributions = [
-            'food' => 0,
-            'mana' => 0,
-          ];
-
-        if($this->hasMonster($realm))
-        {
-            $dominions = $realm->dominions->flatten();
-
-            foreach($contributions as $resource => $amount)
-            {
-                foreach($dominions as $dominion)
-                {
-                    $contributions[$resource] += $this->productionCalculator->getContribution($dominion, $resource);
-                }
-            }
-        }
-        return $contributions;
     }
 
     /**
