@@ -136,8 +136,8 @@
                                                                 $labelParts[] =  number_format($value) . ' lumber';
                                                                 break;
 
-                                                            case 'gem':
-                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('gem', $value);
+                                                            case 'gems':
+                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('gems', $value);
                                                                 break;
 
                                                             case 'prestige':

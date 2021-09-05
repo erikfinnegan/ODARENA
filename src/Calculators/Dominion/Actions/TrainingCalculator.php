@@ -114,7 +114,7 @@ class TrainingCalculator
                     $ore = $units[$unitSlot]->cost_ore;
                     $food = $units[$unitSlot]->cost_food;
                     $mana = $units[$unitSlot]->cost_mana;
-                    $gem = $units[$unitSlot]->cost_gem;
+                    $gems = $units[$unitSlot]->cost_gems;
                     $lumber = $units[$unitSlot]->cost_lumber;
                     $prestige = $units[$unitSlot]->cost_prestige;
                     $champion = $units[$unitSlot]->cost_champion;
@@ -156,8 +156,8 @@ class TrainingCalculator
                     #}
                     // GEM cost for units
                     #if ($gem > 0) {
-                        $cost['gem'] = $gem;
-                        $cost['gem'] = (int)ceil($gem * $this->getSpecialistEliteCostMultiplier($dominion, 'gem'));
+                        $cost['gems'] = $gems;
+                        $cost['gems'] = (int)ceil($gem * $this->getSpecialistEliteCostMultiplier($dominion, 'gems'));
                     #}
                     // LUMBER cost for units
                     #if ($lumber > 0) {
@@ -297,8 +297,6 @@ class TrainingCalculator
 
             foreach ($costs as $type => $value)
             {
-                $type == 'gem' ? $type = 'gems' : $type = $type;
-
                 if($value != 0)
                 {
                     if(in_array($type, $dominion->race->resources))
