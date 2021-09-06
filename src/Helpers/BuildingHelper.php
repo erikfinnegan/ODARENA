@@ -55,6 +55,7 @@ class BuildingHelper
             'gems_production_raw' => 'Produces %s gems per tick.',
             'mana_production_raw' => 'Produces %s mana per tick.',
             'pearls_production_raw' => 'Produces %s pearls per tick.',
+            'xp_generation_raw' => 'Produces %s pearls per tick.',
 
             'gold_production_mod' => 'Gold production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'food_production_mod' => 'Food production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
@@ -63,7 +64,7 @@ class BuildingHelper
             'gems_production_mod' => 'Gem production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'mana_production_mod' => 'Mana production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'pearls_production_mod' => 'Pearl production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'tech_production_mod' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'xp_generation_mod' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             'gold_production_depleting_raw' => 'Produces %1$s gold per tick (reduced by %2$s per hour of the round down to 0).',
             'food_production_depleting_raw' => 'Produces %1$s food per tick (reduced by %2$s per hour of the round down to 0).',
