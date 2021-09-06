@@ -13,6 +13,7 @@ use OpenDominion\Models\Resource;
 use OpenDominion\Models\DominionResource;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 #use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 
@@ -24,6 +25,7 @@ class ResourceCalculator
     protected $landHelper;
     protected $unitHelper;
     protected $landCalculator;
+    protected $landImprovementsCalculator;
     protected $prestigeCalculator;
     protected $queueService;
 
@@ -33,7 +35,7 @@ class ResourceCalculator
           UnitHelper $unitHelper,
 
           LandCalculator $landCalculator,
-          #MilitaryCalculator $militaryCalculator,
+          LandImprovementCalculator $landImprovementCalculator,
           PrestigeCalculator $prestigeCalculator,
 
           QueueService $queueService
@@ -43,7 +45,7 @@ class ResourceCalculator
         $this->unitHelper = app(UnitHelper::class);
 
         $this->landCalculator = $landCalculator;
-        #$this->militaryCalculator = $militaryCalculator;
+        $this->landImprovementCalculator = $landImprovementCalculator;
         $this->prestigeCalculator = $prestigeCalculator;
 
         $this->queueService = $queueService;
@@ -143,6 +145,18 @@ class ResourceCalculator
         $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getUnitPerkProductionBonusFromTitle($resourceKey);
 
+        # Beastfolk land based improvements
+        if($resourceKey == 'food')
+        {
+            $multiplier += $this->landImprovementCalculator->getFoodProductionBonus($dominion);
+        }
+
+        if($resourceKey == 'gold')
+        {
+            $multiplier += $this->landImprovementCalculator->getGoldProductionBonus($dominion);
+        }
+
+        # Add prestige
         if($resourceKey == 'food')
         {
             $multiplier *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
