@@ -18,6 +18,10 @@ resources:
 
 peasants_alias: apprentice
 
+peasants_production:
+  gold: 2.7
+  mana: 0.1
+
 perks:
   gold_production: -50
   peasants_produce_mana: 0.1
