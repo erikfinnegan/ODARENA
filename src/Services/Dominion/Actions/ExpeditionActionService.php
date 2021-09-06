@@ -174,6 +174,12 @@ class ExpeditionActionService
                 {
                     throw new GameException('Ammunition and immobile units cannot be used for expeditions.');
                 }
+
+                # Disallow units with fixed casualties perk
+                if ($fixedCasualtiesPerk = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'fixed_casualties'))
+                {
+                    throw new GameException('Units with fixed casualties cannot be sent on expeditions.');
+                }
             }
 
             // Cannot invade until round has started.
