@@ -818,7 +818,7 @@ gold_vein:
     - Icekin
   land_type: mountain
   perks:
-    gold_production_depleting: 100,0.1 # Produces 100 gold, reduced by 0.4 per tick of the round (min 0)
+    gold_production_depleting_raw: 100,0.1 # Produces 100 gold, reduced by 0.4 per tick of the round (min 0)
 
 terrace:
   name: Terrace
