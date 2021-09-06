@@ -125,8 +125,6 @@ class ResourceCalculator
 
         $production *= $this->getProductionMultiplier($dominion, $resourceKey);
 
-        $production *= (0.9 + $dominion->morale / 1000); # Can't use militaryCalculator->getMoraleMultiplier()
-
         return max(0, $production);
     }
 
@@ -161,6 +159,8 @@ class ResourceCalculator
         {
             $multiplier *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
         }
+
+        $multiplier *= (0.9 + $dominion->morale / 1000); # Can't use militaryCalculator->getMoraleMultiplier()
 
         return $multiplier;
     }
