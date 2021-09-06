@@ -276,13 +276,24 @@
                                 @if(($resource->buy + $resource->sell) != 0)
                                     <tr>
                                         <td>{{ $resource->name }}</td>
-                                        <td>{!! $resource->buy ?: '&mdash;' !!}</td>
+                                        <td>{!! number_format($resource->buy,2) ?: '&mdash;' !!}</td>
                                         <td>{{ number_format($resource->sell,2) }}</td>
                                     </tr>
                                 @endif
                             @endforeach
                         </tbody>
                     </table>
+
+                    @if($resourceCalculator->getExchangeRatePerkMultiplier($selectedDominion) != 1.0)
+                        Perks are
+                        @if($resourceCalculator->getExchangeRatePerkMultiplier($selectedDominion) > 1)
+                            increasing
+                        @else
+                            decreasing
+                        @endif
+                        the sell price of your resources by <b>{{ number_format(($resourceCalculator->getExchangeRatePerkMultiplier($selectedDominion)-1) * 100, 2) }}%</b>.
+                    @endif
+                    <p>
                 </div>
             </div>
         </div>

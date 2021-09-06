@@ -37,6 +37,7 @@ class ResourcesController extends AbstractDominionController
 
           $resources = [];
 
+
           foreach($dominion->race->resources as $resourceKey)
           {
               $resource = Resource::where('key', $resourceKey)->first();
@@ -44,7 +45,7 @@ class ResourcesController extends AbstractDominionController
               $resources[$resourceKey] = [
                   'label' => $resource->name,
                   'buy' => (float)$resource->buy,
-                  'sell' => (float)$resource->sell,
+                  'sell' => (float)$resource->sell * $resourceCalculator->getExchangeRatePerkMultiplier($dominion),
                   'max' => (int)$resourceCalculator->getAmount($dominion, $resourceKey)
               ];
 

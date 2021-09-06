@@ -324,4 +324,31 @@ class ResourceCalculator
         return min($this->getEmploymentJobs($dominion), $dominion->peasants);
     }
 
+    public function getExchangeRatePerkMultiplier(Dominion $dominion): float
+    {
+        $perk = 1;
+
+        // Faction perk
+        $perk += $dominion->race->getPerkMultiplier('exchange_bonus');
+
+        // Techs
+        $perk += $dominion->getTechPerkMultiplier('exchange_rate');
+
+        // Spells
+        $perk += $dominion->getSpellPerkMultiplier('exchange_rate');
+
+        // Buildings
+        $perk += $dominion->getBuildingPerkMultiplier('exchange_rate');
+
+        // Improvements
+        $perk += $dominion->getImprovementPerkMultiplier('exchange_rate');
+
+        // Ruler Title: Merchant
+        $perk += $dominion->title->getPerkMultiplier('exchange_rate') * $dominion->title->getPerkBonus($dominion);
+
+        $perk = min($perk, 2);
+
+        return $perk;
+    }
+
 }
