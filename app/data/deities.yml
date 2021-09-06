@@ -5,8 +5,8 @@ bregon:
     - Void
   perks:
     offensive_power: 5
-    mana_production: -20
-    gold_production: -2.5
+    mana_production_mod: -20
+    gold_production_mod: -2.5
     cannot_explore: 1
 
 druva:
@@ -16,11 +16,11 @@ druva:
     - Afflicted
     - Void
   perks:
-    food_production: 5
-    lumber_production: 5
+    food_production_mod: 5
+    lumber_production_mod: 5
     population_growth: 10
-    ore_production: -5
-    gems_production: -5
+    ore_production_mod: -5
+    gems_production_mod: -5
 
 elskas:
   name: Elskas
@@ -41,8 +41,8 @@ glimj:
     - Merfolk
   perks:
     defensive_power: 5
-    food_production: 10
-    gold_production: -2.5
+    food_production_mod: 10
+    gold_production_mod: -2.5
     cannot_explore: 1
 
 kinthys:
@@ -63,9 +63,9 @@ mirnon:
     - Afflicted
     - Void
   perks:
-    gems_production: 5
-    ore_production: 5
-    food_production: -5
+    gems_production_mod: 5
+    ore_production_mod: 5
+    food_production_mod: -5
     population_growth: -10
     cannot_explore: 1
 
@@ -75,8 +75,8 @@ sazal:
   perks:
     wizard_strength: 10
     unit_mana_costs: -2.5
-    gold_production: -5
-    gems_production: -5
+    gold_production_mod: -5
+    gems_production_mod: -5
     cannot_explore: 1
 
 tiranthael:
@@ -86,7 +86,7 @@ tiranthael:
     - Sacred Order
   perks:
     offensive_power_on_retaliation: 10
-    gold_production: -2.5
+    gold_production_mod: -2.5
     cannot_explore: 1
 
 zidur:
