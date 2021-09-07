@@ -813,12 +813,12 @@ class Dominion extends AbstractModel
                   # Production depleting
                   elseif(
                           # OP/DP mods
-                          $perkKey == 'gold_production_depleting'
-                          or $perkKey == 'gems_production_depleting'
-                          or $perkKey == 'ore_production_depleting'
-                          or $perkKey == 'mana_production_depleting'
-                          or $perkKey == 'lumber_production_depleting'
-                          or $perkKey == 'food_production_depleting'
+                          $perkKey == 'gold_production_depleting_raw'
+                          or $perkKey == 'gems_production_depleting_raw'
+                          or $perkKey == 'ore_production_depleting_raw'
+                          or $perkKey == 'mana_production_depleting_raw'
+                          or $perkKey == 'lumber_production_depleting_raw'
+                          or $perkKey == 'food_production_depleting_raw'
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);
