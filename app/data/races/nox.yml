@@ -18,7 +18,7 @@ resources:
 
 perks:
   food_consumption: -50
-  mana_production: 50
+  mana_production_mod: 50
 
 units:
   - name: Imp

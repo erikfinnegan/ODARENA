@@ -1333,27 +1333,30 @@ class SpellActionService
             throw new GameException($spell->name . ' cannot be broken.');
         }
 
-        $wizardStrengthCost = 5;#$this->spellCalculator->getWizardStrengthCost($spell);
+        if(!$isLiberation)
+        {
+            $wizardStrengthCost = 5;
 
-        if ($target->wizard_strength <= 0 or ($target->wizard_strength - $wizardStrengthCost) < 0)
-        {
-            throw new GameException("Your wizards to not have enough strength to break {$spell->name}. You need {$wizardStrengthCost}% wizard strength to break this spell.");
-        }
-        else
-        {
-            $target->wizard_strength -= $wizardStrengthCost;
-        }
+            if ($target->wizard_strength <= 0 or ($target->wizard_strength - $wizardStrengthCost) < 0)
+            {
+                throw new GameException("Your wizards to not have enough strength to break {$spell->name}. You need {$wizardStrengthCost}% wizard strength to break this spell.");
+            }
+            else
+            {
+                $target->wizard_strength -= $wizardStrengthCost;
+            }
 
-        $manaCost = $this->spellCalculator->getManaCost($target, $spell->key);
+            $manaCost = $this->spellCalculator->getManaCost($target, $spell->key);
 
-        if ($target->resource_mana < $manaCost)
-        {
-            throw new GameException("You do not have enough mana to break {$spell->name}. You need {$manaCost} mana to break this spell.");
-        }
-        else
-        {
-            $target->resource_mana -= $manaCost;
-            $this->resourceService->updateResources($dominion, ['mana' => $manaCost]);
+            if ($this->resourceCalculator->getAmount($target, 'mana') < $manaCost)
+            {
+                throw new GameException("You do not have enough mana to break {$spell->name}. You need {$manaCost} mana to break this spell.");
+            }
+            else
+            {
+                $target->resource_mana -= $manaCost;
+                $this->resourceService->updateResources($dominion, ['mana' => $manaCost]);
+            }
         }
 
         $casterWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'defense'));

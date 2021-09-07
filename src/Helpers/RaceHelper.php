@@ -107,7 +107,7 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Lumber production';
                 break;
-            case 'mana_production':
+            case 'mana_production_mod':
                 $negativeBenefit = false;
                 $description = 'Mana production';
                 break;

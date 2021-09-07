@@ -105,53 +105,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Gold:</td>
-                                <td>{{ number_format($data['resource_gold']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Food:</td>
-                                <td>{{ number_format($data['resource_food']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Lumber:</td>
-                                <td>{{ number_format($data['resource_lumber']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Mana:</td>
-                                <td>{{ number_format($data['resource_mana']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Ore:</td>
-                                <td>{{ number_format($data['resource_ore']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Gems:</td>
-                                <td>{{ number_format($data['resource_gems']) }}</td>
-                            </tr>
-                            <tr>
-                                <td>Experience Points:</td>
-                                <td>{{ number_format($data['resource_tech']) }}</td>
-                            </tr>
+                            @foreach($dominion->race->resources as $resourceKey)
+                                @php
+                                    $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                @endphp
 
-                            @if ($dominion->race->name == 'Norse')
-                            <tr>
-                                <td>Champions:</td>
-                                <td>{{ number_format($data['resource_champion']) }}</td>
-                            </tr>
-                            @endif
-                            @if ($dominion->race->name == 'Demon')
                                 <tr>
-                                    <td>Souls:</td>
-                                    <td>{{ number_format($data['resource_soul']) }}</td>
+                                    <td>{{ $resource->name }}:</td>
+                                    <td>{{ number_format($data['resource_' . $resourceKey]) }}
                                 </tr>
-                            @endif
-                            @if ($dominion->race->name == 'Demon' or $dominion->race->name == 'Beastfolk')
-                                <tr>
-                                    <td>Blood:</td>
-                                    <td>{{ number_format($data['resource_blood']) }}</td>
-                                </tr>
-                            @endif
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
