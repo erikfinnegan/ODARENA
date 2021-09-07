@@ -2660,9 +2660,8 @@ class InvadeActionService
                 $soulsDestroyed = (int)floor(min($defenderSouls * 0.04, ($zealots * $soulsDestroyedPerZealot)));
 
                 $this->invasionResult['attacker']['soulsDestroyed'] = $soulsDestroyed;
-                $this->resourceService->updateResources($defender, ['souls' => ($soulsDestroyed*-1)])
+                $this->resourceService->updateResources($defender, ['souls' => ($soulsDestroyed*-1)]);
                 $this->statsService->updateStat($attacker, 'soul_destroyed', $soulsDestroyed);
-
             }
         }
         elseif($defender->race->name === 'Qur')
