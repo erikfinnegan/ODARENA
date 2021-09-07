@@ -10,7 +10,7 @@ converting: 2
 skill_level: 2
 
 perks:
-  gems_production: 10
+  gems_production_mod: 10
   food_consumption: -20
 units:
   - name: Gargoyle
