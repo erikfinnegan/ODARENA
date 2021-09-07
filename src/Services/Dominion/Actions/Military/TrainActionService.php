@@ -513,7 +513,10 @@ class TrainActionService
                         $resourceString = 'archmages';
                     }
 
-                    $this->statsService->updateStat($dominion, ($resourceString . '_training'), $totalCosts[$resource]);
+                    if($resourceString != 'morale')
+                    {
+                        $this->statsService->updateStat($dominion, ($resourceString . '_training'), $totalCosts[$resource]);
+                    }
                 }
             }
 
