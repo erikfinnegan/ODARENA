@@ -43,8 +43,6 @@ class MilitaryController extends AbstractDominionController
             'queueService' => $queueService,#app(QueueService::class),
             'trainingCalculator' => app(TrainingCalculator::class),
             'unitHelper' => app(UnitHelper::class),
-
-            # ODA
             'improvementCalculator' => app(ImprovementCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
             'raceHelper' => app(RaceHelper::class),
