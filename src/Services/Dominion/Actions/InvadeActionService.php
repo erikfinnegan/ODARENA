@@ -2741,7 +2741,7 @@ class InvadeActionService
 
                   $this->invasionResult['defender']['soulsDestroyed'] = $soulsDestroyed;
 
-                  $this->resourceService->updateResources($attacker, ['soul' => ($soulsDestroyed*-1)])
+                  $this->resourceService->updateResources($attacker, ['soul' => ($soulsDestroyed*-1)]);
                   $this->statsService->updateStat($defender, 'soul_destroyed', $soulsDestroyed);
               }
         }
