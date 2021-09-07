@@ -135,6 +135,7 @@ class SpellHelper
             'gold_theft' => '%s%% gold lost to theft.',
             'mana_theft' => '%s%% mana lost to theft.',
             'lumber_theft' => '%s%% lumber lost to theft.',
+            'food_theft' => '%s%% food lost to theft.',
             'ore_theft' => '%s%% ore lost to theft.',
             'gems_theft' => '%s%% gems lost to theft.',
             'all_theft' => '%s%% resources lost to theft',

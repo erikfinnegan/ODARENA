@@ -235,7 +235,7 @@ class DominionFactory
             $startingResources['lumber'] = 0;
             $startingResources['gems'] = 0;
             $startingResources['food'] = $acresBase * 400;
-            $startingResources['draft_rate'] = 100;
+            $startingParameters['draft_rate'] = 100;
         }
 
         // Myconid: extra food, no gold; and gets enough Psilocybe for mana production equivalent to 40 Towers
