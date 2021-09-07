@@ -449,10 +449,10 @@ class TrainActionService
           #  throw new GameException('Training failed due to insufficient spy strength.');
           #}
 
-          if($totalCosts['wizard_strength'] > $dominion->wizard_strength)
-          {
-            throw new GameException('Training failed due to insufficient wizard strength.');
-          }
+          #if($totalCosts['wizard_strength'] > $dominion->wizard_strength)
+          #{
+          #  throw new GameException('Training failed due to insufficient wizard strength.');
+          #}
       }
 
         $newDraftelessUnitsToHouse = 0;
