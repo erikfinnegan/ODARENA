@@ -133,8 +133,8 @@ class InvadeActionService
      */
     public function invade(Dominion $dominion, Dominion $target, array $units): array
     {
-        $this->guardLockedDominion($dominion);
-        $this->guardLockedDominion($target);
+        #$this->guardLockedDominion($dominion);
+        #$this->guardLockedDominion($target);
 
         DB::transaction(function () use ($dominion, $target, $units) {
             // Checks
