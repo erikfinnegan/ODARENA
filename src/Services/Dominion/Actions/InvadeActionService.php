@@ -2247,7 +2247,7 @@ class InvadeActionService
         {
             $result['attacker']['plunder'][$resource] = min($amount, $this->resourceCalculator->getAmount($defender, $resource));
             #$defender->{'resource_'.$resource} -= $result['attacker']['plunder'][$resource];
-            $this->resourceService->updateResources($defender, [$resource => ($result['attacker']['plunder'][$resource] * -1)])
+            $this->resourceService->updateResources($defender, [$resource => ($result['attacker']['plunder'][$resource] * -1)]);
 
         }
 
