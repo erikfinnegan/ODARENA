@@ -11,7 +11,7 @@ skill_level: 2
 
 perks:
   salvaging: 65
-  gems_production: 20
+  gems_production_mod: 20
 
 units:
   - name: Artificer
