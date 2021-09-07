@@ -444,10 +444,10 @@ class TrainActionService
               throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race)) . '.');
           }
 
-          if($totalCosts['spy_strength'] > $dominion->spy_strength)
-          {
-            throw new GameException('Training failed due to insufficient spy strength.');
-          }
+          #if($totalCosts['spy_strength'] > $dominion->spy_strength)
+          #{
+          #  throw new GameException('Training failed due to insufficient spy strength.');
+          #}
 
           if($totalCosts['wizard_strength'] > $dominion->wizard_strength)
           {
