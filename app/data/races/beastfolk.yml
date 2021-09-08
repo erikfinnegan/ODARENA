@@ -20,6 +20,14 @@ exploring : 2
 converting: 2
 skill_level: 2
 
+land_improvements:
+  - hills: defensive_power,0.65
+  - plains: offensive_power,0.15
+  - mountains: gold_production_mod,0.75
+  - swamp: xp_generation_mod:0.5
+  - forest: housing: 0.75
+  - water: food_production_mod: 5
+
 resources:
   - gold
   - food

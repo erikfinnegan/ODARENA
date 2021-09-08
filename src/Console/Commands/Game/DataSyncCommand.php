@@ -126,6 +126,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'experimental' => object_get($data, 'experimental', 0),
                     'resources' => object_get($data, 'resources', $defaultResources),
                     'improvement_resources' => object_get($data, 'improvement_resources', $defaultImprovementResources),
+                    'land_improvements' => object_get($data, 'land_improvements', NULL),
                     'construction_materials' => object_get($data, 'construction_materials', ['gold','lumber']),
                     'peasants_production' => object_get($data, 'peasants_production', $defaultPeasantsProduction),
                     'peasants_alias' => object_get($data, 'peasants_alias', null),

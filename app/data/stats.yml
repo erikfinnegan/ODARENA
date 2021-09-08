@@ -193,6 +193,28 @@ blood_training:
 blood_improvements:
   name: Blood improvements
 
+
+pearls_production:
+  name: Pearls production
+pearls_sold:
+  name: Pearls sold
+pearls_bought:
+  name: Pearls bought
+pearls_building:
+  name: Pearls building
+pearls_rezoning:
+  name: Pearls rezoning
+pearls_training:
+  name: Pearls training
+pearls_improvements:
+  name: Pearls improvements
+pearls_lost:
+  name: Pearls lost
+pearls_salvaged:
+  name: Pearls salvaged
+pearls_plundered:
+  name: Pearls plundered
+
 # Land
 
 land_conquered:
