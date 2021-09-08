@@ -81,7 +81,7 @@ class RaceHelper
                 $description = 'Does not eat food';
                 $booleanValue = true;
                 break;
-            case 'food_production':
+            case 'food_production_mod':
                 $negativeBenefit = false;
                 $description = 'Food production';
                 break;
@@ -89,7 +89,7 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Gem production';
                 break;
-            case 'tech_production':
+            case 'tech_production_mod':
                 $negativeBenefit = false;
                 $description = 'XP generation';
                 break;
@@ -103,7 +103,7 @@ class RaceHelper
                 $description = 'Immortal spies';
                 $booleanValue = true;
                 break;
-            case 'lumber_production':
+            case 'lumber_production_mod':
                 $negativeBenefit = false;
                 $description = 'Lumber production';
                 break;
@@ -120,11 +120,11 @@ class RaceHelper
                 $description = 'No population';
                 $booleanValue = true;
                 break;
-            case 'ore_production':
+            case 'ore_production_mod':
                 $negativeBenefit = false;
                 $description = 'Ore production';
                 break;
-            case 'gold_production':
+            case 'gold_production_mod':
                 $negativeBenefit = false;
                 $description = 'Gold production';
                 break;
