@@ -71,7 +71,7 @@ class ConstructionCalculator
     {
         $cost = 0;
 
-        if($dominion->race->getPerkValue('no_construction_costs'))
+        if($dominion->race->getPerkValue('no_construction_costs') or $dominion->protection_ticks == 96)
         {
             return $cost;
         }
@@ -108,7 +108,7 @@ class ConstructionCalculator
     {
         $cost = 0;
 
-        if($dominion->race->getPerkValue('no_construction_costs'))
+        if($dominion->race->getPerkValue('no_construction_costs') or $dominion->protection_ticks == 96)
         {
             return $cost;
         }
@@ -141,7 +141,7 @@ class ConstructionCalculator
         $constructionMaterials = $dominion->race->construction_materials;
         $barrenLand = $this->landCalculator->getTotalBarrenLand($dominion);
 
-        if($dominion->race->getPerkValue('no_construction_costs'))
+        if($dominion->race->getPerkValue('no_construction_costs') or $dominion->protection_ticks == 96)
         {
             return $barrenLand;
         }

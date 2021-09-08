@@ -402,6 +402,27 @@ class DominionFactory
         $startingResources['ore'] /= 2;
         $startingResources['lumber'] /= 2;
 
+        # Round 57 - nothing!
+        foreach($startingResources as $resource => $amount)
+        {
+           $startingResources[$resource] = 0;
+        }
+
+        foreach($startingParameters as $parameter => $amount)
+        {
+           $startingParameters[$parameter] = 0;
+        }
+
+        $startingParameters['protection_ticks'] = 96;
+        $startingParameters['draft_rate'] = 50;
+        $startingParameters['morale'] = 100;
+        $startingParameters['peasants'] = intval(1000 * (5 + $race->getPerkValue('extra_barren_max_population')) * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 5 * Racial * Prestige
+
+        if(Auth::user()->display_name == $rulerName)
+        {
+            $startingParameters['prestige'] = 600;
+        }
+
         $dominion = Dominion::create([
             'user_id' => $user->id,
             'round_id' => $realm->round->id,
