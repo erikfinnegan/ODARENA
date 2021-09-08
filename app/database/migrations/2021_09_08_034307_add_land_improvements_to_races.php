@@ -14,7 +14,7 @@ class AddLandImprovementsToRaces extends Migration
     public function up()
     {
         Schema::table('races', function (Blueprint $table) {
-            $table->text('improvement_resources')->nullable()->after('land_improvements');
+            $table->text('land_improvements')->nullable()->after('improvement_resources');
         });
     }
 
