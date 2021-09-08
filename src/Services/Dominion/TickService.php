@@ -1355,10 +1355,17 @@ class TickService
         $resourcesConsumed = [];
         $resourcesNetChange = [];
 
+        foreach($dominion->race->resources as $resourceKey)
+        {
+            $resourcesProduced[$resourceKey] = 0;
+            $resourcesConsumed[$resourceKey] = 0;
+            $resourcesNetChange[$resourceKey] = 0;
+        }
+
         $finishedResourcesInQueue = DB::table('dominion_queue')
                                         ->where('dominion_id',$dominion->id)
                                         ->where('resource', 'like', 'resource%')
-                                        ->whereIn('source', ['exploration','invasion'])
+                                        ->whereIn('source', ['exploration','invasion','expedition'])
                                         ->where('hours',1)
                                         ->get();
 
@@ -1385,9 +1392,9 @@ class TickService
         # Add production.
         foreach($dominion->race->resources as $resourceKey)
         {
-            $resourcesProduced[$resourceKey] = $this->resourceCalculator->getProduction($dominion, $resourceKey);
-            $resourcesConsumed[$resourceKey] = $this->resourceCalculator->getConsumption($dominion, $resourceKey);
-            $resourcesNetChange[$resourceKey] = $resourcesProduced[$resourceKey] - $resourcesConsumed[$resourceKey];
+            $resourcesProduced[$resourceKey] += $this->resourceCalculator->getProduction($dominion, $resourceKey);
+            $resourcesConsumed[$resourceKey] += $this->resourceCalculator->getConsumption($dominion, $resourceKey);
+            $resourcesNetChange[$resourceKey] += $resourcesProduced[$resourceKey] - $resourcesConsumed[$resourceKey];
         }
 
         # Check for starvation
@@ -1395,7 +1402,7 @@ class TickService
         if(isset($resourcesConsumed['food']) and $resourcesConsumed['food'] > 0 and (($this->resourceCalculator->getAmount($dominion, 'food') + $resourcesNetChange['food']) < 0))
         {
             $dominion->tick->starvation_casualties = true;
-            echo $dominion->name . " is starving!\t\$dominion->tick->starvation_casualties = " . $dominion->tick->starvation_casualties . "\n";
+            #echo $dominion->name . " is starving!\t\$dominion->tick->starvation_casualties = " . $dominion->tick->starvation_casualties . "\n";
         }
 
         $this->resourceService->updateResources($dominion, $resourcesNetChange);
