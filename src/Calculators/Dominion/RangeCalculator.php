@@ -53,7 +53,7 @@ class RangeCalculator
         $targetLand = $this->landCalculator->getTotalLand($target);
 
         $selfModifier = $this->getRangeModifier($self);
-        $targetModifier = $this->getRangeModifier($target);
+        $targetModifier = $this->getRangeModifier($target, true);
 
         return (
           (
@@ -119,13 +119,13 @@ class RangeCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getRangeModifier(Dominion $dominion): float
+    public function getRangeModifier(Dominion $dominion, bool $isTarget = false): float
     {
         if($dominion->hasDeity())
         {
             return $dominion->getDeity()->range_multiplier;
         }
-        elseif($dominion->getPendingDeitySubmission())
+        elseif($dominion->getPendingDeitySubmission() and !$isTarget)
         {
             return $dominion->getPendingDeitySubmission()->range_multiplier;
         }
