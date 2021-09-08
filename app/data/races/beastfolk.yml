@@ -31,6 +31,20 @@ resources:
 improvement_resources:
   blood: 500
 
+land_improvements:
+  plains:
+    - offensive_power,0.15
+  forest:
+    - housing,0.75
+  mountains:
+    - gold_production_mod:0.75
+  hills:
+    - defensive_power,0.65
+  swamp:
+    - xp_generation_mod,2
+  water:
+    - food_production_mod,4
+
 perks:
   extra_barren_forest_max_population: 25
   land_improvements: 1

@@ -119,34 +119,6 @@ class Dominion extends AbstractModel
         'morale' => 'integer',
         'spy_strength' => 'float',
         'wizard_strength' => 'float',
-        /*
-        'resource_gold' => 'integer',
-        'resource_food' => 'integer',
-        'resource_lumber' => 'integer',
-        'resource_mana' => 'integer',
-        'resource_ore' => 'integer',
-        'resource_gems' => 'integer',
-        'resource_champion' => 'integer',
-        'resource_soul' => 'integer',
-        'resource_blood' => 'integer',
-
-        'improvement_markets' => 'integer',
-        'improvement_keep' => 'integer',
-        'improvement_towers' => 'integer',
-        'improvement_spires' => 'integer',
-        'improvement_forges' => 'integer',
-        'improvement_walls' => 'integer',
-        'improvement_harbor' => 'integer',
-        'improvement_armory' => 'integer',
-        'improvement_infirmary' => 'integer',
-        'improvement_workshops' => 'integer',
-        'improvement_observatory' => 'integer',
-        'improvement_cartography' => 'integer',
-        'improvement_hideouts' => 'integer',
-        'improvement_forestry' => 'integer',
-        'improvement_refinery' => 'integer',
-        'improvement_granaries' => 'integer',
-        */
 
         'military_draftees' => 'integer',
         'military_unit1' => 'integer',
@@ -164,27 +136,6 @@ class Dominion extends AbstractModel
         'land_forest' => 'integer',
         'land_hill' => 'integer',
         'land_water' => 'integer',
-        /*
-        'building_home' => 'integer',
-        'building_alchemy' => 'integer',
-        'building_farm' => 'integer',
-        'building_smithy' => 'integer',
-        'building_masonry' => 'integer',
-        'building_ore_mine' => 'integer',
-        'building_gryphon_nest' => 'integer',
-        'building_tower' => 'integer',
-        'building_wizard_guild' => 'integer',
-        'building_temple' => 'integer',
-        'building_gem_mine' => 'integer',
-        'building_school' => 'integer',
-        'building_lumberyard' => 'integer',
-        'building_forest_haven' => 'integer',
-        'building_factory' => 'integer',
-        'building_guard_tower' => 'integer',
-        'building_shrine' => 'integer',
-        'building_barracks' => 'integer',
-        'building_dock' => 'integer',
-        */
 
         'daily_gold' => 'boolean',
         'daily_land' => 'boolean',
@@ -1224,5 +1175,7 @@ class Dominion extends AbstractModel
     {
         return ($this->getDeityPerkValue($key) / 100);
     }
+
+    # Land improvements 2.0
 
 }
