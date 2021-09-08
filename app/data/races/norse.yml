@@ -21,7 +21,7 @@ resources:
 
 perks:
   exchange_bonus: 10
-  lumber_production: 10
+  lumber_production_mod: 10
 units:
   - name: Warrior
     training_time: 6

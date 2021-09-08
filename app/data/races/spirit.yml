@@ -22,7 +22,7 @@ perks:
   food_consumption: -80
   max_population: 30
   population_growth: 15
-  gems_production: 20
+  gems_production_mod: 20
   rezone_cost: -30
 units:
   - name: Wisp

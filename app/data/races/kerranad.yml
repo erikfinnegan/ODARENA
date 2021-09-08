@@ -21,8 +21,8 @@ converting: 3
 skill_level: 2
 
 perks:
-  gold_production: 10
-  ore_production: 25
+  gold_production_mod: 10
+  ore_production_mod: 25
   cannot_rezone: 1
   salvaging: 95
   max_per_round: 1

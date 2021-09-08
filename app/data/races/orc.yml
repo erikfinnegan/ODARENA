@@ -12,7 +12,7 @@ skill_level: 2
 perks:
   max_population: 20
   food_consumption: 20
-  lumber_production: 50
+  lumber_production_mod: 50
 
 units:
   - name: Impaler

@@ -11,7 +11,7 @@ converting: 3
 skill_level: 1
 
 perks:
-  food_production: 15
+  food_production_mod: 15
   research_points_per_acre: 100
   salvaging: 75
   construction_cost: -20

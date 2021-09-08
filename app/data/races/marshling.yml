@@ -23,7 +23,7 @@ peasants_production:
   mana: 0.1
 
 perks:
-  gold_production: -50
+  gold_production_mod: -50
   reduced_conversions: 80
 units:
   - name: Spawn

@@ -11,7 +11,7 @@ converting: 3
 skill_level: 2
 
 perks:
-  gems_production: 10
+  gems_production_mod: 10
 units:
   - name: Crusader
     training_time: 9
@@ -36,7 +36,7 @@ units:
       defense: 2
     perks:
       reduces_casualties: 1
-      mana_production: 0.05
+      mana_production_raw: 0.05
 
   - name: Pikeman
     training_time: 12

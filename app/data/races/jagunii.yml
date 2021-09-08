@@ -12,7 +12,7 @@ skill_level: 2
 perks:
   research_points_per_acre: 25
   prestige_gains: 25
-  gems_production: 30
+  gems_production_mod: 30
   salvaging: 25
 units:
   - name: Javelineer

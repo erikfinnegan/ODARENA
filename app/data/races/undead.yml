@@ -18,7 +18,7 @@ resources:
 
 perks:
   max_population: 30
-  mana_production: 10
+  mana_production_mod: 10
   no_food_consumption: 1
   max_per_round: 1
   wizard_training_time: 6

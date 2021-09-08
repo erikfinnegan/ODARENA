@@ -10,7 +10,7 @@ converting: 1
 skill_level: 2
 
 perks:
-  food_production: 5
+  food_production_mod: 5
   max_population: 25
   prestige_gains: 10
   salvaging: 15

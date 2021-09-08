@@ -14,9 +14,9 @@ construction_materials:
   - ore
 
 perks:
-  gold_production: -10
+  gold_production_mod: -10
   food_consumption: -15
-  gems_production: 10
+  gems_production_mod: 10
   max_population: -10
   salvaging: 75
 
