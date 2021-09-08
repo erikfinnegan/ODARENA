@@ -791,7 +791,7 @@ class EspionageActionService
 
         $theftAmount *= (1 + $targetModifier);
 
-        $theftAmount = min(max(0, $theftAmount), $target->{$resourceString});
+        $theftAmount = max(0, $theftAmount);
 
         return $theftAmount;
     }
