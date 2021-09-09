@@ -719,9 +719,16 @@ class TickService
 
           if($tick->starvation_casualties or $dominion->tick->starvation_casualties)
           {
-              # Lower morale by the lowest of 10 or current morale.
+              # Lower morale by 10.
               $starvationMoraleChange = min(10, $dominion->morale)*-1;
-              $tick->morale = $starvationMoraleChange;
+              if(($dominion->morale + $starvationMoraleChange) < 0)
+              {
+                  $tick->morale = -$dominion->morale;
+              }
+              else
+              {
+                  $tick->morale = $starvationMoraleChange;
+              }
           }
           else
           {
