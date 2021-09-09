@@ -416,7 +416,7 @@ class DominionFactory
 
         if(!$race->getPerkValue('no_food_consumption'))
         {
-            $startingResources['food'] = 40000;
+            $startingResources['food'] = 100000;
         }
         $startingParameters['protection_ticks'] = 96;
         $startingParameters['draft_rate'] = 50;
