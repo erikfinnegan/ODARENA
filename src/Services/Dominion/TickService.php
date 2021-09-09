@@ -719,16 +719,21 @@ class TickService
 
           if($tick->starvation_casualties or $dominion->tick->starvation_casualties)
           {
+
+              $starvationMoraleChange = min(10, $dominion->morale)*-1;
+              $tick->morale += $starvationMoraleChange;
+              /*
               # Lower morale by 10.
               $starvationMoraleChange = min(10, $dominion->morale)*-1;
               if(($dominion->morale + $starvationMoraleChange) < 0)
               {
-                  $tick->morale = -$dominion->morale;
+                  $tick->morale = $dominion->morale * -1;
               }
               else
               {
                   $tick->morale = $starvationMoraleChange;
               }
+              */
           }
           else
           {
@@ -1398,7 +1403,7 @@ class TickService
         }
 
         # Check for starvation
-        $dominion->tick->starvation_casualties = false;
+        #$dominion->tick->starvation_casualties = false;
         if(isset($resourcesConsumed['food']) and $resourcesConsumed['food'] > 0 and (($this->resourceCalculator->getAmount($dominion, 'food') + $resourcesNetChange['food']) < 0))
         {
             $dominion->tick->starvation_casualties = true;
