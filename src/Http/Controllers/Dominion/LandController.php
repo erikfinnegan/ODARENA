@@ -17,7 +17,6 @@ use OpenDominion\Services\Dominion\Actions\ExploreActionService;
 use OpenDominion\Services\Dominion\QueueService;
 
 use OpenDominion\Http\Requests\Dominion\Actions\DailyBonusesLandActionRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\DailyBonusesGoldActionRequest;
 use OpenDominion\Services\Dominion\Actions\DailyBonusesActionService;
 
 # ODA

@@ -14,7 +14,7 @@ class AddLandToDominions extends Migration
     public function up()
     {
         Schema::table('dominions', function (Blueprint $table) {
-            $table->decimal('land')->default(0)->after('ruler_name');
+            $table->unsignedInteger('land')->default(0)->after('ruler_name');
         });
     }
 

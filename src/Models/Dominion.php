@@ -1176,6 +1176,36 @@ class Dominion extends AbstractModel
         return ($this->getDeityPerkValue($key) / 100);
     }
 
+    /**
+     * Returns the unit production bonus for a specific resource type (across all eligible units) for this dominion.
+     *
+     * @param string $resourceType
+     * @return float
+     */
+    public function getUnitPerkProductionBonusFromDeity(string $resourceType): float
+    {
+        $bonus = 0;
+
+        foreach ($this->race->units as $unit)
+        {
+            $titlePerkData = $this->race->getUnitPerkValueForUnitSlot($unit->slot, 'production_from_deity', null);
+
+            if($titlePerkData)
+            {
+                $titleKey = $titlePerkData[0];
+                $perkResource = $titlePerkData[1];
+                $perkAmount = $titlePerkData[2];
+
+                if($resourceType === $perkResource and $this->getDeity()->key === $deityKey)
+                {
+                    $bonus += ($this->{'military_unit' . $unit->slot} * (float)$perkAmount);
+                }
+            }
+        }
+
+        return $bonus;
+    }
+
     # Land improvements 2.0
 
 }

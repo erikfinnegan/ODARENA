@@ -7,7 +7,7 @@ use OpenDominion\Console\Commands\CommandInterface;
 use OpenDominion\Services\Dominion\TickService;
 use OpenDominion\Models\Round;
 
-class TickCommand extends Command implements CommandInterface
+class PrecalculateCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
     protected $signature = 'game:precalculate';

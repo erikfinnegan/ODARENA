@@ -1313,6 +1313,25 @@ class MilitaryCalculator
           return $powerFromPerk;
       }
 
+      protected function getUnitPowerFromDeity(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+
+          $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_deity", null);
+          $powerFromPerk = 0;
+
+          if (!$titlePerkData or $dominion->isAbandoned() or !$dominion->hasDeity())
+          {
+              return 0;
+          }
+
+          if($dominion->getDeity()->key == $titlePerkData[0])
+          {
+              $powerFromPerk += $titlePerkData[1];
+          }
+
+          return $powerFromPerk;
+      }
+
       protected function getUnitPowerFromBuildingsBasedPerk(Dominion $dominion, Unit $unit, string $powerType): float
       {
           $buildingsPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_buildings", null);
