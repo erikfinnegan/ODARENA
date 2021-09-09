@@ -197,7 +197,7 @@
                                                 @endphp
 
                                                 @if($resource->buy)
-                                                    <option value="{{ $resourceKey }}" {{ $resourceKey  == $selectedDominion->most_recent_exchange_from ? 'selected' : ''}} >{{ $resource->name }}</option>}
+                                                    <option value="{{ $resourceKey }}" {{ $resourceKey  == $selectedDominion->most_recent_exchange_to ? 'selected' : ''}} >{{ $resource->name }}</option>}
                                                 @endif
 
                                             @endforeach
