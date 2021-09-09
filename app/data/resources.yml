@@ -63,3 +63,19 @@ pearls:
   sell: 3
   exclusive_races:
     - Merfolk
+
+prisoners:
+  name: Prisoners
+  buy: null
+  sell: null
+  exclusive_races:
+    - Dark Elf
+    - Nox
+
+slaves:
+  name: Slaves
+  buy: null
+  sell: null
+  exclusive_races:
+    - Dark Elf
+    - Nox

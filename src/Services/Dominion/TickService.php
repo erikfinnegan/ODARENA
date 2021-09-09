@@ -361,17 +361,17 @@ class TickService
                     }
 
                     if(static::EXTENDED_LOGGING) { Log::debug('** Handle unit attrition for ' . $dominion->name); }
-#                    if(
-#                        (
-#                          isset($dominion->tick->attrition_unit1) or
-#                          isset($dominion->tick->attrition_unit2) or
-#                          isset($dominion->tick->attrition_unit3) or
-#                          isset($dominion->tick->attrition_unit4)
-#                        )
-#                        and array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0
-#                        and !$dominion->isAbandoned()
-#                      )
-                    if(array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0 and !$dominion->isAbandoned())
+                    if(
+                        (
+                          isset($dominion->tick->attrition_unit1) or
+                          isset($dominion->tick->attrition_unit2) or
+                          isset($dominion->tick->attrition_unit3) or
+                          isset($dominion->tick->attrition_unit4)
+                        )
+                        and array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0
+                        and !$dominion->isAbandoned()
+                      )
+                    #if(array_sum([$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]) > 0 and !$dominion->isAbandoned())
                     {
                         $this->notificationService->queueNotification('attrition_occurred',[$dominion->tick->attrition_unit1, $dominion->tick->attrition_unit2, $dominion->tick->attrition_unit3, $dominion->tick->attrition_unit4]);
                     }
@@ -681,22 +681,9 @@ class TickService
           # Contributed: how much is RECEIVED (GIVEN TO)
           $tick->resource_food_contributed = 0;
           $tick->resource_mana_contributed = 0;
-          if($dominion->race->name == 'Monster')
-          {
-              $totalContributions = 0;#$this->realmCalculator->getTotalContributions($dominion->realm);
-              $tick->resource_food_contributed = 0;#$totalContributions['food'];
-              $tick->resource_mana_contributed = 0;#$totalContributions['mana'];
-          }
-
-
 
           // Starvation
           $tick->starvation_casualties = false;
-
-          #if(($dominion->resource_food + $tick->resource_food) <= 0 and !$dominion->race->getPerkValue('no_food_consumption'))
-          #{
-          #    $dominion->tick->starvation_casualties = true;
-          #}
 
           $foodProduction = $this->resourceCalculator->getProduction($dominion, 'food');
           $foodConsumed = $this->resourceCalculator->getConsumption($dominion, 'food');
@@ -705,7 +692,6 @@ class TickService
 
           if($foodConsumed > 0 and ($foodOwned + $foodNetChange) < 0)
           {
-              #dd($dominion->name . ' should be starving:', $foodConsumed, $foodOwned, $foodNetChange, ($foodOwned + $foodNetChange));
               $dominion->tick->starvation_casualties = true;
           }
 
@@ -719,16 +705,8 @@ class TickService
 
           if($tick->starvation_casualties or $dominion->tick->starvation_casualties)
           {
-              # Lower morale by 10.
-              $starvationMoraleChange = -10;
-              if(($dominion->morale + $starvationMoraleChange) < 0)
-              {
-                  $tick->morale = -$dominion->morale;
-              }
-              else
-              {
-                  $tick->morale = $starvationMoraleChange;
-              }
+              $starvationMoraleChange = min(10, $dominion->morale)*-1;
+              $tick->morale += $starvationMoraleChange;
           }
           else
           {
@@ -1395,14 +1373,6 @@ class TickService
             $resourcesProduced[$resourceKey] += $this->resourceCalculator->getProduction($dominion, $resourceKey);
             $resourcesConsumed[$resourceKey] += $this->resourceCalculator->getConsumption($dominion, $resourceKey);
             $resourcesNetChange[$resourceKey] += $resourcesProduced[$resourceKey] - $resourcesConsumed[$resourceKey];
-        }
-
-        # Check for starvation
-        $dominion->tick->starvation_casualties = false;
-        if(isset($resourcesConsumed['food']) and $resourcesConsumed['food'] > 0 and (($this->resourceCalculator->getAmount($dominion, 'food') + $resourcesNetChange['food']) < 0))
-        {
-            $dominion->tick->starvation_casualties = true;
-            #echo $dominion->name . " is starving!\t\$dominion->tick->starvation_casualties = " . $dominion->tick->starvation_casualties . "\n";
         }
 
         $this->resourceService->updateResources($dominion, $resourcesNetChange);
