@@ -712,7 +712,7 @@ metabolism:
   exclusive_races:
     - Growth
   perks:
-    food_production_raw: 100
+    food_production_raw_mod: 100
     convert_enemy_casualties_to_food: 1
 
 ambush:

@@ -120,19 +120,19 @@ class ResourceCalculator
             }
         }
 
-        // Barren land production
+        // Land and barren production
         foreach ($this->landHelper->getLandTypes($dominion) as $landType)
         {
             $production += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_' . $resourceKey . '_production');
+            $production += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue($landType . '_' . $resourceKey . '_production');
         }
 
         // raw_mod perks
         $rawModPerks = 1;
-        $rawModPerks += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_mod');
-        $rawModPerks += $dominion->getSpellPerkValue($resourceKey . '_production_raw_mod');
-        $rawModPerks += $dominion->getImprovementPerkValue($resourceKey . '_production_raw_mod');
-        $rawModPerks += $dominion->getTechPerkValue($resourceKey . '_production_raw_mod');
-        $rawModPerks += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getSpellPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getTechPerkMultiplier($resourceKey . '_production_raw_mod');
 
         $production *= $rawModPerks;
 
