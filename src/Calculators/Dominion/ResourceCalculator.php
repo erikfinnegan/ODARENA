@@ -128,11 +128,11 @@ class ResourceCalculator
 
         // raw_mod perks
         $rawModPerks = 1;
-        $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_mod');
-        $production += $dominion->getSpellPerkValue($resourceKey . '_production_raw_mod');
-        $production += $dominion->getImprovementPerkValue($resourceKey . '_production_raw_mod');
-        $production += $dominion->getTechPerkValue($resourceKey . '_production_raw_mod');
-        $production += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getSpellPerkValue($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getImprovementPerkValue($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getTechPerkValue($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw_mod');
 
         $production *= $rawModPerks;
 
