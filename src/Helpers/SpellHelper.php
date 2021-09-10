@@ -63,7 +63,7 @@ class SpellHelper
 
             'alchemy_production' => '+%s gold production per alchemy',
 
-            'food_production_raw' => '%s%% raw food production',
+            'food_production_raw_mod' => '%s%% raw food production',
 
             'food_production_docks' => '%s%% food production from Docks',
 
