@@ -2095,11 +2095,6 @@ class InvadeActionService
                             {
                                   $killsAttributableToThisSlot = $opFromLostAttackingUnits * ($dpFromSlot / $rawDp);
                                   $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
-
-                                  dd($opFromLostAttackingUnits, $dpFromSlot, $rawDp, $opFromLostAttackingUnits * ($dpFromSlot / $rawDp));
-
-
-                                  echo "<pre>Slot $slot ($amount providing $dpFromSlot out of $rawDp DP) killed $killsAttributableToThisSlot out of $amountKilled slot $slotKilled</pre>";
                             }
                         }
                     }
