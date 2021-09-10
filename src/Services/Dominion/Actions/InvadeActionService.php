@@ -1870,7 +1870,7 @@ class InvadeActionService
         }
 
         $dpFromLostDefendingUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $this->invasionResult['defender']['unitsLost'], 0, false, $this->isAmbush, true);
-        $opFromLostAttackingUnits = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $this->invasionResult['attacker']['unitsSent']);
+        $opFromLostAttackingUnits = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, $this->invasionResult['attacker']['unitsLost']);
 
 
         foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
@@ -1973,7 +1973,6 @@ class InvadeActionService
                               $resourceAmount = round($killsAttributableToThisSlot * $amountPerPoint);
                               $resourceAmount *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
                               $this->invasionResult['attacker']['resource_conversion'][$resource] += $resourceAmount;
-
                               #echo "<pre>$x >> $slot $resource ($dpFromLostDefendingUnits * $opFromSlot/$rawOp = $killsAttributableToThisSlot): {$this->invasionResult['attacker']['resource_conversion'][$resource]}</pre>";
                         }
                     }
@@ -2095,8 +2094,12 @@ class InvadeActionService
                             if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
                             {
                                   $killsAttributableToThisSlot = $opFromLostAttackingUnits * ($dpFromSlot / $rawDp);
-                                  #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
                                   $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
+
+                                  dd($opFromLostAttackingUnits, $dpFromSlot, $rawDp, $opFromLostAttackingUnits * ($dpFromSlot / $rawDp));
+
+
+                                  echo "<pre>Slot $slot ($amount providing $dpFromSlot out of $rawDp DP) killed $killsAttributableToThisSlot out of $amountKilled slot $slotKilled</pre>";
                             }
                         }
                     }
