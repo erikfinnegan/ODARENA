@@ -124,6 +124,15 @@ class ResourceCalculator
             $production += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_' . $resourceKey . '_production');
         }
 
+        // raw_mod perks
+        $rawModPerks = 1;
+        $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getSpellPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getTechPerkMultiplier($resourceKey . '_production_raw_mod');
+
+        $production *= $rawModPerks;
+
         $production *= $this->getProductionMultiplier($dominion, $resourceKey);
 
         return max(0, $production);
