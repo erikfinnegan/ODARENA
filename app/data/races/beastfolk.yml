@@ -33,17 +33,17 @@ improvement_resources:
 
 land_improvements:
   plains:
-    - offensive_power,0.15
+    - offensive_power: 0.15
   forest:
-    - housing,0.75
+    - housing: 0.75
   mountains:
-    - gold_production_mod:0.75
+    - gold_production_mod: 0.75
   hills:
-    - defensive_power,0.65
+    - defensive_power: 0.65
   swamp:
-    - xp_generation_mod,2
+    - xp_generation_mod: 2
   water:
-    - food_production_mod,4
+    - food_production_mod: 4
 
 perks:
   extra_barren_forest_max_population: 25
