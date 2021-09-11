@@ -2053,8 +2053,9 @@ class InvadeActionService
                             if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
                             {
                                   $killsAttributableToThisSlot = $amountKilled * ($dpFromSlot / $rawDp);
-                                  #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
                                   $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
+
+                                  #echo "<pre>Slot $slot accounts for " . $dpFromSlot / $rawDp . " of $opFromLostAttackingUnits OP killed, meaning they killed $killsAttributableToThisSlot raw OP</pre>";
                             }
                         }
                     }
@@ -2073,8 +2074,9 @@ class InvadeActionService
                         if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
                         {
                               $killsAttributableToThisSlot = $opFromLostAttackingUnits * ($dpFromSlot / $rawDp);
-                              #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot / $amountPerPoint)]);
-                              $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot / $amountPerPoint);
+                              $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerPoint);
+
+                              #echo "<pre>Slot $slot accounts for " . $dpFromSlot / $rawDp . " of $opFromLostAttackingUnits OP killed, meaning they killed $killsAttributableToThisSlot raw OP, thus earning " . round($killsAttributableToThisSlot / $amountPerPoint) . " blood.</pre>";
                         }
                     }
                 }
