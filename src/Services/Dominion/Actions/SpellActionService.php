@@ -592,16 +592,17 @@ class SpellActionService
                 # Resource conversion
                 if($perk->key === 'resource_conversion')
                 {
-                    $from = $spellPerkValues[0];
-                    $to = $spellPerkValues[1];
+                    $sourceResourceKey = $spellPerkValues[0];
+                    $targetResourceKey = $spellPerkValues[1];
                     $ratio = $spellPerkValues[2] / 100;
-                    $exchange = $spellPerkValues[3];
+                    $exchangeRate = $spellPerkValues[3];
 
-                    $amountRemoved = ceil($caster->{'resource_' . $from} * $ratio);
-                    $amountAdded = floor($amountRemoved / $exchange);
+                    $amountRemoved = ceil($this->resourceCalculator->getAmount($caster, $sourceResourceKey) * $ratio);
+                    $amountAdded = floor($amountRemoved / $exchangeRate);
 
-                    $caster->{'resource_'.$from} -= $amountRemoved;
-                    $caster->{'resource_'.$to} += $amountAdded;
+                    $this->resourceService->updateResources($dominion, [$sourceResourceKey => $amountRemoved*-1]);
+                    $this->resourceService->updateResources($dominion, [$targetResourceKey => $amountAdded]);
+
                 }
 
                 # Summon units
@@ -903,13 +904,13 @@ class SpellActionService
 
                     if($perk->key === 'resource_theft')
                     {
-                        $resource = $spellPerkValues[0];
+                        $resourceKey = $spellPerkValues[0];
                         $ratio = (float)$spellPerkValues[1] / 100;
 
-                        $damage = $this->getTheftAmount($caster, $target, $spell, $resource, $ratio);
+                        $amountStolen = $this->getTheftAmount($caster, $target, $spell, $resource, $ratio);
 
-                        $target->{'resource_'.$resource} -= $damage;
-                        $caster->{'resource_'.$resource} += $damage;
+                        $this->resourceService->updateResources($target, [$resourceKey => $amountStolen*-1]);
+                        $this->resourceService->updateResources($dominion, [$resourceKey => $amountStolen]);
 
                         $this->statsService->updateStat($caster, ($resource .  '_stolen'), $damage);
                         $this->statsService->updateStat($target, ($resource . '_lost'), $damage);

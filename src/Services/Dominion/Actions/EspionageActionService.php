@@ -571,17 +571,17 @@ class EspionageActionService
 
                 if($perk->key === 'resource_theft')
                 {
-                    $resource = $spyopPerkValues[0];
+                    $resourceKey = $spyopPerkValues[0];
                     $ratio = (float)$spyopPerkValues[1] / 100;
                     $maxPerSpy = (float)$spyopPerkValues[2];
 
-                    $amountStolen = $this->getTheftAmount($dominion, $target, $spyop, $resource, $ratio, $spyUnits, $maxPerSpy);
+                    $amountStolen = $this->getTheftAmount($dominion, $target, $spyop, $resourceKey, $ratio, $spyUnits, $maxPerSpy);
 
-                    $this->resourceService->updateResources($target, [$resource => $amountStolen*-1]);
-                    $this->resourceService->updateResources($dominion, [$resource => $amountStolen]);
+                    $this->resourceService->updateResources($target, [$resourceKey => $amountStolen*-1]);
+                    $this->resourceService->updateResources($dominion, [$resourceKey => $amountStolen]);
 
-                    $this->statsService->updateStat($dominion, ($resource .  '_stolen'), $amountStolen);
-                    $this->statsService->updateStat($target, ($resource . '_lost'), $amountStolen);
+                    $this->statsService->updateStat($dominion, ($resourceKey .  '_stolen'), $amountStolen);
+                    $this->statsService->updateStat($target, ($resourceKey . '_lost'), $amountStolen);
                 }
             }
 
@@ -597,12 +597,14 @@ class EspionageActionService
                 $sourceDominionId = $dominion->id;
             }
 
+            $resource = Resource::where('key', $resourceKey)->first();
+
             $this->notificationService
                 ->queueNotification('resource_theft', [
                     'sourceDominionId' => $sourceDominionId,
                     'operationKey' => $spyop->key,
                     'amount' => $amountStolen,
-                    'resource' => $resource,
+                    'resource' => $resource->name,
                 ])
                 ->sendNotifications($target, 'irregular_dominion');
 
@@ -611,7 +613,7 @@ class EspionageActionService
                 'message' => sprintf(
                     'Your spies infiltrate ' . $target->name .  ' successfully and return with %s %s.',
                     number_format($amountStolen),
-                    $resource
+                    $resource->name
                 ),
                 'redirect' => route('dominion.insight.show', $target),
             ];
