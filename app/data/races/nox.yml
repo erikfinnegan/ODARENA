@@ -14,19 +14,18 @@ resources:
   - food
   - mana
   - lumber
-  - gems
 
 perks:
   food_consumption: -50
   mana_production_mod: 50
+  gems_production_mod: -20
+  lumber_production_mod: -20
 
 units:
   - name: Imp
     training_time: 0
-    static_networth: 5
     type:
       - magical
-      - flying
     cost:
       mana: 10
     power:
@@ -36,44 +35,44 @@ units:
       does_not_count_as_population: 1
       no_draftee: 1
       instant_training: 1
-      pairing_limit_increasable: 4,2 # Unit slot, amount (max 4 of this unit per each Unit 4), imp to increase, imp multiplier
+      pairing_limit_increasable: 4,4 # Unit slot, amount
       fixed_casualties: 75
       plunder: mana,2.5
 
-  - name: Acolyte
-    training_time: 4
+  - name: Wraith
+    training_time: 0
     type:
-      - living
-      - sentient
-      - intelligent
+      - magical
     cost:
-      gold: 300
-      mana: 5
+      mana: 40
     power:
-      offense: 0
-      defense: 4
+      offense: 3
+      defense: 5
     perks:
-      counts_as_wizard_offense: 0.1667
-      counts_as_wizard_defense: 0.1667
-      mana_production_raw: 0.05
-
-  - name: Nightshade
-    training_time: 8
-    static_networth: 8
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 500
-      mana: 10
-      unit2: 1
-    power:
-      offense: 0
-      defense: 4
-    perks:
-      defense_from_buildings: abode;temple;wizard_guild;tower,10,6 # buildings; ratio; max
+      does_not_count_as_population: 1
       no_draftee: 1
+      instant_training: 1
+      pairing_limit_increasable: 4,2 # Unit slot, amount
+      plunder: mana,2
+
+  - name: Nightmare
+    training_time: 0
+    type:
+      - magical
+    cost:
+      mana: 10
+      wizard_strength: 100
+    power:
+      offense: 200
+      defense: 200
+    perks:
+      does_not_count_as_population: 1
+      no_draftee: 1
+      instant_training: 1
+      pairing_limit_increasable: 4,1 # Unit slot, amount
+      lowers_target_morale_on_successful_invasion: 1
+      immortal: 1
+      plunder: mana,1000
 
   - name: Lich
     training_time: 12
@@ -84,10 +83,11 @@ units:
       - wise
     cost:
       gold: 1000
-      mana: 15
+      lumber: 2
     power:
       offense: 3
-      defense: 4
+      defense: 5
     perks:
       true_immortal: 1
+      counts_as_wizard: 0.333
       offense_from_wizard_ratio: 2 # ratio%, max

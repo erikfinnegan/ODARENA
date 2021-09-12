@@ -206,6 +206,7 @@ class TickService
                             'target_id' => $dominion->realm_id,
                             'type' => 'round_countdown',
                             'data' => ['end_date' => $roundEnd],
+                            'tick' => $dominion->round->ticks
                         ]);
                         $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
                         $round->end_date = $roundEnd;
@@ -1321,6 +1322,7 @@ class TickService
                 'target_id' => $dominion->id,
                 'type' => 'deity_completed',
                 'data' => NULL,
+                'tick' => $dominion->round->ticks
             ]);
         }
 

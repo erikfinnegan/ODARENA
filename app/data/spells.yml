@@ -1206,6 +1206,42 @@ shroud:
     spy_strength: 100
     immortal_spies: 1
 
+nocten_acrimony:
+  name: Nocten Acrimony
+  scope: self
+  class: passive
+  cost: 2400
+  duration: 12
+  cooldown: 6
+  exclusive_races:
+    - Nox
+  perks:
+    offensive_power: 40
+
+nocten_shield:
+  name: Nocten Fervour
+  scope: self
+  class: passive
+  cost: 2400
+  duration: 12
+  cooldown: 6
+  exclusive_races:
+    - Nox
+  perks:
+    defensive_modifier_reduction: 20
+
+nocten_veil:
+  name: Nocten Veil
+  scope: self
+  class: passive
+  cost: 2400
+  duration: 12
+  cooldown: 6
+  exclusive_races:
+    - Nox
+  perks:
+    defensive_power: 40
+
 # Invasion spells
 
 pestilence:

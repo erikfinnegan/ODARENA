@@ -5,6 +5,7 @@ namespace OpenDominion\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use OpenDominion\Exceptions\GameException;
+use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\SelectorService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -596,10 +597,6 @@ class Dominion extends AbstractModel
          return $production;
      }
 
-     /**
-      * @param string $key
-      * @return float
-      */
       public function getBuildingPerkValue(string $perkKey): float
       {
           $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
@@ -646,6 +643,16 @@ class Dominion extends AbstractModel
                           or $perkKey == 'soul_production_raw'
                           or $perkKey == 'pearls_production_raw'
 
+                          or $perkKey == 'gold_upkeep_raw'
+                          or $perkKey == 'food_upkeep_raw'
+                          or $perkKey == 'ore_upkeep_raw'
+                          or $perkKey == 'lumber_upkeep_raw'
+                          or $perkKey == 'mana_upkeep_raw'
+                          or $perkKey == 'blood_upkeep_raw'
+                          or $perkKey == 'soul_upkeep_raw'
+                          or $perkKey == 'pearls_upkeep_raw'
+                          or $perkKey == 'prisoners_upkeep_raw'
+
                           or $perkKey == 'xp_generation_raw'
 
                           # Building-specific housing
@@ -658,8 +665,11 @@ class Dominion extends AbstractModel
                           or $perkKey == 'faster_returning_units'
                       )
                   {
-                      $perk += (float)$perkValueString;
+                      #$perk += (float)$perkValueString;
+
+                      $perk += $perkValueString * $building->pivot->owned;
                   }
+
                   # Mods with ratio, multiplier, and max
                   elseif(
                           # OP/DP mods
@@ -700,14 +710,16 @@ class Dominion extends AbstractModel
                           or $perkKey == 'drafting'
 
                           # Spy/wizard
+                          or $perkKey == 'spell_cost'
                           or $perkKey == 'spy_losses'
+                          or $perkKey == 'spy_strength'
+                          or $perkKey == 'spy_strength_on_defense'
+                          or $perkKey == 'spy_strength_on_offense'
+                          or $perkKey == 'spy_strength_recovery'
                           or $perkKey == 'wizard_losses'
+                          or $perkKey == 'wizard_strength'
                           or $perkKey == 'wizard_strength_recovery'
                           or $perkKey == 'wizard_cost'
-                          or $perkKey == 'spell_cost'
-                          or $perkKey == 'spy_strength'
-                          or $perkKey == 'spy_strength_recovery'
-                          or $perkKey == 'wizard_strength'
 
                           # Construction/Rezoning and Land
                           or $perkKey == 'construction_cost'
@@ -741,7 +753,9 @@ class Dominion extends AbstractModel
                       $max = (float)$perkValues[2] / 100;
                       $owned = $building->pivot->owned;
 
-                      $effect = min($owned / $landSize * $ratio * $multiplier, $max);
+                      #$effect = min($owned / $landSize * $ratio * $multiplier, $max);
+
+                      $perk += min($owned / $landSize * $ratio * $multiplier, $max) * 100;
                   }
                   # Mods with ratio, multiplier, and no max
                   elseif(
@@ -759,7 +773,9 @@ class Dominion extends AbstractModel
                       $multiplier = (float)$perkValues[1];
                       $owned = $building->pivot->owned;
 
-                      $effect = $owned / $landSize * $ratio * $multiplier;
+                      #$effect = $owned / $landSize * $ratio * $multiplier;
+
+                      $perk += ($owned / $landSize * $ratio * $multiplier) * 100;
                   }
                   # Production depleting
                   elseif(
@@ -777,7 +793,9 @@ class Dominion extends AbstractModel
                       $ticklyReduction = (float)$perkValues[1];
                       $ticks = $this->round->ticks;
 
-                      $perkValueString = max(0, ($baseProduction - ($ticklyReduction * $ticks)));
+                      #$perkValueString = max(0, ($baseProduction - ($ticklyReduction * $ticks)));
+
+                      $perk += max(0, ($baseProduction - ($ticklyReduction * $ticks)));
                   }
                   # Production/housing increasing
                   elseif(
@@ -798,18 +816,23 @@ class Dominion extends AbstractModel
                       $ticklyIncrease = (float)$perkValues[1];
                       $ticks = $this->round->ticks;
 
-                      $perkValueString = $baseValue + ($ticklyIncrease * $ticks);
+                      #$perkValueString = $baseValue + ($ticklyIncrease * $ticks);
+
+                      $perk += $baseValue + ($ticklyIncrease * $ticks);
+
                   }
               }
 
+              /*
               if (!isset($effect))
               {
                   $perk += $building->pivot->owned * $perkValueString;
               }
               else
               {
-                  $perk = $effect * 100;
+                  $perk += $effect * 100;
               }
+              */
 
           }
 
@@ -1225,5 +1248,41 @@ class Dominion extends AbstractModel
     }
 
     # Land improvements 2.0
+
+
+    public function getLandImprovementsPerkValue(string $perkKey): float
+    {
+        $landHelper = app(LandHelper::class);
+
+        $perk = 0;
+
+        foreach($landHelper->getLandTypes($this->race) as $landType)
+        {
+            if(isset($this->race->land_improvements[$landType][$perkKey]))
+            {
+                #echo "<pre>$perkKey from $landType: " . $this->race->land_improvements[$landType][$perkKey] . " </pre>";
+                $perk += $this->race->land_improvements[$landType][$perkKey] * $this->{'land_' . $landType};
+            }
+        }
+        return $perk;
+    }
+
+    public function getLandImprovementsPerkMultiplier(string $perkKey): float
+    {
+        $landHelper = app(LandHelper::class);
+
+        $perk = 0;
+
+        foreach($landHelper->getLandTypes($this->race) as $landType)
+        {
+            if(isset($this->race->land_improvements[$landType][$perkKey]))
+            {
+                #dd($this->race->land_improvements, $landType, $perkKey, $this->race->land_improvements[$landType][$perkKey]);
+                $perk += $this->race->land_improvements[$landType][$perkKey] * ($this->{'land_' . $landType} / $landHelper->getTotalLand($this));
+            }
+        }
+        return $perk;
+    }
+
 
 }

@@ -475,6 +475,7 @@ class InvadeActionService
                                 'target_id' => $targetId,
                                 'type' => $type,
                                 'data' => NULL,
+                                'tick' => $annexedDominion->round->ticks
                             ]);
 
                             $annexedDominion->save(['event' => HistoryService::EVENT_ACTION_INVADE_SUPPORT]);
@@ -496,6 +497,7 @@ class InvadeActionService
                 'target_id' => $target->id,
                 'type' => 'invasion',
                 'data' => $this->invasionResult,
+                'tick' => $dominion->round->ticks
             ]);
 
             // todo: move to its own method
@@ -1188,6 +1190,20 @@ class InvadeActionService
             $defenderMoraleChangeMultiplier += $dominion->race->getPerkMultiplier('morale_change_invasion');
 
             $defenderMoraleChange *= (1 + $defenderMoraleChangeMultiplier);
+
+            # Look for lowers_target_morale_on_successful_invasion
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                if(
+                    $lowersTargetMoralePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'lowers_target_morale_on_successful_invasion') and
+                    isset($units[$slot]) and
+                    $this->invasionResult['result']['success']
+                    )
+                {
+                    $attackerMoraleChange -= $this->invasionResult['attacker']['unitsSent'][$slot] * $lowersTargetMoralePerk;
+
+                }
+            }
 
         }
         # For failed invasions...

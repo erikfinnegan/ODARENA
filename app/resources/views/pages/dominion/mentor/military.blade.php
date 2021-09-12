@@ -42,9 +42,9 @@
 
                     @elseif($selectedDominion->race->name === 'Void')
                         <p>Void relies entirely on effective mana production and the best way for Void to produce mana is by training Shadows and Visions.</p>
-                        <p>In protection, start by training Visions until you have around 8,000 – 10,000. This gives enough mana production to transition into training Nightmares to begin invading other dominions.</p>
+                        <p>In protection, start by training Visions until you have around 8,000 – 10,000. This gives enough mana production to transition into training Distortions to begin invading other dominions.</p>
                         <p>As the round goes on, Visions are a better choice if you have more mana than you can spend. Shadows are good in small, targeted batches to increase your mana production.</p>
-                        <p>Your offensive power should consist of only Nightmares, other than exceptional circumstances where Fallen may be needed to quickly boost your OP for a specific goal.</p>
+                        <p>Your offensive power should consist of only Distortionss, other than exceptional circumstances where Fallen may be needed to quickly boost your OP for a specific goal.</p>
 
                     @elseif($selectedDominion->race->name === 'Sacred Order')
                         <p>Keep a steady supply of Monks. They produce XP which helps you gain advancements faster. However, every Monk also means one peasant not earning you 2.7 gold each tick (plus bonuses), so don't keep too high of a supply.</p>

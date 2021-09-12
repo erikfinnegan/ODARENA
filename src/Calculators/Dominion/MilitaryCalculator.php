@@ -1466,8 +1466,14 @@ class MilitaryCalculator
             }
         }
 
+        $multiplier = 1;
+        $multiplier += $dominion->getSpellPerkMultiplier('spy_strength');
+        $multiplier += $dominion->getSpellPerkMultiplier('spy_strength_on_' . $type);
+        $multiplier += $dominion->getBuildingPerkMultiplier('spy_strength');
+        $multiplier += $dominion->getBuildingPerkMultiplier('spy_strength_on_' . $type);
+
         // Shroud
-        $spies *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'spy_strength');
+        $spies *= $multiplier;
 
         return ($spies / $this->landCalculator->getTotalLand($dominion));
     }

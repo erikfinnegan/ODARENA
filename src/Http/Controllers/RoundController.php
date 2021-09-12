@@ -256,6 +256,7 @@ class RoundController extends AbstractController
                     'target_id' => $dominion->realm_id,
                     'type' => 'new_dominion',
                     'data' => $eventData,
+                    'tick' => $dominion->round->ticks
                 ]);
 
                 /*

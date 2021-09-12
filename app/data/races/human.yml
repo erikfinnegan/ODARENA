@@ -10,6 +10,15 @@ exploring : 3
 converting: 3
 skill_level: 1
 
+resources:
+  - gold
+  - food
+  - lumber
+  - ore
+  - mana
+  - gems
+  - horse
+
 perks:
   food_production_mod: 15
   research_points_per_acre: 100
@@ -17,24 +26,9 @@ perks:
   construction_cost: -20
   rezone_cost: -20
   increased_construction_speed: 4
-  prestige_gains: 30
+  prestige_gains: 20
 
 units:
-  - name: Man-at-Arms
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 325
-      ore: 20
-    power:
-      offense: 4
-      defense: 0
-    perks:
-      faster_return: 3
-
   - name: Archer
     training_time: 9
     type:
@@ -42,26 +36,24 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 365
-      lumber: 20
+      gold: 680
+      lumber: 30
     power:
       offense: 0
-      defense: 4
+      defense: 7
 
-  - name: Spearman
-    training_time: 12
+  - name: Spearguard
+    training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 800
-      ore: 80
+      gold: 680
+      ore: 90
     power:
       offense: 0
-      defense: 7.5
-    perks:
-      casualties: -25
+      defense: 7
 
   - name: Knight
     training_time: 12
@@ -70,11 +62,33 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1150
-      ore: 100
+      gold: 1200
+      ore: 175
+      horse: 1
     power:
       offense: 8
-      defense: 4
+      defense: 5
     perks:
+      casualties: -25
       faster_return: 3
-      plunders: gold;0.75,gems;0.25
+
+  - name: Scythed Chariot
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+      - machine
+    cost:
+      gold: 3000
+      ore: 600
+      lumber: 400
+      horse: 4
+    power:
+      offense: 24
+      defense: 15
+    perks:
+      offensive_casualties: -50
+      increases_casualties_on_offense: 1
+      faster_return: 3
+      plunders: gold;1,ore;0.5,gems;0.25

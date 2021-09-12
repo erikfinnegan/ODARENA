@@ -9,37 +9,56 @@ exploring : 3
 converting: 2
 skill_level: 2
 
+resources:
+  - gold
+  - ore
+  - lumber
+  - food
+  - mana
+  - gems
+  - prisoners
+
 perks:
-  gems_production_mod: 10
   food_consumption: -20
+  construction_cost: -20
+  rezone_cost: -20
+  salvage: 50
 units:
-  - name: Gargoyle
-    training_time: 9
+  - name: Slave Soldier
+    training_time: 3
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 350
-      ore: 30
+      slave: 1
+      ore: 10
+      food: 10
+      mana: 2
     power:
       offense: 4
-      defense: 0
+      defense: 2
     perks:
-      faster_return: 3
+      fixed_casualties: 20
+      reduces_casualties: 1
+      does_not_count_as_population: 1
+      kills_into_resource_per_casualty: 0.25,prisoner
 
-  - name: Swordsman
+  - name: Acolyte
     training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 300
-      ore: 25
+      gold: 800
+      mana: 10
     power:
       offense: 0
-      defense: 4
+      defense: 6
+    perks:
+      counts_as_wizard: 0.20
+      kills_into_resource_per_casualty: 0.5,prisoner
 
   - name: Adept
     training_time: 12
@@ -50,18 +69,18 @@ units:
       - wise
     cost:
       gold: 1200
-      ore: 0
     power:
       offense: 3
       defense: 5
     perks:
-      counts_as_wizard_offense: 0.25
-      counts_as_wizard_defense: 0.25
+      counts_as_wizard: 0.25
       offense_from_building: wizard_guild,10,5 # building type, ratio%, max
       defense_from_building: wizard_guild,10,5 # building type, ratio%, max
+      offense_from_deity: sazal,2
       xp_generation_raw: 0.025
+      kills_into_resource_per_casualty: 0.5,prisoner
 
-  - name: Spirit Warrior
+  - name: Blade Master
     training_time: 12
     type:
       - living
@@ -69,11 +88,13 @@ units:
       - intelligent
       - wise
     cost:
-      gold: 750
+      gold: 1200
       mana: 30
     power:
-      offense: 4
-      defense: 0
+      offense: 6
+      defense: 6
     perks:
-      immortal_on_victory: 1
       offense_from_advancements: wizardry_tradition_level6;1,magical_weapons_level6;1,concentration_level6;1,invocations_level6;1
+      offense_from_deity: mirnon,2
+      kills_into_resource_per_casualty: 1,prisoner
+      displaced_peasants_conversion: 1

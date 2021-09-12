@@ -9,62 +9,93 @@ exploring : 3
 converting: 3
 skill_level: 1
 
+peasants_production:
+  gold: 2.5
+
+resources:
+  - gold
+  - food
+  - lumber
+  - ore
+  - mana
+  - gems
+  - horse
+
+land_improvements:
+  plain:
+    offensive_power_mod: 0.10
+    horse_production_raw: 0.5
+    food_production_raw: 15
+  forest:
+    lumber_production_raw: 50
+    food_production_raw: 20
+  mountain:
+    ore_production_raw: 50
+    gems_production_raw: 10
+  hill:
+    defensive_power_mod: 0.10
+    horse_production_raw: 0.25
+    ore_production_raw: 20
+  swamp:
+    mana_production_raw: 20
+  water:
+    xp_generation_mod: 2
+    food_production_raw: 50
+    food_production_mod: 4
+
 perks:
-  food_consumption: -15
+  food_consumption: -25
+  unemployed_peasants_produce: 1
   extra_barren_max_population: 25
-  construction_cost: 15
-  increased_construction_speed: 2
-  salvaging: 65
-  offense_from_barren: 1 # Gets 1% OP bonus from every 1% barren
-  barren_forest_lumber_production: 30
-  barren_mountain_ore_production: 30
-  barren_water_food_production: 30
+  salvaging: 50
+  cannot_rezone: 1
+  max_population: -10
 
 units:
-  - name: Light Cavalry
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 300
-      ore: 15
-    power:
-      offense: 3
-      defense: 0
-    perks:
-      faster_return: 3
-      casualties: -25
-      plunders: gold;2,gems;0.1
-
-  - name: Sabrer
-    training_time: 9
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 275
-      ore: 35
-    power:
-      offense: 0
-      defense: 3
-
   - name: Halberdier
-    training_time: 12
+    training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 900
+      gold: 800
       ore: 100
     power:
       offense: 0
       defense: 7
     perks:
       increases_casualties_on_defense: 1
+
+  - name: Sabrer
+    training_time: 6
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 600
+      ore: 80
+    power:
+      offense: 6
+      defense: 3
+
+  - name: Heavy Cavalry
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 1250
+      ore: 200
+      horse: 1
+    power:
+      offense: 8
+      defense: 8
+    perks:
+      increases_casualties_on_offense: 1
+      casualties: -50
 
   - name: Horse Archer
     training_time: 12
@@ -74,11 +105,11 @@ units:
       - intelligent
     cost:
       gold: 1200
-      ore: 50
+      lumber: 4
+      horse: 1
     power:
-      offense: 8
-      defense: 3
+      offense: 10
+      defense: 6
     perks:
-      faster_return: 3
+      faster_return: 6
       casualties: -50
-      plunders: gold;1,gems;0.25,ore;0.5

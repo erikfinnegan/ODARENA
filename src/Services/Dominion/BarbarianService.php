@@ -356,6 +356,7 @@ class BarbarianService
                         'target_id' => $dominion->realm_id,
                         'type' => 'barbarian_invasion',
                         'data' => $data,
+                        'tick' => $dominion->round->ticks
                     ]);
                     $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
                 }
@@ -522,6 +523,7 @@ class BarbarianService
                 'target_id' => $barbarian->realm_id,
                 'type' => 'new_dominion',
                 'data' => NULL,
+                'tick' => $barbarian->round->ticks
             ]);
         }
     }

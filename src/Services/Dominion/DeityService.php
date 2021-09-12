@@ -110,6 +110,7 @@ class DeityService
           'target_id' => $dominion->id,
           'type' => 'deity_renounced',
           'data' => [],
+          'tick' => $dominion->round->ticks
       ]);
 
     }

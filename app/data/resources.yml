@@ -67,15 +67,22 @@ pearls:
 prisoners:
   name: Prisoners
   buy: null
-  sell: null
+  sell: 4
   exclusive_races:
     - Dark Elf
     - Nox
 
-slaves:
-  name: Slaves
+brimmer:
+  name: Brimmer
   buy: null
-  sell: null
+  sell: 3
   exclusive_races:
-    - Dark Elf
-    - Nox
+    - Imperial Gnome
+
+horse:
+  name: Horse
+  buy: null
+  sell: 2
+  exclusive_races:
+    - Human
+    - Nomad

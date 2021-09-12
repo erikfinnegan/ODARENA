@@ -240,6 +240,7 @@ class ExpeditionActionService
                 'target_id' => NULL,
                 'type' => 'expedition',
                 'data' => $this->expeditionResult,
+                'tick' => $dominion->round->ticks
             ]);
 
             $dominion->save(['event' => HistoryService::EVENT_ACTION_EXPEDITION]);

@@ -55,7 +55,18 @@ class BuildingHelper
             'gems_production_raw' => 'Produces %s gems per tick.',
             'mana_production_raw' => 'Produces %s mana per tick.',
             'pearls_production_raw' => 'Produces %s pearls per tick.',
-            'xp_generation_raw' => 'Produces %s pearls per tick.',
+            'horse_production_raw' => 'Produces %s horses per tick.',
+
+            'xp_generation_raw' => 'Generates %s XP per tick.',
+
+            'gold_upkeep_raw' => 'Costs %s gold per tick.',
+            'food_upkeep_raw' => 'Costs %s food per tick.',
+            'lumber_upkeep_raw' => 'Costs %s lumber per tick.',
+            'ore_upkeep_raw' => 'Costs %s ore per tick.',
+            'gems_upkeep_raw' => 'Costs %s gems per tick.',
+            'mana_upkeep_raw' => 'Costs %s mana per tick.',
+            'pearls_upkeep_raw' => 'Costs %s pearls per tick.',
+            'prisoners_upkeep_raw' => 'Works %s prisoners per tick to death.',
 
             'gold_production_mod' => 'Gold production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'food_production_mod' => 'Food production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
@@ -135,11 +146,14 @@ class BuildingHelper
             'fireball_damage' => 'Damage from fireballs reduced by %2$s%% for every %1$s%%.',
             'lightning_bolt_damage' => 'Damage from lightning bolts reduced by %2$s%% for every %1$s%%.',
             'gold_theft_reduction' => 'Gold stolen from you reduced by %2$s%% for every %1$s%%.',
+            'horse_theft_reduction' => 'Horses stolen from you reduced by %2$s%% for every %1$s%%.',
             'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
             'wizard_strength' => 'Wizard strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'spy_strength' => 'Spy strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'spy_strength_on_defense' => 'Spy strength on defense increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'spy_strength_on_offense' => 'Spy strength on offense increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
         ];
 

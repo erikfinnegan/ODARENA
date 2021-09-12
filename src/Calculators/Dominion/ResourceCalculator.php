@@ -124,6 +124,9 @@ class ResourceCalculator
             $production += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_' . $resourceKey . '_production');
         }
 
+        # Production from Land Improvements
+        $production += $dominion->getLandImprovementsPerkValue($resourceKey . '_production_raw');
+
         // raw_mod perks
         $rawModPerks = 1;
         $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');
@@ -164,6 +167,10 @@ class ResourceCalculator
             $multiplier += $this->landImprovementCalculator->getGoldProductionBonus($dominion);
         }
 
+
+        # Production from Land Improvements
+        $multiplier += $dominion->getLandImprovementsPerkMultiplier($resourceKey . '_production_mod');
+
         # Add prestige
         if($resourceKey == 'food')
         {
@@ -183,11 +190,11 @@ class ResourceCalculator
         }
 
         $consumption = 0;
-        $consumption += $dominion->getBuildingPerkValue($resourceKey . '_upkeep');
-        $consumption += $dominion->getSpellPerkValue($resourceKey . '_upkeep');
-        $consumption += $dominion->getImprovementPerkValue($resourceKey . '_upkeep');
-        $consumption += $dominion->getTechPerkValue($resourceKey . '_upkeep');
-        $consumption += $dominion->getUnitPerkProductionBonus($resourceKey . '_upkeep');
+        $consumption += $dominion->getBuildingPerkValue($resourceKey . '_upkeep_raw');
+        $consumption += $dominion->getSpellPerkValue($resourceKey . '_upkeep_raw');
+        $consumption += $dominion->getImprovementPerkValue($resourceKey . '_upkeep_raw');
+        $consumption += $dominion->getTechPerkValue($resourceKey . '_upkeep_raw');
+        $consumption += $dominion->getUnitPerkProductionBonus($resourceKey . '_upkeep_raw');
 
         # Food consumption
         if($resourceKey === 'food')
