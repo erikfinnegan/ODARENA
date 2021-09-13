@@ -279,6 +279,8 @@ class TrainingCalculator
 
                 $pairingLimitedByTrained = $dominion->{'military_unit'.$pairingLimitedBy};
 
+                $pairingLimitedByTrained *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
+
                 $maxAdditionalPermittedOfThisUnit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
 
                 $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
