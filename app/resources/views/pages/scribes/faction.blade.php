@@ -155,112 +155,111 @@
                                             // todo: move this shit to view presenter or something
                                             $labelParts = [];
 
-                                            foreach ($trainingCalculator->getTrainingCostsPerUnit($selectedDominion)[$unitType] as $costType => $value) {
+                                            foreach($unit->cost as $costType => $value)
+                                            {
+                                                # Only show resource if there is a corresponding cost
+                                                if($value != 0)
+                                                {
+                                                    switch ($costType)
+                                                    {
+                                                        case 'gold':
+                                                            $labelParts[] = number_format($value) . ' gold';
+                                                            break;
 
-                                              # Only show resource if there is a corresponding cost
-                                              if($value != 0)
-                                              {
+                                                        case 'ore':
+                                                            $labelParts[] = number_format($value) . ' ore';
+                                                            break;
 
-                                                switch ($costType) {
-                                                    case 'gold':
-                                                        $labelParts[] = number_format($value) . ' gold';
-                                                        break;
+                                                        case 'food':
+                                                            $labelParts[] =  number_format($value) . ' food';
+                                                            break;
 
-                                                    case 'ore':
-                                                        $labelParts[] = number_format($value) . ' ore';
-                                                        break;
+                                                        case 'mana':
+                                                            $labelParts[] =  number_format($value) . ' mana';
+                                                            break;
 
-                                                    case 'food':
-                                                        $labelParts[] =  number_format($value) . ' food';
-                                                        break;
+                                                        case 'lumber':
+                                                            $labelParts[] =  number_format($value) . ' lumber';
+                                                            break;
 
-                                                    case 'mana':
-                                                        $labelParts[] =  number_format($value) . ' mana';
-                                                        break;
+                                                        case 'gems':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('gems', $value);
+                                                            break;
 
-                                                    case 'lumber':
-                                                        $labelParts[] =  number_format($value) . ' lumber';
-                                                        break;
+                                                        case 'prestige':
+                                                            $labelParts[] =  number_format($value) . ' Prestige';
+                                                            break;
 
-                                                    case 'gems':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('gems', $value);
-                                                        break;
+                                                        case 'boat':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('boat', $value);
+                                                            break;
 
-                                                    case 'prestige':
-                                                        $labelParts[] =  number_format($value) . ' Prestige';
-                                                        break;
+                                                        case 'champion':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Champion', $value);
+                                                            break;
 
-                                                    case 'boat':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('boat', $value);
-                                                        break;
+                                                        case 'soul':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('soul', $value);
+                                                            break;
 
-                                                    case 'champion':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('Champion', $value);
-                                                        break;
+                                                        case 'blood':
+                                                            $labelParts[] =  number_format($value) . ' blood';
+                                                            break;
 
-                                                    case 'soul':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('soul', $value);
-                                                        break;
+                                                        case 'unit1':
+                                                        case 'unit2':
+                                                        case 'unit3':
+                                                        case 'unit4':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $selectedDominion->race), $value);
+                                                            break;
 
-                                                    case 'blood':
-                                                        $labelParts[] =  number_format($value) . ' blood';
-                                                        break;
+                                                        case 'morale':
+                                                            $labelParts[] =  number_format($value) . '% morale';
+                                                            break;
 
-                                                    case 'unit1':
-                                                    case 'unit2':
-                                                    case 'unit3':
-                                                    case 'unit4':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $selectedDominion->race), $value);
-                                                        break;
+                                                        case 'peasant':
+                                                            $labelParts[] =  number_format($value) . ' peasant';
+                                                            break;
 
-                                                    case 'morale':
-                                                        $labelParts[] =  number_format($value) . '% morale';
-                                                        break;
+                                                        case 'spy':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Spy', $value);
+                                                            break;
 
-                                                    case 'peasant':
-                                                        $labelParts[] =  number_format($value) . ' peasant';
-                                                        break;
+                                                        case 'wizard':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Wizard', $value);
+                                                            break;
 
-                                                    case 'spy':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('Spy', $value);
-                                                        break;
+                                                        case 'archmage':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('Archmage', $value);
+                                                            break;
 
-                                                    case 'wizard':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('Wizard', $value);
-                                                        break;
+                                                        case 'wizards':
+                                                            $labelParts[] = '1 Wizard';
+                                                            break;
 
-                                                    case 'archmage':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('Archmage', $value);
-                                                        break;
+                                                        case 'spy_strength':
+                                                            $labelParts[] =  number_format($value) . '% Spy Strength ';
+                                                            break;
 
-                                                    case 'wizards':
-                                                        $labelParts[] = '1 Wizard';
-                                                        break;
+                                                        case 'wizard_strength':
+                                                            $labelParts[] =  number_format($value) . '% Wizard Strength ';
+                                                            break;
 
-                                                    case 'spy_strength':
-                                                        $labelParts[] =  number_format($value) . '% Spy Strength ';
-                                                        break;
+                                                        case 'brimmer':
+                                                            $labelParts[] =  number_format($value) . ' brimmer';
+                                                            break;
 
-                                                    case 'wizard_strength':
-                                                        $labelParts[] =  number_format($value) . '% Wizard Strength ';
-                                                        break;
+                                                        case 'prisoner':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('prisoner', $value);
+                                                            break;
 
-                                                    case 'brimmer':
-                                                        $labelParts[] =  number_format($value) . ' brimmer';
-                                                        break;
+                                                        case 'horse':
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural('horse', $value);
+                                                            break;
 
-                                                    case 'prisoner':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('prisoner', $value);
-                                                        break;
-
-                                                    case 'horse':
-                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('horse', $value);
-                                                        break;
-
-                                                    default:
-                                                        break;
+                                                        default:
+                                                            break;
                                                     }
-
                                                 } #ENDIF
                                             }
 
