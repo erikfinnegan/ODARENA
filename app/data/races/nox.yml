@@ -15,6 +15,7 @@ resources:
   - food
   - mana
   - lumber
+  - gems
 
 perks:
   food_consumption: -50

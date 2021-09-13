@@ -457,11 +457,15 @@
                                   </td>
                                   <td>
                                       <ul>
-                                      @foreach($race->land_improvements[$landType] as $perk => $value)
-                                          <li>
-                                          {!! $landImprovementsHelper->getPerkDescription($perk, $value) !!}
-                                          </li>
-                                      @endforeach
+                                      @if(isset($race->land_improvements[$landType]))
+                                          @foreach($race->land_improvements[$landType] as $perk => $value)
+                                              <li>
+                                              {!! $landImprovementsHelper->getPerkDescription($perk, $value) !!}
+                                              </li>
+                                          @endforeach
+                                      @else
+                                          &mdash;
+                                      @endif
                                       </ul>
                                   </td>
                               </tr>
