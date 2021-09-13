@@ -136,6 +136,36 @@ class ResourceCalculator
             }
         }
 
+        # Check for ore_production_raw_from_prisoner RESOURCE_production_raw_from_ANOTHER_RESOURCE
+        foreach($dominion->race->resources as $sourceResourceKey)
+        {
+            #foreach($dominion->race->resources as $targetResourceKey)
+            #{
+                #if($pairedProductionPerk = $dominion->getBuildingPerkValue($sourceResourceKey . '_production_raw_from_' . $targetResourceKey))
+                #{
+                    $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_from_' . $sourceResourceKey);
+                #}
+
+            #}
+
+        }
+
+        if($resourceConversionData = $dominion->getBuildingPerkValue('resource_conversion'))
+        {
+            $resourceConversionMultiplier = 1;
+            $resourceConversionMultiplier += $dominion->getImprovementPerkMultiplier('resource_conversion');
+            foreach($dominion->race->resources as $factionResourceKey)
+            {
+                if(
+                      isset($resourceConversionData['from'][$factionResourceKey]) and
+                      isset($resourceConversionData['to'][$resourceKey])
+                  )
+                {
+                    $production += floor($resourceConversionData['to'][$resourceKey] * $resourceConversionMultiplier);
+                }
+            }
+        }
+
         // Barren land production
         foreach ($this->landHelper->getLandTypes($dominion) as $landType)
         {

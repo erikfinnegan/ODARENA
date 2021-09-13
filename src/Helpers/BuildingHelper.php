@@ -66,7 +66,7 @@ class BuildingHelper
             'gems_upkeep_raw' => 'Costs %s gems per tick.',
             'mana_upkeep_raw' => 'Costs %s mana per tick.',
             'pearls_upkeep_raw' => 'Costs %s pearls per tick.',
-            'prisoners_upkeep_raw' => 'Works %s prisoners per tick to death.',
+            'prisoner_upkeep_raw' => 'Works %s prisoners per tick to death.',
 
             'gold_production_mod' => 'Gold production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'food_production_mod' => 'Food production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
@@ -85,6 +85,10 @@ class BuildingHelper
             'ore_production_depleting_raw' => 'Produces %1$s ore per tick (reduced by %2$s per tick of the round down to 0).',
             'gems_production_depleting_raw' => 'Produces %1$s gems per tick (reduced by %2$s per tick of the round down to 0).',
             'mana_production_depleting_raw' => 'Produces %1$s mana per tick (reduced by %2$s per tick of the round down to 0).',
+
+            'ore_production_raw_from_prisoner' => 'Produces %1$s ore per tick per prisoner up to a maximum of %2$s prisoners.',
+            'gold_production_raw_from_prisoner' => 'Produces %1$s gold per tick per prisoner up to a maximum of %2$s prisoners.',
+            'gems_production_raw_from_prisoner' => 'Produces %1$s gems per tick per prisoner up to a maximum of %2$s prisoners.',
 
             'draftee_generation' => 'Generates %s draftees per tick (limited by population).',
 

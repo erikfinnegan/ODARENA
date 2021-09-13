@@ -15,6 +15,35 @@ class ResourceHelper
         return Resource::where('key', $resourceKey)->first() ? true : false;
     }
 
+    public function getResourceConsumptionTerm(string $resourceKey): string
+    {
+        switch ($resourceKey) {
+
+            case 'food':
+                $string = 'Eaten';
+                break;
+
+            case 'mana':
+                $string = 'Drained';
+                break;
+
+            case 'brimmer':
+                $string = 'Spent';
+                break;
+
+            case 'prisoner':
+                $string = 'Deceased';
+                break;
+
+            default:
+                $string = 'Consumed';
+
+        }
+
+
+        return $string;
+    }
+
     public function getResourcesByRace(Race $race): Collection
     {
         return $race->resources;

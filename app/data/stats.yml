@@ -193,7 +193,6 @@ blood_training:
 blood_improvements:
   name: Blood improvements
 
-
 pearls_production:
   name: Pearls production
 pearls_sold:
@@ -214,6 +213,111 @@ pearls_salvaged:
   name: Pearls salvaged
 pearls_plundered:
   name: Pearls plundered
+
+horse_production:
+  name: Horse production
+horse_sold:
+  name: Horses sold
+horse_bought:
+  name: Horses bought
+horse_building:
+  name: Horses building
+horse_rezoning:
+  name: Horses rezoning
+horse_training:
+  name: Horses training
+horse_improvements:
+  name: Horses improvements
+horse_lost:
+  name: Horses lost
+horse_salvaged:
+  name: Horses salvaged
+horse_plundered:
+  name: Horses plundered
+
+prisoner_production:
+  name: Prisoners production
+prisoner_sold:
+  name: Prisoners sold
+prisoner_bought:
+  name: Prisoners bought
+prisoner_building:
+  name: Prisoners building
+prisoner_rezoning:
+  name: Prisoners rezoning
+prisoner_training:
+  name: Prisoners training
+prisoner_improvements:
+  name: Prisoners improvements
+prisoner_lost:
+  name: Prisoners lost
+prisoner_salvaged:
+  name: Prisoners salvaged
+prisoner_plundered:
+  name: Prisoners plundered
+
+brimmer_production:
+  name: Brimmer production
+brimmer_sold:
+  name: Brimmer sold
+brimmer_bought:
+  name: Brimmer bought
+brimmer_building:
+  name: Brimmer building
+brimmer_rezoning:
+  name: Brimmer rezoning
+brimmer_training:
+  name: Brimmer training
+brimmer_improvements:
+  name: Brimmer improvements
+brimmer_lost:
+  name: Brimmer lost
+brimmer_salvaged:
+  name: Brimmer salvaged
+brimmer_plundered:
+  name: Brimmer plundered
+
+spy_strength_production:
+  name: Spy Strength production
+spy_strength_sold:
+  name: Spy Strength sold
+spy_strength_bought:
+  name: Spy Strength bought
+spy_strength_building:
+  name: Spy Strength building
+spy_strength_rezoning:
+  name: Spy Strength rezoning
+spy_strength_training:
+  name: Spy Strength training
+spy_strength_improvements:
+  name: Spy Strength improvements
+spy_strength_lost:
+  name: Spy Strength lost
+spy_strength_salvaged:
+  name: Spy Strength salvaged
+spy_strength_plundered:
+  name: Spy Strength plundered
+
+wizard_strength_production:
+  name: Wizard Strength production
+wizard_strength_sold:
+  name: Wizard Strength sold
+wizard_strength_bought:
+  name: Wizard Strength bought
+wizard_strength_building:
+  name: Wizard Strength building
+wizard_strength_rezoning:
+  name: Wizard Strength rezoning
+wizard_strength_training:
+  name: Wizard Strength training
+wizard_strength_improvements:
+  name: Wizard Strength improvements
+wizard_strength_lost:
+  name: Wizard Strength lost
+wizard_strength_salvaged:
+  name: Wizard Strength salvaged
+wizard_strength_plundered:
+  name: Wizard Strength plundered
 
 # Land
 

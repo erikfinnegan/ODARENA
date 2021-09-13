@@ -31,9 +31,6 @@ class TrainActionService
 {
     use DominionGuardsTrait;
 
-    /**
-     * TrainActionService constructor.
-     */
     public function __construct(
         ImprovementCalculator $improvementCalculator,
         SpellCalculator $spellCalculator,
@@ -125,6 +122,9 @@ class TrainActionService
             'unit2' => 0,
             'unit3' => 0,
             'unit4' => 0,
+            'brimmer' => 0,
+            'prisoner' => 0,
+            'horse' => 0,
 
             'spy' => 0,
             'wizard' => 0,
@@ -222,7 +222,6 @@ class TrainActionService
                 }
             }
 
-            $pairingLimitIncreasable = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'pairing_limit_increasable');
             if($pairingLimit)
             {
                 // We have pairing limit for this unit.
@@ -319,7 +318,7 @@ class TrainActionService
                     $upperLimit
                   )
                 {
-                  throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your ' . ucwords(str_plural($buildingLimit[2], 3)) . '.');
+                  throw new GameException('You can at most have ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To train more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or improve your unit pairing.');
                 }
             }
             # Building limit check complete.
@@ -413,7 +412,6 @@ class TrainActionService
               }
           }
 
-
           if(
               $totalCosts['unit1'] > $dominion->military_unit1 OR
               $totalCosts['unit2'] > $dominion->military_unit2 OR
@@ -444,15 +442,15 @@ class TrainActionService
               throw new GameException('Training aborted due to lack of ' . str_plural($this->raceHelper->getDrafteesTerm($dominion->race)) . '.');
           }
 
-          #if($totalCosts['spy_strength'] > $dominion->spy_strength)
-          #{
-          #  throw new GameException('Training failed due to insufficient spy strength.');
-          #}
+          if($totalCosts['spy_strength'] > $dominion->spy_strength)
+          {
+            throw new GameException('Training failed due to insufficient spy strength.');
+          }
 
-          #if($totalCosts['wizard_strength'] > $dominion->wizard_strength)
-          #{
-          #  throw new GameException('Training failed due to insufficient wizard strength.');
-          #}
+          if($totalCosts['wizard_strength'] > $dominion->wizard_strength)
+          {
+            throw new GameException('Training failed due to insufficient wizard strength.');
+          }
       }
 
         $newDraftelessUnitsToHouse = 0;
@@ -488,6 +486,8 @@ class TrainActionService
             $dominion->military_spies -= $totalCosts['spy'];
             $dominion->military_wizards -= $totalCosts['wizard'];
             $dominion->military_archmages -= $totalCosts['archmage'];
+            $dominion->spy_strength -= $totalCosts['spy_strength'];
+            $dominion->wizard_strength -= $totalCosts['wizard_strength'];
 
             # Update spending statistics.
             foreach($totalCosts as $resource => $amount)
@@ -513,10 +513,7 @@ class TrainActionService
                         $resourceString = 'archmages';
                     }
 
-                    if($resourceString != 'morale')
-                    {
-                        $this->statsService->updateStat($dominion, ($resourceString . '_training'), $totalCosts[$resource]);
-                    }
+                    $this->statsService->updateStat($dominion, ($resourceString . '_training'), abs($totalCosts[$resource]));
                 }
             }
 
@@ -706,7 +703,7 @@ class TrainActionService
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
             str_replace('And', 'and', ucwords($unitsToTrainString)),
-            str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString)))
+            str_replace(' Spy_strengths', '% Spy Strength', str_replace(' Wizard_strengths', '% Wizard Strength', str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString)))))
         );
 
         return $message;

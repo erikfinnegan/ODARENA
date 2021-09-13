@@ -644,6 +644,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'blood_production_raw'
                           or $perkKey == 'soul_production_raw'
                           or $perkKey == 'pearls_production_raw'
+                          or $perkKey == 'horse_production_raw'
 
                           or $perkKey == 'gold_upkeep_raw'
                           or $perkKey == 'food_upkeep_raw'
@@ -653,7 +654,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'blood_upkeep_raw'
                           or $perkKey == 'soul_upkeep_raw'
                           or $perkKey == 'pearls_upkeep_raw'
-                          or $perkKey == 'prisoners_upkeep_raw'
+                          or $perkKey == 'prisoner_upkeep_raw'
 
                           or $perkKey == 'xp_generation_raw'
 
@@ -663,7 +664,12 @@ class Dominion extends AbstractModel
                           or $perkKey == 'human_unit2_housing'
                           or $perkKey == 'troll_unit2_housing'
                           or $perkKey == 'troll_unit4_housing'
+                          or $perkKey == 'spy_housing'
+                          or $perkKey == 'wizard_housing'
+                          or $perkKey == 'military_housing'
 
+                          # Uncategorised
+                          or $perkKey == 'crypt_bodies_decay_protection'
                           or $perkKey == 'faster_returning_units'
                       )
                   {
@@ -823,7 +829,6 @@ class Dominion extends AbstractModel
                       $perk += $baseValue + ($ticklyIncrease * $ticks);
 
                   }
-
                   # Resource conversion
                   elseif($perkKey == 'resource_conversion')
                   {
@@ -847,9 +852,32 @@ class Dominion extends AbstractModel
                       #$perk += $baseValue + ($ticklyIncrease * $ticks);
 
                   }
+                  # Dark Elven slave workers
+                  elseif(
+                        $perkKey == 'ore_production_raw_from_prisoner' or
+                        $perkKey == 'gold_production_raw_from_prisoner' or
+                        $perkKey == 'gems_production_raw_from_prisoner'
+                        )
+                  {
+
+                      $resourceCalculator = app(ResourceCalculator::class);
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+
+                      $prisoners = $resourceCalculator->getAmount($this, 'prisoner');
+                      $productionPerPrisoner = (float)$perkValues[0];
+                      $maxResourcePerBuilding = (float)$perkValues[1];
+                      $buildingOwned = $building->pivot->owned;
+
+                      $maxPrisonersWorking = $buildingOwned * $maxResourcePerBuilding;
+
+                      $prisonersWorking = min($maxPrisonersWorking, $prisoners);
+
+                      $perk += floor($prisonersWorking * $productionPerPrisoner);
+
+                  }
                   elseif($perkKey !== 'jobs' and $perkKey !== 'housing')
                   {
-                      dd("Perk key ($perkKey) is undefined.");
+                      dd("[Error] Undefined building perk key (\$perkKey): $perkKey");
                   }
               }
 
@@ -1042,6 +1070,10 @@ class Dominion extends AbstractModel
                  elseif($perkValueString and (!is_numeric($perkValueString) and !is_array($perkValueString)))
                  {
                     $perk = (string)$perkValueString;
+                 }
+                 else
+                 {
+                     dd("[Error] Undefined spell perk key (\$perkKey): $perkKey");
                  }
              }
          }

@@ -36,7 +36,7 @@ units:
       does_not_count_as_population: 1
       no_draftee: 1
       instant_training: 1
-      pairing_limit_increasable: 4,4 # Unit slot, amount
+      pairing_limit: 4,4 # Unit slot, amount
       fixed_casualties: 75
       plunder: mana,2.5
 
@@ -53,7 +53,7 @@ units:
       does_not_count_as_population: 1
       no_draftee: 1
       instant_training: 1
-      pairing_limit_increasable: 4,2 # Unit slot, amount
+      pairing_limit: 4,2 # Unit slot, amount
       plunder: mana,2
 
   - name: Nightmare
@@ -70,7 +70,7 @@ units:
       does_not_count_as_population: 1
       no_draftee: 1
       instant_training: 1
-      pairing_limit_increasable: 4,1 # Unit slot, amount
+      pairing_limit: 4,1 # Unit slot, amount
       lowers_target_morale_on_successful_invasion: 1
       immortal: 1
       plunder: mana,1000

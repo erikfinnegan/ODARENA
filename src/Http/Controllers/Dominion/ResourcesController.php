@@ -11,6 +11,7 @@ use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\ResourceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Services\Dominion\QueueService;
@@ -58,6 +59,7 @@ class ResourcesController extends AbstractDominionController
               'resourceCalculator' => $resourceCalculator,
               'realmCalculator' => app(RealmCalculator::class),
               'raceHelper' => app(RaceHelper::class),
+              'resourceHelper' => app(ResourceHelper::class),
               'resources' => $resources,
           ]);
     }

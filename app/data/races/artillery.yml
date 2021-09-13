@@ -65,7 +65,7 @@ units:
       fixed_casualties: 100
       offense_from_pairing: 2,5 # slot, amount
       damages_improvements_on_attack: 50
-      pairing_limit_increasable: 2,3 # Unit slot, amount (max 4 of this unit per each Unit 4), imp to increase, imp multiplier
+      pairing_limit: 2,3 # Unit slot, amount
 
   - name: Burning Cannonball
     training_time: 12
@@ -84,4 +84,4 @@ units:
       fixed_casualties: 100
       offense_from_pairing: 2,9 # slot, amount
       burns_peasants_on_attack: 1
-      pairing_limit_increasable: 2,3,workshops,1 # Unit slot, amount (max 4 of this unit per each Unit 4), imp to increase, imp multiplier
+      pairing_limit: 2,3 # Unit slot, amount

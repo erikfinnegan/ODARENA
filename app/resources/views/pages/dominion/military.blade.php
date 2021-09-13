@@ -200,7 +200,7 @@
                                                                 break;
 
                                                             case 'brimmer':
-                                                                $labelParts[] =  number_format($value) . 'brimmer';
+                                                                $labelParts[] =  number_format($value) . ' brimmer';
                                                                 break;
 
                                                             case 'prisoner':

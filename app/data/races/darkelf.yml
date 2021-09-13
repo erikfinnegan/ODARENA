@@ -16,7 +16,7 @@ resources:
   - food
   - mana
   - gems
-  - prisoners
+  - prisoner
 
 perks:
   food_consumption: -20

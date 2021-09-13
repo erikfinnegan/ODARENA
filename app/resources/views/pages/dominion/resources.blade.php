@@ -44,7 +44,7 @@
                                                         $netConsumption = $resourceCalculator->getProduction($selectedDominion, $resourceKey) - $resourceCalculator->getConsumption($selectedDominion, $resourceKey);
                                                     @endphp
                                                     <br>
-                                                    Consumed: <span class="text-red">{{ number_format($consumption) }}</span>
+                                                    {{ $resourceHelper->getResourceConsumptionTerm($resourceKey) }}: <span class="text-red">{{ number_format($consumption) }}</span>
 
                                                     <br>
                                                     Net:

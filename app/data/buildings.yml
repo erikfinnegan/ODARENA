@@ -145,9 +145,9 @@ slave_mine:
     - Dark Elf
   land_type: mountain
   perks:
-    ore_production_raw_from_prisoners: 60,10 # per prisoner, max prisoners
-    gems_production_raw_from_prisoners: 15,10 # per prisoner, max prisoners
-    prisoners_upkeep_raw: 0.10
+    ore_production_raw_from_prisoner: 60,10 # per prisoner, max prisoners
+    gems_production_raw_from_prisoner: 15,10 # per prisoner, max prisoners
+    prisoner_upkeep_raw: 0.10
     jobs: 0
     housing: 0
 

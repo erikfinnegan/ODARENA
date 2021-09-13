@@ -150,103 +150,122 @@
                                     @if($race->getUnitPerkValueForUnitSlot($unit->slot,'cannot_be_trained'))
                                         &mdash;
                                     @else
+
                                         @php
-                                            $unitCostString = (number_format($unit->cost_gold) . ' gold');
+                                            // todo: move this shit to view presenter or something
+                                            $labelParts = [];
 
-                                            if ($unit->cost_ore > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_ore) . ' ore');
+                                            foreach ($trainingCalculator->getTrainingCostsPerUnit($selectedDominion)[$unitType] as $costType => $value) {
+
+                                              # Only show resource if there is a corresponding cost
+                                              if($value != 0)
+                                              {
+
+                                                switch ($costType) {
+                                                    case 'gold':
+                                                        $labelParts[] = number_format($value) . ' gold';
+                                                        break;
+
+                                                    case 'ore':
+                                                        $labelParts[] = number_format($value) . ' ore';
+                                                        break;
+
+                                                    case 'food':
+                                                        $labelParts[] =  number_format($value) . ' food';
+                                                        break;
+
+                                                    case 'mana':
+                                                        $labelParts[] =  number_format($value) . ' mana';
+                                                        break;
+
+                                                    case 'lumber':
+                                                        $labelParts[] =  number_format($value) . ' lumber';
+                                                        break;
+
+                                                    case 'gems':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('gems', $value);
+                                                        break;
+
+                                                    case 'prestige':
+                                                        $labelParts[] =  number_format($value) . ' Prestige';
+                                                        break;
+
+                                                    case 'boat':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('boat', $value);
+                                                        break;
+
+                                                    case 'champion':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('Champion', $value);
+                                                        break;
+
+                                                    case 'soul':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('soul', $value);
+                                                        break;
+
+                                                    case 'blood':
+                                                        $labelParts[] =  number_format($value) . ' blood';
+                                                        break;
+
+                                                    case 'unit1':
+                                                    case 'unit2':
+                                                    case 'unit3':
+                                                    case 'unit4':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $selectedDominion->race), $value);
+                                                        break;
+
+                                                    case 'morale':
+                                                        $labelParts[] =  number_format($value) . '% morale';
+                                                        break;
+
+                                                    case 'peasant':
+                                                        $labelParts[] =  number_format($value) . ' peasant';
+                                                        break;
+
+                                                    case 'spy':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('Spy', $value);
+                                                        break;
+
+                                                    case 'wizard':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('Wizard', $value);
+                                                        break;
+
+                                                    case 'archmage':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('Archmage', $value);
+                                                        break;
+
+                                                    case 'wizards':
+                                                        $labelParts[] = '1 Wizard';
+                                                        break;
+
+                                                    case 'spy_strength':
+                                                        $labelParts[] =  number_format($value) . '% Spy Strength ';
+                                                        break;
+
+                                                    case 'wizard_strength':
+                                                        $labelParts[] =  number_format($value) . '% Wizard Strength ';
+                                                        break;
+
+                                                    case 'brimmer':
+                                                        $labelParts[] =  number_format($value) . ' brimmer';
+                                                        break;
+
+                                                    case 'prisoner':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('prisoner', $value);
+                                                        break;
+
+                                                    case 'horse':
+                                                        $labelParts[] =  number_format($value) . ' ' . str_plural('horse', $value);
+                                                        break;
+
+                                                    default:
+                                                        break;
+                                                    }
+
+                                                } #ENDIF
                                             }
 
-                                            if ($unit->cost_lumber > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_lumber) . ' lumber');
-                                            }
-
-                                            if ($unit->cost_food > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_food) . ' food');
-                                            }
-
-                                            if ($unit->cost_mana > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_mana) . ' mana');
-                                            }
-
-                                            if ($unit->cost_gems > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_gems) . ' gems');
-                                            }
-
-                                            if ($unit->cost_prestige > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_prestige) . ' Prestige');
-                                            }
-
-                                            if ($unit->cost_champion > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_champion) . ' Champion');
-                                            }
-
-                                            if ($unit->cost_soul > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_soul) . ' Soul');
-                                            }
-
-                                            if ($unit->cost_blood > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_blood) . ' blood');
-                                            }
-
-                                            if ($unit->cost_unit1 > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_unit1) . ' ' . $unitHelper->getUnitName('unit1', $race));
-                                            }
-
-                                            if ($unit->cost_unit2 > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_unit2) . ' ' . $unitHelper->getUnitName('unit2', $race));
-                                            }
-
-                                            if ($unit->cost_unit3 > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_unit3) . ' ' . $unitHelper->getUnitName('unit3', $race));
-                                            }
-
-                                            if ($unit->cost_unit4 > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_unit4) . ' ' . $unitHelper->getUnitName('unit4', $race));
-                                            }
-
-                                            if ($unit->cost_morale !== 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_morale) . '% morale');
-                                            }
-
-                                            if ($unit->cost_peasant > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_peasant) . ' peasant');
-                                            }
-
-                                            if ($unit->cost_spy > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_spy) . '  Spy');
-                                            }
-
-                                            if ($unit->cost_wizard > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_wizard) . '  Wizard');
-                                            }
-
-                                            if ($unit->cost_archmage > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_archmage) . '  ArchMage');
-                                            }
-
-                                            if ($unit->cost_spy_strength > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_spy_strength) . '% Spy Strength');
-                                            }
-
-                                            if ($unit->cost_wizard_strength > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_wizard_strength) . '% Wizard Strength');
-                                            }
-
-                                            if ($unit->cost_brimmer > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_brimmer) . ' brimmer');
-                                            }
-
-                                            if ($unit->cost_prisoner > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_prisoner) . ' prisoner');
-                                            }
-
-                                            if ($unit->cost_horse > 0) {
-                                                $unitCostString .= (', ' . number_format($unit->cost_horse) . ' horse');
-                                            }
-
+                                            echo implode(',<br>', $labelParts);
                                         @endphp
-                                        {{ $unitCostString }}
                                     @endif
                               </td>
                           </tr>

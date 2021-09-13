@@ -109,7 +109,7 @@ class DataSyncCommand extends Command implements CommandInterface
             ];
 
             $defaultPeasantsProduction = [
-              'gold' => 2.7
+                'gold' => 2.7
             ];
 
             // Race
@@ -213,13 +213,10 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 $unit->fill([
                     'name' => $unitName,
-                    'cost' => object_get($unitData, 'cost', NULL),
+                    'type' => object_get($unitData, 'type'),
+                    'cost' => object_get($unitData, 'cost', []),
                     'cost_gold' => object_get($unitData, 'cost.gold', 0),
                     'cost_ore' => object_get($unitData, 'cost.ore', 0),
-                    'power_offense' => object_get($unitData, 'power.offense', 0),
-                    'power_defense' => object_get($unitData, 'power.defense', 0),
-                    'training_time' => (int)object_get($unitData, 'training_time', null),
-                    'type' => object_get($unitData, 'type'),
                     'cost_food' => object_get($unitData, 'cost.food', 0),
                     'cost_mana' => object_get($unitData, 'cost.mana', 0),
                     'cost_gems' => object_get($unitData, 'cost.gems', 0),
@@ -242,12 +239,15 @@ class DataSyncCommand extends Command implements CommandInterface
                     'cost_brimmer' => object_get($unitData, 'cost.brimmer', 0),
                     'cost_prisoner' => object_get($unitData, 'cost.prisoner', 0),
                     'cost_horse' => object_get($unitData, 'cost.horse', 0),
+                    'power_offense' => object_get($unitData, 'power.offense', 0),
+                    'power_defense' => object_get($unitData, 'power.defense', 0),
+                    'training_time' => (int)object_get($unitData, 'training_time', null),
                     'static_networth' => object_get($unitData, 'static_networth', 0),
                 ]);
 
                 if ($unit->exists) {
                     $newValues = $unit->getDirty();
-
+                    /*
                     foreach ($newValues as $key => $newValue)
                     {
                         $originalValue = $unit->getOriginal($key);
@@ -263,6 +263,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                         $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                     }
+                    */
                 }
 
                 $unit->save();

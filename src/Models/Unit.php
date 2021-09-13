@@ -32,6 +32,7 @@ class Unit extends AbstractModel
         'power_defense' => 'float',
         'cost' => 'array',
         'type' => 'array',
+        /*
         'cost_food' => 'integer',
         'cost_mana' => 'integer',
         'cost_gems' => 'integer',
@@ -54,6 +55,7 @@ class Unit extends AbstractModel
         'cost_brimmer' => 'integer',
         'cost_prisoner' => 'integer',
         'cost_horse' => 'integer',
+        */
         'static_networth' => 'integer',
     ];
 
