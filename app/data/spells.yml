@@ -1212,8 +1212,7 @@ nocten_acrimony:
   scope: self
   class: passive
   cost: 2400
-  duration: 12
-  cooldown: 6
+  duration: 48
   exclusive_races:
     - Nox
   perks:
@@ -1224,8 +1223,7 @@ nocten_shield:
   scope: self
   class: passive
   cost: 2400
-  duration: 12
-  cooldown: 6
+  duration: 48
   exclusive_races:
     - Nox
   perks:
@@ -1236,8 +1234,7 @@ nocten_veil:
   scope: self
   class: passive
   cost: 2400
-  duration: 12
-  cooldown: 6
+  duration: 48
   exclusive_races:
     - Nox
   perks:
