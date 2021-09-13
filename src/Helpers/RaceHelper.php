@@ -673,22 +673,10 @@ class RaceHelper
         return $archmageCost;
     }
 
-    # Unfinished - add starting resources to the yml files (if different)
-    public function getStartingResources(Race $race): array
+    public function hasLandImprovements(Race $race): bool
     {
-
-        $startingResources = [];
-
-        # Default
-        $startingResources = [
-            'gold' => 0,
-            'food' => 0,
-            'ore' => 0,
-            'lumber' => 0,
-            'mana' => 0,
-        ];
-
-        return $startingResources;
+        return isset($race->land_improvements);
     }
+
 
 }

@@ -18,6 +18,9 @@
                     <a href="#resources">Resources</a> |
                     <a href="#buildings">Buildings</a> |
                     <a href="#improvements">Improvements</a> |
+                    @if($raceHelper->hasLandImprovements($race))
+                        <a href="#land_improvements">Land Improvements</a> |
+                    @endif
                     <a href="#spells">Spells</a> |
                     <a href="#spy_ops">Spy Ops</a>
                 </span>
@@ -424,6 +427,53 @@
     </div>
 </div>
 
+@if($raceHelper->hasLandImprovements($race))
+<a id="land_improvements"></a>
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Land Improvements</h3>
+            </div>
+
+            <div class="box-body table-responsive">
+                <div class="row">
+                    <div class="col-md-12">
+                      <table class="table table-striped">
+                          <colgroup>
+                              <col width="200">
+                              <col>
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>Land Type</th>
+                                  <th>Perks</th>
+                              </tr>
+                          </thead>
+                          @foreach ($landHelper->getLandTypes() as $landType)
+                              <tr>
+                                  <td>
+                                      {!! $landHelper->getLandTypeIconHtml($landType) !!}&nbsp;{{ ucwords($landType) }}
+                                  </td>
+                                  <td>
+                                      <ul>
+                                      @foreach($race->land_improvements[$landType] as $perk => $value)
+                                          <li>
+                                          {!! $landImprovementsHelper->getPerkDescription($perk, $value) !!}
+                                          </li>
+                                      @endforeach
+                                      </ul>
+                                  </td>
+                              </tr>
+                          @endforeach
+                      </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
 <a id="improvements"></a>
 <div class="row">

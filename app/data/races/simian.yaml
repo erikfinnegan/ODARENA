@@ -18,6 +18,10 @@ resources:
 improvement_resources:
   lumber: 3
 
+land_improvements:
+  forest:
+    max_population: 0.30
+
 archmages_cost: 1200,gold
 
 perks:
@@ -25,7 +29,6 @@ perks:
   wizard_strength: -10
   construction_cost: -20
   forest_construction_cost: -100
-  defense_from_forest: 0.30 # from every 1% forest
   extra_barren_max_population: 10
   increased_construction_speed: 3
   max_population: 30
