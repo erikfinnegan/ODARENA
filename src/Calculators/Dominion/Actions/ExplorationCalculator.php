@@ -50,6 +50,7 @@ class ExplorationCalculator
      */
     public function getGoldCostRaw(Dominion $dominion): int
     {
+
         $totalLand = $this->landCalculator->getTotalLand($dominion);
         $totalLand += $this->landCalculator->getTotalLandIncoming($dominion);
         $gold = sqrt($totalLand)*$totalLand/6-1000;
@@ -97,7 +98,11 @@ class ExplorationCalculator
     */
     public function getGoldCost(Dominion $dominion): int
     {
-      return $this->getGoldCostRaw($dominion) * $this->getGoldCostBonus($dominion);
+        if($dominion->protection_ticks == 96)
+        {
+            return 0;
+        }
+        return $this->getGoldCostRaw($dominion) * $this->getGoldCostBonus($dominion);
     }
 
     /**
@@ -139,7 +144,11 @@ class ExplorationCalculator
      */
      public function getDrafteeCost(Dominion $dominion): int
      {
-       return max(3, $this->getDrafteeCostRaw($dominion) + $this->getDrafteeCostModifier($dominion));
+         if($dominion->protection_ticks == 96)
+         {
+             return 0;
+         }
+         return max(3, $this->getDrafteeCostRaw($dominion) + $this->getDrafteeCostModifier($dominion));
      }
 
     /**
