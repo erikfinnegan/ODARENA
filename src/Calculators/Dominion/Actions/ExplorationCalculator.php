@@ -160,6 +160,11 @@ class ExplorationCalculator
      */
     public function getMaxAfford(Dominion $dominion): int
     {
+        if($dominion->protection_ticks == 96)
+        {
+            return floor($this->landCalculator->getTotalLand($dominion) * (($dominion->morale/100)/8));
+        }
+
         return min(
             floor($this->resourceCalculator->getAmount($dominion, 'gold') / $this->getGoldCost($dominion)),
             floor($dominion->military_draftees / $this->getDrafteeCost($dominion)),
