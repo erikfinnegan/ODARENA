@@ -230,7 +230,7 @@ class ResourceCalculator
         }
 
         # Food consumption
-        if($resourceKey === 'food')
+        if($consumedResourceKey === 'food')
         {
             $nonConsumingUnitAttributes = [
                 'ammunition',

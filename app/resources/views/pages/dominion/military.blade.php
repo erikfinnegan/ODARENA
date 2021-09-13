@@ -112,7 +112,7 @@
                                                     foreach ($trainingCalculator->getTrainingCostsPerUnit($selectedDominion)[$unitType] as $costType => $value) {
 
                                                       # Only show resource if there is a corresponding cost
-                                                      if($value !== 0)
+                                                      if($value != 0)
                                                       {
 
                                                         switch ($costType) {
@@ -153,7 +153,7 @@
                                                                 break;
 
                                                             case 'soul':
-                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('Soul', $value);
+                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('soul', $value);
                                                                 break;
 
                                                             case 'blood':
@@ -189,6 +189,26 @@
 
                                                             case 'wizards':
                                                                 $labelParts[] = '1 Wizard';
+                                                                break;
+
+                                                            case 'spy_strength':
+                                                                $labelParts[] =  number_format($value) . '% Spy Strength ';
+                                                                break;
+
+                                                            case 'wizard_strength':
+                                                                $labelParts[] =  number_format($value) . '% Wizard Strength ';
+                                                                break;
+
+                                                            case 'brimmer':
+                                                                $labelParts[] =  number_format($value) . 'brimmer';
+                                                                break;
+
+                                                            case 'prisoner':
+                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('prisoner', $value);
+                                                                break;
+
+                                                            case 'horse':
+                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('horse', $value);
                                                                 break;
 
                                                             default:

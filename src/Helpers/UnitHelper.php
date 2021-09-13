@@ -260,9 +260,11 @@ class UnitHelper
             'plunder' => 'Plunders up to %2$s %1$s on attack.', # Single resource
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
-            'upkeep_gold' => 'Costs %s gold per tick.',
-            'upkeep_lumber' => 'Costs %s lumber per tick.',
-            'upkeep_ore' => 'Costs %s ore per tick.',
+            'gold_upkeep_raw' => 'Costs %s gold per tick.',
+            'lumber_upkeep_raw' => 'Costs %s lumber per tick.',
+            'ore_upkeep_raw' => 'Costs %s ore per tick.',
+            'brimmer_upkeep_raw' => 'Uses %s brimmer per tick.',
+            'mana_upkeep_raw' => 'Drains %s mana per tick.',
 
             'destroys_souls' => 'Releases souls.',
 

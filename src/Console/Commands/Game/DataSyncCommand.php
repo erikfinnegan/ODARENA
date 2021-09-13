@@ -213,6 +213,7 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 $unit->fill([
                     'name' => $unitName,
+                    'cost' => object_get($unitData, 'cost', NULL),
                     'cost_gold' => object_get($unitData, 'cost.gold', 0),
                     'cost_ore' => object_get($unitData, 'cost.ore', 0),
                     'power_offense' => object_get($unitData, 'power.offense', 0),

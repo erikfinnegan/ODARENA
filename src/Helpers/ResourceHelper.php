@@ -10,10 +10,15 @@ use OpenDominion\Models\Dominion;
 class ResourceHelper
 {
 
+    public function isResource(string $resourceKey): bool
+    {
+        return Resource::where('key', $resourceKey)->first() ? true : false;
+    }
+
     public function getResourcesByRace(Race $race): Collection
     {
         return $race->resources;
-        
+
         $deities = collect(Resource::all()->keyBy('key')->sortBy('name')->where('enabled',1));
 
         foreach($deities as $deity)

@@ -41,7 +41,7 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      mana_drain: 0.005
+      mana_upkeep_raw: 0.005
       instant_training: 1
       pairing_limit_increasable: 1,4 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
 

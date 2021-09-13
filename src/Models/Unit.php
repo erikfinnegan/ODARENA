@@ -30,6 +30,7 @@ class Unit extends AbstractModel
         'cost_ore' => 'integer',
         'power_offense' => 'float',
         'power_defense' => 'float',
+        'cost' => 'array',
         'type' => 'array',
         'cost_food' => 'integer',
         'cost_mana' => 'integer',
@@ -50,6 +51,9 @@ class Unit extends AbstractModel
         'cost_spy' => 'integer',
         'cost_wizard' => 'integer',
         'cost_archmage' => 'integer',
+        'cost_brimmer' => 'integer',
+        'cost_prisoner' => 'integer',
+        'cost_horse' => 'integer',
         'static_networth' => 'integer',
     ];
 

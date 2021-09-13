@@ -14,6 +14,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\ResourceHelper;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
 class TrainingCalculator
@@ -57,6 +58,7 @@ class TrainingCalculator
         $this->queueService = app(QueueService::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->raceHelper = app(RaceHelper::class);
+        $this->resourceHelper = app(ResourceHelper::class);
         $this->populationCalculator = app(PopulationCalculator::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->resourceCalculator = app(ResourceCalculator::class);
@@ -85,7 +87,7 @@ class TrainingCalculator
         $spyCost['trainedFrom'] = 'draftees';
         $wizardCost['trainedFrom'] = 'draftees';
 
-        # Generally, do not mess with thi sone.
+        # Generally, do not mess with this one.
         $archmageCost['trainedFrom'] = 'wizards';
 
         foreach ($this->unitHelper->getUnitTypes() as $unitType) {
@@ -109,6 +111,8 @@ class TrainingCalculator
 
                 default:
                     $unitSlot = (((int)str_replace('unit', '', $unitType)) - 1);
+
+                    dd($units[$unitSlot]);
 
                     $gold = $units[$unitSlot]->cost_gold;
                     $ore = $units[$unitSlot]->cost_ore;
