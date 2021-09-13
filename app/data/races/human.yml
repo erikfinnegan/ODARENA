@@ -37,11 +37,11 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 680
-      lumber: 30
+      gold: 340
+      lumber: 15
     power:
       offense: 0
-      defense: 7
+      defense: 4
 
   - name: Spearguard
     training_time: 9

@@ -382,6 +382,7 @@ guard_tower:
 
 battlement:
   name: Battlement
+  enabled: 0
   exclusive_races:
     - Human
   land_type: plain
