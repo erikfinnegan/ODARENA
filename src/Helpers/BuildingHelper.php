@@ -35,8 +35,8 @@ class BuildingHelper
 
             'afflicted_unit1_housing' => 'Houses %s Abominations.',
 
-            'human_unit1_housing' => 'Houses %s Men-at-Arms.',
-            'human_unit2_housing' => 'Houses %s Archers.',
+            'human_unit1_housing' => 'Houses %s Archers.',
+            'human_unit2_housing' => 'Houses %s Spearguards.',
 
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
