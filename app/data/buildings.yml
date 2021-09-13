@@ -352,6 +352,7 @@ military_academy:
     - Icekin
     - Merfolk
     - Myconid
+    - Nox
     - Snow Elf
     - Swarm
     - Sylvan
@@ -370,6 +371,7 @@ guard_tower:
     - Icekin
     - Merfolk
     - Myconid
+    - Nox
     - Void
     - Swarm
     - Sylvan
@@ -406,6 +408,7 @@ temple:
     - Icekin
     - Merfolk
     - Myconid
+    - Nox
     - Void
     - Swarm
     - Sylvan
@@ -467,6 +470,7 @@ smithy:
     - Icekin
     - Merfolk
     - Myconid
+    - Nox
     - Swarm
     - Void
     - Sylvan
@@ -509,7 +513,7 @@ refiner:
     - Imperial Gnome
   land_type: hill
   perks:
-    resource_conversion: ore,brimmer,4 # from,to,ratio
+    resource_conversion: 50,ore,25,brimmer # amountFrom, resourceFrom, amountTo, resourceTo
 
 ## Other Buildings
 
@@ -564,7 +568,7 @@ arc:
   perks:
     defensive_casualties: 1,-5,100 # 1% gives -5%, max -100%
     offensive_casualties: 1,-5,100 # 1% gives -5%, max -100%
-    mana_production_raw: -5
+    mana_upkeep_raw: -5
 
 helix:
   name: Helix
@@ -573,7 +577,7 @@ helix:
   land_type: swamp
   perks:
     offensive_power: 1,1,150 # Every 1% gives 2% OP, max +200% OP
-    mana_production_raw: -2
+    mana_upkeep_raw: -2
 
 lens:
   name: Lens
@@ -582,7 +586,7 @@ lens:
   land_type: mountain
   perks:
     drafting: 1,10,1000
-    mana_production_raw: -4
+    mana_upkeep_raw: -4
 
 oculus:
   name: Oculus
@@ -592,7 +596,7 @@ oculus:
   perks:
     wizard_strength: 1,5,500 # Every 1% gives 2% WPA, max +200% OP
     spy_strength: 1,5,500 # Every 1% gives 2% SPA, max +200% OP
-    mana_production_raw: -1
+    mana_upkeep_raw: -1
 
 mosaic:
   name: Mosaic
@@ -601,7 +605,7 @@ mosaic:
   land_type: plain
   perks:
     land_discovered: 1,4,400 # Every 1% gives 2% land discovered, max +200%
-    mana_production_raw: -2
+    mana_upkeep_raw: -2
 
 pillar:
   name: Pillar
@@ -610,7 +614,7 @@ pillar:
   land_type: hill
   perks:
     defensive_power: 1,1.5,150 # Every 1% gives 2% DP, max +200% DP
-    mana_production_raw: -2
+    mana_upkeep_raw: -2
 
 tesseract:
   name: Tesseract

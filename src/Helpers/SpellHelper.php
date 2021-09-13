@@ -164,6 +164,8 @@ class SpellHelper
             'offensive_power' => '%s%% offensive power',
             'defensive_power' => '%s%% defensive power',
 
+            'target_defensive_power_mod' => '%s%% defensive modifiers for target',
+
             'offensive_power_on_retaliation' => '%s%% offensive power if target recently invaded your realm',
 
             'defensive_power_vs_insect_swarm' => '%s%% defensive power if attacker has Insect Swarm',

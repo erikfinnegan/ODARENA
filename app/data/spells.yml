@@ -564,6 +564,7 @@ gaias_blessing:
 
 nightfall:
   name: Nightfall
+  enabled: 0
   scope: self
   class: passive
   cost: 6
@@ -1228,7 +1229,7 @@ nocten_shield:
   exclusive_races:
     - Nox
   perks:
-    defensive_modifier_reduction: 20
+    target_defensive_power_mod: -40
 
 nocten_veil:
   name: Nocten Veil

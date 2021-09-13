@@ -64,8 +64,8 @@ pearls:
   exclusive_races:
     - Merfolk
 
-prisoners:
-  name: Prisoners
+prisoner:
+  name: Prisoner
   buy: null
   sell: 4
   exclusive_races:

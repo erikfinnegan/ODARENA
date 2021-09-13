@@ -1,16 +1,6 @@
 name: Beastfolk
 alignment: independent
 description:
-  <p>Beastfolk use natural resources (land types) to strengthen their dominion.</p>
-  <ul>
-  <li>Gold production increased by 0.75 x Mountains %.</li>
-  <li>Max population increased by 0.75 x Forest %.</li>
-  <li>Wizard Strength increased by 2 x Swamp %.</li>
-  <li>Defensive Power increased by 0.65 x Hills %.</li>
-  <li>Offensive Power increased by 0.15 x Plains %.</li>
-  <li>Food production increased by 5 x Water %.</li>
-  </ul>
-  <p>These bonuses are increased by Prestige using the standard prestige multiplier.</p>
 home_land_type: forest
 playable: 1
 experimental: 1
@@ -43,7 +33,7 @@ land_improvements:
   swamp:
     - xp_generation_mod: 2
   water:
-    - food_production_mod: 4
+    - food_production_mod: 5
 
 perks:
   extra_barren_forest_max_population: 25

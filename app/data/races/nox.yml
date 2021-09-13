@@ -3,6 +3,7 @@ alignment: evil
 description:
 home_land_type: swamp
 playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 3
@@ -46,7 +47,7 @@ units:
     cost:
       mana: 40
     power:
-      offense: 3
+      offense: 4
       defense: 5
     perks:
       does_not_count_as_population: 1
@@ -60,7 +61,7 @@ units:
     type:
       - magical
     cost:
-      mana: 10
+      mana: 200
       wizard_strength: 100
     power:
       offense: 200
@@ -90,4 +91,3 @@ units:
     perks:
       true_immortal: 1
       counts_as_wizard: 0.333
-      offense_from_wizard_ratio: 2 # ratio%, max

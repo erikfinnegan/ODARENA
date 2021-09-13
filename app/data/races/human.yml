@@ -9,6 +9,7 @@ attacking: 3
 exploring : 3
 converting: 3
 skill_level: 1
+experimental: 1
 
 resources:
   - gold
@@ -62,8 +63,8 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1200
-      ore: 175
+      gold: 1050
+      ore: 165
       horse: 1
     power:
       offense: 8

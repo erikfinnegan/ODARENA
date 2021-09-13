@@ -8,6 +8,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\SelectorService;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Services\Dominion\QueueService;
 use Illuminate\Support\Carbon;
 
@@ -597,7 +598,7 @@ class Dominion extends AbstractModel
          return $production;
      }
 
-      public function getBuildingPerkValue(string $perkKey): float
+      public function getBuildingPerkValue(string $perkKey)#: float
       {
           $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
           $perk = 0;
@@ -639,6 +640,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'ore_production_raw'
                           or $perkKey == 'lumber_production_raw'
                           or $perkKey == 'mana_production_raw'
+                          or $perkKey == 'gems_production_raw'
                           or $perkKey == 'blood_production_raw'
                           or $perkKey == 'soul_production_raw'
                           or $perkKey == 'pearls_production_raw'
@@ -821,18 +823,35 @@ class Dominion extends AbstractModel
                       $perk += $baseValue + ($ticklyIncrease * $ticks);
 
                   }
-              }
 
-              /*
-              if (!isset($effect))
-              {
-                  $perk += $building->pivot->owned * $perkValueString;
+                  # Resource conversion
+                  elseif($perkKey == 'resource_conversion')
+                  {
+
+                      $resourceCalculator = app(ResourceCalculator::class);
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+
+                      $sourceAmount = (float)$perkValues[0];
+                      $sourceResourceKey = (string)$perkValues[1];
+                      $targetAmount = (float)$perkValues[2];
+                      $targetResourceKey = (string)$perkValues[3];
+                      $buildingOwned = $building->pivot->owned;
+
+                      $maxAmountConverted = min($resourceCalculator->getAmount($this, $sourceResourceKey), $buildingOwned * $sourceAmount);
+                      $amountCreated = $maxAmountConverted / ($sourceAmount / $targetAmount);
+
+                      #$data = [$sourceResourceKey => $maxAmountConverted, $targetResourceKey => $amountCreated];
+
+                      return ['from' => [$sourceResourceKey => $maxAmountConverted], 'to' => [$targetResourceKey => $amountCreated]];
+
+                      #$perk += $baseValue + ($ticklyIncrease * $ticks);
+
+                  }
+                  elseif($perkKey !== 'jobs' and $perkKey !== 'housing')
+                  {
+                      dd("Perk key ($perkKey) is undefined.");
+                  }
               }
-              else
-              {
-                  $perk += $effect * 100;
-              }
-              */
 
           }
 
@@ -971,6 +990,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'defensive_power_from_peasants'
                          or $perkKey == 'faster_return'
                          or $perkKey == 'training_time'
+                         or $perkKey == 'target_defensive_power_mod'
 
                          or $perkKey == 'casualties'
                          or $perkKey == 'offensive_casualties'

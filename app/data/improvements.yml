@@ -297,6 +297,13 @@ wizardry_undead:
     unit_pairing: 45,5000
 
 # Specials
+refining:
+  name: Refining
+  exclusive_races:
+    - Imperial Gnome
+  perks:
+    resource_conversion: 50,6000
+
 imperial_gnome_construction:
   enabled: 0
   name: Construction

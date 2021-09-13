@@ -124,6 +124,9 @@ class TrainingCalculator
                     $blood = $units[$unitSlot]->cost_blood;
                     $wizardStrength = $units[$unitSlot]->cost_wizard_strength;
                     $spyStrength = $units[$unitSlot]->cost_spy_strength;
+                    $brimmer = $units[$unitSlot]->cost_brimmer;
+                    $horse = $units[$unitSlot]->cost_horse;
+                    $prisoner = $units[$unitSlot]->cost_prisoner;
 
                     $unit1 = $units[$unitSlot]->cost_unit1;
                     $unit2 = $units[$unitSlot]->cost_unit2;
@@ -252,6 +255,24 @@ class TrainingCalculator
                     #if ($archmage > 0) {
                         $cost['archmage'] = $archmage;
                         $cost['archmage'] = (int)ceil($archmage * $this->getSpecialistEliteCostMultiplier($dominion, 'archmage'));
+                    #}
+
+                    // BRIMMER cost for units
+                    #if ($archmage > 0) {
+                        $cost['brimmer'] = $brimmer;
+                        $cost['brimmer'] = (int)ceil($archmage * $this->getSpecialistEliteCostMultiplier($dominion, 'brimmer'));
+                    #}
+
+                    // HORSE cost for units
+                    #if ($archmage > 0) {
+                        $cost['horse'] = $horse;
+                        $cost['horse'] = (int)ceil($archmage * $this->getSpecialistEliteCostMultiplier($dominion, 'horse'));
+                    #}
+
+                    // PRISONER cost for units
+                    #if ($archmage > 0) {
+                        $cost['prisoner'] = $prisoner;
+                        $cost['prisoner'] = (int)ceil($archmage * $this->getSpecialistEliteCostMultiplier($dominion, 'prisoner'));
                     #}
 
                     if($dominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'no_draftee') == 1)

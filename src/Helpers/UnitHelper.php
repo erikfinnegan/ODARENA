@@ -176,7 +176,6 @@ class UnitHelper
             'casualties_on_defense' => '%s%% casualties on defense.',
             'casualties_on_offense' => '%s%% casualties on offense.',
 
-
             'casualties_on_victory' => '%s%% casualties when successfully invading.',
             'casualties_on_fending_off' => '%s%% casualties when successfully fending off an invasion.',
 
@@ -324,6 +323,7 @@ class UnitHelper
             // Other
             'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
             'adds_morale' => 'Increases base morale by %s%%.',
+            'lowers_target_morale_on_successful_invasion' => 'On successful invasion, lowers target\'s morale by %s%%.',
 
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
             'stuns_units' => 'Stuns some units with up to %1$s DP for %2$s ticks, whereafter the units return unharmed.',

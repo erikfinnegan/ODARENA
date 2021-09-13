@@ -37,7 +37,7 @@ units:
     cost:
       gold: 100
       ore: 100
-      mana: 6
+      brimmer: 6
     power:
       offense: 0
       defense: 0
@@ -56,7 +56,7 @@ units:
     cost:
       gold: 180
       ore: 315
-      mana: 4
+      brimmer: 4
     power:
       offense: 0
       defense: 0
@@ -76,7 +76,7 @@ units:
     cost:
       gold: 3000
       ore: 1500
-      mana: 10
+      brimmer: 10
     power:
       offense: 0
       defense: 20
@@ -84,7 +84,7 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,50 # building, buildings per unit
-      brimmer_upkeep_raw: 0.14
+      brimmer_upkeep_raw: 0.175
 
   - name: Airship
     training_time: 12
@@ -93,7 +93,7 @@ units:
     cost:
       gold: 40000
       lumber: 7500
-      mana: 500
+      brimmer: 125005
     power:
       offense: 120
       defense: 80
@@ -103,4 +103,4 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       building_limit: factory,4 # building, buildings per unit
-      brimmer_upkeep_raw: 0.80
+      brimmer_upkeep_raw: 1

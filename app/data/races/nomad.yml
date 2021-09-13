@@ -3,6 +3,7 @@ alignment: evil
 description:
 home_land_type: plain
 playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 3
@@ -26,22 +27,26 @@ land_improvements:
     offensive_power_mod: 0.10
     horse_production_raw: 0.5
     food_production_raw: 15
+    gold_production_raw: 50
   forest:
     lumber_production_raw: 50
     food_production_raw: 20
   mountain:
     ore_production_raw: 50
     gems_production_raw: 10
+    gold_production_raw: 10
   hill:
     defensive_power_mod: 0.10
     horse_production_raw: 0.25
     ore_production_raw: 20
+    gold_production_raw: 10
   swamp:
     mana_production_raw: 20
+    gold_production_raw: 20
   water:
     xp_generation_mod: 2
     food_production_raw: 50
-    food_production_mod: 4
+    gold_production_raw: 40
 
 perks:
   food_consumption: -25
@@ -87,15 +92,15 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1250
-      ore: 200
+      gold: 1000
+      ore: 300
       horse: 1
     power:
       offense: 8
       defense: 8
     perks:
       increases_casualties_on_offense: 1
-      casualties: -50
+      casualties: -65
 
   - name: Horse Archer
     training_time: 12

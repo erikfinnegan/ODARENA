@@ -36,6 +36,7 @@ class ImprovementHelper
             'xp_generation_mod' => 'XP generation',
 
             'exchange_rate' => 'exchange rate',
+            'resource_conversion' => 'resource conversion (passive and automatic conversion, not exchanged resources)',
 
             'xp_gains' => 'XP gained',
             'advancement_costs' => 'advancements costs',

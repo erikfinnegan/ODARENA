@@ -98,6 +98,7 @@ class ResourceCalculator
         $production += $dominion->getImprovementPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getTechPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw');
+
         if(isset($dominion->title))
         {
             $production += $dominion->title->getPerkValue($resourceKey . '_production_raw');
@@ -115,6 +116,23 @@ class ResourceCalculator
             else
             {
                 $production += $this->getPopulationEmployed($dominion) * $productionPerPeasant;
+            }
+        }
+
+        # Check for resource_conversion
+        if($resourceConversionData = $dominion->getBuildingPerkValue('resource_conversion'))
+        {
+            $resourceConversionMultiplier = 1;
+            $resourceConversionMultiplier += $dominion->getImprovementPerkMultiplier('resource_conversion');
+            foreach($dominion->race->resources as $factionResourceKey)
+            {
+                if(
+                      isset($resourceConversionData['from'][$factionResourceKey]) and
+                      isset($resourceConversionData['to'][$resourceKey])
+                  )
+                {
+                    $production += floor($resourceConversionData['to'][$resourceKey] * $resourceConversionMultiplier);
+                }
             }
         }
 
@@ -182,19 +200,34 @@ class ResourceCalculator
         return $multiplier;
     }
 
-    public function getConsumption(Dominion $dominion, string $resourceKey): int
+    public function getConsumption(Dominion $dominion, string $consumedResourceKey): int
     {
-        if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_consumption'))
+        if(!in_array($consumedResourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $consumedResourceKey . '_consumption'))
         {
             return 0;
         }
 
         $consumption = 0;
-        $consumption += $dominion->getBuildingPerkValue($resourceKey . '_upkeep_raw');
-        $consumption += $dominion->getSpellPerkValue($resourceKey . '_upkeep_raw');
-        $consumption += $dominion->getImprovementPerkValue($resourceKey . '_upkeep_raw');
-        $consumption += $dominion->getTechPerkValue($resourceKey . '_upkeep_raw');
-        $consumption += $dominion->getUnitPerkProductionBonus($resourceKey . '_upkeep_raw');
+        $consumption += $dominion->getBuildingPerkValue($consumedResourceKey . '_upkeep_raw');
+        $consumption += $dominion->getSpellPerkValue($consumedResourceKey . '_upkeep_raw');
+        $consumption += $dominion->getImprovementPerkValue($consumedResourceKey . '_upkeep_raw');
+        $consumption += $dominion->getTechPerkValue($consumedResourceKey . '_upkeep_raw');
+        $consumption += $dominion->getUnitPerkProductionBonus($consumedResourceKey . '_upkeep_raw');
+
+        # Check for resource_conversion
+        if($resourceConversionData = $dominion->getBuildingPerkValue('resource_conversion'))
+        {
+            foreach($dominion->race->resources as $resourceKey)
+            {
+                if(
+                      isset($resourceConversionData['from'][$consumedResourceKey]) and
+                      isset($resourceConversionData['to'][$resourceKey])
+                  )
+                {
+                    $consumption += $resourceConversionData['from'][$consumedResourceKey];
+                }
+            }
+        }
 
         # Food consumption
         if($resourceKey === 'food')
@@ -259,16 +292,16 @@ class ResourceCalculator
 
         # Multipliers
         $multiplier = 1;
-        $multiplier += $dominion->getBuildingPerkMultiplier($resourceKey . '_consumption');
-        $multiplier += $dominion->getSpellPerkMultiplier($resourceKey . '_consumption');
-        $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_consumption');
-        $multiplier += $dominion->getTechPerkMultiplier($resourceKey . '_consumption');
-        $multiplier += $dominion->getDeityPerkMultiplier($resourceKey . '_consumption');
+        $multiplier += $dominion->getBuildingPerkMultiplier($consumedResourceKey . '_consumption');
+        $multiplier += $dominion->getSpellPerkMultiplier($consumedResourceKey . '_consumption');
+        $multiplier += $dominion->getImprovementPerkMultiplier($consumedResourceKey . '_consumption');
+        $multiplier += $dominion->getTechPerkMultiplier($consumedResourceKey . '_consumption');
+        $multiplier += $dominion->getDeityPerkMultiplier($consumedResourceKey . '_consumption');
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier($resourceKey . '_consumption');
+            $multiplier += $dominion->title->getPerkMultiplier($consumedResourceKey . '_consumption');
         }
-        $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_consumption');
+        $multiplier += $dominion->race->getPerkMultiplier($consumedResourceKey . '_consumption');
 
         $consumption *= $multiplier;
 

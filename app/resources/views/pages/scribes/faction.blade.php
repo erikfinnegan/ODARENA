@@ -233,6 +233,18 @@
                                                 $unitCostString .= (', ' . number_format($unit->cost_wizard_strength) . '% Wizard Strength');
                                             }
 
+                                            if ($unit->cost_brimmer > 0) {
+                                                $unitCostString .= (', ' . number_format($unit->cost_brimmer) . ' brimmer');
+                                            }
+
+                                            if ($unit->cost_prisoner > 0) {
+                                                $unitCostString .= (', ' . number_format($unit->cost_prisoner) . ' prisoner');
+                                            }
+
+                                            if ($unit->cost_horse > 0) {
+                                                $unitCostString .= (', ' . number_format($unit->cost_horse) . ' horse');
+                                            }
+
                                         @endphp
                                         {{ $unitCostString }}
                                     @endif

@@ -31,7 +31,7 @@ units:
       - sentient
       - intelligent
     cost:
-      slave: 1
+      prisoner: 1
       ore: 10
       food: 10
       mana: 2
@@ -91,7 +91,7 @@ units:
       gold: 1200
       mana: 30
     power:
-      offense: 6
+      offense: 5
       defense: 6
     perks:
       offense_from_advancements: wizardry_tradition_level6;1,magical_weapons_level6;1,concentration_level6;1,invocations_level6;1
