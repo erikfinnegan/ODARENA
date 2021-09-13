@@ -210,7 +210,7 @@
                                                         case 'unit2':
                                                         case 'unit3':
                                                         case 'unit4':
-                                                            $labelParts[] =  number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $selectedDominion->race), $value);
+                                                            $labelParts[] =  number_format($value) . ' ' . str_plural($unitHelper->getUnitName($costType, $race), $value);
                                                             break;
 
                                                         case 'morale':
