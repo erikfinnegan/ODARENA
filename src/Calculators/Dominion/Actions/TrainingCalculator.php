@@ -142,6 +142,21 @@ class TrainingCalculator
             $costsPerUnit[$unitType] = $cost;
         }
 
+        if($dominion->race->getPerkValue('cannot_train_spies'))
+        {
+            unset($costsPerUnit['spies']);
+        }
+
+        if($dominion->race->getPerkValue('cannot_train_wizards'))
+        {
+            unset($costsPerUnit['wizards']);
+        }
+
+        if($dominion->race->getPerkValue('cannot_train_archmages'))
+        {
+            unset($costsPerUnit['archmages']);
+        }
+
         return $costsPerUnit;
     }
 
@@ -199,13 +214,25 @@ class TrainingCalculator
                     {
                         $trainableByCost[$type] = (int)floor($dominion->spy_strength / $value);
                     }
-                    elseif($type == 'peasant' or $type == 'peasants')
+                    elseif($type == 'unit1')
                     {
-                        $trainableByCost[$type] = (int)floor($dominion->peasants / $value);
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit1 / $value);
+                    }
+                    elseif($type == 'unit2')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit2 / $value);
+                    }
+                    elseif($type == 'unit3')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit3 / $value);
+                    }
+                    elseif($type == 'unit4')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->military_unit4 / $value);
                     }
                     else
                     {
-                        dd("Undefined cost parameter for \$type $type");
+                        dd("Undefined cost parameter for \$type $type with \$value $value", $costs);
                     }
                 }
             }
