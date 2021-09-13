@@ -19,7 +19,6 @@ resources:
 
 perks:
   food_consumption: -50
-  mana_production_mod: 50
   gems_production_mod: -20
   lumber_production_mod: -20
 
