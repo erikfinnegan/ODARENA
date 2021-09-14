@@ -176,7 +176,7 @@ class PopulationCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier('population');
 
         // Land improvements
-        $multiplier += $this->landImprovementCalculator->getPopulationBonus($dominion);
+        $multiplier += $dominion->getLandImprovementsPerkMultiplier('max_population');
 
         // Prestige Bonus
         $prestigeMultiplier = $this->prestigeCalculator->getPrestigeMultiplier($dominion);
