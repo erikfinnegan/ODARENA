@@ -1313,8 +1313,7 @@ class Dominion extends AbstractModel
 
     # Land improvements 2.0
 
-
-    public function getLandImprovementsPerkValue(string $perkKey): float
+    public function getLandImprovementPerkValue(string $perkKey): float
     {
         $landHelper = app(LandHelper::class);
 
@@ -1331,7 +1330,7 @@ class Dominion extends AbstractModel
         return $perk;
     }
 
-    public function getLandImprovementsPerkMultiplier(string $perkKey): float
+    public function getLandImprovementPerkMultiplier(string $perkKey): float
     {
         $landCalculator = app(LandCalculator::class);
         $landHelper = app(LandHelper::class);

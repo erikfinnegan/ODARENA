@@ -35,8 +35,8 @@
                     @if(isset($selectedDominion->race->land_improvements))
                     <tr>
                         <td>Land:</td>
-                        <td>{{ number_format($selectedDominion->getLandImprovementsPerkMultiplier('offensive_power_mod') * 100, 2) }}%</td>
-                        <td>{{ number_format($selectedDominion->getLandImprovementsPerkMultiplier('defensive_power_mod') * 100, 2) }}%</td>
+                        <td>{{ number_format($selectedDominion->getLandImprovementPerkMultiplier('offensive_power_mod') * 100, 2) }}%</td>
+                        <td>{{ number_format($selectedDominion->getLandImprovementPerkMultiplier('defensive_power_mod') * 100, 2) }}%</td>
                     </tr>
                     @endif
                     <tr>

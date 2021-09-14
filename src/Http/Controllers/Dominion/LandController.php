@@ -2,6 +2,11 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
+
+use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\LandImprovementHelper;
+use OpenDominion\Helpers\RaceHelper;
+
 use OpenDominion\Calculators\Dominion\Actions\RezoningCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Exceptions\GameException;
@@ -11,7 +16,6 @@ use OpenDominion\Services\Analytics\AnalyticsService;
 use OpenDominion\Services\Dominion\Actions\RezoneActionService;
 
 use OpenDominion\Calculators\Dominion\Actions\ExplorationCalculator;
-use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\ExploreActionRequest;
 use OpenDominion\Services\Dominion\Actions\ExploreActionService;
 use OpenDominion\Services\Dominion\QueueService;
@@ -19,7 +23,6 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Http\Requests\Dominion\Actions\DailyBonusesLandActionRequest;
 use OpenDominion\Services\Dominion\Actions\DailyBonusesActionService;
 
-# ODA
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
@@ -29,16 +32,37 @@ class LandController extends AbstractDominionController
 {
     public function getLand()
     {
+        $raceHelper = app(RaceHelper::class);
+        $dominion = $this->getSelectedDominion();
+        $landImprovementPerks = [];
+
+        if($raceHelper->hasLandImprovements($dominion->race))
+        {
+            foreach($dominion->race->land_improvements as $landImprovements)
+            {
+                foreach($landImprovements as $perkKey => $value)
+                {
+                    $landImprovementPerks[] = $perkKey;
+                }
+            }
+
+            $landImprovementPerks = array_unique($landImprovementPerks, SORT_REGULAR);
+            sort($landImprovementPerks);
+        }
+
         return view('pages.dominion.land', [
             'landCalculator' => app(LandCalculator::class),
             'rezoningCalculator' => app(RezoningCalculator::class),
             'explorationCalculator' => app(ExplorationCalculator::class),
             'landHelper' => app(LandHelper::class),
+            'landImprovementHelper' => app(LandImprovementHelper::class),
             'queueService' => app(QueueService::class),
+            'raceHelper' => app(RaceHelper::class),
             'spellCalculator' => app(SpellCalculator::class),
             'productionCalculator' => app(ProductionCalculator::class),
             'guardMembershipService' => app(GuardMembershipService::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
+            'landImprovementPerks' => $landImprovementPerks,
         ]);
     }
 

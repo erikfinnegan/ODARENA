@@ -26,6 +26,7 @@ use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\InsightHelper;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\LandImprovementHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\TechHelper;
@@ -79,6 +80,23 @@ class InsightController extends AbstractDominionController
 
     public function getDominion(Dominion $dominion)
     {
+        $raceHelper = app(RaceHelper::class);
+        $landImprovementPerks = [];
+
+        if($raceHelper->hasLandImprovements($dominion->race))
+        {
+            foreach($dominion->race->land_improvements as $landImprovements)
+            {
+                foreach($landImprovements as $perkKey => $value)
+                {
+                    $landImprovementPerks[] = $perkKey;
+                }
+            }
+
+            $landImprovementPerks = array_unique($landImprovementPerks, SORT_REGULAR);
+            sort($landImprovementPerks);
+        }
+
         $advancements = [];
         $techs = $dominion->techs->sortBy('key');
         $techs = $techs->sortBy(function ($tech, $key)
@@ -101,12 +119,14 @@ class InsightController extends AbstractDominionController
         return view('pages.dominion.insight.show', [
             'advancements' => $advancements,
             'dominion' => $dominion,
+            'landImprovementPerks' => $landImprovementPerks,
 
             'buildingHelper' => app(BuildingHelper::class),
             'deityHelper' => app(DeityHelper::class),
             'insightHelper' => app(InsightHelper::class),
             'improvementHelper' => app(ImprovementHelper::class),
             'landHelper' => app(LandHelper::class),
+            'landImprovementHelper' => app(LandImprovementHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'spellHelper' => app(SpellHelper::class),
             'techHelper' => app(TechHelper::class),

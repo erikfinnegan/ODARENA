@@ -15,6 +15,8 @@ use OpenDominion\Models\DominionInsight;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\LandImprovementHelper;
+use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\TitleHelper;
 
 use OpenDominion\Calculators\NetworthCalculator;
@@ -40,6 +42,8 @@ class InsightService
         $this->buildingHelper = app(BuildingHelper::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->landHelper = app(LandHelper::class);
+        $this->landImprovementHelper = app(LandImprovementHelper::class);
+        $this->raceHelper = app(RaceHelper::class);
         $this->titleHelper = app(TitleHelper::class);
 
         $this->buildingCalculator = app(BuildingCalculator::class);
@@ -272,14 +276,33 @@ class InsightService
             $data['land']['incoming'][$landType] = array_fill(1, 12, 0);
         }
 
-        if($target->race->getPerkValue('land_improvements'))
+        if($this->raceHelper->hasLandImprovements($target->race))
         {
-            $data['land']['land_improvements']['plain'] = $this->landImprovementCalculator->getOffensivePowerBonus($target);
-            $data['land']['land_improvements']['mountain'] = $this->landImprovementCalculator->getGoldProductionBonus($target);
-            $data['land']['land_improvements']['swamp'] = $this->landImprovementCalculator->getWizardPowerBonus($target);
-            $data['land']['land_improvements']['forest'] = $this->landImprovementCalculator->getPopulationBonus($target);
-            $data['land']['land_improvements']['hill'] = $this->landImprovementCalculator->getDefensivePowerBonus($target);
-            $data['land']['land_improvements']['water'] = $this->landImprovementCalculator->getFoodProductionBonus($target);
+            $landImprovementPerks = [];
+            $data['land']['land_improvements'] = [];
+
+            foreach($target->race->land_improvements as $landImprovements)
+            {
+                foreach($landImprovements as $perkKey => $value)
+                {
+                    $landImprovementPerks[] = $perkKey;
+                }
+            }
+
+            $landImprovementPerks = array_unique($landImprovementPerks, SORT_REGULAR);
+
+            foreach($landImprovementPerks as $perkKey)
+            {
+                if($this->landImprovementHelper->getPerkType($perkKey) == 'mod')
+                {
+                    $data['land']['land_improvements'][] = $this->landImprovementHelper->getPerkDescription($perkKey, $target->getLandImprovementPerkMultiplier($perkKey) * 100, false);
+                }
+                elseif($this->landImprovementHelper->getPerkType($perkKey) == 'raw')
+                {
+                    $data['land']['land_improvements'][] = $this->landImprovementHelper->getPerkDescription($perkKey, $target->getLandImprovementPerkValue($perkKey), false);
+
+                }
+            }
         }
 
         $this->queueService->getExplorationQueue($target)->each(static function ($row) use (&$data)

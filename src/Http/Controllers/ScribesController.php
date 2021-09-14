@@ -10,7 +10,7 @@ use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\LandHelper;
-use OpenDominion\Helpers\LandImprovementsHelper;
+use OpenDominion\Helpers\LandImprovementHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\UnitHelper;
@@ -65,7 +65,7 @@ class ScribesController extends AbstractController
             'buildings' => $buildings,
             'buildingHelper' => $buildingHelper,
             'landHelper' => app(LandHelper::class),
-            'landImprovementsHelper' => app(LandImprovementsHelper::class),
+            'LandImprovementHelper' => app(LandImprovementHelper::class),
             'improvements' => $improvements,
             'improvementHelper' => $improvementHelper,
             'espionageHelper' => app(EspionageHelper::class),

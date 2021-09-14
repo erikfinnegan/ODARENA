@@ -174,7 +174,7 @@ class MilitaryCalculator
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($attacker);
 
         // Land improvements
-        $multiplier += $attacker->getLandImprovementsPerkMultiplier('offensive_power_mod');
+        $multiplier += $attacker->getLandImprovementPerkMultiplier('offensive_power_mod');
 
         return (1 + $multiplier);
     }
@@ -400,7 +400,7 @@ class MilitaryCalculator
         $multiplier += $this->getSpellMultiplier($dominion, $attacker, 'defense');
 
         // Land improvements
-        $multiplier += $dominion->getLandImprovementsPerkMultiplier('defensive_power_mod');
+        $multiplier += $dominion->getLandImprovementPerkMultiplier('defensive_power_mod');
 
         // Multiplier reduction when we want to factor in temples from another dominion
         $multiplier = max(($multiplier - $multiplierReduction), 0);
@@ -1615,7 +1615,7 @@ class MilitaryCalculator
         $multiplier += $dominion->getBuildingPerkMultiplier('wizard_strength');
 
         // Land improvements
-        $multiplier += $dominion->getLandImprovementsPerkMultiplier('wizard_strength');
+        $multiplier += $dominion->getLandImprovementPerkMultiplier('wizard_strength');
 
         return (1 + $multiplier);
     }

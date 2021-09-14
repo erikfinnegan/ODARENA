@@ -460,7 +460,7 @@
                                       @if(isset($race->land_improvements[$landType]))
                                           @foreach($race->land_improvements[$landType] as $perk => $value)
                                               <li>
-                                              {!! $landImprovementsHelper->getPerkDescription($perk, $value) !!}
+                                              {!! $LandImprovementHelper->getPerkDescription($perk, $value) !!}
                                               </li>
                                           @endforeach
                                       @else

@@ -599,7 +599,7 @@
 </div>
 <div class="row">
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 {{ $raceHelper->hasLandImprovements($dominion->race) ? 'col-md-5' : 'col-md-6' }} ">
         @component('partials.dominion.insight.box')
 
             @slot('title', 'Land')
@@ -620,9 +620,6 @@
                         <th class="text-center">Number</th>
                         <th class="text-center">% of total</th>
                         <th class="text-center">Barren</th>
-                        @if ($dominion->race->getPerkValue('land_improvements') or $dominion->race->getPerkValue('defense_from_forest'))
-                            <th class="text-center">Bonus</th>
-                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -638,24 +635,6 @@
                             <td class="text-center">{{ number_format($data['land'][$landType]['percentage'], 2) }}%</td>
                             <td class="text-center">{{ number_format($data['land'][$landType]['barren']) }}</td>
 
-                            @if ($dominion->race->getPerkValue('land_improvements'))
-                                <td class="text-center">
-                                      @if($landType == 'plain')
-                                          +{{ number_format($data['land']['land_improvements'][$landType]*100,2) }}% Offensive Power
-                                      @elseif($landType == 'mountain')
-                                          +{{ number_format($data['land']['land_improvements'][$landType]*100,2) }}% Gold Production
-                                      @elseif($landType == 'swamp')
-                                          +{{ number_format($data['land']['land_improvements'][$landType]*100,2) }}% Wizard Strength
-                                      @elseif($landType == 'forest')
-                                          +{{ number_format($data['land']['land_improvements'][$landType]*100,2) }}% Max Population
-                                      @elseif($landType == 'hill')
-                                          +{{ number_format($data['land']['land_improvements'][$landType]*100,2) }}% Defensive Power
-                                      @elseif($landType == 'water')
-                                          +{{ number_format($data['land']['land_improvements'][$landType]*100,2) }}% Food Production
-                                      @endif
-                                </td>
-                            @endif
-
                             @if ($dominion->race->getPerkValue('defense_from_' . $landType))
                                 <td class="text-center">
                                       +{{ number_format($data['land'][$landType]['landtype_defense']*100,2) }}% Defensive Power
@@ -668,11 +647,11 @@
         @endcomponent
     </div>
 
-    <div class="col-sm-12 col-md-6">
+    <div class="col-sm-12 {{ $raceHelper->hasLandImprovements($dominion->race) ? 'col-md-5' : 'col-md-6' }} ">
         @component('partials.dominion.insight.box')
 
             @slot('title', 'Incoming land breakdown')
-            @slot('titleIconClass', 'fa fa-clock-o')
+            @slot('titleIconClass', 'fas fa-map-marked-alt')
             @slot('noPadding', true)
 
             <table class="table">
@@ -720,6 +699,25 @@
             </table>
         @endcomponent
     </div>
+
+    @if($raceHelper->hasLandImprovements($dominion->race))
+        <div class="col-sm-12 col-md-2">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fas fa-map-marked"></i> Land Perks</h3>
+                </div>
+                <div class="box-body">
+                    @foreach ($data['land']['land_improvements'] as $landImprovement)
+                        <ul>
+                              <li>{{ $landImprovement }}</li>
+                        </ul>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
+
+
 </div>
 <div class="row">
 

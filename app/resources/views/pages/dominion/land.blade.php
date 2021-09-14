@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="row">
-            <div class="col-md-6">
+            <div class="{{ $raceHelper->hasLandImprovements($selectedDominion->race) ? 'col-md-5' : 'col-md-6' }}">
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="fas fa-redo-alt"></i> Rezone Land</h3>
@@ -73,7 +73,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="{{ $raceHelper->hasLandImprovements($selectedDominion->race) ? 'col-md-5' : 'col-md-6' }}">
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="ra ra-telescope"></i> Explore Land</h3>
@@ -91,21 +91,13 @@
                                     <col width="100">
                                     <col width="100">
                                     <col width="100">
-                                    <col width="100">
-                                    @if ($selectedDominion->race->getPerkValue('land_improvements'))
-                                    <col width="200">
-                                    @endif
                                 </colgroup>
                                 <thead>
                                     <tr>
                                         <th>Land Type</th>
                                         <th class="text-center">Owned</th>
-                                        <th class="text-center">Barren</th>
                                         <th class="text-center">Incoming</th>
                                         <th class="text-center">Explore For</th>
-                                        @if ($selectedDominion->race->getPerkValue('land_improvements'))
-                                            <th class="text-center">Bonus</th>
-                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -127,32 +119,15 @@
                                                     ({{ number_format((($selectedDominion->{'land_' . $landType} / $landCalculator->getTotalLand($selectedDominion)) * 100), 2) }}%)
                                                 </small>
                                             </td>
-                                            <td class="text-center">{{ number_format($landCalculator->getTotalBarrenLandByLandType($selectedDominion, $landType)) }}</td>
                                             <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")) }}</td>
                                             <td class="text-center">
                                                 <input type="number" name="explore[land_{{ $landType }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $explorationCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('explore.' . $landType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                             </td>
-                                            @if ($selectedDominion->race->getPerkValue('land_improvements'))
-                                                <td class="text-center">
-                                                      @if($landType == 'plain')
-                                                          +{{ number_format($landImprovementCalculator->getOffensivePowerBonus($selectedDominion)*100,2) }}% Offensive Power
-                                                      @elseif($landType == 'mountain')
-                                                          +{{ number_format($landImprovementCalculator->getGoldProductionBonus($selectedDominion)*100,2) }}% Gold Production
-                                                      @elseif($landType == 'swamp')
-                                                          +{{ number_format($landImprovementCalculator->getWizardPowerBonus($selectedDominion)*100,2) }}% Wizard Strength
-                                                      @elseif($landType == 'forest')
-                                                          +{{ number_format($landImprovementCalculator->getPopulationBonus($selectedDominion)*100,2) }}% Max Population
-                                                      @elseif($landType == 'hill')
-                                                          +{{ number_format($landImprovementCalculator->getDefensivePowerBonus($selectedDominion)*100,2) }}% Defensive Power
-                                                      @elseif($landType == 'water')
-                                                          +{{ number_format($landImprovementCalculator->getFoodProductionBonus($selectedDominion)*100,2) }}% Food Production
-                                                      @endif
-                                                </td>
-                                            @endif
                                         </tr>
                                         @php
                                             $totalIncomingLand += $queueService->getExplorationQueueTotalByResource($selectedDominion, "land_{$landType}");
-                                            $totalIncomingLand += $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}")
+                                            $totalIncomingLand += $queueService->getInvasionQueueTotalByResource($selectedDominion, "land_{$landType}");
+                                            $totalIncomingLand += $queueService->getExpeditionQueueTotalByResource($selectedDominion, "land_{$landType}");
                                         @endphp
                                     @endforeach
                                     {{--
@@ -183,7 +158,30 @@
                     </form>
                 </div>
             </div>
+            @if($raceHelper->hasLandImprovements($selectedDominion->race))
+            <div class="col-md-2">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fas fa-map-marked"></i> Land Perks</h3>
+                    </div>
+                    <div class="box-body">
+                        @foreach ($landImprovementPerks as $perkKey)
+                            <ul>
+                                  @if($landImprovementHelper->getPerkType($perkKey) == 'mod')
+                                      <li>{{ $landImprovementHelper->getPerkDescription($perkKey, $selectedDominion->getLandImprovementPerkMultiplier($perkKey) * 100, false) }}</li>
+                                  @elseif($landImprovementHelper->getPerkType($perkKey) == 'raw')
+                                      <li>{{ $landImprovementHelper->getPerkDescription($perkKey, $selectedDominion->getLandImprovementPerkValue($perkKey), false) }}</li>
+                                  @else
+                                      <li><pre>Error! Unknown perk type (getPerkType()) for $perkKey {{ $perkKey }}</pre></li>
+                                  @endif
+                            </ul>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
+
     </div>
 
     <div class="col-sm-12 col-md-3">
@@ -245,12 +243,13 @@
     </div>
 </div>
 
-<div class="row">
 
+
+<div class="row">
     <div class="col-sm-12 col-md-9">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-clock-o"></i> Incoming Land</h3>
+                <h3 class="box-title"><i class="fas fa-map-marked-alt"></i> Incoming Land</h3>
             </div>
             <div class="box-body table-responsive no-padding">
                 <table class="table">
@@ -321,7 +320,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <div class="row">

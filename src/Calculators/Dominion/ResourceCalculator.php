@@ -97,7 +97,7 @@ class ResourceCalculator
         $production += $dominion->getImprovementPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getTechPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw');
-        $production += $dominion->getLandImprovementsPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->getLandImprovementPerkValue($resourceKey . '_production_raw');
         $production += $dominion->race->getPerkValue($resourceKey . '_production_raw');
 
         if(isset($dominion->title))
@@ -172,7 +172,7 @@ class ResourceCalculator
         $multiplier += $dominion->getUnitPerkProductionBonusFromTitle($resourceKey);
 
         # Production from Land Improvements
-        $multiplier += $dominion->getLandImprovementsPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->getLandImprovementPerkMultiplier($resourceKey . '_production_mod');
 
         # Add prestige
         if($resourceKey == 'food')
@@ -290,7 +290,7 @@ class ResourceCalculator
 
         $consumption *= $multiplier;
 
-        return max(0, $consumption);
+        return min(max(0, $consumption), $this->getAmount($dominion, $consumedResourceKey));
 
     }
 
