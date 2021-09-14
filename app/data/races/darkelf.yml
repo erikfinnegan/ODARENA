@@ -22,7 +22,7 @@ perks:
   food_consumption: -20
   construction_cost: -20
   rezone_cost: -20
-  salvage: 50
+  salvaging: 50
 units:
   - name: Slave Soldier
     training_time: 3
