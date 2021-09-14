@@ -64,11 +64,11 @@ units:
       - intelligent
     cost:
       gold: 1050
-      ore: 165
+      ore: 170
       horse: 1
     power:
       offense: 8
-      defense: 5
+      defense: 6
     perks:
       casualties: -25
       faster_return: 3
@@ -79,15 +79,14 @@ units:
       - living
       - sentient
       - intelligent
-      - machine
     cost:
-      gold: 3000
-      ore: 600
-      lumber: 400
-      horse: 4
+      gold: 800
+      ore: 150
+      lumber: 150
+      horse: 1
     power:
-      offense: 24
-      defense: 15
+      offense: 8
+      defense: 0
     perks:
       offensive_casualties: -50
       increases_casualties_on_offense: 1

@@ -777,7 +777,7 @@ compassion:
   exclusive_races:
     - Beastfolk
   perks:
-    defensive_power: 100,10000
+    defensive_power: 50,15000
     casualties: -50,10000
     increases_casualties: -50,10000
 
@@ -786,7 +786,7 @@ brutality:
   exclusive_races:
     - Beastfolk
   perks:
-    offensive_power: 100,10000
+    offensive_power: 50,15000
     casualties: 50,10000
     increases_casualties: 50,10000
 

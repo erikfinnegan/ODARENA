@@ -11,7 +11,7 @@ class LandImprovementsHelper
         $perks =
         [
             'offensive_power_mod' => 'Offensive power increased by %s%% for every 1%% of this land type.',
-            'defensive_power_mod' => 'Offensive power increased by %s%% for every 1%% of this land type.',
+            'defensive_power_mod' => 'Defensive power increased by %s%% for every 1%% of this land type.',
 
             'gold_production_raw' => 'Each acre produces %s gold per tick.',
             'food_production_raw' => 'Each acre produces %s food per tick.',
