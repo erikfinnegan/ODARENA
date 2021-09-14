@@ -80,12 +80,12 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 800
-      ore: 150
-      lumber: 150
-      horse: 1
+      gold: 300
+      ore: 250
+      lumber: 250
+      horse: 3
     power:
-      offense: 8
+      offense: 10
       defense: 0
     perks:
       offensive_casualties: -50
