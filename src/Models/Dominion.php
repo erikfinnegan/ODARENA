@@ -9,6 +9,7 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\SelectorService;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Services\Dominion\QueueService;
 use Illuminate\Support\Carbon;
 
@@ -1329,6 +1330,7 @@ class Dominion extends AbstractModel
 
     public function getLandImprovementsPerkMultiplier(string $perkKey): float
     {
+        $landCalculator = app(LandCalculator::class);
         $landHelper = app(LandHelper::class);
 
         $perk = 0;
@@ -1338,7 +1340,7 @@ class Dominion extends AbstractModel
             if(isset($this->race->land_improvements[$landType][$perkKey]))
             {
                 #dd($this->race->land_improvements, $landType, $perkKey, $this->race->land_improvements[$landType][$perkKey]);
-                $perk += $this->race->land_improvements[$landType][$perkKey] * ($this->{'land_' . $landType} / $landHelper->getTotalLand($this));
+                $perk += $this->race->land_improvements[$landType][$perkKey] * ($this->{'land_' . $landType} / $landCalculator->getTotalLand($this));
             }
         }
         return $perk;

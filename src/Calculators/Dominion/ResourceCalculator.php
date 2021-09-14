@@ -14,7 +14,6 @@ use OpenDominion\Models\DominionResource;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
-#use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
@@ -98,12 +97,13 @@ class ResourceCalculator
         $production += $dominion->getImprovementPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getTechPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw');
+        $production += $dominion->getLandImprovementsPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->race->getPerkValue($resourceKey . '_production_raw');
 
         if(isset($dominion->title))
         {
             $production += $dominion->title->getPerkValue($resourceKey . '_production_raw');
         }
-        $production += $dominion->race->getPerkValue($resourceKey . '_production_raw');
 
         if(isset($dominion->race->peasants_production[$resourceKey]))
         {
@@ -136,51 +136,18 @@ class ResourceCalculator
             }
         }
 
-        # Check for ore_production_raw_from_prisoner RESOURCE_production_raw_from_ANOTHER_RESOURCE
+        # Check for RESOURCE_production_raw_from_ANOTHER_RESOURCE
         foreach($dominion->race->resources as $sourceResourceKey)
         {
-            #foreach($dominion->race->resources as $targetResourceKey)
-            #{
-                #if($pairedProductionPerk = $dominion->getBuildingPerkValue($sourceResourceKey . '_production_raw_from_' . $targetResourceKey))
-                #{
-                    $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_from_' . $sourceResourceKey);
-                #}
-
-            #}
-
+            $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_from_' . $sourceResourceKey);
         }
-
-        if($resourceConversionData = $dominion->getBuildingPerkValue('resource_conversion'))
-        {
-            $resourceConversionMultiplier = 1;
-            $resourceConversionMultiplier += $dominion->getImprovementPerkMultiplier('resource_conversion');
-            foreach($dominion->race->resources as $factionResourceKey)
-            {
-                if(
-                      isset($resourceConversionData['from'][$factionResourceKey]) and
-                      isset($resourceConversionData['to'][$resourceKey])
-                  )
-                {
-                    $production += floor($resourceConversionData['to'][$resourceKey] * $resourceConversionMultiplier);
-                }
-            }
-        }
-
-        // Barren land production
-        foreach ($this->landHelper->getLandTypes($dominion) as $landType)
-        {
-            $production += $this->landCalculator->getTotalBarrenLandByLandType($dominion, $landType) * $dominion->race->getPerkValue('barren_' . $landType . '_' . $resourceKey . '_production');
-        }
-
-        # Production from Land Improvements
-        $production += $dominion->getLandImprovementsPerkValue($resourceKey . '_production_raw');
 
         // raw_mod perks
-        $rawModPerks = 1;
-        $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');
-        $rawModPerks += $dominion->getSpellPerkMultiplier($resourceKey . '_production_raw_mod');
-        $rawModPerks += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_raw_mod');
-        $rawModPerks += $dominion->getTechPerkMultiplier($resourceKey . '_production_raw_mod');
+            $rawModPerks = 1;
+            $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');
+            $rawModPerks += $dominion->getSpellPerkMultiplier($resourceKey . '_production_raw_mod');
+            $rawModPerks += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_raw_mod');
+            $rawModPerks += $dominion->getTechPerkMultiplier($resourceKey . '_production_raw_mod');
 
         $production *= $rawModPerks;
 
@@ -203,18 +170,6 @@ class ResourceCalculator
         }
         $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getUnitPerkProductionBonusFromTitle($resourceKey);
-
-        # Beastfolk land based improvements
-        if($resourceKey == 'food')
-        {
-            $multiplier += $this->landImprovementCalculator->getFoodProductionBonus($dominion);
-        }
-
-        if($resourceKey == 'gold')
-        {
-            $multiplier += $this->landImprovementCalculator->getGoldProductionBonus($dominion);
-        }
-
 
         # Production from Land Improvements
         $multiplier += $dominion->getLandImprovementsPerkMultiplier($resourceKey . '_production_mod');

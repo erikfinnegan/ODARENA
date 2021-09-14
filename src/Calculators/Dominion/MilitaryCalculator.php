@@ -174,13 +174,7 @@ class MilitaryCalculator
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($attacker);
 
         // Land improvements
-        $multiplier += $this->landImprovementCalculator->getOffensivePowerBonus($attacker);
-
-        // Nomad: offense_from_barren
-        if($attacker->race->getPerkValue('offense_from_barren'))
-        {
-            $multiplier += $attacker->race->getPerkValue('offense_from_barren') * ($this->landCalculator->getTotalBarrenLand($attacker) / $this->landCalculator->getTotalLand($attacker));
-        }
+        $multiplier += $attacker->getLandImprovementsPerkMultiplier('offensive_power_mod');
 
         return (1 + $multiplier);
     }
@@ -406,13 +400,7 @@ class MilitaryCalculator
         $multiplier += $this->getSpellMultiplier($dominion, $attacker, 'defense');
 
         // Land improvements
-        $multiplier += $this->landImprovementCalculator->getDefensivePowerBonus($dominion);
-
-        // Simian: defense_from_forest
-        if($dominion->race->getPerkValue('defense_from_forest'))
-        {
-            $multiplier += $this->getDefensivePowerModifierFromLandType($dominion, 'forest');
-        }
+        $multiplier += $dominion->getLandImprovementsPerkMultiplier('defensive_power_mod');
 
         // Multiplier reduction when we want to factor in temples from another dominion
         $multiplier = max(($multiplier - $multiplierReduction), 0);

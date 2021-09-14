@@ -20,7 +20,7 @@ improvement_resources:
 
 land_improvements:
   forest:
-    max_population: 0.30
+    defensive_power_mod: 0.30
 
 archmages_cost: 1200,gold
 

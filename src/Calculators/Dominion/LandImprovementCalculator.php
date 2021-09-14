@@ -7,35 +7,31 @@ use OpenDominion\Models\Dominion;
 # ODA
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\LandImprovementsHelper;
+use OpenDominion\Helpers\RaceHelper;
 
 class LandImprovementCalculator
 {
 
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var PrestigeCalculator */
-    protected $prestigeCalculator;
-
-    /** @var LandHelper */
     protected $landHelper;
+    protected $landImprovementsHelper;
+    protected $landCalculator;
+    protected $prestigeCalculator;
+    protected $raceHelper;
 
-    /**
-     * LandImprovementCalculator constructor.
-     *
-     * @param LandCalculator $landCalculator
-     * @param PrestigeCalculator $prestigeCalculator
-     * @param LandHelper $landHelper
-     */
     public function __construct(
-        PrestigeCalculator $prestigeCalculator,
         LandHelper $landHelper,
-        LandCalculator $landCalculator
+        LandImprovementsHelper $landImprovementsHelper,
+        LandCalculator $landCalculator,
+        PrestigeCalculator $prestigeCalculator,
+        RaceHelper $raceHelper
         )
     {
         $this->prestigeCalculator = $prestigeCalculator;
         $this->landCalculator = $landCalculator;
         $this->landHelper = $landHelper;
+        $this->landImprovementsHelper = $landImprovementsHelper;
+        $this->raceHelper = $raceHelper;
     }
 
     /**

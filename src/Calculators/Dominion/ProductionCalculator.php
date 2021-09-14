@@ -55,6 +55,9 @@ class ProductionCalculator
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('xp_generation_mod');
 
+        // Land improvements
+        $multiplier += $dominion->getLandImprovementsPerkMultiplier('xp_generation_mod');
+
         // Title
         if(isset($dominion->title))
         {
