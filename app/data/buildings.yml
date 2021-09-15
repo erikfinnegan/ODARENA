@@ -346,7 +346,8 @@ naval_institute:
   perks:
     improvements: 1,2.75 # Every 1% gives 2.75% higher imps
     lightning_bolt_damage: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
-    draftee_housing: 20
+    draftee_housing: 30
+    housing: 0
 
 gryphon_nest:
   name: Gryphon Nest
@@ -475,6 +476,7 @@ shrine:
 smithy:
   name: Smithy
   excluded_races:
+    - Armada
     - Beastfolk
     - Dragon
     - Gnome
