@@ -91,6 +91,6 @@ units:
       immortal_on_fending_off: 1
       casualties: -75
       houses_military_units: 300
-      defense_from_pairing: 1,300,300 # slot, amount, num required
+      offense_from_pairing: 1,300,300 # slot, amount, num required
       plunders: gold;100,gems;50
       building_limit: dock,1
