@@ -264,7 +264,26 @@ class InvadeActionService
                         throw new GameException('You can at most send ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To send more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or invest more in unit pairing improvements.');
                     }
                 }
+
+                // Check pairing_limit for Armada
+                if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'pairing_limit') and $dominion->race->name != 'Artillery')
+                {
+                    $pairingLimitedBy = intval($pairingLimit[0]);
+                    $pairingLimitedTo = $pairingLimit[1];
+
+                    $pairingLimitedByTrained = $dominion->{'military_unit'.$pairingLimitedBy};
+
+                    $pairingLimitedByTrained *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
+
+                    $maxSendableOfThisUnit = $pairingLimitedByTrained * $pairingLimitedBy;
+
+                    if($amount > $maxSendableOfThisUnit)
+                    {
+                        throw new GameException('You can at most send ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To send more, you must build more Battleships.');
+                    }
+                }
             }
+
 
             // Cannot invade until round has started.
             if(!$dominion->round->hasStarted())

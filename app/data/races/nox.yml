@@ -45,7 +45,7 @@ units:
     type:
       - magical
     cost:
-      mana: 40
+      mana: 120
     power:
       offense: 4
       defense: 5
@@ -83,7 +83,7 @@ units:
       - intelligent
       - wise
     cost:
-      gold: 1500
+      gold: 1000
       lumber: 2
     power:
       offense: 3

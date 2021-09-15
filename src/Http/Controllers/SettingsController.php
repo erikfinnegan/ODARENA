@@ -157,7 +157,7 @@ class SettingsController extends AbstractController
 
         $user = Auth::user();
 
-        $settingHelper = app(SettingsHelper::class);
+        $settingHelper = app(SettingHelper::class);
         $settingCategories = $settingHelper->getSettingCategories();
 
         $settingKeys = [];
@@ -216,7 +216,7 @@ class SettingsController extends AbstractController
 
         if(!isset($data['notification_digest']))
         {
-        #    $data['notification_digest'] = 'hourly';
+            $data['notification_digest'] = 'hourly';
         }
 
         $settings['notification_digest'] = $data['notification_digest'];
