@@ -42,8 +42,8 @@ units:
       ore: 5000
       lumber: 8000
     power:
-      offense: 100
-      defense: 100
+      offense: 20
+      defense: 20
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
