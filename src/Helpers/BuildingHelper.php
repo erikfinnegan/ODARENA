@@ -28,6 +28,8 @@ class BuildingHelper
             'military_housing' => 'Houses %s military units.',
             'military_housing_increasing' => 'Houses %1$s military units, increased by %2$s per tick.',
 
+            'draftee_housing' => 'Houses %s draftees.',
+
             'wizard_housing' => 'Houses %1$s wizards and units that count as wizards.',
             'spy_housing' => 'Houses %1$s spies and units that count as spies.',
             'draftee_housing' => 'Houses %s draftees.',

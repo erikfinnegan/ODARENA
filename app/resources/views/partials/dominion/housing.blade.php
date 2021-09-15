@@ -19,6 +19,14 @@
 </tr>
 @endif
 
+@if($populationCalculator->getAvailableHousingFromDrafteeSpecificBuildings($selectedDominion) > 0)
+<tr>
+    <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by buildings for draftees:<br>Filled / Available">{{ $raceHelper->getPeasantsTerm($selectedDominion->race) }} housing:</span></td>
+    <td>{{ number_format($populationCalculator->getDrafteesHousedInDrafteeSpecificBuildings($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromDrafteeSpecificBuildings($selectedDominion)) }}</td>
+</tr>
+@endif
+
+
 @if($populationCalculator->getAvailableHousingFromBarracks($selectedDominion) > 0)
 <tr>
     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by barracks or other buildings and units that military units:<br>Filled / Available">Military housing:</span></td>

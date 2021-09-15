@@ -676,6 +676,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'spy_housing'
                           or $perkKey == 'wizard_housing'
                           or $perkKey == 'military_housing'
+                          or $perkKey == 'draftee_housing'
 
                           # Military
                           or $perkKey == 'raw_defense'

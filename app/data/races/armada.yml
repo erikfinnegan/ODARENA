@@ -5,7 +5,7 @@ home_land_type: water
 playable: 1
 experimental: 1
 
-peasant_alias: civil servant
+peasants_alias: civil servant
 draftees_alias: cadet
 
 attacking: 1

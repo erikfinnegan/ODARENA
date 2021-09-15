@@ -117,6 +117,7 @@ class PopulationCalculator
         return round(
             ($this->getMaxPopulationRaw($dominion) * $this->getMaxPopulationMultiplier($dominion))
             + $this->getUnitsHousedInUnitSpecificBuildings($dominion)
+            + $this->getDrafteesHousedInDrafteeSpecificBuildings($dominion)
             + $this->getUnitsHousedInForestHavens($dominion)
             + $this->getUnitsHousedInWizardGuilds($dominion)
             + $this->getUnitsHousedInBarracks($dominion)
@@ -214,6 +215,14 @@ class PopulationCalculator
     }
 
     /*
+    *   Calculate how many units can be fit in this Dominion's Barracks.
+    */
+    public function getAvailableHousingFromDrafteeSpecificBuildings(Dominion $dominion): int
+    {
+        return $dominion->getBuildingPerkValue('draftee_housing');
+    }
+
+    /*
     *   Calculate how many units can be fit in this Dominion's Forest Havens.
     */
     public function getAvailableHousingFromForestHavens(Dominion $dominion): int
@@ -257,6 +266,7 @@ class PopulationCalculator
         $units = 0;
         #$units -= $this->getUnitsHousedInUnits($dominion);
         $units -= $this->getUnitsHousedInUnitSpecificBuildings($dominion);
+        $units -= $this->getDrafteesHousedInDrafteeSpecificBuildings($dominion);
         $units -= $this->getUnitsHousedInForestHavens($dominion);
         $units -= $this->getUnitsHousedInWizardGuilds($dominion);
         $units += $dominion->military_spies;
@@ -310,6 +320,17 @@ class PopulationCalculator
 
           return min($units, $this->getAvailableHousingFromUnitSpecificBuildings($dominion));
       }
+
+
+    /*
+    *   Calculate how many units live in Barracks.
+    *   Units start to live in barracks as soon as their military training begins.
+    *   Spy and wiz units prefer to live in FHs or WGs, and will only live in Barracks if FH/WG are full or unavailable.
+    */
+    public function getDrafteesHousedInDrafteeSpecificBuildings(Dominion $dominion): int
+    {
+        return min($dominion->military_draftees, $this->getAvailableHousingFromDrafteeSpecificBuildings($dominion));
+    }
 
     /*
     *   Calculate how many units live in Forest Havens.
