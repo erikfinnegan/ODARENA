@@ -4,6 +4,7 @@ description:
 home_land_type: water
 playable: 1
 
+peasant_alias: civil servant
 draftees_alias: cadet
 
 attacking: 1
@@ -29,64 +30,73 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 350
+      gold: 225
       ore: 10
     power:
       offense: 3
-      defense: 1
+      defense: 2
     perks:
       casualties_on_offense: -50
 
-  - name: Captain
+  - name: Frigate
     training_time: 12
     type:
-      - living
-      - sentient
-      - intelligent
-      - wise
+      - ship
     cost:
-      gold: 3000
-      ore: 0
+      gold: 1000
+      ore: 5000
+      lumber: 8000
     power:
-      offense: 8
-      defense: 8
+      offense: 100
+      defense: 100
     perks:
-      increases_prestige_gains: 100
-      pairing_limit: 4,1 # Unit slot, amount (max 2 of this unit per each Unit 4)
-
-  - name: Coastal Cannon
-    training_time: 12
-    type:
-      - machine
-      - immobile
-    cost:
-      gold: 30000
-      ore: 12000
-    power:
-      offense: 0
-      defense: 200
-    perks:
-      immortal_on_fending_off: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      land_limit: water,2.5 # land type, max per land type
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
+      casualties: -50
+      houses_military_units: 100
+      defense_from_pairing: 1,100,100 # slot, amount, num required
+      building_limit: dock,1
+
+  - name: Siege Ship
+    training_time: 12
+    type:
+      - ship
+    cost:
+      gold: 65000
+      ore: 75000
+      lumber: 20000
+    power:
+      offense: 600
+      defense: 600
+    perks:
+      no_draftee: 1
+      does_not_count_as_population: 1
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
+      casualties: -75
+      building_limit: dock,1
+
 
   - name: Battleship
     training_time: 12
     type:
       - ship
     cost:
-      gold: 60000
+      gold: 25000
       ore: 15000
-      lumber: 35000
+      lumber: 70000
     power:
       offense: 40
       defense: 40
     perks:
-      casualties: -75
       no_draftee: 1
       does_not_count_as_population: 1
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
+      casualties: -75
       houses_military_units: 300
-      offense_from_pairing: 1,300,300 # slot, amount, num required
-      building_limit: shipyard,1,harbor
+      defense_from_pairing: 1,300,300 # slot, amount, num required
       plunders: gold;100,gems;50
+      building_limit: dock,1
