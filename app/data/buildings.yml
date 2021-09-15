@@ -294,7 +294,8 @@ shipyard:
     - Armada
   land_type: water
   perks:
-    unit_lumber_costs: 1,1,40 # Every 1% gives 1% reduction, max 20%
+    unit_lumber_costs: 1,2,50 # Every 1% gives 2% reduction, max 50%
+    unit_ore_costs: 1,2,50 # Every 1% gives 2% reduction, max 50%
 
 stable:
   name: Stable
@@ -310,6 +311,7 @@ stable:
 masonry:
   name: School
   excluded_races:
+    - Armada
     - Dragon
     - Growth
     - Icekin
@@ -335,6 +337,16 @@ stronghold:
     improvements: 1,2.75 # Every 1% gives 2.75% higher imps
     gem_theft_reduction: 1,2,100  # Every 1% reduces plat stolen by 8%, max 100% reduction
     lightning_bolt_damage: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
+
+naval_institute:
+  name: Naval Institute
+  exclusive_races:
+    - Armada
+  land_type: water
+  perks:
+    improvements: 1,2.75 # Every 1% gives 2.75% higher imps
+    lightning_bolt_damage: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
+    draftee_housing: 20
 
 gryphon_nest:
   name: Gryphon Nest
