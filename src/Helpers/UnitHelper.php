@@ -295,7 +295,7 @@ class UnitHelper
             'advancements_required_to_train' => 'Must have %1$s to train this unit.',
 
             // Limits
-            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to %1$s at home.',
+            'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to number of %1$s at home.',
             'land_limit' => 'You can at most have %2$s of this unit per acre of %1$s.',
             'building_limit' => 'You can at most have %2$s of this unit per %1$s. Increased by improvements (see Improvements).',
             'building_limit_fixed' => 'You can at most have %2$s of this unit per %1$s.',
