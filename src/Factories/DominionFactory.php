@@ -420,12 +420,33 @@ class DominionFactory
         $startingParameters['protection_ticks'] = 96;
         $startingParameters['draft_rate'] = 50;
         $startingParameters['morale'] = 100;
-        $startingParameters['peasants'] = intval(1000 * (5 + $race->getPerkValue('extra_barren_max_population')) * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 5 * Racial * Prestige
 
         if(Auth::user()->display_name == $rulerName)
         {
             $startingParameters['prestige'] = 600;
         }
+
+        # Starting land
+        $startingLand = $this->getStartingLand(
+            $race,
+            $this->getStartingBarrenLand($race, $acresBase),
+            $startingBuildings
+        );
+
+        # Peasants
+        $housingPerBarren = 5;
+        $housingPerBarren += $race->getPerkValue('extra_barren_max_population');
+
+        $popBonus = 1;
+        $popBonus += $race->getPerkMultiplier('max_population');
+        $popBonus *= 1 + $startingParameters['prestige']/10000;
+
+        foreach($startingLand as $landType => $amount)
+        {
+            $popBonus += $race->getPerkValue('extra_barren_' . $landType . '_max_population');
+        }
+
+        $startingParameters['peasants'] = $acresBase * $housingPerBarren * $popBonus;
 
         $dominion = Dominion::create([
             'user_id' => $user->id,

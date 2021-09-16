@@ -11,9 +11,9 @@ skill_level: 2
 
 resources:
   - gold
+  - food
   - mana
   - gems
-  - food
 
 construction_materials:
   - gold

@@ -6,7 +6,6 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 # ODA
@@ -20,9 +19,6 @@ class ExplorationCalculator
     /** @var ImprovementCalculator */
     protected $improvementCalculator;
 
-    /** @var GuardMembershipService */
-    protected $guardMembershipService;
-
     /** @var SpellCalculator */
     protected $spellCalculator;
 
@@ -30,12 +26,10 @@ class ExplorationCalculator
      * ExplorationCalculator constructor.
      *
      * @param LandCalculator $landCalculator
-     * @param GuardMembershipService $guardMembershipService
      */
     public function __construct()
     {
           $this->landCalculator = app(LandCalculator::class);
-          $this->guardMembershipService = app(GuardMembershipService::class);
           $this->spellCalculator = app(SpellCalculator::class);
           $this->landImprovementCalculator = app(LandImprovementCalculator::class);
           $this->improvementCalculator = app(ImprovementCalculator::class);
@@ -50,7 +44,6 @@ class ExplorationCalculator
      */
     public function getGoldCostRaw(Dominion $dominion): int
     {
-
         $totalLand = $this->landCalculator->getTotalLand($dominion);
         $totalLand += $this->landCalculator->getTotalLandIncoming($dominion);
         $gold = sqrt($totalLand)*$totalLand/6-1000;
