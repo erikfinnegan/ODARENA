@@ -256,6 +256,7 @@ dock:
 watermill:
   name: Watermill
   excluded_races:
+    - Ants
     - Dragon
     - Growth
     - Merfolk
@@ -1037,6 +1038,7 @@ barracks:
   name: Barracks
   excluded_races:
     - Armada
+    - Ants
     - Black Orc
     - Dragon
     - Growth

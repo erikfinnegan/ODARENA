@@ -836,10 +836,9 @@ class Dominion extends AbstractModel
                       $baseValue = (float)$perkValues[0];
                       $ticklyIncrease = (float)$perkValues[1];
                       $ticks = $this->round->ticks;
+                      $buildingOwned = $building->pivot->owned;
 
-                      #$perkValueString = $baseValue + ($ticklyIncrease * $ticks);
-
-                      $perk += $baseValue + ($ticklyIncrease * $ticks);
+                      $perk += $buildingOwned * ($baseValue + ($ticklyIncrease * $ticks));
 
                   }
                   # Resource conversion
