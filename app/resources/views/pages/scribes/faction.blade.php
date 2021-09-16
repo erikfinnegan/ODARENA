@@ -19,7 +19,7 @@
                     <a href="#buildings">Buildings</a> |
                     <a href="#improvements">Improvements</a> |
                     @if($raceHelper->hasLandImprovements($race))
-                        <a href="#land_improvements">Land Improvements</a> |
+                        <a href="#land_improvements">Land Perks</a> |
                     @endif
                     <a href="#spells">Spells</a> |
                     <a href="#spy_ops">Spy Ops</a>
@@ -433,7 +433,7 @@
     <div class="col-sm-12 col-md-12">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Land Improvements</h3>
+                <h3 class="box-title">Land Perks</h3>
             </div>
 
             <div class="box-body table-responsive">
