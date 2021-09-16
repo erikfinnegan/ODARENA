@@ -45,6 +45,10 @@ class LandImprovementHelper
         {
             $perkValue = '+'.number_format($perkValue,2);
         }
+        elseif (floor($perkValue) == $perkValue)
+        {
+            $perkValue = number_format($perkValue);
+        }
         elseif($perkValue)
         {
             $perkValue = number_format($perkValue, 2);
