@@ -251,23 +251,6 @@
                 </div>
             </div>
 
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Guard Membership Service</h3>
-                </div>
-                <div class="box-body">
-                    <p>
-                        {!! \OpenDominion\Http\Controllers\DebugController::printMethodValues($guardMembershipService, [
-                            'canJoinGuards',
-                            'isEliteGuardApplicant',
-                            'isEliteGuardMember',
-                            'getHoursBeforeEliteGuardMember',
-                            'getHoursBeforeLeaveEliteGuard',
-                        ]) !!}
-                    </p>
-                </div>
-            </div>
-
         </div>
     </div>
 

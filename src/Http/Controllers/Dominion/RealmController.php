@@ -10,7 +10,6 @@ use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\StatsService;
-use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\RealmCalculator;
@@ -29,7 +28,6 @@ class RealmController extends AbstractDominionController
         $barbarianCalculator = app(BarbarianCalculator::class);
         $networthCalculator = app(NetworthCalculator::class);
         $protectionService = app(ProtectionService::class);
-        $guardMembershipService = app(GuardMembershipService::class);
         $spellCalculator = app(SpellCalculator::class);
         $realmCalculator = app(RealmCalculator::class);
         $militaryCalculator = app(MilitaryCalculator::class);
@@ -161,7 +159,6 @@ class RealmController extends AbstractDominionController
             'realm',
             'round',
             'dominions',
-            'guardMembershipService',
             'protectionService',
             'isOwnRealm',
             'spellCalculator',

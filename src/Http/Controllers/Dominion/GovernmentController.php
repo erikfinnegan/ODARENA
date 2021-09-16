@@ -8,7 +8,6 @@ use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\GovernmentActionRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\GuardMembershipActionRequest;
 use OpenDominion\Services\Dominion\Actions\GovernmentActionService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\DeityService;
@@ -42,20 +41,6 @@ class GovernmentController extends AbstractDominionController
             'dominions' => $dominions,
             'realms' => $dominion->round->realms,
             'monarch' => $dominion->realm->monarch,
-            #'canJoinGuards' => $guardMembershipService->canJoinGuards($dominion),
-            #'isRoyalGuardApplicant' => $guardMembershipService->isRoyalGuardApplicant($dominion),
-            #'isEliteGuardApplicant' => $guardMembershipService->isEliteGuardApplicant($dominion),
-            #'isRoyalGuardMember' => $guardMembershipService->isRoyalGuardMember($dominion),
-            #'isEliteGuardMember' => $guardMembershipService->isEliteGuardMember($dominion),
-            #'isGuardMember' => $guardMembershipService->isGuardMember($dominion),
-            #'hoursBeforeRoyalGuardMember' => $guardMembershipService->getHoursBeforeRoyalGuardMember($dominion),
-            #'hoursBeforeEliteGuardMember' => $guardMembershipService->getHoursBeforeEliteGuardMember($dominion),
-            #'hoursBeforeLeaveRoyalGuard' => $guardMembershipService->getHoursBeforeLeaveRoyalGuard($dominion),
-            #'hoursBeforeLeaveEliteGuard' => $guardMembershipService->getHoursBeforeLeaveEliteGuard($dominion),
-            #'hasDeclaredWar' => $governmentService->hasDeclaredWar($dominion->realm),
-            #'canDeclareWar' => $governmentService->canDeclareWar($dominion->realm),
-            #'hoursBeforeCancelWar' => $governmentService->getHoursBeforeCancelWar($dominion->realm),
-            #'hoursBeforeWarActive' => $governmentService->getHoursBeforeWarActive($dominion->realm),
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'rangeCalculator' => app(RangeCalculator::class),

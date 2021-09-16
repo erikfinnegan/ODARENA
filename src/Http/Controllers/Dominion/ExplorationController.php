@@ -14,7 +14,6 @@ use OpenDominion\Services\Dominion\QueueService;
 
 # ODA
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Services\Dominion\GuardMembershipService;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 
 class ExplorationController extends AbstractDominionController
@@ -27,7 +26,6 @@ class ExplorationController extends AbstractDominionController
             'landHelper' => app(LandHelper::class),
             'queueService' => app(QueueService::class),
             'spellCalculator' => app(SpellCalculator::class),
-            'guardMembershipService' => app(GuardMembershipService::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
         ]);
     }
