@@ -75,7 +75,7 @@ units:
       immortal: 1
       plunder: mana,1000
 
-  - name: Lich
+  - name: Shade
     training_time: 12
     type:
       - living
