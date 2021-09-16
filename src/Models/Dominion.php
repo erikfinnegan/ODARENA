@@ -813,10 +813,11 @@ class Dominion extends AbstractModel
                       $baseProduction = (float)$perkValues[0];
                       $ticklyReduction = (float)$perkValues[1];
                       $ticks = $this->round->ticks;
+                      $buildingOwned = $building->pivot->owned;
 
                       #$perkValueString = max(0, ($baseProduction - ($ticklyReduction * $ticks)));
 
-                      $perk += max(0, ($baseProduction - ($ticklyReduction * $ticks)));
+                      $perk += $buildingOwned * max(0, ($baseProduction - ($ticklyReduction * $ticks)));
                   }
                   # Production/housing increasing
                   elseif(
