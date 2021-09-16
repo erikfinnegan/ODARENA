@@ -28,6 +28,7 @@ perks:
   rezone_cost: -20
   increased_construction_speed: 4
   prestige_gains: 20
+  expedition_land_gains: 100
 
 units:
   - name: Archer

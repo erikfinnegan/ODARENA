@@ -165,7 +165,7 @@ class ConversionCalculator
         $convertedUnits = array_fill(1, 4, 0);
         $convertingUnits = array_fill(1, 4, 0);
 
-        if(!$invasion['result']['success'] or $defender->race->getPerkValue('can_only_abduct_own'))
+        if(!$invasion['result']['success'])
         {
             return $convertedUnits;
         }

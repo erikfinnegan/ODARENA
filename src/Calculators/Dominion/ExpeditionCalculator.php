@@ -53,6 +53,8 @@ class ExpeditionCalculator
     {
         $land = $this->landCalculator->getTotalLand($dominion);
 
+        $land *= $this->getLandDiscoveredMultiplier($dominion);
+
         return floor($op / $this->getOpPerLand($dominion));
 
         return $this->landCalculator->getTotalLand($dominion) / 256;
@@ -75,6 +77,18 @@ class ExpeditionCalculator
 
         return $landDiscovered;
 
+    }
+
+    public function getLandDiscoveredMultiplier(Dominion $dominion): float
+    {
+        $multiplier = 1;
+        $multiplier += $dominion->getSpellPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->getTechPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->getImprovementPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->race->getPerkMultiplier('expedition_land_gains');
+        $multiplier += $dominion->title->getPerkMultiplier('expedition_land_gains');
+
+        return $multiplier;
     }
 
 }

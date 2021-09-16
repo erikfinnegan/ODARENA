@@ -610,9 +610,6 @@
                     <col width="100">
                     <col width="100">
                     <col width="100">
-                    @if ($dominion->race->getPerkValue('land_improvements') or $dominion->race->getPerkValue('defense_from_forest'))
-                        <col width="150">
-                    @endif
                 </colgroup>
                 <thead>
                     <tr>

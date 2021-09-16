@@ -48,30 +48,6 @@ class RaceHelper
                 $description = 'Jobs from barren forest';
                 $valueType = '';
                 break;
-            case 'barren_forest_lumber_production':
-                $negativeBenefit = false;
-                $description = 'Lumber production from barren forest';
-                $booleanValue = 'static';
-                $valueType = ' lumber/tick';
-                break;
-            case 'barren_forest_mana_production':
-                $negativeBenefit = false;
-                $description = 'Mana production from barren forest';
-                $booleanValue = 'static';
-                $valueType = ' mana/tick';
-                break;
-            case 'barren_water_food_production':
-                $negativeBenefit = false;
-                $description = 'Food production from barren water';
-                $booleanValue = 'static';
-                $valueType = ' food/tick';
-                break;
-            case 'barren_mountain_ore_production':
-                $negativeBenefit = false;
-                $description = 'Ore production from barren mountains';
-                $booleanValue = 'static';
-                $valueType = ' ore/tick';
-                break;
             case 'food_consumption':
                 $negativeBenefit = true;
                 $description = 'Food consumption';
@@ -248,11 +224,6 @@ class RaceHelper
                 $description = 'Increased construction speed';
                 $valueType = ' ticks';
                 break;
-            case 'all_units_trained_in_9hrs':
-                $negativeBenefit = false;
-                $description = 'All units trained in 9 ticks';
-                $booleanValue = true;
-                break;
             case 'extra_barracks_housing':
                 $negativeBenefit = false;
                 $description = 'Military housing in buildings that provide military housing';
@@ -367,18 +338,6 @@ class RaceHelper
                 $valueType = ' mana/tick';
                 $booleanValue = false;
                 break;
-            case 'peasants_produce_mana':
-                $negativeBenefit = false;
-                $description = 'Peasants produce mana';
-                $valueType = ' mana/tick';
-                $booleanValue = false;
-                break;
-            case 'peasants_produce_lumber':
-                $negativeBenefit = false;
-                $description = 'Peasants produce lumber';
-                $valueType = ' lumber/tick';
-                $booleanValue = false;
-                break;
             case 'cannot_join_guards':
                 $negativeBenefit = true;
                 $description = 'Cannot join guards';
@@ -397,46 +356,6 @@ class RaceHelper
             case 'mana_drain':
                 $negativeBenefit = true;
                 $description = 'Mana drain';
-                $booleanValue = false;
-                break;
-            case 'can_sell_food':
-                $negativeBenefit = false;
-                $description = 'Can exchange food';
-                $booleanValue = true;
-                break;
-            case 'can_sell_mana':
-                $negativeBenefit = false;
-                $description = 'Can exchange mana';
-                $booleanValue = true;
-                break;
-            case 'draftees_cannot_be_abducted':
-                $negativeBenefit = false;
-                $description = 'Draftees cannot be abducted';
-                $booleanValue = true;
-                break;
-            case 'peasants_cannot_be_abducted':
-                $negativeBenefit = false;
-                $description = 'Peasants cannot be abducted';
-                $booleanValue = true;
-                break;
-            case 'can_only_abduct_own':
-                $negativeBenefit = false;
-                $description = 'Cannot abduct peasants or draftees or be abducted';
-                $booleanValue = true;
-                break;
-            case 'population_from_alchemy':
-                $negativeBenefit = false;
-                $description = 'Extra population per 1% Alchemies (max +30% population)';
-                $booleanValue = false;
-                break;
-            case 'defense_from_forest':
-                $negativeBenefit = false;
-                $description = 'Defensive modifier per 1% Forest';
-                $booleanValue = false;
-                break;
-            case 'offense_from_barren':
-                $negativeBenefit = false;
-                $description = 'Offensive modifier per 1% barren';
                 $booleanValue = false;
                 break;
             case 'forest_construction_cost':
@@ -476,16 +395,6 @@ class RaceHelper
                 $description = 'Ruler Title bonus';
                 $booleanValue = false;
                 break;
-            case 'yeti_spies':
-                $negativeBenefit = false;
-                $description = 'Spies trained from wild yeti';
-                $booleanValue = true;
-                break;
-            case 'yeti_wizards':
-                $negativeBenefit = false;
-                $description = 'Wizards trained from wild yeti';
-                $booleanValue = true;
-                break;
           case 'gryphon_nests_generate_gryphons':
                 $negativeBenefit = false;
                 $description = 'Gryphon Nests produce Gryphons';
@@ -512,6 +421,11 @@ class RaceHelper
                 $description = 'Unit gold costs reduced by prestige';
                 $valueType = '% per 100 prestige';
                 $booleanValue = 'static';
+                break;
+            case 'expedition_land_gains':
+                $negativeBenefit = false;
+                $description = 'Expedition land gains';
+                $valueType = '%';
                 break;
           default:
                 return null;
