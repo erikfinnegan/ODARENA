@@ -45,7 +45,7 @@ units:
     type:
       - magical
     cost:
-      mana: 120
+      mana: 135
     power:
       offense: 4
       defense: 5
