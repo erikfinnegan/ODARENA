@@ -26,8 +26,8 @@ land_improvements:
   plain:
     offensive_power_mod: 0.10
     horse_production_raw: 0.20
-    food_production_raw: 15
-    gold_production_raw: 8
+    food_production_raw: 10
+    gold_production_raw: 20
   forest:
     lumber_production_raw: 50
     food_production_raw: 20
@@ -45,7 +45,7 @@ land_improvements:
     gold_production_raw: 4
   water:
     xp_generation_mod: 2
-    food_production_raw: 50
+    food_production_raw: 15
     gold_production_raw: 4
 
 perks:

@@ -65,6 +65,7 @@ class DominionFactory
 
         // Starting resources are based on this.
         $acresBase = 1000;
+        $startingParameters['prestige'] = $acresBase/2;
         $startingParameters['npc_modifier'] = 0;
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
         {
@@ -88,87 +89,19 @@ class DominionFactory
 
         # Late-joiner bonus:
         # Give +1.5% starting resources per hour late, max +150% (at 100 hours, mid-day 4).
-        $startingResourcesMultiplier = 1 + $realm->round->ticks * 0.004;
-
-        // These are starting resources which are or maybe
-        // modified for specific races. These are the default
-        // values, and then deviating values are set below.
+        # Fix this for zero-starts?
+        $lateJoinMultiplier = 1 + $realm->round->ticks * 0.004;
 
         $startingParameters['protection_ticks'] = 96;
 
-        /*  ROUND 17: New Protection:
-
-            1. Unit Costs
-            --------------------------------------
-            Average cost of 20 DPA at 1000 acres:
-            Human: 2000*3 + 2000*7 = 20,000 DP -- 2000 * 275 + 2000 * 1000 = 2,550,000 gold
-            Goblin: 6666*3 = 19,999 DP -- 6666 * 350 = 2,333,100 gold
-            Simian: 2000*3 + 2000*7 = 20,000 DP -- 2000 * 200 + 2000 * 1200 = 2,800,000 gold
-
-            Average = (2,550,000 + 2,333,100 + 2,800,000) = 2,561,033
-            Max smithies = 2,561,033 * 0.6 = 1,536,619
-
-            Average cost of 20 OPA at 1000 acres:
-            Human: 2500 * 7 * (1+5%+10%) = 20,125 OP -- 2500 * 1250 = 3,125,000 gold
-            Goblin: (2100 * 4 + 1800 * 5) * (1+5%+10%) = 20,010 OP -- 2100 * 600 + 1800 * 700 = 2,520,000 gold
-            Simian: 2750 * 7 * (1+5%) = 20,212.5 OP -- 2750 * 1200 = 3,300,000 gold
-
-            Average = (3,125,000 + 2,520,000 + 3,300,000) = 2,981,666
-            Max smithies = 2,981,666 * 0.6 = 1,788,999
-
-            Total with max Smithies = 1,536,619 + 1,788,999 = 3,325,618
-
-            Gold for troops = 3,000,000
-
-            2. Construction costs
-            --------------------------------------
-            Cost of building 1,000 acres:
-            Gold: 1000 * (250+(1000*1.5)) = 1,750,000
-            Lumber: 1000 * (100+(1000-250)*(3.14/10)) = 335,500
-
-            3. Rezoning costs
-            --------------------------------------
-            Cost of building 1,000 acres:
-            Gold: 1000 * (1000-250*0.06+250) = 1,235,000
-
-        */
-
-        # RESOURCES
-        $startingResources['gold'] = 2000000; # Unit training costs
-        $startingResources['gold'] += 500000; # Construction
-        $startingResources['gold'] += 500000; # Rezoning
-        $startingResources['ore'] = intval(2000000 * 0.05); # For troops: 5% of plat for troops in ore
-
-        $startingResources['gems'] = 20000;
-
-        $startingResources['lumber'] = 300000 * 1.6; # For buildings | Round 40: 1.5x
-
-        $startingResources['food'] = 50000 * 2.5; # 1000*15*0.25*24 = 90,000 + 8% Farms - Growth gets more later. | Round 40: 2.5x
-        $startingResources['mana'] = 20000; # Harmony+Midas, twice: 1000*2.5*2*2 = 10000
-
-        $startingResources['soul'] = 0;
-        $startingResources['blood'] = 0;
-
-        $startingParameters['xp'] = 100 * $realm->round->ticks;
-
-        $startingParameters['morale'] = 100;
-
-        $startingParameters['prestige'] = intval($acresBase/2);
-
-        if($race->name !== 'Barbarian')
+        if(Auth::user()->display_name == $rulerName)
         {
-            if(Auth::user()->display_name == $rulerName)
-            {
-                $startingParameters['prestige'] += 100;
-            }
+            $startingParameters['prestige'] += 100;
         }
 
-        # POPULATION AND MILITARY
-        $startingParameters['peasants'] = intval(1000 * 5 * (1 + $race->getPerkMultiplier('max_population')) * (1 + ($acresBase/2)/10000)); # 1000 * 15 * Racial * Prestige
-        $startingParameters['draftees'] = intval($startingParameters['peasants'] * 0.30);
-        $startingParameters['peasants'] -= intval($startingParameters['draftees']);
-        $startingParameters['draft_rate'] = 40;
+        $startingParameters['xp'] = $startingParameters['prestige'];
 
+        $startingParameters['draftees'] = 0;
         $startingParameters['unit1'] = 0;
         $startingParameters['unit2'] = 0;
         $startingParameters['unit3'] = 0;
@@ -176,255 +109,6 @@ class DominionFactory
         $startingParameters['spies'] = 0;
         $startingParameters['wizards'] = 0;
         $startingParameters['archmages'] = 0;
-
-        # FACTION SPECIFIC RESOURCES
-        if(!in_array('ore', $race->resources))
-        {
-            $startingResources['ore'] = 0;
-        }
-
-        // Food-free races: no food
-        if($race->getPerkValue('no_food_consumption') or !in_array('food', $race->resources))
-        {
-            $startingResources['food'] = 0;
-        }
-
-        // Mana-cost races: triple Mana
-        $manaCostRaces = array('Elementals','Demon','Dimensionalists','Lux','Norse','Snow Elf','Nox','Undead','Void','Icekin','Marshling');
-        if(in_array($race->name, $manaCostRaces))
-        {
-            $startingResources['mana'] = $startingResources['mana']*3;
-        }
-
-        // For cannot_improve_castle races: replace Gems with Gold.
-        if((bool)$race->getPerkValue('cannot_improve_castle'))
-        {
-            $startingResources['gold'] += $startingResources['gems'] * 2;
-            $startingResources['gems'] = 0;
-        }
-
-        // For cannot_construct races: replace half of Lumber with Gold.
-        // Still gets plat for troops.
-        if((bool)$race->getPerkValue('cannot_construct'))
-        {
-            $startingResources['gold'] += $startingResources['lumber'] / 2;
-            $startingResources['lumber'] = 0;
-        }
-
-        # Check construction materials
-        $constructionMaterials = $race->construction_materials;
-
-        // If primary resource isn't plat, give 1/10 of plat as primary resource.
-        if($constructionMaterials[0] !== 'gold')
-        {
-            $startingResources[$constructionMaterials[0]] += $startingResources['gold'] / 10;
-            $startingResources['gold'] = 0;
-        }
-
-        // If secondary is set but isn't lumber, give lumber into second resource (typically ore for Gnome, IG, and Icekin)
-        if(isset($constructionMaterials[1]) and $constructionMaterials[1] !== 'lumber')
-        {
-            $startingResources[$constructionMaterials[1]] += $startingResources['lumber'];
-            $startingResources['lumber'] = 0;
-        }
-
-        // Growth: extra food, no gold, no gems, no lumber, and higher draft rate.
-        if($race->name == 'Growth')
-        {
-            $startingResources['gold'] = 0;
-            $startingResources['lumber'] = 0;
-            $startingResources['gems'] = 0;
-            $startingResources['food'] = $acresBase * 400;
-            $startingParameters['draft_rate'] = 100;
-        }
-
-        // Myconid: extra food, no gold; and gets enough Psilocybe for mana production equivalent to 40 Towers
-        if($race->name == 'Myconid')
-        {
-            $startingResources['gold'] = 0;
-            $startingResources['lumber'] = 0;
-            $startingResources['food'] = $acresBase * 40;
-        }
-
-        // Demon: extra blood and 1 Archdemon.
-        if($race->name == 'Demon')
-        {
-            $startingResources['blood'] = 140000;
-            $startingParameters['unit4'] = 1;
-        }
-
-        // Void: gets acres * 4000 mana (as of round 20)
-        if($race->name == 'Void')
-        {
-            $startingResources['mana'] = 175 * $acresBase;
-            $startingResources['gold'] = 0;
-            $startingResources['mana'] = $acresBase * 3500;
-            $startingResources['lumber'] = 0;
-            $startingResources['gems'] = 0;
-        }
-
-        // Void: half gold
-        if($race->name == 'Marshling')
-        {
-            $startingResources['food'] += $startingResources['gold'] / 8;
-            $startingResources['lumber'] += $startingResources['gold'] / 8;
-            $startingResources['gold'] *= 0.75;
-        }
-
-        // Sylvan: no gold, no draft rate, no draftees
-        if($race->name == 'Sylvan')
-        {
-            $startingResources['gold'] = 0;
-            $startingResources['gems'] = 0;
-            $startingResources['lumber'] = 0;
-            $startingParameters['draft_rate'] = 0;
-            $startingParameters['draftees'] = 0;
-        }
-
-        // Elementals: remove lumber
-        if($race->name == 'Elementals')
-        {
-            $startingResources['lumber'] = 0;
-        }
-
-        // Lux: double starting mana.
-        if($race->name == 'Lux')
-        {
-            $startingResources['mana'] *= 2;
-        }
-
-        // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
-        if($race->name == 'Dimensionalists')
-        {
-            $startingParameters['unit1'] = 400;
-            $startingResources['mana'] *= 2;
-        }
-
-        // Dimensionalists: starts with 33 Summoners and double mana (which has already been tripled before).
-        if($race->name == 'Legion')
-        {
-            $startingParameters['unit4'] = 1;
-        }
-
-        // Yeti: starting yetis.
-        if($race->name == 'Yeti')
-        {
-            $startingResources['food'] *= 2;
-            $startingResources['ore'] += $startingResources['gold'] / 2;
-            $startingResources['food'] += $startingResources['gold'] / 2;
-            $startingResources['lumber'] += $startingResources['gold'] / 2;
-            $startingResources['gold'] = 0;
-
-            $startingParameters['draft_rate'] = 100;
-        }
-
-        // Kerranad: starting gems for imps.
-        if($race->name == 'Kerranad')
-        {
-            $startingResources['gems'] = 400000;
-        }
-
-        // Spirit: give back gold.
-        if($race->name == 'Spirit')
-        {
-            $startingResources['gold'] = 2000000; # Unit training costs
-            $startingResources['gems'] *= 1.5; # Unit training costs
-        }
-
-        // Monster: no one lives here.
-        if($race->name == 'Monster')
-        {
-            $startingParameters['draftees'] = 0;
-            $startingParameters['peasants'] = 0;
-
-            $startingResources['gold'] = 0;
-            $startingResources['mana'] = 0;
-            $startingResources['ore'] = 0;
-            $startingResources['lumber'] = 0;
-            $startingResources['gems'] = 0;
-            $startingParameters['xp'] = 50000;
-
-            $startingParameters['unit1'] = 333;
-            $startingParameters['unit2'] = 6;
-            $startingParameters['unit3'] = 2;
-            $startingParameters['unit4'] = 1;
-
-            $startingParameters['draft_rate'] = 0;
-
-            $startingParameters['protection_ticks'] = 1;
-        }
-
-        if($race->alignment == 'npc')
-        {
-            if($race->name == 'Barbarian')
-            {
-                $startingParameters['peasants'] = $acresBase * (rand(50,200)/100);
-                $startingParameters['draftees'] = 0;
-
-                $startingParameters['draft_rate'] = 0;
-                $startingParameters['peasants'] = 0;
-                $startingResources['gold'] = 0;
-                $startingResources['ore'] = 0;
-                $startingResources['gems'] = 0;
-                $startingResources['lumber'] = 0;
-                $startingResources['food'] = 0;
-                $startingResources['mana'] = 0;
-
-                # Starting units for Barbarians
-                $dpaTarget = $this->barbarianCalculator->getDpaTarget(null, $realm->round, $startingParameters['npc_modifier']);
-                $opaTarget = $this->barbarianCalculator->getOpaTarget(null, $realm->round, $startingParameters['npc_modifier']);
-
-                $dpRequired = $acresBase * $dpaTarget;
-                $opRequired = $acresBase * $opaTarget;
-
-                $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/100;
-                $elitesRatio = 1-$specsRatio;
-                $startingParameters['unit3'] = floor(($dpRequired * $elitesRatio)/5);
-                $startingParameters['unit2'] = floor(($dpRequired * $specsRatio)/3);
-
-
-                $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/100;
-                $elitesRatio = 1-$specsRatio;
-                $startingParameters['unit1'] = floor(($opRequired * $specsRatio)/3);
-                $startingParameters['unit4'] = floor(($opRequired * $elitesRatio)/5);
-
-                $startingParameters['protection_ticks'] = 0;
-            }
-        }
-
-        foreach($startingResources as $resourceKey => $amount)
-        {
-            $startingResources[$resourceKey] = $amount * $startingResourcesMultiplier;
-        }
-
-        # Round 41: reduce gold, ore, and lumber by 50%
-        $startingResources['gold'] /= 2;
-        $startingResources['ore'] /= 2;
-        $startingResources['lumber'] /= 2;
-
-        # Round 57 - nothing!
-        foreach($startingResources as $resource => $amount)
-        {
-           $startingResources[$resource] = 0;
-        }
-
-        foreach($startingParameters as $parameter => $amount)
-        {
-           $startingParameters[$parameter] = 0;
-        }
-
-        if(!$race->getPerkValue('no_food_consumption'))
-        {
-            $startingResources['food'] = 100000;
-        }
-        $startingParameters['protection_ticks'] = 96;
-        $startingParameters['draft_rate'] = 50;
-        $startingParameters['morale'] = 100;
-
-        if(Auth::user()->display_name == $rulerName)
-        {
-            $startingParameters['prestige'] = 600;
-        }
 
         # Starting land
         $startingLand = $this->getStartingLand(
@@ -436,17 +120,26 @@ class DominionFactory
         # Peasants
         $housingPerBarren = 5;
         $housingPerBarren += $race->getPerkValue('extra_barren_max_population');
+        foreach($startingLand as $landType => $amount)
+        {
+            $housingPerBarren += $race->getPerkValue('extra_barren_' . $landType . '_max_population');
+        }
 
         $popBonus = 1;
         $popBonus += $race->getPerkMultiplier('max_population');
         $popBonus *= 1 + $startingParameters['prestige']/10000;
 
-        foreach($startingLand as $landType => $amount)
+        $startingParameters['peasants'] = floor($acresBase * $housingPerBarren * $popBonus);
+
+        if(!$race->getPerkValue('no_food_consumption'))
         {
-            $popBonus += $race->getPerkValue('extra_barren_' . $landType . '_max_population');
+            $startingResources['food'] = floor($startingParameters['peasants'] * 18 * 0.25 * (1 + $race->getPerkValue('food_consumption')));
         }
 
-        $startingParameters['peasants'] = $acresBase * $housingPerBarren * $popBonus;
+        foreach($startingResources as $resourceKey => $amount)
+        {
+            $startingResources[$resourceKey] = $amount * $lateJoinMultiplier;
+        }
 
         $dominion = Dominion::create([
             'user_id' => $user->id,
@@ -461,11 +154,11 @@ class DominionFactory
             'prestige' => $startingParameters['prestige'],
             'xp' => $startingParameters['xp'],
 
-            'peasants' => intval($startingParameters['peasants']),
+            'peasants' => $startingParameters['peasants'],
             'peasants_last_hour' => 0,
 
-            'draft_rate' => $startingParameters['draft_rate'],
-            'morale' => $startingParameters['morale'],
+            'draft_rate' => 50,
+            'morale' => 100,
             'spy_strength' => 100,
             'wizard_strength' => 100,
 
