@@ -71,8 +71,13 @@ class DominionFactory
 
         $startingParameters['prestige'] = $acresBase/2;
         $startingParameters['npc_modifier'] = 0;
+        $startingParameters['protection_ticks'] = 96;
+
+
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
         {
+            $startingParameters['protection_ticks'] = 0;
+
             # NPC modifier is a number from 500 to 1000 (skewed toward higher).
             # It is to be used as a multiplier but stored as an int in database.
             $startingParameters['npc_modifier'] = min(rand(500,1200), 1000);
@@ -96,18 +101,6 @@ class DominionFactory
         # Fix this for zero-starts?
         $lateJoinMultiplier = 1 + $realm->round->ticks * 0.004;
 
-        $startingParameters['protection_ticks'] = 96;
-
-        if($race->name !== 'Barbarian')
-        {
-            if(Auth::user()->display_name == $rulerName)
-            {
-                $startingParameters['prestige'] += 100;
-            }
-        }
-
-        $startingParameters['xp'] = $startingParameters['prestige'];
-
         $startingParameters['draftees'] = 0;
         $startingParameters['unit1'] = 0;
         $startingParameters['unit2'] = 0;
@@ -116,6 +109,21 @@ class DominionFactory
         $startingParameters['spies'] = 0;
         $startingParameters['wizards'] = 0;
         $startingParameters['archmages'] = 0;
+
+        if($race->name !== 'Barbarian')
+        {
+            if(Auth::user()->display_name == $rulerName)
+            {
+                $startingParameters['prestige'] += 100;
+            }
+
+            if($race->name == 'Legion')
+            {
+                $startingParameters['unit4'] = 1;
+            }
+        }
+
+        $startingParameters['xp'] = $startingParameters['prestige'];
 
         # Starting land
         $startingLand = $this->getStartingLand(
