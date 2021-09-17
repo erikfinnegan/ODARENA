@@ -65,6 +65,10 @@ class DominionFactory
 
         // Starting resources are based on this.
         $acresBase = 1000;
+
+        $startingParameters = [];
+        $startingResources = [];
+
         $startingParameters['prestige'] = $acresBase/2;
         $startingParameters['npc_modifier'] = 0;
         if($race->alignment == 'npc' and $race->name == 'Barbarian')
@@ -139,12 +143,10 @@ class DominionFactory
             $startingResources['food'] = floor($startingParameters['peasants'] * 18 * 0.25 * (1 + $race->getPerkValue('food_consumption')));
         }
 
-        if(isset($startingResources))
+
+        foreach($startingResources as $resourceKey => $amount)
         {
-            foreach($startingResources as $resourceKey => $amount)
-            {
-                $startingResources[$resourceKey] = $amount * $lateJoinMultiplier;
-            }
+            $startingResources[$resourceKey] = $amount * $lateJoinMultiplier;
         }
 
         $dominion = Dominion::create([
