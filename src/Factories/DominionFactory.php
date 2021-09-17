@@ -139,9 +139,12 @@ class DominionFactory
             $startingResources['food'] = floor($startingParameters['peasants'] * 18 * 0.25 * (1 + $race->getPerkValue('food_consumption')));
         }
 
-        foreach($startingResources as $resourceKey => $amount)
+        if(isset($startingResources))
         {
-            $startingResources[$resourceKey] = $amount * $lateJoinMultiplier;
+            foreach($startingResources as $resourceKey => $amount)
+            {
+                $startingResources[$resourceKey] = $amount * $lateJoinMultiplier;
+            }
         }
 
         $dominion = Dominion::create([
