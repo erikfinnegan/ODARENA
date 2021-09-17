@@ -179,7 +179,11 @@
                                         <td class="text-center">
                                             @if ($round->hasEnded())
                                                 <abbr title="Ended at {{ $round->end_date }}">Ended</abbr>
-                                            @elseif ($round->isActive())
+                                            @elseif ($round->isActive() and !$round->hasCountdown())
+                                                <abbr title="Ending at {{ $round->end_date }}">
+                                                    Ongoing
+                                                </abbr>
+                                            @elseif ($round->isActive() and !$round->hasCountdown())
                                                 <abbr title="Ending at {{ $round->end_date }}">
                                                     Ending in {{ $round->hoursUntilEnd() }} {{ str_plural('hour', $round->hoursUntilEnd()) }}
                                                 </abbr>
