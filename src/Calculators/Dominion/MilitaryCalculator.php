@@ -459,6 +459,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromSpell($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRulerTitle($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromDeity($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromBuildingsBasedPerk($dominion, $unit, $powerType); # This perk uses multiple buildings!
         $unitPower += $this->getUnitPowerFromImprovementPointsPerImprovement($dominion, $unit, $powerType);
 

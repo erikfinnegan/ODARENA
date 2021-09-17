@@ -145,6 +145,9 @@ class UnitHelper
             'offense_from_title' => 'Offense increased by %2$s if ruled by a %1$s.',
             'defense_from_title' => 'Defense increased by %2$s if ruled by a %1$s.',
 
+            'offense_from_deity' => 'Offense increased by %2$s if devoted to %1$s.',
+            'defense_from_deity' => 'Defense increased by %2$s if devoted to %1$s.',
+
             'defense_from_per_improvement' => 'Defense increased by %1$s for every individual improvement you have with at least %2$s points invested.',
             'offense_from_per_improvement' => 'Offense increased by %1$s for every individual improvement you have with at least %2$s points invested.',
 
