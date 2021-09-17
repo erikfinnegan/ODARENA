@@ -94,9 +94,12 @@ class DominionFactory
 
         $startingParameters['protection_ticks'] = 96;
 
-        if(Auth::user()->display_name == $rulerName)
+        if($race->name !== 'Barbarian')
         {
-            $startingParameters['prestige'] += 100;
+            if(Auth::user()->display_name == $rulerName)
+            {
+                $startingParameters['prestige'] += 100;
+            }
         }
 
         $startingParameters['xp'] = $startingParameters['prestige'];
