@@ -146,10 +146,13 @@ class DominionFactory
 
         $startingParameters['peasants'] = floor($acresBase * $housingPerBarren * $popBonus);
 
+        $startingResources['food'] = 100000;
+        /*
         if(!$race->getPerkValue('no_food_consumption'))
         {
             $startingResources['food'] = floor($startingParameters['peasants'] * 18 * 0.25 * (1 + $race->getPerkValue('food_consumption')));
         }
+        */
 
 
         foreach($startingResources as $resourceKey => $amount)
