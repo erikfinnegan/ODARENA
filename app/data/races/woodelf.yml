@@ -25,7 +25,7 @@ perks:
 
 land_improvements:
   forest:
-    raw_lumber_production: 25
+    lumber_production_raw: 25
 
 units:
   - name: Ranger
