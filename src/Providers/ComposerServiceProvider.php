@@ -89,7 +89,7 @@ class ComposerServiceProvider extends AbstractServiceProvider
         view()->composer('partials.main-footer', function (View $view)
         {
             $selectorService = app(SelectorService::class);
-
+            $hoursUntilRoundStarts = 0;
             $hoursUntilRoundEnds = 0;
 
             if($dominion = $selectorService->getUserSelectedDominion())
@@ -102,6 +102,9 @@ class ComposerServiceProvider extends AbstractServiceProvider
                 }
             }
 
+            $version = (Cache::has('version-html') ? Cache::get('version-html') : 'unknown');
+            $view->with('version', $version);
+            $view->with('hoursUntilRoundStarts', $hoursUntilRoundStarts);
             $view->with('hoursUntilRoundEnds', $hoursUntilRoundEnds);
         });
 
