@@ -30,6 +30,14 @@ class HomeController extends AbstractController
             ->orderBy('created_at', 'desc')
             ->first();
 
+        foreach(Round::all() as $round)
+        {
+            if(!$round->hasEnded())
+            {
+                $currentRound = $round;
+            }
+        }
+
         $rankingsRound = $currentRound;
 
         $previousRoundNumber = $currentRound->number - 1;

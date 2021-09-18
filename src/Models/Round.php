@@ -223,13 +223,13 @@ class Round extends AbstractModel
      *
      * @return int
      */
-    public function daysUntilEnd()
+    public function daysUntilEnd(): int
     {
         if($this->end_date !== Null)
         {
             return $this->end_date->diffInDays(today());
         }
-        return 'unknown';
+        return 0;
     }
 
     /**
@@ -237,13 +237,13 @@ class Round extends AbstractModel
      *
      * @return int
      */
-    public function hoursUntilEnd()
+    public function hoursUntilEnd(): int
     {
         if($this->end_date !== Null)
         {
             return $this->end_date->diffInHours(now());
         }
-        return 'unknown';
+        return 0;
     }
 
     /**
