@@ -25,7 +25,7 @@ class DeityHelper
             'gems_production_mod' => '%s%% gem production',
             'gold_production_mod' => '%s%% gold production',
             'boat_production_mod' => '%s%% boat production',
-            'tech_production_mod' => '%s%% XP generation',
+            'xp_generation_mod' => '%s%% XP generation',
 
             'no_gold_production' => 'No gold production or revenue',
             'no_ore_production' => 'No ore production',

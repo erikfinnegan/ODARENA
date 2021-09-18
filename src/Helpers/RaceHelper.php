@@ -65,7 +65,7 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Gem production';
                 break;
-            case 'tech_production_mod':
+            case 'xp_generation_mod':
                 $negativeBenefit = false;
                 $description = 'XP generation';
                 break;
