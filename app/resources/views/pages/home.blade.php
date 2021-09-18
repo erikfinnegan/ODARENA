@@ -18,19 +18,19 @@
                         @if ($currentRound === null)
                             Current Round
                         @else
-                            {{ $currentRound->hasStarted() ? 'Current' : 'Next' }} Round: <strong>{{ $currentRound->number }}</strong>
+                            {{ $currentRound->hasStarted() ? 'Current' : 'Upcoming' }} Round: <strong>{{ $currentRound->number }}</strong>
                         @endif
                     </h3>
                 </div>
                 @if ($currentRound === null || $currentRound->hasEnded())
                     <div class="box-body text-center" style="padding: 0; border-bottom: 1px solid #f4f4f4;">
-                        <p style="font-size: 1.5em;" class="text-red">Inactive</p>
+                        <p style="font-size: 1.5em;" class="text-red">Registration: Closed</p>
                     </div>
                     <div class="box-body text-center">
                         <p><strong>There is no ongoing round.</strong></p>
+                        <p>A new round will start shortly!</p>
                         @if ($discordInviteLink = config('app.discord_invite_link'))
                             <p>Check the Discord for more information.</p>
-
                             <p style="padding: 0 20px;">
                                 <a href="{{ $discordInviteLink }}" target="_blank">
                                     <img src="{{ asset('assets/app/images/join-the-discord.png') }}" alt="Join the Discord" class="img-responsive">
@@ -40,31 +40,21 @@
                     </div>
                 @elseif (!$currentRound->hasStarted() && $currentRound->openForRegistration())
                     <div class="box-body text-center" style="padding: 0; border-bottom: 1px solid #f4f4f4;">
-                        <p style="font-size: 1.5em;" class="text-yellow">Open for Registration</p>
+                        <p style="font-size: 1.5em;" class="text-green">Registration: <strong>Open</strong></p>
                     </div>
                     <div class="box-body text-center">
-                        <p>Registration for round {{ $currentRound->number }} is open.</p>
-                        <span data-toggle="tooltip" data-placement="top" title="Start date: {{ $currentRound->start_date }}">Round <strong>{{ $currentRound->number }}</strong> starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.</span>
+                        <p>
+                            <span data-toggle="tooltip" data-placement="top" title="Start date: {{ $currentRound->start_date }}">
+                                Round <strong>{{ $currentRound->number }}</strong> starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.
+                            </span>
+                        </p>
                             <a href="{{ route('round.register', $currentRound) }}">
-                            <button type="submit" class="btn btn-primary">Register To Join Round {{ $currentRound->number }} Now</button>
-                            </a>
-                    </div>
-                @elseif (!$currentRound->hasStarted())
-                    <div class="box-body text-center" style="padding: 0; border-bottom: 1px solid #f4f4f4;">
-                        <p style="font-size: 1.5em;" class="text-yellow">Starting Soon</p>
-                    </div>
-                    <div class="box-body text-center">
-                        <p>Registration for round {{ $currentRound->number }} opens on {{ $currentRound->start_date->subDays(3) }}.</p>
-                        <p>The round starts on {{ $currentRound->start_date }} and lasts for {{ $currentRound->durationInDays() }} days.</p>
-
-
-                            <a href="{{ route('round.register', $currentRound) }}">
-                            <button type="submit" class="btn btn-primary">Register To Join Round {{ $currentRound->number }} Now</button>
+                                <button type="submit" class="btn btn-primary btn-block">Register Now!</button>
                             </a>
                     </div>
                 @else
                     <div class="box-body text-center" style="padding: 0;">
-                        <p style="font-size: 1.5em;" class="text-green">Active</p>
+                        <p style="font-size: 1.5em;" class="text-green">Registration: <strong>Open</strong></p>
                     </div>
                     <div class="box-body table-responsive no-padding">
                         <table class="table">
