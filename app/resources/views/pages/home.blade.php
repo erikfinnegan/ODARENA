@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-sm-3">
-            <div class="box">
+            <div class="box {{ $currentRound === null ? 'box-warning' : 'box-success' }}">
                 <div class="box-header with-border text-center">
                     <h3 class="box-title">
                         @if ($currentRound === null)
@@ -83,7 +83,7 @@
                                 <tr>
                                     <td class="text-center">Largest dominion:</td>
                                     <td class="text-center">
-                                        {{ number_format($currentRound->land_target) }}
+                                        {{ number_format($largestDominion) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -110,7 +110,7 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="box box-primary">
+            <div class="box box-danger">
                 <div class="box-header with-border">
                     <h3 class="box-title">Welcome to ODARENA!</h3>
                 </div>
@@ -119,51 +119,46 @@
                         <p>This is the <strong>ODARENA Simulator</strong>.</p>
                         <p>The simulator is identical to the game. Here's how it works:</p>
                         <ol>
-                          <li>Create a new account. The sim uses an entirely separate database from the game, in order to make changes here (for upcoming rounds) without affecting the game.</li>
-                          <li>Create a dominion as usual.</li>
-                          <li>Start ticking through protection like you would normally.</li>
-                          <li>Once you have depleted your protection ticks, you can delete and start a new dominion.</li>
-                          <li>Refresh the page and you will be able to create a new dominion.</li>
-                          <li>No scheduled ticks take place here &mdash; ever.</li>
+                            <li>Create a new account. The sim uses an entirely separate database from the game, in order to make changes here (for upcoming rounds) without affecting the game.</li>
+                            <li>Create a dominion as usual.</li>
+                            <li>Start ticking through protection like you would normally.</li>
+                            <li>Once you have depleted your protection ticks, you can delete and start a new dominion.</li>
+                            <li>Refresh the page and you will be able to create a new dominion.</li>
+                            <li>No scheduled ticks take place here &mdash; ever.</li>
                         </ol>
-                        <p>Known bugs/issues:</p>
-                        <ul>
-                          <li>Deleting will generate an ugly Server 500 error for now. Just refresh and it goes away.</li>
-                          <li>OP calculation on invasion page isn’t working. Calculate OP manually for now.</li>
-                        </ul>
                         <p>To start simming, first <a href="{{ route('auth.register') }}">Register An Account</a>.</p>
                         <p>If you already have an account, <a href="{{ route('auth.login') }}">Login To Your Account</a>.</p>
                     @else
-                        <p><strong>ODARENA</strong> is a persistent browser-based fantasy game where you control a dominion and is charged with defending its lands and competing with other players to become the largest in the current round.</p>
-
-                        <p>To start playing, first <a href="{{ route('auth.register') }}">Register An Account</a>.</p>
+                        <p><strong>ODARENA</strong> is a world in which you take control of a dominion. Your goal is to be the largest dominion when a round ends.</p>
+                        <p>Rounds last until a dominion reaches a predetermined size. Once someone has reached this target, a countdown of 12 hours begins. Then, a new round begins.<p>
+                        <p>The game can be a little daunting at first, but its fast pace and experimental nature make it fun and exciting. The meta changes frequently and there are many ways to play the game.</p>
+                        <hr>
+                        <p>To start playing, first <strong><a href="{{ route('auth.register') }}">Register An Account</a></strong>.</p>
                         <p>If you already have an account, <a href="{{ route('auth.login') }}">Login To Your Account</a>.</p>
                         <p>Then once you are logged in, you can create your Dominion and join the round.</p>
-
-                        @if ($currentRound === null || $currentRound->hasEnded())
-                            <p><em>There is currently no round. A new one will start in a day or two.</em></p>
-
-                                @if ($discordInviteLink = config('app.discord_invite_link'))
-                                  <p>Join us on our <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a> to be informed.
-                                @endif
-
-                        @else
-
-                          @if ($discordInviteLink = config('app.discord_invite_link'))
-                            <p>And please come join us on our <a href="{{ $discordInviteLink }}" target="_blank">Discord server <i class="fa fa-external-link"></i></a>!
-                          @endif
-
+                        <hr>
+                        <p><strong>ODARENA</strong> has:</p>
+                        <ul>
+                            <li>{{ $factions }} <a href="{{ route('scribes.factions') }}">factions</a></li>
+                            <li>{{ $buildings }} <a href="{{ route('scribes.buildings') }}">buildings</a></li>
+                            <li>{{ $spells }} <a href="{{ route('scribes.spells') }}">spells</a></li>
+                            <li>{{ $spyops }} <a href="{{ route('scribes.spy-ops') }}">spy ops</a></li>
+                            <li>{{ $techs }} <a href="{{ route('scribes.advancements') }}">advancements</a></li>
+                            <li>{{ $improvements }} <a href="{{ route('scribes.improvements') }}">improvements</a></li>
+                            <li>{{ $resources }} resources</li>
+                        </ul>
+                        <p>The strategies possibilities are almost infinite.</p>
+                        <hr>
+                        @if ($discordInviteLink = config('app.discord_invite_link'))
+                            <p>Please feel welcome to join us on our <i class="fab fa-discord"></i> <a href="{{ $discordInviteLink }}" target="_blank">Discord server</a>!  It's the main place for game announcements, game-related chat and development chat.</p>
                         @endif
-                         It's the main place for game announcements, game-related chat and development chat.</p>
+
                        </p>
                     @endif
+                    <hr>
+                    <p>ODARENA is based on <a href="https://www.opendominion.net/" target="_new">OpenDominion</a>, originally created by WaveHack.</p>
+                    <p>ODARENA is open source software. The code can be found on <a href="https://github.com/Dr-Eki/ODArena" target="_blank">GitHub</a>.</p>
                 </div>
-                <div class="box-body">
-                    <p>ODARENA is based on <a href="https://beta.opendominion.net/" target="_new">OpenDominion</a>, created by WaveHack.</p>
-
-                    <p>ODARENA is open source software. The code can be found on <a href="https://github.com/Dr-Eki/ODArena" target="_blank">GitHub <i class="fa fa-external-link"></i></a>.</p>
-                </div>
-
             </div>
         </div>
 

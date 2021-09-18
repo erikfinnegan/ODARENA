@@ -4,8 +4,16 @@ namespace OpenDominion\Http\Controllers;
 
 use Auth;
 use DB;
+use OpenDominion\Models\Building;
+use OpenDominion\Models\Improvement;
 use OpenDominion\Models\Round;
+use OpenDominion\Models\Race;
+use OpenDominion\Models\Resource;
+use OpenDominion\Models\Spell;
+use OpenDominion\Models\Spyop;
+use OpenDominion\Models\Tech;
 use OpenDominion\Services\Dominion\SelectorService;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use Carbon\Carbon;
 
 class HomeController extends AbstractController
@@ -23,6 +31,8 @@ class HomeController extends AbstractController
 
             return redirect()->route('dashboard');
         }
+
+        $landCalculator = app(LandCalculator::class);
 
         // Always assume last round is the most active one
         $currentRound = Round::query()
@@ -50,7 +60,22 @@ class HomeController extends AbstractController
             ->first();
         }
 
-        $hoursUntilRoundStarts = now()->startOfHour()->diffInHours(Carbon::parse($currentRound->start_date)->startOfHour());
+        $dominions = $round->activeDominions()->get();
+        $largestDominion = 0;
+        foreach($dominions as $dominion)
+        {
+            $largestDominion = max($largestDominion, $landCalculator->getTotalLand($dominion));
+        }
+
+        $factions = Race::all()->where('playable',1)->count();
+        $buildings = Building::all()->where('enabled',1)->count();
+        $spells = Spell::all()->where('enabled',1)->count();
+        $spyops = Spyop::all()->where('enabled',1)->count();
+        $techs = Tech::all()->where('enabled',1)->count() / 10;
+        $improvements = Improvement::all()->where('enabled',1)->count();
+        $resources = Resource::all()->where('enabled',1)->count();
+
+
 
         $currentRankings = null;
         if($rankingsRound !== null)
@@ -66,7 +91,15 @@ class HomeController extends AbstractController
         return view('pages.home', [
             'currentRound' => $currentRound,
             'currentRankings' => $currentRankings,
-            'hoursUntilRoundStarts' => $hoursUntilRoundStarts
+            'largestDominion' => $largestDominion,
+            'factions' => $factions,
+            'buildings' => $buildings,
+            'spells' => $spells,
+            'spyops' => $spyops,
+            'techs' => $techs,
+            'improvements' => $improvements,
+            'resources' => $resources,
+
         ]);
     }
 }
