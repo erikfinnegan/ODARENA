@@ -64,18 +64,14 @@
                             </colgroup>
                             <tbody>
                                 <tr>
-                                    <td class="text-center">Day:</td>
+                                    <td class="text-center">Tick:</td>
                                     <td class="text-center">
-                                        {{ number_format($currentRound->start_date->subDays(1)->diffInDays(now())) }}
+                                        {{ number_format($currentRound->ticks) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="text-center">Dominions:</td>
                                     <td class="text-center">{{ number_format($currentRound->dominions->count()) }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">Realms:</td>
-                                    <td class="text-center">{{ number_format($currentRound->realms->count()) }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -85,13 +81,12 @@
                             <p>
                                 <em class="text-red">The round ends in {{ $currentRound->hoursUntilEnd() }} {{ str_plural('hour', $currentRound->hoursUntilEnd()) }}.</em>
                             </p>
-                        @else
+                        @endif
                             <p>
                                 <a href="{{ route('round.register', $currentRound) }}">
                                 <button type="submit" class="btn btn-primary">Register To Join Round {{ $currentRound->number }} Now</button>
                                 </a>
                             </p>
-                        @endif
                     </div>
                 @endif
             </div>
