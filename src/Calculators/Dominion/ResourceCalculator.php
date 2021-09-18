@@ -99,6 +99,7 @@ class ResourceCalculator
         $production += $dominion->getUnitPerkProductionBonus($resourceKey . '_production_raw');
         $production += $dominion->getLandImprovementPerkValue($resourceKey . '_production_raw');
         $production += $dominion->race->getPerkValue($resourceKey . '_production_raw');
+        $production += $dominion->getUnitPerkProductionBonusFromTitle($resourceKey);
 
         if(isset($dominion->title))
         {
@@ -169,7 +170,6 @@ class ResourceCalculator
             $multiplier += $dominion->title->getPerkMultiplier($resourceKey . '_production_mod') * $dominion->title->getPerkBonus($dominion);
         }
         $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_production_mod');
-        $multiplier += $dominion->getUnitPerkProductionBonusFromTitle($resourceKey);
 
         # Production from Land Improvements
         $multiplier += $dominion->getLandImprovementPerkMultiplier($resourceKey . '_production_mod');

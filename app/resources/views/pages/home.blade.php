@@ -10,7 +10,6 @@
     </div>
 
     <div class="row">
-
         <div class="col-sm-3">
             <div class="box">
                 <div class="box-header with-border text-center">
@@ -64,9 +63,27 @@
                             </colgroup>
                             <tbody>
                                 <tr>
+                                    <td class="text-center">Day:</td>
+                                    <td class="text-center">
+                                        {{ number_format($currentRound->start_date->subDays(1)->diffInDays(now())) }}
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td class="text-center">Tick:</td>
                                     <td class="text-center">
                                         {{ number_format($currentRound->ticks) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">Land goal:</td>
+                                    <td class="text-center">
+                                        {{ number_format($currentRound->land_target) }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">Largest dominion:</td>
+                                    <td class="text-center">
+                                        {{ number_format($currentRound->land_target) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -81,12 +98,13 @@
                             <p>
                                 <em class="text-red">The round ends in {{ $currentRound->hoursUntilEnd() }} {{ str_plural('hour', $currentRound->hoursUntilEnd()) }}.</em>
                             </p>
-                        @endif
+                        @else
                             <p>
                                 <a href="{{ route('round.register', $currentRound) }}">
-                                <button type="submit" class="btn btn-primary">Register To Join Round {{ $currentRound->number }} Now</button>
+                                <button type="submit" class="btn btn-primary btn-block">Join round {{ $currentRound->number }} now!</button>
                                 </a>
                             </p>
+                        @endif
                     </div>
                 @endif
             </div>
