@@ -2214,9 +2214,9 @@ class InvadeActionService
                 if($slot !== 'draftees' and $slot !== 'peasants')
                 {
                     $unitType = 'unit'.$slot;
-                    $unitOreCost = $unitCosts[$unitType]['ore'];
-                    $unitLumberCost = $unitCosts[$unitType]['lumber'];
-                    $unitGemCost = $unitCosts[$unitType]['gems'];
+                    $unitOreCost = isset($unitCosts[$unitType]['ore']) ? $unitCosts[$unitType]['ore'] : 0;
+                    $unitLumberCost = isset($unitCosts[$unitType]['lumber']) ? $unitCosts[$unitType]['lumber'] : 0;
+                    $unitGemCost = isset($unitCosts[$unitType]['gems']) ? $unitCosts[$unitType]['gems'] : 0;
 
                     $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                     $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
@@ -2243,9 +2243,9 @@ class InvadeActionService
             foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amountLost)
             {
                 $unitType = 'unit'.$slot;
-                $unitOreCost = $unitCosts[$unitType]['ore'];
-                $unitLumberCost = $unitCosts[$unitType]['lumber'];
-                $unitGemCost = $unitCosts[$unitType]['gems'];
+                $unitOreCost = isset($unitCosts[$unitType]['ore']) ? $unitCosts[$unitType]['ore'] : 0;
+                $unitLumberCost = isset($unitCosts[$unitType]['lumber']) ? $unitCosts[$unitType]['lumber'] : 0;
+                $unitGemCost = isset($unitCosts[$unitType]['gems']) ? $unitCosts[$unitType]['gems'] : 0;
 
                 $result['attacker']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                 $result['attacker']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
