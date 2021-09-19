@@ -227,12 +227,6 @@ class CasualtiesCalculator
 
         $multiplier = 1.0;
 
-        # Fixed casualties: they are what they are.
-        if ($fixedCasualtiesPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
-        {
-            return $fixedCasualtiesPerk / 100;
-        }
-
         # PERK: only_dies_vs_raw_power
         if ($minPowerToKill = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power'))
         {
@@ -312,12 +306,6 @@ class CasualtiesCalculator
 
         if(!in_array($slot, $excludedSlots))
         {
-            # Fixed casualties: they are what they are.
-            if ($fixedCasualtiesPerk = $defender->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
-            {
-                return $fixedCasualtiesPerk / 100;
-            }
-
             # PERK: only_dies_vs_raw_power
             if ($minPowerToKill = $defender->race->getUnitPerkValueForUnitSlot($slot, 'only_dies_vs_raw_power'))
             {
