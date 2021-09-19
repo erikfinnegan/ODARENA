@@ -873,9 +873,9 @@ class UnitHelper
             $buildingKeyLimitedTo = (string)$pairingLimit[0];
             $perBuildingLimitedTo = (float)$pairingLimit[1];
 
-            $limitingBuildings = $this->buildingCalculator->getBuildingAmountOwned($dominion, Building::where('key', $buildingKeyLimitedTo));
+            $limitingBuildings = $this->buildingCalculator->getBuildingAmountOwned($dominion, Building::where('key', $buildingKeyLimitedTo)->first());
 
-            $maxCapacity = floor($limitingBuildings * $perBuildingLimitedTo * $pairingMultiplier);
+            $maxCapacity = floor($limitingBuildings * $perBuildingLimitedTo * $limitMultiplier);
         }
 
         # Unit:land limit
@@ -886,7 +886,7 @@ class UnitHelper
 
             $limitingLand = $dominion->{'land_' . $landTypeLimitedTo};
 
-            $maxCapacity = floor($limitingLand * $perLandLimitedTo * $pairingMultiplier);
+            $maxCapacity = floor($limitingLand * $perLandLimitedTo * $limitMultiplier);
         }
 
         # Unit:net_victories limit

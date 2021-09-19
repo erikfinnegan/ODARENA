@@ -188,6 +188,10 @@ class TrainActionService
 
             $unitSlot = intval(str_replace('unit', '', $unitType));
 
+            $unitToTrain = $dominion->race->units->filter(function ($unit) use ($unitSlot) {
+                return ($unit->slot === $unitSlot);
+            })->first();
+
             # Cannot be trained
             if($dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'cannot_be_trained') and $amountToTrain > 0)
             {
@@ -246,14 +250,40 @@ class TrainActionService
               }
           }
 
-          if(
-              $totalCosts['unit1'] > $dominion->military_unit1 OR
-              $totalCosts['unit2'] > $dominion->military_unit2 OR
-              $totalCosts['unit3'] > $dominion->military_unit3 OR
-              $totalCosts['unit4'] > $dominion->military_unit4
-              )
+          if($totalCosts['unit1'] > $dominion->military_unit1)
           {
-            throw new GameException('Insufficient units to train this unit.');
+              $unitNeeded = $dominion->race->units->filter(function ($unit) {
+                  return ($unit->slot === 1);
+              })->first();
+
+              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
+          }
+
+          if($totalCosts['unit2'] > $dominion->military_unit2)
+          {
+              $unitNeeded = $dominion->race->units->filter(function ($unit) {
+                  return ($unit->slot === 2);
+              })->first();
+
+              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
+          }
+
+          if($totalCosts['unit3'] > $dominion->military_unit3)
+          {
+              $unitNeeded = $dominion->race->units->filter(function ($unit) {
+                  return ($unit->slot === 3);
+              })->first();
+
+              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
+          }
+
+          if($totalCosts['unit4'] > $dominion->military_unit4)
+          {
+              $unitNeeded = $dominion->race->units->filter(function ($unit) {
+                  return ($unit->slot === 4);
+              })->first();
+
+              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
           }
 
           if($totalCosts['spy'] > $dominion->military_spies)

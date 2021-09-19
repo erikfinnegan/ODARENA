@@ -1114,15 +1114,6 @@ class InvadeActionService
         );
     }
 
-    /**
-     * Handles morale changes for attacker.
-     *
-     * Attacker morale gets reduced by 5%, more so if they attack a target below
-     * 75% range (up to 10% reduction at 40% target range).
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target
-     */
     protected function handleMoraleChanges(Dominion $dominion, Dominion $target, float $landRatio): void
     {
 
@@ -1259,6 +1250,8 @@ class InvadeActionService
         # Increase RP per acre
         $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
         $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('research_points_per_acre');
+        $researchPointsPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('research_points_per_acre');
+        $researchPointsPerAcreMultiplier += $dominion->getSpellPerkMultiplier('research_points_per_acre');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         if ($isInvasionSuccessful)
@@ -1271,7 +1264,6 @@ class InvadeActionService
             {
                 $researchPointsForGeneratedAcres = 2;
             }
-
 
             $researchPointsGained = round(1.5 * ($landConquered * $researchPointsForGeneratedAcres * $researchPointsPerAcre * $researchPointsPerAcreMultiplier));
             $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($dominion, $units);
@@ -1317,7 +1309,6 @@ class InvadeActionService
                 $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmount;
 
                 $this->resourceService->updateResources($dominion, [$resourceKey => ($resourceAmount * -1)]);
-
             }
         }
 
