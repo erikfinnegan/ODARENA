@@ -121,10 +121,34 @@ class DominionFactory
             {
                 $startingParameters['unit4'] = 1;
             }
+
+            $startingParameters['draft_rate'] = 50;
         }
         else
         {
-            
+
+              $startingParameters['peasants'] = $acresBase * (rand(50,200)/100);
+
+              $startingParameters['draft_rate'] = 0;
+
+              # Starting units for Barbarians
+              $dpaTarget = $this->barbarianCalculator->getDpaTarget(null, $realm->round, $startingParameters['npc_modifier']);
+              $opaTarget = $this->barbarianCalculator->getOpaTarget(null, $realm->round, $startingParameters['npc_modifier']);
+
+              $dpRequired = $acresBase * $dpaTarget;
+              $opRequired = $acresBase * $opaTarget;
+
+              $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/100;
+              $elitesRatio = 1-$specsRatio;
+              $startingParameters['unit3'] = floor(($dpRequired * $elitesRatio)/5);
+              $startingParameters['unit2'] = floor(($dpRequired * $specsRatio)/3);
+
+              $specsRatio = rand($this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'), $this->barbarianCalculator->getSetting('SPECS_RATIO_MIN'))/100;
+              $elitesRatio = 1-$specsRatio;
+              $startingParameters['unit1'] = floor(($opRequired * $specsRatio)/3);
+              $startingParameters['unit4'] = floor(($opRequired * $elitesRatio)/5);
+
+              $startingParameters['protection_ticks'] = 0;
         }
 
         $startingParameters['xp'] = $startingParameters['prestige'];
@@ -180,7 +204,7 @@ class DominionFactory
             'peasants' => $startingParameters['peasants'],
             'peasants_last_hour' => 0,
 
-            'draft_rate' => 50,
+            'draft_rate' => $startingParameters['draft_rate'],
             'morale' => 100,
             'spy_strength' => 100,
             'wizard_strength' => 100,

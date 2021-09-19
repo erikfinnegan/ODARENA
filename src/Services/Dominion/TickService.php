@@ -704,7 +704,7 @@ class TickService
 
           $moraleChangeModifier = (1 + $dominion->race->getPerkMultiplier('morale_change_tick') + $dominion->race->getPerkMultiplier('morale_change_tick'));
 
-          if($tick->starvation_casualties or $dominion->tick->starvation_casualties)
+          if($tick->starvation_casualties or $dominion->tick->starvation_casualties and !$dominion->race->getPerkValue('no_food_consumption'))
           {
               $starvationMoraleChange = min(10, $dominion->morale)*-1;
               $tick->morale += $starvationMoraleChange;
