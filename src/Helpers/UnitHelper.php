@@ -9,7 +9,6 @@ use OpenDominion\Models\Unit;
 use OpenDominion\Models\Tech;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
-
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
 
@@ -874,7 +873,7 @@ class UnitHelper
             $buildingKeyLimitedTo = (string)$pairingLimit[0];
             $perBuildingLimitedTo = (float)$pairingLimit[1];
 
-            $limitingBuildings = $buildingCalculator->getBuildingAmountOwned($selectedDominion, Building::where('key', $buildingKeyLimitedTo));
+            $limitingBuildings = $this->buildingCalculator->getBuildingAmountOwned($selectedDominion, Building::where('key', $buildingKeyLimitedTo));
 
             $maxCapacity = floor($limitingBuildings * $perBuildingLimitedTo * $pairingMultiplier);
         }

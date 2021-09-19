@@ -142,29 +142,34 @@ class InvadeActionService
             #    throw new GameException('Invasions have been disabled for the remainder of the round.');
             #}
 
-            if ($this->protectionService->isUnderProtection($dominion)) {
-                throw new GameException('You cannot invade while under protection');
+            if ($this->protectionService->isUnderProtection($dominion))
+            {
+                throw new GameException('You cannot invade while under protection.');
             }
 
-            if ($this->protectionService->isUnderProtection($target)) {
-                throw new GameException('You cannot invade dominions which are under protection');
+            if ($this->protectionService->isUnderProtection($target))
+            {
+                throw new GameException('You cannot invade dominions which are under protection.');
             }
 
-            if (!$this->rangeCalculator->isInRange($dominion, $target)) {
-                throw new GameException('You cannot invade dominions outside of your range');
+            if (!$this->rangeCalculator->isInRange($dominion, $target))
+            {
+                throw new GameException('You cannot invade dominions outside of your range.');
             }
 
-            if ($dominion->round->id !== $target->round->id) {
-                throw new GameException('Nice try, but you cannot invade cross-round');
+            if ($dominion->round->id !== $target->round->id)
+            {
+                throw new GameException('Nice try, but you cannot invade cross-round.');
             }
 
-            if ($dominion->realm->id === $target->realm->id) {
-                throw new GameException('You may not invade other dominions of the same realm.');
+            if ($dominion->realm->id === $target->realm->id)
+            {
+                throw new GameException('Nice try, but you cannot invade other dominions of the same realm.');
             }
 
             if ($dominion->id == $target->id)
             {
-              throw new GameException('You cannot invade yourself.');
+              throw new GameException('Nice try, but you cannot invade yourself.');
             }
 
             // Sanitize input
@@ -184,17 +189,21 @@ class InvadeActionService
                   }
             }
 
-            if (!$this->hasAnyOP($dominion, $units)) {
+            if (!$this->hasAnyOP($dominion, $units))
+            {
                 throw new GameException('You need to send at least some units.');
             }
 
-            if (!$this->allUnitsHaveOP($dominion, $units, $target, $landRatio)) {
+            if (!$this->allUnitsHaveOP($dominion, $units, $target, $landRatio))
+            {
                 throw new GameException('You cannot send units that have no offensive power.');
             }
 
-            if (!$this->hasEnoughUnitsAtHome($dominion, $units)) {
+            if (!$this->hasEnoughUnitsAtHome($dominion, $units))
+            {
                 throw new GameException('You don\'t have enough units at home to send this many units.');
             }
+
             if ($dominion->race->name !== 'Barbarian')
             {
                 if ($dominion->morale < static::MIN_MORALE)
@@ -207,16 +216,16 @@ class InvadeActionService
                     throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
                 }
 
-              if (!$this->passesMinimumDpaCheck($dominion, $target, $landRatio, $units))
+                if (!$this->passesMinimumDpaCheck($dominion, $target, $landRatio, $units))
                 {
                     throw new GameException('You are sending less than the lowest possible DP of the target. Minimum DPA (Defense Per Acre) is ' . static::MINIMUM_DPA . '. Double check your calculations and units sent.');
                 }
-
             }
 
             foreach($units as $slot => $amount)
             {
-                if($amount < 0) {
+                if($amount < 0)
+                {
                     throw new GameException('Invasion was canceled due to bad input.');
                 }
 
@@ -231,7 +240,7 @@ class InvadeActionService
                 }
              }
 
-            if ($dominion->race->getPerkValue('cannot_invade') == 1)
+            if ($dominion->race->getPerkValue('cannot_invade'))
             {
                 throw new GameException($dominion->race->name . ' cannot invade other dominions.');
             }
@@ -246,12 +255,16 @@ class InvadeActionService
                 throw new GameException('A spell is preventing from you invading.');
             }
 
-
-
             // Cannot invade until round has started.
             if(!$dominion->round->hasStarted())
             {
                 throw new GameException('You cannot invade until the round has started.');
+            }
+
+            // Cannot invade after round has ended.
+            if($dominion->round->hasEnded())
+            {
+                throw new GameException('You cannot invade after the round has ended.');
             }
 
             // Dimensionalists: must have Portals open.
@@ -370,12 +383,6 @@ class InvadeActionService
             # Handle dies_into_resource, dies_into_resources, kills_into_resource, kills_into_resources
             $this->handleResourceConversions($dominion, $target, $landRatio);
 
-            # Demon
-            #$this->handleSoulBloodFoodCollection($dominion, $target, $landRatio);
-
-            # Norse
-            #$this->handleChampionCreation($dominion, $target, $units, $landRatio);
-
             # Salvage and Plunder
             $this->handleSalvagingAndPlundering($dominion, $target, $this->invasionResult['attacker']['survivingUnits']);
 
@@ -423,7 +430,6 @@ class InvadeActionService
                 {
                     $legion = null;
                 }
-
             }
             elseif($this->spellCalculator->hasAnnexedDominions($target))
             {
