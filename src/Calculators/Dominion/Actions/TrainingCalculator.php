@@ -240,90 +240,11 @@ class TrainingCalculator
             $trainable[$unitType] = min($trainableByCost);
 
             $slot = intval(str_replace('unit','',$unitType));
-            # Look for building_limit
-            if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'building_limit'))
+
+            if($maxCapacity = $this->unitHelper->getUnitMaxCapacity($dominion, $slot))
             {
-                $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
-                $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-
-                $unitsPerBuilding *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
-
-                $building = Building::where('key', $buildingKeyLimitedTo)->first();
-                $amountOfLimitingBuilding = $this->buildingCalculator->getBuildingAmountOwned($dominion, $building);
-
-                $maxAdditionalPermittedOfThisUnit = intval($amountOfLimitingBuilding * $unitsPerBuilding) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
-
-                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
-            }
-
-            # Look for land_limit
-            if($landLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'land_limit'))
-            {
-                $landLimitedToLandType = 'land_' . $landLimit[0]; # Land type
-                $unitsPerAcre = (float)$landLimit[1]; # Units per
-
-                $unitsPerAcre *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
-
-                $acresOfLimitingLandType = $dominion->{$landLimitedToLandType};
-
-                $maxAdditionalPermittedOfThisUnit = floor($acresOfLimitingLandType * $unitsPerAcre) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
-
-                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
-            }
-
-            # Look for pairing_limit
-            if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'pairing_limit'))
-            {
-                $pairingLimitedBy = intval($pairingLimit[0]);
-                $pairingLimitedTo = $pairingLimit[1];
-
-                $pairingLimitedByTrained = $dominion->{'military_unit'.$pairingLimitedBy};
-
-                $pairingLimitedByTrained *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
-
-                $maxAdditionalPermittedOfThisUnit = intval($pairingLimitedByTrained * $pairingLimitedTo) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
-
-                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
-            }
-
-            # Look for archmage_limit
-            if($archmageLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'archmage_limit'))
-            {
-                $unitsPerArchmage = (float)$archmageLimit[0]; # Units per archmage
-                $improvementToIncrease = $archmageLimit[1]; # Resource that can raise the limit
-                $improvementMultiplier = $archmageLimit[2]; # Multiplier used to extend the increase from improvement
-
-                $unitsPerArchmage *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
-
-                $maxAdditionalPermittedOfThisUnit = intval($dominion->military_archmages * $unitsPerArchmage) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
-
-                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
-            }
-
-            # Look for wizard_limit
-            if($wizardLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'wizard_limit'))
-            {
-                $unitsPerWizard = (float)$wizardLimit[0]; # Units per archmage
-                $improvementToIncrease = $wizardLimit[1]; # Resource that can raise the limit
-
-                $unitsPerWizard *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
-
-                $maxAdditionalPermittedOfThisUnit = intval($dominion->military_wizards * $unitsPerWizard) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
-
-                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
-            }
-
-            # Look for spy_limit
-            if($spyLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'spy_limit'))
-            {
-                $unitsPerSpy = (float)$spyLimit[0]; # Units per archmage
-                $improvementToIncrease = $spyLimit[1]; # Resource that can raise the limit
-
-                $unitsPerSpy *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing'));
-
-                $maxAdditionalPermittedOfThisUnit = intval($dominion->military_spies * $unitsPerWizard) - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) - $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$slot);
-
-                $trainable[$unitType] = min($trainable[$unitType], $maxAdditionalPermittedOfThisUnit);
+                $availableCapacity = $maxCapacity - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+                $trainable[$unitType] = min($trainable[$unitType], $availableCapacity);
             }
 
             $trainable[$unitType] = max(0, $trainable[$unitType]);
