@@ -207,31 +207,33 @@ class InvadeActionService
                     throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
                 }
 
-                if (!$this->passesMinimumDpaCheck($dominion, $target, $landRatio, $units))
+              if (!$this->passesMinimumDpaCheck($dominion, $target, $landRatio, $units))
                 {
                     throw new GameException('You are sending less than the lowest possible DP of the target. Minimum DPA (Defense Per Acre) is ' . static::MINIMUM_DPA . '. Double check your calculations and units sent.');
                 }
 
             }
 
-            foreach($units as $amount)
+            foreach($units as $slot => $amount)
             {
-               if($amount < 0) {
-                   throw new GameException('Invasion was canceled due to bad input.');
-               }
+                if($amount < 0) {
+                    throw new GameException('Invasion was canceled due to bad input.');
+                }
+
+                # OK, unit can be trained. Let's check for pairing limits.
+                if(!$this->unitHelper->checkUnitLimitForInvasion($dominion, $slot, $amount))
+                {
+                    $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
+
+                    throw new GameException('You can at most control ' . number_format($this->unitHelper->getUnitMaxCapacity($dominion, $slot)) . ' ' . str_plural($unit->name) . '. To control more, you need to first have more of their superior unit.');
+                }
              }
 
             if ($dominion->race->getPerkValue('cannot_invade') == 1)
             {
                 throw new GameException($dominion->race->name . ' cannot invade other dominions.');
-            }
-
-            foreach($units as $amount)
-            {
-                if($amount < 0)
-                {
-                    throw new GameException('Invasion was canceled due to bad input.');
-                }
             }
 
             // Spell: Rainy Season (cannot invade)
@@ -244,45 +246,6 @@ class InvadeActionService
                 throw new GameException('A spell is preventing from you invading.');
             }
 
-            // Check building_limit
-            foreach($units as $unitSlot => $amount)
-            {
-                if($buildingLimit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot,'building_limit'))
-                {
-                    $buildingKeyLimitedTo = $buildingLimit[0]; # Land type
-                    $unitsPerBuilding = (float)$buildingLimit[1]; # Units per building
-                    $unitsPerBuilding *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing'));
-
-                    $building = Building::where('key', $buildingKeyLimitedTo)->first();
-                    $dominionBuildings = $this->buildingCalculator->getDominionBuildings($dominion);
-                    $amountOfLimitingBuilding = $dominionBuildings->where('building_id', $building->id)->first()->owned;
-
-                    $maxSendableOfThisUnit = $amountOfLimitingBuilding * $unitsPerBuilding;
-
-                    if($amount > $maxSendableOfThisUnit)
-                    {
-                        throw new GameException('You can at most send ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To send more, you must build more '. ucwords(str_plural($buildingLimit[0], 2)) .' or invest more in unit pairing improvements.');
-                    }
-                }
-
-                // Check pairing_limit for Armada
-                if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot,'pairing_limit') and $dominion->race->name != 'Artillery')
-                {
-                    $pairingLimitedBy = intval($pairingLimit[0]);
-                    $pairingLimitedTo = $pairingLimit[1];
-
-                    $pairingLimitedByTrained = $dominion->{'military_unit'.$pairingLimitedBy};
-
-                    $pairingLimitedByTrained *= (1 + $dominion->getImprovementPerkMultiplier('unit_pairing') + $dominion->getBuildingPerkMultiplier('unit_pairing') + $dominion->getSpellPerkMultiplier('unit_pairing'));
-
-                    $maxSendableOfThisUnit = $pairingLimitedByTrained * $pairingLimitedBy;
-
-                    if($amount > $maxSendableOfThisUnit)
-                    {
-                        throw new GameException('You can at most send ' . number_format($upperLimit) . ' ' . str_plural($this->unitHelper->getUnitName($unitSlot, $dominion->race), $upperLimit) . '. To send more, you must build more Battleships.');
-                    }
-                }
-            }
 
 
             // Cannot invade until round has started.
@@ -444,7 +407,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                #dd($this->invasionResult);
+                dd($this->invasionResult);
             }
 
             # LEGION ANNEX SUPPORT EVENTS

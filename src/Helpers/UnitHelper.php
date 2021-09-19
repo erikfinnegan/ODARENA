@@ -2,31 +2,47 @@
 
 namespace OpenDominion\Helpers;
 
+use OpenDominion\Models\Building;
+use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Unit;
 use OpenDominion\Models\Tech;
 
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
+
+use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
+
 class UnitHelper
 {
-      public function getUnitTypes(bool $hideSpecialUnits = false): array
+
+    public function __construct()
     {
-        $data = [
-            'unit1',
-            'unit2',
-            'unit3',
-            'unit4',
-        ];
+        $this->buildingCalculator = app(BuildingCalculator::class);
 
-        if (!$hideSpecialUnits) {
-            $data = array_merge($data, [
-                'spies',
-                'wizards',
-                'archmages',
-            ]);
-        }
-
-        return $data;
+        $this->queueService = app(QueueService::class);
+        $this->statsService = app(StatsService::class);
     }
+
+      public function getUnitTypes(bool $hideSpecialUnits = false): array
+      {
+          $data = [
+              'unit1',
+              'unit2',
+              'unit3',
+              'unit4',
+          ];
+
+          if (!$hideSpecialUnits) {
+              $data = array_merge($data, [
+                  'spies',
+                  'wizards',
+                  'archmages',
+              ]);
+          }
+
+          return $data;
+      }
 
     public function getUnitName(string $unitType, Race $race): string
     {
@@ -305,7 +321,7 @@ class UnitHelper
             'building_limit_prestige' => 'You can at most have %2$s of this unit per %1$s. Increased by prestige multiplier.',
 
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
-            'net_victories_limit' => 'You can at most have %2$s of this unit per %1$s net victories.',
+            'net_victories_limit' => 'You can at most have %1$s of this unit per net victories.',
 
             'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increased by %3$ xx your %2$s improvements.',
             'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increased by %3$ xx your %2$s improvements.',
@@ -832,5 +848,97 @@ class UnitHelper
 
     }
 
+    public function getUnitMaxCapacity(Dominion $dominion, int $slotLimited): int
+    {
+        $maxCapacity = 0;
+
+        $limitMultiplier = 1;
+        $limitMultiplier += $dominion->getImprovementPerkMultiplier('unit_pairing');
+        $limitMultiplier += $dominion->getBuildingPerkMultiplier('unit_pairing');
+        $limitMultiplier += $dominion->getSpellPerkMultiplier('unit_pairing');
+
+        # Unit:unit limit
+        if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'pairing_limit'))
+        {
+            $slotLimitedTo = (int)$pairingLimit[0];
+            $perUnitLimitedTo = (float)$pairingLimit[1];
+
+            $limitingUnits = $dominion->{'military_unit' . $slotLimitedTo};
+
+            $maxCapacity = floor($limitingUnits * $perUnitLimitedTo * $limitMultiplier);
+        }
+
+        # Unit:building limit
+        if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'building_limit'))
+        {
+            $buildingKeyLimitedTo = (string)$pairingLimit[0];
+            $perBuildingLimitedTo = (float)$pairingLimit[1];
+
+            $limitingBuildings = $buildingCalculator->getBuildingAmountOwned($selectedDominion, Building::where('key', $buildingKeyLimitedTo));
+
+            $maxCapacity = floor($limitingBuildings * $perBuildingLimitedTo * $pairingMultiplier);
+        }
+
+        # Unit:land limit
+        if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'land_limit'))
+        {
+            $landTypeLimitedTo = (string)$pairingLimit[0];
+            $perLandLimitedTo = (float)$pairingLimit[1];
+
+            $limitingLand = $dominion->{'land_' . $landTypeLimitedTo};
+
+            $maxCapacity = floor($limitingLand * $perLandLimitedTo * $pairingMultiplier);
+        }
+
+        # Unit:net_victories limit
+        if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'net_victories_limit'))
+        {
+            $perNetVictory = (float)$pairingLimit[0];
+
+            $netVictories = $this->statsService->getStat($dominion, 'invasion_victories') - $this->statsService->getStat($dominion, 'defense_failures');
+
+            $maxCapacity = floor($perNetVictory * $netVictories);
+        }
+
+        # Unit limit
+        if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'amount_limit'))
+        {
+            $maxCapacity = $pairingLimit;
+        }
+
+        return $maxCapacity;
+
+    }
+
+    public function checkUnitLimitForTraining(Dominion $dominion, int $slotLimited, int $amountToTrain): bool
+    {
+        $maxCapacity = $this->getUnitMaxCapacity($dominion, $slotLimited);
+
+        $currentlyTrained = $dominion->{'military_unit' . $slotLimited};
+        $currentlyTrained += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $slotLimited);
+        $currentlyTrained += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slotLimited);
+        $currentlyTrained += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slotLimited);
+
+        $totalWithAmountToTrain = $currentlyTrained + $amountToTrain;
+
+        if($maxCapacity)
+        {
+            return $maxCapacity >= $totalWithAmountToTrain;
+        }
+
+        return true;
+    }
+
+    public function checkUnitLimitForInvasion(Dominion $dominion, int $slotLimited, int $amountToSend): bool
+    {
+        $maxCapacity = $this->getUnitMaxCapacity($dominion, $slotLimited);
+
+        if($maxCapacity)
+        {
+            return $maxCapacity >= $amountToSend;
+        }
+
+        return true;
+    }
 
 }
