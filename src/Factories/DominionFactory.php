@@ -122,6 +122,10 @@ class DominionFactory
                 $startingParameters['unit4'] = 1;
             }
         }
+        else
+        {
+            
+        }
 
         $startingParameters['xp'] = $startingParameters['prestige'];
 
