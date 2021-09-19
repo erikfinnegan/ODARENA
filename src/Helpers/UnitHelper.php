@@ -889,6 +889,13 @@ class UnitHelper
             $maxCapacity = floor($limitingLand * $perLandLimitedTo * $limitMultiplier);
         }
 
+        # Unit:archmages limit
+        if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'archmage_limit'))
+        {
+            $perArchmage = (float)$pairingLimit[0];
+            $maxCapacity = floor($perNetVictory * $dominion->military_archmages * $limitMultiplier);
+        }
+
         # Unit:net_victories limit
         if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'net_victories_limit'))
         {

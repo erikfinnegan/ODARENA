@@ -256,7 +256,7 @@ class TrainActionService
                   return ($unit->slot === 1);
               })->first();
 
-              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
+              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . number_format($amountToTrain) . ' ' . str_plural($unitToTrain->name, $. number_format($amountToTrain) ) . '.');
           }
 
           if($totalCosts['unit2'] > $dominion->military_unit2)
@@ -265,7 +265,7 @@ class TrainActionService
                   return ($unit->slot === 2);
               })->first();
 
-              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
+              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . number_format($amountToTrain) . ' ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
           }
 
           if($totalCosts['unit3'] > $dominion->military_unit3)
@@ -274,7 +274,7 @@ class TrainActionService
                   return ($unit->slot === 3);
               })->first();
 
-              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
+              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . number_format($amountToTrain) . ' ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
           }
 
           if($totalCosts['unit4'] > $dominion->military_unit4)
@@ -283,7 +283,7 @@ class TrainActionService
                   return ($unit->slot === 4);
               })->first();
 
-              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
+              throw new GameException('Insufficient ' . str_plural($unitNeeded->name) .  ' to train ' . number_format($amountToTrain) . ' ' . str_plural($unitToTrain->name, $amountToTrain) . '.');
           }
 
           if($totalCosts['spy'] > $dominion->military_spies)

@@ -117,6 +117,11 @@ class DominionFactory
                 $startingParameters['prestige'] += 100;
             }
 
+            if($race->name == 'Growth')
+            {
+                $startingParameters['draft_rate'] = 100;
+            }
+
             if($race->name == 'Legion')
             {
                 $startingParameters['unit4'] = 1;

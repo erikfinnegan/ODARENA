@@ -1254,7 +1254,6 @@ garrison:
     military_housing: 60
     jobs: 0
 
-
 legion_garrison:
   name: Garrison
   exclusive_races:
