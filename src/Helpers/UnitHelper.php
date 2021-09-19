@@ -873,7 +873,7 @@ class UnitHelper
             $buildingKeyLimitedTo = (string)$pairingLimit[0];
             $perBuildingLimitedTo = (float)$pairingLimit[1];
 
-            $limitingBuildings = $this->buildingCalculator->getBuildingAmountOwned($selectedDominion, Building::where('key', $buildingKeyLimitedTo));
+            $limitingBuildings = $this->buildingCalculator->getBuildingAmountOwned($dominion, Building::where('key', $buildingKeyLimitedTo));
 
             $maxCapacity = floor($limitingBuildings * $perBuildingLimitedTo * $pairingMultiplier);
         }
