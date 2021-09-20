@@ -1,7 +1,6 @@
 name: Snow Elf
 alignment: good
 description:
-  <p>Gryphons cannot be trained. They are obtained by building Gryphon Nests, every ten nests attracting one gryphon per tick. Each Gryphon Nest can host one Gryphon, up to a maximum of 20% of your land being Gryphon Nests.</p>
 home_land_type: mountain
 playable: 1
 
@@ -18,7 +17,7 @@ improvement_resources:
   mana: 0.08
 
 perks:
-  food_consumption: -25
+  explore_cost: 50
 
 units:
   - name: Arbalist
@@ -32,28 +31,26 @@ units:
       ore: 75
       lumber: 25
     power:
-      offense: 0
+      offense: 5
       defense: 7
     perks:
       immortal_on_fending_off: 1
 
-  - name: Ballista
+  - name: Peacekeeper
     training_time: 12
     type:
-      - machine
-      - immobile
+      - living
+      - sentient
+      - intelligent
     cost:
-      ore: 750
-      lumber: 250
+      gold: 720
+      ore: 75
+      gems: 2
     power:
-      offense: 10
+      offense: 7
       defense: 5
     perks:
-      faster_return: 6
-      immortal_on_victory: 1
-      immortal_on_fending_off: 1
-      provides_jobs: 1
-      plunder: mana,10
+      casualties: -50
 
   - name: Hailstorm Cannon
     training_time: 12
@@ -69,7 +66,7 @@ units:
       offense: 0
       defense: 0
     perks:
-      offense_from_resource_exhausting: mana,5 # +1 OP per 4 mana, no max, exhausts mana upon firing
+      offense_from_resource_exhausting: mana,5 # +1 OP per 5 mana, no max, exhausts mana upon firing
       amount_limit: 1
       does_not_count_as_population: 1
       sendable_with_zero_op: 1
@@ -85,13 +82,12 @@ units:
       - intelligent
       - wild
       - massive
-    cost:
-      food: 1000
     power:
       offense: 100
       defense: 100
     perks:
-      no_draftee: 1
+      cannot_be_trained: 1
       does_not_count_as_population: 1
       building_limit: gryphon_nest,2
-      food_consumption: 1
+      food_consumption: 3.5
+      casualties: -75

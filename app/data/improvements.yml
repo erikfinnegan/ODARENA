@@ -319,7 +319,7 @@ gryphonry:
   exclusive_races:
     - Snow Elf
   perks:
-    unit_pairing: 50,6000
+    unit_pairing: 100,10000
 
 # BEGIN TROLL #
 
