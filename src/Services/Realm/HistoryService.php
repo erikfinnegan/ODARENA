@@ -29,6 +29,7 @@ class HistoryService
             'dominion_id' => $realm->monarch_dominion_id,
             'event' => $event,
             'delta' => $deltaAttributes,
+            'tick' => $realm->round->ticks,
         ]);
     }
 

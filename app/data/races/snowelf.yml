@@ -44,8 +44,8 @@ units:
       - machine
       - immobile
     cost:
-      lumber: 250
       ore: 750
+      lumber: 250
     power:
       offense: 10
       defense: 5
@@ -63,14 +63,14 @@ units:
       - immobile
     cost:
       gold: 1000000
-      ore: 400000
-      lumber: 200000
-      mana: 200000
+      ore: 500000
+      lumber: 250000
+      gems: 100000
     power:
       offense: 0
       defense: 0
     perks:
-      offense_from_resource_exhausting: mana,4 # +1 OP per 4 mana, no max, exhausts mana upon firing
+      offense_from_resource_exhausting: mana,5 # +1 OP per 4 mana, no max, exhausts mana upon firing
       amount_limit: 1
       does_not_count_as_population: 1
       sendable_with_zero_op: 1
@@ -87,13 +87,12 @@ units:
       - wild
       - massive
     cost:
-      food: 100
+      food: 1000
     power:
       offense: 100
       defense: 100
     perks:
-      cannot_be_trained: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit_prestige: gryphon_nest,1 # Unit slot, amount (max 2 of this unit per each Unit 4), imp to increase, imp multiplier
-      food_consumption: 0.75
+      building_limit: gryphon_nest,1
+      food_consumption: 1

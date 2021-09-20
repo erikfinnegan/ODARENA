@@ -23,6 +23,7 @@ class History extends AbstractModel
 
     protected $casts = [
         'delta' => 'array',
+        'tick' => 'array',
     ];
 
     protected $guarded = ['id', 'created_at'];

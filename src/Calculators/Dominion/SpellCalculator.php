@@ -46,22 +46,25 @@ class SpellCalculator
 
         $baseCost = $totalLand * $spell->cost;
 
-        // Cost reduction from wizard guilds (2x ratio, max 40%)
-        $spellCostMultiplier = 1;
-        $spellCostMultiplier += $dominion->getBuildingPerkMultiplier('spell_cost');
-        $spellCostMultiplier += $dominion->getTechPerkMultiplier('spell_cost');
-        $spellCostMultiplier += $dominion->getImprovementPerkMultiplier('spell_cost');
-        $spellCostMultiplier += $dominion->getDeityPerkMultiplier('spell_cost');
-        $spellCostMultiplier += $dominion->getSpellPerkMultiplier('spell_cost');
+        return round($baseCost * $this->getManaCostMultiplier($dominion));
+    }
+
+    public function getManaCostMultiplier(Dominion $dominion): float
+    {
+        $multiplier = 1;
+
+        $multiplier += $dominion->getBuildingPerkMultiplier('spell_cost');
+        $multiplier += $dominion->getTechPerkMultiplier('spell_cost');
+        $multiplier += $dominion->getImprovementPerkMultiplier('spell_cost');
+        $multiplier += $dominion->getDeityPerkMultiplier('spell_cost');
+        $multiplier += $dominion->getSpellPerkMultiplier('spell_cost');
 
         if(isset($dominion->title))
         {
-            $spellCostMultiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->title->getPerkBonus($dominion);
+            $multiplier += $dominion->title->getPerkMultiplier('spell_cost') * $dominion->title->getPerkBonus($dominion);
         }
 
-        $spellCostMultiplier = max(0.1, $spellCostMultiplier);
-
-        return round($baseCost * $spellCostMultiplier);
+        return max(0.1, $multiplier);
     }
 
     /**
