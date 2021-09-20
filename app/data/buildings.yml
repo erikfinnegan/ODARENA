@@ -921,8 +921,8 @@ observatory:
     - Dimensionalists
   land_type: mountain
   perks:
-    unit_mana_costs: 1,-0.10,20 # Every 1% gives 0.25% reduction, max -25% mana
-    training_time: 1,-0.20,-40 # Every 1% gives 0.5% faster training, max -50%
+    unit_mana_costs: 1,-0.80,40 # Every 1% gives 0.25% reduction, max -25% mana
+    training_time: 1,-0.40,-20 # Every 1% gives 0.5% faster training, max -50%
 
 gateway:
   name: Gateway
