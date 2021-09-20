@@ -108,7 +108,7 @@ class SpellDamageCalculator
               }
 
               ## Solar Flare: only effective against Nox.
-              if($spell->key == 'solar_flare')
+              if($spell->key == 'solar_rays')
               {
                   if($target->race->name !== 'Nox')
                   {

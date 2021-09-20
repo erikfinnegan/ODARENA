@@ -832,7 +832,7 @@ class NotificationHelper
                         $resultString = "{$data['damageString']} die from Tiranthael's Justice.";
                         break;
 
-                    case 'solar_flare':
+                    case 'solar_rays':
                         $resultString = "{$data['damageString']} vanish under Solar Flares.";
                         break;
 

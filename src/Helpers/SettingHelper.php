@@ -799,7 +799,7 @@ class SettingHelper
 
                     # Faction spells
 
-                    case 'solar_flare':
+                    case 'solar_rays':
                         $resultString = "{$data['damageString']} vanish under Solar Flares.";
                         break;
 

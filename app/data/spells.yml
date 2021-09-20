@@ -846,7 +846,7 @@ aurora:
     training_time: -4
 
 solar_rays:
-  name: Solar Rays
+  name: Solar Flares
   scope: hostile
   class: active
   cost: 3
