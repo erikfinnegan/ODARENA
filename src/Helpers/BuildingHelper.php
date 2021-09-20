@@ -39,9 +39,8 @@ class BuildingHelper
 
             'human_unit1_housing' => 'Houses %s Archers.',
             'human_unit2_housing' => 'Houses %s Spearguards.',
-
             'sacred_order_unit2_housing' => 'Houses %s Monks.',
-
+            'snow_elf_unit1_housing' => 'Houses %s Arbalists.',
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
 
@@ -50,6 +49,8 @@ class BuildingHelper
             'dimensionalists_unit3_production_raw' => 'Summons %s Ze\'Tk per tick.',
             'dimensionalists_unit4_production_raw' => 'Summons %s Frs\'Kl per tick.',
             'unit_production_from_wizard_ratio' => 'Summoning increased by (%s x Wizard Ratio / 10).',
+
+            'snow_elf_unit4_production_raw' => 'Attracts %s Gryphons per tick.',
 
             'jobs' => 'Provides %s jobs.',
 

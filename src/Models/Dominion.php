@@ -671,6 +671,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'afflicted_unit1_housing'
                           or $perkKey == 'human_unit1_housing'
                           or $perkKey == 'human_unit2_housing'
+                          or $perkKey == 'snow_elf_unit1_housing'
                           or $perkKey == 'troll_unit2_housing'
                           or $perkKey == 'troll_unit4_housing'
                           or $perkKey == 'spy_housing'
@@ -684,6 +685,9 @@ class Dominion extends AbstractModel
                           or $perkKey == 'dimensionalists_unit2_production_raw'
                           or $perkKey == 'dimensionalists_unit3_production_raw'
                           or $perkKey == 'dimensionalists_unit4_production_raw'
+
+                          or $perkKey == 'snow_elf_unit4_production_raw'
+
                           or $perkKey == 'unit_production_from_wizard_ratio'
 
                           # Uncategorised
