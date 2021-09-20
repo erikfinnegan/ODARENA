@@ -19,7 +19,6 @@ improvement_resources:
 
 perks:
   food_consumption: -25
-  gryphon_nests_generate_gryphons: 0.1
 
 units:
   - name: Arbalist
@@ -94,5 +93,5 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: gryphon_nest,1
+      building_limit: gryphon_nest,2
       food_consumption: 1

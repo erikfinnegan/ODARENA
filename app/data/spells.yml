@@ -216,7 +216,7 @@ astral_revelations:
   class: active
   cost: 10
   duration: 0
-  cooldown: 12
+  cooldown: 24
   exclusive_races:
     - Dimensionalists
   perks:
@@ -228,7 +228,7 @@ celestial_pathfinder:
   class: passive
   cost: 10
   duration: 6
-  cooldown: 12
+  cooldown: 48
   exclusive_races:
     - Dimensionalists
   perks:
@@ -1237,7 +1237,7 @@ nocten_acrimony:
   name: Nocten Acrimony
   scope: self
   class: passive
-  cost: 2400
+  cost: 4000
   duration: 48
   exclusive_races:
     - Nox
@@ -1248,7 +1248,7 @@ nocten_shield:
   name: Nocten Fervour
   scope: self
   class: passive
-  cost: 2400
+  cost: 4000
   duration: 48
   exclusive_races:
     - Nox
@@ -1259,7 +1259,7 @@ nocten_veil:
   name: Nocten Veil
   scope: self
   class: passive
-  cost: 2400
+  cost: 4000
   duration: 48
   exclusive_races:
     - Nox

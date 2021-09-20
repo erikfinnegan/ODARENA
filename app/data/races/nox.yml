@@ -28,7 +28,7 @@ units:
     type:
       - magical
     cost:
-      mana: 10
+      mana: 18
     power:
       offense: 2
       defense: 0
@@ -48,7 +48,7 @@ units:
       mana: 132
     power:
       offense: 4
-      defense: 5
+      defense: 4
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
@@ -83,11 +83,11 @@ units:
       - intelligent
       - wise
     cost:
-      gold: 1000
+      gold: 1200
       lumber: 2
     power:
       offense: 3
-      defense: 5
+      defense: 6
     perks:
       true_immortal: 1
       counts_as_wizard: 0.333

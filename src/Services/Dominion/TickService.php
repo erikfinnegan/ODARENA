@@ -143,7 +143,7 @@ class TickService
         foreach ($activeRounds as $round)
         {
 
-            Log::debug('Tick for round ' . $round->number . ' started at ' . $tickTime . '.');
+            Log::debug('Tick number ' . number_format($round->ticks + 1) . ' for round ' . $round->number . ' started at ' . $tickTime . '.');
 
             # Get dominions IDs with Stasis active
             $stasisDominions = [];
@@ -914,50 +914,25 @@ class TickService
               $tick->crypt_bodies_spent += $unitsRaised;
           }
 
-          # Snow Elf: Gryphon Nests generate Gryphons
-          if($dominion->race->getPerkValue('gryphon_nests_generate_gryphons'))
+          # Passive unit generation from buildings
+          for ($slot = 1; $slot <= 4; $slot++)
           {
-              $gryphonSlot = 4;
-              $newGryphons = 0;
-              $maxGryphonNestsPercentage = 0.20;
-              $gryphonNestsOwned = $this->buildingCalculator->getBuildingAmountOwned($dominion, null, 'gryphon_nest', null);
-              $gryphonNestsPercentage = min($maxGryphonNestsPercentage, ($gryphonNestsOwned / $this->landCalculator->getTotalLand($dominion)));
+              $unitSummoningRaw = $dominion->getBuildingPerkValue($dominion->race->key . '_unit' . $slot . '_production_raw');
 
-              $gryphonNests = floor($gryphonNestsPercentage * $this->landCalculator->getTotalLand($dominion));
-              $gryphonsMax = $gryphonNests * 1 * (1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion));
+              $unitSummoningMultiplier = 1;
+              $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($dominion->race->key . '_unit' . $slot . '_production_mod');
+              $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier($dominion->race->key . '_unit' . $slot . '_production_mod');
 
-              $gryphonsCurrent = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $gryphonSlot);
-              $gryphonsCurrent += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit'.$gryphonSlot);
-
-              $availableNestHousing = $gryphonsMax - $gryphonsCurrent;
-
-              if($availableNestHousing > 0)
+              if($dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
               {
-                  $newGryphons = min($gryphonNests * 0.05, $availableNestHousing);
+                  $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / 10;
               }
 
-              $tick->generated_unit4 = $newGryphons;
-          }
+              $unitSummoning = $unitSummoningRaw * $unitSummoningMultiplier;
 
-          # Dimensionalists: Portals
-          if($dominion->race->name == 'Dimensionalists')
-          {
-              for ($slot = 1; $slot <= 4; $slot++)
+              # Check for capacity limit
+              if($this->unitHelper->unitHasCapacityLimit($dominion, $slot))
               {
-                  $unitSummoningRaw = $dominion->getBuildingPerkValue('dimensionalists_unit' . $slot . '_production_raw');
-
-                  $unitSummoningMultiplier = 1;
-                  $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier('dimensionalists_unit' . $slot . '_production_mod');
-                  $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier('dimensionalists_unit' . $slot . '_production_mod');
-                  $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier('dimensionalists_unit_production_mod');
-
-                  if($dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
-                  {
-                      $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / 10;
-                  }
-                  
-                  $unitSummoning = $unitSummoningRaw * $unitSummoningMultiplier;
-
                   $maxCapacity = $this->unitHelper->getUnitMaxCapacity($dominion, $slot);
 
                   $usedCapacity = $dominion->{'military_unit' . $slot};
@@ -968,9 +943,14 @@ class TickService
                   $availableCapacity = max(0, $maxCapacity - $usedCapacity);
 
                   $unitsToSummon = floor(min($unitSummoning, $availableCapacity));
-
-                  $tick->{'generated_unit'.$slot} += $unitsToSummon;
               }
+              # If no capacity limit
+              else
+              {
+                  $unitsToSummon = $unitSummoning;
+              }
+
+              $tick->{'generated_unit'.$slot} += $unitsToSummon;
           }
 
 

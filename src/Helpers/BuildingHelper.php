@@ -40,6 +40,8 @@ class BuildingHelper
             'human_unit1_housing' => 'Houses %s Archers.',
             'human_unit2_housing' => 'Houses %s Spearguards.',
 
+            'sacred_order_unit2_housing' => 'Houses %s Monks.',
+
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
 

@@ -358,6 +358,7 @@ gryphon_nest:
   land_type: mountain
   perks:
     offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
+    snow_elf_unit4_production_raw: 30
 
 military_academy:
   name: Military Academy
@@ -1340,7 +1341,7 @@ monastery:
   land_type: plain
   perks:
     housing: 30
-    military_housing: 10
+    sacred_order_unit2_housing: 30
     jobs: 0
 
 residence:
