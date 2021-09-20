@@ -8,6 +8,10 @@ playable: 1
 peasants_alias: cell
 draftees_alias: amoeba
 
+resources:
+  - food
+  - lumber
+
 construction_materials:
   - food
 
