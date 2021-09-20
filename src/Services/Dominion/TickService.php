@@ -23,6 +23,7 @@ use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\GameEvent;
@@ -104,6 +105,7 @@ class TickService
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
+        $this->unitHelper = app(UnitHelper::class);
         $this->realmCalculator = app(RealmCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
         $this->deityService = app(DeityService::class);
@@ -936,6 +938,41 @@ class TickService
 
               $tick->generated_unit4 = $newGryphons;
           }
+
+          # Dimensionalists: Portals
+          if($dominion->race->name == 'Dimensionalists')
+          {
+              for ($slot = 1; $slot <= 4; $slot++)
+              {
+                  $unitSummoningRaw = $dominion->getBuildingPerkValue('dimensionalists_unit' . $slot . '_production_raw');
+
+                  $unitSummoningMultiplier = 1;
+                  $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier('dimensionalists_unit' . $slot . '_production_mod');
+                  $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier('dimensionalists_unit' . $slot . '_production_mod');
+                  $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier('dimensionalists_unit_production_mod');
+
+                  if($dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
+                  {
+                      $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / 10;
+                  }
+                  
+                  $unitSummoning = $unitSummoningRaw * $unitSummoningMultiplier;
+
+                  $maxCapacity = $this->unitHelper->getUnitMaxCapacity($dominion, $slot);
+
+                  $usedCapacity = $dominion->{'military_unit' . $slot};
+                  $usedCapacity += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $slot);
+                  $usedCapacity += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slot);
+                  $usedCapacity += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slot);
+
+                  $availableCapacity = max(0, $maxCapacity - $usedCapacity);
+
+                  $unitsToSummon = floor(min($unitSummoning, $availableCapacity));
+
+                  $tick->{'generated_unit'.$slot} += $unitsToSummon;
+              }
+          }
+
 
           # Use decimals as probability to round up
           $tick->generated_land += intval($generatedLand) + (rand()/getrandmax() < fmod($generatedLand, 1) ? 1 : 0);

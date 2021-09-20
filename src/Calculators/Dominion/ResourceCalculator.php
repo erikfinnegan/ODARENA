@@ -85,7 +85,7 @@ class ResourceCalculator
 
     public function getProduction(Dominion $dominion, string $resourceKey): int
     {
-        if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_production'))
+        if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or $dominion->getSpellPerkValue('no_' . $resourceKey . '_production'))
         {
             return 0;
         }

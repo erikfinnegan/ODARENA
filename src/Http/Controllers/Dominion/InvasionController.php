@@ -15,6 +15,7 @@ use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
@@ -34,6 +35,7 @@ class InvasionController extends AbstractDominionController
             'networthCalculator' => app(NetworthCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
             'rangeCalculator' => app(RangeCalculator::class),
+            'resourceCalculator' => app(ResourceCalculator::class),
             'spellCalculator' => app(SpellCalculator::class),
 
             'raceHelper' => app(RaceHelper::class),

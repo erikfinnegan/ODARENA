@@ -376,17 +376,20 @@
                                   @else
                                     @if($selectedDominion->race->name == 'Dimensionalists')
 
-                                      @if($spellCalculator->isSpellActive($selectedDominion, 'portal'))
-                                      <button type="submit"
-                                              class="btn btn-danger"
-                                              {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                                              id="invade-button">
-                                          <i class="ra ra-player-teleport"></i>
-                                          Teleport Units
-                                      </button>
-                                      @else
-                                        <p><strong><em>You must open a portal before you can send your units to invade.</em></strong></p>
-                                      @endif
+                                        @if($resourceCalculator->getAmount($selectedDominion, 'cosmic_alignment') >= $selectedDominion->race->getPerkValue('cosmic_alignment_to_invade'))
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                                                    id="invade-button">
+                                                <i class="ra ra-player-teleport"></i>
+                                                Plot chart and teleport units
+                                            </button>
+
+                                            <br><span class="label label-warning">Note that this will expend {{ number_format($selectedDominion->race->getPerkValue('cosmic_alignment_to_invade')) }} Cosmic Alignments.</span>
+
+                                        @else
+                                            <span class="label label-danger">You need at least {{ number_format($selectedDominion->race->getPerkValue('cosmic_alignment_to_invade')) }} Cosmic Alignments to plot a chart to teleport units. Currently: {{ number_format($resourceCalculator->getAmount($selectedDominion, 'cosmic_alignment')) }}.</span>
+                                        @endif
 
                                     @else
                                       <button type="submit"
@@ -399,9 +402,6 @@
                                     @endif
                                   @endif
                                 </div>
-
-                                <p><em style="color:#888; margin-left: 10px;">Note that minimum raw DP is 10 DP per acre.</em></p>
-
                             </div>
 
                         </div>

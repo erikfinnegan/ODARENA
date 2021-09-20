@@ -296,8 +296,8 @@ shipyard:
     - Armada
   land_type: water
   perks:
-    unit_lumber_costs: 1,2,50 # Every 1% gives 2% reduction, max 50%
-    unit_ore_costs: 1,2,50 # Every 1% gives 2% reduction, max 50%
+    unit_lumber_costs: 1,-2,-50 # Every 1% gives 2% reduction, max 50%
+    unit_ore_costs: 1,-2,-50 # Every 1% gives 2% reduction, max 50%
 
 stable:
   name: Stable
@@ -494,8 +494,8 @@ smithy:
     - Wood Elf
   land_type: plain
   perks:
-    unit_gold_costs: 1,2,40 # ratio, perk, max
-    unit_ore_costs: 1,2,40 # ratio, perk, max
+    unit_gold_costs: 1,-2,-40 # ratio, perk, max
+    unit_ore_costs: 1,-2,-40 # ratio, perk, max
 
 ore_mill:
   name: Gnomish Smithy
@@ -504,8 +504,8 @@ ore_mill:
     - Imperial Gnome
   land_type: plain
   perks:
-    unit_gold_costs: 1,2,50 # ratio, perk, max
-    unit_ore_costs: 1,2,50 # ratio, perk, max
+    unit_gold_costs: 1,-2,-50 # ratio, perk, max
+    unit_ore_costs: 1,-2,-50 # ratio, perk, max
 
 factory:
   name: Factory
@@ -763,7 +763,7 @@ sac:
     - Growth
   land_type: swamp
   perks:
-    unit_food_costs: 1,4,40 # ratio, perk, max
+    unit_food_costs: 1,-4,-40 # ratio, perk, max
     housing: 88
     jobs: 0
 
@@ -823,8 +823,8 @@ rootforge:
     - Wood Elf
   land_type: forest
   perks:
-    unit_gold_costs: 1,2,40 # ratio, perk, max
-    unit_lumber_costs: 1,1,20 # ratio, perk, max
+    unit_gold_costs: 1,-2,-40 # ratio, perk, max
+    unit_lumber_costs: 1,-1,-20 # ratio, perk, max
 
 institute:
   name: Institute
@@ -901,6 +901,38 @@ terrace:
     jobs: 30
 
 # END ICEKIN
+
+# DIMENSIONALISTS
+portal:
+  name: Portal
+  exclusive_races:
+    - Dimensionalists
+  land_type: forest
+  perks:
+    dimensionalists_unit1_production_raw: 2
+    dimensionalists_unit2_production_raw: 1
+    dimensionalists_unit3_production_raw: 1
+    dimensionalists_unit4_production_raw: 0.5
+    unit_production_from_wizard_ratio: 1
+
+observatory:
+  name: Observatory
+  exclusive_races:
+    - Dimensionalists
+  land_type: mountain
+  perks:
+    unit_mana_costs: 1,-0.10,20 # Every 1% gives 0.25% reduction, max -25% mana
+    training_time: 1,-0.20,-40 # Every 1% gives 0.5% faster training, max -50%
+
+gateway:
+  name: Gateway
+  exclusive_races:
+    - Dimensionalists
+  land_type: hill
+  perks:
+    unit_pairing: 1,3 # Every 1% gives 3% more pairing
+
+# END DIMENSIONALISTS
 
 # SWARM
 
@@ -984,8 +1016,8 @@ camp:
     - Beastfolk
   land_type: forest
   perks:
-    unit_gold_costs: 1,2,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
-    unit_ore_costs: 1,2,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_gold_costs: 1,-2,-50 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_ore_costs: 1,-2,-50 # Every 1% gives 2.5% reduction, max -50% plat and ore
     military_housing: 8
 
 bloodstone:
@@ -1029,7 +1061,7 @@ altar:
     - Demon
   land_type: swamp
   perks:
-    unit_blood_costs: 1,1,100 # ratio, perk, max
+    unit_blood_costs: 1,-1,-100 # ratio, perk, max
     housing: 40
     jobs: 0
 

@@ -43,6 +43,12 @@ class BuildingHelper
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
 
+            'dimensionalists_unit1_production_raw' => 'Summons %s Tl\'Tl per tick.',
+            'dimensionalists_unit2_production_raw' => 'Summons %s Sft\'Rm per tick.',
+            'dimensionalists_unit3_production_raw' => 'Summons %s Ze\'Tk per tick.',
+            'dimensionalists_unit4_production_raw' => 'Summons %s Frs\'Kl per tick.',
+            'unit_production_from_wizard_ratio' => 'Summoning increased by (%s x Wizard Ratio / 10).',
+
             'jobs' => 'Provides %s jobs.',
 
             'population_growth' => 'Population growth rate increased by %2$s%% for every %1$s%%.',
@@ -122,6 +128,10 @@ class BuildingHelper
             'reduces_attrition' => 'Reduces unit attrition by %2$s%% for every %1$s%%.',
 
             'reduces_conversions' => 'Reduces conversions for enemies by %2$s%% for every %1$s%%.',
+
+            'training_time' => '%2$s%% training time for every %1$s%% (max %3$s%%).',
+
+            'unit_pairing' => '%2$s%% unit pairing for every %1$s%%.',
 
             # OP/DP
             'raw_defense' => 'Provides %s raw defensive power.',

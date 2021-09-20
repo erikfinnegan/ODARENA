@@ -241,10 +241,11 @@ class TrainingCalculator
 
             $slot = intval(str_replace('unit','',$unitType));
 
-            if($maxCapacity = $this->unitHelper->getUnitMaxCapacity($dominion, $slot))
+            if($this->unitHelper->unitHasCapacityLimit($dominion, $slot))
             {
-                $availableCapacity = $maxCapacity - $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
-                $trainable[$unitType] = min($trainable[$unitType], $availableCapacity);
+                $maxCapacity = $this->unitHelper->getUnitMaxCapacity($dominion, $slot);
+                $availableCapacity = $maxCapacity - ($this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) + $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $slot));
+                $trainable[$unitType] = max(0, min($trainable[$unitType], $availableCapacity));
             }
 
             $trainable[$unitType] = max(0, $trainable[$unitType]);
@@ -273,17 +274,14 @@ class TrainingCalculator
         # Techs: discounts Gold, Ore, and Lumber (for all); Food ("Lean Mass" techs); Mana ("Magical Weapons" techs)
 
         // Only discount these resources.
-        $discountableResourceTypesByArmory = ['gold', 'ore'];
         $discountableResourceTypesByTech = ['gold', 'ore', 'lumber'];
         $discountableResourceTypesByUnitBonus = ['gold', 'ore', 'lumber', 'mana', 'food'];
 
         $discountableResourceTypesByTechFood = ['food'];
         $discountableResourceTypesByTechMana = ['mana'];
 
-        $racesExemptFromOreDiscountBySmithies = ['Gnome', 'Imperial Gnome'];
-
         // Buildings
-        $multiplier -= $dominion->getBuildingPerkMultiplier('unit_' . $resourceType . '_costs');
+        $multiplier += $dominion->getBuildingPerkMultiplier('unit_' . $resourceType . '_costs');
 
         // Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('unit_' . $resourceType . '_costs');

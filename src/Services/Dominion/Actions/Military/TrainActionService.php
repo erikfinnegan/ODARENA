@@ -246,7 +246,6 @@ class TrainActionService
               if($totalCosts[$resourceKey] > $this->resourceCalculator->getAmount($dominion, $resourceKey))
               {
                   throw new GameException('Training failed due to insufficient ' . $resource->name . '. You tried to spend ' . number_format($totalCosts[$resourceKey]) .  ' but only have ' . number_format($this->resourceCalculator->getAmount($dominion, $resourceKey)) . '.');
-
               }
           }
 

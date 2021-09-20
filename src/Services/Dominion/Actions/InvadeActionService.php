@@ -9,6 +9,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\GameEvent;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Unit;
 
 use OpenDominion\Helpers\ImprovementHelper;
@@ -169,7 +170,23 @@ class InvadeActionService
 
             if ($dominion->id == $target->id)
             {
-              throw new GameException('Nice try, but you cannot invade yourself.');
+                throw new GameException('Nice try, but you cannot invade yourself.');
+            }
+
+            foreach($dominion->race->resources as $resourceKey)
+            {
+                if($resourceCostToInvade = $dominion->race->getPerkValue($resourceKey . '_to_invade'))
+                {
+                    if($this->resourceCalculator->getAmount($dominion, $resourceKey) < $resourceCostToInvade)
+                    {
+                        $resource = Resource::where('key', $resourceKey)->first();
+                        throw new GameException('You do not have enough ' . str_plural($resource->name, $resourceCostToInvade) . ' to invade. You have ' . number_format($this->resourceCalculator->getAmount($dominion, $resourceKey)) . ' and you need at least ' . number_format($resourceCostToInvade) . '.');
+                    }
+                    else
+                    {
+                        $this->resourceService->updateResources($dominion, [$resourceKey => $resourceCostToInvade*-1]);
+                    }
+                }
             }
 
             // Sanitize input
@@ -230,7 +247,7 @@ class InvadeActionService
                 }
 
                 # OK, unit can be trained. Let's check for pairing limits.
-                if(!$this->unitHelper->checkUnitLimitForInvasion($dominion, $slot, $amount))
+                if($this->unitHelper->unitHasCapacityLimit($dominion, $slot) and !$this->unitHelper->checkUnitLimitForInvasion($dominion, $slot, $amount))
                 {
                     $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
                         return ($unit->slot === $slot);

@@ -680,6 +680,11 @@ class Dominion extends AbstractModel
 
                           # Military
                           or $perkKey == 'raw_defense'
+                          or $perkKey == 'dimensionalists_unit1_production_raw'
+                          or $perkKey == 'dimensionalists_unit2_production_raw'
+                          or $perkKey == 'dimensionalists_unit3_production_raw'
+                          or $perkKey == 'dimensionalists_unit4_production_raw'
+                          or $perkKey == 'unit_production_from_wizard_ratio'
 
                           # Uncategorised
                           or $perkKey == 'crypt_bodies_decay_protection'
@@ -787,6 +792,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'population_growth'
                           or $perkKey == 'reduces_conversions'
                           or $perkKey == 'reduces_attrition'
+                          or $perkKey == 'unit_pairing'
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);
@@ -960,6 +966,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'lumber_production_mod'
                          or $perkKey == 'mana_production_mod'
                          or $perkKey == 'pearls_production_mod'
+                         or $perkKey == 'cosmic_alignment_production_mod'
                          or $perkKey == 'xp_generation_mod'
 
                          or $perkKey == 'gold_production_raw'

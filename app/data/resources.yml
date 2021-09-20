@@ -86,3 +86,10 @@ horse:
   exclusive_races:
     - Human
     - Nomad
+
+cosmic_alignment:
+  name: Cosmic Alignments
+  buy: null
+  sell: null
+  exclusive_races:
+    - Dimensionalists

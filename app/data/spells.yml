@@ -210,6 +210,31 @@ transmogrify:
   perks:
     resource_conversion: ore,gems,25,4 # from, to, percentage
 
+astral_revelations:
+  name: Astral Revelations
+  scope: self
+  class: active
+  cost: 10
+  duration: 0
+  cooldown: 12
+  exclusive_races:
+    - Dimensionalists
+  perks:
+    resource_conversion: mana,cosmic_alignment,100,60000 # from, to, percentage, ratio:1
+
+celestial_pathfinder:
+  name: Celestial Pathfinder
+  scope: self
+  class: passive
+  cost: 10
+  duration: 6
+  cooldown: 12
+  exclusive_races:
+    - Dimensionalists
+  perks:
+    no_mana_production: 1
+    cosmic_alignment_production_mod: 100
+
 waterwall:
   name: Glimj's Favour
   enabled: 0
@@ -863,6 +888,7 @@ maelstrom:
 
 portal:
   name: Portal
+  enabled: 0
   scope: self
   class: passive
   cost: 12

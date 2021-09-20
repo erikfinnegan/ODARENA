@@ -58,6 +58,7 @@ class SpellHelper
             'gems_production_mod' => '%s%% gem production',
             'gold_production_mod' => '%s%% gold production',
             'pearls_production_mod_production' => '%s%% pearl production',
+            'cosmic_alignment_production_mod' => '%s%% Cosmic Alignment discovery',
 
             'tech_production' => '%s%% XP generation',
 

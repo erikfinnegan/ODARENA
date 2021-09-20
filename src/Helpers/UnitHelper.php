@@ -322,9 +322,9 @@ class UnitHelper
             'victories_limit' => 'You can at most have %2$s of this unit per %1$s victories.',
             'net_victories_limit' => 'You can at most have %1$s of this unit per net victories.',
 
-            'archmage_limit' => 'You can at most have %1$s of this unit per Archmage. Increased by %3$ xx your %2$s improvements.',
-            'wizard_limit' => 'You can at most have %1$s of this unit per Wizard. Increased by %3$ xx your %2$s improvements.',
-            'spy_limit' => 'You can at most have %1$s of this unit per Spy. Increased by %3$ xx your %2$s improvements.',
+            'archmage_limit' => 'You can at most have %1$s of this unit per Archmage.',
+            'wizard_limit' => 'You can at most have %1$s of this unit per Wizard.',
+            'spy_limit' => 'You can at most have %1$s of this unit per Spy.',
 
             'amount_limit' => 'You can at most have %1$s of this unit.',
 
@@ -847,6 +847,24 @@ class UnitHelper
 
     }
 
+    public function unitHasCapacityLimit(Dominion $dominion, int $slot): bool
+    {
+        if(
+            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'pairing_limit') or
+            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'building_limit') or
+            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_limit') or
+            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'archmage_limit') or
+            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'building_limit') or
+            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'net_victories_limit') or
+            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'amount_limit')
+          )
+          {
+              return true;
+          }
+
+        return false;
+    }
+
     public function getUnitMaxCapacity(Dominion $dominion, int $slotLimited): int
     {
         $maxCapacity = 0;
@@ -892,8 +910,8 @@ class UnitHelper
         # Unit:archmages limit
         if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'archmage_limit'))
         {
-            $perArchmage = (float)$pairingLimit[0];
-            $maxCapacity = floor($perNetVictory * $dominion->military_archmages * $limitMultiplier);
+            $perArchmage = (float)$pairingLimit;
+            $maxCapacity = floor($perArchmage * $dominion->military_archmages * $limitMultiplier);
         }
 
         # Unit:net_victories limit
@@ -939,7 +957,7 @@ class UnitHelper
     {
         $maxCapacity = $this->getUnitMaxCapacity($dominion, $slotLimited);
 
-        if($maxCapacity)
+        if($this->unitHasCapacityLimit($dominion, $slotLimited))
         {
             return $maxCapacity >= $amountToSend;
         }
