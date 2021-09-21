@@ -1308,6 +1308,7 @@ norse_longhouse:
 
 ringfort:
   name: Ringfort
+  enabled: 0
   exclusive_races:
     - Norse
   land_type: plain
