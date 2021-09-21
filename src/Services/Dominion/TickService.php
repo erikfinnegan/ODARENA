@@ -42,7 +42,7 @@ use Throwable;
 class TickService
 {
     protected const COUNTDOWN_DURATION_HOURS = 12;
-    protected const EXTENDED_LOGGING = false;
+    protected const EXTENDED_LOGGING = true;
 
     /** @var Carbon */
     protected $now;
