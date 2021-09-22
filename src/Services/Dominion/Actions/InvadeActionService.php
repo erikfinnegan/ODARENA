@@ -3148,7 +3148,7 @@ class InvadeActionService
 
         $dpMultiplierReduction = 0;
         $dpMultiplierReduction += $attacker->getBuildingPerkMultiplier('defensive_modifier_reduction');
-        $dpMultiplierReduction += $attacker->getSpellPerkMultiplier('target_defensive_power_mod');
+        $dpMultiplierReduction -= $attacker->getSpellPerkMultiplier('target_defensive_power_mod');
         $dpMultiplierReduction += $attacker->getImprovementPerkMultiplier('defensive_modifier_reduction');
         $dpMultiplierReduction += $attacker->getDeityPerkMultiplier('defensive_modifier_reduction');
 
