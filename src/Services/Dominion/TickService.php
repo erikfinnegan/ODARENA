@@ -921,7 +921,7 @@ class TickService
               $unitSummoningRaw = $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_production_raw');
 
               $unitSummoningMultiplier = 1;
-              $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($raceKeykey . '_unit' . $slot . '_production_mod');
+              $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
               $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
 
               if($dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
