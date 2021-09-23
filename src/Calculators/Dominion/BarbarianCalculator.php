@@ -19,7 +19,8 @@ class BarbarianCalculator
 {
 
     protected const DPA_CONSTANT = 27.5;
-    protected const DPA_PER_HOUR = 0.45;
+    protected const DPA_OVERSHOT = 1.025;
+    protected const DPA_PER_TICK = 0.125;
     protected const DPA_PER_TIMES_INVADED = 0.006;
 
     protected const OPA_MULTIPLIER = 1.10;
@@ -96,7 +97,8 @@ class BarbarianCalculator
     {
         $settings = [
             'DPA_CONSTANT' => static::DPA_CONSTANT,
-            'DPA_PER_HOUR' => static::DPA_PER_HOUR,
+            'DPA_OVERSHOT' => static::DPA_OVERSHOT,
+            'DPA_PER_TICK' => static::DPA_PER_TICK,
             'DPA_PER_TIMES_INVADED' => static::DPA_PER_TIMES_INVADED,
             'OPA_MULTIPLIER' => static::OPA_MULTIPLIER,
             'SPECS_RATIO_MIN' => static::SPECS_RATIO_MIN,
@@ -140,24 +142,13 @@ class BarbarianCalculator
         # Get DPA target for a specific dominion/barbarian
         if($dominion)
         {
-            $calculateDate = max($dominion->round->start_date, $dominion->created_at);
-            $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
-            $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * (static::DPA_PER_HOUR + ($this->statsService->getStat($dominion, 'defense_failures') * static::DPA_PER_TIMES_INVADED)));
+            $dpa = static::DPA_CONSTANT + ($dominion->round->ticks * (static::DPA_PER_TICK + ($this->statsService->getStat($dominion, 'defense_failures') * static::DPA_PER_TIMES_INVADED)));
             return $dpa *= ($dominion->npc_modifier / 1000);
         }
         # Get DPA target in general
         elseif($round)
         {
-            $calculateDate = $round->start_date;
-            if(!$round->hasStarted())
-            {
-                $hoursIntoTheRound = 0;
-            }
-            else
-            {
-                $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($calculateDate)->startOfHour());
-            }
-            $dpa = static::DPA_CONSTANT + ($hoursIntoTheRound * static::DPA_PER_HOUR);
+            $dpa = static::DPA_CONSTANT + ($dominion->round->ticks * static::DPA_PER_TICK);
             return $dpa *= ($npcModifier / 1000);
         }
 
