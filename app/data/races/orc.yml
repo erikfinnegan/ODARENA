@@ -28,7 +28,7 @@ units:
       offense: 3
       defense: 0
     perks:
-      offense_from_pairing: 4,2,0.1 # slot, amount, num required
+      offense_from_pairing: 4,2,0.01 # slot, amount, num required
 
   - name: Shieldbearer
     training_time: 9
@@ -43,7 +43,7 @@ units:
       offense: 0
       defense: 3
     perks:
-      defense_from_pairing: 4,2,0.1 # slot, amount
+      defense_from_pairing: 4,2,0.01 # slot, amount
 
   - name: Voodoo Mage
     training_time: 12

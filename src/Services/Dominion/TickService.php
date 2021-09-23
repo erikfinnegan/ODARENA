@@ -917,11 +917,12 @@ class TickService
           # Passive unit generation from buildings
           for ($slot = 1; $slot <= 4; $slot++)
           {
-              $unitSummoningRaw = $dominion->getBuildingPerkValue($dominion->race->key . '_unit' . $slot . '_production_raw');
+              $raceKey = str_replace(' ', '_', strtolower($dominion->race->name));
+              $unitSummoningRaw = $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_production_raw');
 
               $unitSummoningMultiplier = 1;
-              $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($dominion->race->key . '_unit' . $slot . '_production_mod');
-              $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier($dominion->race->key . '_unit' . $slot . '_production_mod');
+              $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($raceKeykey . '_unit' . $slot . '_production_mod');
+              $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
 
               if($dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
               {
