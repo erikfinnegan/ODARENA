@@ -186,6 +186,10 @@ class TrainingCalculator
                     {
                         $trainableByCost[$type] = (int)floor($this->resourceCalculator->getAmount($dominion, $type) / $value);
                     }
+                    elseif($type == 'peasant' or $type == 'peasants')
+                    {
+                        $trainableByCost[$type] = (int)floor($dominion->peasants / $value);
+                    }
                     elseif($type == 'draftees')
                     {
                         $trainableByCost[$type] = (int)floor($dominion->military_draftees / $value);

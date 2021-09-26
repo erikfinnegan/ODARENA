@@ -693,9 +693,12 @@ class TickService
           $foodNetChange = $foodProduction - $foodConsumed;
           $foodOwned = $this->resourceCalculator->getAmount($dominion, 'food');
 
-          if($foodConsumed > 0 and ($foodOwned + $foodNetChange) < 0)
+          if(!$dominion->race->getPerkValue('no_food_consumption'))
           {
-              $dominion->tick->starvation_casualties = true;
+              if($foodConsumed > 0 and ($foodOwned + $foodNetChange) < 0)
+              {
+                  $dominion->tick->starvation_casualties = true;
+              }
           }
 
           // Morale
@@ -706,7 +709,7 @@ class TickService
 
           $moraleChangeModifier = (1 + $dominion->race->getPerkMultiplier('morale_change_tick') + $dominion->race->getPerkMultiplier('morale_change_tick'));
 
-          if($tick->starvation_casualties or $dominion->tick->starvation_casualties and !$dominion->race->getPerkValue('no_food_consumption'))
+          if(($tick->starvation_casualties or $dominion->tick->starvation_casualties) and !$dominion->race->getPerkValue('no_food_consumption'))
           {
               $starvationMoraleChange = min(10, $dominion->morale)*-1;
               $tick->morale += $starvationMoraleChange;

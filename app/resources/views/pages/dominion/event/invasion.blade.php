@@ -960,33 +960,28 @@
                                         </tr>
                                     @else
 
-                                        @php
-                                            if(isset($event->data['attacker']['landDiscovered']) and !isset($event->data['attacker']['landGenerated']))
-                                                $landChanges = array_merge($event->data['attacker']['landConquered'], $event->data['attacker']['landDiscovered']);
-                                            else
-                                                $landChanges = array_merge($event->data['attacker']['landConquered'], $event->data['attacker']['landGenerated']);
-
-                                        @endphp
-
-                                        @foreach($landChanges as $landType => $amount)
-                                        <tr>
-                                            <td>{{ ucwords($landType) }}</td>
-                                            <td>{{ number_format($event->data['attacker']['landConquered'][$landType]) }}</td>
-                                            @if ($event->source->realm->id === $selectedDominion->realm->id)
-                                              <td>
-                                                  @if(isset($event->data['attacker']['landDiscovered'][$landType]))
-                                                      @if(isset($event->data['attacker']['extraLandDiscovered'][$landType]))
-                                                          {{ number_format($event->data['attacker']['landDiscovered'][$landType]+$event->data['attacker']['extraLandDiscovered'][$landType]) }}
-                                                      @else
-                                                          {{ number_format($event->data['attacker']['landDiscovered'][$landType]) }}
-                                                      @endif
-                                                  @else
-                                                      &mdash;
-                                                  @endif
-                                              </td>
+                                        @foreach($landHelper->getLandTypes() as $landType)
+                                            @if(($event->data['attacker']['landConquered'][$landType] + $event->data['attacker']['landDiscovered'][$landType]+$event->data['attacker']['extraLandDiscovered'][$landType]) > 0)
+                                                <tr>
+                                                    <td>{{ ucwords($landType) }}</td>
+                                                    <td>{{ number_format($event->data['attacker']['landConquered'][$landType]) }}</td>
+                                                    @if ($event->source->realm->id === $selectedDominion->realm->id)
+                                                      <td>
+                                                          @if(isset($event->data['attacker']['landDiscovered'][$landType]))
+                                                              @if(isset($event->data['attacker']['extraLandDiscovered'][$landType]))
+                                                                  {{ number_format($event->data['attacker']['landDiscovered'][$landType]+$event->data['attacker']['extraLandDiscovered'][$landType]) }}
+                                                              @else
+                                                                  {{ number_format($event->data['attacker']['landDiscovered'][$landType]) }}
+                                                              @endif
+                                                          @else
+                                                              &mdash;
+                                                          @endif
+                                                      </td>
+                                                    @endif
+                                                </tr>
                                             @endif
-                                        </tr>
                                         @endforeach
+
                                     @endif
                                 </tbody>
                             </table>
