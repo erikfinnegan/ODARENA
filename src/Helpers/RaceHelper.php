@@ -57,6 +57,18 @@ class RaceHelper
                 $description = 'Does not eat food';
                 $booleanValue = true;
                 break;
+            case 'cosmic_alignment_to_invade':
+                $negativeBenefit = false;
+                $description = 'Cosmic alignments required to teleport units';
+                $booleanValue = 'static';
+                $valueType = '';
+                break;
+            case 'cosmic_alignment_production_raw':
+                $negativeBenefit = false;
+                $description = 'Cosmic alignments discovered per tick';
+                $booleanValue = 'static';
+                $valueType = '';
+                break;
             case 'food_production_mod':
                 $negativeBenefit = false;
                 $description = 'Food production';
