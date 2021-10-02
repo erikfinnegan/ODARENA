@@ -1,7 +1,7 @@
 name: Dimensionalists
 alignment: independent
 description: >-
-  <p>In order to attack, a Portal must be opened and used quickly, before it closes. Surviving units return when the portal closes.</p>
+  <p>In order to send out units, Dimensionalists must have discovered a certain number of cosmic alignments. The number of cosmic alignments required is expended upon invasion (unused ones remain intact).</p>
 home_land_type: swamp
 playable: 1
 

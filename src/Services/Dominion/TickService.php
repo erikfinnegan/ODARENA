@@ -1094,18 +1094,6 @@ class TickService
                 'dominions.spy_strength' => DB::raw('dominions.spy_strength + dominion_tick.spy_strength'),
                 'dominions.wizard_strength' => DB::raw('dominions.wizard_strength + dominion_tick.wizard_strength'),
 
-                /*
-                'dominions.resource_gold' => DB::raw('dominions.resource_gold + dominion_tick.resource_gold'),
-                'dominions.resource_food' => DB::raw('dominions.resource_food + dominion_tick.resource_food + dominion_tick.resource_food_contributed'),
-                'dominions.resource_lumber' => DB::raw('dominions.resource_lumber + dominion_tick.resource_lumber'),
-                'dominions.resource_mana' => DB::raw('dominions.resource_mana + dominion_tick.resource_mana + dominion_tick.resource_mana_contributed'),
-                'dominions.resource_ore' => DB::raw('dominions.resource_ore + dominion_tick.resource_ore'),
-                'dominions.resource_gems' => DB::raw('dominions.resource_gems + dominion_tick.resource_gems'),
-                'dominions.resource_champion' => DB::raw('dominions.resource_champion + dominion_tick.resource_champion'),
-                'dominions.resource_soul' => DB::raw('dominions.resource_soul + dominion_tick.resource_soul'),
-                'dominions.resource_blood' => DB::raw('dominions.resource_blood + dominion_tick.resource_blood'),
-                */
-
                 'dominions.military_draftees' => DB::raw('dominions.military_draftees + dominion_tick.military_draftees'),
                 'dominions.military_unit1' => DB::raw('dominions.military_unit1 + dominion_tick.military_unit1 - dominion_tick.attrition_unit1'),
                 'dominions.military_unit2' => DB::raw('dominions.military_unit2 + dominion_tick.military_unit2 - dominion_tick.attrition_unit2'),

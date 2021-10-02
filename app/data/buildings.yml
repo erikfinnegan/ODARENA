@@ -358,6 +358,7 @@ gryphon_nest:
   land_type: mountain
   perks:
     snow_elf_unit4_production_raw: 0.05
+    snow_elf_unit4_production_mod: 1,-4,-100
 
 military_academy:
   name: Military Academy
@@ -479,6 +480,7 @@ smithy:
   excluded_races:
     - Armada
     - Beastfolk
+    - Dimensionalists
     - Dragon
     - Gnome
     - Growth

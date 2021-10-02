@@ -52,6 +52,9 @@ class BuildingHelper
 
             'snow_elf_unit4_production_raw' => 'Attracts %s Gryphons per tick.',
 
+
+            'offensive_snow_elf_unit4_production_modpower' => '%2$s%% Gryphon occurrence for every %1$s%% (max %3$s%%)',
+
             'jobs' => 'Provides %s jobs.',
 
             'population_growth' => 'Population growth rate increased by %2$s%% for every %1$s%%.',
