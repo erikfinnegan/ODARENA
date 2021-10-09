@@ -858,18 +858,20 @@ class SpellActionService
 
                     if($perk->key === 'destroys_resource')
                     {
-                        $resource = $spellPerkValues[0];
+                        $resourceKey = $spellPerkValues[0];
                         $ratio = (float)$spellPerkValues[1] / 100;
-                        $attribute = 'resource_'.$resource;
 
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $resource);
-                        $damage = min(round($target->{'resource_'.$resource} * $ratio * $damageMultiplier), $target->{'resource_'.$resource});
+                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $resourceKey);
+                        $damage = min(($this->resourceCalculator->getAmount($target, $resourceKey) * $ratio * $damageMultiplier), $this->resourceCalculator->getAmount($target, $resourceKey));
 
                         $target->{$attribute} -= $damage;
+
+                        $this->resourceService->updateResources($target, [$resourceKey => $damage*-1]);
+
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
-                        $this->statsService->updateStat($caster, ($resource . '_destroyed'), $damage);
-                        $this->statsService->updateStat($target, ($resource . '_lost'), $damage);
+                        $this->statsService->updateStat($caster, ($resourceKey . '_destroyed'), $damage);
+                        $this->statsService->updateStat($target, ($resourceKey . '_lost'), $damage);
 
                     }
 

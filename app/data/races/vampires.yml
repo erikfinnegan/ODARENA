@@ -4,9 +4,9 @@ description: >-
   <p><strong>Vampiric Conversion</strong></p>
   <p>Vampires have a unique method for converting. Units are converted to different unit types depending on the raw military power of the unit slain.</p>
   <ul>
-  <li>Weak units (up to and including 3 OP/DP) become Servants.</li>
-  <li>Average units (4 to 7 OP/DP) become Gnarls.</li>
-  <li>Strong units (greater than 7 OP/DP) become Ravagers.</li>
+  <li>Weak units (OP/DP < 4) become Servants.</li>
+  <li>Average units (OP/DP >= 4 and OP/DP < 7) become Gnarls.</li>
+  <li>Strong units (OP/DP >= 7) become Ravagers.</li>
   </ul>
 home_land_type: forest
 playable: 1
