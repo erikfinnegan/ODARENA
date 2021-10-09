@@ -288,26 +288,22 @@ class UnitHelper
 
             'production_from_title' => 'Produces %3$s %2$s per tick if ruled by a %1$s.',
 
-            // Misc
+            // Return time
             'faster_return' => 'Returns %s ticks faster from battle.',
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
             #'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).', # Hidden
             'faster_return_if_paired' => 'Returns %2$s ticks faster if paired with a %1$s.',
+            'instant_return' => 'Returns instantly from invasion.',
 
             // Training
             'cannot_be_trained' => 'Cannot be trained.',
             'instant_training' => 'Appears immediately.',
-
-            'afterlife_norse' => 'Upon honourable death (successfully invading another dominion over 75%% your size or successfully fending off any invader), becomes a legendary champion.',
             'does_not_kill' => 'Does not kill other units.',
             'no_draftee' => 'No draftee required to train.',
 
             'unit_production' => 'Produces %2$s %1$s per tick.',
-
             'attrition' => '%1$s%% attrition rate per tick.',
-
             'cannot_be_released' => 'Cannot be released',
-
             'reduces_unit_costs' => 'Reduces training costs by %1$s%% for every 1%% of population consisting of this unit. Max %2$s%% reduction.',
 
             'advancements_required_to_train' => 'Must have %1$s to train this unit.',

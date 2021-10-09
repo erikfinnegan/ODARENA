@@ -77,15 +77,12 @@
                 <li class="{{ Route::is('dominion.military') ? 'active' : null }}"><a href="{{ route('dominion.military') }}"><i class="ra ra-sword ra-fw"></i> <span>Military</span></a></li>
 
                 <!-- Hide Invade from cannot_invade races -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_invade'))
+                @if (!$selectedDominion->race->getPerkValue('cannot_invade'))
                     <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
                 @endif
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_send_expeditions'))
+                @if (!$selectedDominion->race->getPerkValue('cannot_send_expeditions'))
                     <li class="{{ Route::is('dominion.expedition') ? 'active' : null }}"><a href="{{ route('dominion.expedition') }}"><i class="fas fa-drafting-compass fa-fw"></i> <span>Expedition</span></a></li>
                 @endif
-                {{--
-                    <li class="{{ Route::is('dominion.insight') ? 'active' : null }}"><a href="{{ route('dominion.insight') }}"><i class="fa fa-eye fa-fw"></i> <span>Insight</span></a></li>
-                --}}
                 <li class="{{ Route::is('dominion.offensive-ops') ? 'active' : null }}"><a href="{{ route('dominion.offensive-ops') }}"><i class="ra ra-skull ra-fw"></i> <span>Spells &amp; Spy Ops</span></a></li>
                 <li class="{{ Route::is('dominion.friendly-ops') ? 'active' : null }}"><a href="{{ route('dominion.friendly-ops') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Friendly Magic</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>

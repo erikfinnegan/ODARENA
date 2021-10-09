@@ -860,7 +860,7 @@ venom:
   exclusive_races:
     - Swarm
   perks:
-    increases_casualties: 60,6000
+    increases_casualties: 60,12000
     population_growth: -40,8000
 
 # END SWARM #

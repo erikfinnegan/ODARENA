@@ -189,7 +189,7 @@
                                 <div class="box-footer">
 
                                   @if ((bool)$selectedDominion->race->getPerkValue('cannot_send_expeditions'))
-                                    <p><strong><em>Your faction is not able to invade other dominions.</em></strong></p>
+                                    <p><strong><em>{{ $selectedDominion->race->name }} cannot send expeditions.</em></strong></p>
 
                                   @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
                                     <p><strong><em>You cannot send out an expedition during the Rainy Season.</em></strong></p>
@@ -207,27 +207,13 @@
                                   <p><strong><em>Your military needs at least 50% morale to send out an expedition others. You currently have {{ $selectedDominion->morale }}% morale.</em></strong></p>
 
                                   @else
-                                      @if($selectedDominion->race->name == 'Dimensionalists')
-                                          @if($spellCalculator->isSpellActive($selectedDominion, 'portal'))
-                                              <button type="submit"
-                                                      class="btn btn-danger"
-                                                      {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                                                      id="invade-button">
-                                                  <i class="ra ra-player-teleport"></i>
-                                                  Teleport Units
-                                              </button>
-                                          @else
-                                              <p><strong><em>You must open a portal before you can send your units on an expedition.</em></strong></p>
-                                          @endif
-                                      @else
-                                        <button type="submit"
-                                                class="btn btn-danger"
-                                                {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                                                id="invade-button">
-                                            <i class="fas fa-compass"></i>
-                                            Send Units
-                                        </button>
-                                      @endif
+                                      <button type="submit"
+                                              class="btn btn-danger"
+                                              {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                                              id="invade-button">
+                                          <i class="fas fa-compass"></i>
+                                          Send Expedition
+                                      </button>
                                   @endif
                                 </div>
                             </div>

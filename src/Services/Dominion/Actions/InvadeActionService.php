@@ -1554,14 +1554,8 @@ class InvadeActionService
     {
         # If instant return
         if(random_chance($attacker->getImprovementPerkMultiplier('chance_of_instant_return')) or $attacker->race->getPerkValue('instant_return') or $attacker->getSpellPerkValue('instant_return'))
-        #if(1==1)
         {
             $this->invasionResult['attacker']['instantReturn'] = true;
-            foreach($units as $unitKey => $returningAmount)
-            {
-                $attacker->{$unitKey} += $returningAmount;
-                $returningUnits[$unitKey] = 0;
-            }
         }
         # Normal return
         else
@@ -1571,12 +1565,17 @@ class InvadeActionService
               'military_unit2' => array_fill(1, 12, 0),
               'military_unit3' => array_fill(1, 12, 0),
               'military_unit4' => array_fill(1, 12, 0),
-              #'military_spies' => array_fill(1, 12, 0),
-              #'military_wizards' => array_fill(1, 12, 0),
-              #'military_archmages' => array_fill(1, 12, 0),
-              #'military_draftees' => array_fill(1, 12, 0),
-              #'military_peasants' => array_fill(1, 12, 0),
             ];
+
+            # Check for instant_return
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'instant_return'))
+                {
+                    # This removes the unit from the $returningUnits array, thereby ensuring it is neither removed nor queued.
+                    unset($returningUnits['military_unit' . $slot]);
+                }
+            }
 
             $someWinIntoUnits = array_fill(1, 4, 0);
             $someWinIntoUnits = [1 => 0, 2 => 0, 3 => 0, 4 => 0];
@@ -1724,6 +1723,8 @@ class InvadeActionService
                         # Determine new return speed
                         $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
 
+                        dump($ticksFaster, $fasterReturningTicks);
+
                         # How many of $slot should return faster?
                         $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);
                         $unitsWithRegularReturnTime = max(0, $amount - $unitsWithFasterReturnTime);
@@ -1766,6 +1767,8 @@ class InvadeActionService
                 }
             }
 
+            dump($returningUnits);
+
             foreach($returningUnits as $unitKey => $unitKeyTicks)
             {
                 foreach($unitKeyTicks as $unitTypeTick => $amount)
@@ -1780,6 +1783,7 @@ class InvadeActionService
                         );
                     }
                 }
+
                 $slot = str_replace('military_unit', '', $unitKey);
                 $this->invasionResult['attacker']['unitsReturning'][$slot] = array_sum($unitKeyTicks);
             }
@@ -1854,18 +1858,17 @@ class InvadeActionService
 
     protected function handleResourceConversions(Dominion $attacker, Dominion $defender, float $landRatio): void
     {
-        $resourceConversionTemplate = [
-            'resource_food' => 0,
-            'resource_blood' => 0,
-            'resource_soul' => 0,
-            'resource_mana' => 0,
-            'resource_champion' => 0,
-            'resource_mana' => 0,
-            'resource_lumber' => 0,
-        ];
+        foreach($attacker->race->resources as $resourceKey)
+        {
+            $attackerResourceTemplate['resource_' . $resourceKey] = 0;
+        }
+        foreach($defender->race->resources as $resourceKey)
+        {
+            $defenderResourceTemplate['resource_' . $resourceKey] = 0;
+        }
 
-        $this->invasionResult['attacker']['resource_conversion'] = $resourceConversionTemplate;
-        $this->invasionResult['defender']['resource_conversion'] = $resourceConversionTemplate;
+        $this->invasionResult['attacker']['resource_conversion'] = $attackerResourceTemplate;
+        $this->invasionResult['defender']['resource_conversion'] = $defenderResourceTemplate;
 
         $rawOp = 0;
         foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
