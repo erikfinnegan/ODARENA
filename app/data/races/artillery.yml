@@ -11,6 +11,7 @@ skill_level: 2
 
 perks:
   max_population: -20
+  cannot_send_expeditions: 1
 
 peasants_production:
   gold: 2

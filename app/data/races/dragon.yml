@@ -85,8 +85,7 @@ units:
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
-      casualties_on_offense: -90
-      casualties_on_defense: -50
+      casualties: -90
       food_consumption: 55
       burns_peasants_on_attack: 20
       plunders: food;50,gems;100

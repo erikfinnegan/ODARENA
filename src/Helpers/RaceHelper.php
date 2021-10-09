@@ -169,6 +169,11 @@ class RaceHelper
                 $description = 'Cannot invade';
                 $booleanValue = true;
                 break;
+          case 'cannot_send_expeditions':
+                $negativeBenefit = true;
+                $description = 'Cannot send expeditions';
+                $booleanValue = true;
+                break;
           case 'cannot_train_spies':
                 $negativeBenefit = true;
                 $description = 'Cannot train spies';

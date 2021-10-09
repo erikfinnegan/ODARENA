@@ -112,7 +112,7 @@ class ExpeditionActionService
                  }
              }
 
-            if ($dominion->race->getPerkValue('cannot_send_expeditions') == 1)
+            if ($dominion->race->getPerkValue('cannot_send_expeditions'))
             {
                 throw new GameException($dominion->race->name . ' cannot send out expeditions.');
             }

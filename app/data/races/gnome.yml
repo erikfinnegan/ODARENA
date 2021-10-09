@@ -28,7 +28,6 @@ perks:
 
 units:
   - name: Mortar
-
     training_time: 12
     type:
       - machine

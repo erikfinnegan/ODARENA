@@ -10,7 +10,6 @@ description: >-
   <li><strong>Great Fever</strong>: no population growth, -10% gold production, -20% food production.</li>
   <li><strong>Festering Wounds</strong>: +25% casualties, +25% food consumption.</li>
   </ul>
-  <p>Each spell lasts 12 ticks.</p>
 home_land_type: hill
 playable: 1
 
