@@ -85,7 +85,7 @@ class ResourceCalculator
 
     public function getProduction(Dominion $dominion, string $resourceKey): int
     {
-        if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or $dominion->getSpellPerkValue('no_' . $resourceKey . '_production'))
+        if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or $dominion->getSpellPerkValue('no_' . $resourceKey . '_production') or $dominion->isAbandoned())
         {
             return 0;
         }
@@ -187,7 +187,7 @@ class ResourceCalculator
 
     public function getConsumption(Dominion $dominion, string $consumedResourceKey): int
     {
-        if(!in_array($consumedResourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $consumedResourceKey . '_consumption'))
+        if(!in_array($consumedResourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $consumedResourceKey . '_consumption') or $dominion->isAbandoned())
         {
             return 0;
         }

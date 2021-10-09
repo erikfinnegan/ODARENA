@@ -2,7 +2,7 @@
 
     <!-- Logo -->
     <a href="{{ url('') }}" class="logo">
-        <span class="logo-mini">OD<b>A</b></span>
+        <span class="logo-mini"><small><small><small><small><small><b>ODARENA</b></small></small></small></small></small></span>
         <span class="logo-lg"><b>ODARENA</b></span>
     </a>
 
