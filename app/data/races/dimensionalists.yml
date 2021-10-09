@@ -46,7 +46,6 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      faster_return: 11
       archmage_limit: 16 # Unit slot, amount
       instant_return: 1
 
@@ -80,7 +79,6 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      faster_return: 11
       archmage_limit: 8 # Unit slot, amount
       instant_return: 1
 
