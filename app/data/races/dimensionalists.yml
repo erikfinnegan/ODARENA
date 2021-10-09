@@ -89,7 +89,7 @@ units:
       - sentient
       - otherworldly
     cost:
-      mana: 322
+      mana: 296
     power:
       offense: 3
       defense: 4
