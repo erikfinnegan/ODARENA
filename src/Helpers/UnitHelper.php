@@ -257,6 +257,9 @@ class UnitHelper
             'kills_into_resources_per_value' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
             'kills_into_resources_per_value_on_success' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
 
+            'releases_into_resource' => 'Releases into %1$s %2$s.',
+            'releases_into_resources' => 'Releases into %1$s %2$s.',
+
             'dies_into_on_offense' => 'Upon death when invading, returns as %1$s.',
             'dies_into_on_defense' => 'Upon death when defending, returns as %1$s.',
             'dies_into_on_defense_instantly' => 'Upon death when defending, instantly becomes %1$s.',

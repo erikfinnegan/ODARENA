@@ -11,8 +11,10 @@ use OpenDominion\Traits\DominionGuardsTrait;
 # ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Services\Dominion\QueueService;
-use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\NotificationService;
+
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\RaceHelper;
 
 class ReleaseActionService
@@ -46,6 +48,7 @@ class ReleaseActionService
     public function __construct(
         UnitHelper $unitHelper,
         QueueService $queueService,
+        ResourceService $resourceService,
         MilitaryCalculator $militaryCalculator,
         SpellCalculator $spellCalculator,
         NotificationService $notificationService,
@@ -54,9 +57,10 @@ class ReleaseActionService
     {
         $this->unitHelper = $unitHelper;
         $this->queueService = $queueService;
+        $this->resourceService = $resourceService;
         $this->militaryCalculator = $militaryCalculator;
-        $this->spellCalculator = $spellCalculator;
         $this->notificationService = $notificationService;
+        $this->spellCalculator = $spellCalculator;
         $this->raceHelper = $raceHelper;
     }
 
@@ -179,6 +183,23 @@ class ReleaseActionService
             if ($unitType === 'draftees')
             {
                 $dominion->peasants += $amount;
+            }
+
+            if ($releasesIntoResourcePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'releases_into_resource'))
+            {
+                $amount = ceil($releasesIntoResourcePerk[0] * $amount);
+                $resourceKey = $releasesIntoResourcePerk[1];
+                $this->resourceService->updateResources($dominion, [$resourceKey => $amount]);
+            }
+
+            if ($releasesIntoResourcesPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'releases_into_resources'))
+            {
+                foreach($releasesIntoResourcesPerk as $releasesIntoResourcesPerk)
+                {
+                    $amount = ceil($releasesIntoResourcePerk[0] * $amount);
+                    $resourceKey = $releasesIntoResourcePerk[1];
+                    $this->resourceService->updateResources($dominion, [$resourceKey => $amount]);
+                }
             }
 
             # Only return draftees if unit is not exempt from population.

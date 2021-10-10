@@ -986,23 +986,11 @@ class MilitaryCalculator
 
         $resource = (string)$fromResourcePerkData[0];
         $ratio = (int)$fromResourcePerkData[1];
-        $max = (int)$fromResourcePerkData[2];
 
         $resourceAmount = $this->resourceCalculator->getAmount($dominion, $resource);
 
         $powerFromResource = $resourceAmount / $ratio;
-        if ($max < 0)
-        {
-            $powerFromPerk = max(-1 * $powerFromResource, $max);
-        }
-        elseif($max == 0)
-        {
-            $powerFromPerk = $powerFromResource;
-        }
-        else
-        {
-            $powerFromPerk = min($powerFromResource, $max);
-        }
+        $powerFromPerk = $powerFromResource;
 
         return $powerFromPerk;
     }
