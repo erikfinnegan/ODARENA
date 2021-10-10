@@ -89,6 +89,11 @@ class DeityService
           throw new GameException('You cannot renounce a deity for a dominion that is locked or abandoned, or when after a round has ended.');
       }
 
+      if($dominion->race->getPerkValue('cannot_renounce_deity'))
+      {
+          throw new GameException($dominion->race->name . ' cannot renounce.');
+      }
+
       DB::transaction(function () use ($dominion, $deity)
       {
 

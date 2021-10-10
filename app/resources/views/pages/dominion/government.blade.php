@@ -85,21 +85,25 @@
                                 @endforeach
                                     <li>Range multiplier: {{ $deity->range_multiplier }}x</li>
                             </ul>
-                            <p>If you wish to devote your dominion to another deity, you may renounce your devotion to {{ $deity->name }} below.</p>
+                            @if(!$selectedDominion->race->getPerkValue('cannot_renounce_deity'))
+                                <p>If you wish to devote your dominion to another deity, you may renounce your devotion to {{ $deity->name }} below.</p>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-lg-6">
-                        <div class="form-group">
-                            <select id="renounce-deity"  class="form-control">
-                                <option value="0">Renounce devotion?</option>
-                                <option value="1">Confirm renounce</option>
-                            </select>
-                            <button id="renounce-deity" type="submit" class="btn btn-danger btn-block" disabled {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                Renounce This Deity
-                            </button>
+                    @if(!$selectedDominion->race->getPerkValue('cannot_renounce_deity'))
+                        <div class="col-sm-6 col-lg-6">
+                            <div class="form-group">
+                                <select id="renounce-deity"  class="form-control">
+                                    <option value="0">Renounce devotion?</option>
+                                    <option value="1">Confirm renounce</option>
+                                </select>
+                                <button id="renounce-deity" type="submit" class="btn btn-danger btn-block" disabled {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                    Renounce This Deity
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </form>
                 @endif
             </div>

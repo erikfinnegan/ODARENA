@@ -3,6 +3,7 @@
 namespace OpenDominion\Helpers;
 
 use LogicException;
+use OpenDominion\Models\Deity;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\RacePerkType;
 
@@ -444,6 +445,11 @@ class RaceHelper
                 $description = 'Expedition land gains';
                 $valueType = '%';
                 break;
+            case 'starts_devoted_to_azk_hurum':
+                $negativeBenefit = false;
+                $description = 'Starts devoted to Azk\'Hurum';
+                $booleanValue = 'static';
+                break;
           default:
                 return null;
         }
@@ -459,9 +465,7 @@ class RaceHelper
             {
                 $valueString = 'No';
             }
-            else
-
-            if($booleanValue == 'static')
+            elseif($booleanValue == 'static')
             {
               $valueString = $perkType->pivot->value . $valueType;
             }
@@ -478,6 +482,7 @@ class RaceHelper
             {
                 $result['value'] = "<span class=\"text-red\">{$valueString}</span>";
             }
+
         }
         else
         {
@@ -506,6 +511,13 @@ class RaceHelper
                 $result['value'] = "<span class=\"text-green\">{$prefix}{$valueString}</span>";
             }
         }
+
+        if($perkType->key == 'starts_with_deity')
+        {
+            dd($perkType->pivot->value);
+            $result = Deity::where('key', $perkType->pivot->value)->first()->name;
+        }
+
 
         return $result;
     }

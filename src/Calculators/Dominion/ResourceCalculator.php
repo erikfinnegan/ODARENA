@@ -282,6 +282,7 @@ class ResourceCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier($consumedResourceKey . '_consumption');
         $multiplier += $dominion->getTechPerkMultiplier($consumedResourceKey . '_consumption');
         $multiplier += $dominion->getDeityPerkMultiplier($consumedResourceKey . '_consumption');
+
         if(isset($dominion->title))
         {
             $multiplier += $dominion->title->getPerkMultiplier($consumedResourceKey . '_consumption');

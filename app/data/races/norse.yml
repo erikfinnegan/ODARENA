@@ -22,23 +22,8 @@ resources:
 perks:
   exchange_bonus: 10
   lumber_production_mod: 10
-units:
-  - name: Warrior
-    training_time: 6
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 300
-      ore: 10
-      lumber: 10
-    power:
-      offense: 4
-      defense: 5
-    perks:
-      dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
 
+units:
   - name: Berserker
     training_time: 6
     type:
@@ -46,9 +31,9 @@ units:
       - sentient
       - intelligent
     cost:
-      unit1: 1
-      ore: 80
-      lumber: 40
+      gold: 300
+      ore: 90
+      lumber: 50
     power:
       offense: 6
       defense: 2
@@ -56,7 +41,22 @@ units:
       dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
       casualties: 50 # +50% casualties
       increases_casualties_on_defense: 1
-      no_draftee: 1
+
+  - name: Huskarl
+    training_time: 6
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 300
+      ore: 60
+      lumber: 30
+    power:
+      offense: 0
+      defense: 6
+    perks:
+      dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
 
   - name: Homeguard
     training_time: 12
@@ -88,3 +88,4 @@ units:
       true_immortal: 1
       no_draftee: 1
       kills_into_resource_per_casualty_on_success: 1,champion # each unit killed becomes 1 champion
+      increases_own_casualties: 1

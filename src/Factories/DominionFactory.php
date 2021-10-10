@@ -117,6 +117,11 @@ class DominionFactory
                 $startingParameters['prestige'] += 100;
             }
 
+            if($race->name == 'Demon')
+            {
+                $startingParameters['unit4'] = 1;
+            }
+
             if($race->name == 'Growth')
             {
                 $startingParameters['draft_rate'] = 100;
@@ -254,6 +259,12 @@ class DominionFactory
         if($race->name == 'Barbarian')
         {
             $deity = Deity::where('key','ib_tham')->first();
+            $this->deityService->completeSubmissionToDeity($dominion, $deity);
+        }
+
+        if($race->getPerkValue('starts_devoted_to_azk_hurum'))
+        {
+            $deity = Deity::where('key','azk_hurum')->first();
             $this->deityService->completeSubmissionToDeity($dominion, $deity);
         }
 

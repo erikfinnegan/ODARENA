@@ -135,3 +135,16 @@ ib_tham:
     amount_stolen: 20
     offensive_power_on_retaliation: 10
     improvements: -25
+
+azk_hurum:
+  name: Azk'Hurum
+  range_multiplier: 0.60
+  exclusive_races:
+    - Demon
+  perks:
+    offensive_power_on_retaliation: 5
+    increases_casualties: 10
+    prestige_gains: -30
+    max_population: 10
+    population_growth: 20
+    food_consumption: 20

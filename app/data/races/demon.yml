@@ -1,11 +1,16 @@
 name: Demon
 alignment: evil
 description: >-
-  <p>Each enemy unit killed yields 1 soul, 1/3 gallons of blood per 1 raw military power (DP if killed on defense, OP if killed on offense), and 4 halms of food.</p>
-  <p>Each sacrificed peasant yields 1 soul, 1.5 gallons of blood, and 2 halms of food.</p>
   <p>Demon starts with 1 Archdemon and 140,000 gallons of blood.</p>
 home_land_type: swamp
-playable:  0 # Fix sacrifice per tick
+playable: 0
+
+peasants_alias: worker
+draftees_alias: draftee
+
+peasants_production:
+  gold: 2.5
+  blood: 0.1
 
 attacking: 2
 exploring : 3
@@ -26,15 +31,12 @@ construction_materials:
 
 improvement_resources:
   gold: 1
-  gems: 12
+  blood: 12
   souls: 300
 
 perks:
-  population_growth: 25
-  max_population: 30
-  can_invest_soul: 1
-  min_rounds_played: 1
-  explore_cost: 15
+  starts_devoted_to_azk_hurum: 1
+  cannot_renounce_deity: 1
 
 units:
   - name: Hellhound
@@ -43,52 +45,50 @@ units:
       - living
       - sentient
     cost:
-      gold: 700
       mana: 12
-      blood: 3
+      blood: 6
     power:
       offense: 6
       defense: 0
     perks:
+      no_draftee: 1
       faster_return: 6
       housing_count: 0.5
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 0.3;blood,4;food # each 1 OP/DP killed becomes
 
-  - name: Subjugator
+  - name: Tormentor
     training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 800
-      mana: 16
-      blood: 9
+      soul: 1
+      blood: 10
+      mana: 80
     power:
-      offense: 3
+      offense: 4
       defense: 6
     perks:
-      counts_as_wizard_offense: 0.1666
-      immortal_wizard: 1
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 0.3;blood,4;food # each 1 OP/DP killed becomes
 
-  - name: Succubus
+  - name: Paragon
     training_time: 12
     type:
       - living
       - sentient
       - intelligent
     cost:
-      blood: 7
+      soul: 1
+      blood: 24
+      mana: 200
     power:
-      offense: 0
-      defense: 1
+      offense: 12
+      defense: 12
     perks:
       immortal: 1
-      sacrifices_peasants: 0.04 # 1/0.04=Every 25 Succubus sacrifice one Peasant per tick
-      population_growth: 2.5 # Population growth increased by 2.5% for every 1% of population made up of Succubus.
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 0.3;blood,4;food # each 1 OP/DP killed becomes
 
@@ -104,14 +104,13 @@ units:
       blood: 60000
       mana: 100000
       soul: 10000
-      archmage: 1000
     power:
       offense: 1
       defense: 0
     perks:
       immortal: 1
-      offense_from_resource: soul,3,0 # +1 OP per 3 souls, no max
+      offense_from_resource: soul,3 # +1 OP per 3 souls, no max
       amount_limit: 1
       cannot_be_released: 1
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
-      kills_into_resources_per_value: 0.3;blood,4;food # each 1 OP/DP killed becomes
+      kills_into_resources_per_value: 0.4;blood,6;food # each 1 OP/DP killed becomes

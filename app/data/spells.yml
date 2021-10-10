@@ -41,6 +41,7 @@ gaias_watch:
   cooldown: 0
   excluded_races:
     - Afflicted
+    - Demon
     - Sylvan
     - Undead
     - Void
@@ -56,6 +57,7 @@ harmony:
   cooldown: 0
   excluded_races:
     - Afflicted
+    - Demon
     - Void
   perks:
     population_growth: 50
@@ -69,6 +71,7 @@ druvas_granaries:
   cooldown: 18
   excluded_races:
     - Afflicted
+    - Demon
     - Dragon
     - Dwarf
     - Elementals
@@ -130,6 +133,7 @@ fools_gold:
   cooldown: 18
   excluded_races:
     - Afflicted
+    - Demon
     - Elementals
     - Sylvan
     - Void
@@ -818,6 +822,8 @@ desecration:
   perks:
     increases_enemy_draftee_casualties: 200
 
+# Demon spells
+
 infernal_fury:
   name: Infernal Fury
   scope: self
@@ -830,6 +836,29 @@ infernal_fury:
   perks:
     increases_casualties_on_offense: 25
     increases_casualties_on_defense: 25
+
+sacrifice_to_azk_hurum:
+  name: Sacrifice to Azk'Hurum
+  scope: self
+  class: active
+  cost: 8
+  cooldown: 36
+  exclusive_races:
+    - Demon
+  perks:
+    peasant_to_resources_conversion: 50,1;soul,6;blood
+
+feast_of_azk_hurum:
+  name: Feast of Azk'Hurum
+  scope: self
+  class: passive
+  cost: 8
+  duration: 48
+  exclusive_races:
+    - Demon
+  perks:
+    population_growth: 100
+    food_consumption: 20
 
 # LUX
 

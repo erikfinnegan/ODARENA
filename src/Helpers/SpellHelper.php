@@ -4,6 +4,7 @@ namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Spell;
 
 # ODA
@@ -60,6 +61,8 @@ class SpellHelper
             'pearls_production_mod_production' => '%s%% pearl production',
             'cosmic_alignment_production_mod' => '%s%% Cosmic Alignment discovery',
 
+            'food_consumption' => '%s%% food production',
+
             'tech_production' => '%s%% XP generation',
 
             'alchemy_production' => '+%s gold production per alchemy',
@@ -103,6 +106,7 @@ class SpellHelper
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
             'summon_units_from_land_by_time' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3$s%%  per hour into the round.',
 
+
             'can_kill_immortal' => 'Can kill some immortal units.',
 
             'no_drafting' => 'No draftees are drafted.',
@@ -118,6 +122,8 @@ class SpellHelper
             'destroys_resource' => 'Destroys %2$s%% of the target\'s %1$s.',
 
             'resource_conversion' => 'Converts %3$s%% of your %1$s to %2$s at a rate of %4$s:1.',
+
+            'peasant_to_resources_conversion' => 'Sacrifice %1$s%% of your workers for %2$s each.',
 
             // Magic
             'damage_from_spells' => '%s%% damage from spells',
@@ -503,6 +509,30 @@ class SpellHelper
                 $nestedArrays = false;
 
             }
+
+
+            if($perk->key === 'peasant_to_resources_conversion')
+            {
+                $ratio = (float)$perkValue[0];
+                unset($perkValue[0]);
+
+                // Rue the day this perk is used for other factions.
+
+                foreach ($perkValue as $index => $resourcePair)
+                {
+                    $resource = Resource::where('key', $resourcePair[1])->firstOrFail();
+                    $resources[$index] = $resourcePair[0] . ' ' . str_singular($resource->name);
+                }
+
+                $resourcesString = generate_sentence_from_array($resources);
+                $resourcesString = str_replace(' And ', ' and ', $resourcesString);
+
+
+                $perkValue = [$ratio, $resourcesString];
+                $nestedArrays = false;
+
+            }
+
 
             if($perk->key === 'converts_crypt_bodies')
             {

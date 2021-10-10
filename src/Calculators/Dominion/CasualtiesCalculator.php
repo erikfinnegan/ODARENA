@@ -454,6 +454,12 @@ class CasualtiesCalculator
                 {
                     $perkValue -= ($amount / array_sum($units)) / 2;
                 }
+
+                # PERK: increases_own_casualties, increases_own_casualties_on_offense
+                if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_offense'))
+                {
+                    $perkValue += ($amount / array_sum($units)) / 2;
+                }
             }
 
             # $enemy is the defender here, so we need to figure out the casualty increases from the defending units
@@ -465,6 +471,7 @@ class CasualtiesCalculator
                     $perkValue += ( ($this->militaryCalculator->getDefensivePowerRaw($enemy, $dominion, $landRatio, [$slot => $amount]/*, 0, false, $isAmbush, false*/)) / $rawDpFromHomeUnits ) / 2;
                 }
             }
+
         }
 
         if($mode == 'defense')
@@ -481,10 +488,16 @@ class CasualtiesCalculator
             # $dominion is the defender here, so we need to figure out the casualty reductions from the defending units
             foreach($defenderUnitsHome as $slot => $amount)
             {
-                # PERK: reduces_casualties, reduces_casualties_on_offense
+                # PERK: reduces_casualties, reduces_casualties_on_defense
                 if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'reduces_casualties_on_defense'))
                 {
                     $perkValue -= ($amount / array_sum($units)) / 2;
+                }
+
+                # PERK: increases_casualties, increases_casualties_on_defense
+                if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties') or $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_defense'))
+                {
+                    $perkValue += ($amount / array_sum($units)) / 2;
                 }
             }
 

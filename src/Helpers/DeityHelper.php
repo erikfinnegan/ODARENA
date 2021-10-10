@@ -54,8 +54,11 @@ class DeityHelper
             'unit_blood_costs' => '%s%% unit blood costs.',
             'unit_food_costs' => '%s%% unit food costs.',
 
+            'prestige_gains' => '%s%% prestige gains.',
+
             // Population
             'population_growth' => '%s%% population growth rate',
+            'max_population' => '%s%% population',
 
             // Magic
             'damage_from_spells' => '%s%% damage from spells',
