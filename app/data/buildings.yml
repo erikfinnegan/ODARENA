@@ -359,7 +359,7 @@ gryphon_nest:
   land_type: mountain
   perks:
     snow_elf_unit4_production_raw: 0.05
-    snow_elf_unit4_production_mod: 1,-4,-100
+    snow_elf_unit4_production_mod: 1,-4,100
 
 military_academy:
   name: Military Academy
@@ -377,7 +377,7 @@ military_academy:
     - Wood Elf
   land_type: hill
   perks:
-    offensive_power: 1,1.8,36 # Every 1% gives 2% OP, max +40% OP
+    offensive_power: 1,1.8,36 # Every 1% gives 11.8% OP, max +40% OP
 
 guard_tower:
   name: Guard Tower
