@@ -946,13 +946,16 @@ class TickService
 
                   $availableCapacity = max(0, $maxCapacity - $usedCapacity);
 
-                  $unitsToSummon = max(floor(min($unitSummoning, $availableCapacity)), 0);
+                  $unitsToSummon = floor(min($unitSummoning, $availableCapacity));
               }
               # If no capacity limit
               else
               {
                   $unitsToSummon = $unitSummoning;
               }
+
+              # Because you never know...
+              $unitsToSummon = intval(max($unitsToSummon, 0));
 
               $tick->{'generated_unit'.$slot} += $unitsToSummon;
           }

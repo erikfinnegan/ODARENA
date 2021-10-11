@@ -672,6 +672,8 @@ class Dominion extends AbstractModel
                           or $perkKey == 'human_unit1_housing'
                           or $perkKey == 'human_unit2_housing'
                           or $perkKey == 'sacred_order_unit2_housing'
+                          or $perkKey == 'sacred_order_unit3_housing'
+                          or $perkKey == 'sacred_order_unit4_housing'
                           or $perkKey == 'snow_elf_unit1_housing'
                           or $perkKey == 'troll_unit2_housing'
                           or $perkKey == 'troll_unit4_housing'

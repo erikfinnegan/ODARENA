@@ -51,7 +51,7 @@ units:
       offense: 6
       defense: 0
     perks:
-      no_draftee: 1
+      #no_draftee: 1 # No, they are created by tearing a draftee in half
       faster_return: 6
       housing_count: 0.5
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
