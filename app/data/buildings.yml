@@ -297,8 +297,8 @@ shipyard:
     - Armada
   land_type: water
   perks:
-    unit_lumber_costs: 1,-2,-50 # Every 1% gives 2% reduction, max 50%
-    unit_ore_costs: 1,-2,-50 # Every 1% gives 2% reduction, max 50%
+    unit_lumber_costs: 1,-2,50 # Every 1% gives 2% reduction, max 50%
+    unit_ore_costs: 1,-2,50 # Every 1% gives 2% reduction, max 50%
 
 stable:
   name: Stable
@@ -496,8 +496,8 @@ smithy:
     - Wood Elf
   land_type: plain
   perks:
-    unit_gold_costs: 1,-2,-40 # ratio, perk, max
-    unit_ore_costs: 1,-2,-40 # ratio, perk, max
+    unit_gold_costs: 1,-2,40 # ratio, perk, max
+    unit_ore_costs: 1,-2,40 # ratio, perk, max
 
 ore_mill:
   name: Gnomish Smithy
@@ -506,8 +506,8 @@ ore_mill:
     - Imperial Gnome
   land_type: plain
   perks:
-    unit_gold_costs: 1,-2,-50 # ratio, perk, max
-    unit_ore_costs: 1,-2,-50 # ratio, perk, max
+    unit_gold_costs: 1,-2,50 # ratio, perk, max
+    unit_ore_costs: 1,-2,50 # ratio, perk, max
 
 factory:
   name: Factory
@@ -765,7 +765,7 @@ sac:
     - Growth
   land_type: swamp
   perks:
-    unit_food_costs: 1,-4,-40 # ratio, perk, max
+    unit_food_costs: 1,-4,40 # ratio, perk, max
     housing: 88
     jobs: 0
 
@@ -825,8 +825,8 @@ rootforge:
     - Wood Elf
   land_type: forest
   perks:
-    unit_gold_costs: 1,-2,-40 # ratio, perk, max
-    unit_lumber_costs: 1,-1,-20 # ratio, perk, max
+    unit_gold_costs: 1,-2,40 # ratio, perk, max
+    unit_lumber_costs: 1,-1,20 # ratio, perk, max
 
 institute:
   name: Institute
@@ -923,8 +923,8 @@ observatory:
     - Dimensionalists
   land_type: mountain
   perks:
-    unit_mana_costs: 1,-0.80,-40
-    training_time: 1,-0.40,-20
+    unit_mana_costs: 1,-0.80,40
+    training_time: 1,-0.40,20
 
 gateway:
   name: Gateway
@@ -1018,8 +1018,8 @@ camp:
     - Beastfolk
   land_type: forest
   perks:
-    unit_gold_costs: 1,-2,-50 # Every 1% gives 2.5% reduction, max -50% plat and ore
-    unit_ore_costs: 1,-2,-50 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_gold_costs: 1,-2,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
+    unit_ore_costs: 1,-2,50 # Every 1% gives 2.5% reduction, max -50% plat and ore
     military_housing: 8
 
 bloodstone:
@@ -1065,7 +1065,7 @@ altar:
     - Demon
   land_type: swamp
   perks:
-    unit_blood_costs: 1,-1,-100 # ratio, perk, max
+    unit_blood_costs: 1,-1,100 # ratio, perk, max
     housing: 40
     jobs: 0
 

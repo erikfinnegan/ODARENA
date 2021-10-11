@@ -35,6 +35,8 @@ class DeityHelper
             'no_boat_production' => 'No boat production',
             'no_gems_production' => 'No gem production',
 
+            'food_consumption' => '%s%% food consumption',
+
             // Military
             'drafting' => '+%s%% drafting',
             'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',

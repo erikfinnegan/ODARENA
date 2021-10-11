@@ -138,6 +138,7 @@ ib_tham:
 
 azk_hurum:
   name: Azk'Hurum
+  enabled: 0
   range_multiplier: 0.60
   exclusive_races:
     - Demon
