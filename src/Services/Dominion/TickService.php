@@ -946,7 +946,7 @@ class TickService
 
                   $availableCapacity = max(0, $maxCapacity - $usedCapacity);
 
-                  $unitsToSummon = floor(min($unitSummoning, $availableCapacity));
+                  $unitsToSummon = max(floor(min($unitSummoning, $availableCapacity)), 0);
               }
               # If no capacity limit
               else
