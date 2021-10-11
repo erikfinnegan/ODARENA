@@ -184,6 +184,12 @@ class ReleaseActionService
             {
                 $dominion->peasants += $amount;
             }
+            # Only return draftees if unit is not exempt from population.
+            elseif (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'no_draftee') and !$dominion->race->getPerkValue('no_drafting'))
+            {
+                $dominion->military_draftees += $amount;
+            }
+
 
             if ($releasesIntoResourcePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'releases_into_resource'))
             {
@@ -202,11 +208,6 @@ class ReleaseActionService
                 }
             }
 
-            # Only return draftees if unit is not exempt from population.
-            elseif (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'no_draftee') and !$dominion->race->getPerkValue('no_drafting'))
-            {
-                $dominion->military_draftees += $amount;
-            }
 
             $troopsReleased[$unitType] = $amount;
         }
