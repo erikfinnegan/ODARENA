@@ -125,7 +125,7 @@ class BarbarianService
                 if($amountToTrain > 0)
                 {
                     $data = [$unit => $amountToTrain];
-                    $ticks = intval( $this->barbarianCalculator->getSetting('UNITS_TRAINING_TICKS'));
+                    $ticks = intval($this->barbarianCalculator->getSetting('UNITS_TRAINING_TICKS'));
                     $this->queueService->queueResources('training', $dominion, $data, $ticks);
                 }
             }

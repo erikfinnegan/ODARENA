@@ -148,7 +148,7 @@ class BarbarianCalculator
         # Get DPA target in general
         elseif($round)
         {
-            $dpa = static::DPA_CONSTANT + ($dominion->round->ticks * static::DPA_PER_TICK);
+            $dpa = static::DPA_CONSTANT + ($round->ticks * static::DPA_PER_TICK);
             return $dpa *= ($npcModifier / 1000);
         }
 
