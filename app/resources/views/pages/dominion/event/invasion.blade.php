@@ -932,9 +932,15 @@
                             </div>
                             <table class="table">
                                 <colgroup>
-                                    <col width="33%">
-                                    <col width="33%">
-                                    <col width="33%">
+
+                                    @if ($event->target->realm->id === $selectedDominion->realm->id)
+                                        <col width="50%">
+                                        <col width="50%">
+                                    @else
+                                        <col width="33%">
+                                        <col width="33%">
+                                        <col width="33%">
+                                    @endif
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -961,25 +967,29 @@
                                     @else
 
                                         @foreach($landHelper->getLandTypes() as $landType)
-                                            @if(($event->data['attacker']['landConquered'][$landType] + $event->data['attacker']['landDiscovered'][$landType]+$event->data['attacker']['extraLandDiscovered'][$landType]) > 0)
-                                                <tr>
-                                                    <td>{{ ucwords($landType) }}</td>
-                                                    <td>{{ number_format($event->data['attacker']['landConquered'][$landType]) }}</td>
-                                                    @if ($event->source->realm->id === $selectedDominion->realm->id)
-                                                      <td>
-                                                          @if(isset($event->data['attacker']['landDiscovered'][$landType]))
-                                                              @if(isset($event->data['attacker']['extraLandDiscovered'][$landType]))
-                                                                  {{ number_format($event->data['attacker']['landDiscovered'][$landType]+$event->data['attacker']['extraLandDiscovered'][$landType]) }}
-                                                              @else
-                                                                  {{ number_format($event->data['attacker']['landDiscovered'][$landType]) }}
-                                                              @endif
-                                                          @else
-                                                              &mdash;
-                                                          @endif
-                                                      </td>
+                                            <tr>
+                                                <td>{{ ucwords($landType) }}</td>
+                                                <td>
+                                                    @if(isset($event->data['attacker']['landConquered'][$landType]))
+                                                        {{ number_format($event->data['attacker']['landConquered'][$landType]) }}
+                                                    @else
+                                                        &mdash;
                                                     @endif
-                                                </tr>
-                                            @endif
+                                                </td>
+                                                @if ($event->source->realm->id === $selectedDominion->realm->id)
+                                                  <td>
+                                                      @if(isset($event->data['attacker']['landDiscovered'][$landType]))
+                                                          @if(isset($event->data['attacker']['extraLandDiscovered'][$landType]))
+                                                              {{ number_format($event->data['attacker']['landDiscovered'][$landType]+$event->data['attacker']['extraLandDiscovered'][$landType]) }}
+                                                          @else
+                                                              {{ number_format($event->data['attacker']['landDiscovered'][$landType]) }}
+                                                          @endif
+                                                      @else
+                                                          &mdash;
+                                                      @endif
+                                                  </td>
+                                                @endif
+                                            </tr>
                                         @endforeach
 
                                     @endif

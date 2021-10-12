@@ -5,6 +5,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use Illuminate\Database\Eloquent\Builder;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
@@ -46,6 +47,7 @@ class EventController extends AbstractDominionController
             'unitHelper' => app(UnitHelper::class), // todo: only load if event->type == 'invasion'
             'militaryCalculator' => app(MilitaryCalculator::class), // todo: same thing here
             'raceHelper' => app(RaceHelper::class), // todo: same thing here
+            'landHelper' => app(LandHelper::class), // todo: same thing here
         ]);
     }
 
