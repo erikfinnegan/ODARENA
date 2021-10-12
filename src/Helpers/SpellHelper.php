@@ -91,6 +91,8 @@ class SpellHelper
             'unit_ore_costs' => '%s%% military unit ore costs',
             'unit_lumber_costs' => '%s%% military unit lumber costs',
 
+            'cannot_invade' => 'Cannot invade',
+
             'additional_units_trained_from_land' => '1%% extra %1$s%% for every %3$s%% %2$s.',
 
             'faster_return' => 'Units return %s ticks faster from invasions',
@@ -193,6 +195,7 @@ class SpellHelper
             // Explore
             'land_discovered' => '%s%% land discovered on successful invasions',
             'stop_land_generation' => 'Stops land generation from units',
+            'cannot_explore' => 'Cannot explore',
 
             // Buildings and Land
             'buildings_destroyed' => '%s%% of all buildings destroyed per tick',

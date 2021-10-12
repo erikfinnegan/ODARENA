@@ -981,8 +981,8 @@ rainy_season:
     lumber_production_mod: 50
     cannot_invade: 1
     cannot_explore: 1
-    no_ore_production_mod: 1
-    no_gems_production_mod: 1
+    no_ore_production: 1
+    no_gems_production: 1
 
 elementals_hill:
   name: Druva's Rising
