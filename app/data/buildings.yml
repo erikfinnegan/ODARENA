@@ -119,9 +119,10 @@ gem_mine:
     - Growth
     - Merfolk
     - Myconid
-    - Void
+    - Simian
     - Swarm
     - Sylvan
+    - Void
     - Wood Elf
   land_type: mountain
   perks:
