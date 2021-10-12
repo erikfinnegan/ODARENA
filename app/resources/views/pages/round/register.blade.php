@@ -153,7 +153,7 @@
                           @endif
 
                       @else
-                          <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
+                          <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t H:i') }}. The target land size is {{ number_format($round->land_target) }} acres. Once a dominion has reached that, a countdown of 12 hours begins, and then the round ends.</p>
                           <p>When you register, you start with 96 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
                           <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
 
