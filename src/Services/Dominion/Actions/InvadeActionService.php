@@ -1696,63 +1696,63 @@ class InvadeActionService
 
                         $returningUnits[$newUnitKey][$newUnitSlotReturnTime] += floor($casualties * $newUnitAmount);
                     }
-                }
 
-                # Check for faster_return_if_paired
-                if($fasterReturnIfPairedPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
-                {
-                    $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
-                    $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
-                    $ticksFaster = (int)$fasterReturnIfPairedPerk[1];
-                    $pairedUnitKeyReturning = array_sum($returningUnits[$pairedUnitKey]);
+                    # Check for faster_return_if_paired
+                    if($fasterReturnIfPairedPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
+                    {
+                        $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
+                        $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
+                        $ticksFaster = (int)$fasterReturnIfPairedPerk[1];
+                        $pairedUnitKeyReturning = array_sum($returningUnits[$pairedUnitKey]);
 
-                    # Determine new return speed
-                    $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
+                        # Determine new return speed
+                        $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
 
-                    dump($slot . ':' . $ticksFaster . ':' . $fasterReturningTicks);
+                        #dump($slot . ':' . $ticksFaster . ':' . $fasterReturningTicks);
 
-                    # How many of $slot should return faster?
-                    $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);
-                    $unitsWithRegularReturnTime = max(0, $units[$slot] - $unitsWithFasterReturnTime);
+                        # How many of $slot should return faster?
+                        $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);
+                        $unitsWithRegularReturnTime = max(0, $units[$slot] - $unitsWithFasterReturnTime);
 
-                    $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
-                    $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
-                }
+                        $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
+                        $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                    }
 
-                # Check for faster_return from buildings
-                if($buildingFasterReturnPerk = $attacker->getBuildingPerkMultiplier('faster_return'))
-                {
-                    $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
-                    $normalReturn = 1 - $fasterReturn;
-                    $ticksFaster = 6;
+                    # Check for faster_return from buildings
+                    if($buildingFasterReturnPerk = $attacker->getBuildingPerkMultiplier('faster_return'))
+                    {
+                        $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
+                        $normalReturn = 1 - $fasterReturn;
+                        $ticksFaster = 6;
 
-                    $fasterReturningTicks = min(max(1, ($ticks - $ticksFaster), 12));
+                        $fasterReturningTicks = min(max(1, ($ticks - $ticksFaster), 12));
 
-                    $unitsWithFasterReturnTime = round($amountReturning * $buildingFasterReturnPerk);
-                    $unitsWithRegularReturnTime = round($amountReturning - $amountWithFasterReturn);
+                        $unitsWithFasterReturnTime = round($amountReturning * $buildingFasterReturnPerk);
+                        $unitsWithRegularReturnTime = round($amountReturning - $amountWithFasterReturn);
 
-                    $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
-                    $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
-                }
+                        $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
+                        $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                    }
 
-                # Check for faster_return_units and faster_return_units_increasing from buildings
-                if($buildingFasterReturnPerk = $attacker->getBuildingPerkValue('faster_returning_units') or $buildingFasterReturnPerk = $attacker->getBuildingPerkValue('faster_returning_units_increasing'))
-                {
-                    $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
-                    $normalReturn = 1 - $fasterReturn;
-                    $ticksFaster = 4;
+                    # Check for faster_return_units and faster_return_units_increasing from buildings
+                    if($buildingFasterReturnPerk = $attacker->getBuildingPerkValue('faster_returning_units') or $buildingFasterReturnPerk = $attacker->getBuildingPerkValue('faster_returning_units_increasing'))
+                    {
+                        $fasterReturn = min(max(0, $buildingFasterReturnPerk), 1);
+                        $normalReturn = 1 - $fasterReturn;
+                        $ticksFaster = 4;
 
-                    $fasterReturningTicks = min(max(1, ($ticks - $ticksFaster)), 12);
+                        $fasterReturningTicks = min(max(1, ($ticks - $ticksFaster)), 12);
 
-                    $unitsWithFasterReturnTime = min($buildingFasterReturnPerk, $amountReturning);
-                    $unitsWithRegularReturnTime = round($amountReturning - $unitsWithFasterReturnTime);
+                        $unitsWithFasterReturnTime = min($buildingFasterReturnPerk, $amountReturning);
+                        $unitsWithRegularReturnTime = round($amountReturning - $unitsWithFasterReturnTime);
 
-                    $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
-                    $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                        $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
+                        $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                    }
                 }
             }
 
-            dump($returningUnits);
+            #dump($returningUnits);
 
             foreach($returningUnits as $unitKey => $unitKeyTicks)
             {
