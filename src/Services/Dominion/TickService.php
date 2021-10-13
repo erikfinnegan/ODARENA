@@ -599,6 +599,8 @@ class TickService
               ->where('hours', '=', 1)
               ->get();
 
+
+          /*
           foreach ($incomingQueue as $row)
           {
               if($row->source !== 'deity')
@@ -608,6 +610,7 @@ class TickService
                   $dominion->{$row->resource} += $row->amount;
               }
           }
+          */
 
           if($dominion->race->name == 'Barbarian')
           {
@@ -974,6 +977,7 @@ class TickService
           $tick->attrition_unit3 += intval($attritionUnit3);
           $tick->attrition_unit4 += intval($attritionUnit4);
 
+          /*
           foreach ($incomingQueue as $row)
           {
               if($row->source !== 'deity')
@@ -982,6 +986,7 @@ class TickService
                   $dominion->{$row->resource} -= $row->amount;
               }
           }
+          */
 
           $tick->save();
     }
