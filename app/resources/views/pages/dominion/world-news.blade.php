@@ -107,7 +107,8 @@
                                                         @if ($gameEvent->source_realm_id == $selectedDominion->realm_id)
                                                             Fellow dominion
                                                         @endif
-                                                        <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a></span>
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
+                                                        <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a></span></span>
                                                         fended off an attack from
                                                         <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                         <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-orange">{{ $gameEvent->source->name }}</span></a>

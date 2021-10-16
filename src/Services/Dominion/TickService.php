@@ -363,7 +363,7 @@ class TickService
                     if(/*$dominion->tick->starvation_casualties*/ $this->resourceCalculator->isOnBrinkOfStarvation($dominion) and !$dominion->isAbandoned())
                     {
                         $this->notificationService->queueNotification('starvation_occurred');
-                        Log::info('[STARVATION] ' . $dominion->name . '(# ' . $dominion->realm->number . ') is starving.');
+                        Log::info('[STARVATION] ' . $dominion->name . ' (# ' . $dominion->realm->number . ') is starving.');
                         #echo "Queue starvation notification for " . $dominion->name . "\t\n";
                     }
 
