@@ -173,9 +173,9 @@ class BarbarianService
             $logString .= "\t\tName: $dominion->name\n";
             $logString .= "\t\tSize: ".number_format($this->landCalculator->getTotalLand($dominion))."\n";
 
-            $oneLineLogString .= $dominion->name . ' has ' . number_format($this->barbarianCalculator->getDpaCurrent($dominion),2) . ' current DPA (' . number_format($this->barbarianCalculator->getDpCurrent($dominion),2) . ' DP) ';
-            $oneLineLogString .= ' and ' . number_format($this->barbarianCalculator->getOpaCurrent($dominion),2) . ' current OPA (' . number_format($this->barbarianCalculator->getOpCurrent($dominion),2) . ' OP) ';
-            $oneLineLogString .= ' with targets being ' . number_format($this->barbarianCalculator->getDpaTarget($dominion), 2) . ' and ' . number_format($this->barbarianCalculator->getOpaTarget($dominion), 2) . 'DPA/OPA. ';
+            $oneLineLogString = '[BARBARIAN]' . $dominion->name . ' has ' . number_format($this->barbarianCalculator->getDpaCurrent($dominion),2) . ' current DPA (' . number_format($this->barbarianCalculator->getDpCurrent($dominion),2) . ' DP) ';
+            $oneLineLogString .= 'and ' . number_format($this->barbarianCalculator->getOpaCurrent($dominion),2) . ' current OPA (' . number_format($this->barbarianCalculator->getOpCurrent($dominion),2) . ' OP) ';
+            $oneLineLogString .= 'with targets being ' . number_format($this->barbarianCalculator->getDpaTarget($dominion), 2) . ' and ' . number_format($this->barbarianCalculator->getOpaTarget($dominion), 2) . ' DPA/OPA. ';
 
             # Make sure we have the expected OPA to hit, and enough DPA at home.
             if($this->barbarianCalculator->getDpaDeltaCurrent($dominion) <= 0 and $this->barbarianCalculator->getOpaDeltaAtHome($dominion) <= 0)
