@@ -168,13 +168,19 @@ class BarbarianService
 
         if($dominion->race->name === 'Barbarian' and !$this->spellCalculator->isAnnexed($dominion))
         {
+
             $logString = "\n[BARBARIAN]\n\t[invasion]\n";
             $logString .= "\t\tName: $dominion->name\n";
             $logString .= "\t\tSize: ".number_format($this->landCalculator->getTotalLand($dominion))."\n";
 
+            $oneLineLogString .= $dominion->name . ' has ' . number_format($this->barbarianCalculator->getDpaCurrent($dominion),2) . ' current DPA (' . number_format($this->barbarianCalculator->getDpCurrent($dominion),2) . ' DP) ';
+            $oneLineLogString .= ' and ' . number_format($this->barbarianCalculator->getOpaCurrent($dominion),2) . ' current OPA (' . number_format($this->barbarianCalculator->getOpCurrent($dominion),2) . ' OP) ';
+            $oneLineLogString .= ' with targets being ' . number_format($this->barbarianCalculator->getDpaTarget($dominion), 2) . ' and ' . number_format($this->barbarianCalculator->getOpaTarget($dominion), 2) . 'DPA/OPA. ';
+
             # Make sure we have the expected OPA to hit, and enough DPA at home.
             if($this->barbarianCalculator->getDpaDeltaCurrent($dominion) <= 0 and $this->barbarianCalculator->getOpaDeltaAtHome($dominion) <= 0)
             {
+
                 $currentDay = $dominion->round->start_date->subDays(1)->diffInDays(now());
                 $chanceOneIn =  $this->barbarianCalculator->getSetting('CHANCE_TO_HIT_CONSTANT') - (14 - $currentDay);
                 $chanceToHit = rand(1,$chanceOneIn);
@@ -182,7 +188,7 @@ class BarbarianService
 
                 $logString .= "\t\t* OP/DP\n";
                 $logString .= "\t\t** DPA current: " . $this->barbarianCalculator->getDpaCurrent($dominion) ."\n";
-                $logString .= "\t\t** DP current: " . $this->barbarianCalculator->getDpaCurrent($dominion) ."\n";
+                $logString .= "\t\t** DP current: " . $this->barbarianCalculator->getDpCurrent($dominion) ."\n";
 
                 $logString .= "\t\t** OPA at home: " . $this->barbarianCalculator->getOpaAtHome($dominion) ."\n";
                 $logString .= "\t\t** OP current: " . $this->barbarianCalculator->getOpCurrent($dominion) ."\n";
@@ -199,6 +205,9 @@ class BarbarianService
                 {
                     $logString .= "❌ No invasion\n";
                 }
+
+                $oneLineLogString .= 'Invasion decision: ' . ($chanceToHit == 1 ? '✅ ' : '❌');
+
             }
             else
             {
@@ -223,7 +232,11 @@ class BarbarianService
                     $logString .= "\t\t** OPA paid: " . $this->barbarianCalculator->getOpaPaid($dominion) ."\n";
                     $logString .= "\t\t** OPA at home: " . $this->barbarianCalculator->getOpaAtHome($dominion) ."\n";
                 }
+
+                $oneLineLogString .= 'Need to train ' . ($this->barbarianCalculator->getDpaDeltaCurrent($dominion) > 0 ? 'more DP' : 'no DP') . ' and ' . ($this->barbarianCalculator->getOpaDeltaCurrent($dominion) > 0 ? 'more OP' : 'no OP');
             }
+
+
 
             if($invade)
             {
@@ -364,6 +377,7 @@ class BarbarianService
         }
 
         #Log::Debug($logString);
+        Log::Debug($oneLineLogString);
     }
 
     public function handleBarbarianConstruction(Dominion $dominion)

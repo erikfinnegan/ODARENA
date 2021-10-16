@@ -19,7 +19,7 @@ class BarbarianCalculator
 {
 
     protected const DPA_CONSTANT = 27.5;
-    protected const DPA_OVERSHOT = 1.025;
+    protected const DPA_OVERSHOT = 1.10;
     protected const DPA_PER_TICK = 0.125;
     protected const DPA_PER_TIMES_INVADED = 0.006;
 
