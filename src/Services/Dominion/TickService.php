@@ -153,68 +153,71 @@ class TickService
             if(static::EXTENDED_LOGGING) { Log::debug('* Going through all dominions'); }
             foreach ($dominions as $dominion)
             {
-                if($dominion->getSpellPerkValue('stasis'))
+                if($dominion->protection_ticks === 0)
                 {
-                    $stasisDominions[] = $dominion->id;
-                }
-
-                if(($dominion->round->ticks % 4 == 0) and !$this->protectionService->isUnderProtection($dominion) and $dominion->round->hasStarted() and !$dominion->getSpellPerkValue('fog_of_war'))
-                {
-                    if(static::EXTENDED_LOGGING) { Log::debug('** Capturing insight for ' . $dominion->name); }
-                    $this->insightService->captureDominionInsight($dominion);
-                }
-
-                if(static::EXTENDED_LOGGING) { Log::debug('** Updating resources for ' . $dominion->name); }
-                $this->handleResources($dominion);
-
-                if(static::EXTENDED_LOGGING) { Log::debug('** Updating buildings for ' . $dominion->name); }
-                $this->handleBuildings($dominion);
-
-                if(static::EXTENDED_LOGGING){ Log::debug('** Updating improvments for ' . $dominion->name); }
-                $this->handleImprovements($dominion);
-
-                if(static::EXTENDED_LOGGING){ Log::debug('** Updating deities for ' . $dominion->name); }
-                $this->handleDeities($dominion);
-
-                if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians:'); }
-                # NPC Barbarian: invasion, training, construction
-                if($dominion->race->name === 'Barbarian')
-                {
-                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian invasions for ' . $dominion->name); }
-                    $this->barbarianService->handleBarbarianInvasion($dominion, $largestDominionSize);
-
-                    if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian construction for ' . $dominion->name); }
-                    $this->barbarianService->handleBarbarianConstruction($dominion);
-                }
-
-                if(static::EXTENDED_LOGGING) { Log::debug('** Calculate $largestDominion'); }
-                $largestDominionSize = max($this->landCalculator->getTotalLand($dominion), $largestDominionSize);
-                if(static::EXTENDED_LOGGING) { Log::debug('*** $largestDominion =' . number_format($largestDominionSize)); }
-
-                if(static::EXTENDED_LOGGING) { Log::debug('** Checking for countdown'); }
-                # If we don't already have a countdown, see if any dominion triggers it.
-                if(!$round->hasCountdown())
-                {
-                    if($this->landCalculator->getTotalLand($dominion) >= $round->land_target)
+                    if($dominion->getSpellPerkValue('stasis'))
                     {
-                        $hoursEndingIn = static::COUNTDOWN_DURATION_HOURS + 1;
-                        $roundEnd = Carbon::now()->addHours($hoursEndingIn)->startOfHour();
+                        $stasisDominions[] = $dominion->id;
+                    }
 
-                        $countdownEvent = GameEvent::create([
-                            'round_id' => $dominion->round_id,
-                            'source_type' => Dominion::class,
-                            'source_id' => $dominion->id,
-                            'target_type' => Realm::class,
-                            'target_id' => $dominion->realm_id,
-                            'type' => 'round_countdown',
-                            'data' => ['end_date' => $roundEnd],
-                            'tick' => $dominion->round->ticks
-                        ]);
-                        $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
-                        $round->end_date = $roundEnd;
-                        $round->save();
+                    if(($dominion->round->ticks % 4 == 0) and !$this->protectionService->isUnderProtection($dominion) and $dominion->round->hasStarted() and !$dominion->getSpellPerkValue('fog_of_war'))
+                    {
+                        if(static::EXTENDED_LOGGING) { Log::debug('** Capturing insight for ' . $dominion->name); }
+                        $this->insightService->captureDominionInsight($dominion);
+                    }
 
-                        if(static::EXTENDED_LOGGING) { Log::debug('*** Countdown triggered by ' . $dominion->name . ' in realm #' . $dominion->realm->number); }
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Updating resources for ' . $dominion->name); }
+                    $this->handleResources($dominion);
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Updating buildings for ' . $dominion->name); }
+                    $this->handleBuildings($dominion);
+
+                    if(static::EXTENDED_LOGGING){ Log::debug('** Updating improvments for ' . $dominion->name); }
+                    $this->handleImprovements($dominion);
+
+                    if(static::EXTENDED_LOGGING){ Log::debug('** Updating deities for ' . $dominion->name); }
+                    $this->handleDeities($dominion);
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Handle Barbarians:'); }
+                    # NPC Barbarian: invasion, training, construction
+                    if($dominion->race->name === 'Barbarian')
+                    {
+                        if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian invasions for ' . $dominion->name); }
+                        $this->barbarianService->handleBarbarianInvasion($dominion, $largestDominionSize);
+
+                        if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian construction for ' . $dominion->name); }
+                        $this->barbarianService->handleBarbarianConstruction($dominion);
+                    }
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Calculate $largestDominion'); }
+                    $largestDominionSize = max($this->landCalculator->getTotalLand($dominion), $largestDominionSize);
+                    if(static::EXTENDED_LOGGING) { Log::debug('*** $largestDominion =' . number_format($largestDominionSize)); }
+
+                    if(static::EXTENDED_LOGGING) { Log::debug('** Checking for countdown'); }
+                    # If we don't already have a countdown, see if any dominion triggers it.
+                    if(!$round->hasCountdown())
+                    {
+                        if($this->landCalculator->getTotalLand($dominion) >= $round->land_target)
+                        {
+                            $hoursEndingIn = static::COUNTDOWN_DURATION_HOURS + 1;
+                            $roundEnd = Carbon::now()->addHours($hoursEndingIn)->startOfHour();
+
+                            $countdownEvent = GameEvent::create([
+                                'round_id' => $dominion->round_id,
+                                'source_type' => Dominion::class,
+                                'source_id' => $dominion->id,
+                                'target_type' => Realm::class,
+                                'target_id' => $dominion->realm_id,
+                                'type' => 'round_countdown',
+                                'data' => ['end_date' => $roundEnd],
+                                'tick' => $dominion->round->ticks
+                            ]);
+                            $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
+                            $round->end_date = $roundEnd;
+                            $round->save();
+
+                            if(static::EXTENDED_LOGGING) { Log::debug('*** Countdown triggered by ' . $dominion->name . ' in realm #' . $dominion->realm->number); }
+                        }
                     }
                 }
             }

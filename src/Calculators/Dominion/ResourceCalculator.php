@@ -291,7 +291,9 @@ class ResourceCalculator
 
         $consumption *= $multiplier;
 
-        return min(max(0, $consumption), $this->getAmount($dominion, $consumedResourceKey));
+        return max(0, $consumption);
+
+        #return min(max(0, $consumption), $this->getAmount($dominion, $consumedResourceKey));
 
     }
 
