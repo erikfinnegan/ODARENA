@@ -74,7 +74,9 @@
 
                                                     @else
                                                         Sadly, the forces of
+                                                        <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}">
                                                         <span class="text-aqua">{{ $gameEvent->source->name }} <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>
+                                                        </a>
                                                         were beaten back by
                                                         <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->target->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->target)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                         <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-orange">{{ $gameEvent->target->name }}</span></a>
