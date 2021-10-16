@@ -166,6 +166,8 @@ class BarbarianService
     {
         $invade = false;
 
+        $oneLineLogString = '';
+
         if($dominion->race->name === 'Barbarian' and !$this->spellCalculator->isAnnexed($dominion))
         {
 
