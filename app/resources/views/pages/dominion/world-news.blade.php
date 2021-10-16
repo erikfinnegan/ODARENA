@@ -107,7 +107,7 @@
                                                         @if ($gameEvent->source_realm_id == $selectedDominion->realm_id)
                                                             Fellow dominion
                                                         @endif
-                                                        <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->target->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->target)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                         <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a></span></span>
                                                         fended off an attack from
                                                         <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
@@ -178,10 +178,14 @@
 
 
                                             @elseif ($gameEvent->type === 'expedition' and $gameEvent->source->realm_id == $selectedDominion->realm->id)
-                                                An expedition was sent out by <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a>, discovering <span class="text-green text-bold">{{ number_format(array_sum($gameEvent->data['land_discovered'])) }}</span> land.
+                                                An expedition was sent out by
+                                                  <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
+                                                  <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>, discovering <span class="text-green text-bold">{{ number_format(array_sum($gameEvent->data['land_discovered'])) }}</span> land.
 
                                             @elseif ($gameEvent->type === 'expedition' and $gameEvent->source->realm_id !== $selectedDominion->realm->id)
-                                                An expedition was sent out by <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a>, discovering <span class="text-orange text-bold">{{ number_format(array_sum($gameEvent->data['land_discovered'])) }}</span> land.
+                                                An expedition was sent out by
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
+                                                <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>, discovering <span class="text-orange text-bold">{{ number_format(array_sum($gameEvent->data['land_discovered'])) }}</span> land.
                                             @endif
                                         </td>
                                         <td class="text-center">
