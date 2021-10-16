@@ -151,14 +151,14 @@
 
                     </div>
                 </div>
-            </div>
-
-            <div class="box-footer">
-                <div class="pull-right">
-                    <small class="text-muted">
-                        {{ $event->created_at }}, tick
-                        {{ number_format($event->tick) }}.
-                    </small>
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <small class="text-muted">
+                            Expedition recorded at
+                            {{ $event->created_at }}, tick
+                            {{ number_format($event->tick) }}.
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
