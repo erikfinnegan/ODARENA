@@ -18,6 +18,7 @@ use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\UnitHelper;
 
 
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\ExpeditionCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -43,6 +44,7 @@ class ExpeditionActionService
     public function __construct()
     {
         $this->landCalculator = app(LandCalculator::class);
+        $this->buildingCalculator = app(BuildingCalculator::class);
         $this->landHelper = app(LandHelper::class);
 
         $this->expeditionCalculator = app(ExpeditionCalculator::class);
