@@ -44,7 +44,7 @@ units:
       no_draftee: 1
       dies_into_multiple_on_defense_instantly: 2,3 # slot, amount
       dies_into_multiple_on_offense: 3,3 # slot, amount
-      extra_casualties: 500
+      casualties: 500
 
   - name: Slime
     type:

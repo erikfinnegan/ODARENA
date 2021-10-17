@@ -49,7 +49,8 @@
                     <div class="row">
                         <div class="col-xs-12 col-sm-4">
                             <div class="text-center">
-                            <h4>{{ $event->source->name }}</h4>
+
+                                <h4>{{ $event->source->name }}</h4>
                             @if (isset($event->data['result']['overwhelmed']) && $event->data['result']['overwhelmed'])
                                 <p class="text-center text-red">
                                     @if ($event->source->id === $selectedDominion->id)
@@ -1038,6 +1039,7 @@
                         </div>
 
                     </div>
+
                     <div class="row">
                         <div class="col-sm-12">
                             @if (isset($event->data['defender']['recentlyInvadedCount']) and $event->data['defender']['recentlyInvadedCount'] > 0 and $event->data['result']['success'])
@@ -1050,6 +1052,29 @@
                                 </p>
                             @endif
                         </div>
+                    </div>
+
+                    <div class="box-footer">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <small class="text-muted">
+                                    <a href="{{ route('dominion.insight.show', [$event->source->id]) }}"><i class="fa fa-eye"></i> {{ $event->source->name }} (# {{ $event->source->realm->number }})</a>
+                                </small>
+                            </div>
+                            <div class="col-sm-4">
+                                <small class="text-muted">
+                                    <a href="{{ route('dominion.insight.show', [$event->target->id]) }}"><i class="fa fa-eye"></i> {{ $event->target->name }} (# {{ $event->target->realm->number }})</a>
+                                </small>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="pull-right">
+                                    <small class="text-muted">
+                                        Invasion recorded at 
+                                        {{ $event->created_at }}, tick
+                                        {{ number_format($event->tick) }}.
+                                    </small>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>

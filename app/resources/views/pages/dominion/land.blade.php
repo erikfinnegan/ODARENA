@@ -329,50 +329,45 @@
                 <h3 class="box-title"><i class="fa fa-plus"></i> Daily Bonus</h3>
             </div>
             <div class="box-body">
-                <div class="row">
-                    <div class="col-xs-3 text-center">
-                        <form action="{{ route('dominion.land') }}" method="post" role="form">
-                            @csrf
-                            <input type="hidden" name="action" value="daily_land">
-                            <button type="submit" name="land" class="btn btn-primary btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_land || $selectedDominion->protection_ticks > 0 || !$selectedDominion->round->hasStarted() ? 'disabled' : null }}>
-                                <i class="ra ra-compass ra-fw"></i>
-                                Claim Daily Land Bonus
-                            </button>
-                        </form>
-                    </div>
-                    <div class="col-xs-9">
-                        <p>The Daily Land Bonus instantly gives you some barren acres of <strong>{{ $selectedDominion->race->home_land_type }}</strong>.</p>
-                        <p>You have a 0.50% chance to get 100 acres, and a 99.50% chance to get a random amount between 10 and 40 acres.</p>
-                        @if ($selectedDominion->protection_ticks > 0 or !$selectedDominion->round->hasStarted())
-                        <p><strong>You cannot claim daily bonus while you are in protection or before the round has started.</strong></p>
-                        @endif
-                    </div>
-                </div>
+                <p>The Daily Land Bonus instantly gives you some barren acres of <strong>{{ $selectedDominion->race->home_land_type }}</strong>.</p>
+                <p>You have a 0.50% chance to get 100 acres, and a 99.50% chance to get a random amount between 10 and 40 acres.</p>
+                @if ($selectedDominion->protection_ticks > 0 or !$selectedDominion->round->hasStarted())
+                <p><strong>You cannot claim daily bonus while you are in protection or before the round has started.</strong></p>
+                @endif
+                <form action="{{ route('dominion.land') }}" method="post" role="form">
+                    @csrf
+                    <input type="hidden" name="action" value="daily_land">
+                    <button type="submit" name="land" class="btn btn-primary btn-block btn-lg" {{ $selectedDominion->isLocked() || $selectedDominion->daily_land || $selectedDominion->protection_ticks > 0 || !$selectedDominion->round->hasStarted() ? 'disabled' : null }}>
+                        <i class="fa fa fa-plus"></i>
+                        Claim Daily Land Bonus
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-md-9">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa fa-users"></i> Support ODARENA</h3>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-3 text-center">
-                        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support ODARENA on Ko-fi', '#dd4b39', 'P5P526XK1');kofiwidget2.draw();</script>
-                    </div>
-                    <div class="col-md-9">
-                        <p>In addition to be free open source software, ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
-                        <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind is highly appreciated.</p>
-                    </div>
+{{--
+    <div class="row">
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa fa-users"></i> Support ODARENA</h3>
                 </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support ODARENA on Ko-fi', '#dd4b39', 'P5P526XK1');kofiwidget2.draw();</script>
+                        </div>
+                        <div class="col-md-9">
+                            <p>In addition to be free open source software, ODARENA is and always will be free to play. There will be no advertising and your data will never be used for anything other than game statistics.</p>
+                            <p>While not much, maintaining the game is a side project and costs are taken out of pocket. Any support of any kind is highly appreciated.</p>
+                        </div>
+                    </div>
 
 
+                </div>
             </div>
         </div>
     </div>
-</div>
+--}}
 @endsection

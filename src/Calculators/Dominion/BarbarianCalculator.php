@@ -19,7 +19,7 @@ class BarbarianCalculator
 {
 
     protected const DPA_CONSTANT = 27.5;
-    protected const DPA_OVERSHOT = 1.025;
+    protected const DPA_OVERSHOT = 1.10;
     protected const DPA_PER_TICK = 0.125;
     protected const DPA_PER_TIMES_INVADED = 0.006;
 
@@ -136,7 +136,27 @@ class BarbarianCalculator
         return $value;
     }
 
+    public function getDpaTarget(?Dominion $dominion = null, ?Round $round = null, ?float $npcModifier = 1000): int
+    {
+        # Get DPA target for a specific dominion/barbarian
+        if($dominion)
+        {
+            $dpa = static::DPA_CONSTANT;
+            $dpa += $dominion->round->ticks * static::DPA_PER_TICK;
+            $dpa += $this->statsService->getStat($dominion, 'defense_failures') * static::DPA_PER_TIMES_INVADED;
+            $dpa *= ($dominion->npc_modifier / 1000);
+        }
+        # Get DPA target in general
+        elseif($round)
+        {
+            $dpa = static::DPA_CONSTANT + ($round->ticks * static::DPA_PER_TICK);
+            $dpa *= ($npcModifier / 1000);
+        }
 
+        return $dpa;
+    }
+
+    /*
     public function getDpaTarget(?Dominion $dominion = null, ?Round $round = null, ?float $npcModifier = 1000): int
     {
         # Get DPA target for a specific dominion/barbarian
@@ -153,6 +173,7 @@ class BarbarianCalculator
         }
 
     }
+    */
 
     public function getOpaTarget(?Dominion $dominion = null, ?Round $round = null, ?float $npcModifier = 1000): int
     {
@@ -225,10 +246,14 @@ class BarbarianCalculator
         return $this->getOpPaid($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
 
+
+
     public function getOpaAtHome(Dominion $dominion): int
     {
         return $this->getOpAtHome($dominion) / $this->landCalculator->getTotalLand($dominion);
     }
+
+
 
     public function getOpaDeltaPaid(Dominion $dominion): int
     {
