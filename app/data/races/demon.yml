@@ -4,6 +4,7 @@ description: >-
   <p>Demon starts with 1 Archdemon and 140,000 gallons of blood.</p>
 home_land_type: swamp
 playable: 0
+experimental: 1
 
 peasants_alias: worker
 draftees_alias: draftee

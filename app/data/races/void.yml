@@ -3,7 +3,6 @@ alignment: independent
 description:
 home_land_type: mountain
 playable: 1
-experimental: 1
 
 peasants_alias: particle
 draftees_alias: shift

@@ -445,7 +445,7 @@ blizzard:
   scope: self
   class: passive
   cost: 8
-  duration: 24
+  duration: 48
   exclusive_races:
     - Icekin
     - Yeti
@@ -473,7 +473,7 @@ enchanted_blades:
   scope: self
   class: passive
   cost: 10
-  duration: 6
+  duration: 1
   cooldown: 0
   exclusive_races:
     - Dark Elf
