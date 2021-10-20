@@ -24,33 +24,32 @@ resources:
 
 land_improvements:
   plain:
-    offensive_power_mod: 0.05
-    horse_production_raw: 0.10
-    food_production_raw: 5
-    gold_production_raw: 10
-  forest:
-    lumber_production_raw: 25
+    offensive_power_mod: 0.10
+    horse_production_raw: 0.20
     food_production_raw: 10
+    gold_production_raw: 20
+  forest:
+    lumber_production_raw: 50
+    food_production_raw: 20
   mountain:
-    ore_production_raw: 15
-    gems_production_raw: 5
-    gold_production_raw: 2
+    ore_production_raw: 30
+    gems_production_raw: 10
+    gold_production_raw: 4
   hill:
-    defensive_power_mod: 0.05
-    horse_production_raw: 0.05
-    ore_production_raw: 5
-    gold_production_raw: 2
+    defensive_power_mod: 0.10
+    horse_production_raw: 0.10
+    ore_production_raw: 10
+    gold_production_raw: 4
   swamp:
-    mana_production_raw: 10
-    gold_production_raw: 2
+    mana_production_raw: 20
+    gold_production_raw: 4
   water:
-    xp_generation_mod: 1
-    food_production_raw: 8
-    gold_production_raw: 2
+    xp_generation_mod: 2
+    food_production_mod: 1
+    gold_production_raw: 4
 
 perks:
   food_consumption: -25
-  unemployed_peasants_produce: 1
   extra_barren_max_population: 20
   salvaging: 50
   cannot_rezone: 1
