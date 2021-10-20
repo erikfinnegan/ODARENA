@@ -153,7 +153,6 @@ azk_hurum:
 
 barathu_bint:
     name: Barathu Bint
-    enabled: 0
     range_multiplier: 0.50
     perks:
       gold_production_mod: 2.5
@@ -163,7 +162,6 @@ barathu_bint:
 
 ix:
     name: Ix
-    enabled: 0
     range_multiplier: 0.75
     perks:
       xp_generation_mod: 5
