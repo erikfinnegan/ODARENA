@@ -36,6 +36,8 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   construction_cost: -50
+  unemployed_peasants_produce: 1
+  
 units:
   - name: Worker
     training_time: 1
