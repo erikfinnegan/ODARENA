@@ -86,8 +86,8 @@ units:
       blood: 24
       mana: 200
     power:
-      offense: 12
-      defense: 12
+      offense: 10
+      defense: 14
     perks:
       immortal: 1
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes

@@ -2,7 +2,7 @@ name: Nomad
 alignment: evil
 description:
 home_land_type: plain
-playable: 0
+playable: 1
 experimental: 1
 
 attacking: 3
@@ -24,29 +24,29 @@ resources:
 
 land_improvements:
   plain:
-    offensive_power_mod: 0.10
-    horse_production_raw: 0.20
-    food_production_raw: 10
-    gold_production_raw: 20
-  forest:
-    lumber_production_raw: 50
-    food_production_raw: 20
-  mountain:
-    ore_production_raw: 30
-    gems_production_raw: 10
-    gold_production_raw: 4
-  hill:
-    defensive_power_mod: 0.10
+    offensive_power_mod: 0.05
     horse_production_raw: 0.10
-    ore_production_raw: 10
-    gold_production_raw: 4
+    food_production_raw: 5
+    gold_production_raw: 10
+  forest:
+    lumber_production_raw: 25
+    food_production_raw: 10
+  mountain:
+    ore_production_raw: 15
+    gems_production_raw: 5
+    gold_production_raw: 2
+  hill:
+    defensive_power_mod: 0.05
+    horse_production_raw: 0.05
+    ore_production_raw: 5
+    gold_production_raw: 2
   swamp:
-    mana_production_raw: 20
-    gold_production_raw: 4
+    mana_production_raw: 10
+    gold_production_raw: 2
   water:
-    xp_generation_mod: 2
-    food_production_raw: 15
-    gold_production_raw: 4
+    xp_generation_mod: 1
+    food_production_raw: 8
+    gold_production_raw: 2
 
 perks:
   food_consumption: -25
