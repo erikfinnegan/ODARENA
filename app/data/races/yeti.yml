@@ -101,8 +101,10 @@ units:
     cost:
       food: 500
     power:
-      offense: 8
+      offense: 0
       defense: 8
     perks:
       only_dies_vs_raw_power: 6 # >=
-      offense_from_resource_capped_exhausting: 4,150,ore # +1 OP, max +6, per 100 ore
+      offense_from_resource_capped_exhausting: 14,150,ore # +1 OP, max +6, per 100 ore
+      faster_return: 4
+      sendable_with_zero_op: 1
