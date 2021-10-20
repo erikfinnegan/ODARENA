@@ -2,7 +2,7 @@ name: Yeti
 alignment: independent
 description: >-
 home_land_type: mountain
-playable: 1
+playable: 0
 
 peasants_alias: wild yeti
 draftees_alias: yeti
@@ -19,6 +19,10 @@ resources:
   - gems
   - mana
 
+peasants_production:
+  lumber: 0.65
+  ore: 1
+
 construction_materials:
   - food
   - lumber
@@ -28,29 +32,31 @@ wizards_cost: 200,food
 archmages_cost: 400,food
 
 perks:
+  draftee_dp: 2
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   construction_cost: -50
 units:
-  - name: Worker Yeti
+  - name: Worker
     training_time: 1
     type:
       - living
       - sentient
       - intelligent
     cost:
-      food: 24
+      food: 120
       ore: 2
-      lumber: 2
+      lumber: 10
     power:
       offense: 0
-      defense: 0
+      defense: 4
     perks:
+      only_dies_vs_raw_power: 4 # >=
       gems_production_raw: 0.65
-      lumber_production_raw: 1
-      food_consumption: 0.5
+      lumber_production_raw: 0.85
+      ore_production_raw: 1.2
 
-  - name: Wizard Yeti
+  - name: Evoker
     training_time: 6
     type:
       - living
@@ -59,17 +65,16 @@ units:
       - wise
     cost:
       food: 180
-      mana: 8
+      lumber: 8
     power:
       offense: 0
-      defense: 6
+      defense: 8
     perks:
-      counts_as_wizard_offense: 0.25
-      counts_as_wizard_defense: 0.25
+      only_dies_vs_raw_power: 6 # >=
+      counts_as_wizard: 0.5
       immortal_wizard: 1
-      food_consumption: 0.25
 
-  - name: Guard Yeti
+  - name: Fighter
     training_time: 9
     type:
       - living
@@ -77,17 +82,16 @@ units:
       - intelligent
       - wise
     cost:
-      food: 300
-      lumber: 200
-      ore: 200
+      food: 400
+      ore: 240
+      lumber: 180
     power:
-      offense: 0
-      defense: 12
+      offense: 12
+      defense: 10
     perks:
       only_dies_vs_raw_power: 6 # >=
-      food_consumption: 0.25
 
-  - name: War Yeti
+  - name: Stonethrower
     training_time: 12
     type:
       - living
@@ -95,13 +99,10 @@ units:
       - intelligent
       - wise
     cost:
-      food: 200
-      lumber: 200
-      ore: 600
+      food: 500
     power:
-      offense: 12
-      defense: 10
+      offense: 8
+      defense: 8
     perks:
       only_dies_vs_raw_power: 6 # >=
-      offense_vs_building: gryphon_nest,10,2
-      food_consumption: 0.5
+      offense_from_resource_capped_exhausting: 4,150,ore # +1 OP, max +6, per 100 ore

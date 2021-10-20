@@ -125,6 +125,8 @@ class MilitaryCalculator
             if ($numberOfUnits !== 0)
             {
                 $bonusOffense = $this->getBonusPowerFromPairingPerk($attacker, $unit, 'offense', $units);
+                $bonusOffense = $this->getUnitPowerFromResourceCappedExhaustingPerk($attacker, $unit, 'offense', $units);
+
                 $powerOffense += $bonusOffense / $numberOfUnits;
             }
 
@@ -446,7 +448,9 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromLandBasedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromBuildingBasedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromWizardRatioPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromWizardStrengthPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromSpyRatioPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromSpyStrengthPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromTicksPerk($dominion, $unit, $powerType);
@@ -454,7 +458,6 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromNetVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
-        $unitPower += $this->getUnitPowerFromResourceExhaustingPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromTimePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromSpell($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
@@ -480,8 +483,6 @@ class MilitaryCalculator
             $unitPower += $this->getUnitPowerFromVersusSpellPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromTargetRecentlyInvadedPerk($dominion, $target, $unit, $powerType, $calc);
             $unitPower += $this->getUnitPowerFromTargetIsLargerPerk($dominion, $target, $unit, $powerType, $calc);
-
-
         }
 
         return $unitPower;
@@ -544,6 +545,21 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+    protected function getUnitPowerFromWizardStrengthPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $wizardStrengthPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_from_wizard_strength");
+
+        if (!$wizardStrengthPerk) {
+            return 0;
+        }
+
+        $powerFromPerk = (float)$wizardStrengthPerk * ($dominion->wizard_strength / 100);
+
+        return $powerFromPerk;
+    }
+
     protected function getUnitPowerFromSpyRatioPerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
         $spyRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
@@ -555,6 +571,21 @@ class MilitaryCalculator
         }
 
         $powerFromPerk = (float)$spyRatioPerk * $this->getSpyRatio($dominion, 'offense');
+
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromSpyStrengthPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $spyStrengthPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_from_spy_strength");
+
+        if (!$spyStrengthPerk) {
+            return 0;
+        }
+
+        $powerFromPerk = (float)$spyStrengthPerk * ($dominion->spy_strength / 100);
 
         return $powerFromPerk;
     }
@@ -640,6 +671,29 @@ class MilitaryCalculator
         }
 
         $powerFromPerk = $numberPaired * $amount;
+
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromResourceCappedExhaustingPerk(Dominion $dominion, Unit $unit, string $powerType, array $units = null): float
+    {
+        $resourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_resource_capped_exhausting", null);
+
+        if (!$resourcePerkData or !isset($units[$unit->slot]))
+        {
+            return 0;
+        }
+
+        $opPerBunch = (float)$resourcePerkData[0];
+        $resourcePerUnitRequired = (float)$resourcePerkData[1];
+        $resourceKey = (string)$resourcePerkData[2];
+
+        $resourceAmountOwned = $this->resourceCalculator->getAmount($dominion, $resourceKey);
+
+        # How many units have enough of resource?
+        $unitsWithEnoughResources = (int)min(floor($resourceAmountOwned / $resourcePerUnitRequired), $units[$unit->slot]);
+
+        $powerFromPerk = $unitsWithEnoughResources * $opPerBunch;
 
         return $powerFromPerk;
     }
@@ -991,24 +1045,6 @@ class MilitaryCalculator
 
         $powerFromResource = $resourceAmount / $ratio;
         $powerFromPerk = $powerFromResource;
-
-        return $powerFromPerk;
-    }
-
-    protected function getUnitPowerFromResourceExhaustingPerk(Dominion $dominion, Unit $unit, string $powerType): float
-    {
-
-        $fromResourcePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_resource_exhausting", null);
-
-        if(!$fromResourcePerkData)
-        {
-            return 0;
-        }
-
-        $resource = (string)$fromResourcePerkData[0];
-        $ratio = (float)$fromResourcePerkData[1];
-
-        $powerFromPerk = $this->resourceCalculator->getAmount($dominion, $resource) / $ratio;
 
         return $powerFromPerk;
     }

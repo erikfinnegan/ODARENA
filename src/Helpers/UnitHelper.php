@@ -136,6 +136,7 @@ class UnitHelper
             'offense_from_resource' => 'Offense increased by 1 for every %2$s %1$s (no max).',
             'offense_from_resource_exhausting' => 'Offense increased by 1 for every %2$s %1$s (no max). All %1$s is spent when the unit attacks.',
             'defense_from_resource' => 'Defense increased by 1 for every %2$s %1$s (max +%3$s).',
+            'offense_from_resource_capped_exhausting' => 'Offense increased by %1$s if you have %2$s %3$s. The %3$s is spent when the unit attacks.',
 
             'offense_from_military_percentage' => 'Gains +1x(Military / Total Population) OP, max +1 at 100%% military.',
 
@@ -270,12 +271,12 @@ class UnitHelper
             'dies_into_multiple_on_victory' => 'Upon death in succesful combat, returns as %2$s %1$s. If unsuccessful, returns as %3$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
             // Resource related
-            'gold_production_raw' => 'Each unit produces %s gold points per tick.',
-            'food_production_raw' => 'Each unit produces %s food per tick.',
-            'lumber_production_raw' => 'Each unit collects %s lumber per tick.',
-            'ore_production_raw' => 'Each unit produces %s units of ore per tick.',
-            'mana_production_raw' => 'Each unit generates %s mana per tick.',
-            'gems_production_raw' => 'Each unit mines %s gems per tick.',
+            'gold_production_raw' => 'Produces %s gold points per tick.',
+            'food_production_raw' => 'Produces %s food per tick.',
+            'lumber_production_raw' => 'Gathers %s lumber per tick.',
+            'ore_production_raw' => 'Mines %s ore per tick.',
+            'mana_production_raw' => 'Generates %s mana per tick.',
+            'gems_production_raw' => 'Mines %s gems per tick.',
 
             'xp_generation_raw' => 'Each unit generates %s experience points per tick.',
 
