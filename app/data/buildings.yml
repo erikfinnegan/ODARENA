@@ -1379,7 +1379,7 @@ shed:
     - Barbarian
   land_type: forest
   perks:
-    housing: 30
+    housing: 40
     jobs: 0
 
 tomb:

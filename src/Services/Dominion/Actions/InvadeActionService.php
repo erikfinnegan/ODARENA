@@ -1320,6 +1320,20 @@ class InvadeActionService
 
                 $this->resourceService->updateResources($dominion, [$resourceKey => ($resourceAmount * -1)]);
             }
+
+
+            if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_capped_exhausting') and isset($units[$slot]))
+            {
+                $amountPerUnit = (float)$exhaustingPerk[1];
+                $resourceKey = (string)$exhaustingPerk[2];
+
+                $resourceAmountExhausted = $units[$slot] * $amountPerUnit;
+
+                $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmountExhausted;
+
+                $this->resourceService->updateResources($dominion, [$resourceKey => ($resourceAmountExhausted * -1)]);
+
+            }
         }
 
         # Ignore if attacker is overwhelmed.

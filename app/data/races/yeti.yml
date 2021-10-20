@@ -20,8 +20,8 @@ resources:
   - mana
 
 peasants_production:
-  lumber: 0.65
-  ore: 1
+  lumber: 0.50
+  ore: 0.65
 
 construction_materials:
   - food
@@ -107,6 +107,6 @@ units:
       defense: 8
     perks:
       only_dies_vs_raw_power: 6 # >=
-      offense_from_resource_capped_exhausting: 14,150,ore # +1 OP, max +6, per 100 ore
+      offense_from_resource_capped_exhausting: 14,150,ore # +14 OP if paired with 150 ore
       faster_return: 4
       sendable_with_zero_op: 1
