@@ -1,3 +1,30 @@
+azk_hurum:
+  name: Azk'Hurum
+  enabled: 0
+  range_multiplier: 0.60
+  exclusive_races:
+    - Demon
+  perks:
+    offensive_power_on_retaliation: 5
+    increases_casualties: 10
+    prestige_gains: -30
+    max_population: 10
+    population_growth: 20
+    food_consumption: 20
+
+barathu_bint:
+    name: Barathu Bint
+    excluded_races:
+      - Afflicted
+      - Nox
+      - Void
+    range_multiplier: 0.50
+    perks:
+      gold_production_mod: 2.5
+      exchange_rate: 5
+      ore_production_mod: -5
+      gems_production_mod: -5
+
 bregon:
   name: Bregon
   range_multiplier: 0.75
@@ -46,6 +73,26 @@ glimj:
     food_production_mod: 10
     gold_production_mod: -2.5
     cannot_explore: 1
+
+ib_tham:
+  name: Ib-Tham
+  range_multiplier: 0.60
+  exclusive_races:
+    - Barbarian
+  perks:
+    amount_stolen: 20
+    offensive_power_on_retaliation: 10
+    improvements: -25
+
+ix:
+    name: Ix
+    excluded_races:
+      - Void
+    range_multiplier: 0.75
+    perks:
+      xp_generation_mod: 5
+      construction_cost: 5
+      rezone_cost: 5
 
 kinthys:
   name: Kinthys
@@ -126,44 +173,3 @@ voiddeity2:
     rezone_cost: -20
     unit_mana_costs: 5
     cannot_explore: 1
-
-ib_tham:
-  name: Ib-Tham
-  range_multiplier: 0.60
-  exclusive_races:
-    - Barbarian
-  perks:
-    amount_stolen: 20
-    offensive_power_on_retaliation: 10
-    improvements: -25
-
-azk_hurum:
-  name: Azk'Hurum
-  enabled: 0
-  range_multiplier: 0.60
-  exclusive_races:
-    - Demon
-  perks:
-    offensive_power_on_retaliation: 5
-    increases_casualties: 10
-    prestige_gains: -30
-    max_population: 10
-    population_growth: 20
-    food_consumption: 20
-
-barathu_bint:
-    name: Barathu Bint
-    range_multiplier: 0.50
-    perks:
-      gold_production_mod: 2.5
-      exchange_rate: 5
-      ore_production_mod: -5
-      gems_production_mod: -5
-
-ix:
-    name: Ix
-    range_multiplier: 0.75
-    perks:
-      xp_generation_mod: 5
-      construction_cost: 5
-      rezone_cost: 5
