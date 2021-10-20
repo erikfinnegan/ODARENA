@@ -37,7 +37,7 @@ perks:
   cannot_train_archmages: 1
   construction_cost: -50
   unemployed_peasants_produce: 1
-  
+
 units:
   - name: Worker
     training_time: 1
@@ -58,7 +58,7 @@ units:
       lumber_production_raw: 0.85
       ore_production_raw: 1.2
 
-  - name: Evoker
+  - name: Mutterer
     training_time: 6
     type:
       - living
