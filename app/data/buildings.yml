@@ -924,8 +924,8 @@ observatory:
     - Dimensionalists
   land_type: mountain
   perks:
-    unit_mana_costs: 1,-0.80,40
-    training_time: 1,-0.40,20
+    unit_mana_costs: 1,-2,30
+    training_time: 1,-2,30
 
 gateway:
   name: Gateway

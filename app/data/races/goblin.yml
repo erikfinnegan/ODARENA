@@ -17,7 +17,7 @@ improvement_resources:
 
 perks:
   max_population: 100
-  population_growth: 25
+  population_growth: 100
   extra_barren_max_population: 5
   gems_production_mod: 20
   explore_cost: 50
@@ -46,11 +46,11 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 350
-      ore: 20
+      gold: 425
+      lumber: 10
     power:
       offense: 0
-      defense: 3
+      defense: 4
     perks:
       reduces_casualties: 1
       counts_as_wizard_offense: 0.025
@@ -63,11 +63,11 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 600
-      ore: 65
+      gold: 800
+      ore: 100
     power:
-      offense: 2
-      defense: 3
+      offense: 3
+      defense: 4
     perks:
       plunders: gold;1,gems;2
       offense_from_per_improvement: 0.25,20000000 # +0.25 for every improvement with at least 20,000,000 imp points

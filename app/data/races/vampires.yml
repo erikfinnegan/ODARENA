@@ -73,8 +73,9 @@ units:
       cannot_be_trained: 1
       casualties: -75
       extra_food_consumption: 0.5
-      offense_from_time: 18,06,6 # Between the hours 18:00 and 06:00, gains +2 OP
+      offense_from_time: 18,06,6 # Between the hours 18:00 and 06:00, gains +6 OP
       vampiric_conversion: 4,7
+      displaced_peasants_conversion: 1
 
   - name: Noble
     training_time: 12
@@ -85,8 +86,8 @@ units:
     cost:
       gold: 1350
     power:
-      offense: 6
-      defense: 6
+      offense: 7
+      defense: 7
     perks:
       casualties: -50
       vampiric_conversion: 4,7
@@ -95,3 +96,4 @@ units:
       counts_as_spy_offense_from_time: 18,06,0.25
       counts_as_spy_defense_from_time: 06,18,0.25
       faster_return: 4
+      displaced_peasants_conversion: 1

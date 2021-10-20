@@ -17,7 +17,7 @@ class DeityHelper
 
         $deityEffects = [
 
-            // Production
+            // Production / Resources
             'ore_production_mod' => '%s%% ore production',
             'mana_production_mod' => '%s%% mana production',
             'lumber_production_mod' => '%s%% lumber production',
@@ -36,6 +36,8 @@ class DeityHelper
             'no_gems_production' => 'No gem production',
 
             'food_consumption' => '%s%% food consumption',
+
+            'exchange_rate' => '%s%% better exchange rates',
 
             // Military
             'drafting' => '+%s%% drafting',
@@ -105,7 +107,7 @@ class DeityHelper
 
             'offensive_power_on_retaliation' => '%s%% offensive power if target recently invaded your realm',
 
-            'defensive_modifier_reduction' => 'Reduces target\'s defensive modifiers by %s%%.',
+            'defensive_modifier_reduction' => '%s%% defensive modifier for target',
 
             // Improvements
             'improvements' => '%s%% improvement points value',

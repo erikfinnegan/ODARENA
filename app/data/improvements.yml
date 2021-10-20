@@ -321,6 +321,13 @@ gryphonry:
   perks:
     unit_pairing: 100,10000
 
+armoury:
+  name: Armoury
+  exclusive_races:
+    - Artillery
+  perks:
+    unit_pairing: 50,12000
+
 # BEGIN TROLL #
 
 bashing:

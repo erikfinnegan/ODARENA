@@ -994,7 +994,6 @@ class TickService
             }
         }
 
-
         $tick->save();
     }
 

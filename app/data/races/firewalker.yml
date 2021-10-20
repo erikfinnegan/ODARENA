@@ -57,7 +57,7 @@ units:
     cost:
       gold: 1000
     power:
-      defense: 7
+      defense: 8
     perks:
       dies_into: 3
 

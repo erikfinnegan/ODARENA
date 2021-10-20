@@ -393,8 +393,8 @@ class TrainingCalculator
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('wizard_cost');
 
-        // Cap $multiplier at -100%
-        $multiplier = max($multiplier, -1);
+        // Cap $multiplier at -50%
+        $multiplier = max($multiplier, -0.50);
 
         return (1 + $multiplier);
     }

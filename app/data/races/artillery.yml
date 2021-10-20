@@ -36,12 +36,12 @@ units:
       - machine
       - immobile
     cost:
-      gold: 500
-      ore: 500
-      lumber: 100
+      gold: 400
+      ore: 400
+      lumber: 80
     power:
       offense: 0
-      defense: 4
+      defense: 0
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
@@ -49,6 +49,7 @@ units:
       immortal_on_victory: 1
       sendable_with_zero_op: 1
       instant_return: 1
+      defense_from_pairing: 1,4 # slot, amount
 
   - name: Cannonball
     training_time: 12

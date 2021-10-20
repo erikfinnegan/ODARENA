@@ -142,7 +142,7 @@ class BarbarianCalculator
         if($dominion)
         {
             $dpa = static::DPA_CONSTANT;
-            $dpa += $dominion->round->ticks * static::DPA_PER_TICK;
+            $dpa += $dominion->ticks * static::DPA_PER_TICK;
             $dpa += $this->statsService->getStat($dominion, 'defense_failures') * static::DPA_PER_TIMES_INVADED;
             $dpa *= ($dominion->npc_modifier / 1000);
         }
