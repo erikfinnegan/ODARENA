@@ -2,7 +2,7 @@ name: Yeti
 alignment: independent
 description: >-
 home_land_type: mountain
-playable: 0
+playable: 1
 
 peasants_alias: wild yeti
 draftees_alias: yeti
