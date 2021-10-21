@@ -271,12 +271,20 @@ class UnitHelper
             'dies_into_multiple_on_victory' => 'Upon death in succesful combat, returns as %2$s %1$s. If unsuccessful, returns as %3$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
             // Resource related
-            'gold_production_raw' => 'Produces %s gold points per tick.',
-            'food_production_raw' => 'Produces %s food per tick.',
-            'lumber_production_raw' => 'Gathers %s lumber per tick.',
-            'ore_production_raw' => 'Mines %s ore per tick.',
-            'mana_production_raw' => 'Generates %s mana per tick.',
-            'gems_production_raw' => 'Mines %s gems per tick.',
+            'gold_production_raw' => 'Produces %s gold/tick.',
+            'food_production_raw' => 'Produces %s food/tick.',
+            'lumber_production_raw' => 'Gathers %s lumber/tick.',
+            'ore_production_raw' => 'Mines %s ore/tick.',
+            'mana_production_raw' => 'Gathers %s mana/tick.',
+            'gems_production_raw' => 'Mines %s gems/tick.',
+
+            'gold_production_raw_from_pairing' => 'Produces %2$s gold/tick if paired with %1$s.',
+            'food_production_raw_from_pairing' => 'Produces %2$s food/tick if paired with %1$s.',
+            'lumber_production_raw_from_pairing' => 'Gathers %2$s lumber/tick if paired with %1$s.',
+            'ore_production_raw_from_pairing' => 'Mines %2$s ore/tick if paired with %1$s.',
+            'mana_production_raw_from_pairing' => 'Gathers %2$s mana/tick if paired with %1$s.',
+            'gems_production_raw_from_pairing' => 'Mines %2$s gems/tick if paired with %1$s.',
+
 
             'xp_generation_raw' => 'Each unit generates %s experience points per tick.',
 
@@ -411,7 +419,15 @@ class UnitHelper
                 }
 
                 // Special case for pairings
-                if ($perk->key === 'defense_from_pairing' || $perk->key === 'offense_from_pairing' || $perk->key === 'pairing_limit')
+                if ($perk->key === 'defense_from_pairing' or
+                    $perk->key === 'offense_from_pairing' or
+                    $perk->key === 'pairing_limit' or
+                    $perk->key === 'gold_production_raw_from_pairing' or
+                    $perk->key === 'lumber_production_raw_from_pairing' or
+                    $perk->key === 'ore_production_raw_from_pairing' or
+                    $perk->key === 'gems_production_raw_from_pairing' or
+                    $perk->key === 'food_production_raw_from_pairing'
+                    )
                 {
                     $slot = (int)$perkValue[0];
                     $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
@@ -428,8 +444,10 @@ class UnitHelper
                         $perkValue[2] = 1;
                     }
 
-                    $perkValue[1] = number_format($perkValue[1]);
+                    $perkValue[1] = number_format($perkValue[1], 2);
                 }
+
+
 
                 // Special case for casualties, casualties_on_defense, and casualties_on_offense
                 if ($perk->key === 'casualties' || $perk->key === 'casualties_on_defense' || $perk->key === 'casualties_on_offense')

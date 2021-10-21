@@ -51,13 +51,12 @@ units:
       lumber: 10
     power:
       offense: 0
-      defense: 4
+      defense: 2
     perks:
       only_dies_vs_raw_power: 4 # >=
       gems_production_raw: 0.65
       lumber_production_raw: 0.85
       ore_production_raw: 1.2
-      ore_production_raw_from_pairing: 4,2 # slot, extra ore
 
   - name: Mutterer
     training_time: 6
@@ -67,11 +66,12 @@ units:
       - intelligent
       - wise
     cost:
-      food: 180
-      lumber: 8
+      food: 900
+      lumber: 25
+      ore: 100
     power:
       offense: 0
-      defense: 8
+      defense: 12
     perks:
       only_dies_vs_raw_power: 6 # >=
       counts_as_wizard: 0.5
@@ -108,6 +108,7 @@ units:
       defense: 8
     perks:
       only_dies_vs_raw_power: 6 # >=
-      offense_from_resource_capped_exhausting: 8,50,ore # +14 OP if paired with 150 ore
+      offense_from_resource_capped_exhausting: 16,100,ore # +14 OP if paired with 150 ore
       faster_return: 4
       sendable_with_zero_op: 1
+      ore_production_raw: 1

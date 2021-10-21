@@ -78,7 +78,7 @@ units:
       ore: 1800
     power:
       offense: 2
-      defense: 2
+      defense: 1
     perks:
       offense_from_advancements: anvils_level6;2,architecture_level6;2,minting_level6;2,drills_level6;2,fortifications_level6;2,gemcutting_level6;2,infrastructure_level6;2,quarries_level6;2,strategy_level6;2,tactics_level6;2
       defense_from_advancements: anvils_level6;1,architecture_level6;1,minting_level6;1,drills_level6;1,fortifications_level6;1,gemcutting_level6;1,infrastructure_level6;1,quarries_level6;1,strategy_level6;1,tactics_level6;1
