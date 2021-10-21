@@ -1342,22 +1342,22 @@ class InvadeActionService
                 // burns_peasants
                 if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and isset($units[$unitSlot]))
                 {
-                  $burningUnits = $units[$unitSlot];
-                  $peasantsBurnedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
+                    $burningUnits = $units[$unitSlot];
+                    $peasantsBurnedPerUnit = (float)$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
 
-                  # If target has less than 1000 peasants, we don't burn any.
-                  if($target->peasants < 1000)
-                  {
-                      $burnedPeasants = 0;
-                  }
-                  else
-                  {
-                      $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit * min($this->invasionResult['result']['opDpRatio'], 1);
-                      $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
-                  }
-                  $target->peasants -= $burnedPeasants;
-                  $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
-                  $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
+                    # If target has less than 1000 peasants, we don't burn any.
+                    if($target->peasants < 1000)
+                    {
+                        $burnedPeasants = 0;
+                    }
+                    else
+                    {
+                        $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit * min($this->invasionResult['result']['opDpRatio'], 1);
+                        $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
+                    }
+                    $target->peasants -= $burnedPeasants;
+                    $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
+                    $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
 
                 }
 

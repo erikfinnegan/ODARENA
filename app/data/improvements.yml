@@ -328,6 +328,13 @@ armoury:
   perks:
     unit_pairing: 50,12000
 
+husbandry:
+  name: Husbandry
+  exclusive_races:
+    - Nomad
+  perks:
+    horse_production_mod: 45,5000
+
 # BEGIN TROLL #
 
 bashing:

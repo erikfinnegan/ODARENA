@@ -41,7 +41,7 @@ land_improvements:
     ore_production_raw: 10
     gold_production_raw: 4
   swamp:
-    mana_production_raw: 20
+    mana_production_raw: 7
     gold_production_raw: 4
   water:
     xp_generation_mod: 2
