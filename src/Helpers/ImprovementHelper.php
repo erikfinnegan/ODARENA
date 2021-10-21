@@ -32,6 +32,7 @@ class ImprovementHelper
             'gems_production_mod' => 'gem production',
             'mana_production_mod' => 'mana production',
             'food_production_mod' => 'food production',
+            'horse_production_mod' => 'horse taming',
 
             'xp_generation_mod' => 'XP generation',
 
