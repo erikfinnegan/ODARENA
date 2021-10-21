@@ -143,7 +143,7 @@ class ResourceCalculator
             $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_from_' . $sourceResourceKey);
         }
 
-        # Check for RESOURCE_production_raw_from_pairing
+        # Unit specific perks
         for ($slot = 1; $slot <= 4; $slot++)
         {
               # Get the $unit
@@ -151,9 +151,23 @@ class ResourceCalculator
                       return ($unit->slot == $slot);
                   })->first();
 
-              if($productionFromPairingPerk = $unit->getPerkValue($resourceKey . '_production_raw_from_pairing'))
+              # Check for RESOURCE_production_raw_from_pairing
+              if($productionFromPairingPerk = $addsMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_pairing')))
               {
-                  dd($productionFromPairingPerk);
+                  $slotPairedWith = (int)$productionFromPairingPerk[0];
+                  $productionPerPair = (float)$productionFromPairingPerk[1];
+
+                  $availablePairingUnits = $dominion->{'military_unit' . $slotPairedWith};
+                  $availablePairingUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                  $availablePairingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                  $availablePairingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+
+                  $availableProducingUnit = $dominion->{'military_unit' . $slot};
+
+                  $extraProducingUnits = min($availableProducingUnit, $availablePairingUnits);
+
+                  $production += $extraProducingUnits * $productionPerPair;
+
               }
         }
 
