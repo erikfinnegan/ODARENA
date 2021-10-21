@@ -124,10 +124,23 @@ class MilitaryCalculator
 
             if ($numberOfUnits !== 0)
             {
-                $bonusOffense = $this->getBonusPowerFromPairingPerk($attacker, $unit, 'offense', $units);
-                $bonusOffense = $this->getUnitPowerFromResourceCappedExhaustingPerk($attacker, $unit, 'offense', $units);
+                $bonusOffense = 0;
+
+                if($attacker->race->getUnitPerkValueForUnitSlot($unit->slot, "offense_from_pairing", null))
+                {
+                    $bonusOffense += $this->getBonusPowerFromPairingPerk($attacker, $unit, 'offense', $units);
+                }
+
+                if($attacker->race->getUnitPerkValueForUnitSlot($unit->slot, "offense_from_resource_capped_exhausting", null))
+                {
+                    $bonusOffense = $this->getUnitPowerFromResourceCappedExhaustingPerk($attacker, $unit, 'offense', $units);
+                }
+
                 $powerOffense += $bonusOffense / $numberOfUnits;
             }
+
+
+
 
             $op += ($powerOffense * $numberOfUnits);
         }
