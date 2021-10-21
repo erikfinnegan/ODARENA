@@ -126,6 +126,8 @@ class MilitaryCalculator
             {
                 $bonusOffense = 0;
 
+                # Round 59: Without the if clauses, these two break each other (Artillery works but Yeti doesn't or vice versa)
+
                 if($attacker->race->getUnitPerkValueForUnitSlot($unit->slot, "offense_from_pairing", null))
                 {
                     $bonusOffense += $this->getBonusPowerFromPairingPerk($attacker, $unit, 'offense', $units);
