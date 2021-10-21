@@ -196,7 +196,7 @@ $return = [
 
 ];
 
-if(request()->getHost() == 'odarena.local')
+if(function_exists('request') and request()->getHost() == 'odarena.local')
 {
     $return['secure'] = env('SESSION_SECURE_COOKIE', false);
 }
