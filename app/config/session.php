@@ -1,6 +1,6 @@
 <?php
 
-return [
+$return = [
 
     /*
     |--------------------------------------------------------------------------
@@ -195,3 +195,10 @@ return [
     'same_site' => null,
 
 ];
+
+if(request()->getHost() == 'odarena.local')
+{
+    $return['secure'] = env('SESSION_SECURE_COOKIE', false);
+}
+
+return $return;
