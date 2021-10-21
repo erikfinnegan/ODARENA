@@ -143,12 +143,27 @@ class ResourceCalculator
             $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_from_' . $sourceResourceKey);
         }
 
+        # Check for RESOURCE_production_raw_from_pairing
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+              # Get the $unit
+              $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                      return ($unit->slot == $slot);
+                  })->first();
+
+              if($productionFromPairingPerk = $unit->getPerkValue('offense_vs_building'))
+              {
+                  dd($productionFromPairingPerk);
+              }
+        }
+
+
         // raw_mod perks
-            $rawModPerks = 1;
-            $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');
-            $rawModPerks += $dominion->getSpellPerkMultiplier($resourceKey . '_production_raw_mod');
-            $rawModPerks += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_raw_mod');
-            $rawModPerks += $dominion->getTechPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks = 1;
+        $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getSpellPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_raw_mod');
+        $rawModPerks += $dominion->getTechPerkMultiplier($resourceKey . '_production_raw_mod');
 
         $production *= $rawModPerks;
 
