@@ -151,7 +151,7 @@ class ResourceCalculator
                       return ($unit->slot == $slot);
                   })->first();
 
-              if($productionFromPairingPerk = $unit->getPerkValue('offense_vs_building'))
+              if($productionFromPairingPerk = $unit->getPerkValue($resourceKey . '_production_raw_from_pairing'))
               {
                   dd($productionFromPairingPerk);
               }
