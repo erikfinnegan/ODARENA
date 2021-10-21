@@ -40,7 +40,7 @@ units:
       - sentient
       - otherworldly
     cost:
-      mana: 164
+      mana: 196
     power:
       offense: 2
       defense: 1
@@ -57,7 +57,7 @@ units:
       - sentient
       - otherworldly
     cost:
-      mana: 178
+      mana: 212
     power:
       offense: 0
       defense: 4
@@ -73,7 +73,7 @@ units:
       - sentient
       - otherworldly
     cost:
-      mana: 234
+      mana: 276
     power:
       offense: 4
       defense: 1
@@ -90,7 +90,7 @@ units:
       - sentient
       - otherworldly
     cost:
-      mana: 270
+      mana: 324
     power:
       offense: 3
       defense: 4

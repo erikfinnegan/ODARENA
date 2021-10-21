@@ -93,6 +93,7 @@ ix:
       xp_generation_mod: 5
       construction_cost: 5
       rezone_cost: 5
+      cannot_explore: 1
 
 kinthys:
   name: Kinthys
