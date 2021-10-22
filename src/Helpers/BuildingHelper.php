@@ -137,7 +137,7 @@ class BuildingHelper
 
             'reduces_conversions' => 'Reduces conversions for enemies by %2$s%% for every %1$s%%.',
 
-            'training_time' => '%2$s%% training time for every %1$s%% (max %3$s%%).',
+            'training_time_mod' => '%2$s%% training time for every %1$s%% (max %3$s%%).',
 
             'unit_pairing' => '%2$s%% unit pairing for every %1$s%%.',
 

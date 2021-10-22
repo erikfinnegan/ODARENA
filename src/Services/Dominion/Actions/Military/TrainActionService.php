@@ -417,7 +417,8 @@ class TrainActionService
                     }
 
                     // Spell
-                    $ticks += $dominion->getSpellPerkValue('training_time');
+                    $ticks += $dominion->getSpellPerkValue('training_time_raw');
+                    $ticks += $dominion->title->getPerkValue('training_time_raw');
 
                     // Spell: Spawning Pool (increase units trained, for free)
                     if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unitType == 'military_unit1')
@@ -431,31 +432,34 @@ class TrainActionService
                         $amountToTrain *= (1 + $dominion->getBuildingPerkMultiplier('extra_units_trained'));
                     }
 
-                    // Improvements
-                    $ticks = ceil($ticks * (1 + $dominion->getImprovementPerkMultiplier('training_time')));
+                    # Multiplier
+                    $ticksMultiplier = 1;
+                    $ticksMultiplier += $dominion->getImprovementPerkMultiplier('training_time_mod');
+                    $ticksMultiplier += $dominion->getBuildingPerkMultiplier('training_time_mod');
+                    $ticksMultiplier += $dominion->getBuildingPerkMultiplier('training_time_mod');
+
+                    $ticks = (int)ceil($ticks * $ticksMultiplier);
 
                     $this->statsService->updateStat($dominion, ($unitStatsName . '_trained'), $amountToTrain);
-
-                    $ticks = (int)intval($ticks);
 
                     // Look for instant training.
                     if($ticks === 0 and $amountToTrain > 0)
                     {
-                      $dominion->{"$unitType"} += $amountToTrain;
-                      $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+                        $dominion->{"$unitType"} += $amountToTrain;
+                        $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
                     }
                     // If not instant training, queue resource.
                     else
                     {
-                      # Default state
-                      $data = array($unitType => $amountToTrain);
+                        # Default state
+                        $data = array($unitType => $amountToTrain);
 
-                      // $hours must always be at least 1.
-                      $ticks = max($ticks,1);
+                        // $hours must always be at least 1.
+                        $ticks = max($ticks,1);
 
-                      $this->queueService->queueResources('training', $dominion, $data, $ticks);
+                        $this->queueService->queueResources('training', $dominion, $data, $ticks);
 
-                      $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
+                        $dominion->save(['event' => HistoryService::EVENT_ACTION_TRAIN]);
                     }
                 }
             }

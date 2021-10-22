@@ -872,7 +872,7 @@ aurora:
   exclusive_races:
     - Lux
   perks:
-    training_time: -4
+    training_time_raw: -4
 
 solar_rays:
   name: Solar Flares
@@ -1132,7 +1132,7 @@ call_to_arms:
   perks:
     unit_gold_costs: -15
     unit_ore_costs: -15
-    training_time: -6
+    training_time_raw: -6
 
 bregons_call:
   name: Bregon's Call

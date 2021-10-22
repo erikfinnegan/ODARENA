@@ -85,7 +85,7 @@ class SpellHelper
 
             // Military
             'drafting' => '+%s%% drafting',
-            'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
+            'training_time_raw' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
             'training_costs' => '+%s%% military unit training costs',
             'unit_gold_costs' => '%s%% military unit gold costs',
             'unit_ore_costs' => '%s%% military unit ore costs',

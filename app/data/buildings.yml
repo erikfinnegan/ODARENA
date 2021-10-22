@@ -926,7 +926,7 @@ observatory:
   land_type: mountain
   perks:
     unit_mana_costs: 1,-2,30
-    training_time: 1,-2,30
+    training_time_mod: 1,-2,30
 
 gateway:
   name: Gateway

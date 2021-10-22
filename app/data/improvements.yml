@@ -474,7 +474,7 @@ waves:
   exclusive_races:
     - Void
   perks:
-    training_time: -80,12500
+    training_time_mod: -80,12500
     chance_of_instant_return: 50,25000
 # END VOID #
 
@@ -636,7 +636,7 @@ readiness:
   exclusive_races:
     - Kerranad
   perks:
-    training_time: -80,12500
+    training_time_mod: -80,12500
     unit_gold_costs: -35,5500
     unit_ore_costs: -35,5500
 
