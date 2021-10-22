@@ -183,9 +183,9 @@
                                                 <abbr title="Ending at {{ $round->end_date }}">
                                                     Ending in {{ $round->hoursUntilEnd() }} {{ str_plural('hour', $round->hoursUntilEnd()) }}
                                                 </abbr>
-                                            @elseif ($round->isActive() and !$round->hasCountdown())
+                                            @elseif ($round->hasStarted() and !$round->hasCountdown())
                                                 <abbr title="Started at {{ $round->start_date }}">
-                                                    Started {{ $round->hoursUntilStart() }} {{ str_plural('hour', $round->hoursUntilEnd()) }} ago, currently on tick {{ number_format($round->ticks) }}.
+                                                    Started {{ number_format($round->ticks) }} {{ str_plural('tick', $round->ticks) }} ago
                                                 </abbr>
                                             @else
                                                 <abbr title="Starting at {{ $round->start_date }}">
