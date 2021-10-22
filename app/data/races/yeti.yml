@@ -102,12 +102,13 @@ units:
       - intelligent
       - wise
     cost:
-      food: 500
+      food: 740
     power:
       offense: 0
       defense: 8
     perks:
       only_dies_vs_raw_power: 6 # >=
-      offense_from_resource_capped_exhausting: 16,100,ore # +14 OP if paired with 150 ore
+      offense_from_resource_capped_exhausting: 16,150,ore # +14 OP if paired with 150 ore
       faster_return: 4
       sendable_with_zero_op: 1
+      immortal_on_victory: 1
