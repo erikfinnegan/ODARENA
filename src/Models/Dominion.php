@@ -743,7 +743,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'extra_units_trained'
                           or $perkKey == 'drafting'
                           or $perkKey == 'snow_elf_unit4_production_mod'
-                          or $perkKey == 'training_time'
+                          or $perkKey == 'training_time_mod'
 
                           # Spy/wizard
                           or $perkKey == 'spell_cost'
@@ -1047,7 +1047,7 @@ class Dominion extends AbstractModel
                          or $perkKey == 'can_kill_immortal'
                          or $perkKey == 'defensive_power_from_peasants'
                          or $perkKey == 'faster_return'
-                         or $perkKey == 'training_time'
+                         or $perkKey == 'training_time_raw'
                          or $perkKey == 'target_defensive_power_mod'
 
                          or $perkKey == 'casualties'
