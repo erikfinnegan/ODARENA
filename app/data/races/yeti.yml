@@ -47,7 +47,7 @@ units:
       - intelligent
     cost:
       food: 120
-      ore: 2
+      ore: 20
       lumber: 10
     power:
       offense: 0
@@ -67,8 +67,8 @@ units:
       - wise
     cost:
       food: 900
-      lumber: 25
       ore: 100
+      lumber: 25
     power:
       offense: 0
       defense: 12
@@ -85,9 +85,9 @@ units:
       - intelligent
       - wise
     cost:
-      food: 400
-      ore: 240
-      lumber: 180
+      food: 440
+      ore: 300
+      lumber: 200
     power:
       offense: 12
       defense: 10
@@ -102,7 +102,8 @@ units:
       - intelligent
       - wise
     cost:
-      food: 740
+      food: 860
+      ore: 100
     power:
       offense: 0
       defense: 8
