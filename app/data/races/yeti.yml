@@ -3,6 +3,7 @@ alignment: independent
 description: >-
 home_land_type: mountain
 playable: 1
+experimental: 1
 
 peasants_alias: wild yeti
 draftees_alias: yeti
