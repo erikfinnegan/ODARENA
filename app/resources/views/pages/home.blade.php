@@ -44,7 +44,7 @@
                     <div class="box-body text-center">
                         <p>
                             <span data-toggle="tooltip" data-placement="top" title="Start date: {{ $currentRound->start_date }}">
-                                Round <strong>{{ $currentRound->number }}</strong> starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.
+                                Round {{ $currentRound->number }} starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.
                             </span>
                         </p>
                             <a href="{{ route('round.register', $currentRound) }}">

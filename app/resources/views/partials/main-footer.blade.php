@@ -17,7 +17,7 @@
                   | Round ends in <strong><span data-toggle="tooltip" data-placement="top" title="The round ends at {{ $selectedDominion->round->end_date }}">{{ number_format($hoursUntilRoundEnds) . ' ' . str_plural('hour', $hoursUntilRoundEnds) }}</span></strong>.
               @endif
           @else
-              <span data-toggle="tooltip" data-placement="top" title="Start date: {{ $selectedDominion->round->start_date }}">Round <strong>{{ $selectedDominion->round->number }}</strong> starts in <strong>{{ number_format($selectedDominion->round->hoursUntilStart()) . ' ' . str_plural('hour', $selectedDominion->round->hoursUntilStart()) }}</strong>.</span>
+              <span data-toggle="tooltip" data-placement="top" title="Start date: {{ $selectedDominion->round->start_date }}">Round {{ $selectedDominion->round->number }} starts in <strong>{{ number_format($selectedDominion->round->hoursUntilStart()) . ' ' . str_plural('hour', $selectedDominion->round->hoursUntilStart()) }}</strong>.</span>
           @endif
 
       @elseif (isset($selectedDominion) and !$selectedDominion->round->hasStarted())
