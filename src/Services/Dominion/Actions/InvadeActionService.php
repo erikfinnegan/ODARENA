@@ -9,6 +9,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\GameEvent;
+use OpenDominion\Models\Improvement;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\Unit;
 
@@ -1361,32 +1362,39 @@ class InvadeActionService
 
                 }
 
-                // Artillery: damages_improvements_on_attack
+                // damages_improvements_on_attack
                 if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
                 {
-                    $improvementsToBeDamaged = [];
 
-                    $damageReductionFromMasonries = 1 - $target->getBuildingPerkMultiplier('lightning_bolt_damage');
+                    $totalImprovementPoints = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($target);
+
+                    $targetImprovements = $this->improvementCalculator->getDominionImprovements($target);
 
                     $damagingUnits = $units[$unitSlot];
                     $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
-                    $damageDone = $damagingUnits * $damagePerUnit * $damageReductionFromMasonries;
 
+                    $damageMultiplier = 1;
+                    $damageMultiplier += $target->getBuildingPerkMultiplier('lightning_bolt_damage');
 
-                    # Calculate target's total imp points, where imp points > 0.
-                    foreach ($this->improvementHelper->getImprovementsByRace($target->race) as $improvement)
+                    $damage = $damagingUnits * $damagePerUnit * $damageMultiplier;
+
+                    #$totalDamage = $damage;
+
+                    if($damage > 0)
                     {
-                        $improvementsToBeDamaged[$improvement->key] = $this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement);
-                    }
-                    $improvementsTotal = array_sum($improvementsToBeDamaged);
+                        foreach($targetImprovements as $targetImprovement)
+                        {
+                            $improvement = Improvement::where('id', $targetImprovement->improvement_id)->first();
+                            $improvementDamage[$improvement->key] = floor($damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement) / $totalImprovementPoints));
+                        }
 
-                    if($improvementsTotal > 0)
-                    {
-                        $this->improvementCalculator->decreaseImprovements($target, $improvementsToBeDamaged);
+                        $this->improvementCalculator->decreaseImprovements($target, $improvementDamage);
+
+                        #dump($improvement->name . ' damage: ' . number_format($improvementDamage[$improvement->key]));
                     }
 
-                    $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damageDone;
-                    $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damageDone;
+                    $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damage;
+                    $this->invasionResult['defender']['improvements_damage']['improvement_points'] = $damage;
                 }
 
 
