@@ -939,7 +939,7 @@ class TickService
 
             if($dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
             {
-                $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / 5;
+                $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / $dominion->getBuildingPerkValue('unit_production_from_wizard_ratio');
             }
 
             $unitSummoning = $unitSummoningRaw * $unitSummoningMultiplier;

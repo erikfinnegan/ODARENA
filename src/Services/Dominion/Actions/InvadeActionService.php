@@ -1377,6 +1377,7 @@ class InvadeActionService
                     $damageMultiplier += $target->getBuildingPerkMultiplier('lightning_bolt_damage');
 
                     $damage = $damagingUnits * $damagePerUnit * $damageMultiplier;
+                    $damage = min($damage, $totalImprovementPoints);
 
                     #$totalDamage = $damage;
 
@@ -1389,8 +1390,6 @@ class InvadeActionService
                         }
 
                         $this->improvementCalculator->decreaseImprovements($target, $improvementDamage);
-
-                        #dump($improvement->name . ' damage: ' . number_format($improvementDamage[$improvement->key]));
                     }
 
                     $this->invasionResult['attacker']['improvements_damage']['improvement_points'] = $damage;

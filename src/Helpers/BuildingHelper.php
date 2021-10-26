@@ -50,7 +50,7 @@ class BuildingHelper
             'dimensionalists_unit2_production_raw' => 'Summons %s Sft\'Rm per tick.',
             'dimensionalists_unit3_production_raw' => 'Summons %s Ze\'Tk per tick.',
             'dimensionalists_unit4_production_raw' => 'Summons %s Frs\'Kl per tick.',
-            'unit_production_from_wizard_ratio' => 'Summoning increased by (%s x Wizard Ratio / 10).',
+            'unit_production_from_wizard_ratio' => 'Summoning increased by (Wizard Ratio / %s)%%.',
 
             'snow_elf_unit4_production_raw' => 'Attracts %s Gryphons per tick.',
             'snow_elf_unit4_production_mod' => '%2$s%% Gryphon arrival rate for every %1$s%% (max %3$s%%).',

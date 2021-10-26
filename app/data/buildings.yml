@@ -917,7 +917,7 @@ portal:
     dimensionalists_unit2_production_raw: 0.05
     dimensionalists_unit3_production_raw: 0.05
     dimensionalists_unit4_production_raw: 0.02
-    unit_production_from_wizard_ratio: 1
+    unit_production_from_wizard_ratio: 5
 
 observatory:
   name: Observatory

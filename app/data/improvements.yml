@@ -24,6 +24,7 @@ commerce:
     - Troll
     - Void
     - Wood Elf
+    - Yeti
   perks:
     gold_production_mod: 25,4000
 
@@ -219,6 +220,7 @@ mining:
   excluded_races:
     - Beastfolk
     - Growth
+    - Icekin
     - Kerranad
     - Sylvan
     - Swarm
