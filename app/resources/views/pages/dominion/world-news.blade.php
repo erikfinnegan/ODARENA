@@ -14,11 +14,13 @@
                         @if ($realm !== null)
 
                           @if($realm->alignment == 'good')
-                            Commonwealth Realm of {{ $realm->name }} (#{{ $realm->number }})
+                              Commonwealth
                           @elseif($realm->alignment == 'evil')
-                            Imperial Realm of {{ $realm->name }} (#{{ $realm->number }})
+                              Empire
+                          @elseif($realm->alignment == 'independent')
+                              Independent Realm
                           @elseif($realm->alignment == 'npc')
-                            Barbarian Horde
+                              Barbarian Horde
                           @endif
 
                         @else
