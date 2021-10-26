@@ -471,6 +471,19 @@
                                     </tr>
                                     @endif
 
+                                    @if (isset($event->data['attacker']['ore_exhausted']) and $event->data['attacker']['ore_exhausted'] > 0)
+                                    <tr>
+                                        <th colspan="2">Ore Exhaustion</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><small class="text-muted">Stonethrowers darken the sky with boulders.</small></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ore:</td>
+                                        <td><span class="text-red">-{{ number_format($event->data['attacker']['ore_exhausted']) }}</span></td>
+                                    </tr>
+                                    @endif
+
                                     @if (isset($event->data['attacker']['resource_conversion']) and array_sum($event->data['attacker']['resource_conversion']) > 0)
                                     <tr>
                                         <th colspan="2">New Resources</th>
@@ -1069,7 +1082,7 @@
                             <div class="col-sm-4">
                                 <div class="pull-right">
                                     <small class="text-muted">
-                                        Invasion recorded at 
+                                        Invasion recorded at
                                         {{ $event->created_at }}, tick
                                         {{ number_format($event->tick) }}.
                                     </small>

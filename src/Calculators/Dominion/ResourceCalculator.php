@@ -143,6 +143,8 @@ class ResourceCalculator
             $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_from_' . $sourceResourceKey);
         }
 
+
+
         # Unit specific perks
         for ($slot = 1; $slot <= 4; $slot++)
         {
@@ -167,10 +169,24 @@ class ResourceCalculator
                   $extraProducingUnits = min($availableProducingUnit, $availablePairingUnits);
 
                   $production += $extraProducingUnits * $productionPerPair;
+              }
 
+              # Check for RESOURCE_production_raw_from_time
+              if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_time')))
+              {
+                  $amountProduced = (float)$timePerkData[2];
+                  $hourFrom = $timePerkData[0];
+                  $hourTo = $timePerkData[1];
+
+                  if (
+                      (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                      (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                  )
+                  {
+                      $production += $dominion->{'military_unit' . $slot} * $amountProduced;
+                  }
               }
         }
-
 
         // raw_mod perks
         $rawModPerks = 1;

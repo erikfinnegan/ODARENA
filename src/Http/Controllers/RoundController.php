@@ -232,9 +232,9 @@ class RoundController extends AbstractController
 
                 $dominionName = $request->get('dominion_name');
 
-                if(!$this->allowedDominionName($dominionName))
+                if(!$this->isAllowedDominionName($dominionName))
                 {
-                    throw new GameException('To avoid confusion, ' . $dominionName . ' is not a permitted dominion name. It contains a name reserved for Barbarians.');
+                    throw new GameException($dominionName . ' is not a permitted dominion name.');
                 }
 
                 $dominion = $this->dominionFactory->create(
@@ -258,23 +258,6 @@ class RoundController extends AbstractController
                     'data' => $eventData,
                     'tick' => $dominion->round->ticks
                 ]);
-
-                /*
-                if ($request->get('realm_type') === 'create_pack') {
-                    $pack = $this->packService->createPack(
-                        $dominion,
-                        $request->get('pack_name'),
-                        $request->get('pack_password'),
-                        $request->get('pack_size')
-                    );
-
-                    $dominion->pack_id = $pack->id;
-                    $dominion->save();
-
-                    $pack->realm_id = $realm->id;
-                    $pack->save();
-                }
-                */
             });
 
         } catch (QueryException $e) {
@@ -287,7 +270,7 @@ class RoundController extends AbstractController
 
             return redirect()->back()
                 ->withInput($request->all())
-                ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round, or another error occurred."]);
+                ->withErrors(["Someone already registered a dominion with the name '{$dominionName}' for this round, or another error occurred. Please note that emojis are not considered unique characters, so to ensure uniqueness, normal characters or number of emojis must be unique."]);
 
         } catch (GameException $e) {
             return redirect()->back()
@@ -336,7 +319,7 @@ class RoundController extends AbstractController
         }
     }
 
-    protected function allowedDominionName(string $dominionName): bool
+    protected function isAllowedDominionName(string $dominionName): bool
     {
         $barbarianUsers = DB::table('users')
             ->where('users.email', 'like', 'barbarian%@odarena.com')
