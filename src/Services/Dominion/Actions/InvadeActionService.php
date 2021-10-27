@@ -898,7 +898,7 @@ class InvadeActionService
         foreach ($target->race->units as $unit)
         {
 
-            if ($this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense', null, $units, $this->invasionResult['attacker']['unitsSent']) === 0.0)
+            if ($this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense', null, $units, $this->invasionResult['attacker']['unitsSent']) === 0.0 and !$target->race->getUnitPerkValueForUnitSlot($unit->slot, "defense_from_pairing"))
             {
                 continue;
             }
