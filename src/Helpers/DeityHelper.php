@@ -35,7 +35,7 @@ class DeityHelper
             'no_boat_production' => 'No boat production',
             'no_gems_production' => 'No gem production',
 
-            'food_consumption' => '%s%% food consumption',
+            'food_consumption_mod' => '%s%% food consumption',
 
             'exchange_rate' => '%s%% better exchange rates',
 

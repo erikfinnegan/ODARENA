@@ -26,7 +26,7 @@ skill_level: 2
 
 perks:
   construction_cost: -25
-  food_consumption: -50
+  food_consumption_mod: -50
   explore_cost: 25
   reduced_conversions: 35
   draftee_dp: 0.1

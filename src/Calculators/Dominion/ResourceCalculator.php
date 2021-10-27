@@ -310,7 +310,7 @@ class ResourceCalculator
             $extraFoodEaten = 0;
             for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
             {
-                if ($extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption'))
+                if ($extraFoodEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'food_consumption_raw'))
                 {
                     $extraFoodUnits = $dominion->{'military_unit'.$unitSlot};
                     $extraFoodEaten += intval($extraFoodUnits * $extraFoodEatenPerUnit);
@@ -322,17 +322,17 @@ class ResourceCalculator
 
         # Multipliers
         $multiplier = 1;
-        $multiplier += $dominion->getBuildingPerkMultiplier($consumedResourceKey . '_consumption');
-        $multiplier += $dominion->getSpellPerkMultiplier($consumedResourceKey . '_consumption');
-        $multiplier += $dominion->getImprovementPerkMultiplier($consumedResourceKey . '_consumption');
-        $multiplier += $dominion->getTechPerkMultiplier($consumedResourceKey . '_consumption');
-        $multiplier += $dominion->getDeityPerkMultiplier($consumedResourceKey . '_consumption');
+        $multiplier += $dominion->getBuildingPerkMultiplier($consumedResourceKey . '_consumption_mod');
+        $multiplier += $dominion->getSpellPerkMultiplier($consumedResourceKey . '_consumption_mod');
+        $multiplier += $dominion->getImprovementPerkMultiplier($consumedResourceKey . '_consumption_mod');
+        $multiplier += $dominion->getTechPerkMultiplier($consumedResourceKey . '_consumption_mod');
+        $multiplier += $dominion->getDeityPerkMultiplier($consumedResourceKey . '_consumption_mod');
 
         if(isset($dominion->title))
         {
-            $multiplier += $dominion->title->getPerkMultiplier($consumedResourceKey . '_consumption');
+            $multiplier += $dominion->title->getPerkMultiplier($consumedResourceKey . '_consumption_mod');
         }
-        $multiplier += $dominion->race->getPerkMultiplier($consumedResourceKey . '_consumption');
+        $multiplier += $dominion->race->getPerkMultiplier($consumedResourceKey . '_consumption_mod');
 
         $consumption *= $multiplier;
 

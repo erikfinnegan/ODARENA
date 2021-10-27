@@ -16,7 +16,7 @@ improvement_resources:
   gems: 9
 
 perks:
-  food_consumption: 25
+  food_consumption_mod: 25
   gems_production_mod: 50
   cannot_tech: 1
   salvaging: 20

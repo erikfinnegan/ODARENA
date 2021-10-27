@@ -12,7 +12,7 @@ skill_level: 2
 perks:
   max_population: 50
   population_growth: 20
-  food_consumption: -25
+  food_consumption_mod: -25
   spy_strength: -10
   wizard_strength: -10
   salvaging: 10

@@ -24,7 +24,7 @@ resources:
 
 perks:
   gold_production_mod: -10
-  food_consumption: -15
+  food_consumption_mod: -15
   gems_production_mod: 10
   max_population: -10
   salvaging: 75

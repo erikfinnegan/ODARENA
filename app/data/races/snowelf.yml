@@ -89,5 +89,5 @@ units:
       cannot_be_trained: 1
       does_not_count_as_population: 1
       building_limit: gryphon_nest,2
-      food_consumption: 3.5
+      food_consumption_mod: 3.5
       casualties: -75

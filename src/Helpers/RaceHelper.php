@@ -49,7 +49,7 @@ class RaceHelper
                 $description = 'Jobs from barren forest';
                 $valueType = '';
                 break;
-            case 'food_consumption':
+            case 'food_consumption_mod':
                 $negativeBenefit = true;
                 $description = 'Food consumption';
                 break;

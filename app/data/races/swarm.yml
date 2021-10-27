@@ -30,7 +30,7 @@ perks:
   extra_barren_max_population: 27
   no_construction_costs: 1
   no_rezone_costs: 1
-  food_consumption: -50
+  food_consumption_mod: -50
   immortal_spies: 1
   immortal_wizards: 1
   damage_from_lightning_bolts: -100

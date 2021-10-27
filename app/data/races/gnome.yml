@@ -21,7 +21,7 @@ construction_materials:
   - ore
 
 perks:
-  food_consumption: -25
+  food_consumption_mod: -25
   construction_cost: -25
   increased_construction_speed: 6
   salvaging: 50

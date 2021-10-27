@@ -67,7 +67,7 @@ units:
       offense: 0
       defense: 2200
     perks:
-      food_consumption: 40
+      food_consumption_mod: 40
       housing_count: 36
 
   - name: Kraken
@@ -83,5 +83,5 @@ units:
       offense: 1200
       defense: 700
     perks:
-      food_consumption: 25
+      food_consumption_mod: 25
       housing_count: 24

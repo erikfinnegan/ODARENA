@@ -10,7 +10,7 @@ converting: 0
 skill_level: 3
 
 perks:
-  food_consumption: 20
+  food_consumption_mod: 20
   lumber_production_mod: 50
 
 units:

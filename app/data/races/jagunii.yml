@@ -58,7 +58,7 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      food_consumption: 0.25
+      food_consumption_mod: 0.25
       casualties: -50
       faster_return: 6
 
@@ -83,5 +83,5 @@ units:
       casualties_on_offense: -90
       no_draftee: 1
       does_not_count_as_population: 1
-      food_consumption: 2
+      food_consumption_mod: 2
       plunders: gems;1,food;1

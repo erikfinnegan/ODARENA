@@ -19,7 +19,7 @@ resources:
   - prisoner
 
 perks:
-  food_consumption: -20
+  food_consumption_mod: -20
   construction_cost: -20
   rezone_cost: -20
   salvaging: 50

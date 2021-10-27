@@ -1004,6 +1004,8 @@ class Dominion extends AbstractModel
                          or $perkKey == 'no_mana_production'
                          or $perkKey == 'no_xp_generation'
 
+                         or $perkKey == 'food_consumption_mod'
+
                          or $perkKey == 'unit_gold_costs'
                          or $perkKey == 'unit_ore_costs'
                          or $perkKey == 'unit_lumber_costs'

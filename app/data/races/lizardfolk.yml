@@ -10,7 +10,7 @@ converting: 3
 skill_level: 1
 
 perks:
-  food_consumption: -25
+  food_consumption_mod: -25
   max_population: 10
 units:
   - name: Reptile
@@ -71,5 +71,5 @@ units:
     perks:
       sink_boats_offense: 1
       sink_boats_defense: 1
-      food_consumption: 0.75
+      food_consumption_mod: 0.75
       only_dies_vs_raw_power: 7 # >=

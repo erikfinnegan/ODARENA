@@ -288,7 +288,7 @@ class UnitHelper
 
             'xp_generation_raw' => 'Each unit generates %s experience points per tick.',
 
-            'food_consumption' => 'Eats %s halms of food extra.',
+            'food_consumption_raw' => 'Eats %s extra food.',
 
             'decay_protection' => 'Each units protects %1$s %2$s per tick from decay.',
 

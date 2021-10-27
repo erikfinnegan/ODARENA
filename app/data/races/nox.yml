@@ -17,7 +17,7 @@ resources:
   - gems
 
 perks:
-  food_consumption: -50
+  food_consumption_mod: -50
   gems_production_mod: -20
   lumber_production_mod: -20
 

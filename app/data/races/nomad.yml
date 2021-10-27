@@ -49,7 +49,7 @@ land_improvements:
     gold_production_raw: 4
 
 perks:
-  food_consumption: -25
+  food_consumption_mod: -25
   extra_barren_max_population: 20
   salvaging: 50
   cannot_rezone: 1

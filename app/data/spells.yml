@@ -858,7 +858,7 @@ feast_of_azk_hurum:
     - Demon
   perks:
     population_growth: 100
-    food_consumption: 20
+    food_consumption_mod: 20
 
 # LUX
 
@@ -1333,7 +1333,7 @@ festering_wounds:
     - Afflicted
   perks:
     casualties: 25
-    food_consumption: 25
+    food_consumption_mod: 25
 
 annexation:
   name: Annexation
