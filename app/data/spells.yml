@@ -347,6 +347,7 @@ great_flood:
 
 fireball:
   name: Fireball
+  enabled: 0
   scope: hostile
   class: active
   cost: 4
