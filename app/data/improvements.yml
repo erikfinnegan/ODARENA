@@ -148,6 +148,7 @@ logging:
     - Beastfolk
     - Growth
     - Kerranad
+    - Merfolk
     - Sylvan
     - Swarm
     - Troll
@@ -222,6 +223,7 @@ mining:
     - Growth
     - Icekin
     - Kerranad
+    - Merfolk
     - Sylvan
     - Swarm
     - Troll
