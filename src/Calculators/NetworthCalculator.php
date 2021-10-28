@@ -5,6 +5,7 @@ namespace OpenDominion\Calculators;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Unit;
@@ -32,6 +33,7 @@ class NetworthCalculator
           $this->buildingCalculator = app(BuildingCalculator::class);
           $this->landCalculator = app(LandCalculator::class);
           $this->militaryCalculator = app(MilitaryCalculator::class);
+          $this->resourceCalculator = app(ResourceCalculator::class);
     }
 
     /**
@@ -75,7 +77,15 @@ class NetworthCalculator
         $networth += ($this->landCalculator->getTotalLand($dominion) * 20);
         $networth += ($this->buildingCalculator->getTotalBuildings($dominion) * 5);
 
-        $networth += $dominion->resource_soul / 9;
+        if($dominion->race->name == 'Demon')
+        {
+            $networth += $this->resourceCalculator->getAmount($dominion, 'soul') / 9;
+        }
+
+        if($dominion->race->name == 'Yeti')
+        {
+            $networth += min($this->resourceCalculator->getAmount($dominion, 'ore') / 150, $dominion->military_unit4) * 16;
+        }
 
         return round($networth);
     }
