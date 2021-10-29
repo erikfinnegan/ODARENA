@@ -70,14 +70,18 @@ class MilitaryCalculator
         float $landRatio = null,
         array $units = null,
         array $calc = [],
-        array $mindControlledUnits = []
+        array $mindControlledUnits = [],
+        bool $isInvasion = false
     ): float
     {
         $op = ($this->getOffensivePowerRaw($attacker, $defender, $landRatio, $units, $calc, $mindControlledUnits) * $this->getOffensivePowerMultiplier($attacker, $defender));
 
         $op *= $this->getMoraleMultiplier($attacker);
 
-        $op *= $this->getOffensivePowerReduction($defender);
+        if($isInvasion)
+        {
+            $op *= $this->getOffensivePowerReduction($defender, $isInvasion);
+        }
 
         return $op;
 
@@ -1450,10 +1454,10 @@ class MilitaryCalculator
     }
 
     # Icekin: Glacier
-    public function getOffensivePowerReduction(?Dominion $defender): float
+    public function getOffensivePowerReduction(?Dominion $defender, bool $isInvasion = false): float
     {
         $base = 1;
-        if($defender)
+        if($defender and $isInvasion)
         {
             return $base - $defender->getBuildingPerkMultiplier('reduces_offensive_power');
         }
