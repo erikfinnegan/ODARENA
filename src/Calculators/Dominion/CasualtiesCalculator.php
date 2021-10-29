@@ -196,12 +196,9 @@ class CasualtiesCalculator
             if($mode == 'defense')
             {
                 # PERK: spirit_immortal
-                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and !$isInvasionSuccessful)
+                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and $isInvasionSuccessful)
                 {
-                    if(!$enemy->getSpellPerkValue('can_kill_immortal') and !$enemy->getTechPerkValue('can_kill_immortal'))
-                    {
-                        return True;
-                    }
+                    return False;
                 }
 
                 # Perk: immortal_on_fending_off
