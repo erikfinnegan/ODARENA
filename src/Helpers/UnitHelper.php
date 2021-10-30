@@ -54,6 +54,15 @@ class UnitHelper
         return $race->units[$unitSlot]->name;
     }
 
+    public function isUnitOffensiveSpy(Unit $unit): bool
+    {
+        return ($unit->getPerkValue('counts_as_spy') or $unit->getPerkValue('counts_as_spy_offense'));
+    }
+
+    public function isUnitOffensiveWizard(Unit $unit): bool
+    {
+        return ($unit->getPerkValue('counts_as_wizard') or $unit->getPerkValue('counts_as_wizard_offense'));
+    }
 
     public function getUnitHelpString(string $unitType, Race $race): ?string
     {

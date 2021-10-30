@@ -28,18 +28,21 @@ survey_dominion:
 
 steal_gold:
   name: Steal Gold
+  enabled: 0
   scope: theft
   perks:
     resource_theft: gold,0.5,16 # resource, rate, max per spy
 
 steal_food:
   name: Steal Food
+  enabled: 0
   scope: theft
   perks:
     resource_theft: food,0.5,24 # resource, rate, max per spy
 
 steal_lumber:
   name: Steal Lumber
+  enabled: 0
   scope: theft
   excluded_races:
     - Sylvan
@@ -48,6 +51,7 @@ steal_lumber:
 
 steal_mana:
   name: Steal Mana
+  enabled: 0
   scope: theft
   exclusive_races:
     - Lux
@@ -56,18 +60,21 @@ steal_mana:
 
 steal_ore:
   name: Steal Ore
+  enabled: 0
   scope: theft
   perks:
     resource_theft: ore,1,12 # resource, rate, max per spy
 
 steal_gems:
   name: Steal Gems
+  enabled: 0
   scope: theft
   perks:
     resource_theft: gems,1,8 # resource, rate, max per spy
 
 steal_blood:
   name: Steal Blood
+  enabled: 0
   scope: theft
   exclusive_races:
     - Beastfolk

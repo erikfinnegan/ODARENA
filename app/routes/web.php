@@ -97,15 +97,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('mentor/magic')->uses('Dominion\MentorController@getMentorMagic')->name('mentor.magic');
             $router->get('mentor/military')->uses('Dominion\MentorController@getMentorMilitary')->name('mentor.military');
 
-            // Daily
-            $router->get('bonuses')->uses('Dominion\DailyBonusesController@getBonuses')->name('bonuses');
-            $router->post('bonuses/gold')->uses('Dominion\DailyBonusesController@postBonusesGold')->name('bonuses.gold');
-            $router->post('bonuses/land')->uses('Dominion\DailyBonusesController@postBonusesLand')->name('bonuses.land');
-
-            // Exploration
-            $router->get('explore')->uses('Dominion\ExplorationController@getExplore')->name('explore');
-            $router->post('explore')->uses('Dominion\ExplorationController@postExplore');
-
             # Buildings
             $router->get('buildings')->uses('Dominion\BuildingController@getBuildings')->name('buildings');
             $router->post('buildings')->uses('Dominion\BuildingController@postBuildings');
@@ -115,10 +106,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             # Land
             $router->get('land')->uses('Dominion\LandController@getLand')->name('land');
             $router->post('land')->uses('Dominion\LandController@postLand');
-
-            // Rezoning
-            $router->get('rezone')->uses('Dominion\RezoneController@getRezone')->name('rezone');
-            $router->post('rezone')->uses('Dominion\RezoneController@postRezone');
 
             // Improvements
             $router->get('improvements')->uses('Dominion\ImprovementController@getImprovements')->name('improvements');
@@ -149,13 +136,13 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             // Calculations
             $router->get('calculations')->uses('Dominion\CalculationsController@getIndex')->name('calculations');
 
-            // Intelligence
-            #$router->get('intelligence')->uses('Dominion\IntelligenceController@getIntelligence')->name('intelligence');
-            #$router->post('intelligence')->uses('Dominion\IntelligenceController@postIntelligence');
-
             // Hostile Ops
             $router->get('offensive-ops')->uses('Dominion\OffensiveOpsController@getOffensiveOps')->name('offensive-ops');
             $router->post('offensive-ops')->uses('Dominion\OffensiveOpsController@postOffensiveOps');
+
+            // Theft
+            $router->get('theft')->uses('Dominion\TheftController@getTheft')->name('theft');
+            $router->post('theft')->uses('Dominion\TheftController@postTheft');
 
             // Friendly Magic
             $router->get('friendly-ops')->uses('Dominion\FriendlyOpsController@getFriendlyOps')->name('friendly-ops');
@@ -175,12 +162,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('council/post/{post}/delete')->uses('Dominion\CouncilController@getDeletePost')->name('council.delete.post');
             $router->post('council/post/{post}/delete')->uses('Dominion\CouncilController@postDeletePost');
 
-            // Op Center
-            #$router->get('op-center')->uses('Dominion\OpCenterController@getIndex')->name('op-center');
-            //$router->get('op-center/clairvoyance/{realmNumber}')->uses('Dominion\OpCenterController@getClairvoyance')->name('op-center.clairvoyance');
-            #$router->get('op-center/{dominion}')->uses('Dominion\OpCenterController@getDominion')->name('op-center.show');
-            #$router->get('op-center/{dominion}/{type}')->uses('Dominion\OpCenterController@getDominionArchive')->name('op-center.archive');
-
             // Insight
             $router->get('insight')->uses('Dominion\InsightController@getIndex')->name('insight');
             $router->get('insight/{dominion}')->uses('Dominion\InsightController@getDominion')->name('insight.show');
@@ -199,9 +180,6 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('government/elite-guard/leave')->uses('Dominion\GovernmentController@postLeaveEliteGuard')->name('government.elite-guard.leave');
             $router->post('government/war/declare')->uses('Dominion\GovernmentController@postDeclareWar')->name('government.war.declare');
             $router->post('government/war/cancel')->uses('Dominion\GovernmentController@postCancelWar')->name('government.war.cancel');
-
-            // Rankings
-            #$router->get('rankings/{type?}')->uses('Dominion\RankingsController@getRankings')->name('rankings');
 
             // Realm
             $router->get('realm/{realmNumber?}')->uses('Dominion\RealmController@getRealm')->name('realm');
