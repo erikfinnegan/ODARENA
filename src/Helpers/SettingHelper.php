@@ -320,22 +320,14 @@ class SettingHelper
                     }
                 )->sum();
 
-
-
-            case 'hourly_dominion.invading_completed':
-                $units = collect($data)->filter(
-                    function ($value, $key) {
-                        // Disregard prestige and experience points
-                        if(strpos($key, 'military_') === 0) {
-                            return $value;
-                        }
-                    }
-                )->sum();
+            case 'hourly_dominion.repelled_invasion':
+                $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
 
                 return sprintf(
-                    '%s %s returned from battle',
-                    number_format($units),
-                    str_plural('unit', $units)
+                    'Forces from %s (#%s) invaded our lands, but our army drove them back! We lost %s units during the battle.',
+                    $attackerDominion->name,
+                    $attackerDominion->realm->number,
+                    number_format($data['unitsLost'])
                 );
 
             case 'hourly_dominion.beneficial_magic_dissipated':

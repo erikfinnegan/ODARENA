@@ -125,6 +125,12 @@ class NotificationHelper
                 'route' => route('dominion.government'),
                 'iconClass' => 'fas fa-pray text-green',
             ],
+            'repelled_invasion' => [
+                'label' => 'Your dominion repelled an invasion',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.status'),
+                'iconClass' => 'ra ra-crossed-swords text-red',
+            ],
         ];
     }
 
@@ -345,6 +351,17 @@ class NotificationHelper
                     str_plural('unit', $units)
                 );
 
+            case 'hourly_dominion.repelled_invasion':
+                $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
+
+                return sprintf(
+                    'Forces from %s (#%s) invaded our lands, but our army drove them back! We lost %s units during the battle.',
+                    $attackerDominion->name,
+                    $attackerDominion->realm->number,
+                    number_format($data['unitsLost'])
+                );
+
+
             case 'hourly_dominion.beneficial_magic_dissipated':
                 $effects = count($data);
 
@@ -444,17 +461,6 @@ class NotificationHelper
 
             # Scheduled/Barbarian invasions
             case 'hourly_dominion.received_invasion':
-                $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
-
-                return sprintf(
-                    'An army from %s (#%s) invaded our lands, conquering %s acres of land! We lost %s units during the battle.',
-                    $attackerDominion->name,
-                    $attackerDominion->realm->number,
-                    number_format($data['landLost']),
-                    number_format($data['unitsLost'])
-                );
-
-            case 'irregular_dominion.received_invasion':
                 $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
 
                 return sprintf(
