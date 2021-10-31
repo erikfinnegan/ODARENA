@@ -17,8 +17,11 @@ use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\TheftCalculator;
 
+use OpenDominion\Services\NotificationService;
+use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\ResourceService;
@@ -30,8 +33,10 @@ class TheftActionService
     {
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->rangeCalculator = app(RangeCalculator::class);
+        $this->resourceCalculator = app(ResourceCalculator::class);
         $this->theftCalculator = app(TheftCalculator::class);
 
+        $this->notificationService = app(NotificationService::class);
         $this->protectionService = app(ProtectionService::class);
         $this->queueService = app(QueueService::class);
         $this->resourceService = app(ResourceService::class);
@@ -206,6 +211,7 @@ class TheftActionService
             $this->theft['returning_units'] = $survivingUnits;
 
             # Determine how much was stolen
+            $this->theft['amount_owned'] = $this->resourceCalculator->getAmount($target, $resource->key);
             $amountStolen = $this->theftCalculator->getTheftAmount($thief, $target, $resource, $survivingUnits);
             $this->theft['amount_stolen'] = $amountStolen;
 
@@ -254,7 +260,7 @@ class TheftActionService
                 );
             }
 
-            dd('Steal ' . $resource->name . ' from ' . $target->name, $units, $spyUnits, $this->theft);
+            #dd('Steal ' . $resource->name . ' from ' . $target->name, $units, $spyUnits, $this->theft);
 
             $this->theftEvent = GameEvent::create([
                 'round_id' => $thief->round_id,
@@ -269,41 +275,30 @@ class TheftActionService
 
             $this->notificationService->queueNotification('theft', [
                 '_routeParams' => [(string)$this->theftEvent->id],
-                'thiefDominionId' => $dominion->id,
-                'unitsKilled' => null,
+                'thiefDominionId' => $thief->id,
+                'unitsKilled' => $this->theft['killed_units'],
                 'resource' => $resource->id,
                 'amountLost' => $this->theft['amount_stolen']
             ]);
+
+            $target->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
+            $thief->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
 
         });
 
         $this->notificationService->sendNotifications($target, 'irregular_dominion');
 
-        /*
-        if ($this->invasionResult['result']['success'])
-        {
-            $message = sprintf(
-                'You are victorious and defeat the forces of %s (#%s), conquering %s new acres of land! During the invasion, your troops also discovered %s acres of land.',
-                $target->name,
-                $target->realm->number,
-                number_format(array_sum($this->invasionResult['attacker']['landConquered'])),
-                number_format(array_sum($this->invasionResult['attacker']['landDiscovered']) + array_sum($this->invasionResult['attacker']['extraLandDiscovered']))
-            );
-            $alertType = 'success';
-        }
-        else
-        {
-            $message = sprintf(
-                'Your army fails to defeat the forces of %s (#%s).',
-                $target->name,
-                $target->realm->number
-            );
-            $alertType = 'danger';
-        }
-        */
 
-        $message = 'lol idk';
-        $alertType = 'warning';
+        $message = sprintf(
+            'Your %s infiltrate %s (#%s), stealing %s %s.',
+            (array_sum($units) > $units['spies']) ? 'units' : 'spies',
+            $target->name,
+            $target->realm->number,
+            number_format($this->theft['amount_stolen']),
+            $this->theft['resource']['name']
+        );
+
+        $alertType = 'success';
 
         return [
             'message' => $message,

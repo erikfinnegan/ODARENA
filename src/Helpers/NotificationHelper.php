@@ -5,6 +5,7 @@ namespace OpenDominion\Helpers;
 use LogicException;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Realm;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Deity;
 
@@ -131,6 +132,12 @@ class NotificationHelper
                 'route' => route('dominion.status'),
                 'iconClass' => 'ra ra-crossed-swords text-red',
             ],
+            'repelled_invasion' => [
+                'label' => 'Your dominion got invaded',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.status'),
+                'iconClass' => 'ra ra-crossed-swords text-red',
+            ],
         ];
     }
 
@@ -152,6 +159,14 @@ class NotificationHelper
                     return route('dominion.event', $routeParams);
                 },
                 'iconClass' => 'ra ra-crossed-swords text-orange',
+            ],
+            'theft' => [
+                'label' => 'Your dominion was stolen from',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => function (array $routeParams) {
+                    return route('dominion.event', $routeParams);
+                },
+                'iconClass' => 'fa fa-hand-lizard text-red',
             ],
             'received_spy_op' => [
                 'label' => 'Hostile spy operation received',
@@ -490,6 +505,19 @@ class NotificationHelper
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
                     number_format($data['unitsLost'])
+                );
+
+            case 'irregular_dominion.theft':
+                $thief = Dominion::with('realm')->findOrFail($data['thiefDominionId']);
+                $resource = Resource::findOrFail($data['resource']);
+
+                return sprintf(
+                    'Spies from %s (#%s) have stolen %s %s from us. We killed %s of their units.',
+                    $thief->name,
+                    $thief->realm->number,
+                    number_format($data['amountLost']),
+                    $resource->name,
+                    number_format(array_sum($data['unitsKilled']))
                 );
 
             case 'irregular_dominion.received_spy_op':

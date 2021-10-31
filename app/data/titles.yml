@@ -82,3 +82,8 @@ general:
   perks:
     prestige_gains: 15
     morale_gains: 30
+
+high_priest:
+  name: High Priest
+  perks:
+    deity_perks: 50

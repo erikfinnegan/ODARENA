@@ -182,7 +182,7 @@
 
 
                                             @elseif ($gameEvent->type === 'expedition' and $gameEvent->source->realm_id == $selectedDominion->realm->id)
-                                                An expedition was sent out by
+                                                  An expedition was sent out by
                                                   <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                   <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>, discovering <span class="text-green text-bold">{{ number_format(array_sum($gameEvent->data['land_discovered'])) }}</span> land.
 
@@ -190,6 +190,47 @@
                                                 An expedition was sent out by
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                 <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>, discovering <span class="text-orange text-bold">{{ number_format(array_sum($gameEvent->data['land_discovered'])) }}</span> land.
+
+
+
+                                            @elseif ($gameEvent->type === 'theft' and $gameEvent->source->realm_id == $selectedDominion->realm->id)
+                                                  Spies from
+                                                  <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
+                                                  <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>
+                                                  steal <span class="text-green text-bold">{{ number_format($gameEvent->data['amount_stolen']) }}</span> {{ strtolower($gameEvent->data['resource']['name']) }} from
+                                                  <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->target->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->target)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
+                                                  <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a></span>.
+
+                                            @elseif ($gameEvent->type === 'theft' and $gameEvent->target->realm_id == $selectedDominion->realm->id)
+                                                Spies from
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
+                                                <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>
+                                                steal <span class="text-red text-bold">{{ number_format($gameEvent->data['amount_stolen']) }}</span> {{ strtolower($gameEvent->data['resource']['name']) }} from
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->target->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->target)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
+                                                <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a></span>.
+
+                                            @elseif ($gameEvent->type === 'theft' and $gameEvent->target->realm_id !== $selectedDominion->realm->id and $gameEvent->target->realm_id !== $selectedDominion->realm->id)
+                                                @php
+                                                    if($gameEvent->target->realm->alignment == 'evil')
+                                                    {
+                                                        $alignment = 'Empire';
+                                                    }
+                                                    elseif($gameEvent->target->realm->alignment == 'good')
+                                                    {
+                                                        $alignment = 'Commonwealth';
+                                                    }
+                                                    elseif($gameEvent->target->realm->alignment == 'independent')
+                                                    {
+                                                        $alignment = 'Independent';
+                                                    }
+                                                    elseif($gameEvent->target->realm->alignment == 'npc')
+                                                    {
+                                                        $alignment = 'Barbarian Horde';
+                                                    }
+                                                @endphp
+
+                                                Theft reported from the <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}"><span class="text-red">{{ $alignment }}</span></a>.
+
                                             @endif
                                         </td>
                                         <td class="text-center">
@@ -198,6 +239,9 @@
                                         @endif
                                         @if ($gameEvent->type == 'expedition' and ($gameEvent->source->realm_id == $selectedDominion->realm->id))
                                             <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="fas fa-drafting-compass fa-fw"></i></a>
+                                        @endif
+                                        @if ($gameEvent->type == 'theft' and ($gameEvent->source->realm_id == $selectedDominion->realm->id or $gameEvent->target->realm_id == $selectedDominion->realm->id))
+                                            <a href="{{ route('dominion.event', [$gameEvent->id]) }}"><i class="fas fa-hand-lizard fa-fw"></i></a>
                                         @endif
                                         </td>
                                     </tr>

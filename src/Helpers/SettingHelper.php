@@ -161,6 +161,14 @@ class SettingHelper
                 },
                 'iconClass' => 'ra ra-crossed-swords text-orange',
             ],
+            'theft' => [
+                'label' => 'Your dominion was stolen from',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => function (array $routeParams) {
+                    return route('dominion.event', $routeParams);
+                },
+                'iconClass' => 'fa fa-hand-lizard text-red',
+            ],
             'received_spy_op' => [
                 'label' => 'Hostile spy operation received',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -446,6 +454,19 @@ class SettingHelper
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
                     number_format($data['unitsLost'])
+                );
+
+            case 'irregular_dominion.theft':
+                $thief = Dominion::with('realm')->findOrFail($data['thiefDominionId']);
+                $resource = Resource::findOrFail($data['resource']);
+
+                return sprintf(
+                    'Spies from %s (#%s) have stolen %s %s from us. We killed %s of their units.',
+                    $thief->name,
+                    $thief->realm->number,
+                    number_format($data['amountLost']),
+                    $resource->name,
+                    number_format(array_sum($data['unitsKilled']))
                 );
 
             case 'irregular_dominion.received_spy_op':
