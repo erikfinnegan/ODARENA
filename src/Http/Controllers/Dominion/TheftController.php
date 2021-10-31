@@ -33,6 +33,7 @@ class TheftController extends AbstractDominionController
             'theftHelper' => app(TheftHelper::class),
 
             'landCalculator' => app(LandCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'rangeCalculator' => app(RangeCalculator::class),
             'theftCalculator' => app(TheftCalculator::class),

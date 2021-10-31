@@ -45,7 +45,11 @@
                                         <tr>
                                             <th>Unit</th>
                                             <th>Sent</th>
-                                            <th>Lost</th>
+                                            @if($event->source->realm->id == $selectedDominion->realm->id)
+                                                <th>Lost</th>
+                                            @else
+                                                <th>Killed</th>
+                                            @endif
                                             <th>Returning</th>
                                         </tr>
                                     </thead>
@@ -64,9 +68,13 @@
                                             @endphp
                                             <tr>
                                                 <td>
+                                                    @if($slot !== 'spies')
                                                     <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
                                                         {{ $event->source->race->units->where('slot', $slot)->first()->name }}
                                                     </span>
+                                                    @else
+                                                        Spies
+                                                    @endif
                                                 </td>
                                                 <td>{{ number_format($event->data['units'][$slot]) }}</td>
                                                 <td>{{ number_format($event->data['killed_units'][$slot]) }}</td>
@@ -87,8 +95,14 @@
                                         </tr>
                                         <tr>
                                             <td>Amount stolen:</td>
-                                            <td>{{ number_format($event->data['amount_stolen']) }}</td>
+                                            <td><span class="text-green">+{{ number_format($event->data['amount_stolen']) }}</span></td>
                                         </tr>
+                                        @if($event->source->realm->id == $selectedDominion->realm->id)
+                                            <tr>
+                                                <td>Spy strength:</td>
+                                                <td><span class="text-red">-{{ number_format($event->data['spy_units_sent_ratio']) }}%</span></td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

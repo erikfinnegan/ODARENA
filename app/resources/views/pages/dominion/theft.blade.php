@@ -12,6 +12,10 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title"><i class="fa fa-hand-lizard"></i> Target</h3>
+                            <small class="pull-right text-muted">
+                                <span data-toggle="tooltip" data-placement="top" title="Spies Per Acre (Spy Ratio) on offense">SPA</span>: {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'),3) }},
+                                <span data-toggle="tooltip" data-placement="top" title="Spy Strength">SS</span>: {{ $selectedDominion->spy_strength }}%
+                            </small>
                         </div>
 
                         <div class="box-body">

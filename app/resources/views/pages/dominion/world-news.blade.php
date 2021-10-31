@@ -46,7 +46,7 @@
                                 @if($gameEvent->type !== 'send_units' or ($gameEvent->type == 'send_units' and $gameEvent->source->realm->id === $selectedDominion->realm->id))
                                     <tr>
                                         <td style="vertical-align: top;">
-                                            <span>{{ $gameEvent->created_at }}</span>
+                                            <span data-toggle="tooltip" data-placement="top" title="Tick {{ $gameEvent->tick }}">{{ $gameEvent->created_at }}</span>
                                         </td>
                                         <td>
                                             @if ($gameEvent->type === 'invasion')

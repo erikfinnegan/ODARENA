@@ -288,7 +288,6 @@ class TheftActionService
 
         $this->notificationService->sendNotifications($target, 'irregular_dominion');
 
-
         $message = sprintf(
             'Your %s infiltrate %s (#%s), stealing %s %s.',
             (array_sum($units) > $units['spies']) ? 'units' : 'spies',
