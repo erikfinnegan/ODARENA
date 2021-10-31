@@ -729,6 +729,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'mana_production_mod'
                           or $perkKey == 'xp_generation_mod'
                           or $perkKey == 'pearls_production_mod'
+                          or $perkKey == 'blood_production_mod'
                           or $perkKey == 'exchange_rate'
 
                           # Unit costs

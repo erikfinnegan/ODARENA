@@ -132,7 +132,6 @@ class TheftCalculator
 
     protected function getSpyLossesReductionMultiplier(Dominion $dominion): float
     {
-
         $spiesKilledMultiplier = 1;
 
         // Buildings
@@ -148,7 +147,6 @@ class TheftCalculator
         $spiesKilledMultiplier = max(0.10, $spiesKilledMultiplier);
 
         return $spiesKilledMultiplier;
-
     }
 
 }

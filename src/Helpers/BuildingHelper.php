@@ -91,6 +91,7 @@ class BuildingHelper
             'gems_production_mod' => 'Gem production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'mana_production_mod' => 'Mana production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'pearls_production_mod' => 'Pearl production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'blood_production_mod' => 'Blood production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'xp_generation_mod' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             'resource_conversion' => 'Converts %1$s %2$s into %3$s %4$s per tick.',

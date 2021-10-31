@@ -94,8 +94,12 @@
                                             <td>{{ $event->data['resource']['name'] }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Amount stolen:</td>
-                                            <td><span class="text-green">+{{ number_format($event->data['amount_stolen']) }}</span></td>
+                                            <td>Amount:</td>
+                                            @if($event->source->realm->id == $selectedDominion->realm->id)
+                                                <td><span class="text-green">+{{ number_format($event->data['amount_stolen']) }}</span></td>
+                                            @else
+                                                <td><span class="text-red">-{{ number_format($event->data['amount_stolen']) }}</span></td>
+                                            @endif
                                         </tr>
                                         @if($event->source->realm->id == $selectedDominion->realm->id)
                                             <tr>

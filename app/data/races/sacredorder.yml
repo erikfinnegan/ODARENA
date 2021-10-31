@@ -10,6 +10,8 @@ converting: 1
 skill_level: 2
 
 perks:
+  starts_devoted_to_tiranthael: 1
+  cannot_renounce_deity: 1
   food_production_mod: 5
   max_population: 25
   prestige_gains: 10

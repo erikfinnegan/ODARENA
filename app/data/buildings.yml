@@ -1067,7 +1067,7 @@ altar:
     - Demon
   land_type: swamp
   perks:
-    unit_blood_costs: 1,-1,100 # ratio, perk, max
+    blood_production_mod: 1,1,100 # ratio, perk, max
     housing: 40
     jobs: 0
 
