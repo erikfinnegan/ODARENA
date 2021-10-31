@@ -132,7 +132,7 @@ class NotificationHelper
                 'route' => route('dominion.status'),
                 'iconClass' => 'ra ra-crossed-swords text-red',
             ],
-            'repelled_invasion' => [
+            'received_invasion' => [
                 'label' => 'Your dominion got invaded',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'route' => route('dominion.status'),
