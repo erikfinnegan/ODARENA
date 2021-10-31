@@ -41,13 +41,13 @@ perks:
 
 units:
   - name: Hellhound
-    training_time: 6
+    training_time: 4
     type:
       - living
       - sentient
     cost:
-      mana: 12
       blood: 6
+      mana: 12
     power:
       offense: 3
       defense: 0
@@ -58,38 +58,39 @@ units:
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 0.3;blood,4;food # each 1 OP/DP killed becomes
 
-  - name: Tormentor
-    training_time: 9
+  - name: Adjudicator
+    training_time: 8
     type:
       - living
       - sentient
       - intelligent
     cost:
       soul: 1
-      blood: 10
-      mana: 80
+      blood: 14
+      mana: 70
     power:
-      offense: 4
-      defense: 6
+      offense: 7
+      defense: 7
     perks:
+      captures_displaced_peasants: 1
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 0.3;blood,4;food # each 1 OP/DP killed becomes
 
-  - name: Paragon
-    training_time: 12
+  - name: Executioner
+    training_time: 8
     type:
       - living
       - sentient
       - intelligent
     cost:
       soul: 1
-      blood: 24
-      mana: 200
+      blood: 18
+      mana: 90
     power:
-      offense: 10
-      defense: 14
+      offense: 9
+      defense: 9
     perks:
-      immortal: 1
+      increases_casualties_on_offense: 1
       kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 0.3;blood,4;food # each 1 OP/DP killed becomes
 
