@@ -59,7 +59,7 @@ class ImprovementHelper
             'unit_mana_costs' => 'unit mana costs',
             'unit_food_costs' => 'unit food costs',
 
-            'training_time' => 'unit training time',
+            'training_time_mod' => 'unit training time',
             'chance_of_instant_return' => 'chance of units returning instantly from invasion',
 
             'offensive_power' => 'offensive power',

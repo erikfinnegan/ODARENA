@@ -1,6 +1,7 @@
 cartography:
   name: Cartography
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -16,6 +17,7 @@ cartography:
 commerce:
   name: Commerce
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -31,6 +33,7 @@ commerce:
 construction:
   name: Construction
   excluded_races:
+    - Barbarian
     - Artillery
     - Beastfolk
     - Dragon
@@ -86,6 +89,7 @@ construction_qur:
 defense:
   name: Defense
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -100,6 +104,7 @@ defense:
 espionage:
   name: Espionage
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -116,6 +121,7 @@ espionage:
 irrigation:
   name: Farming
   excluded_races:
+    - Barbarian
     - Armada
     - Beastfolk
     - Growth
@@ -131,6 +137,7 @@ irrigation:
 housing:
   name: Housing
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -145,6 +152,7 @@ housing:
 logging:
   name: Logging
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -160,6 +168,7 @@ logging:
 medicine:
   name: Medicine
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -175,6 +184,7 @@ medicine:
 mobilisation:
   name: Mobilisation
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -190,6 +200,7 @@ mobilisation:
 offense:
   name: Offense
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -204,6 +215,7 @@ offense:
 research:
   name: Research
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -219,6 +231,7 @@ research:
 mining:
   name: Stonecutting
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Icekin
@@ -235,6 +248,7 @@ mining:
 wizardry:
   name: Wizardry
   excluded_races:
+    - Barbarian
     - Beastfolk
     - Growth
     - Kerranad
@@ -883,3 +897,10 @@ venom:
     population_growth: -40,8000
 
 # END SWARM #
+
+tribalism:
+  name: Tribalism
+  exclusive_races:
+    - Barbarian
+  perks:
+    population: 100,10000

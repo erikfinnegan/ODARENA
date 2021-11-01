@@ -92,6 +92,8 @@ class UnitHelper
 
             'passive_conversion' => 'Converts %3$s %1$s into 1 %2$s each tick, increased by (%4$s / Total Land)%%.',
 
+            'captures_displaced_peasants' => 'Captures enemy peasants formerly living on land conquered on invasion.',
+
             // OP/DP related
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
             'offense_from_building' => 'Offense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
@@ -257,15 +259,15 @@ class UnitHelper
             'dies_into_resource' => 'Upon death, returns as %1$s %2$s.',
             'dies_into_resource_on_success' => 'Upon death on successful invasions or upon death on successfully fending off, returns as %1$s %2$s.',
 
-            'kills_into_resource_per_casualty' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
-            'kills_into_resource_per_casualty_on_success' => 'Every enemy unit killed by this unit on successful invasions or on successfully fending off, returns as %1$s %2$s. Only effective against units with the Living attribute.',
-            'kills_into_resources_per_casualty' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
-            'kills_into_resources_per_casualty_on_success' => 'Every enemy unit killed by this unit on successful invasions or on successfully fending off, returns as %1$s %2$s. Only effective against units with the Living attribute.',
+            'kills_into_resource_per_casualty' => 'Kills enemy units into %1$s %2$s each.',
+            'kills_into_resource_per_casualty_on_success' => 'On successful invasions or on successfully fending off, kills enemy units into %1$s %2$s.',
+            'kills_into_resources_per_casualty' => 'Kills enemy units into %1$s %2$s.',
+            'kills_into_resources_per_casualty_on_success' => 'On successful invasions or on successfully fending off, kills enemy units into returns as %1$s %2$s.',
 
-            'kills_into_resource_per_value' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
-            'kills_into_resource_per_value_on_success' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
-            'kills_into_resources_per_value' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
-            'kills_into_resources_per_value_on_success' => 'Each enemy unit killed by this unit is converted into %1$s %2$s. Only effective against units with the Living attribute.',
+            'kills_into_resource_per_value' => 'Kills enemy units into %1$s %2$s per 1 raw OP or DP.',
+            'kills_into_resource_per_value_on_success' => 'On successful invasions or on successfully fending off, kills enemy units into %1$s %2$s per 1 raw OP or DP.',
+            'kills_into_resources_per_value' => 'Kills enemy units into %1$s %2$s per 1 raw OP or DP.',
+            'kills_into_resources_per_value_on_success' => 'On successful invasions or on successfully fending off, kills enemy units into %1$s %2$s per 1 raw OP or DP.',
 
             'releases_into_resource' => 'Releases into %1$s %2$s.',
             'releases_into_resources' => 'Releases into %1$s %2$s.',

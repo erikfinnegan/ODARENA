@@ -412,7 +412,7 @@
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <td class="text-center">
                                                     @if($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getExpeditionQueueAmount($selectedDominion, 'resource_' . $resource, $i)+ $queueService->getTheftQueueAmount($selectedDominion, 'resource_' . $resource, $i))
-                                                        {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getTheftQueueAmount($selectedDominion, 'resource_' . $resource, $i)) }}
+                                                        {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getExpeditionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getTheftQueueAmount($selectedDominion, 'resource_' . $resource, $i)) }}
                                                     @else
                                                         -
                                                     @endif

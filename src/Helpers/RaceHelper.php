@@ -445,18 +445,25 @@ class RaceHelper
                 $description = 'Expedition land gains';
                 $valueType = '%';
                 break;
-            case 'starts_devoted_to_azk_hurum':
+          case 'cannot_renounce_deity':
+                $negativeBenefit = true;
+                $description = 'Cannot renounce deity';
+                $booleanValue = true;
+                break;
+          case 'starts_devoted_to_azk_hurum':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Azk\'Hurum';
-                $booleanValue = 'static';
+                $booleanValue = true;
                 break;
-            case 'starts_devoted_to_tiranthael':
+          case 'starts_devoted_to_tiranthael':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Tiranthael';
-                $booleanValue = 'static';
+                $booleanValue = true;
                 break;
           default:
-                return null;
+                $negativeBenefit = false;
+                $description = 'No description for perk: ' . $perkType->key;
+                #return null;
         }
 
         $result = ['description' => $description, 'value' => ''];

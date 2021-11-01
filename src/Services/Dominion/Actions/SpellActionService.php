@@ -605,6 +605,23 @@ class SpellActionService
 
                 }
 
+                # Resource conversion
+                if($perk->key === 'peasant_to_resources_conversion')
+                {
+                    $ratio = (float)$spellPerkValues[0] / 100;
+                    $peasantsSacrificed = $caster->peasants * $ratio;
+                    unset($spellPerkValues[0]);
+
+                    $newResources = [];
+
+                    foreach($spellPerkValues as $resourcePair)
+                    {
+                        $newResources[$resourcePair[1]] = intval($peasantsSacrificed * $resourcePair[0]);
+                    }
+
+                    $this->resourceService->updateResources($caster, $newResources);
+                }
+
                 # Summon units
                 if($perk->key === 'summon_units_from_land')
                 {

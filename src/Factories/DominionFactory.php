@@ -136,7 +136,6 @@ class DominionFactory
         }
         else
         {
-
               $startingParameters['peasants'] = $acresBase * (rand(50,200)/100);
 
               $startingParameters['draft_rate'] = 0;
@@ -184,13 +183,11 @@ class DominionFactory
 
         $startingParameters['peasants'] = floor($acresBase * $housingPerBarren * $popBonus);
 
-        $startingResources['food'] = 100000;
-        /*
         if(!$race->getPerkValue('no_food_consumption'))
         {
             $startingResources['food'] = floor($startingParameters['peasants'] * 18 * 0.25 * (1 + $race->getPerkValue('food_consumption_raw')));
         }
-        */
+
 
 
         foreach($startingResources as $resourceKey => $amount)

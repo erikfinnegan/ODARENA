@@ -20,6 +20,7 @@ use OpenDominion\Factories\DominionFactory;
 
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
@@ -27,19 +28,12 @@ use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Http\Requests\Dominion\Actions\InvadeActionRequest;
 use OpenDominion\Services\Dominion\Actions\InvadeActionService;
 
+use OpenDominion\Services\Dominion\ResourceService;
 use OpenDominion\Services\Dominion\StatsService;
+use OpenDominion\Services\Dominion\Action\ImproveActionService;
 
 class BarbarianService
 {
-
-    /** @var MilitaryCalculator */
-    protected $militaryCalculator;
-
-    /** @var LandCalculator */
-    protected $landCalculator;
-
-    /** @var QueueService */
-    protected $queueService;
 
     /**
      * BarbarianService constructor.
@@ -56,7 +50,9 @@ class BarbarianService
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->dominionFactory = app(DominionFactory::class);
         $this->barbarianCalculator = app(BarbarianCalculator::class);
+        $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
+        $this->improvementCalculator = app(ImprovementCalculator::class);
     }
 
     public function handleBarbarianTraining(Dominion $dominion): void
@@ -340,7 +336,7 @@ class BarbarianService
         Log::Debug($oneLineLogString);
     }
 
-    public function handleBarbarianConstruction(Dominion $dominion)
+    public function handleBarbarianConstruction(Dominion $dominion): void
     {
         # Get barren land
         $barren = $this->landCalculator->getBarrenLandByLandType($dominion);
@@ -392,6 +388,13 @@ class BarbarianService
         {
             $this->queueService->queueResources('construction', $dominion, $buildings, $this->barbarianCalculator->getSetting('CONSTRUCTION_TIME'));
         }
+
+    }
+
+    public function handleBarbarianImprovements(Dominion $barbarian): void
+    {
+        $amount = $this->barbarianCalculator->getAmountToInvest($barbarian);
+        $this->improvementCalculator->createOrIncrementImprovements($barbarian, ['tribalism' => $amount]);
 
     }
 
@@ -497,4 +500,5 @@ class BarbarianService
             ]);
         }
     }
+
 }

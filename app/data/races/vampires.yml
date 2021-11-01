@@ -27,6 +27,7 @@ perks:
   max_population: 20
   food_consumption_mod: -80
   title_bonus: 100
+
 units:
   - name: Servant
     type:
@@ -36,7 +37,7 @@ units:
       food: 0
     power:
       offense: 0
-      defense: 6
+      defense: 4
     perks:
       cannot_be_trained: 1
       does_not_count_as_population: 1

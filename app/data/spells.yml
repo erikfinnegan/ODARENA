@@ -829,7 +829,7 @@ infernal_fury:
   name: Infernal Fury
   scope: self
   class: passive
-  cost: 6
+  cost: 7
   duration: 24
   cooldown: 0
   exclusive_races:
@@ -842,7 +842,7 @@ sacrifice_to_azk_hurum:
   name: Sacrifice to Azk'Hurum
   scope: self
   class: active
-  cost: 8
+  cost: 9
   cooldown: 36
   exclusive_races:
     - Demon
@@ -853,13 +853,36 @@ feast_of_azk_hurum:
   name: Feast of Azk'Hurum
   scope: self
   class: passive
-  cost: 8
+  cost: 9
   duration: 48
   exclusive_races:
     - Demon
   perks:
     population_growth: 100
     food_consumption_mod: 20
+
+mark_of_azk_hurum:
+  name: Mark of Azk'Hurum
+  scope: hostile
+  class: passive
+  cost: 7
+  cooldown: 6
+  duration: 12
+  exclusive_races:
+    - Demon
+  perks:
+    defensive_power: -5
+
+blessing_of_azk_hurum:
+  name: Blessing of Azk'Hurum
+  scope: friendly
+  class: passive
+  cost: 7
+  duration: 48
+  exclusive_races:
+    - Demon
+  perks:
+    offensive_power_on_retaliation: 2.5
 
 # LUX
 

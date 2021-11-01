@@ -530,7 +530,6 @@ class SpellHelper
                 $resourcesString = generate_sentence_from_array($resources);
                 $resourcesString = str_replace(' And ', ' and ', $resourcesString);
 
-
                 $perkValue = [$ratio, $resourcesString];
                 $nestedArrays = false;
 

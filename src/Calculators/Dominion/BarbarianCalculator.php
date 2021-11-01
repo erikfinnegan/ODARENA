@@ -275,4 +275,9 @@ class BarbarianCalculator
         return $this->getDpaTarget($dominion) - $this->getDpaCurrent($dominion);
     }
 
+    public function getAmountToInvest(Dominion $barbarian): int
+    {
+        return 4000 * (1 + $barbarian->ticks / 1000);
+    }
+
 }

@@ -164,7 +164,7 @@ class MilitaryCalculator
      */
     public function getOffensivePowerMultiplier(Dominion $attacker, Dominion $defender = null): float
     {
-        $multiplier = 0;
+        $multiplier = 1;
 
         // Buildings
         $multiplier += $attacker->getBuildingPerkMultiplier('offensive_power');
@@ -196,7 +196,7 @@ class MilitaryCalculator
         // Land improvements
         $multiplier += $attacker->getLandImprovementPerkMultiplier('offensive_power_mod');
 
-        return (1 + $multiplier);
+        return $multiplier;
     }
 
     /**
@@ -267,17 +267,17 @@ class MilitaryCalculator
      * @return float
      */
     public function getDefensivePowerRaw(
-        Dominion $defender,
-        Dominion $attacker = null,
-        float $landRatio = null,
-        array $units = null,
-        float $multiplierReduction = 0,
-        bool $ignoreDraftees = false,
-        bool $isAmbush = false,
-        bool $ignoreRawDpFromBuildings = false,
-        array $invadingUnits = null,
-        array $mindControlledUnits = null,
-        bool $ignoreRawDpFromAnnexedDominions = false
+        Dominion $defender,                             # 1
+        Dominion $attacker = null,                      # 2
+        float $landRatio = null,                        # 3
+        array $units = null,                            # 4
+        float $multiplierReduction = 0,                 # 5
+        bool $ignoreDraftees = false,                   # 6
+        bool $isAmbush = false,                         # 7
+        bool $ignoreRawDpFromBuildings = false,         # 8
+        array $invadingUnits = null,                    # 9
+        array $mindControlledUnits = null,              # 10
+        bool $ignoreRawDpFromAnnexedDominions = false   # 11
     ): float
     {
         $dp = 0;
@@ -399,7 +399,7 @@ class MilitaryCalculator
      */
     public function getDefensivePowerMultiplier(Dominion $dominion, Dominion $attacker = null, float $multiplierReduction = 0): float
     {
-        $multiplier = 0;
+        $multiplier = 1;
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('defensive_power');
@@ -409,9 +409,6 @@ class MilitaryCalculator
 
         // Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('defensive_power');
-
-        // Racial Bonus
-        $multiplier += $dominion->race->getPerkMultiplier('defense');
 
         // Techs
         $multiplier += $dominion->getTechPerkMultiplier('defense');
@@ -425,7 +422,7 @@ class MilitaryCalculator
         // Multiplier reduction when we want to factor in temples from another dominion
         $multiplier = max(($multiplier - $multiplierReduction), 0);
 
-        return (1 + $multiplier);
+        return $multiplier;
     }
 
     /**
