@@ -1715,7 +1715,6 @@ recalling_level10:
 
 garrisons_level1:
   name: Lodging
-  enabled: 0
   level: 1
   perks:
     military_housing: 2.5

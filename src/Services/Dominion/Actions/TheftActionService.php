@@ -260,8 +260,6 @@ class TheftActionService
                 );
             }
 
-            #dd('Steal ' . $resource->name . ' from ' . $target->name, $units, $spyUnits, $this->theft);
-
             $this->theftEvent = GameEvent::create([
                 'round_id' => $thief->round_id,
                 'source_type' => Dominion::class,

@@ -19,7 +19,6 @@ class TechHelper
             'offense' => '%s%% offensive power',
             'military_cost' => '%s%% military training gold, ore, and lumber costs',
 
-
             'military_cost_food' => '%s%% military training food costs',
             'military_cost_mana' => '%s%% military training mana costs',
 
@@ -67,6 +66,7 @@ class TechHelper
             'improvements' => '%s%% higher improvement bonus',
             'conversions' => '%s%% more conversions (only applicable to Afflicted, Cult, and Sacred Order)',
             'barracks_housing' => '%s%% higher military housing in buildings that provide military housing',
+            'military_housing' => '%s%% more military housing in buildings that provide military housing',
             'gold_interest' => '%s%% interest on your gold stockpile per tick',
             'exchange_rate' => '%s%% better exchange rates',
             'jobs_per_building' => '%s%% more jobs per building',
