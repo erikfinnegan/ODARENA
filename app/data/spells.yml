@@ -843,7 +843,6 @@ sacrifice_to_azk_hurum:
   scope: self
   class: active
   cost: 9
-  cooldown: 36
   exclusive_races:
     - Demon
   perks:

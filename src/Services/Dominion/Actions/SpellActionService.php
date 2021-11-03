@@ -619,6 +619,8 @@ class SpellActionService
                         $newResources[$resourcePair[1]] = intval($peasantsSacrificed * $resourcePair[0]);
                     }
 
+                    $caster->peasants -= $peasantsSacrificed;
+
                     $this->resourceService->updateResources($caster, $newResources);
                 }
 
