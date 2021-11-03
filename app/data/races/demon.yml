@@ -33,7 +33,7 @@ construction_materials:
 improvement_resources:
   gold: 1
   blood: 12
-  souls: 300
+  soul: 300
 
 perks:
   starts_devoted_to_azk_hurum: 1

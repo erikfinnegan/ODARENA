@@ -215,7 +215,7 @@ butcher_draftees:
   exclusive_races:
     - Demon
   perks:
-    butcher_draftees: 1.25,1,12,40 # ratio, souls, blood, food per killed unit
+    butcher_draftees: 1.25,1,4,8 # ratio, souls, blood, food per killed unit
 
 butcher_peasants:
   name: Butcher Peasants
@@ -223,7 +223,7 @@ butcher_peasants:
   exclusive_races:
     - Demon
   perks:
-    butcher_peasants: 0.25,1,8,40 # ratio, souls, blood, food per killed unit
+    butcher_peasants: 0.25,1,4,8 # ratio, souls, blood, food per killed unit
 
 butcher_wizards:
   name: Butcher Wizards
@@ -231,7 +231,7 @@ butcher_wizards:
   exclusive_races:
     - Demon
   perks:
-    butcher_wizards: 1.25,1,6,40 # ratio, souls, blood, food per killed unit
+    butcher_wizards: 1.25,1,4,8 # ratio, souls, blood, food per killed unit
 
 # /DEMONIC BUTCHER
 

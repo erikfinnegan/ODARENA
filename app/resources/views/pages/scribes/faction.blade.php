@@ -877,36 +877,6 @@
                     @endforeach
                     </tbody>
                 </table>
-                <h4>Theft</h4>
-                <table class="table table-striped">
-                    <colgroup>
-                        <col width="200">
-                        <col>
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>Operation</th>
-                            <th>Effect</th>
-                        </tr>
-                    <tbody>
-                    @foreach ($spyops as $spyop)
-                        @if($spyop->scope == 'theft' and $espionageCalculator->isSpyopAvailableToRace($race, $spyop))
-                        <tr>
-                            <td>
-                                {{ $spyop->name }}
-                            </td>
-                            <td>
-                                <ul>
-                                    @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
-                                        <li>{{ ucfirst($effect) }}</li>
-                                    @endforeach
-                                </ul>
-                            </td>
-                        </tr>
-                        @endif
-                    @endforeach
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
