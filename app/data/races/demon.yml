@@ -2,11 +2,11 @@ name: Demon
 alignment: evil
 description: >-
   <p>Demon starts with 1 Archdemon.</p>
-home_land_type: swamp
+home_land_type: mountain
 playable: 1
 experimental: 1
 
-peasants_alias: worker
+peasants_alias: sinner
 draftees_alias: minion
 
 peasants_production:
@@ -65,7 +65,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 700
+      gold: 800
       soul: 1
       blood: 14
       mana: 32
@@ -74,10 +74,10 @@ units:
       defense: 7
     perks:
       captures_displaced_peasants: 1
-      #kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
+      kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 4;blood,8;food # each 1 OP/DP killed becomes
       cannot_be_released: 1
-      #dies_into_resource: 1,soul
+      dies_into_resource: 1,soul
 
   - name: Executioner
     training_time: 8
@@ -86,7 +86,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 950
+      gold: 1000
       soul: 1
       blood: 18
       mana: 44
@@ -95,10 +95,10 @@ units:
       defense: 9
     perks:
       increases_casualties_on_offense: 1
-      #kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
+      kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 4;blood,8;food # each 1 OP/DP killed becomes
       cannot_be_released: 1
-      #dies_into_resource: 1,soul
+      dies_into_resource: 1,soul
 
   - name: Archdemon
     training_time: 24
@@ -120,5 +120,5 @@ units:
       offense_from_resource: soul,3 # +1 OP per 3 souls, no max
       amount_limit: 1
       cannot_be_released: 1
-      #kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
+      kills_into_resource_per_casualty: 1,soul # each 1 OP/DP killed becomes
       kills_into_resources_per_value: 4;blood,8;food # each 1 OP/DP killed becomes

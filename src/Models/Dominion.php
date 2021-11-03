@@ -746,6 +746,11 @@ class Dominion extends AbstractModel
                           or $perkKey == 'snow_elf_unit4_production_mod'
                           or $perkKey == 'training_time_mod'
 
+                          or $perkKey == 'dimensionalists_unit1_production_mod'
+                          or $perkKey == 'dimensionalists_unit2_production_mod'
+                          or $perkKey == 'dimensionalists_unit3_production_mod'
+                          or $perkKey == 'dimensionalists_unit4_production_mod'
+
                           # Spy/wizard
                           or $perkKey == 'spell_cost'
                           or $perkKey == 'spy_losses'

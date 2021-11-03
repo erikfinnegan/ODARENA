@@ -31,6 +31,7 @@ perks:
   cosmic_alignment_production_raw: 1
   cosmic_alignment_to_invade: 24
   cannot_send_expeditions: 1
+  cosmic_alignment_decay: 0.6 #1
 
 units:
   - name: Tl'Tl

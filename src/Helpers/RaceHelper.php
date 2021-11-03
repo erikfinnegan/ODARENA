@@ -70,6 +70,12 @@ class RaceHelper
                 $booleanValue = 'static';
                 $valueType = '';
                 break;
+            case 'cosmic_alignment_decay':
+                $negativeBenefit = false;
+                $description = 'Cosmic alignments decay per tick';
+                $booleanValue = 'static';
+                $valueType = '%';
+                break;
             case 'food_production_mod':
                 $negativeBenefit = false;
                 $description = 'Food production';

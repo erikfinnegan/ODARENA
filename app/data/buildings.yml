@@ -178,6 +178,7 @@ sunken_shrine:
   perks:
     defensive_casualties: 1,-5,50 # 1% gives -5%, max -50%
     offensive_casualties: 1,-5,50 # 1% gives -5%, max -50%
+    prestige_gains: 1,2.5,50 # 1% gives +2.5%, max -50%
 
 water_temple:
   name: Water Temple
@@ -477,6 +478,7 @@ shrine:
   perks:
     defensive_casualties: 1,-5,50 # 1% gives -5% max -50%
     offensive_casualties: 1,-5,50 # 1% gives -5%, max -50%
+    prestige_gains: 1,2.5,50 # 1% gives +2.5%, max -50%
 
 smithy:
   name: Smithy
@@ -918,6 +920,10 @@ portal:
     dimensionalists_unit3_production_raw: 0.05
     dimensionalists_unit4_production_raw: 0.02
     unit_production_from_wizard_ratio: 5
+    dimensionalists_unit1_production_mod: 1,-2,100
+    dimensionalists_unit2_production_mod: 1,-2,100
+    dimensionalists_unit3_production_mod: 1,-2,100
+    dimensionalists_unit4_production_mod: 1,-2,100
 
 observatory:
   name: Observatory
@@ -1065,11 +1071,17 @@ altar:
   name: Altar
   exclusive_races:
     - Demon
-  land_type: swamp
+  land_type: mountain
   perks:
-    blood_production_mod: 1,1,100 # ratio, perk, max
-    housing: 40
-    jobs: 0
+    blood_production_mod: 1,2,100 # ratio, perk, max
+
+dungeon:
+  name: Dungeon
+  exclusive_races:
+    - Demon
+  land_type: mountain
+  perks:
+    housing: 30
 
 # END DEMON
 

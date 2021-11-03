@@ -85,10 +85,10 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1350
+      gold: 1500
     power:
-      offense: 7
-      defense: 7
+      offense: 8
+      defense: 8
     perks:
       casualties: -50
       vampiric_conversion: 4,7

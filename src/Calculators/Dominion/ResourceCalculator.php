@@ -337,10 +337,33 @@ class ResourceCalculator
 
         $consumption *= $multiplier;
 
+        if($decayRate = $this->getDecay($dominion, $consumedResourceKey))
+        {
+            $consumption += $this->getAmount($dominion, $consumedResourceKey) * $decayRate;
+        }
+
         return max(0, $consumption);
 
         #return min(max(0, $consumption), $this->getAmount($dominion, $consumedResourceKey));
 
+    }
+
+    public function getDecay(Dominion $dominion, string $consumedResourceKey): float
+    {
+        if(!in_array($consumedResourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $consumedResourceKey . '_consumption') or $dominion->isAbandoned())
+        {
+            return 0;
+        }
+
+        $decayRate = 0;
+        $decayRate += $dominion->race->getPerkMultiplier($consumedResourceKey . '_decay');
+        $decayRate += $dominion->getBuildingPerkValue($consumedResourceKey . '_decay');
+        $decayRate += $dominion->getSpellPerkValue($consumedResourceKey . '_decay');
+        $decayRate += $dominion->getImprovementPerkValue($consumedResourceKey . '_decay');
+        $decayRate += $dominion->getTechPerkValue($consumedResourceKey . '_decay');
+        $decayRate += $dominion->getUnitPerkProductionBonus($consumedResourceKey . '_decay');
+
+        return $decayRate;
     }
 
     public function isOnBrinkOfStarvation(Dominion $dominion): bool
