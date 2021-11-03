@@ -261,6 +261,7 @@ watermill:
   name: Watermill
   excluded_races:
     - Ants
+    - Demon
     - Dragon
     - Growth
     - Merfolk
