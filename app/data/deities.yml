@@ -1,6 +1,5 @@
 azk_hurum:
   name: Azk'Hurum
-  enabled: 0
   range_multiplier: 0.60
   exclusive_races:
     - Demon
@@ -8,7 +7,7 @@ azk_hurum:
     offensive_power_on_retaliation: 5
     increases_casualties: 10
     prestige_gains: -30
-    max_population: 10
+    max_population: 15
     population_growth: 20
     food_consumption_mod: 20
 

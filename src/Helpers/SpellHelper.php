@@ -125,7 +125,7 @@ class SpellHelper
 
             'resource_conversion' => 'Converts %3$s%% of your %1$s to %2$s at a rate of %4$s:1.',
 
-            'peasant_to_resources_conversion' => 'Sacrifice %1$s%% of your workers for %2$s each.',
+            'peasant_to_resources_conversion' => 'Sacrifice %1$s%% of your sinners for %2$s each.',
 
             // Magic
             'damage_from_spells' => '%s%% damage from spells',
