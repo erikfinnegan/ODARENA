@@ -1714,90 +1714,81 @@ recalling_level10:
 # <Ladder: Garrisons Housing>
 
 garrisons_level1:
-  name: Garrisons
+  name: Lodging
   enabled: 0
   level: 1
   perks:
-    barracks_housing: 1.25
+    military_housing: 2.5
 
 garrisons_level2:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 2
   perks:
-    barracks_housing: 2.5
+    military_housing: 5
   requires:
     - garrisons_level1
 
 garrisons_level3:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 3
   perks:
-    barracks_housing: 3.75
+    military_housing: 7.50
   requires:
     - garrisons_level2
 
 garrisons_level4:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 4
   perks:
-    barracks_housing: 5
+    military_housing: 10
   requires:
     - garrisons_level3
 
 garrisons_level5:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 5
   perks:
-    barracks_housing: 6.25
+    military_housing: 12.50
   requires:
     - garrisons_level4
 
 garrisons_level6:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 6
   perks:
-    barracks_housing: 7.5
+    military_housing: 15
   requires:
     - garrisons_level5
 
 garrisons_level7:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 7
   perks:
-    barracks_housing: 8.125
+    military_housing: 16.25
   requires:
     - garrisons_level6
 
 garrisons_level8:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 8
   perks:
-    barracks_housing: 8.75
+    military_housing: 17.50
   requires:
     - garrisons_level7
 
 garrisons_level9:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 9
   perks:
-    barracks_housing: 9.375
+    military_housing: 18.75
   requires:
     - garrisons_level8
 
 garrisons_level10:
-  name: Garrisons
-  enabled: 0
+  name: Lodging
   level: 10
   perks:
-    barracks_housing: 10
+    military_housing: 20
   requires:
     - garrisons_level9
 
