@@ -107,7 +107,7 @@ class DeityHelper
 
             'offensive_power_on_retaliation' => '%s%% offensive power if target recently invaded your realm',
 
-            'defensive_modifier_reduction' => '%s%% defensive modifier for target',
+            'target_defensive_power_mod' => '%s%% defensive modifier for target',
 
             // Improvements
             'improvements' => '%s%% improvement points value',

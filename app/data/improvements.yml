@@ -545,7 +545,7 @@ rage:
   exclusive_races:
     - Sylvan
   perks:
-    defensive_modifier_reduction: 20,6000
+    target_defensive_power_mod: -20,6000
     offensive_power: 40,8000
 
 roaming:

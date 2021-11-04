@@ -57,7 +57,7 @@ elskas:
     - Reptilians
   perks:
     spy_strength: 10
-    defensive_modifier_reduction: 5
+    target_defensive_power_mod: -5
     casualties: 10
     cannot_explore: 1
 
@@ -149,7 +149,7 @@ zidur:
     increases_casualties: 10
     population_growth: -10
     cannot_explore: 1
-    defensive_modifier_reduction: 2.5
+    target_defensive_power_mod: -2.5
 
 voiddeity1:
   name: ◮◬◭
@@ -158,7 +158,7 @@ voiddeity1:
     - Void
   perks:
     offensive_power: 5
-    defensive_modifier_reduction: 5
+    target_defensive_power_mod: -5
     rezone_cost: 20
     construction_cost: 20
     cannot_explore: 1

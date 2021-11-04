@@ -186,7 +186,7 @@ water_temple:
     - Merfolk
   land_type: water
   perks:
-    defensive_modifier_reduction: 1,1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
+    target_defensive_power_mod: 1,-1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
     population_growth: 1,6 # Every 1%, gives 6%
 
 mana_spring:
@@ -436,7 +436,7 @@ temple:
     - Wood Elf
   land_type: swamp
   perks:
-    defensive_modifier_reduction: 1,1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
+    target_defensive_power_mod: 1,-1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
     population_growth: 1,6 # Every 1%, gives 6%
 
 tavern:

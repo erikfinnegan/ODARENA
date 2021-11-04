@@ -70,7 +70,7 @@ class ImprovementHelper
             'defensive_casualties' => 'own defensive casualties',
             'increases_casualties' => 'enemy casualties',
 
-            'defensive_modifier_reduction' => 'reduced defensive modifiers for target',
+            'target_defensive_power_mod' => 'defensive modifiers for target',
 
             'prestige_gains' => 'prestige gains',
 

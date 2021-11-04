@@ -421,45 +421,4 @@ class TheftActionService
 
         return $hours;
     }
-
-    protected function getDefensivePowerWithTemples(
-      Dominion $attacker,
-      Dominion $target,
-      array $units,
-      float $landRatio,
-      bool $isAmbush,
-      array $mindControlledUnits
-      ): float
-    {
-        // Values (percentages)
-        $dpReductionPerTemple = 1.8;
-        $templeMaxDpReduction = 36;
-        $ignoreDraftees = false;
-
-        $dpMultiplierReduction = 0;
-        $dpMultiplierReduction += $attacker->getBuildingPerkMultiplier('defensive_modifier_reduction');
-        $dpMultiplierReduction += $attacker->getSpellPerkMultiplier('target_defensive_power_mod');
-        $dpMultiplierReduction += $attacker->getImprovementPerkMultiplier('defensive_modifier_reduction');
-        $dpMultiplierReduction += $attacker->getDeityPerkMultiplier('defensive_modifier_reduction');
-
-        // Void: Spell (remove DP reduction from Temples)
-        if ($target->getSpellPerkValue('immune_to_temples'))
-        {
-            $dpMultiplierReduction = 0;
-        }
-
-        return $this->militaryCalculator->getDefensivePower(
-                                                            $target,
-                                                            $attacker,
-                                                            $landRatio,
-                                                            null,
-                                                            $dpMultiplierReduction,
-                                                            $ignoreDraftees,
-                                                            $this->isAmbush,
-                                                            false,
-                                                            $units, # Becomes $invadingUnits
-                                                            $mindControlledUnits
-                                                          );
-    }
-
 }
