@@ -264,7 +264,7 @@
                                                             $labelParts[] =  number_format($value) . ' mud';
                                                             break;
 
-                                                        case 'swamp gas':
+                                                        case 'swamp_gas':
                                                             $labelParts[] =  number_format($value) . ' swamp gas';
                                                             break;
 
