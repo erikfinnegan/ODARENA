@@ -3,6 +3,7 @@ alignment: independent
 description:
 home_land_type: swamp
 playable: 1
+experimental: 1
 
 attacking: 2
 exploring : 1
@@ -19,7 +20,7 @@ resources:
 
 land_improvements:
   swamp:
-    mud_production_raw: 40
+    mud_production_raw: 0.5
     swamp_gas_production_raw: 1
   water:
     mud_production_mod: 0.5
@@ -41,9 +42,8 @@ units:
       - sentient
     cost:
       food: 330
-      mud: 50
-      swamp_gas: 20
-      mana: 8
+      swamp_gas: 55
+      mana: 45
     power:
       offense: 10
       defense: 10

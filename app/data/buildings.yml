@@ -1071,6 +1071,14 @@ gas_spout:
   perks:
     swamp_gas_production_raw: 20
 
+mudhole:
+  name: Mudhole
+  exclusive_races:
+    - Marshling
+  land_type: swamp
+  perks:
+    mud_production_raw: 50
+
 spawning_pool:
   name: Spawning Pool
   exclusive_races:

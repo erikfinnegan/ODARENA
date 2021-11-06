@@ -15,26 +15,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Gold:</td>
-                        <td>{{ number_format(($trainingCalculator->getSpecialistEliteCostMultiplier($selectedDominion, 'gold')-1) * 100, 2) }}%</td>
-                    </tr>
-                    <tr>
-                        <td>Ore:</td>
-                        <td>{{ number_format(($trainingCalculator->getSpecialistEliteCostMultiplier($selectedDominion, 'ore')-1) * 100, 2) }}%</td>
-                    </tr>
-                    <tr>
-                        <td>Lumber:</td>
-                        <td>{{ number_format(($trainingCalculator->getSpecialistEliteCostMultiplier($selectedDominion, 'lumber')-1) * 100, 2) }}%</td>
-                    </tr>
-                    <tr>
-                        <td>Mana:</td>
-                        <td>{{ number_format(($trainingCalculator->getSpecialistEliteCostMultiplier($selectedDominion, 'mana')-1) * 100, 2) }}%</td>
-                    </tr>
-                    <tr>
-                        <td>Food:</td>
-                        <td>{{ number_format(($trainingCalculator->getSpecialistEliteCostMultiplier($selectedDominion, 'food')-1) * 100, 2) }}%</td>
-                    </tr>
+
+                    @foreach($selectedDominion->race->resources as $resourceKey)
+                        @php
+                            $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                        @endphp
+                        <tr>
+                            <td>{{ $resource->name }}:</td>
+                            <td>{{ number_format(($trainingCalculator->getSpecialistEliteCostMultiplier($selectedDominion, $resourceKey)-1) * 100, 2) }}%</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

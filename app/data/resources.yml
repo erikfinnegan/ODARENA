@@ -93,3 +93,17 @@ cosmic_alignment:
   sell: null
   exclusive_races:
     - Dimensionalists
+
+mud:
+  name: Mud
+  buy: 1
+  sell: 0.5
+  exclusive_races:
+    - Marshling
+
+swamp_gas:
+  name: Swamp Gas
+  buy: null
+  sell: 1
+  exclusive_races:
+    - Marshling

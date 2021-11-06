@@ -260,6 +260,14 @@
                                                             $labelParts[] =  number_format($value) . ' ' . str_plural('horse', $value);
                                                             break;
 
+                                                        case 'mud':
+                                                            $labelParts[] =  number_format($value) . ' mud';
+                                                            break;
+
+                                                        case 'swamp gas':
+                                                            $labelParts[] =  number_format($value) . ' swamp gas';
+                                                            break;
+
                                                         default:
                                                             break;
                                                     }
