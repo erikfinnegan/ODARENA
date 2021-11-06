@@ -267,9 +267,10 @@ watermill:
     - Merfolk
     - Myconid
     - Reptilians
-    - Void
+    - Simian
     - Swarm
     - Sylvan
+    - Void
     - Wood Elf
   land_type: water
   perks:
