@@ -537,7 +537,7 @@ refiner:
     - Imperial Gnome
   land_type: hill
   perks:
-    resource_conversion: 50,ore,25,brimmer # amountFrom, resourceFrom, amountTo, resourceTo
+    resource_conversion: 50,ore,60,brimmer # amountFrom, resourceFrom, amountTo, resourceTo
 
 ## Other Buildings
 
@@ -917,14 +917,14 @@ portal:
   land_type: forest
   perks:
     dimensionalists_unit1_production_raw: 0.1
-    dimensionalists_unit2_production_raw: 0.05
-    dimensionalists_unit3_production_raw: 0.05
-    dimensionalists_unit4_production_raw: 0.02
+    dimensionalists_unit2_production_raw: 0.055
+    dimensionalists_unit3_production_raw: 0.055
+    dimensionalists_unit4_production_raw: 0.022
     unit_production_from_wizard_ratio: 5
-    dimensionalists_unit1_production_mod: 1,-2,100
-    dimensionalists_unit2_production_mod: 1,-2,100
-    dimensionalists_unit3_production_mod: 1,-2,100
-    dimensionalists_unit4_production_mod: 1,-2,100
+    dimensionalists_unit1_production_mod: 1,-0.5,50
+    dimensionalists_unit2_production_mod: 1,-0.5,50
+    dimensionalists_unit3_production_mod: 1,-0.5,50
+    dimensionalists_unit4_production_mod: 1,-0.5,50
 
 observatory:
   name: Observatory
@@ -1041,6 +1041,8 @@ bloodstone:
 
 # END BEASTFOLK
 
+# BEGIN FIREWALKER
+
 blast_furnace:
   name: Blast Furnace
   exclusive_races:
@@ -1048,6 +1050,26 @@ blast_furnace:
   land_type: mountain
   perks:
     extra_units_trained: 1,1,20 # Every 1% gives 1% extra units, max +20%
+
+# END FIREWALKER
+
+# BEGIN MARSHLING
+
+marsh:
+  name: Marsh
+  exclusive_races:
+    - Marshling
+  land_type: swamp
+  perks:
+    housing: 30
+
+gas_spout:
+  name: Gas Spout
+  exclusive_races:
+    - Marshling
+  land_type: swamp
+  perks:
+    swamp_gas_production_raw: 20
 
 spawning_pool:
   name: Spawning Pool
@@ -1057,14 +1079,6 @@ spawning_pool:
   perks:
     extra_units_trained: 1,2,30 # Every 1% gives 2% extra units, max +30%
     mana_production_raw: 3
-
-marsh:
-  name: Marsh
-  exclusive_races:
-    - Marshling
-  land_type: swamp
-  perks:
-    housing: 30
 
 # BEGIN DEMON
 

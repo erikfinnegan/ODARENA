@@ -50,12 +50,16 @@ class BuildingHelper
             'dimensionalists_unit2_production_raw' => 'Summons %s Sft\'Rm per tick.',
             'dimensionalists_unit3_production_raw' => 'Summons %s Ze\'Tk per tick.',
             'dimensionalists_unit4_production_raw' => 'Summons %s Frs\'Kl per tick.',
+
+            'dimensionalists_unit1_production_mod' => '%2$s%% Tl\'Tl summoning rate for every %1$s%% (max %3$s%%).',
+            'dimensionalists_unit2_production_mod' => '%2$s%% Sft\'Rm summoning rate for every %1$s%% (max %3$s%%).',
+            'dimensionalists_unit3_production_mod' => '%2$s%% Ze\'Tk summoning rate for every %1$s%% (max %3$s%%).',
+            'dimensionalists_unit4_production_mod' => '%2$s%% Frs\'Kl summoning rate for every %1$s%% (max %3$s%%).',
+
             'unit_production_from_wizard_ratio' => 'Summoning increased by (Wizard Ratio / %s)%%.',
 
             'snow_elf_unit4_production_raw' => 'Attracts %s Gryphons per tick.',
             'snow_elf_unit4_production_mod' => '%2$s%% Gryphon arrival rate for every %1$s%% (max %3$s%%).',
-
-            'offensive_snow_elf_unit4_production_modpower' => '%2$s%% Gryphon occurrence for every %1$s%% (max %3$s%%)',
 
             'jobs' => 'Provides %s jobs.',
 
@@ -72,6 +76,8 @@ class BuildingHelper
             'mana_production_raw' => 'Produces %s mana per tick.',
             'pearls_production_raw' => 'Produces %s pearls per tick.',
             'horse_production_raw' => 'Produces %s horses per tick.',
+            'mud_production_raw' => 'Produces %s mud per tick.',
+            'swamp_gas_production_raw' => 'Produces %s swamp gas per tick.',
 
             'xp_generation_raw' => 'Generates %s XP per tick.',
 
@@ -92,6 +98,10 @@ class BuildingHelper
             'mana_production_mod' => 'Mana production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'pearls_production_mod' => 'Pearl production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'blood_production_mod' => 'Blood production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'horse_production_mod' => 'Horse production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'mud_production_mod' => 'Mud production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'swamp gas_production_mod' => 'Swamp gas production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+
             'xp_generation_mod' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             'resource_conversion' => 'Converts %1$s %2$s into %3$s %4$s per tick.',

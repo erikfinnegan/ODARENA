@@ -127,6 +127,11 @@ class DominionFactory
                 $startingParameters['draft_rate'] = 100;
             }
 
+            if($race->name == 'Kerranad')
+            {
+                $startingResources['gems'] = 400000;
+            }
+
             if($race->name == 'Legion')
             {
                 $startingParameters['unit4'] = 1;
@@ -187,8 +192,6 @@ class DominionFactory
         {
             $startingResources['food'] = floor($startingParameters['peasants'] * 18 * 0.25 * (1 + $race->getPerkValue('food_consumption_raw')));
         }
-
-
 
         foreach($startingResources as $resourceKey => $amount)
         {

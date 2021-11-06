@@ -41,7 +41,7 @@ units:
       lumber: 5
     power:
       offense: 0
-      defense: 3
+      defense: 4
 
   - name: Mammoth
     training_time: 12

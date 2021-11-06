@@ -547,6 +547,8 @@
                             @for ($i = 1; $i <= 12; $i++)
                                 @php
                                     $amount = $queueService->getInvasionQueueAmount($dominion, "military_{$unitType}", $i);
+                                    $amount += $queueService->getExpeditionQueueAmount($dominion, "military_{$unitType}", $i);
+                                    $amount += $queueService->getTheftQueueAmount($dominion, "military_{$unitType}", $i);
                                 @endphp
                                 <td class="text-center">
                                     @if ($amount === 0)
@@ -557,7 +559,7 @@
                                 </td>
                             @endfor
                             <td class="text-center">
-                                {{ number_format($queueService->getInvasionQueueTotalByResource($dominion, "military_{$unitType}")) }}
+                                {{ number_format($queueService->getInvasionQueueTotalByResource($dominion, "military_{$unitType}") + $queueService->getExpeditionQueueTotalByResource($dominion, "military_{$unitType}") + $queueService->getTheftQueueTotalByResource($dominion, "military_{$unitType}")) }}
                             </td>
                         </tr>
                     @endforeach

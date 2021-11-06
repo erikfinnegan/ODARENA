@@ -25,7 +25,7 @@ units:
       gold: 0
       ore: 0
     power:
-      offense: 15
+      offense: 8
       defense: 0
     perks:
       fixed_casualties: 100

@@ -654,6 +654,8 @@ class Dominion extends AbstractModel
                           or $perkKey == 'soul_production_raw'
                           or $perkKey == 'pearls_production_raw'
                           or $perkKey == 'horse_production_raw'
+                          or $perkKey == 'mud_production_raw'
+                          or $perkKey == 'swamp_gas_production_raw'
 
                           or $perkKey == 'gold_upkeep_raw'
                           or $perkKey == 'food_upkeep_raw'
@@ -730,6 +732,9 @@ class Dominion extends AbstractModel
                           or $perkKey == 'xp_generation_mod'
                           or $perkKey == 'pearls_production_mod'
                           or $perkKey == 'blood_production_mod'
+                          or $perkKey == 'mud_production_mod'
+                          or $perkKey == 'swamp_gas_production_mod'
+
                           or $perkKey == 'exchange_rate'
 
                           # Unit costs
@@ -983,6 +988,8 @@ class Dominion extends AbstractModel
                          or $perkKey == 'mana_production_mod'
                          or $perkKey == 'pearls_production_mod'
                          or $perkKey == 'cosmic_alignment_production_mod'
+                         or $perkKey == 'mud_production_mod'
+                         or $perkKey == 'swamp_gas_production_mod'
                          or $perkKey == 'xp_generation_mod'
 
                          or $perkKey == 'gold_production_raw'
@@ -992,6 +999,8 @@ class Dominion extends AbstractModel
                          or $perkKey == 'lumber_production_raw'
                          or $perkKey == 'mana_production_raw'
                          or $perkKey == 'pearls_production_raw'
+                         or $perkKey == 'mud_production_raw'
+                         or $perkKey == 'swamp_gas_production_raw'
                          or $perkKey == 'xp_generation_raw'
 
                          or $perkKey == 'gold_production_raw_mod'
@@ -1001,6 +1010,8 @@ class Dominion extends AbstractModel
                          or $perkKey == 'lumber_production_raw_mod'
                          or $perkKey == 'mana_production_raw_mod'
                          or $perkKey == 'pearls_production_raw_mod'
+                         or $perkKey == 'mud_production_raw_mod'
+                         or $perkKey == 'swamp_gas_production_raw_mod'
                          or $perkKey == 'xp_generation_raw_mod'
 
                          or $perkKey == 'no_gold_production'

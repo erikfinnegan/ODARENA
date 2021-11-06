@@ -1437,6 +1437,26 @@ class MilitaryCalculator
           return $powerFromPerk;
       }
 
+      protected function getUnitPowerFromImprovementPoints(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+          $dominionImprovementsPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_per_improvement", null);
+
+          if (!$dominionImprovementsPerk)
+          {
+              return 0;
+          }
+
+          $dominionImprovements = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($dominion);
+
+          $chunkSize = (float)$dominionImprovementsPerk[0];
+          $pointsPerChunk = (int)$dominionImprovementsPerk[1];
+          $max = (float)$dominionImprovementsPerk[2];
+
+          $powerFromPerk = min($max, ($dominionImprovements / $chunkSize) * $pointsPerChunk);
+
+          return $powerFromPerk;
+      }
+
     /**
      * Returns the Dominion's morale modifier.
      *

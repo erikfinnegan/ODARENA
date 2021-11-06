@@ -70,8 +70,8 @@ units:
       defense: 4
     perks:
       plunders: gold;1,gems;2
-      offense_from_per_improvement: 0.25,20000000 # +0.25 for every improvement with at least 20,000,000 imp points
-      defense_from_per_improvement: 0.125,20000000 # +0.125 for every improvement with at least 20,000,000 imp points
+      offense_from_improvement_points: 0.25,50000000,5 # +0.25 for every improvement with at least 20,000,000 imp points
+      defense_from_improvement_points: 0.125,50000000,2.5 # +0.125 for every improvement with at least 20,000,000 imp points
 
   - name: Wolf Rider
     training_time: 12

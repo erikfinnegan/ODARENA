@@ -395,7 +395,6 @@ class BarbarianService
     {
         $amount = $this->barbarianCalculator->getAmountToInvest($barbarian);
         $this->improvementCalculator->createOrIncrementImprovements($barbarian, ['tribalism' => $amount]);
-
     }
 
     public function createBarbarian(Round $round): void

@@ -361,91 +361,91 @@ bashing:
   exclusive_races:
     - Troll
   perks:
-    defensive_power: 50,7500
+    defensive_power: 50,8000
 
 building:
   name: Building
   exclusive_races:
     - Troll
   perks:
-    construction_cost: -50,4000
-    rezone_cost: -50,4000
+    construction_cost: -50,4500
+    rezone_cost: -50,4500
 
 glimmering:
   name: Glimmering
   exclusive_races:
     - Troll
   perks:
-    gold_production_mod: 50,4000
+    gold_production_mod: 50,4500
 
 hunting:
   name: Hunting
   exclusive_races:
     - Troll
   perks:
-    food_production_mod: 90,5000
+    food_production_mod: 90,5500
 
 muttering:
   name: Muttering
   exclusive_races:
     - Troll
   perks:
-    wizard_strength: 90,5000
-    mana_production_mod: 90,5000
-    spell_damage: -90,5000
-    wizard_guild_housing: 90,5000
+    wizard_strength: 90,5500
+    mana_production_mod: 90,5500
+    spell_damage: -90,5500
+    wizard_guild_housing: 90,5500
 
 nesting:
   name: Nesting
   exclusive_races:
     - Troll
   perks:
-    population: 40,4000
+    population: 40,4500
 
 rock_throwing:
   name: Rock Throwing
   exclusive_races:
     - Troll
   perks:
-    ore_production_mod: 50,4000
+    ore_production_mod: 50,4500
 
 smashing:
   name: Smashing
   exclusive_races:
     - Troll
   perks:
-    offensive_power: 50,7500
+    offensive_power: 50,8000
 
 sneaking:
   name: Sneaking
   exclusive_races:
     - Troll
   perks:
-    spy_strength: 90,5000
-    spy_losses: -90,5000
-    forest_haven_housing: 90,5000
+    spy_strength: 90,5500
+    spy_losses: -90,5500
+    forest_haven_housing: 90,5500
 
 trampling:
   name: Trampling
   exclusive_races:
     - Troll
   perks:
-    land_discovered: 70,4000
+    land_discovered: 70,4500
 
 training:
   name: Training
   exclusive_races:
     - Troll
   perks:
-    unit_gold_costs: -50,4000
-    unit_ore_costs: -50,4000
+    unit_gold_costs: -50,4500
+    unit_ore_costs: -50,4500
 
 uprooting:
   name: Uprooting
   exclusive_races:
     - Troll
   perks:
-    lumber_production_mod: 50,4000
+    lumber_production_mod: 50,4500
 # END TROLL #
 
 # BEGIN VOID #

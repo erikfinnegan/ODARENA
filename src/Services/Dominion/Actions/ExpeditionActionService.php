@@ -302,52 +302,6 @@ class ExpeditionActionService
 
     }
 
-    /**
-     *  Handles perks that trigger DURING the battle (before casualties).
-     *
-     *  Go through every unit slot and look for post-invasion perks:
-     *  - burns_peasants_on_attack
-     *  - damages_improvements_on_attack
-     *  - eats_peasants_on_attack
-     *  - eats_draftees_on_attack
-     *
-     * If a perk is found, see if any of that unit were sent on invasion.
-     *
-     * If perk is found and units were sent, calculate and take the action.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target
-     * @param array $units
-     */
-    protected function handleDuringExpeditionUnitPerks(Dominion $dominion, array $units): void
-    {
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting') and isset($units[$slot]))
-            {
-                $resourceKey = $exhaustingPerk[0];
-                $resourceAmount = $this->resourceCalculator->getAmount($dominion, $resourceKey);
-
-                $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmount;
-
-                $this->resourceService->updateResources($dominion, [$resourceKey => ($resourceAmount * -1)]);
-            }
-
-            if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_capped_exhausting') and isset($units[$slot]))
-            {
-                $amountPerUnit = (float)$exhaustingPerk[1];
-                $resourceKey = (string)$exhaustingPerk[2];
-
-                $resourceAmountExhausted = $units[$slot] * $amountPerUnit;
-
-                $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmountExhausted;
-
-                $this->resourceService->updateResources($dominion, [$resourceKey => ($resourceAmountExhausted * -1)]);
-            }
-        }
-
-    }
-
     # Unit Return 2.0
     protected function handleReturningUnits(Dominion $dominion, array $units): void
     {

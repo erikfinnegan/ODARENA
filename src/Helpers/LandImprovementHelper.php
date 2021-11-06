@@ -20,6 +20,8 @@ class LandImprovementHelper
             'mana_production_raw' => ['%s mana/tick', ' per acre.'],
             'gems_production_raw' => ['%s gems/tick', ' per acre.'],
             'horse_production_raw' => ['%s horses/tick', ' per acre.'],
+            'mud_production_raw' => ['%s mud/tick', ' per acre.'],
+            'swamp_gas_production_raw' => ['%s swamp gas/tick', ' per acre.'],
 
             'gold_production_mod' => ['%s%% gold production', ' for every 1%% of this land type.'],
             'food_production_mod' => ['%s%% food production', ' for every 1%% of this land type.'],
@@ -28,6 +30,8 @@ class LandImprovementHelper
             'mana_production_mod' => ['%s%% mana production', ' for every 1%% of this land type.'],
             'gems_production_mod' => ['%s%% gems production', ' for every 1%% of this land type.'],
             'horse_production_mod' => ['%s%% horse taming', ' for every 1%% of this land type.'],
+            'mud_production_mod' => ['%s%% mud production', ' for every 1%% of this land type.'],
+            'swamp_production_mod' => ['%s%% swamp gas production', ' for every 1%% of this land type.'],
 
             'xp_generation_mod' => ['%s%% XP generation', ' for every 1%% of this land type.'],
 

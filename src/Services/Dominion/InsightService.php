@@ -189,7 +189,18 @@ class InsightService
             }
         });
 
-        # Spells
+        // Units returning
+        foreach($data['units']['returning'] as $unitType => $returningQueue)
+        {
+            foreach($returningQueue as $tick => $amount)
+            {
+                $data['units']['returning'][$unitType][$tick] = $this->queueService->getInvasionQueueAmount($target, "military_{$unitType}", $tick);
+                $data['units']['returning'][$unitType][$tick] += $this->queueService->getExpeditionQueueAmount($target, "military_{$unitType}", $tick);
+                $data['units']['returning'][$unitType][$tick] += $this->queueService->getTheftQueueAmount($target, "military_{$unitType}", $tick);
+            }
+        }
+
+        // Spells
         $data['spells'] = [];
 
         foreach($this->spellCalculator->getActiveSpells($target) as $dominionSpell)
@@ -228,7 +239,7 @@ class InsightService
         $data['barren_land'] = $this->landCalculator->getTotalBarrenLand($target);
         $data['constructing_land'] = $totalConstructingLand;
 
-        # Improvemens
+        # Improvements
         $data['improvements'] = [];
 
         foreach($this->improvementHelper->getImprovementsByRace($target->race) as $improvement)
@@ -315,6 +326,15 @@ class InsightService
         });
 
         $this->queueService->getInvasionQueue($target)->each(static function ($row) use (&$data)
+        {
+            if (starts_with($row->resource, 'land_'))
+            {
+                $landType = str_replace('land_', '', $row->resource);
+                $data['land']['incoming'][$landType][$row->hours] += $row->amount;
+            }
+        });
+
+        $this->queueService->getExpeditionQueue($target)->each(static function ($row) use (&$data)
         {
             if (starts_with($row->resource, 'land_'))
             {

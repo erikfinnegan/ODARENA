@@ -12,9 +12,17 @@ skill_level: 3
 resources:
   - gold
   - food
-  - lumber
+  - mud
   - mana
   - gems
+  - swamp_gas
+
+land_improvements:
+  swamp:
+    mud_production_raw: 40
+    swamp_gas_production_raw: 1
+  water:
+    mud_production_mod: 0.5
 
 peasants_alias: apprentice
 
@@ -32,9 +40,10 @@ units:
       - living
       - sentient
     cost:
-      food: 350
-      lumber: 120
-      mana: 50
+      food: 330
+      mud: 50
+      swamp_gas: 20
+      mana: 8
     power:
       offense: 10
       defense: 10

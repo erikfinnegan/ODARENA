@@ -1359,10 +1359,10 @@ class InvadeActionService
                         $burnedPeasants = $burningUnits * $peasantsBurnedPerUnit * min($this->invasionResult['result']['opDpRatio'], 1);
                         $burnedPeasants = min(($target->peasants-1000), $burnedPeasants);
                     }
+
                     $target->peasants -= $burnedPeasants;
                     $this->invasionResult['attacker']['peasants_burned']['peasants'] = $burnedPeasants;
                     $this->invasionResult['defender']['peasants_burned']['peasants'] = $burnedPeasants;
-
                 }
 
                 // damages_improvements_on_attack

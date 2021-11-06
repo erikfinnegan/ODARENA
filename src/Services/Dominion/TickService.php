@@ -187,6 +187,9 @@ class TickService
 
                         if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian construction for ' . $dominion->name); }
                         $this->barbarianService->handleBarbarianConstruction($dominion);
+
+                        if(static::EXTENDED_LOGGING) { Log::debug('*** Handle Barbarian improvements for ' . $dominion->name); }
+                        $this->barbarianService->handleBarbarianImprovements($dominion);
                     }
 
                     if(static::EXTENDED_LOGGING) { Log::debug('** Calculate $largestDominion'); }
