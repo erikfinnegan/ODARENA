@@ -178,7 +178,7 @@ sunken_shrine:
   perks:
     defensive_casualties: 1,-5,50 # 1% gives -5%, max -50%
     offensive_casualties: 1,-5,50 # 1% gives -5%, max -50%
-    prestige_gains: 1,2.5,50 # 1% gives +2.5%, max -50%
+    prestige_gains: 1,2.5,25 # 1% gives +2.5%, max +25%
 
 water_temple:
   name: Water Temple
@@ -479,7 +479,7 @@ shrine:
   perks:
     defensive_casualties: 1,-5,50 # 1% gives -5% max -50%
     offensive_casualties: 1,-5,50 # 1% gives -5%, max -50%
-    prestige_gains: 1,2.5,50 # 1% gives +2.5%, max -50%
+    prestige_gains: 1,2.5,25 # 1% gives +2.5%, max +25%
 
 smithy:
   name: Smithy

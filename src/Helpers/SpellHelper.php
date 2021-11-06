@@ -61,7 +61,7 @@ class SpellHelper
             'pearls_production_mod_production' => '%s%% pearl production',
             'cosmic_alignment_production_mod' => '%s%% Cosmic Alignment discovery',
 
-            'food_consumption_mod' => '%s%% food production',
+            'food_consumption_mod' => '%s%% food consumption',
 
             'tech_production' => '%s%% XP generation',
 

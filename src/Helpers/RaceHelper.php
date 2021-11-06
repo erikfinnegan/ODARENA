@@ -466,6 +466,10 @@ class RaceHelper
                 $description = 'Starts devoted to Tiranthael';
                 $booleanValue = true;
                 break;
+          case 'improvements_from_souls':
+                $negativeBenefit = false;
+                $description = 'Souls increase improvements';
+                $booleanValue = true;
           default:
                 $negativeBenefit = false;
                 $description = 'No description for perk: ' . $perkType->key;

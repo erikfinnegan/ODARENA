@@ -178,6 +178,10 @@ class UnitHelper
             'defense_from_per_improvement' => 'Defense increased by %1$s for every individual improvement you have with at least %2$s points invested.',
             'offense_from_per_improvement' => 'Offense increased by %1$s for every individual improvement you have with at least %2$s points invested.',
 
+
+            'offense_from_improvement_points' => 'Offense increased by %1$s for %2$s points invested (max +%3$s).',
+            'defense_from_improvement_points' => 'Defense increased by %1$s for %2$s points invested (max +%3$s).',
+
             // Spy related
             'counts_as_spy' => 'Counts as %s spy.',
             'counts_as_spy_defense' => 'Counts as %s of a spy on defense.',

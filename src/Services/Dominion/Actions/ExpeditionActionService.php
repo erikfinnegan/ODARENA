@@ -266,6 +266,17 @@ class ExpeditionActionService
     {
         $prestigeChange = intval($landDiscovered / $this->landCalculator->getTotalLand($dominion) * 200);
 
+        $prestigeChangeMultiplier = 1;
+        $prestigeChangeMultiplier += $attacker->race->getPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($attacker, $units);
+        $prestigeChangeMultiplier += $attacker->getTechPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $attacker->getBuildingPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $attacker->getImprovementPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $attacker->getSpellPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $attacker->title->getPerkMultiplier('prestige_gains') * $attacker->title->getPerkBonus($attacker);
+
+        $prestigeChange *= $prestigeChangeMultiplier;
+
         $this->queueService->queueResources(
             'expedition',
             $dominion,

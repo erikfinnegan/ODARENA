@@ -481,6 +481,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromDeity($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromBuildingsBasedPerk($dominion, $unit, $powerType); # This perk uses multiple buildings!
         $unitPower += $this->getUnitPowerFromImprovementPointsPerImprovement($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromImprovementPoints($dominion, $unit, $powerType);
 
         if ($landRatio !== null)
         {
@@ -1452,7 +1453,7 @@ class MilitaryCalculator
           $pointsPerChunk = (int)$dominionImprovementsPerk[1];
           $max = (float)$dominionImprovementsPerk[2];
 
-          $powerFromPerk = min($max, ($dominionImprovements / $chunkSize) * $pointsPerChunk);
+          $powerFromPerk = min($max, floor($dominionImprovements / $chunkSize) * $pointsPerChunk);
 
           return $powerFromPerk;
       }

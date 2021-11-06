@@ -129,31 +129,20 @@
                   <p>Invest resources into your improvements to immediately strengthen that part of your dominion. Resources invested are converted to points.</p>
                   <p>The return on investments use an exponential function, which yields less return the more you have invested. The function is based on a coefficient and a maximum.</p>
 
-                  @php
-                      $improvementsBonus = 0;
-                      $improvementsBonus += $selectedDominion->getBuildingPerkMultiplier('improvements');
-                      $improvementsBonus += $selectedDominion->getBuildingPerkMultiplier('improvements_capped');
-                      $improvementsBonus += $selectedDominion->getSpellPerkMultiplier('improvements');
-                      $improvementsBonus += $selectedDominion->getTechPerkMultiplier('improvements');
-                      $improvementsBonus += $selectedDominion->race->getPerkMultiplier('improvements_max');
-                  @endphp
-
-                  @if($improvementsBonus > 0)
-                      <p>Your improvements are increased by <strong>{{ number_format($improvementsBonus*100,2) }}%</strong>.</p>
+                  @if($selectedDominion->getImprovementsMod() !== 1)
+                      <p>Your improvements are {{ ($selectedDominion->getImprovementsMod() > 1) ? 'increased' : 'decreased' }} by <strong>{{ number_format(($selectedDominion->getImprovementsMod()-1)*100,2) }}%</strong>.</p>
                   @endif
 
                   <table class="table">
                       <colgroup>
-                          <col width="20%">
-                          <col width="20%">
-                          <col width="20%">
-                          <col width="20%">
-                          <col width="20%">
+                          <col width="25%">
+                          <col width="25%">
+                          <col width="25%">
+                          <col width="25%">
                       </colgroup>
                       <thead>
                           <tr>
                               <th>Resource</th>
-                              <th>Available</th>
                               <th>Points each</th>
                               <th>Points each (raw)</th>
                               <th>Modifier</th>
@@ -163,7 +152,6 @@
                       @foreach($selectedDominion->race->improvement_resources as $resource => $rawValue)
                           <tr>
                               <td>{{ ucwords($resource) }}</td>
-                              <td>{{ number_format($selectedDominion->{'resource_'.$resource}) }}
                               <td>{{ number_format($improvementCalculator->getResourceWorth($resource, $selectedDominion),2) }}</td>
                               <td>{{ number_format($rawValue,2) }}</td>
                               <td>{{ number_format($improvementCalculator->getResourceWorthMultipler($resource, $selectedDominion)*100,2) }}%</td>

@@ -1173,12 +1173,14 @@ class Dominion extends AbstractModel
             }
         }
 
-        if($perk === 0.0)
-        {
-        #    dd($perkKey, $perk, $max, $coefficient, $invested, ($max * (1 - exp(-$invested / ($coefficient * $landSize + 15000)))));
-        }
+        $perk *= $this->getImprovementsMod();
 
-        #dump($perkKey, $perk, $max, $coefficient, $invested, ($max * (1 - exp(-$invested / ($coefficient * $landSize + 15000)))));
+        return $perk;
+    }
+
+    public function getImprovementsMod(string $perkKey = null): float
+    {
+        $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
 
         $multiplier = 1;
         $multiplier += $this->getBuildingPerkMultiplier('improvements');
@@ -1187,16 +1189,16 @@ class Dominion extends AbstractModel
         $multiplier += $this->getTechPerkMultiplier('improvements');
         $multiplier += $this->getDeityPerkMultiplier('improvements');
         $multiplier += $this->race->getPerkMultiplier('improvements_max');
-        #if($this->title)
-        #{
-        #    $multiplier += $this->title->getPerkMultiplier('improvements') * $this->title->getPerkBonus($this);
-        #}
 
-        $perk *= $multiplier;
+        if($this->race->getPerkValue('improvements_from_souls'))
+        {
+            $resourceCalculator = app(ResourceCalculator::class);
+            $multiplier += $resourceCalculator->getAmount($this, 'soul') / ($landSize * 1000);
+        }
 
+        $multiplier = max(0, $multiplier);
 
-
-        return $perk;
+        return $multiplier;
     }
 
     /**

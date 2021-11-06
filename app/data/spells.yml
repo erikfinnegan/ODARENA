@@ -827,6 +827,7 @@ desecration:
 
 infernal_fury:
   name: Infernal Fury
+  enabled: 0
   scope: self
   class: passive
   cost: 7
