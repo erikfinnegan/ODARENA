@@ -374,6 +374,9 @@ class InvadeActionService
             # Demon
             $this->handlePeasantCapture($dominion, $target, $units, $landRatio);
 
+            # Demon
+            $this->handlePeasantKilling($dominion, $target, $units, $landRatio);
+
             # Conversions
             $offensiveConversions = array_fill(1, 4, 0);
             $defensiveConversions = array_fill(1, 4, 0);
@@ -1618,6 +1621,60 @@ class InvadeActionService
         );
     }
 
+    public function handlePeasantKilling(Dominion $defender, Dominion $attacker, float $landRatio): void
+    {
+        if($defender->race->name !== 'Demon' or !$this->invasionResult['result']['success'])
+        {
+            return;
+        }
+
+        $rawDp = 0;
+        foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+        {
+            if($amount > 0)
+            {
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
+                $rawDpFromSlot = $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
+                $totalRawDpFromSlot = $rawDpFromSlot * $amount;
+
+                $rawDp += $totalRawDpFromSlot;
+            }
+        }
+
+        $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
+        $displacedPeasants = intval(($defender->peasants / $this->invasionResult['defender']['landSize']) * $landConquered);
+
+        foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+        {
+            if ($defender->race->getUnitPerkValueForUnitSlot($slot, 'captures_displaced_peasants'))
+            {
+                $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
+                $dpRatio = $dpFromSlot / $rawDp;
+
+                $peasantsKilled = (int)floor($displacedPeasants * $opRatio);
+
+                #dump('Slot ' . $slot . ' OP: ' . number_format($opFromSlot) . ' which is ' . $opRatio . ' ratio relative to ' . number_format($rawOp) . ' raw OP total.');
+
+                if(isset($this->invasionResult['defender']['peasants_killed']))
+                {
+                    $this->invasionResult['defender']['peasants_killed'] += $peasantsKilled;
+                }
+                else
+                {
+                    $this->invasionResult['defender']['peasants_killed'] = $peasantsKilled;
+                }
+            }
+        }
+
+        #dump('Displaced peasants: ' . number_format($displacedPeasants) . ' (' . number_format($defender->peasants) . ' / ' . number_format($this->invasionResult['defender']['landSize']) . ') * ' . number_format($landConquered) .'.');
+
+        $this->invasionResult['defender']['peasants_killed'] = intval(min(($defender->peasants-1000), max(0, $this->invasionResult['defender']['peasants_killed'])));
+
+        $defender->peasants -= $this->invasionResult['defender']['peasants_killed'];
+    }
 
 
     # Unit Return 2.0

@@ -205,21 +205,29 @@ class BarbarianService
 
             foreach($targetsInRange as $target)
             {
-                $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
-                $units = [1 => $dominion->military_unit1, 4 => $dominion->military_unit4];
-                $targetDp = $this->militaryCalculator->getDefensivePower($target, $dominion, $landRatio);
-
-                $logString .= "\t\t** " . $dominion->name . ' is checking ' . $target->name . ': ';
-
-                if($this->barbarianCalculator->getOpCurrent($dominion) >= $targetDp * 0.85)
+                if(!$target->getSpellPerkValue('fog_of_war'))
                 {
-                    $logString .= '✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->barbarianCalculator->getOpCurrent($dominion)) . "\n";
-                    $invadePlayer = $target;
-                    break;
+                    $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+                    $units = [1 => $dominion->military_unit1, 4 => $dominion->military_unit4];
+                    $targetDp = $this->militaryCalculator->getDefensivePower($target, $dominion, $landRatio);
+
+                    $logString .= "\t\t** " . $dominion->name . ' is checking ' . $target->name . ': ';
+
+                    if($this->barbarianCalculator->getOpCurrent($dominion) >= $targetDp * 0.85)
+                    {
+                        $logString .= '✅ DP is within tolerance! DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->barbarianCalculator->getOpCurrent($dominion)) . "\n";
+                        $invadePlayer = $target;
+                        break;
+                    }
+                    else
+                    {
+                        $logString .= '🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->barbarianCalculator->getOpCurrent($dominion)) . "\n";
+                        $invadePlayer = false;
+                    }
                 }
                 else
                 {
-                    $logString .= '🚫 DP is too high. DP: ' . number_format($targetDp) . ' vs. available OP: ' . number_format($this->barbarianCalculator->getOpCurrent($dominion)) . "\n";
+                    $logString .= "🚫 Target has fog.\n";
                     $invadePlayer = false;
                 }
 

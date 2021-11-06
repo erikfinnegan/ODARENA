@@ -93,6 +93,7 @@ class UnitHelper
             'passive_conversion' => 'Converts %3$s %1$s into 1 %2$s each tick, increased by (%4$s / Total Land)%%.',
 
             'captures_displaced_peasants' => 'Captures enemy peasants formerly living on land conquered on invasion.',
+            'kills_displaced_peasants' => 'Kills own displaced peasants.',
 
             // OP/DP related
             'defense_from_building' => 'Defense increased by 1 for every %2$s%% %1$ss (max +%3$s).',
