@@ -15,8 +15,8 @@ resources:
   - food
   - mud
   - mana
-  - gems
   - swamp_gas
+  - gems
 
 construction_materials:
   - gold

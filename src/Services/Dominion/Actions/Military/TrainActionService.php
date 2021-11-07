@@ -101,19 +101,14 @@ class TrainActionService
             throw new GameException($dominion->race->name . ' cannot train Arch Mages.');
         }
 
+        # Non-resource costs
         $totalCosts = [
-            'gold' => 0,
-            'ore' => 0,
             'draftees' => 0,
+            'spy' => 0,
+            'wizard' => 0,
             'wizards' => 0,
-            'food' => 0,
-            'mana' => 0,
-            'gems' => 0,
-            'lumber' => 0,
+            'archmage' => 0,
             'prestige' => 0,
-            'champion' => 0,
-            'soul' => 0,
-            'blood' => 0,
             'morale' => 0,
             'wizard_strength' => 0,
             'spy_strength' => 0,
@@ -122,15 +117,13 @@ class TrainActionService
             'unit2' => 0,
             'unit3' => 0,
             'unit4' => 0,
-            'brimmer' => 0,
-            'prisoner' => 0,
-            'horse' => 0,
-
-            'spy' => 0,
-            'wizard' => 0,
-            'archmage' => 0,
-
         ];
+
+        # Resource costs
+        foreach($dominion->race->resources as $resourceKey)
+        {
+            $totalCosts[$resourceKey] = 0;
+        }
 
         $unitsToTrain = [];
 
