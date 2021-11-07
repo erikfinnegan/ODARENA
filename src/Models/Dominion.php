@@ -718,6 +718,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'casualties'
 
                           or $perkKey == 'morale_gains'
+                          or $perkKey == 'prestige_gains'
                           or $perkKey == 'base_morale'
 
                           or $perkKey == 'faster_return'
