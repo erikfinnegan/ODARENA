@@ -15,6 +15,16 @@ class ResourceHelper
         return Resource::where('key', $resourceKey)->first() ? true : false;
     }
 
+    public function getResourceName(string $resourceKey): string
+    {
+        if(!$this->isResource($resourceKey))
+        {
+            return '?';
+        }
+
+        return Resource::where('key', $resourceKey)->first()->name;
+    }
+
     public function getResourceConsumptionTerm(string $resourceKey): string
     {
         switch ($resourceKey) {
@@ -100,7 +110,6 @@ class ResourceHelper
         $exclusivityString .= '</small>';
 
         return $exclusivityString;
-
     }
 
 }

@@ -44,7 +44,6 @@ units:
       - sentient
     cost:
       gold: 300
-      ore: 0
     power:
       offense: 0
       defense: 3

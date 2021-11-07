@@ -27,8 +27,6 @@ units:
     training_time: 0
     type:
       - ammunition
-    cost:
-      gold: 0
     power:
       offense: 8
     perks:

@@ -26,6 +26,7 @@ use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\ResourceHelper;
 
 class TrainActionService
 {
@@ -44,6 +45,7 @@ class TrainActionService
         $this->trainingCalculator = app(TrainingCalculator::class);
         $this->unitHelper = app(UnitHelper::class);
         $this->raceHelper = app(RaceHelper::class);
+        $this->resourceHelper = app(ResourceHelper::class);
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->resourceCalculator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
@@ -131,7 +133,7 @@ class TrainActionService
 
         foreach ($data as $unitType => $amountToTrain)
         {
-            if (!$amountToTrain || $amountToTrain === 0)
+            if (!$amountToTrain || $amountToTrain == 0)
             {
                 continue;
             }
@@ -491,7 +493,6 @@ class TrainActionService
                     'werewolf' => 'werewolves',
                     'snow witch' => 'snow witches',
                     'lich' => 'liches',
-                    'progeny' => 'progenies',
                     'fallen' => 'fallen',
                     'goat witch' => 'goat witches',
                     'phoenix' => 'phoenix',
@@ -535,11 +536,11 @@ class TrainActionService
                 continue;
             }
 
-            $costType = str_singular($costType);
+            #$costType = str_singular($costType);
 
             if(in_array($costType, ['unit1','unit2','unit3','unit4']))
             {
-                $slot = (int)str_replace('unit','',$costType);
+                $slot = (int)str_replace('unit', '', $costType);
 
                 $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
                     return ($unit->slot === $slot);
@@ -548,22 +549,39 @@ class TrainActionService
                 $costType = str_plural($unit->name, $cost);
             }
 
-#            if (!\in_array($costType, ['gold', 'ore'], true)) {
-            if (!\in_array($costType, ['gold', 'ore', 'food', 'mana', 'gems', 'lumber', 'prestige', 'champion', 'soul', 'blood', 'morale', 'peasant'], true))
+            $costWord = $costType;
+            if($this->resourceHelper->isResource($costType))
             {
-                $costType = str_plural($costType, $cost);
+                $costResource = Resource::where('key', $costType)->first();
+                $costWord = $costResource->name;
             }
 
-            $trainingCostsStringParts[] = (number_format($cost) . ' ' . $costType);
+            if (!in_array($costType, ['gold', 'ore', 'food', 'mana', 'gems', 'lumber', 'prestige', 'champion', 'soul', 'blood', 'morale', 'peasant', 'swamp_gas', 'lumber'], true))
+            {
+                $costWord = str_plural($costWord, $cost);
+            }
+
+            $trainingCostsStringParts[] = (number_format($cost) . ' ' . $costWord);
 
         }
 
         $trainingCostsString = generate_sentence_from_array($trainingCostsStringParts);
 
+        # Clean up formatting
+        $unitsToTrainString = ucwords($unitsToTrainString);
+        $unitsToTrainString = str_replace('And', 'and', $unitsToTrainString);
+
+        $trainingCostsString = ucwords($trainingCostsString);
+        $trainingCostsString = str_replace(' Spy_strengths', '% Spy Strength', $trainingCostsString);
+        $trainingCostsString = str_replace(' Wizard_strengths', '% Wizard Strength', $trainingCostsString);
+        $trainingCostsString = str_replace(' Morale', '% Morale', $trainingCostsString);
+        $trainingCostsString = str_replace('And', 'and', $trainingCostsString);
+
+
         $message = sprintf(
             'Training of %s begun at a cost of %s.',
-            str_replace('And', 'and', ucwords($unitsToTrainString)),
-            str_replace(' Spy_strengths', '% Spy Strength', str_replace(' Wizard_strengths', '% Wizard Strength', str_replace(' Morale', '% Morale', str_replace('And', 'and', ucwords($trainingCostsString)))))
+            $unitsToTrainString,
+            $trainingCostsString
         );
 
         return $message;

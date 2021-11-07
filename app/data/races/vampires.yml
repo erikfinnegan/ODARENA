@@ -33,8 +33,6 @@ units:
     type:
       - living
       - mindless
-    cost:
-      food: 0
     power:
       offense: 0
       defense: 4
@@ -47,8 +45,6 @@ units:
     type:
       - living
       - sentient
-    cost:
-      gold: 0
     power:
       offense: 9
       defense: 9
@@ -65,8 +61,6 @@ units:
       - sentient
       - massive
       - intelligent
-    cost:
-      gold: 0
     power:
       offense: 22
       defense: 12

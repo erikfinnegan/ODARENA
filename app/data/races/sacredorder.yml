@@ -21,9 +21,6 @@ units:
     type:
       - living
       - mindless
-    cost:
-      gold: 0
-      ore: 0
     power:
       offense: 8
       defense: 0
@@ -38,10 +35,6 @@ units:
       - living
       - sentient
       - intelligent
-    static_networth: 3
-    cost:
-      gold: 0
-      ore: 0
     power:
       offense: 0
       defense: 1

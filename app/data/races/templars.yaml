@@ -15,7 +15,6 @@ perks:
 units:
   - name: Crusader
     training_time: 9
-
     cost:
       gold: 350
       ore: 35
@@ -27,10 +26,6 @@ units:
 
   - name: Follower
     training_time: 6
-
-    cost:
-      gold: 0
-      ore: 0
     power:
       offense: 0
       defense: 2
@@ -40,7 +35,6 @@ units:
 
   - name: Pikeman
     training_time: 12
-
     cost:
       gold: 900
       ore: 90

@@ -67,8 +67,6 @@ units:
     type:
       - living
       - sentient
-    cost:
-      gold: 0
     power:
       offense: 1
       defense: 3
@@ -82,8 +80,6 @@ units:
     type:
       - living
       - sentient
-    cost:
-      gold: 0
     power:
       offense: 4
       defense: 2
@@ -97,8 +93,6 @@ units:
     type:
       - living
       - sentient
-    cost:
-      gold: 0
     power:
       offense: 3
       defense: 1

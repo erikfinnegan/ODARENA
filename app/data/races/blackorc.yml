@@ -48,7 +48,6 @@ units:
       - intelligent
     cost:
       gold: 900
-      ore: 0
     power:
       offense: 0
       defense: 2

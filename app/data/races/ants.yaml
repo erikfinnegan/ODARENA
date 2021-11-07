@@ -38,9 +38,6 @@ units:
     training_time: 6
     type:
       - living
-    cost:
-      gold: 0
-      ore: 0
     power:
       offense: 1
       defense: 0
@@ -51,7 +48,6 @@ units:
       - living
     cost:
       gold: 150
-      ore: 0
     power:
       offense: 0
       defense: 1.5
@@ -65,7 +61,6 @@ units:
       - living
     cost:
       gold: 320
-      ore: 0
     power:
       offense: 0
       defense: 3
@@ -76,7 +71,6 @@ units:
       - living
     cost:
       gold: 500
-      ore: 0
     power:
       offense: 3
       defense: 1.5

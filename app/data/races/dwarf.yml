@@ -36,7 +36,6 @@ units:
     type:
       - equipment
     cost:
-      gold: 0
       ore: 40000
       mana: 350
       gems: 100
