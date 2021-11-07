@@ -59,7 +59,7 @@ class TheftCalculator
         $maxPerSpy = $this->getMaxCarryPerSpyForResource($thief, $resource);
 
         $thiefSpa = $this->militaryCalculator->getSpyRatio($thief, 'offense');
-        $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
+        $targetSpa = max($this->militaryCalculator->getSpyRatio($target, 'defense'), 0.01);
         $spaRatio = $targetSpa / $thiefSpa;
         $invertedSpaRatio = min(1, 1/$spaRatio);
 
