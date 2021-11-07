@@ -277,6 +277,48 @@ brimmer_salvaged:
 brimmer_plundered:
   name: Brimmer plundered
 
+mud_production:
+  name: Mud production
+mud_sold:
+  name: Mud sold
+mud_bought:
+  name: Mud bought
+mud_building:
+  name: Mud building
+mud_rezoning:
+  name: Mud rezoning
+mud_training:
+  name: Mud training
+mud_improvements:
+  name: Mud improvements
+mud_lost:
+  name: Mud lost
+mud_salvaged:
+  name: Mud salvaged
+mud_plundered:
+  name: Mud plundered
+
+swamp_gas_production:
+  name: Swamp gas production
+swamp_gas_sold:
+  name: Swamp gas sold
+swamp_gas_bought:
+  name: Swamp gas bought
+swamp_gas_building:
+  name: Swamp gas building
+swamp_gas_rezoning:
+  name: Swamp gas rezoning
+swamp_gas_training:
+  name: Swamp gas training
+swamp_gas_improvements:
+  name: Swamp gas improvements
+swamp_gas_lost:
+  name: Swamp gas lost
+swamp_gas_salvaged:
+  name: Swamp gas salvaged
+swamp_gas_plundered:
+  name: Swamp gas plundered
+
 spy_strength_production:
   name: Spy Strength production
 spy_strength_sold:
