@@ -58,7 +58,7 @@ class TheftCalculator
         $resourceAvailableAmount = max(0, $resourceAvailableAmount);
         $maxPerSpy = $this->getMaxCarryPerSpyForResource($thief, $resource);
 
-        $thiefSpa = max($this->militaryCalculator->getSpyRatio($thief, 'offense'), 0.01);
+        $thiefSpa = $this->militaryCalculator->getSpyRatio($thief, 'offense');
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
         $spaRatio = $targetSpa / $thiefSpa;
         $invertedSpaRatio = min(1, 1/$spaRatio);
@@ -105,9 +105,9 @@ class TheftCalculator
 
         $baseCasualties = 0.01; # 1%
 
-        $thiefSpa = max($this->militaryCalculator->getSpyRatio($thief, 'offense'), 0.01);
+        $thiefSpa = $this->militaryCalculator->getSpyRatio($thief, 'offense');
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
-        $spaRatio = $targetSpa / $thiefSpa;
+        $spaRatio = max($targetSpa / $thiefSpa, 0.001);
 
         # If SPA/SPA is 0.25 or less, there is a random chance spies are immortal.
         if($spaRatio <= 0.25 and random_chance(1 / $spaRatio))
