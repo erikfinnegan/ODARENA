@@ -75,7 +75,7 @@ prisoner:
 brimmer:
   name: Brimmer
   buy: null
-  sell: 3
+  sell: null
   exclusive_races:
     - Imperial Gnome
 
