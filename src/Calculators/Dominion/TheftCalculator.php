@@ -105,7 +105,7 @@ class TheftCalculator
 
         $baseCasualties = 0.01; # 1%
 
-        $thiefSpa = $this->militaryCalculator->getSpyRatio($thief, 'offense');
+        $thiefSpa = max($this->militaryCalculator->getSpyRatio($thief, 'offense'), 0.01);
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
         $spaRatio = $targetSpa / $thiefSpa;
 
