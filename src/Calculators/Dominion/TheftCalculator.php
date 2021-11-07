@@ -60,7 +60,7 @@ class TheftCalculator
 
         $thiefSpa = $this->militaryCalculator->getSpyRatio($thief, 'offense');
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
-        $spaRatio = $targetSpa / $thiefSpa;
+        $spaRatio = max($targetSpa / $thiefSpa, 0.001);
         $invertedSpaRatio = min(1, 1/$spaRatio);
 
         $theftAmount = min($resourceAvailableAmount, array_sum($units) * $maxPerSpy * $invertedSpaRatio);
