@@ -11,6 +11,7 @@ draftees_alias: amoeba
 resources:
   - food
   - lumber
+  - mana
 
 construction_materials:
   - food
