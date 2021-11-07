@@ -18,6 +18,14 @@ resources:
   - gems
   - swamp_gas
 
+construction_materials:
+  - gold
+  - mud
+
+improvement_resources:
+  mud: 2
+  swamp_gas: 2
+
 land_improvements:
   swamp:
     mud_production_raw: 0.5

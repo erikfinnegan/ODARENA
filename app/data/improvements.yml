@@ -156,6 +156,7 @@ logging:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Merfolk
     - Sylvan
     - Swarm
@@ -188,6 +189,7 @@ mobilisation:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Sylvan
     - Swarm
     - Troll
