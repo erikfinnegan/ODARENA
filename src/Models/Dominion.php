@@ -802,7 +802,15 @@ class Dominion extends AbstractModel
 
                       #$effect = min($owned / $landSize * $ratio * $multiplier, $max);
 
-                      $perk += min($owned / $landSize * $ratio * $multiplier, $max) * 100;
+                      if($multiplier < 0)
+                      {
+                          $perk += max($owned / $landSize * $ratio * $multiplier, $max*-1) * 100;
+                      }
+                      else
+                      {
+                          $perk += min($owned / $landSize * $ratio * $multiplier, $max) * 100;
+                      }
+
                   }
                   # Mods with ratio, multiplier, and no max
                   elseif(
