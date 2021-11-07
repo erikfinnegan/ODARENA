@@ -1362,7 +1362,7 @@ class TickService
         $finishedResourcesInQueue = DB::table('dominion_queue')
                                         ->where('dominion_id',$dominion->id)
                                         ->where('resource', 'like', 'resource%')
-                                        ->whereIn('source', ['exploration','invasion','expedition'])
+                                        ->whereIn('source', ['exploration','invasion','expedition','theft'])
                                         ->where('hours',1)
                                         ->get();
 
