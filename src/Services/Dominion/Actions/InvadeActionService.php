@@ -375,7 +375,7 @@ class InvadeActionService
             $this->handlePeasantCapture($dominion, $target, $units, $landRatio);
 
             # Demon
-            $this->handlePeasantKilling($dominion, $target, $units, $landRatio);
+            #$this->handlePeasantKilling($dominion, $target, $units, $landRatio);
 
             # Conversions
             $offensiveConversions = array_fill(1, 4, 0);

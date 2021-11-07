@@ -800,8 +800,6 @@ class Dominion extends AbstractModel
                       $max = (float)$perkValues[2] / 100;
                       $owned = $building->pivot->owned;
 
-                      #$effect = min($owned / $landSize * $ratio * $multiplier, $max);
-
                       if($multiplier < 0)
                       {
                           $perk += max($owned / $landSize * $ratio * $multiplier, $max*-1) * 100;
@@ -828,8 +826,6 @@ class Dominion extends AbstractModel
                       $ratio = (float)$perkValues[0];
                       $multiplier = (float)$perkValues[1];
                       $owned = $building->pivot->owned;
-
-                      #$effect = $owned / $landSize * $ratio * $multiplier;
 
                       $perk += ($owned / $landSize * $ratio * $multiplier) * 100;
                   }
