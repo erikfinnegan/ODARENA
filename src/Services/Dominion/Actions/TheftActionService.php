@@ -218,10 +218,12 @@ class TheftActionService
             # Queue returning resources
             $ticks = 6;
 
+            $resourceQueueKey = 'resource_' . $resource->key;
+
             $this->queueService->queueResources(
                 'theft',
                 $thief,
-                [$resource->key => $amountStolen],
+                [$resourceQueueKey => $amountStolen],
                 $ticks
             );
 
