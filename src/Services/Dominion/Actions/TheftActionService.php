@@ -216,7 +216,7 @@ class TheftActionService
             $this->theft['amount_stolen'] = $amountStolen;
 
             # Remove from target
-            $this->resourceService->updateResources($dominion, [$resource->key => $amountStolen*-1]);
+            $this->resourceService->updateResources($target, [$resource->key => $amountStolen*-1]);
 
             # Queue returning resources
             $ticks = 6;
