@@ -84,10 +84,12 @@
                                     <col>
                                     <col width="200">
                                     <col width="200">
+                                    <col width="200">
                                 </colgroup>
                                 <thead>
                                     <tr>
                                         <th>Unit</th>
+                                        <th>Total</th>
                                         <th>Available</th>
                                         <th class="text-center">Send</th>
                                     </tr>
@@ -95,6 +97,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Spies</td>
+                                        <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'spies')) }}</td>
                                         <td>{{ number_format($selectedDominion->military_spies) }}</td>
                                         <td class="text-center">
                                             <input type="number"
@@ -117,6 +120,7 @@
                                             @endphp
                                             <tr>
                                                 <td>{{ $unit->name }}</td>
+                                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unitSlot)) }}</td>
                                                 <td>{{ number_format($selectedDominion->{"military_unit{$unitSlot}"}) }}</td>
                                                 <td class="text-center">
                                                     <input type="number"
@@ -129,8 +133,6 @@
                                                            style="min-width:5em;"
                                                            data-slot="{{ $unitSlot }}"
                                                            data-amount="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
-                                                           data-op="{{ $unit->power_offense }}"
-                                                           data-dp="{{ $unit->power_defense }}"
                                                            {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                                 </td>
                                             </tr>

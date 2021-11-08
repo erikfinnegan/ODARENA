@@ -39,8 +39,14 @@ class TheftCalculator
         $this->resourceCalculator = $resourceCalculator;
     }
 
-    public function getTheftAmount(Dominion $thief, Dominion $target, Resource $resource, array $units): int
+    public function getTheftAmount(Dominion $thief, Dominion $target, Resource $resource, array $units, bool $forCalculator = false): int
     {
+
+        if($forCalculator and $target->getSpellPerkValue('fog_of_war'))
+        {
+            return 0;
+        }
+
         $resourceAvailableAmount = $this->resourceCalculator->getAmount($target, $resource->key);
 
         // Unit theft protection
