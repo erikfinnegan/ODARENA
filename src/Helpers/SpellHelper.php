@@ -52,6 +52,14 @@ class SpellHelper
             'fog_of_war' => 'Hidden from Insight',
 
             // Production
+
+            'ore_production_raw_mod' => '%s%% raw ore production',
+            'mana_production_raw_mod' => '%s% raw mana production',
+            'lumber_production_raw_mod' => '%s%% raw lumber production',
+            'food_production_raw_mod' => '%s%% raw food production',
+            'gems_production_raw_mod' => '%s%% raw gem production',
+            'gold_production_raw_mod' => '%s%% raw gold production',
+
             'ore_production_mod' => '%s%% ore production',
             'mana_production_mod' => '%s%% mana production',
             'lumber_production_mod' => '%s%% lumber production',
