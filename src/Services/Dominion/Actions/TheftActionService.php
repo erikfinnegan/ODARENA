@@ -185,7 +185,7 @@ class TheftActionService
 
             if($this->theftCalculator->getSpyStrengthCost($thief, $units) > $thief->spy_strength)
             {
-                throw new GameException('You do not have enough spy strength to send that many units. You have ' . $thief->spy_strength . '% and would need ' . ($this->theftCalculator->getSpyStrengthCost($thief, $units)) . '%.');
+                throw new GameException('You do not have enough spy strength to send that many units. You have ' . $thief->spy_strength . '% and would need ' . ($this->theftCalculator->getSpyStrengthCost($thief, $units)) . '% to send that many units.');
             }
 
             # CHECKS COMPLETE

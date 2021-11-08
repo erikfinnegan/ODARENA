@@ -13,25 +13,25 @@ class TheftHelper
         switch ($resource->key)
         {
             case 'gold':
-                return 32;
+                return 128;
 
             case 'food':
-                return 48;
+                return 192;
 
             case 'lumber':
-                return 24;
+                return 96;
 
             case 'ore':
-                return 24;
+                return 96;
 
             case 'gems':
-                return 16;
+                return 64;
 
             case 'blood':
-                return 24;
+                return 96;
 
             case 'horse':
-                return 0.02;
+                return 0.1;
 
             case 'mana':
                 return 0;
