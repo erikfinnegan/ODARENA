@@ -353,6 +353,8 @@ class PopulationCalculator
                 (
                     $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_offense') or
                     $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_defense') or
+                    $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_offense_from_time') or
+                    $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy_defense_from_time') or
                     $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_spy')
                 )
                 and
@@ -389,6 +391,8 @@ class PopulationCalculator
                 (
                     $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense') or
                     $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense') or
+                    $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_offense_from_time') or
+                    $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard_defense_from_time') or
                     $dominion->race->getUnitPerkValueForUnitSlot($slot, 'counts_as_wizard')
                 )
                 and
