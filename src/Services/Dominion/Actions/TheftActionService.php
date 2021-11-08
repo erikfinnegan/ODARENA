@@ -25,6 +25,7 @@ use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\ProtectionService;
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\ResourceService;
+use OpenDominion\Services\Dominion\StatsService;
 
 class TheftActionService
 {
@@ -40,6 +41,7 @@ class TheftActionService
         $this->protectionService = app(ProtectionService::class);
         $this->queueService = app(QueueService::class);
         $this->resourceService = app(ResourceService::class);
+        $this->statsService = app(StatsService::class);
 
 
         $this->unitHelper = app(UnitHelper::class);
@@ -294,6 +296,9 @@ class TheftActionService
                 'resource' => $resource->id,
                 'amountLost' => $this->theft['amount_stolen']
             ]);
+
+            $this->statsService->updateStat($thief, ($resource->key .  '_stolen'), $amountStolen);
+            $this->statsService->updateStat($target, ($resourceKey . '_lost'), $amountStolen);
 
             $target->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
             $thief->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
