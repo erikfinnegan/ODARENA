@@ -1818,14 +1818,30 @@ class MilitaryCalculator
      * @param int $slot
      * @return int
      */
-    public function getTotalUnitsForSlot(Dominion $dominion, int $slot): int
+    public function getTotalUnitsForSlot(Dominion $dominion, $slot): int
     {
-        return (
-            $dominion->{'military_unit' . $slot} +
-            $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}") +
-            $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slot}") +
-            $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slot}")
-        );
+        if(is_int($slot))
+        {
+            return (
+                $dominion->{'military_unit' . $slot} +
+                $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}") +
+                $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slot}") +
+                $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slot}")
+            );
+        }
+        elseif(in_array($slot, ['spies', 'wizards', 'archmages']))
+        {
+            return (
+                $dominion->{'military_' . $slot} +
+                $this->queueService->getInvasionQueueTotalByResource($dominion, "military_{$slot}") +
+                $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_{$slot}") +
+                $this->queueService->getTheftQueueTotalByResource($dominion, "military_{$slot}")
+            );
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     /**
