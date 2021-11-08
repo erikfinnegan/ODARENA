@@ -172,7 +172,7 @@ class NotificationHelper
                 'route' => function (array $routeParams) {
                     return route('dominion.event', $routeParams);
                 },
-                'iconClass' => 'fa fa-hand-lizard text-red',
+                'iconClass' => 'fa fa-hand-lizard text-orange',
             ],
             'received_spy_op' => [
                 'label' => 'Hostile spy operation received',
