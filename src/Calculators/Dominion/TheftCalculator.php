@@ -129,6 +129,23 @@ class TheftCalculator
         return $killedUnits;
     }
 
+    public function getSpyStrengthCost(Dominion $dominion, array $units): int
+    {
+        $cost = 0;
+
+        $spyUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'spies');
+        foreach ($dominion->race->units as $unit)
+        {
+            if($this->unitHelper->isUnitOffensiveSpy($unit))
+            {
+                $spyUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $unit->slot);
+            }
+        }
+
+        $cost = (int)ceil(array_sum($units) / $spyUnits * 100);
+
+        return $cost;
+    }
 
     protected function getSpyLossesReductionMultiplier(Dominion $dominion): float
     {

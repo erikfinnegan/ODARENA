@@ -177,6 +177,17 @@ class TheftActionService
                 throw new GameException('You cannot steal while you are in stasis.');
             }
 
+            // Check that thief has enough SS
+            if($thief->spy_strength <= 0)
+            {
+                throw new GameException('You do not have enough spy strength to steal.');
+            }
+
+            if($this->theftCalculator->getSpyStrengthCost($thief, $units) > $thief->spy_strength)
+            {
+                throw new GameException('You do not have enough spy strength to send that many units. You have ' . $thief->spy_strength . '% and would need ' . ($this->theftCalculator->getSpyStrengthCost($thief, $units)) . '%.');
+            }
+
             # CHECKS COMPLETE
 
             # Calculate spy units

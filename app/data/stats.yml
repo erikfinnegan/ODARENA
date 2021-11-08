@@ -511,6 +511,8 @@ unit1_training:
   name: Unit1 training
 unit1_released:
   name: Unit1 release
+unit1_converted:
+  name: Unit1 converted
 
 unit2_trained:
   name: Total unit2 trained
@@ -522,6 +524,8 @@ unit2_training:
   name: Unit2 training
 unit2_released:
   name: Unit2 released
+unit2_converted:
+  name: Unit2 converted
 
 unit3_trained:
   name: Total unit3 trained
@@ -533,6 +537,8 @@ unit3_training:
   name: Unit3 training
 unit3_released:
   name: Unit3 released
+unit3_converted:
+  name: Unit3 converted
 
 unit4_trained:
   name: Total unit4 trained
@@ -544,6 +550,8 @@ unit4_training:
   name: Unit4 training
 unit4_released:
   name: Unit4 released
+unit4_converted:
+  name: Unit4 converted
 
 spies_trained:
   name: Total spies trained
