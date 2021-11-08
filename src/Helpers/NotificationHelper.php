@@ -67,6 +67,12 @@ class NotificationHelper
                 'route' => route('dominion.expedition'),
                 'iconClass' => 'fas fa-hiking text-green',
             ],
+            'theft_completed' => [
+                'label' => 'Units returned from theft',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.expedition'),
+                'iconClass' => 'fas fa-hand-lizard text-green',
+            ],
             'construction_completed' => [
                 'label' => 'Building construction completed',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -364,6 +370,11 @@ class NotificationHelper
                     '%s %s returned from expedition',
                     number_format($units),
                     str_plural('unit', $units)
+                );
+
+            case 'hourly_dominion.theft_completed':
+                return sprintf(
+                    'Units return home from theft.',
                 );
 
             case 'hourly_dominion.repelled_invasion':
