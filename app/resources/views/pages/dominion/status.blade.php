@@ -165,21 +165,21 @@
                                     @if (!(bool)$selectedDominion->race->getPerkValue('cannot_train_spies'))
                                     <tr>
                                         <td>Spies:</td>
-                                        <td>{{ number_format($selectedDominion->military_spies) }}</td>
+                                        <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'spies')) }}</td>
                                     </tr>
                                     @endif
 
                                     @if (!(bool)$selectedDominion->race->getPerkValue('cannot_train_wizards'))
                                     <tr>
                                         <td>Wizards:</td>
-                                        <td>{{ number_format($selectedDominion->military_wizards) }}</td>
+                                        <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'wizards')) }}</td>
                                     </tr>
                                     @endif
 
                                     @if (!(bool)$selectedDominion->race->getPerkValue('cannot_train_archmages'))
                                     <tr>
                                         <td>ArchMages:</td>
-                                        <td>{{ number_format($selectedDominion->military_archmages) }}</td>
+                                        <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'archmages')) }}</td>
                                     @endif
 
                                     </tr>
