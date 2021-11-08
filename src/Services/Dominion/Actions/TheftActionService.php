@@ -298,7 +298,7 @@ class TheftActionService
             ]);
 
             $this->statsService->updateStat($thief, ($resource->key .  '_stolen'), $amountStolen);
-            $this->statsService->updateStat($target, ($resourceKey . '_lost'), $amountStolen);
+            $this->statsService->updateStat($target, ($resource->key . '_lost'), $amountStolen);
 
             $target->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
             $thief->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
