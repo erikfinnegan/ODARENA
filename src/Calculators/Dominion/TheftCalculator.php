@@ -48,6 +48,12 @@ class TheftCalculator
 
         $resourceAvailableAmount = $this->resourceCalculator->getAmount($target, $resource->key);
 
+        # Theft protection
+        $theftProtection = 0;
+        $theftProtection += $target->getBuildingPerkValue($resource->key . '_theft_protection');
+
+        $resourceAvailableAmount = max(0, $resourceAvailableAmount - $theftProtection);
+
         // Unit theft protection
         for ($slot = 1; $slot <= 4; $slot++)
         {

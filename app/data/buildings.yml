@@ -130,6 +130,28 @@ gem_mine:
   perks:
     gems_production_raw: 15
 
+vault:
+  name: Vault
+  excluded_races:
+    - Growth
+    - Myconid
+    - Sylvan
+    - Void
+  land_type: mountain
+  perks:
+    gold_theft_reduction: 1,10,90  # Every 1% reduces gold stolen by 8%, max 90% reduction
+    gems_theft_reduction: 1,10,90  # Every 1% reduces gems stolen by 8%, max 90% reduction
+    ore_theft_reduction: 1,10,90  # Every 1% reduces ore stolen by 8%, max 90% reduction
+
+granary:
+  name: Granary
+  excluded_races:
+    - Void
+  land_type: forest
+  perks:
+    food_theft_reduction: 1,10,90  # Every 1% reduces plat stolen by 8%, max 90% reduction
+    lumber_theft_reduction: 1,10,90  # Every 1% reduces plat stolen by 8%, max 90% reduction
+
 deep_mine:
   name: Deep Mine
   exclusive_races:
@@ -154,6 +176,8 @@ slave_mine:
     prisoner_upkeep_raw: 0.10
     jobs: 0
     housing: 0
+
+# BEGIN MERFOLK
 
 pearl_farm:
   name: Pearl Farm
@@ -197,6 +221,16 @@ mana_spring:
   land_type: water
   perks:
     mana_production_raw: 18
+
+giant_shell:
+  name: Giant Shell
+  exclusive_races:
+    - Merfolk
+  land_type: water
+  perks:
+    gold_theft_protection: 50000 # protects 50,000 gold from theft
+
+# END MERFOLK
 
 tower:
   name: Tower
