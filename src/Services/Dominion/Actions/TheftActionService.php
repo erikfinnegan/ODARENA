@@ -185,7 +185,9 @@ class TheftActionService
                 throw new GameException('You do not have enough spy strength to steal.');
             }
 
-            if($this->theftCalculator->getSpyStrengthCost($thief, $units) > $thief->spy_strength)
+            $spyStrengthCost = $this->theftCalculator->getSpyStrengthCost($thief, $units);
+
+            if($spyStrengthCost > $thief->spy_strength)
             {
                 throw new GameException('You do not have enough spy strength to send that many units. You have ' . $thief->spy_strength . '% and would need ' . ($this->theftCalculator->getSpyStrengthCost($thief, $units)) . '% to send that many units.');
             }
@@ -193,27 +195,16 @@ class TheftActionService
             # CHECKS COMPLETE
 
             # Calculate spy units
-            $spyUnits = $thief->military_spies;
-            foreach ($thief->race->units as $unit)
-            {
-                if($this->unitHelper->isUnitOffensiveSpy($unit))
-                {
-                    $spyUnits += $this->militaryCalculator->getTotalUnitsForSlot($thief, $unit->slot);
-                }
-            }
-
-            $spyUnitsSentRatio = (int)ceil(array_sum($units) / $spyUnits * 100);
-
-            $thief->spy_strength -= min($spyUnitsSentRatio, $thief->spy_strength);
+            $thief->spy_strength -= min($spyStrengthCost, $thief->spy_strength);
 
             $this->theft['units'] = $units;
-            $this->theft['spy_units_sent_ratio'] = $spyUnitsSentRatio;
+            $this->theft['spy_units_sent_ratio'] = $spyStrengthCost;
             $this->theft['resource']['key'] = $resource->key;
             $this->theft['resource']['name'] = $resource->name;
 
-            # Casualties ???
-            $killedUnits = $this->theftCalculator->getUnitsKilled($thief, $target, $units);
+            # Casualties
             $survivingUnits = $units;
+            $killedUnits = $this->theftCalculator->getUnitsKilled($thief, $target, $units);
 
             foreach($killedUnits as $slot => $amountKilled)
             {
