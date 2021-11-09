@@ -1854,17 +1854,17 @@ class MilitaryCalculator
         {
             if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense'))
             {
-                $spies += $this->getTotalUnitsForSlot($dominion, $slot) * (float) $unit->getPerkValue('counts_as_spy_offense');
+                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot) * (float) $unit->getPerkValue('counts_as_spy_offense');
             }
 
             if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense'))
             {
-                $spies += $this->getTotalUnitsForSlot($dominion, $slot) * (float) $unit->getPerkValue('counts_as_spy_defense');
+                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot) * (float) $unit->getPerkValue('counts_as_spy_defense');
             }
 
             if ($unit->getPerkValue('counts_as_spy'))
             {
-                $spies += $this->getTotalUnitsForSlot($dominion, $slot) * (float) $unit->getPerkValue('counts_as_spy');
+                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot) * (float) $unit->getPerkValue('counts_as_spy');
             }
 
             if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_spy_" . $type . "_from_time"), null))
@@ -1877,7 +1877,7 @@ class MilitaryCalculator
                     (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
                 )
                 {
-                    $spies += $this->getTotalUnitsForSlot($dominion, $slot) * $powerFromTime;
+                    $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot) * $powerFromTime;
                 }
             }
         }
