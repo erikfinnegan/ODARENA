@@ -1854,17 +1854,17 @@ class MilitaryCalculator
         {
             if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense'))
             {
-                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot) * (float) $unit->getPerkValue('counts_as_spy_offense');
+                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot);
             }
 
             if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense'))
             {
-                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot) * (float) $unit->getPerkValue('counts_as_spy_defense');
+                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot);
             }
 
             if ($unit->getPerkValue('counts_as_spy'))
             {
-                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot) * (float) $unit->getPerkValue('counts_as_spy');
+                $spies += $this->getTotalUnitsForSlot($dominion, $unit->slot);
             }
 
             if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_spy_" . $type . "_from_time"), null))
@@ -1895,17 +1895,17 @@ class MilitaryCalculator
         {
             if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense'))
             {
-                $spies += $dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_offense');
+                $spies += $dominion->{"military_unit{$unit->slot}"};
             }
 
             if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense'))
             {
-                $spies += $dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_defense');
+                $spies += $dominion->{"military_unit{$unit->slot}"};
             }
 
             if ($unit->getPerkValue('counts_as_spy'))
             {
-                $spies += $dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy');
+                $spies += $dominion->{"military_unit{$unit->slot}"};
             }
 
             if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_spy_" . $type . "_from_time"), null))
@@ -1924,6 +1924,16 @@ class MilitaryCalculator
         }
 
         return (int)floor($spies);
+    }
+
+    public function getMaxSpyUnitsSendable(Dominion $dominion): int
+    {
+        $spyUnitsAvailable = $this->getTotalSpyUnitsAtHome($dominion);
+        $spyUnitsTotal = $this->getTotalSpyUnits($dominion);
+
+        $spyStrengthRatio = $dominion->spy_strength / 100;
+
+        return (int)floor(min($spyUnitsAvailable, $spyUnitsTotal * $spyStrengthRatio));
     }
 
     /**

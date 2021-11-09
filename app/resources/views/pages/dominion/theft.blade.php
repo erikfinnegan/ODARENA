@@ -95,24 +95,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Spies</td>
-                                        <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'spies')) }}</td>
-                                        <td>{{ number_format($selectedDominion->military_spies) }}</td>
-                                        <td class="text-center">
-                                            <input type="number"
-                                                   name="unit[spies]"
-                                                   id="unit[spies]"
-                                                   class="form-control text-center"
-                                                   placeholder="0"
-                                                   min="0"
-                                                   max="{{ $selectedDominion->military_spies }}"
-                                                   style="min-width:5em;"
-                                                   data-slot="spies"
-                                                   data-amount="{{ $selectedDominion->military_spies }}"
-                                                   {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                        </td>
-                                    </tr>
+                                    @if(!$selectedDominion->race->getPerkValue('cannot_train_spies'))
+                                        <tr>
+                                            <td>Spies</td>
+                                            <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'spies')) }}</td>
+                                            <td>{{ number_format($selectedDominion->military_spies) }}</td>
+                                            <td class="text-center">
+                                                <input type="number"
+                                                       name="unit[spies]"
+                                                       id="unit[spies]"
+                                                       class="form-control text-center"
+                                                       placeholder="0"
+                                                       min="0"
+                                                       max="{{ $selectedDominion->military_spies }}"
+                                                       style="min-width:5em;"
+                                                       data-slot="spies"
+                                                       data-amount="{{ $selectedDominion->military_spies }}"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            </td>
+                                        </tr>
+                                    @endif
                                     @foreach ($selectedDominion->race->units as $unit)
                                         @if($unitHelper->isUnitOffensiveSpy($unit))
                                             @php
@@ -167,7 +169,7 @@
                           <strong>{{ number_format($selectedDominion->spy_strength) }}%</strong> spy strength,
                           <strong>{{ number_format($militaryCalculator->getTotalSpyUnits($selectedDominion)) }}</strong> total spy units, and
                           <strong>{{ number_format($militaryCalculator->getTotalSpyUnitsAtHome($selectedDominion)) }}</strong> spy units at home.
-                          You can at most send <strong>{{ number_format(floor(min($militaryCalculator->getTotalSpyUnitsAtHome($selectedDominion), $militaryCalculator->getTotalSpyUnits($selectedDominion) * $selectedDominion->spy_strength/100))) }}</strong> spy units.</p>
+                          You can at most send <strong>{{ number_format($militaryCalculator->getMaxSpyUnitsSendable($selectedDominion)) }}</strong> spy units.</p>
                     <table class="table">
                         <colgroup>
                             <col width="40%">
