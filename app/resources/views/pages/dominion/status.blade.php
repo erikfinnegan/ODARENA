@@ -164,21 +164,33 @@
 
                                     @if (!(bool)$selectedDominion->race->getPerkValue('cannot_train_spies'))
                                     <tr>
-                                        <td>Spies:</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="Spy strength: {{ number_format($selectedDominion->spy_strength) }}% {{ $selectedDominion->spy_strength < 100 ? '(+' . $militaryCalculator->getSpyStrengthRegen($selectedDominion) . '%/tick)' : '' }}">
+                                                Spies:
+                                            </span>
+                                        </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'spies')) }}</td>
                                     </tr>
                                     @endif
 
                                     @if (!(bool)$selectedDominion->race->getPerkValue('cannot_train_wizards'))
                                     <tr>
-                                        <td>Wizards:</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="Wizard strength: {{ number_format($selectedDominion->wizard_strength) }}% {{ $selectedDominion->wizard_strength < 100 ? '(+' . $militaryCalculator->getWizardStrengthRegen($selectedDominion) . '%/tick)' : '' }}">
+                                                Wizards:
+                                            </span>
+                                        </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'wizards')) }}</td>
                                     </tr>
                                     @endif
 
                                     @if (!(bool)$selectedDominion->race->getPerkValue('cannot_train_archmages'))
                                     <tr>
-                                        <td>ArchMages:</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="Wizard strength: {{ number_format($selectedDominion->wizard_strength) }}% {{ $selectedDominion->wizard_strength < 100 ? '(+' . $militaryCalculator->getWizardStrengthRegen($selectedDominion) . '%/tick)' : '' }}">
+                                                Archmages:
+                                            </span>
+                                        </td>
                                         <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'archmages')) }}</td>
                                     @endif
 

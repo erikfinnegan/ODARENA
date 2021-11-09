@@ -1006,4 +1006,17 @@ class UnitHelper
         return true;
     }
 
+
+    public function getSpiesHelpString(Dominion $dominion): string
+    {
+        $helpString = 'Spy strength: ' . number_format($dominion->spy_strength) . '%';
+
+        if($dominion->spy_strength < 100)
+        {
+        #    $helpString .= ' (+' . $militaryCalculator->getSpyStrengthRegen($dominion) . '%/tick)';
+        }
+
+        return $helpString;
+    }
+
 }
