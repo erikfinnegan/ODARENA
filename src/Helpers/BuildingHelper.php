@@ -185,13 +185,21 @@ class BuildingHelper
             'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
-
             'gold_theft_reduction' => 'Gold stolen from you reduced by %2$s%% for every %1$s%%.',
             'gems_theft_reduction' => 'Gems stolen from you reduced by %2$s%% for every %1$s%%.',
             'ore_theft_reduction' => 'Ore stolen from you reduced by %2$s%% for every %1$s%%.',
             'lumber_theft_reduction' => 'Lumber stolen from you reduced by %2$s%% for every %1$s%%.',
             'food_theft_reduction' => 'Food stolen from you reduced by %2$s%% for every %1$s%%.',
+            'mana_theft_reduction' => 'Mana stolen from you reduced by %2$s%% for every %1$s%%.',
             'horse_theft_reduction' => 'Horses stolen from you reduced by %2$s%% for every %1$s%%.',
+
+            'gold_theft_protection' => 'Protects %s gold from theft.',
+            'gems_theft_protection' => 'Protects %s gems from theft.',
+            'ore_theft_protection' => 'Protects %s ore from theft.',
+            'lumber_theft_protection' => 'Protects %s lumber from theft.',
+            'food_theft_protection' => 'Protects %s food from theft.',
+            'mana_theft_protection' => 'Protects %s mana from theft.',
+            'horse_theft_protection' => 'Protects %s horses from theft.',
 
             'wizard_strength' => 'Wizard strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'spy_strength' => 'Spy strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
