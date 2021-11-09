@@ -1621,7 +1621,8 @@ class MilitaryCalculator
      */
     public function getWizardRatioRaw(Dominion $dominion, string $type = 'offense'): float
     {
-        $wizards = $dominion->military_wizards + ($dominion->military_archmages * 2);
+        $wizards = $this->getTotalUnitsForSlot($dominion, 'wizards');
+        $wizards = $this->getTotalUnitsForSlot($dominion, 'archmages') * 2;
 
         // Add units which count as (partial) spies (Dark Elf Adept)
         foreach ($dominion->race->units as $unit)
@@ -1842,6 +1843,87 @@ class MilitaryCalculator
         {
             return 0;
         }
+    }
+
+    public function getTotalSpyUnits(Dominion $dominion, string $type = 'offense'): int
+    {
+        $spies = $this->getTotalUnitsForSlot($dominion, 'spies');
+
+        // Add units which count as (partial) spies (Lizardfolk Chameleon)
+        foreach ($dominion->race->units as $unit)
+        {
+            if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense'))
+            {
+                $spies += $this->getTotalUnitsForSlot($dominion, $slot) * (float) $unit->getPerkValue('counts_as_spy_offense');
+            }
+
+            if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense'))
+            {
+                $spies += $this->getTotalUnitsForSlot($dominion, $slot) * (float) $unit->getPerkValue('counts_as_spy_defense');
+            }
+
+            if ($unit->getPerkValue('counts_as_spy'))
+            {
+                $spies += $this->getTotalUnitsForSlot($dominion, $slot) * (float) $unit->getPerkValue('counts_as_spy');
+            }
+
+            if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_spy_" . $type . "_from_time"), null))
+            {
+                $powerFromTime = (float)$timePerkData[2];
+                $hourFrom = $timePerkData[0];
+                $hourTo = $timePerkData[1];
+                if (
+                    (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                    (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                )
+                {
+                    $spies += $this->getTotalUnitsForSlot($dominion, $slot) * $powerFromTime;
+                }
+            }
+        }
+
+        return (int)floor($spies);
+    }
+
+    public function getTotalSpyUnitsAtHome(Dominion $dominion, string $type = 'offense'): int
+    {
+        #$spies = $this->getTotalUnitsForSlot($dominion, 'spies'); $dominion->military_spies;
+        $spies = $dominion->military_spies;
+
+        // Add units which count as (partial) spies (Lizardfolk Chameleon)
+        foreach ($dominion->race->units as $unit)
+        {
+            if ($type === 'offense' && $unit->getPerkValue('counts_as_spy_offense'))
+            {
+                $spies += $dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_offense');
+            }
+
+            if ($type === 'defense' && $unit->getPerkValue('counts_as_spy_defense'))
+            {
+                $spies += $dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy_defense');
+            }
+
+            if ($unit->getPerkValue('counts_as_spy'))
+            {
+                $spies += $dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_spy');
+            }
+
+            if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_spy_" . $type . "_from_time"), null))
+            {
+                $powerFromTime = (float)$timePerkData[2];
+                $hourFrom = $timePerkData[0];
+                $hourTo = $timePerkData[1];
+                if (
+                    (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                    (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                )
+                {
+                    $spies += $dominion->{"military_unit{$unit->slot}"} * $powerFromTime;
+                }
+            }
+        }
+
+        return (int)floor($spies);
     }
 
     /**
