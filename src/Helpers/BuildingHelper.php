@@ -182,10 +182,16 @@ class BuildingHelper
             'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'fireball_damage' => 'Damage from fireballs reduced by %2$s%% for every %1$s%%.',
             'lightning_bolt_damage' => 'Damage from lightning bolts reduced by %2$s%% for every %1$s%%.',
-            'gold_theft_reduction' => 'Gold stolen from you reduced by %2$s%% for every %1$s%%.',
-            'horse_theft_reduction' => 'Horses stolen from you reduced by %2$s%% for every %1$s%%.',
             'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+
+
+            'gold_theft_reduction' => 'Gold stolen from you reduced by %2$s%% for every %1$s%%.',
+            'gems_theft_reduction' => 'Gems stolen from you reduced by %2$s%% for every %1$s%%.',
+            'ore_theft_reduction' => 'Ore stolen from you reduced by %2$s%% for every %1$s%%.',
+            'lumber_theft_reduction' => 'Lumber stolen from you reduced by %2$s%% for every %1$s%%.',
+            'food_theft_reduction' => 'Food stolen from you reduced by %2$s%% for every %1$s%%.',
+            'horse_theft_reduction' => 'Horses stolen from you reduced by %2$s%% for every %1$s%%.',
 
             'wizard_strength' => 'Wizard strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'spy_strength' => 'Spy strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',

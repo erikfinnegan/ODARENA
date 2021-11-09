@@ -667,6 +667,15 @@ class Dominion extends AbstractModel
                           or $perkKey == 'pearls_upkeep_raw'
                           or $perkKey == 'prisoner_upkeep_raw'
 
+                          or $perkKey == 'gold_theft_protection'
+                          or $perkKey == 'food_theft_protection'
+                          or $perkKey == 'ore_theft_protection'
+                          or $perkKey == 'lumber_theft_protection'
+                          or $perkKey == 'mana_theft_protection'
+                          or $perkKey == 'blood_theft_protection'
+                          or $perkKey == 'soul_theft_protection'
+                          or $perkKey == 'pearls_theft_protection'
+
                           or $perkKey == 'xp_generation_raw'
 
                           # Building-specific housing
@@ -701,8 +710,6 @@ class Dominion extends AbstractModel
                           or $perkKey == 'faster_returning_units'
                       )
                   {
-                      #$perk += (float)$perkValueString;
-
                       $perk += $perkValueString * $building->pivot->owned;
                   }
 
@@ -780,6 +787,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'lumber_theft_reduction'
                           or $perkKey == 'ore_theft_reduction'
                           or $perkKey == 'food_theft_reduction'
+                          or $perkKey == 'horse_theft_reduction'
 
                           # Improvements
                           or $perkKey == 'improvements_capped'
