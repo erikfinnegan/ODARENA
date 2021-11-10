@@ -221,7 +221,7 @@ class ExpeditionActionService
                 $this->expeditionResult['land_discovered']
             );
 
-            $this->handlePrestigeChanges($dominion, $this->expeditionResult['land_discovered_amount'], $this->expeditionResult['land_size']);
+            $this->handlePrestigeChanges($dominion, $this->expeditionResult['land_discovered_amount'], $this->expeditionResult['land_size'], $units);
             $this->handleXp($dominion, $this->expeditionResult['land_discovered_amount']);
             $this->handleDuringExpeditionUnitPerks($dominion, $units);
             $this->handleReturningUnits($dominion, $units);
@@ -262,7 +262,7 @@ class ExpeditionActionService
         ];
     }
 
-    protected function handlePrestigeChanges(Dominion $dominion, int $landDiscovered, int $landSize): void
+    protected function handlePrestigeChanges(Dominion $dominion, int $landDiscovered, int $landSize, array $units): void
     {
         $prestigeChange = intval($landDiscovered / $this->landCalculator->getTotalLand($dominion) * 200);
 
