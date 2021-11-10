@@ -300,7 +300,7 @@ class TheftActionService
 
         $message = sprintf(
             'Your %s infiltrate %s (#%s), stealing %s %s.',
-            (array_sum($units) > $units['spies']) ? 'units' : 'spies',
+            (isset($units['spies']) and array_sum($units) < $units['spies']) ? 'spies' : 'units',
             $target->name,
             $target->realm->number,
             number_format($this->theft['amount_stolen']),
