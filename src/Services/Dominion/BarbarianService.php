@@ -341,7 +341,7 @@ class BarbarianService
 
 
         #Log::Debug($logString);
-        Log::Debug($oneLineLogString);
+        #Log::Debug($oneLineLogString);
     }
 
     public function handleBarbarianConstruction(Dominion $dominion): void
