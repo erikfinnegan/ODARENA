@@ -267,13 +267,13 @@ class ExpeditionActionService
         $prestigeChange = intval($landDiscovered / $this->landCalculator->getTotalLand($dominion) * 200);
 
         $prestigeChangeMultiplier = 1;
-        $prestigeChangeMultiplier += $attacker->race->getPerkMultiplier('prestige_gains');
-        $prestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($attacker, $units);
-        $prestigeChangeMultiplier += $attacker->getTechPerkMultiplier('prestige_gains');
-        $prestigeChangeMultiplier += $attacker->getBuildingPerkMultiplier('prestige_gains');
-        $prestigeChangeMultiplier += $attacker->getImprovementPerkMultiplier('prestige_gains');
-        $prestigeChangeMultiplier += $attacker->getSpellPerkMultiplier('prestige_gains');
-        $prestigeChangeMultiplier += $attacker->title->getPerkMultiplier('prestige_gains') * $attacker->title->getPerkBonus($attacker);
+        $prestigeChangeMultiplier += $dominion->race->getPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $this->militaryCalculator->getPrestigeGainsPerk($dominion, $units);
+        $prestigeChangeMultiplier += $dominion->getTechPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $dominion->getBuildingPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $dominion->getImprovementPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $dominion->getSpellPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $dominion->title->getPerkMultiplier('prestige_gains') * $dominion->title->getPerkBonus($dominion);
 
         $prestigeChange *= $prestigeChangeMultiplier;
 
