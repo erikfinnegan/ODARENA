@@ -80,7 +80,7 @@ class TheftCalculator
         $targetModifier = 0;
         $targetModifier += $target->getSpellPerkMultiplier($resource->key . '_theft');
         $targetModifier += $target->getSpellPerkMultiplier('all_theft');
-        $targetModifier += $target->getBuildingPerkMultiplier($resource->key . '_theft_reduction');
+        $targetModifier -= $target->getBuildingPerkMultiplier($resource->key . '_theft_reduction');
 
         $theftAmount *= (1 + $targetModifier);
 
