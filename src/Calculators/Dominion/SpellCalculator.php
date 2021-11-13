@@ -68,23 +68,6 @@ class SpellCalculator
     }
 
     /**
-     * Returns whether $dominion can currently cast spell $type.
-     *
-     * Spells require mana and enough wizard strength to be cast.
-     *
-     * @param Dominion $dominion
-     * @param string $spell
-     * @return bool
-     */
-    public function canCast(Dominion $dominion, string $spell): bool
-    {
-        return (
-            ($this->resourceCalculator->getAmount($dominion, 'mana') >= $this->getManaCost($dominion, $spell)) &&
-            ($dominion->wizard_strength > 0)
-        );
-    }
-
-    /**
      * Returns whether spell $type for $dominion is on cooldown.
      *
      * @param Dominion $dominion
@@ -109,26 +92,11 @@ class SpellCalculator
      */
     public function getSpellCooldown(Dominion $dominion, Spell $spell, bool $isInvasionSpell = false): int
     {
-
         if ($spell->cooldown > 0)
         {
-            $spellLastCast = DB::table('dominion_history')
-                ->where('dominion_id', $dominion->id)
-                ->where('event', 'cast spell')
-                ->where('delta', 'like', "%{$spell->key}%")
-                ->orderby('created_at', 'desc')
-                ->take(1)
-                ->first();
-
-            if ($spellLastCast)
+            if($dominionSpell = DominionSpell::where('dominion_id', $dominion->id)->where('spell_id', $spell->id)->first())
             {
-                $hoursSinceCast = now()->startOfHour()->diffInHours(Carbon::parse($spellLastCast->created_at)->startOfHour());
-                $hoursUntilRoundStarts = min(0, now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour()));
-
-                if ($hoursSinceCast < $spell->cooldown)
-                {
-                    return $spell->cooldown - ($hoursSinceCast + $hoursUntilRoundStarts);
-                }
+                return $dominionSpell->cooldown;
             }
         }
 
@@ -190,7 +158,7 @@ class SpellCalculator
     public function isSpellActive(Dominion $dominion, string $spellKey): bool
     {
         $spell = Spell::where('key', $spellKey)->first();
-        return DominionSpell::where('spell_id',$spell->id)->where('dominion_id',$dominion->id)->first() ? true : false;
+        return DominionSpell::where('spell_id',$spell->id)->where('dominion_id',$dominion->id)->where('duration','>',0)->first() ? true : false;
     }
 
     /**

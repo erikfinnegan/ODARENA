@@ -328,7 +328,7 @@ class TrainActionService
 
         if (($dominion->race->name !== 'Cult' and $dominion->race->name !== 'Yeti') and ($newDraftelessUnitsToHouse > 0) and ($newDraftelessUnitsToHouse + $this->populationCalculator->getPopulationMilitary($dominion)) > $this->populationCalculator->getMaxPopulation($dominion))
         {
-            throw new GameException('Training failed as training would exceed your max population');
+            throw new GameException('Training failed as training would exceed your max population. You need ' . number_format($newDraftelessUnitsToHouse) . ' additional housing, but only have ' . number_format($this->populationCalculator->getMaxPopulation($dominion) - ($newDraftelessUnitsToHouse + $this->populationCalculator->getPopulationMilitary($dominion))) . ' available.');
         }
 
         DB::transaction(function () use ($dominion, $data, $totalCosts, $unitSlot, $unitAmountToTrain) {

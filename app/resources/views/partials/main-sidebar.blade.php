@@ -1,3 +1,5 @@
+
+
 <aside class="main-sidebar">
     <section class="sidebar">
 
@@ -105,7 +107,8 @@
 
                 <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
 
-                <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a></li>
+                <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a>
+                </li>
 
                 <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}">
                     <a href="{{ route('dominion.world-news') }}">

@@ -253,6 +253,8 @@ class SpellActionService
             throw new GameException('You cannot cast hostile spells during the first day of the round.');
         }
 
+        $cooldown = isset($spell->cooldown) ? $spell->cooldown : 0;
+
         # Self-spells self auras
         if($spell->scope == 'self')
         {
@@ -265,10 +267,10 @@ class SpellActionService
                     throw new GameException("{$spell->name} is already at maximum duration.");
                 }
 
-                DB::transaction(function () use ($caster, $spell)
+                DB::transaction(function () use ($caster, $spell, $cooldown)
                 {
                     $dominionSpell = DominionSpell::where('dominion_id', $caster->id)->where('spell_id', $spell->id)
-                    ->update(['duration' => $spell->duration]);
+                    ->update(['duration' => $spell->duration, 'cooldown' => $cooldown]);
 
                     $caster->save([
                         'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
@@ -278,13 +280,14 @@ class SpellActionService
             }
             else
             {
-                DB::transaction(function () use ($caster, $target, $spell)
+                DB::transaction(function () use ($caster, $target, $spell, $cooldown)
                 {
                     DominionSpell::create([
                         'dominion_id' => $caster->id,
                         'caster_id' => $caster->id,
                         'spell_id' => $spell->id,
-                        'duration' => $spell->duration
+                        'duration' => $spell->duration,
+                        'cooldown' => $cooldown
                     ]);
 
                     $caster->save([

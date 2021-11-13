@@ -969,187 +969,187 @@ class Dominion extends AbstractModel
 
     protected function getSpellPerks()
     {
-        return $this->spells->flatMap(
-            function ($spell) {
-                return $spell->perks;
-            }
-        );
+      return $this->spells->flatMap(
+          function ($spell) {
+              return $spell->perks;
+          }
+      );
     }
     /**
-     * @param string $key
-     * @return float
-     */
+    * @param string $key
+    * @return float
+    */
 
-     public function getSpellPerkValue(string $perkKey): float
-     {
-         $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
-         $perk = 0;
+    public function getSpellPerkValue(string $perkKey): float
+    {
+    $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
+    $perk = 0;
 
-         foreach ($this->spells as $spell)
-         {
-             $perkValueString = $spell->getPerkValue($perkKey);
+    foreach ($this->spells->where('dominion_spells.duration', '>', 0) as $spell)
+    {
+        $perkValueString = $spell->getPerkValue($perkKey);
 
-             if($perkValueString and (is_numeric($perkValueString) and !is_array($perkValueString)))
-             {
-                 # Single value numeric perks
-                 if(
-                         $perkKey == 'gold_production_mod'
-                         or $perkKey == 'food_production_mod'
-                         or $perkKey == 'ore_production_mod'
-                         or $perkKey == 'gems_production_mod'
-                         or $perkKey == 'lumber_production_mod'
-                         or $perkKey == 'mana_production_mod'
-                         or $perkKey == 'pearls_production_mod'
-                         or $perkKey == 'cosmic_alignment_production_mod'
-                         or $perkKey == 'mud_production_mod'
-                         or $perkKey == 'swamp_gas_production_mod'
-                         or $perkKey == 'xp_generation_mod'
+        if($perkValueString and (is_numeric($perkValueString) and !is_array($perkValueString)))
+        {
+           # Single value numeric perks
+           if(
+                   $perkKey == 'gold_production_mod'
+                   or $perkKey == 'food_production_mod'
+                   or $perkKey == 'ore_production_mod'
+                   or $perkKey == 'gems_production_mod'
+                   or $perkKey == 'lumber_production_mod'
+                   or $perkKey == 'mana_production_mod'
+                   or $perkKey == 'pearls_production_mod'
+                   or $perkKey == 'cosmic_alignment_production_mod'
+                   or $perkKey == 'mud_production_mod'
+                   or $perkKey == 'swamp_gas_production_mod'
+                   or $perkKey == 'xp_generation_mod'
 
-                         or $perkKey == 'gold_production_raw'
-                         or $perkKey == 'food_production_raw'
-                         or $perkKey == 'ore_production_raw'
-                         or $perkKey == 'gems_production_raw'
-                         or $perkKey == 'lumber_production_raw'
-                         or $perkKey == 'mana_production_raw'
-                         or $perkKey == 'pearls_production_raw'
-                         or $perkKey == 'mud_production_raw'
-                         or $perkKey == 'swamp_gas_production_raw'
-                         or $perkKey == 'xp_generation_raw'
+                   or $perkKey == 'gold_production_raw'
+                   or $perkKey == 'food_production_raw'
+                   or $perkKey == 'ore_production_raw'
+                   or $perkKey == 'gems_production_raw'
+                   or $perkKey == 'lumber_production_raw'
+                   or $perkKey == 'mana_production_raw'
+                   or $perkKey == 'pearls_production_raw'
+                   or $perkKey == 'mud_production_raw'
+                   or $perkKey == 'swamp_gas_production_raw'
+                   or $perkKey == 'xp_generation_raw'
 
-                         or $perkKey == 'gold_production_raw_mod'
-                         or $perkKey == 'food_production_raw_mod'
-                         or $perkKey == 'ore_production_raw_mod'
-                         or $perkKey == 'gems_production_raw_mod'
-                         or $perkKey == 'lumber_production_raw_mod'
-                         or $perkKey == 'mana_production_raw_mod'
-                         or $perkKey == 'pearls_production_raw_mod'
-                         or $perkKey == 'mud_production_raw_mod'
-                         or $perkKey == 'swamp_gas_production_raw_mod'
-                         or $perkKey == 'xp_generation_raw_mod'
+                   or $perkKey == 'gold_production_raw_mod'
+                   or $perkKey == 'food_production_raw_mod'
+                   or $perkKey == 'ore_production_raw_mod'
+                   or $perkKey == 'gems_production_raw_mod'
+                   or $perkKey == 'lumber_production_raw_mod'
+                   or $perkKey == 'mana_production_raw_mod'
+                   or $perkKey == 'pearls_production_raw_mod'
+                   or $perkKey == 'mud_production_raw_mod'
+                   or $perkKey == 'swamp_gas_production_raw_mod'
+                   or $perkKey == 'xp_generation_raw_mod'
 
-                         or $perkKey == 'no_gold_production'
-                         or $perkKey == 'no_food_production'
-                         or $perkKey == 'no_ore_production'
-                         or $perkKey == 'no_lumber_production'
-                         or $perkKey == 'no_mana_production'
-                         or $perkKey == 'no_xp_generation'
+                   or $perkKey == 'no_gold_production'
+                   or $perkKey == 'no_food_production'
+                   or $perkKey == 'no_ore_production'
+                   or $perkKey == 'no_lumber_production'
+                   or $perkKey == 'no_mana_production'
+                   or $perkKey == 'no_xp_generation'
 
-                         or $perkKey == 'food_consumption_mod'
+                   or $perkKey == 'food_consumption_mod'
 
-                         or $perkKey == 'unit_gold_costs'
-                         or $perkKey == 'unit_ore_costs'
-                         or $perkKey == 'unit_lumber_costs'
-                         or $perkKey == 'unit_mana_costs'
-                         or $perkKey == 'unit_food_costs'
-                         or $perkKey == 'unit_blood_costs'
+                   or $perkKey == 'unit_gold_costs'
+                   or $perkKey == 'unit_ore_costs'
+                   or $perkKey == 'unit_lumber_costs'
+                   or $perkKey == 'unit_mana_costs'
+                   or $perkKey == 'unit_food_costs'
+                   or $perkKey == 'unit_blood_costs'
 
-                         or $perkKey == 'unit_gold_cost'
-                         or $perkKey == 'unit_ore_cost'
-                         or $perkKey == 'unit_lumber_cost'
+                   or $perkKey == 'unit_gold_cost'
+                   or $perkKey == 'unit_ore_cost'
+                   or $perkKey == 'unit_lumber_cost'
 
-                         or $perkKey == 'food_production_raw'
+                   or $perkKey == 'food_production_raw'
 
-                         or $perkKey == 'population_growth'
-                         or $perkKey == 'improvements'
-                         or $perkKey == 'invest_bonus'
+                   or $perkKey == 'population_growth'
+                   or $perkKey == 'improvements'
+                   or $perkKey == 'invest_bonus'
 
-                         or $perkKey == 'cannot_build'
-                         or $perkKey == 'cannot_invade'
-                         or $perkKey == 'cannot_explore'
-                         or $perkKey == 'no_drafting'
+                   or $perkKey == 'cannot_build'
+                   or $perkKey == 'cannot_invade'
+                   or $perkKey == 'cannot_explore'
+                   or $perkKey == 'no_drafting'
 
-                         or $perkKey == 'gold_theft'
-                         or $perkKey == 'gems_theft'
-                         or $perkKey == 'ore_theft'
-                         or $perkKey == 'mana_theft'
-                         or $perkKey == 'lumber_theft'
-                         or $perkKey == 'all_theft'
+                   or $perkKey == 'gold_theft'
+                   or $perkKey == 'gems_theft'
+                   or $perkKey == 'ore_theft'
+                   or $perkKey == 'mana_theft'
+                   or $perkKey == 'lumber_theft'
+                   or $perkKey == 'all_theft'
 
-                         or $perkKey == 'reveal_ops'
-                         or $perkKey == 'fog_of_war'
-                         or $perkKey == 'chance_to_reflect_spells'
-                         or $perkKey == 'damage_from_spells'
-                         or $perkKey == 'damage_from_fireballs'
-                         or $perkKey == 'damage_from_lightning_bolts'
+                   or $perkKey == 'reveal_ops'
+                   or $perkKey == 'fog_of_war'
+                   or $perkKey == 'chance_to_reflect_spells'
+                   or $perkKey == 'damage_from_spells'
+                   or $perkKey == 'damage_from_fireballs'
+                   or $perkKey == 'damage_from_lightning_bolts'
 
 
-                         or $perkKey == 'offensive_power'
-                         or $perkKey == 'defensive_power'
-                         or $perkKey == 'drafting'
-                         or $perkKey == 'can_kill_immortal'
-                         or $perkKey == 'defensive_power_from_peasants'
-                         or $perkKey == 'faster_return'
-                         or $perkKey == 'training_time_raw'
-                         or $perkKey == 'target_defensive_power_mod'
+                   or $perkKey == 'offensive_power'
+                   or $perkKey == 'defensive_power'
+                   or $perkKey == 'drafting'
+                   or $perkKey == 'can_kill_immortal'
+                   or $perkKey == 'defensive_power_from_peasants'
+                   or $perkKey == 'faster_return'
+                   or $perkKey == 'training_time_raw'
+                   or $perkKey == 'target_defensive_power_mod'
 
-                         or $perkKey == 'casualties'
-                         or $perkKey == 'offensive_casualties'
-                         or $perkKey == 'defensive_casualties'
-                         or $perkKey == 'increases_casualties'
-                         or $perkKey == 'increases_casualties_on_defense'
-                         or $perkKey == 'increases_casualties_on_offense'
-                         or $perkKey == 'increases_enemy_draftee_casualties'
+                   or $perkKey == 'casualties'
+                   or $perkKey == 'offensive_casualties'
+                   or $perkKey == 'defensive_casualties'
+                   or $perkKey == 'increases_casualties'
+                   or $perkKey == 'increases_casualties_on_defense'
+                   or $perkKey == 'increases_casualties_on_offense'
+                   or $perkKey == 'increases_enemy_draftee_casualties'
 
-                         or $perkKey == 'no_conversions'
-                         or $perkKey == 'convert_enemy_casualties_to_food'
-                         or $perkKey == 'convert_peasants_to_champions'
+                   or $perkKey == 'no_conversions'
+                   or $perkKey == 'convert_enemy_casualties_to_food'
+                   or $perkKey == 'convert_peasants_to_champions'
 
-                         or $perkKey == 'increases_casualties_on_offense_from_wizard_ratio'
-                         or $perkKey == 'offensive_power_on_retaliation'
-                         or $perkKey == 'immune_to_temples'
+                   or $perkKey == 'increases_casualties_on_offense_from_wizard_ratio'
+                   or $perkKey == 'offensive_power_on_retaliation'
+                   or $perkKey == 'immune_to_temples'
 
-                         or $perkKey == 'spy_strength'
-                         or $perkKey == 'spy_strength_recovery'
-                         or $perkKey == 'wizard_strength'
-                         or $perkKey == 'wizard_strength_recovery'
-                         or $perkKey == 'immortal_spies'
-                         or $perkKey == 'immortal_wizards'
+                   or $perkKey == 'spy_strength'
+                   or $perkKey == 'spy_strength_recovery'
+                   or $perkKey == 'wizard_strength'
+                   or $perkKey == 'wizard_strength_recovery'
+                   or $perkKey == 'immortal_spies'
+                   or $perkKey == 'immortal_wizards'
 
-                         or $perkKey == 'land_discovered'
-                         or $perkKey == 'buildings_destroyed'
-                         or $perkKey == 'barren_land_rezoned'
+                   or $perkKey == 'land_discovered'
+                   or $perkKey == 'buildings_destroyed'
+                   or $perkKey == 'barren_land_rezoned'
 
-                         or $perkKey == 'opens_portal'
-                         or $perkKey == 'stop_land_generation'
-                         or $perkKey == 'defensive_power_vs_insect_swarm'
+                   or $perkKey == 'opens_portal'
+                   or $perkKey == 'stop_land_generation'
+                   or $perkKey == 'defensive_power_vs_insect_swarm'
 
-                         or $perkKey == 'stasis'
+                   or $perkKey == 'stasis'
 
-                         # Cult
-                         or $perkKey == 'mind_control'
-                         or $perkKey == 'enthralling'
-                         or $perkKey == 'cogency'
-                         or $perkKey == 'persuasion'
+                   # Cult
+                   or $perkKey == 'mind_control'
+                   or $perkKey == 'enthralling'
+                   or $perkKey == 'cogency'
+                   or $perkKey == 'persuasion'
 
-                         # Reptilians
+                   # Reptilians
 
-                         or $perkKey == 'blind_to_reptilian_spies_on_info'
-                         or $perkKey == 'blind_to_reptilian_spies_on_theft'
-                     )
-                 {
-                     $perk += (float)$perkValueString;
-                 }
-                 elseif($perkValueString and (!is_numeric($perkValueString) and !is_array($perkValueString)))
-                 {
-                    $perk = (string)$perkValueString;
-                 }
-                 else
-                 {
-                     dd("[Error] Undefined spell perk key (\$perkKey): $perkKey");
-                 }
-             }
-         }
+                   or $perkKey == 'blind_to_reptilian_spies_on_info'
+                   or $perkKey == 'blind_to_reptilian_spies_on_theft'
+               )
+           {
+               $perk += (float)$perkValueString;
+           }
+           elseif($perkValueString and (!is_numeric($perkValueString) and !is_array($perkValueString)))
+           {
+              $perk = (string)$perkValueString;
+           }
+           else
+           {
+               dd("[Error] Undefined spell perk key (\$perkKey): $perkKey");
+           }
+        }
+    }
 
-         return $perk;
-     }
+    return $perk;
+    }
 
     /**
-     * @param string $key
-     * @return float
-     */
+    * @param string $key
+    * @return float
+    */
     public function getSpellPerkMultiplier(string $key): float
     {
-        return ($this->getSpellPerkValue($key) / 100);
+      return ($this->getSpellPerkValue($key) / 100);
     }
 
     # IMPROVEMENTS

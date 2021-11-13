@@ -120,7 +120,6 @@ class TickService
         $this->queueService->setForTick(true);
     }
 
-
     /**
      * Does an hourly tick on all active dominions.
      *
@@ -480,6 +479,7 @@ class TickService
         $finished = DB::table('dominion_spells')
             ->where('dominion_id', $dominion->id)
             ->where('duration', '<=', 0)
+            ->where('cooldown', '<=', 0)
             ->get();
 
         $beneficialSpells = [];
@@ -512,6 +512,7 @@ class TickService
         DB::table('dominion_spells')
             ->where('dominion_id', $dominion->id)
             ->where('duration', '<=', 0)
+            ->where('cooldown', '<=', 0)
             ->delete();
     }
 
@@ -545,7 +546,6 @@ class TickService
             }
         }
 
-
         DB::transaction(function () use ($dominion)
         {
             DB::table('dominion_queue')
@@ -561,8 +561,6 @@ class TickService
 
         /** @var Tick $tick */
         $tick = Tick::firstOrCreate(['dominion_id' => $dominion->id]);
-
-
 
         if ($saveHistory)
         {
@@ -608,8 +606,6 @@ class TickService
             ->where('hours', '=', 1)
             ->get();
 
-
-
         foreach ($incomingQueue as $row)
         {
             if($row->source !== 'deity' and substr($row->resource, 0, strlen('resource_')) !== 'resource_')
@@ -619,8 +615,6 @@ class TickService
                 $dominion->{$row->resource} += $row->amount;
             }
         }
-
-
 
         if($dominion->race->name == 'Barbarian')
         {
@@ -673,30 +667,6 @@ class TickService
         // Production/generation
         $tick->xp += $this->productionCalculator->getXpGeneration($dominion);
         $tick->prestige += $this->productionCalculator->getPrestigeInterest($dominion);
-
-
-        $tick->resource_gold += 0;#$this->productionCalculator->getGoldProduction($dominion);
-        $tick->resource_lumber += 0;#$this->productionCalculator->getLumberProduction($dominion);
-        $tick->resource_mana += 0;#$this->productionCalculator->getManaNetChange($dominion);
-        $tick->resource_food += 0;#$this->productionCalculator->getFoodNetChange($dominion);
-        $tick->resource_ore += 0;#$this->productionCalculator->getOreProduction($dominion);
-        $tick->resource_gems += 0;#$this->productionCalculator->getGemProduction($dominion);
-        $tick->resource_soul += 0;#$this->productionCalculator->getSoulProduction($dominion);
-        $tick->resource_blood += 0;#$this->productionCalculator->getBloodProduction($dominion);
-
-        # Decay, rot, drain
-        $tick->resource_food_consumption += 0;#$this->productionCalculator->getFoodConsumption($dominion);
-        $tick->resource_food_decay += 0;
-        $tick->resource_lumber_rot += 0;
-        $tick->resource_mana_drain += 0;
-
-        # Contribution: how much is LOST (GIVEN AWAY)
-        $tick->resource_food_contribution = 0;#$this->productionCalculator->getContribution($dominion, 'food');
-        $tick->resource_mana_contribution = 0;#$this->productionCalculator->getContribution($dominion, 'mana');
-
-        # Contributed: how much is RECEIVED (GIVEN TO)
-        $tick->resource_food_contributed = 0;
-        $tick->resource_mana_contributed = 0;
 
         // Starvation
         $tick->starvation_casualties = false;
@@ -1184,10 +1154,10 @@ class TickService
     private function updateDominionSpells(Dominion $dominion): void
     {
         DB::table('dominion_spells')
-            ->join('dominions', 'dominion_spells.dominion_id', '=', 'dominions.id')
-            ->where('dominions.id', $dominion->id)
+            ->where('dominion_id', $dominion->id)
             ->update([
-                'duration' => DB::raw('`duration` - 1'),
+                'duration' => DB::raw('GREATEST(0, `duration` - 1)'),
+                'cooldown' => DB::raw('GREATEST(0, `cooldown` - 1)'),
                 'dominion_spells.updated_at' => $this->now,
             ]);
     }
@@ -1219,12 +1189,14 @@ class TickService
     // Update spells for all dominions
     private function updateAllSpells(Round $round): void
     {
+        # Update spells where cooldown is >0 and duration is >0
         DB::table('dominion_spells')
             ->join('dominions', 'dominion_spells.dominion_id', '=', 'dominions.id')
             ->where('dominions.round_id', $round->id)
             ->where('dominions.protection_ticks', '=', 0)
             ->update([
-                'duration' => DB::raw('`duration` - 1'),
+                'duration' => DB::raw('GREATEST(0, `duration` - 1)'),
+                'cooldown' => DB::raw('GREATEST(0, `cooldown` - 1)'),
                 'dominion_spells.updated_at' => $this->now,
             ]);
     }
