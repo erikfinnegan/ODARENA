@@ -436,7 +436,7 @@
     <div class="col-sm-12 col-md-6">
         @component('partials.dominion.insight.box')
 
-            @slot('title', 'Units returning from battle')
+            @slot('title', 'Units returning')
             @slot('titleIconClass', 'ra ra-boot-stomp')
             @slot('noPadding', true)
 
