@@ -534,9 +534,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (range(1, 4) as $slot)
+                    @foreach ([1,2,3,4,'spies'] as $slot)
                         @php
-                            $unitType = ('unit' . $slot);
+                            if($slot == 'spies')
+                            {
+                                $unitType = 'spies';
+                            }
+                            else
+                            {
+                                $unitType = 'unit' . $slot;
+                            }
                         @endphp
                         <tr>
                             <td>
