@@ -77,12 +77,12 @@ class TheftCalculator
         $theftAmount = min($resourceAvailableAmount, array_sum($units) * $maxPerSpy * $invertedSpaRatio);
 
         # But the target can decrease, which comes afterwards
-        $targetModifier = 0;
+        $targetModifier = 1;
         $targetModifier += $target->getSpellPerkMultiplier($resource->key . '_theft');
         $targetModifier += $target->getSpellPerkMultiplier('all_theft');
-        $targetModifier -= $target->getBuildingPerkMultiplier($resource->key . '_theft_reduction');
+        $targetModifier -= $target->getBuildingPerkMultiplier($resource->key . '_theft_reduction'); # Minus (-=) because it's a positive value and I don't feel like fixing the perk in the Dominion class right now
 
-        $theftAmount *= (1 + $targetModifier);
+        $theftAmount *= $targetModifier;
 
         $theftAmount = max(0, $theftAmount);
 
