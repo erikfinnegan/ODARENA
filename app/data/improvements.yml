@@ -907,4 +907,4 @@ tribalism:
   exclusive_races:
     - Barbarian
   perks:
-    population: 100,10000
+    population: 200,10000

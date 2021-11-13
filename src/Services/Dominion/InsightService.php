@@ -170,8 +170,26 @@ class InsightService
             $data['resource_'.$resourceKey] = $this->resourceCalculator->getAmount($target, $resourceKey);
         }
 
-        // Units returning
+        // Units returning from invasion
         $this->queueService->getInvasionQueue($target)->each(static function ($row) use (&$data)
+        {
+            if (starts_with($row->resource, 'military_')) {
+                $unitType = str_replace('military_', '', $row->resource);
+                $data['units']['returning'][$unitType][$row->hours] += $row->amount;
+            }
+        });
+
+        // Units returning from expedition
+        $this->queueService->getExpeditionQueue($target)->each(static function ($row) use (&$data)
+        {
+            if (starts_with($row->resource, 'military_')) {
+                $unitType = str_replace('military_', '', $row->resource);
+                $data['units']['returning'][$unitType][$row->hours] += $row->amount;
+            }
+        });
+
+        // Units returning from theft
+        $this->queueService->getTheftQueue($target)->each(static function ($row) use (&$data)
         {
             if (starts_with($row->resource, 'military_')) {
                 $unitType = str_replace('military_', '', $row->resource);
@@ -190,6 +208,7 @@ class InsightService
         });
 
         // Units returning
+        /*
         foreach($data['units']['returning'] as $unitType => $returningQueue)
         {
             foreach($returningQueue as $tick => $amount)
@@ -199,6 +218,7 @@ class InsightService
                 $data['units']['returning'][$unitType][$tick] += $this->queueService->getTheftQueueAmount($target, "military_{$unitType}", $tick);
             }
         }
+        */
 
         // Spells
         $data['spells'] = [];

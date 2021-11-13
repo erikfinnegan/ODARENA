@@ -754,6 +754,7 @@
                                 @php
                                     $amount = $queueService->getExplorationQueueAmount($dominion, "land_{$landType}", $i);
                                     $amount += $queueService->getInvasionQueueAmount($dominion, "land_{$landType}", $i);
+                                    $amount += $queueService->getExpeditionQueueAmount($dominion, "land_{$landType}", $i);
                                 @endphp
                                 <td class="text-center">
                                     @if ($amount === 0)
@@ -763,7 +764,7 @@
                                     @endif
                                 </td>
                             @endfor
-                            <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($dominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($dominion, "land_{$landType}")) }}</td>
+                            <td class="text-center">{{ number_format($queueService->getExplorationQueueTotalByResource($dominion, "land_{$landType}") + $queueService->getInvasionQueueTotalByResource($dominion, "land_{$landType}")  + $queueService->getExpeditionQueueTotalByResource($dominion, "land_{$landType}")) }}</td>
                         </tr>
                     @endforeach
                 </tbody>

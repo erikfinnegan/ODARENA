@@ -5,9 +5,10 @@ namespace OpenDominion\Services\Dominion;
 use DB;
 use File;
 use Exception;
+use Log;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
-use Log;
+
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
@@ -24,20 +25,21 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Models\Building;
+use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
-use OpenDominion\Models\Realm;
+use OpenDominion\Models\DominionBuilding;
 use OpenDominion\Models\GameEvent;
-use OpenDominion\Models\Dominion\Tick;
+use OpenDominion\Models\Improvement;
+use OpenDominion\Models\Realm;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\Spell;
-use OpenDominion\Models\Building;
-use OpenDominion\Models\Improvement;
-use OpenDominion\Models\DominionBuilding;
+use OpenDominion\Models\Dominion\Tick;
+
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Services\Dominion\InsightService;
 use OpenDominion\Services\Dominion\ProtectionService;
-use OpenDominion\Models\Deity;
 use Throwable;
 
 class TickService
@@ -118,6 +120,7 @@ class TickService
         /* These calculators need to ignore queued resources for the following tick */
         $this->populationCalculator->setForTick(true);
         $this->queueService->setForTick(true);
+        /* OK, get it? */
     }
 
     /**
