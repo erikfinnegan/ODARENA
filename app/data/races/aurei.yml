@@ -18,7 +18,7 @@ construction_materials:
   - gold
 
 perks:
-  - explore_cost: 35
+  explore_cost: 35
 
 units:
   - name: Metallurgist
