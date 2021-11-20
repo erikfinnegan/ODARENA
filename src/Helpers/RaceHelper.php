@@ -318,7 +318,7 @@ class RaceHelper
                 break;
             case 'research_points_per_acre':
                 $negativeBenefit = false;
-                $description = 'Experience points per acre on invasions';
+                $description = 'XP per acre on invasions';
                 break;
             case 'damage_from_lightning_bolts':
                 $negativeBenefit = true;

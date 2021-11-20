@@ -93,6 +93,7 @@ class ResourceCalculator
         $production = 0;
         $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getBuildingPerkValue($resourceKey . '_production_depleting_raw');
+        $production += $dominion->getBuildingPerkValue($resourceKey . '_production_increasing_raw');
         $production += $dominion->getSpellPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getImprovementPerkValue($resourceKey . '_production_raw');
         $production += $dominion->getTechPerkValue($resourceKey . '_production_raw');

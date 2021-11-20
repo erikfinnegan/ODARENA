@@ -1,8 +1,8 @@
 name: Aurei
 alignment: good
 description:
-home_land_type: water
-playable: 1
+home_land_type: plain
+playable: 0
 
 attacking: 3
 exploring : 2
@@ -12,11 +12,13 @@ skill_level: 1
 resources:
   - gold
   - food
+  - mana
 
 construction_materials:
   - gold
 
 perks:
+  - explore_cost: 35
 
 units:
   - name: Metallurgist
@@ -46,23 +48,24 @@ units:
       offense: 0
       defense: 5
     perks:
-      increases_casualties_on_defense: 1
+      counts_as_wizard: 0.5
 
-  - name: Goldsmith
-    training_time: 12
+  - name: Chryson
+    training_time: 3
     type:
       - living
       - sentient
-      - ethereal
+      - intelligent
     cost:
-      gold: 800
-      mana: 10
+      wizard: 1
+      gold: 300
+      mana: 20
     power:
-      offense: 6
-      defense: 6
+      offense: 2
+      defense: 8
     perks:
-      spirit_immortal: 1
-      strength_conversion: 8,3,4 #  threshold,under,over <=8 DP becomes Apparition, >8 DP becomes Aspect
+      fixed_offense_from_wizard_ratio: 8,5 # Gets +8 OP
+      casualties_from_wizard_ratio: -20 # -20% casualties per 1 WPA
 
   - name: Gold Wyrm
     type:
@@ -72,8 +75,9 @@ units:
     cost:
       gold: 40000
     power:
-      offense: 200
-      defense: 200
+      offense: 150
+      defense: 250
     perks:
       no_draftee: 1
       building_limit: gold_mine,1 # building, buildings per unit, imp to increased
+      plunder: gold,100

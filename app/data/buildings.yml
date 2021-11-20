@@ -1150,7 +1150,7 @@ dungeon:
 
 # END DEMON
 
-# HOME ALTERNATIVES
+# BEGIN AUREI
 
 gold_quarry:
   name: Gold Quarry
@@ -1159,7 +1159,12 @@ gold_quarry:
     - Aurei
   land_type: plain
   perks:
-    gold_production_increasing_raw: 50,0.1 # Produces 50 gold, increased  by 0.4 per tick of the round
+    gold_production_increasing_raw: 50,0.05 # Produces 50 gold, increased  by 0.4 per tick of the round
+
+# END AUREI
+
+# HOME ALTERNATIVES
+
 
 barracks:
   name: Barracks
