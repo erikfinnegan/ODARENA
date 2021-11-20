@@ -1,0 +1,79 @@
+name: Aurei
+alignment: good
+description:
+home_land_type: water
+playable: 1
+
+attacking: 3
+exploring : 2
+converting: 1
+skill_level: 1
+
+resources:
+  - gold
+  - food
+
+construction_materials:
+  - gold
+
+perks:
+
+units:
+  - name: Metallurgist
+    training_time: 6
+    type:
+      - living
+      - sentient
+      - ethereal
+    cost:
+      gold: 400
+    power:
+      offense: 0
+      defense: 0
+    perks:
+      gold_production_raw: 3
+      building_limit: gold_quarry,20 # building, buildings per unit, imp to increase
+
+  - name: Alchemist
+    training_time: 9
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 500
+    power:
+      offense: 0
+      defense: 5
+    perks:
+      increases_casualties_on_defense: 1
+
+  - name: Goldsmith
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - ethereal
+    cost:
+      gold: 800
+      mana: 10
+    power:
+      offense: 6
+      defense: 6
+    perks:
+      spirit_immortal: 1
+      strength_conversion: 8,3,4 #  threshold,under,over <=8 DP becomes Apparition, >8 DP becomes Aspect
+
+  - name: Gold Wyrm
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 40000
+    power:
+      offense: 200
+      defense: 200
+    perks:
+      no_draftee: 1
+      building_limit: gold_mine,1 # building, buildings per unit, imp to increased

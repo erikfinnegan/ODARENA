@@ -18,6 +18,7 @@ gold_mine:
   name: Gold Mine
   enabled: 1
   excluded_races:
+    - Aurei
     - Dragon
     - Growth
     - Icekin
@@ -31,6 +32,7 @@ gold_mine:
   land_type: plain
   perks:
     gold_production_raw: 50
+
 
 farm:
   name: Farm
@@ -62,6 +64,7 @@ ore_mine:
   name: Ore Mine
   excluded_races:
     - Ants
+    - Aurei
     - Demon
     - Dimensionalists
     - Dwarf
@@ -262,6 +265,7 @@ mast:
 lumberyard:
   name: Lumberyard
   excluded_races:
+    - Aurei
     - Dwarf
     - Dragon
     - Firewalker
@@ -324,11 +328,11 @@ aqueduct:
     - Myconid
     - Reptilians
     - Swarm
-    - Void
-    - Yeti
     - Sylvan
     - Undead
+    - Void
     - Wood Elf
+    - Yeti
   land_type: water
   perks:
     food_production_mod: 1,8,40 # Every 1% gives +8% food production, max +20%
@@ -1147,6 +1151,15 @@ dungeon:
 # END DEMON
 
 # HOME ALTERNATIVES
+
+gold_quarry:
+  name: Gold Quarry
+  enabled: 1
+  exclusive_races:
+    - Aurei
+  land_type: plain
+  perks:
+    gold_production_increasing_raw: 50,0.1 # Produces 50 gold, increased  by 0.4 per tick of the round
 
 barracks:
   name: Barracks

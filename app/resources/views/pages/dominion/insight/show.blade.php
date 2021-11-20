@@ -90,7 +90,10 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>{{ str_plural($raceHelper->getPeasantsTerm($dominion->race)) }}:</td>
+                                <td>
+                                    <span class="">
+                                        {{ str_plural($raceHelper->getPeasantsTerm($dominion->race)) }}:</td>
+                                    </span>
                                 <td>{{ number_format($dominion->peasants) }}</td>
                             </tr>
                             <tr>

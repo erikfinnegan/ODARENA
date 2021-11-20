@@ -1858,6 +1858,32 @@ class InvadeActionService
                         $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
                     }
 
+                    # Check for faster_return_from_time
+                    if($fasterReturnFromTimePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_from_time'))
+                    {
+                        $hourFrom = $timePerkData[0];
+                        $hourTo = $timePerkData[1];
+                        if (
+                            (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
+                            (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
+                        )
+                        {
+                            $ticksFaster = (int)$timePerkData[2];
+                        }
+                        else
+                        {
+                            $ticksFaster = 0;
+                        }
+
+                        $fasterReturningTicks = min(max(1, ($ticks - $ticksFaster), 12));
+
+                        $unitsWithFasterReturnTime = round($amountReturning * $buildingFasterReturnPerk);
+                        $unitsWithRegularReturnTime = round($amountReturning - $amountWithFasterReturn);
+
+                        $returningUnits[$unitKey][$fasterReturningTicks] += $returningUnits[$unitKey][$ticks];
+                        $returningUnits[$unitKey][$ticks] -= $returningUnits[$unitKey][$ticks];
+                    }
+
                     # Check for faster_return from buildings
                     if($buildingFasterReturnPerk = $attacker->getBuildingPerkMultiplier('faster_return'))
                     {

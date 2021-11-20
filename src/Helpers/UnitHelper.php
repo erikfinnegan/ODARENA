@@ -329,6 +329,8 @@ class UnitHelper
             'faster_return_if_paired' => 'Returns %2$s ticks faster if paired with a %1$s.',
             'instant_return' => 'Returns instantly from invasion.',
 
+            'faster_return_from_time' => 'Returns %3$s ticks faster from battle if sent out between %1$s:00 and %2$s:00.',
+
             // Training
             'cannot_be_trained' => 'Cannot be trained.',
             'instant_training' => 'Appears immediately.',

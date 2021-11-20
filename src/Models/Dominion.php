@@ -783,7 +783,7 @@ class Dominion extends AbstractModel
 
                           # Espionage
                           or $perkKey == 'gold_theft_reduction'
-                          or $perkKey == 'gem_theft_reduction'
+                          or $perkKey == 'gems_theft_reduction'
                           or $perkKey == 'lumber_theft_reduction'
                           or $perkKey == 'ore_theft_reduction'
                           or $perkKey == 'food_theft_reduction'
@@ -862,12 +862,13 @@ class Dominion extends AbstractModel
                   # Production/housing increasing
                   elseif(
                           # OP/DP mods
-                          $perkKey == 'gold_production_increasing'
-                          or $perkKey == 'gems_production_increasing'
-                          or $perkKey == 'ore_production_increasing'
-                          or $perkKey == 'mana_production_increasing'
-                          or $perkKey == 'lumber_production_increasing'
-                          or $perkKey == 'food_production_increasing'
+                          $perkKey == 'gold_production_increasing_raw'
+                          or $perkKey == 'gems_production_increasing_raw'
+                          or $perkKey == 'ore_production_increasing_raw'
+                          or $perkKey == 'mana_production_increasing_raw'
+                          or $perkKey == 'lumber_production_increasing_raw'
+                          or $perkKey == 'food_production_increasing_raw'
+                          
                           or $perkKey == 'housing_increasing'
                           or $perkKey == 'military_housing_increasing'
                           or $perkKey == 'faster_returning_units_increasing'

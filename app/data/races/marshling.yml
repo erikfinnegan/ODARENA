@@ -24,7 +24,7 @@ construction_materials:
 
 improvement_resources:
   mud: 2
-  swamp_gas: 2
+  swamp_gas: 3
 
 land_improvements:
   swamp:

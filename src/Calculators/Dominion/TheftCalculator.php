@@ -69,12 +69,11 @@ class TheftCalculator
         $resourceAvailableAmount = max(0, $resourceAvailableAmount);
         $maxPerSpy = $this->getMaxCarryPerSpyForResource($thief, $resource);
 
-        $thiefSpa = $this->militaryCalculator->getSpyRatio($thief, 'offense');
+        $thiefSpa = max($this->militaryCalculator->getSpyRatio($thief, 'offense'), 0.0001);
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
-        $spaRatio = max($targetSpa / $thiefSpa, 0.001);
-        $invertedSpaRatio = min(1, 1/$spaRatio);
+        $spaSpaRatio = max(min((1-(($targetSpa / $thiefSpa) * 0.5)),1),0);
 
-        $theftAmount = min($resourceAvailableAmount, array_sum($units) * $maxPerSpy * $invertedSpaRatio);
+        $theftAmount = min($resourceAvailableAmount, array_sum($units) * $maxPerSpy * $spaSpaRatio);
 
         # But the target can decrease, which comes afterwards
         $targetModifier = 1;

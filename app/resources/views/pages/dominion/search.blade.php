@@ -86,7 +86,7 @@
                             <col width="100">
                             <col width="100">
                             <col width="100">
-                            <col width="100" class="hidden">
+                            <col width="100">
                         </colgroup>
                         <thead>
                             <tr>
@@ -96,7 +96,7 @@
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
                                 <th class="text-center">Units<br>Returning</th>
-                                <th class="text-center hidden">My Range</th>
+                                <th class="text-center">My Range</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -198,9 +198,11 @@
                                                 <span class="text-gray">No</span>
                                             @endif
                                         </td>
-                                        <td class="hidden">
+                                        <td>
                                             @if ($rangeCalculator->isInRange($selectedDominion, $dominion) and $selectedDominion->realm->id !== $dominion->realm->id)
-                                                true
+                                                <span class="label label-success">Yes</span>
+                                            @else
+                                                <span class="text-gray">No</span>
                                             @endif
                                         </td>
                                     </tr>

@@ -3,7 +3,7 @@ alignment: evil
 description: >-
   <p>Demon starts with 1 Archdemon.</p>
 home_land_type: mountain
-playable: 0
+playable: 1
 experimental: 1
 
 peasants_alias: sinner

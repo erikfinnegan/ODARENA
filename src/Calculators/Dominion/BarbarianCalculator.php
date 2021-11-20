@@ -277,7 +277,7 @@ class BarbarianCalculator
 
     public function getAmountToInvest(Dominion $barbarian): int
     {
-        return 4000 * (1 + $barbarian->ticks / 1000);
+        return 6000 * (1 + $barbarian->ticks / 1000);
     }
 
 }
