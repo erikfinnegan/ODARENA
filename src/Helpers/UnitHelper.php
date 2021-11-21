@@ -295,6 +295,7 @@ class UnitHelper
             'ore_production_raw' => 'Mines %s ore/tick.',
             'mana_production_raw' => 'Gathers %s mana/tick.',
             'gems_production_raw' => 'Mines %s gems/tick.',
+            'blood_production_raw' => 'Produces %s blood/tick.',
 
             'gold_production_raw_from_pairing' => 'Produces %2$s gold/tick if paired with %1$s.',
             'food_production_raw_from_pairing' => 'Produces %2$s food/tick if paired with %1$s.',
