@@ -144,8 +144,6 @@ class ResourceCalculator
             $production += $dominion->getBuildingPerkValue($resourceKey . '_production_raw_from_' . $sourceResourceKey);
         }
 
-
-
         # Unit specific perks
         for ($slot = 1; $slot <= 4; $slot++)
         {
@@ -331,11 +329,6 @@ class ResourceCalculator
         $multiplier += $dominion->getDeityPerkMultiplier($consumedResourceKey . '_consumption_mod');
         $multiplier += $dominion->race->getPerkMultiplier($consumedResourceKey . '_consumption_mod');
 
-        if($consumedResourceKey == 'food')
-        {
-            #dd($multiplier, $dominion->getSpellPerkValue('food_consumption_mod'), $dominion->getSpellPerkMultiplier('population_growth'));
-        }
-
         if(isset($dominion->title))
         {
             $multiplier += $dominion->title->getPerkMultiplier($consumedResourceKey . '_consumption_mod');
@@ -347,8 +340,6 @@ class ResourceCalculator
         {
             $consumption += $this->getAmount($dominion, $consumedResourceKey) * $decayRate;
         }
-
-
 
         return max(0, $consumption);
 
