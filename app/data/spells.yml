@@ -68,7 +68,7 @@ druvas_granaries:
   class: passive
   cost: 5
   duration: 36
-  cooldown: 18
+  cooldown: 72
   excluded_races:
     - Afflicted
     - Demon
@@ -130,7 +130,7 @@ fools_gold:
   class: passive
   cost: 5
   duration: 36
-  cooldown: 18
+  cooldown: 72
   excluded_races:
     - Afflicted
     - Demon
@@ -184,7 +184,7 @@ transmogrify:
   class: active
   cost: 10
   duration: 0
-  cooldown: 6
+  cooldown: 24
   excluded_races:
     - Afflicted
     - Ants
@@ -220,7 +220,7 @@ astral_revelations:
   class: active
   cost: 10
   duration: 0
-  cooldown: 24
+  cooldown: 96
   exclusive_races:
     - Dimensionalists
   perks:
@@ -232,7 +232,7 @@ celestial_pathfinder:
   class: passive
   cost: 10
   duration: 6
-  cooldown: 48
+  cooldown: 192
   exclusive_races:
     - Dimensionalists
   perks:
@@ -246,7 +246,7 @@ waterwall:
   class: passive
   cost: 8
   duration: 4
-  cooldown: 6
+  cooldown: 24
   perks:
     boats_sunk: -80
     food_production_docks: -100
@@ -257,7 +257,7 @@ iceshield:
   class: passive
   cost: 8
   duration: 24
-  cooldown: 6
+  cooldown: 24
   exclusive_races:
     - Icekin
   perks:
@@ -270,7 +270,7 @@ windchill:
   class: passive
   cost: 6
   duration: 24
-  cooldown: 6
+  cooldown: 24
   exclusive_races:
     - Icekin
   perks:
@@ -284,7 +284,7 @@ frozen_shores:
   cost: 8
   wizard_strength: 20
   duration: 2
-  cooldown: 6
+  cooldown: 24
   exclusive_races:
     - Icekin
     - Yeti
@@ -398,7 +398,7 @@ sazals_fog:
   class: passive
   cost: 0.5
   duration: 12
-  cooldown: 24
+  cooldown: 96
   perks:
     fog_of_war: 1
 
@@ -499,7 +499,7 @@ lightfoots:
   class: passive
   cost: 12
   duration: 24
-  cooldown: 12
+  cooldown: 192
   exclusive_races:
     - Halfling
   perks:
@@ -636,7 +636,7 @@ druvas_call:
   class: active
   cost: 8
   duration: 0
-  cooldown: 24
+  cooldown: 96
   exclusive_races:
     - Weres
   perks:
@@ -689,7 +689,7 @@ voidspellmana:
   class: passive
   cost: 8
   duration: 24
-  cooldown: 24
+  cooldown: 96
   exclusive_races:
     - Void
   perks:
@@ -739,7 +739,7 @@ metabolism:
   class: passive
   cost: 8
   duration: 48
-  cooldown: 36
+  cooldown: 144
   exclusive_races:
     - Growth
   perks:
@@ -752,7 +752,7 @@ ambush:
   class: passive
   cost: 2
   duration: 1
-  cooldown: 6
+  cooldown: 24
   exclusive_races:
     - Beastfolk
   perks:
@@ -802,7 +802,7 @@ ragnarok:
   class: passive
   cost: 8
   duration: 24
-  cooldown: 48
+  cooldown: 192
   exclusive_races:
     - Norse
   perks:
@@ -866,7 +866,7 @@ mark_of_azk_hurum:
   scope: hostile
   class: passive
   cost: 7
-  cooldown: 6
+  cooldown: 24
   duration: 12
   exclusive_races:
     - Demon
@@ -946,7 +946,7 @@ portal:
   class: passive
   cost: 12
   duration: 1
-  cooldown: 6
+  cooldown: 24
   exclusive_races:
     - Dimensionalists
   perks:
@@ -982,7 +982,7 @@ aggression:
   class: passive
   cost: 6
   duration: 12
-  cooldown: 6
+  cooldown: 24
   exclusive_races:
     - Swarm
   perks:
@@ -995,7 +995,7 @@ rainy_season:
   class: passive
   cost: 12
   duration: 96
-  cooldown: 168
+  cooldown: 672
   exclusive_races:
     - Simian
   perks:
@@ -1012,7 +1012,7 @@ elementals_hill:
   class: active
   cost: 6
   duration: 0
-  cooldown: 24
+  cooldown: 96
   exclusive_races:
     - Elementals
   perks:
@@ -1024,7 +1024,7 @@ elementals_mountain:
   class: active
   cost: 6
   duration: 0
-  cooldown: 24
+  cooldown: 96
   exclusive_races:
     - Elementals
   perks:
@@ -1036,7 +1036,7 @@ elementals_water:
   class: active
   cost: 6
   duration: 0
-  cooldown: 24
+  cooldown: 96
   exclusive_races:
     - Elementals
   perks:
@@ -1150,7 +1150,7 @@ call_to_arms:
   class: passive
   cost: 12
   duration: 12
-  cooldown: 24
+  cooldown: 96
   exclusive_races:
     - Human
   perks:
@@ -1216,7 +1216,7 @@ curse_of_zidur:
   class: passive
   cost: 5
   duration: 2
-  cooldown: 3
+  cooldown: 12
   exclusive_races:
     - Undead
   perks:
@@ -1240,7 +1240,7 @@ curse_of_kinthys:
   class: active
   cost: 10
   duration: 0
-  cooldown: 6
+  cooldown: 24
   exclusive_races:
     - Undead
   perks:
@@ -1277,7 +1277,7 @@ shroud:
   class: passive
   cost: 2
   duration: 4
-  cooldown: 12
+  cooldown: 192
   exclusive_races:
     - Spirit
   perks:

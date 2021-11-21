@@ -124,6 +124,9 @@ class UnitHelper
 
             'offense_from_wizard_ratio' => 'Offense increased by %1$s * Wizard Ratio (offensive).',
 
+            'fixed_offense_from_wizard_ratio' => 'Offense increased by %1$s if Wizard Ratio on offense is at least %2$s.',
+            'fixed_defense_from_wizard_ratio' => 'Defense increased by %1$s if Wizard Ratio on defense is at least %2$s.',
+
             'offense_from_spy_ratio' => 'Offense increased by %1$s * Spy Ratio (offensive).',
 
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
@@ -211,12 +214,11 @@ class UnitHelper
             'casualties_on_defense' => '%s%% casualties on defense.',
             'casualties_on_offense' => '%s%% casualties on offense.',
 
+            'casualties_from_wizard_ratio' => '%s%% * Wizard Ratio casualties.',
+
             'casualties_on_victory' => '%s%% casualties when successfully invading.',
             'casualties_on_fending_off' => '%s%% casualties when successfully fending off an invasion.',
 
-            #'fewer_casualties' => '%s%% fewer casualties.',
-            #'fewer_casualties_defense' => '%s%% fewer casualties on defense.',
-            #'fewer_casualties_offense' => '%s%% fewer casualties on offense.',
             'fixed_casualties' => 'Always suffers %s%% casualties.',
             'fewer_casualties_from_title' => '%2$s%% fewer casualties if ruled by a %1$s.',
 

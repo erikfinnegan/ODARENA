@@ -548,6 +548,7 @@ class RaceHelper
     {
         $adjectives = [
             'Ants' => 'Ant',
+            'Aurei' => 'Aureis',
             'Black Orc' => 'Black Orcish',
             'Cult' => 'Cultist',
             'Dark Elf' => 'Dark Elven',

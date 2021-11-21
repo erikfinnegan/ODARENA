@@ -329,12 +329,17 @@ class ResourceCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier($consumedResourceKey . '_consumption_mod');
         $multiplier += $dominion->getTechPerkMultiplier($consumedResourceKey . '_consumption_mod');
         $multiplier += $dominion->getDeityPerkMultiplier($consumedResourceKey . '_consumption_mod');
+        $multiplier += $dominion->race->getPerkMultiplier($consumedResourceKey . '_consumption_mod');
+
+        if($consumedResourceKey == 'food')
+        {
+            #dd($multiplier, $dominion->getSpellPerkValue('food_consumption_mod'), $dominion->getSpellPerkMultiplier('population_growth'));
+        }
 
         if(isset($dominion->title))
         {
             $multiplier += $dominion->title->getPerkMultiplier($consumedResourceKey . '_consumption_mod');
         }
-        $multiplier += $dominion->race->getPerkMultiplier($consumedResourceKey . '_consumption_mod');
 
         $consumption *= $multiplier;
 
@@ -342,6 +347,8 @@ class ResourceCalculator
         {
             $consumption += $this->getAmount($dominion, $consumedResourceKey) * $decayRate;
         }
+
+
 
         return max(0, $consumption);
 

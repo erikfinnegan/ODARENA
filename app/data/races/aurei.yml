@@ -14,8 +14,14 @@ resources:
   - food
   - mana
 
+wizards_cost: 400,gold
+archmages_cost: 600,gold
+
 construction_materials:
   - gold
+
+improvement_resources:
+  gold: 2.5
 
 perks:
   explore_cost: 35
@@ -28,13 +34,13 @@ units:
       - sentient
       - ethereal
     cost:
-      gold: 400
+      gold: 200
     power:
       offense: 0
       defense: 0
     perks:
-      gold_production_raw: 3
-      building_limit: gold_quarry,20 # building, buildings per unit, imp to increase
+      gold_production_raw: 5.4
+      building_limit: gold_quarry,20 # building, units per building
 
   - name: Alchemist
     training_time: 9
@@ -43,22 +49,22 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 500
+      gold: 600
     power:
       offense: 0
-      defense: 5
+      defense: 6
     perks:
       counts_as_wizard: 0.5
 
   - name: Chryson
-    training_time: 3
+    training_time: 2
     type:
       - living
       - sentient
       - intelligent
     cost:
       wizard: 1
-      gold: 300
+      gold: 650
       mana: 20
     power:
       offense: 2
@@ -75,9 +81,12 @@ units:
     cost:
       gold: 40000
     power:
-      offense: 150
-      defense: 250
+      offense: 160
+      defense: 240
     perks:
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
+      casualties: -50
       no_draftee: 1
       building_limit: gold_mine,1 # building, buildings per unit, imp to increased
       plunder: gold,100
