@@ -294,7 +294,7 @@ class ResourceCalculator
 
                   if (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_count_as_population') and !$dominion->race->getUnitPerkValueForUnitSlot($slot, 'does_not_consume_food') and count(array_intersect($nonConsumingUnitAttributes, $unitAttributes)) === 0)
                   {
-                      $consumers += $dominion->{'military_unit'.$slot};
+                      $consumers += $amount;
                       $consumers += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slot}");
                   }
             }
