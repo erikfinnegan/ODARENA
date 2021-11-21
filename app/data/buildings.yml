@@ -119,6 +119,7 @@ gem_mine:
   name: Gem Mine
   excluded_races:
     - Ants
+    - Aurei
     - Beastfolk
     - Demon
     - Growth
@@ -142,9 +143,9 @@ vault:
     - Void
   land_type: mountain
   perks:
-    gold_theft_protection: 50000 # protects 50,000 gold from theft
-    gems_theft_protection: 20000 # protects 50,000 gold from theft
-    ore_theft_protection: 5000 # protects 50,000 gold from theft
+    gold_theft_protection: 10000
+    gems_theft_protection: 1000
+    ore_theft_protection: 4000
 
 granary:
   name: Granary
@@ -153,8 +154,8 @@ granary:
     - Void
   land_type: forest
   perks:
-    food_theft_protection: 40000 # protects 50,000 gold from theft
-    lumber_theft_protection: 20000 # protects 50,000 gold from theft
+    food_theft_protection: 10000
+    lumber_theft_protection: 5000
 
 deep_mine:
   name: Deep Mine
@@ -302,6 +303,7 @@ watermill:
   name: Watermill
   excluded_races:
     - Ants
+    - Aurei
     - Demon
     - Dragon
     - Growth
@@ -527,6 +529,7 @@ smithy:
   name: Smithy
   excluded_races:
     - Armada
+    - Aurei
     - Beastfolk
     - Dimensionalists
     - Dragon
@@ -1157,7 +1160,7 @@ gold_quarry:
   enabled: 1
   exclusive_races:
     - Aurei
-  land_type: plain
+  land_type: mountain
   perks:
     gold_production_increasing_raw: 50,0.05 # Produces 50 gold, increased  by 0.4 per tick of the round
 
@@ -1165,12 +1168,11 @@ gold_quarry:
 
 # HOME ALTERNATIVES
 
-
 barracks:
   name: Barracks
   excluded_races:
-    - Armada
     - Ants
+    - Armada
     - Black Orc
     - Dragon
     - Growth
@@ -1346,6 +1348,7 @@ meadow:
 hall:
   name: Hall
   exclusive_races:
+    - Aurei
     - Icekin
     - Snow Elf
   land_type: mountain

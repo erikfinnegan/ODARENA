@@ -52,6 +52,11 @@ class TheftCalculator
         $theftProtection = 0;
         $theftProtection += $target->getBuildingPerkValue($resource->key . '_theft_protection');
 
+        $theftProtectionMultiplier = 1;
+        $theftProtectionMultiplier += $target->getImprovementPerkMultiplier('theft_protection');
+
+        $theftProtection *= $theftProtectionMultiplier;
+
         $resourceAvailableAmount = max(0, $resourceAvailableAmount - $theftProtection);
 
         // Unit theft protection

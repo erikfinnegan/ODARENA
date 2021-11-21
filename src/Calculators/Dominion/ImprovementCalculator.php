@@ -16,11 +16,11 @@ class ImprovementCalculator
      *
      * @param LandCalculator $landCalculator
      */
-     public function __construct()
-     {
-         $this->spellCalculator = app(SpellCalculator::class);
-         $this->landCalculator = app(LandCalculator::class);
-     }
+    public function __construct()
+    {
+        $this->landCalculator = app(LandCalculator::class);
+        $this->spellCalculator = app(SpellCalculator::class);
+    }
 
     public function getResourceWorthRaw(string $resource, Dominion $dominion = null, int $population = 0): float
     {
@@ -41,7 +41,7 @@ class ImprovementCalculator
 
     }
 
-    public function getResourceWorthMultipler(string $resource, Dominion $dominion = null): float
+    public function getResourceWorthMultipler(string $resourceKey, Dominion $dominion = null): float
     {
         if(!isset($dominion))
         {
@@ -52,30 +52,30 @@ class ImprovementCalculator
             $multiplier = 0;
 
             ## Extra imp points
-            $multiplier += $dominion->race->getPerkMultiplier($resource . '_improvement_points');
+            $multiplier += $dominion->race->getPerkMultiplier($resourceKey . '_improvement_points');
 
             # Techs
-            if($resource == 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
+            if($resourceKey == 'gems' and $dominion->getTechPerkMultiplier('gemcutting'))
             {
                 $multiplier += $dominion->getTechPerkMultiplier('gemcutting');
             }
 
             # Advancements
             $multiplier += $dominion->getTechPerkMultiplier('invest_bonus');
-            $multiplier += $dominion->getTechPerkMultiplier($resource . '_invest_bonus');
+            $multiplier += $dominion->getTechPerkMultiplier($resourceKey . '_invest_bonus');
 
             # Spells
             $multiplier += $dominion->getSpellPerkMultiplier('invest_bonus');
-            $multiplier += $dominion->getSpellPerkMultiplier($resource . '_invest_bonus');
+            $multiplier += $dominion->getSpellPerkMultiplier($resourceKey . '_invest_bonus');
 
             # Buildings
             $multiplier += $dominion->getBuildingPerkMultiplier('improvement_points');
-            $multiplier += $dominion->getBuildingPerkMultiplier($resource . '_improvement_points');
-            $multiplier += $dominion->getBuildingPerkMultiplier($resource . '_invest_bonus');
+            $multiplier += $dominion->getBuildingPerkMultiplier($resourceKey . '_improvement_points');
+            $multiplier += $dominion->getBuildingPerkMultiplier($resourceKey . '_invest_bonus');
 
             # Improvements
             $multiplier += $dominion->getImprovementPerkMultiplier('improvement_points');
-            $multiplier += $dominion->getImprovementPerkMultiplier($resource . '_improvement_points');
+            $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_improvement_points');
 
             # Faction
             $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
@@ -84,6 +84,15 @@ class ImprovementCalculator
             if(isset($dominion->title) and $dominion->title->getPerkMultiplier('improvements'))
             {
                 $multiplier += $dominion->title->getPerkMultiplier('improvements') * $dominion->title->getPerkBonus($dominion);
+            }
+
+            # Check units
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                if($dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_improvements')))
+                {
+                    $multiplier += ($dominion->{'military_unit'.$slot} / $this->landCalculator->getTotalLand($dominion)) / 100;
+                }
             }
 
             return $multiplier;

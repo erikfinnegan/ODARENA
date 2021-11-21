@@ -249,6 +249,15 @@ mining:
   perks:
     ore_production_mod: 25,4000
 
+storage:
+  name: Storage
+  excluded_races:
+    - Barbarian
+    - Growth
+    - Void
+  perks:
+    theft_protection: 40,6000
+
 wizardry:
   name: Wizardry
   excluded_races:

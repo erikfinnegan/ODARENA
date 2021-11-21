@@ -182,7 +182,6 @@ class UnitHelper
             'defense_from_per_improvement' => 'Defense increased by %1$s for every individual improvement you have with at least %2$s points invested.',
             'offense_from_per_improvement' => 'Offense increased by %1$s for every individual improvement you have with at least %2$s points invested.',
 
-
             'offense_from_improvement_points' => 'Offense increased by %1$s for %2$s points invested (max +%3$s).',
             'defense_from_improvement_points' => 'Defense increased by %1$s for %2$s points invested (max +%3$s).',
 
@@ -381,6 +380,8 @@ class UnitHelper
 
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
             'stuns_units' => 'Stuns some units with up to %1$s DP for %2$s ticks, whereafter the units return unharmed.',
+
+            'gold_improvements' => 'Increases improvement points from gold by (([Units]/[Land])/100)%%.',
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on invasion.',

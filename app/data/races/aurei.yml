@@ -1,7 +1,7 @@
 name: Aurei
 alignment: good
 description:
-home_land_type: plain
+home_land_type: mountain
 playable: 0
 
 attacking: 3
@@ -14,9 +14,6 @@ resources:
   - food
   - mana
 
-wizards_cost: 400,gold
-archmages_cost: 600,gold
-
 construction_materials:
   - gold
 
@@ -24,7 +21,7 @@ improvement_resources:
   gold: 2.5
 
 perks:
-  explore_cost: 35
+  explore_cost: 100
 
 units:
   - name: Metallurgist
@@ -55,6 +52,8 @@ units:
       defense: 6
     perks:
       counts_as_wizard: 0.5
+      kills_into_resource_per_value: 1,gold # each 1 OP/DP killed becomes
+      gold_improvements: 1
 
   - name: Chryson
     training_time: 2
@@ -70,8 +69,11 @@ units:
       offense: 2
       defense: 8
     perks:
-      fixed_offense_from_wizard_ratio: 8,5 # Gets +8 OP
-      casualties_from_wizard_ratio: -20 # -20% casualties per 1 WPA
+      counts_as_wizard: 0.25
+      fixed_offense_from_wizard_ratio: 8,3 # Gets +8 OP
+      casualties_from_wizard_ratio: -10 # -20% casualties per 1 WPA
+      no_draftee: 1
+      kills_into_resource_per_value: 1,gold # each 1 OP/DP killed becomes
 
   - name: Gold Wyrm
     type:
@@ -88,5 +90,6 @@ units:
       immortal_on_fending_off: 1
       casualties: -50
       no_draftee: 1
-      building_limit: gold_mine,1 # building, buildings per unit, imp to increased
+      building_limit: gold_quarry,1 # building, buildings per unit, imp to increased
       plunder: gold,100
+      kills_into_resource_per_value: 1,gold # each 1 OP/DP killed becomes

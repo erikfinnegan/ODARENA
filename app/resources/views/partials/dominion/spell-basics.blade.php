@@ -2,7 +2,7 @@
     $manaAfforded = $spellCalculator->getManaCost($selectedDominion, $spell->key) <= $resourceCalculator->getAmount($selectedDominion, 'mana') ? 'text-green' : 'text-red';
 @endphp
 
-<span class="{{ $manaAfforded }}"  data-toggle="tooltip" data-placement="top" title="Mana required to cast spell">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}</span>
+<span class="{{ $manaAfforded }}"  data-toggle="tooltip" data-placement="top" title="Mana cost to cast spell">{{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}</span>
 @if($spell->duration > 0)
   / <span data-toggle="tooltip" data-placement="top" title="Duration (ticks)">
         <i class="fas fa-hourglass-start"></i>:
