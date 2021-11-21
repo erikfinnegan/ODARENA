@@ -83,6 +83,9 @@ class ImprovementHelper
             'spell_damage' => 'spell damage',
             'wizard_guild_housing' => 'Wizard Guild housing',
 
+            'theft_protection' => 'theft protection (affects buildings that reduce theft, otherwise no effect)',
+            'amount_stolen' => 'amount stolen',
+
             'unit_pairing' => 'unit pairing',
 
             'improvement_points' => 'improvement points value from investments',
@@ -91,7 +94,7 @@ class ImprovementHelper
 
         ];
 
-        return $improvementPerkDescriptions[$improvementPerk] ? : 'Missing description';
+        return isset($improvementPerkDescriptions[$improvementPerk]) ? $improvementPerkDescriptions[$improvementPerk] : 'Missing description';
     }
 
     /*
