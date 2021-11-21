@@ -542,7 +542,7 @@ class DataSyncCommand extends Command implements CommandInterface
                         'scope' => object_get($spellData, 'scope'),
                         'class' => object_get($spellData, 'class'),
                         'cost' => object_get($spellData, 'cost', 1),
-                        'duration' => object_get($spellData, 'duration', 48),
+                        'duration' => object_get($spellData, 'duration', 0),
                         'cooldown' => object_get($spellData, 'cooldown', 0),
                         'wizard_strength' => object_get($spellData, 'wizard_strength'),
                         'enabled' => object_get($spellData, 'enabled', 1),
