@@ -99,6 +99,7 @@ units:
       cannot_be_released: 1
       dies_into_resource: 1,soul
       kills_displaced_peasants: 1 #
+      no_draftee: 1
 
   - name: Archdemon
     training_time: 24

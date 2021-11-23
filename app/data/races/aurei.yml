@@ -27,7 +27,7 @@ perks:
   explore_cost: 100
 
 units:
-  - name: Metallurgist
+  - name: Alchemist
     training_time: 6
     type:
       - living
@@ -42,21 +42,24 @@ units:
       gold_production_raw: 5.4
       building_limit: gold_quarry,20 # building, units per building
 
-  - name: Alchemist
-    training_time: 9
+  - name: Gold Wyrm
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 500
+      gold: 40000
     power:
-      offense: 0
-      defense: 6
+      offense: 160
+      defense: 240
     perks:
-      counts_as_wizard: 0.5
-      kills_into_resource_per_value: 1,gold # each 1 OP/DP killed becomes
-      gold_improvements: 1
+      immortal_on_victory: 1
+      immortal_on_fending_off: 1
+      casualties: -50
+      no_draftee: 1
+      building_limit: gold_quarry,1 # building, buildings per unit, imp to increased
+      plunder: gold,100
+      does_not_count_as_population: 1
 
   - name: Chryson
     training_time: 2
@@ -79,21 +82,23 @@ units:
       no_draftee: 1
       dies_into_wizard: 1
 
-  - name: Gold Wyrm
+  - name: Chryson
+    training_time: 2
     type:
       - living
       - sentient
       - intelligent
+      - equipment
     cost:
-      gold: 40000
+      wizard: 1
+      gold: 650
+      mana: 20
     power:
-      offense: 160
-      defense: 240
+      offense: 2
+      defense: 8
     perks:
-      immortal_on_victory: 1
-      immortal_on_fending_off: 1
-      casualties: -50
+      counts_as_wizard: 0.25
+      fixed_offense_from_wizard_ratio: 8,4 # Gets +8 OP when dominion has at least 4 WPA
+      casualties_from_wizard_ratio: -10 # -20% casualties per 1 WPA
       no_draftee: 1
-      building_limit: gold_quarry,1 # building, buildings per unit, imp to increased
-      plunder: gold,100
-      does_not_count_as_population: 1
+      dies_into_wizard: 1

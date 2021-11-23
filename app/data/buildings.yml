@@ -1145,7 +1145,7 @@ altar:
     - Demon
   land_type: mountain
   perks:
-    blood_production_mod: 1,2,100 # ratio, perk, max
+    blood_production_mod: 1,5,100 # ratio, perk, max
 
 dungeon:
   name: Dungeon
