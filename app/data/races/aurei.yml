@@ -45,6 +45,7 @@ units:
       kills_into_resource_per_value: 2,gold # each 1 OP/DP killed becomes gold
 
   - name: Gold Wyrm
+    training_time: 12
     type:
       - living
       - sentient
