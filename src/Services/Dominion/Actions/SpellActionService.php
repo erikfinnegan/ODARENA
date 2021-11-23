@@ -932,6 +932,8 @@ class SpellActionService
                         $ratio = (float)$spellPerkValues[1] / 100;
 
                         $amountStolen = $this->getTheftAmount($caster, $target, $spell, $resource, $ratio);
+                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
+                        $amountStolen *= $damageMultiplier;
 
                         $this->resourceService->updateResources($target, [$resourceKey => $amountStolen*-1]);
                         $this->resourceService->updateResources($dominion, [$resourceKey => $amountStolen]);

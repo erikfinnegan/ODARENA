@@ -732,7 +732,7 @@ voidspellmanatheft:
   exclusive_races:
     - Void
   perks:
-    resource_theft: mana,1 # resource, rate, max per spy
+    resource_theft: mana,1 # resource, rate
 
 metabolism:
   name: Metabolism

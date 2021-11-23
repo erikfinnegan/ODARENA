@@ -1510,6 +1510,7 @@ class InvadeActionService
             # Exclude certain attributes
             $unconvertibleAttributes = [
                 'ammunition',
+                'aspect',
                 'equipment',
                 'magical',
                 'massive',
@@ -3029,6 +3030,7 @@ class InvadeActionService
             $mindControlledUnits = [];
             $nonControllableAttributes = [
                 'ammunition',
+                'aspect',
                 'equipment',
                 'magical',
                 'massive',
