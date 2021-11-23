@@ -799,6 +799,13 @@ tutoring:
     xp_generation_mod: 45,7500
     xp_gains: 45,7500
 
+vigilance:
+  name: Vigilance
+  exclusive_races:
+    - Wood Elf
+  perks:
+    theft_protection: 60,7500
+
 wizardry_wood_elf:
   name: Wizardry
   exclusive_races:
@@ -878,6 +885,15 @@ perception:
     defensive_power: 50,9000
     xp_generation_mod: 100,9000
     xp_gains: 100,9000
+
+secret_compartments:
+  name: Secret Compartments
+  exclusive_races:
+    - Swarm
+  perks:
+    gold_theft: -100,10000
+    food_theft: -100,8000
+    gems_theft: -100,12000
 
 striking:
   name: Striking

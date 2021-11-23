@@ -36,7 +36,7 @@ class BuildingHelper
             'peasant_housing' => 'Houses %s peasants.',
 
             'afflicted_unit1_housing' => 'Houses %s Abominations.',
-
+            'aurei_unit1_housing' => 'Houses %s Metallurgists.',
             'human_unit1_housing' => 'Houses %s Archers.',
             'human_unit2_housing' => 'Houses %s Spearguards.',
             'sacred_order_unit2_housing' => 'Houses %s Monks.',

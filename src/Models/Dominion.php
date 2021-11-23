@@ -680,6 +680,7 @@ class Dominion extends AbstractModel
 
                           # Building-specific housing
                           or $perkKey == 'afflicted_unit1_housing'
+                          or $perkKey == 'aurei_unit1_housing'
                           or $perkKey == 'human_unit1_housing'
                           or $perkKey == 'human_unit2_housing'
                           or $perkKey == 'sacred_order_unit2_housing'

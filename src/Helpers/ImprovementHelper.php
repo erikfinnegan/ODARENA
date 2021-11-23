@@ -4,21 +4,12 @@ namespace OpenDominion\Helpers;
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
-use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\ImprovementPerk;
 
 class ImprovementHelper
 {
-
-    /** @var ImprovementCalculator */
-    protected $improvementCalculator;
-
-    public function __construct()
-    {
-        $this->improvementCalculator = app(ImprovementCalculator::class);
-    }
 
     # IMPROVEMENTS 2.0
 
@@ -82,6 +73,14 @@ class ImprovementHelper
             'wizard_losses' => 'wizard losses',
             'spell_damage' => 'spell damage',
             'wizard_guild_housing' => 'Wizard Guild housing',
+
+            'gold_theft' => 'gold theft',
+            'ore_theft' => 'ore theft',
+            'lumber_theft' => 'lumber theft',
+            'gems_theft' => 'gem theft',
+            'mana_theft' => 'mana theft',
+            'food_theft' => 'food theft',
+            'horse_theft' => 'horse theft',
 
             'theft_protection' => 'theft protection (affects buildings that reduce theft, otherwise no effect)',
             'amount_stolen' => 'amount stolen',

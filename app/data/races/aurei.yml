@@ -9,6 +9,9 @@ exploring : 2
 converting: 1
 skill_level: 1
 
+wizards_cost: 650,gold
+archmages_cost: 850,gold
+
 resources:
   - gold
   - food
@@ -46,7 +49,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 600
+      gold: 500
     power:
       offense: 0
       defense: 6
@@ -61,6 +64,7 @@ units:
       - living
       - sentient
       - intelligent
+      - equipment
     cost:
       wizard: 1
       gold: 650
@@ -70,10 +74,10 @@ units:
       defense: 8
     perks:
       counts_as_wizard: 0.25
-      fixed_offense_from_wizard_ratio: 8,3 # Gets +8 OP
+      fixed_offense_from_wizard_ratio: 8,4 # Gets +8 OP when dominion has at least 4 WPA
       casualties_from_wizard_ratio: -10 # -20% casualties per 1 WPA
       no_draftee: 1
-      kills_into_resource_per_value: 1,gold # each 1 OP/DP killed becomes
+      dies_into_wizard: 1
 
   - name: Gold Wyrm
     type:
@@ -92,4 +96,4 @@ units:
       no_draftee: 1
       building_limit: gold_quarry,1 # building, buildings per unit, imp to increased
       plunder: gold,100
-      kills_into_resource_per_value: 1,gold # each 1 OP/DP killed becomes
+      does_not_count_as_population: 1

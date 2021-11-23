@@ -188,6 +188,7 @@ transmogrify:
   excluded_races:
     - Afflicted
     - Ants
+    - Aurei
     - Artillery
     - Firewalker
     - Demon

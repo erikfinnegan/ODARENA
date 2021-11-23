@@ -254,6 +254,7 @@ class UnitHelper
             'only_dies_vs_raw_power' => 'Only dies against units with %s or more raw military power.',
 
             'dies_into' => 'Upon death, returns as %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
+            'dies_into_wizard' => 'Upon death, returns as wizard.',
             'wins_into' => 'Upon successul invasion, returns as %s.',
             'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',

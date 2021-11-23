@@ -375,7 +375,7 @@ class InvadeActionService
             $this->handlePeasantCapture($dominion, $target, $units, $landRatio);
 
             # Demon
-            #$this->handlePeasantKilling($dominion, $target, $units, $landRatio);
+            $this->handlePeasantKilling($dominion, $target, $units, $landRatio);
 
             # Conversions
             $offensiveConversions = array_fill(1, 4, 0);
@@ -941,6 +941,11 @@ class InvadeActionService
                 $diesIntoNewUnits[$slot] += intval($casualties);
             }
 
+            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_wizard'))
+            {
+                $diesIntoNewUnits['wizard'] += intval($casualties);
+            }
+
             if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_defense'))
             {
                 $slot = (int)$diesIntoPerk[0];
@@ -991,7 +996,15 @@ class InvadeActionService
         # Dies into units take 1 tick to appear
         foreach($diesIntoNewUnits as $slot => $amount)
         {
-            $unitKey = 'military_unit'.$slot;
+            if($slot == 'wizard')
+            {
+                $unitKey = 'military_wizards';
+            }
+            else
+            {
+                $unitKey = 'military_unit'.$slot;
+            }
+
             $this->queueService->queueResources(
                 'training',
                 $target,
@@ -1628,6 +1641,10 @@ class InvadeActionService
             return;
         }
 
+        $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] = 0;
+        $this->invasionResult['defender']['displaced_peasants_killing']['soul'] = 0;
+        $this->invasionResult['defender']['displaced_peasants_killing']['blood'] = 0;
+
         $rawDp = 0;
         foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
         {
@@ -1649,31 +1666,27 @@ class InvadeActionService
 
         foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
         {
-            if ($defender->race->getUnitPerkValueForUnitSlot($slot, 'captures_displaced_peasants'))
+            if ($defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_displaced_peasants'))
             {
                 $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
                 $dpRatio = $dpFromSlot / $rawDp;
 
-                $peasantsKilled = (int)floor($displacedPeasants * $opRatio);
+                $peasantsKilled = (int)floor($displacedPeasants * $dpRatio);
 
-                #dump('Slot ' . $slot . ' OP: ' . number_format($opFromSlot) . ' which is ' . $opRatio . ' ratio relative to ' . number_format($rawOp) . ' raw OP total.');
-
-                if(isset($this->invasionResult['defender']['peasants_killed']))
-                {
-                    $this->invasionResult['defender']['peasants_killed'] += $peasantsKilled;
-                }
-                else
-                {
-                    $this->invasionResult['defender']['peasants_killed'] = $peasantsKilled;
-                }
+                $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] += $peasantsKilled;
             }
         }
 
-        #dump('Displaced peasants: ' . number_format($displacedPeasants) . ' (' . number_format($defender->peasants) . ' / ' . number_format($this->invasionResult['defender']['landSize']) . ') * ' . number_format($landConquered) .'.');
+        $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] = intval(min(($defender->peasants-1000), max(0, $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'])));
+        $this->invasionResult['defender']['displaced_peasants_killing']['soul'] = $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'];
+        $this->invasionResult['defender']['displaced_peasants_killing']['blood'] = $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] * 6;
 
-        $this->invasionResult['defender']['peasants_killed'] = intval(min(($defender->peasants-1000), max(0, $this->invasionResult['defender']['peasants_killed'])));
+        $defender->peasants -= $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'];
 
-        $defender->peasants -= $this->invasionResult['defender']['peasants_killed'];
+        $resourceArray = ['blood' => $this->invasionResult['defender']['displaced_peasants_killing']['blood'], 'soul' => $this->invasionResult['defender']['displaced_peasants_killing']['soul']];
+
+        $this->resourceService->updateResources($defender, $resourceArray);
+
     }
 
 
@@ -1693,6 +1706,7 @@ class InvadeActionService
               'military_unit2' => array_fill(1, 12, 0),
               'military_unit3' => array_fill(1, 12, 0),
               'military_unit4' => array_fill(1, 12, 0),
+              'military_wizards' => array_fill(1, 12, 0),
             ];
 
             # Check for instant_return
@@ -1779,6 +1793,15 @@ class InvadeActionService
                         $newUnitSlot = $diesIntoPerk[0];
                         $newUnitKey = "military_unit{$newUnitSlot}";
                         $newUnitSlotReturnTime = $this->getUnitReturnTicksForSlot($attacker, $newUnitSlot);
+
+                        $returningUnits[$newUnitKey][$newUnitSlotReturnTime] += $casualties;
+                    }
+
+                    if($diesIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_wizard'))
+                    {
+                        # Which unit do they die into?
+                        $newUnitKey = "military_wizards";
+                        $newUnitSlotReturnTime = 12;
 
                         $returningUnits[$newUnitKey][$newUnitSlotReturnTime] += $casualties;
                     }
@@ -2529,6 +2552,7 @@ class InvadeActionService
             {
                 $uncryptablePerks = [
                     'dies_into',
+                    'dies_into_wizard',
                     'dies_into_multiple',
                     'dies_into_resource',
                     'dies_into_resources',
@@ -2557,6 +2581,7 @@ class InvadeActionService
             {
                 $uncryptablePerks = [
                     'dies_into',
+                    'dies_into_wizard',
                     'dies_into_multiple',
                     'dies_into_resource',
                     'dies_into_resources',

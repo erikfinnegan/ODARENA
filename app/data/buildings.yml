@@ -990,7 +990,7 @@ gateway:
 
 # END DIMENSIONALISTS
 
-# SWARM
+# BEGIN SWARM
 
 burrow:
   name: Burrow
@@ -1054,6 +1054,8 @@ well:
 
 # END SWARM
 
+# BEGIN MYCONID
+
 mycelia:
   name: Mycelia
   exclusive_races:
@@ -1063,6 +1065,8 @@ mycelia:
     housing: 30
     food_production_raw: 4
     jobs: 0
+
+# END MYCONID
 
 # BEGIN BEASTFOLK
 
@@ -1163,6 +1167,10 @@ gold_quarry:
   land_type: mountain
   perks:
     gold_production_increasing_raw: 50,0.05 # Produces 50 gold, increased  by 0.4 per tick of the round
+    housing: 0
+    jobs: 0
+    aurei_unit1_housing: 20
+
 
 # END AUREI
 
