@@ -139,14 +139,14 @@ class CasualtiesCalculator
         {
             if($dominion->race->getPerkValue('immortal_draftees'))
             {
-                return 0;
+                return True;
             }
         }
         elseif($slot == 'peasants')
         {
             if($dominion->race->getPerkValue('immortal_peasants'))
             {
-                return 0;
+                return True;
             }
         }
         else
@@ -164,6 +164,12 @@ class CasualtiesCalculator
                 {
                     return True;
                 }
+            }
+
+            # PERK: immortal_from_wpa
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_wpa') and $this->militaryCalculator->getWizardRatio($dominion, $mode) >= $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_wpa'))
+            {
+                return True;
             }
 
             # PERK: true_immortal

@@ -28,7 +28,7 @@ perks:
 
 units:
   - name: Alchemist
-    training_time: 6
+    training_time: 12
     type:
       - living
       - sentient
@@ -41,17 +41,20 @@ units:
     perks:
       gold_production_raw: 5.4
       building_limit: gold_quarry,20 # building, units per building
+      gold_improvements: 1
+      kills_into_resource_per_value: 2,gold # each 1 OP/DP killed becomes gold
 
   - name: Gold Wyrm
     type:
       - living
       - sentient
       - intelligent
+      - massive
     cost:
       gold: 40000
     power:
-      offense: 160
-      defense: 240
+      offense: 180
+      defense: 220
     perks:
       immortal_on_victory: 1
       immortal_on_fending_off: 1
@@ -61,44 +64,46 @@ units:
       plunder: gold,100
       does_not_count_as_population: 1
 
-  - name: Chryson
-    training_time: 2
+  - name: Halcyon
+    training_time: 0
     type:
       - living
       - sentient
       - intelligent
-      - equipment
+      - aspect
     cost:
       wizard: 1
-      gold: 650
+      gold: 300
       mana: 20
     power:
-      offense: 2
+      offense: 0
       defense: 8
     perks:
       counts_as_wizard: 0.25
-      fixed_offense_from_wizard_ratio: 8,4 # Gets +8 OP when dominion has at least 4 WPA
-      casualties_from_wizard_ratio: -10 # -20% casualties per 1 WPA
+      casualties_from_wizard_ratio: -30 # -30% casualties per 1 WPA
+      immortal_from_wpa: 5
       no_draftee: 1
       dies_into_wizard: 1
+      cannot_be_released: 1
 
   - name: Chryson
-    training_time: 2
+    training_time: 0
     type:
       - living
       - sentient
       - intelligent
-      - equipment
+      - aspect
     cost:
       wizard: 1
-      gold: 650
+      gold: 300
       mana: 20
     power:
-      offense: 2
-      defense: 8
+      offense: 8
+      defense: 5
     perks:
       counts_as_wizard: 0.25
-      fixed_offense_from_wizard_ratio: 8,4 # Gets +8 OP when dominion has at least 4 WPA
-      casualties_from_wizard_ratio: -10 # -20% casualties per 1 WPA
+      casualties_from_wizard_ratio: -30 # -30% casualties per 1 WPA
+      immortal_from_wpa: 5
       no_draftee: 1
       dies_into_wizard: 1
+      cannot_be_released: 1

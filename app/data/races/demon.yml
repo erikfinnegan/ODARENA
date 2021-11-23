@@ -66,7 +66,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 600
+      gold: 2000
       blood: 8
       soul: 1
     power:
@@ -87,7 +87,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 2000
+      gold: 600
       blood: 24
       unit2: 1
     power:
