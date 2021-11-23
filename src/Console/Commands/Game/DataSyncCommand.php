@@ -215,8 +215,8 @@ class DataSyncCommand extends Command implements CommandInterface
                     'name' => $unitName,
                     'type' => object_get($unitData, 'type'),
                     'cost' => object_get($unitData, 'cost', []),
-                    'power_offense' => object_get($unitData, 'offense', 0),
-                    'power_defense' => object_get($unitData, 'defense', 0),
+                    'power_offense' => object_get($unitData, 'power.offense', 0),
+                    'power_defense' => object_get($unitData, 'power.defense', 0),
                     'static_networth' => object_get($unitData, 'static_networth', 0),
                     'training_time' => object_get($unitData, 'training_time', 12),
                 ]);

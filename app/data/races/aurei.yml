@@ -9,9 +9,6 @@ exploring : 2
 converting: 1
 skill_level: 1
 
-wizards_cost: 650,gold
-archmages_cost: 850,gold
-
 resources:
   - gold
   - food
