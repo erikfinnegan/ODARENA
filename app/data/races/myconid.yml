@@ -17,7 +17,6 @@ resources:
   - food
   - mana
   - gems
-  - lumber
 
 peasants_production:
   food: 2

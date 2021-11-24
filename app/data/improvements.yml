@@ -5,6 +5,7 @@ cartography:
     - Beastfolk
     - Growth
     - Kerranad
+    - Myconid
     - Sylvan
     - Swarm
     - Troll
@@ -21,6 +22,7 @@ commerce:
     - Beastfolk
     - Growth
     - Kerranad
+    - Myconid
     - Sylvan
     - Swarm
     - Troll
@@ -158,6 +160,7 @@ logging:
     - Kerranad
     - Marshling
     - Merfolk
+    - Myconid
     - Sylvan
     - Swarm
     - Troll
@@ -190,6 +193,7 @@ mobilisation:
     - Growth
     - Kerranad
     - Marshling
+    - Myconid
     - Sylvan
     - Swarm
     - Troll
@@ -206,6 +210,7 @@ offense:
     - Beastfolk
     - Growth
     - Kerranad
+    - Myconid
     - Sylvan
     - Swarm
     - Troll
@@ -240,6 +245,7 @@ mining:
     - Kerranad
     - Marshling
     - Merfolk
+    - Myconid
     - Simian
     - Sylvan
     - Swarm
