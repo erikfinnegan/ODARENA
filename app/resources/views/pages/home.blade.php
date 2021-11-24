@@ -46,8 +46,9 @@
                             <span data-toggle="tooltip" data-placement="top" title="Start date: {{ $currentRound->start_date }}">
                                 Round {{ $currentRound->number }} starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.
                             </span>
-                            Land goal: <strong>{{ number_format($currentRound->land_target) }}.</strong>
                         </p>
+                        <p>Land goal: <strong>{{ number_format($currentRound->land_target) }}.</strong></p>
+
                             <a href="{{ route('round.register', $currentRound) }}">
                                 <button type="submit" class="btn btn-primary btn-block">Register Now!</button>
                             </a>
