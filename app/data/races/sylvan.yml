@@ -44,6 +44,7 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   unemployed_peasants_produce: 1
+  no_lumber_theft: 1
 
 units:
   - name: Leshy

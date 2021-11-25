@@ -118,6 +118,16 @@ class TheftActionService
                 throw new GameException('You don\'t have enough units at home to send this many units.');
             }
 
+            if($thieft->race->getPerkValue('no_' . $resource->key .'_theft'))
+            {
+                throw new GameException($thief->race->name . ' cannot steal ' . $resource->name . '.');
+            }
+
+            if($target->race->getPerkValue('no_' . $resource->key .'_theft'))
+            {
+                throw new GameException('Cannot steal ' . $resource->name . ' from ' . $thief->race->name . '.');
+            }
+
             foreach($units as $slot => $amount)
             {
                 $unit = $thief->race->units->filter(function ($unit) use ($slot) {

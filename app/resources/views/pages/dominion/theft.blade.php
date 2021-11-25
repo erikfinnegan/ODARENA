@@ -58,9 +58,12 @@
                                                 @php
                                                     $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
                                                 @endphp
+
+                                                @if(!$selectedDominion->race->getPerkValue('no_' . $resource->key . '_theft'))
                                                     <option value="{{ $resource->id }}">
                                                         {{ $resource->name }}
                                                     </option>
+                                                @endif
                                             @endforeach
                                         </select>
                                     </div>
