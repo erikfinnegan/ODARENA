@@ -991,7 +991,7 @@ class Dominion extends AbstractModel
     {
         $perkValueString = $spell->getPerkValue($perkKey);
         $dominionSpell = DominionSpell::where('caster_id', $this->id)->where('spell_id',$spell->id)->first();
-        if($dominionSpell->duration > 0 and $perkValueString)
+        if($dominionSpell and $dominionSpell->duration > 0 and $perkValueString)
         {
             if($perkValueString and (is_numeric($perkValueString) and !is_array($perkValueString)))
             {
