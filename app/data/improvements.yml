@@ -260,6 +260,7 @@ storage:
   excluded_races:
     - Barbarian
     - Growth
+    - Wood Elf
     - Void
   perks:
     theft_protection: 40,6000

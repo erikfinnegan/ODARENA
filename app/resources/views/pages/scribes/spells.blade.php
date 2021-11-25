@@ -77,7 +77,7 @@
                               <td>{{ $spell->duration }} ticks</td>
                               <td>
                                   @if($spell->cooldown > 0)
-                                      {{ $spell->cooldown }} hours
+                                      {{ $spell->cooldown }} ticks
                                   @else
                                       None
                                   @endif
@@ -130,7 +130,7 @@
                               <td>{{ $spell->duration }} ticks</td>
                               <td>
                                   @if($spell->cooldown > 0)
-                                      {{ $spell->cooldown }} hours
+                                      {{ $spell->cooldown }} ticks
                                   @else
                                       None
                                   @endif
@@ -187,7 +187,7 @@
                               <td>{{ $spell->duration }} ticks</td>
                               <td>
                                   @if($spell->cooldown > 0)
-                                      {{ $spell->cooldown }} hours
+                                      {{ $spell->cooldown }} ticks
                                   @else
                                       None
                                   @endif
@@ -243,7 +243,7 @@
                                   <td>{{ $spell->cost }}x</td>
                                   <td>
                                       @if($spell->cooldown > 0)
-                                          {{ $spell->cooldown }} hours
+                                          {{ $spell->cooldown }} ticks
                                       @else
                                           None
                                       @endif
@@ -292,7 +292,7 @@
                                   <td>{{ $spell->cost }}x</td>
                                   <td>
                                       @if($spell->cooldown > 0)
-                                          {{ $spell->cooldown }} hours
+                                          {{ $spell->cooldown }} ticks
                                       @else
                                           None
                                       @endif
@@ -342,7 +342,7 @@
                                   <td>{{ $spell->cost }}x</td>
                                   <td>
                                       @if($spell->cooldown > 0)
-                                          {{ $spell->cooldown }} hours
+                                          {{ $spell->cooldown }} ticks
                                       @else
                                           None
                                       @endif
