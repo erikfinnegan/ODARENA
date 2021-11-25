@@ -27,7 +27,7 @@
                                                 data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
                                                 data-percentage="{{ $rangeCalculator->getDominionRange($selectedDominion, $dominion) }}"
                                                 data-abandoned="{{ $dominion->isAbandoned() ? 1 : 0 }}"
-                                                data-war="{{ $governmentService->isAtWarWithRealm($selectedDominion->realm, $dominion->realm) ? 1 : 0 }}">
+                                                data-war="0">
                                             {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
                                         </option>
                                     @endforeach
