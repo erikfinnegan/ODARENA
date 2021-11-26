@@ -74,6 +74,7 @@ units:
       strength_conversion: 8,3,4 #  threshold,under,over <=8 DP becomes Apparition, >8 DP becomes Aspect
 
   - name: Aspect
+    training_time: 0
     type:
       - living
       - sentient
