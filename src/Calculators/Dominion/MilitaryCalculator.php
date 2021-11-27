@@ -1854,7 +1854,7 @@ class MilitaryCalculator
                 $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slot}")
             );
         }
-        elseif(in_array($slot, ['spies', 'wizards', 'archmages']))
+        elseif(in_array($slot, ['draftees', 'spies', 'wizards', 'archmages']))
         {
             return (
                 $dominion->{'military_' . $slot} +

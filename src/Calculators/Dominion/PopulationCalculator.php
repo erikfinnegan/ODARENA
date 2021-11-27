@@ -70,11 +70,11 @@ class PopulationCalculator
 
       $military = 0;
 
-      # Draftees, Spies, Wizards, and Arch Mages always count.
-      $military += $dominion->military_draftees;
-      $military += $dominion->military_spies;
-      $military += $dominion->military_wizards;
-      $military += $dominion->military_archmages;
+      # Draftees, Spies, Wizards, and Arch Mages
+      $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'draftees');
+      $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'spies');
+      $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'wizards');
+      $military += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'archmages');
 
       # Units in training
       $military += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_spies');
