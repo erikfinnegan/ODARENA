@@ -9,7 +9,7 @@
                     <img src="{{ Auth::user()->getAvatarUrl() }}" class="img-circle" alt="{{ Auth::user()->display_name }}">
                 </div>
                 <div class="pull-left info">
-                    <p>{{ $selectedDominion->name }}</p>
+                    <p><a href="{{ route('dominion.status') }}" style="color:#fff;">{{ $selectedDominion->name }}</a></p>
                     <a href="{{ route('dominion.realm') }}">{{ $selectedDominion->realm->name }} (#{{ $selectedDominion->realm->number }})</a>
                 </div>
             </div>

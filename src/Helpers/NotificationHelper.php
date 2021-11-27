@@ -288,7 +288,11 @@ class NotificationHelper
                 $acres = array_sum($data);
                 if(isset($data['xp']))
                 {
-                  $acres -= $data['xp'];
+                    $acres -= $data['xp'];
+                }
+                if(isset($data['prestige']))
+                {
+                    $acres -= $data['prestige'];
                 }
 
                 return sprintf(
