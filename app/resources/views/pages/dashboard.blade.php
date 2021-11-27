@@ -94,13 +94,13 @@
                                     @endif
 
                                 @else
-                                    @if($round->hasEnded() and $round->start_date > $user->created_at)
+                                    @if($round->hasEnded() and $user->created_at <= $round->start_date)
                                         <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Ended: {{ $round->end_date }}">
                                             <span class="label label-primary">Ended</span>
                                         </span>
-                                    @elseif($round->hasEnded() and $round->end_date > $user->created_at)
+                                    @elseif($round->hasEnded() and $user->created_at > $round->start_date)
                                         <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Ended: {{ $round->end_date }}">
-                                            <span class="label label-primary">Could not participate</span>
+                                            <span class="label label-primary">Not registered yet</span>
                                         </span>
                                     @elseif(!$round->hasEnded())
                                         <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.">
