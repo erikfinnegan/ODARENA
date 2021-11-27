@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-9">
-            <div class="box box-primary">
+            <div class="box box-primary table-responsive">
                 <table class="table table-striped">
                     <colgroup>
                         <col width="60">
