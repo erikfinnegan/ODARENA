@@ -92,7 +92,7 @@
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
                                 <th class="text-center">Units<br>Returning</th>
-                                <th style="hidden">My Range</th>
+                                <th class="text-center hidden">My Range</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -194,7 +194,7 @@
                                                 <span class="text-gray">No</span>
                                             @endif
                                         </td>
-                                        <td style="hidden">
+                                        <td class="hidden">
                                             @if ($rangeCalculator->isInRange($selectedDominion, $dominion) and $selectedDominion->realm->id !== $dominion->realm->id)
                                                 true
                                             @endif
