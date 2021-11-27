@@ -19,12 +19,13 @@
                     <thead>
                         <tr>
                             <th class="text-center">Round</th>
-                            <th>Chapter</th>
                             <th>Dominion</th>
                             <th>Status</th>
                             <th>Faction</th>
                             <th>Land</th>
                             <th>Networth</th>
+                            <th>Chapter</th>
+                            <th>Era</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,11 +41,6 @@
                         @endif
                         <tr>
                             <td class="text-center">{{ $round->number }}</td>
-                            <td>
-                                <span data-toggle="tooltip" data-placement="top" title="Era: {{ $round->league->description }}">
-                                    {{ $round->name }}
-                                </span>
-                            </td>
                             <td>
                                 @if(isset($dominion))
                                     @if ($dominion->isSelectedByAuthUser())
@@ -127,6 +123,11 @@
                                     &mdash;
                                 @endif
                             </td>
+
+
+                            <td>{{ $round->name }}</td>
+
+                            <td>{{ $round->league->description }}</td>
 
 
                         </tr>
