@@ -1635,7 +1635,7 @@ class InvadeActionService
         );
     }
 
-    public function handlePeasantKilling(Dominion $defender, Dominion $attacker, float $landRatio): void
+    public function handlePeasantKilling(Dominion $defender, Dominion $attacker, array $units, float $landRatio): void
     {
         if($defender->race->name !== 'Demon' or !$this->invasionResult['result']['success'])
         {
