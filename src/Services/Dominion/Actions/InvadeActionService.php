@@ -1730,7 +1730,7 @@ class InvadeActionService
 
                 $returningUnitKey = $unitKey;
 
-                if($slot !== 'wizards')
+                if($unitKey !== 'military_wizards')
                 {
 
                     # See if slot $slot has wins_into perk.
