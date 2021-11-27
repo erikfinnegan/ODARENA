@@ -1649,13 +1649,21 @@ class InvadeActionService
         $rawDp = 0;
         foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
         {
-            if($amount > 0 and $slot !== 'draftees')
+            if($amount > 0)
             {
-                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                    return ($unit->slot === $slot);
-                })->first();
+                if($slot == 'draftees')
+                {
+                    $rawDpFromSlot = 1;
+                }
+                elseif(in_array($slot, [1,2,3,4]))
+                {
+                    $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
 
-                $rawDpFromSlot = $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
+                    $rawDpFromSlot = $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
+                }
+
                 $totalRawDpFromSlot = $rawDpFromSlot * $amount;
 
                 $rawDp += $totalRawDpFromSlot;
@@ -1667,14 +1675,17 @@ class InvadeActionService
 
         foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
         {
-            if ($defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_displaced_peasants'))
+            if(in_array($slot, [1,2,3,4]))
             {
-                $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
-                $dpRatio = $dpFromSlot / $rawDp;
+                if ($defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_displaced_peasants'))
+                {
+                    $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
+                    $dpRatio = $dpFromSlot / $rawDp;
 
-                $peasantsKilled = (int)floor($displacedPeasants * $dpRatio);
+                    $peasantsKilled = (int)floor($displacedPeasants * $dpRatio);
 
-                $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] += $peasantsKilled;
+                    $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] += $peasantsKilled;
+                }
             }
         }
 
