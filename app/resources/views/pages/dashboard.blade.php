@@ -93,7 +93,7 @@
                                 @else
                                     @if($round->hasEnded() and $round->start_date > $user->created_at)
                                         <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Ended: {{ $round->end_date }}">
-                                            <span class="label label-primary">Did not participate</span>
+                                            <span class="label label-primary">Ended</span>
                                         </span>
                                     @elseif($round->hasEnded() and $round->end_date > $user->created_at)
                                         <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Ended: {{ $round->end_date }}">
