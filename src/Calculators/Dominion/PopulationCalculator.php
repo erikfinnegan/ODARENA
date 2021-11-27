@@ -378,8 +378,8 @@ class PopulationCalculator
     */
     public function getUnitsHousedInWizardGuilds(Dominion $dominion): int
     {
-        $spyUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'wizards');
-        $spyUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'archmages');
+        $wizUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'wizards');
+        $wizUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'archmages');
 
         for ($slot = 1; $slot <= 4; $slot++)
         {
