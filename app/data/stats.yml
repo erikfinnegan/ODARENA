@@ -192,6 +192,8 @@ blood_training:
   name: Blood training
 blood_improvements:
   name: Blood improvements
+blood_lost:
+  name: Blood lost
 
 pearls_production:
   name: Pearls production
@@ -386,9 +388,13 @@ lumber_stolen:
 ore_stolen:
   name: Ore stolen
 gems_stolen:
-  name: Gem stolen
+  name: Gems stolen
 mana_stolen:
   name: Mana stolen
+horse_stolen:
+  name: Horses stolen
+blood_stolen:
+  name: Blood stolen
 peasants_stolen:
   name: Peasants abducted
 espionage_peasants_killed:
