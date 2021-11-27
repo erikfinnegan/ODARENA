@@ -118,7 +118,7 @@ class TheftActionService
                 throw new GameException('You don\'t have enough units at home to send this many units.');
             }
 
-            if($thieft->race->getPerkValue('no_' . $resource->key .'_theft'))
+            if($thief->race->getPerkValue('no_' . $resource->key .'_theft'))
             {
                 throw new GameException($thief->race->name . ' cannot steal ' . $resource->name . '.');
             }
