@@ -9,12 +9,13 @@
                 <table class="table table-striped">
                     <colgroup>
                         <col width="60">
-                        <col width="120">
                         <col>
                         <col width="180">
                         <col width="120">
                         <col width="120">
-                        <col>
+                        <col width="120">
+                        <col width="120">
+                        <col width="120">
                     </colgroup>
                     <thead>
                         <tr>
@@ -52,7 +53,9 @@
                                         </form>
                                     @endif
                                 @elseif(!$round->hasEnded())
-                                    REGISTER BITCH
+                                    <span data-toggle="tooltip" data-placement="top" title="Join round {{ $round->number }}!">
+                                        <a href="{{ route('round.register', $round) }}" class="btn btn-success btn-round btn-block"><i class="fas fa-plus-circle"></i> Register</a>
+                                    </span>
                                 @else
                                     &mdash;
                                 @endif
@@ -88,14 +91,17 @@
                                             <span class="label label-primary">User was not registered</span>
                                         </span>
                                     @elseif(!$round->hasEnded())
-                                        <span data-toggle="tooltip" data-placement="top" title="Join round {{ $round->number }}!">
-                                            <a href="{{ route('round.register', $round) }}" class="btn btn-success btn-round"><i class="fas fa-plus-circle"></i> Register</a>
-                                        </span>
                                         <p>
                                         @if(!$round->hasStarted())
-                                            <small style="text-muted">The round starts at {{ $round->start_date }}. The target land size is {{ number_format($round->land_target) }} acres.</p>
+                                            <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.">
+                                                <span class="label label-danger">Starting Soon</span>
+                                            </span><br>
+                                            <small style="text-muted">The round starts at {{ $round->start_date }}.<br>The target land size is {{ number_format($round->land_target) }} acres.</small>
                                         @else
-                                            <small style="text-muted">The round started at {{ $round->start_date }}. Current tick: {{ number_format($round->ticks) }}.</p>
+                                            <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.">
+                                                <span class="label label-warning">Active</span>
+                                            </span><br>
+                                            <small style="text-muted">The round started at {{ $round->start_date }}.<br>Current tick: {{ number_format($round->ticks) }}.</small>
                                         @endif
                                         </p>
                                     @endif
@@ -144,7 +150,7 @@
                 </div>
                 <div class="box-body">
                     <p>Welcome {{ $dominions->isEmpty() ? '' : 'back' }} to ODARENA, <strong>{{ Auth::user()->display_name }}</strong>!</p>
-                    <p>You have been playing since {{ $user->created_at }} and have participated in {{ number_format($dominions->count()) }} of {{ number_format($rounds->where('start_date', '>=', $user->created_at)->count()) }} rounds since joining.</p>
+                    <p>You have been playing since {{ $user->created_at }} and have participated in {{ number_format($dominions->count()) }} of {{ number_format($rounds->where('end_date', '>=', $user->created_at)->count()) }} finished rounds since joining.</p>
                 </div>
             </div>
         </div>
