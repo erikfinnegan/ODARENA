@@ -349,24 +349,26 @@
                     </thead>
                     <tbody>
                         @foreach ($activePassiveSpells as $dominionSpell)
-                            @php
-                                $spell = OpenDominion\Models\Spell::where('id', $dominionSpell->spell_id)->first();
-                                $caster = $spellCalculator->getCaster($dominion, $spell->key);
-                            @endphp
-                            <tr>
-                                <td>{{ $spell->name }}</td>
-                                <td>
-                                    <ul>
-                                    @foreach($spellHelper->getSpellEffectsString($spell, $dominion->race) as $effect)
-                                        <li>{{ $effect }}</li>
-                                    @endforeach
-                                    <ul>
-                                </td>
-                                <td class="text-center">{{ $dominionSpell->duration }} / {{ $spell->duration }} ticks</td>
-                                <td class="text-center">
-                                    <a href="{{ route('dominion.realm', $caster->realm->number) }}">{{ $caster->name }} (#{{ $caster->realm->number }})</a>
-                                </td>
-                            </tr>
+                            @if($dominionSpell->duration > 0)
+                                @php
+                                    $spell = OpenDominion\Models\Spell::where('id', $dominionSpell->spell_id)->first();
+                                    $caster = $spellCalculator->getCaster($dominion, $spell->key);
+                                @endphp
+                                <tr>
+                                    <td>{{ $spell->name }}</td>
+                                    <td>
+                                        <ul>
+                                        @foreach($spellHelper->getSpellEffectsString($spell, $dominion->race) as $effect)
+                                            <li>{{ $effect }}</li>
+                                        @endforeach
+                                        <ul>
+                                    </td>
+                                    <td class="text-center">{{ $dominionSpell->duration }} / {{ $spell->duration }} ticks</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('dominion.realm', $caster->realm->number) }}">{{ $caster->name }} (#{{ $caster->realm->number }})</a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
