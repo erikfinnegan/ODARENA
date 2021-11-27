@@ -1756,7 +1756,7 @@ class InvadeActionService
             foreach($returningUnits as $unitKey => $values)
             {
                 $unitType = str_replace('military_', '', $unitKey);
-                $slot = str_replace('unit', '', $unitKey);
+                $slot = str_replace('unit', '', $unitType);
                 $amountReturning = 0;
 
                 $returningUnitKey = $unitKey;
