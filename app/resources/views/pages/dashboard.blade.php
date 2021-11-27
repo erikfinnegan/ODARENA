@@ -5,8 +5,8 @@
 @section('content')
     <div class="row">
         <div class="col-lg-9">
-            <div class="box box-primary table-responsive">
-                <table class="table table-striped">
+            <div class="box box-primary table-responsive" id="dominion-search">
+                <table class="table table-striped table-hover" id="dominions-table">
                     <colgroup>
                         <col width="60">
                         <col>
@@ -156,3 +156,26 @@
         </div>
     </div>
 @endsection
+
+@push('page-styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">
+    <style>
+        #dominion-search #dominions-table_filter { display: none !important; }
+    </style>
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/dataTables.bootstrap.js') }}"></script>
+@endpush
+
+@push('inline-scripts')
+    <script type="text/javascript">
+        (function ($) {
+            var table = $('#dominions-table').DataTable({
+                order: [0, 'desc'],
+                paging: false,
+            });
+        })(jQuery);
+    </script>
+@endpush
