@@ -9,6 +9,13 @@ exploring : 3
 converting: 3
 skill_level: 2
 
+resources:
+  - gold
+  - food
+  - lumber
+  - gems
+  - mana
+
 perks:
   salvaging: 65
   gems_production_mod: 20
