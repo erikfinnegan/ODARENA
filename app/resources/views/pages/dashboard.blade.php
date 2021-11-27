@@ -10,7 +10,7 @@
                     <colgroup>
                         <col width="60">
                         <col width="120">
-                        <col width="360">
+                        <col>
                         <col width="180">
                         <col width="120">
                         <col width="120">
