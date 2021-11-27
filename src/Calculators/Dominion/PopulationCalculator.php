@@ -344,7 +344,7 @@ class PopulationCalculator
     */
     public function getUnitsHousedInForestHavens(Dominion $dominion): int
     {
-        $spyUnits = $dominion->military_spies;
+        $spyUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'spies');
         $spyUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_spies");
 
         for ($slot = 1; $slot <= 4; $slot++)
@@ -378,10 +378,8 @@ class PopulationCalculator
     */
     public function getUnitsHousedInWizardGuilds(Dominion $dominion): int
     {
-        $wizUnits = $dominion->military_wizards;
-        $wizUnits += $dominion->military_archmages;
-        $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_wizards");
-        $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_archmages");
+        $spyUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'wizards');
+        $spyUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'archmages');
 
         for ($slot = 1; $slot <= 4; $slot++)
         {
