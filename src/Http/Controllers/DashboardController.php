@@ -5,6 +5,7 @@ namespace OpenDominion\Http\Controllers;
 use Auth;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Round;
+use OpenDominion\Services\Dominion\RoundService;
 use OpenDominion\Services\Dominion\SelectorService;
 
 #ODA
@@ -21,8 +22,6 @@ class DashboardController extends AbstractController
         $landCalculator = app(LandCalculator::class);
         $networthCalculator = app(NetworthCalculator::class);
 
-
-
         $dominions = Dominion::with(['round', 'realm', 'race'])
             ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
@@ -37,6 +36,8 @@ class DashboardController extends AbstractController
             'rounds' => $rounds,
             'landCalculator' => $landCalculator,
             'networthCalculator' => $networthCalculator,
+
+            'roundService' => app(RoundService::class),
 
             # Socials
             'url_youtube' => 'https://www.youtube.com/channel/UCGR9htOHUFzIfiPUsZapHhw',

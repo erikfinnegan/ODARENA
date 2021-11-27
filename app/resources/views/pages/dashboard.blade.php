@@ -17,6 +17,111 @@
 
     <div class="row">
 
+        <div class="col-lg-12">
+            <div class="box box-primary">
+                <table class="table table-striped">
+                    <colgroup>
+                        <col width="60">
+                        <col width="180">
+                        <col width="120">
+                        <col>
+                        <col width="60">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="text-center">Round</th>
+                            <th>Era</th>
+                            <th>Chapter</th>
+                            <th>Dominion</th>
+                            <th>Status</th>
+                            <th>Faction</th>
+                            <th>Land</th>
+                            <th>Networth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($rounds->all() as $round)
+                        @if($roundService->hasUserDominionInRound($round))
+                            @php
+                                $dominion = $roundService->getUserDominionFromRound($round);
+                            @endphp
+                        @else
+                            @php
+                                $dominion = null;
+                            @endphp
+                        @endif
+                        <tr>
+                            <td class="text-center">{{ $round->number }}</td>
+                            <td>{{ $round->league->description }}</td>
+                            <td>{{ $round->name }}</td>
+                            <td>
+                                @if(isset($dominion))
+                                    @if ($dominion->isSelectedByAuthUser())
+                                        <a href="{{ route('dominion.status') }}">{{ $dominion->name }}</a>
+                                        <span class="label label-success">Selected</span>
+                                    @else
+                                        <form action="{{ route('dominion.select', $dominion) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-link" style="padding: 0;">{{ $dominion->name }}</button>
+                                        </form>
+                                    @endif
+                                @else
+                                    &mdash;
+                                @endif
+                            </td>
+                            <td>
+                                @if($roundService->hasUserDominionInRound($round))
+
+                                    @if($round->hasEnded())
+                                        <span class="label label-info">Finished</span>
+                                    @endif
+
+                                    @if($dominion->is_locked)
+                                        <span class="label label-warning">Locked</span>
+                                    @endif
+
+                                    @if(!$round->hasEnded() and !$dominion->isLocked())
+                                        <span class="label label-success">Playing</span>
+                                    @endif
+
+                                @else
+                                    @if($round->hasEnded())
+                                        &mdash;
+                                    @endif
+                                @endif
+                            </td>
+
+                            <td>
+                                @if($dominion)
+                                    {{ $dominion->race->name }} <a href="{{ route('scribes.faction', str_slug($dominion->race->name)) }}" target="_blank"><i class="ra ra-scroll-unfurled"></i></a>
+                                @else
+                                    &mdash;
+                                @endif
+                            </td>
+
+                            <td>
+                                @if($dominion)
+                                    {{ number_format($landCalculator->getTotalLand($dominion)) }}
+                                @else
+                                    &mdash;
+                                @endif
+                            </td>
+
+                            <td>
+                                @if($dominion)
+                                    {{ number_format($networthCalculator->getDominionNetworth($dominion)) }}
+                                @else
+                                    &mdash;
+                                @endif
+                            </td>
+
+
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+        </div>
+
         <div class="col-lg-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
