@@ -10,7 +10,6 @@
                     <colgroup>
                         <col width="60">
                         <col width="120">
-                        <col width="180">
                         <col width="360">
                         <col width="180">
                         <col width="120">
@@ -20,7 +19,6 @@
                     <thead>
                         <tr>
                             <th class="text-center">Round</th>
-                            <th>Era</th>
                             <th>Chapter</th>
                             <th>Dominion</th>
                             <th>Status</th>
@@ -42,8 +40,11 @@
                         @endif
                         <tr>
                             <td class="text-center">{{ $round->number }}</td>
-                            <td>{{ $round->league->description }}</td>
-                            <td>{{ $round->name }}</td>
+                            <td>
+                                <span data-toggle="tooltip" data-placement="top" title="Era: {{ $round->league->description }}">
+                                    {{ $round->name }}
+                                </span>
+                            </td>
                             <td>
                                 @if(isset($dominion))
                                     @if ($dominion->isSelectedByAuthUser())
