@@ -30,7 +30,9 @@
                                         <td>{{ $resource->name }}</td>
                                         <td>
                                             @if ($production = $resourceCalculator->getProduction($selectedDominion, $resourceKey))
-                                                <span class="text-green">{{ number_format($production) }}</span>
+                                                <span data-toggle="tooltip" data-placement="top" title="Raw: {{ number_format($resourceCalculator->getProductionRaw($selectedDominion, $resourceKey)) }}">
+                                                    <span class="text-green">{{ number_format($production) }}</span>
+                                                </span>
                                             @else
                                                 0
                                             @endif

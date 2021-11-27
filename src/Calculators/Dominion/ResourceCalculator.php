@@ -85,6 +85,11 @@ class ResourceCalculator
 
     public function getProduction(Dominion $dominion, string $resourceKey): int
     {
+        return max(0, $this->getProductionRaw($dominion, $resourceKey) * $this->getProductionMultiplier($dominion, $resourceKey));
+    }
+
+    public function getProductionRaw(Dominion $dominion, string $resourceKey): float
+    {
         if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or $dominion->getSpellPerkValue('no_' . $resourceKey . '_production') or $dominion->isAbandoned())
         {
             return 0;
@@ -196,8 +201,6 @@ class ResourceCalculator
         $rawModPerks += $dominion->getTechPerkMultiplier($resourceKey . '_production_raw_mod');
 
         $production *= $rawModPerks;
-
-        $production *= $this->getProductionMultiplier($dominion, $resourceKey);
 
         return max(0, $production);
     }
