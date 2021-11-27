@@ -1730,24 +1730,28 @@ class InvadeActionService
 
                 $returningUnitKey = $unitKey;
 
-                # See if slot $slot has wins_into perk.
-                if($this->invasionResult['result']['success'])
+                if($slot !== 'wizards')
                 {
-                    if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into'))
-                    {
-                        $returnsAsSlot = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into');
-                        $returningUnitKey = 'military_unit' . $returnsAsSlot;
-                    }
-                    if($someWinIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'some_win_into'))
-                    {
-                        $ratio = (float)$someWinIntoPerk[0] / 100;
-                        $newSlot = (int)$someWinIntoPerk[1];
 
-                        if(isset($units[$slot]))
+                    # See if slot $slot has wins_into perk.
+                    if($this->invasionResult['result']['success'])
+                    {
+                        if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into'))
                         {
-                            $newUnits = (int)floor($units[$slot] * $ratio);
-                            $someWinIntoUnits[$newSlot] += $newUnits;
-                            $amountReturning -= $newUnits;
+                            $returnsAsSlot = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into');
+                            $returningUnitKey = 'military_unit' . $returnsAsSlot;
+                        }
+                        if($someWinIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'some_win_into'))
+                        {
+                            $ratio = (float)$someWinIntoPerk[0] / 100;
+                            $newSlot = (int)$someWinIntoPerk[1];
+
+                            if(isset($units[$slot]))
+                            {
+                                $newUnits = (int)floor($units[$slot] * $ratio);
+                                $someWinIntoUnits[$newSlot] += $newUnits;
+                                $amountReturning -= $newUnits;
+                            }
                         }
                     }
                 }
