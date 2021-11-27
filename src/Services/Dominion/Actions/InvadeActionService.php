@@ -503,6 +503,8 @@ class InvadeActionService
                 $this->spellActionService->breakSpell($target, 'annexation', $this->invasionResult['attacker']['liberation']);
             }
 
+            $this->invasionResult['log']['finished_at'] = time();
+
             $this->invasionEvent = GameEvent::create([
                 'round_id' => $dominion->round_id,
                 'source_type' => Dominion::class,
@@ -559,7 +561,7 @@ class InvadeActionService
             $alertType = 'danger';
         }
 
-        $this->invasionResult['log']['finished_at'] = time();
+
 
         return [
             'message' => $message,

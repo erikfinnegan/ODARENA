@@ -51,6 +51,8 @@
                                             <button type="submit" class="btn btn-link" style="padding: 0;">{{ $dominion->name }}</button>
                                         </form>
                                     @endif
+                                @elseif(!$round->hasEnded())
+                                    REGISTER BITCH
                                 @else
                                     &mdash;
                                 @endif
