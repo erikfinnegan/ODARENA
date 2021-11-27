@@ -138,7 +138,9 @@ class InvadeActionService
         #$this->guardLockedDominion($dominion);
         #$this->guardLockedDominion($target);
 
-        DB::transaction(function () use ($dominion, $target, $units) {
+        $now = time();
+
+        DB::transaction(function () use ($dominion, $target, $units, $now) {
             // Checks
             #if ($dominion->round->hasOffensiveActionsDisabled()) {
             #    throw new GameException('Invasions have been disabled for the remainder of the round.');
@@ -304,6 +306,9 @@ class InvadeActionService
 
             $this->invasionResult['attacker']['fog'] = $dominion->getSpellPerkValue('fog_of_war') ? true : false;
             $this->invasionResult['defender']['fog'] = $target->getSpellPerkValue('fog_of_war') ? true : false;
+
+            $this->invasionResult['log']['initiated_at'] = $now;
+            $this->invasionResult['log']['requested_at'] = $_SERVER['REQUEST_TIME'];
 
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
@@ -553,6 +558,8 @@ class InvadeActionService
             );
             $alertType = 'danger';
         }
+
+        $this->invasionResult['log']['finished_at'] = time();
 
         return [
             'message' => $message,
@@ -1994,7 +2001,7 @@ class InvadeActionService
                 }
             }
 
-            dump($returningUnits);
+            #dump($returningUnits);
 
             foreach($returningUnits as $unitKey => $unitKeyTicks)
             {
