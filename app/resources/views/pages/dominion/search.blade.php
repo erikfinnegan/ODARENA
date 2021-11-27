@@ -272,7 +272,7 @@
                 }
 
                 var range = $('select[name=range]').val();
-                if (range && data[6] != "yes") return false;
+                if (range && data[6] != "true") return false;
 
                 return true;
             }
