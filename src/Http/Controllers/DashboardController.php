@@ -36,6 +36,7 @@ class DashboardController extends AbstractController
             'rounds' => $rounds,
             'landCalculator' => $landCalculator,
             'networthCalculator' => $networthCalculator,
+            'user' => Auth::user(),
 
             'roundService' => app(RoundService::class),
 

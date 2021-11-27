@@ -73,27 +73,43 @@
                                 @if($roundService->hasUserDominionInRound($round))
 
                                     @if($round->hasEnded())
-                                        <span class="label label-info">Finished</span>
+                                        <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Registration: {{ $dominion->created_at }}.<br>Ended: {{ $round->end_date }}">
+                                            <span class="label label-info">Finished</span>
+                                        </span>
                                     @endif
 
                                     @if($dominion->is_locked)
-                                        <span class="label label-warning">Locked</span>
+                                        <span data-toggle="tooltip" data-placement="top" title="This dominion was locked.">
+                                            <span class="label label-warning">Locked</span>
+                                        </span>
                                     @endif
 
                                     @if(!$round->hasEnded() and !$dominion->isLocked())
-                                        <span class="label label-success">Playing</span>
+                                        <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Registration: {{ $dominion->created_at }}.">
+                                            <span class="label label-success">Playing</span>
+                                        </span>
                                     @endif
 
                                 @else
-                                    @if($round->hasEnded())
-                                        &mdash;
+                                    @if($round->hasEnded() and $round->start_date > $user->created_at)
+                                        <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Ended: {{ $round->end_date }}">
+                                            <span class="label label-primary">Did not participate</span>
+                                        </span>
+                                    @elseif($round->hasEnded() and $round->end_date > $user->created_at)
+                                        <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Ended: {{ $round->end_date }}">
+                                            <span class="label label-primary">Could not participate</span>
+                                        </span>
+                                    @elseif(!$round->hasEnded())
+                                        <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.">
+                                            <a href="{{ route('round.register', $round) }}" class="btn btn-success btn-round">REGISTER</a>
+                                        </span>
                                     @endif
                                 @endif
                             </td>
 
                             <td>
                                 @if($dominion)
-                                    {{ $dominion->race->name }} <a href="{{ route('scribes.faction', str_slug($dominion->race->name)) }}" target="_blank"><i class="ra ra-scroll-unfurled"></i></a>
+                                    <a href="{{ route('scribes.faction', str_slug($dominion->race->name)) }}" target="_blank"><i class="ra ra-scroll-unfurled"></i></a> {{ $dominion->race->name }}
                                 @else
                                     &mdash;
                                 @endif
@@ -121,7 +137,7 @@
                 </table>
             </div>
         </div>
-
+        {{--
         <div class="col-lg-6">
             <div class="box box-primary">
                 <div class="box-header with-border">
@@ -321,6 +337,7 @@
 
             </div>
         </div>
+        --}}
 
     </div>
 @endsection
