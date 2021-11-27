@@ -1635,59 +1635,58 @@ class InvadeActionService
         );
     }
 
-    public function handlePeasantKilling(Dominion $defender, Dominion $attacker, array $units, float $landRatio): void
+    public function handlePeasantKilling(Dominion $attacker, Dominion $defender, array $units, float $landRatio): void
     {
         if($defender->race->name !== 'Demon' or !$this->invasionResult['result']['success'])
         {
-            return; # Do nothing.
+            return;
         }
-        elseif($defender->race->name == 'Demon')
+
+        $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] = 0;
+        $this->invasionResult['defender']['displaced_peasants_killing']['soul'] = 0;
+        $this->invasionResult['defender']['displaced_peasants_killing']['blood'] = 0;
+
+        $rawDp = 0;
+        foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
         {
-            $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] = 0;
-            $this->invasionResult['defender']['displaced_peasants_killing']['soul'] = 0;
-            $this->invasionResult['defender']['displaced_peasants_killing']['blood'] = 0;
-
-            $rawDp = 0;
-            foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+            if($amount > 0)
             {
-                if($amount > 0)
-                {
-                    $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                        return ($unit->slot === $slot);
-                    })->first();
+                $unit = $defender->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
 
-                    $rawDpFromSlot = $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
-                    $totalRawDpFromSlot = $rawDpFromSlot * $amount;
+                $rawDpFromSlot = $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense');
+                $totalRawDpFromSlot = $rawDpFromSlot * $amount;
 
-                    $rawDp += $totalRawDpFromSlot;
-                }
+                $rawDp += $totalRawDpFromSlot;
             }
+        }
 
-            $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
-            $displacedPeasants = intval(($defender->peasants / $this->invasionResult['defender']['landSize']) * $landConquered);
+        $landConquered = array_sum($this->invasionResult['attacker']['landConquered']);
+        $displacedPeasants = intval(($defender->peasants / $this->invasionResult['defender']['landSize']) * $landConquered);
 
-            foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+        foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
+        {
+            if ($defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_displaced_peasants'))
             {
-                if ($defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_displaced_peasants'))
-                {
-                    $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
-                    $dpRatio = $dpFromSlot / $rawDp;
+                $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
+                $dpRatio = $dpFromSlot / $rawDp;
 
-                    $peasantsKilled = (int)floor($displacedPeasants * $dpRatio);
+                $peasantsKilled = (int)floor($displacedPeasants * $dpRatio);
 
-                    $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] += $peasantsKilled;
-                }
+                $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] += $peasantsKilled;
             }
+        }
 
-            $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] = intval(min(($defender->peasants-1000), max(0, $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'])));
-            $this->invasionResult['defender']['displaced_peasants_killing']['soul'] = $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'];
-            $this->invasionResult['defender']['displaced_peasants_killing']['blood'] = $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] * 6;
+        $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] = intval(min(($defender->peasants-1000), max(0, $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'])));
+        $this->invasionResult['defender']['displaced_peasants_killing']['soul'] = $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'];
+        $this->invasionResult['defender']['displaced_peasants_killing']['blood'] = $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] * 6;
 
-            $defender->peasants -= $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'];
+        $defender->peasants -= $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'];
 
-            $resourceArray = ['blood' => $this->invasionResult['defender']['displaced_peasants_killing']['blood'], 'soul' => $this->invasionResult['defender']['displaced_peasants_killing']['soul']];
+        $resourceArray = ['blood' => $this->invasionResult['defender']['displaced_peasants_killing']['blood'], 'soul' => $this->invasionResult['defender']['displaced_peasants_killing']['soul']];
 
-            $this->resourceService->updateResources($defender, $resourceArray);
+        $this->resourceService->updateResources($defender, $resourceArray);
         }
 
     }
