@@ -1,9 +1,5 @@
 @extends('layouts.master')
 
-{{--
-@section('page-header', 'Search Dominions')
---}}
-
 @section('content')
     <div class="row">
 
@@ -96,7 +92,7 @@
                                 <th class="text-center">Land</th>
                                 <th class="text-center">Networth</th>
                                 <th class="text-center">Units<br>Returning</th>
-                                <th class="text-center">My Range</th>
+                                <th style="hidden">My Range</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -198,11 +194,9 @@
                                                 <span class="text-gray">No</span>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td style="hidden">
                                             @if ($rangeCalculator->isInRange($selectedDominion, $dominion) and $selectedDominion->realm->id !== $dominion->realm->id)
-                                                <span class="label label-success">Yes</span>
-                                            @else
-                                                <span class="text-gray">No</span>
+                                                true
                                             @endif
                                         </td>
                                     </tr>
@@ -279,7 +273,7 @@
                 }
 
                 var range = $('select[name=range]').val();
-                if (range && data[6] != "true") return false;
+                if (range && data[6] != "yes") return false;
 
                 return true;
             }
