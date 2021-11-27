@@ -53,8 +53,8 @@
                                         </form>
                                     @endif
                                 @elseif(!$round->hasEnded())
-                                    <span data-toggle="tooltip" data-placement="top" title="Join round {{ $round->number }}!">
-                                        <a href="{{ route('round.register', $round) }}" class="btn btn-success btn-round btn-block"><i class="fas fa-plus-circle"></i> Register</a>
+                                    <span data-toggle="tooltip" data-placement="top" title="The battlefield awaits!">
+                                        <a href="{{ route('round.register', $round) }}" class="btn btn-success btn-round btn-block"><i class="fas fa-sign-in-alt"></i> Register for Round {{ $round->number }}</a>
                                     </span>
                                 @else
                                     &mdash;

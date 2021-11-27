@@ -10,31 +10,32 @@
                 <img src="{{ Auth::user()->getAvatarUrl() }}" class="img-circle" alt="{{ Auth::user()->display_name }}">
                 <p>
                     {{ Auth::user()->display_name }}
-                    <small>Playing since {{ Auth::user()->created_at->toFormattedDateString() }}</small>
                 </p>
             </li>
-            <li class="user-body">
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <a href="{{ route('dashboard') }}">Dashboard</a>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <a href="{{ route('settings') }}">Settings</a>
-                    </div>
-                </div>
-            </li>
             <li class="user-footer">
-                {{--<div class="pull-left">
-                    <a href="{{ route('dashboard') }}" class="btn btn-default btn-flat"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                </div>--}}
-                <div class="pull-right">
-                    <form action="{{ route('auth.logout') }}" method="post">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fa fa-sign-out fa-fw"></i> Logout
-                        </button>
-                    </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{{ route('dashboard') }}" class="btn btn-primary btn-flat btn-block"><i class="fas fa-columns fa-fw"></i> Dashboard</a>
+                    </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                          <a href="{{ route('settings') }}" class="btn btn-default btn-flat btn-block"><i class="fas fa-sliders-h fa-fw"></i> Settings</a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="{{ route('auth.logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-block">
+                                <i class="fas fa-sign-out-alt fa-fw"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
             </li>
         </ul>
     </li>
