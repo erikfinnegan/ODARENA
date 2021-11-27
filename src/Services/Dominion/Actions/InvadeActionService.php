@@ -1687,7 +1687,6 @@ class InvadeActionService
         $resourceArray = ['blood' => $this->invasionResult['defender']['displaced_peasants_killing']['blood'], 'soul' => $this->invasionResult['defender']['displaced_peasants_killing']['soul']];
 
         $this->resourceService->updateResources($defender, $resourceArray);
-        }
 
     }
 
