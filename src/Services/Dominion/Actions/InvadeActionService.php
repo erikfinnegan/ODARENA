@@ -1707,7 +1707,7 @@ class InvadeActionService
               'military_unit2' => array_fill(1, 12, 0),
               'military_unit3' => array_fill(1, 12, 0),
               'military_unit4' => array_fill(1, 12, 0),
-              'military_wizards' => array_fill(1, 12, 0),
+              #'military_wizards' => array_fill(1, 12, 0),
             ];
 
             # Check for instant_return
@@ -1730,28 +1730,24 @@ class InvadeActionService
 
                 $returningUnitKey = $unitKey;
 
-                if($unitKey !== 'military_wizards')
+                # See if slot $slot has wins_into perk.
+                if($this->invasionResult['result']['success'])
                 {
-
-                    # See if slot $slot has wins_into perk.
-                    if($this->invasionResult['result']['success'])
+                    if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into'))
                     {
-                        if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into'))
-                        {
-                            $returnsAsSlot = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into');
-                            $returningUnitKey = 'military_unit' . $returnsAsSlot;
-                        }
-                        if($someWinIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'some_win_into'))
-                        {
-                            $ratio = (float)$someWinIntoPerk[0] / 100;
-                            $newSlot = (int)$someWinIntoPerk[1];
+                        $returnsAsSlot = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'wins_into');
+                        $returningUnitKey = 'military_unit' . $returnsAsSlot;
+                    }
+                    if($someWinIntoPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'some_win_into'))
+                    {
+                        $ratio = (float)$someWinIntoPerk[0] / 100;
+                        $newSlot = (int)$someWinIntoPerk[1];
 
-                            if(isset($units[$slot]))
-                            {
-                                $newUnits = (int)floor($units[$slot] * $ratio);
-                                $someWinIntoUnits[$newSlot] += $newUnits;
-                                $amountReturning -= $newUnits;
-                            }
+                        if(isset($units[$slot]))
+                        {
+                            $newUnits = (int)floor($units[$slot] * $ratio);
+                            $someWinIntoUnits[$newSlot] += $newUnits;
+                            $amountReturning -= $newUnits;
                         }
                     }
                 }
