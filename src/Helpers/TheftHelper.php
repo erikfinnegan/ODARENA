@@ -28,7 +28,7 @@ class TheftHelper
                 return 64;
 
             case 'blood':
-                return 96;
+                return 6;
 
             case 'horse':
                 return 0.1;
