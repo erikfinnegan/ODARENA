@@ -1641,7 +1641,7 @@ class InvadeActionService
         {
             return; # Do nothing.
         }
-        else
+        elseif($defender->race->name == 'Demon')
         {
             $this->invasionResult['defender']['displaced_peasants_killing']['peasants_killed'] = 0;
             $this->invasionResult['defender']['displaced_peasants_killing']['soul'] = 0;
