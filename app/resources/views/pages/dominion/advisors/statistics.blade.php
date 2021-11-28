@@ -739,42 +739,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Gold</td>
-                                <td>
-                                    <strong>{{ number_format($statsService->getStat($selectedDominion, 'gold_destroyed')) }}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Lumber</td>
-                                <td>
-                                    <strong>{{ number_format($statsService->getStat($selectedDominion, 'lumber_destroyed')) }}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Ore</td>
-                                <td>
-                                    <strong>{{ number_format($statsService->getStat($selectedDominion, 'ore_destroyed')) }}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Food</td>
-                                <td>
-                                    <strong>{{ number_format($statsService->getStat($selectedDominion, 'food_destroyed')) }}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Gems</td>
-                                <td>
-                                    <strong>{{ number_format($statsService->getStat($selectedDominion, 'gems_destroyed')) }}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Mana</td>
-                                <td>
-                                    <strong>{{ number_format($statsService->getStat($selectedDominion, 'mana_destroyed')) }}</strong>
-                                </td>
-                            </tr>
+                            @foreach($selectedDominion->race->resources as $resourceKey)
+                                @php
+                                    $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                @endphp
+                                <tr>
+                                    <td>{{ $resource->name }}</td>
+                                    <td>
+                                        <strong>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_destroyed'))) }}</strong>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
