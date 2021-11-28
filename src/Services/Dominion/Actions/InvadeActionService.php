@@ -1223,7 +1223,7 @@ class InvadeActionService
 
 
             $defenderMoraleChangeMultiplier = 0;
-            $defenderMoraleChangeMultiplier += $dominion->race->getPerkMultiplier('morale_change_invasion');
+            $defenderMoraleChangeMultiplier += $target->race->getPerkMultiplier('morale_change_invasion');
 
             $defenderMoraleChange *= (1 + $defenderMoraleChangeMultiplier);
 

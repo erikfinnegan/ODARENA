@@ -3,8 +3,9 @@
 namespace OpenDominion\Http\Controllers;
 
 use Illuminate\Http\Response;
-use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
+
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Pack;
 use OpenDominion\Models\Race;
