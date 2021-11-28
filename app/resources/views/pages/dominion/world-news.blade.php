@@ -197,7 +197,7 @@
                                                   Spies from
                                                   <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                   <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>
-                                                  steal <span class="text-green text-bold">{{ number_format($gameEvent->data['amount_stolen']) }}</span> {{ strtolower($gameEvent->data['resource']['name']) }} from
+                                                  stole <span class="text-green text-bold">{{ number_format($gameEvent->data['amount_stolen']) }}</span> {{ strtolower($gameEvent->data['resource']['name']) }} from
                                                   <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->target->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->target)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                   <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a></span>.
 
@@ -205,7 +205,7 @@
                                                 Spies from
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->source->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->source)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                 <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span>
-                                                steal <span class="text-red text-bold">{{ number_format($gameEvent->data['amount_stolen']) }}</span> {{ strtolower($gameEvent->data['resource']['name']) }} from
+                                                stole <span class="text-red text-bold">{{ number_format($gameEvent->data['amount_stolen']) }}</span> {{ strtolower($gameEvent->data['resource']['name']) }} from
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $gameEvent->target->race->name }} ({{ number_format($landCalculator->getTotalLand($gameEvent->target)/$landCalculator->getTotalLand($selectedDominion)*100,2) }}%)">
                                                 <a href="{{ route('dominion.insight.show', [$gameEvent->target->id]) }}"><span class="text-aqua">{{ $gameEvent->target->name }}</span></a> <a href="{{ route('dominion.realm', [$gameEvent->target->realm->number]) }}">(#{{ $gameEvent->target->realm->number }})</a></span>.
 

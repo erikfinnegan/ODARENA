@@ -523,60 +523,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Gold</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'gold_stolen')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'gold_lost')) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Lumber</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'lumber_stolen')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'lumber_lost')) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ore</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'ore_stolen')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'ore_lost')) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Food</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'food_stolen')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'food_lost')) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Gems</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'gems_stolen')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'gems_lost')) }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Mana</td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'mana_stolen')) }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ number_format($statsService->getStat($selectedDominion, 'mana_lost')) }}</strong>
-                                    </td>
-                                </tr>
+                                @foreach($selectedDominion->race->resources as $resourceKey)
+                                    @php
+                                        $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $resource->name }}</td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_stolen'))) }}</strong>
+                                        </td>
+                                        <td>
+                                            <strong>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_lost'))) }}</strong>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

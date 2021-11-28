@@ -1214,18 +1214,18 @@ class InvadeActionService
                 $defenderMoraleChange = 0;
             }
 
-            $attackerMoraleChangeMultiplier = 0;
+            $attackerMoraleChangeMultiplier = 1;
             $attackerMoraleChangeMultiplier += $dominion->getBuildingPerkMultiplier('morale_gains');
             $attackerMoraleChangeMultiplier += $dominion->race->getPerkMultiplier('morale_change_invasion');
             $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->title->getPerkBonus($dominion);
 
-            $attackerMoraleChange *= (1 + $attackerMoraleChangeMultiplier);
+            $attackerMoraleChange *= $attackerMoraleChangeMultiplier;
 
 
-            $defenderMoraleChangeMultiplier = 0;
+            $defenderMoraleChangeMultiplier = 1;
             $defenderMoraleChangeMultiplier += $target->race->getPerkMultiplier('morale_change_invasion');
 
-            $defenderMoraleChange *= (1 + $defenderMoraleChangeMultiplier);
+            $defenderMoraleChange *= $defenderMoraleChangeMultiplier;
 
             # Look for lowers_target_morale_on_successful_invasion
             for ($slot = 1; $slot <= 4; $slot++)
