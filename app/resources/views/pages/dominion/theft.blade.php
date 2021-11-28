@@ -60,7 +60,7 @@
                                                 @endphp
 
                                                 @if(!$selectedDominion->race->getPerkValue('no_' . $resource->key . '_theft'))
-                                                    <option value="{{ $resource->id }}">
+                                                    <option value="{{ $resource->id }}" {{ $selectedDominion->most_recent_theft_resource  == $resource->key ? 'selected' : '' }}>
                                                         {{ $resource->name }}
                                                     </option>
                                                 @endif
