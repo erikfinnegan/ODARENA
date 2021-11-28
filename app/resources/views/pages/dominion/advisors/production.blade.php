@@ -70,7 +70,7 @@
                     <div class="col-xs-12 col-sm-12">
                         <table class="table">
                             <colgroup>
-                                <col>
+                                <col width="120">
                                 <col width="12.5%">
                                 <col width="12.5%">
                                 <col width="12.5%">
@@ -92,66 +92,23 @@
                                   </tr>
                             </thead>
                             <tbody>
-                                  <tr>
-                                      <td>Gold</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_training')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_building')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_rezoning')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_exploring')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_improvements')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_bought')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_sold')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Food</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_training')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_building')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_rezoning')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_exploring')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_improvements')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_bought')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_sold')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Lumber</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_training')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_building')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_rezoning')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_exploring')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_improvements')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_bought')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_sold')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Mana</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_training')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_building')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_rezoning')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_exploring')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_improvements')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_bought')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_sold')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Ore</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_training')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_building')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_rezoning')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_exploring')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_improvements')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_bought')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_sold')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Gems</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_training')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_building')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_rezoning')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_exploring')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_improvements')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_bought')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_sold')) }}</td>
-                                  </tr>
+                                @foreach($selectedDominion->race->resources as $resourceKey)
+                                    @php
+                                        $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                    @endphp
+
+                                    <tr>
+                                        <td>{{ $resource->name }}</td>
+                                        <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_training'))) }}</td>
+                                        <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_building'))) }}</td>
+                                        <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_rezoning'))) }}</td>
+                                        <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_exploring'))) }}</td>
+                                        <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_improvements'))) }}</td>
+                                        <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_bought'))) }}</td>
+                                        <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_sold'))) }}</td>
+                                    </tr>
+
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -175,7 +132,7 @@
                     <div class="col-xs-12 col-sm-12">
                         <table class="table">
                             <colgroup>
-                                <col>
+                                <col width="120">
                                 <col width="15%">
                                 <col width="15%">
                                 <col width="15%">
@@ -192,56 +149,20 @@
                                       <th><span data-toggle="tooltip" data-placement="top" title="Mana spent on casting spells">Cast</span></th>
                                   </tr>
                             </thead>
-                            <tbody>
-                                  <tr>
-                                      <td>Gold</td>
-                                      <td>&mdash;</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_plundered')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_stolen')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gold_lost')) }}</td>
-                                      <td>&mdash;</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Food</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_salvaged')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_plundered')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_stolen')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'food_lost')) }}</td>
-                                      <td>&mdash;</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Lumber</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_salvaged')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_plundered')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_stolen')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'lumber_lost')) }}</td>
-                                      <td>&mdash;</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Mana</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_salvaged')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_plundered')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_stolen')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_lost')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'mana_cast')) }}</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Ore</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_salvaged')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_plundered')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_stolen')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'ore_lost')) }}</td>
-                                      <td>&mdash;</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Gems</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_salvaged')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_plundered')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_stolen')) }}</td>
-                                      <td>{{ number_format($statsService->getStat($selectedDominion, 'gems_lost')) }}</td>
-                                      <td>&mdash;</td>
-                                  </tr>
-                            </tbody>
+                            @foreach($selectedDominion->race->resources as $resourceKey)
+                                @php
+                                    $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                @endphp
+
+                                <tr>
+                                    <td>{{ $resource->name }}</td>
+                                    <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_salvaged'))) }}</td>
+                                    <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_plundered'))) }}</td>
+                                    <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_stolen'))) }}</td>
+                                    <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_lost'))) }}</td>
+                                    <td>{{ number_format($statsService->getStat($selectedDominion, ($resource->key . '_cast'))) }}</td>
+                                </tr>
+                            @endforeach
                         </table>
                     </div>
                 </div>
