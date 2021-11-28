@@ -310,7 +310,7 @@ class TheftActionService
 
         $this->notificationService->sendNotifications($target, 'irregular_dominion');
 
-        $dominion->most_recent_theft_resource = $resource->key;
+        $thief->most_recent_theft_resource = $resource->key;
 
         $message = sprintf(
             'Your %s infiltrate %s (#%s), stealing %s %s.',
