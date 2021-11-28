@@ -180,6 +180,9 @@ class HistoryService
                 'last_tick_at',
                 'monarchy_vote_for_dominion_id',
                 'most_recent_improvement_resource',
+                'most_theft_improvement_resource',
+                'most_recent_exchange_from',
+                'most_recent_exchange_to',
             ])->keys()->toArray();
     }
 }
