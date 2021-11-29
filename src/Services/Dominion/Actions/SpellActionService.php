@@ -585,6 +585,7 @@ class SpellActionService
         # Self-spells self impact spells
         if($spell->scope == 'self')
         {
+            $target = $caster;
             $this->statsService->updateStat($caster, 'magic_self_success', 1);
             $extraLine = '';
 
@@ -692,6 +693,25 @@ class SpellActionService
                 }
             }
 
+            if($spell->cooldown > 0)
+            {
+                DB::transaction(function () use ($caster, $target, $spell)
+                {
+                    DominionSpell::create([
+                        'dominion_id' => $caster->id,
+                        'caster_id' => $target->id,
+                        'spell_id' => $spell->id,
+                        'duration' => 0,
+                        'cooldown' => $spell->cooldown
+                    ]);
+
+                    $caster->save([
+                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                        'action' => $spell->key
+                    ]);
+                });
+            }
+
             return [
                 'success' => true,
                 'message' => sprintf(
@@ -732,6 +752,25 @@ class SpellActionService
                         ])
                         ->sendNotifications($target, 'irregular_dominion');
                 }
+            }
+
+            if($spell->cooldown > 0)
+            {
+                DB::transaction(function () use ($caster, $target, $spell)
+                {
+                    DominionSpell::create([
+                        'dominion_id' => $caster->id,
+                        'caster_id' => $target->id,
+                        'spell_id' => $spell->id,
+                        'duration' => 0,
+                        'cooldown' => $spell->cooldown
+                    ]);
+
+                    $caster->save([
+                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                        'action' => $spell->key
+                    ]);
+                });
             }
 
             return [
@@ -968,6 +1007,25 @@ class SpellActionService
                     ])
                     ->sendNotifications($target, 'irregular_dominion');
 
+                if($spell->cooldown > 0)
+                {
+                    DB::transaction(function () use ($caster, $target, $spell)
+                    {
+                        DominionSpell::create([
+                            'dominion_id' => $caster->id,
+                            'caster_id' => $target->id,
+                            'spell_id' => $spell->id,
+                            'duration' => 0,
+                            'cooldown' => $spell->cooldown
+                        ]);
+
+                        $caster->save([
+                            'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                            'action' => $spell->key
+                        ]);
+                    });
+                }
+
                 if ($spellReflected) {
                     return [
                         'success' => true,
@@ -1076,6 +1134,25 @@ class SpellActionService
                     $message = "The enemy wizards have repelled our {$spell->name} attempt.";
                 }
 
+                if($spell->cooldown > 0)
+                {
+                    DB::transaction(function () use ($caster, $target, $spell)
+                    {
+                        DominionSpell::create([
+                            'dominion_id' => $caster->id,
+                            'caster_id' => $target->id,
+                            'spell_id' => $spell->id,
+                            'duration' => 0,
+                            'cooldown' => $spell->cooldown
+                        ]);
+
+                        $caster->save([
+                            'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                            'action' => $spell->key
+                        ]);
+                    });
+                }
+
                 // Return here, thus completing the spell cast and reducing the caster's mana
                 return [
                     'success' => false,
@@ -1084,9 +1161,8 @@ class SpellActionService
                     'alert-type' => 'warning',
                 ];
             }
-
-
         }
+
     }
 
     protected function castInvasionSpell(Dominion $caster, ?Dominion $target = null, Spell $spell, int $wizardStrengthCost): void
