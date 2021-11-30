@@ -52,6 +52,23 @@
                                             <button type="submit" class="btn btn-link" style="padding: 0;">{{ $dominion->name }}</button>
                                         </form>
                                     @endif
+
+
+
+                                    @if($dominion->round->hasStarted() and !$dominion->isLocked())
+
+                                            <p><small>
+                                                If you wish to abandon your dominion {{ $dominion->name }} in round {{ $dominion->round->number }}, you can do so here by checking confirm and then pressing the button. <em>This action cannot be undone.</em>
+                                            </small></p>
+                                            <form action="{{ route('dominion.abandon', $dominion) }}" method="post">
+                                                @csrf
+                                                <label>
+                                                    <input type="checkbox" name="remember" required class="text-muted"> Confirm abandon
+                                                </label><br>
+                                                <button type="submit" class="btn btn-danger btn-md"><i class="fas fa-user-slash"></i> Abandon dominion</button>
+                                            </form>
+                                    @endif
+
                                 @elseif(!$round->hasEnded())
                                     <span data-toggle="tooltip" data-placement="top" title="The battlefield awaits!">
                                         <a href="{{ route('round.register', $round) }}" class="btn btn-success btn-round btn-block"><i class="fas fa-sign-in-alt"></i> Register for Round {{ $round->number }}</a>
@@ -75,6 +92,13 @@
                                         </span>
                                     @endif
 
+                                    @if($dominion->isAbandoned())
+                                        <span data-toggle="tooltip" data-placement="top" title="This dominion was abandoned.">
+                                            <span class="label label-warning">Abandoned</span>
+                                        </span>
+
+                                    @endif
+
                                     @if(!$round->hasEnded() and !$dominion->isLocked())
                                         <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.<br>Current tick: {{ number_format($round->ticks) }}.<br>You joined: {{ $dominion->created_at }}.">
                                             <span class="label label-success">Playing</span>
@@ -96,12 +120,12 @@
                                             <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.">
                                                 <span class="label label-danger">Starting Soon</span>
                                             </span><br>
-                                            <small style="text-muted">The round starts at {{ $round->start_date }}.<br>The target land size is {{ number_format($round->land_target) }} acres.</small>
+                                            <small class="text-muted">The round starts at {{ $round->start_date }}.<br>The target land size is {{ number_format($round->land_target) }} acres.</small>
                                         @else
                                             <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.">
                                                 <span class="label label-warning">Active</span>
                                             </span><br>
-                                            <small style="text-muted">The round started at {{ $round->start_date }}.<br>Current tick: {{ number_format($round->ticks) }}.</small>
+                                            <small class="text-muted">The round started at {{ $round->start_date }}.<br>Current tick: {{ number_format($round->ticks) }}.</small>
                                         @endif
                                         </p>
                                     @endif
