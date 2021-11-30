@@ -53,20 +53,30 @@
                                         </form>
                                     @endif
 
-
-
                                     @if($dominion->round->hasStarted() and !$dominion->isLocked())
-
+                                    <div class="box box-danger" style="margin-top: 1em;">
+                                        <div class="box-header with-border">
+                                            <strong><i class="fas fa-user-slash"></i> Abandon dominion</strong>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12">
                                             <p><small>
-                                                If you wish to abandon your dominion {{ $dominion->name }} in round {{ $dominion->round->number }}, you can do so here by checking confirm and then pressing the button. <em>This action cannot be undone.</em>
+                                                If you wish to abandon your dominion, confirm below and click the button. <em>This action cannot be undone.</em><br>
+                                                An abandoned dominion stays in the game, but has no further production. You can create a new dominion afterwards.
                                             </small></p>
-                                            <form action="{{ route('dominion.abandon', $dominion) }}" method="post">
-                                                @csrf
+                                        </div>
+                                        <form action="{{ route('dominion.abandon', $dominion) }}" method="post">
+                                            @csrf
+                                            <div class="col-sm-12 col-md-4">
                                                 <label>
                                                     <input type="checkbox" name="remember" required class="text-muted"> Confirm abandon
-                                                </label><br>
-                                                <button type="submit" class="btn btn-danger btn-md"><i class="fas fa-user-slash"></i> Abandon dominion</button>
-                                            </form>
+                                                </label>
+                                            </div>
+                                            <div class="col-sm-12 col-md-8">
+                                                <button type="submit" class="btn btn-danger btn-xs"><i class="fas fa-user-slash"></i> Abandon dominion</button>
+                                            </div>
+                                        </form>
+                                        </div>
+                                    </div>
                                     @endif
 
                                 @elseif(!$round->hasEnded())
