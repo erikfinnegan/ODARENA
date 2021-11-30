@@ -1162,7 +1162,6 @@ class SpellActionService
                 ];
             }
         }
-
     }
 
     protected function castInvasionSpell(Dominion $caster, ?Dominion $target = null, Spell $spell, int $wizardStrengthCost): void
