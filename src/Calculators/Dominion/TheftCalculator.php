@@ -47,31 +47,9 @@ class TheftCalculator
         }
 
         $resourceAvailableAmount = $this->resourceCalculator->getAmount($target, $resource->key);
-
-        # Theft protection
-        $theftProtection = 0;
-        $theftProtection += $target->getBuildingPerkValue($resource->key . '_theft_protection');
-
-        $theftProtectionMultiplier = 1;
-        $theftProtectionMultiplier += $target->getImprovementPerkMultiplier('theft_protection');
-
-        $theftProtection *= $theftProtectionMultiplier;
-
-        $resourceAvailableAmount = max(0, $resourceAvailableAmount - $theftProtection);
-
-        // Unit theft protection
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            if($theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
-            {
-                if($theftProtection[0] == $resource->key)
-                {
-                    $resourceAvailableAmount -= $target->{'military_unit'.$slot} * $theftProtection[1];
-                }
-            }
-        }
-
+        $resourceAvailableAmount = $resourceAvailableAmount - $this->getTheftProtection($target, $resource->key);
         $resourceAvailableAmount = max(0, $resourceAvailableAmount);
+
         $maxPerSpy = $this->getMaxCarryPerSpyForResource($thief, $resource);
 
         $thiefSpa = max($this->militaryCalculator->getSpyRatio($thief, 'offense'), 0.0001);
@@ -93,6 +71,29 @@ class TheftCalculator
         $theftAmount = max(0, $theftAmount);
 
         return $theftAmount;
+    }
+
+    public function getTheftProtection(Dominion $target, string $resourceKey)
+    {
+        $theftProtection = 0;
+        $theftProtection += $target->getBuildingPerkValue($resourceKey . '_theft_protection');
+
+        // Unit theft protection
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+            if($theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
+            {
+                if($theftProtection[0] == $resourceKey)
+                {
+                    $theftProtection += $target->{'military_unit'.$slot} * $theftProtection[1];
+                }
+            }
+        }
+
+        $theftProtectionMultiplier = 1;
+        $theftProtectionMultiplier += $target->getImprovementPerkMultiplier('theft_protection');
+
+        return $theftProtection *= $theftProtectionMultiplier;
     }
 
     public function getMaxCarryPerSpyForResource(Dominion $thief, Resource $resource)
