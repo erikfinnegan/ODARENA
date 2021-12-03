@@ -2550,7 +2550,6 @@ class InvadeActionService
             $result['attacker']['plunder'][$resource] = min($amount, $this->resourceCalculator->getAmount($defender, $resource));
             #$defender->{'resource_'.$resource} -= $result['attacker']['plunder'][$resource];
             $this->resourceService->updateResources($defender, [$resource => ($result['attacker']['plunder'][$resource] * -1)]);
-
         }
 
         # Add salvaged resources to defender.
@@ -2577,7 +2576,7 @@ class InvadeActionService
                 ]
             );
 
-            $this->statsService->updateStat($attacker, ($resource . '_plundered'), $amount);
+            $this->statsService->updateStat($attacker, ($resource . '_plundered'), abs($amount));
 
         }
 
