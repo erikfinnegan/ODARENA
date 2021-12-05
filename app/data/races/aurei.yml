@@ -2,7 +2,7 @@ name: Aurei
 alignment: good
 description:
 home_land_type: mountain
-playable: 0
+playable: 1
 
 attacking: 3
 exploring : 2
@@ -18,7 +18,7 @@ construction_materials:
   - gold
 
 improvement_resources:
-  gold: 2.5
+  gold: 2
 
 perks:
   explore_cost: 100
@@ -31,7 +31,7 @@ units:
       - sentient
       - ethereal
     cost:
-      gold: 200
+      gold: 333
     power:
       offense: 0
       defense: 0
@@ -39,7 +39,6 @@ units:
       gold_production_raw: 5.4
       building_limit: gold_quarry,20 # building, units per building
       gold_improvements: 1
-      kills_into_resource_per_value: 2,gold # each 1 OP/DP killed becomes gold
 
   - name: Gold Wyrm
     training_time: 12
@@ -49,18 +48,19 @@ units:
       - intelligent
       - massive
     cost:
-      gold: 40000
+      gold: 60000
+      food: 8000
     power:
       offense: 180
       defense: 220
     perks:
+      does_not_count_as_population: 1
       immortal_on_victory: 1
       immortal_on_fending_off: 1
       casualties: -50
-      no_draftee: 1
       building_limit: gold_quarry,1 # building, buildings per unit, imp to increased
-      plunder: gold,100
-      does_not_count_as_population: 1
+      plunder: gold,150
+      food_consumption_mod: 20
 
   - name: Halcyon
     training_time: 0
@@ -77,12 +77,12 @@ units:
       offense: 0
       defense: 8
     perks:
-      counts_as_wizard: 0.25
-      casualties_from_wizard_ratio: -30 # -30% casualties per 1 WPA
-      immortal_from_wpa: 5
       no_draftee: 1
       dies_into_wizard: 1
       cannot_be_released: 1
+      counts_as_wizard: 0.25
+      casualties_from_wizard_ratio: -30 # -30% casualties per 1 WPA
+      immortal_from_wpa: 5
 
   - name: Chryson
     training_time: 0
@@ -93,7 +93,7 @@ units:
       - aspect
     cost:
       wizard: 1
-      gold: 300
+      gold: 400
       mana: 20
     power:
       offense: 8

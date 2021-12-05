@@ -83,7 +83,7 @@ units:
       defense: 5
     perks:
       mana_production_raw: 1
-      defense_per_tick: 0.003,5 # amount, max
+      defense_per_tick: 0.003
       counts_as_wizard_defense: 0.25
 
   - name: Distortion
@@ -100,4 +100,4 @@ units:
       offense: 5
       defense: 4
     perks:
-      offense_per_tick: 0.003,5 # amount, max
+      offense_per_tick: 0.003

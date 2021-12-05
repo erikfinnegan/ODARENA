@@ -81,7 +81,7 @@ units:
       blood_production_raw: 0.14
 
   - name: Adjudicator
-    training_time: 12
+    training_time: 0
     type:
       - living
       - sentient

@@ -53,7 +53,6 @@ perks:
   extra_barren_max_population: 20
   salvaging: 50
   cannot_rezone: 1
-  expedition_land_gains: 100
 
 units:
   - name: Halberdier

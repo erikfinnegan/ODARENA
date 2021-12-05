@@ -904,6 +904,10 @@ class NotificationHelper
                         $resultString = 'Spies are accusing each other of treason.';
                         break;
 
+                    case 'windchill':
+                        $resultString = 'Magical icy winds weaken our wizards.';
+                        break;
+
                     case 'elskas_blur':
                         $resultString = 'Our spies\' visions are blurred by Elskas.';
                         break;

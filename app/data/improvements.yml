@@ -154,6 +154,7 @@ housing:
 logging:
   name: Logging
   excluded_races:
+    - Aurei
     - Barbarian
     - Beastfolk
     - Growth
@@ -188,6 +189,7 @@ medicine:
 mobilisation:
   name: Mobilisation
   excluded_races:
+    - Aurei
     - Barbarian
     - Beastfolk
     - Growth
@@ -238,6 +240,7 @@ research:
 mining:
   name: Stonecutting
   excluded_races:
+    - Aurei
     - Barbarian
     - Beastfolk
     - Growth
@@ -513,8 +516,8 @@ waves:
   exclusive_races:
     - Void
   perks:
-    training_time_mod: -80,12500
-    chance_of_instant_return: 50,25000
+    training_time_mod: -80,25000
+    chance_of_instant_return: 50,50000
 # END VOID #
 
 # BEGIN GROWTH #

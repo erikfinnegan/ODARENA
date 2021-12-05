@@ -1649,16 +1649,18 @@ class InvadeActionService
             }
         }
 
-        #dump('Displaced peasants: ' . number_format($displacedPeasants) . ' (' . number_format($defender->peasants) . ' / ' . number_format($this->invasionResult['defender']['landSize']) . ') * ' . number_format($landConquered) .'.');
+        if(isset($this->invasionResult['attacker']['peasants_captured']))
+        {
+            $this->invasionResult['attacker']['peasants_captured'] = intval(max(0, $this->invasionResult['attacker']['peasants_captured']));
 
-        $this->invasionResult['attacker']['peasants_captured'] = intval(max(0, $this->invasionResult['attacker']['peasants_captured']));
+            $this->queueService->queueResources(
+                'invasion',
+                $attacker,
+                ['peasants' => $this->invasionResult['attacker']['peasants_captured']],
+                12
+            );
+        }
 
-        $this->queueService->queueResources(
-            'invasion',
-            $attacker,
-            ['peasants' => $this->invasionResult['attacker']['peasants_captured']],
-            12
-        );
     }
 
     public function handlePeasantKilling(Dominion $attacker, Dominion $defender, array $units, float $landRatio): void
@@ -2530,7 +2532,7 @@ class InvadeActionService
                     $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
                 }
 
-                dump($amountToPlunder . ' ' . $resourceToPlunder . ' plundered by unit' . $slot . '(' . $amountPlunderedPerUnit . ' each: ' . number_format($amount) . ' survivors)');
+                #dump($amountToPlunder . ' ' . $resourceToPlunder . ' plundered by unit' . $slot . '(' . $amountPlunderedPerUnit . ' each: ' . number_format($amount) . ' survivors)');
             }
 
             if($plunderPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot,'plunder'))
@@ -2541,7 +2543,7 @@ class InvadeActionService
                 $amountToPlunder = $amount * $amountPlunderedPerUnit;
                 $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
 
-                dump($amountToPlunder . ' ' . $resourceToPlunder . ' plundered by unit' . $slot . '(' . $amountPlunderedPerUnit . ' each: ' . number_format($amount) . ' survivors)');
+                #dump($amountToPlunder . ' ' . $resourceToPlunder . ' plundered by unit' . $slot . '(' . $amountPlunderedPerUnit . ' each: ' . number_format($amount) . ' survivors)');
             }
         }
 
