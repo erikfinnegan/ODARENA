@@ -410,7 +410,7 @@ class InvadeActionService
             $this->handleResourceConversions($dominion, $target, $landRatio);
 
             # Salvage and Plunder
-            $this->handleSalvagingAndPlundering($dominion, $target, $this->invasionResult['attacker']['survivingUnits']);
+            $this->handleSalvagingAndPlundering($dominion, $target);
 
             # Growth
             $this->handleMetabolism($dominion, $target, $landRatio);
@@ -2448,15 +2448,12 @@ class InvadeActionService
      * @param Dominion $attacker
      * @param Dominion $defender
      */
-    protected function handleSalvagingAndPlundering(Dominion $attacker, Dominion $defender, array $survivingUnits): void
+    protected function handleSalvagingAndPlundering(Dominion $attacker, Dominion $defender): void
     {
-
-        $result['attacker']['plunder']['gold'] = 0;
-        $result['attacker']['plunder']['mana'] = 0;
-        $result['attacker']['plunder']['food'] = 0;
-        $result['attacker']['plunder']['ore'] = 0;
-        $result['attacker']['plunder']['lumber'] = 0;
-        $result['attacker']['plunder']['gems'] = 0;
+        foreach($attacker->race->resources as $resourceKey)
+        {
+            $result['attacker']['plunder'][$resourceKey] = 0;
+        }
 
         $result['attacker']['salvage']['ore'] = 0;
         $result['attacker']['salvage']['lumber'] = 0;
@@ -2482,13 +2479,13 @@ class InvadeActionService
                     $result['defender']['salvage']['ore'] += $amountLost * $unitOreCost * $salvaging;
                     $result['defender']['salvage']['lumber'] += $amountLost * $unitLumberCost * $salvaging;
                     $result['defender']['salvage']['gems'] += $amountLost * $unitGemCost * $salvaging;
-
-                    # Update statistics
-                    $this->statsService->updateStat($defender, 'ore_salvaged', $result['defender']['salvage']['ore']);
-                    $this->statsService->updateStat($defender, 'lumber_salvaged', $result['defender']['salvage']['lumber']);
-                    $this->statsService->updateStat($defender, 'gems_salvaged', $result['defender']['salvage']['gems']);
                 }
             }
+
+            # Update statistics
+            $this->statsService->updateStat($defender, 'ore_salvaged', $result['defender']['salvage']['ore']);
+            $this->statsService->updateStat($defender, 'lumber_salvaged', $result['defender']['salvage']['lumber']);
+            $this->statsService->updateStat($defender, 'gems_salvaged', $result['defender']['salvage']['gems']);
         }
 
         # Attacker gets no salvage or plunder if attack fails.
@@ -2520,63 +2517,66 @@ class InvadeActionService
         }
 
         # Attacker: Plundering
-        foreach($survivingUnits as $slot => $amount)
+        foreach($this->invasionResult['attacker']['survivingUnits'] as $slot => $amount)
         {
             if($plunderPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot,'plunders'))
             {
                 foreach($plunderPerk as $plunder)
                 {
                     $resourceToPlunder = $plunder[0];
-                    $amountPlunderedPerUnit = $plunder[1];
+                    $amountPlunderedPerUnit = (float)$plunder[1];
 
-                    $amountToPlunder = intval(min($this->resourceCalculator->getAmount($defender, $resourceToPlunder), $amount * $amountPlunderedPerUnit));
+                    $amountToPlunder = $amount * $amountPlunderedPerUnit;
                     $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
                 }
+
+                dump($amountToPlunder . ' ' . $resourceToPlunder . ' plundered by unit' . $slot . '(' . $amountPlunderedPerUnit . ' each: ' . number_format($amount) . ' survivors)');
             }
 
             if($plunderPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot,'plunder'))
             {
                 $resourceToPlunder = $plunderPerk[0];
-                $amountPlunderedPerUnit = $plunderPerk[1];
+                $amountPlunderedPerUnit = (float)$plunderPerk[1];
 
-                $amountToPlunder = intval(min($this->resourceCalculator->getAmount($defender, $resourceToPlunder), $amount * $amountPlunderedPerUnit));
+                $amountToPlunder = $amount * $amountPlunderedPerUnit;
                 $result['attacker']['plunder'][$resourceToPlunder] += $amountToPlunder;
+
+                dump($amountToPlunder . ' ' . $resourceToPlunder . ' plundered by unit' . $slot . '(' . $amountPlunderedPerUnit . ' each: ' . number_format($amount) . ' survivors)');
             }
         }
 
         # Remove plundered resources from defender.
-        foreach($result['attacker']['plunder'] as $resource => $amount)
+        foreach($result['attacker']['plunder'] as $resourceKey => $amount)
         {
-            $result['attacker']['plunder'][$resource] = min($amount, $this->resourceCalculator->getAmount($defender, $resource));
-            #$defender->{'resource_'.$resource} -= $result['attacker']['plunder'][$resource];
-            $this->resourceService->updateResources($defender, [$resource => ($result['attacker']['plunder'][$resource] * -1)]);
+            $result['attacker']['plunder'][$resourceKey] = min($amount, $this->resourceCalculator->getAmount($defender, $resourceKey));
+            $this->resourceService->updateResources($defender, [$resourceKey => ($result['attacker']['plunder'][$resourceKey] * -1)]);
         }
 
         # Add salvaged resources to defender.
-        foreach($result['defender']['salvage'] as $resource => $amount)
+        foreach($result['defender']['salvage'] as $resourceKey => $amount)
         {
             #$defender->{'resource_'.$resource} += $amount;
-            $this->resourceService->updateResources($defender, [$resource => $amount]);
+            $this->resourceService->updateResources($defender, [$resourceKey => $amount]);
         }
 
         # Queue plundered and salvaged resources to attacker.
-        foreach($result['attacker']['plunder'] as $resource => $amount)
+        foreach($result['attacker']['plunder'] as $resourceKey => $amount)
         {
             # If the resource is ore, lumber, or gems, also check for salvaged resources.
-            if(in_array($resource, ['ore', 'lumber', 'gems']))
+            if(in_array($resourceKey, ['ore', 'lumber', 'gems']))
             {
-                $amount += $result['attacker']['salvage'][$resource];
+                $amount += $result['attacker']['salvage'][$resourceKey];
             }
 
             $this->queueService->queueResources(
                 'invasion',
                 $attacker,
                 [
-                    'resource_'.$resource => $amount
+                    'resource_'.$resourceKey => $amount
                 ]
             );
 
-            $this->statsService->updateStat($attacker, ($resource . '_plundered'), abs($amount));
+            $this->statsService->updateStat($attacker, ($resourceKey . '_plundered'), $amount);
 
         }
 
