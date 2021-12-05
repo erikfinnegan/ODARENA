@@ -350,7 +350,7 @@ class UnitHelper
 
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to number of %1$s at home.',
-            'pairing_limit_including_away' => 'You can at most have %2$s of this unit per %1$s..',
+            'pairing_limit_including_away' => 'You can at most have %2$s of this unit per %1$s.',
             'land_limit' => 'You can at most have %2$s of this unit per acre of %1$s.',
             'building_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'building_limit_fixed' => 'You can at most have %2$s of this unit per %1$s.',
@@ -1012,12 +1012,8 @@ class UnitHelper
 
         $totalWithAmountToTrain = $currentlyTrained + $amountToTrain;
 
-        if($maxCapacity)
-        {
-            return $maxCapacity >= $totalWithAmountToTrain;
-        }
+        return $maxCapacity >= $totalWithAmountToTrain;
 
-        return true;
     }
 
     public function checkUnitLimitForInvasion(Dominion $dominion, int $slotLimited, int $amountToSend): bool

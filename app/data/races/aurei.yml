@@ -26,7 +26,7 @@ perks:
 
 units:
   - name: Alchemist
-    training_time: 12
+    training_time: 6
     type:
       - living
       - sentient
