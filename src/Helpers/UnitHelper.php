@@ -1002,6 +1002,11 @@ class UnitHelper
 
     public function checkUnitLimitForTraining(Dominion $dominion, int $slotLimited, int $amountToTrain): bool
     {
+        if(!$this->unitHasCapacityLimit($dominion, $slotLimited))
+        {
+            return true;
+        }
+
         $maxCapacity = $this->getUnitMaxCapacity($dominion, $slotLimited);
 
         $currentlyTrained = $dominion->{'military_unit' . $slotLimited};
