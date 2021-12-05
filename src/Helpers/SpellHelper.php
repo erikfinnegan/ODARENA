@@ -261,44 +261,6 @@ class SpellHelper
                 }
             }
 
-            // Special case for pairings
-            if ($perk->key === 'defense_from_pairing' || $perk->key === 'offense_from_pairing' || $perk->key === 'pairing_limit')
-            {
-                $slot = (int)$perkValue[0];
-                $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
-                    return ($unit->slot === $slot);
-                })->first();
-
-                $perkValue[0] = $pairedUnit->name;
-                if (isset($perkValue[2]) && $perkValue[2] > 0)
-                {
-                    $perkValue[0] = str_plural($perkValue[0]);
-                }
-                else
-                {
-                    $perkValue[2] = 1;
-                }
-            }
-
-            // Special case for returns faster if pairings
-            if ($perk->key === 'faster_return_if_paired')
-            {
-                $slot = (int)$perkValue[0];
-                $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
-                    return ($unit->slot === $slot);
-                })->first();
-
-                $perkValue[0] = $pairedUnit->name;
-                if (isset($perkValue[2]) && $perkValue[2] > 0)
-                {
-                    $perkValue[0] = str_plural($perkValue[0]);
-                }
-                else
-                {
-                    $perkValue[2] = 1;
-                }
-            }
-
             // Special case for conversions
             if ($perk->key === 'conversion' or $perk->key === 'displaced_peasants_conversion' or $perk->key === 'casualties_conversion')
             {

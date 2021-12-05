@@ -57,7 +57,7 @@ units:
       offense: 0
       defense: 8
     perks:
-      pairing_limit: 4,1 # Unit slot, amount (max 2 of this unit per each Unit 4)
+      pairing_limit_including_away: 4,1 # Unit slot, amount - pairing unit does not have to be at home.
       counts_as_wizard_defense: 0.1
 
   - name: Warboss

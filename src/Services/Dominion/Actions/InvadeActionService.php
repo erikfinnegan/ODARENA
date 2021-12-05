@@ -1660,7 +1660,6 @@ class InvadeActionService
                 12
             );
         }
-
     }
 
     public function handlePeasantKilling(Dominion $attacker, Dominion $defender, array $units, float $landRatio): void

@@ -3,11 +3,12 @@ alignment: good
 description:
 home_land_type: mountain
 playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 2
-converting: 1
-skill_level: 1
+converting: 2
+skill_level: 2
 
 resources:
   - gold
@@ -58,7 +59,7 @@ units:
       immortal_on_victory: 1
       immortal_on_fending_off: 1
       casualties: -50
-      building_limit: gold_quarry,1 # building, buildings per unit, imp to increased
+      building_limit: gold_quarry,2 # building, buildings per unit
       plunder: gold,150
       food_consumption_mod: 20
 

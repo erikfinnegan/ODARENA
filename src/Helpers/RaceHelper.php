@@ -539,13 +539,6 @@ class RaceHelper
             }
         }
 
-        if($perkType->key == 'starts_with_deity')
-        {
-            dd($perkType->pivot->value);
-            $result = Deity::where('key', $perkType->pivot->value)->first()->name;
-        }
-
-
         return $result;
     }
 
@@ -577,14 +570,8 @@ class RaceHelper
             'Wood Elf' => 'Wood Elven',
         ];
 
-        if(isset($adjectives[$race->name]))
-        {
-            return $adjectives[$race->name];
-        }
-        else
-        {
-            return $race->name;
-        }
+        return isset($adjectives[$race->name]) ? $adjectives[$race->name] : $race->name;
+
     }
 
     public function hasPeasantsAlias(Race $race): bool
@@ -599,24 +586,12 @@ class RaceHelper
 
     public function getPeasantsTerm(Race $race): string
     {
-        $term = 'peasant';
-        if($this->hasPeasantsAlias($race))
-        {
-            $term = $race->peasants_alias;
-        }
-
-        return ucwords($term);
+        return $this->hasPeasantsAlias($race) ? ucwords($race->peasants_alias) : 'Peasant';
     }
 
     public function getDrafteesTerm(Race $race): string
     {
-        $term = 'draftee';
-        if($this->hasDrafteesAlias($race))
-        {
-            $term = $race->draftees_alias;
-        }
-
-        return ucwords($term);
+        return $this->hasDrafteesAlias($race) ? ucwords($race->draftees_alias) : 'Draftee';
     }
 
     public function getSpyCost(Race $race): array
@@ -648,6 +623,4 @@ class RaceHelper
     {
         return isset($race->land_improvements);
     }
-
-
 }

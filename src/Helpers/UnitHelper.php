@@ -350,6 +350,7 @@ class UnitHelper
 
             // Limits
             'pairing_limit' => 'You can at most have %2$s of this unit per %1$s. Training is limited to number of %1$s at home.',
+            'pairing_limit_including_away' => 'You can at most have %2$s of this unit per %1$s..',
             'land_limit' => 'You can at most have %2$s of this unit per acre of %1$s.',
             'building_limit' => 'You can at most have %2$s of this unit per %1$s.',
             'building_limit_fixed' => 'You can at most have %2$s of this unit per %1$s.',
@@ -446,6 +447,7 @@ class UnitHelper
                 if ($perk->key === 'defense_from_pairing' or
                     $perk->key === 'offense_from_pairing' or
                     $perk->key === 'pairing_limit' or
+                    $perk->key === 'pairing_limit_including_away' or
                     $perk->key === 'gold_production_raw_from_pairing' or
                     $perk->key === 'lumber_production_raw_from_pairing' or
                     $perk->key === 'ore_production_raw_from_pairing' or
@@ -899,6 +901,7 @@ class UnitHelper
     {
         if(
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'pairing_limit') or
+            $dominion->race->getUnitPerkValueForUnitSlot($slot, 'pairing_limit_including_away') or
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'building_limit') or
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'land_limit') or
             $dominion->race->getUnitPerkValueForUnitSlot($slot, 'archmage_limit') or
@@ -929,6 +932,21 @@ class UnitHelper
             $perUnitLimitedTo = (float)$pairingLimit[1];
 
             $limitingUnits = $dominion->{'military_unit' . $slotLimitedTo};
+
+            $maxCapacity = floor($limitingUnits * $perUnitLimitedTo * $limitMultiplier);
+        }
+
+        # Unit:unit limit (including_away)
+        if($pairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slotLimited, 'pairing_limit_including_away'))
+        {
+            $slotLimitedTo = (int)$pairingLimit[0];
+            $perUnitLimitedTo = (float)$pairingLimit[1];
+
+            $limitingUnits = $dominion->{'military_unit' . $slotLimited};
+            $limitingUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, 'military_unit' . $slotLimitedTo);
+            $limitingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slotLimitedTo);
+            $limitingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slotLimitedTo);
+            $limitingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, 'military_unit' . $slotLimitedTo);
 
             $maxCapacity = floor($limitingUnits * $perUnitLimitedTo * $limitMultiplier);
         }

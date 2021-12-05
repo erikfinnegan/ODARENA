@@ -1173,6 +1173,19 @@ bregons_call:
     defensive_power_from_peasants: 1
     no_drafting: 1
 
+imperial_duty:
+  name: Imperial Duty
+  scope: self
+  class: passive
+  cost: 4
+  duration: 12
+  cooldown: 72
+  exclusive_races:
+    - Black Orc
+    - Orc
+  perks:
+    drafting: 100
+
 fine_arts:
   name: Mirnon's Delights
   scope: self
