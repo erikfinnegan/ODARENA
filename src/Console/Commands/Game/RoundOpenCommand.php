@@ -136,8 +136,8 @@ class RoundOpenCommand extends Command implements CommandInterface
         $this->realmFactory->create($round, 'evil');
         $this->realmFactory->create($round, 'independent');
 
-        // Create 17 Barbarians.
-        for ($slot = 1; $slot <= 17; $slot++)
+        // Create 18 Barbarians.
+        for ($slot = 1; $slot <= 18; $slot++)
         {
             $this->barbarianService->createBarbarian($round);
         }

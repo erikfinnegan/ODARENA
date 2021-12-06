@@ -118,9 +118,9 @@ class PopulationCalculator
             ($this->getMaxPopulationRaw($dominion) * $this->getMaxPopulationMultiplier($dominion))
             + $this->getUnitsHousedInUnitSpecificBuildings($dominion)
             + $this->getDrafteesHousedInDrafteeSpecificBuildings($dominion)
-            + $this->getUnitsHousedInForestHavens($dominion)
-            + $this->getUnitsHousedInWizardGuilds($dominion)
-            + $this->getUnitsHousedInBarracks($dominion)
+            + $this->getUnitsHousedInSpyHousing($dominion)
+            + $this->getUnitsHousedInWizardHousing($dominion)
+            + $this->getUnitsHousedInMilitaryHousing($dominion)
         );
     }
 
@@ -285,14 +285,14 @@ class PopulationCalculator
     *   Units start to live in barracks as soon as their military training begins.
     *   Spy and wiz units prefer to live in FHs or WGs, and will only live in Barracks if FH/WG are full or unavailable.
     */
-    public function getUnitsHousedInBarracks(Dominion $dominion): int
+    public function getUnitsHousedInMilitaryHousing(Dominion $dominion): int
     {
         $units = 0;
         #$units -= $this->getUnitsHousedInUnits($dominion);
         $units -= $this->getUnitsHousedInUnitSpecificBuildings($dominion);
         $units -= $this->getDrafteesHousedInDrafteeSpecificBuildings($dominion);
-        $units -= $this->getUnitsHousedInForestHavens($dominion);
-        $units -= $this->getUnitsHousedInWizardGuilds($dominion);
+        $units -= $this->getUnitsHousedInSpyHousing($dominion);
+        $units -= $this->getUnitsHousedInWizardHousing($dominion);
         $units += $dominion->military_spies;
         $units += $dominion->military_wizards;
         $units += $dominion->military_archmages;
@@ -360,7 +360,7 @@ class PopulationCalculator
     *   Calculate how many units live in Forest Havens.
     *   Spy units start to live in FHs as soon as their military training begins.
     */
-    public function getUnitsHousedInForestHavens(Dominion $dominion): int
+    public function getUnitsHousedInSpyHousing(Dominion $dominion): int
     {
         $spyUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'spies');
         $spyUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_spies");
@@ -394,10 +394,12 @@ class PopulationCalculator
     *   Calculate how many units live in Wizard Guilds.
     *   Wiz units start to live in WGs as soon as their military training begins.
     */
-    public function getUnitsHousedInWizardGuilds(Dominion $dominion): int
+    public function getUnitsHousedInWizardHousing(Dominion $dominion): int
     {
         $wizUnits = $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'wizards');
         $wizUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, 'archmages');
+        $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_wizards");
+        $wizUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_archmages");
 
         for ($slot = 1; $slot <= 4; $slot++)
         {
