@@ -140,7 +140,7 @@ class SpellActionService
             throw new GameException("You do not have enough mana to cast {$spell->name}. You need {$manaCost} mana to cast this spell.");
         }
 
-        if ($spell->scope == 'hostile' or $spell->scope == 'info')
+        if ($spell->scope == 'hostile')
         {
             if ($target === null)
             {
@@ -162,9 +162,14 @@ class SpellActionService
                 throw new GameException("You cannot cast spells on targets not in your range");
             }
 
-            if ($dominion->realm->id === $target->realm->id or $dominion->id === $target->id)
+            if ($dominion->id === $target->id)
             {
-                throw new GameException("You cannot cast {$spell->name} on yourself or other dominions in your realm");
+                throw new GameException("You cannot cast {$spell->name} on yourself");
+            }
+
+            if ($dominion->realm->id === $target->realm->id and $dominion->round->mode == 'standard')
+            {
+                throw new GameException("You cannot cast {$spell->name} on other dominions in your realm in standard rounds");
             }
 
             if ($dominion->round->id !== $target->round->id)

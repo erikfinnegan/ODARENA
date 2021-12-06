@@ -122,6 +122,11 @@ class Round extends AbstractModel
         return (\count($results) === 1);
     }
 
+    public function mode(): string
+    {
+        return $this->mode;
+    }
+
     /**
      * Returns whether a round has started.
      *

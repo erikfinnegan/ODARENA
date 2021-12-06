@@ -98,7 +98,7 @@ class RangeCalculator
     {
         $range = $this->getDominionRange($self, $target);
 
-        if ($range >= 120) {
+        if ($range >= (1/0.0075)) {
             return 'text-red';
         }
 
@@ -149,8 +149,11 @@ class RangeCalculator
             ->filter(function ($dominion) use ($self) {
                 return (
 
-                    # Not in the same realm; and
-                    ($dominion->realm->id !== $self->realm->id) and
+                    # Not in the same realm (unless deathmatch round); and
+                    ($dominion->round->mode == 'standard' ? ($dominion->realm->id !== $self->realm->id) : true) and
+
+                    # Not self
+                    ($dominion->id !== $self->id) and
 
                     # Is in range; and
                     $this->isInRange($self, $dominion) and
@@ -183,8 +186,11 @@ class RangeCalculator
                 ->filter(function ($dominion) use ($self) {
                     return (
 
-                        # In the same realm; and
-                        ($dominion->realm->id === $self->realm->id) and
+                        # In the same realm (unless deathmatch round); and
+                        ($dominion->round->mode == 'standard' ? ($dominion->realm->id == $self->realm->id) : false) and
+
+                        # Not self
+                        ($dominion->id !== $self->id) and
 
                         # Is in range; and
                         $this->isInRange($self, $dominion) and

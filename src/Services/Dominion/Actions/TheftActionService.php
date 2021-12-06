@@ -82,9 +82,9 @@ class TheftActionService
                 throw new GameException('Nice try, but you cannot steal cross-round.');
             }
 
-            if ($thief->realm->id === $target->realm->id)
+            if ($thief->realm->id === $target->realm->id and $thief->round->mode == 'standard')
             {
-                throw new GameException('Nice try, but you cannot steal from other dominions of the same realm.');
+                throw new GameException('You cannot steal from other dominions in the same realm as you in standard rounds.');
             }
 
             if ($thief->id == $target->id)

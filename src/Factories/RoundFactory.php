@@ -43,6 +43,8 @@ class RoundFactory
             'round_league_id' => $league->id,
             'number' => $number,
             'name' => 'Round ' . $number,
+            'ticks' => 0,
+            'mode' => 'standard',
             'start_date' => $startDate,
             'end_date' => NULL,
             'offensive_actions_prohibited_at' => NULL,

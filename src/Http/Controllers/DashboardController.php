@@ -11,6 +11,7 @@ use OpenDominion\Services\Dominion\SelectorService;
 #ODA
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Helpers\RoundHelper;
 
 class DashboardController extends AbstractController
 {
@@ -36,6 +37,7 @@ class DashboardController extends AbstractController
             'rounds' => $rounds,
             'landCalculator' => $landCalculator,
             'networthCalculator' => $networthCalculator,
+            'roundHelper' => app(RoundHelper::class),
             'user' => Auth::user(),
 
             'roundService' => app(RoundService::class),

@@ -9,6 +9,34 @@ use OpenDominion\Models\Round;
 
 class RealmFinderService
 {
+    public function findRealm(Round $round, Race $race): Realm
+    {
+        if($round->mode == 'standard')
+        {
+            return Realm::query()
+                ->where('round_id', '=', $round->id)
+                ->where('alignment', '=', $race->alignment)
+                ->first();
+        }
+
+        if($round->mode == 'deathmatch')
+        {
+            if($race->alignment == 'npc')
+            {
+                return Realm::query()
+                    ->where('round_id', '=', $round->id)
+                    ->where('alignment', '=', 'npc')
+                    ->first();
+            }
+
+            return Realm::query()
+                ->where('round_id', '=', $round->id)
+                ->where('alignment', '=', 'players')
+                ->first();
+        }
+
+    }
+
     /**
      * @var int Maximum number of packs that can exist in a single realm
      */
@@ -37,23 +65,6 @@ class RealmFinderService
             ->where([
                 'realms.round_id' => $round->id
             ]);
-/*
-          if($race->alignment == 'independent')
-          {
-            if(rand(1,2) == 1)
-            {
-              $alignment = 'good';
-            }
-            else
-            {
-              $alignment = 'evil';
-            }
-          }
-          else
-          {
-            $alignment = $race->alignment;
-          }
-*/
 
         $alignment = $race->alignment;
 

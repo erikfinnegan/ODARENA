@@ -168,9 +168,9 @@ class EspionageActionService
             throw new GameException('Nice try, but you cannot perform espionage operations cross-round');
         }
 
-        if ($dominion->realm->id === $target->realm->id)
+        if ($dominion->realm->id === $target->realm->id and $dominion->round->mode == 'standard')
         {
-            throw new GameException('Nice try, but you cannot perform espionage operations on your realmies');
+            throw new GameException('You cannot perform espionage operations on your realmies in standard rounds.');
         }
 
         if ($dominion->id === $target->id)

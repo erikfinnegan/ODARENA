@@ -145,6 +145,11 @@ class RealmController extends AbstractDominionController
             $alignmentAdjective = 'Barbarian';
             $barbarianSettings = $barbarianCalculator->getSettings();
         }
+        elseif($realm->alignment == 'players')
+        {
+            $alignmentNoun = 'ODARENA';
+            $alignmentAdjective = 'ODARENA';
+        }
 
         $defaultRealmNames = [
             'The Commonwealth',

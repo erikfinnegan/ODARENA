@@ -318,7 +318,17 @@ class DominionFactory
      */
     protected function guardAgainstMismatchedAlignments(Race $race, Realm $realm, Round $round): void
     {
-        if (!$round->mixed_alignment && $race->alignment !== $realm->alignment /*and $race->alignment !== 'independent'*/)
+        if($race->alignment == 'npc' and $round->alignment !== 'npc')
+        {
+            throw new GameException('Barbarian detected attempting to join non-NPC realm!');
+        }
+
+        if($round->mode == 'standard' and $race->alignment !== $realm->alignment)
+        {
+            throw new GameException('Faction and realm alignment do not match');
+        }
+
+        if($round->mode == 'deathmatch' and $realm->alignment !== 'players')
         {
             throw new GameException('Faction and realm alignment do not match');
         }

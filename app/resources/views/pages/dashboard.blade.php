@@ -22,6 +22,7 @@
                             <th class="text-center">Round</th>
                             <th>Dominion</th>
                             <th>Status</th>
+                            <th>Mode</th>
                             <th>Faction</th>
                             <th>Land</th>
                             <th>Networth</th>
@@ -139,6 +140,18 @@
                                         @endif
                                         </p>
                                     @endif
+                                @endif
+                            </td>
+
+                            <td>
+                                @if($round->number >= 62 or request()->getHost() == 'odarena.local')
+                                <span data-toggle="tooltip" data-placement="top" title="{{ $roundHelper->getRoundModeDescription($round) }}">
+                                    {!! $roundHelper->getRoundModeIcon($round) !!} {{ $roundHelper->getRoundModeString($round) }}
+                                </span>
+                                @else
+                                    <span data-toggle="tooltip" data-placement="top" title="Game modes were introduced in Round 62.">
+                                        &mdash;
+                                    </span>
                                 @endif
                             </td>
 

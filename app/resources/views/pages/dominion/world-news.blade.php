@@ -146,6 +146,11 @@
                                                     $alignment = 'Barbarian Horde';
                                                     $verb = 'was spotted in';
                                                 }
+                                                elseif($gameEvent->target->alignment == 'players')
+                                                {
+                                                    $alignment = 'Players';
+                                                    $verb = 'joined';
+                                                }
                                                 else
                                                 {
                                                     $alignment = 'Unknown';
@@ -159,12 +164,12 @@
 
                                                 The {{ $raceHelper->getRaceAdjective($gameEvent->source->race) }} dominion of <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</span></a>, led by <em>{{ $gameEvent->source->title->name }}</em> {{ $gameEvent->source->ruler_name }}, {{ $verb }} the
                                                 <a href="{{ route('dominion.realm', [$gameEvent->target->number]) }}">
-                                                  @if ($gameEvent->target->id == $selectedDominion->realm_id)
-                                                    <span class="text-green">
-                                                  @else
-                                                    <span class="text-red">
-                                                  @endif
-                                                  {{ $alignment }}</span></a>.
+                                                    @if ($gameEvent->target->id == $selectedDominion->realm_id)
+                                                        <span class="text-green">
+                                                    @else
+                                                        <span class="text-red">
+                                                    @endif
+                                                    {{ $alignment }}</span></a>.
                                             @elseif($gameEvent->type === 'abandon_dominion')
                                                 The dominion <a href="{{ route('dominion.insight.show', [$gameEvent->source->id]) }}"><span class="text-aqua">{{ $gameEvent->source->name }}</a> <a href="{{ route('dominion.realm', [$gameEvent->source->realm->number]) }}">(#{{ $gameEvent->source->realm->number }})</a></span> was abandoned by <em>{{ $gameEvent->data['ruler_title'] }}</em> {{ $gameEvent->data['ruler_name'] }}.
                                             @elseif($gameEvent->type === 'round_countdown')

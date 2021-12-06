@@ -223,7 +223,7 @@ class RoundController extends AbstractController
                     }
                 }
 
-                $realm = $realmFinderService->findRandomRealm($round, $race);
+                $realm = $realmFinderService->findRealm($round, $race);
 
                 if (!$realm)
                 {

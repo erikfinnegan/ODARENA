@@ -166,9 +166,9 @@ class InvadeActionService
                 throw new GameException('Nice try, but you cannot invade cross-round.');
             }
 
-            if ($dominion->realm->id === $target->realm->id)
+            if ($dominion->realm->id === $target->realm->id and $dominion->round->mode == 'standard')
             {
-                throw new GameException('Nice try, but you cannot invade other dominions of the same realm.');
+                throw new GameException('You cannot invade other dominions in the same realm as you in standard rounds.');
             }
 
             if ($dominion->id == $target->id)
@@ -440,7 +440,7 @@ class InvadeActionService
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->invasionResult);
+                #dd($this->invasionResult);
             }
 
             # LEGION ANNEX SUPPORT EVENTS
@@ -1295,11 +1295,6 @@ class InvadeActionService
     {
 
         $researchPointsPerAcre = 0;
-        # No RP for in-realm invasions.
-        if($dominion->realm->id !== $target->realm->id)
-        {
-            $researchPointsPerAcre = 25;
-        }
 
         $researchPointsPerAcreMultiplier = 1;
 
