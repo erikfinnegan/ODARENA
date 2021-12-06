@@ -425,7 +425,6 @@
                                             {
                                                 $name = OpenDominion\Models\Resource::where('key', $key)->first()->name;
                                                 $key = 'resource_' . $key;
-
                                             }
                                             elseif($key == 'xp')
                                             {
