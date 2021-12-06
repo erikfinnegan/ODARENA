@@ -33,6 +33,7 @@ units:
       - ethereal
     cost:
       gold: 333
+      peasant: 1
     power:
       offense: 0
       defense: 0
@@ -40,6 +41,7 @@ units:
       gold_production_raw: 5.4
       building_limit: gold_quarry,20 # building, units per building
       gold_improvements: 1
+      no_draftee: 1
 
   - name: Gold Wyrm
     training_time: 12
