@@ -87,7 +87,7 @@ units:
       - intelligent
     cost:
       gold: 2000
-      blood: 26
+      blood: 24
       unit2: 1
     power:
       offense: 0
