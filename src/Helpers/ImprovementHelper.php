@@ -67,12 +67,12 @@ class ImprovementHelper
 
             'spy_strength' => 'spy strength',
             'spy_losses' => 'spy losses',
-            'forest_haven_housing' => 'Forest Haven housing',
+            'spy_housing' => 'Spy units housing',
 
             'wizard_strength' => 'wizard strength',
             'wizard_losses' => 'wizard losses',
             'spell_damage' => 'spell damage',
-            'wizard_guild_housing' => 'Wizard Guild housing',
+            'wizard_guild_housing' => 'Wizard units housing',
 
             'gold_theft' => 'gold theft',
             'ore_theft' => 'ore theft',

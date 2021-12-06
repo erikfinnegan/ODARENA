@@ -1,14 +1,14 @@
-@if($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion) > 0)
+@if($populationCalculator->getAvailableHousingFromWizardHousing($selectedDominion) > 0)
 <tr>
     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds or other buildings that house wizard units:<br>Filled / Available">Wizard housing:</span></td>
-    <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardGuilds($selectedDominion)) }}</td>
+    <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardHousing($selectedDominion)) }}</td>
 </tr>
 @endif
 
-@if($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion) > 0)
+@if($populationCalculator->getAvailableHousingFromSpyHousing($selectedDominion) > 0)
 <tr>
     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens or other buildings that house spy units:<br>Filled / Available">Spy housing:</span></td>
-    <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromForestHavens($selectedDominion)) }}</td>
+    <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromSpyHousing($selectedDominion)) }}</td>
 </tr>
 @endif
 

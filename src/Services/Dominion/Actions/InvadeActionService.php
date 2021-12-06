@@ -941,6 +941,13 @@ class InvadeActionService
         $diesIntoNewUnits = array_fill(1,4,0);
         $diesIntoNewUnitsInstantly = array_fill(1,4,0);
 
+        $diesIntoNewUnits['spies'] = 0;
+        $diesIntoNewUnits['wizards'] = 0;
+        $diesIntoNewUnits['archmages'] = 0;
+        $diesIntoNewUnitsInstantly['spies'] = 0;
+        $diesIntoNewUnitsInstantly['wizards'] = 0;
+        $diesIntoNewUnitsInstantly['archmages'] = 0;
+
         foreach($defensiveUnitsLost as $slot => $casualties)
         {
             if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
@@ -1294,7 +1301,7 @@ class InvadeActionService
     protected function handleResearchPoints(Dominion $dominion, Dominion $target, array $units): void
     {
 
-        $researchPointsPerAcre = 0;
+        $researchPointsPerAcre = 40;
 
         $researchPointsPerAcreMultiplier = 1;
 
@@ -1316,7 +1323,7 @@ class InvadeActionService
                 $researchPointsForGeneratedAcres = 2;
             }
 
-            $researchPointsGained = round(1.5 * ($landConquered * $researchPointsForGeneratedAcres * $researchPointsPerAcre * $researchPointsPerAcreMultiplier));
+            $researchPointsGained = round($landConquered * $researchPointsForGeneratedAcres * $researchPointsPerAcre * $researchPointsPerAcreMultiplier);
             $slowestTroopsReturnHours = $this->getSlowestUnitReturnHours($dominion, $units);
 
             $this->queueService->queueResources(

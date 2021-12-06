@@ -118,7 +118,7 @@ espionage:
   perks:
     spy_strength: 45,5000
     spy_losses: -45,5000
-    forest_haven_housing: 45,5000
+    spy_housing: 45,5000
 
 irrigation:
   name: Farming
@@ -447,7 +447,7 @@ sneaking:
   perks:
     spy_strength: 90,5500
     spy_losses: -90,5500
-    forest_haven_housing: 90,5500
+    spy_housing: 90,5500
 
 trampling:
   name: Trampling
@@ -619,7 +619,7 @@ espionage_kerranad:
   perks:
     spy_strength: 60,6500
     spy_losses: -60,6500
-    forest_haven_housing: 60,6500
+    spy_housing: 60,6500
 
 farming_kerranad:
     name: Farming
@@ -763,7 +763,7 @@ espionage_wood_elf:
   perks:
     spy_strength: 90,7500
     spy_losses: -90,7500
-    forest_haven_housing: 90,7500
+    spy_housing: 90,7500
 
 fencing:
   name: Fencing

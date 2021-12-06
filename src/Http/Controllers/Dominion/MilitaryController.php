@@ -2,25 +2,34 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
-use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Models\Resource;
+
 use OpenDominion\Exceptions\GameException;
+
+use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\UnitHelper;
+
+use OpenDominion\Http\Requests\Dominion\Actions\ReleaseActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\Military\ChangeDraftRateActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\Military\TrainActionRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\ReleaseActionRequest;
-use OpenDominion\Services\Analytics\AnalyticsEvent;
-use OpenDominion\Services\Analytics\AnalyticsService;
-use OpenDominion\Services\Dominion\Actions\Military\ChangeDraftRateActionService;
-use OpenDominion\Services\Dominion\Actions\Military\TrainActionService;
-use OpenDominion\Services\Dominion\Actions\ReleaseActionService;
-use OpenDominion\Services\Dominion\QueueService;
+
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
-use OpenDominion\Helpers\RaceHelper;
-use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
+use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
+
+use OpenDominion\Services\Analytics\AnalyticsEvent;
+use OpenDominion\Services\Analytics\AnalyticsService;
+use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\Actions\ReleaseActionService;
+use OpenDominion\Services\Dominion\Actions\Military\ChangeDraftRateActionService;
+use OpenDominion\Services\Dominion\Actions\Military\TrainActionService;
+
+
+
 
 class MilitaryController extends AbstractDominionController
 {
@@ -29,12 +38,18 @@ class MilitaryController extends AbstractDominionController
         $self = $this->getSelectedDominion();
         $queueService = app(QueueService::class);
         $returningResources = [];
+
         foreach($self->race->resources as $resourceKey)
         {
             $returningResources[$resourceKey] = $queueService->getInvasionQueueTotalByResource($self, 'resource_' . $resourceKey);
             $returningResources[$resourceKey] += $queueService->getExpeditionQueueTotalByResource($self, 'resource_' . $resourceKey);
             $returningResources[$resourceKey] += $queueService->getTheftQueueTotalByResource($self, 'resource_' . $resourceKey);
         }
+
+        $returningResources['prestige'] = $queueService->getInvasionQueueTotalByResource($self, 'prestige');
+        $returningResources['prestige'] += $queueService->getExpeditionQueueTotalByResource($self, 'prestige');
+        $returningResources['prestige'] += $queueService->getTheftQueueTotalByResource($self, 'prestige');
+
         $returningResources['xp'] = $queueService->getInvasionQueueTotalByResource($self, 'xp');
         $returningResources['xp'] += $queueService->getExpeditionQueueTotalByResource($self, 'xp');
         $returningResources['xp'] += $queueService->getTheftQueueTotalByResource($self, 'xp');

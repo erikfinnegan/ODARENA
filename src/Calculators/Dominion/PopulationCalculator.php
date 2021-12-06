@@ -231,17 +231,35 @@ class PopulationCalculator
     /*
     *   Calculate how many units can be fit in this Dominion's Forest Havens.
     */
-    public function getAvailableHousingFromForestHavens(Dominion $dominion): int
+    public function getAvailableHousingFromSpyHousing(Dominion $dominion): int
     {
-        return $dominion->getBuildingPerkValue('spy_housing') * (1 + $dominion->getImprovementPerkMultiplier('forest_haven_housing'));
+        $housing = 0;
+        $housing += $dominion->getBuildingPerkValue('spy_housing');
+        $housing += $dominion->getBuildingPerkValue('spy_housing_increasing');
+        $housing += $dominion->getBuildingPerkValue('spy_housing_decreasing');
+
+        $multiplier = 1;
+        $multiplier += $dominion->getImprovementPerkMultiplier('spy_housing');
+        $multiplier += $dominion->getTechPerkMultiplier('spy_housing');
+
+        return round($housing * $multiplier);
     }
 
     /*
     *   Calculate how many units can be fit in this Dominion's Wizard Guilds.
     */
-    public function getAvailableHousingFromWizardGuilds(Dominion $dominion): int
+    public function getAvailableHousingFromWizardHousing(Dominion $dominion): int
     {
-        return $dominion->getBuildingPerkValue('wizard_housing') * (1 + $dominion->getImprovementPerkMultiplier('wizard_guild_housing'));
+        $housing = 0;
+        $housing += $dominion->getBuildingPerkValue('wizard_housing');
+        $housing += $dominion->getBuildingPerkValue('wizard_housing_increasing');
+        $housing += $dominion->getBuildingPerkValue('wizard_housing_decreasing');
+
+        $multiplier = 1;
+        $multiplier += $dominion->getImprovementPerkMultiplier('wizard_housing');
+        $multiplier += $dominion->getTechPerkMultiplier('wizard_housing');
+
+        return round($housing * $multiplier);
     }
 
     /*
@@ -369,7 +387,7 @@ class PopulationCalculator
             }
         }
 
-        return min($spyUnits, $this->getAvailableHousingFromForestHavens($dominion));
+        return min($spyUnits, $this->getAvailableHousingFromSpyHousing($dominion));
     }
 
     /*
@@ -403,7 +421,7 @@ class PopulationCalculator
             }
         }
 
-        return min($wizUnits, $this->getAvailableHousingFromWizardGuilds($dominion));
+        return min($wizUnits, $this->getAvailableHousingFromWizardHousing($dominion));
     }
 
     /**

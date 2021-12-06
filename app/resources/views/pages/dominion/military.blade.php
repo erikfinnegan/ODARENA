@@ -36,7 +36,7 @@
                         <tbody>
                             @foreach ($unitHelper->getUnitTypes() as $unitType)
                                 @if(($selectedDominion->race->getPerkValue('cannot_train_spies') and $unitType == 'spies') or ($selectedDominion->race->getPerkValue('cannot_train_wizards') and $unitType == 'wizards') or ($selectedDominion->race->getPerkValue('cannot_train_archmages') and $unitType == 'archmages'))
-                                {{-- Do nothing --}}
+                                    {{-- Do nothing --}}
                                 @else
                                     <tr>
                                         <td>
@@ -317,7 +317,7 @@
         </div>
 
         <div class="col-sm-12 col-md-6">
-            <div class="box">
+            <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="ra ra-boot-stomp"></i> Units returning</h3>
                 </div>
@@ -341,7 +341,9 @@
                         </thead>
                         <tbody>
                             @foreach (range(1, 4) as $slot)
-                                @php($unitType = ('unit' . $slot))
+                                @php
+                                    $unitType = ('unit' . $slot)
+                                @endphp
                                 <tr>
                                     <td>
 
@@ -378,49 +380,69 @@
                                     {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_spies") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_spies") + $queueService->getTheftQueueAmount($selectedDominion, "military_spies", $i)) }}
                                 </td>
                             </tr>
-                          </tbody>
-                      </table>
-                </div>
-            </div>
-
-            @if(array_sum($returningResources) > 0)
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Resources being returned home</h3>
-                    </div>
-                    <div class="box-body table-responsive no-padding">
-                        <table class="table">
-                            <colgroup>
-                                <col>
+                            <tr>
+                                <td>Wizards</td>
                                 @for ($i = 1; $i <= 12; $i++)
-                                    <col width="20">
+                                    <td class="text-center">
+                                        @if (($queueService->getInvasionQueueAmount($selectedDominion, "military_wizards", $i) + $queueService->getExpeditionQueueAmount($selectedDominion, "military_wizards", $i) + $queueService->getTheftQueueAmount($selectedDominion, "military_wizards", $i)) === 0)
+                                            -
+                                        @else
+                                            {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, "military_wizards", $i) + $queueService->getExpeditionQueueAmount($selectedDominion, "military_wizards", $i) + $queueService->getTheftQueueAmount($selectedDominion, "military_wizards", $i)) }}
+                                        @endif
+                                    </td>
                                 @endfor
-                                <col width="100">
-                            </colgroup>
-                            <thead>
+                                <td class="text-center">
+                                    {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_wizards") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_wizards") + $queueService->getTheftQueueAmount($selectedDominion, "military_wizards", $i)) }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Archmages</td>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <td class="text-center">
+                                        @if (($queueService->getInvasionQueueAmount($selectedDominion, "military_archmages", $i) + $queueService->getExpeditionQueueAmount($selectedDominion, "military_archmages", $i) + $queueService->getTheftQueueAmount($selectedDominion, "military_archmages", $i)) === 0)
+                                            -
+                                        @else
+                                            {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, "military_archmages", $i) + $queueService->getExpeditionQueueAmount($selectedDominion, "military_archmages", $i) + $queueService->getTheftQueueAmount($selectedDominion, "military_archmages", $i)) }}
+                                        @endif
+                                    </td>
+                                @endfor
+                                <td class="text-center">
+                                    {{ number_format($queueService->getInvasionQueueTotalByResource($selectedDominion, "military_archmages") + $queueService->getExpeditionQueueTotalByResource($selectedDominion, "military_archmages") + $queueService->getTheftQueueAmount($selectedDominion, "military_archmages", $i)) }}
+                                </td>
+                            </tr>
+                            @if(array_sum($returningResources) > 0)
                                 <tr>
-                                    <th>Resource</th>
-                                    @for ($i = 1; $i <= 12; $i++)
-                                        <th class="text-center">{{ $i }}</th>
-                                    @endfor
-                                    <th class="text-center">Total</th>
+                                    <th colspan="14">Resources and Other</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($returningResources as $resource => $totalAmount)
-                                    @if($totalAmount > 0)
+
+                                @foreach($returningResources as $key => $totalAmount)
+                                    @if($totalAmount !== 0)
+                                        @php
+
+                                            $name = 'undefined:'.$key;
+
+                                            if(in_array($key, $selectedDominion->race->resources))
+                                            {
+                                                $name = OpenDominion\Models\Resource::where('key', $key)->first()->name;
+                                                $key = 'resource_' . $key;
+
+                                            }
+                                            elseif($key == 'xp')
+                                            {
+                                                $name = 'XP';
+                                            }
+                                            elseif($key == 'prestige')
+                                            {
+                                                $name = 'Prestige';
+                                            }
+
+                                        @endphp
                                         <tr>
-                                            <td>
-                                                @if ($resource == 'xp')
-                                                    XP
-                                                @else
-                                                    {{ ucwords($resource) }}
-                                                @endif
-                                            </td>
+                                            <td>{{ $name }}</td>
                                             @for ($i = 1; $i <= 12; $i++)
                                                 <td class="text-center">
-                                                    @if($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getExpeditionQueueAmount($selectedDominion, 'resource_' . $resource, $i)+ $queueService->getTheftQueueAmount($selectedDominion, 'resource_' . $resource, $i))
-                                                        {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getExpeditionQueueAmount($selectedDominion, 'resource_' . $resource, $i) + $queueService->getTheftQueueAmount($selectedDominion, 'resource_' . $resource, $i)) }}
+                                                    @if($queueService->getInvasionQueueAmount($selectedDominion, $key, $i) + $queueService->getExpeditionQueueAmount($selectedDominion, $key, $i)+ $queueService->getTheftQueueAmount($selectedDominion, $key, $i))
+                                                        {{ number_format($queueService->getInvasionQueueAmount($selectedDominion, $key, $i) + $queueService->getExpeditionQueueAmount($selectedDominion, $key, $i) + $queueService->getTheftQueueAmount($selectedDominion, $key, $i)) }}
                                                     @else
                                                         -
                                                     @endif
@@ -432,11 +454,11 @@
                                         </tr>
                                     @endif
                                 @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
-            @endif
+            </div>
         </div>
 
     </div>

@@ -458,11 +458,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ([1,2,3,4,'spies'] as $slot)
+                    @foreach ([1,2,3,4,'spies','wizards','archmages'] as $slot)
                         @php
                             if($slot == 'spies')
                             {
                                 $unitType = 'spies';
+                            }
+                            elseif($slot == 'wizards')
+                            {
+                                $unitType = 'wizards';
+                            }
+                            elseif($slot == 'archmages')
+                            {
+                                $unitType = 'archmages';
                             }
                             else
                             {

@@ -607,6 +607,7 @@ forest_haven:
 wizard_guild:
   name: Wizard Guild
   excluded_races:
+    - Aurei
     - Dimensionalists
     - Dragon
     - Growth
@@ -1146,6 +1147,7 @@ altar:
   land_type: mountain
   perks:
     blood_production_mod: 1,5,100 # ratio, perk, max
+    blood_theft_protection: 1000
 
 dungeon:
   name: Dungeon
@@ -1467,6 +1469,7 @@ residence:
 
 sanctuary:
   name: Sanctuary
+  enabled: 0
   exclusive_races:
     - Spirit
   land_type: water
@@ -1502,3 +1505,12 @@ pit:
   perks:
     afflicted_unit1_housing: 680
     housing: 0
+
+wizard_dome:
+  name: Wizard Dome
+  exclusive_races:
+    - Aurei
+  land_type: mountain
+  perks:
+    wizard_strength_recovery: 1,0.1,5 # Every 1% gives +0.1% WS recovery per tick, max +2%/tick
+    wizard_housing: 60
