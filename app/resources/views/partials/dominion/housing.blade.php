@@ -1,14 +1,14 @@
 @if($populationCalculator->getAvailableHousingFromWizardHousing($selectedDominion) > 0)
 <tr>
     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Wizard Guilds or other buildings that house wizard units:<br>Filled / Available">Wizard housing:</span></td>
-    <td>{{ number_format($populationCalculator->getUnitsHousedInWizardGuilds($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardHousing($selectedDominion)) }}</td>
+    <td>{{ number_format($populationCalculator->getUnitsHousedInWizardHousing($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromWizardHousing($selectedDominion)) }}</td>
 </tr>
 @endif
 
 @if($populationCalculator->getAvailableHousingFromSpyHousing($selectedDominion) > 0)
 <tr>
     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by Forest Havens or other buildings that house spy units:<br>Filled / Available">Spy housing:</span></td>
-    <td>{{ number_format($populationCalculator->getUnitsHousedInForestHavens($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromSpyHousing($selectedDominion)) }}</td>
+    <td>{{ number_format($populationCalculator->getUnitsHousedInSpyHousing($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromSpyHousing($selectedDominion)) }}</td>
 </tr>
 @endif
 
@@ -27,9 +27,9 @@
 @endif
 
 
-@if($populationCalculator->getAvailableHousingFromBarracks($selectedDominion) > 0)
+@if($populationCalculator->getAvailableHousingFromMilitaryHousing($selectedDominion) > 0)
 <tr>
     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by barracks or other buildings and units that military units:<br>Filled / Available">Military housing:</span></td>
-    <td>{{ number_format($populationCalculator->getUnitsHousedInBarracks($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromBarracks($selectedDominion)) }}</td>
+    <td>{{ number_format($populationCalculator->getUnitsHousedInMilitaryHusing($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromMilitaryHousing($selectedDominion)) }}</td>
 </tr>
 @endif

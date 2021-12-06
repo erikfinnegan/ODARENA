@@ -191,7 +191,7 @@ class PopulationCalculator
     /*
     *   Calculate how many units can be fit in this Dominion's Barracks and other buildings that provide military_housing
     */
-    public function getAvailableHousingFromBarracks(Dominion $dominion): int
+    public function getAvailableHousingFromMilitaryHousing(Dominion $dominion): int
     {
         $militaryHousingMultiplier = 0;
         $militaryHousingMultiplier += $dominion->race->getPerkMultiplier('extra_barracks_housing');
@@ -264,7 +264,7 @@ class PopulationCalculator
 
     /*
     *   Calculate how many units can be fit in this Dominion's Units that can house military units.
-    *   This is added to getAvailableHousingFromBarracks().
+    *   This is added to getAvailableHousingFromMilitaryHousing().
     */
     public function getAvailableHousingFromUnits(Dominion $dominion): int
     {
@@ -311,7 +311,7 @@ class PopulationCalculator
 
         $units = max(0, $units);
 
-        return min($units, $this->getAvailableHousingFromBarracks($dominion));
+        return min($units, $this->getAvailableHousingFromMilitaryHousing($dominion));
     }
 
 
