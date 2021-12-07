@@ -3,7 +3,7 @@ alignment: independent
 description:
 home_land_type: swamp
 playable: 1
-experimental: 1
+experimental: 0
 
 attacking: 2
 exploring : 1
