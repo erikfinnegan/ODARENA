@@ -318,7 +318,7 @@ class DominionFactory
      */
     protected function guardAgainstMismatchedAlignments(Race $race, Realm $realm, Round $round): void
     {
-        if($race->alignment == 'npc' and $round->alignment !== 'npc')
+        if($race->alignment == 'npc' and $realm->alignment !== 'npc')
         {
             throw new GameException('Barbarian detected attempting to join non-NPC realm!');
         }
