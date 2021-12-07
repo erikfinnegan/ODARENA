@@ -55,8 +55,8 @@ units:
       defense: 2
     perks:
       only_dies_vs_raw_power: 4 # >=
-      gems_production_raw: 0.65
-      lumber_production_raw: 0.85
+      gems_production_raw: 1
+      lumber_production_raw: 0.80
       ore_production_raw: 1.2
 
   - name: Mutterer
