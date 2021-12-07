@@ -30,6 +30,6 @@
 @if($populationCalculator->getAvailableHousingFromMilitaryHousing($selectedDominion) > 0)
 <tr>
     <td><span data-toggle="tooltip" data-placement="top" title="Housing provided by barracks or other buildings and units that military units:<br>Filled / Available">Military housing:</span></td>
-    <td>{{ number_format($populationCalculator->getUnitsHousedInMilitaryHusing($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromMilitaryHousing($selectedDominion)) }}</td>
+    <td>{{ number_format($populationCalculator->getUnitsHousedInMilitaryHousing($selectedDominion)) }} / {{ number_format($populationCalculator->getAvailableHousingFromMilitaryHousing($selectedDominion)) }}</td>
 </tr>
 @endif
