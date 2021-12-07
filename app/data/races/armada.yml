@@ -15,7 +15,7 @@ skill_level: 2
 perks:
   exchange_bonus: 25
   salvaging: 50
-  cannot_explore: 1
+  explore_cost: 100
   expedition_land_gains: 100
 
 units:
