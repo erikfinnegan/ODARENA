@@ -557,6 +557,7 @@ class RaceHelper
             'Firewalker' => 'Firewalking',
             'Gnome' => 'Gnomish',
             'Imperial Gnome' => 'Imperial Gnomish',
+            'Kerranad' => 'city-state',
             'Lux' => 'Lucene',
             'Lycanthrope' => 'Lycanthropic',
             'Nomad' => 'Nomadic',
