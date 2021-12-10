@@ -63,7 +63,7 @@ units:
       casualties: -50
       building_limit: gold_quarry,2 # building, buildings per unit
       plunder: gold,150
-      food_consumption_mod: 20
+      food_consumption_raw: 20
 
   - name: Halcyon
     training_time: 0
