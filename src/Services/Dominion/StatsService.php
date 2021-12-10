@@ -100,7 +100,7 @@ class StatsService
     public function hasStat(Dominion $dominion, string $statKey): bool
     {
 
-        dump("statKey: $statKey");
+        #dump("statKey: $statKey");
         $stat = Stat::where('key', $statKey)->first();
         if(!$stat)
         {
