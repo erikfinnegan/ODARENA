@@ -76,7 +76,6 @@ druvas_granaries:
     - Dwarf
     - Elementals
     - Gnome
-    - Growth
     - Icekin
     - Merfolk
     - Myconid
@@ -135,6 +134,7 @@ fools_gold:
     - Afflicted
     - Demon
     - Elementals
+    - Growth
     - Sylvan
     - Void
   perks:
