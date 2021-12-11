@@ -828,10 +828,6 @@ class SettingHelper
                         $resultString = 'Magical icy winds weaken our wizards.';
                         break;
 
-                    case 'blessing_of_azk_hurum':
-                        $resultString = 'Ask\'Hurum has blessed us, giving us greater offensive power against enemies that have invaded our lands.';
-                        break;
-
                     case 'mark_of_azk_hurum':
                         $resultString = 'Ask\'Hurum has cursed us, weakening our defenses.';
                         break;
@@ -875,6 +871,10 @@ class SettingHelper
 
                     case 'lightfoots':
                         $resultString = 'Halfling training strengthens our spies.';
+                        break;
+
+                    case 'blessing_of_azk_hurum':
+                        $resultString = 'Ask\'Hurum has blessed us, giving us greater offensive power against enemies that have invaded our lands.';
                         break;
 
                     default:
