@@ -872,14 +872,6 @@ class NotificationHelper
                         $resultString = "Festering wounds are spreading across our people, increasing casualties and food consumption.";
                         break;
 
-                    case 'curse_of_kinthys':
-                        $resultString = "A Curse of Kinthys has befallen us.";
-                        break;
-
-                    case 'curse_of_zidur':
-                        $resultString = "A Curse of Zidur has been placed upon our lands.";
-                        break;
-
                     case 'annexation':
                         $resultString = "Our dominion has been annexed!";
                         break;
@@ -887,6 +879,14 @@ class NotificationHelper
                     # END Invasion Spells
 
                     # Faction spells
+
+                    case 'curse_of_kinthys':
+                        $resultString = "A Curse of Kinthys has befallen us.";
+                        break;
+
+                    case 'curse_of_zidur':
+                        $resultString = "A Curse of Zidur has been placed upon our lands.";
+                        break;
 
                     case 'purification':
                         $resultString = "{$data['damageString']} die from Tiranthael's Justice.";
@@ -906,6 +906,14 @@ class NotificationHelper
 
                     case 'windchill':
                         $resultString = 'Magical icy winds weaken our wizards.';
+                        break;
+
+                    case 'blessing_of_azk_hurum':
+                        $resultString = 'Ask\'Hurum has blessed us, giving us greater offensive power against enemies that have invaded our lands.';
+                        break;
+
+                    case 'mark_of_azk_hurum':
+                        $resultString = 'Ask\'Hurum has cursed us, weakening our defenses.';
                         break;
 
                     case 'elskas_blur':
