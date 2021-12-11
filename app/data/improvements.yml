@@ -289,7 +289,7 @@ wizardry:
     wizard_strength: 45,5000
     mana_production_mod: 45,5000
     spell_damage: -45,5000
-    wizard_guild_housing: 45,5000
+    wizard_housing: 45,5000
 
 # Nox variant
 wizardry_nox:
@@ -300,7 +300,7 @@ wizardry_nox:
     wizard_strength: 45,5000
     mana_production_mod: 45,5000
     spell_damage: -45,5000
-    wizard_guild_housing: 45,5000
+    wizard_housing: 45,5000
     unit_pairing: 45,5000
 
 # Qur variant
@@ -312,7 +312,7 @@ wizardry_qur:
     wizard_strength: 45,5000
     mana_production_mod: 45,5000
     spell_damage: -45,5000
-    wizard_guild_housing: 45,5000
+    wizard_housing: 45,5000
 
 # Reptilians variant
 wizardry_reptilians:
@@ -323,7 +323,7 @@ wizardry_reptilians:
     wizard_strength: 45,5000
     mana_production_mod: 45,5000
     spell_damage: -45,5000
-    wizard_guild_housing: 45,5000
+    wizard_housing: 45,5000
     unit_pairing: 45,5000
 
 # Undead variant
@@ -335,7 +335,7 @@ wizardry_undead:
     wizard_strength: 45,5000
     mana_production_mod: 45,5000
     spell_damage: -45,5000
-    wizard_guild_housing: 45,5000
+    wizard_housing: 45,5000
     unit_pairing: 45,5000
 
 # Specials
@@ -417,7 +417,7 @@ muttering:
     wizard_strength: 90,5500
     mana_production_mod: 90,5500
     spell_damage: -90,5500
-    wizard_guild_housing: 90,5500
+    wizard_housing: 90,5500
 
 nesting:
   name: Nesting
@@ -712,7 +712,7 @@ wizardry_kerranad:
     wizard_strength: 60,6500
     mana_production_mod: 60,6500
     spell_damage: -60,6500
-    wizard_guild_housing: 60,6500
+    wizard_housing: 60,6500
 
 # END KERRANAD #
 
