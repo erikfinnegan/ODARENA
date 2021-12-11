@@ -72,7 +72,7 @@ class ImprovementHelper
             'wizard_strength' => 'wizard strength',
             'wizard_losses' => 'wizard losses',
             'spell_damage' => 'spell damage',
-            'wizard_guild_housing' => 'Wizard units housing',
+            'wizard_housing' => 'Wizard units housing',
 
             'gold_theft' => 'gold theft',
             'ore_theft' => 'ore theft',
