@@ -1964,7 +1964,7 @@ class InvadeActionService
 
                             $fasterReturningTicks = min(max(1, ($ticks - $ticksFaster)), 12);
 
-                            $unitsWithFasterReturnTime = round($amountReturning * $buildingFasterReturnPerk);
+                            $unitsWithFasterReturnTime = round($amountReturning * $fasterReturnFromTimePerk);
                             $unitsWithRegularReturnTime = round($amountReturning - $amountWithFasterReturn);
 
                             $returningUnits[$unitKey][$fasterReturningTicks] += $returningUnits[$unitKey][$ticks];
