@@ -1,0 +1,13 @@
+name: Call To Arms
+cooldown: 48
+enabled: 1
+description: Quickly raise an army, at extra cost.
+excluded_races:
+  - Growth
+  - Myconid
+  - Void
+states:
+  - name: Open
+    perks:
+      - training_time_mod: -25
+      - unit_costs: 15

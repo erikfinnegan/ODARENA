@@ -829,7 +829,7 @@ class SettingHelper
                         break;
 
                     case 'mark_of_azk_hurum':
-                        $resultString = 'Ask\'Hurum has cursed us, weakening our defenses.';
+                        $resultString = 'Ask\'Hurum has marked us, weakening our defenses.';
                         break;
 
                     case 'elskas_blur':

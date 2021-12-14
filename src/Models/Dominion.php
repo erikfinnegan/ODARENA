@@ -219,36 +219,6 @@ class Dominion extends AbstractModel
         );
     }
 
-    /*
-    *    Abandoned because it lacks flexibility in how perks are added together.
-    *    They are nearly always additive (so this would work), but there are exceptions
-    *    such as unit costs (where deity and spell can go further than a max of -50%)
-    *    and population where tech perk is multiplicative.
-    */
-    /*
-    public function getPerkValue($perkValueString)
-    {
-        $perkValue = 0;
-
-        $perkValue = $this->race->getPerkValue($perkValueString);
-        $perkValue += $this->title->getPerkValue($perkValueString);
-        $perkValue += $this->getSpellPerkValue($perkValueString);
-        $perkValue += $this->getImprovementPerks($perkValueString);
-        $perkValue += $this->getBuildingPerkValue($perkValueString);
-        $perkValue += $this->getDeityPerkValue($perkValueString);
-        $perkValue += $this->getBuildingPerkValue($perkValueString);
-        $perkValue += $this->getTechPerkValue($perkValueString);
-
-        return $perkValue;
-    }
-
-    public function getPerkMultiplier($perkValueString)
-    {
-        return $this->getPerkValue($perkValueString) / 100;
-    }
-    */
-
-
     public function buildings()
     {
         return $this->belongsToMany(
@@ -306,6 +276,18 @@ class Dominion extends AbstractModel
             'id',
             'id',
             'deity_id'
+        );
+    }
+
+    public function decrees()
+    {
+        return $this->hasManyThrough(
+            Decree::class,
+            DominionDecree::class,
+            'dominion_id',
+            'id',
+            'id',
+            'decree_id'
         );
     }
 
@@ -1381,6 +1363,38 @@ class Dominion extends AbstractModel
 
         return $bonus;
     }
+
+    # DECREES
+
+    protected function getDecreePerks()
+    {
+        return $this->decrees->flatMap(
+            function ($decree) {
+                return $decree->perks;
+            }
+        );
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getDecreePerkValue(string $key): float
+    {
+        $multiplier = 1;
+
+        return (float)$this->decree->getPerkValue($perkKey) * $multiplier;
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getDecreePerkMultiplier(string $key): float
+    {
+        return ($this->getDecreePerkValue($key) / 100);
+    }
+
 
     # Land improvements 2.0
 

@@ -30,6 +30,9 @@ use OpenDominion\Models\SpyopPerkType;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\DeityPerk;
 use OpenDominion\Models\DeityPerkType;
+use OpenDominion\Models\Decree;
+use OpenDominion\Models\DecreePerk;
+use OpenDominion\Models\DecreePerkType;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use OpenDominion\Models\Stat;
@@ -69,6 +72,7 @@ class DataSyncCommand extends Command implements CommandInterface
     public function handle(): void
     {
         DB::transaction(function () {
+          /*
             $this->syncRaces();
             $this->syncTechs();
             $this->syncBuildings();
@@ -79,6 +83,8 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncStats();
             $this->syncResources();
             $this->syncDeities();
+            */
+            $this->syncDecrees();
         });
     }
 
@@ -165,36 +171,9 @@ class DataSyncCommand extends Command implements CommandInterface
             $race->save();
             $race->refresh();
 
-            // Race Perks
-            $racePerksToSync = [];
-
-            foreach (object_get($data, 'perks', []) as $perk => $value) {
-                $value = (float)$value;
-
-                $racePerkType = RacePerkType::firstOrCreate(['key' => $perk]);
-
-                $racePerksToSync[$racePerkType->id] = ['value' => $value];
-
-                $racePerk = RacePerk::query()
-                    ->where('race_id', $race->id)
-                    ->where('race_perk_type_id', $racePerkType->id)
-                    ->first();
-
-                if ($racePerk === null) {
-                    $this->info("[Add Race Perk] {$perk}: {$value}");
-                } elseif ($racePerk->value != $value) {
-                    $this->info("[Change Race Perk] {$perk}: {$racePerk->value} -> {$value}");
-                }
-            }
-
-            $race->perks()->sync($racePerksToSync);
-
-
-            $race->perks()->sync($racePerksToSync);
-
             // Units
-            foreach (object_get($data, 'units', []) as $slot => $unitData) {
-                $slot++; // Because array indices start at 0
+            foreach (object_get($data, 'units', []) as $key => $stateData) {
+                $slot++; # Because arrays start at 0
 
                 $unitName = object_get($unitData, 'name');
 
@@ -911,6 +890,130 @@ class DataSyncCommand extends Command implements CommandInterface
             }
         }
 
+
+        /**
+         * Syncs race, unit and perk data from .yml files to the database.
+         */
+        protected function syncDecrees()
+        {
+            $files = $this->filesystem->files(base_path('app/data/decrees'));
+
+            foreach ($files as $file) {
+                $data = Yaml::parse($file->getContents(), Yaml::PARSE_OBJECT_FOR_MAP);
+
+                $decree = Decree::firstOrNew(['name' => $data->name])
+                    ->fill([
+                        'cooldown' => object_get($data, 'cooldown', 48),
+                        'enabled' => object_get($data, 'enabled', 1),
+                        'description' => object_get($data, 'description'),
+                        'excluded_races' => object_get($buildingData, 'excluded_races', []),
+                        'exclusive_races' => object_get($buildingData, 'exclusive_races', []),
+                    ]);
+
+                if (!$decree->exists) {
+                    $this->info("Adding decree {$data->name}");
+                } else {
+                    $this->info("Processing decree {$data->name}");
+
+                    $newValues = $decree->getDirty();
+                    /*
+                    foreach ($newValues as $key => $newValue)
+                    {
+                        $originalValue = $race->getOriginal($key);
+
+                        if(is_array($originalValue))
+                        {
+                            $originalValue = implode(',', $originalValue);
+                        }
+                        if(is_array($newValue))
+                        {
+                            $newValue = implode(',', $newValue);
+                        }
+
+                        $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                    }
+                    */
+                }
+
+                $decree->save();
+                $decree->refresh();
+
+                // States
+                foreach (object_get($data, 'state', []) as $key => $decreeStateData) {
+
+                    $decreeStateName = object_get($decreeStateData, 'name');
+
+                    $this->info("Unit {$key}: {$decreeStateName}", OutputInterface::VERBOSITY_VERBOSE);
+
+                    $where = [
+                        'decree_id' => $decree->id,
+                        'slot' => $slot,
+                    ];
+
+                    $decreeState = DecreeState::where($where)->first();
+
+                    if ($decreeState === null) {
+                        $decreeState = DecreeState::make($where);
+                    }
+
+                    $decreeState->fill([
+                        'name' => $decreeStateName,
+                    ]);
+
+                    if ($decreeState->exists) {
+                        $newValues = $unit->getDirty();
+                        /*
+                        foreach ($newValues as $key => $newValue)
+                        {
+                            $originalValue = $unit->getOriginal($key);
+
+                            if(is_array($originalValue))
+                            {
+                                $originalValue = implode(',', $originalValue);
+                            }
+                            if(is_array($newValue))
+                            {
+                                $newValue = implode(',', $newValue);
+                            }
+
+                            $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                        }
+                        */
+                    }
+
+                    $decreeState->save();
+                    $decreeState->refresh();
+
+                    // Unit perks
+                    $decreeStatePerksToSync = [];
+
+                    foreach (object_get($decreeStateData, 'perks', []) as $perk => $value)
+                    {
+                        $value = (string)$value;
+
+                        $decreeStatePerkType = DecreeStatePerkType::firstOrCreate(['key' => $perk]);
+
+                        $decreeStatePerksToSync[$decreeStatePerkType->id] = ['value' => $value];
+
+                        $decreeStatePerk = DecreeStatePerkType::query()
+                            ->where('decree_state_id', $unit->id)
+                            ->where('decree_state_perk_type_id', $unitPerkType->id)
+                            ->first();
+
+                        if ($decreeState === null)
+                        {
+                            $this->info("[Add Decree Perk] {$perk}: {$value}");
+                        }
+                        elseif ($decreeState->value != $value)
+                        {
+                            $this->info("[Change Decree Perk] {$perk}: {$decreeState->value} -> {$value}");
+                        }
+                    }
+
+                    $unit->perks()->sync($decreeStatePerksToSync);
+                }
+            }
+        }
 
 
 }

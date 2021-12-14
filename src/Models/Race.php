@@ -23,7 +23,6 @@ namespace OpenDominion\Models;
 class Race extends AbstractModel
 {
 
-
       protected $casts = [
           'resources' => 'array',
           'improvement_resources' => 'array',

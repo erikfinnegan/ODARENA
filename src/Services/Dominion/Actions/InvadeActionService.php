@@ -1948,14 +1948,14 @@ class InvadeActionService
                         # Check for faster_return_from_time
                         if($fasterReturnFromTimePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_from_time'))
                         {
-                            $hourFrom = $timePerkData[0];
-                            $hourTo = $timePerkData[1];
+                            $hourFrom = $fasterReturnFromTimePerk[0];
+                            $hourTo = $fasterReturnFromTimePerk[1];
                             if (
                                 (($hourFrom < $hourTo) and (now()->hour >= $hourFrom and now()->hour < $hourTo)) or
                                 (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
                             )
                             {
-                                $ticksFaster = (int)$timePerkData[2];
+                                $ticksFaster = (int)$fasterReturnFromTimePerk[2];
                             }
                             else
                             {

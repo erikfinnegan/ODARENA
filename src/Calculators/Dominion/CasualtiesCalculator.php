@@ -252,7 +252,7 @@ class CasualtiesCalculator
                 # If the raw DP on the unit is enough, add it to $dpFromUnitsThatKill.
                 if($this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') >= $minPowerToKill)
                 {
-                    #echo '<pre>' . $unit->name . ' has enough DP to kill</pre>';
+                    echo '<pre>' . $unit->name . ' has enough DP to kill</pre>';
                     $dpFromUnitsThatKill += $this->militaryCalculator->getUnitPowerWithPerks($defender, $attacker, $landRatio, $unit, 'defense') * $defender->{"military_unit" . $unit->slot};
                 }
             }
@@ -260,10 +260,10 @@ class CasualtiesCalculator
             # How much of the DP is from units that kill?
             $multiplier *= $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio);
 
-            #echo "<pre>[only_dies_vs_raw_power] \$multiplier: *=" . $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio) . "</pre>";
+            echo "<pre>[only_dies_vs_raw_power] \$multiplier: *=" . $dpFromUnitsThatKill / $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio) . "</pre>";
         }
 
-        #echo "<pre>\$multiplier: $multiplier</pre>";
+        echo "<pre>\$multiplier: $multiplier</pre>";
 
         if((float)$multiplier === 0.0)
         {
