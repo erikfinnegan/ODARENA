@@ -1453,7 +1453,7 @@ class SpellActionService
                 $target->wizard_strength -= $wizardStrengthCost;
             }
 
-            $manaCost = $this->spellCalculator->getManaCost($target, $spell->key);
+            $manaCost = $this->spellCalculator->getManaCost($target, $spell->key) * 2;
 
             if ($this->resourceCalculator->getAmount($target, 'mana') < $manaCost)
             {
@@ -1461,7 +1461,6 @@ class SpellActionService
             }
             else
             {
-                $target->resource_mana -= $manaCost;
                 $this->resourceService->updateResources($target, ['mana' => $manaCost]);
             }
         }
