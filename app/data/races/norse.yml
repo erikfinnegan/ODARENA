@@ -1,7 +1,7 @@
 name: Norse
 alignment: good
 description:
-home_land_type: plain
+home_land_type: water
 playable: 1
 
 attacking: 3
