@@ -172,7 +172,7 @@ class DataSyncCommand extends Command implements CommandInterface
             $race->refresh();
 
             // Units
-            foreach (object_get($data, 'units', []) as $key => $stateData) {
+            foreach (object_get($data, 'units', []) as $slot => $unitData) {
                 $slot++; # Because arrays start at 0
 
                 $unitName = object_get($unitData, 'name');
