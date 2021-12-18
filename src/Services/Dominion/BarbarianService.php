@@ -192,8 +192,6 @@ class BarbarianService
             $oneLineLogString .= 'Need to train ' . ($this->barbarianCalculator->getDpaDeltaCurrent($dominion) > 0 ? 'more DP' : 'no DP') . ' and ' . ($this->barbarianCalculator->getOpaDeltaAtHome($dominion) > 0 ? 'more OP' : 'no OP');
         }
 
-
-
         if($invade)
         {
             $invadePlayer = false;
@@ -205,7 +203,7 @@ class BarbarianService
 
             foreach($targetsInRange as $target)
             {
-                if(!$target->getSpellPerkValue('fog_of_war'))
+                if(!$target->getSpellPerkValue('fog_of_war') and $target->realm->id !== $dominion->realm->id)
                 {
                     $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
                     $units = [1 => $dominion->military_unit1, 4 => $dominion->military_unit4];

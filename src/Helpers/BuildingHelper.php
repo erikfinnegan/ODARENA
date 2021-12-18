@@ -207,6 +207,7 @@ class BuildingHelper
             'food_theft_protection' => 'Protects %s food from theft.',
             'mana_theft_protection' => 'Protects %s mana from theft.',
             'horse_theft_protection' => 'Protects %s horses from theft.',
+            'blood_theft_protection' => 'Protects %s blood from theft.',
 
             'wizard_strength_recovery' => 'Wizard strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'spy_strength' => 'Spy strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',

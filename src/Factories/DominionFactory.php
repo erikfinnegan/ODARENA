@@ -110,8 +110,13 @@ class DominionFactory
         $startingParameters['wizards'] = 0;
         $startingParameters['archmages'] = 0;
 
+        # Override rulername choice
+        $rulerName = Auth::user()->display_name;
+
         if($race->name !== 'Barbarian')
         {
+            $startingParameters['draft_rate'] = 50;
+
             if(Auth::user()->display_name == $rulerName)
             {
                 $startingParameters['prestige'] += 100;
@@ -136,8 +141,6 @@ class DominionFactory
             {
                 $startingParameters['unit4'] = 1;
             }
-
-            $startingParameters['draft_rate'] = 50;
         }
         else
         {

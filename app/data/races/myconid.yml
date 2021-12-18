@@ -25,6 +25,12 @@ peasants_production:
 construction_materials:
   - food
 
+improvement_resources:
+  gold: 1
+  lumber: 2
+  food: 2
+  gems: 12
+
 perks:
   cannot_train_spies: 1
   cannot_train_wizards: 1

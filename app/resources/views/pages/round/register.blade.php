@@ -49,8 +49,10 @@
                 <div class="form-group">
                     <label for="ruler_name" class="col-sm-3 control-label">Ruler Name</label>
                     <div class="col-sm-6">
-                        <input type="text" name="ruler_name" id="ruler_name" class="form-control" placeholder="{{ Auth::user()->display_name }}" value="{{ old('ruler_name') }}">
-                        <p class="help-block">If you leave it as default (<b>{{ Auth::user()->display_name }}</b>), you get 100 extra prestige for playing with your real display name.</p>
+                        <input type="text" name="ruler_name" id="ruler_name" class="form-control" placeholder="{{ Auth::user()->display_name }}" value="{{ old('ruler_name') }}" disabled>
+                        {{--
+                            <p class="help-block">If you leave it as default (<b>{{ Auth::user()->display_name }}</b>), you get 100 extra prestige for playing with your real display name.</p>
+                        --}}
                     </div>
                 </div>
 
@@ -117,8 +119,8 @@
                             </optgroup>
 
                       </select>
-                        <p class="help-block">Consult <a href="{{ route('scribes.factions') }}" target="_blank">The Scribes</a> for details about each faction.</p>
-                        <p class="help-block">Factions labelled <span class="label label-danger">Experimental</span> have significant changes that have been deemed at risk of being overpowered. If you play such a faction, you understand that if the community agrees (or if admin decides) that it is overpowered, the dominion will be locked. Not for violating any rules; but to keep the round fun and exciting. &mdash; We recommend playing at least one additional dominion, just in case.</p>
+                        <small class="help-block">Consult <a href="{{ route('scribes.factions') }}" target="_blank">The Scribes</a> for details about each faction and ruler titles.</small>
+                        <small class="help-block">Factions labelled <span class="label label-danger">Experimental</span> have significant changes that have been deemed at risk of being overpowered. If you play such a faction, you understand that if the community agrees (or if admin decides) that it is overpowered or unfit, the dominion will be locked. Not for violating any rules; but to keep the round fun and exciting. &mdash; When permitted, we recommend playing at least one additional dominion, just in case.</small>
                     </div>
                 </div>
 
@@ -130,9 +132,15 @@
                                 <input type="checkbox" name="terms" required> I have read, understood, and agree with the <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a> and the <a href="{{ route('legal.privacypolicy') }}">Privacy Policy</a>
                             </label>
                         </div>
+                        @if($round->mode == 'deathmatch')
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="no_multis" required> <span class="label label-danger">Special rule:</span> This is deathmatch round and clause 3.2 of the Terms and Conditions does not apply. No multis are allowed this round.
+                                </label>
+                            </div>
+                        @endif
                     </div>
                 </div>
-
 
                 {{-- Notice --}}
                 <div class="form-group">
