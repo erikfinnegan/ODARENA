@@ -119,6 +119,11 @@ class ExpeditionActionService
                 throw new GameException($dominion->race->name . ' cannot send out expeditions.');
             }
 
+           if ($dominion->race->getDeityPerkValue('cannot_send_expeditions'))
+           {
+               throw new GameException('Your deity prohibits sending expeditions.');
+           }
+
             foreach($units as $amount)
             {
                 if($amount < 0)

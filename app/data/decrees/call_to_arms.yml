@@ -7,7 +7,7 @@ excluded_races:
   - Myconid
   - Void
 states:
-  - name: Open
+  - name: Enabled
     perks:
       - training_time_mod: -25
       - unit_costs: 15

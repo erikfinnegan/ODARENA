@@ -188,8 +188,11 @@
                                 </div>
                                 <div class="box-footer">
 
-                                  @if ((bool)$selectedDominion->race->getPerkValue('cannot_send_expeditions'))
+                                  @if ($selectedDominion->race->getPerkValue('cannot_send_expeditions'))
                                     <p><strong><em>{{ $selectedDominion->race->name }} cannot send expeditions.</em></strong></p>
+
+                                  @elseif ($selectedDominion->getDeityPerkValue('cannot_send_expeditions'))
+                                    <p><strong><em>Your deity prohibits sending expeditions.</em></strong></p>
 
                                   @elseif ($spellCalculator->isSpellActive($selectedDominion, 'rainy_season'))
                                     <p><strong><em>You cannot send out an expedition during the Rainy Season.</em></strong></p>

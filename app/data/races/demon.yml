@@ -48,7 +48,7 @@ units:
       - sentient
     cost:
       gold: 50
-      blood: 4
+      blood: 6
     power:
       offense: 2
       defense: 0

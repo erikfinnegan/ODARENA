@@ -17,7 +17,7 @@ barathu_bint:
       - Afflicted
       - Nox
       - Void
-    range_multiplier: 0.50
+    range_multiplier: 0.40
     perks:
       gold_production_mod: 2.5
       exchange_rate: 5
@@ -35,10 +35,11 @@ bregon:
     mana_production_mod: -20
     gold_production_mod: -2.5
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 druva:
   name: Druva
-  range_multiplier: 0.50
+  range_multiplier: 0.40
   excluded_races:
     - Afflicted
     - Nox
@@ -60,6 +61,7 @@ elskas:
     target_defensive_power_mod: -5
     casualties: 10
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 glimj:
   name: Glimj
@@ -72,6 +74,7 @@ glimj:
     food_production_mod: 10
     gold_production_mod: -2.5
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 ib_tham:
   name: Ib-Tham
@@ -93,6 +96,7 @@ ix:
       construction_cost: 5
       rezone_cost: 5
       cannot_explore: 1
+      cannot_send_expeditions: 1
 
 kinthys:
   name: Kinthys
@@ -106,6 +110,7 @@ kinthys:
     defensive_power: 2.5
     xp_generation_mod: -2.5
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 mirnon:
   name: Mirnon
@@ -128,6 +133,7 @@ sazal:
     unit_mana_costs: -2.5
     gems_production_mod: -5
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 tiranthael:
   name: Tiranthael
@@ -138,6 +144,7 @@ tiranthael:
     offensive_power_on_retaliation: 10
     mana_production_mod: -25
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 zidur:
   name: Zidur
@@ -150,6 +157,7 @@ zidur:
     population_growth: -10
     cannot_explore: 1
     target_defensive_power_mod: -2.5
+    cannot_send_expeditions: 1
 
 voiddeity1:
   name: ◮◬◭
@@ -162,6 +170,7 @@ voiddeity1:
     rezone_cost: 20
     construction_cost: 20
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 voiddeity2:
   name: ▽◬◿
@@ -173,3 +182,4 @@ voiddeity2:
     rezone_cost: -20
     unit_mana_costs: 5
     cannot_explore: 1
+    cannot_send_expeditions: 1
