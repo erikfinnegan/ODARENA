@@ -51,7 +51,7 @@ units:
       - intelligent
       - massive
     cost:
-      gold: 60000
+      gold: 70000
       food: 8000
     power:
       offense: 180
