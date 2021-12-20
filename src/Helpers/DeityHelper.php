@@ -117,6 +117,7 @@ class DeityHelper
             'construction_cost' => '%s%% construction costs',
             'rezone_cost' => '%s%% rezoning costs',
             'cannot_explore' => 'Cannot explore',
+            'cannot_send_expeditions' => 'Cannot send expeditions',
         ];
 
         foreach ($deity->perks as $perk)
