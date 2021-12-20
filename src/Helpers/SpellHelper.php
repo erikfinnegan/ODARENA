@@ -116,10 +116,11 @@ class SpellHelper
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
             'summon_units_from_land_by_time' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3$s%%  per hour into the round.',
 
-
             'can_kill_immortal' => 'Can kill some immortal units.',
 
             'no_drafting' => 'No draftees are drafted.',
+
+            'aurei_unit_conversion' => 'Converts %3$s %1$s into %3$s %2$s',
 
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',
@@ -407,7 +408,6 @@ class SpellHelper
                 $perkValue = generate_sentence_from_array($unitNameToProduce);
             }
 
-
             /*****/
 
             if($perk->key === 'kills_faction_units_percentage' or $perk->key === 'kills_faction_units_amount')
@@ -424,6 +424,32 @@ class SpellHelper
                     })->first();
 
                 $perkValue = [$faction, str_plural($unit->name), $percentage];
+            }
+
+            if($perk->key === 'aurei_unit_conversion')
+            {
+                $fromSlot = (int)$perkValue[0];
+                $toSlot = (int)$perkValue[1];
+                $amount = (float)$perkValue[2];
+
+                $race = Race::where('name', 'Aurei')->firstOrFail();
+
+                $fromUnit = $race->units->filter(static function ($unit) use ($fromSlot)
+                    {
+                        return ($unit->slot === $fromSlot);
+                    })->first();
+
+
+                $toUnit = $race->units->filter(static function ($unit) use ($toSlot)
+                    {
+                        return ($unit->slot === $toSlot);
+                    })->first();
+
+                $amount = number_format($amount);
+
+                $perkValue = [$fromUnit->name, $toUnit->name, $amount];
+                $nestedArrays = false;
+
             }
 
             if($perk->key === 'summon_units_from_land')

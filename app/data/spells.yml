@@ -97,6 +97,7 @@ mining_strength:
     - Afflicted
     - Ants
     - Artillery
+    - Aurei
     - Firewalker
     - Demon
     - Dimensionalists
@@ -1287,6 +1288,7 @@ stasis:
 
 shroud:
   name: Shroud
+  enabled: 0
   scope: self
   class: passive
   cost: 2
@@ -1331,6 +1333,30 @@ nocten_veil:
     - Nox
   perks:
     defensive_power: 40
+
+# BEGIN AUREI
+
+halcyon_phase:
+  name: Halcyon Phase
+  scope: self
+  class: active
+  cost: 3
+  exclusive_races:
+    - Aurei
+  perks:
+    aurei_unit_conversion: 4,3,1000 # from, to, amount
+
+chryson_phase:
+  name: Chryson Phase
+  scope: self
+  class: active
+  cost: 3
+  exclusive_races:
+    - Aurei
+  perks:
+    aurei_unit_conversion: 3,4,1000 # from, to, amount
+
+# END AUREI
 
 # Invasion spells
 

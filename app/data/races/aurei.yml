@@ -74,7 +74,7 @@ units:
       - aspect
     cost:
       wizard: 1
-      gold: 300
+      gold: 380
       mana: 20
     power:
       offense: 0
@@ -96,7 +96,7 @@ units:
       - aspect
     cost:
       wizard: 1
-      gold: 400
+      gold: 380
       mana: 20
     power:
       offense: 8

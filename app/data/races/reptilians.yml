@@ -22,6 +22,8 @@ resources:
 perks:
     population_growth: 20
     extra_barren_max_population: 5
+    starts_devoted_to_elskas: 1
+    cannot_renounce_deity: 1
 units:
   - name: Horned One
 

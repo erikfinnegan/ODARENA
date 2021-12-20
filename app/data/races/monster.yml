@@ -11,57 +11,80 @@ exploring : 0
 converting: 1
 skill_level: 3
 
+resources:
+  - food
+  - lumber
+  - ore
+  - mana
+
+land_improvements:
+  plain:
+    food_production_raw: 25
+  forest:
+    lumber_production_raw: 100
+    food_production_raw: 25
+  mountain:
+    ore_production_raw: 60
+  hill:
+    ore_production_raw: 30
+    food_production_raw: 25
+  swamp:
+    food_production_raw: 10
+    lumber_production_raw: 20
+  water:
+    food_production_raw: 15
+
 perks:
   max_per_round: 1
-  min_rounds_played: 5
+  min_rounds_played: 20
   cannot_construct: 1
-  no_population: 1
-  cannot_join_guards: 1
-  cannot_vote: 1
-  no_food_consumption: 1
-  research_points_per_acre: 200
   cannot_explore: 1
+  cannot_rezone: 1
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
+  cannot_vote: 1
+  no_population: 1
+  no_food_consumption: 1
+  research_points_per_acre: 200
+
 units:
-  - name: Muscle
-    training_time: 3
+  - name: Carapace
+    training_time: 6
     type:
       - massive
       - mindless
     cost:
-      food: 2000
-      mana: 500
+      food: 10000
+      ore: 5000
+      lumber: 5000
+    power:
+      offense: 0
+      defense: 10000
+    perks:
+      no_draftee: 1
+      does_not_count_as_population: 1
+
+  - name: Limb
+    training_time: 6
+    type:
+      - massive
+      - mindless
+    cost:
+      food: 20000
     power:
       offense: 0
       defense: 0
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-
-  - name: Carapace
-    training_time: 9
-    type:
-      - massive
-      - mindless
-    cost:
-      food: 20000
-      mana: 3000
-    power:
-      offense: 0
-      defense: 6000
-    perks:
-      no_draftee: 1
-      does_not_count_as_population: 1
-      pairing_limit: 1,0.18 # Unit slot, amount - 1/0.018=55, one Carapace per 55 Muscles
+      pairing_limit: 1,4 # Unit slot, amount
 
   - name: Claw
     training_time: 12
     type:
       - massive
       - mindless
-
     cost:
       food: 15000
       mana: 2000
@@ -71,9 +94,7 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      pairing_limit: 1,0.12 # Unit slot, amount - 1/0.012=83, one Claw per 83 Muscles
-      increases_offensive_casualties: 1
-      plunders: food;25,mana;20,gem;20
+      pairing_limit: 2,8 # Unit slot, amount
       offense_from_pairing: 4,3000,0.5 # slot, amount, num required - 1/0.5=2, one Head doubles OP of 2 Claws
 
   - name: Head
@@ -83,7 +104,6 @@ units:
       - living
       - massive
       - intelligent
-
     cost:
       food: 30000
       mana: 5000
@@ -94,7 +114,6 @@ units:
       sendable_with_zero_op: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      pairing_limit: 1,0.007 # Unit slot, amount - 1/0.007=142, one Head per 142 Muscles
+      pairing_limit: 1,1 # Unit slot, amount
       xp_generation_raw: 100
-      mana_production_raw: 25
-      plunders: food;1000,mana;1000
+      mana_production_raw: 50

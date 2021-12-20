@@ -271,6 +271,12 @@ class DominionFactory
             $this->deityService->completeSubmissionToDeity($dominion, $deity);
         }
 
+        if($race->getPerkValue('starts_devoted_to_elskas'))
+        {
+            $deity = Deity::where('key','elskas')->first();
+            $this->deityService->completeSubmissionToDeity($dominion, $deity);
+        }
+
         if($race->getPerkValue('starts_devoted_to_tiranthael'))
         {
             $deity = Deity::where('key','tiranthael')->first();

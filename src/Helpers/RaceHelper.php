@@ -466,6 +466,11 @@ class RaceHelper
                 $description = 'Starts devoted to Azk\'Hurum';
                 $booleanValue = true;
                 break;
+          case 'starts_devoted_to_elskas':
+                $negativeBenefit = false;
+                $description = 'Starts devoted to Elskas';
+                $booleanValue = true;
+                break;
           case 'starts_devoted_to_tiranthael':
                 $negativeBenefit = false;
                 $description = 'Starts devoted to Tiranthael';

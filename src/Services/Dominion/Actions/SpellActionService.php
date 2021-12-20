@@ -599,6 +599,36 @@ class SpellActionService
                 $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
 
                 # Resource conversion
+                if($perk->key === 'aurei_unit_conversion')
+                {
+                    if($caster->race->name == 'Aurei')
+                    {
+                        $fromSlot = (int)$spellPerkValues[0];
+                        $toSlot = (int)$spellPerkValues[1];
+                        $amount = (float)$spellPerkValues[2];
+
+                        $availableFrom = $caster->{'military_unit' . $fromSlot};
+
+                        $newToSlotUnits = (int)min($amount, $availableFrom);
+
+                        $caster->{'military_unit' . $fromSlot} -= $newToSlotUnits;
+                        $caster->{'military_unit' . $toSlot} += $newToSlotUnits;
+
+                        $fromUnit = $caster->race->units->filter(static function ($unit) use ($fromSlot)
+                            {
+                                return ($unit->slot === $fromSlot);
+                            })->first();
+
+                        $toUnit = $caster->race->units->filter(static function ($unit) use ($toSlot)
+                            {
+                                return ($unit->slot === $toSlot);
+                            })->first();
+
+                        $extraLine = ', phasing ' . number_format($newToSlotUnits) . ' ' . str_plural($fromUnit->name, $newToSlotUnits) . ' into ' . str_plural($toUnit->name, $newToSlotUnits);
+                    }
+                }
+
+                # Resource conversion
                 if($perk->key === 'resource_conversion')
                 {
                     $sourceResourceKey = $spellPerkValues[0];
@@ -611,7 +641,6 @@ class SpellActionService
 
                     $this->resourceService->updateResources($caster, [$sourceResourceKey => $amountRemoved*-1]);
                     $this->resourceService->updateResources($caster, [$targetResourceKey => $amountAdded]);
-
                 }
 
                 # Resource conversion
