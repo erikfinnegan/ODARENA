@@ -20,7 +20,7 @@ resources:
   - lumber
 
 peasants_production:
-  food: 2
+  food: 2.10
 
 construction_materials:
   - food
