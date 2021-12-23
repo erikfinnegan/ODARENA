@@ -200,7 +200,10 @@
                                 @endforeach
                             @endif
 
-                            @if ($event->source->realm->id === $selectedDominion->realm->id)
+                            @if (
+                                    ($selectedDominion->round->mode == 'standard' and $event->source->realm->id === $selectedDominion->realm->id) or
+                                    ($selectedDominion->round->mode == 'deathmatch' and $event->source->id === $selectedDominion->id)
+                                )
                             <table class="table">
                                 <colgroup>
                                     <col width="25%">
@@ -678,7 +681,11 @@
                                 @endforeach
                             @endif
 
-                            @if ($event->target->realm->id === $selectedDominion->realm->id)
+                            @if (
+                                    ($selectedDominion->round->mode == 'standard' and $event->target->realm->id === $selectedDominion->realm->id) or
+                                    ($selectedDominion->round->mode == 'deathmatch' and $event->target->id === $selectedDominion->id)
+                                )
+
                             <table class="table">
                                 <colgroup>
                                     <col width="34%">
