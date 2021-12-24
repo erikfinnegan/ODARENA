@@ -339,7 +339,7 @@ class DominionFactory
             throw new GameException('Faction and realm alignment do not match');
         }
 
-        if($round->mode == 'deathmatch' and $realm->alignment !== 'players')
+        if($round->mode == 'deathmatch' and ($realm->alignment !== 'players' and $race->alignment !== 'npc'))
         {
             throw new GameException('Faction and realm alignment do not match');
         }
