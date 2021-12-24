@@ -68,6 +68,7 @@
                                 @endif
                             @endif
                             </div>
+
                             <table class="table">
                                 <colgroup>
                                     <col width="25%">
@@ -127,6 +128,7 @@
                                         </tr>
                                     @endif
                                     @endfor
+                                </tbody>
                             </table>
 
                             @if(isset($event->data['attacker']['annexation']['hasAnnexedDominions']) and $event->data['attacker']['annexation']['hasAnnexedDominions'] > 0)
@@ -196,13 +198,14 @@
                                                 </tr>
                                             @endif
                                             @endfor
+                                        </tbody>
                                     </table>
                                 @endforeach
                             @endif
 
                             @if (
-                                    ($selectedDominion->round->mode == 'standard' and $event->source->realm->id === $selectedDominion->realm->id) or
-                                    ($selectedDominion->round->mode == 'deathmatch' and $event->source->id === $selectedDominion->id)
+                                      ($selectedDominion->round->mode == 'standard' and $event->source->realm->id === $selectedDominion->realm->id) or
+                                      ($selectedDominion->round->mode == 'deathmatch' and $event->source->id === $selectedDominion->id)
                                 )
                             <table class="table">
                                 <colgroup>
@@ -601,9 +604,9 @@
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race) }}">
                                                       @if ($event->target->realm->id === $selectedDominion->realm->id)
                                                           @if (isset($event->data['defender']['unitsDefending'][$slot]))
-                                                            {{ number_format($event->data['defender']['unitsDefending'][$slot]) }}
+                                                              {{ number_format($event->data['defender']['unitsDefending'][$slot]) }}
                                                           @else
-                                                            0
+                                                              0
                                                           @endif
                                                       @else
                                                           <span class="text-muted">?</span>
@@ -612,9 +615,9 @@
                                             </td>
                                             <td>
                                                 @if (isset($event->data['defender']['unitsLost'][$slot]))
-                                                  {{ number_format($event->data['defender']['unitsLost'][$slot]) }}
+                                                    {{ number_format($event->data['defender']['unitsLost'][$slot]) }}
                                                 @else
-                                                  0
+                                                    0
                                                 @endif
                                             </td>
                                         </tr>
