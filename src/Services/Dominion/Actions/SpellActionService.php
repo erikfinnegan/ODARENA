@@ -1490,7 +1490,7 @@ class SpellActionService
             }
             else
             {
-                $this->resourceService->updateResources($target, ['mana' => $manaCost]);
+                $this->resourceService->updateResources($target, ['mana' => $manaCost*-1]);
             }
         }
 
