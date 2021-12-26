@@ -81,11 +81,11 @@ class TheftCalculator
         // Unit theft protection
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            if($theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
+            if($theftProtectionPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
             {
-                if($theftProtection[0] == $resourceKey)
+                if($theftProtectionPerk[0] == $resourceKey)
                 {
-                    $theftProtection += $target->{'military_unit'.$slot} * $theftProtection[1];
+                    $theftProtection += $target->{'military_unit'.$slot} * $theftProtectionPerk[1];
                 }
             }
         }
