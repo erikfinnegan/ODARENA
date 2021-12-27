@@ -194,7 +194,7 @@
                                             @endif
                                         </td>
                                         <td class="hidden">
-                                            @if ($rangeCalculator->isInRange($selectedDominion, $dominion) and $selectedDominion->realm->id !== $dominion->realm->id)
+                                            @if ($rangeCalculator->isInRange($selectedDominion, $dominion) and ($selectedDominion->round->mode == 'standard' and $selectedDominion->realm->id !== $dominion->realm->id))
                                                 true
                                             @endif
                                         </td>
