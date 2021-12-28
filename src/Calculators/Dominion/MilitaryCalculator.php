@@ -1648,7 +1648,7 @@ class MilitaryCalculator
     public function getWizardRatioRaw(Dominion $dominion, string $type = 'offense'): float
     {
         $wizards = $this->getTotalUnitsForSlot($dominion, 'wizards');
-        $wizards = $this->getTotalUnitsForSlot($dominion, 'archmages') * 2;
+        $wizards += $this->getTotalUnitsForSlot($dominion, 'archmages') * 2;
 
         // Add units which count as (partial) spies (Dark Elf Adept)
         foreach ($dominion->race->units as $unit)
