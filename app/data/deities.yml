@@ -124,6 +124,7 @@ mirnon:
     ore_production_mod: 5
     food_production_mod: -20
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 sazal:
   name: Sazal
