@@ -835,7 +835,7 @@ class SpellActionService
                 {
                     $spellReflected = true;
                     $reflectedBy = $target;
-                    $target = $dominion;
+                    $target = $caster;
                     $caster = $reflectedBy;
                     $this->statsService->updateStat($target, 'magic_reflected', 1);
                 }
