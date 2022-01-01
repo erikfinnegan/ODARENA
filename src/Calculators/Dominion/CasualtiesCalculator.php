@@ -198,7 +198,7 @@ class CasualtiesCalculator
             if($mode == 'defense')
             {
                 # PERK: spirit_immortal
-                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal')) and $isInvasionSuccessful)
+                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and $isInvasionSuccessful)
                 {
                     return False;
                 }
