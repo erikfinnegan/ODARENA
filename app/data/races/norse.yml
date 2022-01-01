@@ -69,7 +69,7 @@ units:
       offense: 0
       defense: 8
     perks:
-      true_immortal: 1
+      immortal: 1
       no_draftee: 1
 
   - name: Einherjar
@@ -84,7 +84,7 @@ units:
       offense: 12
       defense: 6
     perks:
-      true_immortal: 1
+      immortal: 1
       no_draftee: 1
       kills_into_resource_per_casualty_on_success: 1,champion # each unit killed becomes 1 champion
       increases_own_casualties: 1

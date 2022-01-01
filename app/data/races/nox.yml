@@ -88,5 +88,5 @@ units:
       offense: 3
       defense: 6
     perks:
-      true_immortal: 1
+      immortal: 1
       counts_as_wizard: 0.333

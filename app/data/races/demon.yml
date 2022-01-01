@@ -118,7 +118,7 @@ units:
       offense: 1
       defense: 0
     perks:
-      true_immortal: 1
+      immortal: 1
       offense_from_resource: soul,2 # +1 OP per 3 souls, no max
       amount_limit: 1
       cannot_be_released: 1

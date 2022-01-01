@@ -102,7 +102,7 @@ units:
       defense: 10
     perks:
       no_draftee: 1
-      true_immortal: 1
+      immortal: 1
       counts_as_wizard_offense: 0.24
       counts_as_wizard_defense: 0.16
       counts_as_spy_offense: 0.24

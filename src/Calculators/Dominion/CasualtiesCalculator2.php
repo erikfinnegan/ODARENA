@@ -5,13 +5,12 @@ namespace OpenDominion\Calculators\Dominion;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Spell;
+
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
-
-# ODA
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-#use OpenDominion\Calculators\Dominion\RangeCalculator;
 
-class CasualtiesCalculator
+class CasualtiesCalculator2
 {
 
     /*
@@ -26,7 +25,150 @@ class CasualtiesCalculator
         $this->populationCalculator = app(PopulationCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->landCalculator = app(LandCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
+    }
+
+    public function getInvasionCasualtiesRatio(Dominion $dominion, Unit $unit, Dominion $enemy = null, array $invasionResult = [], string $mode = 'offensive'): float
+    {
+
+        $ratios = [
+            'offense' => 0.10,
+            'defense' => 0.05
+        ];
+
+        $landRatio = $this->rangeCalculator->getDominionRange($dominion, $enemy) / 100;
+
+        $multiplier = 1;
+
+        # Title perks
+        $multiplier += $dominion->title->getPerkMultiplier('casualties');
+        $multiplier += $dominion->title->getPerkMultiplier($mode . '_casualties');
+
+        # Faction perks
+        $multiplier += $dominion->race->getPerkMultiplier('casualties');
+        $multiplier += $dominion->race->getPerkMultiplier($mode . '_casualties');
+
+        # Advancements
+        $multiplier += $dominion->getTechPerkMultiplier('casualties');
+        $multiplier += $dominion->getTechPerkMultiplier($mode . '_casualties');
+
+        # Spells
+        $multiplier += $dominion->getSpellPerkMultiplier('casualties');
+        $multiplier += $dominion->getSpellPerkMultiplier($mode . '_casualties');
+
+        # Improvements
+        $multiplier += $dominion->getImprovementPerkMultiplier('casualties');
+        $multiplier += $dominion->getImprovementPerkMultiplier($mode . '_casualties');
+
+        # Buildings
+        $multiplier += $dominion->getBuildingPerkMultiplier('casualties');
+        $multiplier += $dominion->getBuildingPerkMultiplier($mode . '_casualties');
+
+        # Deity
+        $multiplier += $dominion->getDeityPerkMultiplier('casualties');
+        $multiplier += $dominion->getDeityPerkMultiplier($mode . '_casualties');
+
+
+
+        $multiplier = max(0.10, $multiplier);
+
+        return min(1, max(0, $ratio));
+    }
+
+    public function getInvasionCasualties(Dominion $dominion, array $units, Dominion $enemy = null, array $enemyUnits = [], array $invasionResult = []): array
+    {
+        foreach($units as $slot => $amount)
+        {
+            $unit = $selectedDominion->race->units->filter(function ($unit) use ($unitSlot) {
+                return ($unit->slot === $unitSlot);
+            })->first();
+
+            if($this->isUnitImmortal($dominion, $enemy, ))
+
+            $casualties = $slot * $this->getCasualtiesRatio($dominion, $unit, $enemy, $enemyUnits);
+        }
+
+        return $casualties;
+    }
+
+    public function isUnitImmortal(Dominion $dominion, Dominion $enemy = null, Unit $unit, bool $isInvasionSuccessful = true, string $mode = 'offense')
+    {
+
+        if($slot == 'draftees' and $dominion->race->getPerkValue('immortal_draftees'))
+        {
+            return True;
+        }
+        elseif($slot == 'peasants' and $dominion->race->getPerkValue('immortal_peasants'))
+        {
+            return True;
+        }
+        elseif($slot == 'spies' and $dominion->race->getPerkValue('immortal_spies'))
+        {
+            return True;
+        }
+        elseif($slot == 'wizards' and $dominion->race->getPerkValue('immortal_wizards'))
+        {
+            return True;
+        }
+        elseif($slot == 'archmages')
+        {
+            return True;
+        }
+        else
+        {
+            $slot = (int)$slot;
+
+            # Lux does not kill anyone
+            if($enemy->race->getPerkValue('does_not_kill'))
+            {
+                return True;
+            }
+
+            # PERK: immortal
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
+            {
+                return True;
+            }
+
+            # PERK: immortal_from_wpa
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_wpa') and $this->militaryCalculator->getWizardRatio($dominion, $mode) >= $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_wpa'))
+            {
+                return True;
+            }
+
+            # PERK: immortal_from_title
+            if($titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_title', null))
+            {
+                $titleKey = $titlePerkData[0];
+
+                if($dominion->title->key == $titleKey)
+                {
+                    return True;
+                }
+            }
+
+            if($mode == 'offense')
+            {
+                # PERK: immortal_on_victory
+                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_victory') and $isInvasionSuccessful)
+                {
+                    return True;
+                }
+            }
+
+            if($mode == 'defense')
+            {
+                # Perk: immortal_on_fending_off
+                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_on_fending_off') and !$isInvasionSuccessful)
+                {
+                    return True;
+                }
+            }
+        }
+
+        return False;
+
     }
 
     # These are casualty perks that do not depend on anything else
@@ -160,11 +302,20 @@ class CasualtiesCalculator
             # PERK: immortal
             if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal'))
             {
-                return True;
+                if(!$enemy->getSpellPerkValue('can_kill_immortal') and !$enemy->getTechPerkValue('can_kill_immortal'))
+                {
+                    return True;
+                }
             }
 
             # PERK: immortal_from_wpa
             if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_wpa') and $this->militaryCalculator->getWizardRatio($dominion, $mode) >= $dominion->race->getUnitPerkValueForUnitSlot($slot, 'immortal_from_wpa'))
+            {
+                return True;
+            }
+
+            # PERK: true_immortal
+            if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal'))
             {
                 return True;
             }
@@ -198,7 +349,7 @@ class CasualtiesCalculator
             if($mode == 'defense')
             {
                 # PERK: spirit_immortal
-                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal')) and $isInvasionSuccessful)
+                if ($dominion->race->getUnitPerkValueForUnitSlot($slot, 'spirit_immortal') and $isInvasionSuccessful)
                 {
                     return False;
                 }
