@@ -5,6 +5,7 @@ cartography:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Myconid
     - Sylvan
     - Swarm
@@ -22,6 +23,7 @@ commerce:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Myconid
     - Sylvan
     - Swarm
@@ -42,6 +44,7 @@ construction:
     - Growth
     - Imperial Gnome
     - Kerranad
+    - Marshling
     - Sylvan
     - Swarm
     - Qur
@@ -95,6 +98,7 @@ defense:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Sylvan
     - Swarm
     - Troll
@@ -110,6 +114,7 @@ espionage:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Sylvan
     - Swarm
     - Troll
@@ -128,6 +133,7 @@ irrigation:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Sylvan
     - Swarm
     - Troll
@@ -143,6 +149,7 @@ housing:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Sylvan
     - Swarm
     - Troll
@@ -177,6 +184,7 @@ medicine:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Sylvan
     - Swarm
     - Troll
@@ -212,6 +220,7 @@ offense:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Myconid
     - Sylvan
     - Swarm
@@ -228,6 +237,7 @@ research:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Sylvan
     - Swarm
     - Troll
@@ -276,6 +286,7 @@ wizardry:
     - Beastfolk
     - Growth
     - Kerranad
+    - Marshling
     - Nox
     - Qur
     - Reptilians
@@ -722,70 +733,70 @@ apprenticeship:
   exclusive_races:
     - Wood Elf
   perks:
-    unit_gold_costs: -50,6000
-    unit_lumber_costs: -50,8500
+    unit_gold_costs: -50,6400
+    unit_lumber_costs: -50,8750
 
 commerce_wood_elf:
   name: Commerce
   exclusive_races:
     - Wood Elf
   perks:
-    gold_production_mod: 50,8000
+    gold_production_mod: 50,8400
 
 construction_wood_elf:
   name: Construction
   exclusive_races:
     - Wood Elf
   perks:
-    construction_cost: -50,6000
-    rezone_cost: -50,6000
+    construction_cost: -50,6400
+    rezone_cost: -50,6400
 
 camouflage:
   name: Camouflage
   exclusive_races:
     - Wood Elf
   perks:
-    defensive_power: 50,8500
-    defensive_casualties: -40,6000
+    defensive_power: 50,9000
+    defensive_casualties: -40,7000
 
 cartography_wood_elf:
   name: Cartography
   exclusive_races:
     - Wood Elf
   perks:
-    land_discovered: 70,6000
-    explore_gold_cost: -35,5000
+    land_discovered: 70,6500
+    explore_gold_cost: -35,6000
 
 espionage_wood_elf:
   name: Espionage
   exclusive_races:
     - Wood Elf
   perks:
-    spy_strength: 90,7500
-    spy_losses: -90,7500
-    spy_housing: 90,7500
+    spy_strength: 90,8000
+    spy_losses: -90,8000
+    spy_housing: 90,8000
 
 fencing:
   name: Fencing
   exclusive_races:
     - Wood Elf
   perks:
-    offensive_power: 50,8500
-    offensive_casualties: -40,6000
+    offensive_power: 50,8000
+    offensive_casualties: -40,7000
 
 foraging:
   name: Foraging
   exclusive_races:
     - Wood Elf
   perks:
-    food_production_mod: 90,7500
+    food_production_mod: 90,8000
 
 forestry:
   name: Forestry
   exclusive_races:
     - Wood Elf
   perks:
-    lumber_production_mod: 50,6000
+    lumber_production_mod: 50,6500
     population_growth: 35,7000
 
 housing_wood_elf:
@@ -793,38 +804,38 @@ housing_wood_elf:
   exclusive_races:
     - Wood Elf
   perks:
-    population: 45,7000
+    population: 45,7500
 
 leadership_wood_elf:
   name: Leadership
   exclusive_races:
     - Wood Elf
   perks:
-    title_bonus: 80,1000
+    title_bonus: 80,1200
 
 tutoring:
   name: Tutoring
   exclusive_races:
     - Wood Elf
   perks:
-    xp_generation_mod: 45,7500
-    xp_gains: 45,7500
+    xp_generation_mod: 45,8000
+    xp_gains: 45,8000
 
 vigilance:
   name: Vigilance
   exclusive_races:
     - Wood Elf
   perks:
-    theft_protection: 60,7500
+    theft_protection: 60,8000
 
 wizardry_wood_elf:
   name: Wizardry
   exclusive_races:
     - Wood Elf
   perks:
-    wizard_strength: 90,7500
-    mana_production_mod: 90,7500
-    spell_damage: -90,7500
+    wizard_strength: 90,8000
+    mana_production_mod: 90,8000
+    spell_damage: -90,8000
 
 # END WOOD ELF #
 

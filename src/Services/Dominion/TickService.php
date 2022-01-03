@@ -1279,10 +1279,19 @@ class TickService
             $this->improvementCalculator->createOrIncrementImprovements($dominion, [$improvementKey => $amount]);
         }
 
+        # Impterest
         if($improvementInterestPerk = $dominion->race->getPerkValue('improvements_interest'))
         {
             $improvementInterest = [];
-            $improvementInterestPerk *= 1 + $dominion->getBuildingPerkMultiplier('improvement_interest');
+
+            $multiplier = 1;
+            $multiplier += $dominion->getBuildingPerkMultiplier('improvements_interest');
+            $multiplier += $dominion->getSpellPerkMultiplier('improvements_interest');
+            $multiplier += $dominion->getImprovementPerkMultiplier('improvements_interest');
+            $multiplier += $dominion->getTechPerkMultiplier('improvements_interest');
+
+            $improvementInterestPerk *= $multiplier;
+
             foreach($this->improvementCalculator->getDominionImprovements($dominion) as $dominionImprovement)
             {
                 $improvement = Improvement::where('id', $dominionImprovement->improvement_id)->first();

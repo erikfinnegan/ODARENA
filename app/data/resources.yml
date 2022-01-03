@@ -107,3 +107,10 @@ swamp_gas:
   sell: 1
   exclusive_races:
     - Marshling
+
+spawn:
+  name: Spawn
+  buy: null
+  sell: null
+  exclusive_races:
+    - Marshling

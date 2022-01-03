@@ -2,8 +2,8 @@ name: Marshling
 alignment: independent
 description:
 home_land_type: swamp
-playable: 1
-experimental: 0
+playable: 0
+experimental: 1
 
 attacking: 2
 exploring : 1
@@ -13,10 +13,10 @@ skill_level: 3
 resources:
   - gold
   - food
+  - spawn
   - mud
   - mana
   - swamp_gas
-  - gems
 
 construction_materials:
   - gold
@@ -30,74 +30,68 @@ land_improvements:
   swamp:
     mud_production_raw: 0.5
     swamp_gas_production_raw: 1
+  forest:
+    swamp_gas_production_mod: 0.5
   water:
     mud_production_mod: 0.5
 
 peasants_alias: apprentice
 
 peasants_production:
-  gold: 2.7
+  gold: 2.0
   mana: 0.1
 
 perks:
-  gold_production_mod: -50
   reduced_conversions: 80
+  improvements_interest_random_min: -0.7
+  improvements_interest_random_max: 0.75
+
 units:
-  - name: Spawn
+  - name: Sludger
     training_time: 12
     type:
       - living
       - sentient
-    cost:
-      food: 330
-      swamp_gas: 55
-      mana: 45
     power:
-      offense: 10
-      defense: 10
+      offense: 17
+      defense: 9
     perks:
-      minimum_wpa_to_train: 0.50
+      cannot_be_trained: 1
       cannot_be_released: 1
-      no_draftee: 1
-      dies_into_multiple_on_defense_instantly: 2,3 # slot, amount
-      dies_into_multiple_on_offense: 3,3 # slot, amount
-      casualties: 500
+      casualties: 30
 
-  - name: Slime
+  - name: Spewer
     type:
       - living
       - sentient
     power:
-      offense: 1
-      defense: 3
+      offense: 7
+      defense: 9
     perks:
-      cannot_be_trained: 1
-      cannot_be_released: 1
-      dies_into: 2
-      housing_count: 0.25
+      swamp_gas_production_raw: 20
 
-  - name: Goo
+  - name: Oozer
     type:
       - living
       - sentient
     power:
-      offense: 4
-      defense: 2
+      offense: 11
+      defense: 9
     perks:
       cannot_be_trained: 1
       cannot_be_released: 1
-      dies_into: 4
-      housing_count: 0.25
+      faster_returning: 8
 
-  - name: Ooze
+  - name: Brooder
     type:
       - living
       - sentient
     power:
-      offense: 3
-      defense: 1
+      offense: 9
+      defense: 9
     perks:
       cannot_be_trained: 1
       cannot_be_released: 1
-      dies_into_multiple: 1,0.2
-      housing_count: 0.25
+      immortal_on_fending_off: 1
+      fixed_casualties: 100
+      dies_into_resource: 3,spawn
