@@ -1466,7 +1466,7 @@ class MilitaryCalculator
 
       protected function getUnitPowerFromImprovementPoints(Dominion $dominion, Unit $unit, string $powerType): float
       {
-          $dominionImprovementsPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_per_improvement", null);
+          $dominionImprovementsPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_improvement_points", null);
 
           if (!$dominionImprovementsPerk)
           {
