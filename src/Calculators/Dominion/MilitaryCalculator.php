@@ -1473,15 +1473,15 @@ class MilitaryCalculator
               return 0;
           }
 
-          $dominionImprovements = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($dominion);
+          $dominionImprovementPoints = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($dominion);
 
-          $chunkSize = (float)$dominionImprovementsPerk[0];
-          $pointsPerChunk = (int)$dominionImprovementsPerk[1];
+          $pointsPerChunk = (float)$dominionImprovementsPerk[0];
+          $chunkSize = (int)$dominionImprovementsPerk[1];
           $max = (float)$dominionImprovementsPerk[2];
 
-          $powerFromPerk = min($max, floor($dominionImprovements / $chunkSize) * $pointsPerChunk);
+          $powerFromPerk = ($dominionImprovementPoints / $chunkSize) * $pointsPerChunk;
 
-          return $powerFromPerk;
+          return min($max, $powerFromPerk);
       }
 
     /**
