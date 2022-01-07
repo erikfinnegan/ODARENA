@@ -132,7 +132,6 @@ fools_gold:
   cooldown: 72
   excluded_races:
     - Afflicted
-    - Demon
     - Elementals
     - Growth
     - Sylvan
