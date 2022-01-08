@@ -1005,7 +1005,7 @@ class SpellActionService
                         $amountStolen *= $damageMultiplier;
 
                         $this->resourceService->updateResources($target, [$resourceKey => $amountStolen*-1]);
-                        $this->resourceService->updateResources($dominion, [$resourceKey => $amountStolen]);
+                        $this->resourceService->updateResources($caster, [$resourceKey => $amountStolen]);
 
                         $this->statsService->updateStat($caster, ($resourceKey .  '_stolen'), $damage);
                         $this->statsService->updateStat($target, ($resourceKey . '_lost'), $damage);

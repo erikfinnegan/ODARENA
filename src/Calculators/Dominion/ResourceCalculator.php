@@ -213,6 +213,7 @@ class ResourceCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getTechPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getDeityPerkMultiplier($resourceKey . '_production_mod');
+        
         if(isset($dominion->title))
         {
             $multiplier += $dominion->title->getPerkMultiplier($resourceKey . '_production_mod') * $dominion->title->getPerkBonus($dominion);
