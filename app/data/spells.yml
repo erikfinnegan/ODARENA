@@ -480,7 +480,7 @@ enchanted_blades:
   exclusive_races:
     - Dark Elf
   perks:
-    increases_casualties_on_offense_from_wizard_ratio: 5
+    increases_enemy_casualties_on_offense_from_wizard_ratio: 5
 
 defensive_frenzy:
   name: Defensive Frenzy
@@ -794,7 +794,7 @@ fimbulwinter:
     - Norse
   perks:
     defensive_power: 10
-    offensive_casualties: 20
+    casualties_on_offense: 20
 
 ragnarok:
   name: Ragnarök
@@ -809,8 +809,8 @@ ragnarok:
   perks:
     cannot_build: 1
     no_drafting: 1
-    offensive_casualties: 200
-    increases_casualties_on_defense: 100
+    casualties_on_offense: 200
+    increases_enemy_casualties_on_defense: 100
 
 desecration:
   name: Desecration
@@ -837,8 +837,8 @@ infernal_fury:
   exclusive_races:
     - Demon
   perks:
-    increases_casualties_on_offense: 25
-    increases_casualties_on_defense: 25
+    increases_enemy_casualties_on_offense: 25
+    increases_enemy_casualties_on_defense: 25
 
 sacrifice_to_azk_hurum:
   name: Sacrifice to Azk'Hurum
@@ -938,7 +938,7 @@ maelstrom:
   exclusive_races:
     - Merfolk
   perks:
-    increases_casualties_on_defense: 50
+    increases_enemy_casualties_on_defense: 50
 
 portal:
   name: Portal

@@ -101,32 +101,32 @@ class CasualtiesCalculator
         $perkValue =  0;
 
         # Title perks
-        $perkValue += $dominion->title->getPerkMultiplier('increases_casualties');
-        $perkValue += $dominion->title->getPerkMultiplier('increases_casualties_on_' . $mode);
+        $perkValue += $dominion->title->getPerkMultiplier('increases_enemy_casualties');
+        $perkValue += $dominion->title->getPerkMultiplier('increases_enemy_casualties_on_' . $mode);
 
         # Faction perks
-        $perkValue += $dominion->race->getPerkMultiplier('increases_casualties');
-        $perkValue += $dominion->race->getPerkMultiplier('increases_casualties_on_' . $mode);
+        $perkValue += $dominion->race->getPerkMultiplier('increases_enemy_casualties');
+        $perkValue += $dominion->race->getPerkMultiplier('increases_enemy_casualties_on_' . $mode);
 
         # Advancements
-        $perkValue += $dominion->getTechPerkMultiplier('increases_casualties');
-        $perkValue += $dominion->getTechPerkMultiplier('increases_casualties_on_' . $mode);
+        $perkValue += $dominion->getTechPerkMultiplier('increases_enemy_casualties');
+        $perkValue += $dominion->getTechPerkMultiplier('increases_enemy_casualties_on_' . $mode);
 
         # Spells
-        $perkValue += $dominion->getSpellPerkMultiplier('increases_casualties');
-        $perkValue += $dominion->getSpellPerkMultiplier('increases_casualties_on_' . $mode);
+        $perkValue += $dominion->getSpellPerkMultiplier('increases_enemy_casualties');
+        $perkValue += $dominion->getSpellPerkMultiplier('increases_enemy_casualties_on_' . $mode);
 
         # Improvements
-        $perkValue += $dominion->getImprovementPerkMultiplier('increases_casualties');
-        $perkValue += $dominion->getImprovementPerkMultiplier('increases_casualties_on_' . $mode);
+        $perkValue += $dominion->getImprovementPerkMultiplier('increases_enemy_casualties');
+        $perkValue += $dominion->getImprovementPerkMultiplier('increases_enemy_casualties_on_' . $mode);
 
         # Buildings
-        $perkValue += $dominion->getBuildingPerkMultiplier('increases_casualties');
-        $perkValue += $dominion->getBuildingPerkMultiplier('increases_casualties_on_' . $mode);
+        $perkValue += $dominion->getBuildingPerkMultiplier('increases_enemy_casualties');
+        $perkValue += $dominion->getBuildingPerkMultiplier('increases_enemy_casualties_on_' . $mode);
 
         # Buildings
-        $perkValue += $dominion->getDeityPerkMultiplier('increases_casualties');
-        $perkValue += $dominion->getDeityPerkMultiplier('increases_casualties_on_' . $mode);
+        $perkValue += $dominion->getDeityPerkMultiplier('increases_enemy_casualties');
+        $perkValue += $dominion->getDeityPerkMultiplier('increases_enemy_casualties_on_' . $mode);
 
 
         return $perkValue;
@@ -468,8 +468,8 @@ class CasualtiesCalculator
             # $enemy is the defender here, so we need to figure out the casualty increases from the defending units
             foreach($defenderUnitsHome as $slot => $amount)
             {
-                # PERK: increases_casualties
-                if($decreasesCasualties = $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties') or $decreasesCasualties = $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_defense'))
+                # PERK: increases_enemy_casualties
+                if($decreasesCasualties = $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_enemy_casualties') or $decreasesCasualties = $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_enemy_casualties_on_defense'))
                 {
                     $perkValue += ( ($this->militaryCalculator->getDefensivePowerRaw($enemy, $dominion, $landRatio, [$slot => $amount]/*, 0, false, $isAmbush, false*/)) / $rawDpFromHomeUnits ) / 2;
                 }
@@ -507,8 +507,8 @@ class CasualtiesCalculator
             # $enemy is the attacker here, so we need to figure out the casualty increases from the invading units
             foreach($units as $slot => $amount)
             {
-                # PERK: increases_casualties
-                if($enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties') or $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_casualties_on_offense'))
+                # PERK: increases_enemy_casualties
+                if($enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_enemy_casualties') or $enemy->race->getUnitPerkValueForUnitSlot($slot, 'increases_enemy_casualties_on_offense'))
                 {
                     $perkValue += ( ($this->militaryCalculator->getOffensivePowerRaw($enemy, $dominion, $landRatio, [$slot => $amount]/*, 0, false, $isAmbush, false*/)) / $rawOpFromSentUnits ) / 2;
                 }

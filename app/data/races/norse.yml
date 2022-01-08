@@ -39,7 +39,7 @@ units:
     perks:
       dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
       casualties: 50 # +50% casualties
-      increases_casualties_on_defense: 1
+      increases_enemy_casualties_on_defense: 1
 
   - name: Huskarl
     training_time: 6

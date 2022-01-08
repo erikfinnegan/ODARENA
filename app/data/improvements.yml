@@ -191,8 +191,8 @@ medicine:
     - Void
     - Wood Elf
   perks:
-    defensive_casualties: -20,4000
-    offensive_casualties: -20,4000
+    casualties_on_defense: -20,4000
+    casualties_on_offense: -20,4000
 
 mobilisation:
   name: Mobilisation
@@ -490,7 +490,7 @@ coils:
     - Void
   perks:
       offensive_power: 50,10000
-      offensive_casualties: -80,12000
+      casualties_on_offense: -80,12000
 
 cones:
   name: Cones
@@ -505,7 +505,7 @@ halo:
     - Void
   perks:
     defensive_power: 25,6000
-    defensive_casualties: -50,8000
+    casualties_on_defense: -50,8000
 
 haze:
   name: Haze
@@ -666,8 +666,8 @@ medicine_kerranad:
   exclusive_races:
     - Kerranad
   perks:
-    defensive_casualties: -30,5500
-    offensive_casualties: -30,5500
+    casualties_on_defense: -30,5500
+    casualties_on_offense: -30,5500
 
 leadership_kerranad:
   name: Leadership
@@ -757,7 +757,7 @@ camouflage:
     - Wood Elf
   perks:
     defensive_power: 50,9000
-    defensive_casualties: -40,7000
+    casualties_on_defense: -40,7000
 
 cartography_wood_elf:
   name: Cartography
@@ -782,7 +782,7 @@ fencing:
     - Wood Elf
   perks:
     offensive_power: 50,8000
-    offensive_casualties: -40,7000
+    casualties_on_offense: -40,7000
 
 foraging:
   name: Foraging
@@ -860,7 +860,7 @@ compassion:
   perks:
     defensive_power: 50,15000
     casualties: -50,10000
-    increases_casualties: -50,10000
+    increases_enemy_casualties: -50,10000
 
 brutality:
   name: Brutality
@@ -869,7 +869,7 @@ brutality:
   perks:
     offensive_power: 50,15000
     casualties: 50,10000
-    increases_casualties: 50,10000
+    increases_enemy_casualties: 50,10000
 
 # END BEASTFOLK #
 
@@ -896,8 +896,8 @@ shield_plates:
   exclusive_races:
     - Swarm
   perks:
-    defensive_casualties: -40,6000
-    offensive_casualties: -40,6000
+    casualties_on_defense: -40,6000
+    casualties_on_offense: -40,6000
 
 perception:
   name: Perception
@@ -944,7 +944,7 @@ venom:
   exclusive_races:
     - Swarm
   perks:
-    increases_casualties: 60,12000
+    increases_enemy_casualties: 60,12000
     population_growth: -40,8000
 
 # END SWARM #

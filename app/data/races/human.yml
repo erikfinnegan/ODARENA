@@ -87,7 +87,7 @@ units:
       offense: 10
       defense: 0
     perks:
-      offensive_casualties: -50
-      increases_casualties_on_offense: 1
+      casualties_on_offense: -50
+      increases_enemy_casualties_on_offense: 1
       faster_return: 3
       plunders: gold;1,ore;0.5,gems;0.25

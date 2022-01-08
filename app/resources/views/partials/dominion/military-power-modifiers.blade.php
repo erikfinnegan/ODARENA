@@ -65,7 +65,20 @@
                         <td colspan="2">-{{ number_format($militaryCalculator->getRawDefenseAmbushReductionRatio($selectedDominion) * 100, 2) }}% target raw DP</td>
                     </tr>
                     @endif
+                    <tr>
+                        <td colspan="3"><hr /></td>
+                    </tr>
+                    <tr>
+                        <td>Casualties:</td>
+                        <td>{{ number_format(($casualtiesCalculator->getBasicCasualtiesPerkMultipliers($selectedDominion, 'offense')-1)*100, 2) }}%</td>
+                        <td>{{ number_format(($casualtiesCalculator->getBasicCasualtiesPerkMultipliers($selectedDominion, 'defense')-1)*100, 2) }}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><p class="text-muted"><small><em>The perks above are the basic, static values and do not take into account circumstantial perks such as perks vs. specific types of targets or perks based on specific unit compositions.</em></small></p></td>
+                    </tr>
                 </tbody>
             </table>
+
+
         </div>
 </div>

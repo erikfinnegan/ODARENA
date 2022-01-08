@@ -709,7 +709,7 @@ class InvadeActionService
         $targetDP = $this->invasionResult['defender']['dp'];
         $offensiveCasualtiesPercentage = (static::CASUALTIES_OFFENSIVE_BASE_PERCENTAGE / 100);
 
-        $offensiveCasualtiesPercentage *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'increases_casualties_on_defense');
+        $offensiveCasualtiesPercentage *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'increases_enemy_casualties_on_defense');
 
         # Dark Elf: Enchanted Blades - increase offensive casualties by offensive WPA * 0.05.
         if ($this->spellCalculator->isSpellActive($target, 'enchanted_blades'))

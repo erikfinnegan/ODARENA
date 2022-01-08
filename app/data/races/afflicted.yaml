@@ -75,5 +75,5 @@ units:
       offense: 10
       defense: -1
     perks:
-      increases_casualties_on_offense: 1
+      increases_enemy_casualties_on_offense: 1
       value_conversion: 1,1 # [Killed]*1 = number of unit1 created

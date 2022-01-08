@@ -1085,16 +1085,16 @@ class Dominion extends AbstractModel
                        or $perkKey == 'casualties'
                        or $perkKey == 'offensive_casualties'
                        or $perkKey == 'defensive_casualties'
-                       or $perkKey == 'increases_casualties'
-                       or $perkKey == 'increases_casualties_on_defense'
-                       or $perkKey == 'increases_casualties_on_offense'
+                       or $perkKey == 'increases_enemy_casualties'
+                       or $perkKey == 'increases_enemy_casualties_on_defense'
+                       or $perkKey == 'increases_enemy_casualties_on_offense'
                        or $perkKey == 'increases_enemy_draftee_casualties'
 
                        or $perkKey == 'no_conversions'
                        or $perkKey == 'convert_enemy_casualties_to_food'
                        or $perkKey == 'convert_peasants_to_champions'
 
-                       or $perkKey == 'increases_casualties_on_offense_from_wizard_ratio'
+                       or $perkKey == 'increases_enemy_casualties_on_offense_from_wizard_ratio'
                        or $perkKey == 'offensive_power_on_retaliation'
                        or $perkKey == 'immune_to_temples'
 

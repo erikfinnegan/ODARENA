@@ -39,7 +39,7 @@ units:
     perks:
       no_draftee: 1
       housing_count: 0.25
-      increases_casualties_on_offense: 1
+      increases_enemy_casualties_on_offense: 1
       cannot_be_trained: 1
       conversion: 4
 
@@ -58,7 +58,7 @@ units:
     perks:
       no_draftee: 1
       housing_count: 0.25
-      increases_casualties_on_defense: 1
+      increases_enemy_casualties_on_defense: 1
       cannot_be_trained: 1
       conversion: 3
 

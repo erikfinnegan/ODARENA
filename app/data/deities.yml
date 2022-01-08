@@ -5,7 +5,7 @@ azk_hurum:
     - Demon
   perks:
     offensive_power_on_retaliation: 5
-    increases_casualties: 10
+    increases_enemy_casualties: 10
     prestige_gains: -30
     max_population: 15
     population_growth: 20
@@ -154,7 +154,7 @@ zidur:
     - Afflicted
     - Undead
   perks:
-    increases_casualties: 10
+    increases_enemy_casualties: 10
     population_growth: -10
     cannot_explore: 1
     target_defensive_power_mod: -2.5

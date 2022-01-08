@@ -238,9 +238,9 @@ class UnitHelper
 
             'reduces_casualties' => 'Reduces casualties.',
 
-            'increases_casualties' => 'Increases enemy casualties.',
-            'increases_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',
-            'increases_casualties_on_defense' => 'Increases enemy casualties on defense (attacker suffers more casualties).',
+            'increases_enemy_casualties' => 'Increases enemy casualties.',
+            'increases_enemy_casualties_on_offense' => 'Increases enemy casualties on offense (defender suffers more casualties).',
+            'increases_enemy_casualties_on_defense' => 'Increases enemy casualties on defense (attacker suffers more casualties).',
 
             'increases_own_casualties' => 'Increases own casualties.',
             'increases_own_casualties_on_offense' => 'Increases own casualties on offense.',

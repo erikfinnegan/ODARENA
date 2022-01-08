@@ -171,8 +171,8 @@ class SpellHelper
 
             // Casualties
             'increases_enemy_draftee_casualties' => '%s%% enemy draftee casualties',
-            'increases_casualties_on_offense' => '%s%% enemy casualties when invading',
-            'increases_casualties_on_defense' => '%s%% enemy casualties when defending',
+            'increases_enemy_casualties_on_offense' => '%s%% enemy casualties when invading',
+            'increases_enemy_casualties_on_defense' => '%s%% enemy casualties when defending',
 
             'casualties' => '%s%% casualties',
             'offensive_casualties' => '%s%% casualties suffered when invading',
@@ -191,7 +191,7 @@ class SpellHelper
 
             'reduces_target_raw_defense_from_land' => 'Targets raw defensive power lowered by %1$s%% for every %2$s%% of your own %3$s, max %4$s%% reduction ',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
 
-            'increases_casualties_on_offense_from_wizard_ratio' => 'Enemy casualties increased by %s%% for every 1 wizard ratio.',
+            'increases_enemy_casualties_on_offense_from_wizard_ratio' => 'Enemy casualties increased by %s%% for every 1 wizard ratio.',
 
             'immune_to_temples' => 'Defensive modifiers are not affected by Temples and any other defensive modifier reductions.',
 

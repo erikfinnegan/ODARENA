@@ -68,7 +68,7 @@ units:
       offense: 0
       defense: 7
     perks:
-      increases_casualties_on_defense: 1
+      increases_enemy_casualties_on_defense: 1
 
   - name: Sabrer
     training_time: 6
@@ -97,7 +97,7 @@ units:
       offense: 8
       defense: 8
     perks:
-      increases_casualties_on_offense: 1
+      increases_enemy_casualties_on_offense: 1
       casualties: -65
 
   - name: Horse Archer

@@ -60,8 +60,8 @@ units:
       defense: 6
     perks:
       dies_into: 3
-      increases_casualties_on_offense: 1
-      increases_casualties_on_defense: 1
+      increases_enemy_casualties_on_offense: 1
+      increases_enemy_casualties_on_defense: 1
 
   - name: Necromancer
     training_time: 9

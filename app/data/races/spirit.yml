@@ -55,7 +55,7 @@ units:
       offense: 0
       defense: 5
     perks:
-      increases_casualties_on_defense: 1
+      increases_enemy_casualties_on_defense: 1
 
   - name: Apparition
     training_time: 12
