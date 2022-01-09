@@ -909,7 +909,7 @@ class MilitaryCalculator
         {
             return 0;
         }
-        $powerPerHour = (float)$ticksPerkData[0];
+        $powerPerHour = (float)$ticksPerkData;
         $powerFromTicks = $powerPerHour * $dominion->round->ticks;
 
         $powerFromPerk = $powerFromTicks;
