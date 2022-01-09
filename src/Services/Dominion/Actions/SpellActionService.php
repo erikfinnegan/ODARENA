@@ -1000,17 +1000,19 @@ class SpellActionService
                         $resourceKey = $spellPerkValues[0];
                         $ratio = (float)$spellPerkValues[1] / 100;
 
-                        $amountStolen = $this->getTheftAmount($caster, $target, $spell, $resource, $ratio);
+                        $amountStolen = $this->getTheftAmount($caster, $target, $spell, $resourceKey, $ratio);
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
                         $amountStolen *= $damageMultiplier;
 
                         $this->resourceService->updateResources($target, [$resourceKey => $amountStolen*-1]);
-                        $this->resourceService->updateResources($dominion, [$resourceKey => $amountStolen]);
+                        $this->resourceService->updateResources($caster, [$resourceKey => $amountStolen]);
 
-                        $this->statsService->updateStat($caster, ($resource .  '_stolen'), $damage);
-                        $this->statsService->updateStat($target, ($resource . '_lost'), $damage);
+                        $this->statsService->updateStat($caster, ($resourceKey .  '_stolen'), $damage);
+                        $this->statsService->updateStat($target, ($resourceKey . '_lost'), $damage);
 
-                        $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display($resource, 1))];
+                        $resource = Resource::where('key', $resourceKey)->first();
+
+                        $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display($resource->name, 1))];
 
                     }
                 }

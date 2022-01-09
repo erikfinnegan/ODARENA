@@ -465,7 +465,6 @@ class CasualtiesCalculator2
 
                 $multiplier += max($max, $enemyLandTypePercentage * $perPercentage);
             }
-
         }
 
         return $multiplier;
