@@ -90,7 +90,13 @@ class ResourceCalculator
 
     public function getProductionRaw(Dominion $dominion, string $resourceKey): float
     {
-        if(!in_array($resourceKey, $dominion->race->resources) or $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or $dominion->getSpellPerkValue('no_' . $resourceKey . '_production') or $dominion->isAbandoned())
+        if(
+              !in_array($resourceKey, $dominion->race->resources) or
+              $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or
+              $dominion->getSpellPerkValue('no_' . $resourceKey . '_production') or
+              $dominion->getSpellPerkValue('stasis') or
+              $dominion->isAbandoned()
+          )
         {
             return 0;
         }
@@ -213,7 +219,7 @@ class ResourceCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getTechPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getDeityPerkMultiplier($resourceKey . '_production_mod');
-        
+
         if(isset($dominion->title))
         {
             $multiplier += $dominion->title->getPerkMultiplier($resourceKey . '_production_mod') * $dominion->title->getPerkBonus($dominion);
