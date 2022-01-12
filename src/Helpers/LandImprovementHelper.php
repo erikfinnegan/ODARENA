@@ -31,7 +31,7 @@ class LandImprovementHelper
             'gems_production_mod' => ['%s%% gems production', ' for every 1%% of this land type.'],
             'horse_production_mod' => ['%s%% horse taming', ' for every 1%% of this land type.'],
             'mud_production_mod' => ['%s%% mud production', ' for every 1%% of this land type.'],
-            'swamp_production_mod' => ['%s%% swamp gas production', ' for every 1%% of this land type.'],
+            'swamp_gas_production_mod' => ['%s%% swamp gas production', ' for every 1%% of this land type.'],
 
             'xp_generation_mod' => ['%s%% XP generation', ' for every 1%% of this land type.'],
 

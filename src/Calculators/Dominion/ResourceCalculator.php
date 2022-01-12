@@ -91,11 +91,12 @@ class ResourceCalculator
     public function getProductionRaw(Dominion $dominion, string $resourceKey): float
     {
         if(
-            !in_array($resourceKey, $dominion->race->resources) or
-            $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or
-            $dominion->getSpellPerkValue('no_' . $resourceKey . '_production') or
-            $dominion->getSpellPerkValue('stasis') or 
-            $dominion->isAbandoned())
+              !in_array($resourceKey, $dominion->race->resources) or
+              $dominion->race->getPerkValue('no_' . $resourceKey . '_production') or
+              $dominion->getSpellPerkValue('no_' . $resourceKey . '_production') or
+              $dominion->getSpellPerkValue('stasis') or
+              $dominion->isAbandoned()
+          )
         {
             return 0;
         }

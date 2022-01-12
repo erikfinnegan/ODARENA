@@ -248,14 +248,52 @@ class TickService
                 }
 
                 $this->queueService->setForTick(false);
-                $units[1] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit1", $tick);
-                $units[2] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit2", $tick);
-                $units[3] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit3", $tick);
-                $units[4] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit4", $tick);
+                $units['unit1'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit1", $tick);
+                $units['unit1'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit2", $tick);
+                $units['unit1'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit3", $tick);
+                $units['unit1'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_unit4", $tick);
+                $units['spies'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_spies", $tick);
+                $units['wizards'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_wizards", $tick);
+                $units['archmages'] = $this->queueService->getInvasionQueueAmount($stasisDominion, "military_archmages", $tick);
 
                 foreach($units as $slot => $amount)
                 {
-                      $unitType = 'military_unit'.$slot;
+                      $unitType = 'military_'.$slot;
+                      # Dequeue the units from hour 1
+                      $this->queueService->dequeueResourceForHour('invasion', $stasisDominion, $unitType, $amount, $tick);
+                      #echo "\nUnits dequeued";
+
+                      # (Re-)Queue the units to hour 2
+                      $this->queueService->queueResources('invasion', $stasisDominion, [$unitType => $amount], ($tick+1));
+                      #echo "\nUnits requeued";
+                }
+
+                $units['unit1'] = $this->queueService->getExpeditionQueueAmount($stasisDominion, "military_unit1", $tick);
+                $units['unit2'] = $this->queueService->getExpeditionQueueAmount($stasisDominion, "military_unit2", $tick);
+                $units['unit3'] = $this->queueService->getExpeditionQueueAmount($stasisDominion, "military_unit3", $tick);
+                $units['unit4'] = $this->queueService->getExpeditionQueueAmount($stasisDominion, "military_unit4", $tick);
+
+                foreach($units as $slot => $amount)
+                {
+                      $unitType = 'military_'.$slot;
+                      # Dequeue the units from hour 1
+                      $this->queueService->dequeueResourceForHour('invasion', $stasisDominion, $unitType, $amount, $tick);
+                      #echo "\nUnits dequeued";
+
+                      # (Re-)Queue the units to hour 2
+                      $this->queueService->queueResources('invasion', $stasisDominion, [$unitType => $amount], ($tick+1));
+                      #echo "\nUnits requeued";
+                }
+
+                $units['unit1'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_unit1", $tick);
+                $units['unit2'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_unit2", $tick);
+                $units['unit3'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_unit3", $tick);
+                $units['unit4'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_unit4", $tick);
+                $units['spies'] = $this->queueService->getTheftQueueAmount($stasisDominion, "military_spies", $tick);
+
+                foreach($units as $slot => $amount)
+                {
+                      $unitType = 'military_'.$slot;
                       # Dequeue the units from hour 1
                       $this->queueService->dequeueResourceForHour('invasion', $stasisDominion, $unitType, $amount, $tick);
                       #echo "\nUnits dequeued";
