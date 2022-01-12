@@ -400,34 +400,6 @@
                                     </tr>
                                     @endif
 
-                                    @if (isset($event->data['defender']['isMindControl']) and array_sum($event->data['defender']['mindControlledUnits']) > 0)
-                                    <tr>
-                                        <th colspan="2">Mind Control</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><small class="text-muted">Cultist Mystics take control of the minds of some of ours soldiers and turn them against us.</small></td>
-                                    </tr>
-                                    @foreach($event->data['defender']['mindControlledUnits'] as $slot => $amount)
-                                        <tr>
-                                            <td>{{ $event->source->race->units->where('slot', $slot)->first()->name }}:</td>
-                                            <td><span class="text-red">{{ number_format($amount) }}</span> <small class="text-muted">(of which {{ number_format($amount*0.10) }} died in combat)</small></td>
-                                        </tr>
-                                    @endforeach
-                                    @endif
-
-                                    @if (isset($event->data['defender']['isMenticide']))
-                                    <tr>
-                                        <th colspan="2">Menticide</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><small class="text-muted">The Mystics destroy the minds of the mind controlled units, capturing them.</small></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total units lost:</td>
-                                        <td><span class="text-red">{{ number_format($event->data['defender']['menticide']['newThralls']) }}</span></td>
-                                    </tr>
-                                    @endif
-
                                     @if (isset($event->data['defender']['unitsStunned']) and array_sum($event->data['defender']['unitsStunned']) > 0)
                                     <tr>
                                         <th colspan="2">Stunned</th>
@@ -852,34 +824,6 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2"><span class="text-red">{{ number_format($event->data['attacker']['improvements_damage']['improvement_points']) }} improvement points destroyed</span></td>
-                                    </tr>
-                                    @endif
-
-                                    @if (isset($event->data['defender']['isMindControl']) and array_sum($event->data['defender']['mindControlledUnits']) > 0)
-                                    <tr>
-                                        <th colspan="2">Mind Control</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><small class="text-muted">Our Mystics take control of the minds of some enemy soldiers and make them join us in battle.</small></td>
-                                    </tr>
-                                    @foreach($event->data['defender']['mindControlledUnits'] as $slot => $amount)
-                                        <tr>
-                                            <td>{{ $event->source->race->units->where('slot', $slot)->first()->name }}:</td>
-                                            <td><span class="text-green">{{ number_format($amount) }}</span> <small class="text-muted">(of which {{ number_format($amount*0.10) }} died in combat)</small></td>
-                                        </tr>
-                                    @endforeach
-                                    @endif
-
-                                    @if (isset($event->data['defender']['isMenticide']))
-                                    <tr>
-                                        <th colspan="2">Menticide</th>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><small class="text-muted">With the power of menticide, we permanently convert as many of the surviving mind controlled units as we can fit. The rest are executed.</small></td>
-                                    </tr>
-                                    <tr>
-                                        <td>New Thralls:</td>
-                                        <td><span class="text-green">{{ number_format($event->data['defender']['menticide']['newThralls']) }}</span></td>
                                     </tr>
                                     @endif
 

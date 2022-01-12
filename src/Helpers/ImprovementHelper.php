@@ -57,8 +57,8 @@ class ImprovementHelper
             'defensive_power' => 'defensive power',
 
             'casualties' => 'own casualties',
-            'offensive_casualties' => 'own offensive casualties',
-            'defensive_casualties' => 'own defensive casualties',
+            'casualties_on_offense' => 'own offensive casualties',
+            'casualties_on_defense' => 'own defensive casualties',
             'increases_enemy_casualties' => 'enemy casualties',
 
             'target_defensive_power_mod' => 'defensive modifiers for target',

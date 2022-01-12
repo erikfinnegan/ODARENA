@@ -70,11 +70,10 @@ class MilitaryCalculator
         float $landRatio = null,
         array $units = null,
         array $calc = [],
-        array $mindControlledUnits = [],
         bool $isInvasion = false
     ): float
     {
-        $op = ($this->getOffensivePowerRaw($attacker, $defender, $landRatio, $units, $calc, $mindControlledUnits) * $this->getOffensivePowerMultiplier($attacker, $defender));
+        $op = ($this->getOffensivePowerRaw($attacker, $defender, $landRatio, $units, $calc) * $this->getOffensivePowerMultiplier($attacker, $defender));
 
         $op *= $this->getMoraleMultiplier($attacker);
 
@@ -102,8 +101,7 @@ class MilitaryCalculator
         Dominion $defender = null,
         float $landRatio = null,
         array $units = null,
-        array $calc = [],
-        array $mindControlledUnits = []
+        array $calc = []
     ): float
     {
         $op = 0;
@@ -120,10 +118,6 @@ class MilitaryCalculator
             elseif (isset($units[$unit->slot]) && ((int)$units[$unit->slot] !== 0))
             {
                 $numberOfUnits = (int)$units[$unit->slot];
-                if(isset($mindControlledUnits[$unit->slot]) and $mindControlledUnits[$unit->slot] > 0)
-                {
-                    $numberOfUnits -= min($numberOfUnits, $mindControlledUnits[$unit->slot]); # min() just for sanity's sake.
-                }
             }
 
             if ($numberOfUnits !== 0)
@@ -144,9 +138,6 @@ class MilitaryCalculator
 
                 $powerOffense += $bonusOffense / $numberOfUnits;
             }
-
-
-
 
             $op += ($powerOffense * $numberOfUnits);
         }
@@ -245,11 +236,10 @@ class MilitaryCalculator
         bool $isAmbush = false,                 # 7
         bool $ignoreRawDpFromBuildings = false, # 8
         array $invadingUnits = null,            # 9
-        array $mindControlledUnits = null,      # 10
-        bool $ignoreRawDpFromAnnexedDominions = false # 11
+        bool $ignoreRawDpFromAnnexedDominions = false # 10
     ): float
     {
-        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings, $invadingUnits, $mindControlledUnits, $ignoreRawDpFromAnnexedDominions);
+        $dp = $this->getDefensivePowerRaw($defender, $attacker, $landRatio, $units, $multiplierReduction, $ignoreDraftees, $isAmbush, $ignoreRawDpFromBuildings, $invadingUnits, $ignoreRawDpFromAnnexedDominions);
         $dp *= $this->getDefensivePowerMultiplier($defender, $attacker, $multiplierReduction);
 
         return ($dp * $this->getMoraleMultiplier($defender));
@@ -276,8 +266,7 @@ class MilitaryCalculator
         bool $isAmbush = false,                         # 7
         bool $ignoreRawDpFromBuildings = false,         # 8
         array $invadingUnits = null,                    # 9
-        array $mindControlledUnits = null,              # 10
-        bool $ignoreRawDpFromAnnexedDominions = false   # 11
+        bool $ignoreRawDpFromAnnexedDominions = false   # 10
     ): float
     {
         $dp = 0;
@@ -371,12 +360,6 @@ class MilitaryCalculator
         if($isAmbush)
         {
             $dp = $dp * (1 - $this->getRawDefenseAmbushReductionRatio($attacker));
-        }
-
-        // Cult: Mind Controlled units provide 2 DP each
-        if(isset($mindControlledUnits) and array_sum($mindControlledUnits) > 0)
-        {
-            $dp += array_sum($mindControlledUnits) * 2;
         }
 
         // Attacking Forces skip land-based defenses

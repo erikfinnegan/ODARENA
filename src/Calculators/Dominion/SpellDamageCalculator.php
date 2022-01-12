@@ -46,7 +46,7 @@ class SpellDamageCalculator
         return max(0, $multiplier);
     }
 
-    public function getDominionHarmfulSpellDamageModifier(Dominion $target, ?Dominion $caster, ?Spell $spell, ?string $attribute): float
+    public function getDominionHarmfulSpellDamageModifier(Dominion $target, Dominion $caster = null, Spell $spell = null, string $attribute = null): float
     {
           $modifier = 1;
 
@@ -115,7 +115,6 @@ class SpellDamageCalculator
                       $modifier = -1;
                   }
               }
-
           }
 
           return max(0, $modifier);

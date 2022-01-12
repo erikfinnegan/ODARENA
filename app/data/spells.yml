@@ -1073,6 +1073,7 @@ primordial_wrath:
 
 mind_control:
   name: Mind Control
+  enabled: 0
   scope: self
   class: passive
   cost: 10
@@ -1085,6 +1086,7 @@ mind_control:
 
 menticide:
   name: Menticide
+  enabled: 0
   scope: self
   class: passive
   cost: 10

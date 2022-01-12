@@ -1116,7 +1116,6 @@ class Dominion extends AbstractModel
                        or $perkKey == 'stasis'
 
                        # Cult
-                       or $perkKey == 'mind_control'
                        or $perkKey == 'enthralling'
                        or $perkKey == 'cogency'
                        or $perkKey == 'persuasion'

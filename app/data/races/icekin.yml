@@ -40,7 +40,7 @@ units:
       defense: 0
     perks:
       offense_from_title: commander,1 # title, op
-      fewer_casualties_from_title: conjurer,50 # title, reduction
+      casualties_from_title: conjurer,-50 # title, reduction
       no_draftee: 1
       food_consumption_raw: 0.10
 
@@ -60,7 +60,7 @@ units:
       counts_as_wizard_offense: 1
       immortal_wizard: 1
       production_from_title: conjurer,mana,0.5 # title, resource, amount
-      fewer_casualties_from_title: conjurer,75 # title, reduction
+      casualties_from_title: conjurer,-75 # title, reduction
       defense_from_title: commander,1 # title, dp
       no_draftee: 1
 
@@ -81,7 +81,7 @@ units:
       counts_as_wizard_defense: 0.5
       immortal_wizard: 1
       wizard_from_title: conjurer,0.25 # wizard power, title
-      fewer_casualties_from_title: conjurer,75 # title, reduction
+      casualties_from_title: conjurer,-75 # title, reduction
       defense_from_title: commander,1 # title, dp
       no_draftee: 1
 

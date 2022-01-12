@@ -20,7 +20,7 @@ use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\ConversionCalculator;
-use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
+use OpenDominion\Calculators\Dominion\CasualtiesCalculator2;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -42,21 +42,6 @@ class InvadeActionService
 {
 
     /**
-     * @var float Base percentage of defensive casualties
-     */
-    protected const CASUALTIES_DEFENSIVE_BASE_PERCENTAGE = 5.0;
-
-    /**
-     * @var float Max percentage of defensive casualties
-     */
-    protected const CASUALTIES_DEFENSIVE_MAX_PERCENTAGE = 8.0;
-
-    /**
-     * @var float Base percentage of offensive casualties
-     */
-    protected const CASUALTIES_OFFENSIVE_BASE_PERCENTAGE = 10.0;
-
-    /**
      * @var int The minimum morale required to initiate an invasion
      */
     protected const MIN_MORALE = 50;
@@ -67,17 +52,12 @@ class InvadeActionService
     protected const OVERWHELMED_PERCENTAGE = 15.0;
 
     /**
-     * @var float Percentage of mind controlled units that perish
-     */
-    protected const MINDCONTROLLED_UNITS_CASUALTIES = 10;
-
-    /**
      * @var float Percentage of units to be stunned
      */
     protected const STUN_RATIO = 1;
 
     /**
-     * @var float Percentage of units to be stunned
+     * @var float Lowest possible DPA.
      */
     protected const MINIMUM_DPA = 10;
 
@@ -102,7 +82,7 @@ class InvadeActionService
     public function __construct()
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
-        $this->casualtiesCalculator = app(CasualtiesCalculator::class);
+        $this->casualtiesCalculator = app(CasualtiesCalculator2::class);
         $this->conversionCalculator = app(ConversionCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
@@ -135,16 +115,11 @@ class InvadeActionService
      */
     public function invade(Dominion $dominion, Dominion $target, array $units): array
     {
-        #$this->guardLockedDominion($dominion);
-        #$this->guardLockedDominion($target);
 
         $now = time();
 
         DB::transaction(function () use ($dominion, $target, $units, $now) {
             // Checks
-            #if ($dominion->round->hasOffensiveActionsDisabled()) {
-            #    throw new GameException('Invasions have been disabled for the remainder of the round.');
-            #}
 
             if ($this->protectionService->isUnderProtection($dominion))
             {
@@ -166,9 +141,9 @@ class InvadeActionService
                 throw new GameException('Nice try, but you cannot invade cross-round.');
             }
 
-            if ($dominion->realm->id === $target->realm->id and $dominion->round->mode == 'standard')
+            if ($dominion->realm->id === $target->realm->id and $dominion->round->mode !== 'deathmatch')
             {
-                throw new GameException('You cannot invade other dominions in the same realm as you in standard rounds.');
+                throw new GameException('You can only invade other dominions in the same realm in deathmatch rounds.');
             }
 
             if ($dominion->id == $target->id)
@@ -194,7 +169,9 @@ class InvadeActionService
 
             // Sanitize input
             $units = array_map('intval', array_filter($units));
-            $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
+            $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target);
+            $this->invasionResult['land_ratio'] = $landRatio;
+            $landRatio /= 100;
 
             # Populate units defending
             for ($slot = 1; $slot <= 4; $slot++)
@@ -312,11 +289,20 @@ class InvadeActionService
 
             // Handle pre-invasion
             $this->handleBeforeInvasionPerks($dominion);
-            $this->handleMindControl($target, $dominion, $units);
 
             // Handle invasion results
             $this->checkInvasionSuccess($dominion, $target, $units);
             $this->checkOverwhelmed();
+
+            $attackerCasualties = $this->casualtiesCalculator->getInvasionCasualties($dominion, $this->invasionResult['attacker']['unitsSent'], $target, $this->invasionResult, 'offense');
+            $defenderCasualties = $this->casualtiesCalculator->getInvasionCasualties($target, $this->invasionResult['defender']['unitsDefending'], $dominion, $this->invasionResult, 'defense');
+
+            $this->invasionResult['attacker']['unitsLost'] = $attackerCasualties;
+            $this->invasionResult['defender']['unitsLost'] = $defenderCasualties;
+
+            $this->handleCasualties($dominion, $target, $this->invasionResult['attacker']['unitsLost'], 'offense');
+            $this->handleCasualties($target, $dominion, $this->invasionResult['defender']['unitsLost'], 'defense');
+            $this->handleDefensiveDiesIntoPerks($target);
 
             $this->handleAnnexedDominions($dominion, $target, $units);
 
@@ -358,20 +344,12 @@ class InvadeActionService
             $this->handlePrestigeChanges($dominion, $target, $units, $landRatio, $countsAsVictory, $countsAsBottomfeed, $countsAsFailure, $countsAsRaze);
             $this->handleDuringInvasionUnitPerks($dominion, $target, $units);
 
-            #$survivingUnits = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio,  $this->invasionResult['defender']['mindControlledUnits']);
-            $this->invasionResult['attacker']['survivingUnits'] = $this->handleOffensiveCasualties($dominion, $target, $units, $landRatio,  $this->invasionResult['defender']['mindControlledUnits']);
-
-            $totalDefensiveCasualties = $this->handleDefensiveCasualties($dominion, $target, $units, $landRatio);
-
             $this->handleMoraleChanges($dominion, $target, $landRatio, $units);
             $this->handleLandGrabs($dominion, $target, $landRatio, $units);
             $this->handleResearchPoints($dominion, $target, $units);
 
             # Qur
             $this->handleZealots($dominion, $target, $this->invasionResult['attacker']['survivingUnits']);
-
-            # Cult
-            $this->handleMenticide($target, $dominion);
 
             # Dwarf
             $this->handleStun($dominion, $target, $units, $landRatio);
@@ -400,7 +378,7 @@ class InvadeActionService
                 $this->statsService->updateStat($target, 'units_converted', array_sum($conversions['defender']));
             }
 
-            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $this->invasionResult['defender']['mindControlledUnits'], $defensiveConversions);
+            $this->handleReturningUnits($dominion, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $defensiveConversions);
             $this->handleDefensiveConversions($target, $defensiveConversions);
 
             # Afflicted
@@ -561,8 +539,6 @@ class InvadeActionService
             $alertType = 'danger';
         }
 
-
-
         return [
             'message' => $message,
             'alert-type' => $alertType,
@@ -688,7 +664,7 @@ class InvadeActionService
     }
 
     /**
-     * Handles offensive casualties for the attacking dominion.
+     * Handles casualties for a dominion
      *
      * Offensive casualties are 8.5% of the units needed to break the target,
      * regardless of how many you send.
@@ -701,255 +677,52 @@ class InvadeActionService
      * @param array $units
      * @return array All the units that survived and will return home
      */
-    protected function handleOffensiveCasualties(Dominion $dominion, Dominion $target, array $units, float $landRatio, array $mindControlledUnits): array
+    protected function handleCasualties(Dominion $dominion, Dominion $enemy, array $casualties = [], string $mode = 'offense'): void
     {
-        $isInvasionSuccessful = $this->invasionResult['result']['success'];
-        $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
-        $attackingForceOP = $this->invasionResult['attacker']['op'];
-        $targetDP = $this->invasionResult['defender']['dp'];
-        $offensiveCasualtiesPercentage = (static::CASUALTIES_OFFENSIVE_BASE_PERCENTAGE / 100);
 
-        $offensiveCasualtiesPercentage *= 1 + $this->spellCalculator->getPassiveSpellPerkMultiplier($target, 'increases_enemy_casualties_on_defense');
-
-        # Dark Elf: Enchanted Blades - increase offensive casualties by offensive WPA * 0.05.
-        if ($this->spellCalculator->isSpellActive($target, 'enchanted_blades'))
+        if($mode == 'offense')
         {
-            $offensiveCasualtiesPercentage *= (1 + $this->militaryCalculator->getWizardRatio($dominion, 'offense') * 0.05);
-        }
-
-        $offensiveUnitsLost = [];
-
-        if(array_sum($mindControlledUnits) > 0)
-        {
-            foreach($mindControlledUnits as $slot => $amount)
+            foreach ($this->invasionResult['attacker']['unitsLost'] as $slot => $amount)
             {
-                $units[$slot] -= $amount;
-            }
-        }
+                $dominion->{"military_unit{$slot}"} -= $amount;
+                $this->invasionResult['attacker']['survivingUnits'][$slot] = $this->invasionResult['attacker']['unitsSent'][$slot] - $this->invasionResult['attacker']['unitsLost'][$slot];
 
-        if ($isInvasionSuccessful)
-        {
-            $totalUnitsSent = array_sum($units);
-
-            $averageOPPerUnitSent = ($attackingForceOP / $totalUnitsSent);
-            $OPNeededToBreakTarget = ($targetDP + 1);
-            $unitsNeededToBreakTarget = round($OPNeededToBreakTarget / $averageOPPerUnitSent);
-
-            $totalUnitsLeftToKill = ceil($unitsNeededToBreakTarget * $offensiveCasualtiesPercentage);
-
-            foreach ($units as $slot => $amount)
-            {
-                $slotTotalAmountPercentage = ($amount / $totalUnitsSent);
-
-                if ($slotTotalAmountPercentage === 0)
+                if(in_array($slot,[1,2,3,4]))
                 {
-                    continue;
-                }
-
-                $unitsToKill = ceil($unitsNeededToBreakTarget * $offensiveCasualtiesPercentage * $slotTotalAmountPercentage);
-                $offensiveUnitsLost[$slot] = $unitsToKill;
-
-                if ($totalUnitsLeftToKill < $unitsToKill)
-                {
-                    $unitsToKill = $totalUnitsLeftToKill;
-                }
-
-                $totalUnitsLeftToKill -= $unitsToKill;
-
-                if ($fixedCasualtiesPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
-                {
-                    $offensiveUnitsLost[$slot] = ceil($amount * $fixedCasualtiesPerk / 100);
-                }
-
-
-            }
-        }
-        else
-        {
-            if ($isOverwhelmed)
-            {
-                $offensiveCasualtiesPercentage *= 2;
-            }
-
-            foreach ($units as $slot => $amount) {
-
-                if ($fixedCasualtiesPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
-                {
-                    $offensiveUnitsLost[$slot] = ceil($amount * $fixedCasualtiesPerk / 100);
+                    $this->statsService->updateStat($dominion, ('unit' . $slot . '_lost'), $amount);
                 }
                 else
                 {
-                    $offensiveUnitsLost[$slot] = ceil($amount * $offensiveCasualtiesPercentage);
+                    $this->statsService->updateStat($dominion, ($slot . '_lost'), $amount);
                 }
-
-
             }
         }
 
-        foreach ($offensiveUnitsLost as $slot => &$amount)
+        if($mode == 'defense')
         {
-            // Reduce amount of units to kill by further multipliers
-            $unitsToKillMultiplier = 1;
-            if (!$dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
+            foreach ($this->invasionResult['defender']['unitsLost'] as $slot => $amount)
             {
-                $unitsToKillMultiplier = $this->casualtiesCalculator->getOffensiveCasualtiesMultiplierForUnitSlot($dominion, $target, $slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful);
-            }
-
-            $this->invasionResult['attacker']['unitPerks']['offensiveCasualties'][$slot] = $unitsToKillMultiplier;
-
-            if ($unitsToKillMultiplier !== 0)
-            {
-                $amount = (int)floor($amount * $unitsToKillMultiplier);
-            }
-            else
-            {
-                $amount = 0;
-            }
-
-            if ($amount > 0)
-            {
-                // Actually kill the units. RIP in peace, glorious warriors ;_;7
                 $dominion->{"military_unit{$slot}"} -= $amount;
-                $this->invasionResult['attacker']['unitsLost'][$slot] = $amount;
+                $this->invasionResult['attacker']['survivingUnits'][$slot] = $this->invasionResult['defender']['unitsDefending'][$slot] - $this->invasionResult['defender']['unitsLost'][$slot];
 
-                $this->statsService->updateStat($dominion, ('unit' . $slot . '_lost'), $amount);
-                $this->statsService->updateStat($target, 'units_killed', $amount);
-
-            }
-        }
-        unset($amount); // Unset var by reference from foreach loop above to prevent unintended side-effects
-
-        $survivingUnits = $units;
-
-        foreach ($units as $slot => $amount) {
-            if (isset($offensiveUnitsLost[$slot])) {
-                $survivingUnits[$slot] -= $offensiveUnitsLost[$slot];
+                if(in_array($slot,[1,2,3,4]))
+                {
+                    $this->statsService->updateStat($dominion, ('unit' . $slot . '_lost'), $amount);
+                }
+                else
+                {
+                    $this->statsService->updateStat($dominion, ($slot . '_lost'), $amount);
+                }
             }
         }
 
-        #$survivingUnits['attackerUnitsDiedInBattleSlot1'] = $attackerUnitsDiedInBattleSlot1;
-
-        return $survivingUnits;
+        $this->statsService->updateStat($enemy, 'units_killed', array_sum($casualties));
     }
 
-    /**
-     * Handles defensive casualties for the defending dominion.
-     *
-     * Defensive casualties are base 4.5% across all units that help defending.
-     *
-     * This scales with relative land size, and invading OP compared to
-     * defending OP, up to max 6%.
-     *
-     * Unsuccessful invasions results in reduced defensive casualties, based on
-     * the invading force's OP.
-     *
-     * Defensive casualties are spread out in ratio between all units that help
-     * defend, including draftees. Being recently invaded reduces defensive
-     * casualties: 100%, 80%, 60%, 50%, 33%, 0.25%.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target
-     * @return int
-     */
-    protected function handleDefensiveCasualties(Dominion $dominion, Dominion $target, array $units, float $landRatio): int
+    # !!! Offensive dies into handled in handleReturningUnits()!!!
+    public function handleDefensiveDiesIntoPerks(Dominion $dominion)
     {
-        if ($this->invasionResult['result']['overwhelmed'])
-        {
-            return 0;
-        }
-
-        $isInvasionSuccessful = $this->invasionResult['result']['success'];
-        $isOverwhelmed = $this->invasionResult['result']['overwhelmed'];
-
-        $attackingForceOP = $this->invasionResult['attacker']['op'];
-        $targetDP = $this->invasionResult['defender']['dp'];
-        $defensiveCasualtiesPercentage = (static::CASUALTIES_DEFENSIVE_BASE_PERCENTAGE / 100) * min(1, $landRatio);
-
-        // Reduce casualties if target has been hit recently
-        $recentlyInvadedCount = $this->invasionResult['defender']['recentlyInvadedCount'];
-
-        $defensiveCasualtiesPercentage *= max(0.1, (1 - ($this->invasionResult['defender']['recentlyInvadedCount']/10)));
-
-        // Scale casualties further with invading OP vs target DP
-        $defensiveCasualtiesPercentage *= ($attackingForceOP / $targetDP);
-
-        // Cap max casualties
-        $defensiveCasualtiesPercentage = min(
-            $defensiveCasualtiesPercentage,
-            (static::CASUALTIES_DEFENSIVE_MAX_PERCENTAGE / 100)
-        );
-
-        $defensiveUnitsLost = [];
-
-        $drafteesLost = (int)floor($target->military_draftees * $defensiveCasualtiesPercentage * $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, 'draftees', $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful));
-
-        // Spell
-        $drafteesLost = (int)min($target->military_draftees, $drafteesLost * (1 + $dominion->getSpellPerkMultiplier('increases_enemy_draftee_casualties')));
-
-        if ($drafteesLost > 0)
-        {
-            $target->military_draftees -= $drafteesLost;
-            $this->unitsLost += $drafteesLost;
-            $this->invasionResult['defender']['unitsLost']['draftees'] = $drafteesLost;
-        }
-
-        if($target->getSpellPerkValue('defensive_power_from_peasants'))
-        {
-            $peasantsLost = (int)floor($target->military_peasants * $defensiveCasualtiesPercentage * $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, 'peasants', $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful));
-
-            // Spell
-            $peasantsLost = min($target->military_draftees, $peasantsLost * (1 + $dominion->getSpellPerkMultiplier('increases_enemy_draftee_casualties')));
-
-            if($peasantsLost > 0)
-            {
-                $target->peasants -= $peasantsLost;
-                $this->unitsLost += $drafteesLost;
-                $this->invasionResult['defender']['unitsLost']['peasants'] = $peasantsLost;
-            }
-
-        }
-
-        // Non-draftees
-        foreach ($target->race->units as $unit)
-        {
-
-            if ($this->militaryCalculator->getUnitPowerWithPerks($target, $dominion, $landRatio, $unit, 'defense', null, $units, $this->invasionResult['attacker']['unitsSent']) === 0.0 and !$target->race->getUnitPerkValueForUnitSlot($unit->slot, "defense_from_pairing"))
-            {
-                continue;
-            }
-
-            $slotLostMultiplier = 1;
-            if (!$unit->getPerkValue('fixed_casualties'))
-            {
-                $slotLostMultiplier = $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful);
-                $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage * $slotLostMultiplier);
-            }
-            else
-            {
-                if($isInvasionSuccessful)
-                {
-                    $slotLost = $target->{"military_unit{$unit->slot}"};
-                }
-                else
-                {
-                    $slotLost = (int)floor($target->{"military_unit{$unit->slot}"} * $defensiveCasualtiesPercentage);
-                }
-            }
-
-            #$slotLostMultiplier = $this->casualtiesCalculator->getDefensiveCasualtiesMultiplierForUnitSlot($target, $dominion, $unit->slot, $units, $landRatio, $isOverwhelmed, $attackingForceOP, $targetDP, $isInvasionSuccessful);
-
-            $this->invasionResult['defender']['unitPerks']['defensiveCasualties'][$unit->slot] = $slotLostMultiplier;
-
-            if ($slotLost > 0)
-            {
-                $defensiveUnitsLost[$unit->slot] = $slotLost;
-                $this->statsService->updateStat($target, ('unit' . $unit->slot . '_lost'), $slotLost);
-                $this->statsService->updateStat($dominion, 'units_killed', $slotLost);
-                $this->unitsLost += $slotLost; // todo: refactor
-            }
-        }
-
-        # Look for dies_into amongst the dead defenders.
+        # Look for dies_into amongst the dead.
         $diesIntoNewUnits = array_fill(1,4,0);
         $diesIntoNewUnitsInstantly = array_fill(1,4,0);
 
@@ -960,75 +733,81 @@ class InvadeActionService
         $diesIntoNewUnitsInstantly['wizards'] = 0;
         $diesIntoNewUnitsInstantly['archmages'] = 0;
 
-        foreach($defensiveUnitsLost as $slot => $casualties)
+        $unitsLost = $this->invasionResult['attacker']['unitsLost'];
+
+        foreach($this->invasionResult['defender']['unitsLost'] as $slot => $casualties)
         {
-            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+            if(in_array($slot, [1,2,3,4]))
             {
-                $slot = (int)$diesIntoPerk[0];
+                if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into'))
+                {
+                    $slot = (int)$diesIntoPerk[0];
 
-                $diesIntoNewUnits[$slot] += intval($casualties);
+                    $diesIntoNewUnits[$slot] += intval($casualties);
+                }
+
+                if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_spy'))
+                {
+                    $diesIntoNewUnits['spies'] += intval($casualties);
+                }
+
+                if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_wizard'))
+                {
+                    $diesIntoNewUnits['wizards'] += intval($casualties);
+                }
+
+                if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_archmage'))
+                {
+                    $diesIntoNewUnits['archmages'] += intval($casualties);
+                }
+
+                if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_defense'))
+                {
+                    $slot = (int)$diesIntoPerk[0];
+
+                    $diesIntoNewUnits[$slot] += intval($casualties);
+                }
+
+                if($diesIntoPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_defense_instantly'))
+                {
+                    $slot = (int)$diesIntoPerk[0];
+
+                    $diesIntoNewUnitsInstantly[$slot] += intval($casualties);
+                }
+
+                if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
+                {
+                    $slot = (int)$diesIntoMultiplePerk[0];
+                    $amount = (float)$diesIntoMultiplePerk[1];
+
+                    $diesIntoNewUnits[$slot] += intval($casualties * $amount);
+                }
+
+                if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_defense'))
+                {
+                    $slot = (int)$diesIntoMultiplePerk[0];
+                    $amount = (float)$diesIntoMultiplePerk[1];
+
+                    $diesIntoNewUnits[$slot] += intval($casualties * $amount);
+                }
+
+                if($diesIntoMultiplePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_defense_instantly'))
+                {
+                    $slot = (int)$diesIntoMultiplePerk[0];
+                    $amount = (float)$diesIntoMultiplePerk[1];
+
+                    $diesIntoNewUnitsInstantly[$slot] += intval($casualties * $amount);
+                }
+
+                if(!$this->invasionResult['result']['success'] and $diesIntoMultiplePerkOnVictory = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_victory'))
+                {
+                    $slot = (int)$diesIntoMultiplePerkOnVictory[0];
+                    $amount = (float)$diesIntoMultiplePerkOnVictory[1];
+
+                    $diesIntoNewUnits[$slot] += intval($casualties * $amount);
+                }
             }
 
-            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_spy'))
-            {
-                $diesIntoNewUnits['spies'] += intval($casualties);
-            }
-
-            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_wizard'))
-            {
-                $diesIntoNewUnits['wizards'] += intval($casualties);
-            }
-
-            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_archmage'))
-            {
-                $diesIntoNewUnits['archmages'] += intval($casualties);
-            }
-
-            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_defense'))
-            {
-                $slot = (int)$diesIntoPerk[0];
-
-                $diesIntoNewUnits[$slot] += intval($casualties);
-            }
-
-            if($diesIntoPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_on_defense_instantly'))
-            {
-                $slot = (int)$diesIntoPerk[0];
-
-                $diesIntoNewUnitsInstantly[$slot] += intval($casualties);
-            }
-
-            if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple'))
-            {
-                $slot = (int)$diesIntoMultiplePerk[0];
-                $amount = (float)$diesIntoMultiplePerk[1];
-
-                $diesIntoNewUnits[$slot] += intval($casualties * $amount);
-            }
-
-            if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_defense'))
-            {
-                $slot = (int)$diesIntoMultiplePerk[0];
-                $amount = (float)$diesIntoMultiplePerk[1];
-
-                $diesIntoNewUnits[$slot] += intval($casualties * $amount);
-            }
-
-            if($diesIntoMultiplePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_defense_instantly'))
-            {
-                $slot = (int)$diesIntoMultiplePerk[0];
-                $amount = (float)$diesIntoMultiplePerk[1];
-
-                $diesIntoNewUnitsInstantly[$slot] += intval($casualties * $amount);
-            }
-
-            if(!$this->invasionResult['result']['success'] and $diesIntoMultiplePerkOnVictory = $target->race->getUnitPerkValueForUnitSlot($slot, 'dies_into_multiple_on_victory'))
-            {
-                $slot = (int)$diesIntoMultiplePerkOnVictory[0];
-                $amount = (float)$diesIntoMultiplePerkOnVictory[1];
-
-                $diesIntoNewUnits[$slot] += intval($casualties * $amount);
-            }
         }
 
         # Dies into units take 1 tick to appear
@@ -1045,7 +824,7 @@ class InvadeActionService
 
             $this->queueService->queueResources(
                 'training',
-                $target,
+                $dominion,
                 [$unitKey => $amount],
                 1
             );
@@ -1062,21 +841,10 @@ class InvadeActionService
             {
                 $unitKey = 'military_' . $slot;
             }
-            $target->{$unitKey} += $amount;
-            #$target->fill([
-            #    $unitKey => ($dominion->{$unitKey} + $amount)
-            #])->save();
+            $dominion->{$unitKey} += $amount;
         }
-
-        foreach ($defensiveUnitsLost as $slot => $amount)
-        {
-            $target->{"military_unit{$slot}"} -= $amount;
-
-            $this->invasionResult['defender']['unitsLost'][$slot] = $amount;
-        }
-
-        return $this->unitsLost;
     }
+
 
     /**
      * Handles land grabs and losses upon successful invasion.
@@ -1193,7 +961,7 @@ class InvadeActionService
     protected function handleMoraleChanges(Dominion $dominion, Dominion $target, float $landRatio, array $units): void
     {
 
-        $landRatio = $landRatio * 100;
+        $landRatio *= 100;
         # For successful invasions...
         if($this->invasionResult['result']['success'])
         {
@@ -1494,25 +1262,6 @@ class InvadeActionService
 
     }
 
-    protected function handleMenticide(Dominion $cult, Dominion $attacker)
-    {
-        if(array_sum($this->invasionResult['defender']['mindControlledUnits']) > 0 and $cult->race->name === 'Cult' and $cult->getSpellPerkValue('menticide'))
-        {
-            $this->invasionResult['defender']['isMenticide'] = true;
-
-            $this->invasionResult['defender']['mindControlledUnitsReleased'] = array_fill(1, 4, 0);
-            $newThralls = 0;
-
-            foreach($this->invasionResult['defender']['mindControlledUnits'] as $slot => $amount)
-            {
-                $newThralls += $amount * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
-            }
-
-            $this->invasionResult['defender']['menticide']['newThralls'] = $newThralls;
-            $cult->military_unit1 += $newThralls;
-        }
-    }
-
     protected function handleStun(Dominion $attacker, Dominion $defender, array $units, float $landRatio)
     {
 
@@ -1744,7 +1493,7 @@ class InvadeActionService
 
 
     # Unit Return 2.0
-    protected function handleReturningUnits(Dominion $attacker, array $units, array $convertedUnits, array $mindControlledUnits): void
+    protected function handleReturningUnits(Dominion $attacker, array $units, array $convertedUnits): void
     {
         # If instant return
         if(random_chance($attacker->getImprovementPerkMultiplier('chance_of_instant_return')) or $attacker->race->getPerkValue('instant_return') or $attacker->getSpellPerkValue('instant_return'))
@@ -1755,13 +1504,13 @@ class InvadeActionService
         else
         {
             $returningUnits = [
-              'military_unit1' => array_fill(1, 12, 0),
-              'military_unit2' => array_fill(1, 12, 0),
-              'military_unit3' => array_fill(1, 12, 0),
-              'military_unit4' => array_fill(1, 12, 0),
-              'military_spies' => array_fill(1, 12, 0),
-              'military_wizards' => array_fill(1, 12, 0),
-              'military_archmages' => array_fill(1, 12, 0),
+                'military_unit1' => array_fill(1, 12, 0),
+                'military_unit2' => array_fill(1, 12, 0),
+                'military_unit3' => array_fill(1, 12, 0),
+                'military_unit4' => array_fill(1, 12, 0),
+                'military_spies' => array_fill(1, 12, 0),
+                'military_wizards' => array_fill(1, 12, 0),
+                'military_archmages' => array_fill(1, 12, 0),
             ];
 
             # Check for instant_return
@@ -1826,12 +1575,6 @@ class InvadeActionService
                     if (array_key_exists($slot, $someWinIntoUnits))
                     {
                         $amountReturning += $someWinIntoUnits[$slot];
-                    }
-
-                    if(isset($mindControlledUnits[$slot]) and $mindControlledUnits[$slot] > 0)
-                    {
-                        # Release non-menticided mind controlled units, less 10%.
-                        $returningAmount += $this->invasionResult['defender']['mindControlledUnitsReleased'][$slot];
                     }
 
                     # Default return time is 12 ticks.
@@ -3098,58 +2841,6 @@ class InvadeActionService
     }
 
     /**
-     * Check for Cultist Mind Control spell:
-     *
-     * @param Dominion $cult
-     * @param Dominion $attacker
-     * @param array $units
-     * @return void
-     */
-    protected function handleMindControl(Dominion $cult, Dominion $attacker, array $units): void
-    {
-        $this->invasionResult['defender']['mindControlledUnits'] = array_fill(1,4,0);
-        if($cult->race->name === 'Cult' and $cult->getSpellPerkValue('mind_control'))
-        {
-            # How many Mystics do we have?
-            $availableMystics = $cult->military_unit4;
-
-            # Check invading forces for units that are only SENTIENT
-            $mindControlledUnits = [];
-            $nonControllableAttributes = [
-                'ammunition',
-                'aspect',
-                'equipment',
-                'magical',
-                'massive',
-                'machine',
-                'mindless',
-                'ship',
-                'wise',
-              ];
-            foreach($units as $slot => $amount)
-            {
-                $mindControlledUnits[$slot] = 0;
-
-                $isUnitControllable = false;
-                if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, ['sentient']) and !$this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, $nonControllableAttributes))
-                {
-                    $isUnitControllable = true;
-                }
-
-                if($isUnitControllable)
-                {
-                    $mindControlledUnits[$slot] = min($amount, $availableMystics);
-                }
-
-                $availableMystics -= $mindControlledUnits[$slot];
-                $this->invasionResult['defender']['mindControlledUnits'][$slot] = $mindControlledUnits[$slot];
-                $this->invasionResult['defender']['mindControlledUnitsReleased'][$slot] = $mindControlledUnits[$slot] * (1 - (static::MINDCONTROLLED_UNITS_CASUALTIES / 100));
-            }
-        }
-
-    }
-
-    /**
      * Check whether the invasion is successful.
      *
      * @param Dominion $dominion
@@ -3160,8 +2851,8 @@ class InvadeActionService
     protected function checkInvasionSuccess(Dominion $dominion, Dominion $target, array $units): void
     {
         $landRatio = $this->rangeCalculator->getDominionRange($dominion, $target) / 100;
-        $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, [], $this->invasionResult['defender']['mindControlledUnits'], true);
-        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units, $landRatio, $this->isAmbush, $this->invasionResult['defender']['mindControlledUnits']);
+        $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units, [], true);
+        $targetDP = $this->getDefensivePowerWithTemples($dominion, $target, $units, $landRatio, $this->isAmbush);
         $this->invasionResult['attacker']['op'] = $attackingForceOP;
         $this->invasionResult['defender']['dp'] = $targetDP;
         $this->invasionResult['result']['success'] = ($attackingForceOP > $targetDP);
@@ -3371,7 +3062,7 @@ class InvadeActionService
             4 => $dominion->military_unit4 - (isset($units[4]) ? $units[4] : 0)
         ];
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($dominion, $target, $landRatio, $units);
-        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome, 0, false, false, false, null, null, true); # The "true" at the end excludes raw DP from annexed dominions
+        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($dominion, null, null, $unitsHome, 0, false, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
 
         $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (4/3));
 
@@ -3467,8 +3158,7 @@ class InvadeActionService
       Dominion $target,
       array $units,
       float $landRatio,
-      bool $isAmbush,
-      array $mindControlledUnits
+      bool $isAmbush
       ): float
     {
         // Values (percentages)
@@ -3498,7 +3188,6 @@ class InvadeActionService
                                                             $this->isAmbush,
                                                             false,
                                                             $units, # Becomes $invadingUnits
-                                                            $mindControlledUnits
                                                           );
     }
 

@@ -129,8 +129,8 @@ class BuildingHelper
             'exchange_rate' => 'Resource exchange rates improved by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             # Military
-            'offensive_casualties' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
-            'defensive_casualties' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'casualties_on_offense' => 'Offensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'casualties_on_defense' => 'Defensive casualties decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
             'unit_gold_costs' => 'Unit gold costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'unit_ore_costs' => 'Unit ore costs %2$s%% for every %1$s%% (max %3$s%% reduction).',
