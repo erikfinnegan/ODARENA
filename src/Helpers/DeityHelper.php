@@ -94,11 +94,6 @@ class DeityHelper
             'amount_stolen' => '%s%% resource theft',
 
             // Casualties
-            'increases_casualties' => '%s%% enemy casualties',
-            'increases_enemy_draftee_casualties' => '%s%% enemy draftee casualties',
-            'increases_casualties_on_offense' => '%s%% enemy casualties when invading',
-            'increases_casualties_on_defense' => '%s%% enemy casualties when defending',
-
             'casualties' => '%s%% casualties',
             'offensive_casualties' => '%s%% casualties suffered when invading',
             'defensive_casualties' => '%s%% casualties suffered when defending',
