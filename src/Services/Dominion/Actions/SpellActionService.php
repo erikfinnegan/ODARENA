@@ -712,6 +712,8 @@ class SpellActionService
                     $resource = Resource::where('key', $resourceKey)->firstOrFail();
                     $resourceAmountOwned = $this->resourceService->updateResources($caster, [$resourceKey => ($resourceAmountConverted * -1)]);
 
+                    $resourceAmountConverted = min($resourceAmountConverted, ($this->populationCalculator->getMaxPopulation($caster) - $this->populationCalculator->getPopulationMilitary($caster)/* - 1000*/));
+
                     $unitSlots = (array)$spellPerkValues[2];
                     $newUnitSlots = array_fill(1,4,0);
                     $randomNumbers = [];
