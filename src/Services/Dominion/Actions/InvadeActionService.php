@@ -1086,10 +1086,11 @@ class InvadeActionService
         $researchPointsPerAcreMultiplier = 1;
 
         # Increase RP per acre
-        $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
-        $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('research_points_per_acre');
-        $researchPointsPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('research_points_per_acre');
-        $researchPointsPerAcreMultiplier += $dominion->getSpellPerkMultiplier('research_points_per_acre');
+        $researchPointsPerAcreMultiplier += $dominion->race->getPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $dominion->getSpellPerkMultiplier('xp_per_acre_gained');
+        $researchPointsPerAcreMultiplier += $dominion->getDeityPerkMultiplier('xp_per_acre_gained');
 
         $isInvasionSuccessful = $this->invasionResult['result']['success'];
         if ($isInvasionSuccessful)

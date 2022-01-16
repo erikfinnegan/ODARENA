@@ -22,6 +22,7 @@ class LandImprovementHelper
             'horse_production_raw' => ['%s horses/tick', ' per acre.'],
             'mud_production_raw' => ['%s mud/tick', ' per acre.'],
             'swamp_gas_production_raw' => ['%s swamp gas/tick', ' per acre.'],
+            'marshling_production_raw' => ['%s marshlings/tick', ' per acre.'],
 
             'gold_production_mod' => ['%s%% gold production', ' for every 1%% of this land type.'],
             'food_production_mod' => ['%s%% food production', ' for every 1%% of this land type.'],

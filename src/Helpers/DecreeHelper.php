@@ -78,6 +78,7 @@ class DecreeHelper
             'horse_production_raw' => 'Produces %s horses per tick.',
             'mud_production_raw' => 'Produces %s mud per tick.',
             'swamp_gas_production_raw' => 'Produces %s swamp gas per tick.',
+            'marshling_production_raw' => 'Produces %s marshlings per tick.',
 
             'xp_generation_raw' => 'Generates %s XP per tick.',
 

@@ -200,6 +200,9 @@
                                   @elseif ($spellCalculator->isSpellActive($selectedDominion, 'stasis'))
                                     <p><strong><em>You cannot send out an expedition while you are in stasis.</em></strong></p>
 
+                                  @elseif ($selectedDominion->getSpellPerkValue('cannot_send_expeditions'))
+                                    <p><strong><em>A spell is preventing you from sending expeditions.</em></strong></p>
+
                                   @elseif ($protectionService->isUnderProtection($selectedDominion))
                                   <p><strong><em>You are currently under protection for <b>{{ $selectedDominion->protection_ticks }}</b> {{ str_plural('tick', $selectedDominion->protection_ticks) }} and may not send out an expedition during that time.</em></strong></p>
 

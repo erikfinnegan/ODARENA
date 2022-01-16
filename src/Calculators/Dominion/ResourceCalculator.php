@@ -197,6 +197,24 @@ class ResourceCalculator
                       $production += $dominion->{'military_unit' . $slot} * $amountProduced;
                   }
               }
+
+              # Check for gold_production_raw_from_building_pairing
+              if ($buildingPairingProductionPerkData = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_building_pairing')))
+              {
+                  $unitsPerBuilding = (float)$buildingPairingProductionPerkData[0];
+                  $buildingKey = (string)$buildingPairingProductionPerkData[1];
+                  $amountProduced = (float)$buildingPairingProductionPerkData[2];
+
+                  $building = Building::where('key', $buildingKey)->firstOrFail();
+
+                  $buildingAmountOwned = $this->buildingCalculator->getBuildingAmountOwned($dominion, $building);
+
+                  $maxProducingUnits = $buildingAmountOwned / $unitsPerBuilding;
+
+                  $producingUnits = min($maxProducingUnits, $dominion->{'military_unit' . $slot});
+
+                  $production += $producingUnits * $amountProduced;
+              }
         }
 
         // raw_mod perks

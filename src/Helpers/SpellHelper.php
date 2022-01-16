@@ -100,6 +100,7 @@ class SpellHelper
             'unit_lumber_costs' => '%s%% military unit lumber costs',
 
             'cannot_invade' => 'Cannot invade',
+            'cannot_send_expeditions' => 'Cannot send expeditions',
 
             'additional_units_trained_from_land' => '1%% extra %1$s%% for every %3$s%% %2$s.',
 
@@ -115,6 +116,8 @@ class SpellHelper
 
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
             'summon_units_from_land_by_time' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3$s%%  per hour into the round.',
+
+            'marshling_random_resource_to_units_conversion' => 'Turns %1$s%% of your %2$s into random amount of %3$s.',
 
             'can_kill_immortal' => 'Can kill some immortal units.',
 
@@ -475,7 +478,6 @@ class SpellHelper
 
                 $perkValue = [$unitsString, $maxPerAcre, $landType];
                 $nestedArrays = false;
-
             }
 
             if($perk->key === 'summon_units_from_land_by_time')
@@ -507,6 +509,32 @@ class SpellHelper
 
             }
 
+            if($perk->key === 'marshling_random_resource_to_units_conversion')
+            {
+                $resourceRatioTaken = (float)$perkValue[0];
+                $resourceKey = (string)$perkValue[1];
+                $unitSlots = (array)$perkValue[2];
+
+                // Rue the day this perk is used for other factions.
+                $race = Race::where('name', 'Marshling')->firstOrFail();
+                $resource = Resource::where('key', $resourceKey)->firstOrFail();
+
+                foreach ($unitSlots as $index => $slot)
+                {
+                    $slot = (int)$slot;
+                    $unit = $race->units->filter(static function ($unit) use ($slot)
+                        {
+                            return ($unit->slot === $slot);
+                        })->first();
+
+                    $units[$index] = str_plural($unit->name);
+                }
+
+                $unitsString = generate_sentence_from_array($units);
+
+                $perkValue = [$resourceRatioTaken, str_plural($resource->name), $unitsString];
+                $nestedArrays = false;
+            }
 
             if($perk->key === 'peasant_to_resources_conversion')
             {
@@ -555,8 +583,6 @@ class SpellHelper
 
                 #$perkValue = [$unitsString, $maxPerAcre, $landType];
             }
-
-
 
             /*****/
 

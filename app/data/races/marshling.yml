@@ -2,7 +2,7 @@ name: Marshling
 alignment: independent
 description:
 home_land_type: swamp
-playable: 0
+playable: 1
 experimental: 1
 
 attacking: 2
@@ -13,7 +13,7 @@ skill_level: 3
 resources:
   - gold
   - food
-  - spawn
+  - marshling
   - mud
   - mana
   - swamp_gas
@@ -68,6 +68,8 @@ units:
       offense: 7
       defense: 9
     perks:
+      cannot_be_trained: 1
+      cannot_be_released: 1
       swamp_gas_production_raw: 20
 
   - name: Oozer
@@ -94,4 +96,4 @@ units:
       cannot_be_released: 1
       immortal_on_fending_off: 1
       fixed_casualties: 100
-      dies_into_resource: 3,spawn
+      dies_into_resource: 3,marshling

@@ -38,7 +38,7 @@ units:
       offense: 0
       defense: 0
     perks:
-      gold_production_raw: 5.4
+      gold_production_raw_from_building_pairing: 0.05,gold_quarry,5.4
       building_limit: gold_quarry,20 # building, units per building
       gold_improvements: 1
       no_draftee: 1

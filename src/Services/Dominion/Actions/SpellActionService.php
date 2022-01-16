@@ -32,6 +32,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\NotificationService;
 use OpenDominion\Traits\DominionGuardsTrait;
 
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Tech;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
@@ -700,6 +701,53 @@ class SpellActionService
 
                     $extraLine = ', summoning ' . number_format($totalUnitsSummoned) . ' new units to our military';
                 }
+
+                # Summon units (increased hourly)
+                if($perk->key === 'marshling_random_resource_to_units_conversion')
+                {
+                    $resourceRatioTaken = (float)$spellPerkValues[0] / 100;
+                    $resourceKey = (string)$spellPerkValues[1];
+                    $resourceAmountOwned = $this->resourceCalculator->getAmount($caster, $resourceKey);
+                    $resourceAmountConverted = floor($resourceAmountOwned * $resourceRatioTaken);
+                    $resource = Resource::where('key', $resourceKey)->firstOrFail();
+                    $resourceAmountOwned = $this->resourceService->updateResources($caster, [$resourceKey => ($resourceAmountConverted * -1)]);
+
+                    $unitSlots = (array)$spellPerkValues[2];
+                    $newUnitSlots = array_fill(1,4,0);
+                    $randomNumbers = [];
+
+                    for ($randomNumber = 1; $randomNumber <= 4; $randomNumber++)
+                    {
+                        $randomNumbers[$randomNumber] = mt_rand(0, 100);
+                    }
+
+                    foreach($newUnitSlots as $slot => $amount)
+                    {
+                        $ratio = ($randomNumbers[$slot] / array_sum($randomNumbers));
+                        #dump('Slot' . $slot . ' ratio: ' . $ratio);
+                        $newUnitSlots[$slot] = (int)round($ratio * $resourceAmountConverted);
+                    }
+
+                    # Solve for rounding errors.
+                    $newUnitSlots[array_search(max($newUnitSlots), $newUnitSlots)] += (int)round($resourceAmountConverted - array_sum($newUnitSlots));
+
+                    foreach($newUnitSlots as $slot => $amountConjured)
+                    {
+                        $caster->{'military_unit' . $slot} += max(0, $amountConjured);
+                        $unit = $target->race->units->filter(function ($unit) use ($slot) {
+                            return ($unit->slot == $slot);
+                        })->first();
+
+                        $units[] = number_format($amountConjured) . ' ' . str_plural($unit->name, $amountConjured);
+                    }
+
+                    $unitsString = generate_sentence_from_array($units);
+
+                    $extraLine = ', turning ' . number_format($resourceAmountConverted) . ' of your ' . str_plural($resource->name) . ' into ' . $unitsString;
+
+                }
+
+
 
                 # Rezone all land
                 if($perk->key === 'rezone_all_land')

@@ -22,6 +22,7 @@ gold_mine:
     - Dragon
     - Growth
     - Icekin
+    - Marshling
     - Merfolk
     - Myconid
     - Void
@@ -123,6 +124,7 @@ gem_mine:
     - Beastfolk
     - Demon
     - Growth
+    - Marshling
     - Merfolk
     - Myconid
     - Simian
@@ -307,6 +309,7 @@ watermill:
     - Demon
     - Dragon
     - Growth
+    - Marshling
     - Merfolk
     - Myconid
     - Reptilians
@@ -415,6 +418,7 @@ military_academy:
     - Dragon
     - Growth
     - Icekin
+    - Marshling
     - Merfolk
     - Myconid
     - Nox
@@ -434,6 +438,7 @@ guard_tower:
     - Growth
     - Human
     - Icekin
+    - Marshling
     - Merfolk
     - Myconid
     - Nox
@@ -1135,7 +1140,7 @@ spawning_pool:
     - Marshling
   land_type: swamp
   perks:
-    extra_units_trained: 1,2,30 # Every 1% gives 2% extra units, max +30%
+    marshling_production_raw: 6
     mana_production_raw: 3
 
 # BEGIN DEMON

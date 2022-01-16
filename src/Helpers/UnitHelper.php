@@ -301,6 +301,7 @@ class UnitHelper
             'mana_production_raw_from_pairing' => 'Gathers %2$s mana/tick if paired with %1$s.',
             'gems_production_raw_from_pairing' => 'Mines %2$s gems/tick if paired with %1$s.',
 
+            'gold_production_raw_from_building_pairing' => 'Produces %3$s gold/tick if paired %2$s (up to %1$s units per %2$s).',
 
             'xp_generation_raw' => 'Each unit generates %s experience points per tick.',
 
@@ -482,7 +483,6 @@ class UnitHelper
                     }
                 }
 
-
                 // Special case for returns faster if pairings
                 if ($perk->key === 'faster_return_if_paired')
                 {
@@ -517,25 +517,6 @@ class UnitHelper
                     }
 
                     $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
-                }
-                if($perk->key === 'staggered_conversion')
-                {
-                    foreach ($perkValue as $index => $conversion) {
-                        [$convertAboveLandRatio, $slots] = $conversion;
-
-                        $unitSlotsToConvertTo = array_map('intval', str_split($slots));
-                        $unitNamesToConvertTo = [];
-
-                        foreach ($unitSlotsToConvertTo as $slot) {
-                            $unitToConvertTo = $race->units->filter(static function ($unit) use ($slot) {
-                                return ($unit->slot === $slot);
-                            })->first();
-
-                            $unitNamesToConvertTo[] = str_plural($unitToConvertTo->name);
-                        }
-
-                        $perkValue[$index][1] = generate_sentence_from_array($unitNamesToConvertTo);
-                    }
                 }
                 if($perk->key === 'strength_conversion')
                 {
@@ -586,7 +567,6 @@ class UnitHelper
 
                     $perkValue = [$multiplier, str_plural($unitToConvertTo->name)];
                 }
-
                 if($perk->key === 'defense_from_buildings')
                 {
                     $buildings = (array)$perkValue[0];
@@ -621,7 +601,6 @@ class UnitHelper
 
                     $perkValue = $advancementsString;
                     #$nestedArrays = false;
-
                 }
 
                 if($perk->key === 'plunders')
@@ -676,7 +655,19 @@ class UnitHelper
                     $perkValue[1] = $unitToConvertTo->name;;
                 }
 
-                // Special case for returns faster if pairings
+                if($perk->key === 'gold_production_raw_from_building_pairing')
+                {
+                    $unitsPerBuilding = (float)$perkValue[0];
+                    $buildingKey = (string)$perkValue[1];
+                    $amountProduced = (float)$perkValue[2];
+
+                    $building = Building::where('key', $buildingKey)->first();
+
+                    $perkValue = [intval(1/$unitsPerBuilding), $building->name, $amountProduced];
+                    $nestedArrays = false;
+                }
+
+                // Special case for dies_into
                 if (
                         $perk->key === 'dies_into_multiple'
                         or $perk->key === 'dies_into_multiple_on_offense'

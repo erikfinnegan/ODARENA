@@ -462,10 +462,10 @@ class TickService
                      $bodiesToRemove = max(0, min($bodiesToRemove, $realm->crypt));
 
                      $cryptLogString = '[CRYPT] ';
-                     $cryptLogString .= "Bodies current: " . number_format($realm->crypt) . ". ";
-                     $cryptLogString .= "Bodies decayed: " . number_format($bodiesDecayed) . ". ";
-                     $cryptLogString .= "Bodies spent: " . number_format($bodiesSpent->cryptBodiesSpent) . ". ";
-                     $cryptLogString .= "Bodies to remove: " . number_format($bodiesToRemove) . ". ";
+                     $cryptLogString .= "Current: " . number_format($realm->crypt) . ". ";
+                     $cryptLogString .= "Decayed: " . number_format($bodiesDecayed) . ". ";
+                     $cryptLogString .= "Spent: " . number_format($bodiesSpent->cryptBodiesSpent) . ". ";
+                     $cryptLogString .= "Removied: " . number_format($bodiesToRemove) . ". ";
 
 
                     $realm->fill([

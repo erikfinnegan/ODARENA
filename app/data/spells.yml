@@ -198,6 +198,7 @@ transmogrify:
     - Dwarf
     - Gnome
     - Lux
+    - Marshling
     - Merfolk
     - Myconid
     - Nox
@@ -1006,6 +1007,7 @@ rainy_season:
     lumber_production_mod: 50
     cannot_invade: 1
     cannot_explore: 1
+    cannot_send_expeditions: 1
 
 elementals_hill:
   name: Druva's Rising
@@ -1358,6 +1360,32 @@ chryson_phase:
     aurei_unit_conversion: 3,4,1000 # from, to, amount
 
 # END AUREI
+
+# BEGIN MARSHLING
+
+marsh_attacks:
+  name: Marsh Attacks
+  scope: self
+  class: active
+  cost: 3
+  exclusive_races:
+    - Marshling
+  perks:
+    marshling_random_resource_to_units_conversion: 50,marshling,1;2;3;4 #
+
+swamp_trance:
+  name: Swamp Trance
+  scope: self
+  class: passive
+  cost: 6
+  exclusive_races:
+    - Marshling
+  perks:
+    swamp_gas_production_mod: 100
+    cannot_invade: 1
+    cannot_send_expeditions: 1
+
+# END MARSHLING
 
 # Invasion spells
 

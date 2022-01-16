@@ -124,6 +124,11 @@ class ExpeditionActionService
                throw new GameException('Your deity prohibits sending expeditions.');
            }
 
+          if ($dominion->getSpellPerkValue('cannot_send_expeditions'))
+          {
+              throw new GameException('A spell is preventing you from sending expeditions.');
+          }
+
             foreach($units as $amount)
             {
                 if($amount < 0)
@@ -302,8 +307,11 @@ class ExpeditionActionService
     {
 
         $xpPerAcreMultiplier = 1;
-        $xpPerAcreMultiplier += $dominion->race->getPerkMultiplier('research_points_per_acre');
-        $xpPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('research_points_per_acre');
+        $xpPerAcreMultiplier += $dominion->race->getPerkMultiplier('xp_per_acre_gained');
+        $xpPerAcreMultiplier += $dominion->getImprovementPerkMultiplier('xp_per_acre_gained');
+        $xpPerAcreMultiplier += $dominion->getBuildingPerkMultiplier('xp_per_acre_gained');
+        $xpPerAcreMultiplier += $dominion->getSpellPerkMultiplier('xp_per_acre_gained');
+        $xpPerAcreMultiplier += $dominion->getDeityPerkMultiplier('xp_per_acre_gained');
 
         $xpGained = intval(25 * $xpPerAcreMultiplier * $landDiscovered);
 

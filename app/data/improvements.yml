@@ -873,6 +873,77 @@ brutality:
 
 # END BEASTFOLK #
 
+# BEGIN MARSHLING #
+
+adaptation:
+  name: Adaptation
+  exclusive_races:
+    - Marshling
+  perks:
+    casualties: -50,6000
+    land_discovered: -25,4000
+
+aggression:
+  name: Aggression
+  exclusive_races:
+    - Marshling
+  perks:
+    offensive_power: 30,5000
+    base_morale: -25,6000
+
+depth:
+  name: Depth
+  exclusive_races:
+    - Marshling
+  perks:
+    population: 60,10000
+    offensive_power: -20,6000
+
+friskiness:
+  name: Friskiness
+  exclusive_races:
+    - Marshling
+  perks:
+    marshling_production_mod: 40,6000
+    food_production_mod: -30,6000
+
+goo_puddles:
+  name: Goo Puddles
+  exclusive_races:
+    - Marshling
+  perks:
+    defensive_power: 30,4000
+    construction_cost: 30,4000
+
+mysticism:
+  name: Mysticism
+  exclusive_races:
+    - Marshling
+  perks:
+    mana_production_mod: 100,6000
+    casualties: 40,8000
+
+peacefulness:
+  name: Peacefulness
+  exclusive_races:
+    - Marshling
+  perks:
+    casualties: -40,5000
+    increases_enemy_casualties: -50,7500
+
+strength:
+  name: Strength
+  exclusive_races:
+    - Marshling
+  perks:
+    defensive_power: 50,6000
+    population: -25,5000
+
+
+
+
+# END MARSHLING #
+
 # BEGIN SWARM #
 
 digging:
@@ -954,4 +1025,4 @@ tribalism:
   exclusive_races:
     - Barbarian
   perks:
-    population: 200,10000
+    population: 300,12000

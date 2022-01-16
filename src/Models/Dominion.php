@@ -639,6 +639,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'horse_production_raw'
                           or $perkKey == 'mud_production_raw'
                           or $perkKey == 'swamp_gas_production_raw'
+                          or $perkKey == 'marshling_production_raw'
 
                           or $perkKey == 'gold_upkeep_raw'
                           or $perkKey == 'food_upkeep_raw'
@@ -1016,6 +1017,7 @@ class Dominion extends AbstractModel
                        or $perkKey == 'pearls_production_raw'
                        or $perkKey == 'mud_production_raw'
                        or $perkKey == 'swamp_gas_production_raw'
+                       or $perkKey == 'marshling_production_raw'
                        or $perkKey == 'xp_generation_raw'
 
                        or $perkKey == 'gold_production_raw_mod'
@@ -1027,6 +1029,7 @@ class Dominion extends AbstractModel
                        or $perkKey == 'pearls_production_raw_mod'
                        or $perkKey == 'mud_production_raw_mod'
                        or $perkKey == 'swamp_gas_production_raw_mod'
+                       or $perkKey == 'marshling_production_raw_mod'
                        or $perkKey == 'xp_generation_raw_mod'
 
                        or $perkKey == 'no_gold_production'

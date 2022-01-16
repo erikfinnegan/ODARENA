@@ -2,7 +2,6 @@
 
 namespace OpenDominion\Calculators\Dominion;
 
-use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Unit;
@@ -21,7 +20,6 @@ class CasualtiesCalculator2
         $this->landCalculator = app(LandCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
-        $this->unitHelper = app(UnitHelper::class);
     }
 
     private function getInvasionCasualtiesRatioForUnit(Dominion $dominion, Unit $unit, Dominion $enemy = null, array $invasionData = [], string $mode = 'offense'): float
@@ -390,9 +388,6 @@ class CasualtiesCalculator2
         {
             $units = $unitsDefending;
         }
-
-        #$rawOpFromUnitsSent = $this->militaryCalculator->getOffensivePowerRaw($dominion, $enemy, $invasionData['land_ratio'], $unitsSent);
-        #$rawDpFromUnitsDefending = $this->militaryCalculator->getDefensivePowerRaw($enemy, $dominion, $invasionData['land_ratio']);
 
         foreach($units as $slot => $amount)
         {
