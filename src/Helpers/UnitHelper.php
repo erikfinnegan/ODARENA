@@ -293,6 +293,7 @@ class UnitHelper
             'mana_production_raw' => 'Gathers %s mana/tick.',
             'gems_production_raw' => 'Mines %s gems/tick.',
             'blood_production_raw' => 'Produces %s blood/tick.',
+            'swamp_gas_production_raw' => 'Produces %s swamp gas/tick.'
 
             'gold_production_raw_from_pairing' => 'Produces %2$s gold/tick if paired with %1$s.',
             'food_production_raw_from_pairing' => 'Produces %2$s food/tick if paired with %1$s.',

@@ -82,7 +82,7 @@ units:
     perks:
       cannot_be_trained: 1
       cannot_be_released: 1
-      faster_returning: 8
+      faster_return: 8
 
   - name: Brooder
     type:
