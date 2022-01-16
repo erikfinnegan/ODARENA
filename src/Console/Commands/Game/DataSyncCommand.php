@@ -83,7 +83,6 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncStats();
             $this->syncResources();
             $this->syncDeities();
-
             #$this->syncDecrees();
         });
     }
@@ -114,10 +113,6 @@ class DataSyncCommand extends Command implements CommandInterface
                 'mana'
             ];
 
-            $defaultPeasantsProduction = [
-                'gold' => 2.7
-            ];
-
             // Race
             $race = Race::firstOrNew(['name' => $data->name])
                 ->fill([
@@ -134,7 +129,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'improvement_resources' => object_get($data, 'improvement_resources', $defaultImprovementResources),
                     'land_improvements' => object_get($data, 'land_improvements', NULL),
                     'construction_materials' => object_get($data, 'construction_materials', ['gold','lumber']),
-                    'peasants_production' => object_get($data, 'peasants_production', $defaultPeasantsProduction),
+                    'peasants_production' => object_get($data, 'peasants_production', ['gold' => 2.7]),
                     'peasants_alias' => object_get($data, 'peasants_alias', null),
                     'draftees_alias' => object_get($data, 'draftees_alias', null),
 
@@ -149,7 +144,7 @@ class DataSyncCommand extends Command implements CommandInterface
                 $this->info("Processing race {$data->name}");
 
                 $newValues = $race->getDirty();
-                /*
+
                 foreach ($newValues as $key => $newValue)
                 {
                     $originalValue = $race->getOriginal($key);
@@ -165,14 +160,14 @@ class DataSyncCommand extends Command implements CommandInterface
 
                     $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
                 }
-                */
             }
 
             $race->save();
             $race->refresh();
 
             // Units
-            foreach (object_get($data, 'units', []) as $slot => $unitData) {
+            foreach (object_get($data, 'units', []) as $slot => $unitData)
+            {
                 $slot++; # Because arrays start at 0
 
                 $unitName = object_get($unitData, 'name');

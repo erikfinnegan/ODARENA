@@ -42,7 +42,7 @@ peasants_production:
   mana: 0.1
 
 perks:
-  reduced_conversions: 80
+  reduced_conversions: 100
   improvements_interest_random_max: 0.75
   improvements_interest_random_min: -0.70
 
