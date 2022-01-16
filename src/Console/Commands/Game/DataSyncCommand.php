@@ -165,6 +165,28 @@ class DataSyncCommand extends Command implements CommandInterface
             $race->save();
             $race->refresh();
 
+            // Race Perks
+            $racePerksToSync = [];
+
+            foreach (object_get($data, 'perks', []) as $perk => $value) {
+                $value = (float)$value;
+
+                $racePerkType = RacePerkType::firstOrCreate(['key' => $perk]);
+
+                $racePerksToSync[$racePerkType->id] = ['value' => $value];
+
+                $racePerk = RacePerk::query()
+                    ->where('race_id', $race->id)
+                    ->where('race_perk_type_id', $racePerkType->id)
+                    ->first();
+
+                if ($racePerk === null) {
+                    $this->info("[Add Race Perk] {$perk}: {$value}");
+                } elseif ($racePerk->value != $value) {
+                    $this->info("[Change Race Perk] {$perk}: {$racePerk->value} -> {$value}");
+                }
+            }
+
             // Units
             foreach (object_get($data, 'units', []) as $slot => $unitData)
             {
