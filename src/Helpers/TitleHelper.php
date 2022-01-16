@@ -102,6 +102,10 @@ class TitleHelper
                 $negativeBenefit = false;
                 $description = 'XP generation:';
                 break;
+            case 'xp_per_acre_gained':
+                $negativeBenefit = false;
+                $description = 'XP per acre gained:';
+                break;
             case 'casualties':
                 $negativeBenefit = true;
                 $description = 'Casualties:';
