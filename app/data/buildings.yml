@@ -542,6 +542,7 @@ smithy:
     - Growth
     - Imperial Gnome
     - Icekin
+    - Marshling
     - Merfolk
     - Myconid
     - Nox
@@ -1142,6 +1143,8 @@ spawning_pool:
   perks:
     marshling_production_raw: 0.20
     mana_production_raw: 3
+
+# END MARSHLING
 
 # BEGIN DEMON
 

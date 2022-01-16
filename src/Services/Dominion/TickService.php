@@ -1318,7 +1318,10 @@ class TickService
         }
 
         # Impterest
-        if($improvementInterestPerk = $dominion->race->getPerkValue('improvements_interest'))
+        if(
+            ($improvementInterestPerk = $dominion->race->getPerkValue('improvements_interest')) or
+            ($improvementInterestPerk = mt_rand($dominion->race->getPerkValue('improvements_interest_random_min'), $dominion->race->getPerkValue('improvements_interest_random_max')))
+          )
         {
             $improvementInterest = [];
 

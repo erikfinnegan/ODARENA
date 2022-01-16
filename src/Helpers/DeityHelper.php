@@ -39,6 +39,8 @@ class DeityHelper
 
             'exchange_rate' => '%s%% better exchange rates',
 
+            'xp_per_acre_gained' => '%s%% XP per acre gained from invasions or expeditions'
+
             // Military
             'drafting' => '+%s%% drafting',
             'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',

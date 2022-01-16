@@ -157,6 +157,18 @@ class RaceHelper
                 $valueType = '% / tick';
                 $booleanValue = 'static';
                 break;
+            case 'improvements_interest_random_max':
+                $negativeBenefit = false;
+                $description = 'Improvement interest (random max)';
+                $valueType = '% / tick';
+                $booleanValue = 'static';
+                break;
+            case 'improvements_interest_random_min':
+                $negativeBenefit = false;
+                $description = 'Improvement interest (random min)';
+                $valueType = '% / tick';
+                $booleanValue = 'static';
+                break;
             case 'population_growth':
                 $negativeBenefit = false;
                 $description = 'Population growth rate';

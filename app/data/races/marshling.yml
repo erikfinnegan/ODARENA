@@ -43,8 +43,8 @@ peasants_production:
 
 perks:
   reduced_conversions: 80
-  improvements_interest_random_min: -0.7
   improvements_interest_random_max: 0.75
+  improvements_interest_random_min: -0.70
 
 units:
   - name: Sludger
