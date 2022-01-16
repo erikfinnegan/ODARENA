@@ -1320,12 +1320,10 @@ class TickService
         # Impterest
         if(
             ($improvementInterestPerk = $dominion->race->getPerkValue('improvements_interest')) or
-            ($improvementInterestPerk = mt_rand($dominion->race->getPerkValue('improvements_interest_random_min'), $dominion->race->getPerkValue('improvements_interest_random_max')))
+            ($improvementInterestPerk = (mt_rand($dominion->race->getPerkValue('improvements_interest_random_min')*100, $dominion->race->getPerkValue('improvements_interest_random_max')*100))/100)
           )
         {
             $improvementInterest = [];
-
-            dd($improvementInterestPerk);
 
             $multiplier = 1;
             $multiplier += $dominion->getBuildingPerkMultiplier('improvements_interest');
@@ -1338,11 +1336,18 @@ class TickService
             foreach($this->improvementCalculator->getDominionImprovements($dominion) as $dominionImprovement)
             {
                 $improvement = Improvement::where('id', $dominionImprovement->improvement_id)->first();
-                $increment = floor($dominionImprovement->invested * ($improvementInterestPerk / 100));
-                $improvementInterest[$improvement->key] = $increment;
+                $interest = floor($dominionImprovement->invested * ($improvementInterestPerk / 100));
+                if($interest > 0)
+                {
+                    $this->improvementCalculator->createOrIncrementImprovements($dominion, [$improvement->key => $interest]);
+                }
+                elseif($interest < 0)
+                {
+                    $this->improvementCalculator->decreaseImprovements($dominion, [$improvement->key => $interest*-1]);
+                }
             }
 
-            $this->improvementCalculator->createOrIncrementImprovements($dominion, $improvementInterest);
+
         }
     }
 
