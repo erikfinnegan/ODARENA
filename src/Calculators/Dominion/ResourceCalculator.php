@@ -9,9 +9,11 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Building;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\DominionResource;
 
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
@@ -21,6 +23,7 @@ use OpenDominion\Services\Dominion\QueueService;
 class ResourceCalculator
 {
 
+    protected $buildingCalculator;
     protected $landHelper;
     protected $unitHelper;
     protected $landCalculator;
@@ -33,6 +36,7 @@ class ResourceCalculator
           LandHelper $landHelper,
           UnitHelper $unitHelper,
 
+          BuildingCalculator $buildingCalculator,
           LandCalculator $landCalculator,
           LandImprovementCalculator $landImprovementCalculator,
           PrestigeCalculator $prestigeCalculator,
@@ -43,6 +47,7 @@ class ResourceCalculator
         $this->landHelper = app(LandHelper::class);
         $this->unitHelper = app(UnitHelper::class);
 
+        $this->buildingCalculator = $buildingCalculator;
         $this->landCalculator = $landCalculator;
         $this->landImprovementCalculator = $landImprovementCalculator;
         $this->prestigeCalculator = $prestigeCalculator;
