@@ -187,6 +187,8 @@ class DataSyncCommand extends Command implements CommandInterface
                 }
             }
 
+            $race->perks()->sync($racePerksToSync);
+
             // Units
             foreach (object_get($data, 'units', []) as $slot => $unitData)
             {
