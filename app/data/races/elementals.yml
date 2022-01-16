@@ -20,7 +20,6 @@ wizards_cost: 1000,mana
 archmages_cost: 2000,mana
 
 perks:
-  cannot_improve_castle: 1
   cannot_construct: 1
   cannot_rezone: 1
   no_food_consumption: 1

@@ -53,15 +53,12 @@
                     </li>
                 @endif
 
-                <!-- Hide Improvements from cannot_improve_castle races -->
-                @if (!(bool)$selectedDominion->race->getPerkValue('cannot_improve_castle'))
-                    <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}">
-                          <a href="{{ route('dominion.improvements') }}">
-                                <i class="fa fa-arrow-up fa-fw"></i>
-                                <span>Improvements</span>
-                          </a>
-                    </li>
-                @endif
+                <li class="{{ Route::is('dominion.improvements') ? 'active' : null }}">
+                      <a href="{{ route('dominion.improvements') }}">
+                            <i class="fa fa-arrow-up fa-fw"></i>
+                            <span>Improvements</span>
+                      </a>
+                </li>
 
                 <!-- TECHS -->
                 @if (!(bool)$selectedDominion->race->getPerkValue('cannot_tech'))

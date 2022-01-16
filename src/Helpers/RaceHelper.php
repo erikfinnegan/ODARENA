@@ -173,11 +173,6 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Population growth rate';
                 break;
-          case 'cannot_improve_castle':
-                $negativeBenefit = true;
-                $description = 'Cannot use improvements';
-                $booleanValue = true;
-                break;
           case 'land_improvements':
                 $negativeBenefit = false;
                 $description = 'Land based improvements';

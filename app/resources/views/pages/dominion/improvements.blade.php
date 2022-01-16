@@ -2,15 +2,6 @@
 
 @section('content')
 
-@if ($selectedDominion->race->getPerkValue('cannot_improve_castle'))
-<div class="row">
-    <div class="col-sm-12 col-md-9">
-        <div class="box box-primary">
-            <p>{{ $selectedDominion->race->name }} cannot use improvements.</p>
-        </div>
-    </div>
-</div>
-@endif
 <div class="row">
       <div class="col-sm-12 col-md-9">
           <div class="box box-primary">

@@ -94,12 +94,6 @@ class ImproveActionService
             throw new GameException($dominion->race->name . ' cannot use ' . $resource .  ' for improvements.');
         }
 
-
-        if ($dominion->race->getPerkValue('cannot_improve_castle'))
-        {
-            throw new GameException($dominion->race->name . ' cannot use improvements.');
-        }
-
         if ($totalResourcesToInvest > $this->resourceCalculator->getAmount($dominion, $resource))
         {
             throw new GameException("You do not have enough {$resource}. You have " . number_format($dominion->{'resource_' . $resource}) . ' ' . $resource . ' and tried to invest ' . number_format($totalResourcesToInvest) . '.');
