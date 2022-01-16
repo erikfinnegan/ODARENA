@@ -39,7 +39,7 @@ class DeityHelper
 
             'exchange_rate' => '%s%% better exchange rates',
 
-            'xp_per_acre_gained' => '%s%% XP per acre gained from invasions or expeditions',
+            'xp_per_acre_gained' => '%s%% XP per acre gained',
 
             // Military
             'drafting' => '+%s%% drafting',
@@ -94,10 +94,10 @@ class DeityHelper
             'amount_stolen' => '%s%% resource theft',
 
             // Casualties
-            'increases_enemy_casualties' => '%s%% enemy casualties',
+            'increases_casualties' => '%s%% enemy casualties',
             'increases_enemy_draftee_casualties' => '%s%% enemy draftee casualties',
-            'increases_enemy_casualties_on_offense' => '%s%% enemy casualties when invading',
-            'increases_enemy_casualties_on_defense' => '%s%% enemy casualties when defending',
+            'increases_casualties_on_offense' => '%s%% enemy casualties when invading',
+            'increases_casualties_on_defense' => '%s%% enemy casualties when defending',
 
             'casualties' => '%s%% casualties',
             'offensive_casualties' => '%s%% casualties suffered when invading',
@@ -119,7 +119,6 @@ class DeityHelper
             'construction_cost' => '%s%% construction costs',
             'rezone_cost' => '%s%% rezoning costs',
             'cannot_explore' => 'Cannot explore',
-            'cannot_send_expeditions' => 'Cannot send expeditions',
         ];
 
         foreach ($deity->perks as $perk)
