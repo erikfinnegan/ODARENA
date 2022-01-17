@@ -100,6 +100,12 @@ class DeityHelper
             'offensive_casualties' => '%s%% casualties suffered when invading',
             'defensive_casualties' => '%s%% casualties suffered when defending',
 
+
+            'increases_enemy_casualties' => '%s%% enemy casualties',
+            'increases_enemy_casualties_on_defense' => '%s%% enemy casualties when defending',
+            'increases_enemy_casualties_on_offense' => '%s%% enemy casualties when invading',
+
+
             // OP/DP
             'offensive_power' => '%s%% offensive power',
             'defensive_power' => '%s%% defensive power',
