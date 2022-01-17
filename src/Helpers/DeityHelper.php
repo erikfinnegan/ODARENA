@@ -62,6 +62,8 @@ class DeityHelper
 
             'prestige_gains' => '%s%% prestige gains.',
 
+            'cannot_send_expeditions' => 'Cannot send expeditions',
+
             // Population
             'population_growth' => '%s%% population growth rate',
             'max_population' => '%s%% population',

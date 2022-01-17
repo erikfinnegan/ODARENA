@@ -245,7 +245,6 @@ tower:
     - Dragon
     - Growth
     - Icekin
-    - Marshling
     - Merfolk
     - Myconid
     - Void
@@ -1143,7 +1142,6 @@ spawning_pool:
   land_type: swamp
   perks:
     marshling_production_raw: 0.20
-    mana_production_raw: 3
 
 # END MARSHLING
 
