@@ -230,7 +230,7 @@ class UnitHelper
 
             'immortal_vs_land_range' => 'Near immortal when attacking dominions %s%%+ of your size, except when overwhelmed on attack.',
 
-            'kills_immortal' => 'Kills immortal units.',
+            #'kills_immortal' => 'Kills immortal units.',
 
             'reduces_casualties' => 'Reduces casualties.',
 

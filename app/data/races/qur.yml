@@ -86,7 +86,6 @@ units:
       offense: 7
       defense: 8
     perks:
-      destroys_souls: 1
-      kills_immortal: 1
+      destroys_resource_on_victory: 1,soul
       faster_return_if_paired: 3,6 # slot, ticks
       plunders: mana;2,gems;1

@@ -1119,49 +1119,81 @@ class InvadeActionService
     }
 
     /**
-     *  Handles perks that trigger DURING the battle (before casualties).
-     *
-     *  Go through every unit slot and look for post-invasion perks:
-     *  - burns_peasants_on_attack
-     *  - damages_improvements_on_attack
-     *  - eats_peasants_on_attack
-     *  - eats_draftees_on_attack
-     *
-     * If a perk is found, see if any of that unit were sent on invasion.
-     *
-     * If perk is found and units were sent, calculate and take the action.
-     *
-     * @param Dominion $dominion
-     * @param Dominion $target
-     * @param array $units
-     */
-    protected function handleDuringInvasionUnitPerks(Dominion $dominion, Dominion $target, array $units): void
+    *  Handles perks that trigger DURING the battle (before casualties).
+    *
+    *  Go through every unit slot and look for post-invasion perks:
+    *  - burns_peasants_on_attack
+    *  - damages_improvements_on_attack
+    *  - eats_peasants_on_attack
+    *  - eats_draftees_on_attack
+    *
+    * If a perk is found, see if any of that unit were sent on invasion.
+    *
+    * If perk is found and units were sent, calculate and take the action.
+    *
+    * @param Dominion $dominion
+    * @param Dominion $target
+    * @param array $units
+    */
+    protected function handleDuringInvasionUnitPerks(Dominion $attacker, Dominion $target, array $units): void
     {
-        # Snow Elf: Hailstorm Cannon exhausts all mana
-        for ($slot = 1; $slot <= 4; $slot++)
+
+        # Only if invasion is successful
+        if($this->invasionResult['result']['success'])
         {
-            if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting') and isset($units[$slot]))
+            # ATTACKER
+            foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
             {
-                $resourceKey = $exhaustingPerk[0];
-                $resourceAmount = $this->resourceCalculator->getAmount($dominion, $resourceKey);
+                if ($destroysResourcePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'destroys_resource_on_victory'))
+                {
+                    $amountDestroyedPerUnit = (float)$destroysResourcePerk[0];
+                    $resourceKey = (string)$destroysResourcePerk[1];
+                    $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['unitsSent'] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($target, $resourceKey)));
 
-                $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmount;
+                    if($maxDestroyedBySlot > 0)
+                    {
+                        if(isset($this->invasionResult['attacker']['resources_destroyed'][$resourceKey]))
+                        {
+                            $this->invasionResult['attacker']['resources_destroyed'][$resourceKey] += $maxDestroyedBySlot;
+                        }
+                        else
+                        {
+                            $this->invasionResult['attacker']['resources_destroyed'][$resourceKey] = $maxDestroyedBySlot;
+                        }
 
-                $this->resourceService->updateResources($dominion, [$resourceKey => ($resourceAmount * -1)]);
-            }
-
-            if($exhaustingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_capped_exhausting') and isset($units[$slot]))
-            {
-                $amountPerUnit = (float)$exhaustingPerk[1];
-                $resourceKey = (string)$exhaustingPerk[2];
-
-                $resourceAmountExhausted = $units[$slot] * $amountPerUnit;
-
-                $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmountExhausted;
-
-                $this->resourceService->updateResources($dominion, [$resourceKey => ($resourceAmountExhausted * -1)]);
+                        $this->resourceService->updateResources($target, [$resourceKey => ($maxDestroyedBySlot * -1)]);
+                    }
+                }
             }
         }
+
+        for ($slot = 1; $slot <= 4; $slot++)
+        {
+          # Snow Elf: Hailstorm Cannon exhausts all mana
+           if($exhaustingPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_exhausting') and isset($units[$slot]))
+           {
+               $resourceKey = $exhaustingPerk[0];
+               $resourceAmount = $this->resourceCalculator->getAmount($attacker, $resourceKey);
+
+               $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmount;
+
+               $this->resourceService->updateResources($attacker, [$resourceKey => ($resourceAmount * -1)]);
+           }
+
+           if($exhaustingPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_capped_exhausting') and isset($units[$slot]))
+           {
+               $amountPerUnit = (float)$exhaustingPerk[1];
+               $resourceKey = (string)$exhaustingPerk[2];
+
+               $resourceAmountExhausted = $units[$slot] * $amountPerUnit;
+
+               $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmountExhausted;
+
+               $this->resourceService->updateResources($attacker, [$resourceKey => ($resourceAmountExhausted * -1)]);
+           }
+        }
+
+
 
         # Ignore if attacker is overwhelmed.
         if(!$this->invasionResult['result']['overwhelmed'])
@@ -1169,10 +1201,10 @@ class InvadeActionService
             for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
             {
                 // burns_peasants
-                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and isset($units[$unitSlot]))
+                if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack') and isset($units[$unitSlot]))
                 {
                     $burningUnits = $units[$unitSlot];
-                    $peasantsBurnedPerUnit = (float)$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
+                    $peasantsBurnedPerUnit = (float)$attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'burns_peasants_on_attack');
 
                     # If target has less than 1000 peasants, we don't burn any.
                     if($target->peasants < 1000)
@@ -1191,7 +1223,7 @@ class InvadeActionService
                 }
 
                 // damages_improvements_on_attack
-                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
+                if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack') and isset($units[$unitSlot]))
                 {
 
                     $totalImprovementPoints = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($target);
@@ -1199,15 +1231,13 @@ class InvadeActionService
                     $targetImprovements = $this->improvementCalculator->getDominionImprovements($target);
 
                     $damagingUnits = $units[$unitSlot];
-                    $damagePerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
+                    $damagePerUnit = $attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'damages_improvements_on_attack');
 
                     $damageMultiplier = 1;
                     $damageMultiplier += $target->getBuildingPerkMultiplier('lightning_bolt_damage');
 
                     $damage = $damagingUnits * $damagePerUnit * $damageMultiplier;
                     $damage = min($damage, $totalImprovementPoints);
-
-                    #$totalDamage = $damage;
 
                     if($damage > 0)
                     {
@@ -1216,7 +1246,6 @@ class InvadeActionService
                             $improvement = Improvement::where('id', $targetImprovement->improvement_id)->first();
                             $improvementDamage[$improvement->key] = floor($damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement) / $totalImprovementPoints));
                         }
-
                         $this->improvementCalculator->decreaseImprovements($target, $improvementDamage);
                     }
 
@@ -1225,31 +1254,32 @@ class InvadeActionService
                 }
 
 
-                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
+                if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack') and isset($units[$unitSlot]))
                 {
                     $eatingUnits = $units[$unitSlot];
-                    $peasantsEatenPerUnit = (float)$dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
+                    $peasantsEatenPerUnit = (float)$attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_peasants_on_attack');
 
                     # If target has less than 1000 peasants, we don't eat any.
                     if($target->peasants < 1000)
                     {
-                      $eatenPeasants = 0;
+                        $eatenPeasants = 0;
                     }
                     else
                     {
                         $eatenPeasants = round($eatingUnits * $peasantsEatenPerUnit * min($this->invasionResult['result']['opDpRatio'], 1));
                         $eatenPeasants = min(($target->peasants-1000), $eatenPeasants);
                     }
+
                     $target->peasants -= $eatenPeasants;
                     $this->invasionResult['attacker']['peasants_eaten']['peasants'] = $eatenPeasants;
                     $this->invasionResult['defender']['peasants_eaten']['peasants'] = $eatenPeasants;
                 }
 
                 // Troll: eats_draftees_on_attack
-                if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack') and isset($units[$unitSlot]))
+                if ($attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack') and isset($units[$unitSlot]))
                 {
                     $eatingUnits = $units[$unitSlot];
-                    $drafteesEatenPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
+                    $drafteesEatenPerUnit = $attacker->race->getUnitPerkValueForUnitSlot($unitSlot, 'eats_draftees_on_attack');
 
                     $eatenDraftees = round($eatingUnits * $drafteesEatenPerUnit * min($this->invasionResult['result']['opDpRatio'], 1));
                     $eatenDraftees = min($target->military_draftees, $eatenDraftees);
@@ -2634,191 +2664,6 @@ class InvadeActionService
 
               $this->resourceService->updateResources($defender, ['food' => $food]);
           }
-    }
-
-
-    /**
-     * Handles eating of units by Growth when Metabolism is active.
-     *
-     * @param Dominion $attacker
-     * @param Dominion $defender
-     */
-    protected function handleZealots(Dominion $attacker, Dominion $defender, array $survivingUnits): void
-    {
-        $immortalDefenders = array_fill(1, 4, 0);
-        $immortalDefendersDeaths = array_fill(1, 4, 0);
-
-
-        $immortalAttackers = array_fill(1, 4, 0);
-        $immortalAttackersDeaths = array_fill(1, 4, 0);
-
-        $zealots = 0;
-        $immortalsKilledPerZealot = 1.5;
-        $soulsDestroyedPerZealot = 2;
-
-        $unkillableAttributes = ['machine', 'ship', 'ammunition'];
-
-        if($attacker->race->name === 'Qur' and !$this->invasionResult['result']['overwhelmed'])
-        {
-            # See if target has any immortal units
-            foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
-            {
-                if($slot !== 'draftees')
-                {
-                    $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                        return ($unit->slot == $slot);
-                    })->first();
-
-                    if($unit->power_defense !== 0 and ($defender->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $defender->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal')) and !$this->unitHelper->unitSlotHasAttributes($defender->race, $slot, $unkillableAttributes))
-                    {
-                        $immortalDefenders[$slot] += $defender->{'military_unit'.$slot};
-                    }
-                }
-            }
-
-            # See if qur sent any Zealots
-            foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
-            {
-                if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_immortal'))
-                {
-                    $zealots += $amount;
-                }
-            }
-
-            $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalDefenders) * 0.03);
-
-            # Determine ratio of each immortal defender to kill.
-            if(array_sum($immortalDefenders) > 0)
-            {
-                foreach($immortalDefenders as $slot => $amount)
-                {
-                    $immortalDefendersDeaths[$slot] = floor($immortalsKilled * ($amount / array_sum($immortalDefenders)));
-                }
-
-                foreach($immortalDefendersDeaths as $slot => $deaths)
-                {
-                    if($deaths > 0)
-                    {
-                          $deaths = intval($deaths);
-                          $defender->{"military_unit{$slot}"} -= $deaths;
-                          if(isset($this->invasionResult['defender']['unitsLost'][$slot]))
-                          {
-                              $this->invasionResult['defender']['unitsLost'][$slot] += $deaths;
-                          }
-                          else
-                          {
-                              $this->invasionResult['defender']['unitsLost'][$slot] = $deaths;
-                          }
-
-                          $this->statsService->updateStat($attacker, 'units_killed', $deaths);
-                          $this->statsService->updateStat($defender, ('unit' . $slot . '_lost'), $deaths);
-
-                    }
-                }
-            }
-
-            // SOULS
-
-            # See if Qur sent any Zealots
-            foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
-            {
-                if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'destroys_souls'))
-                {
-                    $zealots += $amount;
-                }
-            }
-
-            # See if the target has souls.
-            if($defenderSouls = $this->resourceCalculator->getAmount($defender, 'soul'))
-            {
-                $soulsDestroyed = (int)floor(min($defenderSouls * 0.04, ($zealots * $soulsDestroyedPerZealot)));
-
-                $this->invasionResult['attacker']['soulsDestroyed'] = $soulsDestroyed;
-                $this->resourceService->updateResources($defender, ['souls' => ($soulsDestroyed*-1)]);
-                $this->statsService->updateStat($attacker, 'soul_destroyed', $soulsDestroyed);
-            }
-        }
-        elseif($defender->race->name === 'Qur')
-        {
-              # See if attacker has any immortal units
-              foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
-              {
-                  $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                      return ($unit->slot == $slot);
-                  })->first();
-
-                  if($attacker->race->getUnitPerkValueForUnitSlot($slot, 'immortal') or $attacker->race->getUnitPerkValueForUnitSlot($slot, 'true_immortal') and !$this->unitHelper->unitSlotHasAttributes($attacker->race, $slot, $unkillableAttributes))
-                  {
-                      $immortalAttackers[$slot] += $defender->{'military_unit'.$slot};
-                  }
-              }
-
-              # See if Qur has any Zealots
-              foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
-              {
-                  if($slot !== 'draftees' and $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_immortal'))
-                  {
-                      $zealots += $amount;
-                  }
-              }
-
-              $immortalsKilled = min($zealots * $immortalsKilledPerZealot, array_sum($immortalAttackers) * 0.03);
-
-              # Determine ratio of each immortal defender to kill.
-              if(array_sum($immortalAttackers) > 0)
-              {
-                  foreach($immortalAttackers as $slot => $amount)
-                  {
-                      $immortalAttackersDeaths[$slot] = floor($immortalsKilled * ($amount / array_sum($immortalAttackers)));
-                  }
-
-                  foreach($immortalAttackersDeaths as $slot => $deaths)
-                  {
-                      if($deaths > 0)
-                      {
-                            $deaths = intval($deaths);
-                            $defender->{"military_unit{$slot}"} -= $deaths;
-                            if(isset($this->invasionResult['attacker']['unitsLost'][$slot]))
-                            {
-                                $this->invasionResult['attacker']['unitsLost'][$slot] += $deaths;
-                            }
-                            else
-                            {
-                                $this->invasionResult['attacker']['unitsLost'][$slot] = $deaths;
-                            }
-
-                            $this->invasionResult['attacker']['survivingUnits'][$slot] -= $deaths;
-
-                            $this->statsService->updateStat($attacker, ('unit' . $slot . '_lost'), $deaths);
-                            $this->statsService->updateStat($defender, 'units_killed', $deaths);
-
-                      }
-                  }
-              }
-
-              // SOULS
-              $zealots = 0;
-
-              # See if Qur is defending with any Zealots
-              foreach($this->invasionResult['defender']['unitsDefending'] as $slot => $amount)
-              {
-                  if($slot !== 'draftees' and $defender->race->getUnitPerkValueForUnitSlot($slot, 'destroys_souls'))
-                  {
-                      $zealots += $amount;
-                  }
-              }
-
-              # See if the target has souls.
-              if($attackerSouls = $this->resourceCalculator->getAmount($attacker, 'soul'))
-              {
-                  $soulsDestroyed = (int)floor(min($attackerSouls * 0.04, ($zealots * $soulsDestroyedPerZealot)));
-
-                  $this->invasionResult['defender']['soulsDestroyed'] = $soulsDestroyed;
-
-                  $this->resourceService->updateResources($attacker, ['soul' => ($soulsDestroyed*-1)]);
-                  $this->statsService->updateStat($defender, 'soul_destroyed', $soulsDestroyed);
-              }
-        }
     }
 
     /**
