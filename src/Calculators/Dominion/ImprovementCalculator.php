@@ -77,6 +77,10 @@ class ImprovementCalculator
             $multiplier += $dominion->getImprovementPerkMultiplier('improvement_points');
             $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_improvement_points');
 
+            # Deity
+            $multiplier += $dominion->getDeityPerkMultiplier('improvement_points');
+            $multiplier += $dominion->getDeityPerkMultiplier($resourceKey . '_improvement_points');
+
             # Faction
             $multiplier += $dominion->race->getPerkMultiplier('invest_bonus');
 

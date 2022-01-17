@@ -1367,7 +1367,7 @@ marsh_attacks:
   name: Marsh Attacks
   scope: self
   class: active
-  cost: 3
+  cost: 12
   exclusive_races:
     - Marshling
   perks:

@@ -8,6 +8,7 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\SelectorService;
+use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Services\Dominion\QueueService;
@@ -789,6 +790,9 @@ class Dominion extends AbstractModel
                           or $perkKey == 'blood_invest_bonus'
                           or $perkKey == 'soul_invest_bonus'
 
+                          # Other/special
+                          or $perkKey == 'deity_power'
+
                       )
                   {
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);
@@ -1211,6 +1215,14 @@ class Dominion extends AbstractModel
             $resourceCalculator = app(ResourceCalculator::class);
             $multiplier += $resourceCalculator->getAmount($this, 'soul') / ($landSize * 1000);
         }
+
+        if($improvementsPerVictoryPerk = $this->race->getPerkValue('improvements_per_victory'))
+        {
+            $statsService = app(StatsService::class);
+            $multiplier += ($statsService->getStat($this, 'invasion_victories') * $improvementsPerVictoryPerk) / 100;
+        }
+
+
 
         $multiplier = max(0, $multiplier);
 

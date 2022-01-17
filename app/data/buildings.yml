@@ -431,6 +431,18 @@ military_academy:
   perks:
     offensive_power: 1,1.8,36 # Every 1% gives 11.8% OP, max +40% OP
 
+obelisk:
+  name: Obelisk
+  exclusive_races:
+    - Afflicted
+    - Demon
+    - Reptilians
+    - Sacred Order
+    - Undead
+  land_type: plain
+  perks:
+    deity_power: 1,10,100
+
 guard_tower:
   name: Guard Tower
   excluded_races:
@@ -1141,7 +1153,7 @@ spawning_pool:
     - Marshling
   land_type: swamp
   perks:
-    marshling_production_raw: 0.20
+    marshling_production_raw: 0.18
 
 # END MARSHLING
 

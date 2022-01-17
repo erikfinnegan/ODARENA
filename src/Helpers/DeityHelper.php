@@ -100,11 +100,9 @@ class DeityHelper
             'offensive_casualties' => '%s%% casualties suffered when invading',
             'defensive_casualties' => '%s%% casualties suffered when defending',
 
-
             'increases_enemy_casualties' => '%s%% enemy casualties',
             'increases_enemy_casualties_on_defense' => '%s%% enemy casualties when defending',
             'increases_enemy_casualties_on_offense' => '%s%% enemy casualties when invading',
-
 
             // OP/DP
             'offensive_power' => '%s%% offensive power',
@@ -115,7 +113,8 @@ class DeityHelper
             'target_defensive_power_mod' => '%s%% defensive modifier for target',
 
             // Improvements
-            'improvements' => '%s%% improvement points value',
+            'improvements' => '%s%% improvements',
+            'improvement_points' => '%s%% improvement points',
 
             // Land and Construction
             'land_discovered' => '%s%% land discovered on successful invasions',

@@ -733,23 +733,23 @@ apprenticeship:
   exclusive_races:
     - Wood Elf
   perks:
-    unit_gold_costs: -50,6400
-    unit_lumber_costs: -50,8750
+    unit_gold_costs: -50,7500
+    unit_lumber_costs: -50,9100
 
 commerce_wood_elf:
   name: Commerce
   exclusive_races:
     - Wood Elf
   perks:
-    gold_production_mod: 50,8400
+    gold_production_mod: 50,9000
 
 construction_wood_elf:
   name: Construction
   exclusive_races:
     - Wood Elf
   perks:
-    construction_cost: -50,6400
-    rezone_cost: -50,6400
+    construction_cost: -50,7000
+    rezone_cost: -50,7000
 
 camouflage:
   name: Camouflage
@@ -757,32 +757,32 @@ camouflage:
     - Wood Elf
   perks:
     defensive_power: 50,9000
-    casualties_on_defense: -40,7000
+    casualties_on_defense: -40,8000
 
 cartography_wood_elf:
   name: Cartography
   exclusive_races:
     - Wood Elf
   perks:
-    land_discovered: 70,6500
-    explore_gold_cost: -35,6000
+    land_discovered: 70,7000
+    explore_gold_cost: -35,7000
 
 espionage_wood_elf:
   name: Espionage
   exclusive_races:
     - Wood Elf
   perks:
-    spy_strength: 90,8000
-    spy_losses: -90,8000
-    spy_housing: 90,8000
+    spy_strength: 90,8500
+    spy_losses: -90,8500
+    spy_housing: 90,8500
 
 fencing:
   name: Fencing
   exclusive_races:
     - Wood Elf
   perks:
-    offensive_power: 50,8000
-    casualties_on_offense: -40,7000
+    offensive_power: 50,9000
+    casualties_on_offense: -40,8000
 
 foraging:
   name: Foraging
@@ -796,46 +796,46 @@ forestry:
   exclusive_races:
     - Wood Elf
   perks:
-    lumber_production_mod: 50,6500
-    population_growth: 35,7000
+    lumber_production_mod: 50,7000
+    population_growth: 35,7500
 
 housing_wood_elf:
   name: Housing
   exclusive_races:
     - Wood Elf
   perks:
-    population: 45,7500
+    population: 45,8000
 
 leadership_wood_elf:
   name: Leadership
   exclusive_races:
     - Wood Elf
   perks:
-    title_bonus: 80,1200
+    title_bonus: 80,2000
 
 tutoring:
   name: Tutoring
   exclusive_races:
     - Wood Elf
   perks:
-    xp_generation_mod: 45,8000
-    xp_gains: 45,8000
+    xp_generation_mod: 45,8500
+    xp_gains: 45,8500
 
 vigilance:
   name: Vigilance
   exclusive_races:
     - Wood Elf
   perks:
-    theft_protection: 60,8000
+    theft_protection: 60,8500
 
 wizardry_wood_elf:
   name: Wizardry
   exclusive_races:
     - Wood Elf
   perks:
-    wizard_strength: 90,8000
-    mana_production_mod: 90,8000
-    spell_damage: -90,8000
+    wizard_strength: 90,8500
+    mana_production_mod: 90,8500
+    spell_damage: -90,8500
 
 # END WOOD ELF #
 

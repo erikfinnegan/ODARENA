@@ -169,14 +169,20 @@ class RaceHelper
                 $valueType = '% / tick';
                 $booleanValue = 'static';
                 break;
-            case 'population_growth':
+          case 'improvements_per_victory':
                 $negativeBenefit = false;
-                $description = 'Population growth rate';
+                $description = 'Improvements';
+                $valueType = '% per victory';
+                $booleanValue = 'static';
                 break;
           case 'land_improvements':
                 $negativeBenefit = false;
                 $description = 'Land based improvements';
                 $booleanValue = true;
+                break;
+            case 'population_growth':
+                $negativeBenefit = false;
+                $description = 'Population growth rate';
                 break;
           case 'cannot_explore':
                 $negativeBenefit = true;
@@ -487,6 +493,7 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Souls increase improvements';
                 $booleanValue = true;
+                break;
           default:
                 $negativeBenefit = false;
                 $description = 'No description for perk: ' . $perkType->key;

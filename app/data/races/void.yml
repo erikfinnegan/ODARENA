@@ -24,9 +24,9 @@ construction_materials:
 improvement_resources:
   mana: 4
 
-spies_cost: 10000,mana
-wizards_cost: 10000,mana
-archmages_cost: 10000,mana
+spies_cost: 0,mana
+wizards_cost: 0,mana
+archmages_cost: 0,mana
 
 perks:
   no_food_consumption: 1
