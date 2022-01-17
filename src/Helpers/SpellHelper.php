@@ -66,6 +66,9 @@ class SpellHelper
             'food_production_mod' => '%s%% food production',
             'gems_production_mod' => '%s%% gem production',
             'gold_production_mod' => '%s%% gold production',
+            'swamp_gas_production_mod' => '%s%% swamp gas production',
+
+
             'pearls_production_mod_production' => '%s%% pearl production',
             'cosmic_alignment_production_mod' => '%s%% Cosmic Alignment discovery',
 
