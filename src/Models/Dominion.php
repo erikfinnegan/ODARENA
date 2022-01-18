@@ -8,9 +8,10 @@ use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Services\Dominion\HistoryService;
 use OpenDominion\Services\Dominion\SelectorService;
-use OpenDominion\Services\Dominion\StatsService;
-use OpenDominion\Calculators\Dominion\ResourceCalculator;
+#use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Services\Dominion\QueueService;
 use Illuminate\Support\Carbon;
 
@@ -1216,10 +1217,11 @@ class Dominion extends AbstractModel
             $multiplier += $resourceCalculator->getAmount($this, 'soul') / ($landSize * 1000);
         }
 
-        if($improvementsPerVictoryPerk = $this->race->getPerkValue('improvements_per_victory'))
+        if($improvementsPerVictoryPerk = $this->race->getPerkValue('improvements_per_net_victory'))
         {
-            $statsService = app(StatsService::class);
-            $multiplier += ($statsService->getStat($this, 'invasion_victories') * $improvementsPerVictoryPerk) / 100;
+            #$statsService = app(StatsService::class);
+            $militaryCalculator = app(MilitaryCalculator::class);
+            $multiplier += (max($militaryCalculator->getNetVictories($this),0) * $improvementsPerVictoryPerk) / 100;
         }
 
 

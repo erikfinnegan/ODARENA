@@ -120,7 +120,7 @@ class SpellHelper
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
             'summon_units_from_land_by_time' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3$s%%  per hour into the round.',
 
-            'marshling_random_resource_to_units_conversion' => 'Turns %1$s%% of your %2$s into random amount of %3$s.',
+            'marshling_random_resource_to_units_conversion' => 'Turns (%1$s%% x Wizard Ratio) your %3$s (max %2$s%%) into random amount of %4$s.',
 
             'can_kill_immortal' => 'Can kill some immortal units.',
 
@@ -514,9 +514,10 @@ class SpellHelper
 
             if($perk->key === 'marshling_random_resource_to_units_conversion')
             {
-                $resourceRatioTaken = (float)$perkValue[0];
-                $resourceKey = (string)$perkValue[1];
-                $unitSlots = (array)$perkValue[2];
+                $ratioPerWpa = (float)$perkValue[0];
+                $maxRatio = (float)$perkValue[1];
+                $resourceKey = (string)$perkValue[2];
+                $unitSlots = (array)$perkValue[3];
 
                 // Rue the day this perk is used for other factions.
                 $race = Race::where('name', 'Marshling')->firstOrFail();
@@ -535,7 +536,7 @@ class SpellHelper
 
                 $unitsString = generate_sentence_from_array($units);
 
-                $perkValue = [$resourceRatioTaken, str_plural($resource->name), $unitsString];
+                $perkValue = [$ratioPerWpa, $maxRatio, str_plural($resource->name), $unitsString];
                 $nestedArrays = false;
             }
 

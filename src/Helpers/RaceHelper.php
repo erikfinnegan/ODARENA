@@ -169,10 +169,10 @@ class RaceHelper
                 $valueType = '% / tick';
                 $booleanValue = 'static';
                 break;
-          case 'improvements_per_victory':
+          case 'improvements_per_net_victory':
                 $negativeBenefit = false;
                 $description = 'Improvements';
-                $valueType = '% per victory';
+                $valueType = '% per net victory (min 0)';
                 $booleanValue = 'static';
                 break;
           case 'land_improvements':

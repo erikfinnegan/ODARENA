@@ -705,10 +705,16 @@ class SpellActionService
                 # Summon units (increased hourly)
                 if($perk->key === 'marshling_random_resource_to_units_conversion')
                 {
-                    $resourceRatioTaken = (float)$spellPerkValues[0] / 100;
-                    $resourceKey = (string)$spellPerkValues[1];
+
+                    $ratioPerWpa = (float)$spellPerkValues[0] / 100;
+                    $maxRatio = (float)$spellPerkValues[1];
+                    $resourceKey = (string)$spellPerkValues[2];
+                    $unitSlots = (array)$spellPerkValues[3];
+
+                    $resourceRatioTaken = min($this->militaryCalculator->getWizardRatio($caster) * $ratioPerWpa, $maxRatio);
                     $resourceAmountOwned = $this->resourceCalculator->getAmount($caster, $resourceKey);
                     $resourceAmountConverted = floor($resourceAmountOwned * $resourceRatioTaken);
+
                     $resource = Resource::where('key', $resourceKey)->firstOrFail();
                     $resourceAmountOwned = $this->resourceService->updateResources($caster, [$resourceKey => ($resourceAmountConverted * -1)]);
 

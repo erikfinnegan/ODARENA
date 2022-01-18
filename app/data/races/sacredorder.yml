@@ -16,7 +16,7 @@ perks:
   max_population: 25
   prestige_gains: 10
   salvaging: 15
-  improvements_per_victory: 5 # +5% imps per victory
+  improvements_per_net_victory: 2
 units:
   - name: Martyr
     type:
