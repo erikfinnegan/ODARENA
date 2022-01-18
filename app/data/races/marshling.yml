@@ -69,7 +69,7 @@ units:
     perks:
       cannot_be_trained: 1
       cannot_be_released: 1
-      swamp_gas_production_raw: 4
+      swamp_gas_production_raw: 2
 
   - name: Oozer
     type:

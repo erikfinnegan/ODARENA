@@ -34,7 +34,6 @@ gold_mine:
   perks:
     gold_production_raw: 50
 
-
 farm:
   name: Farm
   excluded_races:
@@ -1137,7 +1136,7 @@ gas_spout:
     - Marshling
   land_type: swamp
   perks:
-    swamp_gas_production_raw: 40
+    swamp_gas_production_raw: 60
 
 mudhole:
   name: Mudhole

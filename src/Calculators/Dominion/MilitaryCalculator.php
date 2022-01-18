@@ -2122,6 +2122,8 @@ class MilitaryCalculator
         $modifier += $unitsIncreasingMorale / $population;
 
         $modifier += $dominion->getBuildingPerkMultiplier('base_morale');
+        $modifier += $dominion->getImprovementPerkMultiplier('base_morale');
+        $modifier += $dominion->getSpellPerkMultiplier('base_morale');
 
         return $modifier;
 
@@ -2233,6 +2235,9 @@ class MilitaryCalculator
 
         // Improvements
         $multiplier += $attacker->getImprovementPerkMultiplier('land_discovered');
+
+        // Deity
+        $multiplier += $attacker->getDeityPerkMultiplier('land_discovered');
 
         // Resource: XP (max +100% from 2,000,000 XP) – only for factions which cannot take advancements (Troll)
         if($attacker->race->getPerkValue('cannot_tech'))
