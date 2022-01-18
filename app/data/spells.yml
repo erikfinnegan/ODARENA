@@ -1379,7 +1379,7 @@ swamp_trance:
   scope: self
   class: passive
   cost: 6
-  duration: 12
+  duration: 36
   exclusive_races:
     - Marshling
   perks:

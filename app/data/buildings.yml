@@ -1137,7 +1137,7 @@ gas_spout:
     - Marshling
   land_type: swamp
   perks:
-    swamp_gas_production_raw: 20
+    swamp_gas_production_raw: 40
 
 mudhole:
   name: Mudhole

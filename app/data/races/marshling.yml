@@ -23,7 +23,6 @@ construction_materials:
   - mud
 
 improvement_resources:
-  mud: 2
   swamp_gas: 3
 
 land_improvements:
@@ -70,7 +69,7 @@ units:
     perks:
       cannot_be_trained: 1
       cannot_be_released: 1
-      swamp_gas_production_raw: 20
+      swamp_gas_production_raw: 4
 
   - name: Oozer
     type:

@@ -26,5 +26,5 @@
     </span>
 @endif
 @if($spell->wizard_strength)
-  / <span data-toggle="tooltip" data-placement="top" title="Wizard stregth required to cast spell">WS</span>: {{ $spell->wizard_strength }}%
+  / <span data-toggle="tooltip" data-placement="top" title="Wizard strength required to cast spell">WS</span>: {{ $spell->wizard_strength }}%
 @endif

@@ -24,6 +24,8 @@ class ImprovementHelper
             'mana_production_mod' => 'mana production',
             'food_production_mod' => 'food production',
             'horse_production_mod' => 'horse taming',
+            'blood_production_mod' => 'horse taming',
+            'marshling_production_mod' => 'horse taming',
 
             'xp_generation_mod' => 'XP generation',
 
@@ -64,6 +66,7 @@ class ImprovementHelper
             'target_defensive_power_mod' => 'defensive modifiers for target',
 
             'prestige_gains' => 'prestige gains',
+            'base_morale' => 'base morale',
 
             'spy_strength' => 'spy strength',
             'spy_losses' => 'spy losses',
