@@ -120,7 +120,7 @@ class SpellHelper
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
             'summon_units_from_land_by_time' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3$s%%  per hour into the round.',
 
-            'marshling_random_resource_to_units_conversion' => 'Turns (%1$s%% x Wizard Ratio) your %3$s (max %2$s%%) into random amount of %4$s.',
+            'marshling_random_resource_to_units_conversion' => 'Turns %1$s%% x Wizard Ratio (max %2$s%%) of your %3$s into random amounts of %4$s.',
 
             'can_kill_immortal' => 'Can kill some immortal units.',
 
