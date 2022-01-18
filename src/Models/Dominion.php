@@ -1332,11 +1332,11 @@ class Dominion extends AbstractModel
 
         $multiplier = 1;
         $multiplier += min($this->getDominionDeity()->duration * 0.1 / 100, 1);
-        $multiplier += $this->getBuildingPerkMultiplier('deity_perks');
-        $multiplier += $this->getSpellPerkMultiplier('deity_perks');
-        $multiplier += $this->getTechPerkMultiplier('deity_perks');
-        $multiplier += $this->race->getPerkMultiplier('deity_perks');
-        $multiplier += $this->title->getPerkMultiplier('deity_perks');
+        $multiplier += $this->getBuildingPerkMultiplier('deity_power');
+        $multiplier += $this->getSpellPerkMultiplier('deity_power');
+        $multiplier += $this->getTechPerkMultiplier('deity_power');
+        $multiplier += $this->race->getPerkMultiplier('deity_power');
+        $multiplier += $this->title->getPerkMultiplier('deity_power');
 
         return (float)$this->deity->getPerkValue($perkKey) * $multiplier;
     }

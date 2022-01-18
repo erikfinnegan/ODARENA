@@ -1368,10 +1368,11 @@ marsh_attacks:
   scope: self
   class: active
   cost: 12
+  wizard_strength: 20
   exclusive_races:
     - Marshling
   perks:
-    marshling_random_resource_to_units_conversion: 12.5,50,marshling,1;2;3;4 #
+    marshling_random_resource_to_units_conversion: 10,50,marshling,1;2;3;4 #
 
 swamp_trance:
   name: Swamp Trance

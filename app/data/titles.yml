@@ -87,4 +87,4 @@ general:
 high_priest:
   name: High Priest
   perks:
-    deity_perks: 50
+    deity_power: 50

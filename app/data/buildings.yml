@@ -1153,7 +1153,7 @@ spawning_pool:
     - Marshling
   land_type: swamp
   perks:
-    marshling_production_raw: 0.16
+    marshling_production_raw: 0.12
 
 # END MARSHLING
 

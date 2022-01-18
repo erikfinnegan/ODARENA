@@ -141,9 +141,9 @@ class TitleHelper
                 $description = 'Increased construction speed';
                 $valueType = ' ticks';
                 break;
-            case 'deity_perks':
+            case 'deity_power':
                 $negativeBenefit = false;
-                $description = 'Deity perks:';
+                $description = 'Deity power:';
                 break;
             default:
                 return null;
