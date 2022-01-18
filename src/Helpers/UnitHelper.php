@@ -5,8 +5,9 @@ namespace OpenDominion\Helpers;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
-use OpenDominion\Models\Unit;
+use OpenDominion\Models\Resource;
 use OpenDominion\Models\Tech;
+use OpenDominion\Models\Unit;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Services\Dominion\QueueService;
@@ -313,14 +314,15 @@ class UnitHelper
             'plunders' => 'Plunders up to %2$s %1$s on attack.', # Multiple resources
             'plunder' => 'Plunders up to %2$s %1$s on attack.', # Single resource
 
+            'destroys_resources_on_victory' => 'Destroys up to %2$s %1$s on attack.', # Multiple resources
+            'destroys_resource_on_victory' => 'Destroys up to %2$s %1$s on attack.', # Single resource
+
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'gold_upkeep_raw' => 'Costs %s gold per tick.',
             'lumber_upkeep_raw' => 'Costs %s lumber per tick.',
             'ore_upkeep_raw' => 'Costs %s ore per tick.',
             'brimmer_upkeep_raw' => 'Uses %s brimmer per tick.',
             'mana_upkeep_raw' => 'Drains %s mana per tick.',
-
-            'destroys_souls' => 'Releases souls.',
 
             'production_from_title' => 'Produces %3$s %2$s per tick if ruled by a %1$s.',
 
@@ -611,6 +613,15 @@ class UnitHelper
 
                         $perkValue[$index][1] = generate_sentence_from_array([$amount]);
                     }
+                }
+
+                if($perk->key === 'destroys_resource_on_victory')
+                {
+                    $resourceKey = (string)$perkValue[0];
+                    $amountDestroyed = (float)$perkValue[1];
+                    $resource = Resource::where('key', $resourceKey)->firstOrFail();
+
+                    $perkValue = [str_plural($resource->name, $amountDestroyed), $amountDestroyed];
                 }
 
                 // Special case for dies_into, wins_into ("change_into"), fends_off_into

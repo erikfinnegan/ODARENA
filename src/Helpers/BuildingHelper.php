@@ -215,6 +215,9 @@ class BuildingHelper
             'spy_strength_on_defense' => 'Spy strength on defense increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'spy_strength_on_offense' => 'Spy strength on offense increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
+            # Other/special
+            'deity_power' => 'Increases deity perks %2$s%% for every %1$s%% (max +%3$s%%)',
+
         ];
 
         foreach ($building->perks as $perk)

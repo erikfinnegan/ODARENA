@@ -439,7 +439,7 @@ obelisk:
     - Reptilians
     - Sacred Order
     - Undead
-  land_type: plain
+  land_type: hill
   perks:
     deity_power: 1,10,100
 

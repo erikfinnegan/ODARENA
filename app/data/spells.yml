@@ -1371,13 +1371,14 @@ marsh_attacks:
   exclusive_races:
     - Marshling
   perks:
-    marshling_random_resource_to_units_conversion: 12.5,50,marshling,1;2;3;4 # 
+    marshling_random_resource_to_units_conversion: 12.5,50,marshling,1;2;3;4 #
 
 swamp_trance:
   name: Swamp Trance
   scope: self
   class: passive
   cost: 6
+  duration: 12
   exclusive_races:
     - Marshling
   perks:

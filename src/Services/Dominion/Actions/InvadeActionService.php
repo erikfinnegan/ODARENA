@@ -1146,8 +1146,8 @@ class InvadeActionService
             {
                 if ($destroysResourcePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'destroys_resource_on_victory'))
                 {
-                    $amountDestroyedPerUnit = (float)$destroysResourcePerk[0];
-                    $resourceKey = (string)$destroysResourcePerk[1];
+                    $resourceKey = (string)$destroysResourcePerk[0];
+                    $amountDestroyedPerUnit = (float)$destroysResourcePerk[1];
                     $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['unitsSent'] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($target, $resourceKey)));
 
                     if($maxDestroyedBySlot > 0)
