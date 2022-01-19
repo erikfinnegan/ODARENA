@@ -25,7 +25,7 @@ class ImprovementHelper
             'food_production_mod' => 'food production',
             'horse_production_mod' => 'horse taming',
             'blood_production_mod' => 'horse taming',
-            'marshling_production_mod' => 'horse taming',
+            'marshling_production_mod' => 'marshling spawning',
 
             'xp_generation_mod' => 'XP generation',
 
