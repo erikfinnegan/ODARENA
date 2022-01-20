@@ -86,12 +86,8 @@ class CasualtiesCalculator2
 
             if(!$this->isUnitImmortal($dominion, $enemy, $unit, $invasionData, $mode))
             {
-                dump($this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
+                #dump($this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
                 $casualties[$slot] += (int)round($amountSent * $this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
-            }
-            else
-            {
-                  dump($unit->name . ' is immortal.');
             }
         }
 
