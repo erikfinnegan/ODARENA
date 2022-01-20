@@ -348,9 +348,6 @@ class InvadeActionService
             $this->handleLandGrabs($dominion, $target, $landRatio, $units);
             $this->handleResearchPoints($dominion, $target, $units);
 
-            # Qur
-            $this->handleZealots($dominion, $target, $this->invasionResult['attacker']['survivingUnits']);
-
             # Dwarf
             $this->handleStun($dominion, $target, $units, $landRatio);
 
