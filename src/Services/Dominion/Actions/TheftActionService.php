@@ -372,7 +372,7 @@ class TheftActionService
             4 => $thief->military_unit4 - (isset($units[4]) ? $units[4] : 0)
         ];
         $attackingForceOP = $this->militaryCalculator->getOffensivePower($thief, $target, $landRatio, $units);
-        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($thief, null, null, $unitsHome, 0, false, false, false, null, null, true); # The "true" at the end excludes raw DP from annexed dominions
+        $newHomeForcesDP = $this->militaryCalculator->getDefensivePower($thief, null, null, $unitsHome, 0, false, false, false, null, true); # The "true" at the end excludes raw DP from annexed dominions
 
         $attackingForceMaxOP = (int)ceil($newHomeForcesDP * (4/3));
 
