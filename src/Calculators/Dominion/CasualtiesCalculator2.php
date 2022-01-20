@@ -25,6 +25,11 @@ class CasualtiesCalculator2
     private function getInvasionCasualtiesRatioForUnit(Dominion $dominion, Unit $unit, Dominion $enemy = null, array $invasionData = [], string $mode = 'offense'): float
     {
 
+        if($fixedCasualties = $this->getFixedCasualties($dominion, $enemy, $unit, $invasionData, $mode))
+        {
+            return $fixedCasualties;
+        }
+
         $ratios = [
             'offense' => 0.10,
             'defense' => 0.05
@@ -92,6 +97,24 @@ class CasualtiesCalculator2
         }
 
         return $casualties;
+    }
+
+    private function getFixedCasualties(Dominion $dominion, Dominion $enemy, $unit, array $invasionData = [], string $mode = 'offense'): float
+    {
+        $fixedCasualtiesPerk = 0;
+
+        if(is_a($unit, 'OpenDominion\Models\Unit', true))
+        {
+            $slot = (int)$unit->slot;
+
+            if ($fixedCasualties = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'fixed_casualties'))
+            {
+                $fixedCasualtiesPerk += $fixedCasualties;
+            }
+        }
+
+        return $fixedCasualties / 100;
+
     }
 
     private function isUnitImmortal(Dominion $dominion, Dominion $enemy, $unit, array $invasionData = [], string $mode = 'offense')

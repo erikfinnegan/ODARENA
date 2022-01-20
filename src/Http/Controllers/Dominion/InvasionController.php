@@ -13,6 +13,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Dominion\Actions\InvadeActionService;
 use OpenDominion\Services\Dominion\GovernmentService;
 use OpenDominion\Services\Dominion\ProtectionService;
+use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
@@ -36,6 +37,7 @@ class InvasionController extends AbstractDominionController
             'militaryCalculator' => app(MilitaryCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'prestigeCalculator' => app(PrestigeCalculator::class),
+            'queueService' => app(QueueService::class),
             'rangeCalculator' => app(RangeCalculator::class),
             'resourceCalculator' => app(ResourceCalculator::class),
             'spellCalculator' => app(SpellCalculator::class),
