@@ -36,7 +36,7 @@ class CasualtiesCalculator2
         $baseRatio *= $this->getBaseRatioModifiers($dominion, $invasionData, $mode);
         $baseRatio *= $this->getOnlyDiesVsRawPowerPerkMultiplier($dominion, $unit, $enemy, $invasionData, $mode);
 
-        dump('$baseRatio for ' . $dominion->name . ' unit ' . $unit->name . ': ' . $baseRatio . ' (mode: ' . $mode . ')');
+        #dump('$baseRatio for ' . $dominion->name . ' unit ' . $unit->name . ': ' . $baseRatio . ' (mode: ' . $mode . ')');
 
         # The mode as seen by the enemy
         $enemyMode = 'offense';
