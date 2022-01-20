@@ -700,7 +700,7 @@ class InvadeActionService
             foreach ($this->invasionResult['defender']['unitsLost'] as $slot => $amount)
             {
                 $dominion->{"military_unit{$slot}"} -= $amount;
-                $this->invasionResult['attacker']['survivingUnits'][$slot] = $this->invasionResult['defender']['unitsDefending'][$slot] - $this->invasionResult['defender']['unitsLost'][$slot];
+                $this->invasionResult['defender']['survivingUnits'][$slot] = $this->invasionResult['defender']['unitsDefending'][$slot] - $this->invasionResult['defender']['unitsLost'][$slot];
 
                 if(in_array($slot,[1,2,3,4]))
                 {
@@ -2061,7 +2061,7 @@ class InvadeActionService
                               $resourceAmount *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
                               $this->invasionResult['attacker']['resource_conversion'][$resource] += $resourceAmount;
 
-                              dump('[Enemy slot ' . $slotKilled . ' killed: ' . number_format($amountKilled) . ', DP: ' . number_format($dpKilledFromSlot) .'] Slot ' . $slot . ' OP: ' . number_format($opFromSlot) . '/' . number_format($rawOp) . ' = ' . ($opFromSlot / $rawOp) . '. DP killed attributable: ' . number_format($killsAttributableToThisSlot) . ', yielding ' . number_format($resourceAmount) . ' ' . $resource . '.');
+                              #dump('[Enemy slot ' . $slotKilled . ' killed: ' . number_format($amountKilled) . ', DP: ' . number_format($dpKilledFromSlot) .'] Slot ' . $slot . ' OP: ' . number_format($opFromSlot) . '/' . number_format($rawOp) . ' = ' . ($opFromSlot / $rawOp) . '. DP killed attributable: ' . number_format($killsAttributableToThisSlot) . ', yielding ' . number_format($resourceAmount) . ' ' . $resource . '.');
                         }
                     }
                 }
