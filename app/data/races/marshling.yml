@@ -94,5 +94,4 @@ units:
       cannot_be_trained: 1
       cannot_be_released: 1
       immortal_on_fending_off: 1
-      fixed_casualties: 100
       dies_into_resource: 3,marshling

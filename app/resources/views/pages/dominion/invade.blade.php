@@ -451,7 +451,7 @@
                                         <tr>
                                             <td>DPA:</td>
                                             <td id="home-forces-dpa" data-amount="0">
-                                                {{ number_format($militaryCalculator->getDefensivePower($selectedDominion) / $landCalculator->getTotalLand($selectedDominion), 3) }}
+                                                {{ number_format($militaryCalculator->getDefensivePower($selectedDominion) / $landCalculator->getTotalLand($selectedDominion), 2) }}
                                             </td>
                                         </tr>
                                         @if($selectedDominion->getSpellPerkValue('fog_of_war'))
