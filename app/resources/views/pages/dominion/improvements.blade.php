@@ -140,12 +140,12 @@
                           </tr>
                       </thead>
                       <tbody>
-                      @foreach($selectedDominion->race->improvement_resources as $resource => $rawValue)
+                      @foreach($selectedDominion->race->improvement_resources as $resourceKey => $rawValue)
                           <tr>
-                              <td>{{ ucwords($resource) }}</td>
-                              <td>{{ number_format($improvementCalculator->getResourceWorth($resource, $selectedDominion),2) }}</td>
+                              <td>{{ $resourceHelper->getResourceName($resourceKey) }}</td>
+                              <td>{{ number_format($improvementCalculator->getResourceWorth($resourceKey, $selectedDominion),2) }}</td>
                               <td>{{ number_format($rawValue,2) }}</td>
-                              <td>{{ number_format($improvementCalculator->getResourceWorthMultipler($resource, $selectedDominion)*100,2) }}%</td>
+                              <td>{{ number_format($improvementCalculator->getResourceWorthMultipler($resourceKey, $selectedDominion)*100,2) }}%</td>
                           </tr>
                       @endforeach
                       </tbody>
