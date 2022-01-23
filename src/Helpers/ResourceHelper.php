@@ -22,7 +22,7 @@ class ResourceHelper
             return '?';
         }
 
-        return Resource::where('key', $resourceKey)->first()->name;
+        return Resource::where('key', $resourceKey)->firstOrFail()->name;
     }
 
     public function getResourceConsumptionTerm(string $resourceKey): string

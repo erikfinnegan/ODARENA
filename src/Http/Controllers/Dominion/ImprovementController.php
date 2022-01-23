@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\ResourceHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\ImproveActionRequest;
 use OpenDominion\Services\Analytics\AnalyticsEvent;
 use OpenDominion\Services\Analytics\AnalyticsService;
@@ -21,6 +22,7 @@ class ImprovementController extends AbstractDominionController
         return view('pages.dominion.improvements', [
             'improvementCalculator' => app(ImprovementCalculator::class),
             'improvementHelper' => app(ImprovementHelper::class),
+            'resourceHelper' => app(ResourceHelper::class),
             'selectedResource' => $request->query('resource', 'gems'),
             'queueService' => app(QueueService::class),
             'resourceCalculator' => app(ResourceCalculator::class),
