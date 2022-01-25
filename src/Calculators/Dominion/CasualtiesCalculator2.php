@@ -297,6 +297,8 @@ class CasualtiesCalculator2
 
         $multiplier = 1;
 
+        #dump('Mode for ' . $dominion->name . ': ' . $enemyMode);
+
         # Title perks
         $multiplier += $dominion->title->getPerkMultiplier('increases_enemy_casualties');
         $multiplier += $dominion->title->getPerkMultiplier('increases_enemy_casualties_on_' . $enemyMode);
@@ -312,6 +314,16 @@ class CasualtiesCalculator2
         # Spells: apply spell damage modifier
         $multiplier += $dominion->getSpellPerkMultiplier('increases_enemy_casualties') * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($enemy);
         $multiplier += $dominion->getSpellPerkMultiplier('increases_enemy_casualties_on_' . $enemyMode) * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($enemy);
+
+        if($casualtiesFromWpa = $dominion->getSpellPerkValue('increases_enemy_casualties_on_' . $enemyMode . '_from_wizard_ratio'))
+        {
+            $multiplier += $this->militaryCalculator->getWizardRatio($dominion) * ($casualtiesFromWpa / 100);
+        }
+
+        if($casualtiesFromSpa = $dominion->getSpellPerkValue('increases_enemy_casualties_on_' . $enemyMode . '_from_spy_ratio'))
+        {
+            $multiplier += $this->militaryCalculator->getSpyRatio($dominion) * ($casualtiesFromSpa / 100);
+        }
 
         # Improvements
         $multiplier += $dominion->getImprovementPerkMultiplier('increases_enemy_casualties');
