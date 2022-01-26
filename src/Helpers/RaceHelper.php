@@ -571,7 +571,7 @@ class RaceHelper
             'Dark Elf' => 'Dark Elven',
             'Demon' => 'Demonic',
             'Dimensionalists' => 'Dimensionalist',
-            'Dwarf' => 'Dwarven',
+            'Dwarg' => 'Dwargen',
             'Elementals' => 'Elemental',
             'Firewalker' => 'Firewalking',
             'Gnome' => 'Gnomish',

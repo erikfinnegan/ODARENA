@@ -114,3 +114,10 @@ marshling:
   sell: null
   exclusive_races:
     - Marshling
+
+thunderstone:
+  name: Thunderstone
+  buy: null
+  sell: 500000
+  exclusive_races:
+    - Dwarg

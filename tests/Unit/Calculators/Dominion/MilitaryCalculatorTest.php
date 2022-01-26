@@ -481,14 +481,14 @@ class MilitaryCalculatorTest extends AbstractBrowserKitTestCase
     {
         $tests = [
 
-            // troll, basher, vs dwarf
+            // troll, basher, vs Dwarg
             [
                 'attributes' => [
                     'slot' => '3',
                     'power_type'=>'offense',
                     'perk_name' => 'offense_vs_goblin',
                     'perk_value' => 1,
-                    'race' => 'dwarf'
+                    'race' => 'Dwarg'
                 ],
                 'expected' => 0, // +0 OP
             ],

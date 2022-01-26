@@ -137,7 +137,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). 
 - Added link to scribes in the top navigation bar
 
 ### Changed
-- Dwarf Cleric: -40p
+- Dwarg Cleric: -40p
 - Gnome: Now has Miner's Sight as racial spell. Mechanical Genius has been removed
 - Gnome Juggernaut: Increased max staggered OP to +2.5 at 90% land
 - Icekin: Removed +5% gold production, ArchMage -25p
@@ -460,7 +460,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/). 
 
 ## [0.5.0] - 2018-08-04
 ### Added
-- Added new races: Dwarf and Goblin.
+- Added new races: Dwarg and Goblin.
 - Added ruler name for round registration. ([#254](https://github.com/WaveHack/OpenDominion/issues/254))
 - Added packs. ([#280](https://github.com/WaveHack/OpenDominion/issues/280))
 - Added racial spells. ([#157](https://github.com/WaveHack/OpenDominion/issues/157))

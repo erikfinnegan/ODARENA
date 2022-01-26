@@ -348,7 +348,7 @@ class InvadeActionService
             $this->handleLandGrabs($dominion, $target, $landRatio, $units);
             $this->handleResearchPoints($dominion, $target, $units);
 
-            # Dwarf
+            # Dwarg
             $this->handleStun($dominion, $target, $units, $landRatio);
 
             # Demon

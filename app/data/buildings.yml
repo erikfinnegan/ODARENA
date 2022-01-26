@@ -67,7 +67,7 @@ ore_mine:
     - Aurei
     - Demon
     - Dimensionalists
-    - Dwarf
+    - Dwarg
     - Elementals
     - Firewalker
     - Growth
@@ -93,9 +93,9 @@ ore_mine:
     ore_production_raw: 60
 
 dwarven_ore_mine:
-  name: Dwarven Ore Mine
+  name: Dwargen Ore Mine
   exclusive_races:
-    - Dwarf
+    - Dwarg
   land_type: mountain
   perks:
     ore_production_raw: 60
@@ -161,7 +161,7 @@ granary:
 deep_mine:
   name: Deep Mine
   exclusive_races:
-    - Dwarf
+    - Dwarg
     - Gnome
     - Imperial Gnome
   land_type: mountain
@@ -170,6 +170,7 @@ deep_mine:
     gems_production_raw: 15
     mana_production_raw: 1
     housing: 0
+    chance_to_discover_resource: 1,1,100,thunderstone
 
 slave_mine:
   name: Slave Mine
@@ -267,7 +268,7 @@ lumberyard:
   name: Lumberyard
   excluded_races:
     - Aurei
-    - Dwarf
+    - Dwarg
     - Dragon
     - Firewalker
     - Gnome
@@ -502,7 +503,7 @@ temple:
 tavern:
   name: Tavern
   exclusive_races:
-    - Dwarf
+    - Dwarg
     - Gnome
     - Goblin
     - Halfling
@@ -1283,7 +1284,7 @@ chamber:
   name: Chamber
   exclusive_races:
     - Dark Elf
-    - Dwarf
+    - Dwarg
     - Gnome
     - Imperial Gnome
   land_type: mountain

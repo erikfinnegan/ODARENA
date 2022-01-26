@@ -73,7 +73,7 @@ druvas_granaries:
     - Afflicted
     - Demon
     - Dragon
-    - Dwarf
+    - Dwarg
     - Elementals
     - Gnome
     - Icekin
@@ -103,7 +103,7 @@ mining_strength:
     - Dimensionalists
     - Elementals
     - Growth
-    - Dwarf
+    - Dwarg
     - Gnome
     - Lux
     - Marshling
@@ -195,7 +195,7 @@ transmogrify:
     - Dimensionalists
     - Elementals
     - Growth
-    - Dwarf
+    - Dwarg
     - Gnome
     - Lux
     - Marshling
@@ -652,7 +652,7 @@ miners_sight:
   duration: 48
   cooldown: 0
   exclusive_races:
-    - Dwarf
+    - Dwarg
     - Artillery
     - Gnome
     - Troll
@@ -920,7 +920,7 @@ purification:
   duration: 0
   cooldown: 0
   exclusive_races:
-    - Dwarf
+    - Dwarg
     - Kerranad
     - Sacred Order
     - Sylvan
