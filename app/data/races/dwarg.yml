@@ -38,11 +38,11 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 300
-      ore: 80
+      gold: 100
+      ore: 50
     power:
       offense: 0
-      defense: 4
+      defense: 2
     perks:
       ore_production_raw: 2
 
@@ -93,3 +93,4 @@ units:
       stuns_units: 200,2 # Stuns units up to 200 DP for 2 ticks
       damages_improvements_on_attack: 1000
       destroys_resource_on_victory: mana,1000
+      dies_into_resource: 1,thunderstone
