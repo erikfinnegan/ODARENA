@@ -68,7 +68,6 @@ units:
       defense: 2200
     perks:
       food_consumption_raw: 40
-      housing_count: 36
 
   - name: Kraken
     training_time: 12
@@ -84,4 +83,3 @@ units:
       defense: 700
     perks:
       food_consumption_raw: 25
-      housing_count: 24

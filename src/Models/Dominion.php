@@ -930,7 +930,7 @@ class Dominion extends AbstractModel
                         )
                   {
                       $randomlyGenerated = 0;
-                      $randomChance = (float)$perkValueString;
+                      $randomChance = (float)$perkValueString / 100;
                       $buildingOwned = $building->pivot->owned;
 
                       for ($trials = 1; $trials <= $buildingOwned; $trials++)
