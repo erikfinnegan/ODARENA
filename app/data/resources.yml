@@ -118,6 +118,6 @@ marshling:
 thunderstone:
   name: Thunderstone
   buy: null
-  sell: 500000
+  sell: null
   exclusive_races:
     - Dwarg

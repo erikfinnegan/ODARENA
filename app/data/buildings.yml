@@ -179,7 +179,8 @@ dwargen_mine:
   perks:
     ore_production_raw: 60
     thunderstone_production_raw_random: 0.5
-    dwarg_unit1_housing: 15
+    dwarg_unit1_housing: 20
+    housing: 0
 
 slave_mine:
   name: Slave Mine
