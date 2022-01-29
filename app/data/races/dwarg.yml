@@ -32,7 +32,7 @@ perks:
 
 units:
   - name: Miner
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -47,7 +47,7 @@ units:
       ore_production_raw: 2
 
   - name: Cleric
-    training_time: 12
+    training_time: 9
     type:
       - living
       - sentient
@@ -78,7 +78,7 @@ units:
       stuns_units: 10,2 # Stuns units up to 10 DP for 2 ticks
 
   - name: Thunder Hammerer
-    training_time: 6
+    training_time: 0
     type:
       - living
       - sentient
