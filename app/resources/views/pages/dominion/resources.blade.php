@@ -37,8 +37,8 @@
                                                 0
                                             @endif
 
-                                            @if ($selectedDominion->getBuildingPerkValue($resourceKey . '_production_raw_random') > 0)
-                                                <span class="text-muted" data-toggle="tooltip" data-placement="top" title="Production of this resource is wholly or partly random, real production is determined during at each tick.">*</span>
+                                            @if ($selectedDominion->getBuildingPerkValue($resourceKey . '_production_raw_random') > 0.00)
+                                                <span class="text-muted" data-toggle="tooltip" data-placement="top" title="Production of this resource is wholly or partly random. Actual production is determined during at each tick.">*</span>
                                             @endif
 
                                             <small class="text-muted">({{ number_format(($resourceCalculator->getProductionMultiplier($selectedDominion, $resourceKey)-1) * 100,2) }}%)</small>
