@@ -25,7 +25,6 @@ improvement_resources:
   gold: 1
   ore: 4
   gems: 12
-  thunderstone: 10000
 
 perks:
   salvaging: 50
