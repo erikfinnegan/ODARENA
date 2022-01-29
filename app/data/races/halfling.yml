@@ -41,6 +41,8 @@ units:
       gold: 600
     power:
       defense: 6
+    perks:
+      counts_as_spy_defense: 0.20
 
   - name: Master Thief
     training_time: 6

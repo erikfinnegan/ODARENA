@@ -93,9 +93,10 @@ ore_mine:
     ore_production_raw: 60
 
 dwarven_ore_mine:
-  name: Dwargen Ore Mine
+  enabled: 0
+  name: Dwarven Ore Mine
   exclusive_races:
-    - Dwarg
+    - Dwarf
   land_type: mountain
   perks:
     ore_production_raw: 60
@@ -170,16 +171,15 @@ deep_mine:
     mana_production_raw: 1
     housing: 0
 
-dwargen_eep_mine:
-  name: Dwargen Deep Mine
+dwargen_mine:
+  name: Dwargen Mine
   exclusive_races:
     - Dwarg
   land_type: mountain
   perks:
-    housing: 0
     ore_production_raw: 60
-    gems_production_raw: 15
     thunderstone_production_raw_random: 0.5
+    dwarg_unit1_housing: 15
 
 slave_mine:
   name: Slave Mine

@@ -37,6 +37,7 @@ class BuildingHelper
 
             'afflicted_unit1_housing' => 'Houses %s Abominations.',
             'aurei_unit1_housing' => 'Houses %s Alchemists.',
+            'dwarg_unit1_housing' => 'Houses %s Miners.',
             'human_unit1_housing' => 'Houses %s Archers.',
             'human_unit2_housing' => 'Houses %s Spearguards.',
             'sacred_order_unit2_housing' => 'Houses %s Monks.',
@@ -101,7 +102,7 @@ class BuildingHelper
             'blood_production_mod' => 'Blood production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'horse_production_mod' => 'Horse production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'mud_production_mod' => 'Mud production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'swamp gas_production_mod' => 'Swamp gas production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'swamp_gas_production_mod' => 'Swamp gas production increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             'xp_generation_mod' => 'XP generation increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
@@ -120,6 +121,8 @@ class BuildingHelper
             'ore_production_increasing_raw' => 'Produces %1$s ore per tick (increased by %2$s per tick of the round).',
             'gems_production_increasing_raw' => 'Produces %1$s gems per tick (increased by %2$s per tick of the round).',
             'mana_production_increasing_raw' => 'Produces %1$s mana per tick (increased by %2$s per tick of the round).',
+
+            'thunderstone_production_raw_random' => '%1$s%% chance to discover a thunderstone.',
 
             'ore_production_raw_from_prisoner' => 'Produces %1$s ore per tick per prisoner up to a maximum of %2$s prisoners.',
             'gold_production_raw_from_prisoner' => 'Produces %1$s gold per tick per prisoner up to a maximum of %2$s prisoners.',
