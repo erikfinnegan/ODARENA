@@ -642,6 +642,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'mud_production_raw'
                           or $perkKey == 'swamp_gas_production_raw'
                           or $perkKey == 'marshling_production_raw'
+                          or $perkKey == 'thunderstone_production_raw'
 
                           or $perkKey == 'gold_upkeep_raw'
                           or $perkKey == 'food_upkeep_raw'
@@ -901,12 +902,11 @@ class Dominion extends AbstractModel
                   }
                   # Dark Elven slave workers
                   elseif(
-                        $perkKey == 'ore_production_raw_from_prisoner' or
-                        $perkKey == 'gold_production_raw_from_prisoner' or
-                        $perkKey == 'gems_production_raw_from_prisoner'
+                            $perkKey == 'ore_production_raw_from_prisoner' or
+                            $perkKey == 'gold_production_raw_from_prisoner' or
+                            $perkKey == 'gems_production_raw_from_prisoner'
                         )
                   {
-
                       $resourceCalculator = app(ResourceCalculator::class);
                       $perkValues = $this->extractBuildingPerkValues($perkValueString);
 
@@ -920,7 +920,28 @@ class Dominion extends AbstractModel
                       $prisonersWorking = min($maxPrisonersWorking, $prisoners);
 
                       $perk += floor($prisonersWorking * $productionPerPrisoner);
+                  }
+                  # Random production:
+                  /*
+                        1.
+                  */
+                  elseif(
+                            $perkKey == 'thunderstone_production_raw_random'
+                        )
+                  {
+                      $randomlyGenerated = 0;
+                      $randomChance = (float)$perkValueString;
+                      $buildingOwned = $building->pivot->owned;
 
+                      for ($trials = 1; $trials <= $buildingOwned; $trials++)
+                      {
+                          if(random_chance($randomChance))
+                          {
+                              $randomlyGenerated += 1;
+                          }
+                      }
+
+                      $perk += $randomlyGenerated;
                   }
                   elseif($perkKey !== 'jobs' and $perkKey !== 'housing')
                   {

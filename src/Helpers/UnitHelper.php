@@ -233,6 +233,8 @@ class UnitHelper
 
             #'kills_immortal' => 'Kills immortal units.',
 
+            'reduces_spell_damage' => 'Reduces spell damage.',
+
             'reduces_casualties' => 'Reduces casualties.',
 
             'increases_enemy_casualties' => 'Increases enemy casualties.',
@@ -377,8 +379,8 @@ class UnitHelper
             'housing_count' => 'Takes up %1$s housing (instead of 1).',
 
             // Other
-            'increases_morale' => 'Increases base morale by %s%% for every 1%% of population.',
-            'adds_morale' => 'Increases base morale by %s%%.',
+            'increases_morale_by_population' => 'Increases base morale by %s%% for every 1%% of population.',
+            'increases_morale_fixed' => 'Increases base morale by %s%%.',
             'lowers_target_morale_on_successful_invasion' => 'On successful invasion, lowers target\'s morale by %s%%.',
 
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
@@ -388,7 +390,7 @@ class UnitHelper
 
             // Damage
             'burns_peasants_on_attack' => 'Burns %s peasants on invasion.',
-            'damages_improvements_on_attack' => 'Damages target\'s improvements by %s improvement points, spread proportionally across all invested improvements.',
+            'damages_improvements_on_attack' => 'Damages target\'s improvements by %s improvement points.',
             'eats_peasants_on_attack' => 'Eats %s peasants on invasion.',
             'eats_draftees_on_attack' => 'Eats %s draftees on invasion.',
 

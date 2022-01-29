@@ -219,6 +219,10 @@
                                                                 $labelParts[] =  number_format($value) . ' swamp gas';
                                                                 break;
 
+                                                            case 'thunderstone':
+                                                                $labelParts[] =  number_format($value) . ' thunderstone';
+                                                                break;
+
                                                             default:
                                                                 break;
                                                             }

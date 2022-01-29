@@ -117,7 +117,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Morale:</td>
-                                        <td>{{ number_format($selectedDominion->morale) }}% / {{ number_format(100 * (1 + $militaryCalculator->getBaseMoraleModifier($selectedDominion, $populationCalculator->getPopulation($selectedDominion)))) }}%</td>                                 </td>
+                                        <td>{{ number_format($selectedDominion->morale) }}% / {{ number_format($moraleCalculator->getBaseMorale($selectedDominion)) }}%</td>                                 </td>
                                     </tr>
                                     @if(!$selectedDominion->race->getPerkValue('no_drafting'))
                                     <tr>

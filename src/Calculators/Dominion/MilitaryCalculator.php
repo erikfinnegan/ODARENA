@@ -2095,41 +2095,6 @@ class MilitaryCalculator
     }
 
     /**
-     * Get the dominion's base morale modifier.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getBaseMoraleModifier(Dominion $dominion, int $population): float
-    {
-        $modifier = 0;
-        $unitsIncreasingMorale = 0;
-        $population = max($population, 1);
-        # Look for increases_morale
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            if($increasesMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale'))
-            {
-                # $increasesMorale is 1 for Immortal Guard and 2 for Immortal Knight
-                $unitsIncreasingMorale += $this->getTotalUnitsForSlot($dominion, $slot) * $increasesMorale;
-            }
-            if($addsMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'adds_morale'))
-            {
-                $modifier += $this->getTotalUnitsForSlot($dominion, $slot) * $addsMorale / 100;
-            }
-        }
-
-        $modifier += $unitsIncreasingMorale / $population;
-
-        $modifier += $dominion->getBuildingPerkMultiplier('base_morale');
-        $modifier += $dominion->getImprovementPerkMultiplier('base_morale');
-        $modifier += $dominion->getSpellPerkMultiplier('base_morale');
-
-        return $modifier;
-
-    }
-
-    /**
      * Get the dominion's prestige gain perk.
      *
      * @param Dominion $dominion

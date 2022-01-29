@@ -130,6 +130,8 @@ mirnon:
 sazal:
   name: Sazal
   range_multiplier: 0.75
+  excluded_races:
+    - Dwarg
   perks:
     wizard_strength: 10
     unit_mana_costs: -2.5

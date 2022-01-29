@@ -16,17 +16,20 @@ perks:
   salvaging: 25
 
 units:
-  - name: Slinger
+  - name: Bard
     training_time: 9
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 275
-      ore: 15
+      gold: 200
+      food: 20
+      mana: 1
     power:
-      offense: 3
+      building_limit: tavern,1
+      increases_morale_fixed: 0.5 # Morale increased by 0.5% for every bard
+      food_consumption_raw: 0.75
 
   - name: Defender
     training_time: 9
@@ -35,27 +38,26 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 300
+      gold: 600
     power:
-      defense: 3
+      defense: 6
 
   - name: Master Thief
-    training_time: 12
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 900
-      ore: 50
+      gold: 500
+      spy: 1
     power:
-      offense: 3
-      defense: 6
+      offense: 6
+      defense: 4
     perks:
-      counts_as_spy_offense: 0.2
-      counts_as_spy_defense: 0.2
-      plunders: gold;2,gems;0.1
-      offense_from_spy_ratio: 0.25 # ratio%, max
+      counts_as_spy: 1
+      casualties_from_spy_ratio: -10 # -10% casualties per 1 SPA
+      immortal_spy: 1
 
   - name: Staff Master
     training_time: 12
@@ -64,10 +66,10 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1100
+      gold: 1000
       lumber: 5
     power:
-      offense: 5
+      offense: 3
       defense: 5
     perks:
       offense_from_spy_ratio: 1 # ratio%, max

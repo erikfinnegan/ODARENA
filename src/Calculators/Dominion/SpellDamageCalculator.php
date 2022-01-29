@@ -7,9 +7,10 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Spell;
 
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+#use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 class SpellDamageCalculator
 {
@@ -22,9 +23,10 @@ class SpellDamageCalculator
     public function __construct()
     {
         $this->improvementCalculator = app(ImprovementCalculator::class);
-        $this->militaryCalculator = app(MilitaryCalculator::class);
-        $this->spellCalculator = app(SpellCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
+        #$this->populationCalculator = app(PopulationCalculator::class);
+        $this->spellCalculator = app(SpellCalculator::class);
     }
 
     /*
@@ -58,6 +60,14 @@ class SpellDamageCalculator
 
           // Advancement — unused
           $modifier += $target->getTechPerkMultiplier('damage_from_spells');
+
+          for ($slot = 1; $slot <= 4; $slot++)
+          {
+              if($reducesSpellDamagePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'reduces_spell_damage'))
+              {
+                  $modifier -= ($this->getTotalUnitsForSlot($target, $slot) / $this->landCalculator->getTotalLand($target)) * $reducesSpellDamagePerk;
+              }
+          }
 
           if(isset($spell))
           {

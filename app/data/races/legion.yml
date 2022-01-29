@@ -76,4 +76,4 @@ units:
       defense: 0
     perks:
       net_victories_limit: 1,1
-      adds_morale: 5
+      increases_morale_fixed: 5

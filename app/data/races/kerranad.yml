@@ -64,7 +64,7 @@ units:
       offense: 0
       defense: 4
     perks:
-      increases_morale: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
+      increases_morale_by_population: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
 
   - name: Battlemage
     training_time: 6
@@ -102,6 +102,6 @@ units:
       offense: 9
       defense: 5
     perks:
-      increases_morale: 2 # Morale increased by 2% for every 1% of population made up of Immortal Guards.
+      increases_morale_by_population: 2 # Morale increased by 2% for every 1% of population made up of Immortal Guards.
       increases_prestige_gains: 0.50
       no_draftee: 1

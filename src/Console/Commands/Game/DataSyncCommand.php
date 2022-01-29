@@ -119,7 +119,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'alignment' => object_get($data, 'alignment'),
                     'description' => object_get($data, 'description'),
                     'home_land_type' => object_get($data, 'home_land_type'),
-                    'playable' => object_get($data, 'playable', 1),
+                    'playable' => object_get($data, 'playable', 0),
                     'attacking' => object_get($data, 'attacking'),
                     'exploring' => object_get($data, 'exploring'),
                     'converting' => object_get($data, 'converting'),

@@ -888,16 +888,16 @@ aggression:
   exclusive_races:
     - Marshling
   perks:
-    offensive_power: 30,5000
-    base_morale: -25,6000
+    offensive_power: 40,6000
+    xp_generation_mod: -25,6000
 
 depth:
   name: Depth
   exclusive_races:
     - Marshling
   perks:
-    population: 60,10000
-    offensive_power: -20,6000
+    population: 80,10000
+    rezone_cost: -25,4000
 
 friskiness:
   name: Friskiness
@@ -921,6 +921,7 @@ mysticism:
     - Marshling
   perks:
     mana_production_mod: 100,6000
+    spell_damage: -35,4000
     casualties: 40,8000
 
 peacefulness:
@@ -937,7 +938,7 @@ strength:
     - Marshling
   perks:
     defensive_power: 50,6000
-    population: -25,5000
+    casualties: 20,6000
 
 # END MARSHLING #
 

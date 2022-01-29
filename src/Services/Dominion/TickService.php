@@ -17,6 +17,7 @@ use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\MoraleCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
@@ -106,6 +107,7 @@ class TickService
 
         $this->buildingCalculator = app(BuildingCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->moraleCalculator = app(MoraleCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->unitHelper = app(UnitHelper::class);
         $this->realmCalculator = app(RealmCalculator::class);
@@ -726,15 +728,8 @@ class TickService
         }
 
         // Morale
-        $baseMorale = 100;
-        $baseMoraleModifier = $this->militaryCalculator->getBaseMoraleModifier($dominion, $this->populationCalculator->getPopulation($dominion));
-        $baseMorale *= (1 + $baseMoraleModifier);
-        $baseMorale = intval($baseMorale);
-
-        $moraleChangeModifier = 1;
-        $moraleChangeModifier += $dominion->race->getPerkMultiplier('morale_change_tick');
-
-        $moraleChangeModifier = max(0.10, $moraleChangeModifier);
+        $baseMorale = $this->moraleCalculator->getBaseMorale($dominion);
+        $moraleChangeModifier = $this->moraleCalculator->moraleChangeModifier($dominion);
 
         if(($tick->starvation_casualties or $dominion->tick->starvation_casualties) and !$dominion->race->getPerkValue('no_food_consumption'))
         {

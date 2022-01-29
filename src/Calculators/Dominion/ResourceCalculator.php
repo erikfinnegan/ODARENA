@@ -222,6 +222,13 @@ class ResourceCalculator
               }
         }
 
+        # Check for RESOURCE_production_raw_random
+        if($randomProductionPerkValue = $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_random'))
+        {
+            $production += $randomProductionPerkValue;
+            #dump($randomProductionPerkValue);
+        }
+
         // raw_mod perks
         $rawModPerks = 1;
         $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');

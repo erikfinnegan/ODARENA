@@ -1,8 +1,8 @@
-name: Dwarg
+name: Dwarf
 alignment: good
 description:
 home_land_type: mountain
-playable: 1
+playable: 0
 
 attacking: 3
 exploring : 2
@@ -15,7 +15,6 @@ resources:
   - ore
   - gems
   - mana
-  - thunderstone
 
 construction_materials:
   - gold
@@ -25,12 +24,34 @@ improvement_resources:
   gold: 1
   ore: 4
   gems: 12
-  thunderstone: 1000
 
 perks:
+  extra_barren_max_population: 10
   salvaging: 25
 
 units:
+  - name: Thundermaul
+    training_time: 12
+    static_networth: 120
+    type:
+      - equipment
+    cost:
+      ore: 40000
+      mana: 350
+      gems: 100
+    power:
+      offense: 0
+      defense: 0
+    perks:
+      offense_from_pairing: 4,90,1 # slot, amount, num required
+      defense_from_pairing: 4,30,1 # slot, amount, num required
+      sendable_with_zero_op: 1
+      damages_improvements_on_attack: 100
+      does_not_count_as_population: 1
+      no_draftee: 1
+      casualties: -50
+      immortal_on_fending_off: 1
+
   - name: Miner
     training_time: 9
     type:
@@ -42,7 +63,7 @@ units:
       ore: 75
     power:
       offense: 0
-      defense: 4
+      defense: 3
     perks:
       ore_production_raw: 2
 
@@ -76,19 +97,3 @@ units:
       defense: 3
     perks:
       stuns_units: 10,2 # Stuns units up to 10 DP for 2 ticks
-
-  - name: Thunder Hammerer
-    training_time: 12
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      unit2: 1
-      thunderstone: 1
-    power:
-      offense: 8
-      defense: 3
-    perks:
-      stuns_units: 10,2 # Stuns units up to 10 DP for 2 ticks
-      damages_improvements_on_attack: 100

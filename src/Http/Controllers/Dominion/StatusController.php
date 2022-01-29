@@ -7,6 +7,7 @@ use OpenDominion\Http\Requests\Dominion\Actions\TickActionRequest;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\MoraleCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
@@ -35,6 +36,7 @@ class StatusController extends AbstractDominionController
             'dominionProtectionService' => app(ProtectionService::class),
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
+            'moraleCalculator' => app(MoraleCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'notificationHelper' => app(NotificationHelper::class),
             'populationCalculator' => app(PopulationCalculator::class),

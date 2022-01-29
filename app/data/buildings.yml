@@ -99,7 +99,7 @@ dwarven_ore_mine:
   land_type: mountain
   perks:
     ore_production_raw: 60
-    housing: 23
+    housing: 24
 
 diamond_mine:
   name: Diamond Mine
@@ -161,7 +161,6 @@ granary:
 deep_mine:
   name: Deep Mine
   exclusive_races:
-    - Dwarg
     - Gnome
     - Imperial Gnome
   land_type: mountain
@@ -170,7 +169,17 @@ deep_mine:
     gems_production_raw: 15
     mana_production_raw: 1
     housing: 0
-    chance_to_discover_resource: 1,1,100,thunderstone
+
+dwargen_eep_mine:
+  name: Dwargen Deep Mine
+  exclusive_races:
+    - Dwarg
+  land_type: mountain
+  perks:
+    housing: 0
+    ore_production_raw: 60
+    gems_production_raw: 15
+    thunderstone_production_raw_random: 0.5
 
 slave_mine:
   name: Slave Mine

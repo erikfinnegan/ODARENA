@@ -25,10 +25,10 @@ improvement_resources:
   gold: 1
   ore: 4
   gems: 12
-  thunderstone: 1000
+  thunderstone: 10000
 
 perks:
-  salvaging: 25
+  salvaging: 50
 
 units:
   - name: Miner
@@ -39,7 +39,7 @@ units:
       - intelligent
     cost:
       gold: 300
-      ore: 75
+      ore: 80
     power:
       offense: 0
       defense: 4
@@ -56,11 +56,11 @@ units:
       gold: 1000
       ore: 100
     power:
-      offense: 4
-      defense: 7
+      offense: 6
+      defense: 8
     perks:
       reduces_casualties: 1
-      counts_as_wizard_defense: 0.5
+      reduces_spell_damage: 0.05
 
   - name: Hammerer
     training_time: 12
@@ -73,22 +73,23 @@ units:
       ore: 200
     power:
       offense: 8
-      defense: 3
+      defense: 6
     perks:
       stuns_units: 10,2 # Stuns units up to 10 DP for 2 ticks
 
   - name: Thunder Hammerer
-    training_time: 12
+    training_time: 6
     type:
       - living
       - sentient
       - intelligent
     cost:
-      unit2: 1
+      unit3: 1
       thunderstone: 1
     power:
-      offense: 8
-      defense: 3
+      offense: 30
+      defense: 20
     perks:
-      stuns_units: 10,2 # Stuns units up to 10 DP for 2 ticks
-      damages_improvements_on_attack: 100
+      stuns_units: 20,3 # Stuns units up to 10 DP for 2 ticks
+      damages_improvements_on_attack: 1000
+      destroys_resource_on_victory: mana,1000
