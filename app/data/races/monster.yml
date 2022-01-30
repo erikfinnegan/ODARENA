@@ -1,10 +1,10 @@
 name: Monster
 alignment: evil
 description: >-
-  <p>If the Monster is present, the Governor is tasked with setting a contribution rate of 0% to 10%. All Imperial dominions must contribute this amount of their food, ore, and lumber stockpile every tick to the Monster.</p>
   <p>The Monster starts with 333 Muscles, six Carapaces, two Claws, and one Head.</p>
 home_land_type: plain
 playable: 0
+experimental: 1
 
 attacking: 3
 exploring : 0
@@ -47,6 +47,7 @@ perks:
   no_population: 1
   no_food_consumption: 1
   xp_per_acre_gained: 200
+  cannot_send_expeditions: 1
 
 units:
   - name: Carapace

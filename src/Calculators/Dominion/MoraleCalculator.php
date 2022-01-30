@@ -4,7 +4,7 @@ namespace OpenDominion\Calculators\Dominion;
 
 use OpenDominion\Models\Dominion;
 
-
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
 class MoraleCalculator
@@ -12,6 +12,7 @@ class MoraleCalculator
 
     public function __construct()
     {
+        $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->populationCalculator = app(PopulationCalculator::class);
     }
 
@@ -41,11 +42,11 @@ class MoraleCalculator
             if($increasesMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_by_population'))
             {
                 # $increasesMorale is 1 for Immortal Guard and 2 for Immortal Knight
-                $baseModifier += ($this->getTotalUnitsForSlot($dominion, $slot) / $this->populationCalculator->getPopulation($dominion)) * $increasesMorale;
+                $baseModifier += ($this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) / $this->populationCalculator->getPopulation($dominion)) * $increasesMorale;
             }
             if($increasesMoraleFixed = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_fixed'))
             {
-                $baseModifier += $this->getTotalUnitsForSlot($dominion, $slot) * $increasesMoraleFixed / 100;
+                $baseModifier += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $increasesMoraleFixed / 100;
             }
         }
 
@@ -55,13 +56,13 @@ class MoraleCalculator
     # Multiplier added to the base morale.
     public function getBaseMoraleMultiplier(Dominion $dominion): float
     {
-        $modifier = 1;
+        $multiplier = 1;
 
-        $modifier += $dominion->getBuildingPerkMultiplier('base_morale');
-        $modifier += $dominion->getImprovementPerkMultiplier('base_morale');
-        $modifier += $dominion->getSpellPerkMultiplier('base_morale');
+        $multiplier += $dominion->getBuildingPerkMultiplier('base_morale');
+        $multiplier += $dominion->getImprovementPerkMultiplier('base_morale');
+        $multiplier += $dominion->getSpellPerkMultiplier('base_morale');
 
-        return $modifier;
+        return $multiplier;
 
     }
 

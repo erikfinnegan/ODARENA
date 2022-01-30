@@ -17,7 +17,7 @@ perks:
 
 units:
   - name: Bard
-    training_time: 9
+    training_time: 6
     type:
       - living
       - sentient
@@ -27,6 +27,8 @@ units:
       food: 20
       mana: 1
     power:
+      defense: 0
+    perks:
       building_limit: tavern,1
       increases_morale_fixed: 0.5 # Morale increased by 0.5% for every bard
       food_consumption_raw: 0.75

@@ -140,8 +140,10 @@ vault:
   name: Vault
   excluded_races:
     - Growth
+    - Merfolk
     - Myconid
     - Sylvan
+    - Wood Elf
     - Void
   land_type: mountain
   perks:
