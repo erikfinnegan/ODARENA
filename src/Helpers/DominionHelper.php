@@ -4,6 +4,7 @@ namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 class DominionHelper
