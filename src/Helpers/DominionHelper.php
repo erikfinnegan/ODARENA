@@ -10,7 +10,7 @@ class DominionHelper
 {
     public function __construct()
     {
-        $this->buildingCalculator = app(MilitaryCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
     }
 
     public function isEnraged(Dominion $dominion): bool

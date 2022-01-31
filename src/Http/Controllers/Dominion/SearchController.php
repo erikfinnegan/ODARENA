@@ -11,11 +11,13 @@ use OpenDominion\Services\Dominion\ProtectionService;
 #ODA
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Helpers\DominionHelper;
 
 class SearchController extends AbstractDominionController
 {
     public function getSearch()
     {
+        $dominionHelper = app(DominionHelper::class);
         $landCalculator = app(LandCalculator::class);
         $networthCalculator = app(NetworthCalculator::class);
         $protectionService = app(ProtectionService::class);
@@ -39,6 +41,7 @@ class SearchController extends AbstractDominionController
             ->get();
 
         return view('pages.dominion.search', compact(
+            'dominionHelper',
             'landCalculator',
             'networthCalculator',
             'protectionService',

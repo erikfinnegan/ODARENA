@@ -32,6 +32,7 @@ class RealmController extends AbstractDominionController
         $spellCalculator = app(SpellCalculator::class);
         $realmCalculator = app(RealmCalculator::class);
         $militaryCalculator = app(MilitaryCalculator::class);
+        $dominionHelper = app(DominionHelper::class);
         $landHelper = app(LandHelper::class);
         $deityHelper = app(DeityHelper::class);
         $barbarianService = app(BarbarianService::class);
@@ -172,6 +173,7 @@ class RealmController extends AbstractDominionController
             'realmDominionsStats',
             'realmCalculator',
             'militaryCalculator',
+            'dominionHelper',
             'landHelper',
             'deityHelper',
             'alignmentNoun',
