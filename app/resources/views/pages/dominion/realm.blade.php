@@ -142,7 +142,7 @@
                                                 </span>
                                             @endif
 
-                                            @if ($militaryCalculator->getRecentlyInvadedCount($dominion) and $dominion->race->name == 'Sylvan')
+                                            @if ($dominionHelper->isEnraged($dominion))
                                                 <span data-toggle="tooltip" data-placement="top" title="Enraged">
                                                 <i class="ra ra-explosion fa-lg text-red" title=""></i>
                                                 </span>

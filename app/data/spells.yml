@@ -686,6 +686,20 @@ alchemist_flame:
   perks:
     alchemy_production_mod: 30
 
+charring_flames:
+  name: Charring Flames
+  enabled: 0
+  scope: self
+  class: passive
+  cost: 4
+  duration: 24
+  cooldown: 0
+  exclusive_races:
+    - Firewalker
+  perks:
+    casualties: 10
+    cannot_be_converted: 1
+
 voidspell:
   name: ⫷⋗⫸◬
   scope: self

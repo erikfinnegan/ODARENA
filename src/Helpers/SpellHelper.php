@@ -52,7 +52,6 @@ class SpellHelper
             'fog_of_war' => 'Hidden from Insight',
 
             // Production
-
             'ore_production_raw_mod' => '%s%% raw ore production',
             'mana_production_raw_mod' => '%s% raw mana production',
             'lumber_production_raw_mod' => '%s%% raw lumber production',
@@ -67,7 +66,6 @@ class SpellHelper
             'gems_production_mod' => '%s%% gem production',
             'gold_production_mod' => '%s%% gold production',
             'swamp_gas_production_mod' => '%s%% swamp gas production',
-
 
             'pearls_production_mod_production' => '%s%% pearl production',
             'cosmic_alignment_production_mod' => '%s%% Cosmic Alignment discovery',
@@ -173,7 +171,7 @@ class SpellHelper
             'convert_enemy_casualties_to_food' => 'Enemy casualties converted to food.',
             'no_conversions' => 'No enemy units are converted.',
 
-            'convert_peasants_to_champions' => 'All peasants converted to champions each tick.',
+            'cannot_be_converted' => 'Units cannot be converted by the enemy.',
 
             // Casualties
             'increases_enemy_draftee_casualties' => '%s%% enemy draftee casualties',

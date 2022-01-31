@@ -23,6 +23,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\DeityHelper;
+use OpenDominion\Helpers\DominionHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 use OpenDominion\Helpers\InsightHelper;
 use OpenDominion\Helpers\LandHelper;
@@ -123,6 +124,7 @@ class InsightController extends AbstractDominionController
 
             'buildingHelper' => app(BuildingHelper::class),
             'deityHelper' => app(DeityHelper::class),
+            'dominionHelper' => app(DominionHelper::class),
             'insightHelper' => app(InsightHelper::class),
             'improvementHelper' => app(ImprovementHelper::class),
             'landHelper' => app(LandHelper::class),

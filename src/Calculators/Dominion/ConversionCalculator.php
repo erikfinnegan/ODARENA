@@ -325,7 +325,7 @@ class ConversionCalculator
                       $conversionMultiplier = (float)$valueConversionPerk[0];
                       $convertedSlot = (int)$valueConversionPerk[1];
 
-                      $convertedUnits[$convertedSlot] += (int)round(($rawDpLost  * (1 - $attacker->race->getPerkMultiplier('reduced_conversions')) * $convertingUnitsDpRatio[$slot]) * $conversionMultiplier);
+                      $convertedUnits[$convertedSlot] += (int)round(($rawDpLost * $this->getConversionReductionMultiplier($attacker) * $convertingUnitsDpRatio[$slot]) * $conversionMultiplier);
                   }
              }
 
@@ -399,7 +399,7 @@ class ConversionCalculator
                       $valueConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'casualties_conversion');
                       $convertedSlot = (int)$valueConversionPerk[0];
 
-                      $convertedUnits[$convertedSlot] += (int)round($defensiveCasualties * (1 - $defender->race->getPerkMultiplier('reduced_conversions')) * $convertingUnitsOpRatio[$slot]);
+                      $convertedUnits[$convertedSlot] += (int)round($defensiveCasualties * $this->getConversionReductionMultiplier($defender) * $convertingUnitsOpRatio[$slot]);
                   }
              }
 
@@ -470,7 +470,7 @@ class ConversionCalculator
                       $valueConversionPerk = $defender->race->getUnitPerkValueForUnitSlot($slot, 'casualties_conversion');
                       $convertedSlot = (int)$valueConversionPerk[0];
 
-                      $convertedUnits[$convertedSlot] += (int)round($offensiveCasualties * (1 - $defender->race->getPerkMultiplier('reduced_conversions')) * $convertingUnitsDpRatio[$slot]);
+                      $convertedUnits[$convertedSlot] += (int)round($offensiveCasualties * $this->getConversionReductionMultiplier($defender) * $convertingUnitsDpRatio[$slot]);
                   }
              }
 
@@ -539,7 +539,7 @@ class ConversionCalculator
             foreach($invasion['defender']['unitsLost'] as $slot => $amount)
             {
                 # Apply reduced conversions
-                $amount *= (1 - ($defender->race->getPerkMultiplier('reduced_conversions')));
+                $amount *= $this->getConversionReductionMultiplier($defender);
 
                 # Drop if invasion is not successful
                 if(!$invasion['result']['success'])
@@ -668,7 +668,7 @@ class ConversionCalculator
             foreach($invasion['attacker']['unitsLost'] as $slot => $amount)
             {
                 # Apply reduced conversions
-                $amount *= (1 - ($attacker->race->getPerkMultiplier('reduced_conversions')));
+                $amount *= $this->getConversionReductionMultiplier($attacker);
 
                 # Drop if invasion is successful
                 if($invasion['result']['success'])
@@ -783,7 +783,7 @@ class ConversionCalculator
              foreach($invasion['defender']['unitsLost'] as $slot => $amount)
              {
                  # Apply reduced conversions
-                 $amount *= (1 - ($defender->race->getPerkMultiplier('reduced_conversions')));
+                 $amount *= $this->getConversionReductionMultiplier($defender)
 
                  # Drop if invasion is not successful
                  if(!$invasion['result']['success'])
@@ -903,7 +903,7 @@ class ConversionCalculator
             foreach($invasion['attacker']['unitsLost'] as $slot => $amount)
             {
                 # Apply reduced conversions
-                $amount *= (1 - ($attacker->race->getPerkMultiplier('reduced_conversions')));
+                $amount *= $this->getConversionReductionMultiplier($attacker)
 
                 # Drop if invasion is successful
                 if($invasion['result']['success'])
@@ -1033,6 +1033,22 @@ class ConversionCalculator
         }
 
         return $isConvertible;
+
+    }
+
+    public function getConversionReductionMultiplier(Dominion $dominion): float
+    {
+        $multiplier = 1;
+
+        # Faction perk
+        $multiplier -= $dominion->race->getPerkMultiplier('reduced_conversions');
+
+        if($dominion->race->getSpellPerkValue('cannot_be_converted'))
+        {
+            $multiplier = 0;
+        }
+
+        return $multiplier;
 
     }
 

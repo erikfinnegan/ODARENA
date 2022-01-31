@@ -15,8 +15,9 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\DeityHelper;
+use OpenDominion\Helpers\DominionHelper;
+use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Services\Dominion\BarbarianService;
 use Illuminate\Support\Carbon;
 
@@ -35,6 +36,7 @@ class RealmController extends AbstractDominionController
         $deityHelper = app(DeityHelper::class);
         $barbarianService = app(BarbarianService::class);
         $statsService = app(StatsService::class);
+        $dominionHelper = app(DominionHelper::class);
 
         $dominion = $this->getSelectedDominion();
         $round = $dominion->round;

@@ -1963,7 +1963,7 @@ class InvadeActionService
             # Attacker: kills_into_resource_per_casualty SINGLE RESOURCE
             if($killsIntoResourcePerCasualty = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty'))
             {
-                $amountPerCasualty = $killsIntoResourcePerCasualty[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
+                $amountPerCasualty = $killsIntoResourcePerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($defender);
                 $resource = 'resource_' . $killsIntoResourcePerCasualty[1];
 
                 $opFromSlot = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]);
@@ -1983,7 +1983,7 @@ class InvadeActionService
             # Attacker: kills_into_resource_per_casualty_on_success SINGLE RESOURCE, ON SUCCESS
             if($killsIntoResourcePerCasualty = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty_on_success') and $this->invasionResult['result']['success'])
             {
-                $amountPerCasualty = $killsIntoResourcePerCasualty[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
+                $amountPerCasualty = $killsIntoResourcePerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($defender);
                 $resource = 'resource_' . $killsIntoResourcePerCasualty[1];
 
                 $opFromSlot = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]);
@@ -2004,7 +2004,7 @@ class InvadeActionService
             {
                 foreach($killsIntoResourcesPerCasualty as $killsIntoResourcesPerCasualtyPerk)
                 {
-                    $amountPerCasualty = $killsIntoResourcesPerCasualtyPerk[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
+                    $amountPerCasualty = $killsIntoResourcesPerCasualtyPerk[0] * $this->conversionCalculator->getConversionReductionMultiplier($defender);
                     $resource = 'resource_' . $killsIntoResourcesPerCasualtyPerk[1];
 
                     $opFromSlot = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]);
@@ -2024,7 +2024,7 @@ class InvadeActionService
             # Attacker: kills_into_resource_per_value SINGLE RESOURCE
             if($killsIntoResourcePerCasualty = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_value'))
             {
-                $amountPerPoint = $killsIntoResourcePerCasualty[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
+                $amountPerPoint = $killsIntoResourcePerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($defender);
                 $resource = 'resource_' . $killsIntoResourcePerCasualty[1];
 
                 $opFromSlot = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]);
@@ -2045,7 +2045,7 @@ class InvadeActionService
             {
                 foreach($killsIntoResourcesPerCasualty as $killsIntoResourcesPerCasualtyPerk)
                 {
-                    $amountPerPoint = $killsIntoResourcesPerCasualtyPerk[0] * (1 + $defender->race->getPerkMultiplier('reduced_conversions'));
+                    $amountPerPoint = $killsIntoResourcesPerCasualtyPerk[0] * $this->conversionCalculator->getConversionReductionMultiplier($defender);
                     $resource = 'resource_' . $killsIntoResourcesPerCasualtyPerk[1];
 
                     $opFromSlot = $this->militaryCalculator->getOffensivePowerRaw($attacker, $defender, $landRatio, [$slot => $amount]);
@@ -2058,7 +2058,6 @@ class InvadeActionService
                               #$dpKilledByThisSlot =  * ($opFromSlot / $rawOp);
                               $killsAttributableToThisSlot = $dpKilledFromSlot * ($opFromSlot / $rawOp);
                               $resourceAmount = round($killsAttributableToThisSlot * $amountPerPoint);
-                              $resourceAmount *= (1 - $defender->race->getPerkMultiplier('reduced_conversions'));
                               $this->invasionResult['attacker']['resource_conversion'][$resource] += $resourceAmount;
 
                               #dump('[Enemy slot ' . $slotKilled . ' killed: ' . number_format($amountKilled) . ', DP: ' . number_format($dpKilledFromSlot) .'] Slot ' . $slot . ' OP: ' . number_format($opFromSlot) . '/' . number_format($rawOp) . ' = ' . ($opFromSlot / $rawOp) . '. DP killed attributable: ' . number_format($killsAttributableToThisSlot) . ', yielding ' . number_format($resourceAmount) . ' ' . $resource . '.');
@@ -2093,7 +2092,7 @@ class InvadeActionService
                  # Defender: kills_into_resource_per_casualty SINGLE RESOURCE
                 if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty'))
                 {
-                    $amountPerCasualty = $killsIntoResourcesPerCasualty[0] * (1 + $attacker->race->getPerkMultiplier('reduced_conversions'));
+                    $amountPerCasualty = $killsIntoResourcesPerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
                     $resource = 'resource_' . $killsIntoResourcesPerCasualty[1];
 
                     $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
@@ -2111,7 +2110,7 @@ class InvadeActionService
                      # Defender: kills_into_resource_per_casualty_on_success SINGLE RESOURCE
                     if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty_on_success') and !$this->invasionResult['result']['success'])
                     {
-                        $amountPerCasualty = $killsIntoResourcesPerCasualty[0] * (1 + $attacker->race->getPerkMultiplier('reduced_conversions'));
+                        $amountPerCasualty = $killsIntoResourcesPerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
                         $resource = 'resource_' . $killsIntoResourcesPerCasualty[1];
 
                         $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
@@ -2132,7 +2131,7 @@ class InvadeActionService
                     {
                         foreach($killsIntoResourcesPerCasualty as $killsIntoResourcesPerCasualtyPerk)
                         {
-                            $amountPerCasualty = $killsIntoResourcesPerCasualtyPerk[0] * (1 + $attacker->race->getPerkMultiplier('reduced_conversions'));
+                            $amountPerCasualty = $killsIntoResourcesPerCasualtyPerk[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
                             $resource = 'resource_' . $killsIntoResourcesPerCasualtyPerk[1];
 
                             $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
@@ -2153,7 +2152,7 @@ class InvadeActionService
                     # Defender: kills_into_resource_per_value SINGLE RESOURCE
                     if($killsIntoResourcePerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_value'))
                     {
-                        $amountPerPoint = $killsIntoResourcePerCasualty[0] * (1 + $attacker->race->getPerkMultiplier('reduced_conversions'));
+                        $amountPerPoint = $killsIntoResourcePerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
                         $resource = 'resource_' . $killsIntoResourcePerCasualty[1];
 
                         $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
@@ -2175,7 +2174,7 @@ class InvadeActionService
                 {
                     foreach($killsIntoResourcesPerCasualty as $killsIntoResourcesPerValuePerk)
                     {
-                        $amountPerPoint = $killsIntoResourcesPerValuePerk[0] * (1 + $attacker->race->getPerkMultiplier('reduced_conversions'));
+                        $amountPerPoint = $killsIntoResourcesPerValuePerk[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
                         $resource = 'resource_' . $killsIntoResourcesPerValuePerk[1];
 
                         $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
@@ -2392,9 +2391,9 @@ class InvadeActionService
             $this->invasionResult['attacker']['crypt'] = [];
 
             # The battlefield:
-            # Cap bodies by reduced_conversions perk, and round.
-            $defensiveBodies = round(array_sum($this->invasionResult['defender']['unitsLost']) * (1 - $defender->race->getPerkMultiplier('reduced_conversions')));
-            $offensiveBodies = round(array_sum($this->invasionResult['attacker']['unitsLost']) * (1 - $attacker->race->getPerkMultiplier('reduced_conversions')));
+            # Cap bodies by reduced conversions perk, and round.
+            $defensiveBodies = round(array_sum($this->invasionResult['defender']['unitsLost']) * $this->conversionCalculator->getConversionReductionMultiplier($defender);
+            $offensiveBodies = round(array_sum($this->invasionResult['attacker']['unitsLost']) * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
 
             $cryptLogString .= 'Defensive bodies (raw): ' . number_format($defensiveBodies) . ' | ';
             $cryptLogString .= 'Offensive bodies (raw): ' . number_format($offensiveBodies) . ' | ';

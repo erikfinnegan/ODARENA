@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
-use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
+use OpenDominion\Calculators\Dominion\ConversionCalculator;
 use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
@@ -25,6 +25,7 @@ use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\RoundHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\Deity;
@@ -45,15 +46,10 @@ use Throwable;
 
 class TickService
 {
-    protected const COUNTDOWN_DURATION_HOURS = 12;
-    protected const COUNTDOWN_DURATION_TICKS = 50;
     protected const EXTENDED_LOGGING = false;
 
     /** @var Carbon */
     protected $now;
-
-    /** @var CasualtiesCalculator */
-    protected $casualtiesCalculator;
 
     /** @var LandCalculator */
     protected $landCalculator;
@@ -95,7 +91,7 @@ class TickService
     {
         $this->now = now();
         $this->barbarianCalculator = app(BarbarianCalculator::class);
-        $this->casualtiesCalculator = app(CasualtiesCalculator::class);
+        $this->conversionCalculator = app(ConversionCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
         $this->notificationService = app(NotificationService::class);
@@ -111,6 +107,7 @@ class TickService
         $this->moraleCalculator = app(MoraleCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
         $this->unitHelper = app(UnitHelper::class);
+        $this->roundHelper = app(RoundHelper::class);
         $this->realmCalculator = app(RealmCalculator::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
         $this->deityService = app(DeityService::class);
@@ -208,7 +205,7 @@ class TickService
                         # For fixed length rounds, show a countdown when there are COUNTDOWN_DURATION_TICKS ticks left.
                         if(in_array($round->mode, ['standard_fixed', 'deathmatch_fixed']))
                         {
-                            if($round->ticks >= ($round->end_tick - static::COUNTDOWN_DURATION_TICKS))
+                            if($round->ticks >= ($round->end_tick - $this->roundHelper->getRoundCountdownTickLength()))
                             {
                                 $countdownEvent = GameEvent::create([
                                     'round_id' => $dominion->round_id,
@@ -230,7 +227,7 @@ class TickService
                         {
                             if($this->landCalculator->getTotalLand($dominion) >= $round->land_target)
                             {
-                                $endTick = $round->ticks + static::COUNTDOWN_DURATION_TICKS;
+                                $endTick = $round->ticks + $this->roundHelper->getRoundCountdownTickLength();
 
                                 $countdownEvent = GameEvent::create([
                                     'round_id' => $dominion->round_id,
@@ -709,7 +706,7 @@ class TickService
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
 
             $amountToDie = $dominion->peasants * $ratio * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, Spell::where('key', 'pestilence')->first(), null);
-            $amountToDie *= (1 - $dominion->race->getPerkMultiplier('reduced_conversions'));
+            $amountToDie *= $this->conversionCalculator->getConversionReductionMultiplier($attacker);
             $amountToDie = (int)round($amountToDie);
 
             $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];

@@ -293,8 +293,8 @@
                 </div>
             </div>
         @endif
-
-        @if ($militaryCalculator->getRecentlyInvadedCount($dominion) and $dominion->race->name == 'Sylvan')
+                
+        @if ($dominionHelper->isEnraged($dominion))
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title"><i class="ra ra-explosion"></i> Enraged</h3>

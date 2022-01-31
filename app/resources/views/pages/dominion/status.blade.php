@@ -116,8 +116,12 @@
                                 </colgroup>
                                 <tbody>
                                     <tr>
-                                        <td>Morale:</td>
-                                        <td>{{ number_format($selectedDominion->morale) }}% / {{ number_format($moraleCalculator->getBaseMorale($selectedDominion)) }}%</td>                                 </td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="(100% + {{ $moraleCalculator->getBaseMoraleModifier($selectedDominion) }}%) * {{ $moraleCalculator->getBaseMoraleMultiplier($selectedDominion) }}">
+                                                Morale:
+                                            </span>
+                                        </td>
+                                        <td>{{ number_format($selectedDominion->morale) }}% / {{ number_format($moraleCalculator->getBaseMorale($selectedDominion)) }}%</td>
                                     </tr>
                                     @if(!$selectedDominion->race->getPerkValue('no_drafting'))
                                     <tr>

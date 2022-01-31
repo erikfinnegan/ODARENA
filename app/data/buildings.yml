@@ -155,6 +155,7 @@ granary:
   name: Granary
   excluded_races:
     - Growth
+    - Merfolk
     - Void
   land_type: forest
   perks:
