@@ -10,9 +10,8 @@ converting: 2
 skill_level: 2
 
 resources:
-  - gold
-  - food
   - lumber
+  - food
   - mana
 
 peasants_production:
