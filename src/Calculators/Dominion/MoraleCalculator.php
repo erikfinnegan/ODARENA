@@ -2,8 +2,10 @@
 
 namespace OpenDominion\Calculators\Dominion;
 
+use OpenDominion\Models\Building;
 use OpenDominion\Models\Dominion;
 
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
@@ -12,6 +14,7 @@ class MoraleCalculator
 
     public function __construct()
     {
+        $this->buildingCalculator = app(BuildingCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->populationCalculator = app(PopulationCalculator::class);
     }
@@ -46,7 +49,19 @@ class MoraleCalculator
             }
             if($increasesMoraleFixed = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_fixed'))
             {
-                $baseModifier += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $increasesMoraleFixed / 100;
+                $amountOfThisUnit = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+                # Is the unit limited to a building?
+                if($buildingPairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'building_limit'))
+                {
+                    $buildingKey = (string)$buildingPairingLimit[0];
+                    $maxPerBuilding = (float)$buildingPairingLimit[1];
+
+                    $buildingsOwned = $this->buildingCalculator->getBuildingAmountOwned($dominion, Building::where('key', $buildingKey)->firstOrFail());
+
+                    $amountOfThisUnit = min($amountOfThisUnit, floor($buildingsOwned * $maxPerBuilding));
+                }
+
+                $baseModifier += $amountOfThisUnit * $increasesMoraleFixed / 100;
             }
         }
 
