@@ -903,7 +903,7 @@ class ConversionCalculator
             foreach($invasion['attacker']['unitsLost'] as $slot => $amount)
             {
                 # Apply reduced conversions
-                $amount *= $this->getConversionReductionMultiplier($attacker)
+                $amount *= $this->getConversionReductionMultiplier($attacker);
 
                 # Drop if invasion is successful
                 if($invasion['result']['success'])
