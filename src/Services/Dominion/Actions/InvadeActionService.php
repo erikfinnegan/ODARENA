@@ -20,7 +20,7 @@ use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\ConversionCalculator;
-use OpenDominion\Calculators\Dominion\CasualtiesCalculator2;
+use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -82,7 +82,7 @@ class InvadeActionService
     public function __construct()
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
-        $this->casualtiesCalculator = app(CasualtiesCalculator2::class);
+        $this->casualtiesCalculator = app(CasualtiesCalculator::class);
         $this->conversionCalculator = app(ConversionCalculator::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);

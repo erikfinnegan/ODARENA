@@ -3,7 +3,7 @@
 namespace OpenDominion\Http\Controllers\Dominion;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
-use OpenDominion\Calculators\Dominion\CasualtiesCalculator2;
+use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Exceptions\GameException;
@@ -30,7 +30,7 @@ class InvasionController extends AbstractDominionController
             'governmentService' => app(GovernmentService::class),
             'protectionService' => app(ProtectionService::class),
 
-            'casualtiesCalculator' => app(CasualtiesCalculator2::class),
+            'casualtiesCalculator' => app(CasualtiesCalculator::class),
             'improvementCalculator' => app(ImprovementCalculator::class),
             'landImprovementCalculator' => app(LandImprovementCalculator::class),
             'landCalculator' => app(LandCalculator::class),

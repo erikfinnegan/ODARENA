@@ -8,14 +8,11 @@ use OpenDominion\Models\Resource;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Helpers\TheftHelper;
 
-use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 
 class TheftCalculator
 {
-
-    protected $casualtiesCalculator;
     protected $militaryCalculator;
     protected $resourceCalculator;
 
@@ -25,16 +22,12 @@ class TheftCalculator
     public function __construct(
           TheftHelper $theftHelper,
           UnitHelper $unitHelper,
-
-          CasualtiesCalculator $casualtiesCalculator,
           MilitaryCalculator $militaryCalculator,
           ResourceCalculator $resourceCalculator
         )
     {
         $this->theftHelper = $theftHelper;
         $this->unitHelper = $unitHelper;
-
-        $this->casualtiesCalculator = $casualtiesCalculator;
         $this->militaryCalculator = $militaryCalculator;
         $this->resourceCalculator = $resourceCalculator;
     }
