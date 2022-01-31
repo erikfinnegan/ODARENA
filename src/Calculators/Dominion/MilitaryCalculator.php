@@ -6,7 +6,6 @@ use Log;
 
 use Illuminate\Support\Carbon;
 
-use OpenDominion\Helpers\DominionHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 
 use OpenDominion\Models\Dominion;
@@ -34,7 +33,6 @@ class MilitaryCalculator
     public function __construct()
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
-        $this->dominionHelper = app(DominionHelper::class);
         $this->governmentService = app(GovernmentService::class);
         $this->improvementCalculator = app(ImprovementCalculator::class);
         $this->landCalculator = app(LandCalculator::class);
@@ -853,9 +851,9 @@ class MilitaryCalculator
     {
         $amount = 0;
 
-        if($this->dominionHelper->isEnraged($dominion))
+        if($this->getRecentlyInvadedCount($dominion) > 0)
         {
-            $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_recently_invaded");
+          $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_recently_invaded");
         }
 
         return $amount;
