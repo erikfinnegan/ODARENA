@@ -13,7 +13,7 @@ use OpenDominion\Http\Requests\Dominion\Actions\ReleaseActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\Military\ChangeDraftRateActionRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\Military\TrainActionRequest;
 
-use OpenDominion\Calculators\Dominion\CasualtiesCalculator2;
+use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -56,7 +56,7 @@ class MilitaryController extends AbstractDominionController
         $returningResources['xp'] += $queueService->getTheftQueueTotalByResource($self, 'xp');
 
         return view('pages.dominion.military', [
-            'casualtiesCalculator' => app(CasualtiesCalculator2::class),
+            'casualtiesCalculator' => app(CasualtiesCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'populationCalculator' => app(PopulationCalculator::class),
             'queueService' => $queueService,#app(QueueService::class),
