@@ -46,6 +46,7 @@ use Throwable;
 class TickService
 {
     protected const COUNTDOWN_DURATION_HOURS = 12;
+    protected const COUNTDOWN_DURATION_TICKS = 50;
     protected const EXTENDED_LOGGING = false;
 
     /** @var Carbon */
@@ -204,26 +205,49 @@ class TickService
                     # If we don't already have a countdown, see if any dominion triggers it.
                     if(!$round->hasCountdown())
                     {
-                        if($this->landCalculator->getTotalLand($dominion) >= $round->land_target)
+                        # For fixed length rounds, show a countdown when there are COUNTDOWN_DURATION_TICKS ticks left.
+                        if(in_array($round->mode, ['standard_fixed', 'deathmatch_fixed']))
                         {
-                            $hoursEndingIn = static::COUNTDOWN_DURATION_HOURS + 1;
-                            $roundEnd = Carbon::now()->addHours($hoursEndingIn)->startOfHour();
+                            if($round->ticks >= ($round->end_tick - static::COUNTDOWN_DURATION_TICKS))
+                            {
+                                $countdownEvent = GameEvent::create([
+                                    'round_id' => $dominion->round_id,
+                                    'source_type' => Dominion::class,
+                                    'source_id' => $dominion->id,
+                                    'target_type' => Realm::class,
+                                    'target_id' => $dominion->realm_id,
+                                    'type' => 'round_countdown_fixed',
+                                    'data' => ['end_tick' => $endTick],
+                                    'tick' => $dominion->round->ticks
+                                ]);
+                                $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
 
-                            $countdownEvent = GameEvent::create([
-                                'round_id' => $dominion->round_id,
-                                'source_type' => Dominion::class,
-                                'source_id' => $dominion->id,
-                                'target_type' => Realm::class,
-                                'target_id' => $dominion->realm_id,
-                                'type' => 'round_countdown',
-                                'data' => ['end_date' => $roundEnd],
-                                'tick' => $dominion->round->ticks
-                            ]);
-                            $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
-                            $round->end_date = $roundEnd;
-                            $round->save();
+                                if(static::EXTENDED_LOGGING) { Log::debug('*** Countdown triggered by ticks'); }
+                            }
+                        }
+                        # For indefinite rounds, create a countdown.
+                        if(in_array($round->mode, ['standard', 'deathmatch']))
+                        {
+                            if($this->landCalculator->getTotalLand($dominion) >= $round->land_target)
+                            {
+                                $endTick = $round->ticks + static::COUNTDOWN_DURATION_TICKS;
 
-                            if(static::EXTENDED_LOGGING) { Log::debug('*** Countdown triggered by ' . $dominion->name . ' in realm #' . $dominion->realm->number); }
+                                $countdownEvent = GameEvent::create([
+                                    'round_id' => $dominion->round_id,
+                                    'source_type' => Dominion::class,
+                                    'source_id' => $dominion->id,
+                                    'target_type' => Realm::class,
+                                    'target_id' => $dominion->realm_id,
+                                    'type' => 'round_countdown',
+                                    'data' => ['end_tick' => $endTick],
+                                    'tick' => $dominion->round->ticks
+                                ]);
+                                $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
+                                $round->end_tick = $endTick;
+                                $round->save();
+
+                                if(static::EXTENDED_LOGGING) { Log::debug('*** Countdown triggered by ' . $dominion->name . ' in realm #' . $dominion->realm->number); }
+                            }
                         }
                     }
                 }

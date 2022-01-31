@@ -10,7 +10,7 @@ converting: 2
 skill_level: 1
 
 perks:
-  max_population: 50
+  max_population: 40
   extra_barren_max_population: 10
   food_consumption_mod: -30
   salvaging: 25

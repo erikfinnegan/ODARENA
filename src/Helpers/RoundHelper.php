@@ -22,6 +22,11 @@ class RoundHelper
         }
     }
 
+    public function getRoundCountdownTickLength(): int
+    {
+        return 52;
+    }
+
     public function getRoundModeDescription(Round $round): string
     {
         switch ($round->mode)

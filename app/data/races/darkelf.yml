@@ -97,7 +97,7 @@ units:
       offense: 5
       defense: 6
     perks:
-      offense_from_advancements: wizardry_tradition_level6;1,magical_weapons_level6;1,concentration_level6;1,invocations_level6;1
+      offense_from_advancements: wizardry_tradition_level8;1,magical_weapons_level8;1,concentration_level8;1,invocations_level8;1
       offense_from_deity: mirnon,2
       kills_into_resource_per_casualty: 1,prisoner
       displaced_peasants_conversion: 1

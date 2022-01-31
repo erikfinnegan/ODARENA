@@ -6,6 +6,7 @@ use OpenDominion\Models\Realm;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\GameEventService;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\RoundHelper;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 
 class WorldNewsController extends AbstractDominionController
@@ -35,6 +36,7 @@ class WorldNewsController extends AbstractDominionController
         $realmCount = Realm::where('round_id', $dominion->round_id)->count();
 
         $raceHelper = app(RaceHelper::class);
+        $roundHelper = app(RoundHelper::class);
         $landCalculator = app(LandCalculator::class);
 
         return view('pages.dominion.world-news', compact(
@@ -43,6 +45,7 @@ class WorldNewsController extends AbstractDominionController
             'realm',
             'realmCount',
             'raceHelper',
+            'roundHelper',
             'landCalculator'
         ))->with('fromOpCenter', false);
     }

@@ -98,7 +98,7 @@
                     <div class="box-footer text-center">
                         @if ($currentRound->hasCountDown())
                             <p>
-                                <em class="text-red">The round ends in {{ $currentRound->hoursUntilEnd() }} {{ str_plural('hour', $currentRound->hoursUntilEnd()) }}.</em>
+                                <em class="text-red">The round ends in {{ $currentRound->ticksUntilEnd() }} {{ str_plural('tick', $currentRound->ticksUntilEnd()) }}.</em>
                             </p>
                         @else
                             <p>

@@ -138,6 +138,12 @@
                                             </span><br>
                                             <small class="text-muted">The round started at {{ $round->start_date }}.<br>Current tick: {{ number_format($round->ticks) }}.</small>
                                         @endif
+
+                                        @if($round->hasCountdown())
+                                            <small class="text-muted">
+                                            <br>The round ends in <strong>{{ number_format($round->ticksUntilEnd()) . ' ' . str_plural('tick', $round->ticksUntilEnd()) }}</strong>.
+                                            </small>
+                                        @endif
                                         </p>
                                     @endif
                                 @endif

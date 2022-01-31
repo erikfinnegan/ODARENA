@@ -151,6 +151,21 @@ class Round extends AbstractModel
         return false;
     }
 
+    public function ticksUntilEnd()
+    {
+        if($this->hasEnded())
+        {
+            return 0;
+        }
+
+        if(isset($this->end_tick))
+        {
+            return ($this->end_tick - $this->ticks);
+        }
+
+        return -1;
+    }
+
     /**
      * Returns whether a round has ended.
      *
@@ -158,14 +173,17 @@ class Round extends AbstractModel
      */
     public function hasEnded()
     {
-        if($this->end_date === NULL)
-        {
-            return false;
-        }
-        else
+        if(isset($this->end_date))
         {
             return ($this->end_date <= now());
         }
+
+        if(isset($this->end_tick))
+        {
+            return ($this->end_tick <= $this->ticks);
+        }
+
+        return false;
     }
 
     /**

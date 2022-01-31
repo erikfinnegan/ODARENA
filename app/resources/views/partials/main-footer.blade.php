@@ -11,10 +11,10 @@
           @endphp
 
           @if($selectedDominion->round->hasStarted())
-              <span data-toggle="tooltip" data-placement="top" title="Current round tick: {{ number_format($selectedDominion->round->ticks) }}<br>Countdown trigger: {{ number_format($selectedDominion->round->land_target) }} acres.">Day <strong>{{ $roundDay }}</strong>, hour <strong>{{ $currentHour }}</strong>, tick <strong>{{ $currentTick }}</strong>.</span>
+              <span data-toggle="tooltip" data-placement="top" title="Current round tick: {{ number_format($selectedDominion->round->ticks) }}<br>Countdown trigger: {{ number_format($selectedDominion->round->land_target) }} acres.">Tick <strong>{{ number_format($currentTick) }}</strong> / Day <strong>{{ $roundDay }}</strong> {{-- hour <strong>{{ $currentHour }}</strong>, --}} </span>
 
               @if ($selectedDominion->round->hasCountdown())
-                  | Round ends in <strong><span data-toggle="tooltip" data-placement="top" title="The round ends at {{ $selectedDominion->round->end_date }}">{{ number_format($hoursUntilRoundEnds) . ' ' . str_plural('hour', $hoursUntilRoundEnds) }}</span></strong>.
+                  | Round ends in <strong><span data-toggle="tooltip" data-placement="top" title="The round ends at tick {{ number_format($selectedDominion->round->end_tick) }}.<br>Current tick: {{ number_format($selectedDominion->round->ticks) }}.">{{ number_format($selectedDominion->round->ticksUntilEnd()) . ' ' . str_plural('tick', $selectedDominion->round->ticksUntilEnd()) }}</span></strong>.
               @endif
           @else
               <span data-toggle="tooltip" data-placement="top" title="Start date: {{ $selectedDominion->round->start_date }}">Round {{ $selectedDominion->round->number }} starts in <strong>{{ number_format($selectedDominion->round->hoursUntilStart()) . ' ' . str_plural('hour', $selectedDominion->round->hoursUntilStart()) }}</strong>.</span>

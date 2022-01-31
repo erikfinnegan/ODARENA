@@ -148,13 +148,12 @@
 
                       @if($round->hasStarted())
                           @if($round->hasCountdown())
-                              <p>This round has already started and ends {{ $round->end_date->format('l, jS \o\f F Y \a\t H:i') }}.</p>
+                              <p><em>This round has already started and round ends in {{ number_format($round->ticksUntilEnd()) . ' ' . str_plural('tick', $round->ticksUntilEnd()) }}</em>.</p>
                           @else
                               <p>This round has already started!</p>
                           @endif
                           <p>When you register, you start with 96 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
                           <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
-                          <p>To help you get going, you will get 1% extra starting resources for every hour since the round started (max +100%).</p>
 
                           @if ($discordInviteLink = config('app.discord_invite_link'))
                           <p>If you need any help or just want to chat, come join us on <a href="{{ $discordInviteLink }}" target="_blank">Discord</a>.</p>
