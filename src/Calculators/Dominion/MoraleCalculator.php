@@ -44,9 +44,9 @@ class MoraleCalculator
         {
             if($increasesMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_by_population'))
             {
-                # $increasesMorale is 1 for Immortal Guard and 2 for Immortal Knight
                 $baseModifier += ($this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) / $this->populationCalculator->getPopulation($dominion)) * $increasesMorale;
             }
+            
             if($increasesMoraleFixed = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_fixed'))
             {
                 $amountOfThisUnit = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
