@@ -11,9 +11,6 @@ class DominionHelper
     public function __construct()
     {
         $this->buildingCalculator = app(MilitaryCalculator::class);
-
-        $this->queueService = app(QueueService::class);
-        $this->statsService = app(StatsService::class);
     }
 
     public function isEnraged(Dominion $dominion): bool
