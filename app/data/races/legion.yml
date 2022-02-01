@@ -1,6 +1,23 @@
 name: Legion
 alignment: evil
-description: Starts with one Legate.
+description: >-
+    <p>The Legion annexes any Barbarian it successfully invades. Annexation last for 48 ticks. There is no limit to how many Barbarians the Legion can annex.</p>
+    <p>When a Barbarian is annexed by the Legion, the Barbarian will come to the Legion's aid in case the Legion invades another dominion or in case the Legion is invaded.</p>
+    <p>The Legion gains raw OP and raw DP equal to the raw OP of the annexed Barbarians. The raw OP from annexed dominions is increased by the Legion’s OP mods on offense and by the Legion’s DP mods on defense. This number is shown publicly in the world view and on the Insight pages.</p>
+    <p>To make it absolutely clear: it is the <strong>raw OP</strong> that is added to the Legion’s raw OP and DP. Barbarian OP becomes Legion DP.</p>
+    <ul>
+        <li>Legion OP: <code>([Legion's own raw OP] + [Annexed Barbarians' raw OP]) * [Legion's OP mods]</code></p>
+        <li>Legion DP: <code>([Legion's own raw DP] + [Annexed Barbarians' raw OP]) * [Legion's DP mods]</code></p>
+        <li>Barbarian OP mods (from prestige and Ib-Tham) have no effect when aiding the Legion.</p>
+    </ul>
+    <p>When a Barbarian aids the Legion in an invasion, all Barbarian offensive units are sent out and take 12 ticks to return.</p>
+    <p>When a Barbarian aids the Legion on defense, all Barbarian offensive units come to assistance of the Legion and take 12 ticks to return. — This only triggers if the attacker’s OP is within 85% of the Legion’s DP (including DP from Barbarian OP).</p>
+    <p>Barbarian troops participating in combat suffer base 10% casualties.</p>
+    <p>For the purpose of gold production, Legion’s peasantry is increased by the number of annexed Barbarian peasants.</p>
+    <p>Annexed Barbarians cannot be called upon to invade other Barbarians.</p>
+    <p>Annexed Barbarians cannot be invaded by Imperial dominions.</p>
+    <p>Annexed Barbarians do not invade independently.</p>
+    <p>Annexation is broken when the spell expires or when another dominion hits the Barbarian and liberates them. Freeing a Barbarian from annexation yields 3x prestige gains.</p>
 home_land_type: hill
 playable: 1
 experimental: 1
