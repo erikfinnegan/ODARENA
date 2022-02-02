@@ -46,8 +46,8 @@ class MoraleCalculator
             {
                 $baseModifier += ($this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) / $this->populationCalculator->getPopulation($dominion)) * $increasesMorale;
             }
-            
-            if($increasesMoraleFixed = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_fixed'))
+
+            if($increasesMoraleFixed = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_fixed') * 100)
             {
                 $amountOfThisUnit = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
                 # Is the unit limited to a building?

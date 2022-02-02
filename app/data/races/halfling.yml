@@ -63,7 +63,7 @@ units:
       gold: 500
       spy: 1
     power:
-      offense: 6
+      offense: 7
       defense: 4
     perks:
       counts_as_spy: 1

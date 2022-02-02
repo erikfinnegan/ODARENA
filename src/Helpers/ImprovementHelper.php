@@ -66,7 +66,7 @@ class ImprovementHelper
             'target_defensive_power_mod' => 'defensive modifiers for target',
 
             'prestige_gains' => 'prestige gains',
-            'base_morale' => 'base morale',
+            'base_morale' => 'morale',
 
             'spy_strength' => 'spy strength',
             'spy_losses' => 'spy losses',
