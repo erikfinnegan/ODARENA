@@ -215,7 +215,10 @@ class UnitHelper
             'casualties_on_offense' => '%s%% casualties on offense.',
 
             'casualties_from_wizard_ratio' => '%s%% * Wizard Ratio casualties.',
-            'immortal_from_wpa' => 'Immortal if Wizard Ratio is at least %s on offense (if invading)  or on defense (if defending).',
+            'immortal_from_wpa' => 'Immortal if Wizard Ratio is at least %s on offense (if invading) or on defense (if defending).',
+
+            'casualties_from_spy_ratio' => '%s%% * Spy Ratio casualties.',
+            'immortal_from_spa' => 'Immortal if Spy Ratio is at least %s on offense (if invading) or on defense (if defending).',
 
             'casualties_on_victory' => '%s%% casualties when successfully invading.',
             'casualties_on_fending_off' => '%s%% casualties when successfully fending off an invasion.',
