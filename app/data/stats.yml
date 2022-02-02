@@ -363,6 +363,27 @@ wizard_strength_salvaged:
 wizard_strength_plundered:
   name: Wizard Strength plundered
 
+thunderstone_production:
+  name: Thunderstone production
+thunderstone_sold:
+  name: Thunderstone sold
+thunderstone_bought:
+  name: Thunderstone bought
+thunderstone_building:
+  name: Thunderstone building
+thunderstone_rezoning:
+  name: Thunderstone rezoning
+thunderstone_training:
+  name: Thunderstone training
+thunderstone_improvements:
+  name: Thunderstone improvements
+thunderstone_lost:
+  name: Thunderstone lost
+thunderstone_salvaged:
+  name: Thunderstone salvaged
+thunderstone_plundered:
+  name: Thunderstone plundered
+
 # Land
 
 land_conquered:
