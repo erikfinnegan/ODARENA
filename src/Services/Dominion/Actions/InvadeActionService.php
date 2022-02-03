@@ -2054,7 +2054,7 @@ class InvadeActionService
                     {
                         if($this->unitHelper->unitSlotHasAttributes($defender->race, $slotKilled, ['living']))
                         {
-                              $dpKilledFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slotKilled => $amountKilled], 0, false, $this->isAmbush, true, [$this->invasionResult['attacker']['unitsSent']], null, false, true);
+                              $dpKilledFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slotKilled => $amountKilled], 0, false, $this->isAmbush, true, [$this->invasionResult['attacker']['unitsSent']], true);
                               #$dpKilledByThisSlot =  * ($opFromSlot / $rawOp);
                               $killsAttributableToThisSlot = $dpKilledFromSlot * ($opFromSlot / $rawOp);
                               $resourceAmount = round($killsAttributableToThisSlot * $amountPerPoint);
