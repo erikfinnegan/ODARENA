@@ -706,7 +706,7 @@ class TickService
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
 
             $amountToDie = $dominion->peasants * $ratio * $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($dominion, null, Spell::where('key', 'pestilence')->first(), null);
-            $amountToDie *= $this->conversionCalculator->getConversionReductionMultiplier($attacker);
+            $amountToDie *= $this->conversionCalculator->getConversionReductionMultiplier($dominion);
             $amountToDie = (int)round($amountToDie);
 
             $tick->pestilence_units = ['caster_dominion_id' => $caster->id, 'units' => ['military_unit1' => $amountToDie]];
