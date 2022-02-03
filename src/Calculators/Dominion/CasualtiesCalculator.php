@@ -349,7 +349,7 @@ class CasualtiesCalculator
 
                 if($enemyMode == 'offense')
                 {
-                    $multiplier += ($invasionData['attacker']['unitsSent'][$slot] / array_sum($invasionData['attacker']['unitsSent'])) / 2;
+                    $multiplier += ($invasionData['attacker']['unitsSent'][$unit->slot] / array_sum($invasionData['attacker']['unitsSent'])) / 2;
                 }
 
             }
