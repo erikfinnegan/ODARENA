@@ -2392,8 +2392,8 @@ class InvadeActionService
 
             # The battlefield:
             # Cap bodies by reduced conversions perk, and round.
-            $defensiveBodies = round(array_sum($this->invasionResult['defender']['unitsLost']) * $this->conversionCalculator->getConversionReductionMultiplier($defender);
-            $offensiveBodies = round(array_sum($this->invasionResult['attacker']['unitsLost']) * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
+            $defensiveBodies = round(array_sum($this->invasionResult['defender']['unitsLost']) * $this->conversionCalculator->getConversionReductionMultiplier($defender));
+            $offensiveBodies = round(array_sum($this->invasionResult['attacker']['unitsLost']) * $this->conversionCalculator->getConversionReductionMultiplier($attacker));
 
             $cryptLogString .= 'Defensive bodies (raw): ' . number_format($defensiveBodies) . ' | ';
             $cryptLogString .= 'Offensive bodies (raw): ' . number_format($offensiveBodies) . ' | ';

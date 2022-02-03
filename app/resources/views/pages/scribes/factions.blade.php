@@ -80,7 +80,7 @@
             </div>
 
 
-            <div class="box ">
+            <div class="box">
                 <div class="box-header with-border">
                     <h4 class="box-title">Barbarian Horde</h4>
                 </div>
@@ -97,7 +97,6 @@
                 </table>
             </div>
         </div>
-
 
     </div>
 </div>
