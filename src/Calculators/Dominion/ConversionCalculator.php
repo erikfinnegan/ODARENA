@@ -1043,7 +1043,7 @@ class ConversionCalculator
         # Faction perk
         $multiplier -= $dominion->race->getPerkMultiplier('reduced_conversions');
 
-        if($dominion->race->getSpellPerkValue('cannot_be_converted'))
+        if($dominion->getSpellPerkValue('cannot_be_converted'))
         {
             $multiplier = 0;
         }
