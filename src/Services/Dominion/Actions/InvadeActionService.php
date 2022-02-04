@@ -1145,7 +1145,7 @@ class InvadeActionService
                 {
                     $resourceKey = (string)$destroysResourcePerk[0];
                     $amountDestroyedPerUnit = (float)$destroysResourcePerk[1];
-                    $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['unitsSent'] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($target, $resourceKey)));
+                    $maxDestroyedBySlot = (int)round(min($this->invasionResult['attacker']['unitsSent'][$slot] * $amountDestroyedPerUnit, $this->resourceCalculator->getAmount($target, $resourceKey)));
 
                     if($maxDestroyedBySlot > 0)
                     {
