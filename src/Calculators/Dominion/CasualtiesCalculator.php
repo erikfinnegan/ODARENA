@@ -349,7 +349,19 @@ class CasualtiesCalculator
 
                 if($enemyMode == 'offense')
                 {
-                    $multiplier += ($invasionData['attacker']['unitsSent'][$unit->slot] / array_sum($invasionData['attacker']['unitsSent'])) / 2;
+                    # Fixed 2022-02-04 due to bug report. Maybe investigate more closely at some point?
+                    /*
+
+                        Status 500: Server Error
+
+                        ODARENA encountered a server error.
+                        Message:Undefined offset: 3
+
+                    */
+                    if(isset($invasionData['attacker']['unitsSent'][$unit->slot]))
+                    {
+                        $multiplier += ($invasionData['attacker']['unitsSent'][$unit->slot] / array_sum($invasionData['attacker']['unitsSent'])) / 2;
+                    }
                 }
 
             }
