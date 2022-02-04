@@ -65,7 +65,7 @@ class SpellDamageCalculator
           {
               if($reducesSpellDamagePerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'reduces_spell_damage'))
               {
-                  $modifier -= ($this->getTotalUnitsForSlot($target, $slot) / $this->landCalculator->getTotalLand($target)) * $reducesSpellDamagePerk;
+                  $modifier -= ($this->militaryCalculator->getTotalUnitsForSlot($target, $slot) / $this->landCalculator->getTotalLand($target)) * $reducesSpellDamagePerk;
               }
           }
 
