@@ -500,7 +500,7 @@ class CasualtiesCalculator
                     }
                 }
 
-                $multiplier += $powerRatioFromKillingUnits;
+                #$multiplier += $powerRatioFromKillingUnits;
             }
         }
 
