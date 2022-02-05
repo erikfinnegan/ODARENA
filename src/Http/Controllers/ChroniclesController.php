@@ -63,7 +63,7 @@ class ChroniclesController extends AbstractController
     {
         return view('pages.chronicles.rulers', [
             'userHelper' => app(UserHelper::class),
-            'users' => User::orderBy('display_name')->get(),
+            'users' => User::where('users.email', 'not like', 'barbarian%@odarena.com')->orderBy('display_name')->get(),
         ]);
     }
 
