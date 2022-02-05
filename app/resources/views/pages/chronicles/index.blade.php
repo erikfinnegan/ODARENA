@@ -3,13 +3,13 @@
 @section('content')
     <div class="box">
         <div class="box-body">
-            <p>These are the Chronicles of Odarena, where history becomes legends.</p>
+            <p>These are the Chronicles of ODARENA, where history becomes legends.</p>
         </div>
     </div>
 
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title"><i class="fas fa-book"></i> Chronicles</h3>
+            <h3 class="box-title"><i class="fas fa-book"></i> Rounds</h3>
         </div>
         <div class="box-body table-responsive no-padding">
             <table class="table table-striped">
@@ -53,6 +53,38 @@
                                     &mdash;
                                 @endif
                             </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fas fa-book"></i> Rulers</h3>
+        </div>
+        <div class="box-body table-responsive no-padding">
+            <table class="table table-striped">
+                <colgroup>
+                    <col>
+                    <col width="150">
+                    <col width="150">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Rounds<br>Played</th>
+                        <th>Join Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td><a href="{{ route('chronicles.ruler', $user->display_name) }}">{{ $user->display_name }}</a></td>
+                            <td>{{ number_format($userHelper->getRoundsPlayed($user)) }}</td>
+                            <td>{{ $user->created_at->toFormattedDateString() }}</td>
                         </tr>
                     @endforeach
                 </tbody>

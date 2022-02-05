@@ -240,35 +240,15 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
 });
 
 
-
-// Valhalla
-/*
-$router->group(['prefix' => 'valhalla', 'as' => 'valhalla.'], static function (Router $router) {
-
-    $router->get('/')->uses('ValhallaController@getIndex')->name('index');
-    $router->get('round/{round}')->uses('ValhallaController@getRound')->name('round');
-    $router->get('round/{round}/{type}')->uses('ValhallaController@getRoundType')->name('round.type');
-    $router->get('user/{user}')->uses('ValhallaController@getUser')->name('user');
-
-});
-*/
 // Chronicles
-
 $router->group(['prefix' => 'chronicles', 'as' => 'chronicles.'], static function (Router $router) {
 
     $router->get('/')->uses('ChroniclesController@getIndex')->name('index');
     $router->get('round/{round}')->uses('ChroniclesController@getRound')->name('round');
     $router->get('round/{round}/{type}')->uses('ChroniclesController@getRoundType')->name('round.type');
-    $router->get('ruler/{user}')->uses('ChroniclesController@getRuler')->name('user');
+    $router->get('ruler/{ruler}')->uses('ChroniclesController@getRuler')->name('ruler');
 
 });
-
-
-// Donate
-
-// Contact
-
-// Links
 
 // Staff
 
