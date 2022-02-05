@@ -72,9 +72,9 @@
                         </colgroup>
                         <tbody>
                         <tr>
-                        @foreach ($userHelper->getTopRaces($user, 5) as $topRace => $timesPlayed)
+                        @foreach ($topRaces as $topRace => $timesPlayed)
                             <tr>
-                                <td>{{ array_search($topRace, array_keys($userHelper->getTopRaces($user, 5)))+1 }}.</td>
+                                <td>{{ array_search($topRace, array_keys($topRaces))+1 }}.</td>
                                 <td>{{ $topRace }}</td>
                                 <td>{{ number_format($timesPlayed) }}</td>
                             </tr>

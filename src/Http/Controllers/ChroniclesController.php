@@ -58,7 +58,7 @@ class ChroniclesController extends AbstractController
         if(!$user)
         {
             return redirect()->back()
-                ->withErrors(['No such ruler found.']);
+                ->withErrors(['No such ruler found (' . $userDisplayName .').']);
         }
 
         $userHelper = app(UserHelper::class);
@@ -67,16 +67,19 @@ class ChroniclesController extends AbstractController
         $militarySuccessStats = ['invasion_victories', 'op_sent_total', 'land_conquered', 'land_discovered', 'units_killed', 'units_converted'];
         $militaryFailureStats = ['defense_failures', 'land_lost', 'invasion_failures'];
 
+        $topRaces = $userHelper->getTopRaces($user, 6);
+
         return view('pages.chronicles.ruler', [
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'statsHelper' => app(StatsHelper::class),
             'userHelper' => $userHelper,
 
+            'dominions' => $dominions,
             'militarySuccessStats' => $militarySuccessStats,
             'militaryFailureStats' => $militaryFailureStats,
+            'topRaces' => $topRaces,
             'user' => $user,
-            'dominions' => $dominions
         ]);
     }
 
