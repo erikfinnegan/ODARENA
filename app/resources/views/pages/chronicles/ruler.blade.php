@@ -97,7 +97,7 @@
                     @foreach ($topRaces as $topRace => $timesPlayed)
                         <tr>
                             <td>{{ array_search($topRace, array_keys($topRaces))+1 }}.</td>
-                            <td>{{ $topRace }}</td>
+                            <td><a href="{{ route('chronicles.faction', $topRace) }}">{{ $topRace }}</a></td>
                             <td>{{ number_format($timesPlayed) }}</td>
                         </tr>
                     @endforeach
