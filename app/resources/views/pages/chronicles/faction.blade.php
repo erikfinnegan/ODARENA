@@ -6,16 +6,11 @@
 
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h1 class="box-title"><i class="fas fa-flag fa-fw"></i> Chronicles of {{ $race->name }}</h1>
+        <h1 class="box-title"><i class="fas fa-flag fa-fw"></i> Chronicles about {{ $race->name }}</h1>
     </div>
 
     <div class="box-body">
         <div class="row">
-            <div class="col-sm-3">
-                ???
-            </div>
-
-            {{--
             <div class="col-sm-3">
                 <div class="box-header with-border">
                     <h4 class="box-title"><i class="ra ra-sword ra-fw"></i> Military Accomplishments</h4>
@@ -31,7 +26,7 @@
                     @foreach ($militarySuccessStats as $statKey)
                         <tr>
                             <td class="text-right">{{ $statsHelper->getStatName($statKey) }}:</td>
-                            <td>{{ number_format($raceHelper->getStatSumForRace($user, $statKey)) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($race, $statKey)) }}</td>
                         </tr>
                     @endforeach
                     </tr>
@@ -53,13 +48,55 @@
                     @foreach ($militaryFailureStats as $statKey)
                         <tr>
                             <td class="text-right">{{ $statsHelper->getStatName($statKey) }}:</td>
-                            <td>{{ number_format($raceHelper->getStatSumForRace($user, $statKey)) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($race, $statKey)) }}</td>
                         </tr>
                     @endforeach
                     </tr>
                 </table>
             </div>
-            --}}
+
+            <div class="col-sm-6">
+                <div class="box-header with-border">
+                    <h4 class="box-title"><i class="ra ra-crossed-swords ra-fw"></i> Units</h4>
+                </div>
+
+                <table class="table table-striped table-hover">
+                    <colgroup>
+                        <col>
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                        <col width="100">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Trained</th>
+                            <th>Killed</th>
+                            <th>Lost</th>
+                            <th>Converted</th>
+                            <th>Spent</th>
+                            <th>Released</th>
+                    </thead>
+                    <tbody>
+                    @for ($slot = 1; $slot <= 4; $slot++)
+                        @php
+                            $unitType = 'unit'.$slot;
+                        @endphp
+                        <tr>
+                            <td>{{ $unitHelper->getUnitName($unitType, $race) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_trained'))) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_killed'))) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_lost'))) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_converted'))) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_training'))) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_released'))) }}</td>
+                        </tr>
+                    @endfor
+                </table>
+            </div>
 
         </div>
 

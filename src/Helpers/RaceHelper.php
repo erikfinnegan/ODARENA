@@ -9,8 +9,16 @@ use OpenDominion\Models\RacePerkType;
 
 use OpenDominion\Models\Dominion;
 
+use OpenDominion\Services\Dominion\StatsService;
+
 class RaceHelper
 {
+
+    public function __construct()
+    {
+        $this->statsService = app(StatsService::class);
+    }
+    
     public function getPerkDescriptionHtmlWithValue(RacePerkType $perkType): ?array
     {
         $valueType = '%';
@@ -644,12 +652,14 @@ class RaceHelper
         return isset($race->land_improvements);
     }
 
+    #   *   *   *   *    *    *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   #
+
     public function getDominionCountForRace(Race $race): int
     {
-        return $this->getDominionsForRace($race)->count();
+        return $this->getRaceDominions($race)->count();
     }
 
-    public function getDominionsForRace(Race $race)
+    public function getRaceDominions(Race $race)
     {
           $dominions = Dominion::where('race_id', $race->id)
                         ->where('is_locked','=',0)
@@ -658,4 +668,30 @@ class RaceHelper
 
           return $dominions;
     }
+
+    public function getStatSumForRace(Race $race, string $statKey): float
+    {
+        $value = 0.00;
+
+        foreach($this->getRaceDominions($race) as $dominion)
+        {
+            $value += $this->statsService->getStat($dominion, $statKey);
+        }
+
+        return $value;
+    }
+
+    public function getStatMaxForRace(Race $race, string $statKey): float
+    {
+        $value = 0.00;
+
+        foreach($this->getRaceDominions($race) as $dominion)
+        {
+            $value = max($this->statsService->getStat($dominion, $statKey), $value);
+        }
+
+        return $value;
+    }
+
+
 }

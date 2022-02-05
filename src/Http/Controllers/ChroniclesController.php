@@ -218,7 +218,7 @@ class ChroniclesController extends AbstractController
             'statsHelper' => app(StatsHelper::class),
             'unitHelper' => app(UnitHelper::class),
 
-            'dominions' => $raceHelper->getDominionsForRace($race),
+            'dominions' => $raceHelper->getRaceDominions($race),
             'militarySuccessStats' => $militarySuccessStats,
             'militaryFailureStats' => $militaryFailureStats,
         ]);
