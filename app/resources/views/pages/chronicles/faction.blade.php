@@ -26,6 +26,7 @@
                   <h4>Unique rulers:</h4>
                   <h3>{{ number_format($raceHelper->getUniqueRulersCountForRace($race)) }}</h3>
               </div>
+
         </div>
         <div class="row">
             <div class="col-sm-4">

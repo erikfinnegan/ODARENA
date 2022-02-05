@@ -6,6 +6,8 @@ use DB;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\User;
 
+use OpenDominion\Calculators\Dominion\LandCalculator;
+
 use OpenDominion\Services\Dominion\StatsService;
 
 class UserHelper
@@ -13,6 +15,7 @@ class UserHelper
 
     public function __construct()
     {
+        $this->landCalculator = app(LandCalculator::class);
         $this->statsService = app(StatsService::class);
     }
 
@@ -41,6 +44,30 @@ class UserHelper
         }
 
         return $dominions;
+    }
+
+    public function getTotalLandForUser(User $user): int
+    {
+        $totalLand = 0;
+
+        foreach($this->getUserDominions($user) as $dominion)
+        {
+            $totalLand += $this->landCalculator->getTotalLand($dominion);
+        }
+
+        return $totalLand;
+    }
+
+    public function getMaxLandForUser(User $user): int
+    {
+        $land = 0;
+
+        foreach($this->getUserDominions($user) as $dominion)
+        {
+            $land = max($land, $this->landCalculator->getTotalLand($dominion));
+        }
+
+        return $land;
     }
 
     public function getStatSumForUser(User $user, string $statKey): float
@@ -104,6 +131,23 @@ class UserHelper
         }
 
         return $races;
+    }
+
+    public function getUniqueRacesCountForUser(User $user): int
+    {
+        $races = [];
+
+        foreach($this->getUserDominions($user) as $dominion)
+        {
+            if(!$dominion->isAbandoned())
+            {
+                $races[] = $dominion->race->id;
+            }
+        }
+
+        $races = array_unique($races);
+
+        return count($races);
     }
 
 }

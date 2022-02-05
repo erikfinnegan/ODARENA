@@ -12,6 +12,25 @@
     <div class="box-body">
         <div class="row">
 
+              <div class="col-sm-4 text-center">
+                  <h4>Land max:</h4>
+                  <h3>{{ number_format($userHelper->getMaxLandForUser($user)) }}</h3>
+              </div>
+
+              <div class="col-sm-4 text-center">
+                  <h4>Land average:</h4>
+                  <h3>{{ number_format($userHelper->getTotalLandForUser($user) / count($userHelper->getUserDominions($user))) }}</h3>
+              </div>
+
+              <div class="col-sm-4 text-center">
+                  <h4>Factions played:</h4>
+                  <h3>{{ number_format($userHelper->getUniqueRacesCountForUser($user)) }}</h3>
+              </div>
+
+        </div>
+
+        <div class="row">
+
             <div class="col-sm-3">
                 <img src="{{ $user->getAvatarUrl() }}"  class="img-responsive" style="width: 100%; display: inline; vertical-align: top; margin: 4px;">
                 <p>
