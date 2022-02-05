@@ -202,7 +202,7 @@
             </div>
             <div class="box-body">
                 @if(!$dominion->hasDeity())
-                    <p>This dominion was not currently devoted to a deity.</p>
+                    <p>This dominion was not devoted to a deity.</p>
                 @elseif($dominion->hasPendingDeitySubmission())
                     <p>This dominion was in the process of submitting to a deity.</p>
                 @else
