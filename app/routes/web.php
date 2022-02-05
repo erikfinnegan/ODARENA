@@ -247,6 +247,7 @@ $router->group(['prefix' => 'chronicles', 'as' => 'chronicles.'], static functio
     $router->get('round/{round}')->uses('ChroniclesController@getRound')->name('round');
     $router->get('round/{round}/{type}')->uses('ChroniclesController@getRoundType')->name('round.type');
     $router->get('ruler/{ruler}')->uses('ChroniclesController@getRuler')->name('ruler');
+    $router->get('dominion/{dominion}')->uses('ChroniclesController@getDominion')->name('dominion');
 
 });
 

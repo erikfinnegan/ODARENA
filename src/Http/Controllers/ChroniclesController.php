@@ -83,6 +83,20 @@ class ChroniclesController extends AbstractController
         ]);
     }
 
+    public function getDominion(Dominion $dominion)
+    {
+        if ($response = $this->guardAgainstActiveRound($dominion->round)) {
+            return $response;
+        }
+
+        return view('pages.chronicles.dominion', [
+            'dominion' => $dominion,
+            'landCalculator' => app(LandCalculator::class),
+            'networthCalculator' => app(NetworthCalculator::class),
+            'statsHelper' => app(StatsHelper::class),
+        ]);
+    }
+
     // todo: search user
 
     /**
