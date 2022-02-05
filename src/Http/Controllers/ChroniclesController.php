@@ -13,7 +13,10 @@ use OpenDominion\Models\Round;
 use OpenDominion\Models\User;
 
 use OpenDominion\Helpers\RealmHelper;
+use OpenDominion\Helpers\StatsHelper;
 use OpenDominion\Helpers\UserHelper;
+
+#use OpenDominion\Services\Dominion\StatsService;
 
 class ChroniclesController extends AbstractController
 {
@@ -61,11 +64,18 @@ class ChroniclesController extends AbstractController
         $userHelper = app(UserHelper::class);
         $dominions = $userHelper->getUserDominions($user);
 
+        $militarySuccessStats = ['invasion_victories', 'op_sent_total', 'land_conquered', 'land_discovered', 'units_trained', 'units_killed', 'units_converted'];
+        $militaryFailureStats = ['defense_failures', 'land_lost', 'invasion_failures'];
+
         return view('pages.chronicles.ruler', [
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
-            'user' => $user,
+            'statsHelper' => app(StatsHelper::class),
             'userHelper' => $userHelper,
+
+            'militarySuccessStats' => $militarySuccessStats,
+            'militaryFailureStats' => $militaryFailureStats,
+            'user' => $user,
             'dominions' => $dominions
         ]);
     }

@@ -32,4 +32,28 @@ class UserHelper
         return $dominions;
     }
 
+    public function getStatSumForUser(User $user, string $statKey): float
+    {
+        $value = 0.00;
+
+        foreach($this->getUserDominions($user) as $dominion)
+        {
+            $value += $this->statsService->getStat($dominion, $statKey);
+        }
+
+        return $value;
+    }
+
+    public function getStatMaxForUser(User $user, string $statKey): float
+    {
+        $value = 0.00;
+
+        foreach($this->getUserDominions($user) as $dominion)
+        {
+            $value = max($this->statsService->getStat($dominion, $statKey), $value);
+        }
+
+        return $value;
+    }
+
 }

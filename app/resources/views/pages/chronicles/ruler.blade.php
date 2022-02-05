@@ -6,7 +6,56 @@
             <h1 class="box-title"><i class="ra ra-knight-helmet"></i> Chronicles of {{ $user->display_name }}</h1>
         </div>
         <div class="box-body">
-            <p><strong>{{ $user->display_name }}</strong> joined ODARENA {{ $user->created_at->toFormattedDateString() }} and has played {{ number_format($userHelper->getRoundsPlayed($user)) }} rounds.</p>
+            <div class="row">
+                <div class="col-sm-2">
+                    <img src="{{ $user->getAvatarUrl() }}"  class="img-responsive" style="width: 100%; display: inline; vertical-align: top; margin: 4px;">
+                    <p>
+                        <strong>{{ $user->display_name }}</strong> joined ODARENA {{ $user->created_at->toFormattedDateString() }} and has played {{ number_format($userHelper->getRoundsPlayed($user)) }} rounds.
+                    </p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="box-header with-border">
+                        <h4 class="box-title"><i class="ra ra-sword ra-fw"></i> Military Accomplishments</h4>
+                    </div>
+
+                    <table class="table table-striped table-hover" id="dominions-table">
+                        <colgroup>
+                            <col width="50%">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                        @foreach ($militarySuccessStats as $statKey)
+                            <tr>
+                                <td class="text-right">{{ $statsHelper->getStatName($statKey) }}:</td>
+                                <td>{{ number_format($userHelper->getStatSumForUser($user, $statKey)) }}</td>
+                            </tr>
+                        @endforeach
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-sm-5">
+                    <div class="box-header with-border">
+                        <h4 class="box-title"><i class="ra ra-broken-skull ra-fw"></i> Military Failures</h4>
+                    </div>
+
+                    <table class="table table-striped table-hover" id="dominions-table">
+                        <colgroup>
+                            <col width="50%">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                        @foreach ($militaryFailureStats as $statKey)
+                            <tr>
+                                <td class="text-right">{{ $statsHelper->getStatName($statKey) }}:</td>
+                                <td>{{ number_format($userHelper->getStatSumForUser($user, $statKey)) }}</td>
+                            </tr>
+                        @endforeach
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
             <table class="table table-striped table-hover" id="dominions-table">
                 <colgroup>
