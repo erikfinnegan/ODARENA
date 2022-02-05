@@ -74,8 +74,7 @@
                         <tr>
                             <th>Unit</th>
                             <th>Trained</th>
-                            <th>Killed</th>
-                            <th>Lost</th>
+                            <th>Casualties</th>
                             <th>Converted</th>
                             <th>Spent</th>
                             <th>Released</th>
@@ -88,7 +87,6 @@
                         <tr>
                             <td>{{ $unitHelper->getUnitName($unitType, $race) }}</td>
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_trained'))) }}</td>
-                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_killed'))) }}</td>
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_lost'))) }}</td>
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_converted'))) }}</td>
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_training'))) }}</td>
