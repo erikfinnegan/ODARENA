@@ -9,7 +9,7 @@
         <div class="box-header with-border">
             <h3 class="box-title"><i class="ra ra-knight-helmet"></i> Rulers</h3>
         </div>
-        <div class="box-body table-responsive no-padding">
+        <div class="box-body table-responsive">
             <table class="table table-striped" id="rulers-table">
                 <colgroup>
                     <col>
@@ -55,7 +55,8 @@
         (function ($) {
             var table = $('#rulers-table').DataTable({
                 order: [0, 'asc'],
-                paging: false,
+                paging: true,
+                pageLength: 25
             });
         })(jQuery);
     </script>

@@ -9,7 +9,7 @@
         <div class="box-header with-border">
             <h3 class="box-title"><i class="fas fa-flag fa-fw"></i> Factions</h3>
         </div>
-        <div class="box-body table-responsive no-padding">
+        <div class="box-body table-responsive">
             <table class="table table-striped" id="factions-table">
                 <colgroup>
                     <col>
