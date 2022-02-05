@@ -65,16 +65,12 @@
                         <col>
                         <col width="100">
                         <col width="100">
-                        <col width="100">
-                        <col width="100">
                     </colgroup>
                     <thead>
                         <tr>
                             <th>Unit</th>
                             <th>Trained</th>
                             <th>Casualties</th>
-                            <th>Converted</th>
-                            <th>Spent</th>
                     </thead>
                     <tbody>
                     @for ($slot = 1; $slot <= 4; $slot++)
@@ -85,8 +81,6 @@
                             <td>{{ $unitHelper->getUnitName($unitType, $race) }}</td>
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_trained'))) }}</td>
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_lost'))) }}</td>
-                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_converted'))) }}</td>
-                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_training'))) }}</td>
                         </tr>
                     @endfor
                 </table>
