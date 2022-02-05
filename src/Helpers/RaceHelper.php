@@ -9,6 +9,7 @@ use OpenDominion\Models\RacePerkType;
 
 use OpenDominion\Models\Dominion;
 
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Services\Dominion\StatsService;
 
 class RaceHelper
@@ -16,9 +17,10 @@ class RaceHelper
 
     public function __construct()
     {
+        $this->landCalculator = app(LandCalculator::class);
         $this->statsService = app(StatsService::class);
     }
-    
+
     public function getPerkDescriptionHtmlWithValue(RacePerkType $perkType): ?array
     {
         $valueType = '%';
@@ -659,14 +661,49 @@ class RaceHelper
         return $this->getRaceDominions($race)->count();
     }
 
-    public function getRaceDominions(Race $race)
+    public function getRaceDominions(Race $race, bool $inclueActiveRounds = false)
     {
           $dominions = Dominion::where('race_id', $race->id)
                         ->where('is_locked','=',0)
                         ->where('protection_ticks','=',0)
                         ->get();
 
+          if(!$inclueActiveRounds)
+          {
+              foreach($dominions as $key => $dominion)
+              {
+                  if(!$dominion->round->hasEnded())
+                  {
+                      $dominions->forget($key);
+                  }
+              }
+          }
+
           return $dominions;
+    }
+
+    public function getTotalLandForRace(Race $race): int
+    {
+        $totalLand = 0;
+
+        foreach($this->getRaceDominions($race) as $dominion)
+        {
+            $totalLand += $this->landCalculator->getTotalLand($dominion);
+        }
+
+        return $totalLand;
+    }
+
+    public function getMaxLandForRace(Race $race): int
+    {
+        $land = 0;
+
+        foreach($this->getRaceDominions($race) as $dominion)
+        {
+            $land = max($land, $this->landCalculator->getTotalLand($dominion));
+        }
+
+        return $land;
     }
 
     public function getStatSumForRace(Race $race, string $statKey): float
@@ -691,6 +728,23 @@ class RaceHelper
         }
 
         return $value;
+    }
+
+    public function getUniqueRulersCountForRace(Race $race): int
+    {
+        $rulers = [];
+
+        foreach($this->getRaceDominions($race) as $dominion)
+        {
+            if(!$dominion->isAbandoned())
+            {
+                $rulers[] = $dominion->user->id;
+            }
+        }
+
+        $rulers = array_unique($rulers);
+
+        return count($rulers);
     }
 
 

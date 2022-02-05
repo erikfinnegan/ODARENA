@@ -22,12 +22,23 @@ class UserHelper
         return $this->getUserDominions($user)->count();
     }
 
-    public function getUserDominions(User $user)
+    public function getUserDominions(User $user, bool $inclueActiveRounds = false)
     {
         $dominions = Dominion::where('user_id', $user->id)
                       ->where('is_locked','=',0)
                       ->where('protection_ticks','=',0)
                       ->get();
+
+        if(!$inclueActiveRounds)
+        {
+            foreach($dominions as $key => $dominion)
+            {
+                if(!$dominion->round->hasEnded())
+                {
+                    $dominions->forget($key);
+                }
+            }
+        }
 
         return $dominions;
     }

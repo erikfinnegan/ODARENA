@@ -11,7 +11,24 @@
 
     <div class="box-body">
         <div class="row">
-            <div class="col-sm-3">
+
+              <div class="col-sm-4 text-center">
+                  <h4>Land max:</h4>
+                  <h3>{{ number_format($raceHelper->getMaxLandForRace($race)) }}</h3>
+              </div>
+
+              <div class="col-sm-4 text-center">
+                  <h4>Land average:</h4>
+                  <h3>{{ number_format($raceHelper->getTotalLandForRace($race) / $raceHelper->getDominionCountForRace($race)) }}</h3>
+              </div>
+
+              <div class="col-sm-4 text-center">
+                  <h4>Unique rulers:</h4>
+                  <h3>{{ number_format($raceHelper->getUniqueRulersCountForRace($race)) }}</h3>
+              </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
                 <div class="box-header with-border">
                     <h4 class="box-title"><i class="ra ra-sword ra-fw"></i> Military Accomplishments</h4>
                 </div>
@@ -33,7 +50,7 @@
                 </table>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="box-header with-border">
                     <h4 class="box-title"><i class="ra ra-broken-skull ra-fw"></i> Military Failures</h4>
                 </div>
@@ -55,7 +72,7 @@
                 </table>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-4">
                 <div class="box-header with-border">
                     <h4 class="box-title"><i class="ra ra-crossed-swords ra-fw"></i> Units</h4>
                 </div>
