@@ -71,7 +71,7 @@ class ChroniclesController extends AbstractController
     {
         return view('pages.chronicles.factions', [
             'raceHelper' => app(RaceHelper::class),
-            'races' => Race::orderBy('name')->get(),
+            'races' => Race::where('playable','=',1)->orderBy('name')->get(),
         ]);
     }
 
