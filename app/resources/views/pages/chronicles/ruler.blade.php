@@ -20,7 +20,7 @@
                         <h4 class="box-title"><i class="ra ra-sword ra-fw"></i> Military Accomplishments</h4>
                     </div>
 
-                    <table class="table table-striped table-hover" id="dominions-table">
+                    <table class="table table-striped table-hover">
                         <colgroup>
                             <col width="50%">
                             <col>
@@ -42,7 +42,7 @@
                         <h4 class="box-title"><i class="ra ra-broken-skull ra-fw"></i> Military Failures</h4>
                     </div>
 
-                    <table class="table table-striped table-hover" id="dominions-table">
+                    <table class="table table-striped table-hover">
                         <colgroup>
                             <col width="50%">
                             <col>
@@ -64,7 +64,7 @@
                         <h4 class="box-title"><i class="fas fa-flag fa-fw"></i> Factions</h4>
                     </div>
 
-                    <table class="table table-striped table-hover" id="dominions-table">
+                    <table class="table table-striped table-hover">
                         <colgroup>
                             <col width="10">
                             <col width="50%">
