@@ -4,7 +4,14 @@ namespace OpenDominion\Http\Controllers;
 
 use Illuminate\Http\Response;
 use OpenDominion\Calculators\NetworthCalculator;
+use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\PopulationCalculator;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
+use OpenDominion\Calculators\Dominion\ResourceCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
@@ -12,11 +19,22 @@ use OpenDominion\Models\Realm;
 use OpenDominion\Models\Round;
 use OpenDominion\Models\User;
 
+use OpenDominion\Helpers\BuildingHelper;
+use OpenDominion\Helpers\DeityHelper;
+use OpenDominion\Helpers\DominionHelper;
+use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\LandImprovementHelper;
+use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RealmHelper;
 use OpenDominion\Helpers\StatsHelper;
+use OpenDominion\Helpers\TechHelper;
+use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Helpers\UserHelper;
+use OpenDominion\Helpers\UnitHelper;
 
-#use OpenDominion\Services\Dominion\StatsService;
+use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
 
 class ChroniclesController extends AbstractController
 {
@@ -85,15 +103,78 @@ class ChroniclesController extends AbstractController
 
     public function getDominion(Dominion $dominion)
     {
-        if ($response = $this->guardAgainstActiveRound($dominion->round)) {
+        $raceHelper = app(RaceHelper::class);
+
+        if ($response = $this->guardAgainstActiveRound($dominion->round))
+        {
             return $response;
+        }
+
+        $landImprovementPerks = [];
+
+        if($raceHelper->hasLandImprovements($dominion->race))
+        {
+            foreach($dominion->race->land_improvements as $landImprovements)
+            {
+                foreach($landImprovements as $perkKey => $value)
+                {
+                    $landImprovementPerks[] = $perkKey;
+                }
+            }
+
+            $landImprovementPerks = array_unique($landImprovementPerks, SORT_REGULAR);
+            sort($landImprovementPerks);
+        }
+
+        $advancements = [];
+        $techs = $dominion->techs->sortBy('key');
+        $techs = $techs->sortBy(function ($tech, $key)
+        {
+            return $tech['name'] . str_pad($tech['level'], 2, '0', STR_PAD_LEFT);
+        });
+
+        foreach($techs as $tech)
+        {
+            $advancement = $tech['name'];
+            $key = $tech['key'];
+            $level = (int)$tech['level'];
+            $advancements[$advancement] = [
+                'key' => $key,
+                'name' => $advancement,
+                'level' => (int)$level,
+                ];
         }
 
         return view('pages.chronicles.dominion', [
             'dominion' => $dominion,
+
+            'advancements' => $advancements,
+            'landImprovementPerks' => $landImprovementPerks,
+
+            'buildingCalculator' => app(BuildingCalculator::class),
+            'improvementCalculator' => app(ImprovementCalculator::class),
             'landCalculator' => app(LandCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
+            'populationCalculator' => app(PopulationCalculator::class),
+            'productionCalculator' => app(ProductionCalculator::class),
+            'resourceCalculator' => app(ResourceCalculator::class),
+            'spellCalculator' => app(SpellCalculator::class),
+
+            'buildingHelper' => app(BuildingHelper::class),
+            'deityHelper' => app(DeityHelper::class),
+            'dominionHelper' => app(DominionHelper::class),
+            'improvementHelper' => app(ImprovementHelper::class),
+            'landHelper' => app(LandHelper::class),
+            'landImprovementHelper' => app(LandImprovementHelper::class),
+            'raceHelper' => $raceHelper,
             'statsHelper' => app(StatsHelper::class),
+            'techHelper' => app(TechHelper::class),
+            'titleHelper' => app(TitleHelper::class),
+            'unitHelper' => app(UnitHelper::class),
+
+            'queueService' => app(QueueService::class),
+            'statsService' => app(StatsService::class),
         ]);
     }
 
