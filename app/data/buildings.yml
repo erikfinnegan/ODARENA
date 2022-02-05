@@ -158,6 +158,7 @@ granary:
     - Growth
     - Merfolk
     - Void
+    - Wood Elf
   land_type: forest
   perks:
     food_theft_protection: 10000
@@ -963,6 +964,8 @@ hollow_trunk:
   land_type: forest
   perks:
     gold_theft_protection: 10000
+    food_theft_protection: 10000
+    lumber_theft_protection: 5000
 
 
 # END WOOD ELF AND SYLVAN
