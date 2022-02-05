@@ -44,6 +44,18 @@ class UserHelper
         return $value;
     }
 
+    public function getPrestigeSumForUser(User $user): float
+    {
+        $value = 0.00;
+
+        foreach($this->getUserDominions($user) as $dominion)
+        {
+            $value += $dominion->prestige;
+        }
+
+        return $value;
+    }
+
     public function getStatMaxForUser(User $user, string $statKey): float
     {
         $value = 0.00;
@@ -54,6 +66,33 @@ class UserHelper
         }
 
         return $value;
+    }
+
+    public function getTopRaces(User $user, int $max = null): array
+    {
+        $races = [];
+
+        foreach($this->getUserDominions($user) as $dominion)
+        {
+            if(isset($races[$dominion->race->name]))
+            {
+                $races[$dominion->race->name] += 1;
+            }
+            else
+            {
+                $races[$dominion->race->name] = 1;
+            }
+            #$races[$dominion->race->name] = (isset($races[$dominion->race->name]) ? $races[$dominion->race->name] + 1 : 1);
+        }
+
+        arsort($races);
+
+        if($max)
+        {
+            $races = array_slice($races, 0, $max);
+        }
+
+        return $races;
     }
 
 }
