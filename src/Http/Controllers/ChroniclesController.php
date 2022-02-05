@@ -65,7 +65,7 @@ class ChroniclesController extends AbstractController
         $dominions = $userHelper->getUserDominions($user);
 
         $militarySuccessStats = ['invasion_victories', 'op_sent_total', 'land_conquered', 'land_discovered', 'units_killed', 'units_converted'];
-        $militaryFailureStats = ['defense_failures', 'land_lost', 'invasion_failures'];
+        $militaryFailureStats = ['defense_failures', 'land_lost', 'invasion_razes', 'invasion_failures'];
 
         $topRaces = $userHelper->getTopRaces($user, 6);
 
