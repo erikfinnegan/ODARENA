@@ -19,7 +19,7 @@
 
               <div class="col-sm-4 text-center">
                   <h4>Land average:</h4>
-                  <h3>{{ number_format($userHelper->getTotalLandForUser($user) / count($userHelper->getUserDominions($user))) }}</h3>
+                  <h3>{{ number_format($userHelper->getTotalLandForUser($user) / max(1, count($userHelper->getUserDominions($user)))) }}</h3>
               </div>
 
               <div class="col-sm-4 text-center">

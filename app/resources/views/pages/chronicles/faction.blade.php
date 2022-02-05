@@ -19,7 +19,7 @@
 
               <div class="col-sm-4 text-center">
                   <h4>Land average:</h4>
-                  <h3>{{ number_format($raceHelper->getTotalLandForRace($race) / $raceHelper->getDominionCountForRace($race)) }}</h3>
+                  <h3>{{ number_format($raceHelper->getTotalLandForRace($race) / max(1, $raceHelper->getDominionCountForRace($race))) }}</h3>
               </div>
 
               <div class="col-sm-4 text-center">
