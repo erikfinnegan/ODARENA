@@ -629,7 +629,6 @@ forest_haven:
     - Myconid
     - Void
     - Swarm
-    - Wood Elf
   land_type: forest
   perks:
     spy_losses: 1,3,30 # 1% gives -3% spy losses, max -30
@@ -966,8 +965,6 @@ hollow_trunk:
     gold_theft_protection: 10000
     food_theft_protection: 10000
     lumber_theft_protection: 5000
-
-
 # END WOOD ELF AND SYLVAN
 
 # ICEKIN
