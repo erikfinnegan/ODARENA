@@ -76,7 +76,6 @@
                             <th>Casualties</th>
                             <th>Converted</th>
                             <th>Spent</th>
-                            <th>Released</th>
                     </thead>
                     <tbody>
                     @for ($slot = 1; $slot <= 4; $slot++)
@@ -89,7 +88,6 @@
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_lost'))) }}</td>
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_converted'))) }}</td>
                             <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_training'))) }}</td>
-                            <td>{{ number_format($raceHelper->getStatSumForRace($race, ('unit' . $slot .'_released'))) }}</td>
                         </tr>
                     @endfor
                 </table>
