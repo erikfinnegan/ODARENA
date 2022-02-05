@@ -52,6 +52,29 @@ class ChroniclesController extends AbstractController
         ]);
     }
 
+    public function getRounds()
+    {
+        return view('pages.chronicles.rounds', [
+            'rounds' => Round::with('league')->where('end_date','<=',now())->orderBy('start_date', 'desc')->get(),
+        ]);
+    }
+
+    public function getRulers()
+    {
+        return view('pages.chronicles.rulers', [
+            'userHelper' => app(UserHelper::class),
+            'users' => User::orderBy('display_name')->get(),
+        ]);
+    }
+
+    public function getFactions()
+    {
+        return view('pages.chronicles.factions', [
+            'raceHelper' => app(RaceHelper::class),
+            'races' => Race::orderBy('name')->get(),
+        ]);
+    }
+
     public function getRound(Round $round)
     {
         if ($response = $this->guardAgainstActiveRound($round)) {
@@ -175,6 +198,29 @@ class ChroniclesController extends AbstractController
 
             'queueService' => app(QueueService::class),
             'statsService' => app(StatsService::class),
+        ]);
+    }
+
+    public function getFaction(string $raceName)
+    {
+        $race = Race::where('name', $raceName)->firstOrFail();
+        $raceHelper = app(RaceHelper::class);
+
+        $militarySuccessStats = ['invasion_victories', 'invasion_bottomfeeds', 'op_sent_total', 'land_conquered', 'land_discovered', 'units_killed', 'units_converted'];
+        $militaryFailureStats = ['defense_failures', 'land_lost', 'invasion_razes', 'invasion_failures'];
+
+        return view('pages.chronicles.faction', [
+            'race' => $race,
+
+            'landCalculator' => app(LandCalculator::class),
+            'networthCalculator' => app(NetworthCalculator::class),
+            'raceHelper' => $raceHelper,
+            'statsHelper' => app(StatsHelper::class),
+            'unitHelper' => app(UnitHelper::class),
+
+            'dominions' => $raceHelper->getDominionsForRace($race),
+            'militarySuccessStats' => $militarySuccessStats,
+            'militaryFailureStats' => $militaryFailureStats,
         ]);
     }
 

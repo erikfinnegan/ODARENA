@@ -6,18 +6,16 @@
 
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h1 class="box-title"><i class="ra ra-knight-helmet ra-fw"></i> Chronicles of {{ $user->display_name }}</h1>
+        <h1 class="box-title"><i class="fas fa-flag fa-fw"></i> Chronicles of {{ $race->name }}</h1>
     </div>
 
     <div class="box-body">
         <div class="row">
-
             <div class="col-sm-3">
-                <img src="{{ $user->getAvatarUrl() }}"  class="img-responsive" style="width: 100%; display: inline; vertical-align: top; margin: 4px;">
-                <p>
-                    <strong>{{ $user->display_name }}</strong> joined ODARENA {{ $user->created_at->toFormattedDateString() }} and has played {{ number_format($userHelper->getRoundsPlayed($user)) . ' ' . str_plural('round',$userHelper->getRoundsPlayed($user)) }}.
-                </p>
+                ???
             </div>
+
+            {{--
             <div class="col-sm-3">
                 <div class="box-header with-border">
                     <h4 class="box-title"><i class="ra ra-sword ra-fw"></i> Military Accomplishments</h4>
@@ -33,7 +31,7 @@
                     @foreach ($militarySuccessStats as $statKey)
                         <tr>
                             <td class="text-right">{{ $statsHelper->getStatName($statKey) }}:</td>
-                            <td>{{ number_format($userHelper->getStatSumForUser($user, $statKey)) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($user, $statKey)) }}</td>
                         </tr>
                     @endforeach
                     </tr>
@@ -55,36 +53,13 @@
                     @foreach ($militaryFailureStats as $statKey)
                         <tr>
                             <td class="text-right">{{ $statsHelper->getStatName($statKey) }}:</td>
-                            <td>{{ number_format($userHelper->getStatSumForUser($user, $statKey)) }}</td>
+                            <td>{{ number_format($raceHelper->getStatSumForRace($user, $statKey)) }}</td>
                         </tr>
                     @endforeach
                     </tr>
                 </table>
             </div>
-
-            <div class="col-sm-3">
-                <div class="box-header with-border">
-                    <h4 class="box-title"><i class="fas fa-flag fa-fw"></i> Factions</h4>
-                </div>
-
-                <table class="table table-striped table-hover">
-                    <colgroup>
-                        <col width="10">
-                        <col width="50%">
-                        <col>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                    @foreach ($topRaces as $topRace => $timesPlayed)
-                        <tr>
-                            <td>{{ array_search($topRace, array_keys($topRaces))+1 }}.</td>
-                            <td>{{ $topRace }}</td>
-                            <td>{{ number_format($timesPlayed) }}</td>
-                        </tr>
-                    @endforeach
-                    </tr>
-                </table>
-            </div>
+            --}}
 
         </div>
 
@@ -105,7 +80,7 @@
                         <tr>
                             <th class="text-center">Round</th>
                             <th>Dominion</th>
-                            <th>Faction</th>
+                            <th>Ruler</th>
                             <th>Land</th>
                             <th>Networth</th>
                             <th>Chapter</th>
@@ -118,8 +93,11 @@
                             <td class="text-center"><a href="{{ route('chronicles.round', $dominion->round) }}">{{ $dominion->round->number }}</a></td>
                             <td><a href="{{ route('chronicles.dominion', $dominion) }}">{{ $dominion->name }}</a></td>
                             <td>
-                                <a href="{{ route('scribes.faction', str_slug($dominion->race->name)) }}" target="_blank"><i class="ra ra-scroll-unfurled"></i></a>&nbsp;
-                                <a href="{{ route('chronicles.faction', $dominion->race->name) }}">{{ $dominion->race->name }}</a>
+                                @if($dominion->isAbandoned())
+                                    {{ $dominion->ruler_name }}
+                                @else
+                                    <a href="{{ route('chronicles.ruler', $dominion->user->display_name) }}">{{ $dominion->user->display_name }}</a>
+                                @endif
                             </td>
                             <td>{{ number_format($landCalculator->getTotalLand($dominion)) }}</td>
                             <td>{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}</td>

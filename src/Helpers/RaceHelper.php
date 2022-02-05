@@ -643,4 +643,19 @@ class RaceHelper
     {
         return isset($race->land_improvements);
     }
+
+    public function getDominionCountForRace(Race $race): int
+    {
+        return $this->getDominionsForRace($race)->count();
+    }
+
+    public function getDominionsForRace(Race $race)
+    {
+          $dominions = Dominion::where('race_id', $race->id)
+                        ->where('is_locked','=',0)
+                        ->where('protection_ticks','=',0)
+                        ->get();
+
+          return $dominions;
+    }
 }

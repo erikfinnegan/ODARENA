@@ -26,7 +26,9 @@
                             <tr>
                                 <td>Ruler:</td>
                                 <td>
-                                    <a href="{{ route('chronicles.ruler', $dominion->user->display_name) }}">
+                                    @if(!$dominion->isAbandoned())
+                                        <a href="{{ route('chronicles.ruler', $dominion->user->display_name) }}">
+                                    @endif
                                         @if(isset($dominion->title->name))
                                               <em>
                                                   <span data-toggle="tooltip" data-placement="top" title="{!! $titleHelper->getRulerTitlePerksForDominion($dominion) !!}">

@@ -243,11 +243,18 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
 // Chronicles
 $router->group(['prefix' => 'chronicles', 'as' => 'chronicles.'], static function (Router $router) {
 
-    $router->get('/')->uses('ChroniclesController@getIndex')->name('index');
+    $router->get('/')->uses('ChroniclesController@getRounds')->name('index');
+
+    $router->get('/rounds')->uses('ChroniclesController@getRounds')->name('rounds');
+    $router->get('/rulers')->uses('ChroniclesController@getRulers')->name('rulers');
+    $router->get('/factions')->uses('ChroniclesController@getFactions')->name('factions');
+
     $router->get('round/{round}')->uses('ChroniclesController@getRound')->name('round');
     $router->get('round/{round}/{type}')->uses('ChroniclesController@getRoundType')->name('round.type');
+
     $router->get('ruler/{ruler}')->uses('ChroniclesController@getRuler')->name('ruler');
     $router->get('dominion/{dominion}')->uses('ChroniclesController@getDominion')->name('dominion');
+    $router->get('faction/{faction}')->uses('ChroniclesController@getFaction')->name('faction');
 
 });
 
