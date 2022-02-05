@@ -17,7 +17,6 @@
                     <col width="120">
                     <col width="120">
                     <col width="120">
-                    <col width="120">
                 </colgroup>
                 <thead>
                     <tr>
@@ -47,3 +46,26 @@
         </div>
     </div>
 @endsection
+
+@push('page-styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">
+    <style>
+        #dominion-search #dominions-table_filter { display: none !important; }
+    </style>
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/dataTables.bootstrap.js') }}"></script>
+@endpush
+
+@push('inline-scripts')
+    <script type="text/javascript">
+        (function ($) {
+            var table = $('#dominions-table').DataTable({
+                order: [0, 'desc'],
+                paging: true,
+            });
+        })(jQuery);
+    </script>
+@endpush
