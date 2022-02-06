@@ -27,6 +27,7 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\LandImprovementHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RealmHelper;
+use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\StatsHelper;
 use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Helpers\TitleHelper;
@@ -191,6 +192,7 @@ class ChroniclesController extends AbstractController
             'landHelper' => app(LandHelper::class),
             'landImprovementHelper' => app(LandImprovementHelper::class),
             'raceHelper' => $raceHelper,
+            'spellHelper' => app(SpellHelper::class),
             'statsHelper' => app(StatsHelper::class),
             'techHelper' => app(TechHelper::class),
             'titleHelper' => app(TitleHelper::class),
