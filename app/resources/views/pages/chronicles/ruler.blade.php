@@ -122,7 +122,7 @@
 
           <div class="col-sm-12 text-center">
               <h4>Land stats:</h4>
-              <p>Distribution of total land lost and gained ({{ number_format($total)}} acres).</p>
+              <p>Distribution of total land lost and gained ({{ number_format($total)}} acres): {{ number_format($conquered) }} conquered, {{ number_format($discovered) }} discovered, {{ number_format($explored) }} explored, and {{ number_format($lost) }} lost.</p>
               <div class="progress">
               @if($total == 0)
                   <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">No data</div>
@@ -149,15 +149,14 @@
 
           <div class="col-sm-12 text-center">
               <h4>Military success ratio:</h4>
-              <p>How the armies of {{ $user->display_name }} have fared throughout {{ number_format($total) }} battles.</p>
-
+              <p>How the armies of {{ $user->display_name }} have fared throughout {{ number_format($total) }} battles: {{ number_format($successful) }} successful,  {{ number_format($unsuccessful) }} unsuccessful, and {{ number_format($timesInvaded) }} times invaded.</p>
               <div class="progress">
               @if($total == 0)
                   <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">No data</div>
               @else
-                  <div class="progress-bar label-success" role="progressbar" style="width: {{ ($successful / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Successful ({{ number_format(($successful / $total)*100,2) }}%)</div>
-                  <div class="progress-bar label-warning" role="progressbar" style="width: {{ ($unsuccessful / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Unsuccessful ({{ number_format(($unsuccessful / $total)*100,2) }}%)</div>
-                  <div class="progress-bar label-danger" role="progressbar" style="width: {{ ($timesInvaded / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Invaded ({{ number_format(($timesInvaded / $total)*100,2) }}%)</div>
+                  <div class="progress-bar label-success" role="progressbar" style="width: {{ ($successful / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="Successful invasions (victories and bottomfeeds) and successfully fending off invaders">Successful ({{ number_format(($successful / $total)*100,2) }}%)</div>
+                  <div class="progress-bar label-warning" role="progressbar" style="width: {{ ($unsuccessful / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="Unsuccessful invasions (razes and bounces)">Unsuccessful ({{ number_format(($unsuccessful / $total)*100,2) }}%)</div>
+                  <div class="progress-bar label-danger" role="progressbar" style="width: {{ ($timesInvaded / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="Number of times successfully invaded">Invaded ({{ number_format(($timesInvaded / $total)*100,2) }}%)</div>
               @endif
               </div>
           </div>
