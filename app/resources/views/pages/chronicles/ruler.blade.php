@@ -83,7 +83,7 @@
 
             <div class="col-sm-3">
                 <div class="box-header with-border">
-                    <h4 class="box-title"><i class="fas fa-flag fa-fw"></i> Factions</h4>
+                    <h4 class="box-title"><i class="fas fa-flag fa-fw"></i> Top Factions</h4>
                 </div>
 
                 <table class="table table-striped table-hover">
