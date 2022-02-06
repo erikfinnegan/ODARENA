@@ -107,6 +107,54 @@
 
         </div>
 
+
+
+        <div class="row">
+          @php
+              $conquered = $userHelper->getStatSumForUser($user, 'land_conquered');
+              $explored = $userHelper->getStatSumForUser($user, 'land_explored');
+              $discovered = $userHelper->getStatSumForUser($user, 'land_discovered');
+              $lost = $userHelper->getStatSumForUser($user, 'land_lost');
+
+              $total = ($conquered + $explored + $discovered + $lost);
+
+          @endphp
+
+          <div class="col-sm-12 text-center">
+              <h4>Land stats:</h4>
+              <p>Distribution of total land lost and gained ({{ number_format($total)}} acres).</p>
+              <div class="progress">
+                  <div class="progress-bar label-success" role="progressbar" style="width: {{ ($conquered / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Conquered ({{ number_format(($conquered / $total)*100,2) }}%)</div>
+                  <div class="progress-bar label-info" role="progressbar" style="width: {{ ($discovered / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Discovered ({{ number_format(($discovered / $total)*100,2) }}%)</div>
+                  <div class="progress-bar label-warning" role="progressbar" style="width: {{ ($explored / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Explored ({{ number_format(($explored / $total)*100,2) }}%)</div>
+                  <div class="progress-bar label-danger" role="progressbar" style="width: {{ ($lost / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Lost ({{ number_format(($lost / $total)*100,2) }}%)</div>
+              </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          @php
+              $successful = $userHelper->getStatSumForUser($user, 'invasion_victories') + $userHelper->getStatSumForUser($user, 'invasion_bottomfeeds') + $userHelper->getStatSumForUser($user, 'defense_success');
+              $unsuccessful = $userHelper->getStatSumForUser($user, 'invasion_razes') + $userHelper->getStatSumForUser($user, 'invasion_failures');
+              $timesInvaded = $userHelper->getStatSumForUser($user, 'defense_failures');
+
+              $total = ($successful + $timesInvaded);
+
+          @endphp
+
+          <div class="col-sm-12 text-center">
+              <h4>Military success ratio:</h4>
+              <p>How the armies of {{ $user->display_name }} have fared in battle.</p>
+              <div class="progress">
+                  <div class="progress-bar label-success" role="progressbar" style="width: {{ ($successful / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Successful ({{ number_format(($successful / $total)*100,2) }}%)</div>
+                  <div class="progress-bar label-warning" role="progressbar" style="width: {{ ($unsuccessful / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Unsuccessful ({{ number_format(($unsuccessful / $total)*100,2) }}%)</div>
+                  <div class="progress-bar label-danger" role="progressbar" style="width: {{ ($timesInvaded / $total)*100 }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Invaded ({{ number_format(($timesInvaded / $total)*100,2) }}%)</div>
+              </div>
+          </div>
+
+        </div>
+
         <div class="row">
 
             <div class="col-sm-12">
