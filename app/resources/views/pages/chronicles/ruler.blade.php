@@ -116,7 +116,7 @@
               $discovered = $userHelper->getStatSumForUser($user, 'land_discovered');
               $lost = $userHelper->getStatSumForUser($user, 'land_lost');
 
-              $total = ($conquered + $explored + $discovered + $lost);
+              $total = max(1, ($conquered + $explored + $discovered + $lost));
 
           @endphp
 
@@ -139,7 +139,7 @@
               $unsuccessful = $userHelper->getStatSumForUser($user, 'invasion_razes') + $userHelper->getStatSumForUser($user, 'invasion_failures');
               $timesInvaded = $userHelper->getStatSumForUser($user, 'defense_failures');
 
-              $total = ($successful + $timesInvaded);
+              $total = max(1, ($successful + $timesInvaded + $timesInvaded));
 
           @endphp
 
