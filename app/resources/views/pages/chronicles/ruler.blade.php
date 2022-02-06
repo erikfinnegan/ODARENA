@@ -139,7 +139,7 @@
               $unsuccessful = $userHelper->getStatSumForUser($user, 'invasion_razes') + $userHelper->getStatSumForUser($user, 'invasion_failures');
               $timesInvaded = $userHelper->getStatSumForUser($user, 'defense_failures');
 
-              $total = max(1, ($successful + $timesInvaded + $timesInvaded));
+              $total = max(1, ($successful + $unsuccessful + $timesInvaded));
 
           @endphp
 
