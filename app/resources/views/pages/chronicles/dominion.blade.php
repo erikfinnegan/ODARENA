@@ -320,7 +320,7 @@
                                     </td>
                                     <td class="text-center">{{ $dominionSpell->duration }} / {{ $spell->duration }} ticks</td>
                                     <td class="text-center">
-                                        <a href="{{ route('dominion.realm', $caster->realm->number) }}">{{ $caster->name }} (#{{ $caster->realm->number }})</a>
+                                        <a href="{{ route('chronicles.dominion', $caster) }}">{{ $caster->name }} (#{{ $caster->realm->number }})</a>
                                     </td>
                                 </tr>
                             @endif
