@@ -15,7 +15,10 @@ class UserHelper
 
     public function __construct()
     {
+        $this->roundHelper = app(RoundHelper::class);
+
         $this->landCalculator = app(LandCalculator::class);
+
         $this->statsService = app(StatsService::class);
     }
 
@@ -112,15 +115,15 @@ class UserHelper
 
         foreach($this->getUserDominions($user) as $dominion)
         {
-            if(isset($races[$dominion->race->name]))
-            {
-                $races[$dominion->race->name] += 1;
-            }
-            else
-            {
-                $races[$dominion->race->name] = 1;
-            }
-            #$races[$dominion->race->name] = (isset($races[$dominion->race->name]) ? $races[$dominion->race->name] + 1 : 1);
+            #if(isset($races[$dominion->race->name]))
+            #{
+            #    $races[$dominion->race->name] += 1;
+            #}
+            #else
+            #{
+            #    $races[$dominion->race->name] = 1;
+            #}
+            $races[$dominion->race->name] = (isset($races[$dominion->race->name]) ? $races[$dominion->race->name] + 1 : 1);
         }
 
         arsort($races);
@@ -148,6 +151,21 @@ class UserHelper
         $races = array_unique($races);
 
         return count($races);
+    }
+
+    public function getTopPlacementsForUser(User $user, int $places = 3): array
+    {
+        $topPlacements = [];
+
+        foreach($this->getUserDominions($user) as $dominion)
+        {
+            if(($placementInRound = $this->roundHelper->getDominionPlacementInRound($dominion)) <= $places)
+            {
+                $topPlacements[] = [$dominion->round->id => $placementInRound];
+            }
+        }
+
+        return $topPlacements;
     }
 
 }

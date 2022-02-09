@@ -2,11 +2,24 @@
 
 namespace OpenDominion\Helpers;
 
+use DB;
 use Illuminate\Support\Collection;
+use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Round;
+
+use OpenDominion\Calculators\Dominion\LandCalculator;
+
+use OpenDominion\Services\Dominion\StatsService;
 
 class RoundHelper
 {
+    public function __construct()
+    {
+        $this->landCalculator = app(LandCalculator::class);
+        $this->statsService = app(StatsService::class);
+    }
+
+
     public function getRoundModeString(Round $round): string
     {
         switch ($round->mode)
@@ -55,6 +68,65 @@ class RoundHelper
             default:
                 return '&mdash;';
         }
+    }
+
+    public function getRoundDominions(Round $round, bool $inclueActiveRounds = false)
+    {
+        $dominions = Dominion::where('round_id', $round->id)
+                      ->where('is_locked','=',0)
+                      ->where('protection_ticks','=',0)
+                      ->get();
+
+        if(!$inclueActiveRounds)
+        {
+            foreach($dominions as $key => $dominion)
+            {
+                if(!$dominion->round->hasEnded())
+                {
+                    $dominions->forget($key);
+                }
+            }
+        }
+
+        return $dominions;
+    }
+
+    public function getRoundDominionsByLand(Round $round, int $max = null): array
+    {
+        $dominions = [];
+
+        foreach($this->getRoundDominions($round) as $dominion)
+        {
+            $dominions[$dominion->id] = $this->landCalculator->getTotalLand($dominion);
+        }
+
+        arsort($dominions);
+
+        if($max)
+        {
+            $dominions = array_slice($dominions, 0, $max, true);
+        }
+
+        $rankedList = [];
+
+        $rank = 1;
+        foreach($dominions as $dominionId => $landSize)
+        {
+            $rankedList[$rank] = $dominionId;
+            $rank++;
+        }
+
+        return $rankedList;
+    }
+
+    public function getDominionPlacementInRound(Dominion $dominion): int
+    {
+        $round = $dominion->round;
+        $dominions = $this->getRoundDominionsByLand($round);
+
+        #dump($dominions, $dominion->id, array_search($dominion->id, $dominions));
+
+        return array_search($dominion->id, $dominions);
     }
 
 }

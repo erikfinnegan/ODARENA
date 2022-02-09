@@ -27,6 +27,7 @@ use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\LandImprovementHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RealmHelper;
+use OpenDominion\Helpers\RoundHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\StatsHelper;
 use OpenDominion\Helpers\TechHelper;
@@ -110,10 +111,12 @@ class ChroniclesController extends AbstractController
         $militaryFailureStats = ['defense_failures', 'land_lost', 'invasion_razes', 'invasion_failures'];
 
         $topRaces = $userHelper->getTopRaces($user, 10);
+        $topRaces = $userHelper->getTopPlacementsForUser($user);
 
         return view('pages.chronicles.ruler', [
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
+            'roundHelper' => app(RoundHelper::class),
             'statsHelper' => app(StatsHelper::class),
             'userHelper' => $userHelper,
 
@@ -121,6 +124,7 @@ class ChroniclesController extends AbstractController
             'militarySuccessStats' => $militarySuccessStats,
             'militaryFailureStats' => $militaryFailureStats,
             'topRaces' => $topRaces,
+            'topPlacements' => $topPlacements,
             'user' => $user,
         ]);
     }

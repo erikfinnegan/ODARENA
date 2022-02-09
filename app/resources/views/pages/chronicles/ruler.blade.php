@@ -32,10 +32,14 @@
         <div class="row">
 
             <div class="col-sm-3">
-                <img src="{{ $user->getAvatarUrl() }}"  class="img-responsive" style="width: 100%; display: inline; vertical-align: top; margin: 4px;">
+                <img src="{{ $user->getAvatarUrl() }}"  class="img-responsive" style="width: 100%; max-width: 200px; display: inline; vertical-align: top; margin: 4px;">
                 <p>
                     <strong>{{ $user->display_name }}</strong> joined ODARENA {{ $user->created_at->toFormattedDateString() }} and has played {{ number_format($userHelper->getRoundsPlayed($user)) . ' ' . str_plural('round',$userHelper->getRoundsPlayed($user)) }}.
                 </p>
+
+                @if(count())
+                {{ dd($userHelper->getTopPlacementsForUser($user)) }}
+
             </div>
             <div class="col-sm-3">
                 <div class="box-header with-border">
@@ -55,6 +59,10 @@
                             <td>{{ number_format($userHelper->getStatSumForUser($user, $statKey)) }}</td>
                         </tr>
                     @endforeach
+                    </tr>
+                    <tr>
+                        <td class="text-right">Prestige:</td>
+                        <td>{{ number_format($userHelper->getPrestigeSumForUser($user)) }}</td>
                     </tr>
                 </table>
             </div>
@@ -106,8 +114,6 @@
             </div>
 
         </div>
-
-
 
         <div class="row">
           @php
@@ -175,6 +181,7 @@
                         <col width="120">
                         <col width="120">
                         <col width="120">
+                        <col width="120">
                     </colgroup>
                     <thead>
                         <tr>
@@ -182,6 +189,7 @@
                             <th>Dominion</th>
                             <th>Faction</th>
                             <th>Land</th>
+                            <th>Land Rank</th>
                             <th>Networth</th>
                             <th>Chapter</th>
                             <th>Era</th>
@@ -197,6 +205,7 @@
                                 <a href="{{ route('chronicles.faction', $dominion->race->name) }}">{{ $dominion->race->name }}</a>
                             </td>
                             <td>{{ number_format($landCalculator->getTotalLand($dominion)) }}</td>
+                            <td>{{ $roundHelper->getDominionPlacementInRound($dominion) }}
                             <td>{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}</td>
                             <td><a href="{{ route('chronicles.round', $dominion->round) }}">{{ $dominion->round->name }}</a></td>
                             <td>{{ $dominion->round->league->description }}</td>
