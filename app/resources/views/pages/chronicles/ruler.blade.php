@@ -232,7 +232,7 @@
                                 <a href="{{ route('chronicles.faction', $dominion->race->name) }}">{{ $dominion->race->name }}</a>
                             </td>
                             <td>{{ number_format($landCalculator->getTotalLand($dominion)) }}</td>
-                            <td>{{ $roundHelper->getDominionPlacementInRound($dominion) }}
+                            <td>{{ $roundHelper->getDominionPlacementInRound($dominion) . ' ' . $roundHelper->getRoundPlacementEmoji($roundHelper->getDominionPlacementInRound($dominion)) }}</td>
                             <td>{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}</td>
                             <td><a href="{{ route('chronicles.round', $dominion->round) }}">{{ $dominion->round->name }}</a></td>
                             <td>{{ $dominion->round->league->description }}</td>
