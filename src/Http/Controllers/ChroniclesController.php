@@ -36,6 +36,7 @@ use OpenDominion\Helpers\UserHelper;
 use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\RoundService;
 use OpenDominion\Services\Dominion\StatsService;
 
 class ChroniclesController extends AbstractController
@@ -116,9 +117,12 @@ class ChroniclesController extends AbstractController
         return view('pages.chronicles.ruler', [
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
+
             'roundHelper' => app(RoundHelper::class),
             'statsHelper' => app(StatsHelper::class),
             'userHelper' => $userHelper,
+
+            'roundService' => app(RoundService::class),
 
             'dominions' => $dominions,
             'militarySuccessStats' => $militarySuccessStats,

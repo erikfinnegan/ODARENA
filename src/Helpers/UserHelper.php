@@ -162,9 +162,11 @@ class UserHelper
         {
             if(($placementInRound = $this->roundHelper->getDominionPlacementInRound($dominion)) <= $places)
             {
-                $topPlacements[$dominion->round->id] = [$dominion->id => $placementInRound];
+                $topPlacements[$placementInRound][] = $dominion->id;
             }
         }
+
+        krsort($topPlacements);
 
         return $topPlacements;
     }

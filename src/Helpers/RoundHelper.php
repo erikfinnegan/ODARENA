@@ -124,9 +124,22 @@ class RoundHelper
         $round = $dominion->round;
         $dominions = $this->getRoundDominionsByLand($round);
 
-        #dump($dominions, $dominion->id, array_search($dominion->id, $dominions));
-
         return array_search($dominion->id, $dominions);
+    }
+
+    public function getRoundPlacementEmoji(int $placement): string
+    {
+        switch($placement)
+        {
+            case 1:
+                return "🥇";
+            case 2:
+                return "🥈";
+            case 3:
+                return "🥉";
+            default:
+                return '';
+        }
     }
 
 }

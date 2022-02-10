@@ -38,17 +38,54 @@
                 </p>
 
                 @if(count($topPlacements) > 0)
-
-                    @foreach($topPlacements as $placement)
-                        {{ dd($placement) }}
-                        @php
-                            $round = OpenDominion\Models\Round::where('id', $roundId)->firstOrFail();
-                            $roundDominions->getUserDominionFromRound($round);
-                        @endphp
-                        {{ dd($placement) }}
-                    @endforeach
-
+                    <table class="table table-striped table-hover">
+                        <colgroup>
+                            <col>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                        @foreach ($topPlacements as $placements)
+                            @php
+                                $placement = key($placements)+1;
+                            @endphp
+                            <tr>
+                                <td>
+                                @foreach($placements as $dominionId)
+                                    @php
+                                        $dominion = OpenDominion\Models\Dominion::findOrFail($dominionId);
+                                    @endphp
+                                    <span data-toggle="tooltip" data-placement="top" title="The dominion of {{ $dominion->name }} ({{ $dominion->race->name }}), round {{ $dominion->round->number }}.">
+                                        <a href="{{ route('chronicles.dominion', $dominion) }}">{{ $roundHelper->getRoundPlacementEmoji($placement) }}</a>
+                                    </span>
+                                @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 @endif
+            </div>
+
+            <div class="col-sm-3">
+
+                <table class="table table-striped table-hover">
+                    <colgroup>
+                        <col width="50%">
+                        <col>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                    @foreach ($militarySuccessStats as $statKey)
+                        <tr>
+                            <td class="text-right">{{ $statsHelper->getStatName($statKey) }}:</td>
+                            <td>{{ number_format($userHelper->getStatSumForUser($user, $statKey)) }}</td>
+                        </tr>
+                    @endforeach
+                    </tr>
+                    <tr>
+                        <td class="text-right">Prestige:</td>
+                        <td>{{ number_format($userHelper->getPrestigeSumForUser($user)) }}</td>
+                    </tr>
+                </table>
 
             </div>
             <div class="col-sm-3">
