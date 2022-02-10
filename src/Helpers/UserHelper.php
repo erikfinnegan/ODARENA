@@ -166,7 +166,7 @@ class UserHelper
             }
         }
 
-        krsort($topPlacements);
+        ksort($topPlacements);
 
         return $topPlacements;
     }
