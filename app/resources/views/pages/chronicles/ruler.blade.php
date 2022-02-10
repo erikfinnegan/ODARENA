@@ -38,6 +38,10 @@
                 </p>
 
                 @if(count($topPlacements) > 0)
+                    <div class="box-header with-border">
+                        <h4 class="box-title"><i class="fas fa-award"></i> Awards</h4>
+                    </div>
+
                     <table class="table table-striped table-hover">
                         <colgroup>
                             <col>
