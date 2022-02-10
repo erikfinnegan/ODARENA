@@ -55,7 +55,7 @@
                                         $dominion = OpenDominion\Models\Dominion::findOrFail($dominionId);
                                     @endphp
                                     <span data-toggle="tooltip" data-placement="top" title="The dominion of {{ $dominion->name }} ({{ $dominion->race->name }}), round {{ $dominion->round->number }}.">
-                                        <a href="{{ route('chronicles.dominion', $dominion) }}">{{ $roundHelper->getRoundPlacementEmoji($placement) }}</a>
+                                        <a href="{{ route('chronicles.dominion', $dominion) }}">{{ $roundHelper->getRoundPlacementEmoji($roundHelper->getDominionPlacementInRound($dominion)) }}</a>
                                     </span>
                                 @endforeach
                                 </td>

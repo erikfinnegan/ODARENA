@@ -129,13 +129,17 @@ class RoundHelper
 
     public function getRoundPlacementEmoji(int $placement): string
     {
-        $emojis = [
-            1 => "🥇",
-            2 => "🥈",
-            3 => "🥉",
-        ];
-
-        return $emojis[$placement];
+        switch($placement)
+        {
+            case 1:
+                return "🥇";
+            case 2:
+                return "🥈";
+            case 3:
+                return "🥉";
+            default:
+                return '';
+        }
     }
 
 }
