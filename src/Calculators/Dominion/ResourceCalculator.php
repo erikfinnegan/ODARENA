@@ -486,6 +486,9 @@ class ResourceCalculator
         // Buildings
         $perk += $dominion->getBuildingPerkMultiplier('exchange_rate');
 
+        // Deity
+        $perk += $dominion->getDeityPerkMultiplier('exchange_rate');
+
         // Improvements
         $perk += $dominion->getImprovementPerkMultiplier('exchange_rate');
 

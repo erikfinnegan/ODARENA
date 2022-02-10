@@ -37,8 +37,18 @@
                     <strong>{{ $user->display_name }}</strong> joined ODARENA {{ $user->created_at->toFormattedDateString() }} and has played {{ number_format($userHelper->getRoundsPlayed($user)) . ' ' . str_plural('round',$userHelper->getRoundsPlayed($user)) }}.
                 </p>
 
-                @if(count())
-                {{ dd($userHelper->getTopPlacementsForUser($user)) }}
+                @if(count($topPlacements) > 0)
+
+                    @foreach($topPlacements as $placement)
+                        {{ dd($placement) }}
+                        @php
+                            $round = OpenDominion\Models\Round::where('id', $roundId)->firstOrFail();
+                            $roundDominions->getUserDominionFromRound($round);
+                        @endphp
+                        {{ dd($placement) }}
+                    @endforeach
+
+                @endif
 
             </div>
             <div class="col-sm-3">

@@ -155,13 +155,14 @@ class UserHelper
 
     public function getTopPlacementsForUser(User $user, int $places = 3): array
     {
+        # Format: $topPlacement[$roundId] = [$dominionId => $placement]
         $topPlacements = [];
 
         foreach($this->getUserDominions($user) as $dominion)
         {
             if(($placementInRound = $this->roundHelper->getDominionPlacementInRound($dominion)) <= $places)
             {
-                $topPlacements[] = [$dominion->round->id => $placementInRound];
+                $topPlacements[$dominion->round->id] = [$dominion->id => $placementInRound];
             }
         }
 

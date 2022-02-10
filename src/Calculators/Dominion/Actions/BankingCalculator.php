@@ -76,6 +76,9 @@ class BankingCalculator
           // Buildings
           $bonus += $dominion->getBuildingPerkMultiplier('exchange_rate');
 
+          // Deity
+          $bonus += $dominion->getDeityPerkMultiplier('exchange_rate');
+
           // Improvements
           $bonus += $dominion->getImprovementPerkMultiplier('exchange_rate');
 

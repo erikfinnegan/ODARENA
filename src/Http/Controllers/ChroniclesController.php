@@ -111,7 +111,7 @@ class ChroniclesController extends AbstractController
         $militaryFailureStats = ['defense_failures', 'land_lost', 'invasion_razes', 'invasion_failures'];
 
         $topRaces = $userHelper->getTopRaces($user, 10);
-        $topRaces = $userHelper->getTopPlacementsForUser($user);
+        $topPlacements = $userHelper->getTopPlacementsForUser($user);
 
         return view('pages.chronicles.ruler', [
             'landCalculator' => app(LandCalculator::class),
