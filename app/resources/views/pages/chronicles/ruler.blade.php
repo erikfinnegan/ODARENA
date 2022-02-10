@@ -64,30 +64,6 @@
                     </table>
                 @endif
             </div>
-
-            <div class="col-sm-3">
-
-                <table class="table table-striped table-hover">
-                    <colgroup>
-                        <col width="50%">
-                        <col>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                    @foreach ($militarySuccessStats as $statKey)
-                        <tr>
-                            <td class="text-right">{{ $statsHelper->getStatName($statKey) }}:</td>
-                            <td>{{ number_format($userHelper->getStatSumForUser($user, $statKey)) }}</td>
-                        </tr>
-                    @endforeach
-                    </tr>
-                    <tr>
-                        <td class="text-right">Prestige:</td>
-                        <td>{{ number_format($userHelper->getPrestigeSumForUser($user)) }}</td>
-                    </tr>
-                </table>
-
-            </div>
             <div class="col-sm-3">
                 <div class="box-header with-border">
                     <h4 class="box-title"><i class="ra ra-sword ra-fw"></i> Military Accomplishments</h4>
