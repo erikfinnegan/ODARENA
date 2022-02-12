@@ -2,7 +2,7 @@ name: Marshling
 alignment: independent
 description:
 home_land_type: swamp
-playable: 1
+playable: 0
 experimental: 1
 
 attacking: 2
