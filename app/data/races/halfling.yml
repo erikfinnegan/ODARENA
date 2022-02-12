@@ -52,6 +52,7 @@ units:
       defense: 6
     perks:
       counts_as_spy_defense: 0.20
+      casualties_from_spy_ratio: -8 # -10% casualties per 1 SPA
 
   - name: Master Thief
     training_time: 6
@@ -63,11 +64,10 @@ units:
       gold: 500
       spy: 1
     power:
-      offense: 7
-      defense: 4
+      offense: 0
+      defense: 0
     perks:
-      counts_as_spy: 1
-      casualties_from_spy_ratio: -10 # -10% casualties per 1 SPA
+      counts_as_spy: 2
       immortal_spy: 1
       no_draftee: 1
 
@@ -84,4 +84,5 @@ units:
       offense: 3
       defense: 5
     perks:
-      offense_from_spy_ratio: 1 # ratio%, max
+      offense_from_spy_ratio: 0.5 # ratio%, max
+      casualties_from_spy_ratio: -8 # -10% casualties per 1 SPA

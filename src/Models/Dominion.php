@@ -437,6 +437,9 @@ class Dominion extends AbstractModel
             case 3:
                 return "Rule violation.";
 
+            case 4:
+                return "Experimental faction deemed overpowered or for other reason taken out of play.";
+
             default:
                 return 'Round ended.';
         }
