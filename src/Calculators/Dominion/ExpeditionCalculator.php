@@ -46,12 +46,12 @@ class ExpeditionCalculator
     public function getOpPerLand(Dominion $dominion): float
     {
         $land = $this->landCalculator->getTotalLand($dominion);
-        return $land ** 1.25;
+        return ($land ** 1.25) * 1.50 * 2;
     }
 
     public function getLandDiscoveredAmount(Dominion $dominion, float $op): int
     {
-        return floor(($op / $this->getOpPerLand($dominion)) * 1.50 * 2 * $this->getLandDiscoveredMultiplier($dominion));
+        return floor($op / $this->getOpPerLand($dominion) * $this->getLandDiscoveredMultiplier($dominion));
     }
 
     public function getLandDiscovered(Dominion $dominion, int $landDiscoveredAmount): array
