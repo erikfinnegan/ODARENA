@@ -6,6 +6,7 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\Dominion;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 
@@ -15,6 +16,7 @@ class MoraleCalculator
     public function __construct()
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->landCalculator = app(LandCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->populationCalculator = app(PopulationCalculator::class);
     }
@@ -58,7 +60,24 @@ class MoraleCalculator
 
                     $buildingsOwned = $this->buildingCalculator->getBuildingAmountOwned($dominion, Building::where('key', $buildingKey)->firstOrFail());
 
+                    # Cap perk to number of units
                     $amountOfThisUnit = min($amountOfThisUnit, floor($buildingsOwned * $maxPerBuilding));
+
+                    $building = Building::where('key',$buildingKey)->first();
+
+                    # [Anti-abuse] Check if the pairing building provides morale bonus and, if so, cap morale perk from unit to the max of this building.
+                    if($buildingPerkValues = $dominion->extractBuildingPerkValues($building->getPerkValue('base_morale')))
+                    {
+
+                        $ratio = (float)$buildingPerkValues[0];
+                        $perk = (float)$buildingPerkValues[1];
+                        $max = (float)$buildingPerkValues[2];
+                        $maxOfThisBuildingToMaxOutPerk = ceil($this->landCalculator->getTotalLand($dominion) * (($max / $perk) / 100));
+                        #dump($amountOfThisUnit);
+                        #$amountOfThisUnit = min($amountOfThisUnit, $maxOfThisBuildingToMaxOutPerk * $maxPerBuilding);
+                        #dd($ratio, $perk, $max, $this->landCalculator->getTotalLand($dominion), $maxOfThisBuildingToMaxOutPerk, $amountOfThisUnit);
+                    }
+
                 }
 
                 $baseModifier += $amountOfThisUnit * $increasesMoraleFixed / 100;
