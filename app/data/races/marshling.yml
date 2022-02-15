@@ -23,7 +23,9 @@ construction_materials:
   - mud
 
 improvement_resources:
-  swamp_gas: 3
+  swamp_gas: 2.25
+
+spies_cost: 600,gold
 
 land_improvements:
   swamp:

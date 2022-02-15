@@ -347,4 +347,24 @@ class SpellCalculator
 
     }
 
+    public function getWizardStrengthBase(Dominion $dominion): int
+    {
+        # Reserved for future use...
+        return 100;
+    }
+
+    public function getWizardStrengthRecoveryAmount(Dominion $dominion): int
+    {
+        $amount = 4;
+
+        $amount += $dominion->getBuildingPerkValue('wizard_strength_recovery');
+        $amount += $dominion->getTechPerkValue('wizard_strength_recovery');
+        $amount += $dominion->getSpellPerkValue('wizard_strength_recovery');
+        $amount += $dominion->title->getPerkValue('wizard_strength_recovery') * $dominion->title->getPerkBonus($dominion);
+
+        $amount = floor($amount);
+
+        return $amount;
+    }
+
 }

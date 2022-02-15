@@ -994,6 +994,16 @@ class ConversionCalculator
         {
             $unconvertiblePerks = [
                 'fixed_casualties',
+                'dies_into',
+                'dies_into_spy',
+                'dies_into_wizard',
+                'dies_into_archmage',
+                'dies_into_multiple',
+                'dies_into_resource',
+                'dies_into_resources',
+                'dies_into_multiple_on_offense',
+                'dies_into_on_offense',
+                'dies_into_multiple_on_victory'
               ];
         }
 

@@ -70,6 +70,8 @@ units:
       counts_as_spy: 2
       immortal_spy: 1
       no_draftee: 1
+      theft_carry_capacity: 100
+      spy_refresh_rate: 10
 
   - name: Staff Master
     training_time: 12
@@ -84,5 +86,5 @@ units:
       offense: 3
       defense: 5
     perks:
-      offense_from_spy_ratio: 0.5 # ratio%, max
+      offense_from_spy_ratio_capped: 0.5,5 # ratio%, max
       casualties_from_spy_ratio: -8 # -10% casualties per 1 SPA

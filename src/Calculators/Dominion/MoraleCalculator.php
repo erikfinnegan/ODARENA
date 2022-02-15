@@ -52,6 +52,7 @@ class MoraleCalculator
             if($increasesMoraleFixed = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_fixed') * 100)
             {
                 $amountOfThisUnit = $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot);
+
                 # Is the unit limited to a building?
                 if($buildingPairingLimit = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'building_limit'))
                 {
@@ -74,7 +75,7 @@ class MoraleCalculator
                         $max = (float)$buildingPerkValues[2];
                         $maxOfThisBuildingToMaxOutPerk = ceil($this->landCalculator->getTotalLand($dominion) * (($max / $perk) / 100));
                         #dump($amountOfThisUnit);
-                        #$amountOfThisUnit = min($amountOfThisUnit, $maxOfThisBuildingToMaxOutPerk * $maxPerBuilding);
+                        $amountOfThisUnit = min($amountOfThisUnit, $maxOfThisBuildingToMaxOutPerk * $maxPerBuilding);
                         #dd($ratio, $perk, $max, $this->landCalculator->getTotalLand($dominion), $maxOfThisBuildingToMaxOutPerk, $amountOfThisUnit);
                     }
 

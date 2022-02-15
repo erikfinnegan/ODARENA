@@ -451,6 +451,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromFixedWizardRatioPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromWizardStrengthPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromSpyRatioPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromSpyRatioCappedPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromSpyStrengthPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromPrestigePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRecentlyInvadedPerk($dominion, $unit, $powerType);
@@ -545,7 +546,7 @@ class MilitaryCalculator
             return 0;
         }
 
-        $powerFromPerk = (float)$wizardRatioPerk * $this->getWizardRatio($dominion, 'offense');
+        $powerFromPerk = (float)$wizardRatioPerk * $this->getWizardRatio($dominion, $powerType);
 
         return $powerFromPerk;
     }
@@ -598,7 +599,25 @@ class MilitaryCalculator
             return 0;
         }
 
-        $powerFromPerk = (float)$spyRatioPerk * $this->getSpyRatio($dominion, 'offense');
+        $powerFromPerk = (float)$spyRatioPerk * $this->getSpyRatio($dominion, $powerType);
+
+        return $powerFromPerk;
+    }
+
+    protected function getUnitPowerFromSpyRatioCappedPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $spyRatioPerk = $dominion->race->getUnitPerkValueForUnitSlot(
+            $unit->slot,
+            "{$powerType}_from_spy_ratio_capped");
+
+        if (!$spyRatioPerk) {
+            return 0;
+        }
+
+        $perSpa = (float)$spyRatioPerk[0];
+        $max = (float)$spyRatioPerk[1];
+
+        $powerFromPerk = min($max, $perSpa * $this->getSpyRatio($dominion, $powerType));
 
         return $powerFromPerk;
     }

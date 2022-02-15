@@ -150,6 +150,20 @@ tiranthael:
     cannot_explore: 1
     cannot_send_expeditions: 1
 
+urugdakh:
+  name: Urugdakh
+  range_multiplier: 0.80
+  exclusive_races:
+    - Black Orc
+    - Orc
+  perks:
+    offensive_power: 5
+    offensive_power_on_retaliation: 5
+    casualties: 20
+    construction_cost: 7.5
+    cannot_explore: 1
+    cannot_send_expeditions: 1
+
 zidur:
   name: Zidur
   range_multiplier: 0.60

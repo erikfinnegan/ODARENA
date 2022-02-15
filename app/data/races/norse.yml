@@ -4,6 +4,8 @@ description:
 home_land_type: water
 playable: 1
 
+draftees_alias: huskarl
+
 attacking: 3
 exploring : 1
 converting: 1
@@ -19,43 +21,44 @@ resources:
   - mana
 
 perks:
-  exchange_bonus: 10
+  exchange_bonus: 20
   lumber_production_mod: 10
+  draftee_dp: 3
 
 units:
-  - name: Berserker
+  - name: Warrior
     training_time: 6
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 300
-      ore: 90
-      lumber: 50
+      gold: 580
+      ore: 120
+      lumber: 60
     power:
-      offense: 6
-      defense: 2
+      offense: 7
+      defense: 7
     perks:
       dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
       casualties: 50 # +50% casualties
       increases_enemy_casualties_on_defense: 1
 
-  - name: Huskarl
+  - name: Berserker
     training_time: 6
     type:
-      - living
       - sentient
       - intelligent
     cost:
-      gold: 300
-      ore: 60
-      lumber: 30
+      champion: 1
     power:
-      offense: 0
-      defense: 6
+      offense: 7
+      defense: 7
     perks:
-      dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
+      immortal: 1
+      no_draftee: 1
+      increases_own_casualties: 1
+      increases_morale_gains: 2
 
   - name: Homeguard
     training_time: 12
@@ -67,7 +70,7 @@ units:
       champion: 1
     power:
       offense: 0
-      defense: 8
+      defense: 9
     perks:
       immortal: 1
       no_draftee: 1
@@ -81,10 +84,10 @@ units:
     cost:
       champion: 1
     power:
-      offense: 12
-      defense: 6
+      offense: 9
+      defense: 7
     perks:
       immortal: 1
       no_draftee: 1
       kills_into_resource_per_casualty_on_success: 1,champion # each unit killed becomes 1 champion
-      increases_own_casualties: 1
+      increases_prestige_gains: 0.50

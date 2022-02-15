@@ -143,17 +143,16 @@ fools_gold:
     gems_theft: -100
     ore_theft: -100
 
-surreal_perception:
-  name: Sazal's Perception
+sazals_charge:
+  name: Sazal's Charge
   scope: self
-  class: passive
-  cost: 4
-  duration: 24
-  cooldown: 0
+  class: active
+  cost: 8
+  cooldown: 480
   excluded_races:
     - Void
   perks:
-    reveal_ops: 1
+    reset_spell_cooldowns: 1
 
 energy_mirror:
   name: Sazal's Mirror
@@ -166,6 +165,18 @@ energy_mirror:
     - Void
   perks:
     chance_to_reflect_spells: 25
+
+surreal_perception:
+  name: Sazal's Perception
+  scope: self
+  class: passive
+  cost: 4
+  duration: 24
+  cooldown: 0
+  excluded_races:
+    - Void
+  perks:
+    reveal_ops: 1
 
 aura:
   name: Sazal's Shield
@@ -700,6 +711,19 @@ charring_flames:
   perks:
     casualties: 10
     cannot_be_converted: 1
+
+pyromancy:
+  name: Pyromancy
+  enabled: 0
+  scope: self
+  class: passive
+  cost: 4
+  duration: 24
+  cooldown: 0
+  exclusive_races:
+    - Firewalker
+  perks:
+    no_attrition: 1
 
 voidspell:
   name: ⫷⋗⫸◬

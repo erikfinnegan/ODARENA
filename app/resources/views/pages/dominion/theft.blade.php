@@ -199,6 +199,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    <p class="text-muted"><small><em>The perks above are the basic, static values and do not take into account circumstantial perks such as perks vs. specific types of targets or perks based on specific unit compositions.</em></small></p>
                 </div>
             </div>
         </div>

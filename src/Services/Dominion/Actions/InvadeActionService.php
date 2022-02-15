@@ -1003,8 +1003,20 @@ class InvadeActionService
             $attackerMoraleChangeMultiplier += $dominion->race->getPerkMultiplier('morale_change_invasion');
             $attackerMoraleChangeMultiplier += $dominion->title->getPerkMultiplier('morale_gains') * $dominion->title->getPerkBonus($dominion);
 
-            $attackerMoraleChange *= $attackerMoraleChangeMultiplier;
+            # Look for lowers_target_morale_on_successful_invasion
+            for ($slot = 1; $slot <= 4; $slot++)
+            {
+                if(
+                    $increasesMoraleGainsPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'increases_morale_gains') and
+                    isset($units[$slot]) and
+                    $this->invasionResult['result']['success']
+                    )
+                {
+                    $attackerMoraleChangeMultiplier += ($this->invasionResult['attacker']['unitsSent'][$slot] / array_sum($this->invasionResult['attacker']['unitsSent'])) * $increasesMoraleGainsPerk;
+                }
+            }
 
+            $attackerMoraleChange *= $attackerMoraleChangeMultiplier;
 
             $defenderMoraleChangeMultiplier = 1;
             $defenderMoraleChangeMultiplier += $target->race->getPerkMultiplier('morale_change_invasion');

@@ -45,13 +45,19 @@ class TheftCalculator
         $resourceAvailableAmount = $resourceAvailableAmount - $this->getTheftProtection($target, $resource->key);
         $resourceAvailableAmount = max(0, $resourceAvailableAmount);
 
-        $maxPerSpy = $this->getMaxCarryPerSpyForResource($thief, $resource);
+        foreach($units as $unitSlot => $amount)
+        {
+            $maxPerSpy = $this->getMaxCarryPerSpyForResource($thief, $resource, $unitSlot);
+
+            $maxAmountStolen = $maxPerSpy * $amount;
+        }
+
 
         $thiefSpa = max($this->militaryCalculator->getSpyRatio($thief, 'offense'), 0.0001);
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
         $spaSpaRatio = max(min((1-(($targetSpa / $thiefSpa) * 0.5)),1),0);
 
-        $theftAmount = min($resourceAvailableAmount, array_sum($units) * $maxPerSpy * $spaSpaRatio);
+        $theftAmount = min($resourceAvailableAmount, $maxAmountStolen * $spaSpaRatio);
 
         # But the target can decrease, which comes afterwards
         $targetModifier = 1;
@@ -91,9 +97,18 @@ class TheftCalculator
         return $theftProtection *= $theftProtectionMultiplier;
     }
 
-    public function getMaxCarryPerSpyForResource(Dominion $thief, Resource $resource)
+    public function getMaxCarryPerSpyForResource(Dominion $thief, Resource $resource, $unitSlot = null)
     {
         $max = $this->theftHelper->getMaxCarryPerSpyForResource($resource);
+
+        if($unitSlot and $unitSlot !== 'spies')
+        {
+            $unitMultiplier = 1;
+            $unitMultiplier += $thief->race->getUnitPerkValueForUnitSlot($unitSlot, ($resource->key . '_theft_carry_capacity')) / 100;
+            $unitMultiplier += $thief->race->getUnitPerkValueForUnitSlot($unitSlot, 'theft_carry_capacity') / 100;
+
+            $max *= $unitMultiplier;
+        }
 
         # The stealer can increase
         $thiefModifier = 1;

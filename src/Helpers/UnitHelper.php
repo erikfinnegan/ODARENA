@@ -129,6 +129,9 @@ class UnitHelper
             'fixed_defense_from_wizard_ratio' => 'Defense increased by %1$s if Wizard Ratio on defense is at least %2$s.',
 
             'offense_from_spy_ratio' => 'Offense increased by %1$s * Spy Ratio (offensive).',
+            'defense_from_spy_ratio' => 'Offense increased by %1$s * Spy Ratio (defensive).',
+            'offense_from_spy_ratio_capped' => 'Offense increased by %1$s * Spy Ratio (offensive), (max +%2$s).',
+            'defense_from_spy_ratio_capped' => 'Offense increased by %1$s * Spy Ratio (defensive), (max +%2$s).',
 
             'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
             'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
@@ -200,6 +203,8 @@ class UnitHelper
             'spy_from_title' => 'Counts as additional %2$s of a spy (offense and defense) if ruled by a %1$s.',
 
             'protects_resource_from_theft' => 'Protects %2$s %1$s from theft when at home.',
+
+            'theft_carry_capacity' => '+%s%% max theft carry.',
 
             // Wizard related
             'counts_as_wizard' => 'Counts as %s wizard.',

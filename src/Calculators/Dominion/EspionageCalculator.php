@@ -77,5 +77,24 @@ class EspionageCalculator
         return $spyop->spy_strength ?? $cost;
     }
 
+    public function getSpyStrengthBase(Dominion $dominion): int
+    {
+        # Reserved for future use...
+        return 100;
+    }
+
+    public function getSpyStrengthRecoveryAmount(Dominion $dominion): int
+    {
+        $amount = 4;
+
+        $amount += $dominion->getBuildingPerkValue('spy_strength_recovery');
+        $amount += $dominion->getTechPerkValue('spy_strength_recovery');
+        $amount += $dominion->getSpellPerkValue('spy_strength_recovery');
+        $amount += $dominion->title->getPerkValue('spy_strength_recovery') * $dominion->title->getPerkBonus($dominion);
+
+        $amount = floor($amount);
+
+        return $amount;
+    }
 
 }

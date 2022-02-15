@@ -530,7 +530,7 @@ tavern:
     - Vampires
   land_type: plain
   perks:
-    base_morale: 1,6,30
+    base_morale: 1,8,40
 
 stone_wall:
   name: Stone Wall
@@ -1177,7 +1177,7 @@ spawning_pool:
     - Marshling
   land_type: swamp
   perks:
-    marshling_production_raw: 0.12
+    marshling_production_raw: 0.08
 
 # END MARSHLING
 

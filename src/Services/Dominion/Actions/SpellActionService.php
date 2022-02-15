@@ -755,8 +755,6 @@ class SpellActionService
 
                 }
 
-
-
                 # Rezone all land
                 if($perk->key === 'rezone_all_land')
                 {
@@ -776,6 +774,17 @@ class SpellActionService
                     }
 
                     $caster->{'land_' . $toLandType} += $acresRezoned;
+                }
+
+                # Reset spell cooldowns
+                if($perk->key === 'reset_spell_cooldowns')
+                {
+                    $spellsOnCoolDown = DominionSpell::where('cooldown','>',0)->where('caster_id','=', $caster->id)->get();
+
+                    foreach($spellsOnCoolDown as $dominionSpellOnCooldown)
+                    {
+                        $dominionSpellOnCooldown->update(['cooldown' => 0]);
+                    }
                 }
             }
 

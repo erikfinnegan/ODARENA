@@ -14,6 +14,7 @@ use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\ConversionCalculator;
 use OpenDominion\Calculators\Dominion\DeityCalculator;
+use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -103,6 +104,7 @@ class TickService
         $this->spellCalculator = app(SpellCalculator::class);
 
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->espionageCalculator = app(EspionageCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
         $this->moraleCalculator = app(MoraleCalculator::class);
         $this->improvementHelper = app(ImprovementHelper::class);
@@ -777,33 +779,20 @@ class TickService
             }
         }
 
+
+        $spyStrengthBase = $this->espionageCalculator->getSpyStrengthBase($dominion);
+        $wizardStrengthBase = $this->spellCalculator->getWizardStrengthBase($dominion);
+
         // Spy Strength
-        if ($dominion->spy_strength < 100)
+        if ($dominion->spy_strength < $spyStrengthBase)
         {
-            $spyStrengthAdded = 4;
-            $spyStrengthAdded += $dominion->getBuildingPerkValue('spy_strength_recovery');
-            $spyStrengthAdded += $dominion->getTechPerkValue('spy_strength_recovery');
-            $spyStrengthAdded += $dominion->getSpellPerkValue('spy_strength_recovery');
-            $spyStrengthAdded += $dominion->title->getPerkValue('spy_strength_recovery') * $dominion->title->getPerkBonus($dominion);
-
-            $spyStrengthAdded = floor($spyStrengthAdded);
-
-            $tick->spy_strength = min($spyStrengthAdded, 100 - $dominion->spy_strength);
+            $tick->spy_strength =  min($this->espionageCalculator->getSpyStrengthRecoveryAmount($dominion), $spyStrengthBase - $dominion->spy_strength);
         }
 
         // Wizard Strength
-        if ($dominion->wizard_strength < 100)
+        if ($dominion->wizard_strength < $wizardStrengthBase)
         {
-            $wizardStrengthAdded = 4;
-
-            $wizardStrengthAdded += $dominion->getBuildingPerkValue('wizard_strength_recovery');
-            $wizardStrengthAdded += $dominion->getTechPerkValue('wizard_strength_recovery');
-            $wizardStrengthAdded += $dominion->getSpellPerkValue('wizard_strength_recovery');
-            $wizardStrengthAdded += $dominion->title->getPerkValue('wizard_strength_recovery') * $dominion->title->getPerkBonus($dominion);
-
-            $wizardStrengthAdded = floor($wizardStrengthAdded);
-
-            $tick->wizard_strength = min($wizardStrengthAdded, 100 - $dominion->wizard_strength);
+            $tick->wizard_strength =  min($this->spellCalculator->getWizardStrengthRecoveryAmount($dominion), $wizardStrengthBase - $dominion->spy_strength);
         }
 
         # Tickly unit perks

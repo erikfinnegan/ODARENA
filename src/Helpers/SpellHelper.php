@@ -147,6 +147,7 @@ class SpellHelper
             'damage_from_fireballs' => '%s%% damage from fireballs',
             'damage_from_lightning_bolts' => '%s%% damage from lightning bolts',
             'wizard_strength' => '%s%% wizard strength',
+            'reset_spell_cooldowns' => 'Resets spell cooldowns.',
 
             // Espionage
             'disband_spies' => 'Disbands %s%% of enemy spies.',
