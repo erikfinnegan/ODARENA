@@ -10,7 +10,7 @@
           @endphp
 
           @if($selectedDominion->round->hasStarted())
-              <span data-toggle="tooltip" data-placement="top" title="Round target: {{ number_format($selectedDominion->round->land_target) }} acres.">Tick <strong>{{ number_format($selectedDominion->round->ticks) }}</strong> / Day <strong>{{ $roundDay }}</strong> / Hour <strong>{{ $currentHour }}</strong></span>
+              <span data-toggle="tooltip" data-placement="top" title="Round target: {{ number_format($selectedDominion->round->goal) }} acres.">Tick <strong>{{ number_format($selectedDominion->round->ticks) }}</strong> / Day <strong>{{ $roundDay }}</strong> / Hour <strong>{{ $currentHour }}</strong></span>
 
               @if ($selectedDominion->round->hasCountdown())
                   | Round ends in <strong><span data-toggle="tooltip" data-placement="top" title="The round ends at tick {{ number_format($selectedDominion->round->end_tick) }}.<br>Current tick: {{ number_format($selectedDominion->round->ticks) }}.">{{ number_format($selectedDominion->round->ticksUntilEnd()) . ' ' . str_plural('tick', $selectedDominion->round->ticksUntilEnd()) }}</span></strong>.

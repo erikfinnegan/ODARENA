@@ -205,7 +205,7 @@ class TickService
                     if(!$round->hasCountdown())
                     {
                         # For fixed length rounds, show a countdown when there are COUNTDOWN_DURATION_TICKS ticks left.
-                        if(in_array($round->mode, ['standard_fixed', 'deathmatch_fixed']))
+                        if(in_array($round->mode, ['standard-duration', 'deathmatch-duration']))
                         {
                             if($round->ticks >= ($round->end_tick - $this->roundHelper->getRoundCountdownTickLength()))
                             {
@@ -215,7 +215,7 @@ class TickService
                                     'source_id' => $dominion->id,
                                     'target_type' => Realm::class,
                                     'target_id' => $dominion->realm_id,
-                                    'type' => 'round_countdown_fixed',
+                                    'type' => 'round_countdown_duration',
                                     'data' => ['end_tick' => $endTick],
                                     'tick' => $dominion->round->ticks
                                 ]);
@@ -227,7 +227,7 @@ class TickService
                         # For indefinite rounds, create a countdown.
                         if(in_array($round->mode, ['standard', 'deathmatch']))
                         {
-                            if($this->landCalculator->getTotalLand($dominion) >= $round->land_target)
+                            if($this->landCalculator->getTotalLand($dominion) >= $round->goal)
                             {
                                 $endTick = $round->ticks + $this->roundHelper->getRoundCountdownTickLength();
 

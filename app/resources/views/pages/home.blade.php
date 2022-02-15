@@ -47,7 +47,7 @@
                                 Round {{ $currentRound->number }} starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.
                             </span>
                         </p>
-                        <p>Land goal: <strong>{{ number_format($currentRound->land_target) }}.</strong></p>
+                        <p>Land goal: <strong>{{ number_format($currentRound->goal) }}.</strong></p>
 
                             <a href="{{ route('round.register', $currentRound) }}">
                                 <button type="submit" class="btn btn-primary btn-block">Register Now!</button>
@@ -79,7 +79,7 @@
                                 <tr>
                                     <td class="text-center">Land goal:</td>
                                     <td class="text-center">
-                                        {{ number_format($currentRound->land_target) }}
+                                        {{ number_format($currentRound->goal) }}
                                     </td>
                                 </tr>
                                 <tr>

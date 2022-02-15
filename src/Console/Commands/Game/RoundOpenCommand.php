@@ -17,10 +17,9 @@ class RoundOpenCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
     protected $signature = 'game:round:open
-                             {--gamemode : Round game mode)}
-                             {--now : Start the round right now (dev & testing only)}
-                             {--open : Start the round in +3 days midnight, allowing for immediate registration}
-                             {--days= : Start the round in +DAYS days midnight, allowing for more fine-tuning}';
+                             {--gamemode= : Round game mode}
+                             {--target= : Target land or ticks (-duration gamemodes)}
+                             {--leagueId= : League ID (optional)}';
 
     /** @var string The console command description. */
     protected $description = 'Creates a new round which starts in 5 days';
@@ -62,53 +61,32 @@ class RoundOpenCommand extends Command implements CommandInterface
      */
     public function handle(): void
     {
-        $now = $this->option('now');
-        $open = $this->option('open');
-        $days = $this->option('days');
-        $league = $this->option('league');
         $gameMode = $this->option('gamemode');
+        $target = $this->option('target');
+        $leagueId = $this->option('leagueId') ?: 1;
 
-        if ($now && (app()->environment() === 'production')) {
-            throw new RuntimeException('Option --now may not be used on production');
-        }
-
-        if (($now && $open) || ($now && $days) || ($open && $days)) {
-            throw new RuntimeException('Options --now, --open and --days are mutually exclusive');
-        }
-
-        if(!$gameMode or !in_array($gameMode, $this->roundHelper->getRoundGameModes()))
+        if(!$gameMode or !in_array($gameMode, $this->roundHelper->getRoundModes()))
         {
-            throw new RuntimeException('Invalid game mode, must be:', dump($this->roundHelper->getRoundGameModes()));
+            throw new RuntimeException('Invalid or missing game mode');
         }
 
-        if ($now) {
-            $startDate = 'now';
-
-        } elseif ($open) {
-            $startDate = '+3 days midnight';
-
-        } elseif ($days !== null) {
-            if (!ctype_digit($days)) {
-                throw new RuntimeException('Option --days=DAYS must be an integer');
-            }
-
-            $startDate = "+{$days} days midnight";
-
-        } else {
-            $startDate = '+5 days midnight';
+        if(!$target or $target <= 0)
+        {
+            throw new RuntimeException('Invalid or missing target');
         }
 
-        $startDate = new Carbon($startDate);
+        $startDate = new Carbon('+2 days midnight');
 
         /** @var RoundLeague $roundLeague */
-        $roundLeague = RoundLeague::where('key', $league)->firstOrFail();
+        $roundLeague = RoundLeague::where('id', $leagueId)->firstOrFail();
 
-        $this->info("Starting a new {$gameMode} round");
+        $this->info('Creating a new ' . $gameMode . ' round with target of ' . number_format($target) . '.');
 
         $round = $this->roundFactory->create(
-            $roundLeague,
             $startDate,
-            $gameMode
+            $gameMode,
+            $target,
+            $roundLeague
         );
 
         $this->info("Round {$round->number} created in Era {$roundLeague->key}. The round starts at {$round->start_date}.");

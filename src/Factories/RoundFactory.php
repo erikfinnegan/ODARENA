@@ -21,9 +21,10 @@ class RoundFactory
      * @return Round
      */
     public function create(
-        RoundLeague $league,
         Carbon $startDate,
-        string $gameMode
+        string $gameMode,
+        int $goal,
+        RoundLeague $roundLeague
     ): Round {
         $number = $this->getLastRoundNumber() + 1;
 
@@ -36,12 +37,20 @@ class RoundFactory
             $startDate = (clone $startDate)->addHours(4);
         }
 
+        $endTick = NULL;
+
+        if(in_array($gameMode, ['standard-duration', 'deathmatch-duration']))
+        {
+            $endTick = $goal;
+        }
+
         return Round::create([
-            'round_league_id' => $league->id,
+            'round_league_id' => $roundLeague->id,
             'number' => $number,
             'name' => 'Round ' . $number,
+            'goal' => $goal,
             'ticks' => 0,
-            'mode' => 'standard',
+            'mode' => $gameMode,
             'start_date' => $startDate,
             'end_date' => NULL,
             'end_tick' => $endTick,
