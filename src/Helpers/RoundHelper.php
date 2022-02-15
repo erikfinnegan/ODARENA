@@ -19,12 +19,19 @@ class RoundHelper
         $this->statsService = app(StatsService::class);
     }
 
+    public function getRoundModes(): array
+    {
+        return ['standard', 'standard-duration', 'deathmatch', 'deathmatch-duration'];
+    }
 
     public function getRoundModeString(Round $round): string
     {
         switch ($round->mode)
         {
             case 'standard':
+                return 'Standard';
+
+            case 'standard-duration':
                 return 'Standard';
 
             case 'deathmatch':
@@ -47,10 +54,13 @@ class RoundHelper
             case 'standard':
                 return 'Your dominion is in a realm with friendly dominions fighting against all other realms to become the largest dominion.';
 
+            case 'standard-duration':
+                return 'Your dominion is in a realm with friendly dominions fighting against all other realms to become the largest dominion.';
+
             case 'deathmatch':
                 return 'Every dominion for itself!';
 
-            case 'Artefacts':
+            case 'artefacts':
                 return 'Your dominion is in a realm with friendly dominions and your goal is to be the first realm to capture at least ten Artefacts.';
         }
     }
@@ -60,6 +70,7 @@ class RoundHelper
         switch ($round->mode)
         {
             case 'standard':
+            case 'standard-duration':
                 return '<i class="fas fa-users fa-fw text-green"></i>';
 
             case 'deathmatch':

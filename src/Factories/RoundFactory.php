@@ -23,10 +23,7 @@ class RoundFactory
     public function create(
         RoundLeague $league,
         Carbon $startDate,
-        int $realmSize,
-        int $packSize,
-        int $playersPerRace,
-        bool $mixedAlignment
+        string $gameMode
     ): Round {
         $number = $this->getLastRoundNumber() + 1;
 
@@ -47,11 +44,8 @@ class RoundFactory
             'mode' => 'standard',
             'start_date' => $startDate,
             'end_date' => NULL,
-            'offensive_actions_prohibited_at' => NULL,
-            'realm_size' => $realmSize,
-            'pack_size' => $packSize,
-            'players_per_race' => $playersPerRace,
-            'mixed_alignment' => $mixedAlignment
+            'end_tick' => $endTick,
+            'offensive_actions_prohibited_at' => NULL
         ]);
     }
 

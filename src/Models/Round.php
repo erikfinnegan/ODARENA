@@ -98,7 +98,6 @@ class Round extends AbstractModel
     public function openForRegistration()
     {
         return $this->hasEnded() ? false : true;
-        #return ($this->start_date <= new Carbon('+30 days midnight'));
     }
 
     /**

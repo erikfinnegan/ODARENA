@@ -279,7 +279,7 @@ storage:
     - Wood Elf
     - Void
   perks:
-    theft_protection: 40,6000
+    theft_protection: 40,4000
 
 wizardry:
   name: Wizardry
@@ -828,7 +828,7 @@ vigilance:
   exclusive_races:
     - Wood Elf
   perks:
-    theft_protection: 60,8500
+    theft_protection: 60,7000
 
 wizardry_wood_elf:
   name: Wizardry
@@ -1025,4 +1025,4 @@ tribalism:
   exclusive_races:
     - Barbarian
   perks:
-    population: 300,12000
+    population: 400,10000

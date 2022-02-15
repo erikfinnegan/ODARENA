@@ -148,9 +148,9 @@ vault:
     - Void
   land_type: mountain
   perks:
-    gold_theft_protection: 10000
-    gems_theft_protection: 1000
-    ore_theft_protection: 4000
+    gold_theft_protection: 25000
+    gems_theft_protection: 2500
+    ore_theft_protection: 10000
 
 granary:
   name: Granary
@@ -161,8 +161,8 @@ granary:
     - Wood Elf
   land_type: forest
   perks:
-    food_theft_protection: 10000
-    lumber_theft_protection: 5000
+    food_theft_protection: 25000
+    lumber_theft_protection: 12500
 
 deep_mine:
   name: Deep Mine
@@ -962,9 +962,9 @@ hollow_trunk:
     - Wood Elf
   land_type: forest
   perks:
-    gold_theft_protection: 10000
-    food_theft_protection: 10000
-    lumber_theft_protection: 5000
+    gold_theft_protection: 25000
+    food_theft_protection: 25000
+    lumber_theft_protection: 12500
 # END WOOD ELF AND SYLVAN
 
 # ICEKIN
@@ -1521,15 +1521,6 @@ sanctuary:
     mana_production_raw: 5
     jobs: 0
 
-shed:
-  name: Shed
-  exclusive_races:
-    - Barbarian
-  land_type: forest
-  perks:
-    housing: 40
-    jobs: 0
-
 tomb:
   name: Tomb
   exclusive_races:
@@ -1557,3 +1548,61 @@ wizard_dome:
   perks:
     wizard_strength_recovery: 1,0.1,5 # Every 1% gives +0.1% WS recovery per tick, max +2%/tick
     wizard_housing: 50
+
+# BARBARIAN
+
+shed:
+  name: Shed
+  exclusive_races:
+    - Barbarian
+  land_type: forest
+  perks:
+    housing: 54
+    jobs: 0
+
+shack:
+  name: Shack
+  exclusive_races:
+    - Barbarian
+  land_type: hill
+  perks:
+    housing: 54
+    jobs: 0
+
+shelter:
+  name: Shelter
+  exclusive_races:
+    - Barbarian
+  land_type: mountain
+  perks:
+    housing: 54
+    jobs: 0
+
+hut:
+  name: Hut
+  exclusive_races:
+    - Barbarian
+  land_type: plain
+  perks:
+    housing: 54
+    jobs: 0
+
+hovel:
+  name: Hovel
+  exclusive_races:
+    - Barbarian
+  land_type: swamp
+  perks:
+    housing: 54
+    jobs: 0
+
+shanty:
+  name: Shanty
+  exclusive_races:
+    - Barbarian
+  land_type: water
+  perks:
+    housing: 54
+    jobs: 0
+
+# END BARBARIAN

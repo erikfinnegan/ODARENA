@@ -8,6 +8,7 @@ use OpenDominion\Console\Commands\CommandInterface;
 use OpenDominion\Factories\RealmFactory;
 use OpenDominion\Factories\RoundFactory;
 use OpenDominion\Models\RoundLeague;
+use OpenDominion\Helpers\RoundHelper;
 use RuntimeException;
 
 use OpenDominion\Services\Dominion\BarbarianService;
@@ -16,14 +17,10 @@ class RoundOpenCommand extends Command implements CommandInterface
 {
     /** @var string The name and signature of the console command. */
     protected $signature = 'game:round:open
+                             {--gamemode : Round game mode)}
                              {--now : Start the round right now (dev & testing only)}
                              {--open : Start the round in +3 days midnight, allowing for immediate registration}
-                             {--days= : Start the round in +DAYS days midnight, allowing for more fine-tuning}
-                             {--league=standard : Round league to use}
-                             {--realm-size=10 : Maximum number of dominions in one realm}
-                             {--pack-size=4 : Maximum number of players in a pack}
-                             {--playersPerRace=2 : Maximum number of players using the same race, 0 = unlimited}
-                             {--mixedAlignment=true : Allows for mixed alignments}';
+                             {--days= : Start the round in +DAYS days midnight, allowing for more fine-tuning}';
 
     /** @var string The console command description. */
     protected $description = 'Creates a new round which starts in 5 days';
@@ -33,6 +30,9 @@ class RoundOpenCommand extends Command implements CommandInterface
 
     /** @var RoundFactory */
     protected $roundFactory;
+
+    /** @var RoundHelper */
+    protected $roundHelper;
 
     /** @var BarbarianService */
     protected $barbarianService;
@@ -44,13 +44,15 @@ class RoundOpenCommand extends Command implements CommandInterface
      * @param RealmFactory $realmFactory
      */
     public function __construct(
-        RoundFactory $roundFactory,
+        BarbarianService $barbarianService,
         RealmFactory $realmFactory,
-        BarbarianService $barbarianService
+        RoundFactory $roundFactory,
+        RoundHelper $roundHelper
     ) {
         parent::__construct();
 
         $this->roundFactory = $roundFactory;
+        $this->roundHelper = $roundHelper;
         $this->realmFactory = $realmFactory;
         $this->barbarianService = $barbarianService;
     }
@@ -64,11 +66,7 @@ class RoundOpenCommand extends Command implements CommandInterface
         $open = $this->option('open');
         $days = $this->option('days');
         $league = $this->option('league');
-        $realmSize = 100; #$this->option('realm-size');
-        $packSize = 100;#$this->option('pack-size');
-        $playersPerRace = 0; #$this->option('playersPerRace');
-        $mixedAlignments = false; #$this->option('mixedAlignment');
-        $targetLand = 8000;
+        $gameMode = $this->option('gamemode');
 
         if ($now && (app()->environment() === 'production')) {
             throw new RuntimeException('Option --now may not be used on production');
@@ -78,20 +76,9 @@ class RoundOpenCommand extends Command implements CommandInterface
             throw new RuntimeException('Options --now, --open and --days are mutually exclusive');
         }
 
-        if ($realmSize <= 0) {
-            throw new RuntimeException('Option --realm-size must be greater than 0.');
-        }
-
-        if ($packSize <= 0) {
-            throw new RuntimeException('Option --pack-size must be greater than 0.');
-        }
-
-        if ($realmSize < $packSize) {
-            throw new RuntimeException('Option --realm-size must be greater than or equal to option --packSize.');
-        }
-
-        if ($playersPerRace < 0) {
-            throw new RuntimeException('Option --playersPerRace must be greater than or equal to 0.');
+        if(!$gameMode or !in_array($gameMode, $this->roundHelper->getRoundGameModes()))
+        {
+            throw new RuntimeException('Invalid game mode, must be:', dump($this->roundHelper->getRoundGameModes()));
         }
 
         if ($now) {
@@ -116,25 +103,29 @@ class RoundOpenCommand extends Command implements CommandInterface
         /** @var RoundLeague $roundLeague */
         $roundLeague = RoundLeague::where('key', $league)->firstOrFail();
 
-        $this->info("Starting a new round in {$roundLeague->key} league");
+        $this->info("Starting a new {$gameMode} round");
 
         $round = $this->roundFactory->create(
             $roundLeague,
             $startDate,
-            $realmSize,
-            $packSize,
-            $playersPerRace,
-            $mixedAlignments,
-            $targetLand
+            $gameMode
         );
 
         $this->info("Round {$round->number} created in Era {$roundLeague->key}. The round starts at {$round->start_date}.");
 
         // Prepopulate round with #1 Barbarian, #2 Commonwealth, #3 Empire, #4 Independent
-        $this->realmFactory->create($round, 'npc');
-        $this->realmFactory->create($round, 'good');
-        $this->realmFactory->create($round, 'evil');
-        $this->realmFactory->create($round, 'independent');
+        if($gameMode !== 'deathmatch')
+        {
+            $this->realmFactory->create($round, 'npc');
+            $this->realmFactory->create($round, 'good');
+            $this->realmFactory->create($round, 'evil');
+            $this->realmFactory->create($round, 'independent');
+        }
+        elseif($gameMode == 'deathmatch' or $gameMode == 'deathmatch-duration')
+        {
+            $this->realmFactory->create($round, 'npc');
+            $this->realmFactory->create($round, 'players');
+        }
 
         // Create 18 Barbarians.
         for ($slot = 1; $slot <= 18; $slot++)
