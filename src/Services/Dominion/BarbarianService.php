@@ -356,7 +356,7 @@ class BarbarianService
             {
                 if($landType === 'plain')
                 {
-                    $buildings['building_hut'] = floor($acres * $housingRatio);
+                    $buildings['building_shed'] = floor($acres * $housingRatio);
                     $buildings['building_smithy'] = floor($acres * (1 - $housingRatio) * 0.75);
                     $buildings['building_farm'] = floor($acres * (1 - $housingRatio) * 0.25);
                 }
@@ -378,7 +378,7 @@ class BarbarianService
 
                 if($landType === 'forest')
                 {
-                    $buildings['building_shed'] = floor($acres * $housingRatio);
+                    $buildings['building_cabin'] = floor($acres * $housingRatio);
                     $buildings['building_forest_haven'] = floor($acres * (1 - $housingRatio) * 0.75);
                     $buildings['building_lumberyard'] = floor($acres * (1 - $housingRatio) * 0.25);
                 }

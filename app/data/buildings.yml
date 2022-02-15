@@ -1555,7 +1555,7 @@ shed:
   name: Shed
   exclusive_races:
     - Barbarian
-  land_type: forest
+  land_type: plain
   perks:
     housing: 54
     jobs: 0
@@ -1578,11 +1578,11 @@ shelter:
     housing: 54
     jobs: 0
 
-hut:
-  name: Hut
+cabin:
+  name: Cabin
   exclusive_races:
     - Barbarian
-  land_type: plain
+  land_type: forest
   perks:
     housing: 54
     jobs: 0
