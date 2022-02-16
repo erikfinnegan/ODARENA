@@ -162,6 +162,7 @@ class Round extends AbstractModel
             return ($this->end_tick - $this->ticks);
         }
 
+        return -1;
     }
 
     /**
@@ -178,7 +179,7 @@ class Round extends AbstractModel
 
         if(isset($this->end_tick))
         {
-            return ($this->end_tick <= $this->ticks);
+            return ($this->ticks >= $this->end_tick);
         }
 
         return false;
