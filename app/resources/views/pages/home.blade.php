@@ -47,11 +47,16 @@
                                 Round {{ $currentRound->number }} starts in <strong>{{ number_format($currentRound->hoursUntilStart()) . ' ' . str_plural('hour', $currentRound->hoursUntilStart()) }}</strong>.
                             </span>
                         </p>
-                        <p>Land goal: <strong>{{ number_format($currentRound->goal) }}.</strong></p>
 
-                            <a href="{{ route('round.register', $currentRound) }}">
-                                <button type="submit" class="btn btn-primary btn-block">Register Now!</button>
-                            </a>
+                        @if($round->mode == 'standard' or $round->mode == 'deathmatch')
+                            <p>Land goal: <strong>{{ number_format($currentRound->goal) }}.</strong></p>
+                        @elseif($round->mode == 'standard-duration' or $round->mode == 'deathmatch-duration')
+                            <p>Round length: <strong>{{ number_format($currentRound->goal) }} ticks.</strong></p>
+                        @endif
+
+                        <a href="{{ route('round.register', $currentRound) }}">
+                            <button type="submit" class="btn btn-primary btn-block">Register Now!</button>
+                        </a>
                     </div>
                 @else
                     <div class="box-body text-center" style="padding: 0;">
@@ -77,10 +82,19 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center">Land goal:</td>
-                                    <td class="text-center">
-                                        {{ number_format($currentRound->goal) }}
-                                    </td>
+                                    @if($round->mode == 'standard' or $round->mode == 'deathmatch')
+                                        <td class="text-center">Land goal:</td>
+                                        <td class="text-center">
+                                            {{ number_format($currentRound->goal) }}
+                                        </td>
+                                    @elseif($round->mode == 'standard-duration' or $round->mode == 'deathmatch-duration')
+                                        <td class="text-center">Round length:</td>
+                                        <td class="text-center">
+                                            {{ number_format($currentRound->goal) }} ticks
+                                        </td>
+                                    @endif
+
+
                                 </tr>
                                 <tr>
                                     <td class="text-center">Largest dominion:</td>
