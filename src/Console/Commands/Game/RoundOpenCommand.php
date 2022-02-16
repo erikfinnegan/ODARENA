@@ -62,7 +62,7 @@ class RoundOpenCommand extends Command implements CommandInterface
     public function handle(): void
     {
         $gameMode = $this->option('gamemode');
-        $target = $this->option('target');
+        $goal = $this->option('goal');
         $leagueId = $this->option('leagueId') ?: 1;
 
         if(!$gameMode or !in_array($gameMode, $this->roundHelper->getRoundModes()))
@@ -70,9 +70,9 @@ class RoundOpenCommand extends Command implements CommandInterface
             throw new RuntimeException('Invalid or missing game mode');
         }
 
-        if(!$target or $target <= 0)
+        if(!$goal or $goal <= 0)
         {
-            throw new RuntimeException('Invalid or missing target');
+            throw new RuntimeException('Invalid or missing goal');
         }
 
         $startDate = new Carbon('+2 days midnight');
@@ -85,7 +85,7 @@ class RoundOpenCommand extends Command implements CommandInterface
         $round = $this->roundFactory->create(
             $startDate,
             $gameMode,
-            $target,
+            $goal,
             $roundLeague
         );
 
