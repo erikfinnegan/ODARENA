@@ -48,9 +48,9 @@
                             </span>
                         </p>
 
-                        @if($round->mode == 'standard' or $round->mode == 'deathmatch')
+                        @if($currentRound->mode == 'standard' or $currentRound->mode == 'deathmatch')
                             <p>Land goal: <strong>{{ number_format($currentRound->goal) }}.</strong></p>
-                        @elseif($round->mode == 'standard-duration' or $round->mode == 'deathmatch-duration')
+                        @elseif($currentRound->mode == 'standard-duration' or $currentRound->mode == 'deathmatch-duration')
                             <p>Round length: <strong>{{ number_format($currentRound->goal) }} ticks.</strong></p>
                         @endif
 
@@ -82,12 +82,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    @if($round->mode == 'standard' or $round->mode == 'deathmatch')
+                                    @if($currentRound->mode == 'standard' or $currentRound->mode == 'deathmatch')
                                         <td class="text-center">Land goal:</td>
                                         <td class="text-center">
                                             {{ number_format($currentRound->goal) }}
                                         </td>
-                                    @elseif($round->mode == 'standard-duration' or $round->mode == 'deathmatch-duration')
+                                    @elseif($currentRound->mode == 'standard-duration' or $currentRound->mode == 'deathmatch-duration')
                                         <td class="text-center">Round length:</td>
                                         <td class="text-center">
                                             {{ number_format($currentRound->goal) }} ticks
