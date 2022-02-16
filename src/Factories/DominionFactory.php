@@ -285,6 +285,12 @@ class DominionFactory
             $this->deityService->completeSubmissionToDeity($dominion, $deity);
         }
 
+        if($race->getPerkValue('starts_devoted_to_urugdakh'))
+        {
+            $deity = Deity::where('key','urugdakh')->first();
+            $this->deityService->completeSubmissionToDeity($dominion, $deity);
+        }
+
         return $dominion;
 
     }
@@ -576,7 +582,7 @@ class DominionFactory
             'water' => $startingBarrenLand['water'] + $startingBuildings['dock'],
         ];
 
-        $startingLand[$race->home_land_type] += $startingBuildings['shed'];
+        $startingLand[$race->home_land_type] += $startingBuildings['cabin'];
 
         return $startingLand;
     }

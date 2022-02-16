@@ -162,7 +162,6 @@ class Round extends AbstractModel
             return ($this->end_tick - $this->ticks);
         }
 
-        return -1;
     }
 
     /**
