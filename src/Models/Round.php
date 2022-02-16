@@ -172,16 +172,16 @@ class Round extends AbstractModel
      */
     public function hasEnded()
     {
-        if(isset($this->end_date))
-        {
-            return ($this->end_date <= now());
-        }
-
         if(isset($this->end_tick))
         {
             return ($this->ticks >= $this->end_tick);
         }
 
+        if(isset($this->end_date))
+        {
+            return ($this->end_date <= now());
+        }
+        
         return false;
     }
 

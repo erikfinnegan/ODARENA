@@ -515,7 +515,7 @@ class DominionFactory
             'wizard_guild' => 0,
             'temple' => 0,
             'dock' => 0,
-            'shed' => 0,
+            'cabin' => 0,
 
             'tissue_swamp' => 0,
             'mycelia' => 0,
