@@ -18,7 +18,7 @@ class RoundOpenCommand extends Command implements CommandInterface
     /** @var string The name and signature of the console command. */
     protected $signature = 'game:round:open
                              {--gamemode= : Round game mode}
-                             {--target= : Target land or ticks (-duration gamemodes)}
+                             {--goal= : Target land or ticks (-duration gamemodes)}
                              {--leagueId= : League ID (optional)}';
 
     /** @var string The console command description. */
