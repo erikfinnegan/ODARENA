@@ -160,7 +160,13 @@
                           @endif
 
                       @else
-                          <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t H:i') }}. The target land size is {{ number_format($round->goal) }} acres. Once a dominion has reached that, a countdown of 12 hours begins, and then the round ends.</p>
+                          <p>The round starts on {{ $round->start_date->format('l, jS \o\f F Y \a\t H:i') }}.
+                              @if($round->mode == 'standard' or $round->mode == 'deathmatch')
+                                  The target land size is {{ number_format($round->goal) }} acres. Once a dominion has reached that, a countdown of 12 hours begins, and then the round ends.
+                              @elseif($round->mode == 'standard-duration' or $round->mode == 'deathmatch-duration')
+                                  The round lasts for {{ number_format($round->goal) }} ticks.
+                              @endif
+                          </p>
                           <p>When you register, you start with 96 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>
                           <p>Regularly scheduled ticks do not count towards your dominion while you are in protection.</p>
 

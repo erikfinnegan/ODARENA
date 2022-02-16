@@ -131,7 +131,11 @@
                                             <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.">
                                                 <span class="label label-danger">Starting Soon</span>
                                             </span><br>
-                                            <small class="text-muted">The round starts at {{ $round->start_date }}.<br>The target land size is {{ number_format($round->goal) }} acres.</small>
+                                            @if($round->mode == 'standard' or $round->mode == 'deathmatch')
+                                                <small class="text-muted">The round starts at {{ $round->start_date }}.<br>The target land size is {{ number_format($round->goal) }} acres.</small>
+                                            @elseif($round->mode == 'standard-duration' or $round->mode == 'deathmatch-duration')
+                                                <small class="text-muted">The round starts at {{ $round->start_date }}.<br>Round lasts for {{ number_format($round->goal) }} ticks.</small>
+                                            @endif
                                         @else
                                             <span data-toggle="tooltip" data-placement="top" title="Start: {{ $round->start_date }}.">
                                                 <span class="label label-warning">Active</span>
