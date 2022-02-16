@@ -87,7 +87,7 @@ class Round extends AbstractModel
     {
         $now = new Carbon();
 
-        return $query->whereRaw('start_date <= NOW() and (end_date IS NULL or end_date > NOW())');
+        return $query->whereRaw('start_date <= NOW() and (end_date IS NULL or end_date > NOW() or ticks < end_tick)');
     }
 
     /**
@@ -181,7 +181,7 @@ class Round extends AbstractModel
         {
             return ($this->end_date <= now());
         }
-        
+
         return false;
     }
 

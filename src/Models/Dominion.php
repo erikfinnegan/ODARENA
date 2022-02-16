@@ -316,11 +316,7 @@ class Dominion extends AbstractModel
         {
             #$query->where('start_date', '<=', now())
             #    ->where('end_date', '>', now());
-            $query->whereRaw('
-                round_id = (SELECT max(id) FROM rounds)
-              	and start_date <= now()
-              	and (end_tick IS NULL or rounds.ticks < end_tick)
-            ');
+            $query->whereRaw('start_date <= NOW() and (end_date IS NULL or end_date > NOW() or ticks < end_tick)');
         });
     }
 
