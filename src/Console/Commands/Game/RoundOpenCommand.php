@@ -18,7 +18,7 @@ class RoundOpenCommand extends Command implements CommandInterface
     /** @var string The name and signature of the console command. */
     protected $signature = 'game:round:open
                              {--gamemode= : Round game mode}
-                             {--goal= : Target land or ticks (-duration gamemodes)}
+                             {--goal= : Goal land or ticks (-duration gamemodes)}
                              {--leagueId= : League ID (optional)}';
 
     /** @var string The console command description. */
@@ -80,7 +80,7 @@ class RoundOpenCommand extends Command implements CommandInterface
         /** @var RoundLeague $roundLeague */
         $roundLeague = RoundLeague::where('id', $leagueId)->firstOrFail();
 
-        $this->info('Creating a new ' . $gameMode . ' round with target of ' . number_format($target) . '.');
+        $this->info('Creating a new ' . $gameMode . ' round with goal of ' . number_format($goal) . '.');
 
         $round = $this->roundFactory->create(
             $startDate,
