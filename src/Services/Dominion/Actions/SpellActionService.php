@@ -168,7 +168,7 @@ class SpellActionService
                 throw new GameException("You cannot cast {$spell->name} on yourself");
             }
 
-            if ($dominion->realm->id === $target->realm->id and $dominion->round->mode == 'standard')
+            if ($dominion->realm->id === $target->realm->id and ($dominion->round->mode == 'standard' or $dominion->round->mode == 'standard-duration'))
             {
                 throw new GameException("You cannot cast {$spell->name} on other dominions in your realm in standard rounds");
             }

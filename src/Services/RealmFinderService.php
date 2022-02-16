@@ -11,7 +11,7 @@ class RealmFinderService
 {
     public function findRealm(Round $round, Race $race): Realm
     {
-        if($round->mode == 'standard')
+        if($round->mode == 'standard' or $round->mode == 'standard-duration')
         {
             return Realm::query()
                 ->where('round_id', '=', $round->id)
@@ -19,7 +19,7 @@ class RealmFinderService
                 ->first();
         }
 
-        if($round->mode == 'deathmatch')
+        if($round->mode == 'deathmatch' or $round->mode == 'deathmatch-duration')
         {
             if($race->alignment == 'npc')
             {

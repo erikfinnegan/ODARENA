@@ -182,7 +182,7 @@ class RealmController extends AbstractDominionController
             'hoursIntoTheRound',
             'statsService',
             'realmNames',
-            'defaultRealmNames'
+            'defaultRealmNames',
         ));
     }
 

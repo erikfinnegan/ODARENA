@@ -204,8 +204,8 @@
                             @endif
 
                             @if (
-                                      ($selectedDominion->round->mode == 'standard' and $event->source->realm->id === $selectedDominion->realm->id) or
-                                      ($selectedDominion->round->mode == 'deathmatch' and $event->source->id === $selectedDominion->id)
+                                      (($selectedDominion->round->mode == 'standard' or $selectedDominion->round->mode == 'standard-duration') and $event->source->realm->id === $selectedDominion->realm->id) or
+                                      (($selectedDominion->round->mode == 'deathmatch' or $selectedDominion->round->mode == 'deathmatch-duration') and $event->source->id === $selectedDominion->id)
                                 )
                             <table class="table">
                                 <colgroup>
@@ -657,8 +657,8 @@
                             @endif
 
                             @if (
-                                    ($selectedDominion->round->mode == 'standard' and $event->target->realm->id === $selectedDominion->realm->id) or
-                                    ($selectedDominion->round->mode == 'deathmatch' and $event->target->id === $selectedDominion->id)
+                                    (($selectedDominion->round->mode == 'standard' or $selectedDominion->round->mode == 'standard-duration') and $event->target->realm->id === $selectedDominion->realm->id) or
+                                    (($selectedDominion->round->mode == 'deathmatch' or $selectedDominion->round->mode == 'deathmatch-duration') and $event->target->id === $selectedDominion->id)
                                 )
 
                             <table class="table">

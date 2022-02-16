@@ -10,7 +10,7 @@
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <div class="row">
-                          @if($selectedDominion->round->mode == 'standard')
+                          @if($selectedDominion->round->mode == 'standard' or $selectedDominion->round->mode == 'standard-duration')
                               <div class="col-sm-3 text-center">
                               @if($realm->number === 1)
                                   <span style="display:block; font-weight: bold;">Barbarians</span>
@@ -39,7 +39,7 @@
                                       <a href="/dominion/realm/4"><span style="display:block;" data-toggle="tooltip" data-placement="top" title="{{ $realmNames[4] }}">Independent</span></a>
                                   @endif
                               </div>
-                          @elseif($selectedDominion->round->mode == 'deathmatch')
+                          @elseif($selectedDominion->round->mode == 'deathmatch' or $selectedDominion->round->mode == 'deathmatch-duration')
                               <div class="col-sm-6 text-center">
                               @if($realm->number === 1)
                                   <span style="display:block; font-weight: bold;">Barbarians</span>
@@ -73,9 +73,9 @@
                               @endif
                           </div>
                           <div class="col-xs-12 text-center">
-                              @if($realm->round->mode == 'standard')
+                              @if($realm->round->mode == 'standard' or $realm->round->mode == 'standard-duration')
                                   <h4>The {{ $alignmentNoun }}</h4>
-                              @elseif($realm->round->mode == 'deathmatch')
+                              @elseif($realm->round->mode == 'deathmatch' or $realm->round->mode == 'deathmatch-duration')
                                   <h4>{{ $realm->alignment == 'npc' ? 'The' : '' }} {{ $alignmentNoun }}</h4>
                               @endif
                               <span>
@@ -110,19 +110,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for ($i = 0; $i < $round->realm_size; $i++)
+                            @php
+                                $i = 0;
+                            @endphp
+                            @foreach($dominions as $dominion)
                                 @php
-                                    $dominion = $dominions->get($i);
+                                    $i++;
                                 @endphp
 
                                 @if ($dominion === null)
                                 @else
                                   @if ($dominion->isLocked())
-                                    <tr style="text-decoration:line-through; color: #666">
+                                      <tr style="text-decoration:line-through; color: #666">
                                   @else
-                                    <tr>
+                                      <tr>
                                   @endif
-                                        <td class="text-center">{{ $i + 1 }}</td>
+                                        <td class="text-center">{{ $i }} </td>
                                         <td>
                                             @if ($dominion->isLocked())
                                                 <span data-toggle="tooltip" data-placement="top" title="This dominion has been locked.<br>Reason: <strong>{{ $dominion->getLockedReason($dominion->is_locked) }}</strong>">
@@ -240,7 +243,7 @@
                                         </td>
                                     </tr>
                                 @endif
-                            @endfor
+                            @endforeach
                         </tbody>
                     </table>
 

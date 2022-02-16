@@ -334,12 +334,12 @@ class DominionFactory
             throw new GameException('Barbarian detected attempting to join non-NPC realm!');
         }
 
-        if($round->mode == 'standard' and $race->alignment !== $realm->alignment)
+        if(($round->mode == 'standard' or $round->mode == 'standard-duration') and $race->alignment !== $realm->alignment)
         {
             throw new GameException('Faction and realm alignment do not match');
         }
 
-        if($round->mode == 'deathmatch' and ($realm->alignment !== 'players' and $race->alignment !== 'npc'))
+        if(($round->mode == 'deathmatch' or $round->mode == 'deathmatch-duration') and ($realm->alignment !== 'players' and $race->alignment !== 'npc'))
         {
             throw new GameException('Faction and realm alignment do not match');
         }
