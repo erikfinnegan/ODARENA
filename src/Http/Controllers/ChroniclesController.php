@@ -58,7 +58,10 @@ class ChroniclesController extends AbstractController
     public function getRounds()
     {
         return view('pages.chronicles.rounds', [
-            'rounds' => Round::with('league')->where('end_date','<=',now())->orWhere('end_tick','<=','ticks')->orderBy('start_date', 'desc')->get(),
+            'rounds' => Round::with('league')
+                        ->where('end_date','<=',now())
+                        ->orWhere('end_tick','<=','ticks')
+                        ->orderBy('start_date', 'desc')->get(),
         ]);
     }
 

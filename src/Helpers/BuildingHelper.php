@@ -174,7 +174,7 @@ class BuildingHelper
             # Improvements
             'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',
             'improvements_capped' => 'Improvements increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'improvement_interest' => 'Improvements interest increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'improvements_interest' => 'Improvements interest increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             'invest_bonus' => 'Improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
             'gold_invest_bonus' => 'Gold improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
