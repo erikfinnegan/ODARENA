@@ -81,7 +81,7 @@ class UnitHelper
 
         $perkTypeStrings = [
             // Conversions
-            'conversion' => 'Converts some enemy casualties into %s.',
+            'conversion' => 'Converts enemy casualties into %s.',
             'staggered_conversion' => 'Converts some enemy casualties into %2$s against dominions %1$s%%+ of your size.',
             'cannot_be_converted' => 'Unit cannot be converted.',
             'vampiric_conversion' => 'Spreads vampirism.',
