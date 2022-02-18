@@ -700,7 +700,6 @@ alchemist_flame:
 
 charring_flames:
   name: Charring Flames
-  enabled: 0
   scope: self
   class: passive
   cost: 4
@@ -714,7 +713,6 @@ charring_flames:
 
 pyromancy:
   name: Pyromancy
-  enabled: 0
   scope: self
   class: passive
   cost: 4

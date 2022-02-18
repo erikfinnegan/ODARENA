@@ -269,10 +269,6 @@ class TrainingCalculator
     {
         $multiplier = 0;
 
-        // Values (percentages)
-        $smithiesReduction = 2;
-        $smithiesReductionMax = 40;
-
         # Smithies: discount Gold (for all) and Ore (for non-Gnomes)
         # Armory: discounts Gold and Ore (for all)
         # Techs: discounts Gold, Ore, and Lumber (for all); Food ("Lean Mass" techs); Mana ("Magical Weapons" techs)
@@ -337,7 +333,7 @@ class TrainingCalculator
         # Cap reduction at -50%
         $multiplier = max(-0.50, $multiplier);
 
-        # Spells: can take reduction below 50%!
+        // Spells: can take reduction below 50%!
         $multiplier += $dominion->getSpellPerkMultiplier('unit_' . $resourceType . '_costs');
 
         // Deity: can take reduction below 50%!
