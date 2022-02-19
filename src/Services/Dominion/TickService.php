@@ -510,9 +510,9 @@ class TickService
 
             $this->now = now();
 
-           $round->fill([
-               'ticks' => ($round->ticks + 1),
-           ])->save();
+             $round->fill([
+                 'ticks' => ($round->ticks + 1),
+             ])->save();
         }
     }
 

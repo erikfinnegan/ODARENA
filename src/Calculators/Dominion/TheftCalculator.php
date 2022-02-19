@@ -128,7 +128,12 @@ class TheftCalculator
     {
         if($thief->getSpellPerkValue('immortal_spies') or $thief->race->getPerkValue('immortal_spies'))
         {
-            return [];
+            foreach($units as $slot => $amount)
+            {
+                $killedUnits[$slot] = 0;
+            }
+            
+            return $killedUnits;
         }
 
         $baseCasualties = 0.01; # 1%
