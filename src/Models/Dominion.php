@@ -1114,6 +1114,7 @@ class Dominion extends AbstractModel
                        or $perkKey == 'faster_return'
                        or $perkKey == 'training_time_raw'
                        or $perkKey == 'target_defensive_power_mod'
+                       or $perkKey == 'cannot_be_converted'
 
                        or $perkKey == 'casualties'
                        or $perkKey == 'casualties_on_offense'
