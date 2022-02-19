@@ -792,7 +792,7 @@ class TickService
         // Wizard Strength
         if ($dominion->wizard_strength < $wizardStrengthBase)
         {
-            $tick->wizard_strength =  min($this->spellCalculator->getWizardStrengthRecoveryAmount($dominion), $wizardStrengthBase - $dominion->spy_strength);
+            $tick->wizard_strength =  min($this->spellCalculator->getWizardStrengthRecoveryAmount($dominion), $wizardStrengthBase - $dominion->wizard_strength);
         }
 
         # Tickly unit perks
