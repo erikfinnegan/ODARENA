@@ -348,12 +348,12 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'XP per acre on invasions';
                 break;
-            case 'damage_from_lightning_bolts':
+            case 'damage_from_lightning_bolt':
                 $negativeBenefit = true;
                 $description = 'Damage from Lightning Bolts';
                 $booleanValue = false;
                 break;
-            case 'damage_from_fireballs':
+            case 'damage_from_fireball':
                 $negativeBenefit = true;
                 $description = 'Damage from Fireballs';
                 $booleanValue = false;

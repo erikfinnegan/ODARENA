@@ -69,7 +69,7 @@ class RemoveStatsAndImprovementsFromDominions extends Migration
               'stat_magic_snare_damage',
               'stat_sabotage_boats_damage',
               'stat_disband_spies_damage',
-              'stat_fireball_damage',
+              'stat_damage_from_fireball',
               'stat_lightning_bolt_damage',
               'stat_earthquake_hours',
               'stat_great_flood_hours',
@@ -228,7 +228,7 @@ class RemoveStatsAndImprovementsFromDominions extends Migration
             $table->integer('stat_magic_snare_damage')->unsigned()->default(0);
             $table->integer('stat_sabotage_boats_damage')->unsigned()->default(0);
             $table->integer('stat_disband_spies_damage')->unsigned()->default(0);
-            $table->integer('stat_fireball_damage')->unsigned()->default(0);
+            $table->integer('stat_damage_from_fireball')->unsigned()->default(0);
             $table->integer('stat_lightning_bolt_damage')->unsigned()->default(0);
             $table->integer('stat_earthquake_hours')->unsigned()->default(0);
             $table->integer('stat_great_flood_hours')->unsigned()->default(0);

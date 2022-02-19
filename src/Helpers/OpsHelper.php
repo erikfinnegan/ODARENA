@@ -74,6 +74,11 @@ class OpsHelper
             return 1;
         }
 
+        if($selfRatio == 0)
+        {
+            return 0;
+        }
+
         #$selfRatio = min(5, $selfRatio);
         #$targetRatio = min(5, $targetRatio);
 

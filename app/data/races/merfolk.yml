@@ -20,8 +20,8 @@ construction_materials:
 
 perks:
   max_population: -15
-  damage_from_fireballs: -100
-  damage_from_lightning_bolts: -50
+  damage_from_fireball: -100
+  damage_from_lightning_bolt: -50
   unit_gold_costs_reduced_by_prestige: 1
   reduced_conversions: 100
 

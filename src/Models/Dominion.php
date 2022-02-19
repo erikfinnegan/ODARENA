@@ -822,7 +822,7 @@ class Dominion extends AbstractModel
                           # OP/DP mods
                           $perkKey == 'improvements'
                           or $perkKey == 'lightning_bolt_damage'
-                          or $perkKey == 'fireball_damage'
+                          or $perkKey == 'damage_from_fireball'
                           or $perkKey == 'population_growth'
                           or $perkKey == 'reduces_conversions'
                           or $perkKey == 'reduces_attrition'
@@ -1102,8 +1102,8 @@ class Dominion extends AbstractModel
                        or $perkKey == 'fog_of_war'
                        or $perkKey == 'chance_to_reflect_spells'
                        or $perkKey == 'damage_from_spells'
-                       or $perkKey == 'damage_from_fireballs'
-                       or $perkKey == 'damage_from_lightning_bolts'
+                       or $perkKey == 'damage_from_fireball'
+                       or $perkKey == 'damage_from_lightning_bolt'
 
 
                        or $perkKey == 'offensive_power'

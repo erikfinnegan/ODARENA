@@ -33,7 +33,7 @@ perks:
   food_consumption_mod: -50
   immortal_spies: 1
   immortal_wizards: 1
-  damage_from_lightning_bolts: -100
+  damage_from_lightning_bolt: -100
   damage_from_insect_swarm: -100
   indestructible_buildings: 1
   population_growth: 100

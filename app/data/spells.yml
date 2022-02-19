@@ -275,8 +275,8 @@ iceshield:
   exclusive_races:
     - Icekin
   perks:
-    damage_from_fireballs: -10
-    damage_from_lightning_bolts: -10
+    damage_from_fireball: -10
+    damage_from_lightning_bolt: -10
 
 windchill:
   name: Windchill
@@ -369,7 +369,6 @@ great_flood:
 
 fireball:
   name: Fireball
-  enabled: 0
   scope: hostile
   class: active
   cost: 4

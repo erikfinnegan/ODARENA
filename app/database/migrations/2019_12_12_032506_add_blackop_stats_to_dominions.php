@@ -21,8 +21,8 @@ class AddBlackopStatsToDominions extends Migration
             $table->unsignedInteger('stat_magic_snare_damage')->after('stat_assassinate_wizards_damage')->default(0);
             $table->unsignedInteger('stat_sabotage_boats_damage')->after('stat_magic_snare_damage')->default(0);
             $table->unsignedInteger('stat_disband_spies_damage')->after('stat_sabotage_boats_damage')->default(0);
-            $table->unsignedInteger('stat_fireball_damage')->after('stat_disband_spies_damage')->default(0);
-            $table->unsignedInteger('stat_lightning_bolt_damage')->after('stat_fireball_damage')->default(0);
+            $table->unsignedInteger('stat_damage_from_fireball')->after('stat_disband_spies_damage')->default(0);
+            $table->unsignedInteger('stat_lightning_bolt_damage')->after('stat_damage_from_fireball')->default(0);
             $table->unsignedInteger('stat_earthquake_hours')->after('stat_lightning_bolt_damage')->default(0);
             $table->unsignedInteger('stat_great_flood_hours')->after('stat_earthquake_hours')->default(0);
             $table->unsignedInteger('stat_insect_swarm_hours')->after('stat_great_flood_hours')->default(0);
@@ -46,7 +46,7 @@ class AddBlackopStatsToDominions extends Migration
                 'stat_magic_snare_damage',
                 'stat_sabotage_boats_damage',
                 'stat_disband_spies_damage',
-                'stat_fireball_damage',
+                'stat_damage_from_fireball',
                 'stat_lightning_bolt_damage',
                 'stat_earthquake_hours',
                 'stat_great_flood_hours',

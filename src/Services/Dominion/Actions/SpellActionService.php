@@ -917,9 +917,9 @@ class SpellActionService
                         $baseDamage = (float)$spellPerkValues / 100;
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'peasants');
 
-                        $damage = min(round($target->peasants * $baseDamage * $damageMultiplier), $target->peasants);
+                        $damage = min(floor($target->peasants * $baseDamage * $damageMultiplier), $target->peasants);
 
-                        $target->{$attribute} -= $damage;
+                        $target->peasants -= $damage;
                         $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
 
                         $this->statsService->updateStat($caster, 'peasants_killed', $damage);
@@ -1017,10 +1017,10 @@ class SpellActionService
                         $resourceKey = $spellPerkValues[0];
                         $ratio = (float)$spellPerkValues[1] / 100;
 
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $resourceKey);
-                        $damage = min(($this->resourceCalculator->getAmount($target, $resourceKey) * $ratio * $damageMultiplier), $this->resourceCalculator->getAmount($target, $resourceKey));
+                        $targetResourceAmount = $this->resourceCalculator->getAmount($target, $resourceKey);
 
-                        $target->{$attribute} -= $damage;
+                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $resourceKey);
+                        $damage = min($targetResourceAmount * $ratio * $damageMultiplier, $targetResourceAmount);
 
                         $this->resourceService->updateResources($target, [$resourceKey => $damage*-1]);
 
@@ -1151,7 +1151,7 @@ class SpellActionService
             {
                 $wizardsKilledBasePercentage = 1;
 
-                $wizardLossSpaRatio = ($targetWpa / $selfWpa);
+                $wizardLossSpaRatio = (max($targetWpa, 0.001) / max($selfWpa, 0.001));
                 $wizardsKilledPercentage = clamp($wizardsKilledBasePercentage * $wizardLossSpaRatio, 0.5, 1.5);
 
                 $unitsKilled = [];

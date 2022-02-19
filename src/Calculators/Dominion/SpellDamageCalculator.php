@@ -71,33 +71,9 @@ class SpellDamageCalculator
 
           if(isset($spell))
           {
-              ## Insect Swarm
-              if($spell->key == 'insect_swarm')
-              {
-                  $modifier += $target->race->getPerkMultiplier('damage_from_insect_swarm');
-              }
-
-              ## Fireballs: peasants and food
-              if($spell->key == 'fireball' or $spell->key == 'pyroclast')
-              {
-                  if($target->race->getPerkMultiplier('damage_from_fireballs'))
-                  {
-                      $modifier += $target->race->getPerkMultiplier('damage_from_fireballs');
-                  }
-
-                  if($attribute == 'peasants')
-                  {
-                      $modifier += $target->getBuildingPerkMultiplier('fireball_damage');
-                  }
-              }
-
-              ## Lightning Bolts: improvements
-              if($spell->key == 'lightning_bolt')
-              {
-                  # General bolt damage modification.
-                  $modifier += $target->race->getPerkMultiplier('damage_from_lightning_bolts');
-                  $modifier -= $target->getBuildingPerkMultiplier('lightning_bolt_damage');
-              }
+              $modifier += $target->race->getPerkMultiplier('damage_from_' . $spell->key);
+              $modifier += $target->getBuildingPerkMultiplier('damage_from_' . $spell->key);
+              $modifier += $target->getSpellPerkMultiplier('damage_from_' . $spell->key);
 
               ## Disband Spies: spies
               if($spell->key == 'disband_spies')

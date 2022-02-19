@@ -146,8 +146,8 @@ class SpellHelper
             'damage_from_spells' => '%s%% damage from spells',
             'chance_to_reflect_spells' => '%s%% chance to reflect spells',
             'reveal_ops' => 'Reveals the dominion casting spells or spying on you',
-            'damage_from_fireballs' => '%s%% damage from fireballs',
-            'damage_from_lightning_bolts' => '%s%% damage from lightning bolts',
+            'damage_from_fireball' => '%s%% damage from fireballs',
+            'damage_from_lightning_bolt' => '%s%% damage from lightning bolts',
             'wizard_strength' => '%s%% wizard strength',
             'reset_spell_cooldowns' => 'Resets spell cooldowns.',
 
