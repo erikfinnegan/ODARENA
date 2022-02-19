@@ -161,6 +161,12 @@ class SpellCalculator
         return DominionSpell::where('spell_id',$spell->id)->where('dominion_id',$dominion->id)->where('duration','>',0)->first() ? true : false;
     }
 
+    public function isSpellCooldownRecentlyReset(Dominion $dominion, string $spellKey): bool
+    {
+        $spell = Spell::where('key', $spellKey)->first();
+        return DominionSpell::where('spell_id',$spell->id)->where('dominion_id',$dominion->id)->where('cooldown','=',0)->first() ? true : false;
+    }
+
     /**
      * Returns the remaining duration (in ticks) of a spell affecting $dominion.
      *

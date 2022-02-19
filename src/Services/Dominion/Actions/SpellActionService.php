@@ -92,7 +92,7 @@ class SpellActionService
     public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null): array
     {
         $this->guardLockedDominion($dominion);
-        
+
         if ($target !== null)
         {
             $this->guardLockedDominion($target);
@@ -264,7 +264,7 @@ class SpellActionService
         {
             $this->statsService->updateStat($caster, 'magic_self_success', 1);
 
-            if ($this->spellCalculator->isSpellActive($caster, $spell->key))
+            if ($this->spellCalculator->isSpellActive($caster, $spell->key) or $this->spellCalculator->isSpellCooldownRecentlyReset($caster, $spell->key))
             {
                 if($this->spellCalculator->getSpellDuration($caster, $spell->key) == $spell->duration)
                 {
