@@ -420,7 +420,6 @@ class UnitHelper
             list($type, $proficiency) = explode(' ', $helpStrings[$unitType]);
 
             $helpStrings[$unitType] .= '<li>OP: '. number_format($unit->power_offense,2) . ' / DP: ' . number_format($unit->power_defense,2) . ' / T: ' . $unit->training_time .  '</li>';
-            #$helpStrings[$unitType] .= '<li>Attributes: '. $this->getUnitAttributesString($unitType, $race) . '</li>';
 
             foreach ($unit->perks as $perk)
             {
@@ -811,38 +810,6 @@ class UnitHelper
         return $attributes;
     }
 
-    public function getUnitAttributesString(string $unitType, Race $race = null): string
-    {
-
-        $attributeString = '';
-
-        if ($race && in_array($unitType, ['unit1', 'unit2', 'unit3', 'unit4']))
-        {
-            $unit = $race->units->filter(function ($unit) use ($unitType) {
-                return ($unit->slot == (int)str_replace('unit', '', $unitType));
-            })->first();
-        }
-
-        foreach($unit->type as $attribute)
-        {
-            $attributes[] = $attribute;
-        }
-
-
-        sort($attributes);
-        $count = count($attributes);
-
-        $i = $count;
-        foreach($attributes as $attribute)
-        {
-            $attributeString .= ucwords($attribute);
-            $attributeString .= ', ';
-
-        }
-
-        return $attributeString;
-    }
-
     public function getUnitAttributesList(string $unitType, Race $race = null): string
     {
 
@@ -857,10 +824,14 @@ class UnitHelper
 
         foreach($unit->type as $attribute)
         {
-            $attributes[] = $attribute;
+            $attributes[] = ucwords($attribute);
         }
 
+        sort($attributes);
 
+        return generate_sentence_from_array($attributes);
+
+        /*
         sort($attributes);
         $attributeString = '</ul>';
         foreach($attributes as $attribute)
@@ -870,6 +841,7 @@ class UnitHelper
 
         $attributeString .= '</ul>';
         return $attributeString;
+        */
     }
 
     public function getDrafteeHelpString(Race $race): ?string

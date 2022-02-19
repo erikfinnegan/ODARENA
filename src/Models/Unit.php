@@ -68,7 +68,8 @@ class Unit extends AbstractModel
             'unit_perk_type_id'
         )
             ->withTimestamps()
-            ->withPivot('value');
+            ->withPivot('value')
+            ->orderBy('unit_perk_types.key');
     }
 
     public function race()

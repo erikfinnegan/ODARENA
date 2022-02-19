@@ -102,8 +102,8 @@
                         <col width="100">
                         <col width="100">
                         <col>
-                        <col>
-                        <col width="150">
+                        <col width="100">
+                        <col width="100">
                     </colgroup>
                     <thead>
                         <tr>
@@ -329,7 +329,7 @@
                                       @endforeach
                                   </td>
                               </tr>
-                              @foreach ($race->perks->sort() as $perk)
+                              @foreach ($race->perks as $perk)
                                   @php
                                       $perkDescription = $raceHelper->getPerkDescriptionHtmlWithValue($perk);
                                   @endphp

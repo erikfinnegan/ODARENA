@@ -51,7 +51,8 @@ class Race extends AbstractModel
             'race_perk_type_id'
         )
             ->withTimestamps()
-            ->withPivot('value');
+            ->withPivot('value')
+            ->orderBy('race_perk_types.key');
     }
 
     public function units()
