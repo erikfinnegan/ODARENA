@@ -1125,6 +1125,8 @@ class Dominion extends AbstractModel
                        or $perkKey == 'increases_enemy_draftee_casualties'
 
                        or $perkKey == 'no_conversions'
+                       or $perkKey == 'no_attrition'
+
                        or $perkKey == 'convert_enemy_casualties_to_food'
                        or $perkKey == 'convert_peasants_to_champions'
 

@@ -92,7 +92,9 @@ class SpellActionService
     public function castSpell(Dominion $dominion, string $spellKey, ?Dominion $target = null): array
     {
         $this->guardLockedDominion($dominion);
-        if ($target !== null) {
+        
+        if ($target !== null)
+        {
             $this->guardLockedDominion($target);
         }
 
