@@ -126,6 +126,8 @@ class SpellHelper
 
             'aurei_unit_conversion' => 'Converts %3$s %1$s into %3$s %2$s',
 
+            'no_attrition' => 'No unit attrition',
+
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',
 
