@@ -490,7 +490,7 @@ class TickService
                      $cryptLogString .= "Current: " . number_format($realm->crypt) . ". ";
                      $cryptLogString .= "Decayed: " . number_format($bodiesDecayed) . ". ";
                      $cryptLogString .= "Spent: " . number_format($bodiesSpent->cryptBodiesSpent) . ". ";
-                     $cryptLogString .= "Removied: " . number_format($bodiesToRemove) . ". ";
+                     $cryptLogString .= "Removed: " . number_format($bodiesToRemove) . ". ";
 
 
                     $realm->fill([
