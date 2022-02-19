@@ -1802,7 +1802,7 @@ class InvadeActionService
                 }
             }
 
-            dump($returningUnits);
+            #dump($returningUnits);
 
             $this->invasionResult['attacker']['units_returning_raw'] = $returningUnits;
 
