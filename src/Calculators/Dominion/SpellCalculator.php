@@ -23,7 +23,6 @@ class SpellCalculator
         $this->landCalculator = app(LandCalculator::class);
         $this->resourceCalculator = app(ResourceCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
-
     }
 
     /**
@@ -218,7 +217,7 @@ class SpellCalculator
 
     public function isSpellAvailableToDominion(Dominion $dominion, Spell $spell): bool
     {
-        return $this->isSpellAvailableToRace($dominion->race, $spell);
+        return $this->spellHelper->isSpellAvailableToRace($dominion->race, $spell);
     }
 
     public function isSpellAvailableToRace(Race $race, Spell $spell): bool

@@ -9,8 +9,9 @@ use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 
-use OpenDominion\Helpers\UnitHelper;
+use OpenDominion\Helpers\SorceryHelper;
 use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Http\Requests\Dominion\Actions\CastSpellRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
@@ -31,8 +32,9 @@ class SorceryController extends AbstractDominionController
     public function getSorcery()
     {
         $dominion = $this->getSelectedDominion();
+        $sorceryHelper = app(SorceryHelper::class);
 
-        $spells = Spell::all()->where('scope','hostile')->whereIn('class',['active'/*,'passive'*/])->where('enabled',1)->sortBy('name');
+        $spells = $sorceryHelper->getSorcerySpellsForRace($dominion->race) ;#Spell::all()->where('scope','hostile')->whereIn('class',['active'/*,'passive'*/])->where('enabled',1)->sortBy('name');
 
         return view('pages.dominion.sorcery', [
             'spells' => $spells,

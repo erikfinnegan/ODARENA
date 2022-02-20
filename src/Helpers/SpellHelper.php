@@ -624,6 +624,23 @@ class SpellHelper
         return $effectStrings;
     }
 
+    public function isSpellAvailableToRace(Race $race, Spell $spell): bool
+    {
+        $isAvailable = true;
+
+        if(count($spell->exclusive_races) > 0 and !in_array($race->name, $spell->exclusive_races))
+        {
+            $isAvailable = false;
+        }
+
+        if(count($spell->excluded_races) > 0 and in_array($race->name, $spell->excluded_races))
+        {
+            $isAvailable = false;
+        }
+
+        return $isAvailable;
+    }
+
     public function getExclusivityString(Spell $spell): string
     {
 

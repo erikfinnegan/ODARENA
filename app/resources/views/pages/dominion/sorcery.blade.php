@@ -42,7 +42,8 @@
                 </div>
             </div>
 
-            <!-- RESOURCE -->
+            <!-- ENHANCEMENT -->
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-primary">
@@ -82,48 +83,28 @@
                             <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Spell</h3>
                         </div>
                         <div class="box-body">
-
-                      @php
-                          $i = 0;
-                      @endphp
-                            @foreach($spells as $spell)
-                                @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
-                                    @php
-                                        $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
-                                    @endphp
-
-                                    @if($i % 2 == 0)
-                                        <div class="row">
-                                    @endif
-
-                                    <div class="col-md-6">
-                                        <label class="btn btn-block">
-                                        <div class="box box-danger">
-                                                <div class="box-header with-border">
-                                                    <input type="radio" name="spell" value="{{ $spell->id }}" autocomplete="off" {{ (old('spell') == $spell->id) ? 'checked' : null }} required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
-                                                </div>
-
-                                            <div class="box-body">
-                                                @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
-                                                    {{ $effect }}<br>
-                                                @endforeach
-
-                                                @include('partials.dominion.spell-basics')
-                                            </div>
+                        @foreach($spells as $spell)
+                            @php
+                                $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
+                            @endphp
+                            <div class="col-md-4">
+                                <label class="btn btn-block">
+                                <div class="box box-danger">
+                                        <div class="box-header with-border">
+                                            <input type="radio" name="spell" value="{{ $spell->id }}" autocomplete="off" {{ (old('spell') == $spell->id) ? 'checked' : null }} required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
                                         </div>
-                                        </label>
+
+                                    <div class="box-body">
+                                        @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                            {{ $effect }}<br>
+                                        @endforeach
+
+                                        @include('partials.dominion.spell-basics')
                                     </div>
-
-                                    @if($i % 2)
-                                        </div>
-                                    @endif
-
-                                  @php
-                                      $i++;
-                                  @endphp
-
-                                  @endif
-                            @endforeach
+                                </div>
+                                </label>
+                            </div>
+                        @endforeach
                         </div>
                     </div>
                 </div>

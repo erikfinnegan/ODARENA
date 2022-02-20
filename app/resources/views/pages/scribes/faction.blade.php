@@ -585,7 +585,7 @@
                         </tr>
                     <tbody>
                     @foreach ($spells as $spell)
-                        @if($spell->class == 'passive' and $spell->scope == 'friendly' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        @if($spell->class == 'passive' and $spell->scope == 'friendly' and $spellHelper->isSpellAvailableToRace($race, $spell))
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
@@ -628,7 +628,7 @@
                         </tr>
                     <tbody>
                     @foreach ($spells as $spell)
-                        @if($spell->class == 'passive' and $spell->scope == 'hostile' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        @if($spell->class == 'passive' and $spell->scope == 'hostile' and $spellHelper->isSpellAvailableToRace($race, $spell))
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
@@ -671,7 +671,7 @@
                         </tr>
                     <tbody>
                     @foreach ($spells as $spell)
-                        @if($spell->class == 'passive' and $spell->scope == 'self' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        @if($spell->class == 'passive' and $spell->scope == 'self' and $spellHelper->isSpellAvailableToRace($race, $spell))
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
@@ -713,7 +713,7 @@
                         </tr>
                     <tbody>
                     @foreach ($spells as $spell)
-                        @if($spell->class == 'active' and $spell->scope == 'friendly' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        @if($spell->class == 'active' and $spell->scope == 'friendly' and $spellHelper->isSpellAvailableToRace($race, $spell))
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
@@ -753,7 +753,7 @@
                         </tr>
                     <tbody>
                     @foreach ($spells as $spell)
-                        @if($spell->class == 'active' and $spell->scope == 'hostile' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        @if($spell->class == 'active' and $spell->scope == 'hostile' and $spellHelper->isSpellAvailableToRace($race, $spell))
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
@@ -793,7 +793,7 @@
                         </tr>
                     <tbody>
                     @foreach ($spells as $spell)
-                        @if($spell->class == 'active' and $spell->scope == 'self' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        @if($spell->class == 'active' and $spell->scope == 'self' and $spellHelper->isSpellAvailableToRace($race, $spell))
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>{{ $spell->cost }}x</td>
@@ -829,7 +829,7 @@
                         </tr>
                     <tbody>
                     @foreach ($spells as $spell)
-                        @if($spell->class == 'hostile' and $spell->scope == 'invasion' and $spellCalculator->isSpellAvailableToRace($race, $spell))
+                        @if($spell->class == 'hostile' and $spell->scope == 'invasion' and $spellHelper->isSpellAvailableToRace($race, $spell))
                         <tr>
                             <td>{{ $spell->name }}</td>
                             <td>
