@@ -126,7 +126,7 @@ class TheftCalculator
 
     public function getUnitsKilled(Dominion $thief, Dominion $target, array $units): array
     {
-        if($thief->getSpellPerkValue('immortal_spies') or $thief->race->getPerkValue('immortal_spies') or $thitargetef->race->getPerkValue('does_not_kill'))
+        if($thief->getSpellPerkValue('immortal_spies') or $thief->race->getPerkValue('immortal_spies') or $target->race->getPerkValue('does_not_kill'))
         {
             foreach($units as $slot => $amount)
             {
