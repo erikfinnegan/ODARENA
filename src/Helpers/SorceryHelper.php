@@ -24,7 +24,7 @@ class SorceryHelper
 
     public function getSorcerySpellsForRace(Race $race)
     {
-        $spells = Spell::all()->where('scope','hostile')->whereIn('class',['active'/*,'passive'*/])->where('enabled',1)->sortBy('name');
+        $spells = Spell::all()->where('scope','sorcery')->whereIn('class',['active'/*,'passive'*/])->where('enabled',1)->sortBy('name');
 
         foreach($spells as $key => $spell)
         {

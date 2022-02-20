@@ -43,7 +43,7 @@
             </div>
 
             <!-- ENHANCEMENT -->
-
+            {{--
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-primary">
@@ -74,6 +74,7 @@
                     </div>
                 </div>
             </div>
+            --}}
 
             <!-- RESOURCE -->
             <div class="row">
@@ -87,7 +88,7 @@
                             @php
                                 $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
                             @endphp
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="btn btn-block">
                                 <div class="box box-danger">
                                         <div class="box-header with-border">
@@ -95,11 +96,15 @@
                                         </div>
 
                                     <div class="box-body">
-                                        @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
-                                            {{ $effect }}<br>
-                                        @endforeach
+                                        <ul>
+                                            @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                                <li>{{ $effect }}</li>
+                                            @endforeach
+                                        </ul>
 
-                                        @include('partials.dominion.spell-basics')
+                                        <div class="box-footer">
+                                            @include('partials.dominion.spell-basics')
+                                        </div>
                                     </div>
                                 </div>
                                 </label>
