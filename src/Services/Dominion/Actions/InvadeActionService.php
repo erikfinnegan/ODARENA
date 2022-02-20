@@ -2121,67 +2121,68 @@ class InvadeActionService
                         }
                     }
                 }
-                     # Defender: kills_into_resource_per_casualty_on_success SINGLE RESOURCE
-                    if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty_on_success') and !$this->invasionResult['result']['success'])
-                    {
-                        $amountPerCasualty = $killsIntoResourcesPerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
-                        $resource = 'resource_' . $killsIntoResourcesPerCasualty[1];
+                
+                # Defender: kills_into_resource_per_casualty_on_success SINGLE RESOURCE
+                if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty_on_success') and !$this->invasionResult['result']['success'])
+                {
+                  $amountPerCasualty = $killsIntoResourcesPerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
+                  $resource = 'resource_' . $killsIntoResourcesPerCasualty[1];
 
-                        $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
+                  $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
 
-                        foreach($this->invasionResult['attacker']['unitsLost'] as $slotKilled => $amountKilled)
-                        {
-                            if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
-                            {
-                                  $killsAttributableToThisSlot = $amountKilled * ($dpFromSlot / $rawDp);
-                                  #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
-                                  $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
-                            }
-                        }
-                    }
+                  foreach($this->invasionResult['attacker']['unitsLost'] as $slotKilled => $amountKilled)
+                  {
+                      if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
+                      {
+                            $killsAttributableToThisSlot = $amountKilled * ($dpFromSlot / $rawDp);
+                            #$this->queueService->queueResources('invasion', $defender, [$resource => round($killsAttributableToThisSlot * $amountPerCasualty)]);
+                            $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
+                      }
+                  }
+                }
 
-                    # Defender: kills_into_resources_per_casualty MULTIPLE RESOURCES
-                    if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resources_per_casualty'))
-                    {
-                        foreach($killsIntoResourcesPerCasualty as $killsIntoResourcesPerCasualtyPerk)
-                        {
-                            $amountPerCasualty = $killsIntoResourcesPerCasualtyPerk[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
-                            $resource = 'resource_' . $killsIntoResourcesPerCasualtyPerk[1];
+                # Defender: kills_into_resources_per_casualty MULTIPLE RESOURCES
+                if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resources_per_casualty'))
+                {
+                  foreach($killsIntoResourcesPerCasualty as $killsIntoResourcesPerCasualtyPerk)
+                  {
+                      $amountPerCasualty = $killsIntoResourcesPerCasualtyPerk[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
+                      $resource = 'resource_' . $killsIntoResourcesPerCasualtyPerk[1];
 
-                            $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
+                      $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
 
-                            foreach($this->invasionResult['attacker']['unitsLost'] as $slotKilled => $amountKilled)
-                            {
-                                if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
-                                {
-                                      $killsAttributableToThisSlot = $amountKilled * ($dpFromSlot / $rawDp);
-                                      $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
+                      foreach($this->invasionResult['attacker']['unitsLost'] as $slotKilled => $amountKilled)
+                      {
+                          if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
+                          {
+                                $killsAttributableToThisSlot = $amountKilled * ($dpFromSlot / $rawDp);
+                                $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerCasualty);
 
-                                      #echo "<pre>Slot $slot accounts for " . $dpFromSlot / $rawDp . " of $opFromLostAttackingUnits OP killed, meaning they killed $killsAttributableToThisSlot raw OP</pre>";
-                                }
-                            }
-                        }
-                    }
+                                #echo "<pre>Slot $slot accounts for " . $dpFromSlot / $rawDp . " of $opFromLostAttackingUnits OP killed, meaning they killed $killsAttributableToThisSlot raw OP</pre>";
+                          }
+                      }
+                  }
+                }
 
-                    # Defender: kills_into_resource_per_value SINGLE RESOURCE
-                    if($killsIntoResourcePerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_value'))
-                    {
-                        $amountPerPoint = $killsIntoResourcePerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
-                        $resource = 'resource_' . $killsIntoResourcePerCasualty[1];
+                # Defender: kills_into_resource_per_value SINGLE RESOURCE
+                if($killsIntoResourcePerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_value'))
+                {
+                  $amountPerPoint = $killsIntoResourcePerCasualty[0] * $this->conversionCalculator->getConversionReductionMultiplier($attacker);
+                  $resource = 'resource_' . $killsIntoResourcePerCasualty[1];
 
-                        $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
+                  $dpFromSlot = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, [$slot => $amount]);
 
-                        foreach($this->invasionResult['attacker']['unitsLost'] as $slotKilled => $amountKilled)
-                        {
-                            if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
-                            {
-                                  $killsAttributableToThisSlot = $opFromLostAttackingUnits * ($dpFromSlot / $rawDp);
-                                  $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerPoint);
+                  foreach($this->invasionResult['attacker']['unitsLost'] as $slotKilled => $amountKilled)
+                  {
+                      if($this->unitHelper->unitSlotHasAttributes($attacker->race, $slotKilled, ['living']))
+                      {
+                            $killsAttributableToThisSlot = $opFromLostAttackingUnits * ($dpFromSlot / $rawDp);
+                            $this->invasionResult['defender']['resource_conversion'][$resource] += round($killsAttributableToThisSlot * $amountPerPoint);
 
-                                  #dump($killsAttributableToThisSlot, $opFromLostAttackingUnits, $dpFromSlot, $rawDp, ($dpFromSlot / $rawDp));
-                            }
-                        }
-                    }
+                            #dump($killsAttributableToThisSlot, $opFromLostAttackingUnits, $dpFromSlot, $rawDp, ($dpFromSlot / $rawDp));
+                      }
+                  }
+                }
 
                 # Defender: kills_into_resources_per_value MULTIPLE RESOURCES
                 if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resources_per_value'))

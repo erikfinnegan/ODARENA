@@ -140,6 +140,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('offensive-ops')->uses('Dominion\OffensiveOpsController@getOffensiveOps')->name('offensive-ops');
             $router->post('offensive-ops')->uses('Dominion\OffensiveOpsController@postOffensiveOps');
 
+            // Sorcery
+            $router->get('sorcery')->uses('Dominion\SorceryController@getSorcery')->name('sorcery');
+            $router->post('sorcery')->uses('Dominion\SorceryController@postSorcery');
+
             // Theft
             $router->get('theft')->uses('Dominion\TheftController@getTheft')->name('theft');
             $router->post('theft')->uses('Dominion\TheftController@postTheft');
