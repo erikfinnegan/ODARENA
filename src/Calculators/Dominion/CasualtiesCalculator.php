@@ -508,7 +508,7 @@ class CasualtiesCalculator
                     if($unitOp >= $minPowerToKill)
                     {
                         # How much of the raw DP came from this unit?
-                        $multiplier += ($amount * $unitOp) / $rawDp;
+                        $multiplier += ($amount * $unitOp) / $rawOp;
                     }
                 }
 
