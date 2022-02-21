@@ -72,7 +72,7 @@ class SpellActionService
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->resourceCalculator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
-        $this->spellCalculator = app(SorceryCalculator::class);
+        $this->sorceryCalculator = app(SorceryCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
@@ -1343,10 +1343,10 @@ class SpellActionService
 
     # BEGIN SORCERY BLACKOPS 2.0
 
-    protected function castSorcerySpell(Dominion $caster, Dominion $target, Spell $spell, Resource $enhancementResource = null, int $enhancementAmount = 0): void
+    public function castSorcerySpell(Dominion $caster, Dominion $target, Spell $spell, int $wizardStrength, Resource $enhancementResource = null, int $enhancementAmount = 0): void
     {
-        $this->guardLockedDominion($dominion);
         $this->guardLockedDominion($caster);
+        $this->guardLockedDominion($target);
 
         // Qur: Statis
         if(isset($target) and $target->getSpellPerkValue('stasis'))
@@ -1367,26 +1367,24 @@ class SpellActionService
             throw new LogicException("Spell {$spell->name} is not enabled.");
         }
 
-        if (!$this->spellCalculator->canCastSpell($dominion, $spell))
+        if (!$this->spellCalculator->canCastSpell($caster, $spell))
         {
             throw new GameException("You are not able to cast {$spell->name}.");
         }
 
-        $wizardStrengthCost = $this->spellCalculator->getWizardStrengthCost($spell);
-
-        if ($dominion->wizard_strength <= 0 or ($dominion->wizard_strength - $wizardStrengthCost) < 0)
+        if ($caster->wizard_strength <= 0 or ($caster->wizard_strength - $wizardStrength) < 0)
         {
-            throw new GameException("Your wizards are too weak to perform such sorcery. You would need {$wizardStrengthCost}% wizard strength but only have {$caster->wizard_strength}%.");
+            throw new GameException("Your wizards are too weak to perform such sorcery. You would need {$wizardStrength}% wizard strength but only have {$caster->wizard_strength}%.");
         }
 
-        $manaCost = $this->spellCalculator->getManaCost($dominion, $spell->key);
-        $casterManaAmount = $this->resourceCalculator->getAmount($dominion, 'mana');
+        $manaCost = $this->sorceryCalculator->getSorcerySpellManaCost($caster, $spell, $wizardStrength);
+        $casterManaAmount = $this->resourceCalculator->getAmount($caster, 'mana');
 
         if ($manaCost > $casterManaAmount)
         {
             throw new GameException("You do not have enough mana to perform such sorcery. You would need " . number_format($manaCost) . " mana but only have " . number_format($casterManaAmount) . ".");
         }
-        
+
         if ($target === null)
         {
             throw new GameException("You must select a target when performing sorcery.");
@@ -1402,22 +1400,22 @@ class SpellActionService
             throw new GameException("You cannot perform sorcery against targets under protection");
         }
 
-        if (!$this->rangeCalculator->isInRange($dominion, $target) and $spell->class !== 'invasion')
+        if (!$this->rangeCalculator->isInRange($caster, $target) and $spell->class !== 'invasion')
         {
             throw new GameException("You cannot cast spells on targets not in your range");
         }
 
-        if ($dominion->id === $target->id)
+        if ($caster->id === $target->id)
         {
             throw new GameException("You cannot perform sorcery on yourself");
         }
 
-        if ($dominion->realm->id === $target->realm->id and ($dominion->round->mode == 'standard' or $dominion->round->mode == 'standard-duration'))
+        if ($caster->realm->id === $target->realm->id and ($caster->round->mode == 'standard' or $caster->round->mode == 'standard-duration'))
         {
             throw new GameException("You cannot perform sorcery on other dominions in your realm in standard rounds");
         }
 
-        if ($dominion->round->id !== $target->round->id)
+        if ($caster->round->id !== $target->round->id)
         {
             throw new GameException('Nice try, but you cannot cast spells cross-round');
         }
@@ -1470,7 +1468,7 @@ class SpellActionService
         }
         elseif($spell->class == 'active')
         {
-
+            dd($caster->name . ' is casting ' . $spell->name. ' at ' . $target->name . '.', $manaCost, $casterManaAmount);
         }
     }
 

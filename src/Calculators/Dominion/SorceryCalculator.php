@@ -28,12 +28,14 @@ class SorceryCalculator
         $this->militaryCalculator = app(MilitaryCalculator::class);
         #$this->populationCalculator = app(PopulationCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
-        $this->spellCalculator = app(SpellDamageCalculator::class);
+        $this->spellDamageCalculator = app(SpellDamageCalculator::class);
     }
 
     public function getSorcerySpellManaCost(Dominion $caster, Spell $spell, int $wizardStrength): int
     {
+        $manaCost = $this->spellCalculator->getManaCost($caster, $spell->key);
 
+        return $manaCost * $wizardStrength;
     }
 
     public function getSorcerySpellDuration(Dominion $caster, Dominion $target, Spell $spell, int $wizardStrength, Resource $enhancementResource = null, int $enhancementAmount = 0): int

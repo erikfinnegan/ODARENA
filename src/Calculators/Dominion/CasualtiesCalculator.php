@@ -504,11 +504,11 @@ class CasualtiesCalculator
 
                     $unitOp = $this->militaryCalculator->getUnitPowerWithPerks($enemy, $dominion, $invasionData['land_ratio'], $attackingUnit, 'defense', null, $attackingUnits, $defendingUnits);
 
-                    # See if it has enough DP to kill
+                    # See if it has enough OP to kill
                     if($unitOp >= $minPowerToKill)
                     {
-                        # How much of the raw DP came from this unit?
-                        $multiplier += ($amount * $unitOp) / $rawDp;
+                        # How much of the raw OP came from this unit?
+                        $multiplier += ($amount * $unitOp) / $rawOp;
                     }
                 }
 

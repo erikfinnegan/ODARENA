@@ -16,7 +16,10 @@ use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\CastSpellRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\OffensiveOpsRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\SorceryRequest;
+
 use OpenDominion\Models\Dominion;
+
 use OpenDominion\Services\Dominion\Actions\SpellActionService;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
 use OpenDominion\Services\Dominion\ProtectionService;
@@ -56,11 +59,12 @@ class SorceryController extends AbstractDominionController
         ]);
     }
 
-    public function postSorcery(OffensiveOpsRequest $request)
+    public function postSorcery(SorceryRequest $request)
     {
 
         $caster = $this->getSelectedDominion();
         $spellActionService = app(SpellActionService::class);
+        $resourceCalculator = app(ResourceCalculator::class);
 
         $spell = Spell::where('id', $request->get('spell'))->firstOrFail();
         $enhancementResource = null;
@@ -69,6 +73,7 @@ class SorceryController extends AbstractDominionController
         if($request->get('enhancement'))
         {
             $enhancementResource = Resource::where('id', $request->get('enhancement'))->firstOrFail();
+            $enhancementAmount = 0;
         }
 
         $target = Dominion::findOrFail($request->get('target_dominion'));
@@ -79,8 +84,9 @@ class SorceryController extends AbstractDominionController
         {
             $result = $spellActionService->castSorcerySpell(
                 $caster,
-                $spell,
                 $target,
+                $spell,
+                $wizardStrength,
                 $enhancementResource,
                 $enhancementAmount
             );
