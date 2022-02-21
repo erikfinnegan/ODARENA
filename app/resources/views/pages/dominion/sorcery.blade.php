@@ -11,7 +11,7 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><i class="fa fa-hand-lizard"></i> Target</h3>
+                            <h3 class="box-title"><i class="ra ra-on-target"></i> Target</h3>
                             <small class="pull-right text-muted">
                                 <span data-toggle="tooltip" data-placement="top" title="Wizards Per Acre (Wizard Ratio) on offense">WPA</span>: {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'),3) }},
                                 <span data-toggle="tooltip" data-placement="top" title="Wizard Strength">WS</span>: {{ $selectedDominion->wizard_strength }}%
@@ -81,19 +81,29 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Spell</h3>
+                            <h3 class="box-title"><i class="fas fa-scroll"></i> Spell</h3>
                         </div>
                         <div class="box-body">
+                          {{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
+                        @php
+                            $numOfCols = 3;
+                            $rowCount = 0;
+                            $bootstrapColWidth = 12 / $numOfCols;
+                        @endphp
+
+                        <div class="row">
+
                         @foreach($spells as $spell)
                             @php
                                 $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
                             @endphp
-                            <div class="col-md-6">
+                            <div class="col-md-{{ $bootstrapColWidth }}">
                                 <label class="btn btn-block">
-                                <div class="box box-danger">
-                                        <div class="box-header with-border">
-                                            <input type="radio" name="spell" value="{{ $spell->id }}" autocomplete="off" {{ (old('spell') == $spell->id) ? 'checked' : null }} required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
-                                        </div>
+                                <div class="box {!! $sorceryHelper->getSpellClassBoxClass($spell) !!}">
+                                    <div class="box-header with-border">
+                                        <input type="radio" name="spell" value="{{ $spell->id }}" autocomplete="off" {{ (old('spell') == $spell->id) ? 'checked' : null }} required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
+                                        <span class="pull-right" data-toggle="tooltip" data-placement="top" title="{!! $sorceryHelper->getSpellClassDescription($spell) !!}"><i class="{!! $sorceryHelper->getSpellClassIcon($spell) !!}"></i></span>
+                                    </div>
 
                                     <div class="box-body">
                                         <ul>
@@ -103,13 +113,23 @@
                                         </ul>
 
                                         <div class="box-footer">
-                                            @include('partials.dominion.spell-basics')
+                                            @include('partials.dominion.sorcery-spell-basics')
                                         </div>
                                     </div>
                                 </div>
                                 </label>
                             </div>
+
+                            @php
+                                $rowCount++;
+                            @endphp
+
+                            @if($rowCount % $numOfCols == 0)
+                                </div><div class="row">
+                            @endif
+
                         @endforeach
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -120,7 +140,7 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title"><i class="fa fa-user-secret"></i> Wizard Strength</h3>
+                            <h3 class="box-title"><i class="fas fa-hat-wizard"></i> Wizard Strength</h3>
                         </div>
                         <div class="box-body">
                             <input type="number"
@@ -141,7 +161,7 @@
                                         class="btn btn-danger"
                                         {{ $selectedDominion->isLocked() ? 'disabled' : null }}
                                         id="invade-button">
-                                    <i class="fa fa-hand-lizard"></i>
+                                    <i class="fas fa-hand-sparkles"></i>
                                     Cast Spell
                                 </button>
                             </div>
@@ -158,8 +178,7 @@
                 </div>
                 <div class="box-body">
                     <p>Select target, spell, and how much of your wizard strength you wish to use.</p>
-                    <p>Enhancements are used to make a spell more powerful.</p>
-
+                    <p>The amount of wizard strength you use determines how much mana you need </p>
                     <table class="table">
                         <colgroup>
                             <col>

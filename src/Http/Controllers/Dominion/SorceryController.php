@@ -38,9 +38,11 @@ class SorceryController extends AbstractDominionController
 
         return view('pages.dominion.sorcery', [
             'spells' => $spells,
-            'i' => 0,
+            'icon' => '',
+            'boxClass' => '',
 
             'spellHelper' => app(SpellHelper::class),
+            'sorceryHelper' => $sorceryHelper,
             'unitHelper' => app(UnitHelper::class),
 
             'landCalculator' => app(LandCalculator::class),

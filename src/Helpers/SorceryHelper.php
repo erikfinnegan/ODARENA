@@ -24,7 +24,7 @@ class SorceryHelper
 
     public function getSorcerySpellsForRace(Race $race)
     {
-        $spells = Spell::all()->where('scope','sorcery')->whereIn('class',['active'/*,'passive'*/])->where('enabled',1)->sortBy('name');
+        $spells = Spell::all()->where('scope','hostile')->whereIn('class',['active','passive'])->where('enabled',1)->sortBy('name');
 
         foreach($spells as $key => $spell)
         {
@@ -35,6 +35,42 @@ class SorceryHelper
         }
 
         return $spells;
+    }
+
+    public function getSpellClassIcon(Spell $spell): string
+    {
+        if($spell->class == 'active')
+        {
+            return 'ra ra-bomb-explosion text-danger';
+        }
+        elseif($spell->class == 'passive')
+        {
+            return 'fas fa-hourglass-start text-info';
+        }
+    }
+
+    public function getSpellClassDescription(Spell $spell): string
+    {
+        if($spell->class == 'active')
+        {
+            return 'This spell causes direct, immediate damage.';
+        }
+        elseif($spell->class == 'passive')
+        {
+            return 'This spell has a lingering effect.';
+        }
+    }
+
+    public function getSpellClassBoxClass(Spell $spell): string
+    {
+        if($spell->class == 'active')
+        {
+            return 'box-danger';
+        }
+        elseif($spell->class == 'passive')
+        {
+            return 'box-info';
+        }
     }
 
     public function getExclusivityString(Spell $spell): string
