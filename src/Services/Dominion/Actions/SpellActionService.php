@@ -12,6 +12,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
+use OpenDominion\Calculators\Dominion\SorceryCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Exceptions\GameException;
@@ -71,6 +72,7 @@ class SpellActionService
         $this->rangeCalculator = app(RangeCalculator::class);
         $this->resourceCalculator = app(ResourceCalculator::class);
         $this->resourceService = app(ResourceService::class);
+        $this->spellCalculator = app(SorceryCalculator::class);
         $this->spellCalculator = app(SpellCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
         $this->spellDamageCalculator = app(SpellDamageCalculator::class);
@@ -1302,7 +1304,6 @@ class SpellActionService
             $this->statsService->updateStat($caster, 'magic_invasion_duration', $spell->duration);
             if ($this->spellCalculator->isSpellActive($target, $spell->key))
             {
-
                 DB::transaction(function () use ($caster, $target, $spell)
                 {
                     $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
@@ -1339,6 +1340,141 @@ class SpellActionService
                 ->sendNotifications($target, 'irregular_dominion');
         }
     }
+
+    # BEGIN SORCERY BLACKOPS 2.0
+
+    protected function castSorcerySpell(Dominion $caster, Dominion $target, Spell $spell, Resource $enhancementResource = null, int $enhancementAmount = 0): void
+    {
+        $this->guardLockedDominion($dominion);
+        $this->guardLockedDominion($caster);
+
+        // Qur: Statis
+        if(isset($target) and $target->getSpellPerkValue('stasis'))
+        {
+            throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your wizards to cast spells on them.');
+        }
+        if($caster->getSpellPerkValue('stasis'))
+        {
+            throw new GameException('You cannot cast spells while you are in stasis.');
+        }
+        if($caster->protection_ticks !== 0)
+        {
+            throw new GameException('You cannot perform sorcery while in protection.');
+        }
+
+        if ($spell->enabled !== 1)
+        {
+            throw new LogicException("Spell {$spell->name} is not enabled.");
+        }
+
+        if (!$this->spellCalculator->canCastSpell($dominion, $spell))
+        {
+            throw new GameException("You are not able to cast {$spell->name}.");
+        }
+
+        $wizardStrengthCost = $this->spellCalculator->getWizardStrengthCost($spell);
+
+        if ($dominion->wizard_strength <= 0 or ($dominion->wizard_strength - $wizardStrengthCost) < 0)
+        {
+            throw new GameException("Your wizards are too weak to perform such sorcery. You would need {$wizardStrengthCost}% wizard strength but only have {$caster->wizard_strength}%.");
+        }
+
+        $manaCost = $this->spellCalculator->getManaCost($dominion, $spell->key);
+        $casterManaAmount = $this->resourceCalculator->getAmount($dominion, 'mana');
+
+        if ($manaCost > $casterManaAmount)
+        {
+            throw new GameException("You do not have enough mana to perform such sorcery. You would need " . number_format($manaCost) . " mana but only have " . number_format($casterManaAmount) . ".");
+        }
+        
+        if ($target === null)
+        {
+            throw new GameException("You must select a target when performing sorcery.");
+        }
+
+        if ($this->protectionService->isUnderProtection($caster))
+        {
+            throw new GameException("You cannot perform sorcery while under protection");
+        }
+
+        if ($this->protectionService->isUnderProtection($target))
+        {
+            throw new GameException("You cannot perform sorcery against targets under protection");
+        }
+
+        if (!$this->rangeCalculator->isInRange($dominion, $target) and $spell->class !== 'invasion')
+        {
+            throw new GameException("You cannot cast spells on targets not in your range");
+        }
+
+        if ($dominion->id === $target->id)
+        {
+            throw new GameException("You cannot perform sorcery on yourself");
+        }
+
+        if ($dominion->realm->id === $target->realm->id and ($dominion->round->mode == 'standard' or $dominion->round->mode == 'standard-duration'))
+        {
+            throw new GameException("You cannot perform sorcery on other dominions in your realm in standard rounds");
+        }
+
+        if ($dominion->round->id !== $target->round->id)
+        {
+            throw new GameException('Nice try, but you cannot cast spells cross-round');
+        }
+
+        $result = null;
+
+        if($spell->class == 'passive')
+        {
+
+            $duration = $this->sorceryCalculator->getSorcerySpellDuration($caster, $target, $spell, $enhancementResource, $enhancementAmount);
+
+            $this->statsService->updateStat($caster, 'magic_sorcery_success', 1);
+            $this->statsService->updateStat($caster, 'magic_sorcery_duration', $duration);
+            if ($this->spellCalculator->isSpellActive($target, $spell->key))
+            {
+                DB::transaction(function () use ($caster, $target, $spell)
+                {
+                    $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
+                    ->update(['duration' => $duration]);
+
+                    $target->save([
+                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                        'action' => $spell->key
+                    ]);
+                });
+            }
+            else
+            {
+                DB::transaction(function () use ($caster, $target, $spell)
+                {
+                    DominionSpell::create([
+                        'dominion_id' => $target->id,
+                        'caster_id' => $caster->id,
+                        'spell_id' => $spell->id,
+                        'duration' => $duration
+                    ]);
+
+                    $caster->save([
+                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                        'action' => $spell->key
+                    ]);
+                });
+            }
+            $this->notificationService
+                ->queueNotification('received_hostile_spell', [
+                    'sourceDominionId' => $caster->id,
+                    'spellKey' => $spell->key,
+                ])
+                ->sendNotifications($target, 'irregular_dominion');
+        }
+        elseif($spell->class == 'active')
+        {
+
+        }
+    }
+
+    # END SORCERY BLACKOPS 2.0
 
     public function breakSpell(Dominion $target, string $spellKey, bool $isLiberation = false): array
     {

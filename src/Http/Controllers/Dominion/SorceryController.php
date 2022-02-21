@@ -59,19 +59,30 @@ class SorceryController extends AbstractDominionController
     public function postSorcery(OffensiveOpsRequest $request)
     {
 
-        $dominion = $this->getSelectedDominion();
+        $caster = $this->getSelectedDominion();
         $spellActionService = app(SpellActionService::class);
 
-        $spell = Spell::where('key', $request->get('operation'))->first();
+        $spell = Spell::where('id', $request->get('spell'))->firstOrFail();
+        $enhancementResource = null;
+        $enhancementAmount = 0;
+
+        if($request->get('enhancement'))
+        {
+            $enhancementResource = Resource::where('id', $request->get('enhancement'))->firstOrFail();
+        }
 
         $target = Dominion::findOrFail($request->get('target_dominion'));
 
+        $wizardStrength = $request->get('wizard_strength');
+
         try
         {
-            $result = $spellActionService->castSpell(
-                $dominion,
-                $spell->key,
-                $target
+            $result = $spellActionService->castSorcerySpell(
+                $caster,
+                $spell,
+                $target,
+                $enhancementResource,
+                $enhancementAmount
             );
         }
         catch (GameException $e)
@@ -85,7 +96,8 @@ class SorceryController extends AbstractDominionController
 
         return redirect()
             ->to($result['redirect'] ?? route('dominion.sorcery'))
-            ->with('target_dominion', $request->get('target_dominion'));
+            ->with('target_dominion', $request->get('target_dominion'))
+            ->with('spell', $request->get('spell'));
 
     }
 }
