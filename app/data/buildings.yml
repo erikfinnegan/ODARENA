@@ -1557,7 +1557,7 @@ shed:
     - Barbarian
   land_type: plain
   perks:
-    housing: 54
+    housing: 48
     jobs: 0
 
 shack:
@@ -1566,7 +1566,7 @@ shack:
     - Barbarian
   land_type: hill
   perks:
-    housing: 54
+    housing: 48
     jobs: 0
 
 shelter:
@@ -1575,7 +1575,7 @@ shelter:
     - Barbarian
   land_type: mountain
   perks:
-    housing: 54
+    housing: 48
     jobs: 0
 
 cabin:
@@ -1584,7 +1584,7 @@ cabin:
     - Barbarian
   land_type: forest
   perks:
-    housing: 54
+    housing: 48
     jobs: 0
 
 hovel:
@@ -1593,7 +1593,7 @@ hovel:
     - Barbarian
   land_type: swamp
   perks:
-    housing: 54
+    housing: 48
     jobs: 0
 
 shanty:
@@ -1602,7 +1602,7 @@ shanty:
     - Barbarian
   land_type: water
   perks:
-    housing: 54
+    housing: 48
     jobs: 0
 
 # END BARBARIAN
