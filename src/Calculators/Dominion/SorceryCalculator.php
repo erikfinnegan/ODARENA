@@ -38,6 +38,12 @@ class SorceryCalculator
         return $manaCost * $wizardStrength;
     }
 
+    public function getSorcerySpellDamage(Dominion $caster, Dominion $target, Spell $spell, string $perkKey, int $wizardStrength, Resource $enhancementResource = null, int $enhancementAmount = 0): float
+    {
+        $damage = 0;
+
+    }
+
     public function getSorcerySpellDuration(Dominion $caster, Dominion $target, Spell $spell, int $wizardStrength, Resource $enhancementResource = null, int $enhancementAmount = 0): int
     {
         $duration = $spell->duration;

@@ -14,6 +14,7 @@ class SorceryRequest extends AbstractDominionRequest
         return [
             'spell' => 'required',
             'target_dominion' => 'required',
+            'wizard_strength' => 'required',
 
             'spell' => 'integer|exists:spells,id',
             'target_dominion' => 'integer|exists:dominions,id',
@@ -21,7 +22,7 @@ class SorceryRequest extends AbstractDominionRequest
             'enhancement_resource' => 'integer|exists:resources,id',
             'enhancement_amount' => 'integer',
 
-            'wizard_strength' => 'required|integer',
+            'wizard_strength' => 'integer',
 
         ];
     }
