@@ -110,18 +110,26 @@ class PopulationCalculator
      */
     public function getMaxPopulation(Dominion $dominion): int
     {
+        $maxPopulation = 0;
+
         if($dominion->race->getPerkValue('no_population'))
         {
-            return 0;
+            return $maxPopulation;
         }
-        return round(
-            ($this->getMaxPopulationRaw($dominion) * $this->getMaxPopulationMultiplier($dominion))
-            + $this->getUnitsHousedInUnitSpecificBuildings($dominion)
-            + $this->getDrafteesHousedInDrafteeSpecificBuildings($dominion)
-            + $this->getUnitsHousedInSpyHousing($dominion)
-            + $this->getUnitsHousedInWizardHousing($dominion)
-            + $this->getUnitsHousedInMilitaryHousing($dominion)
-        );
+
+        $maxPopulation += $this->getMaxPopulationRaw($dominion) * $this->getMaxPopulationMultiplier($dominion);
+        $maxPopulation += $this->getUnitsHousedInUnitSpecificBuildings($dominion);
+        $maxPopulation += $this->getUnitsHousedInSpyHousing($dominion);
+        $maxPopulation += $this->getUnitsHousedInWizardHousing($dominion);
+        $maxPopulation += $this->getUnitsHousedInMilitaryHousing($dominion);
+
+        # For barbs, lower pop by NPC modifier.
+        if($dominion->race->name == 'Barbarian')
+        {
+            $maxPopulation *= ($dominion->npc_modifier / 1000);
+        }
+
+        return $maxPopulation;
     }
 
     /**
