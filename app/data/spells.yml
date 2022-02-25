@@ -154,6 +154,16 @@ sazals_charge:
   perks:
     reset_spell_cooldowns: 1
 
+sazals_fog:
+  name: Sazal's Fog
+  scope: self
+  class: passive
+  cost: 0.5
+  duration: 12
+  cooldown: 96
+  perks:
+    fog_of_war: 1
+
 energy_mirror:
   name: Sazal's Mirror
   scope: self
@@ -417,16 +427,6 @@ disband_spies:
     - Dwarg
   perks:
     disband_spies: 1
-
-sazals_fog:
-  name: Sazal's Fog
-  scope: self
-  class: passive
-  cost: 0.5
-  duration: 12
-  cooldown: 96
-  perks:
-    fog_of_war: 1
 
 # <Faction>
 
@@ -1489,4 +1489,3 @@ annexation:
     - Legion
   perks:
     annexes_target: 1
- 

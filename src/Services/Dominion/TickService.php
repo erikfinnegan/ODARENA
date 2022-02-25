@@ -154,6 +154,8 @@ class TickService
             $dominions = $round->activeDominions()->get();
             $largestDominionSize = 0;
 
+            dd($dominions);
+
             if(static::EXTENDED_LOGGING) { Log::debug('* Going through all dominions'); }
             foreach ($dominions as $dominion)
             {
