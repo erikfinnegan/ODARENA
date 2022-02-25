@@ -786,7 +786,7 @@ class Dominion extends AbstractModel
 
                           # Improvements
                           or $perkKey == 'improvements_capped'
-                          or $perkKey == 'improvement_interest'
+                          or $perkKey == 'improvements_interest'
                           or $perkKey == 'invest_bonus'
                           or $perkKey == 'gold_invest_bonus'
                           or $perkKey == 'food_invest_bonus'
