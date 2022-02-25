@@ -1553,17 +1553,18 @@ class SpellActionService
         if($resource == 'draftees')
         {
             $resourceString = 'military_draftees';
+            $availableResource = $target->military_draftees;
         }
         elseif($resource == 'peasants')
         {
             $resourceString = 'peasants';
+            $availableResource = $target->peasants;
         }
         else
         {
             $resourceString = 'resource_'.$resource;
+            $availableResource = $this->resourceCalculator->getAmount($target, $resource);
         }
-
-        $availableResource = $target->{$resourceString};
 
         // Unit theft protection
         for ($slot = 1; $slot <= 4; $slot++)
