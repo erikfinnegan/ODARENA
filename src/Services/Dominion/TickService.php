@@ -47,7 +47,7 @@ use Throwable;
 
 class TickService
 {
-    protected const EXTENDED_LOGGING = false;
+    protected const EXTENDED_LOGGING = true;
 
     /** @var Carbon */
     protected $now;
@@ -153,8 +153,6 @@ class TickService
             $stasisDominions = [];
             $dominions = $round->activeDominions()->get();
             $largestDominionSize = 0;
-
-            dd($dominions);
 
             if(static::EXTENDED_LOGGING) { Log::debug('* Going through all dominions'); }
             foreach ($dominions as $dominion)
