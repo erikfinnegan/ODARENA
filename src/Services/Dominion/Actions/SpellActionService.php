@@ -1071,6 +1071,8 @@ class SpellActionService
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
                         $amountStolen *= $damageMultiplier;
 
+                        $damage = $amountStolen;
+
                         $this->resourceService->updateResources($target, [$resourceKey => $amountStolen*-1]);
                         $this->resourceService->updateResources($caster, [$resourceKey => $amountStolen]);
 
