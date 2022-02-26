@@ -60,6 +60,14 @@ class SorceryCalculator
         return $duration;
     }
 
+    public function getSorcerySpellDuration(Dominion $caster, Dominion $target, Spell $spell, int $wizardStrength, Resource $enhancementResource = null, int $enhancementAmount = 0): float
+    {
+        $multiplier = 1;
+
+        
+
+        return $multiplier;
+    }
 
 
 }

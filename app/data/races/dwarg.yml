@@ -91,5 +91,5 @@ units:
     perks:
       stuns_units: 200,2 # Stuns units up to 200 DP for 2 ticks
       damages_improvements_on_attack: 1000
-      destroys_resource_on_victory: mana,1000
+      destroy_resource_on_victory: mana,1000
       no_draftee: 1

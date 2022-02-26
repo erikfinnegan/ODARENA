@@ -1153,7 +1153,7 @@ class InvadeActionService
             # ATTACKER
             foreach($this->invasionResult['attacker']['unitsSent'] as $slot => $amount)
             {
-                if ($destroysResourcePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'destroys_resource_on_victory'))
+                if ($destroysResourcePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'destroy_resource_on_victory'))
                 {
                     $resourceKey = (string)$destroysResourcePerk[0];
                     $amountDestroyedPerUnit = (float)$destroysResourcePerk[1];

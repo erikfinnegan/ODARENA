@@ -915,7 +915,7 @@ class SpellActionService
                 {
                     $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
 
-                    if($perk->key === 'kills_peasants')
+                    if($perk->key === 'kill_peasants')
                     {
                         $attribute = 'peasants';
                         $baseDamage = (float)$spellPerkValues / 100;
@@ -935,7 +935,7 @@ class SpellActionService
                         }
                     }
 
-                    if($perk->key === 'kills_draftees')
+                    if($perk->key === 'kill_draftees')
                     {
                         $attribute = 'military_draftees';
                         $baseDamage = (float)$spellPerkValues / 100;
@@ -955,7 +955,7 @@ class SpellActionService
                         }
                     }
 
-                    if($perk->key === 'kills_faction_units_percentage')
+                    if($perk->key === 'kill_faction_units_percentage')
                     {
                         $faction = $spellPerkValues[0];
                         $slot = (int)$spellPerkValues[1];
@@ -1016,7 +1016,7 @@ class SpellActionService
 
                     }
 
-                    if($perk->key === 'destroys_resource')
+                    if($perk->key === 'destroy_resource')
                     {
                         $resourceKey = $spellPerkValues[0];
                         $ratio = (float)$spellPerkValues[1] / 100;
@@ -1422,8 +1422,10 @@ class SpellActionService
 
         $result = null;
 
+
         if($spell->class == 'passive')
         {
+            # NOT FINISHED
 
             $duration = $this->sorceryCalculator->getSorcerySpellDuration($caster, $target, $spell, $enhancementResource, $enhancementAmount);
 
@@ -1469,6 +1471,188 @@ class SpellActionService
         elseif($spell->class == 'active')
         {
             dd($caster->name . ' is casting ' . $spell->name. ' at ' . $target->name . '.', $manaCost, $casterManaAmount);
+
+            foreach($spell->perks as $perk)
+            {
+                $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
+
+                if($perk->key === 'kill_peasants')
+                {
+                    $baseDamage = (float)$spellPerkValues / 100;
+                    $damageMultiplier = $this->sorceryCalculator->getSorcerySpellDamageMultiplier($target, $caster, $spell, 'peasants');
+                    $damage = $baseDamage * $damageMultiplier;
+
+                    $damageDealt = min($target->military_draftees * $baseDamage * $damageMultiplier, $target->peasants);
+
+                    $damageDealt = floor($damageDealt);
+
+                    dd()
+
+                    $target->peasants -= $damageDealt;
+                    $result[] = sprintf('%s %s', number_format($damageDealt), str_plural($this->raceHelper->getPeasantsTerm($target->race), $damage));
+
+                    $this->statsService->updateStat($caster, 'peasants_killed', $damageDealt);
+                    $this->statsService->updateStat($target, 'peasants_lost', $damageDealt);
+
+                    # For Empire, add killed draftees go in the crypt
+                    if($target->realm->alignment === 'evil')
+                    {
+                        $target->realm->crypt += $damage;
+                    }
+                }
+
+                if($perk->key === 'kill_draftees')
+                {
+                    $baseDamage = (float)$spellPerkValues / 100;
+                    $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'draftees');
+
+                    $damage = min($target->military_draftees * $baseDamage * $damageMultiplier, $target->military_draftees);
+
+                    $damage = floor($damage);
+
+                    $target->military_draftees -= $damage;
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), str_plural($this->raceHelper->getPeasantsTerm($target->race), $damage));
+
+                    $this->statsService->updateStat($caster, 'draftees_killed', $damage);
+                    $this->statsService->updateStat($target, 'drafteesß_lost', $damageDealt);
+
+                    # For Empire, add killed draftees go in the crypt
+                    if($target->realm->alignment === 'evil')
+                    {
+                        $target->realm->crypt += $damage;
+                    }
+                }
+
+                if($perk->key === 'kill_faction_units_percentage')
+                {
+                    $faction = $spellPerkValues[0];
+                    $slot = (int)$spellPerkValues[1];
+                    $ratio = (float)$spellPerkValues[2] / 100;
+
+                    $attribute = 'military_unit'.$slot;
+
+                    if($target->race->name !== $faction)
+                    {
+                        $ratio = 0;
+                    }
+
+                    $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $attribute);
+
+                    $damage = round($target->{'military_unit'.$slot} * $ratio);
+
+                    $target->{$attribute} -= $damage;
+
+                    $unit = $target->race->units->filter(function ($unit) use ($slot) {
+                        return ($unit->slot == $slot);
+                    })->first();
+
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($unit->name, $damage));
+
+                    $this->statsService->updateStat($caster, 'units_killed', $damage);
+                    $this->statsService->updateStat($target, ('unit' . $slot . '_lost'), $damage);
+                }
+
+                if($perk->key === 'disband_spies')
+                {
+                    $attribute = 'military_spies';
+                    $baseDamage = (float)$spellPerkValues / 100;
+                    $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'spies');
+
+                    $damage = min(round($target->military_spies * $baseDamage * $damageMultiplier), $target->military_spies);
+
+                    $target->{$attribute} -= $damage;
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                    $this->statsService->updateStat($caster, 'magic_spies_killed', $damage);
+                    $this->statsService->updateStat($target, 'spies_lost', $damage);
+                }
+
+                # Increase morale
+                if($perk->key === 'decrease_morale')
+                {
+                    $attribute = 'morale';
+                    $baseDamage = (int)$spellPerkValues / 100;
+
+                    $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $attribute);
+
+                    $damage = min(round($target->{$attribute} * $baseDamage * $damageMultiplier), $target->military_spies);
+
+                    $target->{$attribute} -= $damage;
+                    $damageDealt[] = sprintf('%s%% %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                    $this->statsService->updateStat($caster, 'magic_damage_morale', $damage);
+
+                }
+
+                if($perk->key === 'destroy_resource')
+                {
+                    $resourceKey = $spellPerkValues[0];
+                    $ratio = (float)$spellPerkValues[1] / 100;
+
+                    $targetResourceAmount = $this->resourceCalculator->getAmount($target, $resourceKey);
+
+                    $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $resourceKey);
+                    $damage = min($targetResourceAmount * $ratio * $damageMultiplier, $targetResourceAmount);
+
+                    $this->resourceService->updateResources($target, [$resourceKey => $damage*-1]);
+
+                    $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
+
+                    $this->statsService->updateStat($caster, ($resourceKey . '_destroyed'), $damage);
+                    $this->statsService->updateStat($target, ($resourceKey . '_lost'), $damage);
+
+                }
+
+                if($perk->key === 'improvements_damage')
+                {
+                    $ratio = (float)$spellPerkValues / 100;
+
+                    $totalImprovementPoints = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($target);
+
+                    $targetImprovements = $this->improvementCalculator->getDominionImprovements($target);
+
+                    $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
+                    $damage = floor(min(($totalImprovementPoints * $ratio * $damageMultiplier), $totalImprovementPoints));
+
+                    #$totalDamage = $damage;
+
+                    if($damage > 0)
+                    {
+                        foreach($targetImprovements as $targetImprovement)
+                        {
+                            $improvement = Improvement::where('id', $targetImprovement->improvement_id)->first();
+                            $improvementDamage[$improvement->key] = floor($damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement) / $totalImprovementPoints));
+                        }
+
+                        $this->improvementCalculator->decreaseImprovements($target, $improvementDamage);
+                    }
+
+                    $this->statsService->updateStat($caster, 'magic_damage_improvements', $damage);
+
+                    $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display('improvement', $damage))];
+                }
+
+                if($perk->key === 'resource_theft')
+                {
+                    $resourceKey = $spellPerkValues[0];
+                    $ratio = (float)$spellPerkValues[1] / 100;
+
+                    $amountStolen = $this->getTheftAmount($caster, $target, $spell, $resourceKey, $ratio);
+                    $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
+                    $amountStolen *= $damageMultiplier;
+
+                    $this->resourceService->updateResources($target, [$resourceKey => $amountStolen*-1]);
+                    $this->resourceService->updateResources($caster, [$resourceKey => $amountStolen]);
+
+                    $this->statsService->updateStat($caster, ($resourceKey .  '_stolen'), $damage);
+                    $this->statsService->updateStat($target, ($resourceKey . '_lost'), $damage);
+
+                    $resource = Resource::where('key', $resourceKey)->first();
+
+                    $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display($resource->name, 1))];
+
+                }
+            }
         }
     }
 

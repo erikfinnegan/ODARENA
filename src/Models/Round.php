@@ -85,9 +85,9 @@ class Round extends AbstractModel
      */
     public function scopeActive(Builder $query): Builder
     {
-        $now = new Carbon();
-
-        return $query->whereRaw('start_date <= NOW() and (end_date IS NULL AND (end_date > NOW() or ticks < end_tick))');
+        return $query->whereRaw('start_date <= NOW()
+                                and (end_date IS NULL or end_date > NOW())
+                                and (end_tick IS NULL or end_tick > ticks)');
     }
 
     /**

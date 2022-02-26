@@ -324,8 +324,8 @@ class UnitHelper
             'plunders' => 'Plunders up to %2$s %1$s on attack.', # Multiple resources
             'plunder' => 'Plunders up to %2$s %1$s on attack.', # Single resource
 
-            'destroys_resources_on_victory' => 'Destroys up to %2$s %1$s on attack.', # Multiple resources
-            'destroys_resource_on_victory' => 'Destroys up to %2$s %1$s on attack.', # Single resource
+            'destroy_resources_on_victory' => 'Destroys up to %2$s %1$s on attack.', # Multiple resources
+            'destroy_resource_on_victory' => 'Destroys up to %2$s %1$s on attack.', # Single resource
 
             'mana_drain' => 'Each unit drains %s mana per tick.',
             'gold_upkeep_raw' => 'Costs %s gold per tick.',
@@ -403,7 +403,7 @@ class UnitHelper
             'eats_draftees_on_attack' => 'Eats %s draftees on invasion.',
 
             // Demonic
-            'kills_peasants' => 'Eats %s peasants per tick.',
+            'kill_peasants' => 'Eats %s peasants per tick.',
             'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, 1.5 gallons of blood, and 2 halms of food per peasant.',
 
             // Myconid
@@ -624,7 +624,7 @@ class UnitHelper
                     }
                 }
 
-                if($perk->key === 'destroys_resource_on_victory')
+                if($perk->key === 'destroy_resource_on_victory')
                 {
                     $resourceKey = (string)$perkValue[0];
                     $amountDestroyed = (float)$perkValue[1];

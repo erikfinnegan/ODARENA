@@ -110,9 +110,9 @@ class SpellHelper
             'increase_morale' => 'Restores target morale by %s%% (up to maximum of 100%%).',
             'decrease_morale' => 'Lowers target morale by %s%% (minimum 0%%).',
 
-            'kills_draftees' => 'Kills %1$s%% of the target\'s draftees.',
+            'kill_draftees' => 'Kills %1$s%% of the target\'s draftees.',
 
-            'kills_faction_units_percentage' => 'Kills %3$s%% of %1$s %2$s.',
+            'kill_faction_units_percentage' => 'Kills %3$s%% of %1$s %2$s.',
             'kills_faction_units_amount' => 'Kills %3$s%s of %1$s %2$s.',
 
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
@@ -133,10 +133,10 @@ class SpellHelper
 
             // Population
             'population_growth' => '%s%% population growth rate',
-            'kills_peasants' => 'Kills %1$s%% of the target\'s peasants.',
+            'kill_peasants' => 'Kills %1$s%% of the target\'s peasants.',
 
             // Resources
-            'destroys_resource' => 'Destroys %2$s%% of the target\'s %1$s.',
+            'destroy_resource' => 'Destroys %2$s%% of the target\'s %1$s.',
 
             'resource_conversion' => 'Converts %3$s%% of your %1$s to %2$s at a rate of %4$s:1.',
 
@@ -231,7 +231,7 @@ class SpellHelper
             'treachery' => 'Some resources stolen by the target are instead diverted to the Cult.',
 
             // Invasion spells
-            'kills_peasants_and_converts_for_caster_unit' => 'Kills %1$s%% of target\'s peasants per tick and converts them into Abominations.',
+            'kill_peasants_and_converts_for_caster_unit' => 'Kills %1$s%% of target\'s peasants per tick and converts them into Abominations.',
             'annexes_target' => 'Annexes the target, turning them into a vassal.',
 
         ];
@@ -415,7 +415,7 @@ class SpellHelper
 
             /*****/
 
-            if($perk->key === 'kills_faction_units_percentage' or $perk->key === 'kills_faction_units_amount')
+            if($perk->key === 'kill_faction_units_percentage' or $perk->key === 'kills_faction_units_amount')
             {
                 $faction = (string)$perkValue[0];
                 $slot = (int)$perkValue[1];

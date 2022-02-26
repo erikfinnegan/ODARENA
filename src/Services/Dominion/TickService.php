@@ -47,7 +47,7 @@ use Throwable;
 
 class TickService
 {
-    protected const EXTENDED_LOGGING = false;
+    protected const EXTENDED_LOGGING = true;
 
     /** @var Carbon */
     protected $now;
@@ -143,7 +143,7 @@ class TickService
         Log::debug('Scheduled tick started');
 
         $activeRounds = Round::active()->get();
-
+        
         foreach ($activeRounds as $round)
         {
 
@@ -702,7 +702,7 @@ class TickService
         if ($this->spellCalculator->isSpellActive($dominion, 'pestilence'))
         {
             $spell = Spell::where('key', 'pestilence')->first();
-            $pestilence = $spell->getActiveSpellPerkValues('pestilence', 'kills_peasants_and_converts_for_caster_unit');
+            $pestilence = $spell->getActiveSpellPerkValues('pestilence', 'kill_peasants_and_converts_for_caster_unit');
             $ratio = $pestilence[0] / 100;
             $slot = $pestilence[1];
             $caster = $this->spellCalculator->getCaster($dominion, 'pestilence');
