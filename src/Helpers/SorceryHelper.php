@@ -112,4 +112,30 @@ class SorceryHelper
 
     }
 
+    # BEGIN EVENT VIEW
+
+    public function getPerkKeyHeader(string $perkKey): string
+    {
+        switch ($perkKey)
+        {
+
+            case 'destroy_resource':
+                return 'Resource destroyed';
+
+            case 'improvements_damage':
+                return 'Improvements damage';
+
+            case 'kill_peasants':
+                return 'Peasants killed';
+
+            case 'resource_theft':
+                return 'Resource displacement';
+
+            default:
+                return $perkKey;
+        }
+    }
+
+    # END EVENT VIE
+
 }

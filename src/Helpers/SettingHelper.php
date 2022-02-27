@@ -169,6 +169,14 @@ class SettingHelper
                 },
                 'iconClass' => 'fa fa-hand-lizard text-red',
             ],
+            'sorcery' => [
+                'label' => 'Hostile wizards have performed sorcery on us',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => function (array $routeParams) {
+                    return route('dominion.event', $routeParams);
+                },
+                'iconClass' => 'fas fa-hat-wizard text-red',
+            ],
             'received_spy_op' => [
                 'label' => 'Hostile spy operation received',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -193,6 +201,11 @@ class SettingHelper
                 'label' => 'Hostile spell received',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'iconClass' => 'ra ra-fairy-wand text-orange',
+            ],
+            'received_sorcery' => [
+                'label' => 'Received sorcery',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'iconClass' => 'fas fa-hat-wizard text-red',
             ],
             'repelled_hostile_spell' => [
                 'label' => 'Hostile spell deflected',
@@ -468,6 +481,29 @@ class SettingHelper
                     $resource->name,
                     number_format(array_sum($data['unitsKilled']))
                 );
+
+            case 'irregular_dominion.sorcery':
+                $spell = Spell::where('key', $data['data']['spell_key'])->first();
+
+                if($data['data']['target']['reveal_ops'])
+                {
+                    $caster = Dominion::with('realm')->findOrFail($data['caster_dominion_id']);
+
+                    return sprintf(
+                        'Wizards from %s (# %s) have cast %s on us!',
+                        $caster->name,
+                        $caster->realm->number,
+                        $spell->name,
+                    );
+                }
+                else
+                {
+                    return sprintf(
+                        'Wizards have cast %s on us.',
+                        $spell->name,
+                    );
+                }
+
 
             case 'irregular_dominion.received_spy_op':
                 $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);

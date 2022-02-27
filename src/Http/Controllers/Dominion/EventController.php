@@ -4,15 +4,17 @@ namespace OpenDominion\Http\Controllers\Dominion;
 
 use Illuminate\Database\Eloquent\Builder;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
-use OpenDominion\Helpers\UnitHelper;
+
 use OpenDominion\Helpers\LandHelper;
+use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\SorceryHelper;
+use OpenDominion\Helpers\UnitHelper;
+
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
 
 
-# ODA
-use OpenDominion\Helpers\RaceHelper;
 
 class EventController extends AbstractDominionController
 {
@@ -39,15 +41,18 @@ class EventController extends AbstractDominionController
 
         if(!$this->canView($event, $dominion))
         {
-            abort(404);
+            abort(403);
         }
 
         return view("pages.dominion.event.{$event->type}", [
             'event' => $event, // todo: compact()
             'unitHelper' => app(UnitHelper::class), // todo: only load if event->type == 'invasion'
             'militaryCalculator' => app(MilitaryCalculator::class), // todo: same thing here
-            'raceHelper' => app(RaceHelper::class), // todo: same thing here
             'landHelper' => app(LandHelper::class), // todo: same thing here
+            'raceHelper' => app(RaceHelper::class), // todo: same thing here
+            'sorceryHelper' => app(SorceryHelper::class), // todo: same thing here
+            'canViewSource' => $this->canViewEventDetails($event, $dominion, 'source'),
+            'canViewTarget' => $this->canViewEventDetails($event, $dominion, 'target'),
         ]);
     }
 
@@ -75,4 +80,21 @@ class EventController extends AbstractDominionController
 
         return false;
     }
+
+    # Maybe expand for deathmatches
+    private function canViewEventDetails(GameEvent $event, Dominion $viewer, string $scope): bool
+    {
+        if($event->{$scope . '_type'} === Dominion::class and ($event->{$scope}->realm_id == $viewer->realm->id))
+        {
+            return true;
+        }
+
+        if($event->{$scope . '_type'} === Realm::class and ($event->{$scope}->id == $viewer->realm->id))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 }

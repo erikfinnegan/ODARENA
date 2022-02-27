@@ -20,7 +20,7 @@ use OpenDominion\Http\Requests\Dominion\Actions\SorceryRequest;
 
 use OpenDominion\Models\Dominion;
 
-use OpenDominion\Services\Dominion\Actions\SpellActionService;
+use OpenDominion\Services\Dominion\Actions\SorceryActionService;
 use OpenDominion\Services\Dominion\Actions\EspionageActionService;
 use OpenDominion\Services\Dominion\ProtectionService;
 
@@ -63,7 +63,7 @@ class SorceryController extends AbstractDominionController
     {
 
         $caster = $this->getSelectedDominion();
-        $spellActionService = app(SpellActionService::class);
+        $sorceryActionService = app(SorceryActionService::class);
         $resourceCalculator = app(ResourceCalculator::class);
 
         $spell = Spell::where('id', $request->get('spell'))->firstOrFail();
@@ -82,7 +82,7 @@ class SorceryController extends AbstractDominionController
 
         try
         {
-            $result = $spellActionService->castSorcerySpell(
+            $result = $sorceryActionService->performSorcery(
                 $caster,
                 $target,
                 $spell,
@@ -99,11 +99,7 @@ class SorceryController extends AbstractDominionController
         }
 
         $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
-
-        return redirect()
-            ->to($result['redirect'] ?? route('dominion.sorcery'))
-            ->with('target_dominion', $request->get('target_dominion'))
-            ->with('spell', $request->get('spell'));
+        return redirect()->to($result['redirect'] ?? route('dominion.sorcery'));
 
     }
 }

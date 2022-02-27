@@ -1334,7 +1334,7 @@ great_flood:
     boat_production_mod: -25
 
 insect_swarm:
-  name: Insect Swarm
+  name: Blight
   scope: hostile
   class: passive
   cost: 4

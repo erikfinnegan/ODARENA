@@ -423,11 +423,15 @@ espionage_peasants_killed:
 draftees_stolen:
   name: Draftees abducted
 espionage_draftees_killed:
-  name: Draftees killed
+  name: Draftees killed (espionage)
 espionage_peasants_lost:
-  name: Peasants lost
+  name: Peasants lost (espionage)
+magic_peasants_lost:
+  name: Peasants lost (magic)
 espionage_draftees_lost:
-  name: Draftees lost
+  name: Draftees lost (espionage)
+magic_draftees_lost:
+  name: Draftees lost (magic)
 
 espionage_theft_success:
   name: Theft success

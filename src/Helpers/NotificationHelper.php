@@ -174,6 +174,14 @@ class NotificationHelper
                 },
                 'iconClass' => 'fa fa-hand-lizard text-orange',
             ],
+            'sorcery' => [
+                'label' => 'Hostile wizards have performed sorcery on us',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => function (array $routeParams) {
+                    return route('dominion.event', $routeParams);
+                },
+                'iconClass' => 'fas fa-hat-wizard text-red',
+            ],
             'received_spy_op' => [
                 'label' => 'Hostile spy operation received',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -198,6 +206,11 @@ class NotificationHelper
                 'label' => 'Hostile spell received',
                 'defaults' => ['email' => false, 'ingame' => true],
                 'iconClass' => 'ra ra-fairy-wand text-orange',
+            ],
+            'received_sorcery' => [
+                'label' => 'Received sorcery',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'iconClass' => 'fas fa-hat-wizard text-red',
             ],
             'repelled_hostile_spell' => [
                 'label' => 'Hostile spell deflected',
@@ -535,6 +548,28 @@ class NotificationHelper
                     number_format(array_sum($data['unitsKilled']))
                 );
 
+            case 'irregular_dominion.sorcery':
+                $spell = Spell::where('key', $data['data']['spell_key'])->first();
+
+                if($data['data']['target']['reveal_ops'])
+                {
+                    $caster = Dominion::with('realm')->findOrFail($data['caster_dominion_id']);
+
+                    return sprintf(
+                        'Wizards from %s (# %s) have cast %s on us!',
+                        $caster->name,
+                        $caster->realm->number,
+                        $spell->name,
+                    );
+                }
+                else
+                {
+                    return sprintf(
+                        'Wizards have cast %s on us.',
+                        $spell->name,
+                    );
+                }
+
             case 'irregular_dominion.received_spy_op':
                 $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
 
@@ -814,6 +849,95 @@ class NotificationHelper
                     $lastPart
                 );
 
+            case 'irregular_dominion.received_sorcery':
+                $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
+
+                switch ($data['spellKey'])
+                {
+                    case 'plague':
+                        $resultString = 'A plague has befallen our people, slowing population growth.';
+                        break;
+
+                    case 'insect_swarm':
+                        $resultString = 'A swarm of insects are eating our crops, slowing food production.';
+                        break;
+
+                    case 'earthquake':
+                        $resultString = 'An earthquake has damaged our mines, slowing ore and gem production.';
+                        break;
+
+                    case 'disband_spies':
+                        $resultString = "{$data['damageString']} have been destroyed by magic.";
+                        break;
+
+                    case 'fireball':
+                        $resultString = "A great fireball has crashed into our lands, burning {$data['damageString']}.";
+                        break;
+
+                    case 'pyroclast':
+                        $resultString = "Lava rains over our lands, burning {$data['damageString']}.";
+                        break;
+
+                    case 'lightning_bolt':
+                        $resultString = "A great lightning bolt crashed into our improvements, destroying {$data['damageString']}.";
+                        break;
+
+                    # Faction spells
+
+                    case 'curse_of_kinthys':
+                        $resultString = "A Curse of Kinthys has befallen us.";
+                        break;
+
+                    case 'curse_of_zidur':
+                        $resultString = "A Curse of Zidur has been placed upon our lands.";
+                        break;
+
+                    case 'purification':
+                        $resultString = "{$data['damageString']} die from Tiranthael's Justice.";
+                        break;
+
+                    case 'solar_rays':
+                        $resultString = "{$data['damageString']} vanish under Solar Flares.";
+                        break;
+
+                    case 'enthralling':
+                        $resultString = 'Dissent is spreading among our population and some feel enthralled by the Cult.';
+                        break;
+
+                    case 'treachery':
+                        $resultString = 'Spies are accusing each other of treason.';
+                        break;
+
+                    case 'windchill':
+                        $resultString = 'Magical icy winds weaken our wizards.';
+                        break;
+
+                    case 'mark_of_azk_hurum':
+                        $resultString = 'Ask\'Hurum has marked us, weakening our defenses.';
+                        break;
+
+                    case 'elskas_blur':
+                        $resultString = 'Our spies\' visions are blurred by Elskas.';
+                        break;
+
+                    case 'voidspellmanatheft':
+                        $resultString = "{$data['damageString']} disappears into the void.";
+                        break;
+
+                    default:
+                        throw new LogicException("Received hostile spell notification for operation key {$data['spellKey']} not yet implemented");
+                }
+
+                if ($sourceDominion) {
+                    return sprintf(
+                        "{$resultString} Our wizards have determined that %s (#%s) was responsible!",
+                        $sourceDominion->name,
+                        $sourceDominion->realm->number
+                    );
+                }
+
+                return $resultString;
+
             case 'irregular_dominion.received_hostile_spell':
                 $sourceDominion = Dominion::with('realm')->find($data['sourceDominionId']);
 
@@ -848,15 +972,15 @@ class NotificationHelper
                         break;
 
                     case 'fireball':
-                        $resultString = "A great fireball has crashed into our keep, burning {$data['damageString']}.";
-                        break;
-
-                    case 'lightning_bolt':
-                        $resultString = "A great lightning bolt crashed into our improvements, destroying {$data['damageString']}.";
+                        $resultString = "A great fireball has crashed into our lands, burning {$data['damageString']}.";
                         break;
 
                     case 'pyroclast':
                         $resultString = "Lava rains over our lands, burning {$data['damageString']}.";
+                        break;
+
+                    case 'lightning_bolt':
+                        $resultString = "A great lightning bolt crashed into our improvements, destroying {$data['damageString']}.";
                         break;
 
                     # BEGIN Invasion Spells
