@@ -39,7 +39,7 @@ units:
       offense: 0
       defense: 6
 
-  - name: Warlock
+  - name: War Priest
     training_time: 12
     static_networth: 8
     type:
@@ -49,12 +49,12 @@ units:
     cost:
       gold: 900
     power:
-      offense: 0
+      offense: 1
       defense: 2
     perks:
-      defense_from_net_victories: 0.6,8 # +0.60 DP per Victory, max +8 (at 13.33 Victories)
-      counts_as_wizard_offense: 0.2
-      immortal_wizard: 1
+      defense_from_devotion: urugdakh,0.010,10 # deity_key, perk tick, max
+      offense_from_devotion: urugdakh,0.008,8 # deity_key, perk tick, max
+      increases_morale_by_population: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
 
   - name: Skull Crusher
     training_time: 12

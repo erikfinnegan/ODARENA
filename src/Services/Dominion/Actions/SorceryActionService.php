@@ -226,8 +226,7 @@ class SorceryActionService
             }
             elseif($spell->class == 'active')
             {
-                dump($caster->name . ' is casting ' . $spell->name. ' at ' . $target->name . ', costing ' . number_format($manaCost) . ' mana, having ' . number_format($casterManaAmount) . '.');
-
+                #dump($caster->name . ' is casting ' . $spell->name. ' at ' . $target->name . ', costing ' . number_format($manaCost) . ' mana, having ' . number_format($casterManaAmount) . '.');
                 foreach($spell->perks as $perk)
                 {
                     $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
@@ -273,13 +272,12 @@ class SorceryActionService
                         $sorcerySpellDamageMultiplier = $this->sorceryCalculator->getSorcerySpellDamageMultiplier($target, $caster, $spell, $wizardStrength, $enhancementResource, $enhancementAmount, $perk->key);
                         $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'draftees');
 
-                        $damage = $baseDamage * $sorcerySpellDamageMultiplier * $spellDamageMultiplier;
+                        $damage = $baseDamage * $sorcerySpellDamageMultiplier * $damageMultiplier;
 
                         $damageDealt = min($target->peasants * $damage, $target->peasants);
                         $damageDealt = floor($damageDealt);
 
                         $target->peasants -= $damageDealt;
-                        #$result[] = sprintf('%s %s', number_format($damage), str_plural($this->raceHelper->getPeasantsTerm($target->race), $damage));
 
                         $this->statsService->updateStat($caster, 'magic_draftees_killed', $damage);
                         $this->statsService->updateStat($target, 'magic_draftees_lost', $damageDealt);
@@ -298,19 +296,17 @@ class SorceryActionService
                             'damage_dealt' => $damageDealt,
                             'military_draftees' => $target->military_draftees,
                         ];
-
-                        $verb = 'kills';
                     }
 
                     if($perk->key === 'disband_spies')
                     {
                         $baseDamage = (float)$spellPerkValues / 100;
                         $sorcerySpellDamageMultiplier = $this->sorceryCalculator->getSorcerySpellDamageMultiplier($target, $caster, $spell, $wizardStrength, $enhancementResource, $enhancementAmount, $perk->key);
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'spies');
+                        $spellDamageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'spies');
 
                         $damage = $baseDamage * $sorcerySpellDamageMultiplier * $spellDamageMultiplier;
 
-                        $damageDealt = min($target->peasants * $damage, $target->peasants);
+                        $damageDealt = min($target->military_draftees * $damage, $target->military_draftees);
                         $damageDealt = floor($damageDealt);
 
                         $target->peasants -= $damageDealt;
@@ -332,8 +328,6 @@ class SorceryActionService
                             'damage_dealt' => $damageDealt,
                             'military_spies' => $target->military_spies,
                         ];
-
-                        $verb = 'kills';
                     }
 
                     if($perk->key === 'destroy_resource')
@@ -577,64 +571,37 @@ class SorceryActionService
             return 0;
         }
 
-        if($resource == 'draftees')
+        if($resourceKey == 'draftees')
         {
             $resourceString = 'military_draftees';
             $availableResource = $target->military_draftees;
         }
-        elseif($resource == 'peasants')
+        elseif($resourceKey == 'peasants')
         {
             $resourceString = 'peasants';
             $availableResource = $target->peasants;
         }
         else
         {
-            $resourceString = 'resource_'.$resource;
+            $resourceString = 'resource_'.$resourceKey;
             $availableResource = $this->resourceCalculator->getAmount($target, $resourceKey);
         }
-
-        $availableResource = $target->{$resourceString};
 
         // Unit theft protection
         for ($slot = 1; $slot <= 4; $slot++)
         {
             if($theftProtection = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_theft'))
             {
-                if($theftProtection[0] == $resource)
+                if($theftProtection[0] == $resourceKey)
                 {
                     $availableResource -= $target->{'military_unit'.$slot} * $theftProtection[1];
                 }
-
             }
         }
 
-        $availableResource = max(0, $availableResource);
-
         $theftAmount = min($availableResource * $ratio, $availableResource);
 
-        /*
-        # The stealer can increase
-        $thiefModifier = 1;
-        $thiefModifier += $dominion->getTechPerkMultiplier('amount_stolen');
-        $thiefModifier += $dominion->getDeityPerkMultiplier('amount_stolen');
-        $thiefModifier += $dominion->race->getPerkMultiplier('amount_stolen');
-
-        $theftAmount *= $thiefModifier;
-
-        # But the target can decrease, which comes afterwards
-        $targetModifier = 0;
-        $targetModifier += $target->getSpellPerkMultiplier($resource . '_theft');
-        $targetModifier += $target->getSpellPerkMultiplier('all_theft');
-        $targetModifier += $target->getBuildingPerkMultiplier($resource . '_theft_reduction');
-
-        $theftAmount *= (1 + $targetModifier);
-        */
-
-        dd($theftAmount, $availableResource);
-
-        $theftAmount = max(0, $theftAmount);
-
-        return $theftAmount;
+        return max(0, $theftAmount);
     }
 
   }

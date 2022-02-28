@@ -122,6 +122,9 @@ class SorceryHelper
             case 'destroy_resource':
                 return 'Resource destroyed';
 
+            case 'disband_spies':
+                return 'Spies disbanded';
+
             case 'improvements_damage':
                 return 'Improvements damage';
 

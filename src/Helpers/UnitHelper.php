@@ -10,6 +10,8 @@ use OpenDominion\Models\Tech;
 use OpenDominion\Models\Unit;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
+use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
 
@@ -19,6 +21,7 @@ class UnitHelper
     public function __construct()
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
+        $this->militaryCalculator = app(MilitaryCalculator::class);
 
         $this->queueService = app(QueueService::class);
         $this->statsService = app(StatsService::class);
@@ -65,7 +68,7 @@ class UnitHelper
         return ($unit->getPerkValue('counts_as_wizard') or $unit->getPerkValue('counts_as_wizard_offense'));
     }
 
-    public function getUnitHelpString(string $unitType, Race $race): ?string
+    public function getUnitHelpString(string $unitType, Race $race, Dominion $dominion = null): ?string
     {
 
         $helpStrings = [
@@ -419,7 +422,18 @@ class UnitHelper
 
             list($type, $proficiency) = explode(' ', $helpStrings[$unitType]);
 
-            $helpStrings[$unitType] .= '<li>OP: '. number_format($unit->power_offense,2) . ' / DP: ' . number_format($unit->power_defense,2) . ' / T: ' . $unit->training_time .  '</li>';
+            if($dominion)
+            {
+                $unitOp = $this->militaryCalculator->getUnitPowerWithPerks($dominion, NULL, NULL, $unit, 'offense', NULL, []);
+                $unitDp = $this->militaryCalculator->getUnitPowerWithPerks($dominion, NULL, NULL, $unit, 'defense', NULL, []);
+            }
+            else
+            {
+                $unitOp = $unit->power_offense;
+                $unitDp = $unit->power_defense;
+            }
+
+            $helpStrings[$unitType] .= '<li>OP: '. number_format($unitOp,2) . ' / DP: ' . number_format($unitDp,2) . ' / T: ' . $unit->training_time .  '</li>';
 
             foreach ($unit->perks as $perk)
             {
