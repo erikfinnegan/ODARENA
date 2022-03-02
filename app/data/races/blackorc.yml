@@ -12,6 +12,8 @@ skill_level: 3
 perks:
   food_consumption_mod: 20
   lumber_production_mod: 50
+  starts_devoted_to_urugdakh: 1
+  cannot_renounce_deity: 1
 
 units:
   - name: Bone Breaker

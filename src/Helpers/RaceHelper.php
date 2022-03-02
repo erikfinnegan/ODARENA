@@ -499,6 +499,11 @@ class RaceHelper
                 $description = 'Starts devoted to Tiranthael';
                 $booleanValue = true;
                 break;
+          case 'starts_devoted_to_urugdakh':
+                $negativeBenefit = false;
+                $description = 'Starts devoted to Urugdakh';
+                $booleanValue = true;
+                break;
           case 'improvements_from_souls':
                 $negativeBenefit = false;
                 $description = 'Souls increase improvements';
