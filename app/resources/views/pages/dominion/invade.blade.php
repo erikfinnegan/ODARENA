@@ -128,18 +128,20 @@
                                         $hasDynamicDefensivePower = $unit->perks->filter(static function ($perk) {
                                             return starts_with($perk->key, ['defense_from_', 'defense_staggered_', 'defense_vs_']);
                                         })->count() > 0;
+
+                                        $unitType = 'unit' . $unitSlot;
                                     @endphp
 
                                     <tr>
                                         <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString("unit{$unitSlot}", $selectedDominion->race) }}">
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'defense'), ]) }}">
                                                 {{ $unitHelper->getUnitName("unit{$unitSlot}", $selectedDominion->race) }}
                                             </span>
                                         </td>
                                         <td class="text-center">
-                                            <span id="unit{{ $unitSlot }}_op">{{ (strpos($offensivePower, '.') !== false) ? number_format($offensivePower, 2) : number_format($offensivePower) }}</span>{{ $hasDynamicOffensivePower ? '*' : null }}
+                                            <span id="unit{{ $unitSlot }}_op">{{ floatval($offensivePower) }}</span>{{ $hasDynamicOffensivePower ? '*' : null }}
                                             /
-                                            <span id="unit{{ $unitSlot }}_dp" class="text-muted">{{ (strpos($defensivePower, '.') !== false) ? number_format($defensivePower, 2) : number_format($defensivePower) }}</span><span class="text-muted">{{ $hasDynamicDefensivePower ? '*' : null }}</span>
+                                            <span id="unit{{ $unitSlot }}_dp" class="text-muted">{{ floatval($defensivePower) }}</span><span class="text-muted">{{ $hasDynamicDefensivePower ? '*' : null }}</span>
                                         </td>
                                         <td class="text-center">
                                             {{ number_format($selectedDominion->{"military_unit{$unitSlot}"}) }}
@@ -507,8 +509,7 @@
                                     @endphp
                                     <tr>
                                         <td>
-
-                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'defense'), ]) }}">
                                                 {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
                                             </span>
                                         </td>
@@ -676,8 +677,8 @@
                                 $('#unit\\['+slot+'\\]').data('dp', stats.dp);
                                 $('#unit\\['+slot+'\\]').data('op', stats.op);
                                 // Update unit stats display
-                                $('#unit'+slot+'_dp').text(stats.dp.toLocaleString(undefined, {maximumFractionDigits: 2}));
-                                $('#unit'+slot+'_op').text(stats.op.toLocaleString(undefined, {maximumFractionDigits: 2}));
+                                $('#unit'+slot+'_dp').text(stats.dp.toLocaleString(undefined, {maximumFractionDigits: 5}));
+                                $('#unit'+slot+'_op').text(stats.op.toLocaleString(undefined, {maximumFractionDigits: 5}));
                             });
 
                             // Update OP / DP data attributes

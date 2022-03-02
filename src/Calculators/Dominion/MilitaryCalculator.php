@@ -16,14 +16,14 @@ use OpenDominion\Models\Spell;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\Unit;
 
-use OpenDominion\Services\Dominion\GovernmentService;
-use OpenDominion\Services\Dominion\QueueService;
-
-use OpenDominion\Services\Dominion\StatsService;
-
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
+
+use OpenDominion\Services\Dominion\GovernmentService;
+use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
+
 
 class MilitaryCalculator
 {
@@ -436,13 +436,18 @@ class MilitaryCalculator
         Dominion $dominion,
         ?Dominion $target,
         ?float $landRatio,
-        Unit $unit,
+        Unit $unit = null,
         string $powerType,
         ?array $calc = [],
         array $units = null,
         array $invadingUnits = null
     ): float
     {
+        if($unit == null)
+        {
+            return 0;
+        }
+
         $unitPower = $unit->{"power_$powerType"};
 
         $unitPower += $this->getUnitPowerFromLandBasedPerk($dominion, $unit, $powerType);

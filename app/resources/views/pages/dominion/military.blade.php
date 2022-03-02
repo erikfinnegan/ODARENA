@@ -40,7 +40,7 @@
                                 @else
                                     <tr>
                                         <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'defense'), ]) }}">
                                                 {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
                                             </span>
                                         </td>
@@ -64,13 +64,13 @@
                                                   @if ($offensivePower === 0)
                                                       <span class="text-muted">0</span>
                                                   @else
-                                                      {{ (strpos($offensivePower, '.') !== false) ? number_format($offensivePower, 2) : number_format($offensivePower) }}{{ $hasDynamicOffensivePower ? '*' : null }}
+                                                      {{ floatval($offensivePower) }}{{ $hasDynamicOffensivePower ? '*' : null }}
                                                   @endif
                                                   &nbsp;/&nbsp;
                                                   @if ($defensivePower === 0)
                                                       <span class="text-muted">0</span>
                                                   @else
-                                                      {{ (strpos($defensivePower, '.') !== false) ? number_format($defensivePower, 2) : number_format($defensivePower) }}{{ $hasDynamicDefensivePower ? '*' : null }}
+                                                      {{ floatval($defensivePower) }}{{ $hasDynamicDefensivePower ? '*' : null }}
                                                   @endif
                                               </td>
                                               <td class="text-center">  <!-- Trained -->
@@ -295,7 +295,7 @@
                                 <tr>
                                     <td>
 
-                                        <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
+                                        <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'defense'), ]) }}">
                                             {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
                                         </span>
                                     </td>
@@ -351,7 +351,7 @@
                                 <tr>
                                     <td>
 
-                                        <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race) }}">
+                                        <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $unitHelper->getUnitFromRaceUnitType($selectedDominion->race, $unitType), 'defense'), ]) }}">
                                             {{ $unitHelper->getUnitName($unitType, $selectedDominion->race) }}
                                         </span>
                                     </td>

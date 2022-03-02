@@ -56,7 +56,7 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $event->source->race, [$militaryCalculator->getUnitPowerWithPerks($event->source, null, null, $event->source->race->units->get(0), 'offense'), $militaryCalculator->getUnitPowerWithPerks($event->source, null, null, $event->source->race->units->get(0), 'defense'), ]) }}">
                                                     {{ $event->source->race->units->where('slot', $slot)->first()->name }}
                                                 </span>
                                             </td>

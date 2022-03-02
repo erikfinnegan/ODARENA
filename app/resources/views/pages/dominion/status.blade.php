@@ -135,7 +135,7 @@
                                     @endif
                                     <tr>
                                         <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $selectedDominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(0), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(0), 'defense'), ]) }}">
                                               {{ $selectedDominion->race->units->get(0)->name }}:
                                           </span>
                                         </td>
@@ -143,7 +143,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit2', $selectedDominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit2', $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(1), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(1), 'defense'), ]) }}">
                                               {{ $selectedDominion->race->units->get(1)->name }}:
                                           </span>
                                         </td>
@@ -151,7 +151,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit3', $selectedDominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit3', $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(2), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(2), 'defense'), ]) }}">
                                               {{ $selectedDominion->race->units->get(2)->name }}:
                                           </span>
                                         </td>
@@ -159,7 +159,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit4', $selectedDominion->race) }}">
+                                          <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit4', $selectedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(3), 'offense'), $militaryCalculator->getUnitPowerWithPerks($selectedDominion, null, null, $selectedDominion->race->units->get(3), 'defense'), ]) }}">
                                               {{ $selectedDominion->race->units->get(3)->name }}:
                                           </span>
                                         </td>

@@ -11,6 +11,10 @@ use OpenDominion\Calculators\Dominion\Actions\RezoningCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TrainingCalculator;
 
+use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Helpers\UnitHelper;
+
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\CasualtiesCalculator;
@@ -84,11 +88,13 @@ class AppServiceProvider extends AbstractServiceProvider
      */
     public function register()
     {
-        if ($this->app->environment() === 'local') {
+        if ($this->app->environment() === 'local')
+        {
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
 
         $this->registerCalculators();
+        $this->registerHelpers();
         $this->registerServices();
     }
 
@@ -114,8 +120,10 @@ class AppServiceProvider extends AbstractServiceProvider
         $this->app->singleton(ProductionCalculator::class);
         $this->app->singleton(ResourceCalculator::class);
         $this->app->singleton(RangeCalculator::class);
+        $this->app->singleton(SorceryCalculator::class);
         $this->app->singleton(SpellCalculator::class);
         $this->app->singleton(SpellDamageCalculator::class);
+        $this->app->singleton(TheftCalculator::class);
 
         // Dominion Action Calculators
         $this->app->singleton(ConstructionCalculator::class);
@@ -161,4 +169,12 @@ class AppServiceProvider extends AbstractServiceProvider
         $this->app->singleton(RezoneActionService::class);
         $this->app->singleton(SpellActionService::class);
     }
+
+    protected function registerHelpers()
+    {
+        $this->app->singleton(RaceHelper::class);
+        $this->app->singleton(SpellHelper::class);
+        $this->app->singleton(UnitHelper::class);
+    }
+
 }

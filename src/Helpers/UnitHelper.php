@@ -10,7 +10,7 @@ use OpenDominion\Models\Tech;
 use OpenDominion\Models\Unit;
 
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
-use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+#use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
@@ -21,7 +21,7 @@ class UnitHelper
     public function __construct()
     {
         $this->buildingCalculator = app(BuildingCalculator::class);
-        $this->militaryCalculator = app(MilitaryCalculator::class);
+        #$this->militaryCalculator = app(MilitaryCalculator::class);
 
         $this->queueService = app(QueueService::class);
         $this->statsService = app(StatsService::class);
@@ -68,7 +68,7 @@ class UnitHelper
         return ($unit->getPerkValue('counts_as_wizard') or $unit->getPerkValue('counts_as_wizard_offense'));
     }
 
-    public function getUnitHelpString(string $unitType, Race $race, Dominion $dominion = null): ?string
+    public function getUnitHelpString(string $unitType, Race $race, array $unitPowerWithPerk = null): ?string
     {
 
         $helpStrings = [
@@ -422,10 +422,10 @@ class UnitHelper
 
             list($type, $proficiency) = explode(' ', $helpStrings[$unitType]);
 
-            if($dominion)
+            if($unitPowerWithPerk)
             {
-                $unitOp = $this->militaryCalculator->getUnitPowerWithPerks($dominion, NULL, NULL, $unit, 'offense', NULL, []);
-                $unitDp = $this->militaryCalculator->getUnitPowerWithPerks($dominion, NULL, NULL, $unit, 'defense', NULL, []);
+                $unitOp = $unitPowerWithPerk[0];
+                $unitDp = $unitPowerWithPerk[1];
             }
             else
             {
@@ -433,7 +433,7 @@ class UnitHelper
                 $unitDp = $unit->power_defense;
             }
 
-            $helpStrings[$unitType] .= '<li>OP: '. number_format($unitOp,2) . ' / DP: ' . number_format($unitDp,2) . ' / T: ' . $unit->training_time .  '</li>';
+            $helpStrings[$unitType] .= '<li>OP: '. floatval($unitOp) . ' / DP: ' . floatval($unitDp) . ' / T: ' . $unit->training_time .  '</li>';
 
             foreach ($unit->perks as $perk)
             {
@@ -1039,6 +1039,19 @@ class UnitHelper
         }
 
         return $helpString;
+    }
+
+    public function getUnitFromRaceUnitType(Race $race, string $unitKey)
+    {
+        if(in_array($unitKey, ['spies','wizards','archmages']))
+        {
+            return null;
+        }
+
+        $slot = (int)str_replace('unit', '', $unitKey);
+        return $race->units->filter(function ($unit) use ($slot) {
+            return ($unit->slot === $slot);
+        })->first();
     }
 
 }

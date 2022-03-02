@@ -69,7 +69,7 @@
                                             <tr>
                                                 <td>
                                                     @if($slot !== 'spies')
-                                                    <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->source->race) }}">
+                                                    <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $annexedDominion->race, [$militaryCalculator->getUnitPowerWithPerks($annexedDominion, null, null, $annexedDominion->rac->units->get(0), 'offense'), $militaryCalculator->getUnitPowerWithPerks($annexedDominion, null, null, $annexedDominion->race->units->get(0), 'defense'), ]) }}">
                                                         {{ $event->source->race->units->where('slot', $slot)->first()->name }}
                                                     </span>
                                                     @else

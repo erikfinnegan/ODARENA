@@ -144,7 +144,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit1', $dominion->race) }}">
+                                  <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
                                       {{ $dominion->race->units->get(0)->name }}:
                                   </span>
                                 </td>
@@ -152,7 +152,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit2', $dominion->race) }}">
+                                  <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
                                       {{ $dominion->race->units->get(1)->name }}:
                                   </span>
                                 </td>
@@ -160,7 +160,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit3', $dominion->race) }}">
+                                  <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
                                       {{ $dominion->race->units->get(2)->name }}:
                                   </span>
                                 </td>
@@ -168,7 +168,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                  <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString('unit4', $dominion->race) }}">
+                                  <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
                                       {{ $dominion->race->units->get(3)->name }}:
                                   </span>
                                 </td>
@@ -407,9 +407,9 @@
                     @foreach ($unitHelper->getUnitTypes() as $unitType)
                         <tr>
                             <td>
-                              <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $dominion->race) }}">
-                                {{ $unitHelper->getUnitName($unitType, $dominion->race) }}
-                              </span>
+                                <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
+                                    {{ $unitHelper->getUnitName($unitType, $dominion->race) }}
+                                </span>
                             </td>
                             @for ($i = 1; $i <= 12; $i++)
                                 @php
@@ -479,8 +479,8 @@
                         @endphp
                         <tr>
                             <td>
-                              <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $dominion->race) }}">
-                                {{ $unitHelper->getUnitName($unitType, $dominion->race) }}
+                              <span data-toggle="tooltip" data-placement="top" title="<em>Archived data, raw unit OP/DP, and perks not stored.</em>">
+                                  {{ $unitHelper->getUnitName($unitType, $dominion->race) }}
                               </span>
                             </td>
                             @for ($i = 1; $i <= 12; $i++)
