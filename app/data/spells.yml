@@ -326,6 +326,7 @@ blizzard:
 
 blood_rage:
   name: Bloodrage
+  enabled: 0
   scope: self
   class: passive
   cost: 8
@@ -337,6 +338,31 @@ blood_rage:
   perks:
     offensive_power: 10
     casualties: 10
+
+crusade_of_urugdakh:
+  name: Crusade of Urudakh
+  scope: self
+  class: passive
+  cost: 8
+  duration: 12
+  cooldown: 192
+  exclusive_races:
+    - Orc
+    - Black Orc
+  perks:
+    offense_from_devotion: urugdakh,0.01,10
+
+sacrifice_to_urugdakh:
+  name: Sacrifice to Urugdakh
+  scope: self
+  class: active
+  cost: 6
+  duration: 48
+  cooldown: 96
+  exclusive_races:
+    - Black Orc
+  perks:
+    convert_peasants_to_prestige: 1000,50 # 1,000 peasants become 50 prestige
 
 enchanted_blades:
   name: Enchanted Blades
@@ -558,7 +584,7 @@ voidspell:
   class: passive
   cost: 8
   duration: 48
-  cooldown: 0
+  cooldown: 96
   exclusive_races:
     - Void
   perks:

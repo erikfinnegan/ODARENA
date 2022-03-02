@@ -1108,7 +1108,7 @@ class InvadeActionService
 
             $researchPointsForGeneratedAcres = 1;
 
-            if($this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion) == 0)
+            if(!$this->militaryCalculator->getRecentlyInvadedCountByAttacker($target, $dominion))
             {
                 $researchPointsForGeneratedAcres = 2;
             }
@@ -2121,7 +2121,7 @@ class InvadeActionService
                         }
                     }
                 }
-                
+
                 # Defender: kills_into_resource_per_casualty_on_success SINGLE RESOURCE
                 if($killsIntoResourcesPerCasualty = $defender->race->getUnitPerkValueForUnitSlot($slot, 'kills_into_resource_per_casualty_on_success') and !$this->invasionResult['result']['success'])
                 {

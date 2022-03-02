@@ -34,7 +34,6 @@ class GameEventService
         $gameEvents = GameEvent::query()
             ->where('round_id', $realm->round->id)
             ->where('created_at', '<', $createdBefore)
-            //->where('created_at', '>', now()->subDays(7))
             ->where(function (Builder $query) use ($realm, $dominionIds) {
                 $query
                     ->orWhere(function (Builder $query) use ($dominionIds) {

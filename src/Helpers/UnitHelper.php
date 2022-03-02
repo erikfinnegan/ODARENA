@@ -3,6 +3,7 @@
 namespace OpenDominion\Helpers;
 
 use OpenDominion\Models\Building;
+use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Resource;
@@ -165,8 +166,11 @@ class UnitHelper
             'offense_from_victories' => 'Offense increased by %1$s for every victory (max +%2$s). Only successful attacks over 75%% count as victories.',
             'defense_from_victories' => 'Defense increased by %1$s for every victory (max +%2$s). Only successful attacks over 75%% count as victories.',
 
-            'offense_from_net_victories' => 'Offense increased by %1$s for every net victory (max +%2$s, min 0). Net Victories is Victories less times invaded. Only successful attacks over 75%% count as victories. Any successful invasion suffered counts as an invasion.',
-            'defense_from_net_victories' => 'Defense increased by %1$s for every net victory (max +%2$s, min 0). Net Victories is Victories less times invaded. Only successful attacks over 75%% count as victories. Any successful invasion suffered counts as an invasion.',
+            'offense_from_net_victories' => 'Offense increased by %1$s for every net victory (max +%2$s, min 0).',
+            'defense_from_net_victories' => 'Defense increased by %1$s for every net victory (max +%2$s, min 0).',
+
+            'offense_from_recent_victories' => 'Offense increased by %1$s for every victory in the last %2$s ticks.',
+            'offense_from_recent_victories' => 'Offense increased by %1$s for every victory in the last %2$s ticks.',
 
             'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',
@@ -185,6 +189,9 @@ class UnitHelper
 
             'offense_from_deity' => 'Offense increased by %2$s if devoted to %1$s.',
             'defense_from_deity' => 'Defense increased by %2$s if devoted to %1$s.',
+
+            'offense_from_devotion' => 'Offense increased by %2$s for every tick devoted to %1$s (max +%3$s).',
+            'defense_from_devotion' => 'Defense increased by %2$s for every tick devoted to %1$s (max +%3$s).',
 
             'defense_from_per_improvement' => 'Defense increased by %1$s for every individual improvement you have with at least %2$s points invested.',
             'offense_from_per_improvement' => 'Offense increased by %1$s for every individual improvement you have with at least %2$s points invested.',
@@ -392,6 +399,7 @@ class UnitHelper
             // Other
             'increases_morale_by_population' => 'Increases base morale by %s%% for every 1%% of population.',
             'increases_morale_fixed' => 'Increases base morale by %s%%.',
+            'increases_morale_gains' => 'Increases base morale by %s%% for every 1%% of units sent.',
             'lowers_target_morale_on_successful_invasion' => 'On successful invasion, lowers target\'s morale by %s%%.',
 
             'increases_prestige_gains' => 'Increases prestige gains by %s%% for every 1%% of units sent.',
@@ -699,6 +707,18 @@ class UnitHelper
                     $building = Building::where('key', $buildingKey)->first();
 
                     $perkValue = [intval(1/$unitsPerBuilding), $building->name, $amountProduced];
+                    $nestedArrays = false;
+                }
+
+                if($perk->key === 'offense_from_devotion' or $perk->key === 'offense_from_devotion')
+                {
+                    $deityKey = (string)$perkValue[0];
+                    $perTick = (float)$perkValue[1];
+                    $max = (float)$perkValue[2];
+
+                    $deity = Deity::where('key', $deityKey)->first();
+
+                    $perkValue = [$deity->name, floatval($perTick), floatval($max)];
                     $nestedArrays = false;
                 }
 

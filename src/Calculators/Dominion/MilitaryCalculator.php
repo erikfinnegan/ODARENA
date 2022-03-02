@@ -1977,12 +1977,11 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return int
      */
-    public function getRecentlyInvadedCount(Dominion $dominion, int $hours = 6): int
+    public function getRecentlyInvadedCount(Dominion $dominion, int $ticks = 24): int
     {
         // todo: this touches the db. should probably be in invasion or military service instead
         $invasionEvents = GameEvent::query()
-            #->where('created_at', '>=', now()->subDay(1))
-            ->where('created_at', '>=', now()->subHours($hours))
+            ->where('tick', '>=', ($dominion->round->ticks - $ticks))
             ->where([
                 'target_type' => Dominion::class,
                 'target_id' => $dominion->id,
@@ -2011,10 +2010,10 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return int
      */
-    public function getRecentlyInvadedCountByAttacker(Dominion $defender, Dominion $attacker, int $hours = 2): int
+    public function getRecentlyInvadedCountByAttacker(Dominion $defender, Dominion $attacker, int $ticks = 8): int
     {
         $invasionEvents = GameEvent::query()
-            ->where('created_at', '>=', now()->subHours($hours))
+            ->where('tick', '>=', ($dominion->round->ticks - $ticks))
             ->where([
                 'target_type' => Dominion::class,
                 'target_id' => $defender->id,
@@ -2045,14 +2044,14 @@ class MilitaryCalculator
      * @param Dominion $attacker
      * @return bool
      */
-    public function isOwnRealmRecentlyInvadedByTarget(Dominion $attacker, Dominion $defender = null): bool
+    public function isOwnRealmRecentlyInvadedByTarget(Dominion $attacker, Dominion $defender = null, int $ticks = 24): bool
     {
         if($defender)
         {
-          $invasionEvents = GameEvent::query()
+            $invasionEvents = GameEvent::query()
                               ->join('dominions as source_dominion','game_events.source_id','source_dominion.id')
                               ->join('dominions as target_dominion','game_events.target_id','target_dominion.id')
-                              ->where('game_events.created_at', '>=', now()->subHours(6))
+                              ->where('game_events.tick', '>=', ($dominion->round->ticks - $ticks))
                               ->where([
                                   'game_events.type' => 'invasion',
                                   'game_events.source_id' => $defender->id,

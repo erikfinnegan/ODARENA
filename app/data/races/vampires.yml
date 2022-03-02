@@ -92,3 +92,4 @@ units:
       counts_as_spy_defense_from_time: 06,18,0.125
       counts_as_spy: 0.125
       displaced_peasants_conversion: 1
+      theft_carry_capacity: -33

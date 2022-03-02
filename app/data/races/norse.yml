@@ -59,6 +59,7 @@ units:
       no_draftee: 1
       increases_own_casualties: 1
       increases_morale_gains: 2
+      offense_from_recent_victories: 0.25,96 # +0.25 OP per victory, in the last 96 ticks
 
   - name: Homeguard
     training_time: 12

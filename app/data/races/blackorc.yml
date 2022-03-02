@@ -48,11 +48,12 @@ units:
       - intelligent
     cost:
       gold: 900
+      ore: 50
     power:
       offense: 1
       defense: 2
     perks:
-      defense_from_devotion: urugdakh,0.010,10 # deity_key, perk tick, max
+      defense_from_devotion: urugdakh,0.010,8 # deity_key, perk tick, max
       offense_from_devotion: urugdakh,0.008,8 # deity_key, perk tick, max
       increases_morale_by_population: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
 
@@ -65,7 +66,7 @@ units:
       - intelligent
     cost:
       gold: 1000
-      ore: 100
+      ore: 120
     power:
       offense: 4
       defense: 4
