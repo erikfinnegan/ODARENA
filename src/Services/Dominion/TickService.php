@@ -209,6 +209,7 @@ class TickService
                         {
                             if($round->ticks >= ($round->end_tick - $this->roundHelper->getRoundCountdownTickLength()))
                             {
+                                $endTick = $round->end_tick;
                                 $countdownEvent = GameEvent::create([
                                     'round_id' => $dominion->round_id,
                                     'source_type' => Dominion::class,
