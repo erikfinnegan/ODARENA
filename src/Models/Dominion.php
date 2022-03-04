@@ -1164,6 +1164,10 @@ class Dominion extends AbstractModel
                {
                    $perk += (float)$perkValueString;
                }
+               elseif($perkKey == 'offense_from_devotion' or $perkKey == 'defense_from_devotion')
+               {
+                  dd($perkValueString);
+               }
                elseif($perkValueString and (!is_numeric($perkValueString) and !is_array($perkValueString)))
                {
                   $perk = (string)$perkValueString;
@@ -1345,6 +1349,18 @@ class Dominion extends AbstractModel
         return DominionDeity::where('deity_id', $this->getDeity()->id)
                             ->where('dominion_id', $this->id)
                             ->first();
+    }
+
+    public function getDeityDuration(): int
+    {
+        if(!$this->hasDeity())
+        {
+            return 0;
+        }
+
+        $dominionDeity = $this->getDominionDeity();
+
+        return $dominionDeity->duration;
     }
 
     /**

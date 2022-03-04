@@ -16,6 +16,7 @@ use OpenDominion\Models\Spell;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\Unit;
 
+use OpenDominion\Calculators\Dominion\DeityCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\Actions\TechCalculator;
@@ -471,6 +472,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromAdvancement($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromRulerTitle($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromDeity($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromDevotion($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromBuildingsBasedPerk($dominion, $unit, $powerType); # This perk uses multiple buildings!
         $unitPower += $this->getUnitPowerFromImprovementPointsPerImprovement($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromImprovementPoints($dominion, $unit, $powerType);
@@ -1399,17 +1401,40 @@ class MilitaryCalculator
       protected function getUnitPowerFromDeity(Dominion $dominion, Unit $unit, string $powerType): float
       {
 
-          $titlePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_deity", null);
+          $deityPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_deity", null);
           $powerFromPerk = 0;
 
-          if (!$titlePerkData or $dominion->isAbandoned() or !$dominion->hasDeity())
+          if (!$deityPerkData or $dominion->isAbandoned() or !$dominion->hasDeity())
           {
               return 0;
           }
 
-          if($dominion->getDeity()->key == $titlePerkData[0])
+          if($dominion->getDeity()->key == $deityPerkData[0])
           {
-              $powerFromPerk += $titlePerkData[1];
+              $powerFromPerk += $deityPerkData[1];
+          }
+
+          return $powerFromPerk;
+      }
+
+      protected function getUnitPowerFromDevotion(Dominion $dominion, Unit $unit, string $powerType): float
+      {
+          $deityPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_from_devotion", null);
+
+          $powerFromPerk = 0;
+
+          if (!$deityPerkData or $dominion->isAbandoned() or !$dominion->hasDeity())
+          {
+              return 0;
+          }
+
+          $deityKey = $deityPerkData[0];
+          $perTick = (float)$deityPerkData[1];
+          $max = (float)$deityPerkData[2];
+
+          if($dominion->getDeity()->key == $deityPerkData[0])
+          {
+              $powerFromPerk += min($dominion->getDeityDuration() * $perTick, $max);
           }
 
           return $powerFromPerk;

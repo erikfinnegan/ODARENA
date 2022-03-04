@@ -78,7 +78,7 @@ class SorceryCalculator
     public function getSorceryWizardStrengthMultiplier(Dominion $caster, int $wizardStrength): float
     {
         $multiplier = 1;
-        $multiplier += (0.05 * ($wizardStrength ** 0.50));
+        $multiplier += max($wizardStrength, (exp($wizardStrength/120)-1));# (0.05 * ($wizardStrength ** 0.50));
 
         return $multiplier;
     }

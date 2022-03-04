@@ -19,7 +19,7 @@
                     <table class="table">
                         <colgroup>
                             <col>
-                            <col width="100">
+                            <col width="150">
                             <col width="100">
                             <col width="150">
                             <col width="150">
