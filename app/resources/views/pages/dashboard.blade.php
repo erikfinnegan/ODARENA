@@ -190,7 +190,13 @@
                             </td>
 
 
-                            <td>{{ $round->name }}</td>
+                            <td>
+                                @if($round->hasEnded())
+                                    <a href="{{ route('chronicles.round', $round) }}">{{ $round->name }}</a>
+                                @else
+                                    {{ $round->name }}
+                                @endif
+                            </td>
 
                             <td>{{ $round->league->description }}</td>
 
