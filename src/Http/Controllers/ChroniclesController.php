@@ -83,9 +83,22 @@ class ChroniclesController extends AbstractController
 
     public function getRound(Round $round)
     {
-        if ($response = $this->guardAgainstActiveRound($round)) {
+        if ($response = $this->guardAgainstActiveRound($round))
+        {
             return $response;
         }
+
+        $landCalculator = app(LandCalculator::class);
+
+        $roundHelper = app(RoundHelper::class);
+
+        $topLargestDominions = $roundHelper->getRoundDominionsByLand($round, 3);
+
+        $gloryStats = [
+            'invasion_victories',
+            'op_sent_max',
+            'land_conquered'
+          ];
 
         $races = $round->dominions
             ->sortBy('race.name')
@@ -93,8 +106,15 @@ class ChroniclesController extends AbstractController
             ->unique();
 
         return view('pages.chronicles.round', [
-            'round' => $round,
+            'gloryStats' => $gloryStats,
             'races' => $races,
+            'round' => $round,
+            'topLargestDominions' => $topLargestDominions,
+
+            'landCalculator' => $landCalculator,
+
+            'roundHelper' => $roundHelper,
+            'statsHelper' => app(StatsHelper::class),
         ]);
     }
 

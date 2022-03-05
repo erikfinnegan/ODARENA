@@ -660,6 +660,7 @@ class RaceHelper
     }
 
     #   *   *   *   *    *    *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   #
+    #   BEGIN CHRONICLES
 
     public function getDominionCountForRace(Race $race): int
     {
@@ -751,6 +752,5 @@ class RaceHelper
 
         return count($rulers);
     }
-
 
 }

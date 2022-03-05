@@ -37,10 +37,35 @@ class RoundHelper
             case 'deathmatch':
                 return 'Deathmatch';
 
+            case 'deathmatch-duration':
+                return 'Deathmatch';
+
             case 'artefacts':
                 return 'Artefacts';
         }
     }
+
+    public function getRoundModeGoalString(Round $round): string
+    {
+        switch ($round->mode)
+        {
+            case 'standard':
+                return 'land';
+
+            case 'standard-duration':
+                return 'ticks';
+
+            case 'deathmatch':
+                return 'land';
+
+            case 'deathmatch-duration':
+                return 'ticks';
+
+            case 'artefacts':
+                return 'artefacts';
+        }
+    }
+
 
     public function getRoundCountdownTickLength(): int
     {
@@ -81,7 +106,7 @@ class RoundHelper
         }
     }
 
-    public function getRoundDominions(Round $round, bool $inclueActiveRounds = false)
+    public function getRoundDominions(Round $round, bool $inclueActiveRounds = false, bool $excludeBarbarians = false)
     {
         $dominions = Dominion::where('round_id', $round->id)
                       ->where('is_locked','=',0)
@@ -93,6 +118,17 @@ class RoundHelper
             foreach($dominions as $key => $dominion)
             {
                 if(!$dominion->round->hasEnded())
+                {
+                    $dominions->forget($key);
+                }
+            }
+        }
+
+        if($excludeBarbarians)
+        {
+            foreach($dominions as $key => $dominion)
+            {
+                if($dominion->race->name == 'Barbarian')
                 {
                     $dominions->forget($key);
                 }

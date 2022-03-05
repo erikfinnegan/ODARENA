@@ -1,6 +1,9 @@
 @extends('layouts.topnav')
 
 @section('content')
+
+<h1>UNUSED BLADE</h1>
+
 <div class="row">
     <div class="box">
         <div class="box-body">

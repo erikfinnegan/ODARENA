@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="box box-success">
+    <div class="box">
         <div class="box-body text-center">
             <p>These are the Chronicles of ODARENA, where history becomes legends.</p>
 
