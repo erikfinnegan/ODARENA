@@ -29,9 +29,6 @@ use OpenDominion\Services\Dominion\Actions\ReleaseActionService;
 use OpenDominion\Services\Dominion\Actions\Military\ChangeDraftRateActionService;
 use OpenDominion\Services\Dominion\Actions\Military\TrainActionService;
 
-
-
-
 class MilitaryController extends AbstractDominionController
 {
     public function getMilitary()
@@ -130,6 +127,7 @@ class MilitaryController extends AbstractDominionController
         return view('pages.dominion.release', [
             'unitHelper' => app(UnitHelper::class),
             'raceHelper' => app(RaceHelper::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
         ]);
     }
 
