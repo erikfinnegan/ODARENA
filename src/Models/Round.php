@@ -212,14 +212,7 @@ class Round extends AbstractModel
      */
     public function isActive()
     {
-        if($this->end_date == Null)
-        {
-            return true;
-        }
-        else
-        {
-            return ($this->hasStarted() && !$this->hasEnded());
-        }
+        return ($this->hasStarted() && !$this->hasEnded());
     }
 
     /**
