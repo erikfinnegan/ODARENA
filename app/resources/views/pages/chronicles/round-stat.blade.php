@@ -1,53 +1,37 @@
 @extends('layouts.topnav')
 
-{{-- todo: refactor this --}}
-
 @section('content')
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">{{ ucwords(str_replace('-', ' ', $type)) }} in round {{ number_format($round->number) }}: {{ $round->name }}</h3>
-        </div>
-
-        @if (!$data->isEmpty())
-            <div class="box-body table-responsive no-padding">
-                @php($headersPrinted = false)
-                <table class="table table-striped">
-                    <colgroup>
-                        @foreach (array_keys($data[0]) as $column)
-                            <col{!! isset($headers[$column]['width']) ? (' width="' . $headers[$column]['width'] . '"') : null !!}>
-                        @endforeach
-                    </colgroup>
-                    @foreach ($data as $row)
-                        @if (!$headersPrinted)
-                            <thead>
-                                <tr>
-                                    @foreach (array_keys($row) as $column)
-                                        <th{!! (isset($headers[$column]['align-center']) && $headers[$column]['align-center']) ? ' class="text-center"' : null !!}>
-                                            {{ ucwords(str_replace('_', ' ', $column)) }}
-                                        </th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @php($headersPrinted = true)
-                        @endif
-
-                        <tr>
-                            @foreach ($row as $column => $value)
-                                <td{!! (isset($headers[$column]['align-center']) && $headers[$column]['align-center']) ? ' class="text-center"' : null !!}>
-                                    {{ $value }}
-                                </td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-
-                    </tbody>
-                </table>
-            </div>
-        @else
-            <div class="box-body">
-                <p>No records found.</p>
-            </div>
-        @endif
+<div class="box box-primary">
+    <div class="box-header with-border text-center">
+        <h3 class="box-title">{{ $statsHelper->getStatName($statKey) }}</h3>
     </div>
+
+    <div class="box box-body">
+        <table class="table table-striped table-hover">
+            <colgroup>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>Dominion</th>
+                </tr>
+            </thead>
+            <tbody>
+              @foreach($dominionStats as $dominionId => $value)
+                  @if($value > 0)
+                      @php
+                          $dominion = OpenDominion\Models\Dominion::findOrFail($dominionId);
+                      @endphp
+                      <tr>
+                          <td class="text-left">{{ number_format($value) }}</td>
+                          <td class="text-left"><a href="{{ route('chronicles.dominion', $dominion->id) }}">{{ $dominion->name }}</a></td>
+                      </tr>
+                  @endif
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 @endsection

@@ -49,7 +49,6 @@ class ChroniclesController extends AbstractController
 
         return view('pages.chronicles.index', [
             'userHelper' => app(UserHelper::class),
-
             'rounds' => $rounds,
             'users' => $users,
         ]);
@@ -58,10 +57,7 @@ class ChroniclesController extends AbstractController
     public function getRounds()
     {
         return view('pages.chronicles.rounds', [
-            'rounds' => Round::with('league')
-                        ->where('end_date','<=',now())
-                        ->orWhere('end_tick','<=','ticks')
-                        ->orderBy('start_date', 'desc')->get(),
+            'rounds' => Round::with('league')->orderBy('start_date', 'desc')->get(),
         ]);
     }
 
@@ -107,13 +103,32 @@ class ChroniclesController extends AbstractController
 
         return view('pages.chronicles.round', [
             'gloryStats' => $gloryStats,
-            'races' => $races,
             'round' => $round,
             'topLargestDominions' => $topLargestDominions,
 
             'landCalculator' => $landCalculator,
 
             'roundHelper' => $roundHelper,
+            'statsHelper' => app(StatsHelper::class),
+        ]);
+    }
+
+    public function getRoundStat(Round $round, string $statKey)
+    {
+        if ($response = $this->guardAgainstActiveRound($round))
+        {
+            return $response;
+        }
+
+        $statsHelper = app(StatsHelper::class);
+        $dominionStats = $statsHelper->getDominionsForRoundForStat($round, $statKey);
+
+        return view('pages.chronicles.round-stat', [
+            'round' => $round,
+            'statKey' => $statKey,
+
+            'dominionStats' => $dominionStats,
+            #'roundHelper' => app(RoundHelper::class),
             'statsHelper' => app(StatsHelper::class),
         ]);
     }

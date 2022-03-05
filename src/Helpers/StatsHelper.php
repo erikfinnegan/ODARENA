@@ -26,22 +26,27 @@ class StatsHelper
         return Stat::where('key', $statKey)->firstOrFail()->name;
     }
 
+    public function getDominionsForRoundForStat(Round $round, string $statKey): array
+    {
+          $dominions = $this->roundHelper->getRoundDominions($round, false, true);
+
+          foreach($dominions as $key => $dominion)
+          {
+              $results[$dominion->id] = $this->statsService->getStat($dominion, $statKey);
+          }
+
+          # Sort the dominions by ID
+          ksort($results);
+
+          # Sort the dominions by value
+          arsort($results);
+
+          return $results;
+    }
+
     public function getTopDominionForRoundForStat(Round $round, string $statKey): array
     {
-        $stat = Stat::where('key', $statKey)->firstOrFail();
-
-        $dominions = $this->roundHelper->getRoundDominions($round, false, true);
-
-        foreach($dominions as $key => $dominion)
-        {
-            $results[$dominion->id] = $this->statsService->getStat($dominion, $statKey);
-        }
-
-        # Sort the dominions by ID
-        ksort($results);
-
-        # Sort the dominions by value
-        arsort($results);
+        $results = $this->getDominionsForRoundForStat($round, $statKey);
 
         $result = array_slice($results, 0, 1, true);
 

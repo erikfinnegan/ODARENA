@@ -99,7 +99,7 @@
       <div class="col-md-9 text-center">
           <div class="box">
               <div class="box-header with-border">
-                  <h1 class="box-title"><i class="fas fa-book fa-fw"></i> All Stats</h1>
+                  <h1 class="box-title"><i class="fas fa-book-open"></i> All Stats</h1>
               </div>
               <div class="box-body">
                   <table class="table table-striped table-hover">
@@ -123,7 +123,7 @@
                               $value = $result[key($result)];
                           @endphp
                           <tr>
-                              <td class="text-left"><a href="{{ route('chronicles.round-stat', $statKey) }}">{{ $statsHelper->getStatName($statKey) }}</a>:</td>
+                              <td class="text-left"><a href="{{ route('chronicles.round.stat', [$round, $statKey]) }}">{{ $statsHelper->getStatName($statKey) }}</a>:</td>
                               <td class="text-left">{{ number_format($value) }}</td>
                               <td class="text-left"><a href="{{ route('chronicles.dominion', $dominion->id) }}">{{ $dominion->name }}</a></td>
                           </tr>

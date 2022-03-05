@@ -16,7 +16,6 @@
                     <col >
                     <col width="150">
                     <col width="150">
-                    <col width="150">
                 </colgroup>
                 <thead>
                     <tr>
@@ -24,7 +23,6 @@
                         <th>Chapter</th>
                         <th class="text-center">Era</th>
                         <th class="text-center">Start</th>
-                        <th class="text-center">End</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,13 +42,6 @@
                             </td>
                             <td class="text-center">{{ $round->league->description }}</td>
                             <td class="text-center">{{ $round->start_date->toFormattedDateString() }}</td>
-                            <td class="text-center">
-                                @if($round->hasEnded())
-                                    {{ $round->end_date->toFormattedDateString() }}
-                                @else
-                                    &mdash;
-                                @endif
-                            </td>
                         </tr>
                     @endforeach
                 </tbody>
