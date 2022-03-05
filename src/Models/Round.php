@@ -141,14 +141,16 @@ class Round extends AbstractModel
      *
      * @return bool
      */
-    public function hasCountdown()
-    {
-        if(GameEvent::where('round_id', $this->id)->where('type','round_countdown')->first())
-        {
-            return true;
-        }
-        return false;
-    }
+     public function hasCountdown()
+     {
+         $countdown = GameEvent::where('round_id', $this->id)->where(function($query)
+         {
+       			$query->where('type','round_countdown')
+           				->orWhere('type','round_countdown_duration');
+         })->get();
+
+         return $countdown ? true : false;
+     }
 
     public function ticksUntilEnd()
     {
