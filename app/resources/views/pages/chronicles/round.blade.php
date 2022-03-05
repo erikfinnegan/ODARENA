@@ -9,7 +9,7 @@
     <div class="col-md-6 text-center">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h1 class="box-title"><i class="ra ra-podium ra-fw"></i> Largest Dominions</h1>
+                <h1 class="box-title"><i class="ra ra-podium ra-fw"></i> Rankings</h1>
             </div>
             <div class="box-body">
                 <table class="table table-striped table-hover">
@@ -42,6 +42,9 @@
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div class="box-footer">
+                <a href="{{ route('chronicles.round.rankings', $round) }}">See all Rankings</a>
             </div>
         </div>
     </div>

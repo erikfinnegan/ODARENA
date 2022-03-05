@@ -106,7 +106,7 @@ class RoundHelper
         }
     }
 
-    public function getRoundDominions(Round $round, bool $inclueActiveRounds = false, bool $excludeBarbarians = false)
+    public function getRoundDominions(Round $round, bool $inclueActiveRounds = false, bool $excludeBarbarians = false): Collection
     {
         $dominions = Dominion::where('round_id', $round->id)
                       ->where('is_locked','=',0)

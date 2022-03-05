@@ -128,8 +128,30 @@ class ChroniclesController extends AbstractController
             'statKey' => $statKey,
 
             'dominionStats' => $dominionStats,
-            #'roundHelper' => app(RoundHelper::class),
             'statsHelper' => app(StatsHelper::class),
+        ]);
+    }
+
+    public function getRoundRankings(Round $round)
+    {
+        if ($response = $this->guardAgainstActiveRound($round))
+        {
+            return $response;
+        }
+
+        $roundHelper = app(RoundHelper::class);
+
+        $allDominions = $roundHelper->getRoundDominions($round, false, true);
+
+        return view('pages.chronicles.round-rankings', [
+            'round' => $round,
+            'allDominions' => $allDominions,
+
+            'landCalculator' => app(LandCalculator::class),
+            'networthCalculator' => app(NetworthCalculator::class),
+
+            'roundHelper' => $roundHelper,
+
         ]);
     }
 

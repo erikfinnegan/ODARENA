@@ -4,6 +4,7 @@
 <div class="box box-primary">
     <div class="box-header with-border text-center">
         <h3 class="box-title">{{ $statsHelper->getStatName($statKey) }}</h3>
+        <span class="pull-left"><a href="{{ route('chronicles.round', $round) }}">Go back to Round</a></span>
     </div>
 
     <div class="box box-body">
