@@ -92,10 +92,46 @@
     </div>
     <!-- /TOP STATS -->
 </div>
+
 <div class="row">
 
       <!-- ALL STATS -->
       <div class="col-md-9 text-center">
+          <div class="box">
+              <div class="box-header with-border">
+                  <h1 class="box-title"><i class="fas fa-book fa-fw"></i> All Stats</h1>
+              </div>
+              <div class="box-body">
+                  <table class="table table-striped table-hover">
+                      <colgroup>
+                          <col>
+                          <col>
+                          <col>
+                      </colgroup>
+                      <thead>
+                          <tr>
+                              <th>Stat</th>
+                              <th>Value</th>
+                              <th>Top Dominion</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      @foreach($statsHelper->getAllDominionStatKeysForRound($round) as $statKey)
+                          @php
+                              $result = $statsHelper->getTopDominionForRoundForStat($round, $statKey);
+                              $dominion = OpenDominion\Models\Dominion::findOrFail(key($result));
+                              $value = $result[key($result)];
+                          @endphp
+                          <tr>
+                              <td class="text-left"><a href="{{ route('chronicles.round-stat', $statKey) }}">{{ $statsHelper->getStatName($statKey) }}</a>:</td>
+                              <td class="text-left">{{ number_format($value) }}</td>
+                              <td class="text-left"><a href="{{ route('chronicles.dominion', $dominion->id) }}">{{ $dominion->name }}</a></td>
+                          </tr>
+                      @endforeach
+                      </tbody>
+                  </table>
+              </div>
+          </div>
       </div>
       <!-- /ALL STATS -->
 
@@ -136,15 +172,32 @@
                             <td>Dominions:</td>
                             <td>{{ number_format($round->activeDominions()->count()) }}</td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <span data-toggle="tooltip" data-placement="top" title="Highest offensive power sent per day">
-                                    <strong>Top OP</strong>
-                                </span>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
+                    <table class="table table-striped table-hover">
+                        <colgroup>
+                            <col width="3em">
+                            <col>
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="text-center">Day</th>
+                                <th class="text-center">
+                                    <span data-toggle="tooltip" data-placement="top" title="Highest offensive power sent in a single invasion on a particular day">
+                                        Top OP
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($statsHelper->getTopOpStatsForRound($round) as $key => $data)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ number_format($data->value) }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
             </div>
         </div>
     </div>
