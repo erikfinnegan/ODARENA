@@ -16,6 +16,7 @@
             <thead>
                 <tr>
                     <th>Dominion</th>
+                    <th>Realm</th>
                     <th>Ruler</th>
                     <th>Faction</th>
                     <th>Land</th>
@@ -26,6 +27,7 @@
               @foreach($allDominions as $dominion)
                   <tr>
                       <td class="text-left"><a href="{{ route('chronicles.dominion', $dominion->id) }}">{{ $dominion->name }}</a></td>
+                      <td class="text-left"># {{ $dominion->realm->number }}</td>
                       <td class="text-left">
                           @if($dominion->isAbandoned())
                               {{ $dominion->ruler_name }}
@@ -60,7 +62,7 @@
     <script type="text/javascript">
         (function ($) {
             var table = $('#dominions-table').DataTable({
-                order: [3, 'desc'],
+                order: [4, 'desc'],
                 paging: true,
                 pageLength: 100
             });
