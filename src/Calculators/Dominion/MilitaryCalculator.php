@@ -1034,7 +1034,7 @@ class MilitaryCalculator
                 'type' => 'invasion',
             ])
             ->get();
-  
+
         foreach($recentInvasions as $key => $recentInvasion)
         {
             if($recentInvasion->data['land_ratio'] >= 75 and $recentInvasion->data['result']['success'])
