@@ -1037,7 +1037,7 @@ class MilitaryCalculator
 
         foreach($recentInvasions as $key => $recentInvasion)
         {
-            if($recentInvasion->data['land_ratio'] >= 75 and $recentInvasion->data['result']['success'])
+            if((isset($recentInvasion->data['land_ratio']) and isset($recentInvasion->data['result']['success'])) and $recentInvasion->data['land_ratio'] >= 75 and $recentInvasion->data['result']['success'])
             {
                 $powerFromPerk += $perRecentVictory;
             }
