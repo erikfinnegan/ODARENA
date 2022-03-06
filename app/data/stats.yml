@@ -616,6 +616,90 @@ peasants_training:
 draftees_training:
   name: Draftees training
 
+# Sorcery stats
+
+sorcery_duration:
+  name: Sorcery spells duration
+sorcery_damage_morale:
+  name: Morale damage by sorcery
+sorcery_damage_improvements:
+  name: Improvements damage by sorcery
+
+sorcery_gold_destroyed:
+  name: Gold destroyed by sorcery
+sorcery_food_destroyed:
+  name: Food destroyed by sorcery
+sorcery_lumber_destroyed:
+  name: Lumber destroyed by sorcery
+sorcery_ore_destroyed:
+  name: Ore destroyed by sorcery
+sorcery_gem_destroyed:
+  name: Gem destroyed by sorcery
+sorcery_mana_destroyed:
+  name: Mana destroyed by sorcery
+sorcery_soul_destroyed:
+  name: Souls destroyed by sorcery
+sorcery_blood_destroyed:
+  name: Blood destroyed by sorcery
+sorcery_prisoner_destroyed:
+  name: Prisoners destroyed by sorcery
+sorcery_horse_destroyed:
+  name: Horses destroyed by sorcery
+sorcery_brimmer_destroyed:
+  name: Brimmer destroyed by sorcery
+sorcery_marshling_destroyed:
+  name: Marshling destroyed by sorcery
+sorcery_mud_destroyed:
+  name: Mud destroyed by sorcery
+sorcery_swamp_gas_destroyed:
+  name: Swamp gas destroyed by sorcery
+
+sorcery_gold_lost:
+  name: Gold destroyed to sorcery
+sorcery_food_lost:
+  name: Food destroyed to sorcery
+sorcery_lumber_lost:
+  name: Lumber destroyed to sorcery
+sorcery_ore_lost:
+  name: Ore destroyed to sorcery
+sorcery_gem_lost:
+  name: Gem destroyed to sorcery
+sorcery_mana_lost:
+  name: Mana destroyed to sorcery
+sorcery_soul_lost:
+  name: Souls destroyed to sorcery
+sorcery_blood_lost:
+  name: Blood destroyed to sorcery
+sorcery_prisoner_lost:
+  name: Prisoners destroyed to sorcery
+sorcery_horse_lost:
+  name: Horses destroyed to sorcery
+sorcery_brimmer_lost:
+  name: Brimmer destroyed to sorcery
+sorcery_marshling_lost:
+  name: Marshling destroyed to sorcery
+sorcery_mud_lost:
+  name: Mud destroyed to sorcery
+sorcery_swamp_gas_lost:
+  name: Swamp gas destroyed to sorcery
+
+sorcery_peasants_killed:
+  name: Peasants killed by sorcery
+sorcery_peasants_lost:
+  name: Peasants lost to sorcery
+sorcery_draftees_killed:
+  name: Draftees killed by sorcery
+sorcery_draftees_lost:
+  name: Draftees lost to sorcery
+sorcery_spies_killed:
+  name: Spies killed by sorcery
+sorcery_spies_lost:
+  name: Spies lost to sorcery
+sorcery_units_killed:
+  name: Units killed by sorcery
+sorcery_units_lost:
+  name: Units lost to sorcery
+
 
 # Round stats
 day01_top_op:

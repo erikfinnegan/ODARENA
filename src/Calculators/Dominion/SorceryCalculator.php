@@ -58,7 +58,11 @@ class SorceryCalculator
     {
         $duration = $spell->duration;
 
-        $duration *= $this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount);
+        $duration *= ($this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount) / 20);
+
+        $duration = min($duration, 96);
+
+        #dump('getSorcerySpellDuration():' . $spell->duration * $this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount));
 
         return $duration;
     }
@@ -70,6 +74,9 @@ class SorceryCalculator
         $multiplier *= $this->getSorceryWizardStrengthMultiplier($caster, $wizardStrength);
         $multiplier *= $this->getSorceryWizardRatioMultiplier($caster, $target);
 
+        dump('getSorceryWizardStrengthMultiplier():' . $this->getSorceryWizardStrengthMultiplier($caster, $wizardStrength));
+        dump('getSorceryWizardRatioMultiplier():' . $this->getSorceryWizardRatioMultiplier($caster, $target));
+
         # ENHANCEMENTS ???
 
         return $multiplier;
@@ -77,10 +84,7 @@ class SorceryCalculator
 
     public function getSorceryWizardStrengthMultiplier(Dominion $caster, int $wizardStrength): float
     {
-        $multiplier = 1;
-        $multiplier += max($wizardStrength, (exp($wizardStrength/120)-1));# (0.05 * ($wizardStrength ** 0.50));
-
-        return $multiplier;
+        return max($wizardStrength, $wizardStrength * (exp($wizardStrength/120)-1));
     }
 
     public function getSorceryWizardRatioMultiplier(Dominion $caster, Dominion $target): float
@@ -94,7 +98,7 @@ class SorceryCalculator
             return 0;
         }
 
-        $multiplier = clamp(1 + (($casterWpa - $targetWpa) / 10), 0, 2);
+        $multiplier += (1 / exp($targetWpa / $casterWpa) * (($casterWpa - $targetWpa) / $casterWpa) / 2);
 
         return $multiplier;
     }

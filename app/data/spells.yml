@@ -818,6 +818,7 @@ defensive_warts:
 
 chitin:
   name: Chitin
+  enabled: 0
   scope: self
   class: passive
   cost: 10
@@ -1237,7 +1238,7 @@ cogency:
   scope: hostile
   class: passive
   cost: 5
-  duration: 8
+  duration: 2
   cooldown: 0
   exclusive_races:
     - Cult
@@ -1285,7 +1286,7 @@ earthquake:
   scope: hostile
   class: passive
   cost: 4
-  duration: 24
+  duration: 6
   cooldown: 0
   excluded_races:
     - Dwarg
@@ -1311,7 +1312,7 @@ enthralling:
   scope: hostile
   class: passive
   cost: 5
-  duration: 8
+  duration: 2
   cooldown: 0
   exclusive_races:
     - Cult
@@ -1365,7 +1366,7 @@ insect_swarm:
   scope: hostile
   class: passive
   cost: 4
-  duration: 24
+  duration: 6
   cooldown: 0
   excluded_races:
     - Dwarg
@@ -1390,7 +1391,7 @@ mark_of_azk_hurum:
   class: passive
   cost: 7
   cooldown: 24
-  duration: 12
+  duration: 3
   exclusive_races:
     - Demon
   perks:
@@ -1401,7 +1402,7 @@ persuasion:
   scope: hostile
   class: passive
   cost: 6
-  duration: 8
+  duration: 2
   cooldown: 0
   exclusive_races:
     - Cult
@@ -1413,7 +1414,7 @@ plague:
   scope: hostile
   class: passive
   cost: 4
-  duration: 24
+  duration: 6
   cooldown: 0
   excluded_races:
     - Dwarg
@@ -1462,7 +1463,7 @@ treachery:
   scope: hostile
   class: passive
   cost: 5
-  duration: 8
+  duration: 2
   cooldown: 0
   exclusive_races:
     - Cult
@@ -1475,7 +1476,7 @@ windchill:
   class: passive
   cost: 6
   duration: 24
-  cooldown: 24
+  cooldown: 6
   exclusive_races:
     - Icekin
   perks:

@@ -182,10 +182,11 @@ class SorceryActionService
             {
                 # NOT FINISHED
 
-                $duration = $this->sorceryCalculator->getSorcerySpellDuration($caster, $target, $spell, $enhancementResource, $enhancementAmount);
+                $duration = $this->sorceryCalculator->getSorcerySpellDuration($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount);
 
-                $this->statsService->updateStat($caster, 'magic_sorcery_success', 1);
-                $this->statsService->updateStat($caster, 'magic_sorcery_duration', $duration);
+                #dd($duration);
+
+                $this->statsService->updateStat($caster, 'sorcery_duration', $duration);
 
                 if ($this->spellCalculator->isSpellActive($target, $spell->key))
                 {
@@ -242,11 +243,13 @@ class SorceryActionService
                         $damageDealt = min($target->peasants * $damage, $target->peasants);
                         $damageDealt = floor($damageDealt);
 
+                        $peasantsBefore = $target->peasants;
                         $target->peasants -= $damageDealt;
+                        $peasantsAfter = $peasantsBefore - $damageDealt;
                         #$result[] = sprintf('%s %s', number_format($damageDealt), str_plural($this->raceHelper->getPeasantsTerm($target->race), $damage));
 
-                        $this->statsService->updateStat($caster, 'magic_peasants_killed', $damageDealt);
-                        $this->statsService->updateStat($target, 'magic_peasants_lost', $damageDealt);
+                        $this->statsService->updateStat($caster, 'sorcery_peasants_killed', $damageDealt);
+                        $this->statsService->updateStat($target, 'sorcery_peasants_lost', $damageDealt);
 
                         # For Empire, add killed draftees go in the crypt
                         if($target->realm->alignment === 'evil')
@@ -260,7 +263,8 @@ class SorceryActionService
                             'spell_damage_multiplier' => $spellDamageMultiplier,
                             'damage' => $damage,
                             'damage_dealt' => $damageDealt,
-                            'peasants' => $target->peasants,
+                            'peasants_before' => $peasantsBefore,
+                            'peasants_after' => $peasantsAfter,
                         ];
 
                         $verb = 'kills';
@@ -279,8 +283,8 @@ class SorceryActionService
 
                         $target->peasants -= $damageDealt;
 
-                        $this->statsService->updateStat($caster, 'magic_draftees_killed', $damage);
-                        $this->statsService->updateStat($target, 'magic_draftees_lost', $damageDealt);
+                        $this->statsService->updateStat($caster, 'sorcery_draftees_killed', $damage);
+                        $this->statsService->updateStat($target, 'sorcery_draftees_lost', $damageDealt);
 
                         # For Empire, add killed draftees go in the crypt
                         if($target->realm->alignment === 'evil')
@@ -311,7 +315,8 @@ class SorceryActionService
 
                         $target->peasants -= $damageDealt;
 
-                        $this->statsService->updateStat($caster, 'magic_spies_killed', $damage);
+                        $this->statsService->updateStat($caster, 'sorcery_spies_killed', $damage);
+                        $this->statsService->updateStat($target, 'sorcery_spies_lost', $damage);
                         $this->statsService->updateStat($target, 'spies_lost', $damage);
 
                         # For Empire, add killed draftees go in the crypt
@@ -348,8 +353,9 @@ class SorceryActionService
 
                         $this->resourceService->updateResources($target, [$resourceKey => $damageDealt*-1]);
 
-                        $this->statsService->updateStat($caster, ($resourceKey . '_destroyed'), $damage);
-                        $this->statsService->updateStat($target, ($resourceKey . '_lost'), $damage);
+                        $this->statsService->updateStat($caster, ('sorcery_' . $resourceKey . '_destroyed'), $damage);
+
+                        $this->statsService->updateStat($target, ('sorcery_' . $resourceKey . '_lost'), $damage);
 
                         $this->sorcery['damage'][$perk->key] = [
                             'sorcery_spell_damage_multiplier' => $sorcerySpellDamageMultiplier,
@@ -393,7 +399,9 @@ class SorceryActionService
                         #$result[] = sprintf('%s %s', number_format($damage), str_plural(dominion_attr_display($unit->name, $damageDealt), $damageDealt));
 
                         $this->statsService->updateStat($caster, 'units_killed', $damage);
+                        $this->statsService->updateStat($caster, 'sorcery_units_killed', $damage);
                         $this->statsService->updateStat($target, ('unit' . $slot . '_lost'), $damage);
+                        $this->statsService->updateStat($target, 'sorcery_units_lost', $damage);
 
                         $this->sorcery['damage'][$perk->key] = [
                             'sorcery_spell_damage_multiplier' => $sorcerySpellDamageMultiplier,
@@ -422,7 +430,7 @@ class SorceryActionService
                         $target->morale -= $damageDealt;
                         #$result[] = sprintf('%s%%', $damage);
 
-                        $this->statsService->updateStat($caster, 'magic_damage_morale', $damage);
+                        $this->statsService->updateStat($caster, 'sorcery_damage_morale', $damage);
                         $verb = 'weakens morale by';
                     }
 
@@ -452,7 +460,7 @@ class SorceryActionService
                             $this->improvementCalculator->decreaseImprovements($target, $improvementDamage);
                         }
 
-                        $this->statsService->updateStat($caster, 'magic_damage_improvements', $damageDealt);
+                        $this->statsService->updateStat($caster, 'sorcery_damage_improvements', $damageDealt);
 
                         #$result[] = sprintf('%s %s', number_format($damageDealt), dominion_attr_display('improvement', $damage));
 
@@ -498,11 +506,18 @@ class SorceryActionService
                     }
                 }
                 #END PERK FOREACH
+
+                dd($this->sorcery);
             }
 
+            // Update stats
+            $this->statsService->updateStat($caster, 'sorcery_cast', 1);
+            $this->statsService->updateStat($caster, 'sorcery_mana', $manaCost);
+            $this->statsService->updateStat($caster, 'sorcery_wizard_strength', $wizardStrength);
+
             // Remove mana
-            $this->resourceService->updateResources($dominion, ['mana' => $manaCost*-1]);
-            $this->statsService->updateStat($dominion, 'mana_cast', $manaCost);
+            $this->resourceService->updateResources($caster, ['mana' => $manaCost*-1]);
+            $this->statsService->updateStat($caster, 'mana_cast', $manaCost);
 
             // Remove wizard strength
             $caster->wizard_strength -= $wizardStrength;
