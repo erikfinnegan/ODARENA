@@ -116,7 +116,7 @@ class SpellHelper
             'kills_faction_units_amount' => 'Kills %3$s%s of %1$s %2$s.',
 
             'summon_units_from_land' => 'Summon up to %2$s %1$s per acre of %3$s.',
-            'summon_units_from_land_by_time' => 'Summon up to %2$s %1$s per acre of %4$s. Amount summoned when cast increased by %3$s%%  per hour into the round.',
+            'summon_units_from_land_by_time' => 'Summon %2$s %1$s per acre of %4$s. Amount summoned increased by %3$s%% per tick into the round.',
 
             'marshling_random_resource_to_units_conversion' => 'Turns %1$s%% x Wizard Ratio (max %2$s%%) of your %3$s into random amounts of %4$s.',
 

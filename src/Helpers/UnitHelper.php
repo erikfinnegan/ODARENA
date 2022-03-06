@@ -170,7 +170,7 @@ class UnitHelper
             'defense_from_net_victories' => 'Defense increased by %1$s for every net victory (max +%2$s, min 0).',
 
             'offense_from_recent_victories' => 'Offense increased by %1$s for every victory in the last %2$s ticks.',
-            'offense_from_recent_victories' => 'Offense increased by %1$s for every victory in the last %2$s ticks.',
+            'defense_from_recent_victories' => 'Defense increased by %1$s for every victory in the last %2$s ticks.',
 
             'defense_mob' => 'Defense increased by +%1$s if your troops at home (including units with no defensive power) outnumber the invading units.',
             'offense_mob' => 'Offense increased by +%1$s if the troops you send outnumber the target\'s entire military at home (including units with no defensive power).',

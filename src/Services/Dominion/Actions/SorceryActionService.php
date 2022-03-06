@@ -500,6 +500,14 @@ class SorceryActionService
                 #END PERK FOREACH
             }
 
+            // Remove mana
+            $this->resourceService->updateResources($dominion, ['mana' => $manaCost*-1]);
+            $this->statsService->updateStat($dominion, 'mana_cast', $manaCost);
+
+            // Remove wizard strength
+            $caster->wizard_strength -= $wizardStrength;
+
+            // Create event
             $this->sorceryEvent = GameEvent::create([
                 'round_id' => $caster->round_id,
                 'source_type' => Dominion::class,
@@ -511,12 +519,14 @@ class SorceryActionService
                 'tick' => $caster->round->ticks
             ]);
 
+            // Queue up notifications
             $this->notificationService->queueNotification('sorcery', [
                 '_routeParams' => [(string)$this->sorceryEvent->id],
                 'caster_dominion_id' => $caster->id,
                 'data' => $this->sorcery,
             ]);
 
+            // Unclear if necessary
             $target->save([
                 'event' => HistoryService::EVENT_ACTION_SORCERY,
                 'action' => $spell->key
@@ -526,8 +536,6 @@ class SorceryActionService
                 'event' => HistoryService::EVENT_ACTION_SORCERY,
                 'action' => $spell->key
             ]);
-
-            #dd($this->sorcery, $this->sorceryEvent);
         });
 
         $this->notificationService->sendNotifications($target, 'irregular_dominion');

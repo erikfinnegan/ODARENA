@@ -688,16 +688,14 @@ class SpellActionService
                 {
                     $unitSlots = (array)$spellPerkValues[0];
                     $basePerAcre = (float)$spellPerkValues[1];
-                    $hourlyPercentIncrease = (float)$spellPerkValues[2] / 100;
+                    $ticklyPercentIncrease = (float)$spellPerkValues[2] / 100;
                     $landType = (string)$spellPerkValues[3];
-
-                    $hoursIntoTheRound = now()->startOfHour()->diffInHours(Carbon::parse($caster->round->start_date)->startOfHour());
 
                     $totalUnitsSummoned = 0;
 
                     foreach($unitSlots as $slot)
                     {
-                        $amountPerAcre = $basePerAcre * (1 + $hoursIntoTheRound * $hourlyPercentIncrease);
+                        $amountPerAcre = $basePerAcre * (1 + $caster->round->ticks * $ticklyPercentIncrease);
                         $unitsSummoned = floor($amountPerAcre * $caster->{'land_' . $landType});
                         $caster->{'military_unit' . $slot} += $unitsSummoned;
                         $totalUnitsSummoned += $unitsSummoned;

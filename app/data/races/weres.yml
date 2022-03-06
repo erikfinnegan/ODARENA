@@ -3,6 +3,7 @@ alignment: evil
 description:
 home_land_type: forest
 playable: 1
+experimental: 1
 
 attacking: 3
 exploring : 2
@@ -19,13 +20,13 @@ resources:
 perks:
   population_growth: 25
   extra_barren_max_population: 5
-  converts_executed_spies: 4 # into slot 2
+  converts_executed_spies: 4 # into slot 4
   construction_cost: -10
   increased_construction_speed: 2
 
 units:
   - name: Wolf
-    training_time: 6
+    training_time: 0
     type:
       - living
       - sentient
@@ -38,13 +39,14 @@ units:
       defense: 0
     perks:
       no_draftee: 1
-      housing_count: 0.25
+      housing_count: 0.10
       increases_enemy_casualties_on_offense: 1
       cannot_be_trained: 1
       conversion: 4
+      displaced_peasants_conversion: 1
 
   - name: Bear
-    training_time: 6
+    training_time: 0
     type:
       - living
       - sentient
@@ -57,7 +59,7 @@ units:
       defense: 4
     perks:
       no_draftee: 1
-      housing_count: 0.25
+      housing_count: 0.10
       increases_enemy_casualties_on_defense: 1
       cannot_be_trained: 1
       conversion: 3
@@ -91,3 +93,4 @@ units:
       defense: 4
     perks:
       strength_conversion: 5,4,3 # threshold,under,over
+      displaced_peasants_conversion: 4

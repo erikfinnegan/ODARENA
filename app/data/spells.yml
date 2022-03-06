@@ -522,7 +522,7 @@ druvas_call:
   exclusive_races:
     - Weres
   perks:
-    summon_units_from_land_by_time: 1;2,2,0.25,forest # slots, base, extra percent per hour, land type
+    summon_units_from_land_by_time: 1;2,2,0.08,forest # slots, base, extra percent per hour, land type
 
 miners_sight:
   name: Mirnon's Fortitude
@@ -1334,6 +1334,7 @@ fireball:
 
 frozen_shores:
   name: Frozen Shores
+  enabled: 0
   scope: hostile
   class: passive
   cost: 8

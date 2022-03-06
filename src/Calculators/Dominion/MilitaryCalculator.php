@@ -465,6 +465,7 @@ class MilitaryCalculator
         $unitPower += $this->getUnitPowerFromMilitaryPercentagePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromNetVictoriesPerk($dominion, $unit, $powerType);
+        $unitPower += $this->getUnitPowerFromRecentVictoriesPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromResourcePerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromResourceExhaustingPerk($dominion, $unit, $powerType);
         $unitPower += $this->getUnitPowerFromTimePerk($dominion, $unit, $powerType);
@@ -1011,6 +1012,39 @@ class MilitaryCalculator
         return $powerFromPerk;
     }
 
+    protected function getUnitPowerFromRecentVictoriesPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $recentVictoriesPerk = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, $powerType . "_from_recent_victories");
+
+        if (!$recentVictoriesPerk)
+        {
+            return 0;
+        }
+
+        $perRecentVictory = (float)$recentVictoriesPerk[0];
+        $recencyTicks = (int)$recentVictoriesPerk[1];
+
+        $powerFromPerk = 0;
+
+        $recentInvasions = GameEvent::query()
+            ->where('tick', '>=', ($dominion->round->ticks - $recencyTicks))
+            ->where([
+                'source_type' => Dominion::class,
+                'source_id' => $dominion->id,
+                'type' => 'invasion',
+            ])
+            ->get();
+  
+        foreach($recentInvasions as $key => $recentInvasion)
+        {
+            if($recentInvasion->data['land_ratio'] >= 75 and $recentInvasion->data['result']['success'])
+            {
+                $powerFromPerk += $perRecentVictory;
+            }
+        }
+
+        return $powerFromPerk;
+    }
 
     protected function getUnitPowerFromNetVictoriesPerk(Dominion $dominion, Unit $unit, string $powerType): float
     {
@@ -2038,7 +2072,7 @@ class MilitaryCalculator
     public function getRecentlyInvadedCountByAttacker(Dominion $defender, Dominion $attacker, int $ticks = 8): int
     {
         $invasionEvents = GameEvent::query()
-            ->where('tick', '>=', ($dominion->round->ticks - $ticks))
+            ->where('tick', '>=', ($defender->round->ticks - $ticks))
             ->where([
                 'target_type' => Dominion::class,
                 'target_id' => $defender->id,
@@ -2076,7 +2110,7 @@ class MilitaryCalculator
             $invasionEvents = GameEvent::query()
                               ->join('dominions as source_dominion','game_events.source_id','source_dominion.id')
                               ->join('dominions as target_dominion','game_events.target_id','target_dominion.id')
-                              ->where('game_events.tick', '>=', ($dominion->round->ticks - $ticks))
+                              ->where('game_events.tick', '>=', ($attacker->round->ticks - $ticks))
                               ->where([
                                   'game_events.type' => 'invasion',
                                   'game_events.source_id' => $defender->id,

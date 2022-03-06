@@ -147,7 +147,7 @@ class Round extends AbstractModel
         {
       			$query->where('type','round_countdown')
           				->orWhere('type','round_countdown_duration');
-        })->get();
+        })->first();
 
         return $countdown ? true : false;
     }
