@@ -58,7 +58,7 @@ class SorceryCalculator
     {
         $duration = $spell->duration;
 
-        $duration *= ($this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount) / 20);
+        $duration *= ($this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount) / 25);
 
         $duration = min($duration, 96);
 
@@ -97,8 +97,14 @@ class SorceryCalculator
         {
             return 0;
         }
+        if($targetWpa <= 0)
+        {
+            return 1.5;
+        }
 
-        $multiplier += (1 / exp($targetWpa / $casterWpa) * (($casterWpa - $targetWpa) / $casterWpa) / 2);
+        #$multiplier += (1 / exp($targetWpa / $casterWpa) * (($casterWpa - $targetWpa) / $casterWpa) / 2);
+        #$multiplier = min($casterWpa / $targetWpa, 1.5);
+        $multiplier += clamp((($casterWpa - $targetWpa) / $casterWpa), 0, 1.5);
 
         return $multiplier;
     }

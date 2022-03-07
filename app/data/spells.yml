@@ -350,7 +350,9 @@ crusade_of_urugdakh:
     - Orc
     - Black Orc
   perks:
-    offense_from_devotion: urugdakh,0.01,10
+    offense_from_devotion: urugdakh,0.02,20
+    increases_enemy_casualties_on_offense: 25
+    no_land_discovered: 1
 
 sacrifice_to_urugdakh:
   name: Sacrifice to Urugdakh

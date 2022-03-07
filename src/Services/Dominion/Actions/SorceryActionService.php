@@ -23,6 +23,7 @@ use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Helpers\ImprovementHelper;
 
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionSpell;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\Resource;
@@ -184,13 +185,15 @@ class SorceryActionService
 
                 $duration = $this->sorceryCalculator->getSorcerySpellDuration($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount);
 
+                $this->sorcery['damage']['duration'] = $duration;
+
                 #dd($duration);
 
                 $this->statsService->updateStat($caster, 'sorcery_duration', $duration);
 
                 if ($this->spellCalculator->isSpellActive($target, $spell->key))
                 {
-                    DB::transaction(function () use ($caster, $target, $spell)
+                    DB::transaction(function () use ($caster, $target, $spell, $duration)
                     {
                         $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
                         ->update(['duration' => $duration]);
@@ -203,7 +206,7 @@ class SorceryActionService
                 }
                 else
                 {
-                    DB::transaction(function () use ($caster, $target, $spell)
+                    DB::transaction(function () use ($caster, $target, $spell, $duration)
                     {
                         DominionSpell::create([
                             'dominion_id' => $target->id,
@@ -218,12 +221,8 @@ class SorceryActionService
                         ]);
                     });
                 }
-                $this->notificationService
-                    ->queueNotification('received_hostile_spell', [
-                        'sourceDominionId' => $caster->id,
-                        'spellKey' => $spell->key,
-                    ])
-                    ->sendNotifications($target, 'irregular_dominion');
+
+                dd($this->sorcery);
             }
             elseif($spell->class == 'active')
             {
