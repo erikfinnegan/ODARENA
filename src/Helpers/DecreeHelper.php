@@ -166,7 +166,7 @@ class DecreeHelper
             'defensive_power' => 'Defensive power increased by %2$s%% for every %1$s%% (max +%3$s%% DP).',
             'target_defensive_power_mod' => '%2$s%% target defensive modifiers for every %1$s%% (max -%3$s%% or 0%% defensive modifiers).',
 
-            'reduces_offensive_power' => 'Invading force\'s total offensive power reduced by %2$s%% for every %1$s%% (max -%3$s%% OP).',
+            'attacker_offensive_power_mod' => 'Invading force\'s total offensive power reduced by %2$s%% for every %1$s%% (max -%3$s%% OP).',
 
             # Improvements
             'improvements' => 'Improvements increased by %2$s%% for every %1$s%%.',

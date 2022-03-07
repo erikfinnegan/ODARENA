@@ -66,10 +66,18 @@
                     </tr>
                     @endif
                     <tr>
-                        <td colspan="3"><hr /></td>
+                        <td colspan="3">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td>Casualties:</td>
+                        <td>Enemy modifers:</td>
+                        <td>{{ number_format($militaryCalculator->getOffensiveMultiplierReduction($selectedDominion)*100, 2) }}%</td>
+                        <td>{{ number_format($militaryCalculator->getDefensiveMultiplierReduction($selectedDominion)*100, 2) }}%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>Own casualties:</td>
                         <td>{{ number_format(($casualtiesCalculator->getBasicCasualtiesPerkMultipliers($selectedDominion, 'offense'))*100, 2) }}%</td>
                         <td>{{ number_format(($casualtiesCalculator->getBasicCasualtiesPerkMultipliers($selectedDominion, 'defense'))*100, 2) }}%</td>
                     </tr>

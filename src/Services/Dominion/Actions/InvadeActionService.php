@@ -3019,15 +3019,9 @@ class InvadeActionService
       ): float
     {
         // Values (percentages)
-        $dpReductionPerTemple = 1.8;
-        $templeMaxDpReduction = 36;
         $ignoreDraftees = false;
 
-        $dpMultiplierReduction = 0;
-        $dpMultiplierReduction += $attacker->getBuildingPerkMultiplier('target_defensive_power_mod');
-        $dpMultiplierReduction += $attacker->getSpellPerkMultiplier('target_defensive_power_mod');
-        $dpMultiplierReduction += $attacker->getImprovementPerkMultiplier('target_defensive_power_mod');
-        $dpMultiplierReduction += $attacker->getDeityPerkMultiplier('target_defensive_power_mod');
+        $dpMultiplierReduction = $this->militaryCalculator->getDefensiveMultiplierReduction($attacker);
 
         // Void: Spell (remove DP reduction from Temples)
         if ($target->getSpellPerkValue('immune_to_temples'))

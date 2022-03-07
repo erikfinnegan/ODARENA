@@ -80,7 +80,7 @@ class MilitaryCalculator
 
         if($isInvasion)
         {
-            $op *= $this->getOffensivePowerReduction($defender, $isInvasion);
+            $op *= $this->getOffensiveMultiplierReduction($defender, $isInvasion);
         }
 
         return $op;
@@ -1562,17 +1562,6 @@ class MilitaryCalculator
         return 0.90 + $dominion->morale / 1000;
     }
 
-    # Icekin: Glacier
-    public function getOffensivePowerReduction(?Dominion $defender, bool $isInvasion = false): float
-    {
-        $base = 1;
-        if($defender and $isInvasion)
-        {
-            return $base - $defender->getBuildingPerkMultiplier('reduces_offensive_power');
-        }
-        return $base;
-    }
-
     /**
      * Returns the Dominion's spy ratio.
      *
@@ -2366,6 +2355,29 @@ class MilitaryCalculator
         }
 
         return $militaryPower;
+    }
+
+    public function getDefensiveMultiplierReduction(Dominion $attacker): float
+    {
+        $reduction = 0;
+        $reduction += $attacker->getBuildingPerkMultiplier('target_defensive_power_mod');
+        $reduction += $attacker->getSpellPerkMultiplier('target_defensive_power_mod');
+        $reduction += $attacker->getImprovementPerkMultiplier('target_defensive_power_mod');
+        $reduction += $attacker->getDeityPerkMultiplier('target_defensive_power_mod');
+
+        return $reduction;
+    }
+
+    public function getOffensiveMultiplierReduction(Dominion $defender): float
+    {
+        $reduction = 0;
+
+        $reduction += $defender->getBuildingPerkMultiplier('attacker_offensive_power_mod');
+        $reduction += $defender->getSpellPerkMultiplier('attacker_offensive_power_mod');
+        $reduction += $defender->getImprovementPerkMultiplier('attacker_offensive_power_mod');
+        $reduction += $defender->getDeityPerkMultiplier('attacker_offensive_power_mod');
+
+        return $reduction;
     }
 
 }
