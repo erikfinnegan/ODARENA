@@ -76,7 +76,7 @@ class InvadeCalculationService
      */
     public function calculate(Dominion $dominion, ?Dominion $target, ?array $units, ?array $calc): array
     {
-        if ($dominion->isLocked() || !$dominion->round->isActive())
+        if ($dominion->isLocked() || $dominion->round->hasEnded())
         {
             return ['result' => 'error', 'message' => 'invalid dominion(s) selected'];
         }
