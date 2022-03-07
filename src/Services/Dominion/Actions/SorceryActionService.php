@@ -221,8 +221,6 @@ class SorceryActionService
                         ]);
                     });
                 }
-
-                dd($this->sorcery);
             }
             elseif($spell->class == 'active')
             {
@@ -505,8 +503,6 @@ class SorceryActionService
                     }
                 }
                 #END PERK FOREACH
-
-                dd($this->sorcery);
             }
 
             // Update stats
