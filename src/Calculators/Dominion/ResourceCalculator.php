@@ -120,7 +120,7 @@ class ResourceCalculator
 
         if(isset($dominion->title))
         {
-            $production += $dominion->title->getPerkValue($resourceKey . '_production_raw');
+            $production += $dominion->title->getPerkValue($resourceKey . '_production_raw') * $dominion->title->getPerkBonus($dominion);;
         }
 
         if(isset($dominion->race->peasants_production[$resourceKey]))

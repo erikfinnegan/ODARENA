@@ -342,7 +342,7 @@
             </div>
             <div class="box-body">
 
-                <p>Here you can construct buildings. Each building takes <b>12 ticks</b> to complete.</p>
+                <p>Here you can construct buildings. Each building takes <b>{{ $constructionCalculator->getConstructionTicks($selectedDominion) }} ticks</b> to complete.</p>
                 @php
                     $constructionMaterials = $selectedDominion->race->construction_materials;
                     $primaryCost = $constructionCalculator->getConstructionCostPrimary($selectedDominion);
@@ -374,7 +374,7 @@
                     @endif
                 </p>
 
-                <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) }} {{ str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
+                <p>You have {{ number_format($landCalculator->getTotalBarrenLand($selectedDominion)) . ' ' . str_plural('acre', $landCalculator->getTotalBarrenLand($selectedDominion)) }} of barren land
                   and can afford to construct <strong>{{ number_format($constructionCalculator->getMaxAfford($selectedDominion)) }} {{ str_plural('building', $constructionCalculator->getMaxAfford($selectedDominion)) }}</strong>.</p>
                 <p>You may also <a href="{{ route('dominion.demolish') }}">demolish buildings</a> if you wish.</p>
 

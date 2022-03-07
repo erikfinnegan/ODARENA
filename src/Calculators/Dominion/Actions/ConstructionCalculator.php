@@ -220,4 +220,17 @@ class ConstructionCalculator
 
         return (1 + $multiplier);
     }
+
+    public function getConstructionTicks(Dominion $dominion): int
+    {
+        $ticks = 12;
+
+        $ticks -= $dominion->race->getPerkValue('increased_construction_speed');
+        $ticks -= $dominion->title->getPerkValue('increased_construction_speed') * $dominion->title->getPerkBonus($dominion);;
+
+        $ticks = ceil($ticks * (1 + $dominion->getImprovementPerkMultiplier('construction_time')));
+
+        return max(1, $ticks);
+
+    }
 }

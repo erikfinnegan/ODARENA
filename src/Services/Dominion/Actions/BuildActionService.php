@@ -159,14 +159,7 @@ class BuildActionService
 
         DB::transaction(function () use ($dominion, $data, $primaryCostTotal, $secondaryCostTotal, $primaryResource, $secondaryResource, $totalBuildingsToConstruct)
         {
-            $ticks = 12;
-
-            $ticks -= $dominion->race->getPerkValue('increased_construction_speed');
-            $ticks -= $dominion->title->getPerkValue('increased_construction_speed');
-
-            $ticks = ceil($ticks * (1 + $dominion->getImprovementPerkMultiplier('construction_time')));
-
-            $ticks = max(1, $ticks);
+            $ticks = $this->constructionCalculator->getConstructionTicks($dominion);
 
             $this->queueService->queueResources('construction', $dominion, $data, $ticks);
 
