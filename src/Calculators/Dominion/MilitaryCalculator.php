@@ -1295,7 +1295,6 @@ class MilitaryCalculator
           return $powerFromPerk;
       }
 
-
       protected function getUnitPowerFromTimePerk(Dominion $dominion, Unit $unit, string $powerType): float
       {
 
