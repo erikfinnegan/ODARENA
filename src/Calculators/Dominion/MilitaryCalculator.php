@@ -164,10 +164,14 @@ class MilitaryCalculator
         // Deity
         $multiplier += $attacker->getDeityPerkMultiplier('offensive_power');
 
-
         if ($this->isOwnRealmRecentlyInvadedByTarget($attacker, $defender))
         {
             $multiplier += $attacker->getDeityPerkMultiplier('offensive_power_on_retaliation');
+        }
+
+        if ($attacker->hasDeity())
+        {
+            $multiplier += $attacker->getSpellPerkMultiplier('offensive_power_from_devotion');
         }
 
         // Improvements
@@ -180,7 +184,7 @@ class MilitaryCalculator
         $multiplier += $attacker->getTechPerkMultiplier('offense');
 
         // Spell
-        $multiplier += $this->getSpellMultiplier($attacker, $defender, 'offense');
+        $multiplier += $attacker->getSpellPerkMultiplier('offensive_power');
 
         // Prestige
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($attacker);

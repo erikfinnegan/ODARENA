@@ -672,8 +672,6 @@ class SpellActionService
                     $peasantsSacrificed = min($caster->peasants - 1000, $peasantsChunk);
                     $prestigeGained = intval(($peasantsSacrificed / $peasantsChunk) * $prestige);
 
-                    #dd($peasantsSacrificed, $prestigeGained);
-
                     $caster->peasants -= $peasantsSacrificed;
                     $caster->prestige += $prestigeGained;
 

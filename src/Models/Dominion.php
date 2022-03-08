@@ -1006,201 +1006,241 @@ class Dominion extends AbstractModel
 
     public function getSpellPerkValue(string $perkKey): float
     {
-    $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
-    $perk = 0;
+        $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
+        $deityKey = $this->hasDeity() ? $this->getDeity()->key : null;
+        $perk = 0;
 
-    foreach ($this->spells as $spell)
-    {
-        $perkValueString = $spell->getPerkValue($perkKey);
-        $dominionSpell = DominionSpell::where('caster_id', $this->id)->where('spell_id',$spell->id)->first();
-
-        if($dominionSpell and $dominionSpell->duration > 0 and $perkValueString)
+        # Check each spell
+        foreach ($this->spells as $spell)
         {
-            if($perkValueString and (is_numeric($perkValueString) and !is_array($perkValueString)))
+            # Get the dominion spell object
+            $dominionSpell = DominionSpell::where('caster_id', $this->id)->where('spell_id',$spell->id)->first();
+            $perkValueString = $spell->getPerkValue($perkKey);
+
+            if($spell->perks->filter(static function (SpellPerkType $spellPerkType) use ($perkKey) { return ($spellPerkType->key === $perkKey); }) and $dominionSpell->duration > 0 and $perkValueString !== 0)
             {
-               # Single value numeric perks
-               if(
-                       $perkKey == 'gold_production_mod'
-                       or $perkKey == 'food_production_mod'
-                       or $perkKey == 'ore_production_mod'
-                       or $perkKey == 'gems_production_mod'
-                       or $perkKey == 'lumber_production_mod'
-                       or $perkKey == 'mana_production_mod'
-                       or $perkKey == 'pearls_production_mod'
-                       or $perkKey == 'cosmic_alignment_production_mod'
-                       or $perkKey == 'mud_production_mod'
-                       or $perkKey == 'swamp_gas_production_mod'
-                       or $perkKey == 'xp_generation_mod'
 
-                       or $perkKey == 'gold_consumption_mod'
-                       or $perkKey == 'food_consumption_mod'
-                       or $perkKey == 'ore_consumption_mod'
-                       or $perkKey == 'gems_consumption_mod'
-                       or $perkKey == 'lumber_consumption_mod'
-                       or $perkKey == 'mana_consumption_mod'
-                       or $perkKey == 'pearls_consumption_mod'
-                       or $perkKey == 'cosmic_alignment_consumption_mod'
-                       or $perkKey == 'mud_consumption_mod'
-                       or $perkKey == 'swamp_gas_consumption_mod'
-                       or $perkKey == 'xp_generation_mod'
+                /*$singleValueNumericPerks = [
+                    # Production mods
+                    'gold_production_mod',
+                    'food_production_mod',
+                    'ore_production_mod',
+                    'gems_production_mod',
+                    'lumber_production_mod',
+                    'mana_production_mod',
+                    'pearls_production_mod',
+                    'cosmic_alignment_production_mod',
+                    'mud_production_mod',
+                    'swamp_gas_production_mod',
+                    'xp_generation_mod',
 
-                       or $perkKey == 'gold_production_raw'
-                       or $perkKey == 'food_production_raw'
-                       or $perkKey == 'ore_production_raw'
-                       or $perkKey == 'gems_production_raw'
-                       or $perkKey == 'lumber_production_raw'
-                       or $perkKey == 'mana_production_raw'
-                       or $perkKey == 'pearls_production_raw'
-                       or $perkKey == 'mud_production_raw'
-                       or $perkKey == 'swamp_gas_production_raw'
-                       or $perkKey == 'marshling_production_raw'
-                       or $perkKey == 'xp_generation_raw'
+                    # Consumption mods
+                    'gold_consumption_mod',
+                    'food_consumption_mod',
+                    'ore_consumption_mod',
+                    'gems_consumption_mod',
+                    'lumber_consumption_mod',
+                    'mana_consumption_mod',
+                    'pearls_consumption_mod',
+                    'cosmic_alignment_consumption_mod',
+                    'mud_consumption_mod',
+                    'swamp_gas_consumption_mod',
+                    'xp_generation_mod',
 
-                       or $perkKey == 'gold_production_raw_mod'
-                       or $perkKey == 'food_production_raw_mod'
-                       or $perkKey == 'ore_production_raw_mod'
-                       or $perkKey == 'gems_production_raw_mod'
-                       or $perkKey == 'lumber_production_raw_mod'
-                       or $perkKey == 'mana_production_raw_mod'
-                       or $perkKey == 'pearls_production_raw_mod'
-                       or $perkKey == 'mud_production_raw_mod'
-                       or $perkKey == 'swamp_gas_production_raw_mod'
-                       or $perkKey == 'marshling_production_raw_mod'
-                       or $perkKey == 'xp_generation_raw_mod'
+                    # Raw production
+                    'gold_production_raw',
+                    'food_production_raw',
+                    'ore_production_raw',
+                    'gems_production_raw',
+                    'lumber_production_raw',
+                    'mana_production_raw',
+                    'pearls_production_raw',
+                    'mud_production_raw',
+                    'swamp_gas_production_raw',
+                    'marshling_production_raw',
+                    'xp_generation_raw',
 
-                       or $perkKey == 'no_gold_production'
-                       or $perkKey == 'no_food_production'
-                       or $perkKey == 'no_ore_production'
-                       or $perkKey == 'no_lumber_production'
-                       or $perkKey == 'no_mana_production'
-                       or $perkKey == 'no_xp_generation'
+                    # Raw upkeep
+                    'gold_upkeep_raw',
+                    'food_upkeep_raw',
+                    'ore_upkeep_raw',
+                    'gems_upkeep_raw',
+                    'lumber_upkeep_raw',
+                    'mana_upkeep_raw',
+                    'pearls_upkeep_raw',
+                    'mud_upkeep_raw',
+                    'swamp_gas_upkeep_raw',
+                    'marshling_upkeep_raw',
 
-                       or $perkKey == 'unit_gold_costs'
-                       or $perkKey == 'unit_ore_costs'
-                       or $perkKey == 'unit_lumber_costs'
-                       or $perkKey == 'unit_mana_costs'
-                       or $perkKey == 'unit_food_costs'
-                       or $perkKey == 'unit_blood_costs'
+                    # Decay
+                    'gold_decay',
+                    'food_decay',
+                    'ore_decay',
+                    'gems_decay',
+                    'lumber_decay',
+                    'mana_decay',
+                    'pearls_decay',
+                    'mud_decay',
+                    'swamp_gas_decay',
+                    'marshling_decay',
 
-                       or $perkKey == 'unit_gold_cost'
-                       or $perkKey == 'unit_ore_cost'
-                       or $perkKey == 'unit_lumber_cost'
+                    # Raw production mod
+                    'gold_production_raw_mod',
+                    'food_production_raw_mod',
+                    'ore_production_raw_mod',
+                    'gems_production_raw_mod',
+                    'lumber_production_raw_mod',
+                    'mana_production_raw_mod',
+                    'pearls_production_raw_mod',
+                    'mud_production_raw_mod',
+                    'swamp_gas_production_raw_mod',
+                    'marshling_production_raw_mod',
+                    'xp_generation_raw_mod',
 
-                       or $perkKey == 'food_production_raw'
+                    # No production
+                    'no_gold_production',
+                    'no_food_production',
+                    'no_ore_production',
+                    'no_gems_production',
+                    'no_lumber_production',
+                    'no_mana_production',
+                    'no_pearls_production',
+                    'no_mud_production',
+                    'no_swamp_gas_production',
+                    'no_marshling_production',
+                    'no_xp_generation',
 
-                       or $perkKey == 'population_growth'
-                       or $perkKey == 'improvements'
-                       or $perkKey == 'invest_bonus'
+                    # Unit costs
+                    'unit_gold_costs',
+                    'unit_ore_costs',
+                    'unit_gems_costs',
+                    'unit_lumber_costs',
+                    'unit_mana_costs',
+                    'unit_food_costs',
+                    'unit_blood_costs',
+                    'unit_soul_costs',
+                    'unit_horse_costs',
+                    'unit_swamp_gas_costs',
+                    'unit_mud_costs',
 
-                       or $perkKey == 'cannot_build'
-                       or $perkKey == 'cannot_invade'
-                       or $perkKey == 'cannot_explore'
-                       or $perkKey == 'no_drafting'
+                    # Military
+                    'offensive_power',
+                    'offensive_power_on_retaliation',
+                    'defensive_power',
 
-                       or $perkKey == 'gold_theft'
-                       or $perkKey == 'gems_theft'
-                       or $perkKey == 'ore_theft'
-                       or $perkKey == 'mana_theft'
-                       or $perkKey == 'lumber_theft'
-                       or $perkKey == 'all_theft'
+                    'drafting',
+                    'no_drafting',
+                    'cannot_invade',
 
-                       or $perkKey == 'reveal_ops'
-                       or $perkKey == 'fog_of_war'
-                       or $perkKey == 'chance_to_reflect_spells'
-                       or $perkKey == 'damage_from_spells'
-                       or $perkKey == 'damage_from_fireball'
-                       or $perkKey == 'damage_from_lightning_bolt'
+                    'no_attrition',
 
-                       or $perkKey == 'offensive_power'
-                       or $perkKey == 'defensive_power'
-                       or $perkKey == 'drafting'
-                       or $perkKey == 'can_kill_immortal'
-                       or $perkKey == 'defensive_power_from_peasants'
-                       or $perkKey == 'faster_return'
-                       or $perkKey == 'training_time_raw'
-                       or $perkKey == 'target_defensive_power_mod'
-                       or $perkKey == 'cannot_be_converted'
+                    'base_morale',
 
-                       or $perkKey == 'casualties'
-                       or $perkKey == 'casualties_on_offense'
-                       or $perkKey == 'casualties_on_defense'
-                       or $perkKey == 'increases_enemy_casualties'
-                       or $perkKey == 'increases_enemy_casualties_on_defense'
-                       or $perkKey == 'increases_enemy_casualties_on_offense'
-                       or $perkKey == 'increases_enemy_draftee_casualties'
+                    'defensive_power_from_peasants',
+                    'faster_return',
+                    'training_time_raw',
+                    'target_defensive_power_mod',
+                    'attacker_offensive_power_mod',
 
-                       or $perkKey == 'no_conversions'
-                       or $perkKey == 'no_attrition'
+                    'immune_to_temples',
 
-                       or $perkKey == 'convert_enemy_casualties_to_food'
-                       or $perkKey == 'convert_peasants_to_champions'
+                    'opens_portal',
 
-                       or $perkKey == 'increases_enemy_casualties_on_offense_from_wizard_ratio'
-                       or $perkKey == 'offensive_power_on_retaliation'
-                       or $perkKey == 'immune_to_temples'
+                    # Population
+                    'population_growth',
 
-                       or $perkKey == 'spy_strength'
-                       or $perkKey == 'spy_strength_recovery'
-                       or $perkKey == 'wizard_strength'
-                       or $perkKey == 'wizard_strength_recovery'
-                       or $perkKey == 'immortal_spies'
-                       or $perkKey == 'immortal_wizards'
+                    # Improvements
+                    'improvements',
+                    'improvements_interest',
+                    'invest_bonus',
 
-                       or $perkKey == 'land_discovered'
-                       or $perkKey == 'buildings_destroyed'
-                       or $perkKey == 'barren_land_rezoned'
+                    # Building, rezone, land
+                    'cannot_build',
+                    'cannot_explore',
+                    'land_discovered',
 
-                       or $perkKey == 'opens_portal'
-                       or $perkKey == 'stop_land_generation'
-                       or $perkKey == 'defensive_power_vs_insect_swarm'
+                    # Theft
+                    'gold_theft',
+                    'gems_theft',
+                    'ore_theft',
+                    'mana_theft',
+                    'lumber_theft',
+                    'all_theft',
 
-                       or $perkKey == 'stasis'
+                    # Espionage and sabotage
+                    'spy_strength',
+                    'spy_strength_recovery',
+                    'immortal_spies',
+                    'blind_to_reptilian_spies_on_info',
+                    'blind_to_reptilian_spies_on_theft',
 
-                       # Cult
-                       or $perkKey == 'enthralling'
-                       or $perkKey == 'cogency'
-                       or $perkKey == 'persuasion'
+                    # Magic and sorcery
+                    'reveal_ops',
+                    'fog_of_war',
+                    'chance_to_reflect_spells',
+                    'damage_from_spells',
+                    'damage_from_fireball',
+                    'damage_from_lightning_bolt',
+                    'spell_cost',
+                    'wizard_strength',
+                    'wizard_strength_recovery',
+                    'immortal_wizards',
 
-                       # Reptilians
+                    # Casualties, immortality, and conversion
+                    'can_kill_immortal',
+                    'cannot_be_converted',
+                    'casualties',
+                    'casualties_on_offense',
+                    'casualties_on_defense',
+                    'increases_enemy_casualties',
+                    'increases_enemy_casualties_on_defense',
+                    'increases_enemy_casualties_on_offense',
+                    'increases_enemy_casualties_on_offense_from_wizard_ratio',
+                    'increases_enemy_draftee_casualties',
+                    'no_conversions',
+                    'convert_enemy_casualties_to_food',
+                    'stop_land_generation',
+                    'defensive_power_vs_insect_swarm',
 
-                       or $perkKey == 'blind_to_reptilian_spies_on_info'
-                       or $perkKey == 'blind_to_reptilian_spies_on_theft'
-                   )
-               {
-                   $perk += (float)$perkValueString;
-               }
-               elseif($perkValueString and (!is_numeric($perkValueString) and !is_array($perkValueString)))
-               {
-                  $perk = (string)$perkValueString;
-               }
-               else
-               {
-                   dd("[Error] Undefined spell perk key (\$perkKey): $perkKey");
-               }
-            }
-            elseif(is_array($perkValueString))
-            {
-                # Deity spells (no max): deityKey, perk, max
-                if($perkKey == 'offense_from_devotion' or $perkKey == 'defense_from_devotion')
+                    # Other, special
+                    'stasis',
+                    'advancement_costs',
+                    'deity_power',
+                    'exchange_rate',
+
+                    # Cult,
+                    'enthralling',
+                    'cogency',
+                    'persuasion',
+                ];*/
+
+                if(is_numeric($perkValueString))
                 {
-                    dd($perkValueString);
-                    $deityKey = $perkValueString[0];
-                    $perTick = (float)$perkValueString[1];
-                    $max = (int)$perkValueString[2];
+                    $perk += (float)$perkValueString;
+                }
+                # Deity spells (no max): deityKey, perk, max
+                elseif(in_array($perkKey, ['offensive_power_from_devotion', 'defense_from_devotion']))
+                {
+                    $perkValueArray = $spell->getActiveSpellPerkValues($spell->key, $perkKey);
+
+                    $deityKey = $perkValueArray[0];
+                    $perTick = (float)$perkValueArray[1];
+                    $max = (int)$perkValueArray[2];
+
+                    if($this->hasDeity() and $this->getDeity()->key == $deityKey)
+                    {
+                        $perk += min($this->getDeityDuration() * $perTick, $max);
+                    }
                 }
                 else
                 {
-                    dd("[Error] Undefined spell perk key (\$perkKey): $perkKey");
+                    dd("[Error] Undefined spell perk type:", $perkKey, $perkValueString);
                 }
-            }
-            else
-            {
-                dd($perkValueString);
+
             }
         }
-    }
 
-    return $perk;
+        return $perk;
     }
 
     /**
@@ -1209,7 +1249,7 @@ class Dominion extends AbstractModel
     */
     public function getSpellPerkMultiplier(string $key): float
     {
-      return ($this->getSpellPerkValue($key) / 100);
+        return ($this->getSpellPerkValue($key) / 100);
     }
 
     # IMPROVEMENTS

@@ -710,7 +710,7 @@ class UnitHelper
                     $nestedArrays = false;
                 }
 
-                if($perk->key === 'offense_from_devotion' or $perk->key === 'offense_from_devotion')
+                if($perk->key === 'offense_from_devotion' or $perk->key === 'defense_from_devotion')
                 {
                     $deityKey = (string)$perkValue[0];
                     $perTick = (float)$perkValue[1];

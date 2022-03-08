@@ -26,7 +26,7 @@ class ProductionCalculator
     public function getXpGenerationRaw(Dominion $dominion): float
     {
 
-        if($dominion->getSpellPerkValue('no_xp_production'))
+        if($dominion->getSpellPerkValue('no_xp_generation'))
         {
             return 0;
         }

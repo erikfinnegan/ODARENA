@@ -340,7 +340,7 @@ blood_rage:
     casualties: 10
 
 crusade_of_urugdakh:
-  name: Crusade of Urudakh
+  name: Crusade of Urugdakh
   scope: self
   class: passive
   cost: 8
@@ -350,7 +350,7 @@ crusade_of_urugdakh:
     - Orc
     - Black Orc
   perks:
-    offense_from_devotion: urugdakh,0.02,20
+    offensive_power_from_devotion: urugdakh,0.02,20
     increases_enemy_casualties_on_offense: 25
     no_land_discovered: 1
 

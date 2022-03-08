@@ -205,7 +205,7 @@ class SpellHelper
 
             'defensive_power_from_peasants' => '%s raw defensive power per peasant',
 
-            'offense_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max +%3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
+            'offensive_power_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max +%3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
             'defense_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max +%3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
 
             // Improvements
@@ -218,8 +218,6 @@ class SpellHelper
             'cannot_explore' => 'Cannot explore',
 
             // Buildings and Land
-            'buildings_destroyed' => '%s%% of all buildings destroyed per tick',
-            'barren_land_rezoned' => 'All barren land becomes %1$s',
 
             'no_land_discovered' => 'No land discovered on invasions.',
 
@@ -385,7 +383,7 @@ class SpellHelper
             }
 
             // Special case for dies_into, wins_into ("change_into"), fends_off_into
-            if ($perk->key === 'offense_from_devotion' or $perk->key === 'defense_from_devotion')
+            if ($perk->key === 'offensive_power_from_devotion' or $perk->key === 'defense_from_devotion')
             {
                 $deityKey = $perkValue[0];
                 $perTick = (float)$perkValue[1];
