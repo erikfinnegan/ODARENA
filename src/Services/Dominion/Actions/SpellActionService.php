@@ -43,16 +43,6 @@ class SpellActionService
     use DominionGuardsTrait;
 
     /**
-     * @var float Hostile ops base success rate
-     */
-    protected const HOSTILE_MULTIPLIER_SUCCESS_RATE = 2;
-
-    /**
-     * @var float Info op base success rate
-     */
-    protected const INFO_MULTIPLIER_SUCCESS_RATE = 1.4;
-
-    /**
      * SpellActionService constructor.
      */
     public function __construct()
@@ -147,40 +137,7 @@ class SpellActionService
 
         if ($spell->scope == 'hostile')
         {
-            if ($target === null)
-            {
-                throw new GameException("You must select a target when casting {$spell->name}");
-            }
-
-            if ($this->protectionService->isUnderProtection($dominion))
-            {
-                throw new GameException("You cannot cast {$spell->name} while under protection");
-            }
-
-            if ($this->protectionService->isUnderProtection($target))
-            {
-                throw new GameException("You cannot cast {$spell->name} on targets under protection");
-            }
-
-            if (!$this->rangeCalculator->isInRange($dominion, $target) and $spell->class !== 'invasion')
-            {
-                throw new GameException("You cannot cast spells on targets not in your range");
-            }
-
-            if ($dominion->id === $target->id)
-            {
-                throw new GameException("You cannot cast {$spell->name} on yourself");
-            }
-
-            if ($dominion->realm->id === $target->realm->id and ($dominion->round->mode == 'standard' or $dominion->round->mode == 'standard-duration'))
-            {
-                throw new GameException("You cannot cast {$spell->name} on other dominions in your realm in standard rounds");
-            }
-
-            if ($dominion->round->id !== $target->round->id)
-            {
-                throw new GameException('Nice try, but you cannot cast spells cross-round');
-            }
+            throw new GameException('You cannot cast that spell this way. [1]');
         }
 
         $result = null;
@@ -249,14 +206,9 @@ class SpellActionService
     protected function castPassiveSpell(Dominion $caster, ?Dominion $target = null, Spell $spell, int $wizardStrengthCost): array
     {
 
-        if ($spell->scope == 'hostile' and $caster->round->hasOffensiveActionsDisabled())
+        if ($spell->scope == 'hostile')
         {
-            throw new GameException('Hostile spells have been disabled for the rest of the round.');
-        }
-
-        if ($spell->scope == 'hostile' and now()->diffInDays($caster->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START and !$isInvasionSpell)
-        {
-            throw new GameException('You cannot cast hostile spells during the first day of the round.');
+            throw new GameException('You cannot cast that spell this way. [2]');
         }
 
         $cooldown = isset($spell->cooldown) ? $spell->cooldown : 0;
@@ -368,224 +320,14 @@ class SpellActionService
                 )
             ];
         }
-        # Hostile aura
-        elseif($spell->scope == 'hostile')
-        {
-
-            $selfWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'offense'));
-            $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'defense'));
-
-            # Are we successful?
-            ## If yes
-            if ($targetWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($selfWpa, $targetWpa)))
-            {
-                $this->statsService->updateStat($caster, 'magic_hostile_success', 1);
-                # Is the spell reflected?
-                $spellReflected = false;
-                $chanceToReflect = 0;
-                $chanceToReflect = $target->getSpellPerkMultiplier('chance_to_reflect_spells');
-                $chanceToReflect = $target->getBuildingPerkMultiplier('chance_to_reflect_spells');
-                $chanceToReflect = $target->getImprovementPerkMultiplier('chance_to_reflect_spells');
-                $chanceToReflect = $target->title->getPerkMultiplier('chance_to_reflect_spells');
-
-                if (random_chance($chanceToReflect) and $spell->class !== 'invasion')
-                {
-                    $spellReflected = true;
-                    $reflectedBy = $target;
-                    $target = $caster;
-                    $caster = $reflectedBy;
-                    $this->statsService->updateStat($caster, 'magic_reflected', 1);
-                }
-
-                if ($this->spellCalculator->isSpellActive($target, $spell->key))
-                {
-                    DB::transaction(function () use ($caster, $target, $spell)
-                    {
-                        $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
-                        ->update(['duration' => $spell->duration]);
-
-                        $target->save([
-                            'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
-                            'action' => $spell->key
-                        ]);
-                    });
-                }
-                else
-                {
-                    DB::transaction(function () use ($caster, $target, $spell)
-                    {
-                        DominionSpell::create([
-                            'dominion_id' => $target->id,
-                            'caster_id' => $caster->id,
-                            'spell_id' => $spell->id,
-                            'duration' => $spell->duration
-                        ]);
-
-                        $caster->save([
-                            'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
-                            'action' => $spell->key
-                        ]);
-                    });
-                }
-
-                $this->statsService->updateStat($caster, 'magic_hostile_duration', $spell->duration);
-
-                // Surreal Perception
-                $sourceDominionId = null;
-                if ($target->getSpellPerkValue('reveal_ops'))
-                {
-                    $sourceDominionId = $caster->id;
-                }
-
-                $this->notificationService
-                    ->queueNotification('received_hostile_spell', [
-                        'sourceDominionId' => $sourceDominionId,
-                        'spellKey' => $spell->key,
-                    ])
-                    ->sendNotifications($target, 'irregular_dominion');
-
-                if ($spellReflected)
-                {
-                  // Notification for Energy Mirror deflection
-                   $this->notificationService
-                       ->queueNotification('reflected_hostile_spell', [
-                           'sourceDominionId' => $target->id,
-                           'spellKey' => $spell->key,
-                       ])
-                       ->sendNotifications($caster, 'irregular_dominion');
-
-                   return [
-                       'success' => true,
-                       'message' => sprintf(
-                           'Your wizards cast the spell successfully, but it was reflected and it will now affect your dominion for the next %s ticks.',
-                           $spell->duration
-                       ),
-                       'alert-type' => 'danger'
-                   ];
-               }
-               else
-               {
-                   return [
-                       'success' => true,
-                       'message' => sprintf(
-                           'Your wizards cast %s successfully, and it will continue to affect your target for the next %s ticks.',
-                           $spell->name,
-                           $spell->duration
-                       )
-                   ];
-               }
-            }
-            # Are we successful?
-            ## If no
-            else
-            {
-                $this->statsService->updateStat($caster, 'magic_hostile_failure', 1);
-
-                $wizardsKilledBasePercentage = 1;
-
-                $wizardLossSpaRatio = ($targetWpa / $selfWpa);
-                $wizardsKilledPercentage = clamp($wizardsKilledBasePercentage * $wizardLossSpaRatio, 0.5, 1.5);
-
-                $unitsKilled = [];
-                $wizardsKilled = (int)floor($caster->military_wizards * ($wizardsKilledPercentage / 100));
-
-                // Check for immortal wizards
-                if ($caster->race->getPerkValue('immortal_wizards') != 0)
-                {
-                    $wizardsKilled = 0;
-                }
-
-                if ($wizardsKilled > 0)
-                {
-                    $unitsKilled['wizards'] = $wizardsKilled;
-
-                    $this->statsService->updateStat($caster, 'wizards_lost', $wizardsKilled);
-                    $this->statsService->updateStat($target, 'wizards_killed', $wizardsKilled);
-
-                }
-
-                $wizardUnitsKilled = 0;
-                foreach ($caster->race->units as $unit)
-                {
-                    if ($unit->getPerkValue('counts_as_wizard_offense'))
-                    {
-                        if($unit->getPerkValue('immortal_wizard'))
-                        {
-                          $unitKilled = 0;
-                        }
-                        else
-                        {
-                          $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_wizard_offense') / 2) * ($wizardsKilledPercentage / 100);
-                          $unitKilled = (int)floor($caster->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
-                        }
-
-                        if ($unitKilled > 0)
-                        {
-                            $unitsKilled[strtolower($unit->name)] = $unitKilled;
-
-                            $this->statsService->updateStat($caster, ('unit' . $unit->slot . '_lost'), $unitKilled);
-                            $this->statsService->updateStat($target, 'units_killed', $unitKilled);
-
-                            $wizardUnitsKilled += $unitKilled;
-                        }
-                    }
-                }
-
-                if ($target->getSpellPerkValue('cogency'))
-                {
-                    $this->notificationService->queueNotification('cogency_occurred',['sourceDominionId' => $caster->id, 'saved' => ($wizardsKilled + $wizardUnitsKilled)]);
-                    $this->queueService->queueResources('training', $target, ['military_wizards' => ($wizardsKilled + $wizardUnitsKilled)], 6);
-                }
-
-                $unitsKilledStringParts = [];
-                foreach ($unitsKilled as $name => $amount)
-                {
-                    $amountLabel = number_format($amount);
-                    $unitLabel = str_plural(str_singular($name), $amount);
-                    $unitsKilledStringParts[] = "{$amountLabel} {$unitLabel}";
-                }
-                $unitsKilledString = generate_sentence_from_array($unitsKilledStringParts);
-
-                // Inform target that they repelled a hostile spell
-                $this->notificationService
-                    ->queueNotification('repelled_hostile_spell', [
-                        'sourceDominionId' => $caster->id,
-                        'spellKey' => $spell->key,
-                        'unitsKilled' => $unitsKilledString,
-                    ])
-                    ->sendNotifications($target, 'irregular_dominion');
-
-                if ($unitsKilledString)
-                {
-                    $message = "The enemy wizards have repelled our {$spell->name} attempt and managed to kill $unitsKilledString.";
-                }
-                else
-                {
-                    $message = "The enemy wizards have repelled our {$spell->name} attempt.";
-                }
-
-                // Return here, thus completing the spell cast and reducing the caster's mana
-                return [
-                    'success' => false,
-                    'message' => $message,
-                    'wizardStrengthCost' => 2,
-                    'alert-type' => 'warning',
-                ];
-            }
-        }
     }
 
     protected function castActiveSpell(Dominion $caster, ?Dominion $target = null, Spell $spell, int $wizardStrengthCost): array
     {
 
-        if ($spell->scope == 'hostile' and $caster->round->hasOffensiveActionsDisabled())
+        if ($spell->scope == 'hostile')
         {
-            throw new GameException('Hostile spells have been disabled for the rest of the round.');
-        }
-
-        if ($spell->scope == 'hostile' and now()->diffInDays($caster->round->start_date) < self::BLACK_OPS_DAYS_AFTER_ROUND_START and !$isInvasionSpell)
-        {
-            throw new GameException('You cannot cast hostile spells during the first day of the round.');
+            throw new GameException('You cannot cast that spell this way. [3]');
         }
 
         # Self-spells self impact spells
@@ -807,22 +549,35 @@ class SpellActionService
 
             if($spell->cooldown > 0)
             {
-                DB::transaction(function () use ($caster, $target, $spell)
+                # But has it already been cast and is sitting at zero-tick cooldown?
+                if(DominionSpell::where('dominion_id', $caster->id)->where('spell_id', $spell->id))
                 {
-                    DominionSpell::create([
-                        'dominion_id' => $caster->id,
-                        'caster_id' => $target->id,
-                        'spell_id' => $spell->id,
-                        'duration' => 0,
-                        'cooldown' => $spell->cooldown
-                    ]);
-
-                    $caster->save([
-                        'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
-                        'action' => $spell->key
-                    ]);
-                });
+                    DB::transaction(function () use ($caster, $target, $spell)
+                    {
+                      DominionSpell::where('dominion_id', $caster->id)->where('spell_id', $spell->id)
+                      ->update(['cooldown' => $spell->cooldown]);
+                    });
+                }
+                else
+                {
+                    DB::transaction(function () use ($caster, $target, $spell)
+                    {
+                        DominionSpell::create([
+                            'dominion_id' => $caster->id,
+                            'caster_id' => $target->id,
+                            'spell_id' => $spell->id,
+                            'duration' => 0,
+                            'cooldown' => $spell->cooldown
+                        ]);
+                    });
+                }
             }
+
+
+            $caster->save([
+                'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
+                'action' => $spell->key
+            ]);
 
             return [
                 'success' => true,
@@ -893,388 +648,6 @@ class SpellActionService
                     $target->name
                 )
             ];
-        }
-        # Hostile spells, hostile impact spells
-        elseif($spell->scope == 'hostile')
-        {
-            $selfWpa = min(10,$this->militaryCalculator->getWizardRatio($caster, 'offense'));
-            $targetWpa = min(10,$this->militaryCalculator->getWizardRatio($target, 'defense'));
-
-            # Are we successful?
-            ## If yes
-            if ($targetWpa == 0.0 or random_chance($this->opsHelper->blackOperationSuccessChance($selfWpa, $targetWpa)))
-            {
-                $this->statsService->updateStat($caster, 'magic_hostile_success', 1);
-                # Is the spell reflected?
-                $spellReflected = false;
-                $chanceToReflect = 0;
-                $chanceToReflect = $target->getSpellPerkMultiplier('chance_to_reflect_spells');
-                $chanceToReflect += $target->getBuildingPerkMultiplier('chance_to_reflect_spells');
-                $chanceToReflect += $target->getImprovementPerkMultiplier('chance_to_reflect_spells');
-                $chanceToReflect += $target->title->getPerkMultiplier('chance_to_reflect_spells');
-
-                if (random_chance($chanceToReflect) and $spell->class !== 'invasion')
-                {
-                    $spellReflected = true;
-                    $reflectedBy = $target;
-                    $target = $caster;
-                    $caster = $reflectedBy;
-                    $this->statsService->updateStat($target, 'magic_reflected', 1);
-                }
-
-                $damageDealt = [];
-
-                foreach($spell->perks as $perk)
-                {
-                    $spellPerkValues = $spell->getActiveSpellPerkValues($spell->key, $perk->key);
-
-                    if($perk->key === 'kill_peasants')
-                    {
-                        $attribute = 'peasants';
-                        $baseDamage = (float)$spellPerkValues / 100;
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'peasants');
-
-                        $damage = min(floor($target->peasants * $baseDamage * $damageMultiplier), $target->peasants);
-
-                        $target->peasants -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
-
-                        $this->statsService->updateStat($caster, 'peasants_killed', $damage);
-
-                        # For Empire, add burned peasants go to the crypt
-                        if($target->realm->alignment === 'evil')
-                        {
-                            $target->realm->crypt += $damage;
-                        }
-                    }
-
-                    if($perk->key === 'kill_draftees')
-                    {
-                        $attribute = 'military_draftees';
-                        $baseDamage = (float)$spellPerkValues / 100;
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'draftees');
-
-                        $damage = min(round($target->military_draftees * $baseDamage * $damageMultiplier), $target->military_draftees);
-
-                        $target->{$attribute} -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
-
-                        $this->statsService->updateStat($caster, 'draftees_killed', $damage);
-
-                        # For Empire, add burned peasants go to the crypt
-                        if($target->realm->alignment === 'evil')
-                        {
-                            $target->realm->crypt += $damage;
-                        }
-                    }
-
-                    if($perk->key === 'kill_faction_units_percentage')
-                    {
-                        $faction = $spellPerkValues[0];
-                        $slot = (int)$spellPerkValues[1];
-                        $ratio = (float)$spellPerkValues[2] / 100;
-
-                        $attribute = 'military_unit'.$slot;
-
-                        if($target->race->name !== $faction)
-                        {
-                            $ratio = 0;
-                        }
-
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $attribute);
-
-                        $damage = round($target->{'military_unit'.$slot} * $ratio);
-
-                        $target->{$attribute} -= $damage;
-
-                        $unit = $target->race->units->filter(function ($unit) use ($slot) {
-                            return ($unit->slot == $slot);
-                        })->first();
-
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($unit->name, $damage));
-
-                        $this->statsService->updateStat($caster, 'units_killed', $damage);
-                        $this->statsService->updateStat($target, ('unit' . $slot . '_lost'), $damage);
-                    }
-
-                    if($perk->key === 'disband_spies')
-                    {
-                        $attribute = 'military_spies';
-                        $baseDamage = (float)$spellPerkValues / 100;
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'spies');
-
-                        $damage = min(round($target->military_spies * $baseDamage * $damageMultiplier), $target->military_spies);
-
-                        $target->{$attribute} -= $damage;
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
-
-                        $this->statsService->updateStat($caster, 'magic_spies_killed', $damage);
-                        $this->statsService->updateStat($target, 'spies_lost', $damage);
-                    }
-
-                    # Increase morale
-                    if($perk->key === 'decrease_morale')
-                    {
-                        $attribute = 'morale';
-                        $baseDamage = (int)$spellPerkValues / 100;
-
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $attribute);
-
-                        $damage = min(round($target->{$attribute} * $baseDamage * $damageMultiplier), $target->military_spies);
-
-                        $target->{$attribute} -= $damage;
-                        $damageDealt[] = sprintf('%s%% %s', number_format($damage), dominion_attr_display($attribute, $damage));
-
-                        $this->statsService->updateStat($caster, 'magic_damage_morale', $damage);
-
-                    }
-
-                    if($perk->key === 'destroy_resource')
-                    {
-                        $resourceKey = $spellPerkValues[0];
-                        $ratio = (float)$spellPerkValues[1] / 100;
-
-                        $targetResourceAmount = $this->resourceCalculator->getAmount($target, $resourceKey);
-
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, $resourceKey);
-                        $damage = min($targetResourceAmount * $ratio * $damageMultiplier, $targetResourceAmount);
-
-                        $this->resourceService->updateResources($target, [$resourceKey => $damage*-1]);
-
-                        $damageDealt[] = sprintf('%s %s', number_format($damage), dominion_attr_display($attribute, $damage));
-
-                        $this->statsService->updateStat($caster, ($resourceKey . '_destroyed'), $damage);
-                        $this->statsService->updateStat($target, ($resourceKey . '_lost'), $damage);
-
-                    }
-
-                    if($perk->key === 'improvements_damage')
-                    {
-                        $ratio = (float)$spellPerkValues / 100;
-
-                        $totalImprovementPoints = $this->improvementCalculator->getDominionImprovementTotalAmountInvested($target);
-
-                        $targetImprovements = $this->improvementCalculator->getDominionImprovements($target);
-
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
-                        $damage = floor(min(($totalImprovementPoints * $ratio * $damageMultiplier), $totalImprovementPoints));
-
-                        #$totalDamage = $damage;
-
-                        if($damage > 0)
-                        {
-                            foreach($targetImprovements as $targetImprovement)
-                            {
-                                $improvement = Improvement::where('id', $targetImprovement->improvement_id)->first();
-                                $improvementDamage[$improvement->key] = floor($damage * ($this->improvementCalculator->getDominionImprovementAmountInvested($target, $improvement) / $totalImprovementPoints));
-                            }
-
-                            $this->improvementCalculator->decreaseImprovements($target, $improvementDamage);
-                        }
-
-                        $this->statsService->updateStat($caster, 'magic_damage_improvements', $damage);
-
-                        $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display('improvement', $damage))];
-                    }
-
-                    if($perk->key === 'resource_theft')
-                    {
-                        $resourceKey = $spellPerkValues[0];
-                        $ratio = (float)$spellPerkValues[1] / 100;
-
-                        $amountStolen = $this->getTheftAmount($caster, $target, $spell, $resourceKey, $ratio);
-                        $damageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'improvements');
-                        $amountStolen *= $damageMultiplier;
-
-                        $this->resourceService->updateResources($target, [$resourceKey => $amountStolen*-1]);
-                        $this->resourceService->updateResources($caster, [$resourceKey => $amountStolen]);
-
-                        $this->statsService->updateStat($caster, ($resourceKey .  '_stolen'), $damage);
-                        $this->statsService->updateStat($target, ($resourceKey . '_lost'), $damage);
-
-                        $resource = Resource::where('key', $resourceKey)->first();
-
-                        $damageDealt = [sprintf('%s %s', number_format($damage), dominion_attr_display($resource->name, 1))];
-
-                    }
-                }
-
-                $target->save([
-                    'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
-                    'action' => $spell->key
-                ]);
-
-                // Surreal Perception
-                $sourceDominionId = null;
-                if ($target->getSpellPerkValue('reveal_ops'))
-                {
-                    $sourceDominionId = $caster->id;
-                }
-
-                $damageString = generate_sentence_from_array($damageDealt);
-
-                $this->notificationService
-                    ->queueNotification('received_hostile_spell', [
-                        'sourceDominionId' => $sourceDominionId,
-                        'spellKey' => $spell->key,
-                        'damageString' => $damageString,
-                    ])
-                    ->sendNotifications($target, 'irregular_dominion');
-
-                if($spell->cooldown > 0)
-                {
-                    DB::transaction(function () use ($caster, $target, $spell)
-                    {
-                        DominionSpell::create([
-                            'dominion_id' => $caster->id,
-                            'caster_id' => $target->id,
-                            'spell_id' => $spell->id,
-                            'duration' => 0,
-                            'cooldown' => $spell->cooldown
-                        ]);
-
-                        $caster->save([
-                            'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
-                            'action' => $spell->key
-                        ]);
-                    });
-                }
-
-                if ($spellReflected) {
-                    return [
-                        'success' => true,
-                        'message' => sprintf(
-                            'Your wizards cast the spell successfully, but it was deflected and your dominion lost %s.',
-                            $damageString
-                        ),
-                        'alert-type' => 'danger'
-                    ];
-                } else {
-                    return [
-                        'success' => true,
-                        'damage' => $damage,
-                        'message' => sprintf(
-                            'Your wizards cast the spell successfully, your target lost %s.',
-                            $damageString
-                        )
-                    ];
-                }
-
-
-            }
-            # Are we successful?
-            ## If no
-            else
-            {
-                $wizardsKilledBasePercentage = 1;
-
-                $wizardLossSpaRatio = (max($targetWpa, 0.001) / max($selfWpa, 0.001));
-                $wizardsKilledPercentage = clamp($wizardsKilledBasePercentage * $wizardLossSpaRatio, 0.5, 1.5);
-
-                $unitsKilled = [];
-                $wizardsKilled = (int)floor($caster->military_wizards * ($wizardsKilledPercentage / 100));
-
-                // Check for immortal wizards
-                if ($caster->race->getPerkValue('immortal_wizards') != 0)
-                {
-                    $wizardsKilled = 0;
-                }
-
-                if ($wizardsKilled > 0)
-                {
-                    $unitsKilled['wizards'] = $wizardsKilled;
-
-                    $this->statsService->updateStat($caster, 'wizards_lost', $wizardsKilled);
-                    $this->statsService->updateStat($target, 'wizards_killed', $wizardsKilled);
-                }
-
-                $wizardUnitsKilled = 0;
-                foreach ($caster->race->units as $unit)
-                {
-                    if ($unit->getPerkValue('counts_as_wizard_offense'))
-                    {
-                        if($unit->getPerkValue('immortal_wizard'))
-                        {
-                          $unitKilled = 0;
-                        }
-                        else
-                        {
-                          $unitKilledMultiplier = ((float)$unit->getPerkValue('counts_as_wizard_offense') / 2) * ($wizardsKilledPercentage / 100);
-                          $unitKilled = (int)floor($caster->{"military_unit{$unit->slot}"} * $unitKilledMultiplier);
-                        }
-
-                        if ($unitKilled > 0)
-                        {
-                            $unitsKilled[strtolower($unit->name)] = $unitKilled;
-
-                            $this->statsService->updateStat($caster, ('unit' . $unit->slot . '_lost'), $unitKilled);
-                            $this->statsService->updateStat($target, 'units_killed', $unitKilled);
-
-                            $wizardUnitsKilled += $unitKilled;
-                        }
-                    }
-                }
-
-                if ($target->getSpellPerkValue('cogency'))
-                {
-                    $this->notificationService->queueNotification('cogency_occurred',['sourceDominionId' => $caster->id, 'saved' => ($wizardsKilled + $wizardUnitsKilled)]);
-                    $this->queueService->queueResources('training', $target, ['military_wizards' => ($wizardsKilled + $wizardUnitsKilled)], 6);
-                }
-
-                $unitsKilledStringParts = [];
-                foreach ($unitsKilled as $name => $amount)
-                {
-                    $amountLabel = number_format($amount);
-                    $unitLabel = str_plural(str_singular($name), $amount);
-                    $unitsKilledStringParts[] = "{$amountLabel} {$unitLabel}";
-                }
-                $unitsKilledString = generate_sentence_from_array($unitsKilledStringParts);
-
-                // Inform target that they repelled a hostile spell
-                $this->notificationService
-                    ->queueNotification('repelled_hostile_spell', [
-                        'sourceDominionId' => $caster->id,
-                        'spellKey' => $spell->key,
-                        'unitsKilled' => $unitsKilledString,
-                    ])
-                    ->sendNotifications($target, 'irregular_dominion');
-
-                if ($unitsKilledString)
-                {
-                    $message = "The enemy wizards have repelled our {$spell->name} attempt and managed to kill $unitsKilledString.";
-                }
-                else
-                {
-                    $message = "The enemy wizards have repelled our {$spell->name} attempt.";
-                }
-
-                if($spell->cooldown > 0)
-                {
-                    DB::transaction(function () use ($caster, $target, $spell)
-                    {
-                        DominionSpell::create([
-                            'dominion_id' => $caster->id,
-                            'caster_id' => $target->id,
-                            'spell_id' => $spell->id,
-                            'duration' => 0,
-                            'cooldown' => $spell->cooldown
-                        ]);
-
-                        $caster->save([
-                            'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
-                            'action' => $spell->key
-                        ]);
-                    });
-                }
-
-                // Return here, thus completing the spell cast and reducing the caster's mana
-                return [
-                    'success' => false,
-                    'message' => $message,
-                    'wizardStrengthCost' => 2,
-                    'alert-type' => 'warning',
-                ];
-            }
         }
     }
 
