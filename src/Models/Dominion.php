@@ -1013,6 +1013,7 @@ class Dominion extends AbstractModel
     {
         $perkValueString = $spell->getPerkValue($perkKey);
         $dominionSpell = DominionSpell::where('caster_id', $this->id)->where('spell_id',$spell->id)->first();
+
         if($dominionSpell and $dominionSpell->duration > 0 and $perkValueString)
         {
             if($perkValueString and (is_numeric($perkValueString) and !is_array($perkValueString)))
@@ -1110,7 +1111,6 @@ class Dominion extends AbstractModel
                        or $perkKey == 'damage_from_fireball'
                        or $perkKey == 'damage_from_lightning_bolt'
 
-
                        or $perkKey == 'offensive_power'
                        or $perkKey == 'defensive_power'
                        or $perkKey == 'drafting'
@@ -1169,10 +1169,6 @@ class Dominion extends AbstractModel
                {
                    $perk += (float)$perkValueString;
                }
-               elseif($perkKey == 'offense_from_devotion' or $perkKey == 'defense_from_devotion')
-               {
-                  dd($perkValueString);
-               }
                elseif($perkValueString and (!is_numeric($perkValueString) and !is_array($perkValueString)))
                {
                   $perk = (string)$perkValueString;
@@ -1181,6 +1177,25 @@ class Dominion extends AbstractModel
                {
                    dd("[Error] Undefined spell perk key (\$perkKey): $perkKey");
                }
+            }
+            elseif(is_array($perkValueString))
+            {
+                # Deity spells (no max): deityKey, perk, max
+                if($perkKey == 'offense_from_devotion' or $perkKey == 'defense_from_devotion')
+                {
+                    dd($perkValueString);
+                    $deityKey = $perkValueString[0];
+                    $perTick = (float)$perkValueString[1];
+                    $max = (int)$perkValueString[2];
+                }
+                else
+                {
+                    dd("[Error] Undefined spell perk key (\$perkKey): $perkKey");
+                }
+            }
+            else
+            {
+                dd($perkValueString);
             }
         }
     }

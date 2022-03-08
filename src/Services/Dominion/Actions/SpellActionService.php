@@ -663,6 +663,23 @@ class SpellActionService
                     $this->resourceService->updateResources($caster, $newResources);
                 }
 
+                # Peasants to prestige conversion
+                if($perk->key === 'convert_peasants_to_prestige')
+                {
+                    $peasantsChunk = (int)$spellPerkValues[0];
+                    $prestige = (float)$spellPerkValues[1];
+
+                    $peasantsSacrificed = min($caster->peasants - 1000, $peasantsChunk);
+                    $prestigeGained = intval(($peasantsSacrificed / $peasantsChunk) * $prestige);
+
+                    #dd($peasantsSacrificed, $prestigeGained);
+
+                    $caster->peasants -= $peasantsSacrificed;
+                    $caster->prestige += $prestigeGained;
+
+                    $extraLine = ', gaining ' . number_format($prestige) . ' prestige for sacrificing ' . number_format($peasantsSacrificed) . ' peasants.';
+                }
+
                 # Summon units
                 if($perk->key === 'summon_units_from_land')
                 {

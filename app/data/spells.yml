@@ -344,7 +344,7 @@ crusade_of_urugdakh:
   scope: self
   class: passive
   cost: 8
-  duration: 12
+  duration: 18
   cooldown: 192
   exclusive_races:
     - Orc
@@ -364,7 +364,7 @@ sacrifice_to_urugdakh:
   exclusive_races:
     - Black Orc
   perks:
-    convert_peasants_to_prestige: 1000,50 # 1,000 peasants become 50 prestige
+    convert_peasants_to_prestige: 5000,50 # 1,000 peasants become 50 prestige
 
 enchanted_blades:
   name: Enchanted Blades

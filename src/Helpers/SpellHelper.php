@@ -3,12 +3,11 @@
 namespace OpenDominion\Helpers;
 
 use Illuminate\Support\Collection;
+use OpenDominion\Models\Deity;
+use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\Spell;
-
-# ODA
-use OpenDominion\Models\Dominion;
 
 class SpellHelper
 {
@@ -176,10 +175,12 @@ class SpellHelper
 
             'cannot_be_converted' => 'Units cannot be converted by the enemy.',
 
+            'convert_peasants_to_prestige' => 'Sacrifice %1$s peasants for %2$ss prestige.',
+
             // Casualties
-            'increases_enemy_draftee_casualties' => '%s%% enemy draftee casualties',
-            'increases_enemy_casualties_on_offense' => '%s%% enemy casualties when invading',
-            'increases_enemy_casualties_on_defense' => '%s%% enemy casualties when defending',
+            'increases_enemy_draftee_casualties' => '+%s%% enemy draftee casualties',
+            'increases_enemy_casualties_on_offense' => '+%s%% enemy casualties when invading',
+            'increases_enemy_casualties_on_defense' => '+%s%% enemy casualties when defending',
 
             'casualties' => '%s%% casualties',
             'offensive_casualties' => '%s%% casualties suffered when invading',
@@ -196,13 +197,16 @@ class SpellHelper
             'defensive_power_vs_insect_swarm' => '%s%% defensive power if attacker has Insect Swarm',
             'offensive_power_vs_insect_swarm' => '%s%% offensive power if target has Insect Swarm',
 
-            'reduces_target_raw_defense_from_land' => 'Targets raw defensive power lowered by %1$s%% for every %2$s%% of your own %3$s, max %4$s%% reduction ',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
+            'reduces_target_raw_defense_from_land' => 'Targets raw defensive power lowered by %1$s%% for every %2$s%% of your own %3$s, max %4$s%% reduction.',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
 
             'increases_enemy_casualties_on_offense_from_wizard_ratio' => 'Enemy casualties increased by %s%% for every 1 wizard ratio.',
 
             'immune_to_temples' => 'Defensive modifiers are not affected by Temples and any other defensive modifier reductions.',
 
             'defensive_power_from_peasants' => '%s raw defensive power per peasant',
+
+            'offense_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max +%3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
+            'defense_from_devotion' => '%2$s%% offensive power for every tick devoted to %1$s (max +%3$s%%).',# 1,5,forest,10 # -1% raw DP, per 5% forest, max -10%
 
             // Improvements
             'invest_bonus' => '%s%% improvement points from investments made while spell is active',
@@ -216,6 +220,8 @@ class SpellHelper
             // Buildings and Land
             'buildings_destroyed' => '%s%% of all buildings destroyed per tick',
             'barren_land_rezoned' => 'All barren land becomes %1$s',
+
+            'no_land_discovered' => 'No land discovered on invasions.',
 
             // Special
             'opens_portal' => 'Opens a portal required to teleport otherwordly units to enemy lands',
@@ -376,6 +382,23 @@ class SpellHelper
                 }
 
                 $perkValue = generate_sentence_from_array($unitNamesToConvertTo);
+            }
+
+            // Special case for dies_into, wins_into ("change_into"), fends_off_into
+            if ($perk->key === 'offense_from_devotion' or $perk->key === 'defense_from_devotion')
+            {
+                $deityKey = $perkValue[0];
+                $perTick = (float)$perkValue[1];
+                $max = (int)$perkValue[2];
+
+                if($perTick > 0)
+                {
+                    $perTick = '+'.$perTick;
+                }
+
+                $deity = Deity::where('key', $deityKey)->first();
+
+                $perkValue = [$deity->name, $perTick, $max];
             }
 
             // Special case for returns faster if pairings

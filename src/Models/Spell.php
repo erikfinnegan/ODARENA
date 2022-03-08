@@ -45,7 +45,8 @@ class Spell extends AbstractModel
 
     public function getPerkValue(string $key)
     {
-        $perks = $this->perks->filter(static function (SpellPerkType $spellPerkType) use ($key) {
+        $perks = $this->perks->filter(static function (SpellPerkType $spellPerkType) use ($key)
+        {
             return ($spellPerkType->key === $key);
         });
 
