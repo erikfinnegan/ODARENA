@@ -9,7 +9,7 @@
         <div class="col-sm-12 col-md-9">
             <div class="row">
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title"><i class="fa fa-user-secret"></i> Espionage</h3>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title"><i class="ra ra-fairy-wand"></i> Magic</h3>
@@ -79,58 +79,6 @@
                             </small>
                         </div>
 
-                        <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
-                            @csrf
-                            <input type="hidden" name="type" value="spell">
-
-                            <div class="box-body">
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <select name="spell_dominion" id="spell_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                                <option></option>
-                                                @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
-                                                    <option value="{{ $dominion->id }}"
-                                                            data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
-                                                            data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
-                                                            data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
-                                                            data-abandoned="{{ $dominion->isAbandoned() ? 1 : 0 }}">
-                                                        {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                  @foreach ($hostileSpells->chunk(2) as $spells)
-                                      <div class="row">
-                                          @foreach ($spells as $spell)
-                                              @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
-                                                  @php
-                                                      $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
-                                                  @endphp
-                                                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
-                                                      <div class="form-group">
-                                                          <button type="submit" name="operation" value="{{ $spell->key }}" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() || !$canCast ? 'disabled' : null }}>
-                                                              {{ $spell->name }}
-                                                          </button>
-                                                          <p>
-                                                          @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
-                                                              {{ $effect }}<br>
-                                                          @endforeach
-                                                              @include('partials.dominion.spell-basics')
-                                                          </p>
-                                                      </div>
-                                                  </div>
-                                              @endif
-                                          @endforeach
-                                      </div>
-                                  @endforeach
-                            </div>
-                        </form>
-
                         <div class="box-body">
                             <h4>Hostile Spells You Have Cast</h4>
                             <table class="table table-condensed">
@@ -138,32 +86,17 @@
                                     <col>
                                     <col>
                                     <col width="100">
-                                    <col width="50">
                                 </colgroup>
                                 <tr>
                                     <th>Cast On</th>
                                     <th>Spell</th>
                                     <th>Duration</th>
-                                    <th></th>
                                 </tr>
                                 @foreach($spellCalculator->getPassiveSpellsCastByDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
                                         <tr>
                                             <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->dominion->id]) }}">{{ $activePassiveSpellCast->dominion->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->dominion->realm->number }})</a></td>
                                             <td>{{ $activePassiveSpellCast->spell->name }}</td>
                                             <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
-                                            <td>
-                                                <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
-                                                    @csrf
-                                                    <input type="hidden" name="type" value="spell">
-                                                    <input type="hidden" name="spell_dominion" value="{{ $activePassiveSpellCast->dominion->id }}">
-                                                    <input type="hidden" name="operation" value="{{ $spell->key }}">
-                                                    <span data-toggle="tooltip" data-placement="top" title="Cast this spell again on the same target">
-                                                        <button type="submit" class="btn btn-primary btn-block">
-                                                            <i class="ra ra-cycle"></i>
-                                                        </button>
-                                                    </span>
-                                                </form>
-                                            </td>
                                         </tr>
                                 @endforeach
                                 </table>
