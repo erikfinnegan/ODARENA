@@ -417,7 +417,7 @@ class SpellActionService
                     $caster->peasants -= $peasantsSacrificed;
                     $caster->prestige += $prestigeGained;
 
-                    $extraLine = ', gaining ' . number_format($prestige) . ' prestige for sacrificing ' . number_format($peasantsSacrificed) . ' peasants.';
+                    $extraLine = ', gaining ' . number_format($prestigeGained) . ' prestige for sacrificing ' . number_format($peasantsSacrificed) . ' peasants.';
                 }
 
                 # Summon units
@@ -550,8 +550,9 @@ class SpellActionService
             if($spell->cooldown > 0)
             {
                 # But has it already been cast and is sitting at zero-tick cooldown?
-                if(DominionSpell::where('dominion_id', $caster->id)->where('spell_id', $spell->id))
+                if(DominionSpell::where(['dominion_id' => $caster->id, 'spell_id' => $spell->id, 'cooldown' => 0])->get()->count())
                 {
+                    #dd('this', $active);
                     DB::transaction(function () use ($caster, $target, $spell)
                     {
                       DominionSpell::where('dominion_id', $caster->id)->where('spell_id', $spell->id)
@@ -560,6 +561,7 @@ class SpellActionService
                 }
                 else
                 {
+                    #dd('that');
                     DB::transaction(function () use ($caster, $target, $spell)
                     {
                         DominionSpell::create([
