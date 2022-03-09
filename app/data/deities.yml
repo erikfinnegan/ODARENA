@@ -117,8 +117,8 @@ mirnon:
   name: Mirnon
   range_multiplier: 0.75
   excluded_races:
-    - Nox
     - Afflicted
+    - Nox
     - Void
   perks:
     gems_production_mod: 5

@@ -2,6 +2,7 @@
 
 azk_hurums_blood_purifier:
   name: Azk'Hurum's Blood Purifier
+  description: Made of obsidian, imbued with souls, and stained with blood, this device is used by Azk'Hurum to remove impurities from blood the followers have gathered.
   type: divine
   hp: 500000
   exclusive_races:
@@ -11,6 +12,7 @@ azk_hurums_blood_purifier:
 
 barathu_bints_ledger:
   name: Barathu Bint's Ledger
+  description: Barathu Bint kept a careful log of trade routes and guidelines for fair and effective negotiations.
   type: divine
   hp: 500000
   excluded_races:
@@ -23,21 +25,32 @@ barathu_bints_ledger:
 
 bregons_banner:
   name: Bregon's Banner
+  description: Great armies have rallied under this banner throughout the ages.
   type: divine
   hp: 500000
+  excluded_races:
+    - Nox
+    - Void
   perks:
     training_time: -2
 
 druvas_amulet:
   name: Druva's Amulet
+  description: A magical link between the carrier and the land all that live on and in it.
   type: divine
   hp: 500000
+  excluded_races:
+    - Afflicted
+    - Nox
+    - Void
   perks:
     lumber_improvement_points: 25
+    food_production_mod: 10
     rezone_cost: -20
 
 elskas_ambrosia:
   name: Elska's Ambrosia
+  description: A pernicious liquid whose fumes imbue Reptilians with both violent outbursts and incredible stealth.
   type: divine
   hp: 500000
   exclusive_races:
@@ -48,46 +61,136 @@ elskas_ambrosia:
 
 glimjs_lantern:
   name: Glimj's Lantern
+  description: Used by Glimj to see in the deepest, darkest waters.
   type: divine
   hp: 500000
-  excluded_races:
+  exclusive_races:
     - Armada
     - Merfolk
   perks:
-    - conquered_land_rezoned_to_water: 50
+    conquered_land_rezoned_to_water: 50
 
-ixs_scrolls
+ixs_contraption:
+  name: Ix's Contraption
+  description: A machine which can make other machines.
+  type: divine
+  hp: 500000
+  excluded_races:
+    - Void
+  perks:
+    xp_generation_mod: 25
+    improvements: 20
+
+kinthys_disembowler:
+  name: Kinthys' Disembowler
+  description: Always within reach to satisfy Kinthys' lust for drawn-out, torturous death.
+  type: divine
+  hp: 500000
+  exclusive_races:
+    - Afflicted
+    - Undead
+  perks:
+    increases_enemy_casualties: 25
+    increases_enemy_draftee_casualties: 100
+
+mirnons_pickaxe:
+  name: Mirnon's Pickaxe
+  description: What made Mirnon great was not only enormous and deep mines, but the handcraft in refining minerals and gems.
+  type: divine
+  hp: 500000
+  excluded_races:
+    - Afflicted
+    - Nox
+    - Void
+  perks:
+    gems_improvement_points: 25
+    ore_improvement_points: 50
 
 sazals_staff:
   name: Sazal's Staff
+  description: A staff used to weave some of the strongest magic the world has ever seen.
   type: divine
   hp: 500000
   perks:
-    base_wizard_strength: 10
-    mana_production_mod: 10
+    base_wizard_strength: 40
+    mana_production_mod: 20
+
+tiranthaels_blade:
+  name: Tiranthael's Blade
+  description: This blade was used to sort the pure from the impure.
+  type: divine
+  hp: 500000
+  exclusive_races:
+    - Sacred Order
+  perks:
+    reduced_conversions: 25
+    prestige_gains: 25
+
+urugdakhs_axe:
+  name: Urugdakh's Axe
+  description: A holy symbol to Black Orcs.
+  type: divine
+  hp: 500000
+  exclusive_races:
+    - Black Orc
+  perks:
+    prestige_gains_on_retaliation: 100
+    offensive_power: 5
+
+zidurs_effluvium:
+  name: Zidur's Effluvium
+  description: A small vial that never runs dry.
+  type: divine
+  hp: 500000
+  exclusive_races:
+    - Afflicted
+    - Undead
+  perks:
+    sorcery_spell_duration: 50
+    crypt_decay: -50
+
+voiddeity1_artefact:
+  name: ◮◬◭ ◬◥
+  description: ▲▲△▵◭◭◹▿◀◂►▹▷◤◢◅▲◄◅△△◀△△▶◬◭◮▻▽∇
+  hp: 500000
+  exclusive_races:
+    - Void
+  perks:
+    immortal_on_victory: 1
+
+voiddeity2_artefact:
+  name: ▽◬◿
+  description: ◺◅◄▴▵◤▵◤▴◣▹▻▽◃◁◺▼►▻▹◮◬◭◮◬◬△▲◅◤
+  hp: 500000
+  exclusive_races:
+    - Void
+  perks:
+    mana_production_mod: 50
 
 # REGULAR
 
-ichor_of_vitality:
-  name: Ichor of Vitality
-  hp: 100000
-  perks:
-    casualties: -25
-
-flying_compass:
-  name: The Flying Compass
-  hp: 125000
-  perks:
-    faster_return: 2
-
 ancient_sceptre:
   name: Ancient Sceptre
-  hp: 50000
+  hp: 250000
   perks:
     governor_offensive_power: 5
 
+flying_compass:
+  name: The Flying Compass
+  hp: 250000
+  perks:
+    faster_return: 2
+
+ichor_of_vitality:
+  name: Ichor of Vitality
+  hp: 250000
+  perks:
+    casualties: -10
+
+
+
 scrolls_of_knowledge:
   name: Scrolls of Knowledge
-  hp: 150000
+  hp: 250000
   perks:
     xp_generation_mod: 10

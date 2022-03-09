@@ -2372,12 +2372,12 @@ class MilitaryCalculator
 
     public function getOffensiveMultiplierReduction(Dominion $defender): float
     {
-        $reduction = 0;
+        $reduction = 1;
 
-        $reduction += $defender->getBuildingPerkMultiplier('attacker_offensive_power_mod');
-        $reduction += $defender->getSpellPerkMultiplier('attacker_offensive_power_mod');
-        $reduction += $defender->getImprovementPerkMultiplier('attacker_offensive_power_mod');
-        $reduction += $defender->getDeityPerkMultiplier('attacker_offensive_power_mod');
+        $reduction -= $defender->getBuildingPerkMultiplier('attacker_offensive_power_mod');
+        $reduction -= $defender->getSpellPerkMultiplier('attacker_offensive_power_mod');
+        $reduction -= $defender->getImprovementPerkMultiplier('attacker_offensive_power_mod');
+        $reduction -= $defender->getDeityPerkMultiplier('attacker_offensive_power_mod');
 
         return $reduction;
     }
