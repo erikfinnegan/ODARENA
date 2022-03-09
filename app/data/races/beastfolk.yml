@@ -28,7 +28,7 @@ land_improvements:
   mountain:
     gold_production_mod: 0.75
   hill:
-    defensive_power_mod: 0.65
+    defensive_power_mod: 0.40
   swamp:
     xp_generation_mod: 2
   water:

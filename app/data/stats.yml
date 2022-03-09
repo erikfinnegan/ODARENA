@@ -618,6 +618,13 @@ draftees_training:
 
 # Sorcery stats
 
+sorcery_cast:
+  name: Sorcery spells cast
+sorcery_mana:
+  name: Mana spent on sorcery
+sorcery_wizard_strength:
+  name: Wizard strength spent on sorcery
+
 sorcery_duration:
   name: Sorcery spells duration
 sorcery_damage_morale:

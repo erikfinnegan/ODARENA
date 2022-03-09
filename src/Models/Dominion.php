@@ -1017,7 +1017,7 @@ class Dominion extends AbstractModel
             $dominionSpell = DominionSpell::where('caster_id', $this->id)->where('spell_id',$spell->id)->first();
             $perkValueString = $spell->getPerkValue($perkKey);
 
-            if($spell->perks->filter(static function (SpellPerkType $spellPerkType) use ($perkKey) { return ($spellPerkType->key === $perkKey); }) and $dominionSpell->duration > 0 and $perkValueString !== 0)
+            if($dominionSpell and $spell->perks->filter(static function (SpellPerkType $spellPerkType) use ($perkKey) { return ($spellPerkType->key === $perkKey); }) and $dominionSpell->duration > 0 and $perkValueString !== 0)
             {
 
                 /*$singleValueNumericPerks = [

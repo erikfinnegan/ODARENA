@@ -1,0 +1,93 @@
+# DIVINE
+
+azk_hurums_blood_purifier:
+  name: Azk'Hurum's Blood Purifier
+  type: divine
+  hp: 500000
+  exclusive_races:
+    - Demon
+  perks:
+    unit_blood_costs: -25
+
+barathu_bints_ledger:
+  name: Barathu Bint's Ledger
+  type: divine
+  hp: 500000
+  excluded_races:
+    - Afflicted
+    - Nox
+    - Void
+  perks:
+    exchange_rate: 7.5
+    gold_production_mod: 2.5
+
+bregons_banner:
+  name: Bregon's Banner
+  type: divine
+  hp: 500000
+  perks:
+    training_time: -2
+
+druvas_amulet:
+  name: Druva's Amulet
+  type: divine
+  hp: 500000
+  perks:
+    lumber_improvement_points: 25
+    rezone_cost: -20
+
+elskas_ambrosia:
+  name: Elska's Ambrosia
+  type: divine
+  hp: 500000
+  exclusive_races:
+    - Reptilians
+  perks:
+    increases_enemy_casualties: 20
+    immortal_spies: 1
+
+glimjs_lantern:
+  name: Glimj's Lantern
+  type: divine
+  hp: 500000
+  excluded_races:
+    - Armada
+    - Merfolk
+  perks:
+    - conquered_land_rezoned_to_water: 50
+
+ixs_scrolls
+
+sazals_staff:
+  name: Sazal's Staff
+  type: divine
+  hp: 500000
+  perks:
+    base_wizard_strength: 10
+    mana_production_mod: 10
+
+# REGULAR
+
+ichor_of_vitality:
+  name: Ichor of Vitality
+  hp: 100000
+  perks:
+    casualties: -25
+
+flying_compass:
+  name: The Flying Compass
+  hp: 125000
+  perks:
+    faster_return: 2
+
+ancient_sceptre:
+  name: Ancient Sceptre
+  hp: 50000
+  perks:
+    governor_offensive_power: 5
+
+scrolls_of_knowledge:
+  name: Scrolls of Knowledge
+  hp: 150000
+  perks:
+    xp_generation_mod: 10

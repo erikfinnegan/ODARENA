@@ -58,11 +58,13 @@ class SorceryCalculator
     {
         $duration = $spell->duration;
 
-        $duration *= ($this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount) / 25);
+        $multiplier = $this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount) / 25;
+
+        $duration *= $multiplier;
+
+        $duration = floor($duration);
 
         $duration = min($duration, 96);
-
-        #dump('getSorcerySpellDuration():' . $spell->duration * $this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount));
 
         return $duration;
     }
@@ -74,10 +76,12 @@ class SorceryCalculator
         $multiplier *= $this->getSorceryWizardStrengthMultiplier($caster, $wizardStrength);
         $multiplier *= $this->getSorceryWizardRatioMultiplier($caster, $target);
 
+        # ENHANCEMENTS ???
+
         #dump('getSorceryWizardStrengthMultiplier():' . $this->getSorceryWizardStrengthMultiplier($caster, $wizardStrength));
         #dump('getSorceryWizardRatioMultiplier():' . $this->getSorceryWizardRatioMultiplier($caster, $target));
 
-        # ENHANCEMENTS ???
+        #dump('getSorcerySpellDamageMultiplier():' . $multiplier);
 
         return $multiplier;
     }

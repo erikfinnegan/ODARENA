@@ -187,8 +187,6 @@ class SorceryActionService
 
                 $this->sorcery['damage']['duration'] = $duration;
 
-                #dd($duration);
-
                 $this->statsService->updateStat($caster, 'sorcery_duration', $duration);
 
                 if ($this->spellCalculator->isSpellActive($target, $spell->key))
@@ -233,7 +231,10 @@ class SorceryActionService
                     {
                         $baseDamage = (float)$spellPerkValues / 100;
                         $sorcerySpellDamageMultiplier = $this->sorceryCalculator->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount, $perk->key);
-                        $spellDamageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'draftees');
+                        $spellDamageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'peasants');
+
+                        dump('$sorcerySpellDamageMultiplier: ' . $sorcerySpellDamageMultiplier);
+                        dump('$spellDamageMultiplier: ' . $spellDamageMultiplier);
 
                         $damage = $baseDamage * $sorcerySpellDamageMultiplier * $spellDamageMultiplier;
 
