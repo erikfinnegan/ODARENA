@@ -135,7 +135,7 @@ class SpellActionService
             throw new GameException("You do not have enough mana to cast {$spell->name}. You need {$manaCost} mana to cast this spell.");
         }
 
-        if ($spell->scope == 'hostile')
+        if ($spell->scope == 'hostile' and $spell->class !== 'invasion')
         {
             throw new GameException('You cannot cast that spell this way. [1]');
         }

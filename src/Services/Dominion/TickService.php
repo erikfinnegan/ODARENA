@@ -47,7 +47,7 @@ use Throwable;
 
 class TickService
 {
-    protected const EXTENDED_LOGGING = true;
+    protected const EXTENDED_LOGGING = false;
 
     /** @var Carbon */
     protected $now;
@@ -143,7 +143,7 @@ class TickService
         Log::debug('Scheduled tick started');
 
         $activeRounds = Round::active()->get();
-        
+
         foreach ($activeRounds as $round)
         {
 
