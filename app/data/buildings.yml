@@ -1129,7 +1129,7 @@ bloodstone:
     - Beastfolk
   land_type: mountain
   perks:
-    blood_invest_bonus: 1,5,100 # Every 1% gives 2.5% improvement points, max +100% improvements from blood
+    blood_invest_bonus: 1,5,100 # Every 1% gives 5% improvement points, max +100% improvements from blood
 
 # END BEASTFOLK
 

@@ -174,13 +174,13 @@ class DecreeHelper
             'improvement_interest' => 'Improvements interest increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
             'invest_bonus' => 'Improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'gold_invest_bonus' => 'Gold improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'food_invest_bonus' => 'Food improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'ore_invest_bonus' => 'Ore improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'lumber_invest_bonus' => 'Lumber improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'mana_invest_bonus' => 'Mana improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'blood_invest_bonus' => 'Blood improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
-            'soul_invest_bonus' => 'Soul improvement points worth increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'gold_invest_bonus' => 'Improvement points from gold increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'food_invest_bonus' => 'Improvement points from food increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'ore_invest_bonus' => 'Improvement points from ore increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'lumber_invest_bonus' => 'Improvement points from lumber increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'mana_invest_bonus' => 'Improvement points from from mana increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'blood_invest_bonus' => 'Improvement points from blood increased by %2$s%% for every %1$s%% (max +%3$s%%)',
+            'soul_invest_bonus' => 'Improvement points from souls increased by %2$s%% for every %1$s%% (max +%3$s%%)',
 
             # Construction and Rezoning
             'construction_cost' => 'Construction costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
