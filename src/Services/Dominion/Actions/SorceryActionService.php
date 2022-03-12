@@ -233,8 +233,8 @@ class SorceryActionService
                         $sorcerySpellDamageMultiplier = $this->sorceryCalculator->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount, $perk->key);
                         $spellDamageMultiplier = $this->spellDamageCalculator->getDominionHarmfulSpellDamageModifier($target, $caster, $spell, 'peasants');
 
-                        dump('$sorcerySpellDamageMultiplier: ' . $sorcerySpellDamageMultiplier);
-                        dump('$spellDamageMultiplier: ' . $spellDamageMultiplier);
+                        #dump('$sorcerySpellDamageMultiplier: ' . $sorcerySpellDamageMultiplier);
+                        #dump('$spellDamageMultiplier: ' . $spellDamageMultiplier);
 
                         $damage = $baseDamage * $sorcerySpellDamageMultiplier * $spellDamageMultiplier;
 
