@@ -661,6 +661,20 @@ wizard_guild:
 
 # Racial Buildings/Faction Buildings
 
+# BEGIN ONE-OFF/FEW-OFF FACTION BUILDINGS
+
+mass_grave:
+  name: Mass Grave
+  exclusive_races:
+    - Afflicted
+  land_type: swamp
+  perks:
+    peasants_conversion: 1,2,miasma # amountFrom, amountTo, resourceTo
+    food_production: 8
+    housing: 0
+
+# END ONE-OFF/FEW-OFF FACTION BUILDINGS
+
 # VOID BUILDINGS
 
 arc:

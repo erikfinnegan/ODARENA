@@ -22,7 +22,7 @@ perks:
   max_population: 20
   population_growth: 30
   converts_assassinated_draftees: 1 # into slot 1
-  converts_executed_spies: 3 # into slot 3
+  converts_executed_spies: 1 # into slot 1
 units:
   - name: Abomination
     training_time: 9
@@ -49,6 +49,7 @@ units:
       defense: 3
     perks:
       housing_count: 0.75
+      increases_miasma_production_by_population: 2 # +2% miasma production for every 1% of population this unit takes
 
   - name: Wretch
     training_time: 12
@@ -69,8 +70,7 @@ units:
       - intelligent
     cost:
       gold: 600
-      food: 80
-      morale: 5
+      miasma: 10
     power:
       offense: 10
       defense: -1
