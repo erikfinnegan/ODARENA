@@ -172,6 +172,9 @@ class ConversionCalculator
 
         $landConquered = array_sum($invasion['attacker']['landConquered']);
         $displacedPeasants = intval(($defender->peasants / $invasion['defender']['landSize']) * $landConquered);
+        
+        # Apply reduced conversions
+        $displacedPeasants *= $this->getConversionReductionMultiplier($defender);
 
         # Check that unitsSent contains displaced_peasants_conversion perk
         foreach($invasion['attacker']['unitsSent'] as $slot => $amount)

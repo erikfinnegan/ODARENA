@@ -15,8 +15,8 @@ skill_level: 1
 construction_materials:
   - mana
 
-spies_cost: 1000,mana
-wizards_cost: 1000,mana
+spies_cost: 1,aether
+wizards_cost: 1,aether
 archmages_cost: 2000,mana
 
 perks:
@@ -42,6 +42,8 @@ units:
       defense: 8
     perks:
       releases_into_resource: 1,aether
+      dies_into_resource: 6,mana
+      burns_peasants_on_attack: 0.50
 
   - name: Water
     training_time: 6
@@ -57,6 +59,8 @@ units:
       defense: 8
     perks:
       releases_into_resource: 1,aether
+      dies_into_resource: 6,mana
+      destroy_resources_on_victory: food;200,lumber;50
 
   - name: Earth
     training_time: 6
@@ -72,6 +76,8 @@ units:
       defense: 8
     perks:
       releases_into_resource: 1,aether
+      dies_into_resource: 6,mana
+      plunders: gems;2,ore;4
 
   - name: Air
     training_time: 6
@@ -87,3 +93,5 @@ units:
       defense: 8
     perks:
       releases_into_resource: 1,aether
+      dies_into_resource: 6,mana
+      damages_improvements_on_attack: 24
