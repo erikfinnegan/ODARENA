@@ -620,34 +620,4 @@ class ExpeditionActionService
         return min(max(1, $ticks), 12);
     }
 
-    /**
-     * Gets the amount of hours for the slowest unit from an array of units
-     * takes to return home.
-     *
-     * Primarily used to bring prestige home earlier if you send only 9hr
-     * attackers. (Land always takes 12 hrs)
-     *
-     * @param Dominion $dominion
-     * @param array $units
-     * @return int
-     */
-    protected function getSlowestUnitReturnHours(Dominion $dominion, array $units): int
-    {
-        $hours = 12;
-
-        foreach ($units as $slot => $amount) {
-            if ($amount === 0) {
-                continue;
-            }
-
-            $hoursForUnit = $this->getUnitReturnHoursForSlot($dominion, $slot);
-
-            if ($hoursForUnit < $hours) {
-                $hours = $hoursForUnit;
-            }
-        }
-
-        return $hours;
-    }
-
 }

@@ -1562,6 +1562,7 @@ wizard_dome:
   perks:
     wizard_strength_recovery: 1,0.1,5 # Every 1% gives +0.1% WS recovery per tick, max +2%/tick
     wizard_housing: 50
+    housing: 0
 
 # BARBARIAN
 
