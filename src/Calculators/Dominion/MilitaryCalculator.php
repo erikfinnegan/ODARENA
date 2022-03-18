@@ -184,7 +184,7 @@ class MilitaryCalculator
         $multiplier += $attacker->getTechPerkMultiplier('offense');
 
         // Spell
-        $multiplier += $attacker->getSpellPerkMultiplier('offensive_power');
+        $multiplier += $this->getSpellMultiplier($attacker, $defendeer, 'offense');
 
         // Prestige
         $multiplier += $this->prestigeCalculator->getPrestigeMultiplier($attacker);
