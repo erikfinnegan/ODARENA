@@ -2,15 +2,22 @@ name: Elementals
 alignment: good
 description:
 home_land_type: water
-playable: 0
+playable: 1
+experimental: 1
 
-peasants_alias: aether
+peasants_alias: form
 draftees_alias: entity
 
 attacking: 3
 exploring : 3
 converting: 3
 skill_level: 1
+
+resources:
+  - mana
+  - aether
+  - ore
+  - gems
 
 construction_materials:
   - mana
@@ -20,12 +27,6 @@ wizards_cost: 1,aether
 archmages_cost: 2000,mana
 
 perks:
-  cannot_construct: 1
-  cannot_rezone: 1
-  no_food_consumption: 1
-  peasants_produce_mana: 2
-  draftees_produce_mana: 1
-  extra_barren_max_population: 5
 
 units:
   - name: Fire
@@ -38,8 +39,8 @@ units:
       aether: 1
       mana: 24
     power:
-      offense: 8
-      defense: 8
+      offense: 10
+      defense: 6
     perks:
       releases_into_resource: 1,aether
       dies_into_resource: 6,mana
@@ -72,8 +73,8 @@ units:
       aether: 1
       mana: 24
     power:
-      offense: 8
-      defense: 8
+      offense: 6
+      defense: 10
     perks:
       releases_into_resource: 1,aether
       dies_into_resource: 6,mana
@@ -89,8 +90,8 @@ units:
       aether: 1
       mana: 24
     power:
-      offense: 8
-      defense: 8
+      offense: 9
+      defense: 7
     perks:
       releases_into_resource: 1,aether
       dies_into_resource: 6,mana

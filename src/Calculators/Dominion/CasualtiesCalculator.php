@@ -493,16 +493,18 @@ class CasualtiesCalculator
 
             if($minPowerToKill = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'only_dies_vs_raw_power'))
             {
+
                 $multiplier = 0;
 
                 foreach($attackingUnits as $slot => $amount)
                 {
+
                     # Get the defending units
                     $attackingUnit = $enemy->race->units->filter(function ($attackingUnit) use ($slot) {
                         return ($attackingUnit->slot === $slot);
                     })->first();
 
-                    $unitOp = $this->militaryCalculator->getUnitPowerWithPerks($enemy, $dominion, $invasionData['land_ratio'], $attackingUnit, 'defense', null, $attackingUnits, $defendingUnits);
+                    $unitOp = $this->militaryCalculator->getUnitPowerWithPerks($enemy, $dominion, $invasionData['land_ratio'], $attackingUnit, 'offense', null, $attackingUnits, $defendingUnits);
 
                     # See if it has enough OP to kill
                     if($unitOp >= $minPowerToKill)
@@ -510,9 +512,9 @@ class CasualtiesCalculator
                         # How much of the raw OP came from this unit?
                         $multiplier += ($amount * $unitOp) / $rawOp;
                     }
-                }
 
-                #$multiplier += $powerRatioFromKillingUnits;
+                    dump('Check if ' . $enemy->name . ' ' . $attackingUnit->name . ' can kill our ' . $unit->name .'. Min OP to kill: ' . $minPowerToKill . '. Enemy unit has: ' . $unitOp);
+                }
             }
         }
 

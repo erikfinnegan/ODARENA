@@ -401,7 +401,7 @@ class NotificationHelper
                     'Forces from %s (#%s) invaded our lands, but our army drove them back! We lost %s units during the battle.',
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
-                    number_format($data['unitsLost'])
+                    number_format(array_sum($data['unitsLost']))
                 );
 
 
@@ -511,7 +511,7 @@ class NotificationHelper
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
                     number_format($data['landLost']),
-                    number_format($data['unitsLost'])
+                    number_format(array_sum($data['unitsLost']))
                 );
 
             case 'irregular_dominion.received_invasion':
@@ -522,7 +522,7 @@ class NotificationHelper
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
                     number_format($data['landLost']),
-                    number_format($data['unitsLost'])
+                    number_format(array_sum($data['unitsLost']))
                 );
 
             case 'irregular_dominion.repelled_invasion':
@@ -532,7 +532,7 @@ class NotificationHelper
                     'Forces from %s (#%s) invaded our lands, but our army drove them back! We lost %s units during the battle.',
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
-                    number_format($data['unitsLost'])
+                    number_format(array_sum($data['unitsLost']))
                 );
 
             case 'irregular_dominion.theft':
