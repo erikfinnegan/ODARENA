@@ -71,6 +71,7 @@ mining_strength:
     - Dimensionalists
     - Dwarg
     - Elementals
+    - Icekin
     - Growth
     - Gnome
     - Halfling
@@ -188,6 +189,7 @@ transmogrify:
     - Demon
     - Dimensionalists
     - Elementals
+    - Icekin
     - Growth
     - Dwarg
     - Gnome
@@ -1149,6 +1151,38 @@ chryson_phase:
     aurei_unit_conversion: 3,4,1000 # from, to, amount
 
 # END AUREI
+
+# BEGIN AFFLICTED
+
+forced_suicides:
+  name: Forced Suicides
+  scope: self
+  class: passive
+  cost: 6
+  duration: 24
+  cooldown: 192
+  exclusive_races:
+    - Afflicted
+  perks:
+    miasma_production_mod: 100
+    peasants_sacrificed: 100
+    prestige_gains: -50
+
+miasmic_charges:
+  name: Miasmic Charges
+  scope: self
+  class: passive
+  cost: 6
+  duration: 24
+  cooldown: 192
+  exclusive_races:
+    - Afflicted
+  perks:
+    defense_from_resource: 0.20,miasma # DP per resource, resource
+    resource_lost_on_invasion: 100,miasma # percentage, resource
+    miasma_production_mod: -50
+
+# END AFFLICTED
 
 # BEGIN MARSHLING
 

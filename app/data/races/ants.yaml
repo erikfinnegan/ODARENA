@@ -9,8 +9,8 @@ draftees_alias: drone
 
 resources:
   - gold
-  - lumber
   - food
+  - lumber
   - mana
 
 peasants_production:

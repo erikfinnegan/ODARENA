@@ -65,7 +65,7 @@ class SpellHelper
             'gems_production_mod' => '%s%% gem production',
             'gold_production_mod' => '%s%% gold production',
             'swamp_gas_production_mod' => '%s%% swamp gas production',
-
+            'miasma_production_mod' => '%s%% miasma extraction',
             'pearls_production_mod_production' => '%s%% pearl production',
             'cosmic_alignment_production_mod' => '%s%% Cosmic Alignment discovery',
 
@@ -127,12 +127,15 @@ class SpellHelper
 
             'no_attrition' => 'No unit attrition',
 
+            'prestige_gains' => '%s%% prestige gains',
+
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',
 
             // Population
             'population_growth' => '%s%% population growth rate',
             'kill_peasants' => 'Kills %1$s%% of the target\'s peasants.',
+            'peasants_sacrificed' => '+%s%% peasants killed in Mass Graves',
 
             // Resources
             'destroy_resource' => 'Destroys %2$s%% of the target\'s %1$s.',

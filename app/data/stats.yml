@@ -384,6 +384,29 @@ thunderstone_salvaged:
 thunderstone_plundered:
   name: Thunderstone plundered
 
+miasma_production:
+  name: Miasma production
+miasma_sold:
+  name: Miasma sold
+miasma_bought:
+  name: Miasma bought
+miasma_building:
+  name: Miasma building
+miasma_rezoning:
+  name: Miasma rezoning
+miasma_training:
+  name: Miasma training
+miasma_improvements:
+  name: Miasma improvements
+miasma_exploring:
+  name: Miasma exploring
+miasma_lost:
+  name: Miasma lost
+miasma_salvaged:
+  name: Miasma salvaged
+miasma_plundered:
+  name: Miasma plundered
+
 # Land
 
 land_conquered:

@@ -121,3 +121,10 @@ thunderstone:
   sell: null
   exclusive_races:
     - Dwarg
+
+miasma:
+  name: Miasma
+  buy: null
+  sell: null
+  exclusive_races:
+    - Afflicted

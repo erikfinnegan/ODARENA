@@ -251,6 +251,7 @@ research:
 mining:
   name: Stonecutting
   excluded_races:
+    - Afflicted
     - Aurei
     - Barbarian
     - Beastfolk
@@ -390,6 +391,13 @@ husbandry:
     - Nomad
   perks:
     horse_production_mod: 45,5000
+
+torment:
+  name: Torment
+  exclusive_races:
+    - Afflicted
+  perks:
+    miasma_production_mod: 50,6000
 
 # BEGIN TROLL #
 
@@ -877,37 +885,7 @@ brutality:
 
 # BEGIN ELEMENTALS #
 
-fire:
-  name: Fire
-  exclusive_races:
-    - Elementals
-  perks:
-    casualties: -50,6000
-    land_discovered: -25,4000
-
-water:
-  name: Water
-  exclusive_races:
-    - Elementals
-  perks:
-    offensive_power: 40,6000
-    xp_generation_mod: -25,6000
-
-earth:
-  name: Earth
-  exclusive_races:
-    - Elementals
-  perks:
-    population: 80,10000
-    rezone_cost: -25,4000
-
-wind:
-  name: Wind
-  exclusive_races:
-    - Elementals
-  perks:
-    marshling_production_mod: 40,6000
-    food_production_mod: -30,6000
+# ON HOLD
 
 # END ELEMENTALS #
 

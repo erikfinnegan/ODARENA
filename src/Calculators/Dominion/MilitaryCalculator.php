@@ -271,7 +271,8 @@ class MilitaryCalculator
         bool $isAmbush = false,                         # 7
         bool $ignoreRawDpFromBuildings = false,         # 8
         array $invadingUnits = null,                    # 9
-        bool $ignoreRawDpFromAnnexedDominions = false   # 10
+        bool $ignoreRawDpFromAnnexedDominions = false,  # 10
+        bool $ignoreRawDpFromSpells = false             # 11
     ): float
     {
         $dp = 0;
@@ -354,6 +355,12 @@ class MilitaryCalculator
         {
             // Buildings
             $dp += $defender->getBuildingPerkValue('raw_defense');
+        }
+
+        if (!$ignoreRawDpFromSpells)
+        {
+            // Spells
+            $dp += $defender->getSpellPerkValue('defense_from_resource');
         }
 
         if(!$ignoreRawDpFromAnnexedDominions)

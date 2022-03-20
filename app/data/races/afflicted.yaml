@@ -18,6 +18,19 @@ exploring : 0
 converting: 0
 skill_level: 3
 
+resources:
+  - gold
+  - food
+  - lumber
+  - mana
+  - miasma
+
+improvement_resources:
+  gems: 12
+  miasma: 24
+  gold: 1
+  lumber: 2
+
 perks:
   max_population: 20
   population_growth: 30
@@ -49,7 +62,7 @@ units:
       defense: 3
     perks:
       housing_count: 0.75
-      increases_miasma_production_by_population: 2 # +2% miasma production for every 1% of population this unit takes
+      miasma_production_raw: 0.04
 
   - name: Wretch
     training_time: 12
@@ -70,7 +83,7 @@ units:
       - intelligent
     cost:
       gold: 600
-      miasma: 10
+      miasma: 8
     power:
       offense: 10
       defense: -1

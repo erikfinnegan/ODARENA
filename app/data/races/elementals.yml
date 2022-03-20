@@ -2,7 +2,7 @@ name: Elementals
 alignment: good
 description:
 home_land_type: water
-playable: 1
+playable: 0
 experimental: 1
 
 peasants_alias: form
@@ -37,7 +37,7 @@ units:
       - intelligent
     cost:
       aether: 1
-      mana: 24
+      mana: 32
     power:
       offense: 10
       defense: 6
@@ -54,7 +54,7 @@ units:
       - intelligent
     cost:
       aether: 1
-      mana: 24
+      mana: 32
     power:
       offense: 8
       defense: 8
@@ -71,7 +71,7 @@ units:
       - intelligent
     cost:
       aether: 1
-      mana: 24
+      mana: 32
     power:
       offense: 6
       defense: 10
@@ -88,7 +88,7 @@ units:
       - intelligent
     cost:
       aether: 1
-      mana: 24
+      mana: 32
     power:
       offense: 9
       defense: 7

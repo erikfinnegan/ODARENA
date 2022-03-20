@@ -154,6 +154,30 @@ class ResourceCalculator
             }
         }
 
+        # Check for peasants_conversion (single resource)
+        if($peasantConversionData = $dominion->getBuildingPerkValue('peasants_conversion'))
+        {
+            $resourceConversionMultiplier = 1;
+            $resourceConversionMultiplier += $dominion->getImprovementPerkMultiplier('resource_conversion');
+
+            if(isset($peasantConversionData['to'][$resourceKey]))
+            {
+                $production += floor($peasantConversionData['to'][$resourceKey] * $resourceConversionMultiplier);
+            }
+        }
+
+        # Check for peasants_conversion (multiple resources)
+        if($peasantConversionsData = $dominion->getBuildingPerkValue('peasants_conversions'))
+        {
+            $resourceConversionMultiplier = 1;
+            $resourceConversionMultiplier += $dominion->getImprovementPerkMultiplier('resource_conversion');
+
+            if(isset($peasantConversionsData['to'][$resourceKey]))
+            {
+                $production += floor($peasantConversionsData['to'][$resourceKey] * $resourceConversionMultiplier);
+            }
+        }
+
         # Check for RESOURCE_production_raw_from_ANOTHER_RESOURCE
         foreach($dominion->race->resources as $sourceResourceKey)
         {
@@ -169,7 +193,7 @@ class ResourceCalculator
                   })->first();
 
               # Check for RESOURCE_production_raw_from_pairing
-              if($productionFromPairingPerk = $addsMorale = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_pairing')))
+              if($productionFromPairingPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($resourceKey . '_production_raw_from_pairing')))
               {
                   $slotPairedWith = (int)$productionFromPairingPerk[0];
                   $productionPerPair = (float)$productionFromPairingPerk[1];
@@ -265,7 +289,7 @@ class ResourceCalculator
             $multiplier *= 1 + $this->prestigeCalculator->getPrestigeMultiplier($dominion);
         }
 
-        $multiplier *= (0.9 + $dominion->morale / 1000); # Can't use militaryCalculator->getMoraleMultiplier()
+        $multiplier *= (0.9 + $dominion->morale / 1000); # Can't use alculator->getMoraleMultiplier()
 
         return $multiplier;
     }

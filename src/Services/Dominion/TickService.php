@@ -716,6 +716,16 @@ class TickService
             $populationPeasantGrowth -= $amountToDie;
         }
 
+        # Check for resource_conversion
+        if($peasantConversionData = $dominion->getBuildingPerkValue('peasants_conversion'))
+        {
+            $populationPeasantGrowth -= $peasantConversionData['from']['peasants'];
+        }
+        # Check for resource_conversion
+        if($peasantConversionsData = $dominion->getBuildingPerkValue('peasants_conversions'))
+        {
+            $populationPeasantGrowth -= $peasantConversionsData['from']['peasants'];
+        }
 
         if(($dominion->peasants + $tick->peasants) <= 0)
         {

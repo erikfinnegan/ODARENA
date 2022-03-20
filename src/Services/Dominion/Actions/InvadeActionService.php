@@ -1871,12 +1871,14 @@ class InvadeActionService
             if($this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'] >= 0.50)
             {
                 $this->spellActionService->castSpell($attacker, 'pestilence', $defender, $isInvasionSpell);
+                $result['attacker']['invasion_spell'][] = 'pestilence';
             }
 
             # Great Fever
             if($this->invasionResult['result']['success'])
             {
                 $this->spellActionService->castSpell($attacker, 'great_fever', $defender, $isInvasionSpell);
+                $result['attacker']['invasion_spell'][] = 'great_fever';
             }
         }
 
@@ -1884,6 +1886,23 @@ class InvadeActionService
         {
             # Festering Wounds
             $this->spellActionService->castSpell($defender, 'festering_wounds', $attacker, $isInvasionSpell);
+            $result['attacker']['invasion_spell'][] = 'festering_wounds';
+
+            # Not an invasion spell, but this goes here for now (Miasmic Charges)
+            if($defender->getSpellPerkValue('resource_lost_on_invasion') and !$this->invasionResult['result']['overwhelmed'])
+            {
+                $perkValueArray = $spell->getActiveSpellPerkValues($spell->key, $perkKey);
+
+                $ratio = (float)$perkValueArray[0] / 100;
+                $resourceKey = (string)$perkValueArray[1];
+                $resourceAmountOwned = $this->resourceCalculator->getAmount($defender, $resourceKey);
+                $resourceAmountLost = $resourceAmountOwned * ($ratio * -1);
+
+                $result['defender']['resources_lost'][$resourceKey] = $resourceAmountLost;
+
+                $this->resourceService->updateResources($defender, [$resourceKey => ($resourceAmountOwned * -1)]);
+
+            }
         }
 
         if($attacker->race->name == 'Legion' and $defender->race->name == 'Barbarian' and $this->invasionResult['result']['success'])

@@ -651,6 +651,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'swamp_gas_production_raw'
                           or $perkKey == 'marshling_production_raw'
                           or $perkKey == 'thunderstone_production_raw'
+                          or $perkKey == 'miasma_production_raw'
 
                           or $perkKey == 'gold_upkeep_raw'
                           or $perkKey == 'food_upkeep_raw'
@@ -740,6 +741,7 @@ class Dominion extends AbstractModel
                           or $perkKey == 'blood_production_mod'
                           or $perkKey == 'mud_production_mod'
                           or $perkKey == 'swamp_gas_production_mod'
+                          or $perkKey == 'miasma_production_mod'
 
                           or $perkKey == 'exchange_rate'
 
@@ -902,12 +904,57 @@ class Dominion extends AbstractModel
                       $maxAmountConverted = min($resourceCalculator->getAmount($this, $sourceResourceKey), $buildingOwned * $sourceAmount);
                       $amountCreated = $maxAmountConverted / ($sourceAmount / $targetAmount);
 
-                      #$data = [$sourceResourceKey => $maxAmountConverted, $targetResourceKey => $amountCreated];
-
                       return ['from' => [$sourceResourceKey => $maxAmountConverted], 'to' => [$targetResourceKey => $amountCreated]];
 
-                      #$perk += $baseValue + ($ticklyIncrease * $ticks);
+                  }
 
+                  # Peasants conversion (single resource)
+                  elseif($perkKey == 'peasants_conversion')
+                  {
+
+                      $availablePeasants = max($this->peasants-1000, 0); #min($this->peasants, max(1000, $this->peasants-1000));
+                      $resourceCalculator = app(ResourceCalculator::class);
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+
+                      $sourceAmount = (float)$perkValues[0];
+                      $sourceResourceAmount = $availablePeasants;
+                      $targetAmount = (float)$perkValues[1];
+                      $targetResourceKey = (string)$perkValues[2];
+                      $buildingOwned = $building->pivot->owned;
+
+                      $maxAmountConverted = min($sourceResourceAmount, $buildingOwned * $sourceAmount);
+                      $amountCreated = $maxAmountConverted / ($sourceAmount / $targetAmount);
+
+                      return ['from' => ['peasants' => $maxAmountConverted], 'to' => [$targetResourceKey => $amountCreated]];
+                  }
+
+                  # Peasants conversion (multiple resources)
+                  elseif($perkKey == 'peasants_conversions')
+                  {
+
+                      $availablePeasants = max($this->peasants-1000, 0); #min($this->peasants, max(1000, $this->peasants-1000));
+                      $resourceCalculator = app(ResourceCalculator::class);
+                      $perkValues = $this->extractBuildingPerkValues($perkValueString);
+
+                      $sourceAmount = (float)$perkValues[0];
+                      $sourceResourceAmount = $availablePeasants;
+                      $buildingOwned = $building->pivot->owned;
+                      $maxAmountConverted = min($sourceResourceAmount, $buildingOwned * $sourceAmount);
+
+                      $result['from']['peasants'] = $maxAmountConverted;
+
+                      foreach($perkValues as $perkValue)
+                      {
+                          if(is_array($perkValue))
+                          {
+                              $targetAmount = (float)$perkValue[0];
+                              $targetResourceKey = (string)$perkValue[1];
+                              $amountCreated = $maxAmountConverted / ($sourceAmount / $targetAmount);
+                              $result['to'][$targetResourceKey] = $amountCreated;
+                          }
+                      }
+
+                      return $result;
                   }
                   # Dark Elven slave workers
                   elseif(
@@ -1231,6 +1278,18 @@ class Dominion extends AbstractModel
                     {
                         $perk += min($this->getDeityDuration() * $perTick, $max);
                     }
+                }
+                elseif($perkKey == 'defense_from_resource')
+                {
+                    $resourceCalculator = app(ResourceCalculator::class);
+
+                    $perkValueArray = $spell->getActiveSpellPerkValues($spell->key, $perkKey);
+
+                    $dpPerResource = (float)$perkValueArray[0];
+                    $resourceKey = (string)$perkValueArray[1];
+
+                    $perk = $resourceCalculator->getAmount($this, $resourceKey) * $dpPerResource;
+
                 }
                 else
                 {

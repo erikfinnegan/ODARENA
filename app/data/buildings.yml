@@ -63,6 +63,7 @@ bog:
 ore_mine:
   name: Ore Mine
   excluded_races:
+    - Afflicted
     - Ants
     - Aurei
     - Demon
@@ -669,9 +670,8 @@ mass_grave:
     - Afflicted
   land_type: swamp
   perks:
-    peasants_conversion: 1,2,miasma # amountFrom, amountTo, resourceTo
-    food_production: 8
-    housing: 0
+    peasants_conversions: 3,6;miasma,18;food # amountFrom, amountTo, resourceTo
+    population_growth: 1,-2 # Every 1%, gives -2%
 
 # END ONE-OFF/FEW-OFF FACTION BUILDINGS
 
