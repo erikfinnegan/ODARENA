@@ -447,7 +447,7 @@ class UnitHelper
 
             if(!$race->getUnitPerkValueForUnitSlot($unit->slot,'cannot_be_trained'))
             {
-                $helpStrings[$unitType] .= ' / <span data-toggle="tooltip" data-placement="top" title="Time to train">T: ' . $unit->training_time . '</span>';
+                $helpStrings[$unitType] .= ' / <span data-toggle="tooltip" data-placement="top" title="Ticks to train">T: ' . $unit->training_time . '</span>';
             }
 
             $helpStrings[$unitType] .= '</li>';
