@@ -91,7 +91,7 @@ class UnitHelper
             'vampiric_conversion' => 'Spreads vampirism.',
 
             'displaced_peasants_conversion' => 'Converts enemy peasants formerly living on land conquered on invasion into %s.',
-            'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s or, if stronger than %1$s, into %3$s.',
+            'strength_conversion' => 'Converts enemy casualties with %1$s or less raw OP or DP into %2$s and stronger enemies into %3$s.',
             'value_conversion' => 'Fuses %1$sx of killed enemy raw OP or DP into %2$s.',
             'casualties_conversion' => 'Converts enemy casualties into %s.',
 
