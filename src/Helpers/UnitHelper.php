@@ -442,7 +442,15 @@ class UnitHelper
                 $unitDp = $unit->power_defense;
             }
 
-            $helpStrings[$unitType] .= '<li>OP: '. floatval($unitOp) . ' / DP: ' . floatval($unitDp) . ' / T: ' . $unit->training_time .  '</li>';
+            $helpStrings[$unitType] .= '<li><span data-toggle="tooltip" data-placement="top" title="Offensive power">OP: '. floatval($unitOp) . '</span>';
+            $helpStrings[$unitType] .= ' / <span data-toggle="tooltip" data-placement="top" title="Defensive power">DP: ' . floatval($unitDp) . '</span>';
+
+            if(!$race->getUnitPerkValueForUnitSlot($unit->slot,'cannot_be_trained'))
+            {
+                $helpStrings[$unitType] .= ' / <span data-toggle="tooltip" data-placement="top" title="Time to train">T: ' . $unit->training_time . '</span>';
+            }
+
+            $helpStrings[$unitType] .= '</li>';
 
             foreach ($unit->perks as $perk)
             {
