@@ -272,6 +272,10 @@
                                                             $labelParts[] =  number_format($value) . ' thunderstone';
                                                             break;
 
+                                                        case 'miasma':
+                                                            $labelParts[] =  number_format($value) . ' miasma';
+                                                            break;
+
                                                         default:
                                                             break;
                                                     }
