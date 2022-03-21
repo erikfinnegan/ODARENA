@@ -53,7 +53,7 @@ class RealmFactory
           }
         }
         */
-      elseif (!$round->mixed_alignment && !in_array($alignment, ['good', 'evil', 'npc', 'independent'], true))
+      elseif (!$round->mixed_alignment && !in_array($alignment, ['good', 'evil', 'npc', 'independent', 'players'], true))
         {
             throw new LogicException("Invalid realm alignment.");
         }
