@@ -86,8 +86,8 @@ units:
       unit3: 1
       thunderstone: 1
     power:
-      offense: 160
-      defense: 120
+      offense: 240
+      defense: 40
     perks:
       stuns_units: 200,2 # Stuns units up to 200 DP for 2 ticks
       damages_improvements_on_attack: 1000
