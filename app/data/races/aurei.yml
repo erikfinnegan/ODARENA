@@ -30,7 +30,7 @@ units:
     type:
       - living
       - sentient
-      - ethereal
+      - wise
     cost:
       gold: 333
       peasant: 1

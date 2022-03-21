@@ -66,7 +66,7 @@ class BuildingHelper
 
             'jobs' => 'Provides %s jobs.',
 
-            'population_growth' => 'Population growth rate increased by %2$s%% for every %1$s%%.',
+            'population_growth' => '%2$s%% population growth rate for every %1$s%%.',
 
             'drafting' => 'Drafting increased by %2$s%% for every %1$s%% (max +%3$s%%).',
 
