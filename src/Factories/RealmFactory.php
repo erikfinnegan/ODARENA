@@ -63,6 +63,7 @@ class RealmFactory
             'good' => 'The Commonwealth',
             'evil' => 'The Empire',
             'independent' => 'The Independent',
+            'players' => 'The Players',
         ];
 
         $realmName = $defaultRealmName[$alignment];
