@@ -102,6 +102,7 @@ class RoundHelper
                 return '<i class="fas fa-users fa-fw text-green"></i>';
 
             case 'deathmatch':
+            case 'deathmatch-duration':
                 return '<i class="ra ra-daggers ra-fw text-red"></i>';
 
             default:
