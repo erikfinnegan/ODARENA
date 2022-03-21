@@ -2,10 +2,12 @@
 
 namespace OpenDominion\Helpers;
 use Illuminate\Support\Collection;
-use OpenDominion\Models\Race;
-use OpenDominion\Models\Dominion;
-
 use OpenDominion\Models\Building;
+use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Race;
+use OpenDominion\Models\Resource;
+use OpenDominion\Models\Spell;
+
 
 class BuildingHelper
 {
@@ -108,6 +110,7 @@ class BuildingHelper
 
             'resource_conversion' => 'Converts %1$s %2$s into %3$s %4$s per tick.',
             'peasants_conversion' => 'Converts %1$s peasants into %2$s %3$s per tick.',
+            'peasants_conversions' => 'Converts %1$s of your peasants into %2$s each per tick.',
 
             'gold_production_depleting_raw' => 'Produces %1$s gold per tick (reduced by %2$s per tick of the round down to 0).',
             'food_production_depleting_raw' => 'Produces %1$s food per tick (reduced by %2$s per tick of the round down to 0).',
@@ -224,8 +227,11 @@ class BuildingHelper
 
         ];
 
+
+
         foreach ($building->perks as $perk)
         {
+
             if (!array_key_exists($perk->key, $perkTypeStrings))
             {
                 continue;
@@ -234,6 +240,7 @@ class BuildingHelper
             $perkValue = $perk->pivot->value;
 
             $nestedArrays = false;
+
             if (str_contains($perkValue, ','))
             {
                 $perkValue = explode(',', $perkValue);
@@ -249,6 +256,32 @@ class BuildingHelper
                     $perkValue[$key] = explode(';', $value);
                 }
             }
+
+            # SPECIAL DESCRIPTION PERKS
+
+            if($perk->key === 'peasants_conversions')
+            {
+                $ratio = (float)$perkValue[0];
+                unset($perkValue[0]);
+
+                // Rue the day this perk is used for other factions.
+
+                foreach ($perkValue as $index => $resourcePair)
+                {
+                    $resource = Resource::where('key', $resourcePair[1])->firstOrFail();
+                    $resources[$index] = $resourcePair[0] . ' ' . str_singular($resource->name);
+                }
+
+                $resourcesString = generate_sentence_from_array($resources);
+                #$resourcesString = str_replace(' And ', ' and ', $resourcesString);
+
+                $perkValue = [$ratio, $resourcesString];
+                $nestedArrays = false;
+
+            }
+
+            # END SPECIAL DESCRIPTION PERKS
+
 
             if (is_array($perkValue))
             {
