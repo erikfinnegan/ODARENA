@@ -132,7 +132,7 @@
                                 <input type="checkbox" name="terms" required> I have read, understood, and agree with the <a href="{{ route('legal.termsandconditions') }}">Terms and Conditions</a> and the <a href="{{ route('legal.privacypolicy') }}">Privacy Policy</a>
                             </label>
                         </div>
-                        @if($round->mode == 'deathmatch')
+                        @if($round->mode == 'deathmatch' or $round->mode == 'deathmatch-duration')
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" name="no_multis" required> <span class="label label-danger">Special rule:</span> This is deathmatch round and clause 3.2 of the Terms and Conditions does not apply. No multis are allowed this round.
