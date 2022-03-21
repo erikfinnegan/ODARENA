@@ -277,7 +277,7 @@ class UnitHelper
             'fends_off_into' => 'Upon successully fending off invasion, becomes %s.',
             'dies_into_multiple' => 'Upon death, returns as %2$s %1$s.',# On defense, the change is instant. On offense, the new unit returns from battle with the other units.',
 
-            'some_win_into' => 'Upon successul invasion, %1$s%% of these units returns as %2$s.',
+            'some_win_into' => 'Upon successul invasion, %1$s%% of these units return as %2$s.',
             'some_fend_off_into' => 'Upon successully fending off invasion, %1$s%% of these units become %2$s.',
             'some_die_into' => 'Upon death, %1$s%% of these units become %2$s.',
 
@@ -704,7 +704,7 @@ class UnitHelper
                     })->first();
 
                     $perkValue[0] = $ratio;
-                    $perkValue[1] = $unitToConvertTo->name;;
+                    $perkValue[1] = str_plural($unitToConvertTo->name);
                 }
 
                 if($perk->key === 'gold_production_raw_from_building_pairing')
