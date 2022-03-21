@@ -48,6 +48,7 @@ units:
     training_time: 6
     type:
       - sentient
+      - legendary
       - intelligent
     cost:
       champion: 1
