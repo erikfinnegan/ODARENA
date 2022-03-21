@@ -664,6 +664,11 @@ class UnitHelper
                     $perkValue = [str_plural($resource->name, $amountDestroyed), $amountDestroyed];
                 }
 
+                if($perk->key === 'offense_from_improvement_points' or $perk->key === 'defense_from_improvement_points')
+                {
+                    $perkValue = [(float)$perkValue[0], number_format($perkValue[1]), (float)$perkValue[2]];
+                }
+
                 // Special case for dies_into, wins_into ("change_into"), fends_off_into
                 if (
                       $perk->key === 'dies_into'
