@@ -85,6 +85,9 @@ class RoundHelper
             case 'deathmatch':
                 return 'Every dominion for itself!';
 
+            case 'deathmatch-duration':
+                return 'Every dominion for itself!';
+
             case 'artefacts':
                 return 'Your dominion is in a realm with friendly dominions and your goal is to be the first realm to capture at least ten Artefacts.';
         }
