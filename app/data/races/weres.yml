@@ -24,6 +24,8 @@ perks:
   construction_cost: -10
   increased_construction_speed: 2
 
+# Note after round 68: unless other big changes, consider turning Bears to 5 or 6 DP and Werebear to 12 DP.
+
 units:
   - name: Wolf
     training_time: 0

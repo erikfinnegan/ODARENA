@@ -135,7 +135,7 @@ class SpellHelper
             // Population
             'population_growth' => '%s%% population growth rate',
             'kill_peasants' => 'Kills %1$s%% of the target\'s peasants.',
-            'peasants_sacrificed' => '+%s%% peasants killed in Mass Graves',
+            'peasants_converted' => '+%s%% peasants killed in Mass Graves',
 
             // Resources
             'destroy_resource' => 'Destroys %2$s%% of the target\'s %1$s.',

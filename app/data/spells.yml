@@ -1165,7 +1165,7 @@ forced_suicides:
     - Afflicted
   perks:
     miasma_production_mod: 100
-    peasants_sacrificed: 100
+    peasants_converted: 100
     prestige_gains: -50
 
 miasmic_charges:

@@ -719,12 +719,22 @@ class TickService
         # Check for resource_conversion
         if($peasantConversionData = $dominion->getBuildingPerkValue('peasants_conversion'))
         {
+            $multiplier = 1;
+            $multiplier += $dominion->getSpellPerkMultiplier('peasants_converted');
+            $multiplier += $dominion->getBuildingPerkMultiplier('peasants_converted');
+            $multiplier += $dominion->getImprovementPerkMultiplier('peasants_converted');
+            
             $populationPeasantGrowth -= $peasantConversionData['from']['peasants'];
         }
         # Check for resource_conversion
         if($peasantConversionsData = $dominion->getBuildingPerkValue('peasants_conversions'))
         {
-            $populationPeasantGrowth -= $peasantConversionsData['from']['peasants'];
+            $multiplier = 1;
+            $multiplier += $dominion->getSpellPerkMultiplier('peasants_converted');
+            $multiplier += $dominion->getBuildingPerkMultiplier('peasants_converted');
+            $multiplier += $dominion->getImprovementPerkMultiplier('peasants_converted');
+
+            $populationPeasantGrowth -= ($peasantConversionsData['from']['peasants'] * $multiplier);
         }
 
         if(($dominion->peasants + $tick->peasants) <= 0)
