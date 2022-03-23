@@ -397,6 +397,12 @@ class SpellActionService
 
                     foreach($spellPerkValues as $resourcePair)
                     {
+                        $resourceProductionMultiplier = 1;
+                        $resourceProductionMultiplier += $caster->getBuildingPerkMultiplier($resourcePair[1] . '_production_from_sacrifice_mod');
+                        $resourceProductionMultiplier += $caster->getSpellPerkMultiplier($resourcePair[1] . '_production_from_sacrifice_mod');
+                        $resourceProductionMultiplier += $caster->getImprovementPerkMultiplier($resourcePair[1] . '_production_from_sacrifice_mod');
+                        $resourceProductionMultiplier += $caster->getLandImprovementPerkMultiplier($resourcePair[1] . '_production_from_sacrifice_mod');
+
                         $newResources[$resourcePair[1]] = intval($peasantsSacrificed * $resourcePair[0]);
                     }
 
