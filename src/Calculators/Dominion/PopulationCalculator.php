@@ -469,28 +469,6 @@ class PopulationCalculator
     }
 
     /**
-     * Demon: Returns the amount of peasants sacrificed.
-     *
-     * @param Dominion $dominion
-     * @return float
-     */
-    public function getPeasantsSacrificed(Dominion $dominion): int
-    {
-        $peasantsSacrificed = 0;
-        for ($unitSlot = 1; $unitSlot <= 4; $unitSlot++)
-        {
-            if ($dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants'))
-            {
-                $sacrificingUnits = $dominion->{"military_unit".$unitSlot};
-                $peasantsSacrificedPerUnit = $dominion->race->getUnitPerkValueForUnitSlot($unitSlot, 'sacrifices_peasants');
-                $peasantsSacrificed += $sacrificingUnits * $peasantsSacrificedPerUnit;
-            }
-        }
-
-        return min($dominion->peasants, $peasantsSacrificed);
-    }
-
-    /**
      * Returns the Dominion's population birth multiplier.
      *
      * @param Dominion $dominion

@@ -723,7 +723,7 @@ class TickService
             $multiplier += $dominion->getSpellPerkMultiplier('peasants_converted');
             $multiplier += $dominion->getBuildingPerkMultiplier('peasants_converted');
             $multiplier += $dominion->getImprovementPerkMultiplier('peasants_converted');
-            
+
             $populationPeasantGrowth -= $peasantConversionData['from']['peasants'];
         }
         # Check for resource_conversion
@@ -734,7 +734,7 @@ class TickService
             $multiplier += $dominion->getBuildingPerkMultiplier('peasants_converted');
             $multiplier += $dominion->getImprovementPerkMultiplier('peasants_converted');
 
-            $populationPeasantGrowth -= ($peasantConversionsData['from']['peasants'] * $multiplier);
+            $populationPeasantGrowth -= $peasantConversionsData['from']['peasants'];
         }
 
         if(($dominion->peasants + $tick->peasants) <= 0)
@@ -744,9 +744,8 @@ class TickService
 
         $tick->peasants = $populationPeasantGrowth;
 
-        $tick->peasants_sacrificed = min($this->populationCalculator->getPeasantsSacrificed($dominion), ($dominion->peasants + $tick->peasants)) * -1;
-
-        $tick->peasants_sacrificed = max($tick->peasants_sacrificed, ($dominion->peasants + $tick->peasants)*-1);
+        $tick->peasants_sacrificed = 0;#min($this->populationCalculator->getPeasantsSacrificed($dominion), ($dominion->peasants + $tick->peasants)) * -1;
+        #$tick->peasants_sacrificed = max($tick->peasants_sacrificed, ($dominion->peasants + $tick->peasants)*-1);
 
         $tick->military_draftees = $drafteesGrowthRate;
 

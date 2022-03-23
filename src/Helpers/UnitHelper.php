@@ -416,7 +416,6 @@ class UnitHelper
 
             // Demonic
             'kill_peasants' => 'Eats %s peasants per tick.',
-            'sacrifices_peasants' => 'Sacrifices %s peasants per tick for one soul, 1.5 gallons of blood, and 2 halms of food per peasant.',
 
             // Myconid
             'decreases_info_ops_accuracy' => 'Decreases accuracy of Clear Sights performed on the dominion by 0.50%% for every 1%% of total military made up of this unit.',
