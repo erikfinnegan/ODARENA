@@ -348,7 +348,7 @@ class SettingHelper
                     'Forces from %s (#%s) invaded our lands, but our army drove them back! We lost %s units during the battle.',
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
-                    array_sum($data['unitsLost'])
+                    number_format($data['unitsLost'])
                 );
 
             case 'hourly_dominion.beneficial_magic_dissipated':
@@ -456,7 +456,7 @@ class SettingHelper
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
                     number_format($data['landLost']),
-                    array_sum($data['unitsLost'])
+                    number_format($data['unitsLost'])
                 );
 
             case 'irregular_dominion.repelled_invasion':
@@ -466,7 +466,7 @@ class SettingHelper
                     'Forces from %s (#%s) invaded our lands, but our army drove them back! We lost %s units during the battle.',
                     $attackerDominion->name,
                     $attackerDominion->realm->number,
-                    array_sum($data['unitsLost'])
+                    number_format($data['unitsLost'])
                 );
 
             case 'irregular_dominion.theft':
