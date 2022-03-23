@@ -141,7 +141,7 @@ class InvadeActionService
                 throw new GameException('Nice try, but you cannot invade cross-round.');
             }
 
-            if ($dominion->realm->id === $target->realm->id and $dominion->round->mode !== 'deathmatch')
+            if ($dominion->realm->id === $target->realm->id and ($dominion->round->mode !== 'deathmatch' and $dominion->round->mode !== 'deathmatch-duration'))
             {
                 throw new GameException('You can only invade other dominions in the same realm in deathmatch rounds.');
             }
