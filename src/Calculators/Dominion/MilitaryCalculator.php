@@ -302,7 +302,7 @@ class MilitaryCalculator
         # If DP per draftee is 0, ignore them (no casualties).
         if($dpPerDraftee == 0)
         {
-          $ignoreDraftees = True;
+            $ignoreDraftees = True;
         }
 
         // Peasants

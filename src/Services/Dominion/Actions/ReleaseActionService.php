@@ -106,13 +106,13 @@ class ReleaseActionService
         }
 
         $units = [
-          1 => $data['unit1'],
-          2 => $data['unit2'],
-          3 => $data['unit3'],
-          4 => $data['unit4']
+            1 => $data['unit1'],
+            2 => $data['unit2'],
+            3 => $data['unit3'],
+            4 => $data['unit4']
         ];
 
-        $rawDpRelease = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $units, 0, true, false, true);
+        $rawDpRelease = $this->militaryCalculator->getDefensivePowerRaw($dominion, null, null, $units, 0, true, false, true, null, true, true);
 
 
         # Special considerations for releasing military units.
