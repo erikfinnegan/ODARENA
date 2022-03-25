@@ -408,7 +408,7 @@ class CasualtiesCalculator
                 # How much land does the dominion have of that land type?
                 $landOfLandType = $dominion->{'land_' . $landType};
                 $totalLand = $this->landCalculator->getTotalLand($dominion);
-                $landTypePercentage = $landOfLandType / $totalLand;
+                $enemyLandTypePercentage = $landOfLandType / $totalLand;
 
                 $multiplier += max($max, $enemyLandTypePercentage * $perPercentage);
             }

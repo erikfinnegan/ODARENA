@@ -527,7 +527,11 @@ class PopulationCalculator
 
         $maximumPopulationChange = min($roomForPeasants, $currentPopulationChange);
 
-        return max($maximumPeasantDeath, $maximumPopulationChange);
+        $peasantGrowth = max($maximumPeasantDeath, $maximumPopulationChange);
+
+        #dump($peasantGrowth);
+
+        return $peasantGrowth;
     }
 
     /**

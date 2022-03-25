@@ -744,6 +744,8 @@ class TickService
 
         $tick->peasants = $populationPeasantGrowth;
 
+        #dd($populationPeasantGrowth, $peasantConversionsData['from']['peasants']);
+
         $tick->peasants_sacrificed = 0;#min($this->populationCalculator->getPeasantsSacrificed($dominion), ($dominion->peasants + $tick->peasants)) * -1;
         #$tick->peasants_sacrificed = max($tick->peasants_sacrificed, ($dominion->peasants + $tick->peasants)*-1);
 
