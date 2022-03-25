@@ -75,7 +75,7 @@ units:
       offense: 5
       defense: 8
     perks:
-      casualties_defense_from_land: forest,-1,-90 # land_type, ratio%, max
+      casualties_on_defense_from_land: forest,-1,-90 # land_type, ratio%, max
       casualties_on_offense_vs_land: forest,-1,-90 # land_type, ratio%, max
 
   - name: Gorilla
@@ -90,6 +90,6 @@ units:
       offense: 7
       defense: 4
     perks:
-      casualties_defense_from_land: forest,-1,-90 # land_type, ratio%, max
+      casualties_on_defense_from_land: forest,-1,-90 # land_type, ratio%, max
       casualties_on_offense_vs_land: forest,-2,-90 # land_type, ratio%, max
       offense_from_victories: 0.10,3 # +0.10 OP per Victory, max +3 (at 30 Victories)
