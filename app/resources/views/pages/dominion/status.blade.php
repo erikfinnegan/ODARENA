@@ -337,7 +337,7 @@
                           @csrf
                           <input type="hidden" name="returnTo" value="{{ Route::currentRouteName() }}">
                           <select class="btn btn-warning" name="ticks">
-                              @for ($i = 1; $i <= $selectedDominion->protection_ticks; $i++)
+                              @for ($i = 1; $i <= min(24, $selectedDominion->protection_ticks); $i++)
                               <option value="{{ $i }}">{{ $i }}</option>
                               @endfor
                           </select>

@@ -172,7 +172,7 @@ class ConversionCalculator
 
         $landConquered = array_sum($invasion['attacker']['landConquered']);
         $displacedPeasants = intval(($defender->peasants / $invasion['defender']['landSize']) * $landConquered);
-        
+
         # Apply reduced conversions
         $displacedPeasants *= $this->getConversionReductionMultiplier($defender);
 
@@ -515,14 +515,6 @@ class ConversionCalculator
                 if($strengthBasedConversionPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'strength_conversion'))
                 {
                     $convertingUnits[$slot] += $amount;
-
-                    # Deduct lost units.
-                    /*
-                    if(isset($invasion['attacker']['unitsLost'][$slot]))
-                    {
-                        $convertingUnits[$slot] -= $invasion['attacker']['unitsLost'][$slot];
-                    }
-                    */
                 }
             }
 

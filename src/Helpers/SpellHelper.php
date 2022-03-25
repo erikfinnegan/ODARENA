@@ -91,6 +91,8 @@ class SpellHelper
 
             'resource_theft' => 'Displaces %2$s%% of the target\'s %1$s and returns it to the caster.',
 
+            'resource_lost_on_invasion' => 'You lose %1s%% of your %2$s if invaded (not overwhelmed invasions).',
+
             // Military
             'drafting' => '+%s%% drafting',
             'training_time_raw' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
@@ -128,6 +130,9 @@ class SpellHelper
             'no_attrition' => 'No unit attrition',
 
             'prestige_gains' => '%s%% prestige gains',
+
+            'defense_from_resource' => '%1$s raw defensive power per %2$s.',
+            'offense_from_resource' => '%1$s raw offensive power per %2$s.',
 
             // Improvements
             'improvements_damage' => 'Destroys %s%% of the target\'s improvements.',
@@ -611,6 +616,23 @@ class SpellHelper
                 $perkValue = [$raisingUnits, $raisingUnit->name, $raisedUnit->name];
 
                 #$perkValue = [$unitsString, $maxPerAcre, $landType];
+            }
+
+            // Special case for dies_into, wins_into ("change_into"), fends_off_into
+            if ($perk->key === 'defense_from_resource' or $perk->key === 'offense_from_resource' or  $perk->key === 'resource_lost_on_invasion')
+            {
+                $firstValue = (float)$perkValue[0];
+                $resourceKey = (string)$perkValue[1];
+
+                if($firstValue > 1000)
+                {
+                    $firstValue = number_format($firstValue);
+                }
+
+                $resource = Resource::where('key', $resourceKey)->first();
+
+
+                $perkValue = [$firstValue, $resource->name];
             }
 
             /*****/

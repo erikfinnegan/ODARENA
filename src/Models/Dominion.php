@@ -1289,7 +1289,10 @@ class Dominion extends AbstractModel
                     $resourceKey = (string)$perkValueArray[1];
 
                     $perk = $resourceCalculator->getAmount($this, $resourceKey) * $dpPerResource;
-
+                }
+                elseif($perkKey == 'resource_lost_on_invasion')
+                {
+                    return True;
                 }
                 else
                 {

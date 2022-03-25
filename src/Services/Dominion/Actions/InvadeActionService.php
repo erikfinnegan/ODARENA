@@ -11,6 +11,7 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Models\Resource;
+use OpenDominion\Models\Spell;
 use OpenDominion\Models\Unit;
 
 use OpenDominion\Helpers\ImprovementHelper;
@@ -1871,14 +1872,14 @@ class InvadeActionService
             if($this->invasionResult['attacker']['op'] / $this->invasionResult['defender']['dp'] >= 0.50)
             {
                 $this->spellActionService->castSpell($attacker, 'pestilence', $defender, $isInvasionSpell);
-                $result['attacker']['invasion_spell'][] = 'pestilence';
+                $this->invasionResult['attacker']['invasion_spell'][] = 'pestilence';
             }
 
             # Great Fever
             if($this->invasionResult['result']['success'])
             {
                 $this->spellActionService->castSpell($attacker, 'great_fever', $defender, $isInvasionSpell);
-                $result['attacker']['invasion_spell'][] = 'great_fever';
+                $this->invasionResult['attacker']['invasion_spell'][] = 'great_fever';
             }
         }
 
@@ -1891,17 +1892,17 @@ class InvadeActionService
             # Not an invasion spell, but this goes here for now (Miasmic Charges)
             if($defender->getSpellPerkValue('resource_lost_on_invasion') and !$this->invasionResult['result']['overwhelmed'])
             {
-                $perkValueArray = $spell->getActiveSpellPerkValues($spell->key, $perkKey);
+                $spell = Spell::where('key', 'miasmic_charges')->first();
+                $perkValueArray = $spell->getActiveSpellPerkValues($spell->key, 'resource_lost_on_invasion');
 
                 $ratio = (float)$perkValueArray[0] / 100;
                 $resourceKey = (string)$perkValueArray[1];
                 $resourceAmountOwned = $this->resourceCalculator->getAmount($defender, $resourceKey);
                 $resourceAmountLost = $resourceAmountOwned * ($ratio * -1);
 
-                $result['defender']['resources_lost'][$resourceKey] = $resourceAmountLost;
+                $this->invasionResult['defender']['resources_lost'][$resourceKey] = $resourceAmountLost;
 
                 $this->resourceService->updateResources($defender, [$resourceKey => ($resourceAmountOwned * -1)]);
-
             }
         }
 

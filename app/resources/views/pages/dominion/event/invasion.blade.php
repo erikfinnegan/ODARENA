@@ -882,6 +882,26 @@
                                             @endif
                                         @endforeach
                                     @endif
+
+                                    @if (isset($event->data['defender']['resources_lost']) and array_sum($event->data['defender']['resources_lost']) != 0)
+                                        <tr>
+                                            <th colspan="2">Miasmic charges</th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><small class="text-muted">Miasmic charges detonate.</small></td>
+                                        </tr>
+                                        @foreach($event->data['defender']['resources_lost'] as $resourceKey => $amount)
+                                            @php
+                                                $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                            @endphp
+                                            @if($amount != 0)
+                                                <tr>
+                                                    <td>{{ $resource->name }}:</td>
+                                                    <td><span class="text-red">{{ number_format($amount) }}</span></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                             @endif
