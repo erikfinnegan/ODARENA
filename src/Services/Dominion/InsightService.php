@@ -107,14 +107,14 @@ class InsightService
 
             # CS: Military
             'morale' => $target->morale,
-            'military_draftees' => $target->military_draftees,
+            'military_draftees' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'draftees'),
             'military_unit1' => $this->militaryCalculator->getTotalUnitsForSlot($target, 1),
             'military_unit2' => $this->militaryCalculator->getTotalUnitsForSlot($target, 2),
             'military_unit3' => $this->militaryCalculator->getTotalUnitsForSlot($target, 3),
             'military_unit4' => $this->militaryCalculator->getTotalUnitsForSlot($target, 4),
-            'military_spies' => $target->military_spies,
-            'military_wizards' => $target->military_wizards,
-            'military_archmages' => $target->military_archmages,
+            'military_spies' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'spies'),
+            'military_wizards' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'wizards'),
+            'military_archmages' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'archmages'),
 
             # Deity
             'deity' => $target->hasDeity() ? $target->getDeity()->name : NULL,
@@ -206,19 +206,6 @@ class InsightService
                 $data['units']['training'][$unitType][$row->hours] += $row->amount;
             }
         });
-
-        // Units returning
-        /*
-        foreach($data['units']['returning'] as $unitType => $returningQueue)
-        {
-            foreach($returningQueue as $tick => $amount)
-            {
-                $data['units']['returning'][$unitType][$tick] = $this->queueService->getInvasionQueueAmount($target, "military_{$unitType}", $tick);
-                $data['units']['returning'][$unitType][$tick] += $this->queueService->getExpeditionQueueAmount($target, "military_{$unitType}", $tick);
-                $data['units']['returning'][$unitType][$tick] += $this->queueService->getTheftQueueAmount($target, "military_{$unitType}", $tick);
-            }
-        }
-        */
 
         // Spells
         $data['spells'] = [];
