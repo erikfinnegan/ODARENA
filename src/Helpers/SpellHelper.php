@@ -91,7 +91,7 @@ class SpellHelper
 
             'resource_theft' => 'Displaces %2$s%% of the target\'s %1$s and returns it to the caster.',
 
-            'resource_lost_on_invasion' => 'You lose %1s%% of your %2$s if invaded (not overwhelmed invasions).',
+            'resource_lost_on_invasion' => '%1s%% of %2$s if invaded (excluding overwhelmed invasions).',
 
             // Military
             'drafting' => '+%s%% drafting',
