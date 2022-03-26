@@ -14,7 +14,7 @@ class CreateArtefactPerkTypesTable extends Migration
     public function up()
     {
         Schema::create('artefact_perk_types', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('key')->unique();
             $table->timestamps();
         });

@@ -6,42 +6,47 @@ use DB;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use OpenDominion\Console\Commands\CommandInterface;
-use OpenDominion\Models\Race;
-use OpenDominion\Models\RacePerk;
-use OpenDominion\Models\RacePerkType;
-use OpenDominion\Models\Tech;
-use OpenDominion\Models\TechPerk;
-use OpenDominion\Models\TechPerkType;
-use OpenDominion\Models\Unit;
-use OpenDominion\Models\UnitPerk;
-use OpenDominion\Models\UnitPerkType;
+use OpenDominion\Models\Artefact;
+use OpenDominion\Models\ArtefactPerk;
+use OpenDominion\Models\ArtefactPerkType;
 use OpenDominion\Models\Building;
 use OpenDominion\Models\BuildingPerk;
 use OpenDominion\Models\BuildingPerkType;
-use OpenDominion\Models\Spell;
-use OpenDominion\Models\SpellPerk;
-use OpenDominion\Models\SpellPerkType;
-use OpenDominion\Models\Improvement;
-use OpenDominion\Models\ImprovementPerk;
-use OpenDominion\Models\ImprovementPerkType;
-use OpenDominion\Models\Spyop;
-use OpenDominion\Models\SpyopPerk;
-use OpenDominion\Models\SpyopPerkType;
-use OpenDominion\Models\Deity;
-use OpenDominion\Models\DeityPerk;
-use OpenDominion\Models\DeityPerkType;
 use OpenDominion\Models\Decree;
 use OpenDominion\Models\DecreePerk;
 use OpenDominion\Models\DecreePerkType;
+use OpenDominion\Models\Deity;
+use OpenDominion\Models\DeityPerk;
+use OpenDominion\Models\DeityPerkType;
+use OpenDominion\Models\Improvement;
+use OpenDominion\Models\ImprovementPerk;
+use OpenDominion\Models\ImprovementPerkType;
+use OpenDominion\Models\Race;
+use OpenDominion\Models\RacePerk;
+use OpenDominion\Models\RacePerkType;
+use OpenDominion\Models\Spell;
+use OpenDominion\Models\SpellPerk;
+use OpenDominion\Models\SpellPerkType;
+use OpenDominion\Models\Spyop;
+use OpenDominion\Models\SpyopPerk;
+use OpenDominion\Models\SpyopPerkType;
+use OpenDominion\Models\Tech;
+use OpenDominion\Models\TechPerk;
+use OpenDominion\Models\TechPerkType;
+use OpenDominion\Models\Title;
+use OpenDominion\Models\TitlePerk;
+use OpenDominion\Models\TitlePerkType;
+use OpenDominion\Models\Unit;
+use OpenDominion\Models\UnitPerk;
+use OpenDominion\Models\UnitPerkType;
+
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use OpenDominion\Models\Stat;
 use OpenDominion\Models\Resource;
 
 
-use OpenDominion\Models\Title;
-use OpenDominion\Models\TitlePerk;
-use OpenDominion\Models\TitlePerkType;
+
 
 class DataSyncCommand extends Command implements CommandInterface
 {
@@ -73,7 +78,7 @@ class DataSyncCommand extends Command implements CommandInterface
     {
         DB::transaction(function () {
 
-            $this->syncRaces();
+            /*$this->syncRaces();
             $this->syncTechs();
             $this->syncBuildings();
             $this->syncTitles();
@@ -82,7 +87,8 @@ class DataSyncCommand extends Command implements CommandInterface
             $this->syncImprovements();
             $this->syncStats();
             $this->syncResources();
-            $this->syncDeities();
+            $this->syncDeities();*/
+            $this->syncArtefacts();
             #$this->syncDecrees();
         });
     }
@@ -909,6 +915,91 @@ class DataSyncCommand extends Command implements CommandInterface
             }
         }
 
+        /**
+         * Syncs spells and perk data from .yml file to the database.
+         */
+         protected function syncArtefacts()
+          {
+              $fileContents = $this->filesystem->get(base_path('app/data/artefacts.yml'));
+
+              $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
+
+              foreach ($data as $artefactKey => $artefactData) {
+
+                  $deityId = null;
+                  if($deityKey = object_get($artefactData, 'deity'))
+                  {
+                      $deityId = Deity::where('key', $deityKey)->first()->id;
+                  }
+
+                  // Artefact
+                  $artefact = Artefact::firstOrNew(['key' => $artefactKey])
+                      ->fill([
+                          'name' => $artefactData->name,
+                          'enabled' => object_get($artefactData, 'enabled', 1),
+                          'description' => object_get($artefactData, 'description', ''),
+                          'deity_id' => $deityId,
+                          'base_power' => object_get($artefactData, 'base_power', 100000),
+                          'excluded_races' => object_get($artefactData, 'excluded_races', []),
+                          'exclusive_races' => object_get($artefactData, 'exclusive_races', []),
+                      ]);
+
+                  if (!$artefact->exists) {
+                      $this->info("Adding artefact {$artefactData->name}");
+                  } else {
+                      $this->info("Processing artefact {$artefactData->name}");
+
+                      $newValues = $artefact->getDirty();
+
+                      foreach ($newValues as $key => $newValue)
+                      {
+                          $originalValue = $artefact->getOriginal($key);
+
+                          if(is_array($originalValue))
+                          {
+                              $originalValue = implode(',', $originalValue);
+                          }
+                          if(is_array($newValue))
+                          {
+                              $newValue = implode(',', $newValue);
+                          }
+
+                          $this->info("[Change] {$key}: {$originalValue} -> {$newValue}");
+                      }
+                  }
+
+                  $artefact->save();
+                  $artefact->refresh();
+
+                  // Artefact Perks
+                  $artefactPerksToSync = [];
+
+                  foreach (object_get($artefactData, 'perks', []) as $perk => $value)
+                  {
+                      $value = (string)$value;
+
+                      $artefactPerkType = ArtefactPerkType::firstOrCreate(['key' => $perk]);
+
+                      $artefactPerksToSync[$artefactPerkType->id] = ['value' => $value];
+
+                      $artefactPerk = ArtefactPerk::query()
+                          ->where('artefact_id', $artefact->id)
+                          ->where('artefact_perk_type_id', $artefactPerkType->id)
+                          ->first();
+
+                      if ($artefactPerk === null)
+                      {
+                          $this->info("[Add Artefact Perk] {$perk}: {$value}");
+                      }
+                      elseif ($artefactPerk->value != $value)
+                      {
+                          $this->info("[Change Artefact Perk] {$perk}: {$artefactPerk->value} -> {$value}");
+                      }
+                  }
+
+                  $artefact->perks()->sync($artefactPerksToSync);
+              }
+          }
 
         /**
          * Syncs race, unit and perk data from .yml files to the database.

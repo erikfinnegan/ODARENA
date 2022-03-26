@@ -7,6 +7,7 @@ use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\Dominion\DeityCalculator;
+use OpenDominion\Helpers\ArtefactHelper;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\LandHelper;
@@ -21,10 +22,11 @@ use OpenDominion\Models\Resource;
 use OpenDominion\Models\Title;
 use OpenDominion\Helpers\TitleHelper;
 use OpenDominion\Helpers\TechHelper;
+use OpenDominion\Models\Artefact;
+use OpenDominion\Models\Deity;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Spyop;
-use OpenDominion\Models\Deity;
 use OpenDominion\Models\Improvement;
 use OpenDominion\Helpers\ImprovementHelper;
 
@@ -195,6 +197,14 @@ class ScribesController extends AbstractController
         return view('pages.scribes.deities', [
             'deities' => Deity::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'deityHelper' => app(DeityHelper::class),
+        ]);
+    }
+
+    public function getArtefacts()
+    {
+        return view('pages.scribes.artefacts', [
+            'artefacts' => Artefact::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
+            'artefactHelper' => app(ArtefactHelper::class),
         ]);
     }
 

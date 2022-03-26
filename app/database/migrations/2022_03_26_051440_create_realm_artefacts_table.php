@@ -18,10 +18,14 @@ class CreateRealmArtefactsTable extends Migration
             $table->integer('realm_id')->unsigned();
             $table->integer('artefact_id')->unsigned();
             $table->integer('power')->unsigned()->default(0);
+            $table->integer('tick')->unsigned()->default(0);
+            $table->uuid('game_event_id')->nullable();
 
             $table->foreign('realm_id')->references('id')->on('realms');
             $table->foreign('artefact_id')->references('id')->on('artefacts');
+            $table->foreign('game_event_id')->references('id')->on('game_events');
             $table->unique(['realm_id', 'artefact_id']);
+
             $table->timestamps();
         });
     }

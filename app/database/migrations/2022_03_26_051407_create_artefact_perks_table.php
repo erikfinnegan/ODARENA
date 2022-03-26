@@ -14,7 +14,7 @@ class CreateArtefactPerksTable extends Migration
     public function up()
     {
         Schema::create('artefact_perks', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->integer('artefact_id')->unsigned();
             $table->integer('artefact_perk_type_id')->unsigned();
             $table->string('value')->nullable();

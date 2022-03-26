@@ -3,8 +3,8 @@
 azk_hurums_blood_purifier:
   name: Azk'Hurum's Blood Purifier
   description: Made of obsidian, imbued with souls, and stained with blood, this device is used by Azk'Hurum to remove impurities from blood the followers have gathered.
-  type: divine
-  hp: 500000
+  deity: azk_hurum
+  base_power: 500000
   exclusive_races:
     - Demon
   perks:
@@ -13,8 +13,8 @@ azk_hurums_blood_purifier:
 barathu_bints_ledger:
   name: Barathu Bint's Ledger
   description: Barathu Bint kept a careful log of trade routes and guidelines for fair and effective negotiations.
-  type: divine
-  hp: 500000
+  deity: barathu_bint
+  base_power: 500000
   excluded_races:
     - Afflicted
     - Nox
@@ -26,8 +26,8 @@ barathu_bints_ledger:
 bregons_banner:
   name: Bregon's Banner
   description: Great armies have rallied under this banner throughout the ages.
-  type: divine
-  hp: 500000
+  deity: bregon
+  base_power: 500000
   excluded_races:
     - Nox
     - Void
@@ -37,8 +37,8 @@ bregons_banner:
 druvas_amulet:
   name: Druva's Amulet
   description: A magical link between the carrier and the land all that live on and in it.
-  type: divine
-  hp: 500000
+  deity: druva
+  base_power: 500000
   excluded_races:
     - Afflicted
     - Nox
@@ -49,10 +49,10 @@ druvas_amulet:
     rezone_cost: -20
 
 elskas_ambrosia:
-  name: Elska's Ambrosia
+  name: Elskas' Ambrosia
   description: A pernicious liquid whose fumes imbue Reptilians with both violent outbursts and incredible stealth.
-  type: divine
-  hp: 500000
+  deity: elskas
+  base_power: 500000
   exclusive_races:
     - Reptilians
   perks:
@@ -62,8 +62,8 @@ elskas_ambrosia:
 glimjs_lantern:
   name: Glimj's Lantern
   description: Used by Glimj to see in the deepest, darkest waters.
-  type: divine
-  hp: 500000
+  deity: glimj
+  base_power: 500000
   exclusive_races:
     - Armada
     - Merfolk
@@ -73,8 +73,8 @@ glimjs_lantern:
 ixs_contraption:
   name: Ix's Contraption
   description: A machine which can make other machines.
-  type: divine
-  hp: 500000
+  deity: ix
+  base_power: 500000
   excluded_races:
     - Void
   perks:
@@ -84,8 +84,8 @@ ixs_contraption:
 kinthys_disembowler:
   name: Kinthys' Disembowler
   description: Always within reach to satisfy Kinthys' lust for drawn-out, torturous death.
-  type: divine
-  hp: 500000
+  deity: kinthys
+  base_power: 500000
   exclusive_races:
     - Afflicted
     - Undead
@@ -96,8 +96,8 @@ kinthys_disembowler:
 mirnons_pickaxe:
   name: Mirnon's Pickaxe
   description: What made Mirnon great was not only enormous and deep mines, but the handcraft in refining minerals and gems.
-  type: divine
-  hp: 500000
+  deity: mirnon
+  base_power: 500000
   excluded_races:
     - Afflicted
     - Nox
@@ -109,8 +109,8 @@ mirnons_pickaxe:
 sazals_staff:
   name: Sazal's Staff
   description: A staff used to weave some of the strongest magic the world has ever seen.
-  type: divine
-  hp: 500000
+  deity: sazal
+  base_power: 500000
   perks:
     base_wizard_strength: 40
     mana_production_mod: 20
@@ -118,8 +118,8 @@ sazals_staff:
 tiranthaels_blade:
   name: Tiranthael's Blade
   description: This blade was used to sort the pure from the impure.
-  type: divine
-  hp: 500000
+  deity: tiranthael
+  base_power: 500000
   exclusive_races:
     - Sacred Order
   perks:
@@ -129,8 +129,8 @@ tiranthaels_blade:
 urugdakhs_axe:
   name: Urugdakh's Axe
   description: A holy symbol to Black Orcs.
-  type: divine
-  hp: 500000
+  deity: urugdakh
+  base_power: 500000
   exclusive_races:
     - Black Orc
   perks:
@@ -140,8 +140,8 @@ urugdakhs_axe:
 zidurs_effluvium:
   name: Zidur's Effluvium
   description: A small vial that never runs dry.
-  type: divine
-  hp: 500000
+  deity: zidur
+  base_power: 500000
   exclusive_races:
     - Afflicted
     - Undead
@@ -149,48 +149,28 @@ zidurs_effluvium:
     sorcery_spell_duration: 50
     crypt_decay: -50
 
-voiddeity1_artefact:
-  name: ◮◬◭ ◬◥
-  description: ▲▲△▵◭◭◹▿◀◂►▹▷◤◢◅▲◄◅△△◀△△▶◬◭◮▻▽∇
-  hp: 500000
-  exclusive_races:
-    - Void
-  perks:
-    immortal_on_victory: 1
-
-voiddeity2_artefact:
-  name: ▽◬◿
-  description: ◺◅◄▴▵◤▵◤▴◣▹▻▽◃◁◺▼►▻▹◮◬◭◮◬◬△▲◅◤
-  hp: 500000
-  exclusive_races:
-    - Void
-  perks:
-    mana_production_mod: 50
-
 # REGULAR
 
 ancient_sceptre:
   name: Ancient Sceptre
-  hp: 250000
+  base_power: 250000
   perks:
     governor_offensive_power: 5
 
 flying_compass:
   name: The Flying Compass
-  hp: 250000
+  base_power: 250000
   perks:
     faster_return: 2
 
 ichor_of_vitality:
   name: Ichor of Vitality
-  hp: 250000
+  base_power: 250000
   perks:
     casualties: -10
 
-
-
 scrolls_of_knowledge:
   name: Scrolls of Knowledge
-  hp: 250000
+  base_power: 250000
   perks:
     xp_generation_mod: 10

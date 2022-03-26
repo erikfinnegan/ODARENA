@@ -39,16 +39,6 @@ class Realm extends AbstractModel
         return $this->hasMany(Dominion::class);
     }
 
-//    public function gameEventsSource()
-//    {
-//        return $this->morphMany(GameEvent::class, 'source');
-//    }
-//
-//    public function gameEventsTarget()
-//    {
-//        return $this->morphMany(GameEvent::class, 'target');
-//    }
-
     public function history()
     {
         return $this->hasMany(Realm\History::class);
@@ -96,6 +86,18 @@ class Realm extends AbstractModel
     public function warRealms()
     {
         return $this->hasMany(self::class, 'war_realm_id');
+    }
+
+    public function artefacts()
+    {
+        return $this->hasManyThrough(
+            Artefact::class,
+            RealmArtefact::class,
+            'realm_id',
+            'id',
+            'id',
+            'artefact_id'
+        );
     }
 
     // todo: move to eloquent events, see $dispatchesEvents
