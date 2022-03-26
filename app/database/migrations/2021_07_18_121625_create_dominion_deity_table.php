@@ -17,7 +17,7 @@ class CreateDominionDeityTable extends Migration
             $table->increments('id');
             $table->integer('dominion_id')->unsigned();
             $table->integer('deity_id')->unsigned();
-            $table->integer('duration')->default(0);
+            $table->integer('hitpoints')->default(0);
 
             $table->foreign('dominion_id')->references('id')->on('dominions');
             $table->foreign('deity_id')->references('id')->on('deities');
