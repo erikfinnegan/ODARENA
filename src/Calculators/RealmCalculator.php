@@ -75,6 +75,7 @@ class RealmCalculator
     {
         $bodiesDecayed = 0;
         $entombedBodies = 0;
+        $multiplier = 1;
 
         if($realm->alignment !== 'evil' or $realm->crypt === 0)
         {
@@ -92,6 +93,10 @@ class RealmCalculator
 
             $bodiesToDecay -= $entombedBodies;
             $bodiesToDecay = max(0, $bodiesToDecay);
+
+            $multiplier += $realm->getArtefactPerkMultiplier('crypt_decay');
+
+            $bodiesToDecay *= $multiplier;
 
             $bodiesDecayed = max(1, round($realm->crypt * 0.01));
         }

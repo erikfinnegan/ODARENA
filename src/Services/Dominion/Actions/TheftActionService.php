@@ -414,6 +414,7 @@ class TheftActionService
         $ticks -= (int)$unit->getPerkValue('faster_return');
         $ticks -= (int)$thief->getSpellPerkValue('faster_return');
         $ticks -= (int)$thief->getTechPerkValue('faster_return');
+        $ticks -= (int)$dominion->realm->getArtefactPerkValue('faster_return');
 
         return min(max(1, $ticks), 12);
     }

@@ -601,6 +601,7 @@ class InvadeActionService
         $attackerPrestigeChangeMultiplier += $attacker->getBuildingPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->getImprovementPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->getSpellPerkMultiplier('prestige_gains');
+        $attackerPrestigeChangeMultiplier += $attacker->realm->getArtefactPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->title->getPerkMultiplier('prestige_gains') * $attacker->title->getPerkBonus($attacker);
 
         $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
@@ -2996,6 +2997,7 @@ class InvadeActionService
         $ticks -= (int)$unit->getPerkValue('faster_return');
         $ticks -= (int)$dominion->getSpellPerkValue('faster_return');
         $ticks -= (int)$dominion->getTechPerkValue('faster_return');
+        $ticks -= (int)$dominion->realm->getArtefactPerkValue('faster_return');
 
         return min(max(1, $ticks), 12);
     }

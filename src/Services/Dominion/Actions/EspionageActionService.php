@@ -285,7 +285,7 @@ class EspionageActionService
                 $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
                 # Immortal spies
-                if($dominion->race->getPerkValue('immortal_spies') or $dominion->getSpellPerkValue('immortal_spies'))
+                if($dominion->race->getPerkValue('immortal_spies') or $dominion->getSpellPerkValue('immortal_spies') or $dominion->realm->getArtefactPerkMultiplier('immortal_spies'))
                 {
                     $spiesKilled = 0;
                 }
@@ -998,7 +998,7 @@ class EspionageActionService
             $spiesKilled = (int)floor(($dominion->military_spies * ($spiesKilledPercentage / 100)) * $spiesKilledMultiplier);
 
             # Immortal spies
-            if($dominion->race->getPerkValue('immortal_spies') or $dominion->getSpellPerkValue('immortal_spies'))
+            if($dominion->race->getPerkValue('immortal_spies') or $dominion->getSpellPerkValue('immortal_spies') or $dominion->realm->getArtefactPerkMultiplier('immortal_spies'))
             {
                 $spiesKilled = 0;
             }

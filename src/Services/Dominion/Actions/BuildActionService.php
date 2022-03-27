@@ -144,7 +144,7 @@ class BuildActionService
             $primaryCost = $this->constructionCalculator->getConstructionCostPrimary($dominion);# * $totalBuildingsToConstruct;
             $secondaryCost = $this->constructionCalculator->getConstructionCostSecondary($dominion);# * $totalBuildingsToConstruct;
 
-            if($landConstructionCostPerk = $dominion->race->getPerkMultiplier($landType.'_construction_cost'))
+            if(($landConstructionCostPerk = $dominion->race->getPerkMultiplier($landType.'_construction_cost')) or ($landConstructionCostPerk = $dominion->realm->getArtefactPerkMultiplier($landType.'_construction_cost')))
             {
                 $primaryCost *= (1 + $landConstructionCostPerk);
                 $secondaryCost *=  (1 + $landConstructionCostPerk);

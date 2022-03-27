@@ -70,7 +70,7 @@
                     </tr>
                     <tr>
                         <td>Enemy modifers:</td>
-                        <td>{{ number_format($militaryCalculator->getOffensiveMultiplierReduction($selectedDominion)*100, 2) }}%</td>
+                        <td>{{ number_format(($militaryCalculator->getOffensiveMultiplierReduction($selectedDominion)-1)*100, 2) }}%</td>
                         <td>{{ number_format($militaryCalculator->getDefensiveMultiplierReduction($selectedDominion)*100, 2) }}%</td>
                     </tr>
                     <tr>

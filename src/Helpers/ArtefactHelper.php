@@ -5,7 +5,7 @@ namespace OpenDominion\Helpers;
 use Illuminate\Support\Collection;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Artefact;
-use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Realm;
 use OpenDominion\Models\RealmArtefact;
 
 class ArtefactHelper
@@ -43,7 +43,7 @@ class ArtefactHelper
 
             // Military
             'drafting' => '+%s%% drafting',
-            'training_time' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
+            'training_time_raw' => '%s ticks training time for military units (does not include Spies, Wizards, or Archmages)',
             'training_costs' => '+%s%% military unit training costs',
             'unit_gold_costs' => '%s%% military unit gold costs',
             'unit_ore_costs' => '%s%% military unit ore costs',
@@ -59,6 +59,9 @@ class ArtefactHelper
             'unit_mana_costs' => '%s%% unit mana costs.',
             'unit_blood_costs' => '%s%% unit blood costs.',
             'unit_food_costs' => '%s%% unit food costs.',
+
+            'ship_unit_costs' => '%s%% costs for ship units.',
+            'machine_unit_costs' => '%s%% costs for ship units.',
 
             'prestige_gains' => '%s%% prestige gains.',
             'prestige_gains_on_retaliation' => '%s%% prestige gains on retaliation.',
@@ -137,17 +140,22 @@ class ArtefactHelper
             // Land and Construction
             'land_discovered' => '%s%% land discovered on successful invasions',
             'construction_cost' => '%s%% construction costs',
+            'water_construction_cost' => '%s%% construction costs on water',
             'rezone_cost' => '%s%% rezoning costs',
             'cannot_explore' => 'Cannot explore',
 
             'conquered_land_rezoned_to_water' => '%s%% conquered land rezoned to water',
+
+            // Special, one-off
+
+            'water_buildings_effect' => '%s%% effect from water buildings (all perks and housing)',
         ];
 
         foreach ($artefact->perks as $perk)
         {
             if($realmArtefact)
             {
-                $realm = Realm::findorfail($dominionArtefact->realm_id);
+                $realm = Realm::findorfail($realmArtefact->realm_id);
 
                 $perkValue = $realm->getArtefactPerkValue($perk->key);
             }
@@ -168,22 +176,20 @@ class ArtefactHelper
         return $effectStrings;
     }
 
-    public function getArtefactsByRace(Race $race): Collection
+    public function getArtefactHelpString(Artefact $artefact): string
     {
-        $artefacts = collect(Artefact::all()->keyBy('key')->sortBy('name')->where('enabled',1));
+        $helpString = '<ul>';
 
-        foreach($artefacts as $artefact)
+        foreach($this->getArtefactPerksString($artefact) as $effect)
         {
-          if(
-                (count($artefact->excluded_races) > 0 and in_array($race->name, $artefact->excluded_races)) or
-                (count($artefact->exclusive_races) > 0 and !in_array($race->name, $artefact->exclusive_races))
-            )
-          {
-              $artefacts->forget($artefact->key);
-          }
+            $helpString .= '<li>' . ucfirst($effect) . '</li>';
         }
 
-        return $artefacts;
+        $helpString .= '</ul>';
+
+        $helpString .= $this->getExclusivityString($artefact);
+
+        return $helpString;
     }
 
     public function getExclusivityString(Artefact $artefact): string
@@ -217,6 +223,10 @@ class ArtefactHelper
                 }
                 $excludes--;
             }
+        }
+        else
+        {
+            $exclusivityString .= 'All';
         }
 
         $exclusivityString .= '</small>';

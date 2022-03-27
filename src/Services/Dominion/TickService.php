@@ -250,6 +250,12 @@ class TickService
                                 if(static::EXTENDED_LOGGING) { Log::debug('*** Countdown triggered by ' . $dominion->name . ' in realm #' . $dominion->realm->number); }
                             }
                         }
+
+                        # For indefinite rounds, create a countdown.
+                        if($round->mode == 'artefacts')
+                        {
+                            dd('uhhh...');
+                        }
                     }
                 }
             }

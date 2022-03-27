@@ -414,6 +414,9 @@ class TrainActionService
                     // Spell
                     $ticks += $dominion->getSpellPerkValue('training_time_raw');
                     $ticks += $dominion->title->getPerkValue('training_time_raw');
+                    $ticks += $dominion->realm->getArtefactPerkValue('training_time_raw');
+
+
 
                     // Spell: Spawning Pool (increase units trained, for free)
                     if ($this->spellCalculator->isSpellActive($dominion, 'spawning_pool') and $unitType == 'military_unit1')

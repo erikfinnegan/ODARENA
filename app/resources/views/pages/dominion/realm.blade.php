@@ -6,7 +6,7 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <div class="row">
-                      @if($selectedDominion->round->mode == 'standard' or $selectedDominion->round->mode == 'standard-duration')
+                      @if($selectedDominion->round->mode == 'standard' or $selectedDominion->round->mode == 'standard-duration' or $selectedDominion->round->mode == 'artefacts')
                           <div class="col-sm-3 text-center">
                           @if($realm->number === 1)
                               <span style="display:block; font-weight: bold;">Barbarians</span>
@@ -270,7 +270,7 @@
     </div>
 
     <div class="col-sm-12 col-md-3">
-        @if($realm->artefacts)
+        @if($realm->hasArtefacts())
             <div class="box box-warning">
                 <div class="box-header with-border">
                     <h3 class="box-title">Artefacts</h3>
@@ -281,13 +281,23 @@
                             <col width="50%">
                             <col width="50%">
                         </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Artefact</th>
+                                <th>Aegis</th>
+                            </tr>
+                        </thead>
                         @foreach($realm->artefacts as $artefact)
                             @php
                                 $realmArtefact = OpenDominion\Models\RealmArtefact::where('realm_id', $realm->id)->where('artefact_id', $artefact->id)->firstOrFail();
                             @endphp
 
                             <tr>
-                                <td>{{ $artefact->name }}</td>
+                                <td>
+                                    <span data-toggle="tooltip" data-placement="top" title="{{ $artefactHelper->getArtefactHelpString($artefact) }}">
+                                        {{ $artefact->name }}
+                                    </span>
+                                </td>
                                 <td>{{ number_format($realmArtefact->power) }}</td>
                             </tr>
                         @endforeach

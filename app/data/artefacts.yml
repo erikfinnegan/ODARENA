@@ -32,7 +32,7 @@ bregons_banner:
     - Nox
     - Void
   perks:
-    training_time: -2
+    training_time_raw: -2
 
 druvas_amulet:
   name: Druva's Amulet
@@ -61,14 +61,26 @@ elskas_ambrosia:
 
 glimjs_lantern:
   name: Glimj's Lantern
-  description: Used by Glimj to see in the deepest, darkest waters.
+  description: Lit by Glimj to see across and into the deepest, darkest waters.
   deity: glimj
   base_power: 500000
   exclusive_races:
     - Armada
     - Merfolk
   perks:
-    conquered_land_rezoned_to_water: 50
+    water_construction_cost: -50
+    water_buildings_effect: 10
+
+glimjs_bough:
+  name: Glimj's Bough
+  description: The original bough from Glimj's great sailship teaches much about shipbuilding.
+  deity: glimj
+  base_power: 500000
+  exclusive_races:
+    - Armada
+    - Merfolk
+  perks:
+    ship_unit_costs: -10
 
 ixs_contraption:
   name: Ix's Contraption
@@ -77,6 +89,14 @@ ixs_contraption:
   base_power: 500000
   excluded_races:
     - Void
+  perks:
+    machine_unit_costs: -10
+
+ixs_schematics:
+  name: Ix's Schematics
+  description: Handwritten notes unlocking new way of understanding technologies.
+  deity: ix
+  base_power: 500000
   perks:
     xp_generation_mod: 25
     improvements: 20
@@ -91,7 +111,6 @@ kinthys_disembowler:
     - Undead
   perks:
     increases_enemy_casualties: 25
-    increases_enemy_draftee_casualties: 100
 
 mirnons_pickaxe:
   name: Mirnon's Pickaxe
@@ -134,7 +153,7 @@ urugdakhs_axe:
   exclusive_races:
     - Black Orc
   perks:
-    prestige_gains_on_retaliation: 100
+    prestige_gains_on_retaliation: 100 # NYI
     offensive_power: 5
 
 zidurs_effluvium:
@@ -153,24 +172,44 @@ zidurs_effluvium:
 
 ancient_sceptre:
   name: Ancient Sceptre
+  description: Carried by rulers of a bygone era.
   base_power: 250000
   perks:
     governor_offensive_power: 5
 
+cornucopia:
+  name: Cornucopia
+  description: Water flowing through the cornucopia makes nature burst into a triumphant growth.
+  base_power: 250000
+  perks:
+    food_production_mod: 20
+    lumber_production_mod: 20
+
 flying_compass:
   name: The Flying Compass
+  description: Shows the fastest path home.
   base_power: 250000
   perks:
     faster_return: 2
 
+great_trip_hammer:
+  name: Great Trip Hammer
+  description: A magical machine sought by many seeking to raise an army.
+  base_power: 450000
+  perks:
+    unit_gold_costs: -5
+    unit_ore_costs: -5
+
 ichor_of_vitality:
   name: Ichor of Vitality
+  description: Imbues the anointed with safer passage through war.
   base_power: 250000
   perks:
-    casualties: -10
+    casualties: -20
 
 scrolls_of_knowledge:
   name: Scrolls of Knowledge
+  description: Ancient texts, studied to learn more about the present and the future.
   base_power: 250000
   perks:
     xp_generation_mod: 10

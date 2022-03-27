@@ -354,8 +354,11 @@ class SpellCalculator
 
     public function getWizardStrengthBase(Dominion $dominion): int
     {
-        # Reserved for future use...
-        return 100;
+        $base = 100;
+
+        $base += $dominion->realm->getArtefactPerkValue('base_wizard_strength');
+
+        return $base;
     }
 
     public function getWizardStrengthRecoveryAmount(Dominion $dominion): int

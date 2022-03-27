@@ -3,7 +3,7 @@
 namespace OpenDominion\Services\Dominion\API;
 
 use LogicException;
-use OpenDominion\Calculators\Dominion\ExpeditionCalculator;
+use OpenDominion\Calculators\Dominion\ArtefactCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
@@ -38,7 +38,7 @@ class ExpeditionCalculationService
         'home_dpa' => 0,
         'max_op' => 0,
         'min_dp' => 0,
-        'land_conquered' => 0,
+        'land_discovered' => 0,
         'land_ratio' => 0.5,
         'spell_bonus' => null,
         'units_sent' => 0,
@@ -57,13 +57,13 @@ class ExpeditionCalculationService
      * @param RangeCalculator $rangeCalculator
      */
     public function __construct(
-        ExpeditionCalculator $expeditionCalculator,
+        ArtefactCalculator $artefactCalculator,
         LandCalculator $landCalculator,
         MilitaryCalculator $militaryCalculator,
         RangeCalculator $rangeCalculator
     )
     {
-        $this->expeditionCalculator = $expeditionCalculator;
+        $this->artefactCalculator = $artefactCalculator;
         $this->landCalculator = $landCalculator;
         $this->militaryCalculator = $militaryCalculator;
         $this->rangeCalculator = $rangeCalculator;
@@ -93,7 +93,6 @@ class ExpeditionCalculationService
         }
 
         // Calculate unit stats
-        #$unitsThatNeedBoats = 0;
         foreach ($dominion->race->units as $unit)
         {
             $this->calculationResult['units'][$unit->slot]['dp'] = $this->militaryCalculator->getUnitPowerWithPerks(
@@ -138,6 +137,9 @@ class ExpeditionCalculationService
         $this->calculationResult['min_dp'] = $this->calculationResult['away_offense'] / 3;
 
         $this->calculationResult['land_discovered'] = $this->expeditionCalculator->getLandDiscoveredAmount($dominion, $this->calculationResult['away_offense']);
+
+
+        $this->calculationResult['chance_to_discover_artefact'] = $this->artefactCalculator->getChanceToDiscoverArtefactOnExpedition($dominion, $this->calculationResult);
 
         #if(isset($target))
         #{

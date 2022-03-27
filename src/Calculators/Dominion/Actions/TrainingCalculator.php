@@ -6,6 +6,7 @@ use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\Building;
+use OpenDominion\Models\Unit;
 use OpenDominion\Calculators\Dominion\ImprovementCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -117,9 +118,15 @@ class TrainingCalculator
                         return ($unit->slot === $slot);
                     })->first();
 
+
+
                     foreach($unit->cost as $costResourceKey => $amount)
                     {
-                        $cost[$costResourceKey] = ceil($amount * $this->getSpecialistEliteCostMultiplier($dominion, $costResourceKey));
+                        $multiplier = 1;
+                        $multiplier += $this->getSpecialistEliteCostMultiplier($dominion, $costResourceKey);
+                        $multiplier += $this->getAttributeCostMultiplier($dominion, $unit);
+
+                        $cost[$costResourceKey] = ceil($amount * $multiplier);
                     }
 
                     if($dominion->race->getUnitPerkValueForUnitSlot(/*intval(str_replace('unit','',$unitType))*/$slot, 'no_draftee') == 1)
@@ -330,6 +337,9 @@ class TrainingCalculator
             $multiplier += $dominion->getTechPerkMultiplier('military_cost_mana');
         }
 
+        // Artefacts
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier('unit_' . $resourceType . '_costs');
+
         # Cap reduction at -50%
         $multiplier = max(-0.50, $multiplier);
 
@@ -342,7 +352,19 @@ class TrainingCalculator
         # Sanity cap, so it doesn't go under -1.
         $multiplier = max(-1, $multiplier);
 
-        return (1 + $multiplier);
+        return $multiplier;
+    }
+
+    public function getAttributeCostMultiplier(Dominion $dominion, Unit $unit): float
+    {
+        $multiplier = 0;
+        foreach($unit->type as $attribute)
+        {
+            $multiplier += $dominion->realm->getArtefactPerkMultiplier($attribute . '_unit_costs');
+        }
+
+        return $multiplier;
+
     }
 
     /**

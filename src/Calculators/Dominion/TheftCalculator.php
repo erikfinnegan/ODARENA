@@ -129,6 +129,7 @@ class TheftCalculator
         if(
               $thief->getSpellPerkValue('immortal_spies') or
               $thief->race->getPerkValue('immortal_spies') or
+              $thief->realm->getArtefactPerkMultiplier('immortal_spies') or
               $target->race->getPerkValue('does_not_kill') or
               ($target->getSpellPerkValue('blind_to_reptilian_spies_on_theft') and $thief->race->name == 'Reptilians')
           )

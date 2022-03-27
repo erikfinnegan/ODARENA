@@ -273,6 +273,7 @@ class ResourceCalculator
         $multiplier += $dominion->getImprovementPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getTechPerkMultiplier($resourceKey . '_production_mod');
         $multiplier += $dominion->getDeityPerkMultiplier($resourceKey . '_production_mod');
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier($resourceKey . '_production_mod');
 
         if(isset($dominion->title))
         {
@@ -515,6 +516,9 @@ class ResourceCalculator
 
         // Improvements
         $perk += $dominion->getImprovementPerkMultiplier('exchange_rate');
+
+        // Artefacts
+        $perk += $dominion->realm->getArtefactPerkMultiplier('exchange_rate');
 
         // Ruler Title: Merchant
         $perk += $dominion->title->getPerkMultiplier('exchange_rate') * $dominion->title->getPerkBonus($dominion);

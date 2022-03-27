@@ -165,6 +165,8 @@
                                   The target land size is {{ number_format($round->goal) }} acres. Once a dominion has reached that, a countdown of 12 hours begins, and then the round ends.
                               @elseif($round->mode == 'standard-duration' or $round->mode == 'deathmatch-duration')
                                   The round lasts for {{ number_format($round->goal) }} ticks.
+                              @elseif($round->mode == 'artefacts')
+                                  The round lasts until one realm controls {{ number_format($round->goal) }} artefacts.
                               @endif
                           </p>
                           <p>When you register, you start with 96 protection ticks. Make the most of them. Once you have used them all, you leave protection immediately.</p>

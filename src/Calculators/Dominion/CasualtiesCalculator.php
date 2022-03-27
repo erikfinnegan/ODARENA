@@ -248,6 +248,10 @@ class CasualtiesCalculator
         $multiplier += $dominion->getDeityPerkMultiplier('casualties');
         $multiplier += $dominion->getDeityPerkMultiplier('casualties_on_' . $mode);
 
+        # Artefact
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier('casualties');
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier('casualties_on_' . $mode);
+
         return $multiplier;
     }
 
@@ -336,6 +340,10 @@ class CasualtiesCalculator
         # Deity
         $multiplier += $dominion->getDeityPerkMultiplier('increases_enemy_casualties');
         $multiplier += $dominion->getDeityPerkMultiplier('increases_enemy_casualties_on_' . $enemyMode);
+
+        # Artefact
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier('increases_enemy_casualties');
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier('increases_enemy_casualties_on_' . $enemyMode);
 
         foreach ($dominion->race->units as $unit)
         {

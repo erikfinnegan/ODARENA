@@ -130,7 +130,10 @@ class RezoningCalculator
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('rezone_cost');
 
-        // Techs
+        // Artefact
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier('rezone_cost');
+
+        // Title
         if(isset($dominion->title))
         {
             $multiplier += $dominion->title->getPerkMultiplier('rezone_cost') * $dominion->title->getPerkBonus($dominion);

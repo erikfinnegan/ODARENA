@@ -1047,13 +1047,14 @@ class ConversionCalculator
 
         # Faction perk
         $multiplier -= $dominion->race->getPerkMultiplier('reduced_conversions');
+        $multiplier -= $dominion->realm->getArtefactPerkMultiplier('reduced_conversions');
 
         if($dominion->getSpellPerkValue('cannot_be_converted'))
         {
             $multiplier = 0;
         }
 
-        return $multiplier;
+        return max(0, $multiplier);
 
     }
 

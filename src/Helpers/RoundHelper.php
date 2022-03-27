@@ -21,7 +21,7 @@ class RoundHelper
 
     public function getRoundModes(): array
     {
-        return ['standard', 'standard-duration', 'deathmatch', 'deathmatch-duration'];
+        return ['standard', 'standard-duration', 'deathmatch', 'deathmatch-duration', 'artefacts'];
     }
 
     public function getRoundModeString(Round $round): string
@@ -89,7 +89,7 @@ class RoundHelper
                 return 'Every dominion for itself!';
 
             case 'artefacts':
-                return 'Your dominion is in a realm with friendly dominions and your goal is to be the first realm to capture at least ten Artefacts.';
+                return 'Your dominion is in a realm with friendly dominions and the goal is to be the first realm to capture at least the required number of artefacts.';
         }
     }
 
@@ -104,6 +104,9 @@ class RoundHelper
             case 'deathmatch':
             case 'deathmatch-duration':
                 return '<i class="ra ra-daggers ra-fw text-red"></i>';
+
+            case 'artefacts':
+                return '<i class="ra ra-shovel ra-fw text-warning"></i>';
 
             default:
                 return '&mdash;';

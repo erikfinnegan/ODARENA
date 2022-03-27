@@ -100,6 +100,46 @@ class Realm extends AbstractModel
         );
     }
 
+    public function hasArtefacts()
+    {
+        return $this->artefacts()->count();
+    }
+
+    protected function getArtefactPerks()
+    {
+        return $this->artefacts->flatMap(
+            function ($artefact) {
+                return $artefact->perks;
+            }
+        );
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getArtefactPerkValue(string $key): float
+    {
+        $perks = $this->getArtefactPerks()->groupBy('key');
+        if (isset($perks[$key])) {
+            $max = (float)$perks[$key]->max('pivot.value');
+            if ($max < 0) {
+                return (float)$perks[$key]->min('pivot.value');
+            }
+            return $max;
+        }
+        return 0;
+    }
+
+    /**
+     * @param string $key
+     * @return float
+     */
+    public function getArtefactPerkMultiplier(string $key): float
+    {
+        return ($this->getArtefactPerkValue($key) / 100);
+    }
+
     // todo: move to eloquent events, see $dispatchesEvents
     public function save(array $options = [])
     {

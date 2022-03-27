@@ -78,7 +78,7 @@ class SpellDamageCalculator
               ## Disband Spies: spies
               if($spell->key == 'disband_spies')
               {
-                  if ($target->race->getPerkValue('immortal_spies'))
+                  if ($target->race->getPerkValue('immortal_spies') or $target->realm->getArtefactPerkMultiplier('immortal_spies'))
                   {
                       $modifier = -1;
                   }

@@ -15,6 +15,7 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\BarbarianCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Helpers\ArtefactHelper;
 use OpenDominion\Helpers\DeityHelper;
 use OpenDominion\Helpers\DominionHelper;
 use OpenDominion\Helpers\LandHelper;
@@ -32,6 +33,7 @@ class RealmController extends AbstractDominionController
         $spellCalculator = app(SpellCalculator::class);
         $realmCalculator = app(RealmCalculator::class);
         $militaryCalculator = app(MilitaryCalculator::class);
+        $artefactHelper = app(ArtefactHelper::class);
         $dominionHelper = app(DominionHelper::class);
         $landHelper = app(LandHelper::class);
         $deityHelper = app(DeityHelper::class);
@@ -174,8 +176,9 @@ class RealmController extends AbstractDominionController
             'realmCalculator',
             'militaryCalculator',
             'dominionHelper',
-            'landHelper',
+            'artefactHelper',
             'deityHelper',
+            'landHelper',
             'alignmentNoun',
             'alignmentAdjective',
             'barbarianSettings',

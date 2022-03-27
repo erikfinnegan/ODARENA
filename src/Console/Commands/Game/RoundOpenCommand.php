@@ -92,7 +92,7 @@ class RoundOpenCommand extends Command implements CommandInterface
         $this->info("Round {$round->number} created in Era {$roundLeague->key}. The round starts at {$round->start_date}.");
 
         // Prepopulate round with #1 Barbarian, #2 Commonwealth, #3 Empire, #4 Independent
-        if($gameMode == 'standard' or $gameMode == 'standard-duration')
+        if($gameMode == 'standard' or $gameMode == 'standard-duration' or $gameMode == 'artefacts')
         {
             $this->realmFactory->create($round, 'npc');
             $this->realmFactory->create($round, 'good');

@@ -52,6 +52,8 @@
                             <p>Land goal: <strong>{{ number_format($currentRound->goal) }}.</strong></p>
                         @elseif($currentRound->mode == 'standard-duration' or $currentRound->mode == 'deathmatch-duration')
                             <p>Round length: <strong>{{ number_format($currentRound->goal) }} ticks.</strong></p>
+                        @elseif($currentRound->mode == 'artefacts')
+                            <p>Artefacts to control: <strong>{{ number_format($currentRound->goal) }}.</strong></p>
                         @endif
 
                         <a href="{{ route('round.register', $currentRound) }}">

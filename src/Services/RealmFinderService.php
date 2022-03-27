@@ -11,7 +11,7 @@ class RealmFinderService
 {
     public function findRealm(Round $round, Race $race): Realm
     {
-        if($round->mode == 'standard' or $round->mode == 'standard-duration')
+        if($round->mode == 'standard' or $round->mode == 'standard-duration' or $round->mode == 'artefacts')
         {
             return Realm::query()
                 ->where('round_id', '=', $round->id)

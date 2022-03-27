@@ -180,6 +180,14 @@ class MilitaryCalculator
         // Racial Bonus
         $multiplier += $attacker->race->getPerkMultiplier('offense');
 
+        // Artefact
+        $multiplier += $attacker->realm->getArtefactPerkMultiplier('offensive_power');
+        
+        if($attacker->isMonarch())
+        {
+            $multiplier += $attacker->realm->getArtefactPerkMultiplier('governor_offensive_power');
+        }
+
         // Techs
         $multiplier += $attacker->getTechPerkMultiplier('offense');
 

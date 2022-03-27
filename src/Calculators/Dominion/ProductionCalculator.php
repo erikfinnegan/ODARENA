@@ -58,6 +58,9 @@ class ProductionCalculator
         // Land improvements
         $multiplier += $dominion->getLandImprovementPerkMultiplier('xp_generation_mod');
 
+        // Artefacts
+        $multiplier += $dominion->realm->getArtefactPerkMultiplier('xp_generation_mod');
+
         // Title
         if(isset($dominion->title))
         {
