@@ -179,7 +179,7 @@
                 </div>
                 <div class="box-body">
                     <p>Select target, spell, and how much of your wizard strength you wish to use.</p>
-                    <p>The amount of wizard strength you use determines how much mana you need </p>
+                    <p>The amount of wizard strength you use determines how much mana you need per 1% of Wizard Strength spent.</p>
                     <table class="table">
                         <colgroup>
                             <col>
