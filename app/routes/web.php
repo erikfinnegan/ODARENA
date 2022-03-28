@@ -130,6 +130,10 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('expedition')->uses('Dominion\ExpeditionController@getExpedition')->name('expedition');
             $router->post('expedition')->uses('Dominion\ExpeditionController@postExpedition');
 
+            // Invade
+            $router->get('artefacts')->uses('Dominion\ArtefactsController@getArtefacts')->name('artefacts');
+            $router->post('artefacts')->uses('Dominion\ArtefactsController@postArtefacts');
+
             // Event result
             $router->get('event/{uuid}')->uses('Dominion\EventController@index')->name('event');
 

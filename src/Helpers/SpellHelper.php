@@ -246,6 +246,9 @@ class SpellHelper
             'kill_peasants_and_converts_for_caster_unit' => 'Kills %1$s%% of target\'s peasants per tick and converts them into Abominations.',
             'annexes_target' => 'Annexes the target, turning them into a vassal.',
 
+            // Artefacts
+            'artefact_damage' => '%1$s damage per acre to artefact aegis. Damage increased by %1$s%% for every 1 WPA.',
+
         ];
 
         foreach ($spell->perks as $perk)

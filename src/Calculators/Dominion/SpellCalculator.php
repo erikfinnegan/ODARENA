@@ -288,6 +288,7 @@ class SpellCalculator
                 'hostile' => 2,
                 'friendly' => 2,
                 'self' => 2,
+                'artefact' => 4,
             ];
         $classCost = [
                 'active' => 3,

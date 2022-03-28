@@ -79,6 +79,9 @@
                 @if (!$selectedDominion->race->getPerkValue('cannot_invade'))
                     <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
                 @endif
+                @if ($selectedDominion->round->mode == 'artefacts')
+                    <li class="{{ Route::is('dominion.artefacts') ? 'active' : null }}"><a href="{{ route('dominion.artefacts') }}"><i class="ra ra-shovel ra-fw"></i> <span>Artefacts</span></a></li>
+                @endif
                 @if (!$selectedDominion->race->getPerkValue('cannot_send_expeditions') and !$selectedDominion->getDeityPerkValue('cannot_send_expeditions'))
                     <li class="{{ Route::is('dominion.expedition') ? 'active' : null }}"><a href="{{ route('dominion.expedition') }}"><i class="fas fa-drafting-compass fa-fw"></i> <span>Expedition</span></a></li>
                 @endif
@@ -92,6 +95,18 @@
                 <li class="{{ Route::is('dominion.friendly-ops') ? 'active' : null }}"><a href="{{ route('dominion.friendly-ops') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Friendly Magic</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>
 
+                <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
+
+                <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a>
+                </li>
+
+                <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}">
+                    <a href="{{ route('dominion.world-news') }}">
+                        <i class="far fa-newspaper fa-fw"></i>
+                        <span>World News</span>
+                        {!! $newsUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $newsUnreadCount . '</small></span>') : null !!}
+                    </a>
+                </li>
                 <li class="{{ Route::is('dominion.council*') ? 'active' : null }}"><a href="{{ route('dominion.council') }}"><i class="fas fa-comments ra-fw"></i>
                   <span>
                     @if($selectedDominion->realm->alignment == 'evil')
@@ -105,18 +120,6 @@
                     @endif
                 </span> {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
 
-                <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>
-
-                <li class="{{ Route::is('dominion.realm') ? 'active' : null }}"><a href="{{ route('dominion.realm') }}"><i class="fas fa-map-signs fa-fw"></i> <span>The World</span></a>
-                </li>
-
-                <li class="{{ Route::is('dominion.world-news') ? 'active' : null }}">
-                    <a href="{{ route('dominion.world-news') }}">
-                        <i class="far fa-newspaper fa-fw"></i>
-                        <span>World News</span>
-                        {!! $newsUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $newsUnreadCount . '</small></span>') : null !!}
-                    </a>
-                </li>
 
                 {{--
                 <li class="{{ Route::is('dominion.rankings') ? 'active' : null }}"><a href="{{ route('dominion.rankings') }}"><i class="fa fa-trophy ra-fw"></i> <span>Rankings</span></a></li>

@@ -1002,7 +1002,6 @@ class ConversionCalculator
               ];
         }
 
-
         $isConvertible = false;
 
         if($slot === 'draftees' or $slot === 'peasants')

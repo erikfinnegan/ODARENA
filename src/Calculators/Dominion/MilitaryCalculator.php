@@ -164,9 +164,20 @@ class MilitaryCalculator
         // Deity
         $multiplier += $attacker->getDeityPerkMultiplier('offensive_power');
 
-        if ($this->isOwnRealmRecentlyInvadedByTarget($attacker, $defender))
+        # Retaliation perk
+        if($attacker->round->mode == 'standard' or $attacker->round->mode == 'standard-duration' or $attacker->round->mode == 'artefacts')
         {
-            $multiplier += $attacker->getDeityPerkMultiplier('offensive_power_on_retaliation');
+            if ($this->isOwnRealmRecentlyInvadedByTarget($attacker, $defender))
+            {
+                $multiplier += $attacker->getDeityPerkMultiplier('offensive_power_on_retaliation');
+            }
+        }
+        elseif($attacker->round->mode == 'deathmatch' or $attacker->round->mode == 'deathmatch-duration')
+        {
+            if ($this->isSelfRecentlyInvadedByTarget($attacker, $defender))
+            {
+                $multiplier += $attacker->getDeityPerkMultiplier('offensive_power_on_retaliation');
+            }
         }
 
         if ($attacker->hasDeity())
@@ -182,7 +193,7 @@ class MilitaryCalculator
 
         // Artefact
         $multiplier += $attacker->realm->getArtefactPerkMultiplier('offensive_power');
-        
+
         if($attacker->isMonarch())
         {
             $multiplier += $attacker->realm->getArtefactPerkMultiplier('governor_offensive_power');
@@ -899,7 +910,7 @@ class MilitaryCalculator
 
         if($this->getRecentlyInvadedCount($dominion) > 0)
         {
-          $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_recently_invaded");
+            $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_recently_invaded");
         }
 
         return $amount;
@@ -2140,7 +2151,45 @@ class MilitaryCalculator
         {
             return false;
         }
+    }
 
+    /**
+     * Checks if $defender recently invaded $attacker's realm.
+     *
+     * 'Recent' refers to the past 6 hours.
+     *
+     * @param Dominion $dominion
+     * @param Dominion $attacker
+     * @return bool
+     */
+    public function isSelfRecentlyInvadedByTarget(Dominion $attacker, Dominion $defender = null, int $ticks = 24): bool
+    {
+        if($defender)
+        {
+            $invasionEvents = GameEvent::query()
+                              ->join('dominions as source_dominion','game_events.source_id','source_dominion.id')
+                              ->join('dominions as target_dominion','game_events.target_id','target_dominion.id')
+                              ->where('game_events.tick', '>=', ($attacker->round->ticks - $ticks))
+                              ->where([
+                                  'game_events.type' => 'invasion',
+                                  'game_events.source_id' => $defender->id,
+                                  'game_events.target_id' => $attacker->id,
+                              ])
+                              ->get();
+
+            if (!$invasionEvents->isEmpty())
+            {
+                return true;
+            }
+            else
+            {
+              return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**

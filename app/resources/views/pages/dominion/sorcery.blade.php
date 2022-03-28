@@ -135,7 +135,7 @@
                 </div>
             </div>
 
-            <!-- WIZARD UNITS -->
+            <!-- WIZARD STRENGTH -->
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-primary">
@@ -179,7 +179,7 @@
                 </div>
                 <div class="box-body">
                     <p>Select target, spell, and how much of your wizard strength you wish to use.</p>
-                    <p>The amount of wizard strength you use determines how much mana you need </p>
+                    <p>The amount of wizard strength you use determines how much mana you need per 1% of Wizard Strength.</p>
                     <table class="table">
                         <colgroup>
                             <col>
@@ -325,58 +325,58 @@
     </script>
 
 
-        <script type="text/javascript">
-            (function ($) {
-                const resources = JSON.parse('{!! json_encode([1,2,3,4]) !!}');
+    <script type="text/javascript">
+        (function ($) {
+            const resources = JSON.parse('{!! json_encode([1,2,3,4]) !!}');
 
-                // todo: let/const aka ES6 this
-                var sourceElement = $('#source'),
-                    targetElement = $('#target'),
-                    amountElement = $('#amount'),
-                    amountLabelElement = $('#amountLabel'),
-                    amountSliderElement = $('#amountSlider'),
-                    resultLabelElement = $('#resultLabel'),
-                    resultElement = $('#result');
+            // todo: let/const aka ES6 this
+            var sourceElement = $('#source'),
+                targetElement = $('#target'),
+                amountElement = $('#amount'),
+                amountLabelElement = $('#amountLabel'),
+                amountSliderElement = $('#amountSlider'),
+                resultLabelElement = $('#resultLabel'),
+                resultElement = $('#result');
 
-                function updateResources() {
-                    var sourceOption = sourceElement.find(':selected'),
-                        sourceResourceType = _.get(resources, sourceOption.val()),
-                        sourceAmount = Math.min(parseInt(amountElement.val()), _.get(sourceResourceType, 'max')),
-                        targetOption = targetElement.find(':selected'),
-                        targetResourceType = _.get(resources, targetOption.val()),
-                        targetAmount = (Math.floor(sourceAmount * sourceResourceType['sell'] * targetResourceType['buy']) || 0);
+            function updateResources() {
+                var sourceOption = sourceElement.find(':selected'),
+                    sourceResourceType = _.get(resources, sourceOption.val()),
+                    sourceAmount = Math.min(parseInt(amountElement.val()), _.get(sourceResourceType, 'max')),
+                    targetOption = targetElement.find(':selected'),
+                    targetResourceType = _.get(resources, targetOption.val()),
+                    targetAmount = (Math.floor(sourceAmount * sourceResourceType['sell'] * targetResourceType['buy']) || 0);
 
-                    // Change labels
-                    amountLabelElement.text(sourceOption.text());
-                    resultLabelElement.text(targetOption.text());
+                // Change labels
+                amountLabelElement.text(sourceOption.text());
+                resultLabelElement.text(targetOption.text());
 
-                    // Update amount
-                    amountElement
-                        .attr('max', sourceResourceType['max'])
-                        .val(sourceAmount);
+                // Update amount
+                amountElement
+                    .attr('max', sourceResourceType['max'])
+                    .val(sourceAmount);
 
-                    // Update slider
-                    amountSliderElement
-                        .slider('setAttribute', 'max', sourceResourceType['max'])
-                        .slider('setValue', sourceAmount);
+                // Update slider
+                amountSliderElement
+                    .slider('setAttribute', 'max', sourceResourceType['max'])
+                    .slider('setValue', sourceAmount);
 
-                    // Update target amount
-                    resultElement.text(targetAmount.toLocaleString());
+                // Update target amount
+                resultElement.text(targetAmount.toLocaleString());
+            }
+
+            sourceElement.on('change', updateResources);
+            targetElement.on('change', updateResources);
+            amountElement.on('change', updateResources);
+
+            amountSliderElement.slider({
+                formatter: function (value) {
+                    return value.toLocaleString();
                 }
+            }).on('change', function (slideEvent) {
+                amountElement.val(slideEvent.value.newValue).change();
+            });
 
-                sourceElement.on('change', updateResources);
-                targetElement.on('change', updateResources);
-                amountElement.on('change', updateResources);
-
-                amountSliderElement.slider({
-                    formatter: function (value) {
-                        return value.toLocaleString();
-                    }
-                }).on('change', function (slideEvent) {
-                    amountElement.val(slideEvent.value.newValue).change();
-                });
-
-                updateResources();
-            })(jQuery);
-        </script>
+            updateResources();
+        })(jQuery);
+    </script>
 @endpush

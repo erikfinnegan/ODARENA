@@ -1530,4 +1530,15 @@ voidspellmanatheft:
   perks:
     resource_theft: mana,0.25 # resource, rate # 1/4
 
+manastorm:
+  name: Mana Storm
+  scope: artefact
+  class: active
+  cost: 0.33
+  cooldown: 0
+  duration: 0
+  perks:
+    artefact_damage: 10,2 # per acre, WPAx
+
+
 # END SORCERY
