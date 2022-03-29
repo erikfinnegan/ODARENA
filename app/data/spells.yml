@@ -1273,7 +1273,7 @@ cogency:
   name: Cogency
   scope: hostile
   class: passive
-  cost: 5
+  cost: 1.25
   duration: 2
   cooldown: 0
   exclusive_races:
@@ -1285,7 +1285,7 @@ curse_of_kinthys:
   name: Curse of Kinthys
   scope: hostile
   class: active
-  cost: 10
+  cost: 2.5
   duration: 0
   cooldown: 24
   exclusive_races:
@@ -1297,7 +1297,7 @@ curse_of_zidur:
   name: Curse of Zidur
   scope: hostile
   class: passive
-  cost: 5
+  cost: 1.25
   duration: 2
   cooldown: 12
   exclusive_races:
@@ -1321,7 +1321,7 @@ earthquake:
   name: Earthquake
   scope: hostile
   class: passive
-  cost: 4
+  cost: 1
   duration: 6
   cooldown: 0
   excluded_races:
@@ -1334,7 +1334,7 @@ elskas_blur:
   name: Elskas' Blur
   scope: hostile
   class: passive
-  cost: 2
+  cost: 0.5
   duration: 12
   cooldown: 0
   exclusive_races:
@@ -1347,7 +1347,7 @@ enthralling:
   name: Enthralling
   scope: hostile
   class: passive
-  cost: 5
+  cost: 1.2
   duration: 2
   cooldown: 0
   exclusive_races:
@@ -1374,7 +1374,7 @@ frozen_shores:
   enabled: 0
   scope: hostile
   class: passive
-  cost: 8
+  cost: 2
   duration: 2
   cooldown: 24
   exclusive_races:
@@ -1389,7 +1389,7 @@ great_flood:
   enabled: 0
   scope: hostile
   class: passive
-  cost: 4
+  cost: 1
   duration: 24
   cooldown: 0
   excluded_races:
@@ -1401,7 +1401,7 @@ insect_swarm:
   name: Blight
   scope: hostile
   class: passive
-  cost: 4
+  cost: 1
   duration: 6
   cooldown: 0
   excluded_races:
@@ -1437,7 +1437,7 @@ persuasion:
   name: Persuasion
   scope: hostile
   class: passive
-  cost: 6
+  cost: 1.5
   duration: 2
   cooldown: 0
   exclusive_races:
@@ -1449,7 +1449,7 @@ plague:
   name: Plague
   scope: hostile
   class: passive
-  cost: 4
+  cost: 1
   duration: 6
   cooldown: 0
   excluded_races:
@@ -1498,7 +1498,7 @@ treachery:
   name: Treachery
   scope: hostile
   class: passive
-  cost: 5
+  cost: 1.25
   duration: 2
   cooldown: 0
   exclusive_races:
@@ -1510,7 +1510,7 @@ windchill:
   name: Windchill
   scope: hostile
   class: passive
-  cost: 6
+  cost: 1.5
   duration: 24
   cooldown: 6
   exclusive_races:
