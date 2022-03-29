@@ -149,7 +149,7 @@
                                    name="wizard_strength"
                                    value="0"
                                    data-slider-value="{{ min($selectedDominion->wizard_strength, 4) }}"
-                                   data-slider-min="0"
+                                   data-slider-min="{{ min($selectedDominion->wizard_strength, 1) }}"
                                    data-slider-max="{{ $selectedDominion->wizard_strength }}"
                                    data-slider-step="1"
                                    data-slider-tooltip="show"

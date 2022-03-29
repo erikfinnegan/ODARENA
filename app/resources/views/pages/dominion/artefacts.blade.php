@@ -202,11 +202,7 @@
                                        data-slider-step="1"
                                        data-slider-tooltip="show"
                                        data-slider-handle="round"
-                                       @if($selectedDominion->wizard_strength < 100)
-                                          data-slider-id="red"
-                                       @else
-                                          data-slider-id="blue"
-                                      @endif
+                                       data-slider-id="blue"
                                         {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
 
                                 <div class="box-footer">

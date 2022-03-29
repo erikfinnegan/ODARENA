@@ -100,9 +100,24 @@ class SorceryActionService
                 throw new GameException("You are not able to cast {$spell->name}.");
             }
 
-            if ($caster->wizard_strength <= 0 or ($caster->wizard_strength - $wizardStrength) < 0)
+            if (($caster->wizard_strength - $wizardStrength) < 0)
             {
                 throw new GameException("Your wizards are too weak to perform such sorcery. You would need {$wizardStrength}% wizard strength but only have {$caster->wizard_strength}%.");
+            }
+
+            if ($caster->wizard_strength < 4)
+            {
+                throw new GameException("You must have at least 4% Wizard Strength to perform sorcery.");
+            }
+
+            if ($this->militaryCalculator->getWizardRatio($caster) < 0.10)
+            {
+                throw new GameException("You must have at least 0.10 Wizard Ratio to perform sorcery.");
+            }
+
+            if ($wizardStrength < 1)
+            {
+                throw new GameException("You spend at least 1% Wizard Strength.");
             }
 
             $manaCost = $this->sorceryCalculator->getSorcerySpellManaCost($caster, $spell, $wizardStrength);
@@ -181,8 +196,6 @@ class SorceryActionService
 
             if($spell->class == 'passive')
             {
-                # NOT FINISHED
-
                 $duration = $this->sorceryCalculator->getSorcerySpellDuration($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount);
 
                 $this->sorcery['damage']['duration'] = $duration;
@@ -194,7 +207,7 @@ class SorceryActionService
                     DB::transaction(function () use ($caster, $target, $spell, $duration)
                     {
                         $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
-                        ->update(['duration' => $duration]);
+                        ->increment(['duration' => $duration]);
 
                         $target->save([
                             'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
@@ -547,6 +560,8 @@ class SorceryActionService
                 'event' => HistoryService::EVENT_ACTION_SORCERY,
                 'action' => $spell->key
             ]);
+
+            dd($this->sorcery, $this->sorceryEvent);
         });
 
         $this->notificationService->sendNotifications($target, 'irregular_dominion');
