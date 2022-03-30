@@ -1,107 +1,107 @@
 @extends ('layouts.master')
 
 @section('content')
-    <div class="row">
-        <div class="col-sm-12 col-md-9">
-            <form action="{{ route('dominion.sorcery')}}" method="post" role="form">
-            @csrf
+<div class="row">
+    <div class="col-sm-12 col-md-9">
+        <form action="{{ route('dominion.sorcery')}}" method="post" role="form" id="sorcery_form">
+        @csrf
 
-            <!-- TARGET -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><i class="ra ra-on-target"></i> Target</h3>
-                            <small class="pull-right text-muted">
-                                <span data-toggle="tooltip" data-placement="top" title="Wizards Per Acre (Wizard Ratio) on offense">WPA</span>: {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'),3) }},
-                                <span data-toggle="tooltip" data-placement="top" title="Wizard Strength">WS</span>: {{ $selectedDominion->wizard_strength }}%
-                            </small>
-                        </div>
-
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <select name="target_dominion" id="target_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                            <option></option>
-                                            @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
-                                                <option value="{{ $dominion->id }}"
-                                                        data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
-                                                        data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
-                                                        data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
-                                                        data-abandoned="{{ $dominion->isAbandoned() ? 1 : 0 }}">
-                                                    {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- TARGET -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="ra ra-on-target"></i> Target</h3>
+                        <small class="pull-right text-muted">
+                            <span data-toggle="tooltip" data-placement="top" title="Wizards Per Acre (Wizard Ratio) on offense">WPA</span>: {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'),3) }},
+                            <span data-toggle="tooltip" data-placement="top" title="Wizard Strength">WS</span>: {{ $selectedDominion->wizard_strength }}%
+                        </small>
                     </div>
-                </div>
-            </div>
 
-            <!-- ENHANCEMENT -->
-            {{--
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Enhancement</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <select name="resource" id="resource" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                            @foreach ($selectedDominion->race->resources as $resourceKey)
-                                                @php
-                                                    $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
-                                                @endphp
-
-                                                @if(!$selectedDominion->race->getPerkValue('no_' . $resource->key . '_theft'))
-                                                    <option value="{{ $resource->id }}" {{ $selectedDominion->most_recent_theft_resource  == $resource->key ? 'selected' : '' }}>
-                                                        {{ $resource->name }}
-                                                    </option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            --}}
-
-            <!-- RESOURCE -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><i class="fas fa-scroll"></i> Spell</h3>
-                        </div>
-                        <div class="box-body">
-                          {{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
-                        @php
-                            $numOfCols = 3;
-                            $rowCount = 0;
-                            $bootstrapColWidth = 12 / $numOfCols;
-                        @endphp
-
+                    <div class="box-body">
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <select name="target_dominion" id="target_dominion" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                        <option></option>
+                                        @foreach ($rangeCalculator->getDominionsInRange($selectedDominion) as $dominion)
+                                            <option value="{{ $dominion->id }}"
+                                                    data-land="{{ number_format($landCalculator->getTotalLand($dominion)) }}"
+                                                    data-networth="{{ number_format($networthCalculator->getDominionNetworth($dominion)) }}"
+                                                    data-percentage="{{ number_format($rangeCalculator->getDominionRange($selectedDominion, $dominion), 1) }}"
+                                                    data-abandoned="{{ $dominion->isAbandoned() ? 1 : 0 }}">
+                                                {{ $dominion->name }} (#{{ $dominion->realm->number }}) - {{ $dominion->race->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        @foreach($spells as $spell)
-                            @php
-                                $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
-                            @endphp
-                            <div class="col-md-{{ $bootstrapColWidth }}">
-                                <label class="btn btn-block">
+        <!-- ENHANCEMENT -->
+        {{--
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Enhancement</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <select name="resource" id="resource" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                        @foreach ($selectedDominion->race->resources as $resourceKey)
+                                            @php
+                                                $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
+                                            @endphp
+
+                                            @if(!$selectedDominion->race->getPerkValue('no_' . $resource->key . '_theft'))
+                                                <option value="{{ $resource->id }}" {{ $selectedDominion->most_recent_theft_resource  == $resource->key ? 'selected' : '' }}>
+                                                    {{ $resource->name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        --}}
+
+        <!-- RESOURCE -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fas fa-scroll"></i> Spell</h3>
+                    </div>
+                    <div class="box-body">
+                      {{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
+                    @php
+                        $numOfCols = 3;
+                        $rowCount = 0;
+                        $bootstrapColWidth = 12 / $numOfCols;
+                    @endphp
+
+                    <div class="row">
+
+                    @foreach($spells as $spell)
+                        @php
+                            $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
+                        @endphp
+                        <div class="col-md-{{ $bootstrapColWidth }}">
+                            <label class="btn btn-block" id="spell">
                                 <div class="box {!! $sorceryHelper->getSpellClassBoxClass($spell) !!}">
                                     <div class="box-header with-border">
-                                        <input type="radio" name="spell" value="{{ $spell->id }}" autocomplete="off" {{ (old('spell') == $spell->id) ? 'checked' : null }} required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
+                                        <input type="radio" name="spell" value="{{ $spell->id }}" autocomplete="off" required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
                                         <span class="pull-right" data-toggle="tooltip" data-placement="top" title="{!! $sorceryHelper->getSpellClassDescription($spell) !!}"><i class="{!! $sorceryHelper->getSpellClassIcon($spell) !!}"></i></span>
                                     </div>
 
@@ -117,139 +117,143 @@
                                         </div>
                                     </div>
                                 </div>
-                                </label>
-                            </div>
-
-                            @php
-                                $rowCount++;
-                            @endphp
-
-                            @if($rowCount % $numOfCols == 0)
-                                </div><div class="row">
-                            @endif
-
-                        @endforeach
+                            </label>
                         </div>
-                        </div>
+
+                        @php
+                            $rowCount++;
+                        @endphp
+
+                        @if($rowCount % $numOfCols == 0)
+                            </div><div class="row">
+                        @endif
+
+                    @endforeach
                     </div>
-                </div>
-            </div>
-
-            <!-- WIZARD STRENGTH -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title"><i class="fas fa-hat-wizard"></i> Wizard Strength</h3>
-                        </div>
-                        <div class="box-body">
-                            <input type="number"
-                                   id="amountSlider"
-                                   class="form-control slider"
-                                   name="wizard_strength"
-                                   value="0"
-                                   data-slider-value="{{ min($selectedDominion->wizard_strength, 4) }}"
-                                   data-slider-min="{{ min($selectedDominion->wizard_strength, 1) }}"
-                                   data-slider-max="{{ $selectedDominion->wizard_strength }}"
-                                   data-slider-step="1"
-                                   data-slider-tooltip="show"
-                                   data-slider-handle="round"
-                                   data-slider-id="blue"
-                                    {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-
-                            <div class="box-footer">
-                                <button type="submit"
-                                        class="btn btn-danger"
-                                        {{ $selectedDominion->isLocked() ? 'disabled' : null }}
-                                        id="invade-button">
-                                    <i class="fas fa-hand-sparkles"></i>
-                                    Cast Spell
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-3">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Information</h3>
-                </div>
-                <div class="box-body">
-                    <p>Select target, spell, and how much of your wizard strength you wish to use.</p>
-                    <p>The amount of wizard strength you use determines how much mana you need per 1% of Wizard Strength.</p>
-                    <table class="table">
-                        <colgroup>
-                            <col>
-                            <col width="80">
-                            <col width="80">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>Unit</th>
-                                <th>Total</th>
-                                <th>Available</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($selectedDominion->race->units as $unit)
-                                @if($unitHelper->isUnitOffensiveWizard($unit))
-                                    @php
-                                        $unitSlot = $unit->slot;
-                                    @endphp
+        <!-- WIZARD STRENGTH -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fas fa-hat-wizard"></i> Wizard Strength</h3>
+                    </div>
+                    <div class="box-body">
+                        <input type="number"
+                               id="amountSlider"
+                               class="form-control slider"
+                               name="wizard_strength"
+                               value="0"
+                               data-slider-value="{{ min($selectedDominion->wizard_strength, 4) }}"
+                               data-slider-min="{{ min($selectedDominion->wizard_strength, 4) }}"
+                               data-slider-max="{{ $selectedDominion->wizard_strength }}"
+                               data-slider-step="1"
+                               data-slider-tooltip="show"
+                               data-slider-handle="round"
+                               data-slider-id="blue"
+                                {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+
+
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table">
+                                <cols>
+                                    <col width="20%">
+                                    <col>
+                                </cols>
+                                <tbody>
                                     <tr>
-                                        <td>{{ $unit->name }}</td>
-                                        <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unitSlot)) }}</td>
-                                        <td>{{ number_format($selectedDominion->{"military_unit{$unitSlot}"}) }}</td>
+                                        <td>Mana:</td>
+                                        <td><span id="sorcery-mana-cost" data-amount="0">0</span></td>
                                     </tr>
-                                @endif
-                            @endforeach
-                            @if(!$selectedDominion->race->getPerkValue('cannot_train_wizards'))
-                                <tr>
-                                    <td>Wizards</td>
-                                    <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'wizards')) }}</td>
-                                    <td>{{ number_format($selectedDominion->military_wizards) }}</td>
-                                </tr>
-                            @endif
-                            @if(!$selectedDominion->race->getPerkValue('cannot_train_archmages'))
-                                <tr>
-                                    <td>Archmages</td>
-                                    <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'archmages')) }}</td>
-                                    <td>{{ number_format($selectedDominion->military_archmages) }}</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                        </div>
 
+                        <div class="box-footer">
+                            <button type="submit"
+                                    class="btn btn-danger"
+                                    {{ ($selectedDominion->isLocked() or $selectedDominion->wizard_strength < 4) ? 'disabled' : null }}
+                                    id="cast-button">
+                                <i class="fas fa-hand-sparkles"></i>
+                                Cast Spell
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-    @push('page-styles')
-        <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">
-    @endpush
+    <div class="col-sm-12 col-md-3">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Information</h3>
+            </div>
+            <div class="box-body">
+                <p>Select target, spell, and how much of your wizard strength you wish to use.</p>
+                <p>The amount of wizard strength you use determines how much mana you need per 1% of Wizard Strength. You must use at least 4% Wizard Strength to perform sorcery.</p>
+                <p>Performin sorcery requires that you have a wizard ratio of at least 0.10 and 4% available Wizard Strength.</p>
+                <table class="table">
+                    <colgroup>
+                        <col>
+                        <col width="80">
+                        <col width="80">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Total</th>
+                            <th>Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($selectedDominion->race->units as $unit)
+                            @if($unitHelper->isUnitOffensiveWizard($unit))
+                                @php
+                                    $unitSlot = $unit->slot;
+                                @endphp
+                                <tr>
+                                    <td>{{ $unit->name }}</td>
+                                    <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unitSlot)) }}</td>
+                                    <td>{{ number_format($selectedDominion->{"military_unit{$unitSlot}"}) }}</td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        @if(!$selectedDominion->race->getPerkValue('cannot_train_wizards'))
+                            <tr>
+                                <td>Wizards</td>
+                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'wizards')) }}</td>
+                                <td>{{ number_format($selectedDominion->military_wizards) }}</td>
+                            </tr>
+                        @endif
+                        @if(!$selectedDominion->race->getPerkValue('cannot_train_archmages'))
+                            <tr>
+                                <td>Archmages</td>
+                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'archmages')) }}</td>
+                                <td>{{ number_format($selectedDominion->military_archmages) }}</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
 
-    @push('page-scripts')
-        <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/dataTables.bootstrap.js') }}"></script>
-    @endpush
+            </div>
+        </div>
+    </div>
 
-    @push('inline-scripts')
-        <script type="text/javascript">
-            (function ($) {
-                $('#dominions-table').DataTable({
-                    order: [[4, 'desc']],
-                });
-                //$('#clairvoyance-table').DataTable({
-                //    order: [[2, 'desc']],
-                //});
-            })(jQuery);
-        </script>
-    @endpush
+</div>
+
+@push('page-styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/dataTables.bootstrap.js') }}"></script>
+@endpush
 
 @endsection
 
@@ -265,23 +269,83 @@
 
 @push('inline-scripts')
     <script type="text/javascript">
+        $(document).keypress(
+            function(event)
+            {
+                if (event.which == '13')
+                {
+                    event.preventDefault();
+                }
+            }
+        );
+
         (function ($) {
+            var sorceryManaCostElement = $('#sorcery-mana-cost');
+            var castButtonElement = $('#cast-button');
+
             $('#target_dominion').select2({
                 templateResult: select2Template,
                 templateSelection: select2Template,
             });
-            $('#target_dominion').change(function(e) {
-                var warStatus = $(this).find(":selected").data('war');
-                if (warStatus == 1) {
-                    $('.war-spell').removeClass('disabled');
-                } else {
-                    $('.war-spell').addClass('disabled');
-                }
+
+            $('#target_dominion').change(function (e) {
+                updateManaCost();
             });
-            @if (session('target_dominion'))
-                $('#spell_dominion').val('{{ session('spell_dominion') }}').trigger('change.select2').trigger('change');
-            @endif
+
+            $('#amountSlider').change(function (e) {
+                updateManaCost();
+            });
+
+            $('#spell').change(function (e) {
+                updateManaCost();
+            });
+
+            function updateManaCost() {
+                // Update unit stats
+                $.get(
+                    "{{ route('api.dominion.sorcery') }}?" + $('#sorcery_form').serialize(), {},
+                    function(response) {
+                        if(response.result == 'success')
+                        {
+                            // Update OP / DP data attributes
+                            sorceryManaCostElement.data('amount', response.mana_cost);
+
+                            // Update OP / DP display
+                            sorceryManaCostElement.text(response.mana_cost.toLocaleString(undefined, {maximumFractionDigits: 2}));
+
+                            calculate();
+                        }
+                    }
+                );
+            }
+
+            function calculate() {
+                // Check 33% rule
+                var minDefenseRule = parseFloat(homeForcesDPElement.data('amount')) < parseFloat(homeForcesMinDPElement.data('amount'));
+                if (minDefenseRule) {
+                    homeForcesDPElement.addClass('text-danger');
+                } else {
+                    homeForcesDPElement.removeClass('text-danger');
+                }
+
+                // Check 4:3 rule
+                var maxOffenseRule = parseFloat(invasionForceOPElement.data('amount')) > parseFloat(invasionForceMaxOPElement.data('amount'));
+                if (maxOffenseRule) {
+                    invasionForceOPElement.addClass('text-danger');
+                } else {
+                    invasionForceOPElement.removeClass('text-danger');
+                }
+
+                // Check if invade button should be disabled
+                if (minDefenseRule || maxOffenseRule) {
+                    castButtonElement.attr('disabled', 'disabled');
+                } else {
+                    castButtonElement.removeAttr('disabled');
+                }
+
+            }
         })(jQuery);
+
 
         function select2Template(state) {
             if (!state.id) {
@@ -291,7 +355,6 @@
             const land = state.element.dataset.land;
             const percentage = state.element.dataset.percentage;
             const networth = state.element.dataset.networth;
-            const war = state.element.dataset.war;
             const abandoned = state.element.dataset.abandoned;
             let difficultyClass;
 
@@ -303,11 +366,6 @@
                 difficultyClass = 'text-muted';
             } else {
                 difficultyClass = 'text-gray';
-            }
-
-            warStatus = '';
-            if (war == 1) {
-                warStatus = '<div class="pull-left">&nbsp;<span class="text-red">WAR</span></div>';
             }
 
             abandonedStatus = '';

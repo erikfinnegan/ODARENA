@@ -64,7 +64,7 @@ class SorceryCalculator
         $multiplier += $this->getSorcerySpellDamageMultiplier($caster, $target, $spell, $wizardStrength, $enhancementResource, $enhancementAmount) / 25;
         $multiplier += $caster->realm->getArtefactPerkMultiplier('sorcery_spell_duration');
 
-        dump($multiplier);
+        #dump($multiplier);
 
         $duration *= $multiplier;
 

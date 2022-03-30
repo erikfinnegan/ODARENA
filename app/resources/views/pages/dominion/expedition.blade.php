@@ -256,18 +256,6 @@
                                                     </small>
                                                 </td>
                                             </tr>
-                                            {{--
-                                            <tr>
-                                                <td>
-                                                    Min DP:
-                                                    <i class="fa fa-question-circle"
-                                                       data-toggle="tooltip"
-                                                       data-placement="top"
-                                                       title="You must leave at least 33% of your invasion force OP in DP at home. (33% rule)"></i>
-                                                </td>
-                                                <td id="home-forces-min-dp" data-amount="0">0</td>
-                                            </tr>
-                                            --}}
                                             <tr>
                                                 <td>DPA:</td>
                                                 <td id="home-forces-dpa" data-amount="0">

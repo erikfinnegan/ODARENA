@@ -643,7 +643,6 @@ metabolism:
     - Growth
   perks:
     food_production_raw_mod: 100
-    convert_enemy_casualties_to_food: 1
 
 ambush:
   name: Ambush
@@ -1269,17 +1268,172 @@ annexation:
 
 # BEGIN SORCERY
 
+  # Passive
+
+insect_swarm:
+  name: Blight
+  scope: hostile
+  class: passive
+  cost: 1
+  duration: 1
+  cooldown: 0
+  excluded_races:
+    - Dwarg
+  perks:
+    food_production_mod: -10
+
 cogency:
   name: Cogency
   scope: hostile
   class: passive
   cost: 1.25
-  duration: 2
+  duration: 0.5
   cooldown: 0
   exclusive_races:
     - Cult
   perks:
     cogency: 1
+
+curse_of_zidur:
+  name: Curse of Zidur
+  scope: hostile
+  class: passive
+  cost: 1.25
+  duration: 0.5
+  cooldown: 12
+  exclusive_races:
+    - Undead
+  perks:
+    casualties: 5
+
+earthquake:
+  name: Earthquake
+  scope: hostile
+  class: passive
+  cost: 1
+  duration: 1
+  cooldown: 0
+  excluded_races:
+    - Dwarg
+  perks:
+    ore_production_mod: -5
+    gems_production_mod: -5
+
+elskas_blur:
+  name: Elskas' Blur
+  scope: hostile
+  class: passive
+  cost: 0.5
+  duration: 0.5
+  cooldown: 0
+  exclusive_races:
+    - Reptilians
+  perks:
+    blind_to_reptilian_spies_on_info: 1
+    blind_to_reptilian_spies_on_theft: 1
+
+enthralling:
+  name: Enthralling
+  scope: hostile
+  class: passive
+  cost: 1.2
+  duration: 0.25
+  cooldown: 0
+  exclusive_races:
+    - Cult
+  perks:
+    enthralling: 1
+
+frozen_shores:
+  name: Frozen Shores
+  enabled: 0
+  scope: hostile
+  class: passive
+  cost: 2
+  duration: 0.5
+  cooldown: 24
+  exclusive_races:
+    - Icekin
+    - Yeti
+    - Snow Elf
+  perks:
+    exchange_rate: 20
+
+great_flood:
+  name: Great Flood
+  enabled: 0
+  scope: hostile
+  class: passive
+  cost: 1
+  duration: 1
+  cooldown: 0
+  excluded_races:
+    - Dwarg
+  perks:
+    boat_production_mod: -25
+
+mark_of_azk_hurum:
+  name: Mark of Azk'Hurum
+  scope: hostile
+  class: passive
+  cost: 2
+  cooldown: 24
+  duration: 0.25
+  exclusive_races:
+    - Demon
+  perks:
+    defensive_power: -5
+
+persuasion:
+  name: Persuasion
+  scope: hostile
+  class: passive
+  cost: 1.5
+  duration: 0.25
+  cooldown: 0
+  exclusive_races:
+    - Cult
+  perks:
+    persuasion: 1
+
+plague:
+  name: Plague
+  scope: hostile
+  class: passive
+  cost: 1
+  duration: 1
+  cooldown: 0
+  excluded_races:
+    - Dwarg
+  perks:
+    population_growth: -25
+
+treachery:
+  name: Treachery
+  scope: hostile
+  class: passive
+  cost: 1.25
+  duration: 0.25
+  cooldown: 0
+  exclusive_races:
+    - Cult
+  perks:
+    treachery: 1
+
+windchill:
+  name: Windchill
+  scope: hostile
+  class: passive
+  cost: 1.25
+  duration: 0.25
+  cooldown: 6
+  exclusive_races:
+    - Icekin
+  perks:
+    wizard_strength: -50
+
+    # /Passive
+    # Active
 
 curse_of_kinthys:
   name: Curse of Kinthys
@@ -1293,18 +1447,6 @@ curse_of_kinthys:
   perks:
     decrease_morale: 25
 
-curse_of_zidur:
-  name: Curse of Zidur
-  scope: hostile
-  class: passive
-  cost: 1.25
-  duration: 2
-  cooldown: 12
-  exclusive_races:
-    - Undead
-  perks:
-    casualties: 5
-
 disband_spies:
   name: Disband Spies
   scope: hostile
@@ -1316,44 +1458,6 @@ disband_spies:
     - Dwarg
   perks:
     disband_spies: 0.25 # 1/4
-
-earthquake:
-  name: Earthquake
-  scope: hostile
-  class: passive
-  cost: 1
-  duration: 6
-  cooldown: 0
-  excluded_races:
-    - Dwarg
-  perks:
-    ore_production_mod: -5
-    gems_production_mod: -5
-
-elskas_blur:
-  name: Elskas' Blur
-  scope: hostile
-  class: passive
-  cost: 0.5
-  duration: 12
-  cooldown: 0
-  exclusive_races:
-    - Reptilians
-  perks:
-    blind_to_reptilian_spies_on_info: 1
-    blind_to_reptilian_spies_on_theft: 1
-
-enthralling:
-  name: Enthralling
-  scope: hostile
-  class: passive
-  cost: 1.2
-  duration: 2
-  cooldown: 0
-  exclusive_races:
-    - Cult
-  perks:
-    enthralling: 1
 
 fireball:
   name: Fireball
@@ -1369,46 +1473,6 @@ fireball:
     kill_peasants: 0.25 # 1/4
     destroy_resource: food,0.25 # 1/4
 
-frozen_shores:
-  name: Frozen Shores
-  enabled: 0
-  scope: hostile
-  class: passive
-  cost: 2
-  duration: 2
-  cooldown: 24
-  exclusive_races:
-    - Icekin
-    - Yeti
-    - Snow Elf
-  perks:
-    exchange_rate: 20
-
-great_flood:
-  name: Great Flood
-  enabled: 0
-  scope: hostile
-  class: passive
-  cost: 1
-  duration: 24
-  cooldown: 0
-  excluded_races:
-    - Dwarg
-  perks:
-    boat_production_mod: -25
-
-insect_swarm:
-  name: Blight
-  scope: hostile
-  class: passive
-  cost: 1
-  duration: 6
-  cooldown: 0
-  excluded_races:
-    - Dwarg
-  perks:
-    food_production_mod: -10
-
 lightning_bolt:
   name: Lightning Bolt
   scope: hostile
@@ -1420,42 +1484,6 @@ lightning_bolt:
     - Dwarg
   perks:
     improvements_damage: 0.05 # 0.20/4
-
-mark_of_azk_hurum:
-  name: Mark of Azk'Hurum
-  scope: hostile
-  class: passive
-  cost: 7
-  cooldown: 24
-  duration: 3
-  exclusive_races:
-    - Demon
-  perks:
-    defensive_power: -5
-
-persuasion:
-  name: Persuasion
-  scope: hostile
-  class: passive
-  cost: 1.5
-  duration: 2
-  cooldown: 0
-  exclusive_races:
-    - Cult
-  perks:
-    persuasion: 1
-
-plague:
-  name: Plague
-  scope: hostile
-  class: passive
-  cost: 1
-  duration: 6
-  cooldown: 0
-  excluded_races:
-    - Dwarg
-  perks:
-    population_growth: -25
 
 pyroclast:
   name: Pyroclast
@@ -1493,30 +1521,6 @@ purification:
     - Sacred Order
   perks:
     kill_faction_units_percentage: Afflicted,1,0.1875 # faction, slot, percentage # 0.75/4
-
-treachery:
-  name: Treachery
-  scope: hostile
-  class: passive
-  cost: 1.25
-  duration: 2
-  cooldown: 0
-  exclusive_races:
-    - Cult
-  perks:
-    treachery: 1
-
-windchill:
-  name: Windchill
-  scope: hostile
-  class: passive
-  cost: 1.5
-  duration: 24
-  cooldown: 6
-  exclusive_races:
-    - Icekin
-  perks:
-    wizard_strength: -50
 
 voidspellmanatheft:
   name: ◣◹

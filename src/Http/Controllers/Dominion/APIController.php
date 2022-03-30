@@ -2,14 +2,19 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
+use OpenDominion\Models\Dominion;
+use OpenDominion\Models\Spell;
+
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\API\ExpeditionCalculationRequest;
 use OpenDominion\Http\Requests\Dominion\API\InvadeCalculationRequest;
-use OpenDominion\Models\Dominion;
+use OpenDominion\Http\Requests\Dominion\API\SorceryCalculationRequest;
+
 use OpenDominion\Services\Dominion\API\DefenseCalculationService;
 use OpenDominion\Services\Dominion\API\ExpeditionCalculationService;
 use OpenDominion\Services\Dominion\API\InvadeCalculationService;
 use OpenDominion\Services\Dominion\API\OffenseCalculationService;
+use OpenDominion\Services\Dominion\API\SorceryCalculationService;
 
 class APIController extends AbstractDominionController
 {
@@ -45,6 +50,29 @@ class APIController extends AbstractDominionController
                 $dominion,
                 $request->get('unit'),
                 $request->get('calc')
+            );
+        } catch (GameException $e) {
+            return [
+                'result' => 'error',
+                'errors' => [$e->getMessage()]
+            ];
+        }
+
+        return $result;
+    }
+
+    public function calculateSorcery(SorceryCalculationRequest $request): array
+    {
+        $caster = $this->getSelectedDominion();
+        $sorceryCalculationService = app(SorceryCalculationService::class);
+        $spell = Spell::where('id',($request->get('spell')))->firstOrFail();
+        $wizardStrength = (int)$request->get('wizard_strength');
+
+        try {
+            $result = $sorceryCalculationService->calculate(
+                $caster,
+                $spell,
+                $wizardStrength
             );
         } catch (GameException $e) {
             return [

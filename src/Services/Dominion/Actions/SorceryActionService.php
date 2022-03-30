@@ -110,14 +110,14 @@ class SorceryActionService
                 throw new GameException("You must have at least 4% Wizard Strength to perform sorcery.");
             }
 
-            if ($this->militaryCalculator->getWizardRatio($caster) < 0.10)
+            if ($this->militaryCalculator->getWizardRatio($caster, 'offense') < 0.10)
             {
                 throw new GameException("You must have at least 0.10 Wizard Ratio to perform sorcery.");
             }
 
-            if ($wizardStrength < 1)
+            if ($wizardStrength < 4)
             {
-                throw new GameException("You spend at least 1% Wizard Strength.");
+                throw new GameException("You spend at least 4% Wizard Strength.");
             }
 
             $manaCost = $this->sorceryCalculator->getSorcerySpellManaCost($caster, $spell, $wizardStrength);
