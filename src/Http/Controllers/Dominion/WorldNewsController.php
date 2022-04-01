@@ -7,13 +7,14 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Services\GameEventService;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RoundHelper;
+use OpenDominion\Helpers\WorldNewsHelper;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 
 class WorldNewsController extends AbstractDominionController
 {
+
     public function getIndex(int $realmNumber = null)
     {
-
         $gameEventService = app(GameEventService::class);
         $dominion = $this->getSelectedDominion();
         $this->updateDominionNewsLastRead($dominion);
@@ -35,11 +36,13 @@ class WorldNewsController extends AbstractDominionController
 
         $realmCount = Realm::where('round_id', $dominion->round_id)->count();
 
+        $landCalculator = app(LandCalculator::class);
         $raceHelper = app(RaceHelper::class);
         $roundHelper = app(RoundHelper::class);
-        $landCalculator = app(LandCalculator::class);
+        $worldNewsHelper = app(WorldNewsHelper::class);
 
         return view('pages.dominion.world-news', compact(
+            'worldNewsHelper',
             'dominionIds',
             'gameEvents',
             'realm',
@@ -49,7 +52,6 @@ class WorldNewsController extends AbstractDominionController
             'landCalculator'
         ))->with('fromOpCenter', false);
     }
-
 
     protected function updateDominionNewsLastRead(Dominion $dominion): void
     {

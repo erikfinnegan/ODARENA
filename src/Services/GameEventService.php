@@ -14,7 +14,7 @@ class GameEventService
     {
         if ($realm === null)
         {
-            return $this->getGameEventsForRound($dominion, now());
+            return $this->getGameEventsForRound($dominion);
         }
 
         return $this->getGameEventsForRealm($realm, now());
@@ -62,7 +62,7 @@ class GameEventService
         ];
     }
 
-    private function getGameEventsForRound(Dominion $dominion, Carbon $createdBefore) : array
+    private function getGameEventsForRound(Dominion $dominion, int $maxTicksAgo = 192) : array
     {
         $dominionIds = $dominion->realm->dominions
             ->pluck('id')
@@ -70,9 +70,7 @@ class GameEventService
 
         $gameEvents = GameEvent::query()
             ->where('round_id', $dominion->round_id)
-            ->where('created_at', '<', $createdBefore)
-            ->where('created_at', '>', now()->subHours(48))
-            ->where('type', '!=', 'theft')
+            ->where('tick', '>=', ($dominion->round->ticks - $maxTicksAgo))
             ->orderBy('created_at', 'desc')
             ->get();
 

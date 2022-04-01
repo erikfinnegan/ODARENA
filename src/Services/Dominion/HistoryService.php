@@ -95,10 +95,12 @@ class HistoryService
             return;
         }
 
+        $tick = $dominion->round->ticks;
+
         $dominion->history()->create([
             'event' => $event,
             'delta' => $deltaAttributes,
-            'tick' => $dominion->round->ticks,
+            'tick' => $tick,
         ]);
     }
 

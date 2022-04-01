@@ -10,7 +10,7 @@
         </div>
     @elseif($spell->class == 'active')
         <div class="col-sm-12">
-            Duration: <span class="text-muted" class="text-primary" data-toggle="tooltip" data-placement="top" title="This is an impact spell with immediate damage and no lingering effect">N/A</span>
+            Duration: <span class="text-muted" class="text-primary" data-toggle="tooltip" data-placement="top" title="This is an impact spell with immediate damage and no lingering effect">Immediate</span>
         </div>
     @endif
 

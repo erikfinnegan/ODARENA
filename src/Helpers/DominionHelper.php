@@ -45,4 +45,17 @@ class DominionHelper
         return $invasionEvents->count() ? true : false;
     }
 
+    public function getTicksActive(Dominion $dominion): int
+    {
+        $ticks = 0;
+
+        return $ticks;
+    }
+
+    public function getActionsTaken(Dominion $dominion): int
+    {
+        $actions = 0;
+
+        return $actions;
+    }
 }

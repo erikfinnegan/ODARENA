@@ -144,6 +144,10 @@
                                     <td>{{ number_format($resourceCalculator->getAmount($dominion, $resourceKey)) }}</td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td>Experience points:</td>
+                                <td>{{ number_format($dominion->xp) }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

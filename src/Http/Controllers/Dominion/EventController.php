@@ -5,6 +5,7 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use Illuminate\Database\Eloquent\Builder;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
+use OpenDominion\Helpers\EventHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\SorceryHelper;
@@ -14,13 +15,12 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
 
-
-
 class EventController extends AbstractDominionController
 {
     public function index(string $eventUuid)
     {
         $dominion = $this->getSelectedDominion();
+        $eventHelper = app(EventHelper::class);
 
         $query = GameEvent::query()
             ->with([
@@ -39,7 +39,7 @@ class EventController extends AbstractDominionController
 
         $event = $query->firstOrFail();
 
-        if(!$this->canView($event, $dominion))
+        if(!$eventHelper->canViewEvent($event, $dominion))
         {
             abort(403);
         }
@@ -51,50 +51,10 @@ class EventController extends AbstractDominionController
             'landHelper' => app(LandHelper::class), // todo: same thing here
             'raceHelper' => app(RaceHelper::class), // todo: same thing here
             'sorceryHelper' => app(SorceryHelper::class), // todo: same thing here
-            'canViewSource' => $this->canViewEventDetails($event, $dominion, 'source'),
-            'canViewTarget' => $this->canViewEventDetails($event, $dominion, 'target'),
+            'canViewSource' => $eventHelper->canViewEventDetails($event, $dominion, 'source'),
+            'canViewTarget' => $eventHelper->canViewEventDetails($event, $dominion, 'target'),
         ]);
     }
 
-    private function canView(GameEvent $event, Dominion $dominion): bool
-    {
-        if($dominion->user->isStaff()) {
-            return true;
-        }
-
-        if($event->source_type === Dominion::class && $event->source->realm_id == $dominion->realm->id) {
-            return true;
-        }
-
-        if($event->target_type === Dominion::class && $event->target->realm_id == $dominion->realm->id) {
-            return true;
-        }
-
-        if($event->source_type === Realm::class && $event->source->id == $dominion->realm->id) {
-            return true;
-        }
-
-        if($event->target_type === Realm::class && $event->target->id == $dominion->realm->id) {
-            return true;
-        }
-
-        return false;
-    }
-
-    # Maybe expand for deathmatches
-    private function canViewEventDetails(GameEvent $event, Dominion $viewer, string $scope): bool
-    {
-        if($event->{$scope . '_type'} === Dominion::class and ($event->{$scope}->realm_id == $viewer->realm->id))
-        {
-            return true;
-        }
-
-        if($event->{$scope . '_type'} === Realm::class and ($event->{$scope}->id == $viewer->realm->id))
-        {
-            return true;
-        }
-
-        return false;
-    }
 
 }

@@ -13,6 +13,7 @@ class SorceryCalculationService
 
     /** @var array Calculation result array. */
     protected $calculationResult = [
+        'result' => 'success',
         'mana_cost' => 0,
     ];
 

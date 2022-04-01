@@ -115,6 +115,10 @@
                                     <td>{{ number_format($data['resource_' . $resourceKey]) }}
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td>Experience points:</td>
+                                <td>{{ number_format($data['xp']) }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -54,30 +54,28 @@
                                         </form>
                                     @endif
 
-                                    @if($dominion->round->hasStarted() and !$dominion->isLocked())
-                                    <div class="box box-danger" style="margin-top: 1em;">
-                                        <div class="box-header with-border">
-                                            <strong><i class="fas fa-user-slash"></i> Abandon dominion</strong>
-                                        </div>
-                                        <div class="col-sm-12 col-md-12">
-                                            <p><small>
-                                                If you wish to abandon your dominion, confirm below and click the button. <em>This action cannot be undone.</em><br>
-                                                An abandoned dominion stays in the game, but has no further production. You can create a new dominion afterwards.
-                                            </small></p>
-                                        </div>
-                                        <form action="{{ route('dominion.abandon', $dominion) }}" method="post">
-                                            @csrf
-                                            <div class="col-sm-12 col-md-4">
-                                                <label>
-                                                    <input type="checkbox" name="remember" required class="text-muted"> Confirm abandon
-                                                </label>
+                                    @if($dominion->round->hasStarted() and !$dominion->isLocked() and !$dominion->isAbandoned())
+                                        <div class="box box-danger" style="margin-top: 1em;">
+                                            <div class="box-header with-border">
+                                                <strong><i class="fas fa-user-slash"></i> Abandon dominion</strong>
                                             </div>
-                                            <div class="col-sm-12 col-md-8">
-                                                <button type="submit" class="btn btn-danger btn-xs"><i class="fas fa-user-slash"></i> Abandon dominion</button>
+                                            <div class="col-sm-12 col-md-12">
+                                                <p><small class="text-muted">
+                                                    If you wish to abandon your dominion, confirm below and click the button. An abandoned dominion stays in the game, but has no further production. You can create a new dominion afterwards, but if you abandon a second time, you need to contact admin first due to a bug.
+                                                </small></p>
                                             </div>
-                                        </form>
+                                            <form action="{{ route('dominion.abandon', $dominion) }}" method="post">
+                                                @csrf
+                                                <div class="col-sm-12 col-md-4">
+                                                    <label>
+                                                        <input type="checkbox" name="remember" required class="text-muted"> Confirm abandon
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 col-md-8">
+                                                    <button type="submit" class="btn btn-danger btn-xs"><i class="fas fa-user-slash"></i> Abandon dominion</button>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </div>
                                     @endif
 
                                 @elseif(!$round->hasEnded())

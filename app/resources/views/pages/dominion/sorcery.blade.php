@@ -84,7 +84,7 @@
                         <h3 class="box-title"><i class="fas fa-scroll"></i> Spell</h3>
                     </div>
                     <div class="box-body">
-                      {{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
+                    {{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
                     @php
                         $numOfCols = 3;
                         $rowCount = 0;
@@ -98,10 +98,10 @@
                             $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
                         @endphp
                         <div class="col-md-{{ $bootstrapColWidth }}">
-                            <label class="btn btn-block" id="spell">
+                            <label class="btn btn-block">
                                 <div class="box {!! $sorceryHelper->getSpellClassBoxClass($spell) !!}">
                                     <div class="box-header with-border">
-                                        <input type="radio" name="spell" value="{{ $spell->id }}" autocomplete="off" required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
+                                        <input type="radio" id="spell" name="spell" value="{{ $spell->id }}" required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
                                         <span class="pull-right" data-toggle="tooltip" data-placement="top" title="{!! $sorceryHelper->getSpellClassDescription($spell) !!}"><i class="{!! $sorceryHelper->getSpellClassIcon($spell) !!}"></i></span>
                                     </div>
 
@@ -143,6 +143,8 @@
                         <h3 class="box-title"><i class="fas fa-hat-wizard"></i> Wizard Strength</h3>
                     </div>
                     <div class="box-body">
+                        <input type="hidden" id="mana-available" data-amount="{{ $resourceCalculator->getAmount($selectedDominion, 'mana') }}">
+
                         <input type="number"
                                id="amountSlider"
                                class="form-control slider"
@@ -281,6 +283,7 @@
 
         (function ($) {
             var sorceryManaCostElement = $('#sorcery-mana-cost');
+            var manaAvailableElement = $('#mana-available');
             var castButtonElement = $('#cast-button');
 
             $('#target_dominion').select2({
@@ -320,12 +323,12 @@
             }
 
             function calculate() {
-                // Check 33% rule
-                var minDefenseRule = parseFloat(homeForcesDPElement.data('amount')) < parseFloat(homeForcesMinDPElement.data('amount'));
-                if (minDefenseRule) {
-                    homeForcesDPElement.addClass('text-danger');
+                // Check mana afford
+                var manaAffordRule = parseFloat(sorceryManaCostElement.data('amount')) <= parseFloat(manaAvailableElement.data('amount'));
+                if (manaAffordRule) {
+                    sorceryManaCostElement.addClass('text-danger');
                 } else {
-                    homeForcesDPElement.removeClass('text-danger');
+                    sorceryManaCostElement.removeClass('text-danger');
                 }
 
                 // Check 4:3 rule
@@ -337,7 +340,7 @@
                 }
 
                 // Check if invade button should be disabled
-                if (minDefenseRule || maxOffenseRule) {
+                if (manaAffordRule || maxOffenseRule) {
                     castButtonElement.attr('disabled', 'disabled');
                 } else {
                     castButtonElement.removeAttr('disabled');

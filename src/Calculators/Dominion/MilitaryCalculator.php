@@ -298,8 +298,6 @@ class MilitaryCalculator
 
         // Values
         $minDPPerAcre = 10; # LandDP
-        $forestHavenDpPerPeasant = 0.75;
-        $peasantsPerForestHaven = 20;
         $dpPerDraftee = 1;
 
         if($ignoreDraftees)
