@@ -155,9 +155,16 @@ class WorldNewsHelper
         # Deathmatch in-realm sucessful invasion
         if($isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
         {
+            $spanClass = 'purple';
+            if($target->id == $viewer->id)
+            {
+                $spanClass = 'red';
+            }
+
             return sprintf(
-                '%s conquered <strong class="text-purple">%s</strong> land from %s.',
+                '%s conquered <strong class="%s">%s</strong> land from %s.',
                 $this->generateDominionString($attacker, 'neutral', $viewer),
+                $this->getSpanClass($spanClass),
                 number_format($landConquered),
                 $this->generateDominionString($defender, 'neutral', $viewer)
               );
