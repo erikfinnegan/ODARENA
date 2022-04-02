@@ -105,7 +105,7 @@
                   <h1 class="box-title"><i class="fas fa-book-open"></i> All Stats</h1>
               </div>
               <div class="box-body">
-                  <table class="table table-striped table-hover">
+                  <table class="table table-striped table-hover" id="stats-table">
                       <colgroup>
                           <col>
                           <col>
@@ -209,3 +209,26 @@
 
 
 @endsection
+
+@push('page-styles')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/datatables/css/dataTables.bootstrap.css') }}">
+    <style>
+        #stats-table #stats-table-table_filter { display: none !important; }
+    </style>
+@endpush
+
+@push('page-scripts')
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/vendor/datatables/js/dataTables.bootstrap.js') }}"></script>
+@endpush
+
+@push('inline-scripts')
+    <script type="text/javascript">
+        (function ($) {
+            var table = $('#stats-table').DataTable({
+                order: [0, 'asc'],
+                paging: false,
+            });
+        })(jQuery);
+    </script>
+@endpush
