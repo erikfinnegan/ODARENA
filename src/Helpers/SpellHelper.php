@@ -226,8 +226,9 @@ class SpellHelper
             'cannot_explore' => 'Cannot explore',
 
             // Buildings and Land
-
             'no_land_discovered' => 'No land discovered on invasions.',
+            'construction_cost' => '%s%% construction costs',
+            'rezone_cost' => '%s%% rezoning costs',
 
             // Special
             'opens_portal' => 'Opens a portal required to teleport otherwordly units to enemy lands',

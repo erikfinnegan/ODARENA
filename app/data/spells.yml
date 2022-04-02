@@ -568,7 +568,7 @@ charring_flames:
     - Firewalker
   perks:
     casualties: 10
-    cannot_be_converted: 1
+    construction_cost: -10
 
 pyromancy:
   name: Pyromancy

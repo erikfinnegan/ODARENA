@@ -499,14 +499,14 @@ class InvadeActionService
                     '_routeParams' => [(string)$this->invasionEvent->id],
                     'attackerDominionId' => $dominion->id,
                     'landLost' => $this->landLost,
-                    'unitsLost' => $this->unitsLost,
+                    'unitsLost' => $this->invasionResult['defender']['unitsLost'],
                 ]);
             } else {
                 $this->notificationService->queueNotification('repelled_invasion', [
                     '_routeParams' => [(string)$this->invasionEvent->id],
                     'attackerDominionId' => $dominion->id,
                     'attackerWasOverwhelmed' => $this->invasionResult['result']['overwhelmed'],
-                    'unitsLost' => $this->unitsLost,
+                    'unitsLost' => $this->invasionResult['defender']['unitsLost'],
                 ]);
             }
 
