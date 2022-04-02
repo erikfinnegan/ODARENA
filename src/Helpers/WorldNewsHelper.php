@@ -213,6 +213,27 @@ class WorldNewsHelper
               );
         }
 
+        # Deathmatch in-realm invasion
+        if($isAttackerFriendly and $isDefenderFriendly and $isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
+        {
+            return sprintf(
+                '%s conquered <strong class="text-orange">%s</strong> land from %s.',
+                $this->generateDominionString($attacker, 'neutral', $viewer),
+                number_format($landConquered),
+                $this->generateDominionString($defender, 'neutral', $viewer)
+              );
+        }
+
+        # Deathmatch in-realm invasion
+        if($isAttackerFriendly and $isDefenderFriendly and $isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
+        {
+            return sprintf(
+                '%s fended off an attack by %s.',
+                $this->generateDominionString($attacker, 'neutral', $viewer),
+                $this->generateDominionString($defender, 'neutral', $viewer)
+              );
+        }
+
 
         return 'Edge case detected for GameEvent ID ' . $invasion->id;
 
