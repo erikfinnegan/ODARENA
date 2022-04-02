@@ -46,7 +46,7 @@ class WorldNewsHelper
                 return $this->generateExpeditionString($event->source, $event, $viewer);
 
             case 'invasion':
-                return $this->generateInvasionString($event->target, $event->source, $event, $viewer);
+                return $this->generateInvasionString($event->source, $event->target, $event, $viewer);
 
             case 'new_dominion':
                 return $this->generateNewDominionString($event->source, $event->target, $viewer);
