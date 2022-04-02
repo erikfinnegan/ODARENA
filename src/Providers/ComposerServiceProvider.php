@@ -6,6 +6,7 @@ use Cache;
 use Illuminate\Contracts\View\View;
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Helpers\NotificationHelper;
+use OpenDominion\Helpers\RoundHelper;
 use OpenDominion\Models\Council\Post;
 use OpenDominion\Models\Council\Thread;
 use OpenDominion\Models\Dominion;
@@ -95,17 +96,13 @@ class ComposerServiceProvider extends AbstractServiceProvider
             if($dominion = $selectorService->getUserSelectedDominion())
             {
                 $hoursUntilRoundStarts = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->start_date)->startOfHour());
-
-                if($dominion->round->hasCountdown())
-                {
-                      $hoursUntilRoundEnds = now()->startOfHour()->diffInHours(Carbon::parse($dominion->round->end_date)->startOfHour());
-                }
             }
 
             $version = (Cache::has('version-html') ? Cache::get('version-html') : 'unknown');
             $view->with('version', $version);
             $view->with('hoursUntilRoundStarts', $hoursUntilRoundStarts);
-            $view->with('hoursUntilRoundEnds', $hoursUntilRoundEnds);
+            $view->with('roundHelper', app(RoundHelper::class));
+            $view->with('version', $version);
         });
 
         view()->composer('partials.notification-nav', function (View $view) {

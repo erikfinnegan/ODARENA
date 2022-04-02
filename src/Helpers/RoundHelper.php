@@ -69,7 +69,7 @@ class RoundHelper
 
     public function getRoundCountdownTickLength(): int
     {
-        return 52;
+        return 48;
     }
 
     public function getRoundModeDescription(Round $round): string

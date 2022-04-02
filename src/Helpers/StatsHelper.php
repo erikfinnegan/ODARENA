@@ -17,7 +17,7 @@ class StatsHelper
     public function __construct()
     {
         $this->roundHelper = app(RoundHelper::class);
-
+        
         $this->statsService = app(StatsService::class);
     }
 
@@ -81,7 +81,5 @@ class StatsHelper
         $statKeys = array_unique($statKeys);
 
         return $statKeys;
-
     }
-
 }

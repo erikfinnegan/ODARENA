@@ -36,6 +36,9 @@ class WorldNewsHelper
             case 'barbarian_invasion':
                 return $this->generateBarbarianInvasionString($event->source, $event, $viewer);
 
+            case 'countdown':
+                return $this->generateCountdownString($event, $viewer);
+
             case 'deity_completed':
                 return $this->generateDeityCompletedString($event->target, $event->source, $viewer);
 
@@ -75,6 +78,24 @@ class WorldNewsHelper
             $event['data']['target'],
             $this->getSpanClass('barbarian'),
             number_format($event['data']['land']),
+          );
+
+        return $string;
+    }
+
+    public function generateCountdownString(Dominion $dominion, Deity $deity, Dominion $viewer): string
+    {
+        /*
+            Mirnon has accepted the devotion of Dark Elf (#3).
+        */
+
+        $deityClass = $this->getSpanClass('other');
+
+        $string = sprintf(
+            '<span class="%s">%s</span> has accepted the devotion of %s.',
+            $deityClass,
+            $deity->name,
+            $this->generateDominionString($dominion, 'neutral', $viewer)
           );
 
         return $string;
