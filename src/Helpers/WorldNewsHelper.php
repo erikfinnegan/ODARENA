@@ -152,6 +152,27 @@ class WorldNewsHelper
             $landDiscovered += array_sum($invasion['data']['attacker']['landDiscovered']);
         }
 
+        # Deathmatch in-realm sucessful invasion
+        if($isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
+        {
+            return sprintf(
+                '%s conquered <strong class="text-purple">%s</strong> land from %s.',
+                $this->generateDominionString($attacker, 'neutral', $viewer),
+                number_format($landConquered),
+                $this->generateDominionString($defender, 'neutral', $viewer)
+              );
+        }
+
+        # Deathmatch in-realm unsucessful invasion
+        if(!$isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
+        {
+            return sprintf(
+                '%s fended off an attack by %s.',
+                $this->generateDominionString($attacker, 'neutral', $viewer),
+                $this->generateDominionString($defender, 'neutral', $viewer)
+              );
+        }
+
         # Friendly attacker successful
         if($isAttackerFriendly and !$isDefenderFriendly and $isSuccessful)
         {
@@ -212,28 +233,6 @@ class WorldNewsHelper
                 $this->generateDominionString($defender, 'neutral', $viewer)
               );
         }
-
-        # Deathmatch in-realm invasion
-        if($isAttackerFriendly and $isDefenderFriendly and $isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
-        {
-            return sprintf(
-                '%s conquered <strong class="text-orange">%s</strong> land from %s.',
-                $this->generateDominionString($attacker, 'neutral', $viewer),
-                number_format($landConquered),
-                $this->generateDominionString($defender, 'neutral', $viewer)
-              );
-        }
-
-        # Deathmatch in-realm invasion
-        if($isAttackerFriendly and $isDefenderFriendly and $isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
-        {
-            return sprintf(
-                '%s fended off an attack by %s.',
-                $this->generateDominionString($attacker, 'neutral', $viewer),
-                $this->generateDominionString($defender, 'neutral', $viewer)
-              );
-        }
-
 
         return 'Edge case detected for GameEvent ID ' . $invasion->id;
 
