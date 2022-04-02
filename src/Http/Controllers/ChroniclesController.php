@@ -87,6 +87,7 @@ class ChroniclesController extends AbstractController
         $landCalculator = app(LandCalculator::class);
 
         $roundHelper = app(RoundHelper::class);
+        $statsHelper = app(StatsHelper::class);
 
         $topLargestDominions = $roundHelper->getRoundDominionsByLand($round, 3);
 
@@ -96,6 +97,10 @@ class ChroniclesController extends AbstractController
             'land_conquered'
           ];
 
+        $allDominionStatKeysForRound = $statsHelper->getAllDominionStatKeysForRound($round);
+
+        #dd($allDominionStatKeysForRound);
+
         $races = $round->dominions
             ->sortBy('race.name')
             ->pluck('race.name', 'race.id')
@@ -103,13 +108,14 @@ class ChroniclesController extends AbstractController
 
         return view('pages.chronicles.round', [
             'gloryStats' => $gloryStats,
+            'allDominionStatKeysForRound' => $allDominionStatKeysForRound,
             'round' => $round,
             'topLargestDominions' => $topLargestDominions,
 
             'landCalculator' => $landCalculator,
 
             'roundHelper' => $roundHelper,
-            'statsHelper' => app(StatsHelper::class),
+            'statsHelper' => $statsHelper,
         ]);
     }
 

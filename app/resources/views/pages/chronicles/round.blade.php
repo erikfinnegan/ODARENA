@@ -119,7 +119,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                      @foreach($statsHelper->getAllDominionStatKeysForRound($round) as $statKey)
+                      @foreach($allDominionStatKeysForRound as $statKey)
                           @php
                               $result = $statsHelper->getTopDominionForRoundForStat($round, $statKey);
                               $dominion = OpenDominion\Models\Dominion::findOrFail(key($result));

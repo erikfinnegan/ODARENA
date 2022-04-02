@@ -63,9 +63,15 @@ class StatsHelper
     public function getAllDominionStatKeysForRound(Round $round): array
     {
         $statKeys = [];
+        $dominionsIds = [];
         $dominions = $this->roundHelper->getRoundDominions($round, false, true);
 
-        $dominionStats = DominionStat::whereIn('dominion_id', $dominions)->get();
+        foreach($dominions as $dominion)
+        {
+            $dominionsIds[] = $dominion->id;
+        }
+
+        $dominionStats = DominionStat::whereIn('dominion_id', $dominionsIds)->get();
 
         foreach($dominionStats as $key => $dominionStat)
         {
