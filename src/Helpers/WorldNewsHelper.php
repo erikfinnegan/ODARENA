@@ -15,6 +15,7 @@ use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 
 use OpenDominion\Helpers\EventHelper;
 use OpenDominion\Helpers\RaceHelper;
+use OpenDominion\Helpers\RealmHelper;
 
 class WorldNewsHelper
 {
@@ -25,6 +26,7 @@ class WorldNewsHelper
 
         $this->eventHelper = app(EventHelper::class);
         $this->raceHelper = app(RaceHelper::class);
+        $this->realmHelper = app(RealmHelper::class);
     }
 
     public function getWorldNewsString(Dominion $viewer, GameEvent $event): string
@@ -250,6 +252,17 @@ class WorldNewsHelper
 
         # Viewer can see caster if viewer is in same realm as caster, or if viewer is in same realm as target and taret has reveal_ops
 
+        $viewerInvolved = ($caster->realm->id == $viewer->realm->id or $target->realm->id == $viewer->realm->id);
+
+        if(!$viewerInvolved)
+        {
+            return sprintf(
+                '<span class="text-red">%s</span> cast on a dominion in the %s realm.',
+                $spell->name,
+                $this->generateRealmOnlyString($target->realm)
+              );
+        }
+
         $canViewerSeeCaster = false;
         if(($caster->realm->id == $viewer->realm->id) or ($target->realm->id == $viewer->realm->id and $sorcery['data']['target']['reveal_ops']))
         {
@@ -287,20 +300,23 @@ class WorldNewsHelper
             Spies from Birka (#2) stole 256,000 gold from Zigwheni (#2).
         */
 
+        $viewerInvolved = ($thief->realm->id == $viewer->realm->id or $target->realm->id == $viewer->realm->id);
+
+        if(!$viewerInvolved)
+        {
+            return sprintf(
+                'Theft reported in the %s realm.',
+                $this->generateRealmOnlyString($target->realm)
+              );
+        }
+
         if($thief->realm->id == $viewer->realm->id)
         {
             $amountClass = $this->getSpanClass('green');
         }
         else
         {
-            if($target->realm->id == $viewer->realm->id)
-            {
-                $amountClass = $this->getSpanClass('hostile');
-            }
-            else
-            {
-                $amountClass = $this->getSpanClass('other');
-            }
+            $amountClass = $this->getSpanClass('hostile');
         }
 
         $amount = $theft['data']['amount_stolen'];
@@ -322,7 +338,7 @@ class WorldNewsHelper
     {
 
         $string = sprintf(
-            '<a href="%s" <span data-toggle="tooltip" data-placement="top" title="<small class=\'text-muted\'>Range:</small> %s%%<br><small class=\'text-muted\'>Faction:</small> %s<br><small class=\'text-muted\'>Status:</small> %s<br><small class=\'text-muted\'>Units returning:</small> %s" class="%s"> %s <a href="%s">(# %s)</a></span>',
+            '<a href="%s"><span data-toggle="tooltip" data-placement="top" title="<small class=\'text-muted\'>Range:</small> %s%%<br><small class=\'text-muted\'>Faction:</small> %s<br><small class=\'text-muted\'>Status:</small> %s<br><small class=\'text-muted\'>Units returning:</small> %s" class="%s"> %s <a href="%s">(# %s)</a></span>',
             route('dominion.insight.show', [$dominion->id]),
             number_format($this->landCalculator->getTotalLand($dominion)/$this->landCalculator->getTotalLand($viewer)*100,2),
             $dominion->race->name,
@@ -332,6 +348,19 @@ class WorldNewsHelper
             $dominion->name,
             route('dominion.realm', [$dominion->realm->number]),
             $dominion->realm->number
+          );
+
+        return $string;
+    }
+
+    public function generateRealmOnlyString(Realm $realm, $mode = 'other'): string
+    {
+        $string = sprintf(
+            '<a href="%s"><span class="%s">%s</span> (# %s)</a>',
+            route('dominion.realm', [$realm->number]),
+            $this->getSpanClass($mode),
+            $this->realmHelper->getAlignmentAdjective($realm->alignment),
+            $realm->number
           );
 
         return $string;
@@ -356,6 +385,9 @@ class WorldNewsHelper
             case 'barbarian':
             case 'other':
                 return 'text-orange';
+
+            case 'purple':
+                return 'text-purple';
 
             default:
                 return 'text-aqua';
