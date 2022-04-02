@@ -4,10 +4,6 @@ description:
 home_land_type: mountain
 playable: 1
 experimental: 1
-
-attacking: 3
-exploring : 2
-converting: 2
 skill_level: 2
 
 resources:

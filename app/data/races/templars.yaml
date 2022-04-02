@@ -4,10 +4,6 @@ description: >-
   <p>Another off-shoot from Humans, the Templars are a small, pious community taking up residence in the hills.</p>
 home_land_type: hill
 playable: 0
-
-attacking: 3
-exploring : 3
-converting: 3
 skill_level: 2
 
 perks:

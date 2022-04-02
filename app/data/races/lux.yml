@@ -3,10 +3,6 @@ alignment: good
 description:
 home_land_type: water
 playable: 1
-
-attacking: 2
-exploring : 2
-converting: 3
 skill_level: 3
 
 resources:

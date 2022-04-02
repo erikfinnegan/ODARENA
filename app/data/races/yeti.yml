@@ -4,14 +4,10 @@ description: >-
 home_land_type: mountain
 playable: 1
 experimental: 1
+skill_level: 3
 
 peasants_alias: wild yeti
 draftees_alias: yeti
-
-attacking: 2
-exploring : 2
-converting: 2
-skill_level: 3
 
 resources:
   - food

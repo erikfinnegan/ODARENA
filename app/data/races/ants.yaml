@@ -3,6 +3,7 @@ alignment: good
 description:
 home_land_type: forest
 playable: 1
+skill_level: 2
 
 peasants_alias: ant
 draftees_alias: drone
@@ -18,11 +19,6 @@ peasants_production:
 
 improvement_resources:
   lumber: 2.25
-
-attacking: 3
-exploring : 3
-converting: 3
-skill_level: 2
 
 perks:
   construction_cost: -25

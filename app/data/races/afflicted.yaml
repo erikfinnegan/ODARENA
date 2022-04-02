@@ -12,10 +12,6 @@ description: >-
   </ul>
 home_land_type: hill
 playable: 1
-
-attacking: 3
-exploring : 0
-converting: 0
 skill_level: 3
 
 resources:

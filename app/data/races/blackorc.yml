@@ -3,10 +3,6 @@ alignment: evil
 description:
 home_land_type: forest
 playable: 1
-
-attacking: 3
-exploring : 1
-converting: 0
 skill_level: 3
 
 perks:
@@ -57,7 +53,7 @@ units:
     perks:
       defense_from_devotion: urugdakh,0.008,8 # deity_key, perk tick, max
       offense_from_devotion: urugdakh,0.006,6 # deity_key, perk tick, max
-      increases_morale_by_population: 1 #Morale increased by 1% for every 1% of population made up of Immortal Guards.
+      increases_morale_by_population: 1 # Morale increased by 1% for every 1% of population made up of Immortal Guards.
 
   - name: Skull Crusher
     training_time: 12

@@ -5,6 +5,7 @@ description: >-
 home_land_type: mountain
 playable: 1
 experimental: 1
+skill_level: 3
 
 peasants_alias: sinner
 draftees_alias: minion
@@ -12,11 +13,6 @@ draftees_alias: minion
 peasants_production:
   gold: 2.7
   blood: 0.1
-
-attacking: 2
-exploring : 3
-converting: 3
-skill_level: 3
 
 resources:
   - gold

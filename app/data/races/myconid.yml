@@ -4,14 +4,10 @@ description: >-
   <p>Unique building: Mycelia - houses 30 and produces 4 food/tick. Starts with 1,000 Mycelia.</p>
 home_land_type: forest
 playable: 1
+skill_level: 3
 
 peasants_alias: spore
 draftees_alias: sporeling
-
-attacking: 0
-exploring : 2
-converting: 0
-skill_level: 3
 
 resources:
   - food

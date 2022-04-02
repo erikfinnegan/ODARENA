@@ -3,10 +3,6 @@ alignment: evil
 description:
 home_land_type: mountain
 playable: 1
-
-attacking: 3
-exploring : 3
-converting: 2
 skill_level: 2
 
 resources:

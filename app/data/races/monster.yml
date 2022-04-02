@@ -5,10 +5,6 @@ description: >-
 home_land_type: plain
 playable: 0
 experimental: 1
-
-attacking: 3
-exploring : 0
-converting: 1
 skill_level: 3
 
 resources:

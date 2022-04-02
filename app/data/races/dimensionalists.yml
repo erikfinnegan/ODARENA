@@ -5,10 +5,6 @@ description: >-
 home_land_type: swamp
 playable: 1
 experimental: 0
-
-attacking: 1
-exploring : 1
-converting: 2
 skill_level: 3
 
 resources:

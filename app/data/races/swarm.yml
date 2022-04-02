@@ -5,6 +5,7 @@ description: >-
 home_land_type: plain
 playable: 1
 experimental: 0
+skill_level: 2
 
 peasants_alias: larva
 draftees_alias: cocoon
@@ -14,11 +15,6 @@ resources:
   - food
   - gems
   - mana
-
-attacking: 3
-exploring : 2
-converting: 3
-skill_level: 2
 
 peasants_production:
   gold: 2

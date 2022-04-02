@@ -3,10 +3,6 @@ alignment: good
 description:
 home_land_type: mountain
 playable: 0
-
-attacking: 3
-exploring : 2
-converting: 2
 skill_level: 1
 
 resources:

@@ -3,10 +3,6 @@ alignment: evil
 description:
 home_land_type: forest
 playable: 0
-
-attacking: 3
-exploring : 2
-converting: 1
 skill_level: 2
 
 perks:

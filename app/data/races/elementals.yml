@@ -4,14 +4,10 @@ description:
 home_land_type: water
 playable: 0
 experimental: 1
+skill_level: 1
 
 peasants_alias: form
 draftees_alias: entity
-
-attacking: 3
-exploring : 3
-converting: 3
-skill_level: 1
 
 resources:
   - mana

@@ -3,11 +3,7 @@ alignment: good
 description:
 home_land_type: mountain
 playable: 1
-
-attacking: 3
-exploring : 2
-converting: 2
-skill_level: 1
+skill_level: 2
 
 resources:
   - gold
@@ -52,10 +48,10 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1000
-      ore: 100
+      gold: 750
+      ore: 150
     power:
-      offense: 6
+      offense: 0
       defense: 8
     perks:
       reduces_casualties: 1

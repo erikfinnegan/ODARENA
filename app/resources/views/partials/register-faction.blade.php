@@ -36,63 +36,15 @@
                     </colgroup>
                     <tr>
                         <td>
-                            Skill level:
+                            Difficulty:
                         </td>
                         <td>
                             @if($race->skill_level === 1)
-                                <span class="label label-success">Beginner</span>
+                                <span class="label label-success">Comfortable</span>
                             @elseif($race->skill_level === 2)
-                                <span class="label label-warning">Intermediate</span>
+                                <span class="label label-warning">Challenging</span>
                             @elseif($race->skill_level === 3)
                                 <span class="label label-danger">Advanced</span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Attacking:
-                        </td>
-                        <td>
-                            @if($race->attacking === 0)
-                                <i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->attacking === 1)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->attacking === 2)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->attacking === 3)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Converting:
-                        </td>
-                        <td>
-                            @if($race->converting === 0)
-                                <i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->converting === 1)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->converting === 2)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->converting === 3)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Exploring:
-                        </td>
-                        <td>
-                            @if($race->exploring === 0)
-                                <i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->exploring === 1)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-gray"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->exploring === 2)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i><i class="fa fa-star text-gray"></i>
-                            @elseif($race->exploring === 3)
-                                <i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i><i class="fa fa-star text-yellow"></i>
                             @endif
                         </td>
                     </tr>

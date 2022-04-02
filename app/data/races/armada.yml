@@ -3,14 +3,10 @@ alignment: good
 description:
 home_land_type: water
 playable: 1
+skill_level: 2
 
 peasants_alias: civil servant
 draftees_alias: cadet
-
-attacking: 1
-exploring : 2
-converting: 3
-skill_level: 2
 
 perks:
   exchange_bonus: 25

@@ -4,6 +4,7 @@ description: >-
   <p>Unique improvement: Tissue - increases population and food production.</p>
 home_land_type: swamp
 playable: 1
+skill_level: 2
 
 peasants_alias: cell
 draftees_alias: amoeba
@@ -22,11 +23,6 @@ improvement_resources:
 
 peasants_production:
   food: 0.5
-
-attacking: 2
-exploring : 0
-converting: 0
-skill_level: 2
 
 perks:
   population_growth: 200

@@ -4,10 +4,6 @@ description:
 home_land_type: plain
 playable: 1
 experimental: 0
-
-attacking: 3
-exploring : 3
-converting: 3
 skill_level: 1
 
 peasants_production:

@@ -3,6 +3,7 @@ alignment: independent
 description:
 home_land_type: mountain
 playable: 1
+skill_level: 2
 
 peasants_alias: particle
 draftees_alias: shift
@@ -12,11 +13,6 @@ resources:
 
 peasants_production:
   mana: 0.2
-
-attacking: 2
-exploring : 0
-converting: 3
-skill_level: 2
 
 construction_materials:
   - mana

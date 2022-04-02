@@ -3,10 +3,6 @@ alignment: evil
 description:
 home_land_type: swamp
 playable: 1
-
-attacking: 3
-exploring : 2
-converting: 3
 skill_level: 1
 
 peasants_alias: working one
