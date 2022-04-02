@@ -27,6 +27,7 @@ perks:
   does_not_kill: 1
   immortal_spies: 1
   immortal_wizards: 1
+  max_population: 15
 
 units:
   - name: Essence
@@ -85,7 +86,7 @@ units:
       counts_as_spy_defense: 0.06
 
   - name: Pax
-    training_time: 7
+    training_time: 6
     type:
       - living
       - sentient

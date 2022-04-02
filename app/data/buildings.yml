@@ -1285,7 +1285,7 @@ beacon:
     - Lux
   land_type: water
   perks:
-    housing: 30
+    housing: 36
     jobs: 0
 
 cave:
