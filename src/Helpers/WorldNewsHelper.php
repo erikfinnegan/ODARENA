@@ -156,7 +156,7 @@ class WorldNewsHelper
         if($isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
         {
             $spanClass = 'purple';
-            if($target->id == $viewer->id)
+            if($defender->id == $viewer->id)
             {
                 $spanClass = 'red';
             }
