@@ -80,9 +80,6 @@ class StatsHelper
 
         $statKeys = array_unique($statKeys);
 
-        # Sort the dominions by value
-        #asort($statKeys);
-
         return $statKeys;
 
     }
