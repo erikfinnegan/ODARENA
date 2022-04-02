@@ -160,6 +160,10 @@ class WorldNewsHelper
             {
                 $spanClass = 'red';
             }
+            if($attacker->id == $viewer->id)
+            {
+                $spanClass = 'green';
+            }
 
             return sprintf(
                 '%s conquered <strong class="%s">%s</strong> land from %s.',
