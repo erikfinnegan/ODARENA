@@ -311,33 +311,4 @@ class ChroniclesController extends AbstractController
         return null;
     }
 
-    protected function getDominionsByStatistic(Round $round, string $stat)
-    {
-        $builder = $round->dominions()
-            ->with(['realm', 'race', 'user'])
-            ->where($stat, '>', 0);
-
-        return $builder->get()
-            ->map(function (Dominion $dominion) use ($stat) {
-                $data = [
-                    '#' => null,
-                    'dominion' => $dominion->name,
-                    'player' => $dominion->isAbandoned() ? $dominion->ruler_name . ' (abandoned)' : $dominion->user->display_name,
-                    'faction' => $dominion->race->name,
-                    'realm' => $dominion->realm->number,
-                    'value' => $dominion->{$stat},
-                ];
-                return $data;
-            })
-            ->sortByDesc(function ($row) {
-                return $row['value'];
-            })
-            ->take(100)
-            ->values()
-            ->map(function ($row, $key) {
-                $row['#'] = ($key + 1);
-                $row['value'] = number_format($row['value']);
-                return $row;
-            });
-    }
 }

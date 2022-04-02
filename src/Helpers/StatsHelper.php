@@ -72,8 +72,10 @@ class StatsHelper
             $statKeys[] = Stat::where('id',$dominionStat->stat_id)->firstOrFail()->key;
         }
 
+        $statKeys = array_unique($statKeys);
+
         # Sort the dominions by value
-        asort($statKeys);
+        #asort($statKeys);
 
         return $statKeys;
 
