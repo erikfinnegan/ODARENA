@@ -293,7 +293,7 @@
                                     @endforeach
                                     <ul>
                                 </td>
-                                <td class="text-center">{{ $spellData['remaining'] }} / {{ $spellData['duration'] }} ticks</td>
+                                <td class="text-center">{{ $spellData['remaining'] . ' ' . str_plural('tick', $spellData['remaining'])}} </td>
                                 <td class="text-center">{{ $spellData['caster_name'] }} (#{{ $spellData['caster_realm'] }})</td>
                             </tr>
                         @endforeach

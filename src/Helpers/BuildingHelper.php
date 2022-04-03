@@ -54,6 +54,11 @@ class BuildingHelper
             'dimensionalists_unit3_production_raw' => 'Summons %s Ze\'Tk per tick.',
             'dimensionalists_unit4_production_raw' => 'Summons %s Frs\'Kl per tick.',
 
+            'dimensionalists_unit1_production_raw_capped' => 'Summons %1$s Tl\'Tl per tick (with to %2$s%% of your land).',
+            'dimensionalists_unit2_production_raw_capped' => 'Summons %1$s Sft\'Rm per tick (up to %2$s%% of your land).',
+            'dimensionalists_unit3_production_raw_capped' => 'Summons %1$s Ze\'Tk per tick (up to %2$s%% of your land).',
+            'dimensionalists_unit4_production_raw_capped' => 'Summons %1$s Frs\'Kl per tick (up to %2$s%% of your land).',
+
             'dimensionalists_unit1_production_mod' => '%2$s%% Tl\'Tl summoning rate for every %1$s%% (max %3$s%%).',
             'dimensionalists_unit2_production_mod' => '%2$s%% Sft\'Rm summoning rate for every %1$s%% (max %3$s%%).',
             'dimensionalists_unit3_production_mod' => '%2$s%% Ze\'Tk summoning rate for every %1$s%% (max %3$s%%).',

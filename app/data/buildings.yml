@@ -1018,15 +1018,11 @@ portal:
     - Dimensionalists
   land_type: forest
   perks:
-    dimensionalists_unit1_production_raw: 0.1
-    dimensionalists_unit2_production_raw: 0.055
-    dimensionalists_unit3_production_raw: 0.055
-    dimensionalists_unit4_production_raw: 0.022
+    dimensionalists_unit1_production_raw_capped: 0.1,20
+    dimensionalists_unit2_production_raw_capped: 0.055,20
+    dimensionalists_unit3_production_raw_capped: 0.055,20
+    dimensionalists_unit4_production_raw_capped: 0.022,20
     unit_production_from_wizard_ratio: 5
-    dimensionalists_unit1_production_mod: 1,-0.5,50
-    dimensionalists_unit2_production_mod: 1,-0.5,50
-    dimensionalists_unit3_production_mod: 1,-0.5,50
-    dimensionalists_unit4_production_mod: 1,-0.5,50
 
 observatory:
   name: Observatory

@@ -134,6 +134,9 @@ class SorceryHelper
             case 'resource_theft':
                 return 'Resource displacement';
 
+            case 'duration':
+                return 'Duration';
+
             default:
                 return $perkKey;
         }

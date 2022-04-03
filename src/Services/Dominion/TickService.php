@@ -218,7 +218,7 @@ class TickService
                                     'target_type' => Realm::class,
                                     'target_id' => $dominion->realm_id,
                                     'type' => 'round_countdown_duration',
-                                    'data' => ['end_tick' => $endTick],
+                                    'data' => ['end_tick' => $round->end_tick],
                                     'tick' => $dominion->round->ticks
                                 ]);
                                 $dominion->save(['event' => HistoryService::EVENT_ROUND_COUNTDOWN]);
@@ -983,14 +983,15 @@ class TickService
         {
             $raceKey = str_replace(' ', '_', strtolower($dominion->race->name));
             $unitSummoningRaw = $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_production_raw');
+            $unitSummoningRaw += $dominion->getBuildingPerkValue($raceKey . '_unit' . $slot . '_production_raw_capped');
 
             $unitSummoningMultiplier = 1;
             $unitSummoningMultiplier += $dominion->getBuildingPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
             $unitSummoningMultiplier += $dominion->getSpellPerkMultiplier($raceKey . '_unit' . $slot . '_production_mod');
 
-            if($dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
+            if($unitProductionFromWizardRatioPerk = $dominion->getBuildingPerkValue('unit_production_from_wizard_ratio'))
             {
-                $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / 5;
+                $unitSummoningMultiplier += $this->militaryCalculator->getWizardRatio($dominion) / $unitProductionFromWizardRatioPerk;
             }
 
             $unitSummoning = $unitSummoningRaw * $unitSummoningMultiplier;

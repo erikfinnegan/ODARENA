@@ -36,9 +36,6 @@ class WorldNewsHelper
             case 'barbarian_invasion':
                 return $this->generateBarbarianInvasionString($event->source, $event, $viewer);
 
-            case 'countdown':
-                return $this->generateCountdownString($event, $viewer);
-
             case 'deity_completed':
                 return $this->generateDeityCompletedString($event->target, $event->source, $viewer);
 
@@ -53,6 +50,10 @@ class WorldNewsHelper
 
             case 'new_dominion':
                 return $this->generateNewDominionString($event->source, $event->target, $viewer);
+
+            case 'round_countdown_duration':
+            case 'round_countdown':
+                return $this->generateCountdownString($event, $viewer);
 
             case 'sorcery':
                 return $this->generateSorceryString($event->source, $event->target, $event, $viewer);
@@ -83,13 +84,23 @@ class WorldNewsHelper
         return $string;
     }
 
-    public function generateCountdownString(Dominion $dominion, Deity $deity, Dominion $viewer): string
+    public function generateCountdownString(GameEvent $countdown, Dominion $viewer): string
     {
         /*
             Mirnon has accepted the devotion of Dark Elf (#3).
         */
 
-        $deityClass = $this->getSpanClass('other');
+        if(in_array($round->mode, ['standard-duration', 'deathmatch-duration']))
+        {
+
+        }
+
+        if(in_array($round->mode, ['standard', 'deathmatch']))
+        {
+
+        }
+
+        return 'Countdown';
 
         $string = sprintf(
             '<span class="%s">%s</span> has accepted the devotion of %s.',
@@ -209,7 +220,7 @@ class WorldNewsHelper
         if($isAttackerFriendly and !$isDefenderFriendly and $isSuccessful)
         {
             return sprintf(
-                'Victorious in battle, %s conquered <strong class="text-green">%s</strong> land from %s! They also discovered <strong class="text-orange">%s</strong> land.',
+                'Victorious in battle, %s conquered <strong class="text-green">%s</strong> land from %s. They also discovered <strong class="text-orange">%s</strong> land.',
                 $this->generateDominionString($attacker, 'neutral', $viewer),
                 number_format($landConquered),
                 $this->generateDominionString($defender, 'neutral', $viewer),

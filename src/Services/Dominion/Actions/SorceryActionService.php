@@ -207,7 +207,7 @@ class SorceryActionService
                     DB::transaction(function () use ($caster, $target, $spell, $duration)
                     {
                         $dominionSpell = DominionSpell::where('dominion_id', $target->id)->where('spell_id', $spell->id)
-                        ->increment(['duration' => $duration]);
+                        ->increment('duration', $duration);
 
                         $target->save([
                             'event' => HistoryService::EVENT_ACTION_CAST_SPELL,
@@ -561,7 +561,7 @@ class SorceryActionService
                 'action' => $spell->key
             ]);
 
-            dd($this->sorcery, $this->sorceryEvent);
+            #dd($this->sorcery, $this->sorceryEvent);
         });
 
         $this->notificationService->sendNotifications($target, 'irregular_dominion');

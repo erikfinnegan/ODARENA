@@ -19,7 +19,7 @@ class EventController extends AbstractDominionController
 {
     public function index(string $eventUuid)
     {
-        $dominion = $this->getSelectedDominion();
+        $viewer = $this->getSelectedDominion();
         $eventHelper = app(EventHelper::class);
 
         $query = GameEvent::query()
@@ -39,8 +39,11 @@ class EventController extends AbstractDominionController
 
         $event = $query->firstOrFail();
 
-        if(!$eventHelper->canViewEvent($event, $dominion))
+        if(!$eventHelper->canViewEvent($event, $viewer))
         {
+            return redirect()->back()
+                ->withErrors(['You cannot view this event.']);
+
             abort(403);
         }
 
@@ -51,8 +54,8 @@ class EventController extends AbstractDominionController
             'landHelper' => app(LandHelper::class), // todo: same thing here
             'raceHelper' => app(RaceHelper::class), // todo: same thing here
             'sorceryHelper' => app(SorceryHelper::class), // todo: same thing here
-            'canViewSource' => $eventHelper->canViewEventDetails($event, $dominion, 'source'),
-            'canViewTarget' => $eventHelper->canViewEventDetails($event, $dominion, 'target'),
+            'canViewSource' => $eventHelper->canViewEventDetails($event, $viewer, 'source'),
+            'canViewTarget' => $eventHelper->canViewEventDetails($event, $viewer, 'target'),
         ]);
     }
 

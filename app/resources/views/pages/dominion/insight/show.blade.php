@@ -367,7 +367,7 @@
                                         @endforeach
                                         <ul>
                                     </td>
-                                    <td class="text-center">{{ $dominionSpell->duration }} / {{ $spell->duration }} ticks</td>
+                                    <td class="text-center">{{ $dominionSpell->duration . ' ' . str_plural('tick', $dominionSpell->duration)}} </td>
                                     <td class="text-center">
                                         <a href="{{ route('dominion.realm', $caster->realm->number) }}">{{ $caster->name }} (#{{ $caster->realm->number }})</a>
                                     </td>

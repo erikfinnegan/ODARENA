@@ -984,6 +984,23 @@ class Dominion extends AbstractModel
                     $perk += $randomlyGenerated;
                     $perk *= 1 + $this->realm->getArtefactPerkMultiplier($building->land_type . '_buildings_effect');
                 }
+                elseif(
+                          $perkKey == 'dimensionalists_unit1_production_raw_capped' or
+                          $perkKey == 'dimensionalists_unit2_production_raw_capped' or
+                          $perkKey == 'dimensionalists_unit3_production_raw_capped' or
+                          $perkKey == 'dimensionalists_unit4_production_raw_capped'
+                      )
+                {
+                    $perkValues = $this->extractBuildingPerkValues($perkValueString);
+
+                    $unitPerBuilding = (float)$perkValues[0];
+                    $maxBuildingRatio = (float)$perkValues[1] / 100;
+
+                    $availableBuildings = min($building->pivot->owned, floor($landSize * $maxBuildingRatio));
+
+                    $perk += $availableBuildings * $unitPerBuilding;
+                    $perk *= 1 + $this->realm->getArtefactPerkMultiplier($building->land_type . '_buildings_effect');
+                }
                 elseif($perkKey !== 'jobs' and $perkKey !== 'housing')
                 {
                     dd("[Error] Undefined building perk key (\$perkKey): $perkKey");
