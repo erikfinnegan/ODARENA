@@ -801,6 +801,7 @@ class DataSyncCommand extends Command implements CommandInterface
                         'enabled' => object_get($resourceData, 'enabled', 1),
                         'buy' => object_get($resourceData, 'buy', null),
                         'sell' => object_get($resourceData, 'sell', null),
+                        'description' => object_get($resourceData, 'description', 'No description'),
                         'excluded_races' => object_get($resourceData, 'excluded_races', []),
                         'exclusive_races' => object_get($resourceData, 'exclusive_races', []),
                     ]);

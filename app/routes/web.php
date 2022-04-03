@@ -130,7 +130,7 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->get('expedition')->uses('Dominion\ExpeditionController@getExpedition')->name('expedition');
             $router->post('expedition')->uses('Dominion\ExpeditionController@postExpedition');
 
-            // Invade
+            // Artefacts
             $router->get('artefacts')->uses('Dominion\ArtefactsController@getArtefacts')->name('artefacts');
             $router->post('artefacts')->uses('Dominion\ArtefactsController@postArtefacts');
 
@@ -244,6 +244,7 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
     $router->get('improvements')->uses('ScribesController@getImprovements')->name('improvements');
     $router->get('deities')->uses('ScribesController@getDeities')->name('deities');
     $router->get('artefacts')->uses('ScribesController@getArtefacts')->name('artefacts');
+    $router->get('resources')->uses('ScribesController@getResources')->name('resources');
 
     $router->get('{race}')->uses('ScribesController@getRace')->name('faction');
 });

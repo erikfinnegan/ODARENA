@@ -3,13 +3,28 @@ alignment: evil
 description:
 home_land_type: forest
 playable: 1
+experimental: 1
 skill_level: 2
 
 perks:
-  max_population: 20
   food_consumption_mod: 20
   lumber_production_mod: 50
   starts_devoted_to_urugdakh: 1
+
+land_improvements:
+  plain:
+    yak_production_raw: 0.002
+  mountain:
+    yak_production_raw: 0.006
+  swamp:
+    yak_production_raw: 0.001
+  forest:
+    yak_production_raw: 0.002
+  hill:
+    yak_production_raw: 0.004
+  water:
+    yak_production_raw: 0.001
+
 
 units:
   - name: Impaler
@@ -19,13 +34,13 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 480
-      ore: 50
+      gold: 600
+      ore: 80
     power:
-      offense: 3
-      defense: 0
+      offense: 4
+      defense: 2
     perks:
-      offense_from_pairing: 4,2,0.01 # slot, amount, num required
+      offense_from_pairing: 4,2,0.05 # slot, amount, num required
 
   - name: Shieldbearer
     training_time: 9
@@ -34,28 +49,32 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 400
-      ore: 40
+      gold: 600
+      ore: 80
     power:
       offense: 0
-      defense: 3
+      defense: 4
     perks:
-      defense_from_pairing: 4,2,0.01 # slot, amount
+      defense_from_pairing: 4,2,0.05 # slot, amount
 
-  - name: Voodoo Mage
+  - name: Mounted Blade
     training_time: 12
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 1000
+      gold: 2000
+      ore: 400
+      yak: 1
     power:
       offense: 0
       defense: 8
     perks:
-      pairing_limit_including_away: 4,1 # Unit slot, amount - pairing unit does not have to be at home.
-      counts_as_wizard_defense: 0.1
+      offense_from_pairing: 4,20,0.50 # slot, amount, num required
+      defense_from_pairing: 4,8,0.50 # slot, amount, num required
+      dies_into_resource: 0.90,yak
+      sendable_with_zero_op: 1
 
   - name: Warboss
     training_time: 12
@@ -70,7 +89,7 @@ units:
       gems: 1
     power:
       offense: 8
-      defense: 3
+      defense: 8
     perks:
-      offense_from_pairing: 1,2,10 # slot, amount, num required
       reduces_casualties: 1
+      offense_from_pairing: 1,2,20 # slot, amount, num required

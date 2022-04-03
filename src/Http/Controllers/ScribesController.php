@@ -20,15 +20,18 @@ use OpenDominion\Models\Building;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\Resource;
 use OpenDominion\Models\Title;
-use OpenDominion\Helpers\TitleHelper;
-use OpenDominion\Helpers\TechHelper;
 use OpenDominion\Models\Artefact;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\Tech;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Spyop;
 use OpenDominion\Models\Improvement;
+
 use OpenDominion\Helpers\ImprovementHelper;
+use OpenDominion\Helpers\ResourceHelper;
+use OpenDominion\Helpers\TitleHelper;
+use OpenDominion\Helpers\TechHelper;
+
 
 class ScribesController extends AbstractController
 {
@@ -197,6 +200,14 @@ class ScribesController extends AbstractController
         return view('pages.scribes.deities', [
             'deities' => Deity::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'deityHelper' => app(DeityHelper::class),
+        ]);
+    }
+
+    public function getResources()
+    {
+        return view('pages.scribes.resources', [
+            'resources' => Resource::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
+            'resourceHelper' => app(ResourceHelper::class),
         ]);
     }
 

@@ -220,7 +220,8 @@ class WorldNewsHelper
         if($isAttackerFriendly and !$isDefenderFriendly and $isSuccessful)
         {
             return sprintf(
-                'Victorious in battle, %s conquered <strong class="text-green">%s</strong> land from %s. They also discovered <strong class="text-orange">%s</strong> land.',
+                'Victorious in battle, %s %s <strong class="text-green">%s</strong> land from %s and discovered <strong class="text-orange">%s</strong> land.',
+                $this->getVictoryString($invasion['data']['result']['opDpRatio']),
                 $this->generateDominionString($attacker, 'neutral', $viewer),
                 number_format($landConquered),
                 $this->generateDominionString($defender, 'neutral', $viewer),
@@ -457,5 +458,15 @@ class WorldNewsHelper
         }
     }
 
-
+    private function getVictoryString(float $opDpRatio): string
+    {
+        if($opDpRatio >= (1/0.85))
+        {
+            return 'easily conquered';
+        }
+        else
+        {
+            return 'conquered';
+        }
+    }
 }

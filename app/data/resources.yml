@@ -1,35 +1,42 @@
 gold:
   name: Gold
+  description: Whether raw, in ingots, or in coins, gold is the foundation of most dominions' economies.
   buy: 1
   sell: 0.5
 
 food:
   name: Food
+  description: While mostly functioning as a sustenance, some use food for especially exhausting training or even as organic building blocks.
   buy: 0.5
   sell: 0.10
 
 ore:
   name: Ore
+  description: An encompassing term for various stones and metals.
   buy: 1
   sell: 0.5
 
 lumber:
   name: Lumber
+  description: Some obtain it by cutting down trees, whereas gentler creatures collect fallen branches or trees and bushes that have expired.
   buy: 1
   sell: 0.5
 
 mana:
   name: Mana
+  description: Cosmic energy used to weave spells and — by some — conjure magical warriors.
   buy: null
   sell: null
 
 gems:
   name: Gems
+  description: Precious stones of great value. Some have magical properties.
   buy: null
   sell: 2
 
 champion:
   name: Champions
+  description: Precious stones of great value. Some have magical properties.
   buy: null
   sell: null
   exclusive_races:
@@ -37,28 +44,26 @@ champion:
 
 blood:
   name: Blood
+  description: Flowing in the veins of most living creatures, and collected by the most brutal to be used to fashion gruesome improvements and warriors.
   buy: null
   sell: null
-  exclusive_races:
-    - Beastfolk
-    - Demon
 
 soul:
   name: Souls
+  description: Each living being has one. Azk'Hurum collects as many as he can.
   buy: null
   sell: null
-  exclusive_races:
-    - Demon
 
 seed:
   name: Druva's Seedling
+  description: The seed of the tallest and strongest trees.
+  enabled: 0
   buy: null
   sell: null
-  exclusive_races:
-    - Sylvan
 
 pearls:
   name: Pearls
+  description: Gems of the sea, pearls are collected by dwellers of the depths.
   buy: null
   sell: 3
   exclusive_races:
@@ -66,14 +71,13 @@ pearls:
 
 prisoner:
   name: Prisoner
+  description: Captured in war and kept alive only to serve.
   buy: null
   sell: 4
-  exclusive_races:
-    - Dark Elf
-    - Nox
 
 brimmer:
   name: Brimmer
+  description: A thick liquid extracted from ore.
   buy: null
   sell: null
   exclusive_races:
@@ -81,6 +85,7 @@ brimmer:
 
 horse:
   name: Horse
+  description: A fourlegged animal equally strong and loyal.
   buy: null
   sell: 2
   exclusive_races:
@@ -89,6 +94,7 @@ horse:
 
 cosmic_alignment:
   name: Cosmic Alignments
+  description: Starcharts used by Dimensionalist Archmages to plot paths across the cosmos.
   buy: null
   sell: null
   exclusive_races:
@@ -96,6 +102,7 @@ cosmic_alignment:
 
 mud:
   name: Mud
+  description: It's mud.
   buy: 1
   sell: 0.5
   exclusive_races:
@@ -103,6 +110,7 @@ mud:
 
 swamp_gas:
   name: Swamp Gas
+  description: A pungent, greenish gas floating above certain swamps.
   buy: null
   sell: 1
   exclusive_races:
@@ -110,6 +118,7 @@ swamp_gas:
 
 marshling:
   name: Marshling
+  description: A semiconscious entity born out of the strangest swamps.
   buy: null
   sell: null
   exclusive_races:
@@ -117,6 +126,7 @@ marshling:
 
 thunderstone:
   name: Thunderstone
+  description: An extremely rare form of gem, about the size of a closed Dwargen fist, with a purple glimmer and slowly pulsating patterns that fade into black in the middle.
   buy: null
   sell: null
   exclusive_races:
@@ -124,6 +134,15 @@ thunderstone:
 
 miasma:
   name: Miasma
+  description: A foetid vapour emanating from Afflicted mass graves.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Afflicted
+
+yak:
+  name: Yak
+  description: Slower than horses but much stronger.
   buy: null
   sell: null
   exclusive_races:

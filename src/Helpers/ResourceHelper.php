@@ -112,4 +112,9 @@ class ResourceHelper
         return $exclusivityString;
     }
 
+    public function getRacesByResource(Resource $resource): Collection
+    {
+        return Race::where('playable',1)->where('resources', 'LIKE', ('%' . $resource->key .'%'))->get();
+    }
+
 }
