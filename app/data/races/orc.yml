@@ -6,6 +6,15 @@ playable: 1
 experimental: 1
 skill_level: 2
 
+resources:
+  - gold
+  - food
+  - lumber
+  - ore
+  - mana
+  - gems
+  - yak
+
 perks:
   food_consumption_mod: 20
   lumber_production_mod: 50
