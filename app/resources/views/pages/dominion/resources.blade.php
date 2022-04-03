@@ -27,7 +27,9 @@
                                       @endphp
 
                                     <tr>
-                                        <td>{{ $resource->name }}</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $resource->description }}">{{ $resource->name }}</span>
+                                        </td>
                                         <td>
                                             @if ($production = $resourceCalculator->getProduction($selectedDominion, $resourceKey))
                                                 <span data-toggle="tooltip" data-placement="top" title="Raw: {{ number_format($resourceCalculator->getProductionRaw($selectedDominion, $resourceKey)) }}">
