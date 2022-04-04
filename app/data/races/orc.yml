@@ -66,12 +66,13 @@ units:
     perks:
       defense_from_pairing: 4,2,0.05 # slot, amount
 
-  - name: Mounted Blade
+  - name: Doomrider
     training_time: 12
     type:
       - living
       - sentient
       - intelligent
+      - mounted
     cost:
       gold: 2000
       ore: 400
