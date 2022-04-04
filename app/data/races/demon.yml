@@ -76,7 +76,7 @@ units:
       cannot_be_released: 1
       dies_into_resource: 1,soul
       blood_production_raw: 0.70
-      blood_production_raw_from_pairing: 0.70
+      blood_production_raw_from_pairing: 4,0.70
 
   - name: Adjudicator
     training_time: 12
