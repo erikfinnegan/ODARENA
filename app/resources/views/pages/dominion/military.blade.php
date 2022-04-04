@@ -227,6 +227,10 @@
                                                                 $labelParts[] =  number_format($value) . ' miasma';
                                                                 break;
 
+                                                            case 'yak':
+                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('yak', $value);
+                                                                break;
+
                                                             default:
                                                                 break;
                                                             }
