@@ -3,7 +3,7 @@ alignment: independent
 description: >-
 home_land_type: mountain
 playable: 1
-experimental: 1
+experimental: 0
 skill_level: 3
 
 peasants_alias: wild yeti
@@ -82,7 +82,7 @@ units:
       - intelligent
       - wise
     cost:
-      food: 440
+      food: 480
       ore: 300
       lumber: 200
     power:

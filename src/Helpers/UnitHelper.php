@@ -313,16 +313,17 @@ class UnitHelper
             'ore_production_raw' => 'Mines %s ore/tick.',
             'mana_production_raw' => 'Gathers %s mana/tick.',
             'gems_production_raw' => 'Mines %s gems/tick.',
-            'blood_production_raw' => 'Produces %s blood/tick.',
+            'blood_production_raw' => 'Gathers %s blood/tick.',
             'swamp_gas_production_raw' => 'Produces %s swamp gas/tick.',
             'miasma_production_raw' => 'Generates %s miasma/tick.',
 
-            'gold_production_raw_from_pairing' => 'Produces %2$s gold/tick if paired with %1$s.',
-            'food_production_raw_from_pairing' => 'Produces %2$s food/tick if paired with %1$s.',
-            'lumber_production_raw_from_pairing' => 'Gathers %2$s lumber/tick if paired with %1$s.',
-            'ore_production_raw_from_pairing' => 'Mines %2$s ore/tick if paired with %1$s.',
-            'mana_production_raw_from_pairing' => 'Gathers %2$s mana/tick if paired with %1$s.',
-            'gems_production_raw_from_pairing' => 'Mines %2$s gems/tick if paired with %1$s.',
+            'gold_production_raw_from_pairing' => 'Produces %2$s gold/tick if paired with %1$s at home.',
+            'food_production_raw_from_pairing' => 'Produces %2$s food/tick if paired with %1$s at home.',
+            'lumber_production_raw_from_pairing' => 'Gathers %2$s lumber/tick if paired with %1$s at home.',
+            'ore_production_raw_from_pairing' => 'Mines %2$s ore/tick if paired with %1$s at home.',
+            'mana_production_raw_from_pairing' => 'Gathers %2$s mana/tick if paired with %1$s at home.',
+            'gems_production_raw_from_pairing' => 'Mines %2$s gems/tick if paired with %1$s at home.',
+            'blood_production_raw_from_pairing' => 'Gathers %2$s blood/tick if paired with %1$s at home.',
 
             'gold_production_raw_from_building_pairing' => 'Produces %3$s gold/tick if paired %2$s (up to %1$s units per %2$s).',
 
@@ -491,7 +492,8 @@ class UnitHelper
                     $perk->key === 'lumber_production_raw_from_pairing' or
                     $perk->key === 'ore_production_raw_from_pairing' or
                     $perk->key === 'gems_production_raw_from_pairing' or
-                    $perk->key === 'food_production_raw_from_pairing'
+                    $perk->key === 'food_production_raw_from_pairing' or
+                    $perk->key === 'blood_production_raw_from_pairing'
                     )
                 {
                     $slot = (int)$perkValue[0];

@@ -199,10 +199,13 @@ class ResourceCalculator
                   $productionPerPair = (float)$productionFromPairingPerk[1];
 
                   $availablePairingUnits = $dominion->{'military_unit' . $slotPairedWith};
+                  /*
+                  # Only units at home count
                   $availablePairingUnits += $this->queueService->getTrainingQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
                   $availablePairingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
                   $availablePairingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
                   $availablePairingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                  */
 
                   $availableProducingUnit = $dominion->{'military_unit' . $slot};
 
