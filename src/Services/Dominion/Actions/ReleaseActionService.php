@@ -208,7 +208,6 @@ class ReleaseActionService
                 }
             }
 
-
             $troopsReleased[$unitType] = $amount;
         }
 

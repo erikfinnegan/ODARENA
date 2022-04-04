@@ -407,6 +407,29 @@ miasma_salvaged:
 miasma_plundered:
   name: Miasma plundered
 
+yak_production:
+  name: Yak production
+yak_sold:
+  name: Yak sold
+yak_bought:
+  name: Yak bought
+yak_building:
+  name: Yak building
+yak_rezoning:
+  name: Yak rezoning
+yak_training:
+  name: Yak training
+yak_improvements:
+  name: Yak improvements
+yak_exploring:
+  name: Yak exploring
+yak_lost:
+  name: Yak lost
+yak_salvaged:
+  name: Yak salvaged
+yak_plundered:
+  name: Yak plundered
+
 # Land
 
 land_conquered:
