@@ -324,7 +324,7 @@
 
             function calculate() {
                 // Check mana afford
-                var manaAffordRule = parseFloat(sorceryManaCostElement.data('amount')) <= parseFloat(manaAvailableElement.data('amount'));
+                var manaAffordRule = parseFloat(sorceryManaCostElement.data('amount')) > parseFloat(manaAvailableElement.data('amount'));
                 if (manaAffordRule) {
                     sorceryManaCostElement.addClass('text-danger');
                 } else {
