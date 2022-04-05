@@ -25,7 +25,7 @@ class RealmHelper
         }
         else
         {
-            return $string;
+            return $alignment;
         }
     }
 
@@ -37,7 +37,7 @@ class RealmHelper
         }
         else
         {
-            return $this->getAlignmentNoun($string);
+            return $this->getAlignmentNoun($alignment);
         }
 
     }
