@@ -388,9 +388,6 @@ class InvadeActionService
             # Salvage and Plunder
             $this->handleSalvagingAndPlundering($dominion, $target);
 
-            # Growth
-            $this->handleMetabolism($dominion, $target, $landRatio);
-
             # Imperial Crypt
             $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $defensiveConversions);
 
