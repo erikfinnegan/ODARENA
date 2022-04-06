@@ -406,7 +406,7 @@ class WorldNewsHelper
             route('dominion.insight.show', [$dominion->id]),
             number_format($this->landCalculator->getTotalLand($dominion)/$this->landCalculator->getTotalLand($viewer)*100,2),
             $dominion->race->name,
-            (($dominion->realm->id == $viewer->realm->id) or ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration')) ? "<small class='text-green'>Friendly</small>" : "<small class='text-red'>Hostile</small>",
+            (($dominion->realm->id == $viewer->realm->id) or ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration')) ? "<span class='text-green'>Friendly</span>" : "<span class='text-red'>Hostile</span>",
             $this->militaryCalculator->hasReturningUnits($dominion) ? "<span class='text-green'>Yes</span>" : "<span class='text-red'>No</span>",
             $this->getSpanClass($mode),
             $dominion->name,

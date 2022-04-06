@@ -89,7 +89,7 @@ class ImprovementHelper
             'theft_protection' => 'theft protection (affects buildings that reduce theft, otherwise no effect)',
             'amount_stolen' => 'amount stolen',
 
-            'unit_pairing' => 'unit pairing',
+            'unit_pairing' => 'unit limit pairing',
 
             'improvement_points' => 'improvement points value from investments',
 
