@@ -388,9 +388,6 @@ class ArtefactActionService
             # Salvage and Plunder
             $this->handleSalvagingAndPlundering($dominion, $target);
 
-            # Growth
-            $this->handleMetabolism($dominion, $target, $landRatio);
-
             # Imperial Crypt
             $this->handleCrypt($dominion, $target, $this->invasionResult['attacker']['survivingUnits'], $offensiveConversions, $defensiveConversions);
 
@@ -2601,101 +2598,6 @@ class ArtefactActionService
 
         }
 
-    }
-
-    /**
-     * Handles eating of units by Growth when Metabolism is active.
-     *
-     * @param Dominion $attacker
-     * @param Dominion $defender
-     */
-    protected function handleMetabolism(Dominion $attacker, Dominion $defender, float $landRatio): void
-    {
-        $food = 0;
-
-        $uneatableUnitAttributes = [
-          'ammunition',
-          'equipment',
-          'magical',
-          'machine',
-        ];
-
-        # Eat defensive casualties
-        if ($this->spellCalculator->getPassiveSpellPerkValue($attacker, 'convert_enemy_casualties_to_food'))
-        {
-                $dpFromEatenUnits = 0;
-                $unitsEaten = array_fill(1, 4, 0);
-
-                foreach($this->invasionResult['defender']['unitsLost'] as $slot => $amount)
-                {
-                    if($slot === 'draftees')
-                    {
-                        $unitsEaten[$slot] = $amount;
-                    }
-                    else
-                    {
-                        # Get the $unit
-                        $unit = $defender->race->units->filter(function ($unit) use ($slot) {
-                                return ($unit->slot == $slot);
-                            })->first();
-
-                        # Get the unit attributes
-                        $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-
-                        if(count(array_intersect($uneatableUnitAttributes, $unitAttributes)) === 0)
-                        {
-                            $unitsEaten[$slot] = $amount;
-                        }
-                    }
-                }
-
-                $dpFromKilledUnits = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsEaten, 0, false, $this->isAmbush, true);
-
-                $food += $dpFromEatenUnits * 8;
-
-                $this->invasionResult['attacker']['metabolism']['unitsEaten'] = $unitsEaten;
-                $this->invasionResult['attacker']['metabolism']['dpFromUnitsEaten'] = $dpFromEatenUnits;
-                $this->invasionResult['attacker']['metabolism']['food'] = $food;
-
-                $this->queueService->queueResources(
-                    'invasion',
-                    $attacker,
-                    [
-                        'resource_food' => $food,
-                    ]
-                );
-          }
-          # Eat offensive casualties
-          elseif ($this->spellCalculator->getPassiveSpellPerkValue($defender, 'convert_enemy_casualties_to_food'))
-          {
-              $unitsKilled = array_fill(1, 4, 0);
-
-              foreach($this->invasionResult['attacker']['unitsLost'] as $slot => $amount)
-              {
-                  # Get the $unit
-                  $unit = $attacker->race->units->filter(function ($unit) use ($slot) {
-                          return ($unit->slot == $slot);
-                      })->first();
-
-                  # Get the unit attributes
-                  $unitAttributes = $this->unitHelper->getUnitAttributes($unit);
-
-                  if(count(array_intersect($uneatableUnitAttributes, $unitAttributes)) === 0)
-                  {
-                      $unitsEaten[$slot] = $amount;
-                  }
-              }
-
-              $opFromKilledEaten = $this->militaryCalculator->getDefensivePowerRaw($defender, $attacker, $landRatio, $unitsEaten, 0, false, $this->isAmbush, true);
-
-              $food += $opFromKilledEaten * 8;
-
-              $this->invasionResult['attacker']['metabolism']['unitsEaten'] = $unitsEaten;
-              $this->invasionResult['attacker']['metabolism']['opFromUnitsEaten'] = $opFromKilledEaten;
-              $this->invasionResult['attacker']['metabolism']['food'] = $food;
-
-              $this->resourceService->updateResources($defender, ['food' => $food]);
-          }
     }
 
     /**
