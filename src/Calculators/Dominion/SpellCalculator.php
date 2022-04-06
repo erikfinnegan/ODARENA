@@ -265,9 +265,6 @@ class SpellCalculator
 
             # Dominion must not be in protection
             or ($dominion->isUnderProtection() and $spell->scope !== 'self')
-
-            # Must not be a non-information hostile spell within the first day or after offensive actions are disabled
-            or ($spell->scope == 'hostile' and $spell->class !== 'info' and ((now()->diffInDays($dominion->round->start_date) < 1) or $dominion->round->hasOffensiveActionsDisabled()))
           )
         {
             return false;
