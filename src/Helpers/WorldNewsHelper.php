@@ -12,6 +12,7 @@ use OpenDominion\Models\Spell;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\RangeCalculator;
 
 use OpenDominion\Helpers\EventHelper;
 use OpenDominion\Helpers\RaceHelper;
@@ -23,6 +24,7 @@ class WorldNewsHelper
     {
         $this->landCalculator = app(LandCalculator::class);
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->rangeCalculator = app(RangeCalculator::class);
 
         $this->eventHelper = app(EventHelper::class);
         $this->raceHelper = app(RaceHelper::class);
@@ -402,8 +404,9 @@ class WorldNewsHelper
     {
 
         $string = sprintf(
-            '<a href="%s"><span data-toggle="tooltip" data-placement="top" title="<small class=\'text-muted\'>Range:</small> %s%%<br><small class=\'text-muted\'>Faction:</small> %s<br><small class=\'text-muted\'>Status:</small> %s<br><small class=\'text-muted\'>Units returning:</small> %s" class="%s"> %s <a href="%s">(# %s)</a></span>',
+            '<a href="%s"><span data-toggle="tooltip" data-placement="top" title="<small class=\'text-muted\'>Range:</small> <span class=\'%s\'>%s%%</span><br><small class=\'text-muted\'>Faction:</small> %s<br><small class=\'text-muted\'>Status:</small> %s<br><small class=\'text-muted\'>Units returning:</small> %s" class="%s"> %s <a href="%s">(# %s)</a></span>',
             route('dominion.insight.show', [$dominion->id]),
+            $this->rangeCalculator->isInRange($viewer, $dominion) ? "text-green" : "text-red",
             number_format($this->landCalculator->getTotalLand($dominion)/$this->landCalculator->getTotalLand($viewer)*100,2),
             $dominion->race->name,
             (($dominion->realm->id == $viewer->realm->id) or ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration')) ? "<span class='text-green'>Friendly</span>" : "<span class='text-red'>Hostile</span>",
