@@ -213,11 +213,11 @@
                             </tr>
                             <tr>
                                 <td>Wizards:</td>
-                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($dominion, 'wizards') }}</td>
+                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($dominion, 'wizards')) }}</td>
                             </tr>
                             <tr>
                                 <td>ArchMages:</td>
-                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($dominion, 'archmages') }}</td>
+                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($dominion, 'archmages')) }}</td>
                             </tr>
                         </tbody>
                     </table>
