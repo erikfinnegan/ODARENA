@@ -269,14 +269,12 @@
                         <col width="150">
                         <col>
                         <col width="100">
-                        <col width="200">
                     </colgroup>
                     <thead>
                         <tr>
                             <th>Spell</th>
                             <th>Effect</th>
                             <th class="text-center">Duration</th>
-                            <th class="text-center">Cast By</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -294,7 +292,6 @@
                                     <ul>
                                 </td>
                                 <td class="text-center">{{ $spellData['remaining'] . ' ' . str_plural('tick', $spellData['remaining'])}} </td>
-                                <td class="text-center">{{ $spellData['caster_name'] }} (#{{ $spellData['caster_realm'] }})</td>
                             </tr>
                         @endforeach
                     </tbody>

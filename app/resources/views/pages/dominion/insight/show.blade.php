@@ -341,14 +341,12 @@
                         <col width="150">
                         <col>
                         <col width="100">
-                        <col width="200">
                     </colgroup>
                     <thead>
                         <tr>
                             <th>Spell</th>
                             <th>Effect</th>
                             <th class="text-center">Duration</th>
-                            <th class="text-center">Cast By</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -368,9 +366,6 @@
                                         <ul>
                                     </td>
                                     <td class="text-center">{{ $dominionSpell->duration . ' ' . str_plural('tick', $dominionSpell->duration)}} </td>
-                                    <td class="text-center">
-                                        <a href="{{ route('dominion.realm', $caster->realm->number) }}">{{ $caster->name }} (#{{ $caster->realm->number }})</a>
-                                    </td>
                                 </tr>
                             @endif
                         @endforeach
