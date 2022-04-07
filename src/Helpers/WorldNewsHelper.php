@@ -271,7 +271,7 @@ class WorldNewsHelper
         }
 
         # Hostile attacker unsuccessful against hostile defender
-        if(!$isAttackerFriendly and !$isDefenderFriendly and $isSuccessful)
+        if(!$isAttackerFriendly and !$isDefenderFriendly and !$isSuccessful)
         {
             return sprintf(
                 '%s fended off an attack by %s.',
