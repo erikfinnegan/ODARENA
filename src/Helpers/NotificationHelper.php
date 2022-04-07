@@ -516,9 +516,6 @@ class NotificationHelper
 
             case 'irregular_dominion.received_invasion':
                 $attackerDominion = Dominion::with('realm')->findOrFail($data['attackerDominionId']);
-
-                dd($data);
-
                 return sprintf(
                     'An army from %s (#%s) invaded our lands, conquering %s acres of land! We lost %s units during the battle.',
                     $attackerDominion->name,
