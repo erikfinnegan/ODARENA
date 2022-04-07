@@ -50,6 +50,9 @@ class WorldNewsHelper
             case 'invasion':
                 return $this->generateInvasionString($event->source, $event->target, $event, $viewer);
 
+            case 'invasion_support':
+                return $this->generateInvasionSupportString($event->source, $event->target, $event, $viewer);
+
             case 'new_dominion':
                 return $this->generateNewDominionString($event->source, $event->target, $viewer);
 
@@ -170,6 +173,15 @@ class WorldNewsHelper
           );
 
         return $string;
+    }
+
+    public function generateInvasionSupportString(Dominion $supporter, Dominion $legion, GameEvent $invasion, Dominion $viewer): string
+    {
+        return sprintf(
+            'Forces from %s rushed to aid the Legion army of %s.',
+            $this->generateDominionString($supporter, 'neutral', $viewer),
+            $this->generateDominionString($legion, 'neutral', $viewer)
+          );
     }
 
     public function generateInvasionString(Dominion $attacker, Dominion $defender, GameEvent $invasion, Dominion $viewer): string
