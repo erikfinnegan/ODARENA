@@ -115,18 +115,18 @@
                                         <th>Duration</th>
                                         <th></th>
                                     </tr>
-                                @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
+                                    @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
                                         <tr>
                                             <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->caster->id]) }}">{{ $activePassiveSpellCast->caster->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->caster->realm->number }})</a></td>
                                             <td>{{ $activePassiveSpellCast->spell->name }}</td>
-                                            <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
+                                            <td>{{ $activePassiveSpellCast->duration . ' ' . str_plural('tick', $activePassiveSpellCast->duration)}}</td>
                                             <td>
                                                 @if($activePassiveSpellCast->spell->class !== 'invasion')
                                                     <form action="{{ route('dominion.offensive-ops') }}" method="post" role="form">
                                                         @csrf
                                                         <input type="hidden" name="type" value="break_spell">
                                                         <input type="hidden" name="operation" value="{{ $activePassiveSpellCast->spell->key }}">
-                                                        <span data-toggle="tooltip" data-placement="top" title="Try to break this spell<br><ul><li>Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $spell->key)) }}</li><li>Wizard Strength: 5%</li></ul>">
+                                                        <span data-toggle="tooltip" data-placement="top" title="Try to break this spell<br><ul><li>Mana: {{ number_format($spellCalculator->getManaCost($selectedDominion, $activePassiveSpellCast->key)) }}</li><li>Wizard Strength: 5%</li></ul>">
                                                             <button type="submit" class="btn btn-danger btn-block">
                                                                 <i class="ra ra-explosive-materials"></i>
                                                             </button>
@@ -135,7 +135,7 @@
                                                 @endif
                                             </td>
                                         </tr>
-                                @endforeach
+                                    @endforeach
                                 </table>
 
                         </div>
