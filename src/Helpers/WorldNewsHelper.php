@@ -223,8 +223,8 @@ class WorldNewsHelper
         {
             return sprintf(
                 'Victorious in battle, %s %s <strong class="text-green">%s</strong> land from %s and discovered <strong class="text-orange">%s</strong> land.',
-                $this->getVictoryString($invasion['data']['result']['opDpRatio']),
                 $this->generateDominionString($attacker, 'neutral', $viewer),
+                $this->getVictoryString($invasion['data']['result']['opDpRatio']),
                 number_format($landConquered),
                 $this->generateDominionString($defender, 'neutral', $viewer),
                 number_format($landDiscovered)
