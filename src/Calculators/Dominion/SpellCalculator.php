@@ -133,16 +133,18 @@ class SpellCalculator
 
     public function getPassiveSpellsCastOnDominion(Dominion $dominion, string $scope = null)#: Collection
     {
+        /*
         if($scope)
         {
             return collect(
                   DominionSpell::query()
-                      ->join('spells', 'dominion_spells.spell_id','spells.id')
+                      ->rightjoin('spells', 'dominion_spells.spell_id','spells.id')
                       ->where('dominion_spells.dominion_id',$dominion->id)
                       ->where('spells.scope',$scope)
                       ->get()
             );
         }
+        */
 
         return collect(DominionSpell::where('dominion_id',$dominion->id)->get());
     }
