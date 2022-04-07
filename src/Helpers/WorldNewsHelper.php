@@ -236,7 +236,7 @@ class WorldNewsHelper
             return sprintf(
                 'Victorious in battle, %s %s <strong class="text-green">%s</strong> land from %s and discovered <strong class="text-orange">%s</strong> land.',
                 $this->generateDominionString($attacker, 'neutral', $viewer),
-                $this->getVictoryString($invasion['data']['result']['opDpRatio']),
+                $this->getVictoryString($invasion),
                 number_format($landConquered),
                 $this->generateDominionString($defender, 'neutral', $viewer),
                 number_format($landDiscovered)
@@ -473,15 +473,29 @@ class WorldNewsHelper
         }
     }
 
-    private function getVictoryString(float $opDpRatio): string
+    private function getVictoryString(GameEvent $invasion): string
     {
-        if($opDpRatio >= (1/0.85))
+
+        if(isset($invasion['data']['result']['annexation']) and $invasion['data']['result']['annexation'])
+        {
+            return 'annexed and conquered';
+        }
+
+        if(isset($invasion['data']['attacker']['liberation']) and $invasion['data']['attacker']['liberation'])
+        {
+            return 'liberated and conquered';
+        }
+
+        if(isset($invasion['data']['result']['isAmbush']) and $invasion['data']['result']['isAmbush'])
+        {
+            return 'ambushed and conquered';
+        }
+
+        if($invasion['data']['result']['opDpRatio'] >= (1/0.85))
         {
             return 'easily conquered';
         }
-        else
-        {
-            return 'conquered';
-        }
+
+        return 'conquered';
     }
 }

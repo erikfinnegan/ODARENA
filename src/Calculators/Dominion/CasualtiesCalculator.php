@@ -521,7 +521,7 @@ class CasualtiesCalculator
                         $multiplier += ($amount * $unitOp) / $rawOp;
                     }
 
-                    dump('Check if ' . $enemy->name . ' ' . $attackingUnit->name . ' can kill our ' . $unit->name .'. Min OP to kill: ' . $minPowerToKill . '. Enemy unit has: ' . $unitOp);
+                    #dump('Check if ' . $enemy->name . ' ' . $attackingUnit->name . ' can kill our ' . $unit->name .'. Min OP to kill: ' . $minPowerToKill . '. Enemy unit has: ' . $unitOp);
                 }
             }
         }

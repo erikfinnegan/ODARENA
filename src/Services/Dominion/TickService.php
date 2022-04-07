@@ -254,7 +254,7 @@ class TickService
                         # For indefinite rounds, create a countdown.
                         if($round->mode == 'artefacts')
                         {
-                            dd('uhhh...');
+                        #    dd('uhhh...');
                         }
                     }
                 }
