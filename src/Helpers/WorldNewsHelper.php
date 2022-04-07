@@ -275,8 +275,8 @@ class WorldNewsHelper
         {
             return sprintf(
                 '%s fended off an attack by %s.',
-                $this->generateDominionString($attacker, 'neutral', $viewer),
-                $this->generateDominionString($defender, 'neutral', $viewer)
+                $this->generateDominionString($defender, 'neutral', $viewer),
+                $this->generateDominionString($attacker, 'neutral', $viewer)
               );
         }
 
