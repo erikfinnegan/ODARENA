@@ -51,9 +51,9 @@
                                                   $improvementMaxMultiplier += $selectedDominion->getTechPerkMultiplier('improvements');
                                                   $improvementMaxMultiplier += $selectedDominion->getDeityPerkMultiplier('improvements');
                                                   $improvementMaxMultiplier += $selectedDominion->getSpellPerkMultiplier('improvements');
-                                                  $improvementMaxMultiplier += $selectedDominion->race->getPerkMultiplier('improvements_max'));
+                                                  $improvementMaxMultiplier += $selectedDominion->race->getPerkMultiplier('improvements_max');
                                                   $improvementPerkMax *= $improvementMaxMultiplier;
-                                                  
+
                                                   $improvementPerkCoefficient = $selectedDominion->extractImprovementPerkValues($perk->pivot->value)[1];
 
                                                   $spanClass = 'text-muted';
