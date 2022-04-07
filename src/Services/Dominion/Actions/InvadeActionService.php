@@ -410,12 +410,6 @@ class InvadeActionService
                 $this->statsService->updateStat($target, 'defense_success', 1);
             }
 
-            # Debug before saving:
-            if(request()->getHost() === 'odarena.local')
-            {
-                dd($this->invasionResult);
-            }
-
             # LEGION ANNEX SUPPORT EVENTS
             $legion = null;
             if($this->spellCalculator->hasAnnexedDominions($dominion))
@@ -505,6 +499,12 @@ class InvadeActionService
                     'attackerWasOverwhelmed' => $this->invasionResult['result']['overwhelmed'],
                     'unitsLost' => $this->invasionResult['defender']['unitsLost'],
                 ]);
+            }
+
+            # Debug before saving:
+            if(request()->getHost() === 'odarena.local')
+            {
+                dd($this->invasionResult);
             }
 
             $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
