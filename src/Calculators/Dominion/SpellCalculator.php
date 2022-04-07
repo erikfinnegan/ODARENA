@@ -146,7 +146,7 @@ class SpellCalculator
         }
         */
 
-        return collect(DominionSpell::where('dominion_id',$dominion->id)->get());
+        return collect(DominionSpell::where('dominion_id',$dominion->id)->where('caster_id','!=',$dominion->id)->get());
     }
 
     /**
