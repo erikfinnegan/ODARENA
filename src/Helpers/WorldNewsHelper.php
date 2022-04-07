@@ -178,7 +178,7 @@ class WorldNewsHelper
     public function generateInvasionSupportString(Dominion $supporter, Dominion $legion, GameEvent $invasion, Dominion $viewer): string
     {
         return sprintf(
-            'Forces from %s rushed to aid the Legion army of %s.',
+            'Forces from %s rushed to aid the Legion, %s.',
             $this->generateDominionString($supporter, 'neutral', $viewer),
             $this->generateDominionString($legion, 'neutral', $viewer)
           );
