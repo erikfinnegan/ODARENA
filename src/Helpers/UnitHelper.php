@@ -239,7 +239,7 @@ class UnitHelper
             'casualties_on_fending_off' => '%s%% casualties when successfully fending off an invasion.',
 
             'fixed_casualties' => 'Always suffers %s%% casualties.',
-            'fewer_casualties_from_title' => '%2$s%% fewer casualties if ruled by a %1$s.',
+            'casualties_from_title' => '%2$s%% fewer casualties if ruled by a %1$s.',
 
             'immortal' => 'Immortal in combat.',
             'true_immortal' => 'Immortal in combat.',
