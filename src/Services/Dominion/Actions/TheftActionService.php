@@ -125,7 +125,7 @@ class TheftActionService
 
             if($target->race->getPerkValue('no_' . $resource->key .'_theft'))
             {
-                throw new GameException('Cannot steal ' . $resource->name . ' from ' . $thief->race->name . '.');
+                throw new GameException('Cannot steal ' . $resource->name . ' from ' . $target->race->name . '.');
             }
 
             foreach($units as $slot => $amount)
