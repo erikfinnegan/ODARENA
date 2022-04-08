@@ -291,8 +291,6 @@ class CasualtiesCalculator
             $multiplier += $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'casualties_on_victory') / 100;
         }
 
-        dump($unit->name . '[' . $unit->slot . ']:' . $multiplier);
-
         return $multiplier;
     }
 
