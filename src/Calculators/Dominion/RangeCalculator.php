@@ -32,12 +32,16 @@ class RangeCalculator
      */
     public function __construct(
         LandCalculator $landCalculator,
-        ProtectionService $protectionService,
-        MilitaryCalculator $militaryCalculator
+        MilitaryCalculator $militaryCalculator,
+        SpellCalculator $spellCalculator,
+
+        ProtectionService $protectionService
     ) {
         $this->landCalculator = $landCalculator;
-        $this->protectionService = $protectionService;
         $this->militaryCalculator = $militaryCalculator;
+        $this->spellCalculator = $spellCalculator;
+
+        $this->protectionService = $protectionService;
     }
 
     /**
@@ -55,16 +59,23 @@ class RangeCalculator
         $selfModifier = $this->getRangeModifier($self);
         $targetModifier = $this->getRangeModifier($target, true);
 
+        if ($this->spellCalculator->isAnnexed($target) and $self->realm->alignment == 'evil')
+        {
+            return false;
+        }
+
         return (
-          (
-            ($targetLand >= ($selfLand * $selfModifier)) &&
-            ($targetLand <= ($selfLand / $selfModifier)) &&
-            ($selfLand >= ($targetLand * $targetModifier)) &&
-            ($selfLand <= ($targetLand / $targetModifier))
-          )
+            (
+              ($targetLand >= ($selfLand * $selfModifier)) &&
+              ($targetLand <= ($selfLand / $selfModifier)) &&
+              ($selfLand >= ($targetLand * $targetModifier)) &&
+              ($selfLand <= ($targetLand / $targetModifier))
+            )
 
             # Or was recently invaded by the target in the last three hours.
             or $this->militaryCalculator->getRecentlyInvadedCountByAttacker($self, $target, static::RECENTLY_INVADED_GRACE_PERIOD_TICKS)
+
+
         );
     }
 
@@ -129,10 +140,8 @@ class RangeCalculator
         {
             return $dominion->getPendingDeitySubmission()->range_multiplier;
         }
-        else
-        {
-            return 0.4;
-        }
+
+        return 0.4;
     }
 
     /**
