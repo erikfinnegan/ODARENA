@@ -303,6 +303,12 @@ class TheftActionService
 
             $thief->most_recent_theft_resource = $resource->key;
 
+            # Debug before saving:
+            if(request()->getHost() === 'odarena.local')
+            {
+                dd($this->theft);
+            }
+
             $target->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
             $thief->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
 

@@ -45,11 +45,12 @@ class TheftCalculator
         $resourceAvailableAmount = $resourceAvailableAmount - $this->getTheftProtection($target, $resource->key);
         $resourceAvailableAmount = max(0, $resourceAvailableAmount);
 
+        $maxAmountStolen = 0;
         foreach($units as $unitSlot => $amount)
         {
-            $maxPerSpy = $this->getMaxCarryPerSpyForResource($thief, $resource, $unitSlot);
+            $maxPerSpyUnit = $this->getMaxCarryPerSpyForResource($thief, $resource, $unitSlot);
 
-            $maxAmountStolen = $maxPerSpy * $amount;
+            $maxAmountStolen += $maxPerSpyUnit * $amount;
         }
 
 
