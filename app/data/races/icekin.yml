@@ -99,5 +99,5 @@ units:
       offense_from_title: commander,2 # title, op
       offense_from_wizard_ratio: 1
       plunder: mana,20
-      casualties_from_title: conjurer,50 # title, reduction
+      casualties_from_title: conjurer,-50 # title, reduction
       no_draftee: 1
