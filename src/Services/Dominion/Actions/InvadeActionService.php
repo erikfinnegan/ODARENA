@@ -695,15 +695,17 @@ class InvadeActionService
         {
             foreach ($this->invasionResult['defender']['unitsLost'] as $slot => $amount)
             {
-                $dominion->{"military_unit{$slot}"} -= $amount;
+
                 $this->invasionResult['defender']['survivingUnits'][$slot] = $this->invasionResult['defender']['unitsDefending'][$slot] - $this->invasionResult['defender']['unitsLost'][$slot];
 
                 if(in_array($slot,[1,2,3,4]))
                 {
+                    $dominion->{"military_unit{$slot}"} -= $amount;
                     $this->statsService->updateStat($dominion, ('unit' . $slot . '_lost'), $amount);
                 }
                 else
                 {
+                    $dominion->{"military_{$slot}"} -= $amount;
                     $this->statsService->updateStat($dominion, ($slot . '_lost'), $amount);
                 }
             }
