@@ -349,11 +349,11 @@ class WorldNewsHelper
 
         if($viewer->realm->id == $caster->realm->id)
         {
-            $spellSpanClass = $this->getSpanClass('friendly');
+            $spellSpanClass = $this->getSpanClass('green');
         }
         elseif($viewer->realm->id == $target->realm->id)
         {
-            $spellSpanClass = $this->getSpanClass('green');
+            $spellSpanClass = $this->getSpanClass('hostile');
         }
         else
         {
