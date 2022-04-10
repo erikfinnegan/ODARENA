@@ -116,7 +116,7 @@
                                     </tr>
                                     @foreach($spellCalculator->getPassiveSpellsCastOnDominion($selectedDominion, 'hostile') as $activePassiveSpellCast)
                                         <tr>
-                                            <td><a href="{{ route('dominion.insight.show', [$activePassiveSpellCast->caster->id]) }}">{{ $activePassiveSpellCast->caster->name }}&nbsp;(#&nbsp;{{ $activePassiveSpellCast->caster->realm->number }})</a></td>
+                                            <td>{{ $activePassiveSpellCast->spell->name }}</td>
                                             <td>{{ $activePassiveSpellCast->duration . ' ' . str_plural('tick', $activePassiveSpellCast->duration)}}</td>
                                             <td>
                                                 @if($activePassiveSpellCast->spell->class !== 'invasion')
