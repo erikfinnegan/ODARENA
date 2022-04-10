@@ -95,7 +95,7 @@
 
                     @foreach($spells as $spell)
                         @php
-                            $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
+                            $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell, $resourceCalculator->getAmount($selectedDominion, 'mana'));
                         @endphp
                         <div class="col-md-{{ $bootstrapColWidth }}">
                             <label class="btn btn-block">

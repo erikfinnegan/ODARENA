@@ -30,7 +30,7 @@
                                       </colgroup>
                                     @foreach($selfSpells as $spell)
                                         @php
-                                            $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
+                                            $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell, $resourceCalculator->getAmount($selectedDominion, 'mana'));
                                             $isActive = $spellCalculator->isSpellActive($selectedDominion, $spell->key);
                                             $buttonStyle = ($isActive ? 'btn-success' : 'btn-primary');
                                         @endphp
@@ -98,7 +98,7 @@
                                           @foreach ($spells as $spell)
                                               @if($spellCalculator->isSpellAvailableToDominion($selectedDominion, $spell))
                                                   @php
-                                                      $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell);
+                                                      $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell, $resourceCalculator->getAmount($selectedDominion, 'mana'));
                                                   @endphp
                                                   <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 text-center">
                                                       <div class="form-group">

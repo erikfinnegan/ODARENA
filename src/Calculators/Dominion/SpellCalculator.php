@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 use OpenDominion\Helpers\SpellHelper;
 
-use OpenDominion\Calculators\Dominion\ResourceCalculator;
+#use OpenDominion\Calculators\Dominion\ResourceCalculator;
 
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\DominionSpell;
@@ -21,7 +21,7 @@ class SpellCalculator
     public function __construct()
     {
         $this->landCalculator = app(LandCalculator::class);
-        $this->resourceCalculator = app(ResourceCalculator::class);
+        #$this->resourceCalculator = app(ResourceCalculator::class);
         $this->spellHelper = app(SpellHelper::class);
     }
 
@@ -239,11 +239,17 @@ class SpellCalculator
         return $isAvailable;
     }
 
-    public function canCastSpell(Dominion $dominion, Spell $spell): bool
+    public function canCastSpell(Dominion $dominion, Spell $spell, ?int $manaOwned = NULL): bool
     {
         if($spell->class === 'invasion')
         {
             return true;
+        }
+
+        # This way because calling the resource calculator here breaks the resource calculator (circular reference).
+        if(isset($manaOwned) and ($this->getManaCost($dominion, $spell->key) > $manaOwned) or $manaOwned == 0)
+        {
+            return false;
         }
 
         if(
@@ -252,9 +258,6 @@ class SpellCalculator
 
             # Cannot cast disabled spells
             or $spell->enabled !== 1
-
-            # Cannot cost more mana than the dominion has
-            or $this->resourceCalculator->getAmount($dominion, 'mana') < $this->getManaCost($dominion, $spell->key)
 
             # Cannot cost more WS than the dominion has
             or ($dominion->wizard_strength - $this->getWizardStrengthCost($spell)) < 0

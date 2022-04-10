@@ -116,7 +116,7 @@ class SpellActionService
             throw new LogicException("Spell {$spell->name} is not enabled.");
         }
 
-        if (!$this->spellCalculator->canCastSpell($dominion, $spell))
+        if (!$this->spellCalculator->canCastSpell($dominion, $spell, $this->resourceCalculator->getAmount($caster, 'mana')))
         {
             throw new GameException("You are not able to cast {$spell->name}.");
         }

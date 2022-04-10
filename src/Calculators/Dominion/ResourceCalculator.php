@@ -17,6 +17,7 @@ use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\PrestigeCalculator;
+use OpenDominion\Calculators\Dominion\SpellCalculator;
 
 use OpenDominion\Services\Dominion\QueueService;
 
@@ -29,6 +30,7 @@ class ResourceCalculator
     protected $landCalculator;
     protected $landImprovementsCalculator;
     protected $prestigeCalculator;
+    protected $SpellCalculator;
     protected $queueService;
 
     public function __construct(
@@ -40,6 +42,7 @@ class ResourceCalculator
           LandCalculator $landCalculator,
           LandImprovementCalculator $landImprovementCalculator,
           PrestigeCalculator $prestigeCalculator,
+          SpellCalculator $spellCalculator,
 
           QueueService $queueService
         )
@@ -51,6 +54,7 @@ class ResourceCalculator
         $this->landCalculator = $landCalculator;
         $this->landImprovementCalculator = $landImprovementCalculator;
         $this->prestigeCalculator = $prestigeCalculator;
+        $this->spellCalculator = $spellCalculator;
 
         $this->queueService = $queueService;
     }
@@ -134,6 +138,15 @@ class ResourceCalculator
             else
             {
                 $production += $this->getPopulationEmployed($dominion) * $productionPerPeasant;
+            }
+
+            # Legion: annexed peasants
+            if($this->spellCalculator->hasAnnexedDominions($dominion))
+            {
+                foreach($this->spellCalculator->getAnnexedDominions($dominion) as $annexedDominion)
+                {
+                    $production += $annexedDominion->peasants * $productionPerPeasant;
+                }
             }
         }
 
