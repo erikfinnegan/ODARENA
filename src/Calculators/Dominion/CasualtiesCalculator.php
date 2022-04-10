@@ -73,6 +73,48 @@ class CasualtiesCalculator
         return $ratio;
     }
 
+    private function getInvasionCasualtiesRatioForUnitType(Dominion $dominion, string $unitType, Dominion $enemy = null, array $invasionData = [], string $mode = 'offense'): float
+    {
+
+        $ratios = [
+            'offense' => 0.10,
+            'defense' => 0.05
+        ];
+
+        $baseRatio = $ratios[$mode];
+
+        # Modify the base ratio
+        $baseRatio *= $this->getBaseRatioModifiers($dominion, $invasionData, $mode);
+
+        #dump('$baseRatio for ' . $dominion->name . ' unit ' . $unit->name . ': ' . $baseRatio . ' (mode: ' . $mode . ')');
+
+        # The mode as seen by the enemy
+        $enemyMode = 'offense';
+
+        if($mode == 'offense')
+        {
+            $enemyMode = 'defense';
+        }
+
+        $multiplier = 1;
+
+        #dump('getBasicCasualtiesPerkMultipliers', $this->getBasicCasualtiesPerkMultipliers($dominion, $mode));
+        $multiplier += $this->getBasicCasualtiesPerkMultipliers($dominion, $mode);
+
+        #dump('getCasualtiesPerkMultipliersFromUnits', $this->getCasualtiesPerkMultipliersFromUnits($dominion, $enemy, $invasionData, $mode));
+        $multiplier += $this->getCasualtiesPerkMultipliersFromUnits($dominion, $enemy, $invasionData, $mode);
+
+        #dump('getCasualtiesPerkMultipliersFromEnemy', $this->getCasualtiesPerkMultipliersFromEnemy($enemy, $dominion, $invasionData, $enemyMode));
+        $multiplier *= $this->getCasualtiesPerkMultipliersFromEnemy($enemy, $dominion, $invasionData, $enemyMode);
+
+        $multiplier = min(2, max(0.10, $multiplier));
+        #dump('multiplier', $multiplier);
+
+        $ratio = $baseRatio * $multiplier;
+
+        return $ratio;
+    }
+
     public function getInvasionCasualties(Dominion $dominion, array $units, Dominion $enemy, array $invasionData = [], string $mode = 'offense'): array
     {
         #dump('$mode for ' . $dominion->name . ' is ' . $mode);
@@ -100,7 +142,7 @@ class CasualtiesCalculator
                 if(!$this->isUnitTypeImmortal($dominion, $enemy, $unitType, $invasionData, $mode))
                 {
                     #dump($this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
-                    $casualties[$slot] += (int)round($amountSent * $this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
+                    $casualties[$slot] += (int)round($amountSent * $this->getInvasionCasualtiesRatioForUnitType($dominion, $unitType, $enemy, $invasionData, $mode));
                 }
             }
         }
@@ -108,7 +150,7 @@ class CasualtiesCalculator
         return $casualties;
     }
 
-    private function getFixedCasualties(Dominion $dominion, Dominion $enemy, $unit, array $invasionData = [], string $mode = 'offense'): float
+    private function getFixedCasualties(Dominion $dominion, Dominion $enemy, Unit $unit, array $invasionData = [], string $mode = 'offense'): float
     {
         $fixedCasualtiesPerk = 0;
 
