@@ -895,9 +895,7 @@ class UnitHelper
 
     public function getDrafteeHelpString(Race $race): ?string
     {
-        $drafteeDp = 1;
-
-        $drafteeDp = $race->getPerkValue('draftee_dp') ? $race->getPerkValue('draftee_dp') : 1;
+        $drafteeDp = $race->getPerkValue('draftee_dp') ?: 1;
 
         return '<ul><li>DP: ' . $drafteeDp . '</li></ul>';
 

@@ -75,7 +75,7 @@ class CasualtiesCalculator
 
     public function getInvasionCasualties(Dominion $dominion, array $units, Dominion $enemy, array $invasionData = [], string $mode = 'offense'): array
     {
-        #dump('$mode for ' . $dominion->name . ' is ' . $mode);
+        dump('$mode for ' . $dominion->name . ' is ' . $mode);
         $casualties = [];
 
         foreach($units as $slot => $amountSent)
@@ -119,7 +119,6 @@ class CasualtiesCalculator
 
     private function isUnitImmortal(Dominion $dominion, Dominion $enemy, $unit, array $invasionData = [], string $mode = 'offense')
     {
-
         if(is_a($unit, 'OpenDominion\Models\Unit', true))
         {
             $slot = (int)$unit->slot;

@@ -185,6 +185,8 @@ class InvadeActionService
                   {
                       $this->invasionResult['defender']['unitsDefending'][$slot] = $target->{'military_unit'.$slot};
                   }
+
+                  $this->invasionResult['defender']['unitsDefending']['draftees'] = $target->military_draftees;
             }
 
             if (!$this->hasAnyOP($dominion, $units))
@@ -306,11 +308,6 @@ class InvadeActionService
             $this->handleDefensiveDiesIntoPerks($target);
 
             $this->handleAnnexedDominions($dominion, $target, $units);
-
-            if (!isset($this->invasionResult['result']['ignoreDraftees']))
-            {
-                $this->invasionResult['defender']['unitsDefending']['draftees'] = $target->military_draftees;
-            }
 
             # Only count successful, non-in-realm hits over 75% as victories.
             $countsAsVictory = 0;
@@ -2942,12 +2939,9 @@ class InvadeActionService
       bool $isAmbush
       ): float
     {
-        // Values (percentages)
-        $ignoreDraftees = false;
-
         $dpMultiplierReduction = $this->militaryCalculator->getDefensiveMultiplierReduction($attacker);
 
-        // Void: Spell (remove DP reduction from Temples)
+        // Void: immunity to DP mod reductions
         if ($target->getSpellPerkValue('immune_to_temples'))
         {
             $dpMultiplierReduction = 0;
@@ -2959,7 +2953,7 @@ class InvadeActionService
                                                             $landRatio,
                                                             null,
                                                             $dpMultiplierReduction,
-                                                            $ignoreDraftees,
+                                                            false, # ignoreDraftees
                                                             $this->isAmbush,
                                                             false,
                                                             $units, # Becomes $invadingUnits
