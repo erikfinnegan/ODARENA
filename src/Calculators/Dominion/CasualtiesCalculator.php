@@ -87,12 +87,21 @@ class CasualtiesCalculator
                 $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
                     return ($unit->slot === $slot);
                 })->first();
-            }
 
-            if(!$this->isUnitImmortal($dominion, $enemy, $unit, $invasionData, $mode))
+                if(!$this->isUnitImmortal($dominion, $enemy, $unit, $invasionData, $mode))
+                {
+                    #dump($this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
+                    $casualties[$slot] += (int)round($amountSent * $this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
+                }
+            }
+            elseif($slot == 'draftees')
             {
-                #dump($this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
-                $casualties[$slot] += (int)round($amountSent * $this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
+                $unitType = $slot;
+                if(!$this->isUnitTypeImmortal($dominion, $enemy, $unitType, $invasionData, $mode))
+                {
+                    #dump($this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
+                    $casualties[$slot] += (int)round($amountSent * $this->getInvasionCasualtiesRatioForUnit($dominion, $unit, $enemy, $invasionData, $mode));
+                }
             }
         }
 
@@ -117,7 +126,7 @@ class CasualtiesCalculator
 
     }
 
-    private function isUnitImmortal(Dominion $dominion, Dominion $enemy, $unit, array $invasionData = [], string $mode = 'offense')
+    private function isUnitImmortal(Dominion $dominion, Dominion $enemy, Unit $unit, array $invasionData = [], string $mode = 'offense')
     {
         if(is_a($unit, 'OpenDominion\Models\Unit', true))
         {
@@ -176,35 +185,38 @@ class CasualtiesCalculator
                 }
             }
         }
-        elseif($unit == 'draftees')
+    }
+    private function isUnitTypeImmortal(Dominion $dominion, Dominion $enemy, string $unitType, array $invasionData = [], string $mode = 'offense')
+    {
+        if($unitType == 'draftees')
         {
             if($dominion->race->getPerkValue('immortal_draftees'))
             {
                 return True;
             }
         }
-        elseif($unit == 'peasants')
+        elseif($unitType == 'peasants')
         {
             if($dominion->race->getPerkValue('immortal_peasants'))
             {
                 return True;
             }
         }
-        elseif($unit == 'spies')
+        elseif($unitType == 'spies')
         {
             if($dominion->race->getPerkValue('immortal_spies'))
             {
                 return True;
             }
         }
-        elseif($unit == 'wizards')
+        elseif($unitType == 'wizards')
         {
             if($dominion->race->getPerkValue('immortal_wizards'))
             {
                 return True;
             }
         }
-        elseif($unit == 'archmages')
+        elseif($unitType == 'archmages')
         {
             return True;
         }
