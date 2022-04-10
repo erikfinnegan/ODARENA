@@ -158,6 +158,11 @@ class ExplorationCalculator
             return floor($this->landCalculator->getTotalLand($dominion) * (($dominion->morale/100)/8));
         }
 
+        if($dominion->getDeityPerkValue('cannot_explore') or $dominion->getSpellPerkValue('cannot_explore'))
+        {
+            return 0;
+        }
+
         return min(
             floor($this->resourceCalculator->getAmount($dominion, 'gold') / $this->getGoldCost($dominion)),
             floor($dominion->military_draftees / $this->getDrafteeCost($dominion)),
