@@ -80,7 +80,7 @@
                     <li class="{{ Route::is('dominion.invade') ? 'active' : null }}"><a href="{{ route('dominion.invade') }}"><i class="ra ra-crossed-swords ra-fw"></i> <span>Invade</span></a></li>
                 @endif
                 @if ($selectedDominion->round->mode == 'artefacts')
-                    <li class="{{ Route::is('dominion.artefacts') ? 'active' : null }}"><a href="{{ route('dominion.artefacts') }}"><i class="ra ra-shovel ra-fw"></i> <span>Artefacts</span></a></li>
+                    <li class="{{ Route::is('dominion.artefacts') ? 'active' : null }}"><a href="{{ route('dominion.artefacts') }}"><i class="ra ra-alien-fire"></i> <span>Artefacts</span></a></li>
                 @endif
                 @if (!$selectedDominion->race->getPerkValue('cannot_send_expeditions') and !$selectedDominion->getDeityPerkValue('cannot_send_expeditions'))
                     <li class="{{ Route::is('dominion.expedition') ? 'active' : null }}"><a href="{{ route('dominion.expedition') }}"><i class="fas fa-drafting-compass fa-fw"></i> <span>Expedition</span></a></li>

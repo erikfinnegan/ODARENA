@@ -106,7 +106,7 @@ class RoundHelper
                 return '<i class="ra ra-daggers ra-fw text-red"></i>';
 
             case 'artefacts':
-                return '<i class="ra ra-shovel ra-fw text-warning"></i>';
+                return '<i class="ra ra-alien-fire text-orange"></i>';
 
             default:
                 return '&mdash;';

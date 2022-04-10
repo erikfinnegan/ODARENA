@@ -347,7 +347,18 @@ class WorldNewsHelper
             $canViewerSeeCaster = true;
         }
 
-        $spellSpanClass = $this->getSpanClass('hostile');
+        if($viewer->realm->id == $caster->realm->id)
+        {
+            $spellSpanClass = $this->getSpanClass('friendly');
+        }
+        elseif($viewer->realm->id == $target->realm->id)
+        {
+            $spellSpanClass = $this->getSpanClass('hostile');
+        }
+        else
+        {
+            $spellSpanClass = $this->getSpanClass('neutral');
+        }
 
         if($canViewerSeeCaster)
         {
