@@ -213,6 +213,7 @@ class WorldNewsHelper
         {
             $landConquered += array_sum($invasion['data']['attacker']['landConquered']);
             $landDiscovered += array_sum($invasion['data']['attacker']['landDiscovered']);
+            $landDiscovered += array_sum($invasion['data']['attacker']['extraLandDiscovered']);
         }
 
         # Deathmatch in-realm sucessful invasion
