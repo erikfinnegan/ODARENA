@@ -306,7 +306,7 @@
                                           {!! $perkDescription['description'] !!}
                                       </td>
                                       <td>
-                                          {!! $perkDescription['value']  !!}
+                                          {!! $perkDescription['value'] !!}
                                       </td>
                                   </tr>
                               @endforeach

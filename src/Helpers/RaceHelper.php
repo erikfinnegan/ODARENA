@@ -6,6 +6,7 @@ use LogicException;
 use OpenDominion\Models\Deity;
 use OpenDominion\Models\Race;
 use OpenDominion\Models\RacePerkType;
+use OpenDominion\Models\Resource;
 
 use OpenDominion\Models\Dominion;
 
@@ -607,6 +608,53 @@ class RaceHelper
 
         return isset($adjectives[$race->name]) ? $adjectives[$race->name] : $race->name;
 
+    }
+
+    public function getRacePerksHelpString(Race $race): string
+    {
+        $string = '<ul>';
+
+        # Peasant production
+        $string .= $this->getPeasantsTerm($race) . ' production: ';
+
+        $x = 0;
+        $peasantProductions = count($race->peasants_production);
+
+        foreach($race->peasants_production as $resourceKey => $amount)
+        {
+            $string .= '<li>';
+
+            $resource = Resource::where('key', $resourceKey)->first();
+            $x++;
+
+            if($x < $peasantProductions)
+            {
+                $string .= number_format($amount,2) . ' ' . $resource->name . ',';
+            }
+            else
+            {
+                $string .= number_format($amount,2) . ' ' . $resource->name;
+            }
+
+            $string .= '</li>';
+        }
+
+        # Faction perks
+        foreach ($race->perks as $perk)
+        {
+            $string .= '<li>';
+
+            $perkDescription = $this->getPerkDescriptionHtmlWithValue($perk);
+            $string .= $perkDescription['description'] . ': ' . $perkDescription['value'];
+
+            $string .= '</li>';
+        }
+
+        $string .= '</ul>';
+
+        $string = str_replace('"',"'", $string);
+
+        return $string;
     }
 
     public function hasPeasantsAlias(Race $race): bool

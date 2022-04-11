@@ -35,7 +35,11 @@
                                     </tr>
                                     <tr>
                                         <td>Faction:</td>
-                                        <td>{{ $selectedDominion->race->name }}</td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="{!! $raceHelper->getRacePerksHelpString($selectedDominion->race) !!}">
+                                                {{ $selectedDominion->race->name }}
+                                            </span>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Land:</td>
