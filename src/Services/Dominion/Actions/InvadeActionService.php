@@ -504,7 +504,7 @@ class InvadeActionService
                 dd($this->invasionResult);
             }
 
-            $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
+              $target->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
             $dominion->save(['event' => HistoryService::EVENT_ACTION_INVADE]);
         });
 

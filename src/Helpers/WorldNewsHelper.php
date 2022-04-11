@@ -35,6 +35,9 @@ class WorldNewsHelper
     {
         switch ($event->type)
         {
+            case 'abandon_dominion':
+                return $this->generateAbandonString($event->source, $event, $viewer);
+
             case 'barbarian_invasion':
                 return $this->generateBarbarianInvasionString($event->source, $event, $viewer);
 
@@ -69,6 +72,20 @@ class WorldNewsHelper
             default:
                 return 'No string defined for event type <pre>' . $event->type . ')</pre>.';
         }
+    }
+
+    public function generateAbandonString(Dominion $dominion, GameEvent $event, Dominion $viewer): string
+    {
+        /*
+            Ants (# 2) was abandoned.
+        */
+
+        $string = sprintf(
+            '%s was abandoned.',
+            $this->generateDominionString($dominion, 'neutral', $viewer)
+          );
+
+        return $string;
     }
 
     public function generateBarbarianInvasionString(Dominion $dominion, GameEvent $event, Dominion $viewer): string
