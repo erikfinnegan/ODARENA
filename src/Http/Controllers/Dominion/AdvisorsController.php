@@ -2,8 +2,10 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
+use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Calculators\Dominion\BuildingCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
+use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\PopulationCalculator;
 use OpenDominion\Calculators\Dominion\ProductionCalculator;
@@ -12,16 +14,19 @@ use OpenDominion\Calculators\Dominion\SpellCalculator;
 use OpenDominion\Helpers\BuildingHelper;
 use OpenDominion\Helpers\LandHelper;
 use OpenDominion\Helpers\SpellHelper;
+use OpenDominion\Helpers\StatsHelper;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Services\Dominion\QueueService;
+use OpenDominion\Services\Dominion\StatsService;
+
 use DB;
 use OpenDominion\Helpers\HistoryHelper;
-use OpenDominion\Calculators\RealmCalculator;
 use OpenDominion\Helpers\RaceHelper;
-use OpenDominion\Calculators\Dominion\LandImprovementCalculator;
-use OpenDominion\Models\Spell;
+
 use OpenDominion\Models\DominionHistory;
-use OpenDominion\Services\Dominion\StatsService;
+use OpenDominion\Models\DominionStat;
+use OpenDominion\Models\Spell;
+use OpenDominion\Models\Stat;
 
 class AdvisorsController extends AbstractDominionController
 {
@@ -40,35 +45,6 @@ class AdvisorsController extends AbstractDominionController
             'raceHelper' => app(RaceHelper::class),
             'resourceCalculator' => app(ResourceCalculator::class),
             'statsService' => app(StatsService::class),
-        ]);
-    }
-
-    public function getAdvisorsMilitary()
-    {
-        return view('pages.dominion.advisors.military', [
-            'queueService' => app(QueueService::class),
-            'unitHelper' => app(UnitHelper::class),
-        ]);
-    }
-
-    public function getAdvisorsLand()
-    {
-        return view('pages.dominion.advisors.land', [
-            'landCalculator' => app(LandCalculator::class),
-            'landHelper' => app(LandHelper::class),
-            'queueService' => app(QueueService::class),
-            'landImprovementCalculator' => app(LandImprovementCalculator::class),
-            'militaryCalculator' => app(MilitaryCalculator::class),
-        ]);
-    }
-
-    public function getAdvisorsConstruction()
-    {
-        return view('pages.dominion.advisors.construction', [
-            'buildingCalculator' => app(BuildingCalculator::class),
-            'buildingHelper' => app(BuildingHelper::class),
-            'landCalculator' => app(LandCalculator::class),
-            'queueService' => app(QueueService::class),
         ]);
     }
 
@@ -99,9 +75,28 @@ class AdvisorsController extends AbstractDominionController
         ]);
     }
 
+    public function getAdvisorsMilitary()
+    {
+        return view('pages.dominion.advisors.military', [
+            'landCalculator' => app(LandCalculator::class),
+            'militaryCalculator' => app(MilitaryCalculator::class),
+            'populationCalculator' => app(PopulationCalculator::class),
+            'unitHelper' => app(UnitHelper::class),
+            'raceHelper' => app(RaceHelper::class),
+            'statsService' => app(StatsService::class),
+        ]);
+    }
+
     public function getAdvisorsStatistics()
     {
+        $selectedDominion = $this->getSelectedDominion();
+        $statsHelper = app(StatsHelper::class);
+
+        $dominionStats = DominionStat::where('dominion_id', $selectedDominion->id)->get();
+
+
         return view('pages.dominion.advisors.statistics', [
+            'dominionStats' => $dominionStats,
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
             'populationCalculator' => app(PopulationCalculator::class),
