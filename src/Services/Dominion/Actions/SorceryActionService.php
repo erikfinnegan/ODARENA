@@ -324,7 +324,7 @@ class SorceryActionService
                         $damageDealt = min($target->military_spies * $damage, $target->military_spies);
                         $damageDealt = floor($damageDealt);
 
-                        $target->peasants -= $damageDealt;
+                        $target->military_spies -= $damageDealt;
 
                         $this->statsService->updateStat($caster, 'sorcery_spies_killed', $damage);
                         $this->statsService->updateStat($target, 'sorcery_spies_lost', $damage);
