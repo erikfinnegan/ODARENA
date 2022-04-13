@@ -321,7 +321,7 @@ class SorceryActionService
 
                         $damage = $baseDamage * $sorcerySpellDamageMultiplier * $spellDamageMultiplier;
 
-                        $damageDealt = min($target->military_draftees * $damage, $target->military_draftees);
+                        $damageDealt = min($target->military_spies * $damage, $target->military_spies);
                         $damageDealt = floor($damageDealt);
 
                         $target->peasants -= $damageDealt;
