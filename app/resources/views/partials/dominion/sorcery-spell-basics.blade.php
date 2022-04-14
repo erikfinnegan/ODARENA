@@ -16,7 +16,7 @@
 
     @if($spell->cooldown > 0)
         <div class="col-sm-12">
-            Cooldown: <span class="text-info" data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">{{ number_format($spell->duration) . ' ' . str_plural('tick', $spell->duration)}}</span>=
+            Cooldown: <span class="text-info" data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">{{ number_format($spell->duration) . ' ' . str_plural('tick', $spell->duration)}}</span>
         </div>
     @endif
 </div>
