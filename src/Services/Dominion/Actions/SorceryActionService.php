@@ -517,6 +517,34 @@ class SorceryActionService
                     }
                 }
                 #END PERK FOREACH
+
+                # BEGIN COOLDOWN
+                if($spell->cooldown > 0)
+                {
+                    # But has it already been cast and is sitting at zero-tick cooldown?
+                    if(DominionSpell::where(['dominion_id' => $caster->id, 'spell_id' => $spell->id, 'cooldown' => 0])->get()->count())
+                    {
+                        DB::transaction(function () use ($caster, $target, $spell)
+                        {
+                          DominionSpell::where('dominion_id', $caster->id)->where('spell_id', $spell->id)
+                          ->update(['cooldown' => $spell->cooldown]);
+                        });
+                    }
+                    else
+                    {
+                        DB::transaction(function () use ($caster, $target, $spell)
+                        {
+                            DominionSpell::create([
+                                'dominion_id' => $caster->id,
+                                'caster_id' => $target->id,
+                                'spell_id' => $spell->id,
+                                'duration' => 0,
+                                'cooldown' => $spell->cooldown
+                            ]);
+                        });
+                    }
+                }
+                # END COOLDOWN
             }
 
             // Update stats

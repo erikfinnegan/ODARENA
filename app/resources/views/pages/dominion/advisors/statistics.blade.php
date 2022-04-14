@@ -65,7 +65,6 @@
             var table = $('#stats-table').DataTable({
                 order: [0, 'asc'],
                 paging: true,
-                pageLength: 25
             });
         })(jQuery);
     </script>

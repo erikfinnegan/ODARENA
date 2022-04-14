@@ -91,10 +91,10 @@ class ExplorationCalculator
     */
     public function getGoldCost(Dominion $dominion): int
     {
-        if($dominion->protection_ticks == 96)
-        {
-            return 0;
-        }
+        #if($dominion->protection_ticks == 96)
+        #{
+        #    return 0;
+        #}
         return $this->getGoldCostRaw($dominion) * $this->getGoldCostBonus($dominion);
     }
 
