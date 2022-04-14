@@ -15,8 +15,14 @@
     @endif
 
     @if($spell->cooldown > 0)
-        <div class="col-sm-12">
-            Cooldown: <span class="text-info" data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">{{ number_format($spell->duration) . ' ' . str_plural('tick', $spell->duration)}}</span>
-        </div>
+        @if($spellCalculator->isOnCooldown($selectedDominion, $spell))
+            <div class="col-sm-12">
+                Cooldown: <span class="text-red">{{ number_format($spellCalculator->getSpellCooldown($selectedDominion, $spell)) }}/{{ number_format($spell->cooldown) }}</span>
+            </div>
+        @else
+            <div class="col-sm-12">
+                Cooldown: <span class="text-info" data-toggle="tooltip" data-placement="top" title="Cooldown until spell can be cast again">{{ number_format($spell->cooldown) . ' ' . str_plural('tick', $spell->cooldown)}}</span>
+            </div>
+        @endif
     @endif
 </div>

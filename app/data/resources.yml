@@ -36,7 +36,7 @@ gems:
 
 champion:
   name: Champions
-  description: Precious stones of great value. Some have magical properties.
+  description: The living, legendary souls of Norse warriors fallen in glory.
   buy: null
   sell: null
   exclusive_races:

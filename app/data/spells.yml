@@ -1445,7 +1445,7 @@ curse_of_kinthys:
   exclusive_races:
     - Undead
   perks:
-    decrease_morale: 25
+    decrease_morale: 0.25
 
 disband_spies:
   name: Disband Spies

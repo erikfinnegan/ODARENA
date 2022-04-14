@@ -40,24 +40,21 @@ units:
       casualties: 50 # +50% casualties
       increases_enemy_casualties_on_defense: 1
 
-  - name: Berserker
-    training_time: 6
+  - name: Longship
+    training_time: 12
     type:
       - sentient
       - legendary
       - intelligent
     cost:
-      champion: 1
+      gold: 37500
+      ore: 750
+      lumber: 18500
     power:
-      offense: 7
-      defense: 7
+      offense: 0
+      defense: 0
     perks:
-      immortal: 1
-      no_draftee: 1
-      increases_own_casualties: 1
-      increases_morale_gains: 2
-      offense_from_recent_victories: 0.50,96 # +0.25 OP per victory, in the last 96 ticks
-      releases_into_resource: 1,champion
+      immortal_on_victory: 1
 
   - name: Homeguard
     training_time: 12
