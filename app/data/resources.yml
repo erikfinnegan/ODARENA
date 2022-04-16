@@ -146,4 +146,20 @@ yak:
   buy: null
   sell: null
   exclusive_races:
-    - Afflicted
+    - Orc
+
+sapling:
+  name: Sapling
+  description: The beginnings of trees, imbued with magic life of Sylvans.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Sylvan
+
+elk:
+  name: Elk
+  description: Majestic wanderers of the forest, Druva's personal guards and messengers.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Wood Elf

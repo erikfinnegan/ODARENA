@@ -4,11 +4,13 @@ namespace OpenDominion\Services\Dominion;
 
 use Carbon\Carbon;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
 use OpenDominion\Services\Dominion\HistoryService;
 
 class GovernmentService
 {
+
     /**
      * Gets votes for Realm monarchy by Dominion.
      *
@@ -58,12 +60,17 @@ class GovernmentService
             }
         }
 
-        if ($leaderId == $currentMonarchId || $leaderVotes == $currentMonarchVotes) {
+        if ($leaderId == $currentMonarchId || $leaderVotes == $currentMonarchVotes)
+        {
             return false;
-        } elseif ($leaderVotes > floor($totalVotes / 2)) {
+        }
+        elseif ($leaderVotes > floor($totalVotes / 2))
+        {
             $this->setRealmMonarch($realm, $leaderId);
             return true;
-        } else {
+        }
+        else
+        {
             $this->setRealmMonarch($realm, null);
             return true;
         }
@@ -79,6 +86,33 @@ class GovernmentService
      */
     protected function setRealmMonarch(Realm $realm, ?int $monarch_dominion_id)
     {
+        if(isset($monarch_dominion_id))
+        {
+            GameEvent::create([
+                'round_id' => $realm->round_id,
+                'source_type' => Realm::class,
+                'source_id' => $realm->id,
+                'target_type' => Dominion::class,
+                'target_id' => $monarch_dominion_id,
+                'type' => 'governor',
+                'data' => NULL,
+                'tick' => $realm->round->ticks
+            ]);
+        }
+        else
+        {
+            GameEvent::create([
+                'round_id' => $realm->round_id,
+                'source_type' => Realm::class,
+                'source_id' => $annexedDominion->id,
+                'target_type' => NULL,
+                'target_id' => $NULL,
+                'type' => 'no_governor',
+                'data' => NULL,
+                'tick' => $realm->round->ticks
+            ]);
+        }
+
         $realm->monarch_dominion_id = $monarch_dominion_id;
         $realm->save();
     }

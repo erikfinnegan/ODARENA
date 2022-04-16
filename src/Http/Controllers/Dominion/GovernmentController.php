@@ -2,6 +2,7 @@
 
 namespace OpenDominion\Http\Controllers\Dominion;
 
+use OpenDominion\Calculators\Dominion\GovernmentCalculator;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Calculators\NetworthCalculator;
@@ -41,6 +42,7 @@ class GovernmentController extends AbstractDominionController
             'dominions' => $dominions,
             'realms' => $dominion->round->realms,
             'monarch' => $dominion->realm->monarch,
+            'governmentCalculator' => app(GovernmentCalculator::class),
             'landCalculator' => app(LandCalculator::class),
             'networthCalculator' => app(NetworthCalculator::class),
             'rangeCalculator' => app(RangeCalculator::class),

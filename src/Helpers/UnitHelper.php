@@ -137,8 +137,8 @@ class UnitHelper
             'offense_from_spy_ratio_capped' => 'Offense increased by %1$s * Spy Ratio (offensive), (max +%2$s).',
             'defense_from_spy_ratio_capped' => 'Offense increased by %1$s * Spy Ratio (defensive), (max +%2$s).',
 
-            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
-            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last six hours, includes non-overwhelmed failed invasions).',
+            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last 24 ticks, includes non-overwhelmed failed invasions).',
+            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last 24 ticks, includes non-overwhelmed failed invasions).',
 
             'offense_if_target_recently_invaded' => 'Offense increased by %1$s if target was invaded (in the last six hours, includes non-overwhelmed failed invasions).',
             'defense_if_target_recently_invaded' => 'Defense increased by %1$s if invader was invaded (in the last six hours, includes non-overwhelmed failed invasions).',
@@ -353,6 +353,7 @@ class UnitHelper
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
             #'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).', # Hidden
             'faster_return_if_paired' => 'Returns %2$s ticks faster if paired with a %1$s.',
+            'faster_return_if_paired_multiple' => 'Returns %2$s ticks faster if paired with a %1$s (%3$s per %1$s).',
             'instant_return' => 'Returns instantly from invasion.',
 
             'faster_return_from_time' => 'Returns %3$s ticks faster from battle if sent out between %1$s:00 and %2$s:00.',
@@ -392,6 +393,7 @@ class UnitHelper
             'population_growth' => 'Increases population growth by 2%% for every 1%% of population.',
 
             'houses_military_units' => 'Houses %1$s military units.',
+            'norse_unit1_housing' => 'Houses %1$s Warriors.',
             'houses_people' => 'Houses %1$s people.',
 
             'provides_jobs' => 'Provides %1$s jobs.',
@@ -451,6 +453,11 @@ class UnitHelper
             }
 
             $helpStrings[$unitType] .= '</li>';
+
+            if($unit->deity)
+            {
+                $helpStrings[$unitType] .= '<li>Must be devoted to ' . $unit->deity->name . ' to train or send this unit.</li>';
+            }
 
             foreach ($unit->perks as $perk)
             {

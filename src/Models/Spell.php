@@ -31,6 +31,11 @@ class Spell extends AbstractModel
         'wizard_strength' => 'integer',
     ];
 
+    public function deity()
+    {
+        return $this->belongsTo(Deity::class);
+    }
+
     public function perks()
     {
         return $this->belongsToMany(

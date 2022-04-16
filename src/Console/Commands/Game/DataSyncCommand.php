@@ -199,6 +199,12 @@ class DataSyncCommand extends Command implements CommandInterface
 
                 $unitName = object_get($unitData, 'name');
 
+                $deityId = null;
+                if($deityKey = object_get($unitData, 'deity'))
+                {
+                    $deityId = Deity::where('key', $deityKey)->first()->id;
+                }
+
                 $this->info("Unit {$slot}: {$unitName}", OutputInterface::VERBOSITY_VERBOSE);
 
                 $where = [
@@ -220,6 +226,7 @@ class DataSyncCommand extends Command implements CommandInterface
                     'power_defense' => object_get($unitData, 'power.defense', 0),
                     'static_networth' => object_get($unitData, 'static_networth', 0),
                     'training_time' => object_get($unitData, 'training_time', 12),
+                    'deity_id' => $deityId,
                 ]);
 
                 if ($unit->exists) {
@@ -512,6 +519,13 @@ class DataSyncCommand extends Command implements CommandInterface
             $data = Yaml::parse($fileContents, Yaml::PARSE_OBJECT_FOR_MAP);
 
             foreach ($data as $spellKey => $spellData) {
+
+                $deityId = null;
+                if($deityKey = object_get($spellData, 'deity'))
+                {
+                    $deityId = Deity::where('key', $deityKey)->first()->id;
+                }
+
                 // Spell
                 $spell = Spell::firstOrNew(['key' => $spellKey])
                     ->fill([
@@ -522,6 +536,7 @@ class DataSyncCommand extends Command implements CommandInterface
                         'duration' => object_get($spellData, 'duration', 0),
                         'cooldown' => object_get($spellData, 'cooldown', 0),
                         'wizard_strength' => object_get($spellData, 'wizard_strength'),
+                        'deity_id' => $deityId,
                         'enabled' => object_get($spellData, 'enabled', 1),
                         'excluded_races' => object_get($spellData, 'excluded_races', []),
                         'exclusive_races' => object_get($spellData, 'exclusive_races', []),

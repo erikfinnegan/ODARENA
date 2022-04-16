@@ -574,7 +574,7 @@ bloom:
   exclusive_races:
     - Sylvan
   perks:
-    lumber_production_mod: 60,6000
+    sapling_production_mod: 60,6000
     food_production_mod: 40,6000
 
 nurture:

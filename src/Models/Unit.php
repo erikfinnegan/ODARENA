@@ -26,37 +26,12 @@ class Unit extends AbstractModel
 {
     protected $casts = [
         'slot' => 'integer',
-        'cost_gold' => 'integer',
-        'cost_ore' => 'integer',
         'power_offense' => 'float',
         'power_defense' => 'float',
         'cost' => 'array',
         'type' => 'array',
-        /*
-        'cost_food' => 'integer',
-        'cost_mana' => 'integer',
-        'cost_gems' => 'integer',
-        'cost_lumber' => 'integer',
-        'cost_prestige' => 'integer',
-        'cost_champion' => 'integer',
-        'cost_soul' => 'integer',
-        'cost_blood' => 'integer',
-        'cost_unit1' => 'integer',
-        'cost_unit2' => 'integer',
-        'cost_unit3' => 'integer',
-        'cost_unit4' => 'integer',
-        'cost_morale' => 'integer',
-        'cost_wizard_strength' => 'integer',
-        'cost_spy_strength' => 'integer',
-        'cost_peasant' => 'integer',
-        'cost_spy' => 'integer',
-        'cost_wizard' => 'integer',
-        'cost_archmage' => 'integer',
-        'cost_brimmer' => 'integer',
-        'cost_prisoner' => 'integer',
-        'cost_horse' => 'integer',
-        */
         'static_networth' => 'integer',
+        'training_time' => 'integer',
     ];
 
     public function perks()
@@ -75,6 +50,11 @@ class Unit extends AbstractModel
     public function race()
     {
         return $this->hasOne(Race::class);
+    }
+
+    public function deity()
+    {
+        return $this->belongsTo(Deity::class);
     }
 
     public function getPerkValue(string $key)

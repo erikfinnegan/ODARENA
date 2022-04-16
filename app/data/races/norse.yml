@@ -39,22 +39,25 @@ units:
       dies_into_resource_on_success: 1,champion # Upon death, becomes 1 champion
       casualties: 50 # +50% casualties
       increases_enemy_casualties_on_defense: 1
+      faster_return_if_paired_multiple: 2,2,120 # slot, ticks, amount
 
   - name: Longship
     training_time: 12
     type:
-      - sentient
-      - legendary
-      - intelligent
+      - ship
     cost:
-      gold: 37500
-      ore: 750
-      lumber: 18500
+      gold: 38000
+      ore: 800
+      lumber: 18000
     power:
       offense: 0
       defense: 0
     perks:
       immortal_on_victory: 1
+      no_draftee: 1
+      does_not_count_as_population: 1
+      norse_unit1_housing: 120
+      sendable_with_zero_op: 1
 
   - name: Homeguard
     training_time: 12
@@ -86,5 +89,7 @@ units:
     perks:
       immortal: 1
       no_draftee: 1
+      cannot_be_released: 1
       kills_into_resource_per_casualty_on_success: 1,champion # each unit killed becomes 1 champion
       increases_prestige_gains: 0.50
+      offense_from_recent_victories: 0.25,96 # +0.25 OP per victory, in the last 96 ticks

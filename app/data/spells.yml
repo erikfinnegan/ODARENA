@@ -1546,3 +1546,21 @@ manastorm:
 
 
 # END SORCERY
+
+# BEGIN DEITY SPELLS
+
+druvas_guard:
+  name: Druva's Guard
+  deity: druva
+  scope: self
+  class: active
+  cost: 15
+  cooldown: 0
+  duration: 0
+  exclusive_races:
+    - Wood Elf
+  perks:
+    summon_resource_from_land: 2,elk,forest # 2 elks per 1 forest
+
+
+# END DEITY SPELLS

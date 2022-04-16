@@ -255,7 +255,7 @@
                                 </div>
                                 <div class="col-xs-offset-6 col-xs-6 col-sm-offset-0 col-sm-4 col-lg-2">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-block" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                        <button type="submit" class="btn btn-primary btn-block" {{ ($selectedDominion->isLocked() or !$governmentCalculator->canVote($selectedDominion)) ? 'disabled' : null }}>
                                             Vote
                                         </button>
                                     </div>
@@ -298,8 +298,20 @@
                 <h3 class="box-title">Information</h3>
             </div>
             <div class="box-body">
-                <p>Here you can vote for the governor of your realm. You can change your vote at any time.</p>
-                <p>The governor has the power to declare war and peace as well as moderate the council.</p>
+                <p>Here you can vote for the governor of your realm. You can only change your vote every 192 ticks.</p>
+                @if(isset($selectedDominion->tick_voted))
+
+                    @if($governmentCalculator->canVote($selectedDominion))
+                        <p>You are currently able to vote.</p>
+                    @else
+                        <p>You can vote again in <strong>{{ number_format($governmentCalculator->getTicksUntilCanVote($selectedDominion)) . ' ' . str_plural('tick', $governmentCalculator->getTicksUntilCanVote($selectedDominion)) }}</strong>.</p>
+                    @endif
+
+                @elseif($governmentCalculator->canVote($selectedDominion))
+                    <p>You have not cast a vote yet.</p>
+                @else
+                    <p>You cannot vote.</p>
+                @endif
             </div>
         </div>
     </div>

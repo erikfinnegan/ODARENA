@@ -219,24 +219,22 @@ class SpellCalculator
 
     public function isSpellAvailableToDominion(Dominion $dominion, Spell $spell): bool
     {
-        return $this->spellHelper->isSpellAvailableToRace($dominion->race, $spell);
-    }
-
-    public function isSpellAvailableToRace(Race $race, Spell $spell): bool
-    {
-        $isAvailable = true;
-
-        if(count($spell->exclusive_races) > 0 and !in_array($race->name, $spell->exclusive_races))
+        if($this->spellHelper->isSpellAvailableToRace($dominion->race, $spell))
         {
-            $isAvailable = false;
+            if(isset($spell->deity))
+            {
+                if($dominion->hasDeity())
+                {
+                    return ($dominion->deity->id == $spell->deity->id);
+                }
+                
+                return false;
+            }
+
+            return true;
         }
 
-        if(count($spell->excluded_races) > 0 and in_array($race->name, $spell->excluded_races))
-        {
-            $isAvailable = false;
-        }
-
-        return $isAvailable;
+        return false;
     }
 
     public function canCastSpell(Dominion $dominion, Spell $spell, ?int $manaOwned = NULL): bool

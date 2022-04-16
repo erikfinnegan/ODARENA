@@ -41,6 +41,11 @@ class SpellHelper
 
         $effectStrings = [];
 
+        if(isset($spell->deity))
+        {
+            $effectStrings[] = 'Can only be cast if devoted to ' . $spell->deity->name . '.';
+        }
+
         $spellEffects = [
 
             // Info
@@ -689,6 +694,14 @@ class SpellHelper
         }
 
         return $isAvailable;
+    }
+
+    public function isSpellAvailableToDominion(Dominion $dominion, Spell $spell): bool
+    {
+
+
+
+        return true;
     }
 
     public function getExclusivityString(Spell $spell): string

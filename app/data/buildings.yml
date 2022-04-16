@@ -469,6 +469,7 @@ guard_tower:
     - Marshling
     - Merfolk
     - Myconid
+    - Norse
     - Nox
     - Snow Elf
     - Swarm
@@ -477,7 +478,7 @@ guard_tower:
     - Wood Elf
   land_type: hill
   perks:
-    defensive_power: 1,1.8,36 # Every 1% gives 2% DP, max +40% DP
+    defensive_power: 1,1.8,36 # Every 1% gives 1.8% DP, max +36% DP
 
 battlement:
   name: Battlement
@@ -1460,6 +1461,8 @@ legion_garrison:
     military_housing: 60
     jobs: 0
 
+# BEGIN NORSE
+
 norse_longhouse:
   name: Longhouse
   exclusive_races:
@@ -1467,18 +1470,29 @@ norse_longhouse:
   land_type: water
   perks:
     housing: 30
-    military_housing: 30
+    norse_unit1_housing: 30
     jobs: 0
 
-ringfort:
-  name: Ringfort
-  enabled: 0
+valhall:
+  name: Valhall
   exclusive_races:
     - Norse
   land_type: plain
   perks:
-    raw_defense: 60
-    ore_production_raw: -5
+    legendary_unit_housing: 100
+    housing: 0
+    jobs: 0
+
+ringfort:
+  name: Ringfort
+  exclusive_races:
+    - Norse
+  land_type: plain
+  perks:
+    defensive_power: 1,1.8,36 # Every 1% gives 1.8% DP, max +36% DP
+    casualties_on_defense: 1,-1,20 # 1% gives -5% max -50%
+
+# END NORSE
 
 mansion:
   name: Mansion

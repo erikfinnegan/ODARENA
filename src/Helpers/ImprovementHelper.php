@@ -27,6 +27,7 @@ class ImprovementHelper
             'blood_production_mod' => 'horse taming',
             'marshling_production_mod' => 'marshling spawning',
             'miasma_production_mod' => 'miasma extraction',
+            'sapling_production_mod' => 'sapling growth',
 
             'xp_generation_mod' => 'XP generation',
 

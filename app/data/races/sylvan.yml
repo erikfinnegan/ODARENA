@@ -6,12 +6,12 @@ playable: 1
 skill_level: 2
 
 resources:
-  - lumber
+  - sapling
   - food
   - mana
 
 peasants_production:
-  lumber: 0.01
+  sapling: 0.01
 
 construction_materials:
   - mana
@@ -25,21 +25,15 @@ land_improvements:
   forest:
     mana_production_raw: 9
 
-spies_cost: 40,mana
-wizards_cost: 40,mana
-archmages_cost: 100,mana
-
 perks:
   no_drafting: 1
   extra_barren_forest_max_population: 10
-  improvements_interest: 0.08
   cannot_exchange: 1
   lumber_production_mod: -80
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   unemployed_peasants_produce: 1
-  no_lumber_theft: 1
 
 units:
   - name: Leshy
@@ -50,14 +44,14 @@ units:
       - intelligent
     cost:
       mana: 8
-      lumber: 1
+      sapling: 1
     power:
       offense: 4
       defense: 0
     perks:
       no_draftee: 1
       offense_if_recently_invaded: 2
-      dies_into_resource: 1,lumber
+      dies_into_resource: 1,sapling
       counts_as_spy: 0.5
       immortal_spy: 1
 
@@ -68,13 +62,13 @@ units:
       - sentient
     cost:
       mana: 6
-      lumber: 1
+      sapling: 1
     power:
       offense: 0
       defense: 4
     perks:
       no_draftee: 1
-      dies_into_resource: 1,lumber
+      dies_into_resource: 1,sapling
 
   - name: Dryad
     training_time: 12
@@ -84,7 +78,7 @@ units:
       - intelligent
     cost:
       mana: 96
-      lumber: 1
+      sapling: 1
     power:
       offense: 0
       defense: 8
@@ -93,7 +87,7 @@ units:
       counts_as_wizard_offense: 0.333
       counts_as_wizard_defense: 0.250
       immortal_wizard: 1
-      dies_into_resource: 1,lumber
+      dies_into_resource: 1,sapling
 
   - name: Spriggan
     training_time: 12
@@ -103,7 +97,7 @@ units:
       - intelligent
     cost:
       mana: 204
-      lumber: 1
+      sapling: 1
     power:
       offense: 14
       defense: 8
@@ -111,4 +105,4 @@ units:
       no_draftee: 1
       offense_if_recently_invaded: 5
       defense_if_recently_invaded: 3
-      dies_into_resource: 1,lumber
+      dies_into_resource: 1,sapling

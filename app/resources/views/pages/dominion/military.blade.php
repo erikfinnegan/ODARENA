@@ -231,6 +231,10 @@
                                                                 $labelParts[] =  number_format($value) . ' ' . str_plural('yak', $value);
                                                                 break;
 
+                                                            case 'sapling':
+                                                                $labelParts[] =  number_format($value) . ' ' . str_plural('sapling', $value);
+                                                                break;
+
                                                             default:
                                                                 break;
                                                             }

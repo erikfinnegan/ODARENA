@@ -14,6 +14,7 @@ use RuntimeException;
 
 
 use OpenDominion\Calculators\Dominion\SpellCalculator;
+use OpenDominion\Calculators\Dominion\GovernmentCalculator;
 
 class GovernmentActionService
 {
@@ -34,11 +35,13 @@ class GovernmentActionService
      */
     public function __construct(
         GovernmentService $governmentService,
+        GovernmentCalculator $governmentCalculator,
         NotificationService $notificationService,
         SpellCalculator $spellCalculator
         )
     {
         $this->governmentService = $governmentService;
+        $this->governmentCalculator = $governmentCalculator;
         $this->notificationService = $notificationService;
         $this->spellCalculator = $spellCalculator;
     }
@@ -60,11 +63,18 @@ class GovernmentActionService
             throw new GameException('You cannot take government actions while you are in stasis.');
         }
 
+        if(!$this->governmentCalculator->canVote($dominion))
+        {
+            throw new GameException('You cannot vote.');
+        }
+
         $monarch = Dominion::find($monarch_id);
-        if ($monarch == null) {
+        if ($monarch == null)
+        {
             throw new RuntimeException('Dominion not found.');
         }
-        if ($dominion->realm != $monarch->realm) {
+        if ($dominion->realm != $monarch->realm)
+        {
             throw new RuntimeException('You cannot vote for a Governor outside of your realm.');
         }
         if ($monarch->is_locked)
@@ -91,6 +101,7 @@ class GovernmentActionService
         }
 
         $dominion->monarchy_vote_for_dominion_id = $monarch->id;
+        $dominion->tick_voted = $dominion->round->ticks;
         $dominion->save();
 
         $this->governmentService->checkMonarchVotes($dominion->realm);

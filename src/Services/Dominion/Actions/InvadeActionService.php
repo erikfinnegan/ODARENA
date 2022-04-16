@@ -598,6 +598,18 @@ class InvadeActionService
         $attackerPrestigeChangeMultiplier += $attacker->realm->getArtefactPerkMultiplier('prestige_gains');
         $attackerPrestigeChangeMultiplier += $attacker->title->getPerkMultiplier('prestige_gains') * $attacker->title->getPerkBonus($attacker);
 
+        # Monarch gains +10% always
+        if($attacker->isMonarch())
+        {
+            $attackerPrestigeChangeMultiplier += 0.10;
+        }
+
+        # Attacker gains +20% if defender is Monarch
+        if($defender->isMonarch() and $this->invasionResult['result']['success'])
+        {
+            $attackerPrestigeChangeMultiplier += 0.20;
+        }
+
         $attackerPrestigeChange *= (1 + $attackerPrestigeChangeMultiplier);
 
         // 1/4 gains for hitting Barbarians.
@@ -1728,7 +1740,26 @@ class InvadeActionService
                             # Determine new return speed
                             $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
 
-                            #dump($slot . ':' . $ticksFaster . ':' . $fasterReturningTicks);
+                            # How many of $slot should return faster?
+                            $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);
+                            $unitsWithRegularReturnTime = max(0, $units[$slot] - $unitsWithFasterReturnTime);
+
+                            $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
+                            $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                        }
+
+                        # Check for faster_return_if_paired
+                        if($fasterReturnIfPairedPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired_multiple'))
+                        {
+                            $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
+                            $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
+                            $ticksFaster = (int)$fasterReturnIfPairedPerk[1];
+                            $unitChunkSize = (int)$fasterReturnIfPairedPerk[2];
+
+                            $pairedUnitKeyReturning = array_sum($returningUnits[$pairedUnitKey]) * $unitChunkSize;
+
+                            # Determine new return speed
+                            $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
 
                             # How many of $slot should return faster?
                             $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);

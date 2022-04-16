@@ -182,6 +182,7 @@ class HistoryService
                 'barbarian_guard_active_at',
                 'last_tick_at',
                 'monarchy_vote_for_dominion_id',
+                'tick_voted',
                 'most_recent_improvement_resource',
                 'most_theft_improvement_resource',
                 'most_recent_exchange_from',

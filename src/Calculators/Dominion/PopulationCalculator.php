@@ -277,11 +277,25 @@ class PopulationCalculator
     public function getAvailableHousingFromUnits(Dominion $dominion): int
     {
         $housingFromUnits = 0;
+        $raceKey = str_replace(' ', '_', strtolower($dominion->race->name));
+
         for ($slot = 1; $slot <= 4; $slot++)
         {
-            if($dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units'))
+            if($housesMilitaryUnitsPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units'))
             {
-                $housingFromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $dominion->race->getUnitPerkValueForUnitSlot($slot, 'houses_military_units');
+                $housingFromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $housesMilitaryUnitsPerk;
+            }
+
+            for ($housingPerkSlot = 1; $housingPerkSlot <= 4; $housingPerkSlot++)
+            {
+                # Unit cannot house itself (e.g. norse_unit1_housing)
+                if($housingPerkSlot !== $slot)
+                {
+                    if($housesSpecificMilitaryUnitPerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, ($raceKey . '_unit' . $housingPerkSlot . '_housing')))
+                    {
+                        $housingFromUnits += $this->militaryCalculator->getTotalUnitsForSlot($dominion, $slot) * $housesSpecificMilitaryUnitPerk;
+                    }
+                }
             }
         }
 
