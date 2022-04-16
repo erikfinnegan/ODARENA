@@ -17,6 +17,7 @@ use OpenDominion\Calculators\Dominion\RangeCalculator;
 use OpenDominion\Helpers\EventHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\RealmHelper;
+use OpenDominion\Helpers\RoundHelper;
 
 class WorldNewsHelper
 {
@@ -29,6 +30,7 @@ class WorldNewsHelper
         $this->eventHelper = app(EventHelper::class);
         $this->raceHelper = app(RaceHelper::class);
         $this->realmHelper = app(RealmHelper::class);
+        $this->roundHelper = app(RoundHelper::class);
     }
 
     public function getWorldNewsString(Dominion $viewer, GameEvent $event): string
@@ -50,6 +52,9 @@ class WorldNewsHelper
             case 'expedition':
                 return $this->generateExpeditionString($event->source, $event, $viewer);
 
+            case 'governor':
+                return $this->generateGovernorString($event->source, $event->target, $viewer);
+
             case 'invasion':
                 return $this->generateInvasionString($event->source, $event->target, $event, $viewer);
 
@@ -70,7 +75,7 @@ class WorldNewsHelper
                 return $this->generateTheftString($event->source, $event->target, $event, $viewer);
 
             default:
-                return 'No string defined for event type <pre>' . $event->type . ')</pre>.';
+                return 'No string defined for event type <code>' . $event->type . '</code>.';
         }
     }
 
@@ -112,26 +117,31 @@ class WorldNewsHelper
             Mirnon has accepted the devotion of Dark Elf (#3).
         */
 
+        $round = $countdown->round;
+        $trigger = $countdown->source;
+
         if(in_array($round->mode, ['standard-duration', 'deathmatch-duration']))
         {
-
+            return sprintf(
+                '<span class="%s">%s</span> has reached %s %s and triggered the the countdown! The round ends in 48 ticks.',
+                $this->getSpanClass('green'),
+                $this->generateDominionString($trigger, 'neutral', $viewer),
+                number_format($round->goal),
+                $this->roundHelper->getRoundModeGoalString($round)
+            );
         }
 
         if(in_array($round->mode, ['standard', 'deathmatch']))
         {
-
+            return sprintf(
+                '<span class="%s">%s</span> has reached %s %s and triggered the the countdown! The round ends in 48 ticks.',
+                $this->getSpanClass('green'),
+                $this->generateDominionString($trigger, 'neutral', $viewer),
+                number_format($round->goal),
+                $this->roundHelper->getRoundModeGoalString($round)
+            );
         }
 
-        return 'Countdown';
-
-        $string = sprintf(
-            '<span class="%s">%s</span> has accepted the devotion of %s.',
-            $deityClass,
-            $deity->name,
-            $this->generateDominionString($dominion, 'neutral', $viewer)
-          );
-
-        return $string;
     }
 
     public function generateDeityCompletedString(Dominion $dominion, Deity $deity, Dominion $viewer): string
@@ -187,6 +197,26 @@ class WorldNewsHelper
             $this->generateDominionString($dominion, 'neutral', $viewer),
             $this->getSpanClass($mode),
             number_format($expedition['data']['land_discovered_amount'])
+          );
+
+        return $string;
+    }
+
+    public function generateGovernorString(Realm $realm, Dominion $monarch, Dominion $viewer): string
+    {
+        /*
+            Dominion (# 2) has been elected governor of the realm.
+        */
+
+        $mode = 'other';
+        if($realm->id == $viewer->realm->id)
+        {
+            $mode = 'green';
+        }
+
+        $string = sprintf(
+            '%s has been elected governor of their realm.',
+            $this->generateDominionString($monarch, 'neutral', $viewer),
           );
 
         return $string;
