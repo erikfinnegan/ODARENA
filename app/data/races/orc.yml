@@ -43,11 +43,11 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 600
-      ore: 80
+      gold: 480
+      ore: 60
     power:
       offense: 4
-      defense: 2
+      defense: 3
     perks:
       offense_from_pairing: 4,2,0.05 # slot, amount, num required
 
@@ -58,8 +58,8 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 600
-      ore: 80
+      gold: 480
+      ore: 60
     power:
       offense: 0
       defense: 4

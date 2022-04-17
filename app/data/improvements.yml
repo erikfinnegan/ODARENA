@@ -42,7 +42,6 @@ construction:
     - Beastfolk
     - Dragon
     - Growth
-    - Imperial Gnome
     - Kerranad
     - Marshling
     - Sylvan
@@ -74,9 +73,10 @@ construction_dragon:
     unit_pairing: 25,4000
 
 construction_imperial_gnome:
+  enabled: 0
   name: Construction
   exclusive_races:
-  - Imperial Gnome
+    - Imperial Gnome
   perks:
     construction_cost: -25,4000
     rezone_cost: -25,4000
@@ -274,6 +274,7 @@ mining:
 
 storage:
   name: Storage
+  enabled: 0
   excluded_races:
     - Barbarian
     - Growth

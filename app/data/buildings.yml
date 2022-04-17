@@ -156,6 +156,7 @@ vault:
 
 granary:
   name: Granary
+  enabled: 1
   excluded_races:
     - Growth
     - Merfolk
