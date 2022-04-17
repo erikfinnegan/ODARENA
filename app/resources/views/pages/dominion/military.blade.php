@@ -83,13 +83,15 @@
                                                   @endif
                                               </td>
                                           @else
+                                              @php
+                                                  $unit = $unitType;
+                                              @endphp
                                               <td class="text-center">&mdash;</td>
                                               <td class="text-center">  <!-- If Spy/Wiz/AM -->
                                                   {{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unitType)) }}
 
                                                   @if($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}") > 0)
-                                                  <br>
-                                                  ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
+                                                      <br>({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
                                                   @endif
                                               </td>
                                           @endif

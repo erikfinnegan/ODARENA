@@ -1106,23 +1106,31 @@ class UnitHelper
     }
 
     # This does not take cost into consideration
-    public function isUnitTrainableByDominion(Unit $unit, Dominion $dominion): bool
+    public function isUnitTrainableByDominion($unit, Dominion $dominion): bool
     {
-        if($dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'cannot_be_trained'))
+
+        if(is_a($unit, 'OpenDominion\Models\Unit', true))
+        {
+            if($dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'cannot_be_trained'))
+            {
+                return false;
+            }
+
+            if(isset($unit->deity))
+            {
+                if(!$dominion->hasDeity())
+                {
+                    return false;
+                }
+                elseif($dominion->deity->id !== $unit->deity->id)
+                {
+                    return false;
+                }
+            }
+        }
+        elseif($dominion->race->getPerkValue('cannot_train_' . $unit))
         {
             return false;
-        }
-
-        if(isset($unit->deity))
-        {
-            if(!$dominion->hasDeity())
-            {
-                return false;
-            }
-            elseif($dominion->deity->id !== $unit->deity->id)
-            {
-                return false;
-            }
         }
 
         return true;
