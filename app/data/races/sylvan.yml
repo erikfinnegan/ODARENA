@@ -29,7 +29,6 @@ perks:
   no_drafting: 1
   extra_barren_forest_max_population: 10
   cannot_exchange: 1
-  lumber_production_mod: -80
   cannot_train_spies: 1
   cannot_train_wizards: 1
   cannot_train_archmages: 1
@@ -56,18 +55,20 @@ units:
       immortal_spy: 1
 
   - name: Sprite
-    training_time: 9
+    training_time: 12
     type:
       - living
       - sentient
+      - intelligent
     cost:
-      mana: 6
+      mana: 96
       sapling: 1
     power:
       offense: 0
-      defense: 4
+      defense: 8
     perks:
       no_draftee: 1
+      counts_as_wizard_defense: 0.25
       dies_into_resource: 1,sapling
 
   - name: Dryad
@@ -84,8 +85,7 @@ units:
       defense: 8
     perks:
       no_draftee: 1
-      counts_as_wizard_offense: 0.333
-      counts_as_wizard_defense: 0.250
+      counts_as_wizard: 0.125
       immortal_wizard: 1
       dies_into_resource: 1,sapling
 

@@ -348,7 +348,7 @@ class UnitHelper
 
             'production_from_title' => 'Produces %3$s %2$s per tick if ruled by a %1$s.',
 
-            'spends_resource_on_offense' => 'Requires and spends %2$s %1$s on attack.',
+            'spends_resource_on_offense' => 'Requires and uses up %2$s %1$s on attack.',
 
             // Return time
             'faster_return' => 'Returns %s ticks faster from battle.',

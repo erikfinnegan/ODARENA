@@ -140,6 +140,7 @@ gem_mine:
 
 vault:
   name: Vault
+  enabled: 0
   excluded_races:
     - Growth
     - Merfolk

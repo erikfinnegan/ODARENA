@@ -53,7 +53,7 @@ units:
       offense: 0
       defense: 6
     perks:
-      counts_as_wizard_offense: 1
+      counts_as_wizard_offense: 0.50
       immortal_wizard: 1
       production_from_title: conjurer,mana,0.5 # title, resource, amount
       casualties_from_title: conjurer,-75 # title, reduction
@@ -73,10 +73,10 @@ units:
       offense: 0
       defense: 8
     perks:
-      counts_as_wizard_offense: 0.333
+      counts_as_wizard_offense: 0.167
       counts_as_wizard_defense: 0.5
       immortal_wizard: 1
-      wizard_from_title: conjurer,0.25 # wizard power, title
+      wizard_from_title: conjurer,0.125 # wizard power, title
       casualties_from_title: conjurer,-75 # title, reduction
       defense_from_title: commander,1 # title, dp
       no_draftee: 1
@@ -97,7 +97,7 @@ units:
       defense: 6
     perks:
       offense_from_title: commander,2 # title, op
-      offense_from_wizard_ratio: 1
+      offense_from_wizard_ratio: 2
       plunder: mana,20
       casualties_from_title: conjurer,-50 # title, reduction
       no_draftee: 1
