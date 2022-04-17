@@ -269,6 +269,12 @@ class ResourceCalculator
             #dump($randomProductionPerkValue);
         }
 
+        # Check for RESOURCE__production_raw_from_land (spell)
+        if($productionFromLand = $dominion->getSpellPerkValue($resourceKey . '_production_raw_from_land'))
+        {
+            $production += $productionFromLand;
+        }
+
         // raw_mod perks
         $rawModPerks = 1;
         $rawModPerks += $dominion->getBuildingPerkMultiplier($resourceKey . '_production_raw_mod');

@@ -48,6 +48,7 @@ class BuildingHelper
             'snow_elf_unit1_housing' => 'Houses %s Arbalists.',
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
+            'vampiress_unit1_housing' => 'Houses %s Servants.',
 
             'dimensionalists_unit1_production_raw' => 'Summons %s Tl\'Tl per tick.',
             'dimensionalists_unit2_production_raw' => 'Summons %s Sft\'Rm per tick.',
@@ -87,15 +88,16 @@ class BuildingHelper
             'mud_production_raw' => 'Produces %s mud per tick.',
             'swamp_gas_production_raw' => 'Produces %s swamp gas per tick.',
             'marshling_production_raw' => 'Produces %s marshlings per tick.',
+            'yak_production_raw' => 'Breeds %s yak per tick.',
 
             'xp_generation_raw' => 'Generates %s XP per tick.',
 
             'gold_upkeep_raw' => 'Costs %s gold per tick.',
-            'food_upkeep_raw' => 'Costs %s food per tick.',
+            'food_upkeep_raw' => 'Uses %s food per tick.',
             'lumber_upkeep_raw' => 'Costs %s lumber per tick.',
             'ore_upkeep_raw' => 'Costs %s ore per tick.',
             'gems_upkeep_raw' => 'Costs %s gems per tick.',
-            'mana_upkeep_raw' => 'Costs %s mana per tick.',
+            'mana_upkeep_raw' => 'Drains %s mana per tick.',
             'pearls_upkeep_raw' => 'Costs %s pearls per tick.',
             'prisoner_upkeep_raw' => 'Works %s prisoners per tick to death.',
 
@@ -199,7 +201,7 @@ class BuildingHelper
             'rezone_cost' => 'Rezoning costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
             # Espionage and Wizardry
-            'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
+            'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%%.',
             'damage_from_fireball' => 'Damage from fireballs reduced by %2$s%% for every %1$s%%.',
             'lightning_bolt_damage' => 'Damage from lightning bolts reduced by %2$s%% for every %1$s%%.',
             'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',

@@ -1553,14 +1553,13 @@ druvas_guard:
   name: Druva's Guard
   deity: druva
   scope: self
-  class: active
-  cost: 15
+  class: passive
+  cost: 12
   cooldown: 0
-  duration: 0
+  duration: 48
   exclusive_races:
     - Wood Elf
   perks:
-    summon_resource_from_land: 2,elk,forest # 2 elks per 1 forest
-
+    elk_production_raw_from_land: 0.01,forest # 1 elks per 1,000 forest
 
 # END DEITY SPELLS

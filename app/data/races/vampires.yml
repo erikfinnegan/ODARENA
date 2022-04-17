@@ -28,7 +28,6 @@ units:
       defense: 4
     perks:
       cannot_be_trained: 1
-      does_not_count_as_population: 1
       strength_conversion: 4,1,2 # threshold,under,over
 
   - name: Gnarl
@@ -80,8 +79,8 @@ units:
       defense_from_time: 06,18,1 # Between the hours 18:00 and 06:00, gains +1 DP
       offense_from_time: 18,06,2 # Between the hours 18:00 and 06:00, gains +2 OP
       faster_return_from_time: 18,06,4 # Between the hours 18:00 and 06:00, returns 4 ticks faster
-      counts_as_spy_offense_from_time: 18,06,0.125
-      counts_as_spy_defense_from_time: 06,18,0.125
-      counts_as_spy: 0.125
+      counts_as_spy_offense_from_time: 18,06,0.10
+      counts_as_spy_defense_from_time: 06,18,0.10
+      counts_as_spy: 0.10
       displaced_peasants_conversion: 1
       theft_carry_capacity: -33

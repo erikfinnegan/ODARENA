@@ -1600,7 +1600,7 @@ class MilitaryCalculator
      */
     public function getSpyRatio(Dominion $dominion, string $type = 'offense'): float
     {
-        return ($this->getSpyRatioRaw($dominion, $type) * $this->getSpyRatioMultiplier($dominion)  * (0.9 + $dominion->spy_strength / 1000));
+        return ($this->getSpyRatioRaw($dominion, $type) * $this->getSpyRatioMultiplier($dominion, $type)  * (0.9 + $dominion->spy_strength / 1000));
     }
 
     /**
@@ -1664,7 +1664,7 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getSpyRatioMultiplier(Dominion $dominion): float
+    public function getSpyRatioMultiplier(Dominion $dominion, string $type = 'offense'): float
     {
         $multiplier = 0;
 
@@ -1682,6 +1682,7 @@ class MilitaryCalculator
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('spy_strength');
+        $multiplier += $dominion->getBuildingPerkMultiplier('spy_strength_on_' . $type);
 
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('spy_strength');
@@ -1720,7 +1721,7 @@ class MilitaryCalculator
      */
     public function getWizardRatio(Dominion $dominion, string $type = 'offense'): float
     {
-        return ($this->getWizardRatioRaw($dominion, $type) * $this->getWizardRatioMultiplier($dominion) * (0.9 + $dominion->wizard_strength / 1000));
+        return ($this->getWizardRatioRaw($dominion, $type) * $this->getWizardRatioMultiplier($dominion, $type) * (0.9 + $dominion->wizard_strength / 1000));
     }
 
     /**
@@ -1788,7 +1789,7 @@ class MilitaryCalculator
      * @param Dominion $dominion
      * @return float
      */
-    public function getWizardRatioMultiplier(Dominion $dominion): float
+    public function getWizardRatioMultiplier(Dominion $dominion, string $type = 'offense'): float
     {
         $multiplier = 0;
 
@@ -1803,9 +1804,11 @@ class MilitaryCalculator
 
         // Spells
         $multiplier += $dominion->getSpellPerkMultiplier('wizard_strength');
+        $multiplier += $dominion->getBuildingPerkMultiplier('wizard_strength_on_' . $type);
 
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('wizard_strength');
+        $multiplier += $dominion->getBuildingPerkMultiplier('wizard_strength_on_' . $type);
 
         // Land improvements
         $multiplier += $dominion->getLandImprovementPerkMultiplier('wizard_strength');
@@ -1872,7 +1875,7 @@ class MilitaryCalculator
             }
         }
 
-        return $wizardPoints * $this->getWizardRatioMultiplier($dominion);
+        return $wizardPoints * $this->getWizardRatioMultiplier($dominion, $type);
     }
 
     /**
@@ -1917,7 +1920,7 @@ class MilitaryCalculator
             }
         }
 
-        return $spyPoints * $this->getSpyRatioMultiplier($dominion);
+        return $spyPoints * $this->getSpyRatioMultiplier($dominion, $type);
     }
 
     /**

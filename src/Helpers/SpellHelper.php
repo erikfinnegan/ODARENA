@@ -63,6 +63,8 @@ class SpellHelper
             'gems_production_raw_mod' => '%s%% raw gem production',
             'gold_production_raw_mod' => '%s%% raw gold production',
 
+            'elk_production_raw_from_land' => 'Grants one elk per %1$s acres of %2$s each tick.',
+
             'ore_production_mod' => '%s%% ore production',
             'mana_production_mod' => '%s%% mana production',
             'lumber_production_mod' => '%s%% lumber production',
@@ -600,7 +602,6 @@ class SpellHelper
 
             }
 
-
             if($perk->key === 'converts_crypt_bodies')
             {
                 $race = Race::where('name', 'Undead')->firstOrFail();
@@ -642,6 +643,16 @@ class SpellHelper
 
 
                 $perkValue = [$firstValue, $resource->name];
+            }
+
+            // Special case for elk_production_raw_from_land
+            if($perk->key === 'elk_production_raw_from_land')
+            {
+                $unitsPerAcre = (float)$perkValue[0];
+                $landType = (string)$perkValue[1];
+
+                $perkValue = [number_format(intval(1/$unitsPerAcre)), ucwords($landType)];
+                #$nestedArrays = false;
             }
 
             /*****/

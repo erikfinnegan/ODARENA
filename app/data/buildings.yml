@@ -252,6 +252,7 @@ giant_shell:
   land_type: water
   perks:
     gold_theft_protection: 50000 # protects 50,000 gold from theft
+    food_theft_protection: 10000 # protects 50,000 gold from theft
 
 # END MERFOLK
 
@@ -396,7 +397,7 @@ masonry:
   land_type: plain
   perks:
     improvements: 1,2.75 # Every 1% gives 2.75% higher imps
-    lightning_bolt_damage: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
+    damage_from_lightning_bolt: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
 
 stronghold:
   name: Stronghold
@@ -406,7 +407,7 @@ stronghold:
   perks:
     improvements: 1,2.75 # Every 1% gives 2.75% higher imps
     gem_theft_reduction: 1,2,100  # Every 1% reduces plat stolen by 8%, max 100% reduction
-    lightning_bolt_damage: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
+    damage_from_lightning_bolt: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
 
 naval_institute:
   name: Naval Institute
@@ -415,7 +416,7 @@ naval_institute:
   land_type: water
   perks:
     improvements: 1,2.75 # Every 1% gives 2.75% higher imps
-    lightning_bolt_damage: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
+    damage_from_lightning_bolt: 1,0.75 # Every 1% reduces damage from LBs by 0.75%
     draftee_housing: 30
     housing: 0
 
@@ -596,6 +597,7 @@ ore_mill:
 
 factory:
   name: Factory
+  enabled: 0
   excluded_races:
     - Dragon
     - Growth
@@ -621,22 +623,31 @@ refiner:
 
 ## Other Buildings
 
-forest_haven:
-  name: Forest Haven
+constabulary:
+  name: Constabulary
   excluded_races:
-    - Dragon
-    - Growth
-    - Icekin
     - Merfolk
     - Myconid
     - Void
-    - Swarm
-  land_type: forest
+    - Sylvan
+  land_type: hill
   perks:
-    spy_losses: 1,3,30 # 1% gives -3% spy losses, max -30
-    damage_from_fireball: 1,8  # Every 1% reduces damage from FBs by 8%
-    gold_theft_reduction: 1,8,100  # Every 1% reduces plat stolen by 8%, max 100% reduction
+    spy_strength_on_defense: 20,1 # +20% defensive SPA per 1%, no max
     spy_housing: 40
+    housing: 0
+
+wizard_academy:
+  name: Wizard Academy
+  excluded_races:
+    - Merfolk
+    - Myconid
+    - Void
+    - Sylvan
+    - Wood Elf
+  land_type: hill
+  perks:
+    wizard_strength_on_defense: 20,1 # +20% defensive WPA per 1%, no max
+    wizard_housing: 40
     housing: 0
 
 wizard_guild:
@@ -673,6 +684,15 @@ mass_grave:
   perks:
     peasants_conversions: 3,6;miasma,18;food # amountFrom, amountTo, resourceTo
     population_growth: 1,-2 # Every 1%, gives -2%
+
+yak_breeder:
+  name: Yak Breeder
+  exclusive_races:
+    - Orc
+  land_type: mountain
+  perks:
+    yak_production_raw: 1
+    food_upkeep_raw: 800
 
 # END ONE-OFF/FEW-OFF FACTION BUILDINGS
 
@@ -892,13 +912,16 @@ gill:
 
 # BEGIN WOOD ELF AND SYLVAN #
 
-mana_tree:
-  name: Mana Tree
+forest_haven:
+  name: Forest Haven
   exclusive_races:
+    - Sylvan
     - Wood Elf
   land_type: forest
   perks:
-    mana_production_raw: 35
+    spy_losses: -1,4
+    damage_from_fireball: 1,8  # Every 1% reduces damage from FBs by 8%
+    spy_housing: 40
 
 garden:
   name: Garden
@@ -908,6 +931,14 @@ garden:
   land_type: forest
   perks:
     food_production_raw: 60
+
+mana_tree:
+  name: Mana Tree
+  exclusive_races:
+    - Wood Elf
+  land_type: forest
+  perks:
+    mana_production_raw: 35
 
 orchard:
   name: Orchard
@@ -1502,6 +1533,7 @@ mansion:
   perks:
     housing: 30
     jobs: 10
+    vampiress_unit1_housing: 60
 
 mire:
   name: Mire

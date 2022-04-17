@@ -92,17 +92,17 @@
                                                   ({{ number_format($queueService->getTrainingQueueTotalByResource($selectedDominion, "military_{$unitType}")) }})
                                                   @endif
                                               </td>
-                                              @endif
-                                        <td class="text-center">  <!-- Train -->
-                                          @if ($selectedDominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'cannot_be_trained'))
-                                            &mdash;
-                                          @else
-                                            <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="{{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}" min="0" max="{{ $trainingCalculator->getMaxTrainable($selectedDominion)[$unitType] }}" size="8" style="min-width:5em;" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
                                           @endif
+                                        <td class="text-center">  <!-- Train -->
+                                            @if (!$unitHelper->isUnitTrainableByDominion($unit, $selectedDominion))
+                                                &mdash;
+                                            @else
+                                                <input type="number" name="train[military_{{ $unitType }}]" class="form-control text-center" placeholder="{{ number_format($trainingCalculator->getMaxTrainable($selectedDominion)[$unitType]) }}" min="0" max="{{ $trainingCalculator->getMaxTrainable($selectedDominion)[$unitType] }}" size="8" style="min-width:5em;" value="{{ old('train.' . $unitType) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            @endif
                                         </td>
 
                                         <td class="text-center">  <!-- Cost -->
-                                            @if ($selectedDominion->race->getUnitPerkValueForUnitSlot(intval(str_replace('unit','',$unitType)), 'cannot_be_trained'))
+                                            @if (!$unitHelper->isUnitTrainableByDominion($unit, $selectedDominion))
                                                 &mdash;
                                             @else
                                                 @php

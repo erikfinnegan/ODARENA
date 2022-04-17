@@ -259,6 +259,16 @@ class TrainingCalculator
                 $trainable[$unitType] = max(0, min($trainable[$unitType], $availableCapacity));
             }
 
+            # Check for unit deity
+            $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                return ($unit->slot === $slot);
+            })->first();
+
+            if(isset($unit->deity) and (!$dominion->hasDeity() or $dominion->deity->id !== $unit->deity->id))
+            {
+                $trainable[$unitType] = 0;
+            }
+
             $trainable[$unitType] = max(0, $trainable[$unitType]);
 
         }

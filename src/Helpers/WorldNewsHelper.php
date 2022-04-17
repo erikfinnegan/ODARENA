@@ -134,11 +134,12 @@ class WorldNewsHelper
         if(in_array($round->mode, ['standard', 'deathmatch']))
         {
             return sprintf(
-                '<span class="%s">%s</span> has reached %s %s and triggered the the countdown! The round ends in 48 ticks.',
+                '<span class="%s">%s</span> has reached %s %s and triggered the the countdown! The round ends in 48 ticks, at tick %s.',
                 $this->getSpanClass('green'),
                 $this->generateDominionString($trigger, 'neutral', $viewer),
                 number_format($round->goal),
-                $this->roundHelper->getRoundModeGoalString($round)
+                $this->roundHelper->getRoundModeGoalString($round),
+                $round->end_tick
             );
         }
 

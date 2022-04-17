@@ -26,14 +26,13 @@ perks:
   salvaging: 75
 
 units:
-  - name: Bomb
+  - name: Brimstone Bullet
     training_time: 6
     type:
       - ammunition
     cost:
-      gold: 100
-      ore: 100
-      brimmer: 6
+      ore: 2
+      brimmer: 1
     power:
       offense: 0
       defense: 0
@@ -41,8 +40,8 @@ units:
       fixed_casualties: 100
       does_not_count_as_population: 1
       no_draftee: 1
-      pairing_limit: 4,50
-      offense_from_pairing: 4,4,0.02 # slot, amount, num required
+      pairing_limit: 4,1000
+      offense_from_pairing: 4,0.3,0.001 # slot, amount, num required
       sendable_with_zero_op: 1
 
   - name: Iron Swarm
@@ -50,9 +49,9 @@ units:
     type:
       - machine
     cost:
-      gold: 180
-      ore: 315
-      brimmer: 4
+      gold: 50
+      ore: 75
+      brimmer: 2
     power:
       offense: 0
       defense: 0
@@ -61,7 +60,7 @@ units:
       no_draftee: 1
       pairing_limit: 4,100
       offense_from_pairing: 4,2,0.01 # slot, amount, num required
-      defense_from_pairing: 4,2,0.01 # slot, amount, num required
+      defense_from_pairing: 4,1,0.01 # slot, amount, num required
       brimmer_upkeep_raw: 0.01
       sendable_with_zero_op: 1
 
@@ -70,8 +69,8 @@ units:
     type:
       - machine
     cost:
-      gold: 3000
-      ore: 1500
+      gold: 1500
+      ore: 1000
       brimmer: 10
     power:
       offense: 0
@@ -79,17 +78,16 @@ units:
     perks:
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: factory,50 # building, buildings per unit
-      brimmer_upkeep_raw: 0.175
+      brimmer_upkeep_raw: 1
 
   - name: Airship
     training_time: 12
     type:
       - machine
     cost:
-      gold: 40000
-      lumber: 7500
-      brimmer: 500
+      gold: 25000
+      lumber: 6000
+      brimmer: 100
     power:
       offense: 120
       defense: 80
@@ -98,5 +96,5 @@ units:
       immortal_on_fending_off: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      building_limit: factory,4 # building, buildings per unit
       brimmer_upkeep_raw: 1
+      spends_resource_on_offense: brimmer,75 # +16 OP if paired with 150 ore

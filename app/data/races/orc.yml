@@ -81,8 +81,8 @@ units:
       offense: 0
       defense: 8
     perks:
-      offense_from_pairing: 4,20,0.50 # slot, amount, num required
-      defense_from_pairing: 4,8,0.50 # slot, amount, num required
+      offense_from_pairing: 4,20,0.10 # slot, amount, num required
+      defense_from_pairing: 4,8,0.10 # slot, amount, num required
       dies_into_resource: 0.90,yak
       sendable_with_zero_op: 1
 

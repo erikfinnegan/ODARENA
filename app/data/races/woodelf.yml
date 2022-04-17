@@ -28,21 +28,6 @@ land_improvements:
     lumber_production_raw: 25
 
 units:
-  - name: Ranger
-    training_time: 12
-    type:
-      - living
-      - sentient
-      - intelligent
-    cost:
-      gold: 1150
-      lumber: 125
-    power:
-      offense: 8
-      defense: 4
-    perks:
-      increases_land_discovered: 1 # +1% for every 1% of raw OP from this unit
-
   - name: Elk Cavalry
     training_time: 12
     deity: druva
@@ -50,12 +35,27 @@ units:
       - living
       - sentient
       - intelligent
+      - mounted
+      - divine
     cost:
-      gold: 1000
+      gold: 5000
       elk: 1
     power:
       offense: 24
       defense: 18
+
+  - name: Ranger
+    training_time: 12
+    type:
+      - living
+      - sentient
+      - intelligent
+    cost:
+      gold: 750
+      lumber: 200
+    power:
+      offense: 0
+      defense: 8
 
   - name: Warden
     training_time: 12

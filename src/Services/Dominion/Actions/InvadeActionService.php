@@ -224,19 +224,38 @@ class InvadeActionService
 
             foreach($units as $slot => $amount)
             {
+
+                $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
+                    return ($unit->slot === $slot);
+                })->first();
+
                 if($amount < 0)
                 {
-                    throw new GameException('Invasion was canceled due to bad input.');
+                    throw new GameException('Invasion was canceled due to an invalid amount of ' . str_plural($unit->name, $amount) . '.');
                 }
+
 
                 # OK, unit can be trained. Let's check for pairing limits.
                 if($this->unitHelper->unitHasCapacityLimit($dominion, $slot) and !$this->unitHelper->checkUnitLimitForInvasion($dominion, $slot, $amount))
                 {
-                    $unit = $dominion->race->units->filter(function ($unit) use ($slot) {
-                        return ($unit->slot === $slot);
-                    })->first();
 
                     throw new GameException('You can at most control ' . number_format($this->unitHelper->getUnitMaxCapacity($dominion, $slot)) . ' ' . str_plural($unit->name) . '. To control more, you need to first have more of their superior unit.');
+                }
+
+                # Check for spends_resource_on_offense
+                if($spendsResourcesOnOffensePerk = $dominion->race->getUnitPerkValueForUnitSlot($slot, 'spends_resource_on_offense'))
+                {
+                    $resourceKey = (string)$spendsResourcesOnOffensePerk[0];
+                    $resourceAmount = (float)$spendsResourcesOnOffensePerk[1];
+                    $resource = Resource::where('key', $resourceKey)->firstOrFail();
+
+                    $resourceAmountRequired = ceil($resourceAmount * $amount);
+                    $resourceAmountOwned = $this->resourceCalculator->getAmount($resourceKey, $dominion);
+
+                    if($resourceAmountRequired > $resourceAmountOwned)
+                    {
+                        throw new GameException('You do not have enough ' . $resource->name . ' to attack to send this many ' . str_plural($unit->name, $amount) . '. You need ' . number_format($resourceAmountRequired) . ' but only have ' . number_format($resourceAmountOwned) . '.');
+                    }
                 }
              }
 
@@ -1199,6 +1218,7 @@ class InvadeActionService
                $this->resourceService->updateResources($attacker, [$resourceKey => ($resourceAmount * -1)]);
            }
 
+           # Yeti: Stonethrowers spend ore (but not necessarily all of it)
            if($exhaustingPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'offense_from_resource_capped_exhausting') and isset($units[$slot]))
            {
                $amountPerUnit = (float)$exhaustingPerk[1];
@@ -1210,9 +1230,21 @@ class InvadeActionService
 
                $this->resourceService->updateResources($attacker, [$resourceKey => ($resourceAmountExhausted * -1)]);
            }
+
+           # Imperial Gnome: brimmer to fuel the Airships
+           if($spendsResourcesOnOffensePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'spends_resource_on_offense'))
+           {
+               $resourceKey = (string)$spendsResourcesOnOffensePerk[0];
+               $resourceAmountPerUnit = (float)$spendsResourcesOnOffensePerk[1];
+               $resource = Resource::where('key', $resourceKey)->firstOrFail();
+
+               $resourceAmountSpent = $units[$slot] * $resourceAmountPerUnit;
+
+               $this->invasionResult['attacker'][$resourceKey . '_exhausted'] = $resourceAmountSpent;
+
+               $this->resourceService->updateResources($attacker, [$resourceKey => ($resourceAmountSpent * -1)]);
+           }
         }
-
-
 
         # Ignore if attacker is overwhelmed.
         if(!$this->invasionResult['result']['overwhelmed'])

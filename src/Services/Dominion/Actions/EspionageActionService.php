@@ -1140,7 +1140,7 @@ class EspionageActionService
       $spiesKilledMultiplier = 1;
 
       // Buildings
-      $spiesKilledMultiplier -= $dominion->getBuildingPerkMultiplier('spy_losses');
+      $spiesKilledMultiplier += $dominion->getBuildingPerkMultiplier('spy_losses');
 
       # Techs
       $spiesKilledMultiplier += $dominion->getTechPerkMultiplier('spy_losses');

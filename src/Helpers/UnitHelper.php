@@ -348,6 +348,8 @@ class UnitHelper
 
             'production_from_title' => 'Produces %3$s %2$s per tick if ruled by a %1$s.',
 
+            'spends_resource_on_offense' => 'Requires and spends %2$s %1$s on attack.',
+
             // Return time
             'faster_return' => 'Returns %s ticks faster from battle.',
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
@@ -663,13 +665,22 @@ class UnitHelper
                     }
                 }
 
-                if($perk->key === 'destroy_resource_on_victory')
+                if($perk->key === 'destroy_resource_on_victory' or $perk->key === 'spends_resource_on_offense')
                 {
                     $resourceKey = (string)$perkValue[0];
-                    $amountDestroyed = (float)$perkValue[1];
+                    $amount = (float)$perkValue[1];
                     $resource = Resource::where('key', $resourceKey)->firstOrFail();
 
-                    $perkValue = [str_plural($resource->name, $amountDestroyed), $amountDestroyed];
+                    # Don't pluralise some resources
+                    if($resourceKey == 'brimmer')
+                    {
+                        $perkValue = [$resource->name, $amount];
+                    }
+                    else
+                    {
+                        $perkValue = [str_plural($resource->name, $amount), $amount];
+                    }
+
                 }
 
                 if($perk->key === 'offense_from_improvement_points' or $perk->key === 'defense_from_improvement_points')
@@ -1092,6 +1103,52 @@ class UnitHelper
         return $race->units->filter(function ($unit) use ($slot) {
             return ($unit->slot === $slot);
         })->first();
+    }
+
+    # This does not take cost into consideration
+    public function isUnitTrainableByDominion(Unit $unit, Dominion $dominion): bool
+    {
+        if($dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'cannot_be_trained'))
+        {
+            return false;
+        }
+
+        if(isset($unit->deity))
+        {
+            if(!$dominion->hasDeity())
+            {
+                return false;
+            }
+            elseif($dominion->deity->id !== $unit->deity->id)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    # This does not take cost or pairing limits into consideration
+    public function isUnitSendableByDominion(Unit $unit, Dominion $dominion): bool
+    {
+        if($dominion->race->getUnitPerkValueForUnitSlot($unit->slot, 'cannot_be_sent'))
+        {
+            return false;
+        }
+
+        if(isset($unit->deity))
+        {
+            if(!$dominion->hasDeity())
+            {
+                return false;
+            }
+            elseif($dominion->deity->id !== $unit->deity->id)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

@@ -1069,201 +1069,6 @@ class Dominion extends AbstractModel
 
             if($dominionSpell and $spell->perks->filter(static function (SpellPerkType $spellPerkType) use ($perkKey) { return ($spellPerkType->key === $perkKey); }) and $dominionSpell->duration > 0 and $perkValueString !== 0)
             {
-
-                /*$singleValueNumericPerks = [
-                    # Production mods
-                    'gold_production_mod',
-                    'food_production_mod',
-                    'ore_production_mod',
-                    'gems_production_mod',
-                    'lumber_production_mod',
-                    'mana_production_mod',
-                    'pearls_production_mod',
-                    'cosmic_alignment_production_mod',
-                    'mud_production_mod',
-                    'swamp_gas_production_mod',
-                    'xp_generation_mod',
-
-                    # Consumption mods
-                    'gold_consumption_mod',
-                    'food_consumption_mod',
-                    'ore_consumption_mod',
-                    'gems_consumption_mod',
-                    'lumber_consumption_mod',
-                    'mana_consumption_mod',
-                    'pearls_consumption_mod',
-                    'cosmic_alignment_consumption_mod',
-                    'mud_consumption_mod',
-                    'swamp_gas_consumption_mod',
-                    'xp_generation_mod',
-
-                    # Raw production
-                    'gold_production_raw',
-                    'food_production_raw',
-                    'ore_production_raw',
-                    'gems_production_raw',
-                    'lumber_production_raw',
-                    'mana_production_raw',
-                    'pearls_production_raw',
-                    'mud_production_raw',
-                    'swamp_gas_production_raw',
-                    'marshling_production_raw',
-                    'xp_generation_raw',
-
-                    # Raw upkeep
-                    'gold_upkeep_raw',
-                    'food_upkeep_raw',
-                    'ore_upkeep_raw',
-                    'gems_upkeep_raw',
-                    'lumber_upkeep_raw',
-                    'mana_upkeep_raw',
-                    'pearls_upkeep_raw',
-                    'mud_upkeep_raw',
-                    'swamp_gas_upkeep_raw',
-                    'marshling_upkeep_raw',
-
-                    # Decay
-                    'gold_decay',
-                    'food_decay',
-                    'ore_decay',
-                    'gems_decay',
-                    'lumber_decay',
-                    'mana_decay',
-                    'pearls_decay',
-                    'mud_decay',
-                    'swamp_gas_decay',
-                    'marshling_decay',
-
-                    # Raw production mod
-                    'gold_production_raw_mod',
-                    'food_production_raw_mod',
-                    'ore_production_raw_mod',
-                    'gems_production_raw_mod',
-                    'lumber_production_raw_mod',
-                    'mana_production_raw_mod',
-                    'pearls_production_raw_mod',
-                    'mud_production_raw_mod',
-                    'swamp_gas_production_raw_mod',
-                    'marshling_production_raw_mod',
-                    'xp_generation_raw_mod',
-
-                    # No production
-                    'no_gold_production',
-                    'no_food_production',
-                    'no_ore_production',
-                    'no_gems_production',
-                    'no_lumber_production',
-                    'no_mana_production',
-                    'no_pearls_production',
-                    'no_mud_production',
-                    'no_swamp_gas_production',
-                    'no_marshling_production',
-                    'no_xp_generation',
-
-                    # Unit costs
-                    'unit_gold_costs',
-                    'unit_ore_costs',
-                    'unit_gems_costs',
-                    'unit_lumber_costs',
-                    'unit_mana_costs',
-                    'unit_food_costs',
-                    'unit_blood_costs',
-                    'unit_soul_costs',
-                    'unit_horse_costs',
-                    'unit_swamp_gas_costs',
-                    'unit_mud_costs',
-
-                    # Military
-                    'offensive_power',
-                    'offensive_power_on_retaliation',
-                    'defensive_power',
-
-                    'drafting',
-                    'no_drafting',
-                    'cannot_invade',
-
-                    'no_attrition',
-
-                    'base_morale',
-
-                    'defensive_power_from_peasants',
-                    'faster_return',
-                    'training_time_raw',
-                    'target_defensive_power_mod',
-                    'attacker_offensive_power_mod',
-
-                    'immune_to_temples',
-
-                    'opens_portal',
-
-                    # Population
-                    'population_growth',
-
-                    # Improvements
-                    'improvements',
-                    'improvements_interest',
-                    'invest_bonus',
-
-                    # Building, rezone, land
-                    'cannot_build',
-                    'cannot_explore',
-                    'land_discovered',
-
-                    # Theft
-                    'gold_theft',
-                    'gems_theft',
-                    'ore_theft',
-                    'mana_theft',
-                    'lumber_theft',
-                    'all_theft',
-
-                    # Espionage and sabotage
-                    'spy_strength',
-                    'spy_strength_recovery',
-                    'immortal_spies',
-                    'blind_to_reptilian_spies_on_info',
-                    'blind_to_reptilian_spies_on_theft',
-
-                    # Magic and sorcery
-                    'reveal_ops',
-                    'fog_of_war',
-                    'chance_to_reflect_spells',
-                    'damage_from_spells',
-                    'damage_from_fireball',
-                    'damage_from_lightning_bolt',
-                    'spell_cost',
-                    'wizard_strength',
-                    'wizard_strength_recovery',
-                    'immortal_wizards',
-
-                    # Casualties, immortality, and conversion
-                    'can_kill_immortal',
-                    'cannot_be_converted',
-                    'casualties',
-                    'casualties_on_offense',
-                    'casualties_on_defense',
-                    'increases_enemy_casualties',
-                    'increases_enemy_casualties_on_defense',
-                    'increases_enemy_casualties_on_offense',
-                    'increases_enemy_casualties_on_offense_from_wizard_ratio',
-                    'increases_enemy_draftee_casualties',
-                    'no_conversions',
-                    'convert_enemy_casualties_to_food',
-                    'stop_land_generation',
-                    'defensive_power_vs_insect_swarm',
-
-                    # Other, special
-                    'stasis',
-                    'advancement_costs',
-                    'deity_power',
-                    'exchange_rate',
-
-                    # Cult,
-                    'enthralling',
-                    'cogency',
-                    'persuasion',
-                ];*/
-
                 if(is_numeric($perkValueString))
                 {
                     $perk += (float)$perkValueString;
@@ -1297,11 +1102,27 @@ class Dominion extends AbstractModel
                 {
                     return True;
                 }
+                elseif($perkKey == 'elk_production_raw_from_land')
+                {
+                    $perkValueArray = $spell->getActiveSpellPerkValues($spell->key, $perkKey);
+
+                    $perAcre = (float)$perkValueArray[0];
+                    $landType = (string)$perkValueArray[1];
+
+                    $perk += floor($perAcre * $this->{'land_' . $landType});
+                }
                 else
                 {
                     dd("[Error] Undefined spell perk type:", $perkKey, $perkValueString);
                 }
+            }
 
+            if(isset($spell->deity))
+            {
+                if(!$this->hasDeity() or $spell->deity->id !== $this->deity->id)
+                {
+                    $perk = 0;
+                }
             }
         }
 
