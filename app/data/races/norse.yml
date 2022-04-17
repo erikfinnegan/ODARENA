@@ -46,7 +46,7 @@ units:
     type:
       - ship
     cost:
-      gold: 38000
+      gold: 40000
       ore: 800
       lumber: 18000
     power:
