@@ -211,8 +211,8 @@ class DecreeHelper
 
             'wizard_strength_recovery' => 'Wizard strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
             'spy_strength' => 'Spy strength increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'spy_strength_on_defense' => 'Spy strength on defense increased by %2$s%% for every %1$s%% (max +%3$s%%).',
-            'spy_strength_on_offense' => 'Spy strength on offense increased by %2$s%% for every %1$s%% (max +%3$s%%).',
+            'spy_strength_on_defense' => 'Spy strength on defense increased by %2$s%% for every %1$s%%.',
+            'spy_strength_on_offense' => 'Spy strength on offense increased by %2$s%% for every %1$s%%.',
 
         ];
 
