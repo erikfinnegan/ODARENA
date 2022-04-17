@@ -91,10 +91,6 @@ class ExplorationCalculator
     */
     public function getGoldCost(Dominion $dominion): int
     {
-        #if($dominion->protection_ticks == 96)
-        #{
-        #    return 0;
-        #}
         return $this->getGoldCostRaw($dominion) * $this->getGoldCostBonus($dominion);
     }
 
@@ -137,10 +133,6 @@ class ExplorationCalculator
      */
      public function getDrafteeCost(Dominion $dominion): int
      {
-         if($dominion->protection_ticks == 96)
-         {
-             return 0;
-         }
          return max(3, $this->getDrafteeCostRaw($dominion) + $this->getDrafteeCostModifier($dominion));
      }
 
@@ -153,11 +145,6 @@ class ExplorationCalculator
      */
     public function getMaxAfford(Dominion $dominion): int
     {
-        if($dominion->protection_ticks == 96)
-        {
-            return floor($this->landCalculator->getTotalLand($dominion) * (($dominion->morale/100)/8));
-        }
-
         if($dominion->getDeityPerkValue('cannot_explore') or $dominion->getSpellPerkValue('cannot_explore'))
         {
             return 0;
