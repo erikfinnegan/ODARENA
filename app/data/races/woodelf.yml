@@ -43,6 +43,8 @@ units:
     power:
       offense: 24
       defense: 18
+    perks:
+      dies_into_resource: 1,elk
 
   - name: Ranger
     training_time: 12
