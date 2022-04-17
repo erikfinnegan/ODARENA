@@ -1508,6 +1508,7 @@ norse_longhouse:
 
 valhall:
   name: Valhall
+  enabled: 0
   exclusive_races:
     - Norse
   land_type: plain
