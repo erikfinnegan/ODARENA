@@ -1504,7 +1504,7 @@ norse_longhouse:
   land_type: water
   perks:
     housing: 30
-    norse_unit1_housing: 30
+    military_housing: 30
     jobs: 0
 
 valhall:
