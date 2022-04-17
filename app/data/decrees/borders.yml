@@ -8,12 +8,12 @@ exclusive_races:
 states:
   - name: Open
     perks:
-      - exchange_bonus: 5
+      - exchange_rate: 5
       - can_expand: 1
       - population_growth: 20
 
   - name: Closed
     perks:
-      - exchange_bonus: -10
+      - exchange_rate: -10
       - defensive_power: 1.25
       - population_growth: -10

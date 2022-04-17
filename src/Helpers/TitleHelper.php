@@ -116,7 +116,7 @@ class TitleHelper
                 break;
             case 'exchange_rate':
                 $negativeBenefit = false;
-                $description = 'Better exchange rates:';
+                $description = 'Exchange rates:';
                 break;
             case 'mana_drain':
                 $negativeBenefit = true;

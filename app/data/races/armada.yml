@@ -9,7 +9,7 @@ peasants_alias: civil servant
 draftees_alias: cadet
 
 perks:
-  exchange_bonus: 25
+  exchange_rate: 25
   salvaging: 50
   explore_cost: 100
   expedition_land_gains: 100

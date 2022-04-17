@@ -25,6 +25,7 @@ perks:
   gems_production_mod: 10
   max_population: -10
   salvaging: 75
+  exchange_rate: -20
 
 units:
   - name: Brimstone Bullet

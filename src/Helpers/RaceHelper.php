@@ -248,9 +248,9 @@ class RaceHelper
                 $negativeBenefit = false;
                 $description = 'Reduced conversions';
                 break;
-            case 'exchange_bonus':
+            case 'exchange_rate':
                 $negativeBenefit = false;
-                $description = 'Better exchange rates';
+                $description = 'Exchange rates';
                 break;
           case 'does_not_kill':
                 $negativeBenefit = false;

@@ -522,7 +522,7 @@ class ResourceCalculator
         $perk = 1;
 
         // Faction perk
-        $perk += $dominion->race->getPerkMultiplier('exchange_bonus');
+        $perk += $dominion->race->getPerkMultiplier('exchange_rate');
 
         // Techs
         $perk += $dominion->getTechPerkMultiplier('exchange_rate');

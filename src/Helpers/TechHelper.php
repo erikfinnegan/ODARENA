@@ -68,7 +68,7 @@ class TechHelper
             'barracks_housing' => '%s%% higher military housing in buildings that provide military housing',
             'military_housing' => '%s%% more military housing in buildings that provide military housing',
             'gold_interest' => '%s%% interest on your gold stockpile per tick',
-            'exchange_rate' => '%s%% better exchange rates',
+            'exchange_rate' => '%s%% exchange rates',
             'jobs_per_building' => '%s%% more jobs per building',
             'drafting' => '%s%% drafting',
 

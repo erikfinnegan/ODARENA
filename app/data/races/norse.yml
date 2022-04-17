@@ -17,7 +17,7 @@ resources:
   - mana
 
 perks:
-  exchange_bonus: 20
+  exchange_rate: 20
   lumber_production_mod: 10
   draftee_dp: 3
 

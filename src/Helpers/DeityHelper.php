@@ -37,7 +37,7 @@ class DeityHelper
 
             'food_consumption_mod' => '%s%% food consumption',
 
-            'exchange_rate' => '%s%% better exchange rates',
+            'exchange_rate' => '%s%% exchange rates',
 
             'xp_per_acre_gained' => '%s%% XP per acre gained',
 
