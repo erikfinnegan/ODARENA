@@ -17,6 +17,7 @@ perks:
   extra_barren_max_population: 10
   food_consumption_mod: -30
   salvaging: 25
+  spies_training_time: 6
 
 units:
   - name: Bard

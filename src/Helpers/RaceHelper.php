@@ -238,7 +238,7 @@ class RaceHelper
                 $description = 'Exploration time:';
                 $valueType = ' ticks';
                 break;
-            case 'wizard_training_time':
+            case 'wizards_training_time':
                 $negativeBenefit = false;
                 $description = 'Wizards training time:';
                 $booleanValue = 'static';

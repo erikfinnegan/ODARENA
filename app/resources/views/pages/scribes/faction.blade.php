@@ -277,8 +277,26 @@
                               <col>
                           </colgroup>
                           <tbody>
+                              @if(!$race->getPerkValue('no_population'))
+                                  <tr>
+                                      <td>
+                                          <span data-toggle="tooltip" data-placement="top" title="Term used for workers in this faction (<em>peasants</em> by default)">Workers:</span>
+                                      </td>
+                                      <td>{{ $raceHelper->getPeasantsTerm($race) }}</td>
+                                  </tr>
+                                  @if(!$race->getPerkValue('no_drafting'))
+                                      <tr>
+                                          <td>
+                                              <span data-toggle="tooltip" data-placement="top" title="Term used for draftees in this faction (<em>draftees</em> by default)">Draftees:</span>
+                                          </td>
+                                          <td>{{ $raceHelper->getDrafteesTerm($race) }}</td>
+                                      </tr>
+                                  @endif
+                              @endif
                               <tr>
-                                  <td>{{ $raceHelper->getPeasantsTerm($race) }} production:</td>
+                                  <td>
+                                      <span data-toggle="tooltip" data-placement="top" title="What each worker produces">{{ $raceHelper->getPeasantsTerm($race) }} production:</span>
+                                  </td>
                                   <td>
                                       @php
                                           $x = 0;

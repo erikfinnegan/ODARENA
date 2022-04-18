@@ -20,7 +20,7 @@ archmages_cost: 500,gold
 perks:
   food_consumption_mod: -50
   title_bonus: 50
-  wizard_training_time: 6
+  wizards_training_time: 6
 
 units:
   - name: Ice Beast

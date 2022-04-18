@@ -10,7 +10,7 @@ perks:
   min_rounds_played: 10
   max_per_round: 1
   population_growth: 50
-  wizard_training_time: 6
+  wizards_training_time: 6
   cannot_explore: 1
 
 units:

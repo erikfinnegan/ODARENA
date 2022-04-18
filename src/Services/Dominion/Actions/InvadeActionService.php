@@ -1761,46 +1761,6 @@ class InvadeActionService
                             $returningUnits[$newUnitKey][$newUnitSlotReturnTime] += floor($casualties * $newUnitAmount);
                         }
 
-                        # Check for faster_return_if_paired
-                        if($fasterReturnIfPairedPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
-                        {
-                            $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
-                            $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
-                            $ticksFaster = (int)$fasterReturnIfPairedPerk[1];
-                            $pairedUnitKeyReturning = array_sum($returningUnits[$pairedUnitKey]);
-
-                            # Determine new return speed
-                            $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
-
-                            # How many of $slot should return faster?
-                            $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);
-                            $unitsWithRegularReturnTime = max(0, $units[$slot] - $unitsWithFasterReturnTime);
-
-                            $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
-                            $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
-                        }
-
-                        # Check for faster_return_if_paired
-                        if($fasterReturnIfPairedPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired_multiple'))
-                        {
-                            $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
-                            $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
-                            $ticksFaster = (int)$fasterReturnIfPairedPerk[1];
-                            $unitChunkSize = (int)$fasterReturnIfPairedPerk[2];
-
-                            $pairedUnitKeyReturning = array_sum($returningUnits[$pairedUnitKey]) * $unitChunkSize;
-
-                            # Determine new return speed
-                            $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
-
-                            # How many of $slot should return faster?
-                            $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);
-                            $unitsWithRegularReturnTime = max(0, $units[$slot] - $unitsWithFasterReturnTime);
-
-                            $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
-                            $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
-                        }
-
                         # Check for faster_return_from_time
                         if($fasterReturnFromTimePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_from_time'))
                         {
@@ -1863,7 +1823,59 @@ class InvadeActionService
                 }
             }
 
-            #dump($returningUnits);
+            # Check for faster return from pairing perks
+            foreach($returningUnits as $unitKey => $unitKeyTicks)
+            {
+                $unitType = str_replace('military_', '', $unitKey);
+                $slot = str_replace('unit', '', $unitType);
+                $amountReturning = 0;
+
+                $returningUnitKey = $unitKey;
+
+                if(in_array($slot, [1,2,3,4]))
+                {
+                    $amountReturning = array_sum($returningUnits[$unitKey]);
+
+                    # Check for faster_return_if_paired
+                    if($fasterReturnIfPairedPerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired'))
+                    {
+                        $pairedUnitSlot = (int)$fasterReturnIfPairedPerk[0];
+                        $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
+                        $ticksFaster = (int)$fasterReturnIfPairedPerk[1];
+                        $pairedUnitKeyReturning = array_sum($returningUnits[$pairedUnitKey]);
+
+                        # Determine new return speed
+                        $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
+
+                        # How many of $slot should return faster?
+                        $unitsWithFasterReturnTime = min($pairedUnitKeyReturning, $amountReturning);
+                        $unitsWithRegularReturnTime = max(0, $units[$slot] - $unitsWithFasterReturnTime);
+
+                        $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
+                        $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                    }
+
+                    # Check for faster_return_if_paired_multiple
+                    if($fasterReturnIfPairedMultiplePerk = $attacker->race->getUnitPerkValueForUnitSlot($slot, 'faster_return_if_paired_multiple'))
+                    {
+                        $pairedUnitSlot = (int)$fasterReturnIfPairedMultiplePerk[0];
+                        $pairedUnitKey = 'military_unit'.$pairedUnitSlot;
+                        $ticksFaster = (int)$fasterReturnIfPairedMultiplePerk[1];
+                        $unitChunkSize = (int)$fasterReturnIfPairedMultiplePerk[2];
+                        $pairedUnitKeyReturning = array_sum($returningUnits[$pairedUnitKey]);
+
+                        # Determine new return speed
+                        $fasterReturningTicks = min(max($ticks - $ticksFaster, 1), 12);
+
+                        # How many of $slot should return faster?
+                        $unitsWithFasterReturnTime = min($pairedUnitKeyReturning * $unitChunkSize, $amountReturning);
+                        $unitsWithRegularReturnTime = max(0, $units[$slot] - $unitsWithFasterReturnTime);
+
+                        $returningUnits[$unitKey][$fasterReturningTicks] += $unitsWithFasterReturnTime;
+                        $returningUnits[$unitKey][$ticks] -= $unitsWithFasterReturnTime;
+                    }
+                }
+            }
 
             $this->invasionResult['attacker']['units_returning_raw'] = $returningUnits;
 
