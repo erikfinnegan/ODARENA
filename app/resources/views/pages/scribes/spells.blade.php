@@ -13,7 +13,6 @@
                     <ul>
                         <li><b>Aura</b>: the spell lingers for a specific duration.</li>
                         <li><b>Impact</b>: the effect of the spell is immediate and then dissipates. No lingering effect.</li>
-                        <li><b>Info</b>: the spell is used to gather information about the target.</li>
                         <li><b>Invasion</b>: the spell is triggered automatically during an invasion.</li>
                     </ul>
                 </div>

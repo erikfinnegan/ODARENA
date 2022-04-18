@@ -355,7 +355,7 @@ class UnitHelper
             'land_per_tick' => 'Explores %1$s acres of home land per tick.',
             #'sendable_with_zero_op' => 'Equippable (can be sent on invasion despite unit having 0 offensive power).', # Hidden
             'faster_return_if_paired' => 'Returns %2$s ticks faster if paired with a %1$s.',
-            'faster_return_if_paired_multiple' => 'Returns %2$s ticks faster if paired with a %1$s (%3$s per %1$s).',
+            'faster_return_if_paired_multiple' => 'Returns %2$s ticks faster if paired with a %1$s (max %3$s per %1$s).',
             'instant_return' => 'Returns instantly from invasion.',
 
             'faster_return_from_time' => 'Returns %3$s ticks faster from battle if sent out between %1$s:00 and %2$s:00.',
@@ -553,6 +553,17 @@ class UnitHelper
                     {
                         $perkValue[2] = 1;
                     }
+                }
+
+                // Special case for returns faster if pairings (multiple units per super unit)
+                if ($perk->key === 'faster_return_if_paired_multiple')
+                {
+                    $slot = (int)$perkValue[0];
+                    $pairedUnit = $race->units->filter(static function ($unit) use ($slot) {
+                        return ($unit->slot === $slot);
+                    })->first();
+
+                    $perkValue[0] = $pairedUnit->name;
                 }
 
                 // Special case for conversions

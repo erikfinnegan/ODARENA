@@ -8,29 +8,12 @@
         </div>
         <div class="box-body">
             <div class="row">
-                <div class="col-md-4">
-                    <h4>Info</h4>
-                    <ul>
-                        <li><b>Aura</b>: the spell lingers for a specific duration.</li>
-                        <li><b>Impact</b>: the effect of the spell is immediate and then dissipates. No lingering effect.</li>
-                        <li><b>Info</b>: the spell is used to gather information about the target.</li>
-                        <li><b>Invasion</b>: the spell is triggered automatically during an invasion.</li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <h4>Hostile</h4>
                     <ul>
                         <li><b>Friendly</b>: cast on dominions in your realm.</li>
                         <li><b>Hostile</b>: cast on dominions not in your realm.</li>
                         <li><b>Self</b>: cast on yourself.</li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h4>Theft</h4>
-                    <ul>
-                        <li><b>Cost</b>: mana cost multiplied by your land size.</li>
-                        <li><b>Duration</b>: how long the spell lasts.</li>
-                        <li><b>Cooldown</b>: time before spell can be cast again.</li>
                     </ul>
                 </div>
             </div>
