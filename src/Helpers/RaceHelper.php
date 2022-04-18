@@ -238,9 +238,21 @@ class RaceHelper
                 $description = 'Exploration time:';
                 $valueType = ' ticks';
                 break;
+            case 'spies_training_time':
+                $negativeBenefit = false;
+                $description = 'Spies training time:';
+                $booleanValue = 'static';
+                $valueType = '&nbsp;ticks';
+                break;
             case 'wizards_training_time':
                 $negativeBenefit = false;
                 $description = 'Wizards training time:';
+                $booleanValue = 'static';
+                $valueType = '&nbsp;ticks';
+                break;
+            case 'archmages_training_time':
+                $negativeBenefit = false;
+                $description = 'Archmages training time:';
                 $booleanValue = 'static';
                 $valueType = '&nbsp;ticks';
                 break;
