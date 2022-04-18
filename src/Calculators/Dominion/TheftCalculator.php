@@ -53,7 +53,6 @@ class TheftCalculator
             $maxAmountStolen += $maxPerSpyUnit * $amount;
         }
 
-
         $thiefSpa = max($this->militaryCalculator->getSpyRatio($thief, 'offense'), 0.0001);
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
         $spaSpaRatio = max(min((1-(($targetSpa / $thiefSpa) * 0.5)),1),0);

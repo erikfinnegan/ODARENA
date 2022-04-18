@@ -86,4 +86,4 @@ units:
       casualties_on_offense: -50
       increases_enemy_casualties_on_offense: 1
       faster_return: 3
-      plunders: gold;1,ore;0.5,gems;0.25
+      plunders: gold;3,ore;1.5,gems;0.75
