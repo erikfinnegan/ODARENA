@@ -635,6 +635,7 @@ class Dominion extends AbstractModel
                         or $perkKey == 'marshling_production_raw'
                         or $perkKey == 'thunderstone_production_raw'
                         or $perkKey == 'miasma_production_raw'
+                        or $perkKey == 'yak_production_raw'
 
                         or $perkKey == 'gold_upkeep_raw'
                         or $perkKey == 'food_upkeep_raw'
