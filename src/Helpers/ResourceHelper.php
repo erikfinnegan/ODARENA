@@ -37,6 +37,10 @@ class ResourceHelper
                 $string = 'Drained';
                 break;
 
+            case 'ore':
+                $string = 'Refined';
+                break;
+
             case 'brimmer':
                 $string = 'Spent';
                 break;

@@ -400,7 +400,7 @@ class UnitHelper
 
             'provides_jobs' => 'Provides %1$s jobs.',
 
-            'housing_count' => 'Takes up %1$s housing (instead of 1).',
+            'housing_count' => 'Takes up %1$s housing.',
 
             // Other
             'increases_morale_by_population' => 'Increases base morale by %s%% for every 1%% of population.',
