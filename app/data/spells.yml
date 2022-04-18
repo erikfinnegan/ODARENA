@@ -224,7 +224,7 @@ astral_revelations:
   exclusive_races:
     - Dimensionalists
   perks:
-    resource_conversion: mana,cosmic_alignment,100,60000 # from, to, percentage, ratio:1
+    resource_conversion: mana,cosmic_alignment,100,6000 # from, to, percentage, ratio:1
 
 celestial_pathfinder:
   name: Celestial Pathfinder
