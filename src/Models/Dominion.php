@@ -822,6 +822,12 @@ class Dominion extends AbstractModel
                         or $perkKey == 'reduces_conversions'
                         or $perkKey == 'reduces_attrition'
                         or $perkKey == 'unit_pairing'
+
+                        # Spy/wizard
+                        or $perkKey == 'wizard_strength_on_defense'
+                        or $perkKey == 'spy_strength_on_defense'
+                        or $perkKey == 'wizard_strength_on_offense'
+                        or $perkKey == 'spy_strength_on_offense'
                     )
                 {
                     $perkValues = $this->extractBuildingPerkValues($perkValueString);
