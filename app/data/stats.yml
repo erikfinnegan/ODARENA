@@ -430,6 +430,29 @@ yak_salvaged:
 yak_plundered:
   name: Yak plundered
 
+sapling_production:
+  name: Sapling production
+sapling_sold:
+  name: Sapling sold
+sapling_bought:
+  name: Sapling bought
+sapling_building:
+  name: Sapling building
+sapling_rezoning:
+  name: Sapling rezoning
+sapling_training:
+  name: Sapling training
+sapling_improvements:
+  name: Sapling improvements
+sapling_exploring:
+  name: Sapling exploring
+sapling_lost:
+  name: Sapling lost
+sapling_salvaged:
+  name: Sapling salvaged
+sapling_plundered:
+  name: Sapling plundered
+
 # Land
 
 land_conquered:
