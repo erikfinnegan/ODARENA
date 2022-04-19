@@ -1,6 +1,6 @@
 name: Halfling
 alignment: good
-description:
+description: Bards housed in Taverns beyond 5% of your land do not provide any morale bonus.
 home_land_type: hill
 playable: 1
 skill_level: 1
