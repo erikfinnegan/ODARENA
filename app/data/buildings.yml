@@ -644,6 +644,7 @@ constabulary:
 wizard_academy:
   name: Wizard Academy
   excluded_races:
+    - Dimensionalists
     - Growth
     - Merfolk
     - Myconid
