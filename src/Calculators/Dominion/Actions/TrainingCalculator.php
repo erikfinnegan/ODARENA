@@ -431,7 +431,7 @@ class TrainingCalculator
         $multiplier += $dominion->getDeityPerkMultiplier('wizard_cost');
 
         // Spells
-        $multiplier += $dominion->getSpellPer('wizard_cost');
+        $multiplier += $dominion->getSpellPerkMultiplier('wizard_cost');
 
         # Sanity cap, so it doesn't go under -1.
         $multiplier = max(-1, $multiplier);
