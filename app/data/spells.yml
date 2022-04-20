@@ -468,6 +468,7 @@ elskas_vision:
 
 gaias_blessing:
   name: Druva's Blessing
+  enabled: 0
   scope: self
   class: passive
   cost: 8

@@ -33,6 +33,7 @@ perks:
   cannot_train_wizards: 1
   cannot_train_archmages: 1
   unemployed_peasants_produce: 1
+  sapling_production_mod: -70
 
 units:
   - name: Leshy
