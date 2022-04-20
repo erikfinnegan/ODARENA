@@ -393,11 +393,17 @@ class TrainingCalculator
         // Buildings
         $multiplier -= $dominion->getBuildingPerkMultiplier('spy_cost');
 
+        // Cap $multiplier at -50%
+        $multiplier = max($multiplier, -0.50);
+
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('spy_cost');
 
-        // Cap $multiplier at -50%
-        $multiplier = max($multiplier, -0.50);
+        // Spells
+        $multiplier += $dominion->getSpellPerkMultiplier('spy_cost');
+
+        # Sanity cap, so it doesn't go under -1.
+        $multiplier = max(-1, $multiplier);
 
         return (1 + $multiplier);
     }
@@ -418,11 +424,17 @@ class TrainingCalculator
         // Buildings
         $multiplier += $dominion->getBuildingPerkMultiplier('wizard_cost');
 
+        // Cap $multiplier at -50% from techs and buildings
+        $multiplier = max($multiplier, -0.50);
+
         // Deity
         $multiplier += $dominion->getDeityPerkMultiplier('wizard_cost');
 
-        // Cap $multiplier at -50%
-        $multiplier = max($multiplier, -0.50);
+        // Spells
+        $multiplier += $dominion->getSpellPer('wizard_cost');
+
+        # Sanity cap, so it doesn't go under -1.
+        $multiplier = max(-1, $multiplier);
 
         return (1 + $multiplier);
     }
