@@ -453,6 +453,29 @@ sapling_salvaged:
 sapling_plundered:
   name: Sapling plundered
 
+elk_production:
+  name: Elk production
+elk_sold:
+  name: Elk sold
+elk_bought:
+  name: Elk bought
+elk_building:
+  name: Elk building
+elk_rezoning:
+  name: Elk rezoning
+elk_training:
+  name: Elk training
+elk_improvements:
+  name: Elk improvements
+elk_exploring:
+  name: Elk exploring
+elk_lost:
+  name: Elk lost
+elk_salvaged:
+  name: Elk salvaged
+elk_plundered:
+  name: Elk plundered
+
 # Land
 
 land_conquered:
