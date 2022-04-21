@@ -299,7 +299,7 @@ divine_intervention:
     - Sacred Order
   perks:
     offensive_power: 10
-    can_kill_immortal: 1
+    #can_kill_immortal: 1
 
 killing_rage:
   name: Killing Rage
