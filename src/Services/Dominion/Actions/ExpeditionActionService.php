@@ -112,6 +112,11 @@ class ExpeditionActionService
                  {
                      throw new GameException('Expedition was canceled due to bad input.');
                  }
+
+                 if(!$this->unitHelper->isUnitSendableByDominion($unit, $dominion))
+                 {
+                     throw new GameException('You cannot send ' . $unit->name . ' on invasion.');
+                 }
              }
 
             if ($dominion->race->getPerkValue('cannot_send_expeditions'))

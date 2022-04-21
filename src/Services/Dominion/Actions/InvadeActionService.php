@@ -229,6 +229,11 @@ class InvadeActionService
                     return ($unit->slot === $slot);
                 })->first();
 
+                if(!$this->unitHelper->isUnitSendableByDominion($unit, $dominion))
+                {
+                    throw new GameException('You cannot send ' . $unit->name . ' on invasion.');
+                }
+
                 if($amount < 0)
                 {
                     throw new GameException('Invasion was canceled due to an invalid amount of ' . str_plural($unit->name, $amount) . '.');

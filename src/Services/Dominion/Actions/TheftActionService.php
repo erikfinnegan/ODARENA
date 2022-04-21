@@ -151,6 +151,11 @@ class TheftActionService
                     {
                         throw new GameException('You can at most control ' . number_format($this->unitHelper->getUnitMaxCapacity($thief, $slot)) . ' ' . str_plural($unit->name) . '. To control more, you need to first have more of their superior unit.');
                     }
+
+                    if(!$this->unitHelper->isUnitSendableByDominion($unit, $dominion))
+                    {
+                        throw new GameException('You cannot send ' . $unit->name . ' on invasion.');
+                    }
                 }
              }
 
