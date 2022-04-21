@@ -255,7 +255,7 @@ class InvadeActionService
                     $resource = Resource::where('key', $resourceKey)->firstOrFail();
 
                     $resourceAmountRequired = ceil($resourceAmount * $amount);
-                    $resourceAmountOwned = $this->resourceCalculator->getAmount($resourceKey, $dominion);
+                    $resourceAmountOwned = $this->resourceCalculator->getAmount($dominion, $resourceKey);
 
                     if($resourceAmountRequired > $resourceAmountOwned)
                     {
