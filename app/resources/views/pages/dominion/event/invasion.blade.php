@@ -568,12 +568,12 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race, [$militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->target->race->units->get(($slot-1)), 'offense'), $militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->source->race->units->get(($slot-1)), 'defense'), ]) }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race, [$militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->target->race->units->get(($slot-1)), 'offense'), $militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->target->race->units->get(($slot-1)), 'defense'), ]) }}">
                                                     {{ $event->target->race->units->where('slot', $slot)->first()->name }}
                                                 </span>
                                             </td>
                                             <td>
-                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race, [$militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->target->race->units->get(($slot-1)), 'offense'), $militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->source->race->units->get(($slot-1)), 'defense'), ]) }}">
+                                                <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString($unitType, $event->target->race, [$militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->target->race->units->get(($slot-1)), 'offense'), $militaryCalculator->getUnitPowerWithPerks($event->target, null, null, $event->target->race->units->get(($slot-1)), 'defense'), ]) }}">
                                                       @if ($event->target->realm->id === $selectedDominion->realm->id)
                                                           @if (isset($event->data['defender']['unitsDefending'][$slot]))
                                                               {{ number_format($event->data['defender']['unitsDefending'][$slot]) }}
