@@ -129,7 +129,7 @@
                   <p>Invest resources into your improvements to immediately strengthen that part of your dominion. Resources invested are converted to points.</p>
                   <p>The return on investments use an exponential function, which yields less return the more you have invested. The function is based on a coefficient and a maximum.</p>
 
-                  @if($selectedDominion->getImprovementsMod() !== 1)
+                  @if($selectedDominion->getImprovementsMod() != 1)
                       <p>Your improvements are {{ ($selectedDominion->getImprovementsMod() > 1) ? 'increased' : 'decreased' }} by <strong>{{ number_format(($selectedDominion->getImprovementsMod()-1)*100,2) }}%</strong>.</p>
                   @endif
 
