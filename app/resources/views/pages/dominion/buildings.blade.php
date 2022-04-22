@@ -58,8 +58,10 @@
                                                         0 <small class="text-muted">(0%)</small>
                                                     @endif
 
-                                                    @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
+                                                    @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                            <br>({{ number_format($constructionAmount) }})
+                                                        </span>
                                                     @endif
                                               </td>
                                               <td class="text-center"><input type="number" name="build[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('build.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
@@ -88,7 +90,7 @@
                                 <thead>
                                     <tr>
                                         <th>Building</th>
-                                        <th class="text-center">Owned<br>(Constructing)</th>
+                                        <th class="text-center">Owned<br>(Constructings)</th>
                                         <th class="text-center">Build</th>
                                     </tr>
                                 </thead>
@@ -108,8 +110,10 @@
                                                         0 <small class="text-muted">(0%)</small>
                                                     @endif
 
-                                                    @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
+                                                    @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                            <br>({{ number_format($constructionAmount) }})
+                                                        </span>
                                                     @endif
                                               </td>
                                               <td class="text-center"><input type="number" name="build[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('build.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
@@ -161,8 +165,10 @@
                                                         0 <small class="text-muted">(0%)</small>
                                                     @endif
 
-                                                    @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
+                                                    @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                            <br>({{ number_format($constructionAmount) }})
+                                                        </span>
                                                     @endif
                                               </td>
                                               <td class="text-center"><input type="number" name="build[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('build.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
@@ -211,8 +217,10 @@
                                                         0 <small class="text-muted">(0%)</small>
                                                     @endif
 
-                                                    @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
+                                                    @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                            <br>({{ number_format($constructionAmount) }})
+                                                        </span>
                                                     @endif
                                               </td>
                                               <td class="text-center"><input type="number" name="build[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('build.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
@@ -264,8 +272,10 @@
                                                         0 <small class="text-muted">(0%)</small>
                                                     @endif
 
-                                                    @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
+                                                    @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                            <br>({{ number_format($constructionAmount) }})
+                                                        </span>
                                                     @endif
                                               </td>
                                               <td class="text-center"><input type="number" name="build[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('build.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
@@ -314,8 +324,10 @@
                                                         0 <small class="text-muted">(0%)</small>
                                                     @endif
 
-                                                    @if($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <br>({{ number_format($queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}")) }})
+                                                    @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
+                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                            <br>({{ number_format($constructionAmount) }})
+                                                        </span>
                                                     @endif
                                               </td>
                                               <td class="text-center"><input type="number" name="build[building_{{ $building->key }}]" class="form-control text-center" placeholder="0" min="0" max="{{ $constructionCalculator->getMaxAfford($selectedDominion) }}" value="{{ old('build.' . $building->key) }}" {{ $selectedDominion->isLocked() ? 'disabled' : null }}></td>
