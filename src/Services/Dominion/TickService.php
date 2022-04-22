@@ -363,10 +363,7 @@ class TickService
             ));
 
             $this->now = now();
-        #}
-        #
-        #foreach ($activeRounds as $round)
-        #{
+
             $dominions = $round->activeDominions()
                 ->with([
                     'race',
