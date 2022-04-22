@@ -434,8 +434,6 @@ class MilitaryCalculator
         // Multiplier reduction when we want to factor in temples from another dominion
         $multiplier = max(($multiplier + $multiplierReduction), 0);
 
-        #dump($multiplier, $multiplierReduction);
-
         return 1 + $multiplier;
     }
 
@@ -2219,6 +2217,8 @@ class MilitaryCalculator
       elseif($power == 'defense')
       {
           $multiplier += $dominion->getSpellPerkMultiplier('defensive_power');# $this->spellCalculator->getPassiveSpellPerkMultiplier($dominion, 'defensive_power');
+
+          #dd($dominion->getSpellPerkMultiplier('defensive_power'));
 
           // Spell: Chitin
           if(isset($target))

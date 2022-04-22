@@ -1072,7 +1072,13 @@ class Dominion extends AbstractModel
         foreach ($this->spells as $spell)
         {
             # Get the dominion spell object
-            $dominionSpell = DominionSpell::where('caster_id', $this->id)->where('spell_id',$spell->id)->first();
+
+            $dominionSpell = DominionSpell::where('spell_id',$spell->id)->where(function($query) {
+            		$query->where('caster_id','=',$this->id)
+            		      ->orWhere('dominion_id','=',$this->id);
+            })
+            ->first();
+
             $perkValueString = $spell->getPerkValue($perkKey);
 
             if($dominionSpell and $spell->perks->filter(static function (SpellPerkType $spellPerkType) use ($perkKey) { return ($spellPerkType->key === $perkKey); }) and $dominionSpell->duration > 0 and $perkValueString !== 0)
