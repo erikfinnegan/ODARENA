@@ -1550,7 +1550,7 @@ mansion:
   perks:
     housing: 30
     jobs: 10
-    vampiress_unit1_housing: 60
+    vampires_unit1_housing: 60
 
 mire:
   name: Mire

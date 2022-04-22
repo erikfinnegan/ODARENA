@@ -48,7 +48,7 @@ class BuildingHelper
             'snow_elf_unit1_housing' => 'Houses %s Arbalists.',
             'troll_unit2_housing' => 'Houses %s Forest Trolls.',
             'troll_unit4_housing' => 'Houses %s Mountain Trolls.',
-            'vampiress_unit1_housing' => 'Houses %s Servants.',
+            'vampires_unit1_housing' => 'Houses %s Servants.',
 
             'dimensionalists_unit1_production_raw' => 'Summons %s Tl\'Tl per tick.',
             'dimensionalists_unit2_production_raw' => 'Summons %s Sft\'Rm per tick.',
