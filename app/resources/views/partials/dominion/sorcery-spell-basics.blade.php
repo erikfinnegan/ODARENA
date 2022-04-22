@@ -6,7 +6,7 @@
 
     @if($spell->class == 'passive')
         <div class="col-sm-12">
-            Duration: <span class="text-primary" data-toggle="tooltip" data-placement="top" title="Base duration">{{ number_format($spell->duration) . ' ' . str_plural('tick', $spell->duration)}}</span> <small class="text-muted">(base)</small>
+            Duration: <span class="text-primary" data-toggle="tooltip" data-placement="top" title="Base duration">{{ floatval($spell->duration) . ' ' . str_plural('tick', $spell->duration)}}</span> <small class="text-muted">(base)</small>
         </div>
     @elseif($spell->class == 'active')
         <div class="col-sm-12">

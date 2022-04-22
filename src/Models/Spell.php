@@ -25,7 +25,7 @@ class Spell extends AbstractModel
         'scope' => 'string',
         'class' => 'string',
         'cost' => 'float',
-        'duration' => 'integer',
+        'duration' => 'float',
         'cooldown' => 'integer',
         'enabled' => 'integer',
         'wizard_strength' => 'integer',
