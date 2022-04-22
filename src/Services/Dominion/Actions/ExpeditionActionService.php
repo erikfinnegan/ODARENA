@@ -288,6 +288,7 @@ class ExpeditionActionService
         $prestigeChangeMultiplier += $dominion->getBuildingPerkMultiplier('prestige_gains');
         $prestigeChangeMultiplier += $dominion->getImprovementPerkMultiplier('prestige_gains');
         $prestigeChangeMultiplier += $dominion->getSpellPerkMultiplier('prestige_gains');
+        $prestigeChangeMultiplier += $dominion->getDeityPerkMultiplier('prestige_gains');
         $prestigeChangeMultiplier += $dominion->realm->getArtefactPerkMultiplier('prestige_gains');
         $prestigeChangeMultiplier += $dominion->title->getPerkMultiplier('prestige_gains') * $dominion->title->getPerkBonus($dominion);
 
