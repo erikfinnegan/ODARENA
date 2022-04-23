@@ -202,28 +202,69 @@ slave_mine:
     jobs: 0
     housing: 0
 
-# BEGIN MERFOLK
+# BEGIN SEAFOLK
 
-pearl_farm:
-  name: Pearl Farm
+bulwark:
+  name: Bulwark
   exclusive_races:
-    - Merfolk
+    - Seafolk
+  land_type: plain
+  perks:
+    defensive_power: 1,1.8,36
+    housing: 0
+    jobs: 0
+
+
+
+
+## SEAFOLK WATER
+abyss:
+  name: Abyss
+  exclusive_races:
+    - Seafolk
   land_type: water
   perks:
-    pearls_production_raw: 16
+    food_production_raw: 80
+    housing: 0
+    jobs: 0
 
 algae_bloom:
   name: Algae Bloom
   exclusive_races:
-    - Merfolk
+    - Seafolk
   land_type: water
   perks:
     food_production_raw: 80
 
+giant_shell:
+  name: Giant Shell
+  exclusive_races:
+    - Seafolk
+  land_type: water
+  perks:
+    gold_theft_protection: 50000 # protects 50,000 gold from theft
+    food_theft_protection: 10000 # protects 50,000 gold from theft
+
+mana_spring:
+  name: Mana Spring
+  exclusive_races:
+    - Seafolk
+  land_type: water
+  perks:
+    mana_production_raw: 18
+
+pearl_farm:
+  name: Pearl Farm
+  exclusive_races:
+    - Seafolk
+  land_type: water
+  perks:
+    pearls_production_raw: 16
+
 sunken_shrine:
   name: Sunken Shrine
   exclusive_races:
-    - Merfolk
+    - Seafolk
   land_type: water
   perks:
     casualties_on_defense: 1,-5,50 # 1% gives -5%, max -50%
@@ -233,30 +274,13 @@ sunken_shrine:
 water_temple:
   name: Water Temple
   exclusive_races:
-    - Merfolk
+    - Seafolk
   land_type: water
   perks:
     target_defensive_power_mod: 1,-1.8,36 # Every 1% gives -2% DP mods, max -40% DP mods
     population_growth: 1,6 # Every 1%, gives 6%
 
-mana_spring:
-  name: Mana Spring
-  exclusive_races:
-    - Merfolk
-  land_type: water
-  perks:
-    mana_production_raw: 18
-
-giant_shell:
-  name: Giant Shell
-  exclusive_races:
-    - Merfolk
-  land_type: water
-  perks:
-    gold_theft_protection: 50000 # protects 50,000 gold from theft
-    food_theft_protection: 10000 # protects 50,000 gold from theft
-
-# END MERFOLK
+# END SEAFOLK
 
 tower:
   name: Tower
