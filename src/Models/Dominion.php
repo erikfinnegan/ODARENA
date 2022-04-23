@@ -688,8 +688,6 @@ class Dominion extends AbstractModel
 
                         or $perkKey == 'snow_elf_unit4_production_raw'
 
-                        or $perkKey == 'unit_production_from_wizard_ratio'
-
                         # Uncategorised
                         or $perkKey == 'crypt_bodies_decay_protection'
                         or $perkKey == 'faster_returning_units'
@@ -756,9 +754,6 @@ class Dominion extends AbstractModel
                         # Spy/wizard
                         or $perkKey == 'spell_cost'
                         or $perkKey == 'spy_losses'
-                        or $perkKey == 'spy_strength'
-                        or $perkKey == 'spy_strength_on_defense'
-                        or $perkKey == 'spy_strength_on_offense'
                         or $perkKey == 'spy_strength_recovery'
                         or $perkKey == 'wizard_losses'
                         or $perkKey == 'wizard_strength'
@@ -825,6 +820,8 @@ class Dominion extends AbstractModel
                         or $perkKey == 'unit_pairing'
 
                         # Spy/wizard
+                        or $perkKey == 'wizard_strength'
+                        or $perkKey == 'spy_strength'
                         or $perkKey == 'wizard_strength_on_defense'
                         or $perkKey == 'spy_strength_on_defense'
                         or $perkKey == 'wizard_strength_on_offense'
@@ -1009,6 +1006,14 @@ class Dominion extends AbstractModel
 
                     $perk += $availableBuildings * $unitPerBuilding;
                     $perk *= 1 + $this->realm->getArtefactPerkMultiplier($building->land_type . '_buildings_effect');
+                }
+                # Buildings where we only ever want a single value
+                elseif(
+                          $perkKey == 'unit_production_from_wizard_ratio' or
+                          $perkKey == 'unit_production_from_spy_ratio' # Unused
+                      )
+                {
+                    $perk = (float)$perkValueString;
                 }
                 elseif($perkKey !== 'jobs' and $perkKey !== 'housing')
                 {
