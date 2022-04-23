@@ -688,8 +688,6 @@ class Dominion extends AbstractModel
 
                         or $perkKey == 'snow_elf_unit4_production_raw'
 
-                        or $perkKey == 'unit_production_from_wizard_ratio'
-
                         # Uncategorised
                         or $perkKey == 'crypt_bodies_decay_protection'
                         or $perkKey == 'faster_returning_units'
@@ -1008,6 +1006,14 @@ class Dominion extends AbstractModel
 
                     $perk += $availableBuildings * $unitPerBuilding;
                     $perk *= 1 + $this->realm->getArtefactPerkMultiplier($building->land_type . '_buildings_effect');
+                }
+                # Buildings where we only ever want a single value
+                elseif(
+                          $perkKey == 'unit_production_from_wizard_ratio' or
+                          $perkKey == 'unit_production_from_spy_ratio' # Unused
+                      )
+                {
+                    $perk = (float)$perkValueString;
                 }
                 elseif($perkKey !== 'jobs' and $perkKey !== 'housing')
                 {
