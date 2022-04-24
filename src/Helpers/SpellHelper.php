@@ -710,9 +710,32 @@ class SpellHelper
     public function isSpellAvailableToDominion(Dominion $dominion, Spell $spell): bool
     {
 
-
+        if(isset($spell->deity))
+        {
+            if(!$dominion->hasDeity())
+            {
+                return false;
+            }
+            elseif($dominion->deity->id !== $spell->deity->id)
+            {
+                return false;
+            }
+        }
 
         return true;
+    }
+
+    public function spellHasDefensivePerk(Spell $spell): bool
+    {
+        $defensivePerks = [
+            'defensive_power',
+            'defense_from_resource',
+            'defensive_power_from_peasants'
+        ];
+
+        #if($spell->)
+
+        return false;
     }
 
     public function getExclusivityString(Spell $spell): string

@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Land')
 
 {{--
 @section('page-header', 'Land')

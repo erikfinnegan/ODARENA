@@ -1,8 +1,5 @@
 @extends('layouts.master')
-
-{{--
-@section('page-header', 'World News')
---}}
+@section('title', 'World News')
 
 @section('content')
 <div class="row">

@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Military Advisor')
 
 @section('content')
     @include('partials.dominion.advisor-selector')

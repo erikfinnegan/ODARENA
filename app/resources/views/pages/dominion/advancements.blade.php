@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Advancements')
 
 @section('content')
     @php

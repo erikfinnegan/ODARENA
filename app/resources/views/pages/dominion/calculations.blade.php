@@ -1,11 +1,12 @@
 @extends ('layouts.master')
+@section('title', 'Calculations')
 
 @section('content')
 
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="alert alert-danger">
-                The calculators are in early beta and may not work accurately. It is missing a lot of features, including the ability to calculate any DP mods. Please use carefully. Verify calculations manually.
+                The calculators are in early beta and may not work accurately. It is missing a lot of features, including the ability to calculate any DP mods. Please use carefully. <strong>Verify calculations manually.</strong>
           </div>
         </div>
     </div>
@@ -39,7 +40,7 @@
                                 <input type="number"
                                         name="calc[land]"
                                         class="form-control text-center"
-                                        placeholder="250"
+                                        placeholder="1000"
                                         min="0"
                                         value="{{ $targetDominion !== null ? $landCalculator->getTotalLand($targetDominion) : null }}" />
                             </div>
@@ -83,18 +84,18 @@
                                             <th>Unit</th>
                                             <th>DP</th>
                                             <th class="text-center">
-                                                <span data-toggle="tooltip" data-placement="top" title="Total units from a Clear Sight">
-                                                    Accurate
+                                                <span data-toggle="tooltip" data-placement="top" title="Total units">
+                                                    Total
                                                 </span>
                                             </th>
                                             <th class="text-center">
-                                                <span data-toggle="tooltip" data-placement="top" title="Estimated units home from a Barracks Spy<br><br>Ignored if accurate count is provided without also providing an away count.">
+                                                <span data-toggle="tooltip" data-placement="top" title="Units at home">
                                                     Home
                                                 </span>
                                             </th>
                                             <th class="text-center">
-                                                <span data-toggle="tooltip" data-placement="top" title="Estimated units away from a Barracks Spy<br><br>Ignored if accurate count is not provided.">
-                                                    Away
+                                                <span data-toggle="tooltip" data-placement="top" title="Units returning">
+                                                    Returning
                                                 </span>
                                             </th>
                                         </tr>
@@ -103,11 +104,11 @@
                                         <tr>
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
-                                                    {{ $raceHelper->getDrafteesTerm($selectedDominion->race) }}:
+                                                    {{ $raceHelper->getDrafteesTerm($race) }}:
                                                 </span>
                                             </td>
                                             <td>
-                                                1
+                                                {{ $race->getPerkValue('draftee_dp') ?: 1 }}
                                             </td>
                                             <td class="text-center">
                                                 <input type="number"
@@ -121,12 +122,12 @@
                                                 <input type="number"
                                                         name="calc[draftees_home]"
                                                         class="form-control text-center"
-                                                        placeholder="--"
+                                                        placeholder="&mdash;"
                                                         min="0"
                                                         value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('barracks_spy')) ? array_get($targetInfoOps['barracks_spy']->data, "units.home.draftees") : null }}" />
                                             </td>
                                             <td>
-                                                <input type="number" class="form-control text-center" placeholder="--" readonly disabled />
+                                                <input type="number" class="form-control text-center" placeholder="&mdash;" readonly disabled />
                                             </td>
                                         </tr>
                                         @foreach ($race->units->sortBy('slot') as $unit)
@@ -151,9 +152,8 @@
                                             @endphp
                                             <tr>
                                                 <td>
-
                                                     <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString("unit{$unit->slot}", $race) }}">
-                                                        {{ $unitHelper->getUnitName("unit{$unit->slot}", $race) }}
+                                                        {{ $unitHelper->getUnitName("unit{$unit->slot}", $race) }}:
                                                     </span>
                                                 </td>
                                                 <td class="unit{{ $unit->slot }}_stats">
@@ -172,23 +172,19 @@
                                                     <input type="number"
                                                             name="calc[unit{{ $unit->slot }}_home]"
                                                             class="form-control text-center"
-                                                            placeholder="--"
+                                                            placeholder="&mdash;"
                                                             min="0"
                                                             disabled
                                                             value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('barracks_spy')) ? array_get($targetInfoOps['barracks_spy']->data, "units.home.unit{$unit->slot}") : null }}" />
                                                 </td>
                                                 <td class="text-center">
-                                                    @if ($unit->power_offense > 0)
-                                                        <input type="number"
-                                                                name="calc[unit{{ $unit->slot }}_away]"
-                                                                class="form-control text-center"
-                                                                placeholder="--"
-                                                                min="0"
-                                                                disabled
-                                                                value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('barracks_spy')) ? array_sum(array_get($targetInfoOps['barracks_spy']->data, "units.returning.unit{$unit->slot}", [])) : null }}" />
-                                                    @else
-                                                        <input type="number" class="form-control text-center" placeholder="--" readonly disabled />
-                                                    @endif
+                                                    <input type="number"
+                                                            name="calc[unit{{ $unit->slot }}_away]"
+                                                            class="form-control text-center"
+                                                            placeholder="&mdash;"
+                                                            min="0"
+                                                            disabled
+                                                            value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('barracks_spy')) ? array_sum(array_get($targetInfoOps['barracks_spy']->data, "units.returning.unit{$unit->slot}", [])) : null }}" />
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -284,7 +280,7 @@
 
                             </div>
                             <div class="col-xs-3 text-right">
-                                Walls %
+                                DP% from improvements
                             </div>
                             <div class="col-xs-3 text-left">
                                 <input type="number"
@@ -520,7 +516,7 @@
                                                     <input type="number"
                                                             name="calc[unit{{ $unit->slot }}_inc]"
                                                             class="form-control text-center"
-                                                            placeholder="--"
+                                                            placeholder="&mdash;"
                                                             min="0"
                                                             disabled
                                                             {{ $unit->power_offense == 0 ? 'readonly' : null }}
@@ -612,7 +608,7 @@
                                             <input type="number"
                                                     name="calc[target_land]"
                                                     class="form-control text-center"
-                                                    placeholder="--"
+                                                    placeholder="&mdash;"
                                                     min="0"
                                                     disabled />
                                         </div>

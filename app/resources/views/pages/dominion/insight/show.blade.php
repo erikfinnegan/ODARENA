@@ -1,4 +1,6 @@
 @extends('layouts.master')
+@section('title', 'Insight')
+
 @section('content')
 
 @if(!$dominion->round->hasStarted() or $protectionService->isUnderProtection($dominion))

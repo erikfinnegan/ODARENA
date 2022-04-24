@@ -33,6 +33,7 @@ class StatusController extends AbstractDominionController
         $notifications = $selectedDominion->notifications()->paginate($resultsPerPage);
 
         return view('pages.dominion.status', [
+            'title' => 'STATUS',
             'dominionProtectionService' => app(ProtectionService::class),
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),

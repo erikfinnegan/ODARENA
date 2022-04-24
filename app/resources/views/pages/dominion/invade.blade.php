@@ -1,4 +1,5 @@
 @extends ('layouts.master')
+@section('title', 'Invade')
 
 {{--
 @section('page-header', 'Invade')

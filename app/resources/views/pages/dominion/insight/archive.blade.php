@@ -1,5 +1,7 @@
 
 @extends('layouts.master')
+@section('title', 'Insight archive')
+
 @section('content')
 
 @foreach($dominionInsights as $dominionInsight)

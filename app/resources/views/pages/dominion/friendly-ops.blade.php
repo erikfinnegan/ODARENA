@@ -1,4 +1,5 @@
 @extends ('layouts.master')
+@section('title', 'Friendly Ops')
 
 {{--
 @section('page-header', 'Friendly Magic')

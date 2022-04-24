@@ -1,8 +1,5 @@
 @extends('layouts.master')
-
-{{--
-@section('page-header', 'Notes')
---}}
+@section('title', 'Notes')
 
 @section('content')
     <div class="row">

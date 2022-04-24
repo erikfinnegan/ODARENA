@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Debug')
 
 {{--
 @section('page-header', 'Super Secret Debug Page™')

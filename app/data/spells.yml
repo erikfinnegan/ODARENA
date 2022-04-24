@@ -831,7 +831,6 @@ defensive_warts:
 
 chitin:
   name: Chitin
-  enabled: 0
   scope: self
   class: passive
   cost: 10
@@ -840,7 +839,8 @@ chitin:
   exclusive_races:
     - Swarm
   perks:
-    defensive_power_vs_insect_swarm: 10
+    defensive_power: 5
+    offensive_power: -5
 
 aggression:
   name: Aggression
