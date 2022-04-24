@@ -9,5 +9,6 @@ use OpenDominion\Models\Dominion;
 class MentorHelper
 {
 
+    # wow so much help
 
 }

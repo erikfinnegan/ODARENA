@@ -73,21 +73,21 @@
                         </div>
                     </div>
                 </form>
-                @elseif($deity = $selectedDominion->getDeity())
+                @elseif($selectedDominion->deity)
                 <form id="renounce-deity" action="{{ route('dominion.government.renounce') }}" method="post" role="form">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
                             <form action="{{ route('dominion.government.deity') }}" method="post" role="form">
-                            <p>You have been devoted to <strong>{{ $deity->name }}</strong> for {{ $selectedDominion->getDominionDeity()->duration }} ticks, granting you the following perks:</p>
+                            <p>You have been devoted to <strong>{{ $selectedDominion->deity->name }}</strong> for {{ $selectedDominion->getDominionDeity()->duration }} ticks, granting you the following perks:</p>
                             <ul>
-                                @foreach($deityHelper->getDeityPerksString($deity, $selectedDominion->getDominionDeity()) as $effect)
+                                @foreach($deityHelper->getDeityPerksString($selectedDominion->deity, $selectedDominion->getDominionDeity()) as $effect)
                                     <li>{{ ucfirst($effect) }}</li>
                                 @endforeach
-                                    <li>Range multiplier: {{ $deity->range_multiplier }}x</li>
+                                    <li>Range multiplier: {{ $selectedDominion->deity->range_multiplier }}x</li>
                             </ul>
                             @if(!$selectedDominion->race->getPerkValue('cannot_renounce_deity'))
-                                <p>If you wish to devote your dominion to another deity, you may renounce your devotion to {{ $deity->name }} below.</p>
+                                <p>If you wish to devote your dominion to another deity, you may renounce your devotion to {{ $selectedDominion->deity->name }} below.</p>
                             @endif
                         </div>
                     </div>

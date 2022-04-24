@@ -98,5 +98,5 @@ units:
       immortal_on_fending_off: 1
       no_draftee: 1
       does_not_count_as_population: 1
-      brimmer_upkeep_raw: 1
+      brimmer_upkeep_raw: 2
       spends_resource_on_offense: brimmer,75 # +16 OP if paired with 150 ore

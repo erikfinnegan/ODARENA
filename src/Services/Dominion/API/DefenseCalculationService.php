@@ -5,7 +5,16 @@ namespace OpenDominion\Services\Dominion\API;
 use LogicException;
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Models\Building;
+use OpenDominion\Models\Deity;
 use OpenDominion\Models\Dominion;
+use OpenDominion\Models\DominionDeity;
+use OpenDominion\Models\DominionSpell;
+use OpenDominion\Models\DominionBuilding;
+use OpenDominion\Models\DominionImprovement;
+use OpenDominion\Models\Improvement;
+use OpenDominion\Models\Realm;
+use OpenDominion\Models\Spell;
 
 class DefenseCalculationService
 {
@@ -55,6 +64,19 @@ class DefenseCalculationService
         if($calc !== null) {
             $dominion->calc = $calc;
         }
+
+        if($calc['deity'])
+        {
+            $deity = Deity::findOrFail($calc['deity']);
+            $dominionDeity = new DominionDeity([
+                'dominion_id' => $dominion->id,
+                'deity_id' => $deity->id,
+                'duration' => intval($calc['devotion'])
+            ]);
+            $dominion->setRelation('deity', $dominionDeity);
+        }
+
+
 
         // Calculate unit stats
         foreach ($dominion->race->units as $unit) {

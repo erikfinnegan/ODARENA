@@ -124,10 +124,10 @@
 
                 <li class="{{ Route::is('dominion.calculations') ? 'active' : null }}">
                     <a href="{{ route('dominion.calculations') }}">
-                        <i class="ra ra-gears ra-fw"></i>
-                        <span>Abacus</span>
+                        <i class="fas fa-square-root-alt fa-fw"></i>
+                        <span>Calculations</span>
                         <span class="pull-right-container">
-                            <small class="label pull-right">Beta</small>
+                            <small class="label pull-right">Experimental</small>
                         </span>
                     </a>
                 </li>

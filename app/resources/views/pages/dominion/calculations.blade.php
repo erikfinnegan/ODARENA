@@ -17,7 +17,7 @@
                 @csrf
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-gears"></i> Defense Calculator</h3>
+                        <h3 class="box-title"><i class="fas fa-shield-alt fa-fw"></i> Defense Calculator</h3>
                     </div>
                     <div class="box-body">
                         <div class="form-group">
@@ -57,6 +57,65 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="col-xs-3 text-right">
+                                Deity
+                            </div>
+                            <div class="col-xs-3 text-left">
+                                <select name="calc[deity]" class="form-control" style="width: 100%;">
+                                    <option value="0">Select a title</option>
+                                    @foreach ($deities as $deity)
+                                        <option value="{{ $deity->id }}" {{ ($targetDominion !== null && $targetDominion->deity->id == $title->id) ? 'selected' : null }}>
+                                            {{ $deity->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-xs-3 text-right">
+                                Title
+                            </div>
+                            <div class="col-xs-3 text-left">
+                                <select name="calc[title]" class="form-control" style="width: 100%;">
+                                    <option value="0">Select a title</option>
+                                    @foreach ($titles as $title)
+                                        <option value="{{ $title->id }}" {{ ($targetDominion !== null && $targetDominion->title_id == $title->id) ? 'selected' : null }}>
+                                            {{ $title->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-xs-3 text-right">
+                                Devotion
+                            </div>
+                            <div class="col-xs-3 text-left">
+                                <input type="number"
+                                        name="calc[devotion]"
+                                        class="form-control text-center"
+                                        placeholder="0"
+                                        min="0"
+                                        max="1000"
+                                        value="{{ ($targetDominion !== null && $targetInfoOps->has('clear_sight')) ? array_get($targetInfoOps['clear_sight']->data, "morale") : null }}" />
+                            </div>
+
+                            <div class="col-xs-3 text-right">
+                                Realm
+                            </div>
+                            <div class="col-xs-3 text-left">
+                                <select name="calc[realm]" class="form-control" style="width: 100%;">
+                                    <option value="0">Select a title</option>
+                                    @foreach ($realms as $realm)
+                                        <option value="{{ $realm->id }}" {{ ($targetDominion !== null && $targetDominion->realm->id == $realm->id) ? 'selected' : null }}>
+                                            {{ $realmHelper->getAlignmentAdjective($realm->alignment) }} (# {{ $realm->number }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         @foreach ($races as $race)
                             <div id="race_{{ $race->id }}_dp" class="table-responsive race_defense_fields" style="display: none;">
                                 @php
@@ -75,27 +134,15 @@
                                     <colgroup>
                                         <col>
                                         <col width="10%">
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="15%">
+                                        <col width="25%">
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th>Unit</th>
                                             <th>DP</th>
                                             <th class="text-center">
-                                                <span data-toggle="tooltip" data-placement="top" title="Total units">
-                                                    Total
-                                                </span>
-                                            </th>
-                                            <th class="text-center">
-                                                <span data-toggle="tooltip" data-placement="top" title="Units at home">
-                                                    Home
-                                                </span>
-                                            </th>
-                                            <th class="text-center">
-                                                <span data-toggle="tooltip" data-placement="top" title="Units returning">
-                                                    Returning
+                                                <span data-toggle="tooltip" data-placement="top" title="Number of this unit at home">
+                                                    Defending
                                                 </span>
                                             </th>
                                         </tr>
@@ -104,7 +151,7 @@
                                         <tr>
                                             <td>
                                                 <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getDrafteeHelpString( $selectedDominion->race) }}">
-                                                    {{ $raceHelper->getDrafteesTerm($race) }}:
+                                                    {{ $raceHelper->getDrafteesTerm($race) }}
                                                 </span>
                                             </td>
                                             <td>
@@ -117,17 +164,6 @@
                                                         placeholder="0"
                                                         min="0"
                                                         value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('clear_sight')) ? ceil(array_get($targetInfoOps['clear_sight']->data, "military_draftees") / $clearSightAccuracy) : null }}" />
-                                            </td>
-                                            <td class="text-center">
-                                                <input type="number"
-                                                        name="calc[draftees_home]"
-                                                        class="form-control text-center"
-                                                        placeholder="&mdash;"
-                                                        min="0"
-                                                        value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('barracks_spy')) ? array_get($targetInfoOps['barracks_spy']->data, "units.home.draftees") : null }}" />
-                                            </td>
-                                            <td>
-                                                <input type="number" class="form-control text-center" placeholder="&mdash;" readonly disabled />
                                             </td>
                                         </tr>
                                         @foreach ($race->units->sortBy('slot') as $unit)
@@ -153,7 +189,7 @@
                                             <tr>
                                                 <td>
                                                     <span data-toggle="tooltip" data-placement="top" title="{{ $unitHelper->getUnitHelpString("unit{$unit->slot}", $race) }}">
-                                                        {{ $unitHelper->getUnitName("unit{$unit->slot}", $race) }}:
+                                                        {{ $unitHelper->getUnitName("unit{$unit->slot}", $race) }}
                                                     </span>
                                                 </td>
                                                 <td class="unit{{ $unit->slot }}_stats">
@@ -168,24 +204,6 @@
                                                             disabled
                                                             value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('clear_sight')) ? ceil(array_get($targetInfoOps['clear_sight']->data, "military_unit{$unit->slot}") / $clearSightAccuracy) : null }}" />
                                                 </td>
-                                                <td class="text-center">
-                                                    <input type="number"
-                                                            name="calc[unit{{ $unit->slot }}_home]"
-                                                            class="form-control text-center"
-                                                            placeholder="&mdash;"
-                                                            min="0"
-                                                            disabled
-                                                            value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('barracks_spy')) ? array_get($targetInfoOps['barracks_spy']->data, "units.home.unit{$unit->slot}") : null }}" />
-                                                </td>
-                                                <td class="text-center">
-                                                    <input type="number"
-                                                            name="calc[unit{{ $unit->slot }}_away]"
-                                                            class="form-control text-center"
-                                                            placeholder="&mdash;"
-                                                            min="0"
-                                                            disabled
-                                                            value="{{ ($targetDominion !== null && $targetDominion->race_id == $race->id && $targetInfoOps->has('barracks_spy')) ? array_sum(array_get($targetInfoOps['barracks_spy']->data, "units.returning.unit{$unit->slot}", [])) : null }}" />
-                                                </td>
                                             </tr>
                                         @endforeach
                                     </thead>
@@ -196,7 +214,7 @@
                                         $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
                                     @endphp--}}
                                     <div class="col-xs-3 text-right">
-                                        DP spell for {{ $race->name }}
+                                        DP spell
                                     </div>
                                     <div class="col-xs-3 text-left">
                                         @if (1==2)
@@ -207,9 +225,12 @@
                                                     disabled />
                                         @endif
                                     </div>
-                                    @foreach ($buildingFieldsRequired as $building)
+                                    @foreach ($buildingFieldsRequired as $buildingKey)
+                                        @php
+                                            $building = OpenDominion\Models\Building::where('key', $buildingKey)->first();
+                                        @endphp
                                         <div class="col-xs-3 text-right">
-                                            {{ ucwords(dominion_attr_display("building_{$building}")) }} %
+                                            {{ str_plural($building->name) }}
                                         </div>
                                         <div class="col-xs-3 text-left">
                                             <input type="number"
@@ -307,12 +328,12 @@
                                         max="20" />
                             </div>
                             <div class="col-xs-3 text-right">
-                                Guard Tower %
+                                Guard Towers
                             </div>
                             <div class="col-xs-3 text-left">
                                 <input type="number"
                                         step="any"
-                                        name="calc[guard_tower_percent]"
+                                        name="calc[guard_towers]"
                                         class="form-control text-center"
                                         placeholder="0"
                                         min="0"
@@ -322,8 +343,10 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-xs-9 text-right">
-                                &nbsp;
+                            <div class="col-xs-9 text-left">
+                                <small class="text-muted">
+                                    The calculator is in early beta and may not work accurately. Please use carefully. Accuracy is not guaranteed. <strong>Verify calculations manually.</strong>
+                                </small>
                             </div>
                             <div class="col-xs-3 text-right">
                                 <button class="btn btn-primary btn-block" type="button" id="calculate-defense-button">Calculate</button>
@@ -338,6 +361,9 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Results</h3>
+                    <span class="pull-right-container">
+                        <small class="label pull-right label-danger">Experimental</small>
+                    </span>
                 </div>
                 <div class="box-body table-responsive">
                     <table class="table">
@@ -362,17 +388,23 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="box-footer">
+                    <small class="text-muted">
+                        The calculator is in early beta and may not work accurately. Please use carefully. Accuracy is not guaranteed. <strong>Verify calculations manually.</strong>
+                    </small>
+                </div>
             </div>
         </div>
     </div>
-
+{{--
     <div class="row">
         <div class="col-sm-12 col-md-9">
             <form action="" method="get" role="form" id="calculate-offense-form" class="calculate-form">
                 @csrf
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-gears"></i> Offense Calculator</h3>
+                        <h3 class="box-title"><i class="ra ra-crossed-swords ra-fw"></i> Offense Calculator</h3>
                     </div>
                     <div class="box-body">
                         <div class="form-group">
@@ -486,7 +518,7 @@
                                                         $targetBuildingFieldsRequired[] = $building;
                                                     }
                                                 }
-                                                if ($unit->perks->where('key', 'offense_staggered_land_range')->count()) {
+                                                if ($unit->perks->where('key', 'offense_if_target_is_larger')->count()) {
                                                     $targetLandRequired = true;
                                                 }
                                                 if ($unit->perks->whereIn('key', ['offense_vs_goblin', 'offense_vs_kobold', 'offense_vs_wood_elf'])->count()) {
@@ -528,9 +560,6 @@
                                 </table>
 
                                 <div class="form-group row">
-                                    {{--@php
-                                        $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
-                                    @endphp--}}
                                     <div class="col-xs-3 text-right">
                                         OP spell for {{ $race->name }}
                                     </div>
@@ -735,6 +764,7 @@
             </div>
         </div>
     </div>
+    --}}
 @endsection
 
 @push('page-styles')
