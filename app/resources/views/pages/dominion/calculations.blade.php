@@ -196,16 +196,14 @@
                                 </table>
 
                                 <div class="form-group row">
-                                    @php
+                                    {{--@php
                                         $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
-                                    @endphp
+                                    @endphp--}}
                                     <div class="col-xs-3 text-right">
-                                        @if (in_array($racialSpell['key'], ['blizzard', 'defensive_frenzy', 'howling', 'coastal_cannons', 'fimbulwinter']))
-                                            {{ $racialSpell['name'] }}
-                                        @endif
+                                        DP spell for {{ $race->name }}
                                     </div>
                                     <div class="col-xs-3 text-left">
-                                        @if (in_array($racialSpell['key'], ['blizzard', 'defensive_frenzy', 'howling', 'coastal_cannons', 'fimbulwinter']))
+                                        @if (1==2)
                                             <input type="checkbox"
                                                     step="any"
                                                     name="calc[{{ $racialSpell['key'] }}]"
@@ -534,16 +532,14 @@
                                 </table>
 
                                 <div class="form-group row">
-                                    @php
+                                    {{--@php
                                         $racialSpell = $spellHelper->getRacialSelfSpellForScribes($race);
-                                    @endphp
+                                    @endphp--}}
                                     <div class="col-xs-3 text-right">
-                                        @if (in_array($racialSpell['key'], ['bloodrage', 'crusade', 'howling', 'killing_rage', 'nightfall']))
-                                            {{ $racialSpell['name'] }}
-                                        @endif
+                                        OP spell for {{ $race->name }}
                                     </div>
                                     <div class="col-xs-3 text-left">
-                                        @if (in_array($racialSpell['key'], ['bloodrage', 'crusade', 'howling', 'killing_rage', 'nightfall']))
+                                        @if (1==2)
                                             <input type="checkbox"
                                                     step="any"
                                                     name="calc[{{ $racialSpell['key'] }}]"

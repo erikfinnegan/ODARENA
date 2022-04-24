@@ -121,17 +121,16 @@
                 </span> {!! $councilUnreadCount > 0 ? ('<span class="pull-right-container"><small class="label pull-right bg-green">' . $councilUnreadCount . '</small></span>') : null !!}</a></li>
                 <li class="{{ Route::is('dominion.notes') ? 'active' : null }}"><a href="{{ route('dominion.notes') }}"><i class="ra ra-quill-ink ra-fw"></i> <span>Notes</span></a></li>
 
-                {{--
+
                 <li class="{{ Route::is('dominion.calculations') ? 'active' : null }}">
                     <a href="{{ route('dominion.calculations') }}">
                         <i class="ra ra-gears ra-fw"></i>
-                        <span>Calculations</span>
+                        <span>Abacus</span>
                         <span class="pull-right-container">
                             <small class="label pull-right">Beta</small>
                         </span>
                     </a>
                 </li>
-                --}}
 
             @else
 
