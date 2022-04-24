@@ -291,6 +291,7 @@ swarming:
 
 divine_intervention:
   name: Tiranthael's Blessing
+  enabled: 0
   scope: self
   class: passive
   cost: 10
@@ -304,6 +305,7 @@ divine_intervention:
 
 killing_rage:
   name: Killing Rage
+  enabled: 0
   scope: self
   class: passive
   cost: 8
@@ -320,6 +322,7 @@ blizzard:
   class: passive
   cost: 8
   duration: 48
+  cooldown: 72
   exclusive_races:
     - Icekin
     - Yeti
@@ -384,6 +387,7 @@ enchanted_blades:
 
 defensive_frenzy:
   name: Defensive Frenzy
+  enabled: 0
   scope: self
   class: passive
   cost: 8
@@ -408,6 +412,7 @@ lightfoots:
 
 howling:
   name: Howling
+  enabled: 0
   scope: self
   class: passive
   cost: 8
@@ -433,6 +438,7 @@ retribution:
 
 warsong:
   name: Warsong
+  enabled: 0
   scope: self
   class: passive
   cost: 8
@@ -449,7 +455,7 @@ regeneration:
   class: passive
   cost: 10
   duration: 48
-  cooldown: 0
+  cooldown: 72
   exclusive_races:
     - Reptilians
   perks:
@@ -672,6 +678,7 @@ winds_of_fortune:
 
 spiral_architecture:
   name: Spiral Architecture
+  enabled: 0
   scope: self
   class: passive
   cost: 8
@@ -684,6 +691,7 @@ spiral_architecture:
 
 fimbulwinter:
   name: Fimbulwinter
+  enabled: 0
   scope: self
   class: passive
   cost: 8
@@ -1000,6 +1008,7 @@ imperial_duty:
 
 fine_arts:
   name: Mirnon's Delights
+  enabled: 0
   scope: self
   class: passive
   cost: 10

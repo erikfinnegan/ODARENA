@@ -24,17 +24,17 @@ improvement_resources:
   pearls: 16
 
 units:
-  - name: Manta
-    training_time: 9
+  - name: Water Elemental
+    training_time: 12
     type:
       - living
       - sentient
       - intelligent
     cost:
-      gold: 1480
+      mana: 100
     power:
-      offense: 0
-      defense: 11
+      offense: 12
+      defense: 8
 
   - name: Sea Serpent
     training_time: 9
@@ -48,7 +48,7 @@ units:
       offense: 12
       defense: 7
 
-  - name: Leviathan
+  - name: Tridenteer
     training_time: 12
     type:
       - living
