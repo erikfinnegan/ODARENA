@@ -203,7 +203,7 @@ class BuildingHelper
             # Espionage and Wizardry
             'spy_losses' => 'Spy losses decreased by %2$s%% for every %1$s%%.',
             'damage_from_fireball' => 'Damage from fireballs reduced by %2$s%% for every %1$s%%.',
-            'lightning_bolt_damage' => 'Damage from lightning bolts reduced by %2$s%% for every %1$s%%.',
+            'damage_from_lightning_bolt' => 'Damage from lightning bolts reduced by %2$s%% for every %1$s%%.',
             'wizard_cost' => 'Wizard and arch mage training costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
             'spell_cost' => 'Spell mana costs decreased by %2$s%% for every %1$s%% (max %3$s%% reduction).',
 
