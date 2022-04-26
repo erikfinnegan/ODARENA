@@ -117,8 +117,8 @@ class InsightService
             'military_archmages' => $this->militaryCalculator->getTotalUnitsForSlot($target, 'archmages'),
 
             # Deity
-            'deity' => $target->hasDeity() ? $target->getDeity()->name : NULL,
-            'deity_devotion' => $target->hasDeity() ? $target->getDominionDeity()->duration : NULL,
+            'deity' => $target->hasDeity() ? $target->deity->name : NULL,
+            'deity_devotion' => $target->hasDeity() ? $target->devotion->duration : NULL,
             'deity_perk' => NULL,
 
             # Annexation

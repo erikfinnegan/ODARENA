@@ -1470,7 +1470,7 @@ class MilitaryCalculator
               return 0;
           }
 
-          if($dominion->getDeity()->key == $deityPerkData[0])
+          if($dominion->deity->key == $deityPerkData[0])
           {
               $powerFromPerk += $deityPerkData[1];
           }
@@ -1484,7 +1484,7 @@ class MilitaryCalculator
 
           $powerFromPerk = 0;
 
-          if (!$deityPerkData or $dominion->isAbandoned() or !$dominion->hasDeity())
+          if (!$deityPerkData or $dominion->isAbandoned())
           {
               return 0;
           }
@@ -1493,10 +1493,11 @@ class MilitaryCalculator
           $perTick = (float)$deityPerkData[1];
           $max = (float)$deityPerkData[2];
 
-          if($dominion->getDeity()->key == $deityPerkData[0])
+          if($dominion->deity->key == $deityPerkData[0])
           {
-              $powerFromPerk += min($dominion->getDeityDuration() * $perTick, $max);
+              $powerFromPerk += min($dominion->devotion->duration * $perTick, $max);
           }
+          #dd($powerFromPerk);
 
           return $powerFromPerk;
       }

@@ -286,6 +286,11 @@ class Dominion extends AbstractModel
         );
     }
 
+    public function devotion() # basically $this->dominionDeity() but not really
+    {
+        return $this->hasOne(DominionDeity::class);
+    }
+
     public function decrees()
     {
         return $this->hasManyThrough(
@@ -812,7 +817,7 @@ class Dominion extends AbstractModel
                 elseif(
                         # OP/DP mods
                         $perkKey == 'improvements'
-                        or $perkKey == 'lightning_bolt_damage'
+                        or $perkKey == 'damage_from_lightning_bolt'
                         or $perkKey == 'damage_from_fireball'
                         or $perkKey == 'population_growth'
                         or $perkKey == 'reduces_conversions'
@@ -1071,7 +1076,7 @@ class Dominion extends AbstractModel
     public function getSpellPerkValue(string $perkKey): float
     {
         $landSize = $this->land_plain + $this->land_mountain + $this->land_swamp + $this->land_forest + $this->land_hill + $this->land_water;
-        $deityKey = $this->hasDeity() ? $this->getDeity()->key : null;
+        $deityKey = $this->hasDeity() ? $this->deity->key : null;
         $perk = 0;
 
         # Check each spell
@@ -1102,9 +1107,9 @@ class Dominion extends AbstractModel
                     $perTick = (float)$perkValueArray[1];
                     $max = (int)$perkValueArray[2];
 
-                    if($this->hasDeity() and $this->getDeity()->key == $deityKey)
+                    if($this->hasDeity() and $this->deity->key == $deityKey)
                     {
-                        $perk += min($this->getDeityDuration() * $perTick, $max);
+                        $perk += min($this->devotion->duration * $perTick, $max);
                     }
                 }
                 elseif($perkKey == 'defense_from_resource')
@@ -1304,28 +1309,11 @@ class Dominion extends AbstractModel
         return $ticksLeft;
     }
 
-    public function getDeity(): Deity
-    {
-        return $this->deity;
-    }
-
     public function getDominionDeity(): DominionDeity
     {
-        return DominionDeity::where('deity_id', $this->getDeity()->id)
+        return DominionDeity::where('deity_id', $this->deity->id)
                             ->where('dominion_id', $this->id)
                             ->first();
-    }
-
-    public function getDeityDuration(): int
-    {
-        if(!$this->hasDeity())
-        {
-            return 0;
-        }
-
-        $dominionDeity = $this->getDominionDeity();
-
-        return $dominionDeity->duration;
     }
 
     /**
@@ -1334,13 +1322,13 @@ class Dominion extends AbstractModel
     */
     public function getDeityPerkValue(string $perkKey): float
     {
-        if(!$this->hasDeity())
+        if(!$this->deity)
         {
             return 0;
         }
 
         $multiplier = 1;
-        $multiplier += min($this->getDominionDeity()->duration * 0.1 / 100, 1);
+        $multiplier += min($this->devotion->duration * 0.1 / 100, 1);
         $multiplier += $this->getBuildingPerkMultiplier('deity_power');
         $multiplier += $this->getSpellPerkMultiplier('deity_power');
         $multiplier += $this->getTechPerkMultiplier('deity_power');
@@ -1379,7 +1367,7 @@ class Dominion extends AbstractModel
                 $perkResource = $titlePerkData[1];
                 $perkAmount = $titlePerkData[2];
 
-                if($resourceType === $perkResource and $this->getDeity()->key === $deityKey)
+                if($resourceType === $perkResource and $this->deity->key === $deityKey)
                 {
                     $bonus += ($this->{'military_unit' . $unit->slot} * (float)$perkAmount);
                 }

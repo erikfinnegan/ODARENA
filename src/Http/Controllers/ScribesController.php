@@ -184,6 +184,7 @@ class ScribesController extends AbstractController
         return view('pages.scribes.spells', [
             'spells' => Spell::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'spellHelper' => app(SpellHelper::class),
+            'spellCalculator' => app(SpellCalculator::class),
         ]);
     }
 

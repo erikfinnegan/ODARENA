@@ -62,8 +62,8 @@
                                 Deity
                             </div>
                             <div class="col-xs-3 text-left">
-                                <select name="calc[deity]" class="form-control" style="width: 100%;">
-                                    <option value="0">Select a title</option>
+                                <select name="calc[deity]" class="form-control" style="width: 100%;" required>
+                                    <option value="0">Select a deity</option>
                                     @foreach ($deities as $deity)
                                         <option value="{{ $deity->id }}" {{ ($targetDominion !== null && $targetDominion->deity->id == $title->id) ? 'selected' : null }}>
                                             {{ $deity->name }}
@@ -76,7 +76,7 @@
                                 Title
                             </div>
                             <div class="col-xs-3 text-left">
-                                <select name="calc[title]" class="form-control" style="width: 100%;">
+                                <select name="calc[title]" class="form-control" style="width: 100%;" required>
                                     <option value="0">Select a title</option>
                                     @foreach ($titles as $title)
                                         <option value="{{ $title->id }}" {{ ($targetDominion !== null && $targetDominion->title_id == $title->id) ? 'selected' : null }}>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-xs-3 text-left">
                                 <select name="calc[realm]" class="form-control" style="width: 100%;">
-                                    <option value="0">Select a title</option>
+                                    <option value="0">Select a realm</option>
                                     @foreach ($realms as $realm)
                                         <option value="{{ $realm->id }}" {{ ($targetDominion !== null && $targetDominion->realm->id == $realm->id) ? 'selected' : null }}>
                                             {{ $realmHelper->getAlignmentAdjective($realm->alignment) }} (# {{ $realm->number }})

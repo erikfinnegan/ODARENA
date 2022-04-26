@@ -910,7 +910,7 @@ class SettingHelper
                         break;
 
                     case 'blessing_of_azk_hurum':
-                        $resultString = 'Ask\'Hurum has blessed us, giving us greater offensive power against enemies that have invaded our lands.';
+                        $resultString = 'Ask\'Hurum has blessed us, giving us greater offensive power against enemies that have invaded our realm.';
                         break;
 
                     default:

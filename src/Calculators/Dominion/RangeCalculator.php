@@ -134,7 +134,7 @@ class RangeCalculator
     {
         if($dominion->hasDeity())
         {
-            return $dominion->getDeity()->range_multiplier;
+            return $dominion->deity->range_multiplier;
         }
         elseif($dominion->getPendingDeitySubmission() and !$isTarget)
         {

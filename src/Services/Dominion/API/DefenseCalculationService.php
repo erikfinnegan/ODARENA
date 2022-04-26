@@ -73,7 +73,10 @@ class DefenseCalculationService
                 'deity_id' => $deity->id,
                 'duration' => intval($calc['devotion'])
             ]);
-            $dominion->setRelation('deity', $dominionDeity);
+            $dominion->setRelation('deity', $deity);
+            $dominion->setRelation('devotion', $dominionDeity);
+            #$dominion->deity = $dominionDeity;
+            #dd($dominion->deity->name);
         }
 
 

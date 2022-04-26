@@ -212,20 +212,20 @@
                 @else
                     @php
                         $perksList = '<ul>';
-                        $perksList .= '<li>Devotion: ' . number_format($dominion->getDominionDeity()->duration) . ' ' . str_plural('tick', $dominion->getDominionDeity()->duration) . '</li>';
-                        $perksList .= '<li>Range multiplier: ' . $dominion->getDeity()->range_multiplier . 'x</li>';
-                        foreach($deityHelper->getDeityPerksString($dominion->getDeity(), $dominion->getDominionDeity()) as $effect)
+                        $perksList .= '<li>Devotion: ' . number_format($dominion->devotion->duration) . ' ' . str_plural('tick', $dominion->devotion->duration) . '</li>';
+                        $perksList .= '<li>Range multiplier: ' . $dominion->deity->range_multiplier . 'x</li>';
+                        foreach($deityHelper->getDeityPerksString($dominion->deity, $dominion->getDominionDeity()) as $effect)
                         {
                             $perksList .= '<li>' . ucfirst($effect) . '</li>';
                         }
                         $perksList .= '<ul>';
                     @endphp
-                    <p>This dominion was devoted to <b>{{ $dominion->getDeity()->name }}</b>.</p>
+                    <p>This dominion was devoted to <b>{{ $dominion->deity->name }}</b>.</p>
 
                     <ul>
-                    <li>Devotion: {{ number_format($dominion->getDominionDeity()->duration) . ' ' . str_plural('tick', $dominion->getDominionDeity()->duration) }}</li>
-                    <li>Range multiplier: {{ $dominion->getDeity()->range_multiplier }}x</li>
-                    @foreach($deityHelper->getDeityPerksString($dominion->getDeity(), $dominion->getDominionDeity()) as $effect)
+                    <li>Devotion: {{ number_format($dominion->devotion->duration) . ' ' . str_plural('tick', $dominion->devotion->duration) }}</li>
+                    <li>Range multiplier: {{ $dominion->deity->range_multiplier }}x</li>
+                    @foreach($deityHelper->getDeityPerksString($dominion->deity, $dominion->getDominionDeity()) as $effect)
 
                         <li>{{ ucfirst($effect) }}</li>
 

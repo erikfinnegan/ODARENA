@@ -148,7 +148,17 @@ class APIController extends AbstractDominionController
         ]);
 
         $dominion->round = $calculatingDominion->round;
-        $dominion->realm = Realm::findOrFail($calc['realm']);
+
+        $dominion->title_id = $calc['title'];
+
+        if(!isset($calc['realm']) or $calc['realm'] == 0)
+        {
+            $dominion->realm = $calculatingDominion->realm;
+        }
+        else
+        {
+            $dominion->realm = Realm::findOrFail($calc['realm']);
+        }
 
         $defenseCalculationService = app(DefenseCalculationService::class);
 

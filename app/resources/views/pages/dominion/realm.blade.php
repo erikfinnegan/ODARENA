@@ -209,9 +209,9 @@
                                         @if($dominion->hasDeity())
                                             @php
                                                 $perksList = '<ul>';
-                                                $perksList .= '<li>Devotion: ' . number_format($dominion->getDominionDeity()->duration) . ' ' . str_plural('tick', $dominion->getDominionDeity()->duration) . '</li>';
-                                                $perksList .= '<li>Range multiplier: ' . $dominion->getDeity()->range_multiplier . 'x</li>';
-                                                foreach($deityHelper->getDeityPerksString($dominion->getDeity(), $dominion->getDominionDeity()) as $effect)
+                                                $perksList .= '<li>Devotion: ' . number_format($dominion->devotion->duration) . ' ' . str_plural('tick', $dominion->devotion->duration) . '</li>';
+                                                $perksList .= '<li>Range multiplier: ' . $dominion->deity->range_multiplier . 'x</li>';
+                                                foreach($deityHelper->getDeityPerksString($dominion->deity, $dominion->getDominionDeity()) as $effect)
                                                 {
                                                     $perksList .= '<li>' . ucfirst($effect) . '</li>';
                                                 }

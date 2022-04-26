@@ -132,7 +132,7 @@ class GovernmentController extends AbstractDominionController
     {
         $dominion = $this->getSelectedDominion();
         $deityService = app(DeityService::class);
-        $deity = $dominion->getDeity();
+        $deity = $dominion->deity;
 
         try {
             $deityService->renounceDeity($dominion, $deity);

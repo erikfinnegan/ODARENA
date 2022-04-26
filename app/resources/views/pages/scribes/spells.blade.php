@@ -55,11 +55,14 @@
                           <col width="50">
                           <col width="50">
                           <col width="50">
+                          <col width="50">
+                          <col>
                       </colgroup>
                       <thead>
                           <tr>
                               <th>Spell</th>
                               <th>Cost</th>
+                              <th>Wizard Strength</th>
                               <th>Duration</th>
                               <th>Cooldown</th>
                               <th>Effect</th>
@@ -73,6 +76,7 @@
                                   {!! $spellHelper->getExclusivityString($spell) !!}
                               </td>
                               <td>{{ $spell->cost }}x</td>
+                              <td>{{ $spellCalculator->getWizardStrengthCost($spell) }}%</td>
                               <td>{{ $spell->duration }} ticks</td>
                               <td>
                                   @if($spell->cooldown > 0)
@@ -108,11 +112,14 @@
                           <col width="50">
                           <col width="50">
                           <col width="50">
+                          <col width="50">
+                          <col>
                       </colgroup>
                       <thead>
                           <tr>
                               <th>Spell</th>
                               <th>Cost</th>
+                              <th>Wizard Strength</th>
                               <th>Duration</th>
                               <th>Cooldown</th>
                               <th>Effect</th>
@@ -126,6 +133,7 @@
                                   {!! $spellHelper->getExclusivityString($spell) !!}
                               </td>
                               <td>{{ $spell->cost }}x</td>
+                              <td>{{ $spellCalculator->getWizardStrengthCost($spell) }}%</td>
                               <td>{{ $spell->duration }} ticks</td>
                               <td>
                                   @if($spell->cooldown > 0)
@@ -161,11 +169,14 @@
                           <col width="50">
                           <col width="50">
                           <col width="50">
+                          <col width="50">
+                          <col>
                       </colgroup>
                       <thead>
                           <tr>
                               <th>Spell</th>
                               <th>Cost</th>
+                              <th>Wizard Strength</th>
                               <th>Duration</th>
                               <th>Cooldown</th>
                               <th>Effect</th>
@@ -183,6 +194,7 @@
                                   {!! $spellHelper->getExclusivityString($spell) !!}
                               </td>
                               <td>{{ $spell->cost }}x</td>
+                              <td>{{ $spellCalculator->getWizardStrengthCost($spell) }}%</td>
                               <td>{{ $spell->duration }} ticks</td>
                               <td>
                                   @if($spell->cooldown > 0)
@@ -223,11 +235,15 @@
                           <colgroup>
                               <col width="200">
                               <col width="50">
+                              <col width="50">
+                              <col width="50">
+                              <col>
                           </colgroup>
                           <thead>
                               <tr>
                                   <th>Spell</th>
                                   <th>Cost</th>
+                                  <th>Wizard Strength</th>
                                   <th>Cooldown</th>
                                   <th>Effect</th>
                               </tr>
@@ -240,6 +256,7 @@
                                       {!! $spellHelper->getExclusivityString($spell) !!}
                                   </td>
                                   <td>{{ $spell->cost }}x</td>
+                                  <td>{{ $spellCalculator->getWizardStrengthCost($spell) }}%</td>
                                   <td>
                                       @if($spell->cooldown > 0)
                                           {{ $spell->cooldown }} ticks
@@ -272,11 +289,15 @@
                           <colgroup>
                               <col width="200">
                               <col width="50">
+                              <col width="50">
+                              <col width="50">
+                              <col>
                           </colgroup>
                           <thead>
                               <tr>
                                   <th>Spell</th>
                                   <th>Cost</th>
+                                  <th>Wizard Strength</th>
                                   <th>Cooldown</th>
                                   <th>Effect</th>
                               </tr>
@@ -289,6 +310,7 @@
                                       {!! $spellHelper->getExclusivityString($spell) !!}
                                   </td>
                                   <td>{{ $spell->cost }}x</td>
+                                  <td>{{ $spellCalculator->getWizardStrengthCost($spell) }}%</td>
                                   <td>
                                       @if($spell->cooldown > 0)
                                           {{ $spell->cooldown }} ticks
@@ -322,11 +344,15 @@
                           <colgroup>
                               <col width="200">
                               <col width="50">
+                              <col width="50">
+                              <col width="50">
+                              <col>
                           </colgroup>
                           <thead>
                               <tr>
                                   <th>Spell</th>
                                   <th>Cost</th>
+                                  <th>Wizard Strength</th>
                                   <th>Cooldown</th>
                                   <th>Effect</th>
                               </tr>
@@ -339,6 +365,7 @@
                                       {!! $spellHelper->getExclusivityString($spell) !!}
                                   </td>
                                   <td>{{ $spell->cost }}x</td>
+                                  <td>{{ $spellCalculator->getWizardStrengthCost($spell) }}%</td>
                                   <td>
                                       @if($spell->cooldown > 0)
                                           {{ $spell->cooldown }} ticks

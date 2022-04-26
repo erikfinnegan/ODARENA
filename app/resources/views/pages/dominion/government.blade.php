@@ -79,7 +79,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <form action="{{ route('dominion.government.deity') }}" method="post" role="form">
-                            <p>You have been devoted to <strong>{{ $selectedDominion->deity->name }}</strong> for {{ $selectedDominion->getDominionDeity()->duration }} ticks, granting you the following perks:</p>
+                            <p>You have been devoted to <strong>{{ $selectedDominion->deity->name }}</strong> for {{ $selectedDominion->devotion->duration }} ticks, granting you the following perks:</p>
                             <ul>
                                 @foreach($deityHelper->getDeityPerksString($selectedDominion->deity, $selectedDominion->getDominionDeity()) as $effect)
                                     <li>{{ ucfirst($effect) }}</li>
