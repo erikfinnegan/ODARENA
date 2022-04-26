@@ -812,7 +812,7 @@ class Dominion extends AbstractModel
                 elseif(
                         # OP/DP mods
                         $perkKey == 'improvements'
-                        or $perkKey == 'lightning_bolt_damage'
+                        or $perkKey == 'damage_from_lightning_bolt'
                         or $perkKey == 'damage_from_fireball'
                         or $perkKey == 'population_growth'
                         or $perkKey == 'reduces_conversions'
