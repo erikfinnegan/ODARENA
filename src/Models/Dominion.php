@@ -753,9 +753,9 @@ class Dominion extends AbstractModel
 
                         # Spy/wizard
                         or $perkKey == 'spell_cost'
-                        or $perkKey == 'spy_losses'
+                        or $perkKey == 'spy_losses_capped'
                         or $perkKey == 'spy_strength_recovery'
-                        or $perkKey == 'wizard_losses'
+                        or $perkKey == 'wizard_losses_capped'
                         or $perkKey == 'wizard_strength'
                         or $perkKey == 'wizard_strength_recovery'
                         or $perkKey == 'wizard_cost'
@@ -820,12 +820,14 @@ class Dominion extends AbstractModel
                         or $perkKey == 'unit_pairing'
 
                         # Spy/wizard
-                        or $perkKey == 'wizard_strength'
+                        or $perkKey == 'spy_losses'
                         or $perkKey == 'spy_strength'
-                        or $perkKey == 'wizard_strength_on_defense'
                         or $perkKey == 'spy_strength_on_defense'
-                        or $perkKey == 'wizard_strength_on_offense'
                         or $perkKey == 'spy_strength_on_offense'
+                        or $perkKey == 'wizard_losses'
+                        or $perkKey == 'wizard_strength'
+                        or $perkKey == 'wizard_strength_on_defense'
+                        or $perkKey == 'wizard_strength_on_offense'
                     )
                 {
                     $perkValues = $this->extractBuildingPerkValues($perkValueString);

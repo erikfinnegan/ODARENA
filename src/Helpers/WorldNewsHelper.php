@@ -273,8 +273,9 @@ class WorldNewsHelper
         if(!$isSuccessful and ($viewer->round->mode == 'deathmatch' or $viewer->round->mode == 'deathmatch-duration'))
         {
             return sprintf(
-                '%s fended off an attack by %s.',
+                '%s %s an attack by %s.',
                 $this->generateDominionString($attacker, 'neutral', $viewer),
+                $this->getFendedOffString($invasion),
                 $this->generateDominionString($defender, 'neutral', $viewer)
               );
         }
@@ -304,8 +305,9 @@ class WorldNewsHelper
         if(!$isAttackerFriendly and $isDefenderFriendly and !$isSuccessful)
         {
             return sprintf(
-                '%s fended off an attack by %s.',
+                '%s %s off an attack by %s.',
                 $this->generateDominionString($defender, 'neutral', $viewer),
+                $this->getFendedOffString($invasion),
                 $this->generateDominionString($attacker, 'neutral', $viewer)
               );
         }
@@ -335,8 +337,9 @@ class WorldNewsHelper
         if(!$isAttackerFriendly and !$isDefenderFriendly and !$isSuccessful)
         {
             return sprintf(
-                '%s fended off an attack by %s.',
+                '%s %s off an attack by %s.',
                 $this->generateDominionString($defender, 'neutral', $viewer),
+                $this->getFendedOffString($invasion),
                 $this->generateDominionString($attacker, 'neutral', $viewer)
               );
         }
@@ -557,5 +560,16 @@ class WorldNewsHelper
         }
 
         return 'conquered';
+    }
+
+    private function getFendedOffString(GameEvent $invasion): string
+    {
+
+        if($invasion['data']['result']['overwhelmed'])
+        {
+            return 'easily fended off';
+        }
+
+        return 'fended off';
     }
 }

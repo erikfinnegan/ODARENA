@@ -2309,7 +2309,7 @@ class MilitaryCalculator
 
     public function checkDiscoverLand(Dominion $attacker, Dominion $defender): int
     {
-        if($this->getRecentlyInvadedCountByAttacker($defender, $attacker) == 0 and !$defender->isAbandoned() and !$attacker->getSpellPerkValue('no_land_discovered'))
+        if($this->getRecentlyInvadedCountByAttacker($defender, $attacker, 8) == 0 and !$defender->isAbandoned() and !$attacker->getSpellPerkValue('no_land_discovered'))
         {
             return true;
         }

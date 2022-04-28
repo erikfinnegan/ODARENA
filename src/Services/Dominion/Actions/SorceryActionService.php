@@ -484,6 +484,7 @@ class SorceryActionService
                         ];
 
                         $verb = 'damages';
+
                     }
 
                     if($perk->key === 'resource_theft')
