@@ -104,6 +104,6 @@ units:
       defense: 8
     perks:
       no_draftee: 1
-      offense_if_recently_invaded: 5
-      defense_if_recently_invaded: 3
+      offense_if_recently_invaded: 2
+      defense_if_recently_invaded: 1
       dies_into_resource: 1,sapling
