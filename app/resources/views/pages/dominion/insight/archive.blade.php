@@ -1,6 +1,6 @@
 
 @extends('layouts.master')
-@section('title', 'Insight archive')
+@section('title', "Insight Archive | $dominion->name")
 
 @section('content')
 

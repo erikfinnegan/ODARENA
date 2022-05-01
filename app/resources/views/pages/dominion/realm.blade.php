@@ -184,15 +184,15 @@
                                             </span>
                                         @endif
 
-                                        @if ($dominion->id === $selectedDominion->id)
-                                            <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }} &mdash; That's you, chief!">
-                                                <a href="{{ route('dominion.insight.show', $dominion) }}"><b>{{ $dominion->name }}</b></a>
-                                            </span>
-                                        @else
-                                            <span data-toggle="tooltip" data-placement="top" title="<em>{{ $dominion->title->name }}</em> {{ $dominion->ruler_name }} @if($dominion->realm->id === $selectedDominion->realm->id) {{ '<br>Morale: ' . $dominion->morale . '%' }} @endif @if($dominion->race->name === 'Barbarian') {{ '<br>NPC modifier: ' . $dominion->npc_modifier/1000 . '<br>Times invaded: ' . $statsService->getStat($dominion, 'defense_failures') }} @endif ">
-                                                <a href="{{ route('dominion.insight.show', $dominion) }}">{{ $dominion->name }}</a>
-                                            </span>
-                                        @endif
+                                        <span data-toggle="tooltip" data-placement="top" title="{{ $realmHelper->getDominionHelpString($dominion, $selectedDominion) }}">
+                                            <a href="{{ route('dominion.insight.show', $dominion) }}">
+                                                @if($dominion->id == $selectedDominion->id)
+                                                    <strong>{{ $dominion->name }}</strong>
+                                                @else
+                                                    {{ $dominion->name }}
+                                                @endif
+                                            </a>
+                                        </span>
 
                                           @if($dominion->isAbandoned())
                                             <span data-toggle="tooltip" data-placement="top" title="This dominion has been abandoned by its ruler" class="label label-warning"><span>Abandoned</span></span>

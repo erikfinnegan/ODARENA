@@ -64,7 +64,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span data-toggle="tooltip" data-placement="top" title="<em>Effective: {{ number_format(floor($selectedDominion->prestige)) }}<br>Actual: {{ number_format((float)$selectedDominion->prestige,8) }}<br>Interest: {{ number_format((float)$productionCalculator->getPrestigeInterest($selectedDominion),8) }}</em>">
+                                            <span data-toggle="tooltip" data-placement="top" title="{{ $dominionHelper->getPrestigeHelpString($selectedDominion) }}">
                                                 {{ number_format(floor($selectedDominion->prestige)) }}
                                             </span>
                                         </td>

@@ -476,7 +476,18 @@ class WorldNewsHelper
     {
 
         $string = sprintf(
-            '<a href="%s"><span data-toggle="tooltip" data-placement="top" title="<small class=\'text-muted\'>Range:</small> <span class=\'%s\'>%s%%</span><br><small class=\'text-muted\'>Faction:</small> %s<br><small class=\'text-muted\'>Status:</small> %s<br><small class=\'text-muted\'>Units returning:</small> %s" class="%s"> %s <a href="%s">(# %s)</a></span>',
+            '<a href="%s">
+                <span data-toggle="tooltip" data-placement="top" title="
+                    <small class=\'text-muted\'>Range:</small> <span class=\'%s\'>%s%%</span><br>
+                    <small class=\'text-muted\'>Faction:</small> %s<br>
+                    <small class=\'text-muted\'>Status:</small> %s<br>
+                    <small class=\'text-muted\'>Units returning:</small> %s"
+                class="%s"> %s
+                    <a href="%s">
+                        (# %s)
+                    </a>
+                </span>
+            </a>',
             route('dominion.insight.show', [$dominion->id]),
             $this->rangeCalculator->isInRange($viewer, $dominion) ? "text-green" : "text-red",
             number_format($this->landCalculator->getTotalLand($dominion)/$this->landCalculator->getTotalLand($viewer)*100,2),

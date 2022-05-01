@@ -18,6 +18,7 @@ use OpenDominion\Services\Dominion\QueueService;
 use OpenDominion\Services\Dominion\StatsService;
 use OpenDominion\Services\Dominion\Actions\TickActionService;
 
+use OpenDominion\Helpers\DominionHelper;
 use OpenDominion\Helpers\RaceHelper;
 use OpenDominion\Helpers\NotificationHelper;
 use OpenDominion\Helpers\TitleHelper;
@@ -45,10 +46,12 @@ class StatusController extends AbstractDominionController
             'prestigeCalculator' => app(PrestigeCalculator::class),
             'resourceCalculator' => app(ResourceCalculator::class),
             'queueService' => app(QueueService::class),
-            'unitHelper' => app(UnitHelper::class),
+
+            'dominionHelper' => app(DominionHelper::class),
             'raceHelper' => app(RaceHelper::class),
             'titleHelper' => app(TitleHelper::class),
             'statsService' => app(StatsService::class),
+            'unitHelper' => app(UnitHelper::class),
             'notifications' => $notifications
         ]);
     }

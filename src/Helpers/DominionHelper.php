@@ -6,12 +6,14 @@ use Illuminate\Support\Collection;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
+use OpenDominion\Calculators\Dominion\ProductionCalculator;
 
 class DominionHelper
 {
     public function __construct()
     {
         $this->militaryCalculator = app(MilitaryCalculator::class);
+        $this->productionCalculator = app(ProductionCalculator::class);
     }
 
     public function isEnraged(Dominion $dominion): bool
@@ -57,5 +59,20 @@ class DominionHelper
         $actions = 0;
 
         return $actions;
+    }
+
+    public function getPrestigeHelpString(Dominion $dominion): string
+    {
+
+        $string = sprintf(
+            '<small class="text-muted">Effective:</small> %s<br>
+            <small class="text-muted">Actual:</small> %s<br>
+            <small class="text-muted">Interest:</small> %s<small class=""> / tick</small>' ,
+            number_format(floor($dominion->prestige)),
+            number_format(floatval($dominion->prestige),8),
+            floatval($this->productionCalculator->getPrestigeInterest($dominion))
+          );
+
+        return $string;
     }
 }

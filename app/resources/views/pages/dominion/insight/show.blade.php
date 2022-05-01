@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Insight')
+@section('title', "Insight | $dominion->name")
 
 @section('content')
 
@@ -113,7 +113,7 @@
                             <tr>
                                 <td>Prestige:</td>
                                 <td>
-                                    <span data-toggle="tooltip" data-placement="top" title="<em>Effective: {{ number_format(floor($dominion->prestige)) }}<br>Actual: {{ number_format((float)$dominion->prestige,8) }}<br>Interest: {{ number_format((float)$productionCalculator->getPrestigeInterest($dominion),8) }}</em>">
+                                    <span data-toggle="tooltip" data-placement="top" title="{{ $dominionHelper->getPrestigeHelpString($dominion) }}">
                                         {{ number_format(floor($dominion->prestige)) }}
                                     </span>
                                 </td>

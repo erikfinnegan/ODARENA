@@ -590,7 +590,7 @@ class NotificationHelper
                         break;
 
                     case 'assassinate_draftees':
-                        $resultString = "{$data['damageString']} were assassinated while they slept in our barracks.";
+                        $resultString = "{$data['damageString']} were assassinated.";
                         break;
 
                     case 'assassinate_wizards':
