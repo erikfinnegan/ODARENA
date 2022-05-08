@@ -154,6 +154,8 @@ class SpellHelper
 
             'resource_conversion' => 'Converts %3$s%% of your %1$s to %2$s at a rate of %4$s:1.',
 
+            'resource_conversion_capped' => 'Converts %3$s%% of your %1$s (up to %5$s %1$s) to %2$s at a rate of %4$s:1.',
+
             'peasant_to_resources_conversion' => 'Sacrifice %1$s%% of your sinners for %2$s each.',
 
             // Magic
@@ -373,6 +375,21 @@ class SpellHelper
                     })->first();
 
                 $perkValue = [$multiplier, str_plural($unitToConvertTo->name)];
+            }
+            if($perk->key == 'resource_conversion_capped')
+            {
+                $fromResourceKey = (string)$perkValue[0];
+                $toResourceKey = (string)$perkValue[1];
+                $fromRatio = (float)$perkValue[2];
+                $toRatio = (int)$perkValue[3];
+                $maxFrom = (int)$perkValue[4];
+
+                $fromResource = Resource::where('key', $fromResourceKey)->first();
+                $toResource = Resource::where('key', $toResourceKey)->first();
+                $maxFrom = number_format($maxFrom);
+
+                $perkValue = [$fromResource->name, $toResource->name, $fromRatio, $toRatio, $maxFrom];
+
             }
 
             if($perk->key === 'plunders')

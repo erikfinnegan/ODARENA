@@ -27,6 +27,7 @@ perks:
   cannot_train_archmages: 1
   sabotage_damage_suffered: -50
   sabotage_damage_dealt: -25
+  barren_housing_only_on_water: 1
 
 improvement_resources:
   gold: 1

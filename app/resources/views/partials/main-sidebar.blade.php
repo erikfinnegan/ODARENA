@@ -96,7 +96,7 @@
                 {{--
                 <li class="{{ Route::is('dominion.offensive-ops') ? 'active' : null }}"><a href="{{ route('dominion.offensive-ops') }}"><i class="ra ra-skull ra-fw"></i> <span>Spells &amp; Spy Ops</span></a></li>
                 --}}
-                <li class="{{ Route::is('dominion.friendly-ops') ? 'active' : null }}"><a href="{{ route('dominion.friendly-ops') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Friendly Magic</span></a></li>
+                <li class="{{ Route::is('dominion.magic') ? 'active' : null }}"><a href="{{ route('dominion.magic') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Magic</span></a></li>
                 <li class="{{ Route::is('dominion.search') ? 'active' : null }}"><a href="{{ route('dominion.search') }}"><i class="fa fa-search fa-fw"></i> <span>Search</span></a></li>
 
                 <li class="{{ Route::is('dominion.government') ? 'active' : null }}"><a href="{{ route('dominion.government') }}"><i class="fa fa-university fa-fw"></i> <span>Government</span></a></li>

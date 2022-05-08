@@ -158,8 +158,8 @@ $router->group(['middleware' => 'auth'], static function (Router $router) {
             $router->post('theft')->uses('Dominion\TheftController@postTheft');
 
             // Friendly Magic
-            $router->get('friendly-ops')->uses('Dominion\FriendlyOpsController@getFriendlyOps')->name('friendly-ops');
-            $router->post('friendly-ops')->uses('Dominion\FriendlyOpsController@postFriendlyOps');
+            $router->get('magic')->uses('Dominion\MagicController@getMagic')->name('magic');
+            $router->post('magic')->uses('Dominion\MagicController@postMagic');
 
             // Search
             $router->get('search')->uses('Dominion\SearchController@getSearch')->name('search');

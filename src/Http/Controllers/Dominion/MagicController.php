@@ -12,7 +12,7 @@ use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\SpellHelper;
 use OpenDominion\Http\Requests\Dominion\Actions\CastSpellRequest;
 use OpenDominion\Http\Requests\Dominion\Actions\PerformEspionageRequest;
-use OpenDominion\Http\Requests\Dominion\Actions\FriendlyOpsRequest;
+use OpenDominion\Http\Requests\Dominion\Actions\MagicRequest;
 use OpenDominion\Models\Dominion;
 use OpenDominion\Services\Analytics\AnalyticsEvent;
 use OpenDominion\Services\Analytics\AnalyticsService;
@@ -27,16 +27,16 @@ use OpenDominion\Calculators\Dominion\SpellDamageCalculator;
 use OpenDominion\Models\Spell;
 use OpenDominion\Models\Spyop;
 
-class FriendlyOpsController extends AbstractDominionController
+class MagicController extends AbstractDominionController
 {
-    public function getFriendlyOps()
+    public function getMagic()
     {
         $dominion = $this->getSelectedDominion();
 
         $selfSpells = Spell::all()->where('scope','self')->where('enabled',1)->sortBy('name');
         $friendlySpells = Spell::all()->where('scope','friendly')->where('enabled',1)->sortBy('name');
 
-        return view('pages.dominion.friendly-ops', [
+        return view('pages.dominion.magic', [
             'landCalculator' => app(LandCalculator::class),
             'protectionService' => app(ProtectionService::class),
             'rangeCalculator' => app(RangeCalculator::class),
@@ -53,7 +53,7 @@ class FriendlyOpsController extends AbstractDominionController
         ]);
     }
 
-    public function postFriendlyOps(FriendlyOpsRequest $request)
+    public function postMagic(MagicRequest $request)
     {
         if($request->type === 'self_spell')
         {
@@ -89,7 +89,7 @@ class FriendlyOpsController extends AbstractDominionController
             $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
 
             return redirect()
-                ->to($result['redirect'] ?? route('dominion.friendly-ops'))
+                ->to($result['redirect'] ?? route('dominion.magic'))
                 ->with('spell_dominion', $request->get('spell_dominion'));
         }
         elseif($request->type === 'friendly_spell')
@@ -126,7 +126,7 @@ class FriendlyOpsController extends AbstractDominionController
             $request->session()->flash(('alert-' . ($result['alert-type'] ?? 'success')), $result['message']);
 
             return redirect()
-                ->to($result['redirect'] ?? route('dominion.friendly-ops'))
+                ->to($result['redirect'] ?? route('dominion.magic'))
                 ->with('friendly_dominion', $request->get('friendly_dominion'));
         }
         else

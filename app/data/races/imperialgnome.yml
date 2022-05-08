@@ -30,6 +30,7 @@ perks:
 units:
   - name: Brimstone Bullet
     training_time: 6
+    static_networth: 0.2
     type:
       - ammunition
     cost:
@@ -47,6 +48,7 @@ units:
 
   - name: Iron Swarm
     training_time: 12
+    static_networth: 2
     type:
       - machine
     cost:

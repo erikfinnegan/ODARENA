@@ -1,10 +1,5 @@
 @extends ('layouts.master')
-@section('title', 'Friendly Ops')
-
-{{--
-@section('page-header', 'Friendly Magic')
---}}
-
+@section('title', 'Magic')
 @section('content')
     <div class="row">
         <div class="col-sm-12 col-md-9">
@@ -20,7 +15,7 @@
                                 Mana: {{ number_format($resourceCalculator->getAmount($selectedDominion, 'mana')) }}
                             </small>
                         </div>
-                        <form action="{{ route('dominion.friendly-ops') }}" method="post" role="form">
+                        <form action="{{ route('dominion.magic') }}" method="post" role="form">
                             @csrf
                             <input type="hidden" name="type" value="self_spell">
 
@@ -70,7 +65,7 @@
                             </small>
                         </div>
 
-                        <form action="{{ route('dominion.friendly-ops') }}" method="post" role="form">
+                        <form action="{{ route('dominion.magic') }}" method="post" role="form">
                             @csrf
                             <input type="hidden" name="type" value="friendly_spell">
 
@@ -142,7 +137,7 @@
                                         <td>{{ $activePassiveSpellCast->spell->name }}</td>
                                         <td>{{ $activePassiveSpellCast->duration }} / {{ $activePassiveSpellCast->spell->duration }}</td>
                                         <td>
-                                            <form action="{{ route('dominion.friendly-ops') }}" method="post" role="form">
+                                            <form action="{{ route('dominion.magic') }}" method="post" role="form">
                                                 @csrf
                                                 <input type="hidden" name="type" value="friendly_spell">
                                                 <input type="hidden" name="friendly_dominion" value="{{ $activePassiveSpellCast->target_dominion_id }}">
