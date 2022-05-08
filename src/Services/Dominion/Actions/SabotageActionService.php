@@ -44,14 +44,13 @@ class SabotageActionService
         $this->resourceService = app(ResourceService::class);
         $this->statsService = app(StatsService::class);
 
-
         $this->unitHelper = app(UnitHelper::class);
     }
 
-    public function steal(Dominion $saboteur, Dominion $target, Resource $resource, array $units): array
+    public function sabotage(Dominion $saboteur, Dominion $target, Spyop $spyop, array $units): array
     {
 
-        DB::transaction(function () use ($saboteur, $target, $resource, $units)
+        DB::transaction(function () use ($saboteur, $target, $spyop, $units)
         {
             // Sanitize input
             $units = array_map('intval', array_filter($units));
@@ -65,47 +64,32 @@ class SabotageActionService
 
             if ($this->protectionService->isUnderProtection($saboteur))
             {
-                throw new GameException('You cannot steal while under protection.');
+                throw new GameException('You cannot sabotage while under protection.');
             }
 
             if ($this->protectionService->isUnderProtection($saboteur))
             {
-                throw new GameException('You cannot steal from dominions which are under protection.');
+                throw new GameException('You cannot sabotage dominions which are under protection.');
             }
 
             if (!$this->rangeCalculator->isInRange($saboteur, $target))
             {
-                throw new GameException('You cannot steal from dominions outside of your range.');
+                throw new GameException('You cannot sabotage dominions outside of your range.');
             }
 
             if ($saboteur->round->id !== $target->round->id)
             {
-                throw new GameException('Nice try, but you cannot steal cross-round.');
+                throw new GameException('Nice try, but you cannot sabotage cross-round.');
             }
 
             if ($saboteur->realm->id === $target->realm->id and ($saboteur->round->mode == 'standard' or $saboteur->round->mode == 'standard-duration'))
             {
-                throw new GameException('You cannot steal from other dominions in the same realm as you in standard rounds.');
+                throw new GameException('You cannot sabotage from other dominions in the same realm as you in standard rounds.');
             }
 
             if ($saboteur->id == $target->id)
             {
-                throw new GameException('Nice try, but you steal from invade yourself.');
-            }
-
-            if ($resource->key == 'mana')
-            {
-                throw new GameException('You do not currently have the ability to steal ' . $resource->name . '.');
-            }
-
-            if (!in_array($resource->key, $saboteur->race->resources))
-            {
-                throw new GameException($resource->name . ' is not used by ' . $saboteur->race->name . ', so you cannot steal it.');
-            }
-
-            if (!in_array($resource->key, $target->race->resources))
-            {
-                throw new GameException($target->race->name . ' does not use ' . $resource->name . '.');
+                throw new GameException('Nice try, but you sabotage yourself.');
             }
 
             if (!$this->passes43RatioRule($saboteur, $target, $landRatio, $units))
@@ -113,25 +97,15 @@ class SabotageActionService
                 throw new GameException('You are sending out too much OP, based on your new home DP (4:3 rule).');
             }
 
-
             if (!$this->hasEnoughUnitsAtHome($saboteur, $units))
             {
                 throw new GameException('You don\'t have enough units at home to send this many units.');
             }
 
-            if($saboteur->race->getPerkValue('no_' . $resource->key .'_sabotage'))
-            {
-                throw new GameException($saboteur->race->name . ' cannot steal ' . $resource->name . '.');
-            }
-
-            if($target->race->getPerkValue('no_' . $resource->key .'_sabotage'))
-            {
-                throw new GameException('Cannot steal ' . $resource->name . ' from ' . $target->race->name . '.');
-            }
-
             foreach($units as $slot => $amount)
             {
-                $unit = $saboteur->race->units->filter(function ($unit) use ($slot) {
+                $unit = $saboteur->race->units->filter(function ($unit) use ($slot)
+                {
                     return ($unit->slot === $slot);
                 })->first();
 
@@ -155,50 +129,50 @@ class SabotageActionService
 
                     if(!$this->unitHelper->isUnitSendableByDominion($unit, $saboteur))
                     {
-                        throw new GameException('You cannot send ' . $unit->name . ' on invasion.');
+                        throw new GameException('You cannot send ' . $unit->name . ' on sabotage.');
                     }
                 }
-             }
+            }
 
-            if ($saboteur->race->getPerkValue('cannot_steal'))
+            if ($saboteur->race->getPerkValue('cannot_sabotage'))
             {
-                throw new GameException($saboteur->race->name . ' cannot steal.');
+                throw new GameException($saboteur->race->name . ' cannot sabotage.');
             }
 
             // Spell: Rainy Season (cannot invade)
-            if ($saboteur->getSpellPerkValue('cannot_steal'))
+            if ($saboteur->getSpellPerkValue('cannot_sabotage'))
             {
-                throw new GameException('A spell is preventing from you steal.');
+                throw new GameException('A spell is preventing from you sabotage.');
             }
 
             // Cannot invade until round has started.
             if(!$saboteur->round->hasStarted())
             {
-                throw new GameException('You cannot steal until the round has started.');
+                throw new GameException('You cannot sabotage until the round has started.');
             }
 
             // Cannot invade after round has ended.
             if($saboteur->round->hasEnded())
             {
-                throw new GameException('You cannot steal after the round has ended.');
+                throw new GameException('You cannot sabotage after the round has ended.');
             }
 
             // Qur: Statis cannot be invaded.
             if($target->getSpellPerkValue('stasis'))
             {
-                throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your spies to steal.');
+                throw new GameException('A magical stasis surrounds the Qurrian lands, making it impossible for your spies to sabotage.');
             }
 
             // Qur: Statis cannot invade.
             if($saboteur->getSpellPerkValue('stasis'))
             {
-                throw new GameException('You cannot steal while you are in stasis.');
+                throw new GameException('You cannot sabotage while you are in stasis.');
             }
 
             // Check that saboteur has enough SS
             if($saboteur->spy_strength <= 0)
             {
-                throw new GameException('You do not have enough spy strength to steal.');
+                throw new GameException('You do not have enough spy strength to sabotage.');
             }
 
             $spyStrengthCost = $this->sabotageCalculator->getSpyStrengthCost($saboteur, $units);
@@ -208,15 +182,219 @@ class SabotageActionService
                 throw new GameException('You do not have enough spy strength to send that many units. You have ' . $saboteur->spy_strength . '% and would need ' . ($this->sabotageCalculator->getSpyStrengthCost($saboteur, $units)) . '% to send that many units.');
             }
 
-            # CHECKS COMPLETE
+            # END VALIDATION
+
+            $this->sabotage = [
+                'spyop_key' => $spyop->key,
+                'saboteur' => [
+                        'fog' => $saboteur->getSpellPerkValue('fog_of_war') ? true : false,
+                        'spy_strength_current' => $saboteur->spy_strength,
+                        'spy_strength_spent' => $spyStrengthCost,
+                        'spy_ratio' => $this->militaryCalculator->getSpyRatio($saboteur, 'offense')
+                    ],
+                'target' => [
+                        'crypt_bodies' => 0,
+                        'fog' => $target->getSpellPerkValue('fog_of_war') ? true : false,
+                        'reveal_ops' => $target->getSpellPerkValue('reveal_ops') ? true : false,
+                        'spy_strength_current' => $target->spy_strength,
+                        'spy_ratio' => $this->militaryCalculator->getSpyRatio($target, 'defense')
+                    ],
+                'damage' => [],
+            ];
+
+            foreach($spyop->perks as $perk)
+            {
+                $spyopPerkValues = $spyop->getSpyopPerkValues($spyop->key, $perk->key);
+
+                if($perk->key === 'kill_peasants')
+                {
+                    $baseDamage = (float)$spyopPerkValues;
+                    $attribute = 'peasants';
+
+                    $ratioMultiplier = $this->sabotageCalculator->getRatioMultiplier($saboteur, $target, $spyop, $attribute, $units, false);
+                    $saboteurDamageMultiplier = $this->sabotageCalculator->getSaboteurDamageMultiplier($saboteur, $attribute);
+                    $targetDamageMultiplier = $this->sabotageCalculator->getTargetDamageMultiplier($saboteur, $attribute);
+
+                    $damage = array_sum($units) * $baseDamage * $ratioMultiplier * $saboteurDamageMultiplier * $targetDamageMultiplier;
+
+                    $damage = floor($damage);
+
+                    $damageDealt = min($damage, $target->peasants);
+
+                    $peasantsBefore = $target->peasants;
+                    $target->peasants -= $damageDealt;
+                    $peasantsAfter = $peasantsBefore - $damageDealt;
+
+                    $this->statsService->updateStat($saboteur, 'sabotage_peasants_killed', $damageDealt);
+                    $this->statsService->updateStat($target, 'sabotage_peasants_lost', $damageDealt);
+
+                    # For Empire, add killed draftees go in the crypt
+                    if($target->realm->alignment === 'evil')
+                    {
+                        $target->realm->crypt += $damageDealt;
+                        $this->sabotage['target']['crypt_bodies'] += $damageDealt;
+                    }
+
+                    $this->sabotage['damage'][$perk->key] = [
+                        'ratio_multiplier' => $ratioMultiplier,
+                        'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
+                        'target_damage_multiplier' => $targetDamageMultiplier,
+                        'damage' => $damage,
+                        'damage_dealt' => $damageDealt,
+                        'peasants_before' => (int)$peasantsBefore,
+                        'peasants_after' => (int)$peasantsAfter,
+                    ];
+                }
+
+                if($perk->key === 'kill_draftees')
+                {
+                    $baseDamage = (float)$spyopPerkValues;
+                    $attribute = 'draftees';
+
+                    $ratioMultiplier = $this->sabotageCalculator->getRatioMultiplier($saboteur, $target, $spyop, $attribute, $units, false);
+                    $saboteurDamageMultiplier = $this->sabotageCalculator->getSaboteurDamageMultiplier($saboteur, $attribute);
+                    $targetDamageMultiplier = $this->sabotageCalculator->getTargetDamageMultiplier($saboteur, $attribute);
+
+                    $damage = array_sum($units) * $baseDamage * $ratioMultiplier * $saboteurDamageMultiplier * $targetDamageMultiplier;
+
+                    # Factor in draftee DP to increase/decrease draftees killed
+                    $damage /= ($target->race->getPerkValue('draftee_dp') ?: 1);
+
+                    $damage = floor($damage);
+
+                    $damageDealt = min($damage, $target->military_draftees);
+
+                    $drafteesBefore = $target->military_draftees;
+                    $target->military_draftees -= $damageDealt;
+                    $drafteesAfter = $drafteesBefore - $damageDealt;
+
+                    $this->statsService->updateStat($saboteur, 'sabotage_draftees_killed', $damageDealt);
+                    $this->statsService->updateStat($target, 'sabotage_draftees_lost', $damageDealt);
+
+                    # For Empire, add killed draftees go in the crypt
+                    if($target->realm->alignment === 'evil')
+                    {
+                        $target->realm->crypt += $damageDealt;
+                        $this->sabotage['target']['crypt_bodies'] += $damageDealt;
+                    }
+
+                    $this->sabotage['damage'][$perk->key] = [
+                        'ratio_multiplier' => $ratioMultiplier,
+                        'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
+                        'target_damage_multiplier' => $targetDamageMultiplier,
+                        'damage' => $damage,
+                        'damage_dealt' => $damageDealt,
+                        'draftees_before' => (int)$drafteesBefore,
+                        'draftees_after' => (int)$drafteesAfter,
+                    ];
+                }
+
+                if($perk->key === 'reduce_wizard_strength')
+                {
+                    $baseDamage = (float)$spyopPerkValues;
+                    $attribute = 'wizard_strength';
+
+                    $ratioMultiplier = $this->sabotageCalculator->getRatioMultiplier($saboteur, $target, $spyop, $attribute, $units, false);
+                    $saboteurDamageMultiplier = $this->sabotageCalculator->getSaboteurDamageMultiplier($saboteur, $attribute);
+                    $targetDamageMultiplier = $this->sabotageCalculator->getTargetDamageMultiplier($saboteur, $attribute);
+
+                    $damage = array_sum($units) * $baseDamage * $ratioMultiplier * $saboteurDamageMultiplier * $targetDamageMultiplier;
+
+                    $damage = floor($damage);
+
+                    $damageDealt = min($damage, $target->wizard_strength);
+
+                    $wizardStrengthBefore = $target->wizard_strength;
+                    $target->wizard_strength -= $damageDealt;
+                    $wizardStrengthAfter = $wizardStrengthBefore - $damageDealt;
+
+                    $this->statsService->updateStat($saboteur, 'sabotage_draftees_killed', $damageDealt);
+                    $this->statsService->updateStat($target, 'sabotage_draftees_lost', $damageDealt);
+
+                    $this->sabotage['damage'][$perk->key] = [
+                        'ratio_multiplier' => $ratioMultiplier,
+                        'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
+                        'target_damage_multiplier' => $targetDamageMultiplier,
+                        'damage' => $damage,
+                        'damage_dealt' => $damageDealt,
+                        'wizard_strength_before' => (int)$wizardStrengthBefore,
+                        'wizard_strength_after' => (int)$wizardStrengthAfter,
+                    ];
+                }
+
+                if($perk->key === 'sabotage_construction')
+                {
+                    $baseDamage = (float)$spyopPerkValues;
+                    $attribute = 'construction';
+
+                    $ratioMultiplier = $this->sabotageCalculator->getRatioMultiplier($saboteur, $target, $spyop, $attribute, $units, false);
+                    $saboteurDamageMultiplier = $this->sabotageCalculator->getSaboteurDamageMultiplier($saboteur, $attribute);
+                    $targetDamageMultiplier = $this->sabotageCalculator->getTargetDamageMultiplier($saboteur, $attribute);
+
+                    $damage = (int)floor(array_sum($units) * $baseDamage * $ratioMultiplier * $saboteurDamageMultiplier * $targetDamageMultiplier);
+
+                    $this->queueService->setForTick(false); # OFF
+
+                    foreach($this->queueService->getConstructionQueue($target)->sortBy('hours')->shuffle() as $index => $constructionBuilding)
+                    {
+                        $buildingKey = str_replace('building_', '', $constructionBuilding->resource);
+                        $hours = $constructionBuilding->hours;
+                        $amount = $constructionBuilding->amount;
+                        $constructionBuildings[$buildingKey] = [$hours => $amount];
+                    }
+
+                    $damageRemaining = $damage;
+                    foreach($constructionBuildings as $buildingKey => $construction)
+                    {
+                        if($damageRemaining <= 0)
+                        {
+                            break;
+                        }
+
+                        $hours = key($construction);
+                        $newHours = min(12, $hours + 2);
+
+                        $amount = $construction[$hours];
+                        $amountSabotaged = (int)min($amount, $damageRemaining);
+
+                        $buildingResourceKey = 'building_' . $buildingKey;
+
+                        $this->queueService->dequeueResourceForHour('construction', $target, $buildingResourceKey, $amountSabotaged, $hours);
+                        $this->queueService->queueResources('construction', $target, [$buildingResourceKey => $amountSabotaged], $newHours);
+
+                        $building = Building::where('key', $buildingKey)->first();
+
+                        $sabotagedConstruction[$buildingKey] = [
+                            'name' => $building->name,
+                            'amount_construction' => $amount,
+                            'amount_sabotaged' => $amountSabotaged,
+                            'hours_before' => $hours,
+                            'hours_after' => $newHours
+                            ];
+
+                        $damageRemaining -= $amountSabotaged;
+                    }
+
+                    $this->queueService->setForTick(true); # ON
+
+
+                    $this->statsService->updateStat($saboteur, 'sabotage_damage_construction', $damage);
+
+                    $this->sabotage['damage'][$perk->key] = [
+                        'ratio_multiplier' => $ratioMultiplier,
+                        'saboteur_damage_multiplier' => $saboteurDamageMultiplier,
+                        'target_damage_multiplier' => $targetDamageMultiplier,
+                        'damage' => $damage,
+                        'damage_dealt' => $sabotagedConstruction
+                    ];
+                }
+            }
 
             # Calculate spy units
             $saboteur->spy_strength -= min($spyStrengthCost, $saboteur->spy_strength);
 
             $this->sabotage['units'] = $units;
             $this->sabotage['spy_units_sent_ratio'] = $spyStrengthCost;
-            $this->sabotage['resource']['key'] = $resource->key;
-            $this->sabotage['resource']['name'] = $resource->name;
 
             # Casualties
             $survivingUnits = $units;
@@ -229,26 +407,6 @@ class SabotageActionService
 
             $this->sabotage['killed_units'] = $killedUnits;
             $this->sabotage['returning_units'] = $survivingUnits;
-
-            # Determine how much was stolen
-            $this->sabotage['amount_owned'] = $this->resourceCalculator->getAmount($target, $resource->key);
-            $amountStolen = $this->sabotageCalculator->getSabotageAmount($saboteur, $target, $resource, $survivingUnits);
-            $this->sabotage['amount_stolen'] = $amountStolen;
-
-            # Remove from target
-            $this->resourceService->updateResources($target, [$resource->key => $amountStolen*-1]);
-
-            # Queue returning resources
-            $ticks = 6;
-
-            $resourceQueueKey = 'resource_' . $resource->key;
-
-            $this->queueService->queueResources(
-                'sabotage',
-                $saboteur,
-                [$resourceQueueKey => $amountStolen],
-                $ticks
-            );
 
             # Remove units
             foreach($units as $slot => $amount)
@@ -264,7 +422,7 @@ class SabotageActionService
             }
 
             # Queue returning units
-            $ticks = 6;
+            $ticks = 12;
 
             foreach($survivingUnits as $slot => $amount)
             {
@@ -298,25 +456,20 @@ class SabotageActionService
 
             $this->notificationService->queueNotification('sabotage', [
                 '_routeParams' => [(string)$this->sabotageEvent->id],
-                'saboteurDominionId' => $saboteur->id,
+                'saboteur_dominion_id' => $saboteur->id,
                 'unitsKilled' => $this->sabotage['killed_units'],
-                'resource' => $resource->id,
-                'amountLost' => $this->sabotage['amount_stolen']
+                'spyop' => $spyop->key,
+                'damage' => $this->sabotage['damage']
             ]);
-
-            $this->statsService->updateStat($saboteur, ($resource->key .  '_stolen'), $amountStolen);
-            $this->statsService->updateStat($target, ($resource->key . '_lost'), $amountStolen);
-
-            $saboteur->most_recent_sabotage_resource = $resource->key;
 
             # Debug before saving:
             if(request()->getHost() === 'odarena.local')
             {
-                dd($this->sabotage);
+                #dd($this->sabotage);
             }
 
-            $target->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
-            $saboteur->save(['event' => HistoryService::EVENT_ACTION_THEFT]);
+            $target->save(['event' => HistoryService::EVENT_ACTION_SABOTAGE]);
+            $saboteur->save(['event' => HistoryService::EVENT_ACTION_SABOTAGE]);
 
         });
 
@@ -325,7 +478,7 @@ class SabotageActionService
         $saboteur->most_recent_sabotage_resource = $resource->key;
 
         $message = sprintf(
-            'Your %s infiltrate %s (#%s), stealing %s %s.',
+            'Your %s infiltrate %s (#%s), sabotageing %s %s.',
             (isset($units['spies']) and array_sum($units) < $units['spies']) ? 'spies' : 'units',
             $target->name,
             $target->realm->number,
@@ -391,73 +544,4 @@ class SabotageActionService
         return ($attackingForceOP <= $attackingForceMaxOP);
     }
 
-    /**
-     * Returns the amount of hours a military unit (with a specific slot) takes
-     * to return home after battle.
-     *
-     * @param Dominion $saboteur
-     * @param int $slot
-     * @return int
-     */
-    protected function getUnitReturnHoursForSlot(Dominion $saboteur, int $slot): int
-    {
-        $ticks = 12;
-
-        $unit = $saboteur->race->units->filter(function ($unit) use ($slot) {
-            return ($unit->slot === $slot);
-        })->first();
-
-        if ($unit->getPerkValue('faster_return'))
-        {
-            $ticks -= (int)$unit->getPerkValue('faster_return');
-        }
-
-        return $ticks;
-    }
-
-    protected function getUnitReturnTicksForSlot(Dominion $saboteur, int $slot): int
-    {
-        $ticks = 12;
-
-        $unit = $saboteur->race->units->filter(function ($unit) use ($slot) {
-            return ($unit->slot === $slot);
-        })->first();
-
-        $ticks -= (int)$unit->getPerkValue('faster_return');
-        $ticks -= (int)$saboteur->getSpellPerkValue('faster_return');
-        $ticks -= (int)$saboteur->getTechPerkValue('faster_return');
-        $ticks -= (int)$dominion->realm->getArtefactPerkValue('faster_return');
-
-        return min(max(1, $ticks), 12);
-    }
-
-    /**
-     * Gets the amount of hours for the slowest unit from an array of units
-     * takes to return home.
-     *
-     * Primarily used to bring prestige home earlier if you send only 9hr
-     * attackers. (Land always takes 12 hrs)
-     *
-     * @param Dominion $saboteur
-     * @param array $units
-     * @return int
-     */
-    protected function getSlowestUnitReturnHours(Dominion $saboteur, array $units): int
-    {
-        $hours = 12;
-
-        foreach ($units as $slot => $amount) {
-            if ($amount === 0) {
-                continue;
-            }
-
-            $hoursForUnit = $this->getUnitReturnHoursForSlot($saboteur, $slot);
-
-            if ($hoursForUnit < $hours) {
-                $hours = $hoursForUnit;
-            }
-        }
-
-        return $hours;
-    }
 }

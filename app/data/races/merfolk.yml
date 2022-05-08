@@ -2,8 +2,11 @@ name: Merfolk
 alignment: independent
 description:
 home_land_type: water
-playable: 1
+playable: 0
 skill_level: 1
+
+peasants_alias: spore
+draftees_alias: sporeling
 
 resources:
   - gold

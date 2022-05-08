@@ -218,6 +218,7 @@ class ResourceCalculator
                   $availablePairingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
                   $availablePairingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
                   $availablePairingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
+                  $availablePairingUnits += $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$slotPairedWith}");
                   */
 
                   $availableProducingUnit = $dominion->{'military_unit' . $slot};

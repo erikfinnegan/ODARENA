@@ -322,7 +322,7 @@
         </form>
 
         <div class="box-footer">
-            <button type="submit" class="btn btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Demolish</button>
+            <button type="submit" class="btn btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : null }} id="submit">Demolish</button>
 
             <span class="pull-right">
             <a href="{{ route('dominion.buildings') }}" class="btn btn-primary">Cancel</a>
@@ -347,3 +347,19 @@
 </div>
 
 @endsection
+@push('page-scripts')
+<script>
+    $(document).ready(function()
+    {
+        $('#submit').click(function()
+        {
+            var submit = $(this);
+            submit.prop('disabled', true);
+            setTimeout(function()
+            {
+                submit.prop('disabled', false);
+            },6000);
+        });
+    });
+</script>
+@endpush

@@ -9,6 +9,7 @@ use OpenDominion\Models\Dominion;
 use OpenDominion\Models\GameEvent;
 use OpenDominion\Models\Realm;
 use OpenDominion\Models\Spell;
+use OpenDominion\Models\Spyop;
 
 use OpenDominion\Calculators\Dominion\LandCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
@@ -67,6 +68,9 @@ class WorldNewsHelper
             case 'round_countdown_duration':
             case 'round_countdown':
                 return $this->generateCountdownString($event, $viewer);
+
+            case 'sabotage':
+                return $this->generateSabotageString($event->source, $event->target, $event, $viewer);
 
             case 'sorcery':
                 return $this->generateSorceryString($event->source, $event->target, $event, $viewer);
@@ -365,6 +369,66 @@ class WorldNewsHelper
             $dominion->title->name,
             $dominion->ruler_name
           );
+
+        return $string;
+    }
+
+    public function generateSabotageString(Dominion $caster, Dominion $target, GameEvent $sorcery, Dominion $viewer): string
+    {
+
+        $spyop = Spyop::where('key', $sorcery['data']['spyop_key'])->first();
+
+        # Viewer can see caster if viewer is in same realm as caster, or if viewer is in same realm as target and taret has reveal_ops
+
+        $viewerInvolved = ($caster->realm->id == $viewer->realm->id or $target->realm->id == $viewer->realm->id);
+
+        if(!$viewerInvolved)
+        {
+            return sprintf(
+                '<span class="text-red">%s</span> operation performed in the %s realm.',
+                $spell->name,
+                $this->generateRealmOnlyString($target->realm)
+              );
+        }
+
+        $canViewerSeeCaster = false;
+        if(($caster->realm->id == $viewer->realm->id) or ($target->realm->id == $viewer->realm->id and $sorcery['data']['target']['reveal_ops']))
+        {
+            $canViewerSeeCaster = true;
+        }
+
+        if($viewer->realm->id == $caster->realm->id)
+        {
+            $spyopSpanClass = $this->getSpanClass('green');
+        }
+        elseif($viewer->realm->id == $target->realm->id)
+        {
+            $spyopSpanClass = $this->getSpanClass('hostile');
+        }
+        else
+        {
+            $spyopSpanClass = $this->getSpanClass('neutral');
+        }
+
+        if($canViewerSeeCaster)
+        {
+            $string = sprintf(
+              '%s performed <span class="%s">%s</span> on %s.',
+              $this->generateDominionString($caster, 'neutral', $viewer),
+              $spyopSpanClass,
+              $spyop->name,
+              $this->generateDominionString($target, 'neutral', $viewer)
+            );
+        }
+        else
+        {
+            $string = sprintf(
+              '<span class="%s">%s</span> operation performed on %s.',
+              $spyopSpanClass,
+              $spyop->name,
+              $this->generateDominionString($target, 'neutral', $viewer)
+            );
+        }
 
         return $string;
     }

@@ -62,7 +62,7 @@
                         </table>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Release</button>
+                        <button type="submit" class="btn btn-danger" {{ $selectedDominion->isLocked() ? 'disabled' : null }} id="submit">Release</button>
 
                         <span class="pull-right">
                             <a href="{{ route('dominion.military') }}" class="btn btn-primary">Cancel</a>
@@ -88,3 +88,19 @@
 
     </div>
 @endsection
+@push('page-scripts')
+<script>
+    $(document).ready(function()
+    {
+        $('#submit').click(function()
+        {
+            var submit = $(this);
+            submit.prop('disabled', true);
+            setTimeout(function()
+            {
+                submit.prop('disabled', false);
+            },6000);
+        });
+    });
+</script>
+@endpush

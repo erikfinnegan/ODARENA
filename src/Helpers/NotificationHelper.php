@@ -73,6 +73,12 @@ class NotificationHelper
                 'route' => route('dominion.expedition'),
                 'iconClass' => 'fas fa-hand-lizard text-green',
             ],
+            'sabotage_completed' => [
+                'label' => 'Units returned from sabotage',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => route('dominion.sabotage'),
+                'iconClass' => 'fa fa-user-secret text-green',
+            ],
             'construction_completed' => [
                 'label' => 'Building construction completed',
                 'defaults' => ['email' => false, 'ingame' => true],
@@ -181,6 +187,14 @@ class NotificationHelper
                     return route('dominion.event', $routeParams);
                 },
                 'iconClass' => 'fas fa-hat-wizard text-red',
+            ],
+            'sabotage' => [
+                'label' => 'Your dominion was sabotaged',
+                'defaults' => ['email' => false, 'ingame' => true],
+                'route' => function (array $routeParams) {
+                    return route('dominion.event', $routeParams);
+                },
+                'iconClass' => 'fa fa-user-secret text-red',
             ],
             'received_spy_op' => [
                 'label' => 'Hostile spy operation received',
@@ -565,6 +579,29 @@ class NotificationHelper
                     return sprintf(
                         'Wizards have cast %s on us.',
                         $spell->name,
+                    );
+                }
+
+            case 'irregular_dominion.sabotage':
+                dd($data);
+                $spyop = Spell::where('key', $data['data']['spyop_key'])->first();
+
+                if($data['data']['target']['reveal_ops'])
+                {
+                    $saboteur = Dominion::with('realm')->findOrFail($data['caster_dominion_id']);
+
+                    return sprintf(
+                        'Saboteurs from %s (# %s) have performed %s on us!',
+                        $saboteur->name,
+                        $saboteur->realm->number,
+                        $spyop->name,
+                    );
+                }
+                else
+                {
+                    return sprintf(
+                        'Saboteurs have performed %s on us.',
+                        $spyop->name,
                     );
                 }
 

@@ -13,7 +13,7 @@ resources:
   - mana
 
 perks:
-  max_population: 40
+  max_population: 60
   extra_barren_max_population: 10
   food_consumption_mod: -30
   salvaging: 25
@@ -80,8 +80,7 @@ units:
       gold: 1000
       lumber: 5
     power:
-      offense: 3
-      defense: 5
+      offense: 6
+      defense: 3
     perks:
-      offense_from_spy_ratio_capped: 0.5,5 # ratio%, max
       casualties_from_spy_ratio: -8 # -10% casualties per 1 SPA

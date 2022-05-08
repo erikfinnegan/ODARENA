@@ -33,14 +33,14 @@ units:
       instant_training: 1
       pairing_limit: 4,4 # Unit slot, amount
       fixed_casualties: 75
-      plunder: mana,2.5
+      plunder: mana,1.25
 
   - name: Wraith
     training_time: 0
     type:
       - magical
     cost:
-      mana: 132
+      mana: 138
     power:
       offense: 4
       defense: 4
@@ -49,7 +49,7 @@ units:
       no_draftee: 1
       instant_training: 1
       pairing_limit: 4,2 # Unit slot, amount
-      plunder: mana,2
+      plunder: mana,1.25
 
   - name: Nightmare
     training_time: 0

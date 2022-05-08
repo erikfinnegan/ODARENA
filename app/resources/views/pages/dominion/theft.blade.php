@@ -239,6 +239,23 @@
     <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.full.min.js') }}"></script>
 @endpush
 
+@push('page-scripts')
+<script>
+    $(document).ready(function()
+    {
+        $('#invade-button').click(function()
+        {
+            var submit = $(this);
+            submit.prop('disabled', true);
+            setTimeout(function()
+            {
+                submit.prop('disabled', false);
+            },6000);
+        });
+    });
+</script>
+@endpush
+
 @push('inline-scripts')
     <script type="text/javascript">
         (function ($) {

@@ -20,6 +20,9 @@ perks:
   construction_cost: -10
   increased_construction_speed: 2
 
+improvement_resources:
+  lumber: 3.5
+
 # Note after round 68: unless other big changes, consider turning Bears to 5 or 6 DP and Werebear to 12 DP.
 
 units:
@@ -54,7 +57,7 @@ units:
       food: 20
     power:
       offense: 0
-      defense: 4
+      defense: 5
     perks:
       no_draftee: 1
       housing_count: 0.10

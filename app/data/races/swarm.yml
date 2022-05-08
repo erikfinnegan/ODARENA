@@ -23,16 +23,16 @@ construction_materials:
   - gold
 
 perks:
-  extra_barren_max_population: 27
+  extra_barren_max_population: 26
   no_construction_costs: 1
   no_rezone_costs: 1
   food_consumption_mod: -50
   immortal_spies: 1
   immortal_wizards: 1
-  damage_from_lightning_bolt: -100
+  damage_from_lightning_bolt: -75
   damage_from_insect_swarm: -100
   indestructible_buildings: 1
-  population_growth: 100
+  population_growth: 25
   unemployed_peasants_produce: 1
 
 units:
@@ -60,7 +60,7 @@ units:
       - living
       - sentient
     cost:
-      gold: 400
+      gold: 450
     power:
       offense: 0
       defense: 4

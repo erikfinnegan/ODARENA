@@ -22,8 +22,7 @@ perks:
     cannot_renounce_deity: 1
 units:
   - name: Horned One
-
-    training_time: 4
+    training_time: 3
     type:
       - living
       - sentient
@@ -31,8 +30,8 @@ units:
     cost:
       gold: 600
     power:
-      offense: 5
-      defense: 2.5
+      offense: 6
+      defense: 3
     perks:
       counts_as_spy_offense: 0.25
       counts_as_spy_defense: 0.25
@@ -48,7 +47,7 @@ units:
       gold: 750
     power:
       offense: 0
-      defense: 6
+      defense: 7
     perks:
       reduces_casualties: 1
 

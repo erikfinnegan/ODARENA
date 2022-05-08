@@ -904,9 +904,41 @@ class MilitaryCalculator
     {
         $amount = 0;
 
-        if($this->getRecentlyInvadedCount($dominion) > 0)
+        $recentlyInvadedPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_if_recently_invaded", null);
+
+        if(!$recentlyInvadedPerkData)
         {
-            $amount = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot,"{$powerType}_if_recently_invaded");
+            return 0;
+        }
+
+        $power = (int)$recentlyInvadedPerkData[0];
+        $ticks = (int)$recentlyInvadedPerkData[1];
+
+        if($this->getRecentlyInvadedCount($dominion, $ticks) > 0)
+        {
+            $amount += $power;
+        }
+
+        return $amount;
+    }
+
+    protected function getUnitPowerFromRecentlyVictoriousPerk(Dominion $dominion, Unit $unit, string $powerType): float
+    {
+        $amount = 0;
+
+        $recentlyVictoriousPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, "{$powerType}_if_recently_victorious", null);
+
+        if(!$recentlyInvadedPerkData)
+        {
+            return 0;
+        }
+
+        $power = (int)$recentlyVictoriousPerkData[0];
+        $ticks = (int)$recentlyVictoriousPerkData[1];
+
+        if($this->getRecentlyVictoriousCount($dominion, $ticks) > 0)
+        {
+            $amount += $power;
         }
 
         return $amount;
@@ -1737,19 +1769,19 @@ class MilitaryCalculator
         // Add units which count as (partial) spies (Dark Elf Adept)
         foreach ($dominion->race->units as $unit)
         {
-            if ($type === 'offense' && $unit->getPerkValue('counts_as_wizard_offense'))
+            if ($type === 'offense' && $countsAsWizardOffensePerk = $unit->getPerkValue('counts_as_wizard_offense'))
             {
-                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_offense'));
+                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * countsAsWizardOffensePerk);
             }
 
-            if ($type === 'defense' && $unit->getPerkValue('counts_as_wizard_defense'))
+            if ($type === 'defense' && $countsAsWizardDefensePerk = $unit->getPerkValue('counts_as_wizard_defense'))
             {
-                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard_defense'));
+                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * $countsAsWizardDefensePerk);
             }
 
-            if ($unit->getPerkValue('counts_as_wizard'))
+            if ($countsAsWizardPerk = $unit->getPerkValue('counts_as_wizard'))
             {
-                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * (float) $unit->getPerkValue('counts_as_wizard'));
+                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * $countsAsWizardPerk);
             }
 
             if ($timePerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_wizard_" . $type . "_from_time"), null))
@@ -1762,8 +1794,18 @@ class MilitaryCalculator
                     (($hourFrom > $hourTo) and (now()->hour >= $hourFrom or now()->hour < $hourTo))
                 )
                 {
-                    $spies += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime);
+                    $wizards += floor($dominion->{"military_unit{$unit->slot}"} * $powerFromTime);
                 }
+            }
+
+            if ($landPerkData = $dominion->race->getUnitPerkValueForUnitSlot($unit->slot, ("counts_as_wizard_from_land"), null))
+            {
+                $power = (float)$landPerkData[0];
+                $ratio = (float)$landPerkData[1];
+                $landType = (string)$landPerkData[2];
+
+                $wizards += $dominion->{"military_unit{$unit->slot}"} * (((($dominion->{'land_' . $landType} / $this->landCalculator->getTotalLand($dominion)) * 100) / $ratio) * $power);
+
             }
 
             # Check for wizard_from_title
@@ -1939,7 +1981,8 @@ class MilitaryCalculator
                 $dominion->{'military_unit' . $slot} +
                 $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}") +
                 $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slot}") +
-                $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slot}")
+                $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slot}") +
+                $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$slot}")
             );
         }
         elseif(in_array($slot, ['draftees', 'spies', 'wizards', 'archmages']))
@@ -1948,7 +1991,8 @@ class MilitaryCalculator
                 $dominion->{'military_' . $slot} +
                 $this->queueService->getInvasionQueueTotalByResource($dominion, "military_{$slot}") +
                 $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_{$slot}") +
-                $this->queueService->getTheftQueueTotalByResource($dominion, "military_{$slot}")
+                $this->queueService->getTheftQueueTotalByResource($dominion, "military_{$slot}") +
+                $this->queueService->getSabotageQueueTotalByResource($dominion, "military_{$slot}")
             );
         }
         else
@@ -2076,6 +2120,39 @@ class MilitaryCalculator
         $invasionEvents = $invasionEvents->filter(function (GameEvent $event)
         {
             return !$event->data['result']['overwhelmed'];
+        });
+
+        return $invasionEvents->count();
+    }
+
+    /**
+     * Returns the number of time the Dominion was recently victorious.
+     *
+     * 'Recent' refers to the past 24 ticks.
+     *
+     * @param Dominion $dominion
+     * @return int
+     */
+    public function getRecentlyVictoriousCount(Dominion $dominion, int $ticks = 24): int
+    {
+        // todo: this touches the db. should probably be in invasion or military service instead
+        $invasionEvents = GameEvent::query()
+            ->where('tick', '>=', ($dominion->round->ticks - $ticks))
+            ->where([
+                'source_type' => Dominion::class,
+                'source_id' => $dominion->id,
+                'type' => 'invasion',
+            ])
+            ->get();
+
+        if ($invasionEvents->isEmpty())
+        {
+            return 0;
+        }
+
+        $invasionEvents = $invasionEvents->filter(function (GameEvent $event)
+        {
+            return ($event->data['result']['success'] and $event->data['land_ratio'] >= 75);
         });
 
         return $invasionEvents->count();
@@ -2272,6 +2349,7 @@ class MilitaryCalculator
             $hasReturningUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, "military_unit{$slot}");
             $hasReturningUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, "military_unit{$slot}");
             $hasReturningUnits += $this->queueService->getTheftQueueTotalByResource($dominion, "military_unit{$slot}");
+            $hasReturningUnits += $this->queueService->getSabotageQueueTotalByResource($dominion, "military_unit{$slot}");
         }
 
         return $hasReturningUnits;

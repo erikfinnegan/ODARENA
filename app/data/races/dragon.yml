@@ -52,7 +52,7 @@ units:
       building_limit: gem_mine,20 # building, buildings per unit, imp to increase
 
   - name: Mercenary
-    training_time: 4
+    training_time: 6
     type:
       - living
       - sentient

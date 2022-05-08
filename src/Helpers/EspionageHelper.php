@@ -8,161 +8,6 @@ use OpenDominion\Models\Spyop;
 
 class EspionageHelper
 {
-    public function getOperationInfo(string $operationKey): array
-    {
-        return $this->getOperations()->filter(function ($operation) use ($operationKey) {
-            return ($operation['key'] === $operationKey);
-        })->first();
-    }
-
-    public function isInfoGatheringOperation(string $operationKey): bool
-    {
-        return $this->getInfoGatheringOperations()->filter(function ($operation) use ($operationKey) {
-            return ($operation['key'] === $operationKey);
-        })->isNotEmpty();
-    }
-
-    public function isResourceTheftOperation(string $operationKey): bool
-    {
-        return $this->getResourceTheftOperations()->filter(function ($operation) use ($operationKey) {
-            return ($operation['key'] === $operationKey);
-        })->isNotEmpty();
-    }
-
-    public function isHostileOperation(string $operationKey): bool
-    {
-        return $this->getHostileOperations()->filter(function ($operation) use ($operationKey) {
-            return ($operation['key'] === $operationKey);
-        })->isNotEmpty();
-    }
-
-    public function isBlackOperation(string $operationKey): bool
-    {
-        return $this->getBlackOperations()->filter(function ($operation) use ($operationKey) {
-            return ($operation['key'] === $operationKey);
-        })->isNotEmpty();
-    }
-
-    public function getOperations(): Collection
-    {
-        return $this->getInfoGatheringOperations()
-            ->merge($this->getResourceTheftOperations())
-            ->merge($this->getBlackOperations());
-    }
-
-    public function getInfoGatheringOperations(): Collection
-    {
-        return collect([
-            [
-                'name' => 'Barracks Spy',
-                'description' => 'Reveal estimate units',
-                'key' => 'barracks_spy',
-            ],
-            [
-                'name' => 'Improvements Spy',
-                'description' => 'Reveal improvements',
-                'key' => 'castle_spy',
-            ],
-            [
-                'name' => 'Survey Dominion',
-                'description' => 'Reveal buildings',
-                'key' => 'survey_dominion',
-            ],
-            [
-                'name' => 'Land Spy',
-                'description' => 'Reveal land',
-                'key' => 'land_spy',
-            ],
-        ]);
-    }
-
-    public function getResourceTheftOperations(): Collection
-    {
-        return collect([
-            [
-                'name' => 'Steal Gold',
-                'description' => 'Steal gold from target',
-                'key' => 'steal_gold',
-            ],
-            [
-                'name' => 'Steal Food',
-                'description' => 'Steal food from target',
-                'key' => 'steal_food',
-            ],
-            [
-                'name' => 'Steal Lumber',
-                'description' => 'Steal lumber from target',
-                'key' => 'steal_lumber',
-            ],
-            [
-                'name' => 'Steal Mana',
-                'description' => 'Steal mana from target',
-                'key' => 'steal_mana',
-            ],
-            [
-                'name' => 'Steal Ore',
-                'description' => 'Steal ore from target',
-                'key' => 'steal_ore',
-            ],
-            [
-                'name' => 'Steal Gems',
-                'description' => 'Steal gems from target',
-                'key' => 'steal_gems',
-            ],
-            [
-                'name' => 'Abduct Draftees',
-                'description' => 'Abduct draftees from target',
-                'key' => 'abduct_draftees',
-            ],
-            [
-                'name' => 'Abduct Peasants',
-                'description' => 'Abduct peasants from target',
-                'key' => 'abduct_peasants',
-            ],
-        ]);
-    }
-
-    public function getHostileOperations(): Collection
-    {
-        return $this->getBlackOperations();
-    }
-
-    public function getBlackOperations(): Collection
-    {
-        return collect([
-            [
-                'name' => 'Assassinate Draftees',
-                'description' => 'Kills untrained draftees',
-                'key' => 'assassinate_draftees',
-                'decreases' => ['military_draftees'],
-                'percentage' => 2,
-            ],
-            [
-                'name' => 'Assassinate Wizards',
-                'description' => 'Kills wizards (2% base damage).',
-                'key' => 'assassinate_wizards',
-                'decreases' => ['military_wizards'],
-                'percentage' => 2,
-            ],
-            [
-                'name' => 'Magic Snare',
-                'description' => 'Reduces wizard strength (2% base damage).',
-                'key' => 'magic_snare',
-                'decreases' => ['wizard_strength'],
-                'percentage' => 2,
-            ],
-            [
-                'name' => 'Sabotage Boats',
-                'description' => 'Destroys boats (2% base damage).',
-                'key' => 'sabotage_boats',
-                'decreases' => ['resource_boats'],
-                'percentage' => 2,
-            ],
-        ]);
-    }
-
-    # ROUND 37
-
 
     public function getSpyopScope(Spyop $spyop)
     {
@@ -181,37 +26,15 @@ class EspionageHelper
         $effectStrings = [];
 
         $spyopEffects = [
-            // Info
-            'barracks_spy' => 'Reveal units at home, in training, and returning',
-            'castle_spy' => 'Reveal improvements',
-            'land_spy' => 'Reveal current and incoming lands',
-            'survey_dominion' => 'Reveal current and incoming buildings',
+            'kill_draftees' => 'Assassinate draftees (base %s per spy unit).',
+            'kill_peasants' => 'Assassinate peasants (base %s per spy unit).',
+            'reduce_wizard_strength' => 'Reduce wizard strength (base %s damage).',
 
-            // Theft
-            'resource_theft' => 'Steal %1$s (base %2$s%%, max %3$s per spy).',
-            'abduct_draftees' => 'Abduct draftees (base %1$s%%, max %2$s per spy).',
-            'abduct_peasants' => 'Abduct peasants (base %1$s%%, max %2$s per spy).',
-            'seize_boats' => 'Seize boats (base %1$s%%, max %2$s per spy).',
-
-            // Hostile
-            'kill_draftees' => 'Assassinate draftees (base %s%% killed).',
-            'kill_wizards' => 'Assassinate wizards (base %s%% killed).',
-            'reduce_wizard_strength' => 'Reduce wizard strength (base %s%% damage).',
-            'sabotage_boats' => 'Sink boats (base %s%% sunk).',
-            'sabotage_buildings' => 'Sabotage buildings under construction (base %1$sx[Your SPA]).',
-            'destroy_buildings' => 'Destroy  buildings (base %1$sx[Your SPA]).',
-
+            'sabotage_building' => 'Sabotage %1$s buildings (base %2$s per spy unit).',
+            'sabotage_construction' => 'Sabotage buildings under construction (base %1$s per spy unit).',
             'sabotage_improvement' => 'Sabotage %1$s improvements (base %2$s%%).',
-            'sabotage_building' => 'Sabotage %1$ss (base %2$s%%).',
 
             'decrease_morale' => 'Reduces target\'s morale (base %1$s%%).',
-
-            'slaughter_draftees' => 'Kill %1$s%% of the target\'s draftees and convert each one to %2$s halms of food.',
-            'slaughter_peasants' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s halms of food.',
-
-            'butcher_peasants' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s soul, %3$s blood, and %4$s food.',
-            'butcher_draftees' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s soul, %3$s blood, and %4$s food.',
-            'butcher_wizards' => 'Kill %1$s%% of the target\'s peasants and convert each one to %2$s soul, %3$s blood, and %4$s food.',
         ];
 
         foreach ($spyop->perks as $perk)

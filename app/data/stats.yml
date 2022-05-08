@@ -476,6 +476,29 @@ elk_salvaged:
 elk_plundered:
   name: Elk plundered
 
+kelp_production:
+  name: Kelp production
+kelp_sold:
+  name: Kelp sold
+kelp_bought:
+  name: Kelp bought
+kelp_building:
+  name: Kelp building
+kelp_rezoning:
+  name: Kelp rezoning
+kelp_training:
+  name: Kelp training
+kelp_improvements:
+  name: Kelp improvements
+kelp_exploring:
+  name: Kelp exploring
+kelp_lost:
+  name: Kelp lost
+kelp_salvaged:
+  name: Kelp salvaged
+kelp_plundered:
+  name: Kelp plundered
+
 # Land
 
 land_conquered:
@@ -799,6 +822,32 @@ sorcery_units_killed:
 sorcery_units_lost:
   name: Units lost to sorcery
 
+# Sorcery stats
+
+sabotage_performed:
+  name: Sabotage operations
+sabotage_spy_strength:
+  name: Spy strength spent on sabotage
+
+sabotage_damage_morale:
+  name: Morale damage by sabotage
+sabotage_damage_buildings:
+  name: Buildings damage by sabotage
+sabotage_damage_construction:
+  name: Construction damage by sabotage
+sabotage_damage_improvements:
+  name: Improvements damage by sabotage
+
+sabotage_peasants_killed:
+  name: Peasants killed by sabotage
+sabotage_peasants_lost:
+  name: Peasants lost to sabotage
+sabotage_draftees_killed:
+  name: Draftees killed by sabotage
+sabotage_draftees_lost:
+  name: Draftees lost to sabotage
+sabotage_units_lost:
+  name: Units lost to sabotage
 
 # Round stats
 day01_top_op:

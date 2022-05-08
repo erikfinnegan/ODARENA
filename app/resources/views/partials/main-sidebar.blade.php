@@ -89,7 +89,9 @@
                     <li class="{{ Route::is('dominion.theft') ? 'active' : null }}"><a href="{{ route('dominion.theft') }}"><i class="fas fa-hand-lizard fa-fw"></i> <span>Theft</span></a></li>
                 @endif
 
-                <li class="{{ Route::is('dominion.sorcery') ? 'active' : null }}"><a href="{{ route('dominion.sorcery') }}"><i class="fas fa-hat-wizard"></i> <span>Sorcery</span></a></li>
+                <li class="{{ Route::is('dominion.sabotage') ? 'active' : null }}"><a href="{{ route('dominion.sabotage') }}"><i class="fa fa-user-secret fa-fw"></i> <span>Sabotage</span></a></li>
+
+                <li class="{{ Route::is('dominion.sorcery') ? 'active' : null }}"><a href="{{ route('dominion.sorcery') }}"><i class="fas fa-hat-wizard fa-fw"></i> <span>Sorcery</span></a></li>
 
                 <li class="{{ Route::is('dominion.offensive-ops') ? 'active' : null }}"><a href="{{ route('dominion.offensive-ops') }}"><i class="ra ra-skull ra-fw"></i> <span>Spells &amp; Spy Ops</span></a></li>
                 <li class="{{ Route::is('dominion.friendly-ops') ? 'active' : null }}"><a href="{{ route('dominion.friendly-ops') }}"><i class="ra ra-fairy-wand ra-fw"></i> <span>Friendly Magic</span></a></li>

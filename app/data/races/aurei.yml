@@ -15,7 +15,7 @@ construction_materials:
   - gold
 
 improvement_resources:
-  gold: 2
+  gold: 1
 
 perks:
   explore_cost: 100

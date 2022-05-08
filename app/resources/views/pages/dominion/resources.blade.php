@@ -250,7 +250,7 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                        <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }} id="submit">
                             Trade
                         </button>
                     </div>
@@ -316,6 +316,21 @@
 
 @push('page-scripts')
     <script type="text/javascript" src="{{ asset('assets/vendor/admin-lte/plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>
+
+    <script>
+        $(document).ready(function()
+        {
+            $('#submit').click(function()
+            {
+                var submit = $(this);
+                submit.prop('disabled', true);
+                setTimeout(function()
+                {
+                    submit.prop('disabled', false);
+                },6000);
+            });
+        });
+    </script>
 @endpush
 
 @push('inline-scripts')

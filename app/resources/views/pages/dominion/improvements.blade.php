@@ -115,7 +115,7 @@
                           Resource to invest:
                       </div>
 
-                      <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>Invest</button>
+                      <button type="submit" class="btn btn-primary" {{ $selectedDominion->isLocked() ? 'disabled' : null }} id="submit">Invest</button>
                   </div>
               </form>
           </div>
@@ -179,4 +179,21 @@
             });
         })(jQuery);
     </script>
+@endpush
+
+@push('page-scripts')
+<script>
+    $(document).ready(function()
+    {
+        $('#submit').click(function()
+        {
+            var submit = $(this);
+            submit.prop('disabled', true);
+            setTimeout(function()
+            {
+                submit.prop('disabled', false);
+            },6000);
+        });
+    });
+</script>
 @endpush

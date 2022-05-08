@@ -66,7 +66,7 @@ class UnitHelper
 
     public function isUnitOffensiveWizard(Unit $unit): bool
     {
-        return ($unit->getPerkValue('counts_as_wizard') or $unit->getPerkValue('counts_as_wizard_offense'));
+        return ($unit->getPerkValue('counts_as_wizard') or $unit->getPerkValue('counts_as_wizard_offense') or $unit->getPerkValue('counts_as_wizard_from_land'));
     }
 
     public function getUnitHelpString(string $unitType, Race $race, array $unitPowerWithPerk = null): ?string
@@ -137,8 +137,11 @@ class UnitHelper
             'offense_from_spy_ratio_capped' => 'Offense increased by %1$s * Spy Ratio (offensive), (max +%2$s).',
             'defense_from_spy_ratio_capped' => 'Offense increased by %1$s * Spy Ratio (defensive), (max +%2$s).',
 
-            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last 24 ticks, includes non-overwhelmed failed invasions).',
-            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last 24 ticks, includes non-overwhelmed failed invasions).',
+            'offense_if_recently_invaded' => 'Offense increased by %1$s if recenty invaded (in the last %2$s ticks, includes non-overwhelmed failed invasions).',
+            'defense_if_recently_invaded' => 'Defense increased by %1$s if recenty invaded (in the last %2$s ticks, includes non-overwhelmed failed invasions).',
+
+            'offense_if_recently_victorious' => 'Offense increased by %1$s if recenty victorious (in the last %2$s ticks).',
+            'defense_if_recently_victorious' => 'Defense increased by %1$s if recenty victorious (in the last %2$s ticks).',
 
             'offense_if_target_recently_invaded' => 'Offense increased by %1$s if target was invaded (in the last six hours, includes non-overwhelmed failed invasions).',
             'defense_if_target_recently_invaded' => 'Defense increased by %1$s if invader was invaded (in the last six hours, includes non-overwhelmed failed invasions).',
@@ -220,6 +223,9 @@ class UnitHelper
             'counts_as_wizard' => 'Counts as %s wizard.',
             'counts_as_wizard_defense' => 'Counts as %s of a wizard on defense.',
             'counts_as_wizard_offense' => 'Counts as %s of a wizard on offense.',
+
+            'counts_as_wizard_from_land' => 'Counts as %1$s wizard for every %2$s%% %3$s.',
+
             'immortal_wizard' => 'Immortal wizard (cannot be killed when casting spells).',
             'minimum_wpa_to_train' => 'Must have at least %s Wizard Ratio (on offense) to train.',
             'wizard_from_title' => 'Counts as additional %2$s of a wizard (offense and defense) if ruled by a %1$s.',
@@ -1004,6 +1010,7 @@ class UnitHelper
             $limitingUnits += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slotLimitedTo);
             $limitingUnits += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slotLimitedTo);
             $limitingUnits += $this->queueService->getTheftQueueTotalByResource($dominion, 'military_unit' . $slotLimitedTo);
+            $limitingUnits += $this->queueService->getSabotageQueueTotalByResource($dominion, 'military_unit' . $slotLimitedTo);
 
             $maxCapacity = floor($limitingUnits * $perUnitLimitedTo * $limitMultiplier);
         }
@@ -1071,6 +1078,7 @@ class UnitHelper
         $currentlyTrained += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slotLimited);
         $currentlyTrained += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slotLimited);
         $currentlyTrained += $this->queueService->getTheftQueueTotalByResource($dominion, 'military_unit' . $slotLimited);
+        $currentlyTrained += $this->queueService->getSabotageQueueTotalByResource($dominion, 'military_unit' . $slotLimited);
 
         $totalWithAmountToTrain = $currentlyTrained + $amountToTrain;
 

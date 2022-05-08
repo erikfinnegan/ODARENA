@@ -45,7 +45,7 @@ druvas_granaries:
     - Elementals
     - Gnome
     - Icekin
-    - Merfolk
+    - Glimj
     - Myconid
     - Nox
     - Spirit
@@ -77,7 +77,7 @@ mining_strength:
     - Halfling
     - Lux
     - Marshling
-    - Merfolk
+    - Glimj
     - Myconid
     - Nox
     - Qur
@@ -197,7 +197,7 @@ transmogrify:
     - Halfling
     - Lux
     - Marshling
-    - Merfolk
+    - Glimj
     - Myconid
     - Nox
     - Qur
@@ -800,7 +800,7 @@ maelstrom:
   duration: 48
   cooldown: 0
   exclusive_races:
-    - Merfolk
+    - Glimj
   perks:
     increases_enemy_casualties_on_defense: 50
 

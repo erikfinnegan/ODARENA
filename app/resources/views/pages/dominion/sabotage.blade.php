@@ -1,10 +1,10 @@
 @extends ('layouts.master')
-@section('title', 'Sorcery')
+@section('title', 'Sabotage')
 
 @section('content')
 <div class="row">
     <div class="col-sm-12 col-md-9">
-        <form action="{{ route('dominion.sorcery')}}" method="post" role="form" id="sorcery_form">
+        <form action="{{ route('dominion.sabotage')}}" method="post" role="form" id="sabotage_form">
         @csrf
 
         <!-- TARGET -->
@@ -14,8 +14,8 @@
                     <div class="box-header with-border">
                         <h3 class="box-title"><i class="ra ra-on-target"></i> Target</h3>
                         <small class="pull-right text-muted">
-                            <span data-toggle="tooltip" data-placement="top" title="Wizards Per Acre (Wizard Ratio) on offense">WPA</span>: {{ number_format($militaryCalculator->getWizardRatio($selectedDominion, 'offense'),3) }},
-                            <span data-toggle="tooltip" data-placement="top" title="Wizard Strength">WS</span>: {{ $selectedDominion->wizard_strength }}%
+                            <span data-toggle="tooltip" data-placement="top" title="Spy Per Acre (Spy Ratio) on offense">SPA</span>: {{ number_format($militaryCalculator->getSpyRatio($selectedDominion, 'offense'),3) }},
+                            <span data-toggle="tooltip" data-placement="top" title="Spy Strength">SS</span>: {{ $selectedDominion->spy_strength }}%
                         </small>
                     </div>
 
@@ -43,46 +43,12 @@
             </div>
         </div>
 
-        <!-- ENHANCEMENT -->
-        {{--
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="ra ra-mining-diamonds"></i> Enhancement</h3>
-                    </div>
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <select name="resource" id="resource" class="form-control select2" required style="width: 100%" data-placeholder="Select a target dominion" {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-                                        @foreach ($selectedDominion->race->resources as $resourceKey)
-                                            @php
-                                                $resource = OpenDominion\Models\Resource::where('key', $resourceKey)->first();
-                                            @endphp
-
-                                            @if(!$selectedDominion->race->getPerkValue('no_' . $resource->key . '_theft'))
-                                                <option value="{{ $resource->id }}" {{ $selectedDominion->most_recent_theft_resource  == $resource->key ? 'selected' : '' }}>
-                                                    {{ $resource->name }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        --}}
-
         <!-- RESOURCE -->
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fas fa-scroll"></i> Spell</h3>
+                        <h3 class="box-title"><i class="ra ra-arson"></i> Operation</h3>
                     </div>
                     <div class="box-body">
                     {{-- //Columns must be a factor of 12 (1,2,3,4,6,12) --}}
@@ -94,27 +60,26 @@
 
                     <div class="row">
 
-                    @foreach($spells as $spell)
+                    @foreach($spyops as $spyop)
                         @php
-                            $canCast = $spellCalculator->canCastSpell($selectedDominion, $spell, $resourceCalculator->getAmount($selectedDominion, 'mana'));
+                            $canPerform = $sabotageCalculator->canPerformSpyop($selectedDominion, $spyop);
                         @endphp
                         <div class="col-md-{{ $bootstrapColWidth }}">
                             <label class="btn btn-block">
-                                <div class="box {!! $sorceryHelper->getSpellClassBoxClass($spell) !!}">
+                                <div class="box box-danger">
                                     <div class="box-header with-border">
-                                        <input type="radio" id="spell" name="spell" value="{{ $spell->id }}" required>&nbsp;<h4 class="box-title">{{ $spell->name }}</h4>
-                                        <span class="pull-right" data-toggle="tooltip" data-placement="top" title="{!! $sorceryHelper->getSpellClassDescription($spell) !!}"><i class="{!! $sorceryHelper->getSpellClassIcon($spell) !!}"></i></span>
+                                        <input type="radio" id="spyop" name="spyop" value="{{ $spyop->id }}" required>&nbsp;<h4 class="box-title">{{ $spyop->name }}</h4>
                                     </div>
 
                                     <div class="box-body">
                                         <ul>
-                                            @foreach($spellHelper->getSpellEffectsString($spell) as $effect)
+                                            @foreach($espionageHelper->getSpyopEffectsString($spyop) as $effect)
                                                 <li>{{ $effect }}</li>
                                             @endforeach
                                         </ul>
 
                                         <div class="box-footer">
-                                            @include('partials.dominion.sorcery-spell-basics')
+                                            @include('partials.dominion.sabotage-operation-basics')
                                         </div>
                                     </div>
                                 </div>
@@ -136,59 +101,91 @@
             </div>
         </div>
 
-        <!-- WIZARD STRENGTH -->
+        <!-- SPY UNITS -->
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fas fa-hat-wizard"></i> Wizard Strength</h3>
+                        <h3 class="box-title"><i class="fa fa-user-secret"></i> Spies</h3>
                     </div>
-                    <div class="box-body">
-                        <input type="hidden" id="mana-available" data-amount="{{ $resourceCalculator->getAmount($selectedDominion, 'mana') }}">
-
-                        <input type="number"
-                               id="amountSlider"
-                               class="form-control slider"
-                               name="wizard_strength"
-                               value="0"
-                               data-slider-value="{{ min($selectedDominion->wizard_strength, 4) }}"
-                               data-slider-min="{{ min($selectedDominion->wizard_strength, 4) }}"
-                               data-slider-max="{{ $selectedDominion->wizard_strength }}"
-                               data-slider-step="1"
-                               data-slider-tooltip="show"
-                               data-slider-handle="round"
-                               data-slider-id="blue"
-                                {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
-
-
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table">
-                                <cols>
-                                    <col width="20%">
-                                    <col>
-                                </cols>
-                                <tbody>
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table">
+                            <colgroup>
+                                <col>
+                                <col width="200">
+                                <col width="200">
+                                <col width="200">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Unit</th>
+                                    <th>Total</th>
+                                    <th>Available</th>
+                                    <th class="text-center">Send</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(!$selectedDominion->race->getPerkValue('cannot_train_spies'))
                                     <tr>
-                                        <td>Mana:</td>
-                                        <td><span id="sorcery-mana-cost" data-amount="0">0</span></td>
+                                        <td>Spies</td>
+                                        <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'spies')) }}</td>
+                                        <td>{{ number_format($selectedDominion->military_spies) }}</td>
+                                        <td class="text-center">
+                                            <input type="number"
+                                                   name="unit[spies]"
+                                                   id="unit[spies]"
+                                                   class="form-control text-center"
+                                                   placeholder="0"
+                                                   min="0"
+                                                   max="{{ $selectedDominion->military_spies }}"
+                                                   style="min-width:5em;"
+                                                   data-slot="spies"
+                                                   data-amount="{{ $selectedDominion->military_spies }}"
+                                                   {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                        </td>
                                     </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
+                                @endif
+                                @foreach ($selectedDominion->race->units as $unit)
+                                    @if($unitHelper->isUnitOffensiveSpy($unit))
+                                        @php
+                                            $unitSlot = $unit->slot;
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $unit->name }}</td>
+                                            <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unitSlot)) }}</td>
+                                            <td>{{ number_format($selectedDominion->{"military_unit{$unitSlot}"}) }}</td>
+                                            <td class="text-center">
+                                                <input type="number"
+                                                       name="unit[{{ $unitSlot }}]"
+                                                       id="unit[{{ $unitSlot }}]"
+                                                       class="form-control text-center"
+                                                       placeholder="0"
+                                                       min="0"
+                                                       max="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
+                                                       style="min-width:5em;"
+                                                       data-slot="{{ $unitSlot }}"
+                                                       data-amount="{{ $selectedDominion->{"military_unit{$unitSlot}"} }}"
+                                                       {{ $selectedDominion->isLocked() ? 'disabled' : null }}>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                         <div class="box-footer">
                             <button type="submit"
                                     class="btn btn-danger"
-                                    {{ ($selectedDominion->isLocked() or $selectedDominion->wizard_strength < 4) ? 'disabled' : null }}
-                                    id="cast-button">
-                                <i class="fas fa-hand-sparkles"></i>
-                                Cast Spell
+                                    {{ $selectedDominion->isLocked() ? 'disabled' : null }}
+                                    id="invade-button">
+                                <i class="fa fa-hand-lizard"></i>
+                                Send Spies
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="col-sm-12 col-md-3">
@@ -197,52 +194,14 @@
                 <h3 class="box-title">Information</h3>
             </div>
             <div class="box-body">
-                <p>Select target, spell, and how much of your wizard strength you wish to use.</p>
-                <p>The amount of wizard strength you use determines how much mana you need per 1% of Wizard Strength. You must use at least 4% Wizard Strength to perform sorcery.</p>
-                <p>Performin sorcery requires that you have a wizard ratio of at least 0.10 and 4% available Wizard Strength.</p>
-                <table class="table">
-                    <colgroup>
-                        <col>
-                        <col width="80">
-                        <col width="80">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>Unit</th>
-                            <th>Total</th>
-                            <th>Available</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($selectedDominion->race->units as $unit)
-                            @if($unitHelper->isUnitOffensiveWizard($unit))
-                                @php
-                                    $unitSlot = $unit->slot;
-                                @endphp
-                                <tr>
-                                    <td>{{ $unit->name }}</td>
-                                    <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, $unitSlot)) }}</td>
-                                    <td>{{ number_format($selectedDominion->{"military_unit{$unitSlot}"}) }}</td>
-                                </tr>
-                            @endif
-                        @endforeach
-                        @if(!$selectedDominion->race->getPerkValue('cannot_train_wizards'))
-                            <tr>
-                                <td>Wizards</td>
-                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'wizards')) }}</td>
-                                <td>{{ number_format($selectedDominion->military_wizards) }}</td>
-                            </tr>
-                        @endif
-                        @if(!$selectedDominion->race->getPerkValue('cannot_train_archmages'))
-                            <tr>
-                                <td>Archmages</td>
-                                <td>{{ number_format($militaryCalculator->getTotalUnitsForSlot($selectedDominion, 'archmages')) }}</td>
-                                <td>{{ number_format($selectedDominion->military_archmages) }}</td>
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
-
+                <p>Select target, resource, and number of spies you wish to send. Below is a table showing how much of each resource each spy unit can carry. It takes six ticks for the units and stolen resources to return.</p>
+                <p>Theft costs spy strength. The cost is calculated as number of spy units you send relative to the total number of spy units that you have.</p>
+                <p>You currently have
+                      <strong>{{ number_format($selectedDominion->spy_strength) }}%</strong> spy strength,
+                      <strong>{{ number_format($militaryCalculator->getTotalSpyUnits($selectedDominion)) }}</strong> total spy units, and
+                      <strong>{{ number_format($militaryCalculator->getTotalSpyUnitsAtHome($selectedDominion)) }}</strong> spy units at home.
+                      You can at most send <strong>{{ number_format($militaryCalculator->getMaxSpyUnitsSendable($selectedDominion)) }}</strong> spy units.
+                </p>
             </div>
         </div>
     </div>
@@ -268,23 +227,6 @@
 @push('page-scripts')
     <script type="text/javascript" src="{{ asset('assets/vendor/select2/js/select2.full.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/vendor/admin-lte/plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>
-@endpush
-
-@push('page-scripts')
-<script>
-    $(document).ready(function()
-    {
-        $('#cast-button').click(function()
-        {
-            var submit = $(this);
-            submit.prop('disabled', true);
-            setTimeout(function()
-            {
-                submit.prop('disabled', false);
-            },6000);
-        });
-    });
-</script>
 @endpush
 
 @push('inline-scripts')
@@ -324,7 +266,7 @@
             function updateManaCost() {
                 // Update unit stats
                 $.get(
-                    "{{ route('api.dominion.sorcery') }}?" + $('#sorcery_form').serialize(), {},
+                    "{{ route('api.dominion.sorcery') }}?" + $('#sabotage_form').serialize(), {},
                     function(response) {
                         if(response.result == 'success')
                         {

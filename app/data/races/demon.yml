@@ -38,7 +38,7 @@ perks:
 
 units:
   - name: Hellhound
-    training_time: 4
+    training_time: 6
     type:
       - living
       - sentient

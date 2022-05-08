@@ -422,7 +422,7 @@ glimmering:
   exclusive_races:
     - Troll
   perks:
-    gold_production_mod: 50,4500
+    gold_production_mod: 50,6500
 
 hunting:
   name: Hunting
@@ -436,10 +436,10 @@ muttering:
   exclusive_races:
     - Troll
   perks:
-    wizard_strength: 90,5500
-    mana_production_mod: 90,5500
-    spell_damage: -90,5500
-    wizard_housing: 90,5500
+    wizard_strength: 50,5500
+    mana_production_mod: 50,5500
+    spell_damage: -50,5500
+    wizard_housing: 50,5500
 
 nesting:
   name: Nesting
@@ -500,7 +500,7 @@ coils:
   exclusive_races:
     - Void
   perks:
-      offensive_power: 50,10000
+      offensive_power: 40,10000
       casualties_on_offense: -80,12000
 
 cones:
@@ -530,7 +530,7 @@ prism:
   exclusive_races:
     - Void
   perks:
-    population: 100,20000
+    population: 100,22200
     population_growth: 10000,10000
 
 waves:
@@ -591,7 +591,7 @@ rage:
   exclusive_races:
     - Sylvan
   perks:
-    target_defensive_power_mod: -20,6000
+    target_defensive_power_mod: -15,6000
     offensive_power: 40,8000
 
 roaming:
@@ -752,7 +752,7 @@ commerce_wood_elf:
   exclusive_races:
     - Wood Elf
   perks:
-    gold_production_mod: 50,9000
+    gold_production_mod: 40,9000
 
 construction_wood_elf:
   name: Construction
@@ -767,7 +767,7 @@ camouflage:
   exclusive_races:
     - Wood Elf
   perks:
-    defensive_power: 50,9000
+    defensive_power: 40,9000
     casualties_on_defense: -40,8000
 
 cartography_wood_elf:
@@ -792,7 +792,7 @@ fencing:
   exclusive_races:
     - Wood Elf
   perks:
-    offensive_power: 50,9000
+    offensive_power: 40,9000
     casualties_on_offense: -40,8000
 
 foraging:
@@ -815,7 +815,7 @@ housing_wood_elf:
   exclusive_races:
     - Wood Elf
   perks:
-    population: 45,8000
+    population: 40,8000
 
 leadership_wood_elf:
   name: Leadership

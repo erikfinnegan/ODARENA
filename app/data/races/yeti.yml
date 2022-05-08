@@ -51,7 +51,7 @@ units:
       defense: 2
     perks:
       only_dies_vs_raw_power: 4 # >=
-      gems_production_raw: 0.90
+      gems_production_raw: 0.70
       lumber_production_raw: 0.85
       ore_production_raw: 1.2
 
@@ -82,7 +82,7 @@ units:
       - intelligent
       - wise
     cost:
-      food: 480
+      food: 500
       ore: 300
       lumber: 200
     power:

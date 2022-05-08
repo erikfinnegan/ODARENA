@@ -328,11 +328,29 @@ class TickService
                 {
                       $unitType = 'military_'.$slot;
                       # Dequeue the units from hour 1
-                      $this->queueService->dequeueResourceForHour('invasion', $stasisDominion, $unitType, $amount, $tick);
+                      $this->queueService->dequeueResourceForHour('theft', $stasisDominion, $unitType, $amount, $tick);
                       #echo "\nUnits dequeued";
 
                       # (Re-)Queue the units to hour 2
-                      $this->queueService->queueResources('invasion', $stasisDominion, [$unitType => $amount], ($tick+1));
+                      $this->queueService->queueResources('theft', $stasisDominion, [$unitType => $amount], ($tick+1));
+                      #echo "\nUnits requeued";
+                }
+
+                $units['unit1'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_unit1", $tick);
+                $units['unit2'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_unit2", $tick);
+                $units['unit3'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_unit3", $tick);
+                $units['unit4'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_unit4", $tick);
+                $units['spies'] = $this->queueService->getSabotageQueueAmount($stasisDominion, "military_spies", $tick);
+
+                foreach($units as $slot => $amount)
+                {
+                      $unitType = 'military_'.$slot;
+                      # Dequeue the units from hour 1
+                      $this->queueService->dequeueResourceForHour('sabotage', $stasisDominion, $unitType, $amount, $tick);
+                      #echo "\nUnits dequeued";
+
+                      # (Re-)Queue the units to hour 2
+                      $this->queueService->queueResources('sabotage', $stasisDominion, [$unitType => $amount], ($tick+1));
                       #echo "\nUnits requeued";
                 }
 
@@ -1003,6 +1021,7 @@ class TickService
                 $usedCapacity += $this->queueService->getInvasionQueueTotalByResource($dominion, 'military_unit' . $slot);
                 $usedCapacity += $this->queueService->getExpeditionQueueTotalByResource($dominion, 'military_unit' . $slot);
                 $usedCapacity += $this->queueService->getTheftQueueTotalByResource($dominion, 'military_unit' . $slot);
+                $usedCapacity += $this->queueService->getSabotageQueueTotalByResource($dominion, 'military_unit' . $slot);
 
                 $availableCapacity = max(0, $maxCapacity - $usedCapacity);
 

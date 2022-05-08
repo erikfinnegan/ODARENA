@@ -641,6 +641,7 @@ class Dominion extends AbstractModel
                         or $perkKey == 'thunderstone_production_raw'
                         or $perkKey == 'miasma_production_raw'
                         or $perkKey == 'yak_production_raw'
+                        or $perkKey == 'kelp_production_raw'
 
                         or $perkKey == 'gold_upkeep_raw'
                         or $perkKey == 'food_upkeep_raw'
@@ -711,6 +712,8 @@ class Dominion extends AbstractModel
                         or $perkKey == 'target_defensive_power_mod'
                         or $perkKey == 'casualties_on_offense'
                         or $perkKey == 'casualties_on_defense'
+                        or $perkKey == 'increases_enemy_casualties_on_offense'
+                        or $perkKey == 'increases_enemy_casualties_on_defense'
                         or $perkKey == 'casualties'
 
                         or $perkKey == 'morale_gains'

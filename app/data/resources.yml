@@ -1,38 +1,30 @@
-gold:
-  name: Gold
-  description: Whether raw, in ingots, or in coins, gold is the foundation of most dominions' economies.
-  buy: 1
-  sell: 0.5
+blood:
+  name: Blood
+  description: Flowing in the veins of most living creatures, and collected by the most brutal to be used to fashion gruesome improvements and warriors.
+  buy: null
+  sell: null
+
+brimmer:
+  name: Brimmer
+  description: A thick liquid extracted from ore.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Imperial Gnome
+
+cosmic_alignment:
+  name: Cosmic Alignments
+  description: Starcharts used by Dimensionalist Archmages to plot paths across the cosmos.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Dimensionalists
 
 food:
   name: Food
   description: While mostly functioning as a sustenance, some use food for especially exhausting training or even as organic building blocks.
   buy: 0.5
   sell: 0.10
-
-ore:
-  name: Ore
-  description: An encompassing term for various stones and metals.
-  buy: 1
-  sell: 0.5
-
-lumber:
-  name: Lumber
-  description: Some obtain it by cutting down trees, whereas gentler creatures collect fallen branches or trees and bushes that have expired.
-  buy: 1
-  sell: 0.5
-
-mana:
-  name: Mana
-  description: Cosmic energy used to weave spells and — by some — conjure magical warriors.
-  buy: null
-  sell: null
-
-gems:
-  name: Gems
-  description: Precious stones of great value. Some have magical properties.
-  buy: null
-  sell: 2
 
 champion:
   name: Champions
@@ -42,46 +34,25 @@ champion:
   exclusive_races:
     - Norse
 
-blood:
-  name: Blood
-  description: Flowing in the veins of most living creatures, and collected by the most brutal to be used to fashion gruesome improvements and warriors.
-  buy: null
-  sell: null
-
-soul:
-  name: Souls
-  description: Each living being has one. Azk'Hurum collects as many as he can.
-  buy: null
-  sell: null
-
-seed:
-  name: Druva's Seedling
-  description: The seed of the tallest and strongest trees.
-  enabled: 0
-  buy: null
-  sell: null
-
-pearls:
-  name: Pearls
-  description: Gems of the sea, pearls are collected by dwellers of the depths.
-  buy: null
-  sell: 3
-  exclusive_races:
-    - Merfolk
-
-prisoner:
-  name: Prisoner
-  description: Captured in war and kept alive only to serve.
-  buy: null
-  sell: 4
-
-brimmer:
-  name: Brimmer
-  description: A thick liquid extracted from ore.
+elk:
+  name: Elk
+  description: Majestic wanderers of the forest, Druva's personal guards and messengers.
   buy: null
   sell: null
   exclusive_races:
-    - Imperial Gnome
+    - Wood Elf
+
+gems:
+  name: Gems
+  description: Precious stones of great value. Some have magical properties.
+  buy: null
+  sell: 2
+
+gold:
+  name: Gold
+  description: Whether raw, in ingots, or in coins, gold is the foundation of most dominions' economies.
+  buy: 1
+  sell: 0.5
 
 horse:
   name: Horse
@@ -92,13 +63,47 @@ horse:
     - Human
     - Nomad
 
-cosmic_alignment:
-  name: Cosmic Alignments
-  description: Starcharts used by Dimensionalist Archmages to plot paths across the cosmos.
+kelp:
+  name: Kelp
+  description: A superior form of rugged seaweed, used by Glimjir to build and popular in broth with some land dwellers.
+  buy: 2.5
+  sell: 2
+  exclusive_races:
+    - Glimj
+
+lumber:
+  name: Lumber
+  description: Some obtain it by cutting down trees, whereas gentler creatures collect fallen branches or trees and bushes that have expired.
+  buy: 1
+  sell: 0.5
+
+ore:
+  name: Ore
+  description: An encompassing term for various stones and metals.
+  buy: 1
+  sell: 0.5
+
+mana:
+  name: Mana
+  description: Cosmic energy used to weave spells and — by some — conjure magical warriors.
+  buy: null
+  sell: null
+
+marshling:
+  name: Marshling
+  description: A semiconscious entity born out of the strangest swamps.
   buy: null
   sell: null
   exclusive_races:
-    - Dimensionalists
+    - Marshling
+
+miasma:
+  name: Miasma
+  description: A foetid vapour emanating from Afflicted mass graves.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Afflicted
 
 mud:
   name: Mud
@@ -108,19 +113,39 @@ mud:
   exclusive_races:
     - Marshling
 
+soul:
+  name: Souls
+  description: Each living being has one. Azk'Hurum collects as many as he can.
+  buy: null
+  sell: null
+
+pearls:
+  name: Pearls
+  description: Gems of the sea, pearls are collected by dwellers of the depths.
+  buy: null
+  sell: 3
+  exclusive_races:
+    - Glimj
+
+prisoner:
+  name: Prisoner
+  description: Captured in war and kept alive only to serve.
+  buy: null
+  sell: 4
+
+sapling:
+  name: Sapling
+  description: The beginnings of trees, imbued with magic life of Sylvans.
+  buy: null
+  sell: null
+  exclusive_races:
+    - Sylvan
+
 swamp_gas:
   name: Swamp Gas
   description: A pungent, greenish gas floating above certain swamps.
   buy: null
   sell: 1
-  exclusive_races:
-    - Marshling
-
-marshling:
-  name: Marshling
-  description: A semiconscious entity born out of the strangest swamps.
-  buy: null
-  sell: null
   exclusive_races:
     - Marshling
 
@@ -132,14 +157,6 @@ thunderstone:
   exclusive_races:
     - Dwarg
 
-miasma:
-  name: Miasma
-  description: A foetid vapour emanating from Afflicted mass graves.
-  buy: null
-  sell: null
-  exclusive_races:
-    - Afflicted
-
 yak:
   name: Yak
   description: Slower than horses but much stronger.
@@ -147,19 +164,3 @@ yak:
   sell: null
   exclusive_races:
     - Orc
-
-sapling:
-  name: Sapling
-  description: The beginnings of trees, imbued with magic life of Sylvans.
-  buy: null
-  sell: null
-  exclusive_races:
-    - Sylvan
-
-elk:
-  name: Elk
-  description: Majestic wanderers of the forest, Druva's personal guards and messengers.
-  buy: null
-  sell: null
-  exclusive_races:
-    - Wood Elf

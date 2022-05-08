@@ -5,11 +5,12 @@ namespace OpenDominion\Http\Controllers\Dominion;
 use OpenDominion\Exceptions\GameException;
 use OpenDominion\Http\Requests\Dominion\Actions\SabotageRequest;
 
+use OpenDominion\Helpers\EspionageHelper;
 use OpenDominion\Helpers\SabotageHelper;
 use OpenDominion\Helpers\UnitHelper;
 
 use OpenDominion\Models\Dominion;
-use OpenDominion\Models\Resource;
+use OpenDominion\Models\Spyop;
 
 use OpenDominion\Calculators\NetworthCalculator;
 use OpenDominion\Calculators\Dominion\EspionageCalculator;
@@ -28,9 +29,17 @@ class SabotageController extends AbstractDominionController
     {
         $dominion = $this->getSelectedDominion();
 
+        $espionageHelper = app(EspionageHelper::class);
+        $sabotageHelper = app(SabotageHelper::class);
+
+        $spyops = $sabotageHelper->getSabotageOperationsForRace($dominion->race) ;#Spell::all()->where('scope','hostile')->whereIn('class',['active'/*,'passive'*/])->where('enabled',1)->sortBy('name');
+
         return view('pages.dominion.sabotage', [
+            'spyops' => $spyops,
+
+            'espionageHelper' => $espionageHelper,
+            'sabotageHelper' => $sabotageHelper,
             'unitHelper' => app(UnitHelper::class),
-            'sabotageHelper' => app(SabotageHelper::class),
 
             'landCalculator' => app(LandCalculator::class),
             'militaryCalculator' => app(MilitaryCalculator::class),
@@ -47,14 +56,13 @@ class SabotageController extends AbstractDominionController
 
         $saboteur = $this->getSelectedDominion();
         $target = Dominion::findOrFail($request->target_dominion);
-        $operation = Spyop::findOrFail($request->operation);
+        $spyop = Spyop::findOrFail($request->spyop);
         $units = $request->get('unit');
 
         $sabotageActionService = app(SabotageActionService::class);
 
         try {
-            $result = $sabotageActionService->sabotage($saboteur, $target, $operation, $units);
-
+            $result = $sabotageActionService->sabotage($saboteur, $target, $spyop, $units);
         } catch (GameException $e) {
             return redirect()->back()
                 ->withInput($request->all())

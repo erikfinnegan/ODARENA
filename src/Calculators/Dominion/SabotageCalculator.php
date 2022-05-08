@@ -9,6 +9,7 @@ use OpenDominion\Models\Spyop;
 use OpenDominion\Helpers\UnitHelper;
 use OpenDominion\Helpers\SabotageHelper;
 
+use OpenDominion\Calculators\Dominion\EspionageCalculator;
 use OpenDominion\Calculators\Dominion\MilitaryCalculator;
 use OpenDominion\Calculators\Dominion\ResourceCalculator;
 
@@ -24,6 +25,7 @@ class SabotageCalculator
           SabotageHelper $sabotageHelper,
           UnitHelper $unitHelper,
 
+          EspionageCalculator $espionageCalculator,
           MilitaryCalculator $militaryCalculator,
           ResourceCalculator $resourceCalculator
         )
@@ -31,11 +33,12 @@ class SabotageCalculator
         $this->sabotageHelper = $sabotageHelper;
         $this->unitHelper = $unitHelper;
 
+        $this->espionageCalculator = $espionageCalculator;
         $this->militaryCalculator = $militaryCalculator;
         $this->resourceCalculator = $resourceCalculator;
     }
 
-    public function getSabotageDamage(Dominion $saboteur, Dominion $target, Spyop $spyop, string $attribute, array $units, bool $forCalculator = false): int
+    public function getRatioMultiplier(Dominion $saboteur, Dominion $target, Spyop $spyop, string $attribute, array $units, bool $forCalculator = false): float
     {
         if($forCalculator and $target->getSpellPerkValue('fog_of_war'))
         {
@@ -46,43 +49,63 @@ class SabotageCalculator
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
         $spaSpaRatio = max(min((1-(($targetSpa / $saboteurSpa) * 0.5)),1),0);
 
-        $sabotageAmount = min($resourceAvailableAmount, $maxAmountStolen * $spaSpaRatio);
-
-        # But the target can decrease, which comes afterwards
-        $targetModifier = 1;
-        $targetModifier += $target->getSpellPerkMultiplier($resource->key . '_sabotage');
-        $targetModifier += $target->getSpellPerkMultiplier('sabotage');
-        $targetModifier += $target->getImprovementPerkMultiplier('sabotage');
-        $targetModifier += $target->getBuildingPerkMultiplier('sabotage');
-
-        $sabotageAmount *= $targetModifier;
-
-        $sabotageAmount = max(0, $sabotageAmount);
-
-        return $sabotageAmount;
+        return $spaSpaRatio;
     }
 
-    public function getSabotageProtection(Dominion $target, string $resourceKey)
+    public function getTargetDamageMultiplier(Dominion $target, string $attribute): float
     {
-        $sabotageProtection = 0;
-        $sabotageProtection += $target->getBuildingPerkValue($resourceKey . '_sabotage_protection');
+        $multiplier = 1;
 
-        // Unit sabotage protection
-        for ($slot = 1; $slot <= 4; $slot++)
-        {
-            if($sabotageProtectionPerk = $target->race->getUnitPerkValueForUnitSlot($slot, 'protects_resource_from_sabotage'))
-            {
-                if($sabotageProtectionPerk[0] == $resourceKey)
-                {
-                    $sabotageProtection += $target->{'military_unit'.$slot} * $sabotageProtectionPerk[1];
-                }
-            }
-        }
+        $multiplier += $target->getBuildingPerkMultiplier('sabotage_damage_suffered');
+        $multiplier += $target->getBuildingPerkMultiplier($attribute . '_sabotage_damage_suffered');
 
-        $sabotageProtectionMultiplier = 1;
-        $sabotageProtectionMultiplier += $target->getImprovementPerkMultiplier('sabotage_protection');
+        $multiplier += $target->getImprovementPerkMultiplier('sabotage_damage_suffered');
+        $multiplier += $target->getImprovementPerkMultiplier($attribute . '_sabotage_damage_suffered');
 
-        return $sabotageProtection *= $sabotageProtectionMultiplier;
+        $multiplier += $target->getSpellPerkMultiplier('sabotage_damage_suffered');
+        $multiplier += $target->getSpellPerkMultiplier($attribute . '_sabotage_damage_suffered');
+
+        $multiplier += $target->getTechPerkMultiplier('sabotage_damage_suffered');
+        $multiplier += $target->getTechPerkMultiplier($attribute . '_sabotage_damage_suffered');
+
+        $multiplier += $target->race->getPerkMultiplier('sabotage_damage_suffered');
+        $multiplier += $target->race->getPerkMultiplier($attribute . '_sabotage_damage_suffered');
+
+        $multiplier += $target->realm->getArtefactPerkMultiplier('sabotage_damage_suffered');
+        $multiplier += $target->realm->getArtefactPerkMultiplier($attribute . '_sabotage_damage_suffered');
+
+        $multiplier += $target->title->getPerkMultiplier('sabotage_damage_suffered');
+        $multiplier += $target->title->getPerkMultiplier($attribute . '_sabotage_damage_suffered');
+
+        return $multiplier;
+    }
+
+    public function getSaboteurDamageMultiplier(Dominion $saboteur, string $attribute): float
+    {
+        $multiplier = 1;
+
+        $multiplier += $saboteur->getBuildingPerkMultiplier('sabotage_damage_dealt');
+        $multiplier += $saboteur->getBuildingPerkMultiplier($attribute . '_sabotage_damage_dealt');
+
+        $multiplier += $saboteur->getImprovementPerkMultiplier('sabotage_damage_dealt');
+        $multiplier += $saboteur->getImprovementPerkMultiplier($attribute . '_sabotage_damage_dealt');
+
+        $multiplier += $saboteur->getSpellPerkMultiplier('sabotage_damage_dealt');
+        $multiplier += $saboteur->getSpellPerkMultiplier($attribute . '_sabotage_damage_dealt');
+
+        $multiplier += $saboteur->getTechPerkMultiplier('sabotage_damage_dealt');
+        $multiplier += $saboteur->getTechPerkMultiplier($attribute . '_sabotage_damage_dealt');
+
+        $multiplier += $saboteur->race->getPerkMultiplier('sabotage_damage_dealt');
+        $multiplier += $saboteur->race->getPerkMultiplier($attribute . '_sabotage_damage_dealt');
+
+        $multiplier += $saboteur->realm->getArtefactPerkMultiplier('sabotage_damage_dealt');
+        $multiplier += $saboteur->realm->getArtefactPerkMultiplier($attribute . '_sabotage_damage_dealt');
+
+        $multiplier += $saboteur->title->getPerkMultiplier('sabotage_damage_dealt');
+        $multiplier += $saboteur->title->getPerkMultiplier($attribute . '_sabotage_damage_dealt');
+
+        return $multiplier;
     }
 
     public function getUnitsKilled(Dominion $saboteur, Dominion $target, array $units): array
@@ -109,8 +132,8 @@ class SabotageCalculator
         $targetSpa = $this->militaryCalculator->getSpyRatio($target, 'defense');
         $spaRatio = max($targetSpa / $saboteurSpa, 0.001);
 
-        # If SPA/SPA is 0.25 or less, there is a random chance spies are immortal.
-        if($spaRatio <= 0.25 and random_chance(1 / $spaRatio))
+        # If SPA/SPA is 0.33 or less, there is a random chance spies are immortal.
+        if($spaRatio <= 0.33 and random_chance(1 / $spaRatio))
         {
             $baseCasualties = 0;
         }
@@ -118,8 +141,6 @@ class SabotageCalculator
         $baseCasualties *= (1 + $spaRatio);
 
         $casualties = $baseCasualties * $this->getSpyLossesReductionMultiplier($saboteur);
-
-        #dd($saboteurSpa, $targetSpa, $spaRatio, $baseCasualties, $casualties);
 
         foreach($units as $slot => $amount)
         {
@@ -164,6 +185,32 @@ class SabotageCalculator
         $spiesKilledMultiplier = max(0.10, $spiesKilledMultiplier);
 
         return $spiesKilledMultiplier;
+    }
+
+    public function canPerformSpyop(Dominion $dominion, Spyop $spyop): bool
+    {
+
+        if(
+          # Must be available to the dominion's faction (race)
+          !$this->espionageCalculator->isSpyopAvailableToDominion($dominion, $spyop)
+
+          # Cannot cast disabled spells
+          or $spyop->enabled !== 1
+
+          # Espionage cannot be performed at all after offensive actions are disabled
+          or $dominion->round->hasOffensiveActionsDisabled()
+
+          # Round must have started
+          or !$dominion->round->hasStarted()
+
+          # Dominion must not be in protection
+          or $dominion->isUnderProtection()
+        )
+        {
+            return false;
+        }
+
+        return true;
     }
 
 }

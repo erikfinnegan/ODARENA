@@ -42,15 +42,18 @@ class MilitaryController extends AbstractDominionController
             $returningResources[$resourceKey] = $queueService->getInvasionQueueTotalByResource($self, 'resource_' . $resourceKey);
             $returningResources[$resourceKey] += $queueService->getExpeditionQueueTotalByResource($self, 'resource_' . $resourceKey);
             $returningResources[$resourceKey] += $queueService->getTheftQueueTotalByResource($self, 'resource_' . $resourceKey);
+            $returningResources[$resourceKey] += $queueService->getSabotageQueueTotalByResource($self, 'resource_' . $resourceKey);
         }
 
         $returningResources['prestige'] = $queueService->getInvasionQueueTotalByResource($self, 'prestige');
         $returningResources['prestige'] += $queueService->getExpeditionQueueTotalByResource($self, 'prestige');
         $returningResources['prestige'] += $queueService->getTheftQueueTotalByResource($self, 'prestige');
+        $returningResources['prestige'] += $queueService->getSabotageQueueTotalByResource($self, 'prestige');
 
         $returningResources['xp'] = $queueService->getInvasionQueueTotalByResource($self, 'xp');
         $returningResources['xp'] += $queueService->getExpeditionQueueTotalByResource($self, 'xp');
         $returningResources['xp'] += $queueService->getTheftQueueTotalByResource($self, 'xp');
+        $returningResources['xp'] += $queueService->getSabotageQueueTotalByResource($self, 'xp');
 
         return view('pages.dominion.military', [
             'casualtiesCalculator' => app(CasualtiesCalculator::class),

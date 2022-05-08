@@ -50,7 +50,7 @@ units:
       defense: 0
     perks:
       no_draftee: 1
-      offense_if_recently_invaded: 2
+      offense_if_recently_invaded: 2,24
       dies_into_resource: 1,sapling
       counts_as_spy: 0.5
       immortal_spy: 1
@@ -104,6 +104,6 @@ units:
       defense: 8
     perks:
       no_draftee: 1
-      offense_if_recently_invaded: 5
-      defense_if_recently_invaded: 3
+      offense_if_recently_invaded: 5,24
+      defense_if_recently_invaded: 3,24
       dies_into_resource: 1,sapling

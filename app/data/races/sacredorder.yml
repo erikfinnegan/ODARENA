@@ -80,3 +80,4 @@ units:
       defense_from_building: shrine,10,1 # building type, ratio%, max
       displaced_peasants_conversion: 1
       casualties_conversion: 1
+      destroy_resource_on_victory: soul,2

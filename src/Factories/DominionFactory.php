@@ -291,6 +291,12 @@ class DominionFactory
             $this->deityService->completeSubmissionToDeity($dominion, $deity);
         }
 
+        if($race->getPerkValue('starts_devoted_to_glimj'))
+        {
+            $deity = Deity::where('key','glimj')->first();
+            $this->deityService->completeSubmissionToDeity($dominion, $deity);
+        }
+
         return $dominion;
 
     }
@@ -359,7 +365,7 @@ class DominionFactory
     protected function getStartingBarrenLand($race, $acresBase): array
     {
         # Change this to just look at home land type?
-        # Special treatment for Void, Growth, Myconid, Merfolk, and Swarm
+        # Special treatment for Void, Growth, Myconid, Glimjir, and Swarm
         if($race->name == 'Void')
         {
           return [
@@ -408,16 +414,16 @@ class DominionFactory
               'water' => 0,
           ];
         }
-        elseif($race->name == 'Merfolk')
+        elseif($race->name == 'Glimjir')
         {
           return [
-              'plain' => 0,
+              'plain' => 200,
               'mountain' => 0,
               'swamp' => 0,
               'cavern' => 0,
               'forest' => 0,
               'hill' => 0,
-              'water' => $acresBase,
+              'water' => ($acresBase - 200),
           ];
         }
         elseif($race->name == 'Icekin')
@@ -507,7 +513,7 @@ class DominionFactory
             'smithy' => 0,
             'residence' => 0,
             'lumberyard' => 0,
-            'forest_haven' => 0,
+            'constabulary' => 0,
             'ore_mine' => 0,
             'gem_mine' => 0,
             'barracks' => 0,
@@ -527,8 +533,8 @@ class DominionFactory
             $startingBuildings['farm'] = 50;
             $startingBuildings['smithy'] = 200;
             $startingBuildings['residence'] = 100;
+            $startingBuildings['constabulary'] = 25;
             $startingBuildings['lumberyard'] = 50;
-            $startingBuildings['forest_haven'] = 25;
             $startingBuildings['ore_mine'] = 100;
             $startingBuildings['gem_mine'] = 300;
             $startingBuildings['tower'] = 50;
@@ -549,7 +555,7 @@ class DominionFactory
             $startingBuildings['farm'] = floor($acresBase*0.10);
             $startingBuildings['smithy'] = floor($acresBase*0.10);
             $startingBuildings['lumberyard'] = floor($acresBase*0.06);
-            $startingBuildings['forest_haven'] = floor($acresBase*0.06);
+            $startingBuildings['constabulary'] = floor($acresBase*0.06);
             $startingBuildings['ore_mine'] = floor($acresBase*0.10);
             $startingBuildings['gem_mine'] = floor($acresBase*0.10);
             $startingBuildings['barracks'] = floor($acresBase*0.20);
@@ -577,8 +583,8 @@ class DominionFactory
             'mountain' => $startingBarrenLand['mountain'] + $startingBuildings['ore_mine'] + $startingBuildings['gem_mine'],
             'swamp' => $startingBarrenLand['swamp'] + $startingBuildings['tower'] + $startingBuildings['wizard_guild'] + $startingBuildings['temple'] + $startingBuildings['tissue_swamp'],
             'cavern' => 0,
-            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['forest_haven'] + $startingBuildings['mycelia'],
-            'hill' => $startingBarrenLand['hill'] + $startingBuildings['barracks'],
+            'forest' => $startingBarrenLand['forest'] + $startingBuildings['lumberyard'] + $startingBuildings['mycelia'],
+            'hill' => $startingBarrenLand['hill'] + $startingBuildings['barracks'] + $startingBuildings['constabulary'],
             'water' => $startingBarrenLand['water'] + $startingBuildings['dock'],
         ];
 

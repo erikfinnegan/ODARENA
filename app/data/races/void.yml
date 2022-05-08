@@ -73,7 +73,7 @@ units:
       - intelligent
       - wise
     cost:
-      mana: 200
+      mana: 220
     power:
       offense: 0
       defense: 5

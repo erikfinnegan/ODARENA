@@ -29,6 +29,7 @@ units:
     perks:
       cannot_be_trained: 1
       strength_conversion: 4,1,2 # threshold,under,over
+      casualties: 20
 
   - name: Gnarl
     type:
@@ -69,7 +70,7 @@ units:
       - sentient
       - intelligent
     cost:
-      gold: 1500
+      gold: 1600
     power:
       offense: 8
       defense: 8

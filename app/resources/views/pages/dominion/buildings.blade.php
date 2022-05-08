@@ -60,7 +60,7 @@
                                                     @endif
 
                                                     @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                        <span data-toggle="tooltip" data-placement="top" title="<small class='text-muted'>Paid:</small> {{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} <small>({{ number_format((($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>">
                                                             <br>({{ number_format($constructionAmount) }})
                                                         </span>
                                                     @endif
@@ -112,7 +112,7 @@
                                                     @endif
 
                                                     @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                        <span data-toggle="tooltip" data-placement="top" title="<small class='text-muted'>Paid:</small> {{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} <small>({{ number_format((($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>">
                                                             <br>({{ number_format($constructionAmount) }})
                                                         </span>
                                                     @endif
@@ -132,7 +132,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="">
                         <div class="box-header with-border">
-                            <h3 class="box-title">{!! $landHelper->getLandTypeIconHtml('mountain') !!} Mountains</h3>
+                            <h3 class="box-title">{!! $landHelper->getLandTypeIconHtml('') !!} Mountains</h3>
                             <span class="pull-right barren-land">Barren: <strong>{{ number_format($landCalculator->getTotalBarrenLandByLandType($selectedDominion, 'mountain')) }}</strong></span>
                         </div>
 
@@ -167,7 +167,7 @@
                                                     @endif
 
                                                     @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                        <span data-toggle="tooltip" data-placement="top" title="<small class='text-muted'>Paid:</small> {{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} <small>({{ number_format((($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>">
                                                             <br>({{ number_format($constructionAmount) }})
                                                         </span>
                                                     @endif
@@ -219,7 +219,7 @@
                                                     @endif
 
                                                     @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                        <span data-toggle="tooltip" data-placement="top" title="<small class='text-muted'>Paid:</small> {{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} <small>({{ number_format((($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>">
                                                             <br>({{ number_format($constructionAmount) }})
                                                         </span>
                                                     @endif
@@ -274,7 +274,7 @@
                                                     @endif
 
                                                     @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                        <span data-toggle="tooltip" data-placement="top" title="<small class='text-muted'>Paid:</small> {{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} <small>({{ number_format((($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>">
                                                             <br>({{ number_format($constructionAmount) }})
                                                         </span>
                                                     @endif
@@ -326,7 +326,7 @@
                                                     @endif
 
                                                     @if($constructionAmount = $queueService->getConstructionQueueTotalByResource($selectedDominion, "building_{$building->key}"))
-                                                        <span data-toggle="tooltip" data-placement="top" title="{{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} paid">
+                                                        <span data-toggle="tooltip" data-placement="top" title="<small class='text-muted'>Paid:</small> {{ number_format($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) }} <small>({{ number_format((($constructionAmount + $buildingCalculator->getBuildingAmountOwned($selectedDominion, $building)) / $landCalculator->getTotalLand($selectedDominion))*100,2) }}%)</small>">
                                                             <br>({{ number_format($constructionAmount) }})
                                                         </span>
                                                     @endif
@@ -343,7 +343,7 @@
         </form>
 
         <div class="box-footer">
-            <button type="submit" class="btn btn-primary pull-right">Build</button>
+            <button type="submit" class="btn btn-primary pull-right" id="submit">Build</button>
         </div>
 
     </div>
@@ -449,3 +449,19 @@
 </div>
 
 @endsection
+@push('page-scripts')
+<script>
+    $(document).ready(function()
+    {
+        $('#submit').click(function()
+        {
+            var submit = $(this);
+            submit.prop('disabled', true);
+            setTimeout(function()
+            {
+                submit.prop('disabled', false);
+            },6000);
+        });
+    });
+</script>
+@endpush

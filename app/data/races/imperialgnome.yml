@@ -42,7 +42,6 @@ units:
       fixed_casualties: 100
       does_not_count_as_population: 1
       no_draftee: 1
-      pairing_limit: 4,1000
       offense_from_pairing: 4,0.3,0.001 # slot, amount, num required
       sendable_with_zero_op: 1
 
@@ -60,7 +59,6 @@ units:
     perks:
       does_not_count_as_population: 1
       no_draftee: 1
-      pairing_limit: 4,100
       offense_from_pairing: 4,2,0.01 # slot, amount, num required
       defense_from_pairing: 4,1,0.01 # slot, amount, num required
       brimmer_upkeep_raw: 0.01
@@ -71,7 +69,7 @@ units:
     type:
       - machine
     cost:
-      gold: 1500
+      gold: 2000
       ore: 1000
       brimmer: 10
     power:
@@ -99,4 +97,4 @@ units:
       no_draftee: 1
       does_not_count_as_population: 1
       brimmer_upkeep_raw: 2
-      spends_resource_on_offense: brimmer,75 # +16 OP if paired with 150 ore
+      spends_resource_on_offense: brimmer,100

@@ -57,7 +57,7 @@
                         </table>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Level Up</button>
+                        <button type="submit" class="btn btn-primary" id="submit">Level Up</button>
                     </div>
                 </form>
             </div>
@@ -85,3 +85,20 @@
 
     </div>
 @endsection
+
+@push('page-scripts')
+<script>
+    $(document).ready(function()
+    {
+        $('#submit').click(function()
+        {
+            var submit = $(this);
+            submit.prop('disabled', true);
+            setTimeout(function()
+            {
+                submit.prop('disabled', false);
+            },6000);
+        });
+    });
+</script>
+@endpush
