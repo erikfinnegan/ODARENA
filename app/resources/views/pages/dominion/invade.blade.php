@@ -616,10 +616,11 @@
 @endpush
 
 @push('page-scripts')
+{{--
 <script>
     $(document).ready(function()
     {
-        $('#invade-button').click(function()
+        $('#submit').click(function()
         {
             var submit = $(this);
             submit.prop('disabled', true);
@@ -630,6 +631,7 @@
         });
     });
 </script>
+--}}
 @endpush
 
 @push('inline-scripts')

@@ -7,12 +7,11 @@
     $dominionBuildings = $buildingCalculator->getDominionBuildings($selectedDominion)->sortBy('name');
 @endphp
 
-<form action="{{ route('dominion.buildings') }}" method="post" role="form">
-@csrf
-
 
 <div class="row">
     <div class="col-sm-12 col-md-9">
+        <form action="{{ route('dominion.buildings') }}" method="post" role="form">
+        @csrf
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title"><i class="fa fa-home"></i> Buildings </h3>
@@ -340,13 +339,11 @@
                     </div>
                 </div>
             </div>
-        </form>
-
-        <div class="box-footer">
-            <button type="submit" class="btn btn-primary pull-right" id="submit">Build</button>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary pull-right" id="submit">Build</button>
+            </div>
         </div>
-
-    </div>
+        </form>
     </div>
     <div class="col-sm-12 col-md-3">
         <div class="box">
@@ -450,6 +447,7 @@
 
 @endsection
 @push('page-scripts')
+{{--
 <script>
     $(document).ready(function()
     {
@@ -464,4 +462,5 @@
         });
     });
 </script>
+--}}
 @endpush

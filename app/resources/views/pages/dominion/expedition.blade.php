@@ -477,3 +477,21 @@
         }
     </script>
 @endpush
+@push('page-scripts')
+{{--
+<script>
+    $(document).ready(function()
+    {
+        $('#submit').click(function()
+        {
+            var submit = $(this);
+            submit.prop('disabled', true);
+            setTimeout(function()
+            {
+                submit.prop('disabled', false);
+            },6000);
+        });
+    });
+</script>
+--}}
+@endpush

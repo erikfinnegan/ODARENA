@@ -87,6 +87,7 @@
 @endsection
 
 @push('page-scripts')
+{{--
 <script>
     $(document).ready(function()
     {
@@ -101,4 +102,5 @@
         });
     });
 </script>
+--}}
 @endpush

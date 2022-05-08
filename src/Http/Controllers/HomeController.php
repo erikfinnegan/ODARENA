@@ -70,7 +70,7 @@ class HomeController extends AbstractController
         $factions = Race::all()->where('playable',1)->count();
         $buildings = Building::all()->where('enabled',1)->count();
         $spells = Spell::all()->where('enabled',1)->count();
-        $spyops = Spyop::all()->where('enabled',1)->count();
+        $sabotage = Spyop::all()->where('enabled',1)->count();
         $techs = Tech::all()->where('enabled',1)->count() / 10;
         $improvements = Improvement::all()->where('enabled',1)->count();
         $resources = Resource::all()->where('enabled',1)->count();
@@ -95,7 +95,7 @@ class HomeController extends AbstractController
             'factions' => $factions,
             'buildings' => $buildings,
             'spells' => $spells,
-            'spyops' => $spyops,
+            'sabotage' => $sabotage,
             'techs' => $techs,
             'improvements' => $improvements,
             'resources' => $resources,
