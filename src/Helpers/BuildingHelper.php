@@ -89,6 +89,7 @@ class BuildingHelper
             'swamp_gas_production_raw' => 'Produces %s swamp gas per tick.',
             'marshling_production_raw' => 'Produces %s marshlings per tick.',
             'yak_production_raw' => 'Breeds %s yak per tick.',
+            'kelp_production_raw' => 'Grows %s kelp per tick.',
 
             'xp_generation_raw' => 'Generates %s XP per tick.',
 

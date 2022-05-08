@@ -527,6 +527,18 @@ class RaceHelper
                 $description = 'Souls increase improvements';
                 $booleanValue = true;
                 break;
+          case 'sabotage_damage_dealt':
+              $negativeBenefit = true;
+              $description = 'Sabotage damage dealt';
+              $valueType = '%';
+              $booleanValue = 'static';
+              break;
+          case 'sabotage_damage_suffered':
+              $negativeBenefit = true;
+              $description = 'Sabotage damage suffered';
+              $valueType = '%';
+              $booleanValue = 'static';
+              break;
           default:
                 $negativeBenefit = false;
                 $description = 'No description for perk: ' . $perkType->key;

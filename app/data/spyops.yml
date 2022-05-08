@@ -41,7 +41,6 @@ sabotage_building_temples:
   perks:
     sabotage_building: temple,2 # resource, rate, max per spy
 
-
 sabotage_improvement_defense:
   name: Sabotage Defense
   scope: hostile

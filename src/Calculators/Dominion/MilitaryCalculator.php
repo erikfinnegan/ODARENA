@@ -1771,7 +1771,7 @@ class MilitaryCalculator
         {
             if ($type === 'offense' && $countsAsWizardOffensePerk = $unit->getPerkValue('counts_as_wizard_offense'))
             {
-                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * countsAsWizardOffensePerk);
+                $wizards += floor($dominion->{"military_unit{$unit->slot}"} * $countsAsWizardOffensePerk);
             }
 
             if ($type === 'defense' && $countsAsWizardDefensePerk = $unit->getPerkValue('counts_as_wizard_defense'))
