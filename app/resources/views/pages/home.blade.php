@@ -160,7 +160,7 @@
                             <li>{{ $factions }} <a href="{{ route('scribes.factions') }}">factions</a></li>
                             <li>{{ $buildings }} <a href="{{ route('scribes.buildings') }}">buildings</a></li>
                             <li>{{ $spells }} <a href="{{ route('scribes.spells') }}">spells</a></li>
-                            <li>{{ $spyops }} <a href="{{ route('scribes.spy-ops') }}">spy ops</a></li>
+                            <li>{{ $sabotage }} <a href="{{ route('scribes.sabotage') }}">sabotage operations</a></li>
                             <li>{{ $techs }} <a href="{{ route('scribes.advancements') }}">advancements</a></li>
                             <li>{{ $improvements }} <a href="{{ route('scribes.improvements') }}">improvements</a></li>
                             <li>{{ $resources }} resources</li>

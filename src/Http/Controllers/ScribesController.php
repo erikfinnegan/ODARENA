@@ -188,9 +188,9 @@ class ScribesController extends AbstractController
         ]);
     }
 
-    public function getSpyops()
+    public function getSabotage()
     {
-        return view('pages.scribes.spy-ops', [
+        return view('pages.scribes.sabotage', [
             'spyops' => Spyop::all()->where('enabled',1)->keyBy('key')->sortBy('name'),
             'espionageHelper' => app(EspionageHelper::class),
         ]);

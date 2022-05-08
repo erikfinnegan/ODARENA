@@ -245,7 +245,7 @@ $router->group(['prefix' => 'scribes', 'as' => 'scribes.'], static function (Rou
     $router->get('titles')->uses('ScribesController@getTitles')->name('titles');
     $router->get('advancements')->uses('ScribesController@getAdvancements')->name('advancements');
     $router->get('spells')->uses('ScribesController@getSpells')->name('spells');
-    $router->get('spy-ops')->uses('ScribesController@getSpyops')->name('spy-ops');
+    $router->get('sabotage')->uses('ScribesController@getSabotage')->name('sabotage');
     $router->get('improvements')->uses('ScribesController@getImprovements')->name('improvements');
     $router->get('deities')->uses('ScribesController@getDeities')->name('deities');
     $router->get('artefacts')->uses('ScribesController@getArtefacts')->name('artefacts');
