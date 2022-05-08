@@ -386,7 +386,7 @@ class WorldNewsHelper
         {
             return sprintf(
                 '<span class="text-red">%s</span> operation performed in the %s realm.',
-                $spell->name,
+                $spyop->name,
                 $this->generateRealmOnlyString($target->realm)
               );
         }
